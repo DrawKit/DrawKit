@@ -5,7 +5,7 @@ Core framework for DrawKit
 
 Originally based on, and forked from, [DrawKit 1.0b7 (2010/05/01) source code](http://www.apptree.net/drawkitmain.htm) by [Graham Cox](http://apptree.net/about.htm).
 
-Mac OS X 10.6 or later; compiles with Xcode 4 or later.
+Mac OS X 10.7 or later; compiles with Xcode 4 or later.
 
 Introduction
 ============
