@@ -661,7 +661,6 @@
 			isa = PBXGroup;
 			children = (
 				96F517DB0B8A8A300047BA96 /* DKDrawKit.h */,
-				8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				089C1665FE841158C02AAC07 /* Resources */,
@@ -687,6 +686,7 @@
 				BF2EE3D10F6557C900B8CFFD /* DK_Auxiliary_Menus.xib */,
 				96F516CD0B89DC050047BA96 /* Images */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */,
 				BF2EE49C0F66011D00B8CFFD /* DKUnitTests-Info.plist */,
 			);
 			name = Resources;
