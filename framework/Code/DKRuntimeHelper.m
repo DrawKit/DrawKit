@@ -151,24 +151,29 @@ BOOL	classIsSubclassOfClass( const Class aClass, const Class subclass )
 {
 	Class	temp = aClass;
 	NSInteger		match = -1;
-
+/*
 #if 1 //MAC_OS_X_VERSION_MAX_ALLOWED < MAC_OS_X_VERSION_10_5
 	while(( 0 != ( match = strncmp( temp->name, subclass->name, strlen( subclass->name )))) && ( NULL != temp->super_class ))
 		temp = temp->super_class;
 #else
+*/
 	while(( 0 != ( match = strncmp( class_getName( temp ), class_getName( subclass ), strlen( class_getName( subclass ))))) && ( NULL != class_getSuperclass( temp )))
 		temp = class_getSuperclass( temp );
+/*
 #endif
+*/
 	return ( match == 0 );
 }
 
 
 BOOL	classIsImmediateSubclassOfClass( const Class aClass, const Class subclass )
 {
+/*
 	Class	superClass = subclass->super_class;
 	
 	if( superClass != Nil )
 		return ( 0 == strcmp( aClass->name, superClass->name ));
 	else
+*/
 		return NO;
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 42;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -135,7 +135,6 @@
 		BF21DF1D0DD481F80037183C /* DKBezierTextContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF21DF1B0DD481F80037183C /* DKBezierTextContainer.m */; };
 		BF2862990E2315FD001CD43F /* DKStyle+SimpleAccess.h in Headers */ = {isa = PBXBuildFile; fileRef = BF2862970E2315FD001CD43F /* DKStyle+SimpleAccess.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF28629A0E2315FD001CD43F /* DKStyle+SimpleAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2862980E2315FD001CD43F /* DKStyle+SimpleAccess.m */; };
-		BF28649B0E25AFDB001CD43F /* Subclassing Notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = BF28649A0E25AFDB001CD43F /* Subclassing Notes.txt */; };
 		BF2865CA0E264DCF001CD43F /* DKDrawing+Export.h in Headers */ = {isa = PBXBuildFile; fileRef = BF2865C80E264DCF001CD43F /* DKDrawing+Export.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF2865CB0E264DCF001CD43F /* DKDrawing+Export.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2865C90E264DCF001CD43F /* DKDrawing+Export.m */; };
 		BF2EE3CE0F6550DE00B8CFFD /* DKAuxiliaryMenus.h in Headers */ = {isa = PBXBuildFile; fileRef = BF2EE3CC0F6550DE00B8CFFD /* DKAuxiliaryMenus.h */; };
@@ -299,7 +298,6 @@
 		BFEAEEAC0DAB00BF002972BC /* DKToolController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAEEAA0DAB00BF002972BC /* DKToolController.m */; };
 		BFEAF6210DB30912002972BC /* DKRoughStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = BFEAF61F0DB30912002972BC /* DKRoughStroke.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFEAF6220DB30912002972BC /* DKRoughStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAF6200DB30912002972BC /* DKRoughStroke.m */; };
-		BFEAF6DA0DB363F9002972BC /* release notes in Resources */ = {isa = PBXBuildFile; fileRef = BFEAF6D90DB363F9002972BC /* release notes */; };
 		BFED1F120F0E4D78004CFC16 /* DKObjectStorageProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = BFED1F100F0E4D78004CFC16 /* DKObjectStorageProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFED1F1E0F0E5251004CFC16 /* DKLinearObjectStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = BFED1F1C0F0E5251004CFC16 /* DKLinearObjectStorage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFED1F1F0F0E5251004CFC16 /* DKLinearObjectStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFED1F1D0F0E5251004CFC16 /* DKLinearObjectStorage.m */; };
@@ -438,7 +436,6 @@
 		BF21DF1B0DD481F80037183C /* DKBezierTextContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DKBezierTextContainer.m; path = Code/DKBezierTextContainer.m; sourceTree = "<group>"; };
 		BF2862970E2315FD001CD43F /* DKStyle+SimpleAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DKStyle+SimpleAccess.h"; path = "Code/DKStyle+SimpleAccess.h"; sourceTree = "<group>"; };
 		BF2862980E2315FD001CD43F /* DKStyle+SimpleAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "DKStyle+SimpleAccess.m"; path = "Code/DKStyle+SimpleAccess.m"; sourceTree = "<group>"; };
-		BF28649A0E25AFDB001CD43F /* Subclassing Notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "Subclassing Notes.txt"; path = "../PlansSpecsDocs/Subclassing Notes.txt"; sourceTree = SOURCE_ROOT; };
 		BF2865C80E264DCF001CD43F /* DKDrawing+Export.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DKDrawing+Export.h"; path = "Code/DKDrawing+Export.h"; sourceTree = "<group>"; };
 		BF2865C90E264DCF001CD43F /* DKDrawing+Export.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "DKDrawing+Export.m"; path = "Code/DKDrawing+Export.m"; sourceTree = "<group>"; };
 		BF2EE3CC0F6550DE00B8CFFD /* DKAuxiliaryMenus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKAuxiliaryMenus.h; path = Code/DKAuxiliaryMenus.h; sourceTree = "<group>"; };
@@ -614,7 +611,6 @@
 		BFEAEEAA0DAB00BF002972BC /* DKToolController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DKToolController.m; path = Code/DKToolController.m; sourceTree = "<group>"; };
 		BFEAF61F0DB30912002972BC /* DKRoughStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKRoughStroke.h; path = Code/DKRoughStroke.h; sourceTree = "<group>"; };
 		BFEAF6200DB30912002972BC /* DKRoughStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DKRoughStroke.m; path = Code/DKRoughStroke.m; sourceTree = "<group>"; };
-		BFEAF6D90DB363F9002972BC /* release notes */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "release notes"; path = "../PlansSpecsDocs/release notes"; sourceTree = SOURCE_ROOT; };
 		BFED1F100F0E4D78004CFC16 /* DKObjectStorageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKObjectStorageProtocol.h; path = Code/DKObjectStorageProtocol.h; sourceTree = "<group>"; };
 		BFED1F1C0F0E5251004CFC16 /* DKLinearObjectStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKLinearObjectStorage.h; path = Code/DKLinearObjectStorage.h; sourceTree = "<group>"; };
 		BFED1F1D0F0E5251004CFC16 /* DKLinearObjectStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DKLinearObjectStorage.m; path = Code/DKLinearObjectStorage.m; sourceTree = "<group>"; };
@@ -739,8 +735,6 @@
 			isa = PBXGroup;
 			children = (
 				BF86F4610E0C8E0200920EFF /* DRAWKIT_LICENSING.TXT */,
-				BFEAF6D90DB363F9002972BC /* release notes */,
-				BF28649A0E25AFDB001CD43F /* Subclassing Notes.txt */,
 			);
 			name = Documents;
 			sourceTree = "<group>";
@@ -1485,9 +1479,18 @@
 /* Begin PBXProject section */
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = DK;
+				LastUpgradeCheck = 0460;
+				ORGANIZATIONNAME = DrawKit;
+			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "DrawKit" */;
-			compatibilityVersion = "Xcode 2.4";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* GCDrawKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
@@ -1514,9 +1517,7 @@
 				96F516DD0B89DC050047BA96 /* marker_h_centre.tif in Resources */,
 				AA89A3970D7DE9DA0092F050 /* Rect.png in Resources */,
 				AA91597C0D9DFECA00905699 /* Logging.xib in Resources */,
-				BFEAF6DA0DB363F9002972BC /* release notes in Resources */,
 				BF86F4620E0C8E0200920EFF /* DRAWKIT_LICENSING.TXT in Resources */,
-				BF28649B0E25AFDB001CD43F /* Subclassing Notes.txt in Resources */,
 				BF2EE3D20F6557C900B8CFFD /* DK_Auxiliary_Menus.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1724,6 +1725,7 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1734,7 +1736,6 @@
 				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)/../../../Drawkit Builds/Debug\"";
 				FRAMEWORK_VERSION = A;
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1752,10 +1753,7 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				COMBINE_HIDPI_IMAGES = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1778,10 +1776,7 @@
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
@@ -1809,9 +1804,8 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wcast-align",
@@ -1832,6 +1826,7 @@
 		1DEB91B308733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
@@ -1858,9 +1853,8 @@
 				GCC_WARN_UNUSED_VALUE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_FILE = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
-				PREBINDING = NO;
-				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
 				WARNING_CFLAGS = (
 					"-Wall",
 					"-Wcast-align",
@@ -1882,10 +1876,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
 				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1899,7 +1893,6 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = DKUnitTests;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1909,10 +1902,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1925,7 +1918,6 @@
 					"-framework",
 					SenTestingKit,
 				);
-				PREBINDING = NO;
 				PRODUCT_NAME = DKUnitTests;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
@@ -1942,7 +1934,7 @@
 				1DEB91AF08733DA50010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "DrawKit" */ = {
 			isa = XCConfigurationList;
@@ -1951,7 +1943,7 @@
 				1DEB91B308733DA50010E9CD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		BF2EE49F0F66012000B8CFFD /* Build configuration list for PBXNativeTarget "DKUnitTests" */ = {
 			isa = XCConfigurationList;
@@ -1960,7 +1952,7 @@
 				BF2EE49E0F66011E00B8CFFD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

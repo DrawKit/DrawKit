@@ -1622,7 +1622,7 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 #pragma mark -
 #pragma mark **** partcode utilities ****
 
-inline NSInteger			partcodeForElement( const NSInteger element )
+NSInteger			partcodeForElement( const NSInteger element )
 {
 	// returns a unique partcode for an element that contains just a single point (i.e. all of them except curveto)
 	
@@ -1630,7 +1630,7 @@ inline NSInteger			partcodeForElement( const NSInteger element )
 }
 
 
-inline NSInteger			partcodeForElementControlPoint( const NSInteger element, const NSInteger controlPointIndex )
+NSInteger			partcodeForElementControlPoint( const NSInteger element, const NSInteger controlPointIndex )
 {
 	// given the element and the index of the control point (0, 1 or 2 ), this returns a unique "partcode" that
 	// can be used to refer to that specific control point in the path.

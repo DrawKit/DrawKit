@@ -46,11 +46,11 @@ static NSPoint	Map( NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 	
 	NSPoint		p;
 	
-  VP( &p.x, &p.y,
-    ((sourceSize.height-inPoint.y)*quad[0].x + (inPoint.y)*quad[3].x)/sourceSize.height, ((sourceSize.height-inPoint.y)*quad[0].y + inPoint.y*quad[3].y)/sourceSize.height,
-    ((sourceSize.height-inPoint.y)*quad[1].x + (inPoint.y)*quad[2].x)/sourceSize.height, ((sourceSize.height-inPoint.y)*quad[1].y + inPoint.y*quad[2].y)/sourceSize.height,
-    ((sourceSize.width-inPoint.x)*quad[0].x + (inPoint.x)*quad[1].x)/sourceSize.width, ((sourceSize.width-inPoint.x)*quad[0].y + inPoint.x*quad[1].y)/sourceSize.width,
-    ((sourceSize.width-inPoint.x)*quad[3].x + (inPoint.x)*quad[2].x)/sourceSize.width, ((sourceSize.width-inPoint.x)*quad[3].y + inPoint.x*quad[2].y)/sourceSize.width);
+	VP( (float*) &p.x, (float*) &p.y,
+	   (float) ((sourceSize.height-inPoint.y)*quad[0].x + (inPoint.y)*quad[3].x)/sourceSize.height, (float) ((sourceSize.height-inPoint.y)*quad[0].y + inPoint.y*quad[3].y)/sourceSize.height,
+	   (float) ((sourceSize.height-inPoint.y)*quad[1].x + (inPoint.y)*quad[2].x)/sourceSize.height, (float) ((sourceSize.height-inPoint.y)*quad[1].y + inPoint.y*quad[2].y)/sourceSize.height,
+	   (float) ((sourceSize.width-inPoint.x)*quad[0].x + (inPoint.x)*quad[1].x)/sourceSize.width, (float) ((sourceSize.width-inPoint.x)*quad[0].y + inPoint.x*quad[1].y)/sourceSize.width,
+	   (float) ((sourceSize.width-inPoint.x)*quad[3].x + (inPoint.x)*quad[2].x)/sourceSize.width, (float) ((sourceSize.width-inPoint.x)*quad[3].y + inPoint.x*quad[2].y)/sourceSize.width);
 	
 	return p;
 }
