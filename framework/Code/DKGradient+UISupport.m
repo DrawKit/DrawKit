@@ -8,6 +8,7 @@
 //
 
 #import "DKGradient+UISupport.h"
+#include <tgmath.h>
 
 static void		glossInterpolation(void *info, const CGFloat *input, CGFloat *output);
 static CGFloat	perceptualGlossFractionForColor(CGFloat *inputComponents);
@@ -292,7 +293,7 @@ static CGFloat perceptualGlossFractionForColor(CGFloat *inputComponents)
     const CGFloat NTSC_BLUE_FRACTION = 0.114;
 	
     CGFloat glossScale = NTSC_RED_FRACTION * inputComponents[0] + NTSC_GREEN_FRACTION * inputComponents[1] + NTSC_BLUE_FRACTION * inputComponents[2];
-    glossScale = powf(glossScale, REFLECTION_SCALE_NUMBER);
+    glossScale = pow(glossScale, REFLECTION_SCALE_NUMBER);
     return glossScale;
 }
 

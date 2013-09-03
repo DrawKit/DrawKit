@@ -137,6 +137,7 @@ static inline id negate (PARSER_TYPE parser, NSInteger type, YYSTYPE num) {
 			return [NSNumber numberWithDouble:(-[num doubleValue])];
 		default:
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 			fprintf (stderr, "PARSE ERROR, cannot NEGATE type:%d value: %s on line %d\n",
 				type, [[num description] cString],
 			 	parser->scanr.curline);
@@ -156,6 +157,7 @@ static inline id negate (PARSER_TYPE parser, NSInteger type, YYSTYPE num) {
 static inline void p_error(char *msg, PARSER_TYPE parser)
 {
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 	fprintf (stderr, "PARSE ERROR on line %d: %s\n", parser->scanr.curline, msg);
 }
 
@@ -166,6 +168,7 @@ static inline void p_error(char *msg, PARSER_TYPE parser)
 
 static void parse_print_token (FILE* fd, NSInteger type, YYSTYPE value, PARSER_TYPE parser)
 {
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 	fprintf (fd, "TOKEN [%d] %s", type, [[value description] cString]);
 }
@@ -260,11 +263,14 @@ union yyalloc
 
 /* The size of the maximum gap between one aligned stack and the next.  */
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 # define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
 
 /* The size of an array large to enough to hold all stacks, each with
    N elements.  */
 # define YYSTACK_BYTES(N) \
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
      ((N) * (sizeof(short) + sizeof (YYSTYPE) + sizeof (YYLTYPE))	\
@@ -275,6 +281,7 @@ union yyalloc
 # ifndef YYCOPY
 #  if 1 < __GNUC__
 #   define YYCOPY(To, From, Count) \
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
       __builtin_memcpy (To, From, (Count) * sizeof (*(From)))
 #  else
@@ -301,7 +308,9 @@ union yyalloc
 	YYCOPY (&yyptr->Stack, Stack, yysize);				\
 	Stack = &yyptr->Stack;						\
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
 	yyptr += yynewbytes / sizeof (*yyptr);				\
       }									\
@@ -310,7 +319,7 @@ union yyalloc
 #endif
 
 #if defined (__STDC__) || defined (__cplusplus)
-   typedef signed char yysigned_char;
+   typedef NSInteger char yysigned_char;
 #else
    typedef short yysigned_char;
 #endif
@@ -998,9 +1007,12 @@ YYLTYPE yylloc;
 	   be undefined if yyoverflow is a macro.  */
 	yyoverflow ("parser stack overflow",
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		    &yyss1, yysize * sizeof (*yyssp),
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		    &yyvs1, yysize * sizeof (*yyvsp),
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
 		    &yyls1, yysize * sizeof (*yylsp),
 		    &yystacksize);
@@ -1040,6 +1052,7 @@ YYLTYPE yylloc;
       yylsp = yyls + yysize - 1;
 
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
+#warning 64BIT: Inspect use of unsigned long
 #warning 64BIT: Inspect use of unsigned long
 		  (unsigned long NSInteger) yystacksize));
 
@@ -1312,6 +1325,7 @@ yyerrlab:
 	     YYCHECK.  */
 	  for (yyx = yyn < 0 ? -yyn : 0;
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 	       yyx < (NSInteger) (sizeof (yytname) / sizeof(char *)); yyx++)
 	    if (yycheck[yyx + yyn] == yyx && yyx != YYTERROR)
 	      yysize += yystrlen (yytname[yyx]) + 15, yycount++;
@@ -1327,6 +1341,7 @@ yyerrlab:
 		{
 		  yycount = 0;
 		  for (yyx = yyn < 0 ? -yyn : 0;
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
 		       yyx < (NSInteger) (sizeof (yytname) / sizeof(char *));
 		       yyx++)

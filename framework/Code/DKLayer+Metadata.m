@@ -305,7 +305,7 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 - (CGFloat)		floatValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
-	return [[self metadataItemForKey:key] floatValue];
+	return [[self metadataItemForKey:key] doubleValue];
 #else
 	return [[self metadataObjectForKey:key] doubleValue];
 #endif
@@ -325,7 +325,7 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 - (NSInteger)			intValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
-	return [[self metadataItemForKey:key] intValue];
+	return [[self metadataItemForKey:key] integerValue];
 #else
 	return [[self metadataObjectForKey:key] integerValue];
 #endif

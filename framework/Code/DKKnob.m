@@ -339,6 +339,7 @@ static NSSize			sKnobSize = { 6.0, 6.0 };
 	NSFont*		font = [NSFont fontWithName:@"Monaco" size:fontSize];
 	[attrs setObject:font forKey:NSFontAttributeName];
 
+#warning 64BIT: Inspect use of long
 	NSString*	s = [NSString stringWithFormat:@"%ld", (long)code];
 	NSRect box;
 	

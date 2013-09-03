@@ -12,6 +12,7 @@
 #import "DKGeometryUtilities.h"
 #import "NSShadow+Scaling.h"
 #import "DKBezierLayoutManager.h"
+#include <tgmath.h>
 
 
 
@@ -770,6 +771,7 @@ static NSDictionary*	s_TOPTextAttributes = nil;
 	// see if the path we need is cached, in which case we can avoid recomputing it. Because there could be several different paths that apply to ranges,
 	// the cache key is generated from the various parameters
 	
+#warning 64BIT: Check formatting arguments
 	NSString* pathKey = [NSString stringWithFormat:@"DKUnderlinePath_%@_%.2f", NSStringFromRange( range ), dy];
 	ulp = [cache objectForKey:pathKey];
 	
@@ -805,6 +807,7 @@ static NSDictionary*	s_TOPTextAttributes = nil;
 		// be possible.
 		
 		NSArray* descenderBreaks;
+#warning 64BIT: Check formatting arguments
 		NSString* breaksKey = [NSString stringWithFormat:@"DKUnderlineBreaks_%@_%.2f", NSStringFromRange( range ), ulOffset];
 		descenderBreaks = [cache objectForKey:breaksKey];
 		
@@ -899,6 +902,7 @@ static NSDictionary*	s_TOPTextAttributes = nil;
 	
 	// see if we can reuse a previously cached path here
 	
+#warning 64BIT: Check formatting arguments
 	NSString* pathKey = [NSString stringWithFormat:@"DKStrikethroughPath_%@_%.2f", NSStringFromRange( range ), dy];
 	ulp = [cache objectForKey:pathKey];
 	
@@ -1587,7 +1591,7 @@ static NSDictionary*	s_TOPTextAttributes = nil;
 		shouldStop = YES;
 	}
 	else if ( loop )
-		distance = fmodf( distance, length );
+		distance = fmod( distance, length );
 	
 	// move the target object to the calculated point
 	

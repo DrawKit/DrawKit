@@ -20,6 +20,7 @@
 
 - (NSString*)	address
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"0x%X", self];
 }
 
@@ -81,6 +82,7 @@
 	for( i = 0; i < [self count]; ++i )
 	{
 		object = [self objectAtIndex:i];
+#warning 64BIT: Inspect use of long
 		[sv appendString:[NSString stringWithFormat:@"%ld: %@\n", (long)i, [object stringValue]]];
 	}
 	

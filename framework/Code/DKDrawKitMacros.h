@@ -9,6 +9,7 @@
  */
 
 //#import <Cocoa/Cocoa.h>
+#include <tgmath.h>
 
 // pinning a value between a lower and upper limit
 
@@ -44,14 +45,14 @@
 	#define _CGFloatSqrt( n )	sqrt( n )
 	#define _CGFloatLog( n )	log( n )
 #else
-	#define _CGFloatFabs( n )	fabsf( n )
-	#define _CGFloatTrunc( n )	truncf( n )
+	#define _CGFloatFabs( n )	fabs(n)
+	#define _CGFloatTrunc( n )	trunc(n)
 	#define _CGFloatLround( n )	roundtol((double) n )
-	#define _CGFloatFloor( n )	floorf( n )
-	#define _CGFloatCeil( n )	ceilf( n )
-	#define _CGFloatExp( n )	expf( n )
-	#define _CGFloatSqrt( n )	sqrtf( n )
-	#define _CGFloatLog( n )	logf( n )
+	#define _CGFloatFloor( n )	floor(n)
+	#define _CGFloatCeil( n )	ceil(n)
+	#define _CGFloatExp( n )	exp(n)
+	#define _CGFloatSqrt( n )	sqrt(n)
+	#define _CGFloatLog( n )	log(n)
 #endif
 
 

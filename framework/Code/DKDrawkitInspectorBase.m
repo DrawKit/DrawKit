@@ -85,6 +85,7 @@
 {
 #pragma unused(subsel, object )
 	
+#warning 64BIT: Check formatting arguments
 	NSLog(@"subselection of <%@ 0x%x> changed: %@", NSStringFromClass([object class]), object, subsel );
 	
 	// override to do something useful

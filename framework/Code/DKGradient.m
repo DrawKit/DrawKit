@@ -17,6 +17,7 @@
 
 #ifndef __STANDALONE__
 #import "DKDrawableObject+Metadata.h"
+#include <tgmath.h>
 #endif
 
 
@@ -1035,7 +1036,7 @@ static NSInteger cmpColorStops (DKColorStop* lh, DKColorStop* rh, void *context)
 
 - (CGFloat)				angleInDegrees
 {
-	return fmodf(([self angle] * 180.0f )/ pi, 360.0 );
+	return fmod(([self angle] * 180.0f )/ pi, 360.0 );
 }
 
 
@@ -1830,7 +1831,7 @@ static inline double		sineMap( double x, double y )
 static inline void			transformHSV_RGB(CGFloat *components) //H,S,B -> R,G,B
 {
 	CGFloat R, G, B;
-	CGFloat H = fmodf(components[0],359),	//map to [0,360)
+	CGFloat H = fmod(components[0],359),	//map to [0,360)
 		  S = components[1],
 		  V = components[2];
 	

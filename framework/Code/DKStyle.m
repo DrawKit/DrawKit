@@ -1758,6 +1758,7 @@ static BOOL					sSubstitute = NO;
 
 - (NSString*)			swatchCacheKeyForSize:(NSSize) size type:(DKStyleSwatchType) type
 {
+#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"%@_%ld", NSStringFromSize( size ), (long)type];
 }
 
@@ -2248,6 +2249,7 @@ static BOOL					sSubstitute = NO;
 
 - (NSString*)			description
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ <0x%x> '%@' [%@]", NSStringFromClass([self class]), self, [self name], [self uniqueKey]];
 }
 

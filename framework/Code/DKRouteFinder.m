@@ -205,15 +205,19 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 		NSUInteger n = [array count] + 1;
 		
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		mOrder = malloc( sizeof(NSInteger) * n );
 		NSInteger kludge = 1;
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
 		memset_pattern4(mOrder, &kludge, sizeof(NSInteger) * n);
 		
 		if(( mAlgorithm & kDKUseSimulatedAnnealing ) != 0 )
 		{
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 			mX = malloc( sizeof(CGFloat) * n );
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
 			mY = malloc( sizeof(CGFloat) * n );
 			
@@ -496,15 +500,22 @@ static DKDirection	directionOfAngle( const CGFloat angle )
 
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 static NSInteger*		ivector(long nl, long nh);
+#warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 static void		free_ivector(NSInteger *v, long nl, long nh);
 #warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 static CGFloat	ran3(long *idum);
+#warning 64BIT: Inspect use of unsigned long
 #warning 64BIT: Inspect use of unsigned long
 static NSInteger		irbit1(unsigned long *iseed);
 static NSInteger		metrop(CGFloat de,CGFloat t); 
+#warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 static CGFloat	ran3(long* idum); 
 static CGFloat	revcst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NSInteger n[]); 
@@ -521,10 +532,13 @@ static void		trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[]);
 
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 NSInteger*	ivector(long nl, long nh)
 {
 	NSInteger *v;
 
+#warning 64BIT: Inspect use of sizeof
 #warning 64BIT: Inspect use of sizeof
 	v=(NSInteger *)malloc((size_t) ((nh-nl+1+NR_END)*sizeof(NSInteger)));
 	if ( v != NULL )
@@ -536,6 +550,8 @@ NSInteger*	ivector(long nl, long nh)
 
 /* free an int vector allocated with ivector() */
 
+#warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 void	free_ivector(NSInteger *v, long nl, long nh)
@@ -552,12 +568,15 @@ void	free_ivector(NSInteger *v, long nl, long nh)
 #define FAC (1.0/MBIG)
 
 #warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 CGFloat ran3(long *idum)
 {
 	static NSInteger inext,inextp;
 #warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 	static long ma[56];
 	static NSInteger iff=0;
+#warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 	long mj,mk;
 	NSInteger i,ii,k;
@@ -617,8 +636,10 @@ CGFloat ran3(long *idum)
 #define MASK (IB1+IB2+IB5)
 
 #warning 64BIT: Inspect use of unsigned long
+#warning 64BIT: Inspect use of unsigned long
 NSInteger irbit1(unsigned long *iseed)
 {
+#warning 64BIT: Inspect use of unsigned long
 #warning 64BIT: Inspect use of unsigned long
 	unsigned long newbit;
 
@@ -652,7 +673,9 @@ CGFloat	anneal( CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, N
 
 	static			NSInteger n[7]; 
 #warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 	static long		idum = -1; 
+#warning 64BIT: Inspect use of unsigned long
 #warning 64BIT: Inspect use of unsigned long
 	static unsigned long	iseed = 111; 
 	CGFloat			path, de, t, previousPath; 
@@ -913,6 +936,7 @@ t is a temperature determined by the annealing schedule.
 
 NSInteger	metrop(CGFloat de, CGFloat t) 
 { 
+#warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 	static long gljdum = 1; 
 	

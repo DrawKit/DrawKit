@@ -146,6 +146,7 @@
 	mLastSelector = NULL;
 	mChangePerGroupCount = 0;
 	
+#warning 64BIT: Check formatting arguments
 	NSLog(@"grouping level = %d", [self groupingLevel]);
 
 	[super beginUndoGrouping];
@@ -159,6 +160,7 @@
 	mSkipTask = NO;
 	mLastSelector = NULL;
 	
+#warning 64BIT: Check formatting arguments
 	NSLog(@"grouping level = %d", [self groupingLevel]);
 	
 	[super endUndoGrouping];

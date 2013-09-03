@@ -13,6 +13,7 @@
 
 typedef union
 {
+#warning 64BIT: Inspect use of unsigned long
 	unsigned long pixel;
 	struct
 	{

@@ -909,6 +909,7 @@ static BOOL				s_NoDKDefaults = NO;
 		if ( k == NSNotFound )
 			found = NO;
 		else
+#warning 64BIT: Inspect use of long
 			temp = [NSString stringWithFormat:@"%@ %ld", name, (long)++numeral];
 	}
 	

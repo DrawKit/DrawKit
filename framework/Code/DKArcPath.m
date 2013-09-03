@@ -17,6 +17,7 @@
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
 #import "DKDrawkitMacros.h"
+#include <tgmath.h>
 
 @interface DKArcPath (Private)
 
@@ -296,7 +297,7 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	
 	if( constrain )
 	{
-		CGFloat rem = fmodf( angle, sAngleConstraint );
+		CGFloat rem = fmod( angle, sAngleConstraint );
 		
 		if ( rem > sAngleConstraint / 2.0 )
 			angle += ( sAngleConstraint - rem );
@@ -455,7 +456,7 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 			// slope of line is forced to be on 15° intervals
 			
 			CGFloat	angle = atan2f( p.y - lp.y, p.x - lp.x );
-			CGFloat	rem = fmodf( angle, sAngleConstraint );
+			CGFloat	rem = fmod( angle, sAngleConstraint );
 			CGFloat	rad = hypotf( p.x - lp.x, p.y - lp.y );
 		
 			if ( rem > sAngleConstraint / 2.0 )
@@ -508,6 +509,7 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 						if( angle < 0 )
 							angle += 360.0f;
 
+#warning 64BIT: Check formatting arguments
 						[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0] atPoint:nsp];
 					}
 				}
@@ -524,6 +526,7 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 						if ( angle < 0 )
 							angle = 360.0 + angle;
 							
+#warning 64BIT: Check formatting arguments
 						[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f%C", rad, abbrUnits, angle, 0xB0] atPoint:nsp];
 					}
 				}
@@ -779,11 +782,13 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 			case kDKDrawingEntireObjectPart:
 			case kDKArcPathCentrePointPart:
 				gridPt = [self convertPointToDrawing:[self location]];
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"centre x: %.2f%@\ncentre y: %.2f%@", gridPt.x, abbrUnits, gridPt.y, abbrUnits];
 				break;
 			
 			case kDKArcPathRotationKnobPart:
 				angle = [self angleInDegrees];
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0];
 				break;
 				
@@ -791,6 +796,7 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 				angle = RADIANS_TO_DEGREES( mEndAngle - mStartAngle );
 				if ( angle < 0 )
 					angle += 360.0f;
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f%C", rad, abbrUnits, angle, 0xB0];
 				break;
 		}

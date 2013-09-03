@@ -7,6 +7,7 @@
 //
 
 #import "TestBSPStorage.h"
+#include <tgmath.h>
 
 
 @interface DKBSPDirectObjectStorage (Private)
@@ -31,7 +32,7 @@
 
 static CGFloat randomFloat( CGFloat minVal, CGFloat maxVal )
 {
-	CGFloat rf = fmodf((CGFloat)random(), maxVal - minVal);
+	CGFloat rf = fmod((CGFloat)random(), maxVal - minVal);
 	
 	return minVal + rf;
 }
@@ -83,6 +84,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	
 	for( v = 0; v < u; ++v )
 	{
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 		NSLog(@" =========  beginning main test loop, #%d =========", v );
 		
@@ -184,6 +186,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	for( v = 0; v < u; ++v )
 	{
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 		NSLog(@" =========  beginning main test loop, #%d =========", v );
 		
 		[self deletionTest:testStorage];
@@ -272,6 +275,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	STAssertEquals([storage countOfObjects], m, @"total number of objects stored was mismatched (was %d, should be %d)", [storage countOfObjects], m );
 	
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 	NSLog(@"%d objects added to storage", m );
 }
 
@@ -336,6 +340,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 		}
 	}
 	
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 	NSLog(@"insertion test, %d objects with indexes: %@", [insertObjects count], remIndexSet);
 	[storage insertObjects:insertObjects atIndexes:remIndexSet];
@@ -418,12 +423,14 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 		retrievalRect = NSIntersectionRect( retrievalRect, NSMakeRect( 0, 0, canvasSize.width, canvasSize.height ));
 		
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 		NSLog(@"retrieval test %d, rect = %@", i, NSStringFromRect( retrievalRect ));
 		
 		// move some of the objects to random new locations for some of the tests
 
 		if(( i % MOVE_OBJECTS_FOR_TEST_MOD ) == 0 && i > 0)
 		{
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 			NSLog(@"repositioning objects for test #%d", i );
 			[self repositioningTest:storage canvasSize:canvasSize];
@@ -494,12 +501,14 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 		NSPoint retrievalPoint = NSMakePoint( l, t );
 		
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 		NSLog(@"point retrieval test %d, pt = %@", i, NSStringFromPoint( retrievalPoint ));
 		
 		// move some of the objects to random new locations for some of the tests
 		
 		if(( i % MOVE_OBJECTS_FOR_TEST_MOD ) == 0 && i > 0)
 		{
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 			NSLog(@"repositioning objects for test #%d", i );
 			[self repositioningTest:storage canvasSize:canvasSize];
@@ -607,6 +616,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	m = MIN([srcIndexes count], [destIndexes count]);
 	
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 	NSLog(@"performing reordering test (%d objects). Src indexes = %@", m, srcIndexes);
 
 	ix = [srcIndexes firstIndex];
@@ -711,6 +721,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 			
 			if( !found )
 			{
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 				NSLog(@"first object not found in tree is: %@ (index = %d, bounds = %@, array index = %d)", tso, [tso index], NSStringFromRect([tso bounds]), linIndex );
 				break;

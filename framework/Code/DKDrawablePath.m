@@ -20,6 +20,7 @@
 #import "GCInfoFloater.h"
 #import "CurveFit.h"
 #import "LogEvent.h"
+#include <tgmath.h>
 
 
 #pragma mark Global Vars
@@ -1157,7 +1158,7 @@ finish:
 			// slope of line is forced to be on 15 degree intervals
 			
 			CGFloat	angle = atan2f( p.y - ip.y, p.x - ip.x );
-			CGFloat	rem = fmodf( angle, sAngleConstraint );
+			CGFloat	rem = fmod( angle, sAngleConstraint );
 			CGFloat	radius = hypotf( p.x - ip.x, p.y - ip.y );
 		
 			if ( rem > sAngleConstraint / 2.0 )
@@ -1327,7 +1328,7 @@ finish:
 			// slope of line is forced to be on 15 degree intervals
 			
 			CGFloat	angle = atan2f( p.y - lp.y, p.x - lp.x );
-			CGFloat	rem = fmodf( angle, sAngleConstraint );
+			CGFloat	rem = fmod( angle, sAngleConstraint );
 			CGFloat	radius = hypotf( p.x - lp.x, p.y - lp.y );
 		
 			if ( rem > sAngleConstraint / 2.0 )
@@ -1546,7 +1547,7 @@ finish:
 			// slope of line is forced to be on 15¬¨¬®‚Äö√†√ª intervals
 			
 			CGFloat	angle = atan2f( p.y - lp.y, p.x - lp.x );
-			CGFloat	rem = fmodf( angle, sAngleConstraint );
+			CGFloat	rem = fmod( angle, sAngleConstraint );
 			CGFloat	rad = hypotf( p.x - lp.x, p.y - lp.y );
 		
 			if ( rem > sAngleConstraint / 2.0 )
@@ -1590,6 +1591,7 @@ finish:
 						p.x += 4;
 						p.y -= 12;
 						
+#warning 64BIT: Check formatting arguments
 						[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@", rad, abbrUnits] atPoint:nsp];
 					}
 				}
@@ -1619,6 +1621,7 @@ finish:
 						p.x += 4;
 						p.y -= 12;
 						
+#warning 64BIT: Check formatting arguments
 						[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0] atPoint:nsp];
 					}
 				}
@@ -2995,6 +2998,7 @@ finish:
 			NSPoint		gridPt = [self convertPointToDrawing:mp];
 			NSString*	abbrUnits = [[self drawing] abbreviatedDrawingUnits];
 			
+#warning 64BIT: Check formatting arguments
 			[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"x: %.2f%@\ny: %.2f%@", gridPt.x, abbrUnits, gridPt.y, abbrUnits] atPoint:mp];
 		}
 		

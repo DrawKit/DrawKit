@@ -1103,7 +1103,7 @@ static BOOL		sWasInside = NO;
 			
 			if([clipView needsToDrawRect:gr])
 			{
-				float	pos = [guide guidePosition];
+				CGFloat	pos = [guide guidePosition];
 				BOOL	vert = [guide isVerticalGuide];
 				NSPoint a, b;
 				
@@ -1242,8 +1242,10 @@ static BOOL		sWasInside = NO;
 			NSPoint gp = [[[self drawing] gridLayer] gridLocationForPoint:gg];
 
 			if ([m_dragGuideRef isVerticalGuide])
+#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x] atPoint:p];
 			else
+#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y] atPoint:p];
 		}
 	}
@@ -1299,10 +1301,12 @@ static BOOL		sWasInside = NO;
 		if ([m_dragGuideRef isVerticalGuide])
 		{
 			if([self showsDragInfoWindow])
+#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x] atPoint:p];		}
 		else
 		{
 			if([self showsDragInfoWindow])
+#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y] atPoint:p];
 		}
 	}

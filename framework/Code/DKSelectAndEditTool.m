@@ -1411,6 +1411,7 @@ static void		dragFunction_mouseUp( const void* obj, void* context )
 	}
 	@catch( NSException* exception )
 	{
+#warning 64BIT: Inspect use of long
 		NSLog(@"#### exception while dragging with selection tool: mode = %ld, exc = (%@) - ignored ####", (long)[self operationMode], exception );
 	}
 	

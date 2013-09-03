@@ -9,6 +9,7 @@
 
 #import "DKStrokeDash.h"
 #import "DKDrawKitMacros.h"
+#include <tgmath.h>
 
 
 #pragma mark Static Vars
@@ -84,8 +85,9 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	b = (NSUInteger)floor( fabs( aSize.height ));
 	
 	hcf = (CGFloat) euclid_hcf( a, b );
-	rem = fmodf( halfLen, hcf );
+	rem = fmod( halfLen, hcf );
 	
+#warning 64BIT: Check formatting arguments
 	NSLog(@"size = %@, hcf = %f, rem = %f, halfLen = %f", NSStringFromSize( aSize ), hcf, rem, halfLen );
 	
 	if ( rem > ( hcf * 0.5f ))
@@ -117,6 +119,8 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 #pragma mark -
 - (id)			initWithPattern:(CGFloat[]) dashes count:(NSInteger) count
 {
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 	NSAssert(sizeof(dashes) <= 8 * sizeof(CGFloat), @"Expected dashes to be no more than 8 floats");
 	self = [super init];
 	if (self != nil)
@@ -368,6 +372,8 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		m_pattern[0] = 5.0;
 		m_pattern[1] = 5.0;
 		// Catch if someone changes the array size without considering the init method.
+#warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 		NSAssert(sizeof(m_pattern) == 8 * sizeof(CGFloat), @"init expects the m_pattern array to only be 8 floats");
 		m_count = 2;
 		m_scaleToLineWidth = YES;
@@ -393,6 +399,8 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 - (void)		encodeWithCoder:(NSCoder*) coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
+#warning 64BIT: Make sure values being encoded correspond to the types
+#warning 64BIT: Inspect use of @encode
 	[coder encodeArrayOfObjCType:@encode(CGFloat) count:[self count] at:m_pattern];
 	[coder encodeDouble:[self phase] forKey:@"phase"];
 	[coder encodeInteger:[self count] forKey:@"count"];
@@ -411,6 +419,8 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		if( m_count > 8 )
 			m_count = 8;
 			
+#warning 64BIT: Make sure values being decoded correspond to the types
+#warning 64BIT: Inspect use of @encode
 		[coder decodeArrayOfObjCType:@encode(CGFloat) count:m_count at:m_pattern];
 		[self setScalesToLineWidth:[coder decodeBoolForKey:@"scale_to_width"]];
 		[self setPhase:[coder decodeDoubleForKey:@"phase"]];

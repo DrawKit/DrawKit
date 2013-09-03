@@ -51,7 +51,7 @@ extern NSString*		kDKTextSubstitutorNewStringNotification;
 	NSString*			mKey;
 	NSRange				mRange;
 	NSArray*			mSubKeys;
-	unsigned			mPadLength;
+	NSUInteger			mPadLength;
 	NSString*			mPadCharacter;
 }
 
@@ -67,8 +67,8 @@ extern NSString*		kDKTextSubstitutorNewStringNotification;
 - (NSArray*)		subKeys;
 - (NSString*)		stringByApplyingSubkeysToString:(NSString*) inString;
 
-- (void)			setPadding:(unsigned) padLength;
-- (unsigned)		padding;
+- (void)			setPadding:(NSUInteger) padLength;
+- (NSUInteger)		padding;
 - (void)			setPaddingCharacter:(NSString*) padStr;
 - (NSString*)		paddingCharacter;
 

@@ -664,6 +664,7 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 		}
 		else
 		{
+#warning 64BIT: Check formatting arguments
 			dimstr = [NSString stringWithFormat:@"%.2f", lengthOfPath];
 			dimText = [[NSAttributedString alloc] initWithString:dimstr attributes:[[self class] dimensioningLineTextAttributes]];
 			[dimText autorelease];
@@ -708,8 +709,10 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 		}
 		
 		if( plusTol == minusTol )
+#warning 64BIT: Check formatting arguments
 			return [NSString stringWithFormat:@" ±%.2f", plusTol];
 		else
+#warning 64BIT: Check formatting arguments
 			return [NSString stringWithFormat:@" +%.2f, -%.2f", plusTol, minusTol];
 	}
 }

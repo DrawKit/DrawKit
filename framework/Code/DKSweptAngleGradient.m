@@ -66,6 +66,7 @@
 	if ( m_sa_colours )
 		free( m_sa_colours );
 		
+#warning 64BIT: Inspect use of sizeof
 	m_sa_colours = malloc( sizeof(pix_int) * m_sa_segments );
 	
 	if ( m_sa_colours )
@@ -131,6 +132,8 @@
 		cp.y *= 1.5;
 		twopi = 2 * pi;
 		
+#warning 64BIT: Inspect use of unsigned long
+#warning 64BIT: Inspect use of unsigned long
 		unsigned long* p = (unsigned long*) buffer;
 		
 		for( y = 0; y < height; ++y )

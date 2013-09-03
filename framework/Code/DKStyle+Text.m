@@ -106,6 +106,7 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 
 + (NSString*)			styleNameForFont:(NSFont*) font
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ %.1fpt", [font displayName], [font pointSize]];
 }
 

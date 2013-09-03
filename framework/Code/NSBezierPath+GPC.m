@@ -174,6 +174,7 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 	
 	// allocate memory for the poly.
 	
+#warning 64BIT: Inspect use of sizeof
 	poly = (gpc_polygon*) malloc( sizeof( gpc_polygon ));
 	
 	if ( poly == NULL )
@@ -188,6 +189,7 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 	[flat getPathMoveToCount:&subs lineToCount:NULL curveToCount:NULL closePathCount:NULL];
 	poly->num_contours = subs;
 
+#warning 64BIT: Inspect use of sizeof
 	poly->contour = (gpc_vertex_list*) malloc( sizeof( gpc_vertex_list ) * poly->num_contours );
 	
 	if ( poly->contour == NULL )
@@ -207,6 +209,7 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 		// allocate enough memory to hold this many points
 				
 		poly->contour[i].num_vertices = spc - 1;
+#warning 64BIT: Inspect use of sizeof
 		poly->contour[i].vertex = (gpc_vertex*) malloc( sizeof( gpc_vertex ) * spc );
 		
 		es += spc;
@@ -424,6 +427,7 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 		return nil;
 	}
 	
+#warning 64BIT: Inspect use of sizeof
 	c = (gpc_polygon*) malloc( sizeof( gpc_polygon ));
 	
 	gpc_polygon_clip( op, a, b, c );

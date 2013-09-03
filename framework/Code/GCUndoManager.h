@@ -255,8 +255,11 @@ GCUndoTaskCoalescingKind;
 // macros to throw exceptions (similar to NSAssert but always compiled in)
 
 #ifndef THROW_IF_FALSE
+#warning 64BIT: Check formatting arguments
 #define THROW_IF_FALSE( condition, string )						if(!(condition)){[NSException raise:NSInternalInconsistencyException format:(string)];}
+#warning 64BIT: Check formatting arguments
 #define THROW_IF_FALSE1( condition, string, param1 )			if(!(condition)){[NSException raise:NSInternalInconsistencyException format:(string), (param1)];}
+#warning 64BIT: Check formatting arguments
 #define THROW_IF_FALSE2( condition, string, param1, param2 )	if(!(condition)){[NSException raise:NSInternalInconsistencyException format:(string), (param1), (param2)];}
 #endif
 

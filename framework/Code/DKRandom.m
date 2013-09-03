@@ -19,6 +19,7 @@
 {
 	// returns a random value between 0 and 1.
 
+#warning 64BIT: Inspect use of unsigned long
 	static unsigned long		seed = 0;
 
 	if (seed == 0)

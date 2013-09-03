@@ -11,6 +11,7 @@
 #import "NSShadow+Scaling.h"
 #import "NSColor+DKAdditions.h"
 #import "DKDrawKitMacros.h"
+#include <tgmath.h>
 
 @implementation NSShadow (DKAdditions)
 #pragma mark As a NSShadow
@@ -99,7 +100,7 @@
 	if( degrees < 0 )
 		degrees += 360;
 	
-	degrees = fmodf( degrees, 360.0 );
+	degrees = fmod( degrees, 360.0 );
 	
 	[self setAngle:DEGREES_TO_RADIANS(degrees)];
 }

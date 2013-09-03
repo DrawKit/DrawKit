@@ -184,11 +184,11 @@
 				CGFloat ra = 0.0;
 				
 				if( mPlacementCount < [mMotifAngleRandCache count])
-					ra = [[mMotifAngleRandCache objectAtIndex:mPlacementCount] floatValue];
+					ra = [[mMotifAngleRandCache objectAtIndex:mPlacementCount] doubleValue];
 				else
 				{
 					ra = [DKRandom randomPositiveOrNegativeNumber] * 2.0 * pi * [self motifAngleRandomness];
-					[mMotifAngleRandCache addObject:[NSNumber numberWithFloat:ra]];
+					[mMotifAngleRandCache addObject:[NSNumber numberWithDouble:ra]];
 				}
 				tempAngle = mangle;
 				tempAngle += ra;

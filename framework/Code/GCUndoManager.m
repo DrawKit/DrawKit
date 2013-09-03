@@ -987,6 +987,7 @@
 			else
 				selString = @"<subgroup>";
 			
+#warning 64BIT: Check formatting arguments
 			[newTaskGroup setActionName:[NSString stringWithFormat:@"%@ (%d: %@)", [topGroup actionName], ++suffix, selString ]];
 			[self pushGroupOntoUndoStack:newTaskGroup];
 			[newTaskGroup release];
@@ -1056,6 +1057,7 @@
 
 - (NSString*)			description
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ g-level = %d, u-stack: %@, r-stack: %@", [super description], [self groupingLevel], [self undoStack], [self redoStack]];
 }
 
@@ -1276,6 +1278,7 @@
 
 - (NSString*)			description
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ '%@' %d tasks: %@", [super description], [self actionName], [mTasks count], mTasks];
 }
 
@@ -1409,6 +1412,7 @@
 
 - (NSString*)			description
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ target = <%@ 0x%x>, selector: %@", [super description], NSStringFromClass([[self target] class]), [self target], NSStringFromSelector([mInvocation selector])];
 }
 

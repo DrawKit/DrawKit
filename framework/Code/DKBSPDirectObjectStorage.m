@@ -727,6 +727,7 @@ static void			addValueToFoundObjects( const void* value, void* context )
 
 - (NSString*)		description
 {
+#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"<%@ %p>, %ld leaves = %@", NSStringFromClass([self class]), self, (long)[self countOfLeaves], mLeaves];
 }
 

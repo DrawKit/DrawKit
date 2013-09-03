@@ -27,6 +27,7 @@
 #import "DKShapeGroup.h"
 #import "DKDrawKitMacros.h"
 #import "DKPasteboardInfo.h"
+#include <tgmath.h>
 
 #pragma mark Static Vars
 
@@ -893,7 +894,7 @@ static NSSize			sTempSavedOffset;
 	
 	if ( constrain )
 	{
-		CGFloat rem = fmodf( angle, sAngleConstraint );
+		CGFloat rem = fmod( angle, sAngleConstraint );
 		
 		if ( rem > sAngleConstraint / 2.0 )
 			angle += ( sAngleConstraint - rem );
@@ -1970,6 +1971,7 @@ static NSSize			sTempSavedOffset;
 				break;
 				
 			case kDKShapeOperationRotate:
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"%.1f%C", [self angleInDegrees], 0xB0];	// UTF-8 for degree symbol is 0xB0
 				break;
 		}

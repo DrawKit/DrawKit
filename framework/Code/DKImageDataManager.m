@@ -342,6 +342,7 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 - (NSString*)		checksumString
 {
+#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"%ld", (long)[self checksum]];
 }
 

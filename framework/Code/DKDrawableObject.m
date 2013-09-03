@@ -30,6 +30,7 @@
 
 #ifdef qIncludeGraphicDebugging
 #import "DKDrawingView.h"
+#include <tgmath.h>
 #endif
 
 #pragma mark Contants (Non-localized)
@@ -2226,7 +2227,7 @@ static NSRect s_oldBounds;
 	if( angle < 0 )
 		angle += 360.0f;
 		
-	return fmodf(angle, 360.0f);
+	return fmod(angle, 360.0f);
 }
 
 
@@ -3675,6 +3676,7 @@ static NSRect s_oldBounds;
 
 - (NSString*)		description
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ size: %@, loc: %@, angle: %.4f, offset: %@, locked: %@, style: %@, container: %x, storage: %@, user info:%@",
 				[super description],
 				NSStringFromSize([self size]),
@@ -3800,6 +3802,7 @@ static NSRect s_oldBounds;
 				NSString* name = [theStyle name];
 				
 				if( name && [name length] > 0 )
+#warning 64BIT: Check formatting arguments
 					itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Paste Style '%@'", nil ), name];
 				
 				// don't bother pasting the same style we already have
@@ -3823,6 +3826,7 @@ static NSRect s_oldBounds;
 		{
 			NSString* name = [theStyle name];
 			if( name && [name length] > 0 )
+#warning 64BIT: Check formatting arguments
 				itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Copy Style '%@'", nil), name];
 		}
 		[item setTitle:itemTitle];

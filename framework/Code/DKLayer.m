@@ -2173,7 +2173,7 @@ static NSArray*	s_selectionColours = nil;
 	[coder encodeBool:m_printed forKey:@"printed"];
 	[coder encodeBool:m_clipToInterior forKey:@"DKLayer_clipToInterior"];
 	[coder encodeObject:[self userInfo] forKey:@"DKLayer_userInfo"];
-	[coder encodeFloat:[self alpha] forKey:@"DKLayer_alpha"];
+	[coder encodeDouble:[self alpha] forKey:@"DKLayer_alpha"];
 	
 	[coder encodeBool:![self rulerMarkerUpdatesEnabled] forKey:@"DKLayer_disableRulerMarkerUpdates"];
 }
@@ -2214,7 +2214,7 @@ static NSArray*	s_selectionColours = nil;
 		// alpha was added in 1.0.7 - if not present, default to 1.0
 		
 		if([coder containsValueForKey:@"DKLayer_alpha"])
-			mAlpha = [coder decodeFloatForKey:@"DKLayer_alpha"];
+			mAlpha = [coder decodeDoubleForKey:@"DKLayer_alpha"];
 		else	
 			mAlpha = 1.0;
 		

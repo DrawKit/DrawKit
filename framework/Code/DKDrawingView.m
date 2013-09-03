@@ -17,6 +17,7 @@
 #import "LogEvent.h"
 #import "NSBezierPath+Shapes.h"
 #import "NSColor+DKAdditions.h"
+#include <tgmath.h>
 
 #pragma mark Constants (Non-localized)
 
@@ -478,7 +479,7 @@ static Class	s_textEditorClass = Nil;
 	{
 		ps.width -= ([[self printInfo] leftMargin] + [[self printInfo] rightMargin]);
 		pagesAcross = MAX( 1, _CGFloatFloor(ds.width / ps.width));
-		if ( fmodf( ds.width, ps.width ) > 2.0 )
+		if ( fmod( ds.width, ps.width ) > 2.0 )
 			++pagesAcross;
 	}
 	
@@ -493,7 +494,7 @@ static Class	s_textEditorClass = Nil;
 	{
 		ps.height -= ([[self printInfo] topMargin] + [[self printInfo] bottomMargin]);
 		pagesDown = MAX( 1, _CGFloatFloor(ds.height / ps.height));
-		if ( fmodf( ds.height, ps.height ) > 2.0 )
+		if ( fmod( ds.height, ps.height ) > 2.0 )
 			++pagesDown;
 	}
 	
@@ -1604,7 +1605,7 @@ static Class	s_textEditorClass = Nil;
 	if([self inLiveResize])
 	{
 		NSRect	rects[4];
-        int		count;
+        NSInteger		count;
 		
         [self getRectsExposedDuringLiveResize:rects count:&count];
         

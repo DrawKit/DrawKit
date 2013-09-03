@@ -176,7 +176,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	NSScanner*			scanner = [NSScanner scannerWithString:[self string]];
 	NSString*			key;
 	NSString*			delimiter = [[self class] delimiterString];
-	int					delimiterLength = [delimiter length];
+	NSInteger					delimiterLength = [delimiter length];
 	NSRange				range;
 	NSCharacterSet*		delimiterSet;
 	
@@ -293,7 +293,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	DKTextSubstitutionKey*	key;
 	id						metaObject;
 	NSString*				subString;
-	int						rangeAdjustment = 0;
+	NSInteger						rangeAdjustment = 0;
 	NSRange					range;
 	
 	while(( key = [iter nextObject]))
@@ -478,7 +478,7 @@ static NSDictionary* s_abbreviationDict = nil;
 						// '#06' pads to a length of 6 with 0, so 17 -> 000017. default pad char is 0 so may be ommitted,
 						// '#8' 17 -> 00000017
 						
-						int numIndex = 1;
+						NSInteger numIndex = 1;
 						
 						if([str length] > 2 )
 						{
@@ -551,7 +551,7 @@ static NSDictionary* s_abbreviationDict = nil;
 		NSEnumerator*		iter = [mSubKeys objectEnumerator];
 		NSString*			sKey;
 		NSString*			capFlag = nil;
-		unsigned			wordsUsed = 0;
+		NSUInteger			wordsUsed = 0;
 		NSInteger			wordIndex;
 		BOOL				abbreviate = NO;
 		
@@ -577,7 +577,7 @@ static NSDictionary* s_abbreviationDict = nil;
 				
 				wordIndex = [sKey integerValue] - 1;
 				
-				if( wordIndex >= 0 && wordIndex < (int)[words count])
+				if( wordIndex >= 0 && wordIndex < (NSInteger)[words count])
 				{
 					[result appendString:[words objectAtIndex:wordIndex]];
 					[result appendString:@" "];
@@ -614,7 +614,7 @@ static NSDictionary* s_abbreviationDict = nil;
 		
 		if([result length] < [self padding])
 		{
-			int i, amount = [self padding] - [result length];
+			NSInteger i, amount = [self padding] - [result length];
 			NSMutableString* padString = [NSMutableString string];
 			
 			for( i = 0; i < amount; ++i )
@@ -629,7 +629,7 @@ static NSDictionary* s_abbreviationDict = nil;
 }
 
 
-- (void)			setPadding:(unsigned) padLength
+- (void)			setPadding:(NSUInteger) padLength
 {
 	// sets the padding length - 0 means no padding. Max length is 20.
 	
@@ -638,7 +638,7 @@ static NSDictionary* s_abbreviationDict = nil;
 
 
 
-- (unsigned)		padding
+- (NSUInteger)		padding
 {
 	return mPadLength;
 }

@@ -11,6 +11,7 @@
 #import "NSColor+DKAdditions.h"
 
 #import "LogEvent.h"
+#include <tgmath.h>
 
 
 @implementation NSColor (DKAdditions)
@@ -241,9 +242,9 @@
 		
 	// adjust rgb for gamma and factor:
 	
-	red		= powf( red * factor, gama );
-	green   = powf( green * factor, gama );
-	blue	= powf( blue * factor, gama );
+	red		= pow( red * factor, gama );
+	green   = pow( green * factor, gama );
+	blue	= pow( blue * factor, gama );
 	
 	LogEvent_(kInfoEvent, @"red: %f, green: %f, blue: %f", red, green, blue );
 
@@ -694,6 +695,7 @@
 	hg = (NSInteger) floor( g * 255.0f );
 	hb = (NSInteger) floor( b * 255.0f );
 	
+#warning 64BIT: Check formatting arguments
 	NSString* s = [NSString stringWithFormat:@"#%02X%02X%02X", hr, hg, hb ];
 
 	return s;

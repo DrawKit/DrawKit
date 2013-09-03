@@ -20,6 +20,7 @@
 #import "DKDrawKitMacros.h"
 #import "DKRandom.h"
 #import "DKQuartzCache.h"
+#include <tgmath.h>
 
 
 @implementation DKPathDecorator
@@ -340,7 +341,7 @@
 	// return a value in 0..1 given a value in 0..1 which is used to set the curvature of the leadin and lead out ramps
 	// (for a linear ramp, return val)
 	
-	return 0.5 * ( 1 - cosf( fmodf( val, 1.0 ) * pi ));
+	return 0.5 * ( 1 - cosf( fmod( val, 1.0 ) * pi ));
 }
 
 
@@ -481,11 +482,11 @@
 			// set to the normal scale, the randomising factor makes the scale relatively smaller
 			
 			if( mPlacementCount < [mScaleRandCache count])
-				randScale = [[mScaleRandCache objectAtIndex:mPlacementCount] floatValue];
+				randScale = [[mScaleRandCache objectAtIndex:mPlacementCount] doubleValue];
 			else
 			{
 				randScale = 1.0 + ([DKRandom randomPositiveOrNegativeNumber] * [self scaleRandomness]);
-				[mScaleRandCache addObject:[NSNumber numberWithFloat:randScale]];
+				[mScaleRandCache addObject:[NSNumber numberWithDouble:randScale]];
 			}
 		}
 

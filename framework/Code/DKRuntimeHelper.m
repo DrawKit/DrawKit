@@ -51,6 +51,7 @@
 	
 	if( numClasses > 0 )
 	{
+#warning 64BIT: Inspect use of sizeof
 		buffer = malloc( sizeof(Class) * numClasses );
 		
 		NSAssert( buffer != nil, @"couldn't allocate the buffer");
@@ -105,6 +106,7 @@
 	
 	if( numClasses > 0 )
 	{
+#warning 64BIT: Inspect use of sizeof
 		buffer = malloc( sizeof(Class) * numClasses );
 		
 		NSAssert( buffer != nil, @"couldn't allocate the buffer");

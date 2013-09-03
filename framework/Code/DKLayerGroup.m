@@ -552,6 +552,7 @@ NSString*		kDKLayerGroupDidReorderLayers			= @"kDKLayerGroupDidReorderLayers";
 		if ( k == NSNotFound )
 			found = NO;
 		else
+#warning 64BIT: Inspect use of long
 			temp = [NSString stringWithFormat:@"%@ %ld", aName, (long)++numeral];
 	}
 	
@@ -577,6 +578,7 @@ NSString*		kDKLayerGroupDidReorderLayers			= @"kDKLayerGroupDidReorderLayers";
 
 - (DKLayer*)		objectInLayersAtIndex:(NSUInteger) layerIndex
 {
+#warning 64BIT: Inspect use of long
 	NSAssert1( layerIndex < [self countOfLayers], @"bad layer index %ld (overrange)", (long)layerIndex);
 	
 	return [[self layers] objectAtIndex:layerIndex];
@@ -1325,6 +1327,8 @@ NSString*		kDKLayerGroupDidReorderLayers			= @"kDKLayerGroupDidReorderLayers";
 				}
 				@catch( id exc )
 				{
+#warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 					NSLog(@"exception while drawing layer %@ [%ld of %ld in group %@](%@ - ignored)", layer, (long)n, (long)[self countOfLayers], self, exc );
 				}
 				@finally

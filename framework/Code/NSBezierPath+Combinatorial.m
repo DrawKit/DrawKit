@@ -70,6 +70,7 @@
 		[blob fill];
 		// label it so we can see the order
 		
+#warning 64BIT: Inspect use of long
 		NSString* str = [NSString stringWithFormat:@"%ld", (long)i];
 		[str drawAtPoint:blobRect.origin withAttributes:nil];
 		
@@ -125,6 +126,7 @@
 	
 	pointForClosure = [path currentpointForSegment:0];
 	
+#warning 64BIT: Inspect use of long
 	NSLog(@"appending in range %@, max = %ld", NSStringFromRange( range ), (long)m);
 	
 	if ( range.location >= (NSUInteger)[path elementCount])
@@ -170,6 +172,8 @@
 	NSAssert( firstIndex >= 0, @"index value is negative");
 	NSAssert( nextIndex >= 0, @"index value is negative");
 	
+#warning 64BIT: Inspect use of long
+#warning 64BIT: Inspect use of long
 	NSLog(@"appending elements from %ld to %ld", (long)firstIndex, (long)nextIndex );
 	
 	BOOL isWrapping = (nextIndex < firstIndex);

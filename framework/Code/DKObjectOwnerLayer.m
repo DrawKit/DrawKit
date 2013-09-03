@@ -396,6 +396,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 			[inv setSelector:selector];
 			[inv invokeWithTarget:o];
 		
+#warning 64BIT: Inspect use of sizeof
 			if([[inv methodSignature] methodReturnLength] <= sizeof( NSInteger ))
 				[inv getReturnValue:&rval];
 

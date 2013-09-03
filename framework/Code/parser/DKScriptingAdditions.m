@@ -54,6 +54,7 @@
 {
 	NSColor* cc = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];	
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"(colour r:%1.2f g:%1.2f b:%1.2f a:%1.2f)", [cc redComponent], [cc greenComponent], [cc blueComponent], [cc alphaComponent]];
 }
 
@@ -109,6 +110,7 @@
 
 - (NSString*)	styleScript
 {
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"(shadow colour:%@ blur:%1.1f x:%1.1f y:%1.1f)", [[self shadowColor] styleScript], [self shadowBlurRadius], [self shadowOffset].width, [self shadowOffset].height];
 }

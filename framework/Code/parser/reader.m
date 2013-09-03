@@ -30,6 +30,7 @@ static const NSInteger Scanner_error = 0;
 SCOPE void scan_init_buf( Scanner *s, char *buf )
 {
 #warning 64BIT: Inspect use of sizeof
+#warning 64BIT: Inspect use of sizeof
 	bzero (s, sizeof(Scanner));
 	s->curline = 1;
 	s->buf = buf;
@@ -716,6 +717,7 @@ void output(Scanner *ss)
 			break;
 		}
 		else {
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 			printf ("parser: %s(%d):%d \"", ss->token_name, tok, ss->curline);
 			fwrite ( ss->data, 1, ss->len, stdout );

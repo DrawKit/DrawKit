@@ -98,18 +98,22 @@ NSInteger dk_lex (id *val, YYLTYPE *yloc, void *reader)
 #pragma mark -
 #pragma mark - Parser interface
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 -(void)parseError:(NSString*)fmt, ...
 {
     va_list argumentList;
    	va_start(argumentList, fmt);  
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
     NSString *msg = [[NSString alloc] initWithFormat:fmt arguments:argumentList];
     va_end(argumentList);
 
 #warning 64BIT: Check formatting arguments
+#warning 64BIT: Check formatting arguments
 	NSString *error = [NSString stringWithFormat:@"DKParser parse ERROR: line: %d \n%@",
 		scanr.curline, msg];
 
+#warning 64BIT: Check formatting arguments
 #warning 64BIT: Check formatting arguments
 	NSLog (error);
 }

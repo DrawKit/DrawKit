@@ -35,6 +35,7 @@
 	// place so that minor rounding errors when doing path transforms don't generate different keys. Do not rely on this format, or attempt
 	// to interpret it.
 	
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%.1f.%.1f.%.1f.%.1f", [path bounds].size.width, [path bounds].size.height, [path length], [self width]];
 }
 

@@ -14,6 +14,7 @@
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
 #import "DKDrawkitMacros.h"
+#include <tgmath.h>
 
 
 @interface DKRegularPolygonPath (Private)
@@ -259,7 +260,7 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	
 	if( constrain )
 	{
-		CGFloat rem = fmodf( angle, sAngleConstraint );
+		CGFloat rem = fmod( angle, sAngleConstraint );
 		
 		if ( rem > sAngleConstraint / 2.0 )
 			angle += ( sAngleConstraint - rem );
@@ -328,21 +329,25 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 			case kDKDrawingEntireObjectPart:
 			case kDKRegularPolyCentrePart:
 				gridPt = [self convertPointToDrawing:[self location]];
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"centre x: %.2f%@\ncentre y: %.2f%@", gridPt.x, abbrUnits, gridPt.y, abbrUnits];
 				break;
 				
 			case kDKRegularPolyRotationPart:
 				val = [self angleInDegrees];
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"%.1f%C", val, 0xB0];
 				break;
 				
 			case kDKRegularPolyTipSpreadPart:
 				val = [self tipSpread] * 100.0;
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"tip: %.0f%%", val];
 				break;
 				
 			case kDKRegularPolyValleySpreadPart:
 				val = [self valleySpread] * 100.0;
+#warning 64BIT: Check formatting arguments
 				infoStr = [NSString stringWithFormat:@"valley: %.0f%%", val];
 				break;
 				
@@ -350,11 +355,13 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 				if((( pc - kDKRegularPolyFirstVertexPart ) & 1 ) == 1 )
 				{
 					val = [self innerRadius] * 100.0;
+#warning 64BIT: Check formatting arguments
 					infoStr = [NSString stringWithFormat:@"radial ratio: %.0f%%", val];
 				}
 				else
 				{
 					val = [[self drawing] convertLength:[self radius]];
+#warning 64BIT: Check formatting arguments
 					infoStr = [NSString stringWithFormat:@"radius: %.2f%@", val, abbrUnits];
 				}
 				break;
@@ -951,6 +958,7 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	
 	for( i = 3; i < 9; ++i )
 	{
+#warning 64BIT: Inspect use of long
 		item = [sidesMenu addItemWithTitle:[NSString stringWithFormat:@"%ld", (long)i] action:@selector(setNumberOfSidesWithTag:) keyEquivalent:@""];
 		[item setTag:i];
 		[item setTarget:self];

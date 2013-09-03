@@ -260,10 +260,12 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 					const char* dataType = [oldValue objCType];
 					NSNumber*	newValue;
 					
+#warning 64BIT: Inspect use of @encode
 					if( strcmp( dataType, @encode(CGFloat)) == 0 )
 						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
 					else if( strcmp( dataType, @encode(double)) == 0 )
 						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
+#warning 64BIT: Inspect use of @encode
 					else if( strcmp( dataType, @encode(NSInteger)) == 0 )
 						newValue = [NSNumber numberWithInteger:[obj integerValue]];
 					else if( strcmp( dataType, @encode(BOOL)) == 0 )
@@ -427,7 +429,7 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 - (CGFloat)		floatValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
-	return [[self metadataItemForKey:key] floatValue];
+	return [[self metadataItemForKey:key] doubleValue];
 #else
 	return [[self metadataObjectForKey:key] doubleValue];
 #endif
@@ -447,7 +449,7 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 - (NSInteger)	intValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
-	return [[self metadataItemForKey:key] intValue];
+	return [[self metadataItemForKey:key] integerValue];
 #else
 	return [[self metadataObjectForKey:key] integerValue];
 #endif

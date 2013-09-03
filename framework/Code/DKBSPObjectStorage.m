@@ -876,6 +876,7 @@ static NSUInteger sLeafCount = 0;
 {
 	// warning: description string can be very large, as it enumerates the leaves
 	
+#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"<%@ %p>, %ld leaves = %@", NSStringFromClass([self class]), self, (long)[self countOfLeaves], mLeaves];
 }
 

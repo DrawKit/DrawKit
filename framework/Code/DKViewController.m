@@ -1455,6 +1455,7 @@ static NSTimer* s_autoscrollTimer = nil;
 		BOOL		vis = [[[self drawing] gridLayer] visible];
 		NSString*	gridName = [[[self drawing] gridLayer] layerName];
 		NSString*	itemRoot = vis? NSLocalizedString(@"Hide %@", "menu item for Hide <layer name>") : NSLocalizedString(@"Show %@", @"menu item for Show <layer name>");
+#warning 64BIT: Check formatting arguments
 		NSString*	title = [NSString stringWithFormat:itemRoot, gridName];
 		
 		[item setTitle:title];
@@ -1466,6 +1467,7 @@ static NSTimer* s_autoscrollTimer = nil;
 		BOOL		vis = [[[self drawing] guideLayer] visible];
 		NSString*	gridName = [[[self drawing] guideLayer] layerName];
 		NSString*	itemRoot = vis? NSLocalizedString(@"Hide %@", "menu item for Hide <layer name>") : NSLocalizedString(@"Show %@", @"menu item for Show <layer name>");
+#warning 64BIT: Check formatting arguments
 		NSString*	title = [NSString stringWithFormat:itemRoot, gridName];
 		
 		[item setTitle:title];

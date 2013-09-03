@@ -67,9 +67,11 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	NSString*	key;
 	
 	if( colour )
-		key = [NSString stringWithFormat:@"%@_%@_%dx%d", classKey, [colour hexString], (int)ceil(size.width), (int)ceil(size.height)];
+#warning 64BIT: Check formatting arguments
+		key = [NSString stringWithFormat:@"%@_%@_%dx%d", classKey, [colour hexString], (NSInteger)ceil(size.width), (NSInteger)ceil(size.height)];
 	else
-		key = [NSString stringWithFormat:@"%@_%dx%d", classKey, (int)ceil(size.width), (int)ceil(size.height)];
+#warning 64BIT: Check formatting arguments
+		key = [NSString stringWithFormat:@"%@_%dx%d", classKey, (NSInteger)ceil(size.width), (NSInteger)ceil(size.height)];
 
 	DKHandle*	inst = nil;
 	
@@ -276,6 +278,7 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 
 + (NSString*)			keyForKnobType:(DKKnobType) type
 {
+#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"hnd_type_%d", type];
 }
 
