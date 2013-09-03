@@ -1,6 +1,6 @@
 //
 //  DKSymbol.m
-///  DrawKit ©2005-2008 Apptree.net
+///  DrawKit Â©2005-2008 Apptree.net
 //
 //  Created by Jason Jobe on 4/25/05.
 ///

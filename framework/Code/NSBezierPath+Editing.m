@@ -1,6 +1,6 @@
 ///**********************************************************************************************************************************
 ///  NSBezierPath-Editing.m
-///  DrawKit ©2005-2008 Apptree.net
+///  DrawKit Â©2005-2008 Apptree.net
 ///
 ///  Created by Graham Cox on 08/10/2006.
 ///
@@ -22,7 +22,7 @@
 
 
 #pragma mark Static Vars
-static CGFloat sAngleConstraint = 0.261799387799;	// 15¡
+static CGFloat sAngleConstraint = 0.261799387799;	// 15Â°
 
 
 

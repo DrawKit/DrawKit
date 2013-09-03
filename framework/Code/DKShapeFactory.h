@@ -1,6 +1,6 @@
 //
 //  DKShapeFactory.h
-///  DrawKit ©2005-2008 Apptree.net
+///  DrawKit Â©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 20/08/2006.
 ///

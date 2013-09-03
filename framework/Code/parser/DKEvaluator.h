@@ -1,6 +1,6 @@
 //
 //  DKEvaluator.h
-///  DrawKit ©2005-2008 Apptree.net
+///  DrawKit Â©2005-2008 Apptree.net
 //
 //  Created by Jason Jobe on 2007-03-07.
 ///
