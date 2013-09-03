@@ -12,7 +12,8 @@ DESC
   s.license      = { :type => 'BSD', :file => 'LICENSE' }
   s.author       = 'Graham Cox', 'Graham Miln'
   s.platform     = :osx,'10.7'
-  s.source       = { :git => "https://github.com/DrawKit/DrawKit.git", :tag => "1.0.0-beta-7" }
+  s.vendored_frameworks = 'DKDrawKit.framework'
+  s.source       = { :git => "https://github.com/DrawKit/DrawKit.git", :tag => "v1.0.0-beta.7" }
   s.source_files  = 'framework/**/*.{h,m,mm}'
   s.public_header_files = 'framework/Code/*.h'
 end
