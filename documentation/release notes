@@ -1,0 +1,766 @@
+Release 1.0 beta 7
+
+1. Text on path default string attributes now settable via a class method
+
+2. Adds DKToolRegistry to handle the collection of tools, a job formerly performed by the DKDrawingTool class itself. The old class methods of DKDrawingTool now call the
+equivalent methods of DKToolregistry, so code is backward compatible. This abstraction makes the different jobs clear and also opens up the possibility of having different
+sets of registered tools, not just one.
+
+3. DKGuideLayer operations such as add, delete, move and colour guides are all now undoable. This reflects the fact that while guides are a visual aid, they do literally change
+the data content of the model, so should be undoable.
+
+4. DKLayer selection highlight colour changes now broadcast a notification to this effect.
+
+5. All changes to a drawable's metadata are now undoable. This is enabled by default but may be disable using a class method. Note that DK does not set an undo action name for
+metadata changes because a) they are quite low level and b) different apps may have their own ideas about what these values actually represent. Higher-level code that is calling
+the metadata methods therefore need to set an action name for these. Another change is that all metadata changing methods now send the will change/did change notifications, and
+the notifications now include a userInfo dictionary that supplies the key that was changed (user info dict key: @"key"). If the change was more general, this entry is nil.
+
+6. DKDrawableObject supplies a more informative description, and supports a debugging action - logDescription: which writes it to the log.
+
+7. Bugfix: DKPathDecorator was drawing the uncached motif image using the wrong composition mode, so transparent backgrounds were coming out black. Fixed.
+
+8. Added a copyImage: action to DKImageShape - allows the internal image to be copied to the pasteboard independently of the image shape itself, which is useful for cutting and
+pasting images between image shapes and rasterizers that accept a pasted image. Copies the raw data (when available), PDF and TIFF formats.
+
+9. Changing various key settings such as drawing size and margins are now undoable.
+
+10. Bugfix: Switching tools while they are in use (for example by hitting a key equivealent in the middle of a drag) is now generally safe in that it no longer leaves the
+undo stack or other state information in a bad state. Tools must be designed to anticipate this possibility, for example by factoring the work they do on mouse up into a method
+that can also be invoked from -toolControllerWillUnsetTool: Built-in tools affected by this have been modified accordingly.
+
+11. DKArrowStroke now assignes a default formatter the first time that one of the dimension line modes is applied. This formatter copies the text attributes from the class
+defaults, but the attributes are maintained separately by the formatter. This permits two things: a) the text attributes can be applied individually and b) the attributes
+are archived as needed. The class adds methods for setting the text attributes properties (and the font as a specific attribute).
+
+12. DKDrawing now sets up the drawing number and other default metadata slightly differently and more reliably. The revision item is now typed as a number (integer)
+which is probably more useful, and the drawing number itself is maintained as a separate item, also an integer NSNumber. The preformatted number is still available as
+before.
+
+13. Bugfix: Inserting a path point into a closepath element now works, and the interpolated value of the inserted point on all straight line elements is now correct.
+As a result the Insert Path tool correctly reports the right Undo action string.
+
+14. Bugfix: Dimension line text is correctly positioned within the path's gap even if one end of the line has a non-dimension arrow head, or none.
+
+15. Adds a new mode to DKPathInsertDeleteTool to delete an element from a path. Supporting code in DKDrawablePath and NSBezierPath+Editing.
+
+16. Bugfix: Any removal of an object from its container should now set the container ref to nil. Similary, removal of a layer from a layer group sets the layer's
+groupRef to nil. This may have been the cause of a couple of rare and hard to track down bugs caused by accessing stale pointers. Note that it is a container's
+responsibility to set its object's container ref to nil whenever necessary. This includes at dealloc time because the contained objects *may* be retained elsewhere.
+
+17: Bugfix: Tool keyboard equivalents now correctly check the modifier flags for a match. This bug wasn't obvious on Tiger because command keys were already filtered,
+but on Leopard+, they are forwarded when no matching menu was found, and this was often selecting a tool in error.
+
+18: Enhancement: Dragging colours to text objects now sets the text colour, not the fill colour.
+
+19: DKLayer adds beginDrawing and endDrawing methods which are called at the start and end of drawing of the layer. By default they do nothing but provide a place to
+hook into for special graphics needs. They are called from outside of the drawRect:inView: method so that overrides of that are undisturbed and don't need to be
+modified to call these.
+
+20: DKLayer adds class methods for setting a list of colours to use when initially assigning selection colours. By default the list is the same is used previously.
+
+21: Order of operations in newLayerWithSelection: changed so it works. Because back pointers are now nulled when an object is removed from a container,
+operations where an object is being moved from one container to another must be done so that the removal is done before the addition to the new
+one, otherwise the back pointers are left set to NULL which stops the objects working properly.
+
+22. All layers (DKLayer and subclasses) now support and set a uniqueKey property when they are instantiated. This key is not persistent. DKLayerGroup
+supports a method for finding layers with a given key. DKPasteboardInfo records the source layer's key allowing a paste operation to detect whether
+the target is the same layer as the original or not (where a weak reference to the layer would be unsafe and a strong reference would require
+archiving the entire layer and all its contents). DKDrawing's previous implementation of -uniqueKey is now handled by the layer base class.
+
+23. User Info support in DKLayer (and hence DKDrawing) brought into line with the API in DKDrawableObject. In addition, items that are specifically
+managed as metadata are now handled using a new schema, where each value is wrapped in a DKMetadataItem. This class handles all the interconversions
+of data types as necessary, and more importantly, preserves the original data type unless it is deliberately changed via setType: This is in
+contrast to Cocoa classes such as NSValue that do not guarantee type preservation and in fact lose it when a value is edited. Using DKMetadataItem
+thus replaces the clunky ad-hoc mechanism that attempted to preserve the data type of metadata. The change is backward compatible - old files
+will have their metadata automatically wrapped when loaded. In addition, metadata for DKLayer uses the same schema. However, drawing info as
+set by DKDrawing is handled orthogonally from metadata now. This data is stored as a user info item in a separate dictionary accessible using
+the -drawingInfo property as before, but is no longer mingled with the metadata. Again older files are automatically updated. Since DK never set
+metadata on DKDrawing or DKLayer formerly, this change will only affect you if you if you have added metadata to DKDrawing that is not part of
+the drawing info. Such data will now be added to the drawing info subdictionary and not the metadata subdictionary.
+
+24. Rationalised views for printing and screen drawing. DKPrintDrawingView is no longer required - a standard DKDrawingView will handle standard
+printing. DKDrawingView no longer has a -setPageBreakPrintInfo: method, it just has a -setPrintInfo: method which is used for both page break
+drawing and general printing. A separate property -setPageBreaksVisible: handles the toggling of page break overlay. Also, crop marks are
+controlled using the -setPrintCropMarkKind: method, and -setCropMarksVisible: has been removed. These changes allow much simpler control over
+printing options from e.g. a Print panel accessory controller, which is the recommended way to handle print options from 10.5 forward.
+
+25. A number of special-pupose view classes were eliminated in favour of fewer, more general classes. These are DKLayerPDFView and DKDrawablePDFView.
+The ability to copy data from a layer as PDF has moved to DKLayer so is available to all layers.
+
+26. Change: The designated initializer for DKDrawableObject has changed to -initWithStyle: This was done for performance reasons, since the notification
+subscription for the default style was causing a big performance hit when loading many many objects at once. By passing the final style desired this
+hit is avoided. However, this change may have an impact on any private subclasses of any drawable you might have made - you'll need to ensure
+that super's -initWithStyle is called when your subclass is initialized. DK itself has been changed to consistently do this.
+
+27. Change: DKRasterizer no longer calls -removeObserver: on the default notification center in its dealloc method. This is for performance reasons. The
+change means that custom rasterizers must do this for themselves if necessary. Most DK rasterizers don't need to so gain performance, but
+private subclasses may need to. Note that failure to do this can lead to crashes if stale references are left in the notification center.
+
+28. Change: DKKnob has been substantially rewritten to use an object-oriented approch to customizing individual knob types. DKKnob itself remains
+as the class that manages the collection of different knob classes, now based on a new class, DKHandle. Separate subclasses are used to implement
+each different knob type and state. Many DKKnob methods have been deprecated but the main utility methods remain but now use the new mechanism
+internally. One advantage is that a given knob appearance is now aggressively cached in a CGLayer which dramtically speeds up drawing of the
+handles to screen. It also allows a client to customise particular knob appearances without having to subclass DKKnob itself.
+
+29. Change: A more efficient and usable mechanism for updating the ruler markers is now in place. DKLayer has methods for setting the ruler
+markers, which are propagated up to the drawing and hence to its views, but conditional on an enable flag. While DKDrawableObject does set the
+markers (but now only in response to an actual geometry change, rather than when updating for drawing refresh) these may not make it to the views
+if a layer has disabled the update. This is done when performing bulk selections, etc so that a torrent of update messages is no longer caused.
+The drawing layer and the selection tool further manipulate these updates so that they show the whole of a multiple selection, not just the last
+object selected. Overall this boosts performance substantially and is more useful for the user.
+
+30. DK has been run through the Cocoa 64-bit preparation tool, which converts types as necessary and flags suspect code with warnings. Most of these
+warnings have been visited and the code addressed as required. However actual 64-bit compilation has not been attempted.
+
+
+Release 1.0 beta 6
+July 15th, 2009
+
+1. Objects that can be passed to a renderer must now implement the DKRenderable formal protocol. DKDrawableObject does, so no change is required. However it allows other kinds
+of objects to be passed to a style/renderer for special purposes if necessary while reducing the likelihood of introducing bugs by doing so. The previous informal protocol for
+this purpose is deprecated. The protocol is defined in DKRasterizerProtocol.h
+
+2. Style scripting support, which has been deprecated for several releases now, has gone.
+
+3. Additional objects storage class, DKBSPDirectObjectStorage, added. This uses a similar algorithm to DKBSPObjectStorage, but instead of indexing it stores the objects directly.
+This seems to yield significant speed advantages, though more profiling is needed to quantify this. The storage itself is not archived as part of the drawing - only its objects are,
+and the currently set preferred class for the storage is honoured on dearchiving. Files saved with Beta 5 did archive the storage and they will be automatically converted when
+read. Re-saving the file will update to the newer approach.
+
+4. Code that draws and iterates over drawables is gradually being updated to take advantage of the benefits of the storage model. In most cases this means that fewer objects
+need to be iterated over for many operations, yielding noticable performance benefits. In addition, time-critical code that uses NSEnumerator is replaced by the much faster
+CFArrayApplyFunction methodology. This works on 10.4 and earlier, unlike ObjC-2.0 fast enumeration. Upshot: Teh Snappy™. Maybe.
+
+5. Locked layers are no longer auto-activated by default. This reflects the typical usage patterns for locked layers as background content or for tracing.
+
+6. DKLayerGroup now correctly propagates hit-testing recursively down through a layer hierarchy.
+
+7. Select/Edit tool now implements an alternative dragging methodology in an effort to boost performance substantially when dragging a large number of objects at once. This method
+uses a single drag image as a proxy for the objects being dragged, then repositions the real objects on mouse up. This approach can be turned off (thus using the old method), turned
+on for all objects or used when a certain threshold object count is exceeded. This is done by calling [DKSelectAndEditTool setDragProxyThreshold:] with values of 0, 1 and the
+required threshold respectively. The default in this release is to use the alternative method for 50 or more objects. The main downside of this approach is that the interleaving
+of the dragged objects with non-dragged objects during the drag cannot be preserved. The Z-order is maintained and restored at the end of the drag. In practice the performance
+benefit will probably outweigh this minor inconvenience. Currently the drag image will noticeably pixellate at higher zooms also.
+
+8. Select/Edit tool now treats locked objects slightly differently. A drag that starts in a locked object selects it as usual, but now continues in the selection rect dragging mode.
+This gives more useful behaviour: objects overlaid on some locked background object can now be drag-selected as normal even if the drag started in the background object.
+
+9. DKLayerGroup and DKViewController add methods to permit the implementation of a "Hide Others" and "Show All" command for operating on layers if desired.
+
+10. Added some additional properties to DKHatching: line roughness and "wobblyness" which together can be used to create some additional effects.
+
+11. Bugfix: objects resulting from combinatorial operations now preserve any attached user data from the source object.
+
+12. Metadata keys in both DKLayer and DKDrawableObject are now case-insensitive. Existing files will have their keys converted if necessary, at the possible risk of data loss if
+you have keys that differ only in case. The case insensitivity is achieved by always converting all key strings to lowercase. If you set a key in the user info dictionary directly,
+rather than using the metadata methods, you need to ensure this otherwise your data won't be findable.
+
+13. Drawable Objects now support the concept of ghosting, which draws the object using a light grey thin outline rather than its attached style. Otherwise the object behaves as
+a normal visible object. Ghosting is a good alternative to hiding objects in many applications. DKObjectDrawingLayer supports high-level commands for ghosting and unghosting items
+in the selection. Some renderers, such as DKTextAdornment, are ghosting aware, though most don't need to be as ghosting typically bypasses the style altogether.
+The grey ghosting colour is settable as a global preference using +[DKDrawableObject setGhostColour:]; You can also override an object's -drawGhostedContent method
+to customise the ghosted appearance.
+
+14. Bugfix:  Layer Bring Forward/Bring To Front/Send Backward/Send To Back commands now operate without ambiguity within their immediate containing group only (which for the case of
+a flat layer list is the drawing, as before). The earlier implementation was buggy when additional layer groups were present.
+
+15. Intersection operation now preserves the style and metadata from the lower object rather than the upper. This better reflects real-world usage of this
+operation to extract a shape from a larger one using an overlaid "cookie cutter".
+
+16. Bugfix: -hexString in NSColor category makes a more accurate job of rounding the colour component values when determining the hex value. This prevents light
+greys for example incorrectly coming out as white.
+
+17. "Break Apart" operation now available for shapes without converting to a path first. Metadata is preserved as is the true class of the object.
+
+18. DKTextShape and DKTextPath modified in behaviour such that deliberate changes to the text made by the user "stick" properly when saving the file. The change
+involves mutating the existing style, if it's a registered style, into an identical one but lacking text attributes. This allows the text to be set both by
+the user directly, and also by applying a style having text attributes, but without any user-made changes getting reverted when a file containing such objects
+is reloaded. A memory leak and a KVO error bug was also fixed in the DKTextShape object.
+
+19. Text on a path now lays out the full attributed string exactly as it would be drawn by the standard text system, so it is possible to vary attributes such
+as font, underlining, superscripting, colour and shadow within the string.
+
+20. DKDrawableObject now supports a global table used to map classes when performing interconversions from one type of object to another (e.g. path -> shape).
+By customising this table, your app can substitute a subclass to be used when performing an interconversion that normally would make an object of the base
+class. All conversions done by DK now go through this table, but by default no substitution is performed (and in fact the table is nil).
+
+21. The NSBezierPath+Geometry category has been split into a new category NSBezierPath+Text which contains all the text-on-path and text-wrap-in-shape methods.
+
+22. DKTextPath now has a contextual menu that mirrors the one used by DKTextShape. Both have been cleaned up.
+
+23. DKDrawablePath creation allows modal creation loops to be interrupted (ended) by hitting any key on the keyboard as well as the previously supported
+methods. This makes it easier to "get out of" a modal loop if you were not expecting to be in one. Also some additional feedback via the floating info window
+was added for several of the path loops that previously didn't have anything.
+
+24. Text on a path now supports underline and strikethrough attributes. Currently these are based on the metrics returned by NSFont and some tweaking - the
+positioning differs very slightly from text laid out by the system and the discrepancy varies with the font. It's unclear why the system is not using the
+metrics it is given. Currently, the NSUnderlineByWordMask flag is not supported.
+
+25. Text on a path now renders any text shadow the same way that NSTextView etc do. This is to give consistency beyween text blokcs laid out by the system and
+text on paths. However this way of drawing shadows is a bit dumb - it changes according to the view zoom scale. You can use the earlier behaviour for text on
+a path by setting DK_TEXT_SHADOW_COMPATIBLE to 1 and recompiling. There's no way to change how the system draws text shadows though.
+
+26. Locked path objects no longer show the control knobs and bars since they can't be moved anyway. On-path knobs are shown as before using the locked style.
+This reduces visual clutter.
+
+27. DKGuideLayer now manages its cursor to provide useful feedback when dragging, deleting and placing. When creating a new guide by dragging from a ruler, the guide
+layer is now made active which brings its cursors into play. While dragging a guide, the up/down or left/right curosr is shown. When not dragging, the open hand cursor is shown. When
+a guide is dragged into the "delete" zone (the margins, typically), the disappearaing item is shown and when a guide is deleted the 'poof' animation is shown. If
+locked the layer shows the arrow. Guide layers also now maintain the deletion area independently of the drawing's interior. By default this is set to be the same
+as the drawing's interior but you can set it to some other rect if you want (the most likely alternative is the entire drawing).
+
+28. DKDrawing no longer calls DKStyleRegistry's loadDefaults from its own loadDefaults. This was assuming too much about what an app's needs are here. If you are
+relying on this, you need to call the registry's loadDefaults yourself from the application delegate's -applicationDidFinishLaunching: method. The same applies to
+the call to the registry's saveDefaults.
+
+29. Layers can get directly notified when they, or a group containing them, was added to the root drawing. The intention is to perform additional setup with knowledge of
+the drawing such as its size. The method is -wasAddedToDrawing:
+
+30. The persistence mechanism for DKDrawingTool made more general. Instead of -saveDefaults assuming that we are interested in the style, we leave it up to the tool
+object, using the new methods -persistentData and -shouldLoadPersistentData: DKObjectCreationTool now handles the style as before using this mechanism, but other
+tool classes can do something different. The change is fully backward compatible. In addition DKObjectCreationTool now correctly attempts to remerge the style
+with the registry as it should to ensure that two copies of the same style don't end up in the system (and then transferred to drawings). While a bug that was
+leaking into saved documents, it's self-correcting in that such documents will fix themselves up when they do their own remerge on being opened.
+
+31. Removed misguided attempt at caching point hit-testing on drawables - led to problems with hit-testing reliability.
+
+32. DKStroke drops the unimplemented properties pathScaleFactor and strokePosition, but gains lateralOffset, which is a better and more general solution (and
+one that is actually implemented).
+
+33. DKDrawing now allows a delegate. Currently the only delegate methods posible are to hook into before and after drawing the content.
+
+34. Ruler visibility is now persistent - new instances of DKDrawingView initially set the rulers according to the most recent state seen. If never set, the default
+is now hidden, not shown.
+
+35. [NSBezierPath bezierPathByInterpolatingPath:] is now functional.
+
+36. GCZoomView now implements all of the scrollwheel control flags as class methods, so they are applied to all instances in a given application. This makes more
+sense and allows them to be easily linked with user defaults. DKDrawingView defines some standard user defaults keys for enabling and setting the sense of scroll
+wheel operations. These are loaded as needed but never set - your app can expose these settings in its preferences if it wants to.
+
+37. Menu items for "Hide/Show Grid" and "Hide/Show Guides" now use the actual set name of the layers in question, rather than assuming "Grid" and "Guides".
+
+38. Default layer cache settings for DKObjectOwnerLayer are now settable. Saved cache settings are ignored. The default is no caching. Note that in real-world
+testing, using a PDF-based cache was found to be often slower than drawing the objects directly, especially with partitioned storage. CGLayer cacheing is still
+faster, but suffers from pixellation effects.
+
+39. There is now a formal protocol - DKDrawableContainer - that defines the methods a container must implement if it claims to "own" or "contain" any drawable.
+Existing objects that were acting as containers, namely DKObjectOwnerLayer and DKShapeGroup, now formally adopt this protocol. There is no functional difference
+but the formal protocol both ensures correctness for containers and makes clear what methods a container needs to support.
+
+40. Archiving of DKImageShape and interaction with image data manager reworked to give a much more robust and straightforward implementation. As before, wherever
+possible original image data is stored in a document archive and used to recreate image shapes as needed. Only one copy of the data is saved no matter how many
+image shapes share it, keeping file sizes down, and since the images are recreated from the original data when dearchived, quality is kept as high as possible. The
+difference now is that the image shape also retains a reference to the data and makes sure that this gets copied to new image data managers as they are needed. It
+can also create its own image even if no manager is available, and will update it when the opportunity arises. The result is far less chance of an image shape
+being unable to instantiate itself even when archived in a non-standard way or from within a custom container. Note that older archives will remain operational
+and will update to the revised archive scheme if saved.
+
+41. Hit-testing of very narrow or offset paths made much more reliable using a temporary stroke attribute that isn't visible to the user. Allows tools
+such as insert/remove path point to work even on offset paths, or paths with very thin strokes that can be hard to hit. Additionally, hatches are treated
+as 'solid' for the purpose of hit-testing
+
+42. New algorithm for generating the offset or parallel path, more accurate, also allows for differing treatments of corners (mitre, round or bevel). The use of
+paralleloidPathWithOffset2 now calls this new code using the path's current line join style.
+
+43. An enhancement to the message forwarding performed by DKObjectDrawingLayer allows multiple selections to be handled automatically where the actual action is implemented
+by the object, rather than the layer. Previously, forwarding from the layer to an object was only done if exactly one selected object could respond to the message. This
+meant that any actions pertaining to a set of selected objects had to be implemented strictly by the layer. For certain operations, such as conversions, this was inconvenient,
+and disallowed such operations t be performed on more than one object at a time. Now this can be handled for multiple selected objects automatically, even when the action is
+handled only by the object. For backward compatibility, this feature is turned off by default, and is not saved in an archive. It can be enabled using
+-setMultipleSelectionAutoForwarding:YES. The layer will temporarily buffer selection changes when invoking multiple commands in this way such that the user will "see" the same
+selection behaviour as if the message had been handled by the layer itself.
+
+44. The DK project now includes a unit test target. Over time more tests will be added; right now only a test for the BSP storage sub-system is included. However, the test is
+fairly thorough and as a result a couple of subtle bugs were found and corrected in the tested classes.
+
+45. DKDrawkitInspectorBase was changed so that it passes nil to -redisplayContentForSelection: when the document resigned main. Previously it passed the
+"current" selection but this is stale when a document is closing.
+
+46. The select/edit tool now posts a mouse up event if appropriate when an object is dragged out of a drawing. This is necessary because the normal drag
+handling swallows the mouse up, but without one the tool controller can be left in an unbalanced state. This fixes the issue of the undo manager going on
+strike following this kind of drag.
+
+47. DKShapeGroup can now optionally clip its contents to the group's path. By default this is off, but easily enabled using a new contextual
+menu item. When enabled, the selection highlight reveals the path.
+
+48. When interactively creating bezier paths and irregular polygons, the delete key can now be used to "back up" by one element (in other words, deleting the
+current point being positioned).
+
+49. DKDrawingDocument factors the creation of a print drawing view into an overridable method allowing easy customisation of the print view.
+
+50. DKStyleRegistry no longer enables style notifications by default. A new method, +setStyleNotificationsEnabled:, allows you to turn this on or off, but it's
+now up to your app to do this. It's only needed if you're using the built-in menu handling, otherwise leaving it off speeds up various operations. Also,
+DKCategoryManager uses a different approach in -replaceContentsWithData: which greatly improves its speed.
+
+51. Double-click detection changed to be slightly earlier so that it is invoked even when a handle or other partcode of an object is hit.
+Previously it was only called when the "entire object" partcode was hit, so looking for particular partcodes in the double-click method
+didn't work.
+
+52. A new vertical alignment constant for text-on-a-path automatically centres the text on the path based on the cap height of the font
+the text is drawn in. This visually centres the text on the path rather than placing its baseline there. DKTextAdornment implements this
+for text on path layouts which is therefore inherited by DKTextPath and DKTextShape.
+
+53. DKStyle has some additional class methods for pasteboard operations: +canInitWithPasteboard: and +stylePasteboardTypes
+
+54. DKRasterizers now broadcast notifications before and after every property change, so that non-style clients can easily get notified
+when any property of the reasterizer changes. This is used by DKTextPath, DKTextShape for example, which uses an internal adornment without
+a style.
+
+55. DKTextADornment now uses a much more versatile method for handling substitution of metadata values into the text stream. Now, the
+adornment uses a DKTextSubstitutor (new object) to store the "master" string which replaces the earlier label. The user is able to simply
+embed metadata keys into this string by using a special delimiter (%% in the default implementation). When the string is displayed the
+metadata value is substituted for the embedded key. The property -identifier is deprecated and older adornment objects automatically
+convert themselves to the new method in a manner that preserves their original layout. DKTextShape and DKTextPath have been modified
+slightly so that when editing the text, it is the master string that is passed to the editor. Existing methods of DKTextAdornment automatically
+deal with the new design - for example -setLabel: passes the text as the master string. The main advantages of this change are that a)
+values can be substitued anywhere within the text label, not just appended, and b) that any number of embedded keys can be used at once.
+Note that the ablity to introspect object properties by keypath remains - just prefix the key with a '$' as before, e.g. %%$object.key.path
+
+56. DKTextAdornment now supports a "knockout" text effect which places a filled and/or stroked outline of the text behind the glyphs.
+
+57. DKTextAdornment now supports capitalization operations when displaying text.
+
+58. DKTextADornment now adds a number of its special effects properties as attributes to the normal -textAttributes dictionary, but using keys which
+are unique to DK, so they can be placed alongside standard Cocoa text attributes. These attributes include the knockout parameters, the vertical
+alignment parameters and the capitalization settings. These attributes are thus cut-and-pastable as part of a style between objects that are aware
+of them including DKTextShape and DKTextPath.
+
+59. DKShapeGroup now checks an object's validity when ungrouping. If the ungrouping causes the object to become invalid, it is discarded rather than
+be allowed to cause problems. An object is defined to be invalid if it contributes nothing visible to the drawing, so this has no effect on what you see
+but allows groups to work more robustly. To support this, DKDrawableShape now disallows an invalid path when ungrouping, and deliberately forces itself
+into an invalid state if this occurs. This was a rare occurrence and won't affect the average user.
+
+60. DKDrawing adds +dearchivingHelper and +setDearchivingHelper: to augment or replace the standard dearchiving delegate. This allows applications using
+DK to deal with obsolete or replacement classes of their own when dearchiving a drawing. In general it's a good idea to subclass DKUnarchivingHelper
+if you plan to do this, since that already deals with earlier Drawkit object evolution.
+
+61. DKCategoryManager also now supports a dearchiving helper. DKUnarchivingHelper has moved to its own source file from DKDrawing, and the internal
+-changeCount state it was holding has been removed (it was not used anywhere) so the same helper instance can be reused in multiple places if required.
+
+62. Hit-testing of text objects much improved in terms of accuracy and performance. When hit-testing, the real text isn't drawn but "greeked" text is instead,
+which doesn't mind about the heavy scaling and bitmap destination context used, and draws faster. The actual greeking effect is implemented by DKGreekingLayoutManager,
+a new class, used as necessary by DKTextAdornment. Greeked text can also be drawn by DKTextAdornment in normal use also, but since there's very little need for
+this it currently isn't a persistent or observable property.
+
+63. DKDrawableObject now explicitly declares the userInfo property as a mutable dictionary. Other parts of DK were already assuming this to be the case. If you are
+storing any other object type here, you need to revise your code to store the object in the userInfo dictionary using a suitable key. The metadata API that built
+on this has been revised so that the metadata is stored as an additional dictionary within the userInfo dicitonary, rather than as individual items. Code may need
+to be revised that was accessing the userInfo directly as the metadata dictionary - a new method, -metadata, returns the appropriate dictionary. This change permits
+more flexibility when extending a class without compromising the metadata.
+
+64. DKDrawableObject can now accept a delegate object. DK doesn't use it except to send it messages if it responds to the DKDrawableObjectDelegate informal protocol.
+This is basically reserved for the use of applications.
+
+65. Memory leak fixed in DKDrawing export methods.
+
+66. Bugs fixed with computational geometry on paths. Note that the optional OMNI methods have been found to exhibit an accumulative rounding error which may make them
+unsuitable when dealing with long paths. Thus in this version they are disabled by default, and the slightly slower, but more accurate DK methods are used.
+
+67. When copying native objects on the pasteboard, an info object is also stored which can be used to get information about the objects on the clipboard without having
+to dearchive them. The data type is kDKDrawableObjectInfoPasteboardType. Currently the only info provided is a count of the objects and a breakdown of the classes and the
+numbers of each. The use of a special helper info object allows this to be expanded simply in the future as needed. Since the count is frequently used to update menus, etc,
+this is a lot more efficient.
+
+68. When a DKDrawingView automatically creates the drawing "back end", it now also loads the DKDrawing defaults, which puts in place the standard registered tools. This is
+an added convenience further reducing the necessary setup for a working DK installation. Even with no UI at all, tool keyboard equivalents function for selecting standard
+tools.
+
+69. "Smart" repeated pasting and duplication of objects now works as it was always meant to, by 'predicting' the appropriate offset for the paste.
+
+70. A drawing's image manager is no longer archived. It's not necessary because each object using image data archives the data, and archiving ensures only a single copy of
+the same data is placed in the file. The image manager is still needed to handle multiple copies of the same image, but it is noe rebuilt on the fly. As an added bugfix, this
+change prevents data from images that have been deleted altogether from remaining in the image manager and subsequently getting archived, which was just adding unused content
+to the file unnecessarily.
+
+71. Clean-up of a number of memory leaks and incorrectly named methods based on Clang static analyser (thanks to Brad for doing this). Some methods were renamed as a result so
+they fall into line with proper conventions for memory management - i.e. those including 'create' or 'new' return retained objects or else renamed so that they do not imply
+this. Some minor code revision of apps using these methods may be needed.
+
+Release 1.0 beta 5
+January 1st, 2009
+
+1. DKCategoryManager (and hence DKStyleRegistry, which inherits it) now manages menus far more efficiently than previously, greatly boosting performance when updating the UI
+as categories and items are added and removed. This eliminates the need to listen for notifications from this class just to manage your menu - code that builds a new
+menu and replaces the old for every change should be revised to just get the menu from the registry and hang on to it - it will be managed automatically. 
+
+DKStyleRegistry includes new methods for obtaining a managed menu with the items already set up with the style swatch and name. This eliminates lots of code in clients that
+use such a menu, requiring them only to implement the actual action that a menu choice invokes. DKCategoryManager also has a number of additional useful general methods.
+
+Sorting of category and item names in these menus now uses case insensitive + numeric search, so items appear in a more natural order.
+
+2. DKGridLayer enhanced and modified yet again to make various things clearer. Also added some missing accessor methods. The Grid Layer now listens for margin changes from
+the drawing and invalidates its cache as a result (previously margin changes didn't update the grid automatically). A Grid Layer now has a perty that nominates it as the "master"
+grid which DKDrawing knows to use for snapping and unit calculations. This permits more than one grid to be used in a drawing, in any drawing order, but with only one assisting
+with snapping, etc. Also, grid and guide layers can now be placed in subgroups and still work.
+
+3. The mouseDoubleClicked... method in DKDrawableObject is now called by the select/edit tool
+for double-clicks in the object, but not by other tools. Also, the default tool set when a DK system is first initialised is now determined first by checking the tool registry
+for a tool with the name "Select" - only if not found is a new select/edit tool created as before. This is consistent with the automatic tool reversion behaviour so custom
+replacements for the Select tool work correctly when a document/drawing is first created. DKDrawingTool's -set method now follows the responder chain from the app's main window
+looking for an appropriate responder, rather than failing if the first responder can't respond. This makes tool setting much more reliable under many circumstances, such as when
+a floating window's text field has focus or text editing is in progress.
+
+4. Some low-level NSBezierPath category methods now make use of the public domain Omni code that for some operations is more reliable and faster than the earlier DK code that
+did the same job. One obvious upshot is improved reliability of the "add point" tool. Note that the Omni code used is a modified and bug-fixed version from that on Omni's site,
+so don't substitute the original files. 
+
+5. Interior clipping is now a property of DKLayer (formerly DKDrawing). This means clipping can be set per-layer if desired without special overriding. In addition, the actual
+implementation of the clipping is handled by DKLayerGroup so existing overrides of a layer's drawRect:inView: do not need to be modified. The grahics state is now saved and
+restored automatically for each layer's drawing operation.
+
+6. Metadata retrieval now searches upwards from the initial object, if the data isn't located, through its container objects. This allows metadata retrieval to work a lot more
+flexibly especially with styles that make use of the data. In particular it means that styles that label objects can pull the right string from anywhere in the drawing hierarchy.
+Extending this, metadata is now also a property of DKLayer (which DKDrawing inherits, so its metadata works as before). Thus metadata is now supported throughout the entire
+drawing hierarchy from root to leaf.
+
+7. Drawables can now declare on a class-by-class basis whether they accept grouping. By default all DK drawables accept grouping, so there is no functional difference, but if you
+have a custom class that wishes to prevent itself being grouped, this is an easy way to do it. Note that in general preventing grouping isn't very user-friendly but for some
+specialised classes may be a sensible design choice.
+
+8. Drawables now have an additional method for populating a contextual menu that supplies the mouse point of the click. This allows a menu to be built that an be made aware of
+special regions within a drawable object. Standard DK classes don't currently do this, but custom subclasses may want to.
+
+9. DKKnob now sets its colours as instance variables, rather than solely as class variables (the class variables set the initial values of the ivars). This allows much easier
+customisation of knobs attached to layers. DKKnob is now NSCoding compliant, and is archived as part of a layer's state. By default there is no difference in appearance.
+
+10. DKPatternFill now has an option to avoid drawing pattern elements that would be clipped by the path.
+
+11. DKPathDecorator now has an offset parameter allowing the image motif to be displaced laterally from the path. It also has a flag that allows alternate placements to be
+arranged on either side of the path by rotating the element 180 degrees. This allows the implementation of a further range of effects.
+
+12. DKTextAdornment has additional methods for directly setting stroke outline parameters for text. Also, a bug was fixed in text drawing on paths that honours this setting
+correctly, allowing outlined text on a path.
+
+13. DKArrowStroke outline colour and width parameters now accessed independently allowing them to be used more easily with KVO-based interfaces.
+
+14. DKTextShape redesigned to use a DKTextAdornment internally, independently of its style. Its API remains largely unchanged though a large number of methods are deprecated
+and many of these have no effect any longer. The benefit of this is a cleaner, more rational class design that shares its code with DKTextAdornment thus harmonising text drawing
+features. One change is now that text shapes always respond to text changing commands (as long as the shape is unlocked) and this has an immediate effect but doesn't change the
+style.
+
+15. Text-on-a-path primitive methods now support automatic kerning of a text string to exactly fit the path's length. This works in two ways - you can now pass an explicit
+yes/no parameter to an additional primitive method, or, more easily, you can set the NSJustifiedTextAlignment paragraph style attribute for the text. DKTextAdornment already
+supports justified text so this now "just works". Since text-on-a-path only lays out a single line, and normally single lines are never justified but flush left, this is a
+new interpretation of "justified" compared to normal wrapped text, but it's a very convenient one and very intuitive in practice. Also in this code, a bug was fixed that caused
+non-visible glyphs to appear as boxes with an 'X' in them in the laid-out string.
+
+16. A new class, DKTextPath, makes it easier to create text-on-a-path objects. You can also convert a DKTextShape to one of these. Like the overhauled DKTextShape, this uses a
+DKTextAdornment to handle the heavy-lifting, but providing the editing and creation semantics of a DKDrawablePath. The text is directly editable and the object shares a common
+API with DKTextShape, responding to all of the same menu commands, etc. DKTextShape, DXTextPath and DKtextAdornment now support more text style operations such as superscript,
+subscript, kerning and underlining.
+
+17. DKObjectDrawingLayer now maintains a 'keyObject' property which specifies an object so be used as the master when performing alignments. If set to nil, this returns the
+first visible selected item, which is identical to how alignment worked in earlier versions. It is nil by default and DK doesn't set it. An application can use this to implement
+a "make key" feature if they wish to make alignments more predictable and/or flexible.
+
+18. Object storage by layers (e.g. DKObjectOwnerLayer) is now abstracted into a separate object storage model. Object storage is based on a strict formal protocol
+(DKObjectStorage/DKStorableObject). By default a DKObjectOwnerLayer instantiates simple linear storage which is functionally identical to the previous case of a simple array. The storage
+can be swapped out for a more optimal algorithm (e.g. R-Tree) without affecting any existing code or the public API for the layers, selection, etc. Other classes have been modified
+to eliminate all assumptions about the storage as necessary. The purpose of this is to permit DK to be tuned to specific end requirements and to scale to much larger data sets
+without loss of performance. Substituting an R-Tree for example should permit scalability to huge data sets. (The R-Tree storage is not part of this beta release). A second storage
+class, DKBSPObjectStorage, uses "binary search partitioning" (BSP) to speed drawing of large data sets. While this is functional and fairly well tested, it is still experimental
+and may be less reliable than the linear store at present. The default storage class can be set using +[DKObjectOwnerLayer setStorageClass:];
+
+19. DKObjectCreationTool now permits a style to be set per tool rather than for all tools. If set, this style is used to create objects using that tool. DKDrawingTool includes a
+mechanism for allowing these settings to persist in the preferences.
+
+20. DKDrawing now instantiates a helper object - DKImageDataManager - that permits objects that host an image (such DKImageShape) to track the original
+ data that was used to create the image (for example a JPEG file). When the drawing is saved the original image data is archived, one time per shared instance. This can dramatically
+ reduce the size of drawing archives that contain images. When dearchiving the NSImage objects are automatically recreated on the fly.
+
+
+Release 1.0 beta 4
+June 30th, 2008
+
+1. The usual crop of bugfixes - mainly minor ones this time.
+
+2. Some more renaming. Sorry about this - I know it can cause problems. I've modified some method names to more closesly follow Cocoa conventions, particularly in respect of
+objects that have container-like behaviours (e.g. object owner layers). Also, all legacy constants that started with 'kGC...' have been changed to 'kDK...' which may have a
+significant impact on your code. Using Project Find to find and replace these will usually work (using 'starts with' kGC and not ignoring case). After this there will be no
+further renaming of any existing methods, classes or constants.
+
+Some renaming has also been done to allow KVC/KVO compliance for various properties. DKObjectOwnerLayer is now KVC/KVO compliant for the 'objects' property, though all existing
+methods remain in place and call the KVC compliant ones internally. DKObjectDrawingLayer is partially KVC compliant for the 'selectedAvailableObjects' property (read-only) and
+the 'selection' property. Methods were renamed in DKDrawableObject to allow KVC/KVO access of basic geometric properties, so -moveToPoint: is now -setLocation:, -moveByX:byY:
+is now -offsetLocationByX:byY:, -rotateToAngle: is now -setAngle: Apart from allowing KVC compliance these should be more readable in general. DKLayerGroup is also KVC compliant
+to a limited extent for the 'layers' property.
+
+DKLineDash is now DKStrokeDash.
+
+3. Yet another general hit-testing algorithm. This time, really much faster than any tried previously, using a new technique. This keeps the low memory footprint but
+greatly boosts performance. Also, point hit-testing at high zooms fixed to be much more precise.
+
+4. Text-on-a-path now properly handles differing attributes within the text, especially font changes and multi-lingual characters.
+
+5. Grid layer now works correctly for very high zoom levels without "blowing up" and also when zooming far out, drops certain elements from the grid to improve performance and
+reduce visual clutter. Similar code applies to the Guide layer, and the drawing of certain selection knobs on objects. The result is the abililty to correctly zoom over a
+much wider range, and DKDrawingView's default zoom limits are now set considerably wider by default.
+
+6. Corruption bug that prevented succesfully linking against the 10.5 SDK has been fixed, so building specifically for 10.5 now works. Now that's the case, there isn't a need
+for a separate 10.4u SDK build setting, so those have been removed. Minimal deployment target is still 10.4 however, so DK will still run on Tiger.
+
+7. Changes to the code to eliminate the assumption that a DKDrawingView was always enclosed by an NSScrollView. This allows a non-scrolling (and hence ruler-less) drawing view
+to be used if you want. The new mini-demo deploys its view in this manner.
+
+8. Added additional notifications for a number of common operations, including adding/removing objects from a layer.
+
+9. Grid and Guide snapping now independently snaps x and y coordinates so that you can simultaneously snap a point to both a guide and a grid on different axes. (Bugfix).
+Also, snapping to a path ignores off-path control points for object-object snapping. O-O snapping now works properly even when massively zoomed and the objects are extremely
+small.
+
+10. Added convenience metadata category to DKDrawing that provides the same methods as DKDrawableObject. Thanks to Brad for supplying this category.
+
+11. All headers updated to refer to a separate licensing text file (allowing me to tweak the license if necessary without impacting the code itself).
+
+12. Rationalised the DKGridLayer method that sets up an entire grid, allowing the span to be passed in native (and non integer) units. This is hopefully clearer and more
+flexible, though because of the method name change may cause a compatibility issue if you are using the old method. Also, the grid no longer bothers to record the
+"measurement system" that it represents, since this information is really at a more abstract conceptual level than the grid operates at. Methods pertaining to this have
+been removed.
+
+13. Image vectorization is now WYSIWYG with respect to the image's angle, scale, clipping path and cropping.
+
+14. Boolean ops category now includes some cropping methods, and a crude tool - DKCropTool - is included for testing/exploring this feature (can be selected with the 'x' key).
+The Boolean ops themselves have been improved to be smarter about objects that don't intersect, either by ignoring that situation or combining paths without the flattening/
+unflattening step. This helps avoid unnecessary changes to object paths. Note that cropping an open-ended path doesn't really work as expected at present.
+
+15. Added +setKnobMask: class method to DKDrawableShape - allows knobs to be tuned without subclassing.
+
+16. Ungrouping objects now uses a refactored protocol so that each drawable object is responsible for helping the group do the right thing to ungroup the object. This allows
+new object types with special requirements to have every opportunity to be first class citizens with respect to groups, etc.
+
+17. Added new DKArcPath drawable type which natively implements arcs and wedges. Thanks to Brad for prompting the creation of this class. Another new class,
+DKRegularPolygonPath similarly implements regular polygons and star-like shapes which are edited/controlled in a more intelligent manner. A standard tool was added
+for the default polygon path (a 5-pointed star), it can be invoked by typing 'g'.
+
+18. Bounds calculations improved to give much more accurate results at very high zoom scales. Before they would be much too large allowing excessive drawing and
+updates to occur. Bounds around stroked paths now correctly factor in the mitre-limit when the linejoin style is mitre joins to avoid spikes that could previously stray
+beyond the bounds. DKStroke now has a mitre limit property. The default line join style is now rounded joins rather than mitres because this extra bounds allowance is often
+not wanted, and many paths don't have such corners anyway. The client now has to set mitre joins deliberately.
+
+19. Scale (zoom) limits on the view can now be set programatically without overriding (setMinimumScale:/setMaximumScale:), and there is now a setScale: method which allows
+the view's scale to be observed via KVO if desired.
+
+20. Creation tool now snaps to the guides as well as the grid when initially positioning a new object.
+
+21. Enhancement to tool protocol permits a custom tool to be treated as a selection tool by the tool controller for actions such as automatically activating
+a layer. The tool controller no longer resets the "spring back" flag when setting the selection tool - this flag is now entirely controlled by the client
+application as it needs.
+
+22. Objects are repositioned relative to the grid origin if the drawing margins are changed. A notification to the layers of a margin change was added to make
+this straightforward. A method -applyTransformToObjects: was added to DKObjectOwnerLayer to allow an arbitrary transform to be applied to objects. This is only
+partially implemented at present.
+
+23. A flag to disable the standard DK contextual menus was added to DKViewController. Some apps may prefer not to expose DK features through contextual menus that are not
+appropriate to the application's feature set. Apps can still subclass/override where appropriate to insert more complex contextual menus.
+
+24. Further removal of style scripting. The lower level stuff is still in place for now but the top-level method is now a no-op and logs a warning.
+
+
+Release 1.0 beta 3
+May 15th, 2008
+
+This is the third major beta release of DrawKit. This may be the last beta before an actual 1.0 release, or release candidate, depending on whether any further significant bugs
+are found and need to be fixed. While there have been a few substantial changes from beta 2 to 3, this is a much smaller change than from 1 to 2, and represents more of a polishing
+of the API and framework overall. This also incorporates some useful optimizations so should show better performance generally.
+
+1. Bugfixes - too many to list, but all of the KVO-related issues have been addressed (e.g. occasional deallocation of observed objects without de-observing them, etc).
+The KVO-handling methods in DKRasterizer, DKRastGroup, DKStyle and GCObservableObject have been simplified to make it more obvious how these work and make them easier
+to use by client code.
+
+2. Cleaner ownership/containment of drawable objects - now there is only "container" which can be a layer, group or other object that supports the requisite informal protocols.
+
+3. Redesigned hit-testing of graphics now no longer needs to cache entire bitmaps of objects, but creates far smaller ones on the fly as needed. This boosts performance and
+significantly lowers the memory footprint for large drawings. Bitmaps are still created lazily and additional optimizations make this "even lazier" - it is not done for some
+cases that were formerly triggering bitmap creation.
+
+4. Optimization of selection marquee (rect) drawing now does far fewer drawing updates, greatly boosting performance when selecting large areas or many objects.
+
+5. Select/Edit tool now implements copy on drag (+option key)
+
+6. Demo application has more polished/enhanced interfaces for Layers, Object Inspector, Style Inspector; fixes numerous bugs with keeping UI in synch after documuments are closed,
+application resumes, undo is invoked and so forth.
+
+7. Selection colour is now used for default info-window background colour, so reinforcing the colour-coding of layers when objects are manipulated within them. Other layers
+types such as DKGuideLayer also implement the "selection" colour methods to help provide a unified API for the benefit of UI code. The demo for example now allows the colour to
+be set via its list-based interface. DKKnob now honours a passed-in colour in its userInfo dict, wich by default is set to the same selection colour of the layer. Thus knobs
+now have the layer's colour for some types.
+
+8. DKDrawingTool now implements a -set method which provides yet another way to set a tool as current, making this really simple if you already have a tool object. Reversion to
+the "Select" tool now first checks for a tool in the registry called "Select" allowing you a very easy way to supply a different tool as the default, if required. DKToolController
+is now smarter about calling super's mouseDown/dragged/up methods - they are NOT called if the active layer is one that can respond to a tool and there is a tool set. The
+view controller thus factors additional methods to allow subclasses to call them in a more fine-grained manner. 
+
+9. DKDrawingTool can now have a keyboard equivalent set, and if the tool is registered, DKToolController is able to select the tool when it receives a matching keyboard
+sequence. Drawing tools now validate the target layer ahead of any calls from the tool controller, so can make a decision about whether they apply in the current active layer
+context. Previously this decision was made by the tool controller which wasn't very flexible. Immediate upshot - zoom tool always works, even if active layer is hidden, locked
+or not even set.
+
+10. DKLayerGroups now store their layers the opposite way around from earlier versions. This has no effect on the API as such but permits table-based user interfaces to the
+layers to work naturally (i.e. the top layer is at the top of the list) without extra code being needed to flip it up the other way. Also, locking a DKLayerGroup prevents
+layers from being added, removed or moved. Undo for add and remove now restores the layer's original Z-position.
+
+11. Object layers can now cache their content offscreen when they're inactive, which may help speed drawing. This is more beneficial if your layers are complex or you have
+a lot of them - you might need to experiment with rendering times to see what settings work best for your particular cases. Other performance-oriented changes include using
+less smooth paths and "fake" shadows during low quality rendering. You can also experiment with performing rendering on a secondary thread though at present this is highly
+experimental and not recommended for production code (it can be turned on/off with a single flag).
+
+12. You can now drop text directly into an object layer to make a text object (enhances the existing feature that supports images).
+
+13. Creation tools are now completely accurate when creating shapes - previously there was a small placement error that only became noticeable at higher zoom factors, but nevertheless
+was real, in that it altered the width by a few fractions of a point. Now all tools are absolutely spot-on accurate.
+
+14. Added a "concentric duplication" method to the duplication category. The Demo currently doesn't provide a UI to this.
+
+15. The wedge-style path fixed to actually work (while there's no tool button in the demo's palette for the wedge, you can still select the wedge tool by typing 'w').
+
+16. Selection undos changed so that if selection undo is turned OFF, the selection state is still remembered by undo but only if it accompanies another action. This is much more
+useful than either of the previous two ways of handling this, and is now the default.
+
+17. DKTextAdornment adds an additional layout mode that flows text within any arbitrary path or shape. Text angle can be linked to the object or not (but not independently set
+currently) and the vertical placement is ignored in this mode. An additional parameter controls that inset of the text from the shape edge.
+
+Release 1.0 beta 2
+April 14th, 2008
+
+
+This is the second major beta release of DrawKit (a.k.a. GCDrawKit). This file outlines some of the major differences from beta 1.
+
+1. Class names
+
+Many classes have been renamed. The reason is to standardise on the 'DK' prefix instead of the 'GC' prefix which is used for classes that are not exclusive to DrawKit.
+In addition many class names have been simplified, since the name was being changed anyway. For example, GCDrawingLayer is now DKLayer. This is likely to be the
+single most painful change for applications using DrawKit, because wherever you have made a reference to a DK class, you will have to change the name. However it is
+better to make this change now while the user base is small, and this definitely won't happen again.
+
+In general, classes that were prefixed 'GC' are now prefixed 'DK'. The following classes have been renamed more substantially:
+
+old name					new name
+
+GCDrawingLayer				DKLayer
+GCDrawingStyle				DKStyle
+GCGridDrawingLayer			DKGridLayer
+GCRenderer					DKRasterizer
+GCDrawableShapeWithReshape	DKReshapableShape
+GCRendererGroup				DKRastGroup
+GCEffectRenderGroup			DKCIFilterRastGroup
+GCBlendRenderGroup			DKQuartzBlendRastGroup
+GCImageRenderer				DKImageAdornment
+GCTextLabelRenderer			DKTextAdornment
+GCDrawDocument				DKDrawingDocument
+
+In general the newer names are meant to be more descriptive, and wherever possible, shorter.
+
+A few 'GC' prefixed classes remain part of DrawKit. These indicate classes that are general in nature that are also used in other projects.
+
+1a. File compatibility.
+
+DK beta 2, like beta 1, uses Cocoa's keyed archiving mechanism to save and read files. Because of the class name changes, classes that are
+referenced in older files are automatically translated to the new names, so for most files you should find they will be readable. Re-saving the files will convert them
+to use all newer classes and any additional keys. It has not been possible to maintain 100% backward compatibility with beta 1 files for all classes, but in most cases
+files will be readable with some minor loss of functionality.
+
+Note that DKGradient is still method-compatible with GCGradient so the classes can be used interchangeably. This allows a DK project to also use the Gradient Panel
+user interface without the two frameworks clashing (because they no longer contain classes of the same name).
+
+2. Architecture
+
+DrawKit's architecture has not been dramatically changed though better partitioning into model, view and controller classes has been done. In particular the controller
+layer is now explicit, with the classes DKViewController and its subclass DKToolController collecting functionality that previously was divided between the view
+(DKDrawingView) and different layer classes. As a result, the layer class GCObjectDrawingToolLayer is no longer required - the DKToolController manipulates the
+generic DKObjectDrawingLayer class instead. All tools are considered part of the controller layer.
+
+The selection and editing tool is now implemented by a specific class - DKSelectAndEditTool, rather then being the base behaviour when a nil tool was set. This makes
+it much easier to replace this functionality if required, as well as keeping the code more manageable. The overall tool protocol has been enhanced to allow creation of
+a wider variety of tools - for example there is now a zoom tool which apart from being useful in its own right demonstrates how a non-data editing tool can be made.
+
+Previously DKDrawing maintained a list of its attached views. Now the drawing keeps a list of the attached controllers, and the ownership of objects is now unambiguous -
+views are owned by their superviews (and ultimately their windows) like any NSView, and the controllers are owned by the drawing. In turn the drawing may be owned by
+a document, a view or any other appropriate object without introducing retain cycles. Thus for the case of automatic "back-end" creation, the view owns the drawing
+without a problem being caused by the drawing owning the view. It also no longer matters what order objects are released in - whether the drawing or the view is dealloced
+first, the view controller is correctly dealt with.
+
+DKDrawingView hosts a convenience method for making a controller - it creates DKToolControllers by default.
+
+If your code was forming connections between views and drawing, it will now need to make a controller and add that to the drawing instead. If you are using
+DKDrawDocument as a basis for your own document class this already has been modified to work with the new controllers. One advantage of DKToolController over the older
+design is that tools can now be set globally (per-app), per-document, or per-view as your application requires. The default is per-document.
+
+2a. Layers
+
+Layers can now be grouped hierarchically instead of in a flat list. DKLayerGroup is a layer type that can contain other layers. DKDrawing is now a subclass of it. Note
+that the demo UI currently only displays a flat list as before. The existence of layer groups does not substantially change the basic concepts of DK - that there is
+a DKDrawing which is the root of the layer hierarchy and one nominated active layer at a time. As before all layers inherit the drawing's overall size and have no
+inherent location of their own.
+
+DKKnob, a helper class used to draw the selection "handles" on objects, can now be set at the layer level if desired (or at the drawing level, as before, and by
+default). In addition it has been rewritten and factored to make customisation of the knob appearance much easier.
+
+3. Style consolidation
+
+When a document is loaded from a file, any registered styles used by that document need to be reconciled with the current style registry. Previously this was achieved by
+something of a hack that didn't really work well and was not easily customised. DK beta 2 reworks the style consolidation into a properly-designed scheme that can be
+controlled easily. The registry is now embodied in a separate class - DKStyleRegistry - rather than as class methods on DKStyle. DKDrawingDocument coordinates the
+top level sequencing of the reconsolidation process, where you can override it. If you are not using DKDrawingDocument, you will have to deal with this issue using the
+lower level methods provided (or not bother - many apps will not need to consider this issue).
+
+4. Style scripts
+
+Style scripts are still supported but are proving to be of less practical use than originally envisaged. As new rasterizers have been added, scripting support has not
+kept pace with these newer classes. In practice it is much easier to use the GUI in the DK Demo application to build styles from components than it is to work out
+scripts, and given that you can now save entire sets of styles directly to a file and load them into your own apps it's likely this will be by far the easiest way to
+do it. Thus scripting is going to take a back seat for constructing styles beyond the more basic ones going forward. Scripting is also unable to deal with the con-
+solidation issue discussed above because the issue wasn't recognised when the scripting was originally developed.
+
+5. New rasterizers
+
+New rasterizers (a.k.a. renderers) have been added, namely:
+
+DKZigZagStroke
+DKRoughStroke
+DKZigZagFill
+
+In addition DKArrowStroke has been rewritten to make specifying arrows much more straightforward and more versatile. One downside is that older files containing arrows
+will not load completely intact - you will need to revisit any arrow objects and select the correct head types.
+
+DKFillPattern has additional settings and behaviours to make it more versatile and useful.
+
+6. Localization
+
+All strings that end up in the UI (mostly undo strings and a few menu items) are now localizable. Previously some were and some were not.
+
+7. Drag and Drop.
+
+D+D has been substantially improved with any layer now able to respond to the NSDraggingDestination protocol simply by implementing it as if it were a view. The standard
+object layers now allow individual objects with the active layer to be targeted by a drag and the default objects repond in an appropriate way to may drag types,
+such as colours, text and images. New methods have been provided to easily specify what types an object can receive.
+
+Some objects such as shapes also have some handy new methods for pasting properties of other objects (like paths) into them.
+
+8. Optimization and improvement
+
+Naturally there have been many hundreds of bug fixes since beta 1. In addition some of the slower classes have had some optimization work done to ensure that they perform better.
+The drawing quality modulation feature now applies to shadow objects, which are one of the main graphics hogs, espcially when an image is zoomed in.
+
+9. Source organisation
+
+Sources have been organised better both on disk, within the Xcode project, and within each file. On disk, the standard recommended layout for SVN repositories has been
+adopted. Within Xcode, new groups have been added to help clarify which parts of the MVC model each class belong to, and many more besides. Each source file has also
+been reordered and labelled so that which methods are inherited from where are obvious at a glance.
+
+Third party code is now listed separately and can be conditionally compiled in or out using some simple config flags as required. This makes dropping third-party
+code that is subject to different licensing conditions very easy - just undefine the flags in DKDrawKit_Prefix.pch
+
+Building against the 10.4 or 10.5 SDKs is now just a case of picking the build you want from the "Active Build Configuration" menu. Note that while linking against the
+10.5 SDK is possible, there are functional differences that cause problems at this time. DK does not require any 10.5 functionality, so for the time being it is
+recommended to only build against the 10.4 Universal SDK. This in no way prevents your application that links to DrawKit from linking to and using features in the
+Leopard SDK.
+
+DrawKit beta 2 requires Xcode 3.0 or later and Interface Builder 3.0 or later.
+
+10. The Demo Application
+
+The demo has been cleaned up somewhat and its user interface generally polished. It allows most DK features to be explored within a general-purpose drawing environment.
+However, it is NOT a drawing program and should not be judged as one. It is there purely to explore DK features.
+

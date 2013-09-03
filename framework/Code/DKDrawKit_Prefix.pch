@@ -1,0 +1,41 @@
+//
+// Prefix header for all source files of the 'DrawKit' target in the 'DrawKit' project.
+//
+
+#ifndef qDebug
+	#define NS_BLOCK_ASSERTIONS
+	#define NDEBUG
+#endif
+
+// To verify this project does not rely on symbols unavailable in its minimum OS version (i.e., its MACOSX_DEPLOYMENT_TARGET), temporarily set the following constant to 1 and rebuild all configurations from scratch. You will get a warning you are doing the test, but all other warnings indicate use of something beyond what is available in this project's minimum OS.
+#if 0
+	#define MAC_OS_X_VERSION_MAX_ALLOWED MAC_OS_X_VERSION_MIN_REQUIRED
+	#warning Verifying symbol availability in minimum OS. All warnings besides this one indicate use of something beyond what is available in the project's minimum OS. You should not see this warning when building a release version for customers.
+#endif
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+
+#import "DKDrawKitMacros.h"
+
+#endif
+
+// the following includes code (in DKDrawableObject mostly) for assisting in visualizing and debugging graphical issues directly on screen. It can be included
+// in release builds if you wish as each item controlled is still turned on/off at runtime.
+
+#define qIncludeGraphicDebugging
+
+
+// The following compile-time constants allow you to turn on the use of the various features that rely on independent licensing agreements. Comment out the definitions to refrain from using a given feature.
+
+#define qUseCurveFit
+	// To use the Algorithm for Automatically Fitting Digitized Curves code, consult bezier-utils.h to ensure licensing compliance and uncomment the above definition. If you do not define the above constant, some methods will not be available.
+
+#define qUseGPC
+	// To use the Generic Polygon Clipper code, consult gpc.h to ensure licensing compliance and uncomment the above definition. If you do not define the above constant, some methods will not be available, and others will default to a standard behavior that doesn't use GPC.
+
+#define qUseLogEvent
+	// To use the LogEvent conditional logging, consult LogEvent.h to ensure licensing compliance and uncomment the above definition. If you do not define the above constant, the event logging will be dropped out of DrawKit.
+
+#define qUsePotrace
+	// To use potrace, consult potracelib.h to ensure licensing compliance and uncomment the above definition. If you do not define the above constant, some methods will not be available.
