@@ -2,7 +2,7 @@
 //  DKTextSubstitutor.h
 //  GCDrawKit
 //
-//  Created by graham on 24/04/09.
+//  Created by Graham Cox on 24/04/09.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

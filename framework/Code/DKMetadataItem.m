@@ -2,7 +2,7 @@
 //  DKMetadataItem.m
 //  GCDrawKit
 //
-//  Created by graham on 21/09/09.
+//  Created by Graham Cox on 21/09/09.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

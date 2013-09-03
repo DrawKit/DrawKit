@@ -2,7 +2,7 @@
 //  NSBezierPath+Text.m
 //  GCDrawKit
 //
-//  Created by graham on 05/02/2009.
+//  Created by Graham Cox on 05/02/2009.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

@@ -1,8 +1,8 @@
 ///**********************************************************************************************************************************
 ///  DKUndoManager.m
-///  DrawKit ¬©2005-2008 Apptree.net
+///  DrawKit ©2005-2008 Apptree.net
 ///
-///  Created by graham on 22/06/2007, originally based on code by Will Thimbleby in the public domain
+///  Created by Graham Cox on 22/06/2007, originally based on code by Will Thimbleby in the public domain
 ///
 ///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
 ///

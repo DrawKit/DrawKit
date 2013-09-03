@@ -2,7 +2,7 @@
 //  DKDrawableShape+Utilities.h
 //  GCDrawKit
 //
-//  Created by graham on 13/06/09.
+//  Created by Graham Cox on 13/06/09.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

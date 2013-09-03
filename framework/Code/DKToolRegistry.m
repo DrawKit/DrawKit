@@ -2,7 +2,7 @@
 //  DKToolRegistry.m
 //  GCDrawKit
 //
-//  Created by graham on 15/07/09.
+//  Created by Graham Cox on 15/07/09.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

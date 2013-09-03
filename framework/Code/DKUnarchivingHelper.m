@@ -2,7 +2,7 @@
 //  DKUnarchivingHelper.m
 //  GCDrawKit
 //
-//  Created by graham on 5/05/09.
+//  Created by Graham Cox on 5/05/09.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

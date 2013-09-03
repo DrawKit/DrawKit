@@ -2,7 +2,7 @@
 ///  DKObjectDrawingLayer+BooleanOps.m
 ///  DrawKit ©2005-2008 Apptree.net
 ///
-///  Created by graham on 03/11/2006.
+///  Created by Graham Cox on 03/11/2006.
 ///
 ///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
 ///

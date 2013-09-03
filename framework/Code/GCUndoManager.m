@@ -2,7 +2,7 @@
 //  GCUndoManager.m
 //  GCDrawKit
 //
-//  Created by graham on 4/12/09.
+//  Created by Graham Cox on 4/12/09.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

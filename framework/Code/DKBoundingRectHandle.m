@@ -2,7 +2,7 @@
 //  DKBoundingRectHandle.m
 //  GCDrawKit
 //
-//  Created by graham on 4/09/09.
+//  Created by Graham Cox on 4/09/09.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

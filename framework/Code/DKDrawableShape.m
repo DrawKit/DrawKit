@@ -1,8 +1,8 @@
 ///**********************************************************************************************************************************
 ///  DKDrawableShape.m
-///  DrawKit ¬©2005-2008 Apptree.net
+///  DrawKit ©2005-2008 Apptree.net
 ///
-///  Created by graham on 13/08/2006.
+///  Created by Graham Cox on 13/08/2006.
 ///
 ///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
 ///

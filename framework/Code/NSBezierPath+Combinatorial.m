@@ -2,7 +2,7 @@
 //  NSBezierPath+Combinatorial.m
 ///  DrawKit ©2005-2008 Apptree.net
 //
-//  Created by graham on 28/05/2008.
+//  Created by Graham Cox on 28/05/2008.
 ///
 ///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
 //

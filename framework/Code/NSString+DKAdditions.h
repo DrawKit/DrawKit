@@ -2,7 +2,7 @@
 //  NSString+DKAdditions.h
 //  GCDrawKit
 //
-//  Created by graham on 12/08/2008.
+//  Created by Graham Cox on 12/08/2008.
 //  Copyright 2008 Apptree.net. All rights reserved.
 //
 

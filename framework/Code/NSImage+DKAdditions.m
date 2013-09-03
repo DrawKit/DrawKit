@@ -2,7 +2,7 @@
 //  NSImage+DKAdditions.m
 //  GCDrawKit
 //
-//  Created by graham on 9/04/10.
+//  Created by Graham Cox on 9/04/10.
 //  Copyright 2010 Apptree.net. All rights reserved.
 //
 

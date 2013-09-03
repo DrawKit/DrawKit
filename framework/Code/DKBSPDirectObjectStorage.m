@@ -2,7 +2,7 @@
 //  DKBSPDirectObjectStorage.m
 //  GCDrawKit
 //
-//  Created by graham on 15/01/2009.
+//  Created by Graham Cox on 15/01/2009.
 //  Copyright 2009 Apptree.net. All rights reserved.
 //
 

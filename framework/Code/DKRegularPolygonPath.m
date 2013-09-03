@@ -2,7 +2,7 @@
 //  DKRegularPolygonPath.m
 //  GCDrawKit
 //
-//  Created by graham on 06/07/2008.
+//  Created by Graham Cox on 06/07/2008.
 //  Copyright 2008 Apptree.net. All rights reserved.
 //
 

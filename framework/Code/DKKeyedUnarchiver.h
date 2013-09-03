@@ -2,7 +2,7 @@
 //  DKKeyedUnarchiver.h
 //  GCDrawKit
 //
-//  Created by graham on 27/11/2008.
+//  Created by Graham Cox on 27/11/2008.
 //  Copyright 2008 Apptree.net. All rights reserved.
 //
 
