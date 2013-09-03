@@ -322,7 +322,7 @@
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* DKDrawKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKDrawKit_Prefix.pch; path = Code/DKDrawKit_Prefix.pch; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrawKitInfo.plist; sourceTree = "<group>"; };
-		9660E6100BEF442B00B6A38C /* GCDrawKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = GCDrawKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9660E6100BEF442B00B6A38C /* DKDrawKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DKDrawKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F515FA0B89DBBC0047BA96 /* DKDrawing.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DKDrawing.h; path = Code/DKDrawing.h; sourceTree = "<group>"; };
 		96F515FB0B89DBBC0047BA96 /* DKDrawing.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DKDrawing.m; path = Code/DKDrawing.m; sourceTree = "<group>"; };
 		96F515FE0B89DBBC0047BA96 /* DKDrawingInfoLayer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DKDrawingInfoLayer.h; path = Code/DKDrawingInfoLayer.h; sourceTree = "<group>"; };
@@ -651,13 +651,13 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9660E6100BEF442B00B6A38C /* GCDrawKit.framework */,
+				9660E6100BEF442B00B6A38C /* DKDrawKit.framework */,
 				BF2EE49B0F66011D00B8CFFD /* DKUnitTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0867D691FE84028FC02AAC07 /* GCDrawKit */ = {
+		0867D691FE84028FC02AAC07 /* DKDrawKit */ = {
 			isa = PBXGroup;
 			children = (
 				96F517DB0B8A8A300047BA96 /* DKDrawKit.h */,
@@ -668,9 +668,8 @@
 				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
 				96D3C44F0B9124470098AC1F /* Documents */,
 				034768DFFF38A50411DB9C8B /* Products */,
-				BF2EE49C0F66011D00B8CFFD /* DKUnitTests-Info.plist */,
 			);
-			name = GCDrawKit;
+			name = DKDrawKit;
 			sourceTree = "<group>";
 		};
 		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
@@ -688,6 +687,7 @@
 				BF2EE3D10F6557C900B8CFFD /* DK_Auxiliary_Menus.xib */,
 				96F516CD0B89DC050047BA96 /* Images */,
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
+				BF2EE49C0F66011D00B8CFFD /* DKUnitTests-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1452,8 +1452,8 @@
 			);
 			name = DrawKit;
 			productInstallPath = "$(HOME)/Library/Frameworks";
-			productName = GCDrawKit;
-			productReference = 9660E6100BEF442B00B6A38C /* GCDrawKit.framework */;
+			productName = DKDrawKit;
+			productReference = 9660E6100BEF442B00B6A38C /* DKDrawKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		BF2EE49A0F66011C00B8CFFD /* DKUnitTests */ = {
@@ -1491,7 +1491,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = 0867D691FE84028FC02AAC07 /* GCDrawKit */;
+			mainGroup = 0867D691FE84028FC02AAC07 /* DKDrawKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1744,7 +1744,7 @@
 				INFOPLIST_FILE = DrawKitInfo.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				NSZombieEnabled = YES;
-				PRODUCT_NAME = GCDrawKit;
+				PRODUCT_NAME = DKDrawKit;
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = YES;
 			};
@@ -1768,7 +1768,7 @@
 				GCC_PREFIX_HEADER = Code/DKDrawKit_Prefix.pch;
 				INFOPLIST_FILE = DrawKitInfo.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
-				PRODUCT_NAME = GCDrawKit;
+				PRODUCT_NAME = DKDrawKit;
 				WRAPPER_EXTENSION = framework;
 			};
 			name = Release;
