@@ -54,7 +54,7 @@ List from DrawKit 1.0b7.
 49.  ~~15° angular constraint on path control points would be useful~~
 50.  Check poly create loop possible error (insert nil attempt)
 51.  ~~Zero-length paths should not be added to drawing/create undo task~~
-52.  ~~Can't pull control point of first point on path if it's on top of initial point (or indeed any cp1 that lies on top of the previous segment's end point). ~~
+52.  ~~Can't pull control point of first point on path if it's on top of initial point (or indeed any cp1 that lies on top of the previous segment's end point).~~
 53.  ~~Selecting very thin paths is still too difficult (thicken offscreen lines)~~
 54.  ~~Join paths too fussy about alignment of points~~
 55.  ~~"Snap to other object" would be damn handy, if not too hard. (In fact it was hard, but did it anyway).~~
