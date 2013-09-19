@@ -1,9 +1,13 @@
 DrawKit
 =======
 
-Core framework for DrawKit
+DrawKit is an illustration and vector artwork framework for Mac OS X. The framework is open source (MIT licensed) with optional GPL licensed components.
+
+DrawKit is used in commercial applications, including applications sold on the Mac App Store.
 
 Originally based on, and forked from, [DrawKit 1.0b7 (2010/05/01) source code](http://www.apptree.net/drawkitmain.htm) by [Graham Cox](http://apptree.net/about.htm).
+
+Source level documentation is available http://drawkit.github.io/annotated.html
 
 Mac OS X 10.7 or later; compiles with Xcode 4 or later.
 
