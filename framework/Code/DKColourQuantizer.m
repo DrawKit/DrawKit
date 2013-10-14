@@ -1,18 +1,15 @@
-///**********************************************************************************************************************************
-///  DKColourQuantizer.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 25/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKColourQuantizer.h"
 
 #import "DKDrawKitMacros.h"
 #import "LogEvent.h"
-
 
 // colour mapping macros rgb->index->rgb. Note that these only do the most primitive colour mapping which is bit truncation and concatenation.
 // TODO: try the same using a YUV colourspace???
@@ -33,14 +30,12 @@ static inline void indexToRGB_111( NSUInteger i, NSUInteger rgb[3] )
 	rgb[2] = (i & 1)? 0xFF : 0;
 }
 
-
 static inline void indexToRGB_211( NSUInteger i, NSUInteger rgb[3] )
 {
 	rgb[0] = ((i & 0x0C) << 6) | ((i & 0x0C) << 4) | (i & 0x0C) | ((i & 0x0C) >> 2);
 	rgb[1] = (i & 2)? 0xFF : 0;
 	rgb[2] = (i & 1)? 0xFF : 0;
 }
-
 
 static inline void indexToRGB_221( NSUInteger i, NSUInteger rgb[3] )
 {
@@ -49,14 +44,12 @@ static inline void indexToRGB_221( NSUInteger i, NSUInteger rgb[3] )
 	rgb[2] = (i & 1)? 0xFF : 0;
 }
 
-
 static inline void indexToRGB_222( NSUInteger i, NSUInteger rgb[3] )
 {
 	rgb[0] = ((i & 0x30) << 2) | (i & 0x30) | ((i & 0x30) >> 2) | ((i & 0x30) >> 4);
 	rgb[1] = ((i & 0x0C) << 4) | ((i & 0x0C) << 2) | (i & 0x0C) | ((i & 0x0C) >> 2);
 	rgb[2] = ((i & 0x03) << 6) | ((i & 0x03) << 4) | ((i & 0x03) << 2) | (i & 0x03);
 }
-
 
 static inline void indexToRGB_322( NSUInteger i, NSUInteger rgb[3] )
 {
@@ -65,14 +58,12 @@ static inline void indexToRGB_322( NSUInteger i, NSUInteger rgb[3] )
 	rgb[2] = ((i & 0x03) << 6) | ((i & 0x03) << 4) | ((i & 0x03) << 2) | (i & 0x03);
 }
 
-
 static inline void indexToRGB_332( NSUInteger i, NSUInteger rgb[3] )
 {
 	rgb[0] = (i & 0xE0) | ((i & 0xE0) >> 3) | ((i & 0xE0) >> 6);
 	rgb[1] = ((i & 0x1C) << 3) | (i & 0x1C) | ((i & 0x1C) >> 3);
 	rgb[2] = ((i & 0x03) << 6) | ((i & 0x03) << 4) | ((i & 0x03) << 2) | (i & 0x03);
 }
-
 
 #pragma mark -
 @implementation DKColourQuantizer
@@ -97,7 +88,6 @@ static inline void indexToRGB_332( NSUInteger i, NSUInteger rgb[3] )
 	
 	return self;
 }
-
 
 - (NSUInteger)		indexForRGB:(NSUInteger[]) rgb
 {
@@ -124,12 +114,10 @@ static inline void indexToRGB_332( NSUInteger i, NSUInteger rgb[3] )
 	}
 }
 
-
 - (NSColor*)		colourForIndex:(NSUInteger) indx
 {
 	return [[self colourTable] objectAtIndex:indx];
 }
-
 
 - (NSArray*)		colourTable
 {
@@ -177,12 +165,10 @@ static inline void indexToRGB_332( NSUInteger i, NSUInteger rgb[3] )
 	return m_cTable;
 }
 
-
 - (NSInteger)				numberOfColours
 {
 	return m_maxColours;
 }
-
 
 #pragma mark -
 - (void)			analyse:(NSBitmapImageRep*) rep
@@ -202,18 +188,13 @@ static inline void indexToRGB_332( NSUInteger i, NSUInteger rgb[3] )
 	[super dealloc];
 }
 
-
 @end
-
-
 
 #pragma mark -
 
 @implementation DKOctreeQuantizer
 
-
 static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
-
 
 - (void)			addNode:(NODE**) ppNode colour:(NSUInteger[]) rgb level:(NSUInteger) level leafCount:(NSUInteger *) leafCount reducibleNodes:(NODE**) redNodes
 {
@@ -246,7 +227,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	}
 }
 
-
 - (NODE*)			createNodeAtLevel:(NSUInteger) level leafCount:(NSUInteger *) leafCount reducibleNodes:(NODE**) redNodes
 {
 #warning 64BIT: Inspect use of sizeof
@@ -268,7 +248,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	
 	return pnode;
 }
-
 
 - (void)		reduceTreeLeafCount:(NSUInteger *) leafCount reducibleNodes:(NODE**) redNodes
 {
@@ -315,7 +294,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	*leafCount -= (nChildren - 1);
 }
 
-
 - (void)		deleteTree:(NODE**) ppNode
 {
 	NSInteger i;
@@ -329,7 +307,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	free(*ppNode);
 	*ppNode	= NULL;
 }
-
 
 - (void)		paletteColour:(NODE*) pTree index:(NSUInteger *) pindex colour:(rgb_triple[]) rgb
 {
@@ -360,7 +337,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	}
 }
 
-
 - (void)		lookUpNode:(NODE*) pTree level:(NSUInteger) level colour:(NSUInteger[]) rgb index:(NSInteger*) indx
 {
 	if (pTree->bIsLeaf)
@@ -379,7 +355,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 		[self lookUpNode:pTree->pChild[nIndex] level:level + 1 colour:rgb index:indx];
 	}
 }
-
 
 #pragma mark -
 #pragma mark As a DKColourQuantizer
@@ -403,7 +378,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 		}
 	}
 }
-
 
 - (NSArray*)		colourTable
 {
@@ -433,7 +407,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	return m_cTable;
 }
 
-
 - (NSUInteger)		indexForRGB:(NSUInteger[]) rgb
 {
 	NSInteger		indx = 0;
@@ -449,7 +422,6 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	else
 		return NSNotFound;
 }
-
 
 - (id)				initWithBitmapImageRep:(NSBitmapImageRep*) rep maxColours:(NSUInteger) maxColours colourBits:(NSUInteger) nBits
 {
@@ -472,12 +444,10 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	return self;
 }
 
-
 - (NSInteger)				numberOfColours
 {
 	return m_nLeafCount;
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -491,5 +461,5 @@ static NSUInteger	mask[8]	= {	0x80, 0x40,	0x20, 0x10,	0x08, 0x04,	0x02, 0x01 };
 	[super dealloc];
 }
 
-
 @end
+

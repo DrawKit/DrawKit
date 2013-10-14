@@ -10,15 +10,12 @@
 #import "NSBezierPath+Geometry.h"
 #import "DKGeometryUtilities.h"
 
-
 @implementation DKTargetHandle
-
 
 + (DKKnobType)			type
 {
 	return kDKCentreTargetKnobType;
 }
-
 
 + (NSBezierPath*)		pathWithSize:(NSSize) size
 {
@@ -48,47 +45,37 @@
 	return path;
 }
 
-
 + (NSColor*)			fillColour
 {
 	return nil;
 }
-
 
 + (NSColor*)			strokeColour
 {
 	return [NSColor colorWithDeviceRed:0.5 green:0.9 blue:1.0 alpha:1.0];
 }
 
-
 + (CGFloat)				scaleFactor
 {
 	return 2.5;
 }
 
-
-
 @end
-
 
 #pragma mark -
 
-
 @implementation DKLockedTargetHandle
-
 
 + (DKKnobType)			type
 {
 	return kDKCentreTargetKnobType | kDKKnobIsDisabledFlag;
 }
 
-
 - (void)	drawAtPoint:(NSPoint)point
 {
 #pragma unused(point)
 	return;
 }
-
 
 - (BOOL)	hitTestPoint:(NSPoint)point inHandleAtPoint:(NSPoint)hp
 {

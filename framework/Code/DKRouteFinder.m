@@ -30,7 +30,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 
 @implementation DKRouteFinder
 
-
 + (void)			setAlgorithm:(DKRouteAlgorithmType) algType
 {
 	// sets the algorithm to use for subsequent DKRouteFinder instances. Algorithm must be
@@ -38,7 +37,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	
 	s_Algorithm = algType;
 }
-
 
 + (DKRouteFinder*)	routeFinderWithArrayOfPoints:(NSArray*) arrayOfPoints
 {
@@ -48,7 +46,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	
 	return [tsp autorelease];
 }
-
 
 + (DKRouteFinder*)	routeFinderWithObjects:(NSArray*) objects withValueForKey:(NSString*) key
 {
@@ -61,7 +58,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	return [self routeFinderWithArrayOfPoints:[objects valueForKey:key]];
 }
 
-
 + (NSArray*)		sortedArrayOfObjects:(NSArray*) objects byShortestRouteForKey:(NSString*) key
 {
 	// ultra-easy method to sort objects into the shortest route based on the key (which must reference a NSPoint property)
@@ -73,13 +69,11 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	return [tsp sortedArrayFromArray:objects];
 }
 
-
 - (NSArray*)		shortestRoute
 {
 	// returns the original points reordered into the shortest route
 	return [self sortedArrayFromArray:mInput];
 }
-
 
 - (NSArray*)		shortestRouteOrder
 {
@@ -100,7 +94,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	
 	return routeOrder;
 }
-
 
 - (NSArray*)		sortedArrayFromArray:(NSArray*) anArray
 {
@@ -139,7 +132,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	return result;
 }
 
-
 - (CGFloat)			pathLength
 {
 	// return the computed path length for the set method. Note this doesn't return a valid result
@@ -150,12 +142,10 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	return mPathLength;
 }
 
-
 - (DKRouteAlgorithmType) algorithm
 {
 	return mAlgorithm;
 }
-
 
 - (void)			setProgressDelegate:(id) aDelegate
 {
@@ -165,9 +155,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	
 	mProgressDelegate = aDelegate;
 }
-
-
-
 
 #pragma mark -
 #pragma mark - private methods
@@ -265,7 +252,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	[super dealloc];
 }
 
-
 - (void)			notifyProgress:(CGFloat) value
 {
 	if( mProgressDelegate && [mProgressDelegate respondsToSelector:@selector(routeFinder:progressHasReached:)])
@@ -273,7 +259,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 		
 	//NSLog(@"RF progress: %.3f", value );
 }
-
 
 - (NSUInteger)		nearestNeighbourInArray:(NSArray*) arrayOfPoint toPoint:(NSPoint) cvp inDirection:(DKDirection) direction
 {
@@ -316,7 +301,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	
 	return nn;
 }
-
 
 - (NSArray*)		sortArrayUsingNearestNeighbour:(NSArray*) points
 {
@@ -414,7 +398,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	return mVisited;
 }
 
-
 - (CGFloat)			pathLengthOfArray:(NSArray*) points
 {
 	NSEnumerator*	iter = [points objectEnumerator];
@@ -434,7 +417,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	return pl;
 }
 
-
 - (NSUInteger)		indexOfTopLeftPointInArray:(NSArray*) points
 {
 	// return the index of the point having the lowest x,y value. (TO DO)
@@ -443,7 +425,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 
 	return 0;
 }
-
 
 - (void)			performSortIfNeeded
 {
@@ -465,9 +446,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour;//kDKUseSimulat
 	}
 }
 
-
 @end
-
 
 void progressCallback( CGFloat iteration, CGFloat maxIterations, const void* context )
 {
@@ -476,7 +455,6 @@ void progressCallback( CGFloat iteration, CGFloat maxIterations, const void* con
 	if( rf != nil )
 		[rf notifyProgress:iteration/maxIterations];
 }
-
 
 static DKDirection	directionOfAngle( const CGFloat angle )
 {
@@ -527,7 +505,6 @@ static void		trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[]);
 #define NR_END 1
 #define FREE_ARG char*
 
-
 /* allocate an int vector with subscript range v[nl..nh] */
 
 #warning 64BIT: Inspect use of long
@@ -547,7 +524,6 @@ NSInteger*	ivector(long nl, long nh)
 		return NULL;
 }
 
-
 /* free an int vector allocated with ivector() */
 
 #warning 64BIT: Inspect use of long
@@ -560,7 +536,6 @@ void	free_ivector(NSInteger *v, long nl, long nh)
 	
 	free((FREE_ARG) (v+nl-NR_END));
 }
-
 
 #define MBIG 1000000000
 #define MSEED 161803398
@@ -628,7 +603,6 @@ CGFloat ran3(long *idum)
 	return mj*FAC;
 }
 
-
 #define IB1 1
 #define IB2 2
 #define IB5 16
@@ -650,8 +624,6 @@ NSInteger irbit1(unsigned long *iseed)
 	*iseed=(*iseed << 1) | newbit;
 	return (NSInteger) newbit;
 }
-
-
 
 /*
 This algorithm ﬁnds the shortest round-trip path to ncity cities whose coordinates are in the 
@@ -783,7 +755,6 @@ CGFloat	anneal( CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, N
 	return path;
 } 
 
-
 /*
 This function returns the value of the cost function for a proposed path reversal. ncity is the 
 number of cities, and arrays x[1..ncity], y[1..ncity] give the coordinates of these cities. 
@@ -814,7 +785,6 @@ CGFloat revcst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 	
 	return de; 
 } 
-
 
 /*
 This routine performs a path segment reversal. iorder[1..ncity] is an input array giving the 
@@ -877,7 +847,6 @@ CGFloat	trncst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 	return de; 
 } 
 
-
 /* 
 This routine does the actual path transport, once metrop has approved. iorder[1..ncity] 
 is an input array giving the present itinerary. The array n has as its six elements the beginning 
@@ -925,7 +894,6 @@ void	trnspt( NSInteger iorder[], NSInteger ncity, NSInteger n[])
 	
 	free_ivector( jorder, 1, ncity ); 
 }
-
 
 /*
 Metropolis algorithm. metrop returns a boolean variable that issues a verdict on whether 

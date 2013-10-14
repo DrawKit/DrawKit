@@ -1,15 +1,12 @@
-///**********************************************************************************************************************************
-///  DKCIFilterRastGroup.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 16/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKRastGroup.h"
-
 
 @interface DKCIFilterRastGroup : DKRastGroup <NSCoding, NSCopying>
 {
@@ -37,7 +34,6 @@
 /* Gets a bitmap representation of the image, or creates one if the image does not have any. */
 - (NSBitmapImageRep *)bitmapImageRepresentation;
 @end
-
 
 #define CIIMAGE_PADDING 32.0f
 

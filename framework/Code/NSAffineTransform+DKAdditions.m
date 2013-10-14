@@ -1,17 +1,22 @@
 //
 //  NSAffineTransform+DKAdditions.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 27/05/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "NSAffineTransform+DKAdditions.h"
 
-
 @implementation NSAffineTransform (DKAdditions)
 
+/** 
+ */
 - (NSAffineTransform*)		mapFrom:(NSRect) src to:(NSRect) dst
 {
 	NSAffineTransformStruct at;
@@ -25,7 +30,6 @@
 	return self;
 }
 
-
 - (NSAffineTransform*)		mapFrom:(NSRect) src to:(NSRect) dst dstAngle:(CGFloat) radians
 {
 	NSAffineTransformStruct at;
@@ -38,7 +42,6 @@
 	[self setTransformStruct: at];
 	return self;
 }
-
 
 	/* create a transform that proportionately scales bounds to a rectangle of height
 	centered distance units above a particular point.   */
@@ -63,7 +66,6 @@
 			distance abovePoint: NSMakePoint(0,0)];
 }
 
-
 	/* initialize the NSAffineTransform so it will flip the contents of bounds
 	vertically. */
 
@@ -81,3 +83,4 @@
 }
 
 @end
+

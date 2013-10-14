@@ -1,22 +1,17 @@
-///**********************************************************************************************************************************
-///  DKRasterizer.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 23/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKRasterizerProtocol.h"
 #import "GCObservableObject.h"
 
-
 @class DKRastGroup;
 
-
 // clipping values:
-
 
 typedef enum
 {
@@ -25,8 +20,6 @@ typedef enum
 	kDKClipInsidePath		= 2
 }
 DKClippingOption;
-
-
 
 @interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying>
 {
@@ -39,7 +32,19 @@ DKClippingOption;
 
 + (DKRasterizer*)	rasterizerFromPasteboard:(NSPasteboard*) pb;
 
+/** @brief Returns the immediate container of this object, if owned by a group
+ * @return the object's container group, if any
+ * @public
+ */
 - (DKRastGroup*)	container;
+
+/** @brief Sets the immediate container of this object
+ * @note
+ * This is a weak reference as the object is owned by its container. Generally this is called as
+ * required when the object is added to a group, so should not be used by app code
+ * @param container the objects's container - must be a group, or nil
+ * @private
+ */
 - (void)			setContainer:(DKRastGroup*) container;
 
 - (void)			setName:(NSString*) name;
@@ -54,21 +59,33 @@ DKClippingOption;
 
 - (void)			setClipping:(DKClippingOption) clipping;
 - (void)			setClippingWithoutNotifying:(DKClippingOption) clipping;
+
+/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
+ * @return a DKClippingOption value
+ * @public
+ */
 - (DKClippingOption) clipping;
 
+/** @brief Returns the path to render given the object doing the rendering
+ * @note
+ * This method is called internally by render: to obtain the path to be rendered. It is factored to
+ * allow a delegate to modify the path just before rendering, and to allow special subclasses to
+ * override it to modify the path for special effects. The normal behaviour is simply to ask the
+ * object for its rendering path.
+ * @param object the object to render
+ * @return the rendering path
+ */
 - (NSBezierPath*)	renderingPathForObject:(id<DKRenderable>) object;
 
 - (BOOL)			copyToPasteboard:(NSPasteboard*) pb;
 
 @end
 
-
 extern NSString*	kDKRasterizerPasteboardType;
 
 extern NSString*	kDKRasterizerPropertyWillChange;
 extern NSString*	kDKRasterizerPropertyDidChange;
 extern NSString*	kDKRasterizerChangedPropertyKey;
-
 
 /*
  DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
@@ -85,13 +102,11 @@ extern NSString*	kDKRasterizerChangedPropertyKey;
 
 */
 
-
 @interface NSObject (DKRendererDelegate)
 
 - (NSBezierPath*)	renderer:(DKRasterizer*) aRenderer willRenderPath:(NSBezierPath*) aPath;
 
 @end
-
 
 /*
  Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.

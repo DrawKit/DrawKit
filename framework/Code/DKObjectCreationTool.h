@@ -1,19 +1,14 @@
-///**********************************************************************************************************************************
-///  DKObjectCreationTool.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 09/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawingTool.h"
 
-
 @class DKStyle;
-
-
 
 @interface DKObjectCreationTool : DKDrawingTool
 {
@@ -28,14 +23,58 @@
 	id			m_protoObject;
 }
 
+/** @brief Create a tool for an existing object
+ * @note
+ * This method conveniently allows you to create tools for any object you already have. For example
+ * if you create a complex shape from others, or make a group of objects, you can turn that object
+ * into an interactive tool to make more of the same.
+ * @param shape a drawable object that can be created by the tool - typically a DKDrawableShape
+ * @param name the name of the tool to register this with
+ * @public
+ */
 + (void)				registerDrawingToolForObject:(id <NSCopying>) shape withName:(NSString*) name;
+
+/** @brief Set a style to be used for subsequently created objects
+ * @note
+ * If you set nil, the style set in the prototype object for the individual tool will be used instead.
+ * @param aStyle a style object that will be applied to each new object as it is created
+ * @public
+ */
 + (void)				setStyleForCreatedObjects:(DKStyle*) aStyle;
+
+/** @brief Return a style to be used for subsequently created objects
+ * @note
+ * If you set nil, the style set in the prototype object for the individual tool will be used instead.
+ * @return a style object that will be applied to each new object as it is created, or nil
+ * @public
+ */
 + (DKStyle*)			styleForCreatedObjects;
 
+/** @brief Initialize the tool
+ * @param aPrototype an object that will be used as the tool's prototype - each new object created will
+ * @return the tool object
+ * @public
+ */
 - (id)					initWithPrototypeObject:(id <NSObject>) aPrototype;
 
+/** @brief Set the object to be copied when the tool created a new one
+ * @param aPrototype an object that will be used as the tool's prototype - each new object created will
+ * @public
+ */
 - (void)				setPrototype:(id <NSObject>) aPrototype;
+
+/** @brief Return the object to be copied when the tool creates a new one
+ * @return an object - each new object created will be a copy of this one.
+ * @public
+ */
 - (id)					prototype;
+
+/** @brief Return a new object copied from the prototype, but with the current class style if there is one
+ * @note
+ * The returned object is autoreleased
+ * @return a new object based on the prototype.
+ * @public
+ */
 - (id)					objectFromPrototype;
 
 - (void)				setStyle:(DKStyle*) aStyle;
@@ -44,10 +83,15 @@
 - (void)				setStylePickupEnabled:(BOOL) pickup;
 - (BOOL)				stylePickupEnabled;
 
+/** @brief Return an image showing what the tool creates
+ * @note
+ * The image may be used as an icon for this tool in a UI, for example
+ * @return an image
+ * @public
+ */
 - (NSImage*)			image;
 
 @end
-
 
 #define  kDKDefaultToolSwatchSize		(NSMakeSize( 64, 64 ))
 
@@ -63,7 +107,5 @@ the layer as a permanent item.
 The prototype object can have all of its parameters set up in advance as required, including an attached style.
 
 You can also set up a style to be applied to all new objects initially as an independent parameter.
-
-
 
 */

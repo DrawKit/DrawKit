@@ -48,28 +48,17 @@ NSString*		kDKStandardDeletePathPointToolName		= @"Delete Path Point";
 NSString*		kDKStandardDeletePathSegmentToolName	= @"Delete Path Segment";
 NSString*		kDKStandardZoomToolName					= @"Zoom";
 
-
-
 @implementation DKToolRegistry
-
 
 static DKToolRegistry*	s_toolRegistry = nil;
 
-///*********************************************************************************************************************
-///
-/// method:			sharedToolRegistry
-/// scope:			public class method
-///	overrides:		
-/// description:	return the shared tool registry
-/// 
-/// parameters:		none
-/// result:			a shared DKToolRegistry object
-///
-/// notes:			creates the registry if needed and installs the standard tools. For other tool collections
-///					you can instantiate a DKToolRegistry and add tools to it.
-///
-///********************************************************************************************************************
-
+/** @brief Return the shared tool registry
+ * @note
+ * Creates the registry if needed and installs the standard tools. For other tool collections
+ * you can instantiate a DKToolRegistry and add tools to it.
+ * @return a shared DKToolRegistry object
+ * @public
+ */
 + (DKToolRegistry*)		sharedToolRegistry
 {
 	if( s_toolRegistry == nil )
@@ -81,21 +70,11 @@ static DKToolRegistry*	s_toolRegistry = nil;
 	return s_toolRegistry;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawingToolWithName:
-/// scope:			public instance method
-///	overrides:		
-/// description:	return a named tool from the registry
-/// 
-/// parameters:		<name> the name of the tool of interest
-/// result:			the tool if found, or nil if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return a named tool from the registry
+ * @param name the name of the tool of interest
+ * @return the tool if found, or nil if not
+ * @public
+ */
 - (DKDrawingTool*)		drawingToolWithName:(NSString*) name
 {
 	NSAssert( name != nil, @"cannot find a tool with a nil name");
@@ -103,22 +82,11 @@ static DKToolRegistry*	s_toolRegistry = nil;
 	return [mToolsReg objectForKey:name];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			registerDrawingTool:withName:
-/// scope:			public instance method
-///	overrides:		
-/// description:	add a tool to the registry
-/// 
-/// parameters:		<tool> the tool to register
-///					<name> the name of the tool of interest
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Add a tool to the registry
+ * @param tool the tool to register
+ * @param name the name of the tool of interest
+ * @public
+ */
 - (void)				registerDrawingTool:(DKDrawingTool*) tool withName:(NSString*) name
 {
 	NSAssert( tool != nil, @"cannot register a nil tool");
@@ -132,22 +100,11 @@ static DKToolRegistry*	s_toolRegistry = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWasRegisteredNotification object:tool];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawingToolWithKeyboardEquivalent:
-/// scope:			public instance method
-///	overrides:		
-/// description:	find the tool having a key equivalent matching the key event
-/// 
-/// parameters:		<keyEvent> the key event to match
-/// result:			the tool if found, or nil
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Find the tool having a key equivalent matching the key event
+ * @param keyEvent the key event to match
+ * @return the tool if found, or nil
+ * @public
+ */
 - (DKDrawingTool*)		drawingToolWithKeyboardEquivalent:(NSEvent*) keyEvent
 {
 	NSAssert( keyEvent != nil, @"event was nil");
@@ -178,9 +135,6 @@ static DKToolRegistry*	s_toolRegistry = nil;
 	}
 	return nil;
 }
-
-
-
 
 - (void)				registerStandardTools
 {
@@ -377,8 +331,6 @@ static DKToolRegistry*	s_toolRegistry = nil;
 	[dt release];
 }
 
-
-
 - (NSArray*)			toolNames
 {
 	NSMutableArray*		tn = [[mToolsReg allKeys] mutableCopy];
@@ -387,21 +339,16 @@ static DKToolRegistry*	s_toolRegistry = nil;
 	return [tn autorelease];
 }
 
-
 - (NSArray*)			allKeysForTool:(DKDrawingTool*) tool
 {
 	NSAssert( tool != nil, @"cannot find keys for a nil tool");	
 	return [mToolsReg allKeysForObject:tool];
 }
 
-
 - (NSArray*)			tools
 {
 	return [mToolsReg allValues];
 }
-
-
-
 
 #pragma mark -
 #pragma mark - as a NSObject
@@ -417,12 +364,11 @@ static DKToolRegistry*	s_toolRegistry = nil;
 	return self;
 }
 
-
 - (void)				dealloc
 {
 	[mToolsReg release];
 	[super dealloc];
 }
 
-
 @end
+

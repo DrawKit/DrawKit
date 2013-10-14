@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKObjectDrawingLayer+BooleanOps.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 03/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #ifdef qUseGPC
 
@@ -17,23 +15,15 @@
 #import "NSBezierPath+GPC.h"
 #import "NSBezierPath+Combinatorial.h"
 
-
 @implementation DKObjectDrawingLayer (BooleanOps)
 #pragma mark As a DKObjectDrawingLayer
-///*********************************************************************************************************************
-///
-/// method:			unionSelectedObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	forms the union of the selected objects and replaces the selection with the result
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			result adopts the style of the topmost object contributing.
-///
-///********************************************************************************************************************
 
+/** @brief Forms the union of the selected objects and replaces the selection with the result
+ * @note
+ * Result adopts the style of the topmost object contributing.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		unionSelectedObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -91,22 +81,13 @@
 	[self commitSelectionUndoWithActionName:NSLocalizedString(@"Union", @"undo string for union op")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			diffSelectedObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	subtracts the topmost shape from the other.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			requires exactly two contributing objects. If the shapes don't overlap, this does nothing. The
-///					'cutter' object is removed from the layer.
-///
-///********************************************************************************************************************
-
+/** @brief Subtracts the topmost shape from the other.
+ * @note
+ * Requires exactly two contributing objects. If the shapes don't overlap, this does nothing. The
+ * 'cutter' object is removed from the layer.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		diffSelectedObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -169,22 +150,13 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			intersectionSelectedObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	replaces a pair of objects by their intersection.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
-///					adopts the style of the lower contributing object
-///
-///********************************************************************************************************************
-
+/** @brief Replaces a pair of objects by their intersection.
+ * @note
+ * Requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
+ * adopts the style of the lower contributing object
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		intersectionSelectedObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -247,45 +219,28 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			xorSelectedObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	replaces a pair of objects by their exclusive-OR.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
-///					adopts the syle of the topmost contributing object
-///
-///********************************************************************************************************************
-
+/** @brief Replaces a pair of objects by their exclusive-OR.
+ * @note
+ * Requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
+ * adopts the syle of the topmost contributing object
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		xorSelectedObjects:(id) sender
 {
 	[self combineSelectedObjects:sender];
 	[[self undoManager] setActionName:NSLocalizedString(@"Exclusive Or", @"undo string for xor op")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			divideSelectedObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	replaces a pair of objects by their divided replacements.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			requires exactly two contributing objects. If the objects don't intersect, does nothing. A division
-///					splits two overlapping paths at their intersecting points into as many pieces as necessary. The
-///					original, objects are replaced by the pieces. Pieces derived from each path retain the styles of
-///					the original paths.
-///
-///********************************************************************************************************************
+/** @brief Replaces a pair of objects by their divided replacements.
+ * @note
+ * Requires exactly two contributing objects. If the objects don't intersect, does nothing. A division
+ * splits two overlapping paths at their intersecting points into as many pieces as necessary. The
+ * original, objects are replaced by the pieces. Pieces derived from each path retain the styles of
+ * the original paths.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		divideSelectedObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -354,23 +309,14 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			combineSelectedObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	replaces a pair of objects by combining their paths.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			requires two or more contributing objects. The result adopts the syle of the topmost
-///					contributing object. The result can act like a union, difference or xor depending on the relative
-///					disposition of the contributing paths.
-///
-///********************************************************************************************************************
-
+/** @brief Replaces a pair of objects by combining their paths.
+ * @note
+ * Requires two or more contributing objects. The result adopts the syle of the topmost
+ * contributing object. The result can act like a union, difference or xor depending on the relative
+ * disposition of the contributing paths.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		combineSelectedObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -430,44 +376,27 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setBooleanOpsFittingPolicy:
-/// scope:			public action method
-///	overrides:
-/// description:	sets the unflattening (smoothing) policy for GPC-based operations.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the sender's tag is interpreted as the policy value.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the unflattening (smoothing) policy for GPC-based operations.
+ * @note
+ * The sender's tag is interpreted as the policy value.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		setBooleanOpsFittingPolicy:(id) sender
 {
 	[NSBezierPath setPathUnflatteningPolicy:[sender tag]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			cropToPath:
-/// scope:			public action method
-///	overrides:
-/// description:	crops (intersects) all objects in this layer with the given path.
-/// 
-/// parameters:		<croppingPath> the path to crop to
-/// result:			the array of objects remaining after the operation
-///
-/// notes:			this can dramatically alter the composition of the layer, but is undoable. Objects outside the
-///					path are deleted. Objects fully enclosed are not changed. Objects that intersect the path are
-///					modified by intersecting them with the croppingPath. The object's geometry but not their styles
-///					are affected.
-///
-///********************************************************************************************************************
-
+/** @brief Crops (intersects) all objects in this layer with the given path.
+ * @note
+ * This can dramatically alter the composition of the layer, but is undoable. Objects outside the
+ * path are deleted. Objects fully enclosed are not changed. Objects that intersect the path are
+ * modified by intersecting them with the croppingPath. The object's geometry but not their styles
+ * are affected.
+ * @param croppingPath the path to crop to
+ * @return the array of objects remaining after the operation
+ * @public
+ */
 - (NSArray*)			cropToPath:(NSBezierPath*) croppingPath
 {
 	// first gather the subset of objects that could be affected. Any others are deleted.
@@ -549,21 +478,13 @@
 	return [self objects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			cropToRect:
-/// scope:			public action method
-///	overrides:
-/// description:	crops (intersects) all objects in the layer with the given rect.
-/// 
-/// parameters:		<croppingRect> the rect to crop to
-/// result:			the array of objects remaining after the operation
-///
-/// notes:			does nothing and returns nil if the rect is empty.
-///
-///********************************************************************************************************************
-
+/** @brief Crops (intersects) all objects in the layer with the given rect.
+ * @note
+ * Does nothing and returns nil if the rect is empty.
+ * @param croppingRect the rect to crop to
+ * @return the array of objects remaining after the operation
+ * @public
+ */
 - (NSArray*)			cropToRect:(NSRect) croppingRect
 {
 	if( !NSIsEmptyRect( croppingRect ))
@@ -572,23 +493,15 @@
 		return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			intersectingDrawablesinArray:
-/// scope:			public action method
-///	overrides:
-/// description:	tests the bounds of the objects in the array against each other for intersection. Returns NO if
-///					there are no intersections, YES if there is at least one.
-/// 
-/// parameters:		<array> an array of DKDrawableObjects
-/// result:			YES if there are any intersections, NO otherwise
-///
-/// notes:			the worst case is no intersections, in which case this is an O(n^2) operation. However this still
-///					may be preferable to performing certain boolean ops on the object's paths.
-///
-///********************************************************************************************************************
-
+/** @brief Tests the bounds of the objects in the array against each other for intersection. Returns NO if
+ * there are no intersections, YES if there is at least one.
+ * @note
+ * The worst case is no intersections, in which case this is an O(n^2) operation. However this still
+ * may be preferable to performing certain boolean ops on the object's paths.
+ * @param array an array of DKDrawableObjects
+ * @return YES if there are any intersections, NO otherwise
+ * @public
+ */
 - (BOOL)				intersectingDrawablesinArray:(NSArray*) array
 {
 	NSAssert( array != nil, @"can't test nil array");
@@ -636,8 +549,7 @@
 	return NO;
 }
 
-
-
 @end
 
 #endif /* defined (qUseGPC) */
+

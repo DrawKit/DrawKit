@@ -1,10 +1,14 @@
 //
 //  GCInfoFloater.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 02/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "GCInfoFloater.h"
@@ -13,6 +17,9 @@
 
 @implementation GCInfoFloater
 #pragma mark As a GCInfoFloater
+
+/** 
+ */
 + (GCInfoFloater*)	infoFloater
 {
 	GCInfoFloater* fi = [[[GCInfoFloater alloc]  initWithContentRect:NSZeroRect
@@ -28,7 +35,6 @@
 	
 	return fi;
 }
-
 
 #pragma mark -
 - (id)	initWithContentRect:(NSRect) contentRect
@@ -85,13 +91,11 @@
 	return self;
 }
 
-
 #pragma mark -
 - (void)			setFloatValue:(float) val
 {
 	[self setDoubleValue:(double) val];
 }
-
 
 - (void)			setDoubleValue:(double) val
 {
@@ -107,7 +111,6 @@
 	[self setFrame:fr display:YES];
 }
 
-
 - (void)			setStringValue:(NSString*) str
 {
 	NSColor* textColor = [[self backgroundColor] contrastingColor];
@@ -121,7 +124,6 @@
 	
 	[self setFrame:fr display:YES];
 }
-
 
 #pragma mark -
 - (void)			setFormat:(NSString*) fmt
@@ -143,12 +145,10 @@
 	}
 }
 
-
 - (void)			setWindowOffset:(NSSize) offset;
 {
 	m_wOffset = offset;
 }
-
 
 - (void)			positionNearPoint:(NSPoint) p inView:(NSView*) v
 {
@@ -163,8 +163,6 @@
 	[self positionAtScreenPoint:gp];
 }
 
-
-
 - (void)			positionAtScreenPoint:(NSPoint) sp
 {
 	[self setFrameOrigin:sp];
@@ -177,13 +175,11 @@
 	[self orderFront:self];
 }
 
-
 - (void)			hide
 {
 	if([self isVisible])
 		[GCOneShotEffectTimer oneShotWithStandardFadeTimeForDelegate:self];
 }
-
 
 #pragma mark -
 #pragma mark - As a NSWindow
@@ -196,7 +192,6 @@
 	[super setBackgroundColor:colour];
 }
 
-
 #pragma mark -
 #pragma mark - As a GCOneShotEffect delegate
 - (void)			oneShotHasReached:(CGFloat) relpos
@@ -204,12 +199,10 @@
 	[self setAlphaValue:1.0 - relpos];
 }
 
-
 - (void)			oneShotComplete
 {
 	[self orderOut:self];
 }
 
-
-
 @end
+

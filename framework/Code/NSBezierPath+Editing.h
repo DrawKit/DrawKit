@@ -1,15 +1,12 @@
-///**********************************************************************************************************************************
-///  NSBezierPath-Editing.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 08/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface NSBezierPath (DKEditing)
 
@@ -24,6 +21,11 @@
 - (NSBezierPath*)		bezierPathByStrippingRedundantElements;
 - (NSBezierPath*)		bezierPathByRemovingElementAtIndex:(NSInteger) indx;
 
+/** @brief Counts the number of elements of each type in the path
+ * @note
+ * Pass NULL for any values you are not interested in
+ * @param mtc, ltc, ctc, cpc pointers to integers that receive the counts for each element type
+ */
 - (void)				getPathMoveToCount:(NSInteger*) mtc lineToCount:(NSInteger*) ltc curveToCount:(NSInteger*) ctc closePathCount:(NSInteger*) cpc;
 
 - (BOOL)				isPathClosed;
@@ -72,11 +74,7 @@
 - (NSSet*)				boundingBoxesForPartcode:(NSInteger) pc;
 - (NSSet*)				allBoundingBoxes;
 
-
 @end
-
-
-
 
 NSInteger		partcodeForElement( const NSInteger element );
 NSInteger		partcodeForElementControlPoint( const NSInteger element, const NSInteger controlPointIndex );
@@ -94,4 +92,3 @@ The moveControlPointPartcode:toPoint:colinear: is a high-level call that will ha
 optionally maintains colinearity across curve joins, and knows how to maintain closed loops properly.
 
 */
-

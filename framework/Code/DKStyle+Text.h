@@ -1,20 +1,23 @@
-///**********************************************************************************************************************************
-///  DKStyle-Text.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 21/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKStyle.h"
-
 
 @interface DKStyle (TextAdditions)
 
 + (DKStyle*)			defaultTextStyle;
 + (DKStyle*)			textStyleWithFont:(NSFont*) font;
+
+/** @brief Returns the name and size of the font in a form that can be used as a style name
+ * @param font a font
+ * @return a string, such as "Helvetica Bold 18pt"
+ * @public
+ */
 + (NSString*)			styleNameForFont:(NSFont*) font;
 
 - (void)				setParagraphStyle:(NSParagraphStyle*) style;
@@ -44,7 +47,6 @@
 - (DKStyle*)			drawingStyleFromTextAttributes;
 
 @end
-
 
 /*
 

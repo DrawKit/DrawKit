@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  NSBezierPath+Combinatorial.h
 ///  DrawKit ©2005-2008 Apptree.net
@@ -18,9 +25,7 @@ typedef enum
 }
 DKBooleanOperation;
 
-
 @interface NSBezierPath (Combinatorial)
-
 
 - (void)			showIntersectionsWithPath:(NSBezierPath*) path;
 - (NSBezierPath*)	renormalizePath;
@@ -28,14 +33,9 @@ DKBooleanOperation;
 
 - (NSBezierPath*)	performBooleanOp:(DKBooleanOperation) op withPath:(NSBezierPath*) path;
 
-
-
 @end
 
-
-
 /*
-
 
 ######## NOTE ######## NOT YET IMPLEMENTED - DO NOT USE - THESE FILES ARE A PLACEHOLDER ONLY
 
@@ -53,7 +53,4 @@ operation because every path segments needs to be tested against every path segm
 then, the paths are split up into new path fragments at the intersecting points. Depending on which operation is being performed, some of these paths will be
 thrown away, and the rest joined up into the new path.
 
-
 */
-
-

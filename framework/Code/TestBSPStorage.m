@@ -9,7 +9,6 @@
 #import "TestBSPStorage.h"
 #include <tgmath.h>
 
-
 @interface DKBSPDirectObjectStorage (Private)
 
 - (void)					sortObjectsByZ:(NSMutableArray*) objects;
@@ -20,7 +19,6 @@
 
 @end
 
-
 @interface					DKBSPDirectTree (Private)
 - (NSArray*) leaves;
 @end
@@ -29,14 +27,12 @@
 - (NSArray*) leaves;
 @end
 
-
 static CGFloat randomFloat( CGFloat minVal, CGFloat maxVal )
 {
 	CGFloat rf = fmod((CGFloat)random(), maxVal - minVal);
 	
 	return minVal + rf;
 }
-
 
 static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 {
@@ -45,9 +41,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	return minVal + ru;
 }
 
-
 @implementation TestBSPStorage
-
 
 #define NUMBER_OF_OBJECTS			300
 #define	NUMBER_OF_RETRIEVAL_TESTS	24
@@ -158,7 +152,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	NSLog(@"testBSPStorage complete.");
 }
 
-
 - (void)	testIndexedBSPStorage
 {
 	NSLog(@"starting 'testIndexedBSPStorage'...");
@@ -243,7 +236,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	NSLog(@"testIndexedBSPStorage complete.");
 }
 
-
 - (void)	populateStorage:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize
 {
 	NSUInteger	i, m = NUMBER_OF_OBJECTS;
@@ -279,7 +271,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	NSLog(@"%d objects added to storage", m );
 }
 
-
 - (void)	deletionTest:(id<DKObjectStorage>) storage
 {
 	NSMutableIndexSet* remIndexSet = [[NSMutableIndexSet alloc] init];
@@ -302,7 +293,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	
 	[remIndexSet release];
 }
-
 
 - (void)	insertionTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize
 {
@@ -353,8 +343,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	[remIndexSet release];
 }
 
-
-
 - (void)	replacementTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize
 {
 	NSLog(@"starting replacement test...");
@@ -396,8 +384,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 		[tso release];
 	}
 }
-
-
 
 - (void)	retrievalTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize
 {
@@ -483,7 +469,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	[bruteForceSearchResults release];
 }
 
-
 - (void)	pointRetrievalTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize
 {
 	NSArray*				objects = [storage objects];
@@ -554,8 +539,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	[bruteForceSearchResults release];
 }
 
-
-
 - (void)	repositioningTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize
 {
 	NSArray* objects = [storage objects];
@@ -591,7 +574,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 		}
 	}
 }
-
 
 - (void)	reorderingTest:(id<DKObjectStorage>) storage
 {
@@ -642,9 +624,7 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	[destIndexes release];
 }
 
-
 #pragma mark -
-
 
 - (void)	verifyRenumbering:(DKBSPDirectObjectStorage*) storage
 {
@@ -660,7 +640,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 		STAssertEquals([tso index], i, @"renumbering error - index = %d, stored index = %d", i, [tso index]);
 	}
 }
-
 
 - (void)	verifyStorageIntegrity:(DKBSPDirectObjectStorage*) storage
 {
@@ -753,7 +732,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	}
 }
 
-
 - (void)	verifyIndexSpotcheck:(DKBSPDirectObjectStorage*) storage
 {
 	NSLog(@"performing index spot-check...");
@@ -788,8 +766,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	
 	[remIndexSet release];
 }
-
-
 
 - (void)	verifyIndexedStorageIntegrity:(DKBSPObjectStorage*) storage
 {
@@ -829,13 +805,9 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	}
 }
 
-
 @end
 
-
-
 #pragma mark -
-
 
 @implementation testStorableObject
 
@@ -844,32 +816,25 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	return _storage;
 }
 
-
 - (void)					setStorage:(id<DKObjectStorage>) storage
 {
 	_storage = storage;
 }
-
-
 
 - (NSUInteger)				index
 {
 	return _index;
 }
 
-
 - (void)					setIndex:(NSUInteger) indx
 {
 	_index = indx;
 }
 
-
-
 - (void)					setMarked:(BOOL) markIt
 {
 	_marked = markIt;
 }
-
 
 - (BOOL)					isMarked
 {
@@ -881,12 +846,10 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	return YES;
 }
 
-
 - (NSRect)					bounds
 {
 	return _bounds;
 }
-
 
 - (void)					setBounds:(NSRect) newBounds
 {
@@ -904,12 +867,10 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 	return self;
 }
 
-
 - (void)					encodeWithCoder:(NSCoder*) coder
 {
 #pragma unused(coder)
 }
-
 
 - (id)						copyWithZone:(NSZone*) zone
 {
@@ -923,7 +884,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 
 #pragma mark -
 
-
 @implementation					DKBSPDirectTree (Private)
 
 - (NSArray*) leaves
@@ -933,8 +893,6 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 
 @end
 
-
-
 @implementation					DKBSPIndexTree (Private)
 
 - (NSArray*) leaves
@@ -943,5 +901,4 @@ static NSUInteger randomUnsigned( NSUInteger minVal, NSUInteger maxVal )
 }
 
 @end
-
 

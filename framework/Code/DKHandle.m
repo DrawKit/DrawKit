@@ -23,12 +23,10 @@
 
 #pragma mark -
 
-
 @implementation DKHandle
 
 static NSMutableDictionary*		s_handleClassTable = nil;
 static NSMutableDictionary*		s_handleInstancesTable = nil;
-
 
 + (void)				initialize
 {
@@ -50,16 +48,12 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	[self setHandleClass:[DKInactiveBoundingRectHandle class]	forType:kDKHotspotKnobType | kDKKnobIsInactiveFlag];
 }
 
-
-
 + (DKKnobType)			type
 {
 	NSLog(@"the +[DKHandle type] method must be overridden");
 	
 	return kDKInvalidKnobType;
 }
-
-
 
 + (DKHandle*)			handleForType:(DKKnobType) type size:(NSSize) size colour:(NSColor*) colour
 {
@@ -99,7 +93,6 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	return inst;
 }
 
-
 + (void)				setHandleClass:(Class) hClass forType:(DKKnobType) type
 {
 	if([hClass superclass] != [self class])
@@ -112,34 +105,25 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	[s_handleClassTable setObject:hClass forKey:key];
 }
 
-
-
-
 + (NSColor*)			fillColour
 {
 	return [NSColor colorWithDeviceRed:0.5 green:0.9 blue:1.0 alpha:1.0];
 }
-
-
 
 + (NSColor*)			strokeColour
 {
 	return [NSColor blackColor];
 }
 
-
-
 + (NSBezierPath*)		pathWithSize:(NSSize) size
 {
 	return [NSBezierPath bezierPathWithRect:NSMakeRect( 0, 0, size.width - [self strokeWidth], size.height - [self strokeWidth])];
 }
 
-
 + (CGFloat)				strokeWidth
 {
 	return 0.5;
 }
-
 
 + (CGFloat)				scaleFactor
 {
@@ -148,12 +132,10 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 
 #pragma mark -
 
-
 - (id)					initWithSize:(NSSize) size
 {
 	return [self initWithSize:size colour:nil];
 }
-
 
 - (id)					initWithSize:(NSSize) size colour:(NSColor*) colour
 {
@@ -173,14 +155,10 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	return self;
 }
 
-
-
-
 - (NSSize)				size
 {
 	return mSize;
 }
-
 
 - (void)				setColour:(NSColor*) colour
 {
@@ -189,18 +167,15 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	mColour = colour;
 }
 
-
 - (NSColor*)			colour
 {
 	return mColour;
 }
 
-
 - (void)				drawAtPoint:(NSPoint) point
 {
 	[self drawAtPoint:point angle:0];
 }
-
 
 - (void)				drawAtPoint:(NSPoint) point angle:(CGFloat) radians
 {
@@ -260,8 +235,6 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	RESTORE_GRAPHICS_CONTEXT
 }
 
-
-
 - (BOOL)				hitTestPoint:(NSPoint) point inHandleAtPoint:(NSPoint) hp
 {
 	NSPoint relPoint;
@@ -273,7 +246,6 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 	return [path containsPoint:relPoint];
 }
 
-
 #pragma mark -
 
 + (NSString*)			keyForKnobType:(DKKnobType) type
@@ -281,7 +253,6 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
 #warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"hnd_type_%d", type];
 }
-
 
 #pragma mark -
 #pragma mark - as a NSObject
@@ -294,3 +265,4 @@ static NSMutableDictionary*		s_handleInstancesTable = nil;
  }
 
 @end
+

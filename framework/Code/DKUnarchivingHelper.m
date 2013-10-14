@@ -9,11 +9,9 @@
 #import "DKUnarchivingHelper.h"
 #import "LogEvent.h"
 
-
 NSString*	kDKUnarchiverProgressStartedNotification	= @"kDKUnarchiverProgressStartedNotification";
 NSString*	kDKUnarchiverProgressContinuedNotification	= @"kDKUnarchiverProgressContinuedNotification";
 NSString*	kDKUnarchiverProgressFinishedNotification	= @"kDKUnarchiverProgressFinishedNotification";
-
 
 @implementation DKUnarchivingHelper
 
@@ -57,7 +55,6 @@ NSString*	kDKUnarchiverProgressFinishedNotification	= @"kDKUnarchiverProgressFin
 	NSNotification* note = [NSNotification notificationWithName:kDKUnarchiverProgressFinishedNotification object:self userInfo:userInfo];
 	[[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:note waitUntilDone:[NSThread isMainThread]];
 }
-
 
 - (Class)	unarchiver:(NSKeyedUnarchiver*) unarchiver cannotDecodeObjectOfClassName:(NSString*) name originalClasses:(NSArray*) classNames
 {
@@ -135,12 +132,10 @@ NSString*	kDKUnarchiverProgressFinishedNotification	= @"kDKUnarchiverProgressFin
 	return theClass;
 }
 
-
 - (NSString*)	lastClassnameSubstituted
 {
 	return mLastClassnameSubstituted;
 }
-
 
 - (void)		dealloc
 {
@@ -148,9 +143,7 @@ NSString*	kDKUnarchiverProgressFinishedNotification	= @"kDKUnarchiverProgressFin
 	[super dealloc];
 }
 
-
 @end
-
 
 #pragma mark -
 
@@ -163,12 +156,10 @@ NSString*	kDKUnarchiverProgressFinishedNotification	= @"kDKUnarchiverProgressFin
 	mSubstitutedForClassname = classname;
 }
 
-
 - (NSString*)	substitutionClassname
 {
 	return mSubstitutedForClassname;
 }
-
 
 - (id)			initWithCoder:(NSCoder*) coder
 {
@@ -187,18 +178,16 @@ NSString*	kDKUnarchiverProgressFinishedNotification	= @"kDKUnarchiverProgressFin
 #pragma unused(coder)
 }
 
-
 - (void)		dealloc
 {
 	[mSubstitutedForClassname release];
 	[super dealloc];
 }
 
-
 - (NSString*)	description
 {
 	return [NSString stringWithFormat:@"%@ (substituted for missing class %@)", [super description], [self substitutionClassname]];
 }
 
-
 @end
+

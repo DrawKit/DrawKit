@@ -1,24 +1,29 @@
 //
 //  NSBezierPath+Shapes.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 08/01/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "NSBezierPath+Shapes.h"
 #import "NSBezierPath+Geometry.h"
 
-
 #pragma mark Contants (Non-localized)
 static const CGFloat deg60 = 1.0471975512;
 static const CGFloat sin60 = 0.8660254038;
 
-
 @implementation NSBezierPath (Shapes)
 #pragma mark As a NSBezierPath
 #pragma mark - chains and sprockets
+
+/** 
+ */
 + (NSBezierPath*)		bezierPathWithStandardChainLink
 {
 	// returns the path of a standard roller chain link on a horizontal alignment with link centres of 1.0. Other variants are derived from this
@@ -74,7 +79,6 @@ static const CGFloat sin60 = 0.8660254038;
 	return path;
 }
 
-
 + (NSBezierPath*)		bezierPathWithStandardChainLinkFromPoint:(NSPoint) a toPoint:(NSPoint) b
 {
 	// returns the path of a standard roller chain link linking a to b. The distance a-b also sets the dimensions of the link and of course
@@ -94,7 +98,6 @@ static const CGFloat sin60 = 0.8660254038;
 	
 	return linkPath;
 }
-
 
 + (NSBezierPath*)		bezierPathWithSprocketPitch:(CGFloat) pitch numberOfTeeth:(NSInteger) teeth
 {
@@ -158,7 +161,6 @@ static const CGFloat sin60 = 0.8660254038;
 	return path;
 }
 
-
 #pragma mark -
 #pragma mark - nuts and bolts
 + (NSBezierPath*)		bezierPathWithThreadedBarOfLength:(CGFloat) length diameter:(CGFloat) dia threadPitch:(CGFloat) pitch options:(NSUInteger) options
@@ -220,7 +222,6 @@ static const CGFloat sin60 = 0.8660254038;
 	return path;
 }
 
-
 + (NSBezierPath*)		bezierPathWithThreadLinesOfLength:(CGFloat) length diameter:(CGFloat) dia threadPitch:(CGFloat) pitch
 {
 	NSPoint			p, opp;
@@ -252,7 +253,6 @@ static const CGFloat sin60 = 0.8660254038;
 	
 	return path;
 }
-
 
 + (NSBezierPath*)		bezierPathWithHexagonHeadSideViewOfHeight:(CGFloat) height diameter:(CGFloat) dia options:(NSUInteger) options
 {
@@ -295,7 +295,6 @@ static const CGFloat sin60 = 0.8660254038;
 	return path;
 }
 
-
 + (NSBezierPath*)		bezierPathWithBoltOfLength:(CGFloat) length
 									threadDiameter:(CGFloat) tdia
 									threadPitch:(CGFloat) tpitch
@@ -332,7 +331,6 @@ static const CGFloat sin60 = 0.8660254038;
 	return thread;
 }
 
-
 #pragma mark -
 #pragma mark - crop marks
 
@@ -366,7 +364,6 @@ static const CGFloat sin60 = 0.8660254038;
 	return path;
 }
 
-
 + (NSBezierPath*)		bezierPathWithCropMarksForRect:(NSRect) aRect extension:(CGFloat) ext
 {
 	if( ext == 0.0 )
@@ -391,5 +388,5 @@ static const CGFloat sin60 = 0.8660254038;
 	}
 }
 
-
 @end
+

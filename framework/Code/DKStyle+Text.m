@@ -1,40 +1,25 @@
-///**********************************************************************************************************************************
-///  DKStyle-Text.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 21/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
-
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKStyle+Text.h"
 #import "DKFill.h"
 #import "DKStroke.h"
 #import "DKStyleRegistry.h"
 
-
 static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D57505E";
-
 
 @implementation DKStyle (TextAdditions)
 #pragma mark As a DKStyle
 
-///****************************************************************************************************************
-///
-/// method:			defaultTextStyle
-/// scope:			public class method
-/// overrides:
-/// description:	returns a basic text style with the default font and atrributes
-/// 
-/// parameters:		none
-/// result:			a style having 18pt Helvetica centred text
-///
-/// notes:			
-///
-///***************************************************************************************************************
-
+/** @brief Returns a basic text style with the default font and atrributes
+ * @return a style having 18pt Helvetica centred text
+ * @public
+ */
 + (DKStyle*)		defaultTextStyle
 {
 	// default text style is a singleton with no fill or stroke, Helvetica 18 regular centred text
@@ -62,21 +47,13 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	return dts;
 }
 
-
-///****************************************************************************************************************
-///
-/// method:			textStyleWithFont:
-/// scope:			public class method
-/// overrides:
-/// description:	returns a basic text style with the given font
-/// 
-/// parameters:		<font> a font
-/// result:			a style incorporating the given font in its text attributes
-///
-/// notes:			the style's name is set based on the font. Initial text alignment is the natural alignment.
-///
-///***************************************************************************************************************
-
+/** @brief Returns a basic text style with the given font
+ * @note
+ * The style's name is set based on the font. Initial text alignment is the natural alignment.
+ * @param font a font
+ * @return a style incorporating the given font in its text attributes
+ * @public
+ */
 + (DKStyle*)		textStyleWithFont:(NSFont*) font
 {
 	NSAssert( font != nil, @"cannot create a style with a nil font");
@@ -89,27 +66,16 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	return [ts autorelease];
 }
 
-
-///****************************************************************************************************************
-///
-/// method:			styleNameForFont:
-/// scope:			public class method
-/// overrides:
-/// description:	returns the name and size of the font in a form that can be used as a style name
-/// 
-/// parameters:		<font> a font
-/// result:			a string, such as "Helvetica Bold 18pt"
-///
-/// notes:			
-///
-///***************************************************************************************************************
-
+/** @brief Returns the name and size of the font in a form that can be used as a style name
+ * @param font a font
+ * @return a string, such as "Helvetica Bold 18pt"
+ * @public
+ */
 + (NSString*)			styleNameForFont:(NSFont*) font
 {
 #warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ %.1fpt", [font displayName], [font pointSize]];
 }
-
 
 #pragma mark -
 - (void)				setParagraphStyle:(NSParagraphStyle*) style
@@ -117,12 +83,10 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	[self changeTextAttribute:NSParagraphStyleAttributeName toValue:style];
 }
 
-
 - (NSParagraphStyle*)	paragraphStyle
 {
 	return [[self textAttributes] objectForKey:NSParagraphStyleAttributeName];
 }
-
 
 #pragma mark -
 - (void)				setAlignment:(NSTextAlignment) align
@@ -164,12 +128,10 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	}
 }
 
-
 - (NSTextAlignment)		alignment
 {
 	return [[self paragraphStyle] alignment];
 }
-
 
 #pragma mark -
 
@@ -197,7 +159,6 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	}
 }
 
-
 - (NSString*)			actionNameForTextAttribute:(NSString*) attribute
 {
 	// returns the undo action name for a particular text attribute
@@ -216,8 +177,6 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	return NSLocalizedString( raw, @"style text attribute undo string" );
 }
 
-
-
 #pragma mark -
 - (void)				setFont:(NSFont*) font
 {
@@ -228,12 +187,10 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	}
 }
 
-
 - (NSFont*)				font
 {
 	return [[self textAttributes] objectForKey:NSFontAttributeName];
 }
-
 
 - (void)				setFontSize:(CGFloat) size
 {
@@ -246,12 +203,10 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	}
 }
 
-
 - (CGFloat)				fontSize
 {
 	return [[self font] pointSize];
 }
-
 
 - (void)				setTextColour:(NSColor*) aColour
 {
@@ -262,12 +217,10 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	}
 }
 
-
 - (NSColor*)			textColour
 {
 	return [[self textAttributes] objectForKey:NSForegroundColorAttributeName];
 }
-
 
 #pragma mark -
 - (void)				setUnderlined:(NSInteger) uval
@@ -279,12 +232,10 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	}
 }
 
-
 - (NSInteger)					underlined
 {
 	return [[[self textAttributes] objectForKey:NSUnderlineStyleAttributeName] integerValue];
 }
-
 
 - (void)				toggleUnderlined
 {
@@ -293,7 +244,6 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	else
 		[self setUnderlined:0];
 }
-
 
 #pragma mark -
 - (void)				applyToText:(NSMutableAttributedString*) text
@@ -306,7 +256,6 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	[text fixAttributesInRange:rng];
 }
 
-
 - (void)				adoptFromText:(NSAttributedString*) text
 {
 	// sets the style's text attributes to match those of the attributed string passed
@@ -317,7 +266,6 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 		[self setTextAttributes:ta];
 	}
 }
-
 
 #pragma mark -
 - (DKStyle*)			drawingStyleFromTextAttributes
@@ -360,5 +308,5 @@ static NSString* kDKBasicTextStyleDefaultKey	= @"326CF635-7863-42C6-900D-CFFC7D5
 	return [styl autorelease];
 }
 
-
 @end
+

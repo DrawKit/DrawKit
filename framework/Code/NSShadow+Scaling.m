@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSShadow+Scaling.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 22/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "NSShadow+Scaling.h"
 #import "NSColor+DKAdditions.h"
@@ -22,7 +20,6 @@
 	
 	//[self set];
 }
-
 
 - (void)		setAbsoluteFlipped:(BOOL) flipped
 {
@@ -43,7 +40,6 @@
 	CGColorRelease( colour );
 }
 
-
 #pragma mark -
 
 #ifdef DRAWKIT_DEPRECATED
@@ -57,19 +53,16 @@
 	[self setShadowOffset:offset];
 }
 
-
 - (void)		setShadowAngleInDegrees:(CGFloat) degrees distance:(CGFloat) dist
 {
 	[self setShadowAngle:DEGREES_TO_RADIANS(degrees) distance:dist];
 }
-
 
 - (CGFloat)		shadowAngle
 {
 	NSSize offset = [self shadowOffset];
 	return atan2f( offset.height, offset.width );
 }
-
 
 - (CGFloat)		shadowAngleInDegrees
 {
@@ -83,7 +76,6 @@
 
 #endif
 
-
 - (void)		setAngle:(CGFloat) radians
 {
 	NSSize	offset;
@@ -93,7 +85,6 @@
 	
 	[self setShadowOffset:offset];
 }
-
 
 - (void)		setAngleInDegrees:(CGFloat) degrees
 {
@@ -105,13 +96,11 @@
 	[self setAngle:DEGREES_TO_RADIANS(degrees)];
 }
 
-
 - (CGFloat)		angle
 {
 	NSSize offset = [self shadowOffset];
 	return atan2f( offset.height, offset.width );
 }
-
 
 - (CGFloat)		angleInDegrees
 {
@@ -122,8 +111,6 @@
 	
 	return angle;
 }
-
-
 
 - (void)		setDistance:(CGFloat) distance
 {
@@ -136,13 +123,11 @@
 	[self setShadowOffset:offset];
 }
 
-
 - (CGFloat)		distance
 {
 	NSSize offset = [self shadowOffset];
 	return hypotf( offset.width, offset.height );
 }
-
 
 - (CGFloat)		extraSpace
 {
@@ -155,7 +140,6 @@
 	
 	return es;
 }
-
 
 - (void)		drawApproximateShadowWithPath:(NSBezierPath*) path operation:(DKShadowDrawingOperation) op strokeWidth:(NSInteger) sw
 {
@@ -185,5 +169,5 @@
 	}
 }
 
-
 @end
+

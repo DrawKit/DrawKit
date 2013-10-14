@@ -1,13 +1,10 @@
-///**********************************************************************************************************************************
-///  DKImageShape.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 23/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
-
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKImageShape.h"
 #import "DKImageShape+Vectorization.h"
@@ -29,13 +26,24 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 
 @interface DKImageShape (Private)
 
+/** @brief Return a transform that can be used to position, size and rotate the image to the shape
+ * @note
+ * A separate transform is necessary because trying to use the normal shape transform and rendering the
+ * image into a unit square results in some very visible rounding errors. Instead the image is
+ * transformed independently from its orginal size directly to the final size, so the errors are
+ * eliminated.
+ * @return a transform
+ * @private
+ */
 - (NSAffineTransform*)		imageTransformWithoutLocation;
 - (NSAffineTransform*)		imageTransform;
+
+/** @brief Draw the image applying all of the shape's settings
+ * @private
+ */
 - (void)					drawImage;
 
-
 @end
-
 
 @implementation DKImageShape
 #pragma mark As a DKImageShape
@@ -45,20 +53,11 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return [DKStyle styleWithFillColour:[NSColor clearColor] strokeColour:nil];
 }
 
-///*********************************************************************************************************************
-///
-/// method:			initWithPasteboard
-/// scope:			public instance method
-/// overrides:		
-/// description:	initializes the image shape from the pasteboard
-/// 
-/// parameters:		<pboard> a pasteboard
-/// result:			the objet if it was successfully initialized, or nil
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the image shape from the pasteboard
+ * @param pboard a pasteboard
+ * @return the objet if it was successfully initialized, or nil
+ * @public
+ */
 - (id)						initWithPasteboard:(NSPasteboard*) pboard;
 {
 	NSImage*		image = nil;
@@ -96,23 +95,15 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return self;
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			initWithImage
-/// scope:			public instance method, designated initializer
-/// overrides:		
-/// description:	initializes the image shape from an image
-/// 
-/// parameters:		<anImage> a valid image object
-/// result:			the object if it was successfully initialized, or nil
-///
-/// notes:			the object's metdata also record's the image's original size
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the image shape from an image
+ * @note
+ * The object's metdata also record's the image's original size
+ * @param anImage a valid image object
+ * @return the object if it was successfully initialized, or nil
+ * @public
+ */
 - (id)						initWithImage:(NSImage*) anImage
 {
 	NSAssert( anImage != nil, @"cannot init with a nil image");
@@ -146,23 +137,15 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithImageData:
-/// scope:			public instance method
-/// overrides:		
-/// description:	initializes the image shape from image data
-/// 
-/// parameters:		<imageData> image data of some kind
-/// result:			the object if it was successfully initialized, or nil
-///
-/// notes:			this method is preferred where data is available as it allows the original data to be cached
-///					very efficiently by the document's image data manager. This maintains quality and keeps file
-///					sizes to a minimum.
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the image shape from image data
+ * @note
+ * This method is preferred where data is available as it allows the original data to be cached
+ * very efficiently by the document's image data manager. This maintains quality and keeps file
+ * sizes to a minimum.
+ * @param imageData image data of some kind
+ * @return the object if it was successfully initialized, or nil
+ * @public
+ */
 - (id)						initWithImageData:(NSData*) imageData
 {
 	NSAssert( imageData != nil, @"cannot initialise with nil data");
@@ -187,21 +170,13 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithImageNamed
-/// scope:			public instance method
-/// overrides:		
-/// description:	initializes the image shape from an image
-/// 
-/// parameters:		<imageName> the name of an image
-/// result:			the object if it was successfully initialized, or nil
-///
-/// notes:			the original name of the image is recorded in the object's metadata
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the image shape from an image
+ * @note
+ * The original name of the image is recorded in the object's metadata
+ * @param imageName the name of an image
+ * @return the object if it was successfully initialized, or nil
+ * @public
+ */
 - (id)						initWithImageNamed:(NSString*) imageName
 {
 	[self initWithImage:[NSImage imageNamed:imageName]];
@@ -210,22 +185,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithContentsOfFile
-/// scope:			public instance method
-/// overrides:		
-/// description:	initializes the image shape from an image file given by the path
-/// 
-/// parameters:		<filepath> the path to an image file on disk
-/// result:			the object if it was successfully initialized, or nil
-///
-/// notes:			the original name and path of the image is recorded in the object's metadata. This extracts the
-///					original data which allows the image to be efficiently stored.
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the image shape from an image file given by the path
+ * @note
+ * The original name and path of the image is recorded in the object's metadata. This extracts the
+ * original data which allows the image to be efficiently stored.
+ * @param filepath the path to an image file on disk
+ * @return the object if it was successfully initialized, or nil
+ * @public
+ */
 - (id)						initWithContentsOfFile:(NSString*) filepath
 {
 	NSAssert( filepath != nil, @"path was nil");
@@ -250,22 +217,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return self;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setImage:
-/// scope:			public instance method
-/// overrides:		
-/// description:	sets the object's image
-/// 
-/// parameters:		<anImage> an image to display in this shape.
-/// result:			none
-///
-/// notes:			the shape's path, size, angle, etc. are not changed by this method
-///
-///********************************************************************************************************************
 
+/** @brief Sets the object's image
+ * @note
+ * The shape's path, size, angle, etc. are not changed by this method
+ * @param anImage an image to display in this shape.
+ * @public
+ */
 - (void)					setImage:(NSImage*) anImage
 {
 	NSAssert( anImage != nil, @"can't set a nil image");
@@ -294,41 +253,21 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			image
-/// scope:			public instance method
-/// overrides:		
-/// description:	get the object's image
-/// 
-/// parameters:		none
-/// result:			the image
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Get the object's image
+ * @return the image
+ * @public
+ */
 - (NSImage*)				image
 {
 	return m_image;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageAtRenderedSize
-/// scope:			public instance method
-/// overrides:		
-/// description:	get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
-/// 
-/// parameters:		none
-/// result:			the image
-///
-/// notes:			this also applies the path clipping, if any
-///
-///********************************************************************************************************************
-
+/** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
+ * @note
+ * This also applies the path clipping, if any
+ * @return the image
+ * @public
+ */
 - (NSImage*)				imageAtRenderedSize
 {
 	NSCompositingOperation savedOp = [self compositingOperation];
@@ -358,26 +297,15 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 
 }
 
-
-
-
-///*********************************************************************************************************************
-///
-/// method:			setImageWithKey:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the object's image from image data in the drawing's image data manager
-/// 
-/// parameters:		<key> the image's key
-///					<coder> the dearchiver in use, if any.
-/// result:			none
-///
-/// notes:			The object must usually have been added to a drawing before this is called, so that it can locate the
-///					image data manager to use. However, during dearchiving this isn't the case so the coder itself can
-///					return a reference to the image manager.
-///
-///********************************************************************************************************************
-
+/** @brief Set the object's image from image data in the drawing's image data manager
+ * @note
+ * The object must usually have been added to a drawing before this is called, so that it can locate the
+ * image data manager to use. However, during dearchiving this isn't the case so the coder itself can
+ * return a reference to the image manager.
+ * @param key the image's key
+ * @param coder the dearchiver in use, if any.
+ * @public
+ */
 - (void)					setImageWithKey:(NSString*) key coder:(NSCoder*) coder
 {
 	if(![key isEqualToString:[self imageKey]])
@@ -405,21 +333,12 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setImageKey:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the object's image key
-/// 
-/// parameters:		<key> the image's key
-/// result:			none
-///
-/// notes:			This is called by other methods as necessary. It currently simply retains the key.
-///
-///********************************************************************************************************************
-
+/** @brief Set the object's image key
+ * @note
+ * This is called by other methods as necessary. It currently simply retains the key.
+ * @param key the image's key
+ * @public
+ */
 - (void)					setImageKey:(NSString*) key
 {
 	[key retain];
@@ -427,41 +346,21 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	mImageKey = key;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageKey
-/// scope:			public instance method
-/// overrides:		
-/// description:	return the object's image key
-/// 
-/// parameters:		none 
-/// result:			the image's key
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the object's image key
+ * @return the image's key
+ * @public
+ */
 - (NSString*)				imageKey
 {
 	return mImageKey;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			transferImageKeyToNewContainer:
-/// scope:			public instance method
-/// overrides:		
-/// description:	transfer the image key when the object is added to a new container
-/// 
-/// parameters:		<container> the new container 
-/// result:			none
-///
-/// notes:			called as necessary by other methods
-///
-///********************************************************************************************************************
-
+/** @brief Transfer the image key when the object is added to a new container
+ * @note
+ * Called as necessary by other methods
+ * @param container the new container 
+ * @public
+ */
 - (void)					transferImageKeyToNewContainer:(id<DKDrawableContainer>) container
 {
 	// when an image shape has a new container, image data may need to be transferred to it. This is called
@@ -509,23 +408,13 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			setImageData:
-/// scope:			public instance method
-/// overrides:		
-/// description:	sets the image from data
-/// 
-/// parameters:		<data> data containing image data 
-/// result:			none
-///
-/// notes:			This method liases with the image manager so that the image key is correctly recorded or assigned
-///					as needed.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the image from data
+ * @note
+ * This method liases with the image manager so that the image key is correctly recorded or assigned
+ * as needed.
+ * @param data data containing image data 
+ * @public
+ */
 - (void)					setImageData:(NSData*) data
 {
 	[data retain];
@@ -554,23 +443,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageData
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the image original data
-/// 
-/// parameters:		
-/// result:			data containing image data
-///
-/// notes:			This returns either the locally retained original data, or the data held by the image manager. In
-///					either case the data returned is the original data from which the image was created. If the image
-///					was set directly and not from data, and the key is unknown to the image manager, returns nil.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the image original data
+ * @note
+ * This returns either the locally retained original data, or the data held by the image manager. In
+ * either case the data returned is the original data from which the image was created. If the image
+ * was set directly and not from data, and the key is unknown to the image manager, returns nil.
+ * @return data containing image data
+ * @public
+ */
 - (NSData*)					imageData
 {
 	if( mOriginalImageData == nil )
@@ -579,22 +459,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return mOriginalImageData;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setImageWithPasteboard
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the object's image from image data on the pasteboard
-/// 
-/// parameters:		<pb> the pasteboard
-/// result:			YES if the operation succeeded, NO otherwise
-///
-/// notes:			this first tries to use the image data manager to handle the pasteboard, so that the image is
-///					efficiently cached. If that doesn't work, falls back to the original direct approach.
-///
-///********************************************************************************************************************
-
+/** @brief Set the object's image from image data on the pasteboard
+ * @note
+ * This first tries to use the image data manager to handle the pasteboard, so that the image is
+ * efficiently cached. If that doesn't work, falls back to the original direct approach.
+ * @param pb the pasteboard
+ * @return YES if the operation succeeded, NO otherwise
+ * @public
+ */
 - (BOOL)					setImageWithPasteboard:(NSPasteboard*) pb
 {
 	NSAssert( pb != nil, @"pasteboard is nil");
@@ -641,23 +513,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return NO;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			writeImageToPasteboard:
-/// scope:			public instance method
-/// overrides:		
-/// description:	place the object's image data on the pasteboard
-/// 
-/// parameters:		<pb> the pasteboard
-/// result:			YES if the operation succeeded, NO otherwise
-///
-/// notes:			adds the image data in a variety of forms to the pasteboard - raw data (as file content type)
-///					TIFF and PDF formats.
-///
-///********************************************************************************************************************
-
+/** @brief Place the object's image data on the pasteboard
+ * @note
+ * Adds the image data in a variety of forms to the pasteboard - raw data (as file content type)
+ * TIFF and PDF formats.
+ * @param pb the pasteboard
+ * @return YES if the operation succeeded, NO otherwise
+ * @public
+ */
 - (BOOL)					writeImageToPasteboard:(NSPasteboard*) pb
 {
 	NSAssert( pb != nil, @"cannot write to nil pasteboard");
@@ -696,20 +559,13 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 }
 
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setImageOpacity:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the image's opacity
-/// 
-/// parameters:		<opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
-/// result:			none
-///
-/// notes:			the default is 1.0
-///
-///********************************************************************************************************************
 
+/** @brief Set the image's opacity
+ * @note
+ * The default is 1.0
+ * @param opacity an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
+ * @public
+ */
 - (void)					setImageOpacity:(CGFloat) opacity
 {
 	if ( opacity != m_opacity )
@@ -720,41 +576,23 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageOpacity
-/// scope:			public instance method
-/// overrides:		
-/// description:	get the image's opacity
-/// 
-/// parameters:		none
-/// result:			<opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
-///
-/// notes:			default is 1.0
-///
-///********************************************************************************************************************
-
+/** @brief Get the image's opacity
+ * @note
+ * Default is 1.0
+ * @return <opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
+ * @public
+ */
 - (CGFloat)					imageOpacity
 {
 	return m_opacity;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setImageDrawsOnTop:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set whether the image draws above or below the rendering done by the style
-/// 
-/// parameters:		<onTop> YES to draw on top (after) the style, NO to draw below (before)
-/// result:			none
-///
-/// notes:			default is NO
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the image draws above or below the rendering done by the style
+ * @note
+ * Default is NO
+ * @param onTop YES to draw on top (after) the style, NO to draw below (before)
+ * @public
+ */
 - (void)					setImageDrawsOnTop:(BOOL) onTop
 {
 	if ( onTop != [self imageDrawsOnTop])
@@ -765,40 +603,23 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageDrawsOnTop
-/// scope:			public instance method
-/// overrides:		
-/// description:	whether the image draws above or below the rendering done by the style
-/// 
-/// parameters:		none
-/// result:			YES to draw on top (after) the style, NO to draw below (before)
-///
-/// notes:			default is NO
-///
-///********************************************************************************************************************
-
+/** @brief Whether the image draws above or below the rendering done by the style
+ * @note
+ * Default is NO
+ * @return YES to draw on top (after) the style, NO to draw below (before)
+ * @public
+ */
 - (BOOL)					imageDrawsOnTop
 {
 	return m_drawnOnTop;
 }
 
-///*********************************************************************************************************************
-///
-/// method:			setCompositingOperation:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the Quartz composition mode to use when compositing the image
-/// 
-/// parameters:		<op> an NSCompositingOperation constant
-/// result:			none
-///
-/// notes:			default is NSCompositeSourceAtop
-///
-///********************************************************************************************************************
-
+/** @brief Set the Quartz composition mode to use when compositing the image
+ * @note
+ * Default is NSCompositeSourceAtop
+ * @param op an NSCompositingOperation constant
+ * @public
+ */
 - (void)					setCompositingOperation:(NSCompositingOperation) op
 {
 	if ( op != m_op )
@@ -809,42 +630,24 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			compositingOperation
-/// scope:			public instance method
-/// overrides:		
-/// description:	get the Quartz composition mode to use when compositing the image
-/// 
-/// parameters:		none 
-/// result:			an NSCompositingOperation constant
-///
-/// notes:			default is NSCompositeSourceAtop
-///
-///********************************************************************************************************************
-
+/** @brief Get the Quartz composition mode to use when compositing the image
+ * @note
+ * Default is NSCompositeSourceAtop
+ * @return an NSCompositingOperation constant
+ * @public
+ */
 - (NSCompositingOperation)	compositingOperation
 {
 	return m_op;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setImageScale:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the scale factor for the image
-/// 
-/// parameters:		<scale> a scaling value, 1.0 = 100% 
-/// result:			none
-///
-/// notes:			this is not currently implemented - images scale to fit the bounds when in scale mode, and are
-///					drawn at their native size in crop mode.
-///
-///********************************************************************************************************************
-
+/** @brief Set the scale factor for the image
+ * @note
+ * This is not currently implemented - images scale to fit the bounds when in scale mode, and are
+ * drawn at their native size in crop mode.
+ * @param scale a scaling value, 1.0 = 100% 
+ * @public
+ */
 - (void)					setImageScale:(CGFloat) scale
 {
 	if ( scale != m_imageScale )
@@ -856,43 +659,25 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageScale
-/// scope:			public instance method
-/// overrides:		
-/// description:	get the scale factor for the image
-/// 
-/// parameters:		none 
-/// result:			the scale
-///
-/// notes:			this is not currently implemented - images scale to fit the bounds when in scale mode, and are
-///					drawn at their native size in crop mode.
-///
-///********************************************************************************************************************
-
+/** @brief Get the scale factor for the image
+ * @note
+ * This is not currently implemented - images scale to fit the bounds when in scale mode, and are
+ * drawn at their native size in crop mode.
+ * @return the scale
+ * @public
+ */
 - (CGFloat)					imageScale
 {
 	return m_imageScale;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setImageOffset:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the offset position for the image
-/// 
-/// parameters:		<imgoff> the offset position 
-/// result:			none
-///
-/// notes:			the default is 0,0. The value is the distance in points from the top, left corner of the shape's
-///					bounds to the top, left corner of the image
-///
-///********************************************************************************************************************
-
+/** @brief Set the offset position for the image
+ * @note
+ * The default is 0,0. The value is the distance in points from the top, left corner of the shape's
+ * bounds to the top, left corner of the image
+ * @param imgoff the offset position 
+ * @public
+ */
 - (void)					setImageOffset:(NSPoint) imgoff
 {
 	if ( ! NSEqualPoints( imgoff, m_imageOffset ))
@@ -904,42 +689,24 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageOffset
-/// scope:			public instance method
-/// overrides:		
-/// description:	get the offset position for the image
-/// 
-/// parameters:		none
-/// result:			the image offset
-///
-/// notes:			the default is 0,0. The value is the distance in points from the top, left corner of the shape's
-///					bounds to the top, left corner of the image
-///
-///********************************************************************************************************************
-
+/** @brief Get the offset position for the image
+ * @note
+ * The default is 0,0. The value is the distance in points from the top, left corner of the shape's
+ * bounds to the top, left corner of the image
+ * @return the image offset
+ * @public
+ */
 - (NSPoint)					imageOffset
 {
 	return m_imageOffset;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setImageCroppingOptions:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the display mode for the object - crop image or scale it
-/// 
-/// parameters:		<crop> a mode value
-/// result:			none
-///
-/// notes:			the default is scale. 
-///
-///********************************************************************************************************************
-
+/** @brief Set the display mode for the object - crop image or scale it
+ * @note
+ * The default is scale. 
+ * @param crop a mode value
+ * @public
+ */
 - (void)					setImageCroppingOptions:(DKImageCroppingOptions) crop
 {
 	if ( crop != mImageCropping )
@@ -951,42 +718,18 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}	
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageCroppingOptions
-/// scope:			public instance method
-/// overrides:		
-/// description:	get the display mode for the object - crop image or scale it
-/// 
-/// parameters:		none
-/// result:			a mode value
-///
-/// notes:			the default is scale. 
-///
-///********************************************************************************************************************
-
+/** @brief Get the display mode for the object - crop image or scale it
+ * @note
+ * The default is scale. 
+ * @return a mode value
+ * @public
+ */
 - (DKImageCroppingOptions)	imageCroppingOptions
 {
 	return mImageCropping;
 }
 
-
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			drawImage
-/// scope:			private instance method
-/// overrides:		
-/// description:	draw the image applying all of the shape's settings
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			 
-///
-///********************************************************************************************************************
 
 - (void)					drawImage
 {
@@ -1031,24 +774,6 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	RESTORE_GRAPHICS_CONTEXT	//[NSGraphicsContext restoreGraphicsState];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			imageTransform
-/// scope:			private instance method
-/// overrides:		
-/// description:	return a transform that can be used to position, size and rotate the image to the shape
-/// 
-/// parameters:		none
-/// result:			a transform
-///
-/// notes:			a separate transform is necessary because trying to use the normal shape transform and rendering the
-///					image into a unit square results in some very visible rounding errors. Instead the image is
-///					transformed independently from its orginal size directly to the final size, so the errors are
-///					eliminated.
-///
-///********************************************************************************************************************
-
 - (NSAffineTransform*)		imageTransform
 {
 	NSAffineTransform*	tfm = [NSAffineTransform transform];
@@ -1064,7 +789,6 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[twl appendTransform:tfm];
 	return twl;
 }
-
 
 - (NSAffineTransform*)		imageTransformWithoutLocation
 {
@@ -1100,23 +824,15 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return xform;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			selectCropOrScaleAction:
-/// scope:			public action method
-/// overrides:		
-/// description:	select whether the object displays using crop or scale modes
-/// 
-/// parameters:		<sender> the message sender
-/// result:			none
-///
-/// notes:			this action method uses the sender's tag value as the cropping mode to set. It can be connected
-///					directly to a menu item with a suitable tag set for example.
-///
-///********************************************************************************************************************
 
+/** @brief Select whether the object displays using crop or scale modes
+ * @note
+ * This action method uses the sender's tag value as the cropping mode to set. It can be connected
+ * directly to a menu item with a suitable tag set for example.
+ * @param sender the message sender
+ * @public
+ */
 - (IBAction)				selectCropOrScaleAction:(id) sender
 {
 	DKImageCroppingOptions opt = (DKImageCroppingOptions)[sender tag];
@@ -1132,21 +848,10 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toggleImageAboveAction:
-/// scope:			public action method
-/// overrides:		
-/// description:	toggle between image drawn on top and image drawn below the rest of the style
-/// 
-/// parameters:		<sender> the message sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Toggle between image drawn on top and image drawn below the rest of the style
+ * @param sender the message sender
+ * @public
+ */
 - (IBAction)				toggleImageAboveAction:(id) sender
 {
 	// user action permits the image on top setting to be flipped
@@ -1157,23 +862,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[[self undoManager] setActionName:NSLocalizedString(@"Image On Top", @"undo string for image on top")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			copyImage:
-/// scope:			public action method
-/// overrides:		
-/// description:	copy the image directly to the pasteboard.
-/// 
-/// parameters:		<sender> the message sender
-/// result:			none
-///
-/// notes:			A normal "Copy" does place an image of the object on the pb, but that is the whole object with
-///					all style elements based on the bounds. For some work, such as uing images for pattern fills,
-///					that's not appropriate, so this action allows you to extract the internal image.
-///
-///********************************************************************************************************************
-
+/** @brief Copy the image directly to the pasteboard.
+ * @note
+ * A normal "Copy" does place an image of the object on the pb, but that is the whole object with
+ * all style elements based on the bounds. For some work, such as uing images for pattern fills,
+ * that's not appropriate, so this action allows you to extract the internal image.
+ * @param sender the message sender
+ * @public
+ */
 - (IBAction)				copyImage:(id) sender
 {
 #pragma unused(sender)
@@ -1181,21 +877,10 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[self writeImageToPasteboard:[NSPasteboard generalPasteboard]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteImage:
-/// scope:			public action method
-/// overrides:		
-/// description:	replace the shape's image with one from the pasteboard if possible.
-/// 
-/// parameters:		<sender> the message sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Replace the shape's image with one from the pasteboard if possible.
+ * @param sender the message sender
+ * @public
+ */
 - (IBAction)				pasteImage:(id) sender
 {
 	#pragma unused(sender)
@@ -1207,23 +892,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			fitToImage:
-/// scope:			public action method
-/// overrides:		
-/// description:	resizes the shape to exactly fit the image at its original size.
-/// 
-/// parameters:		<sender> the message sender
-/// result:			none
-///
-/// notes:			cropped images remain in the same visual location that they are currently at, with the shape's
-///					frame moved to fit around it exactly. Scaled images are resized to the original size and the object's
-///					location remains the same. A side effect is to reset any offset, image offset, but not the angle.
-///
-///********************************************************************************************************************
-
+/** @brief Resizes the shape to exactly fit the image at its original size.
+ * @note
+ * Cropped images remain in the same visual location that they are currently at, with the shape's
+ * frame moved to fit around it exactly. Scaled images are resized to the original size and the object's
+ * location remains the same. A side effect is to reset any offset, image offset, but not the angle.
+ * @param sender the message sender
+ * @public
+ */
 - (IBAction)				fitToImage:(id) sender
 {
 	#pragma unused(sender)
@@ -1266,25 +942,12 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[[self undoManager] setActionName:NSLocalizedString(@"Fit To Image", @"undo string for fit to image")];
 }
 
-
-
-
 #pragma mark -
 #pragma mark As a DKDrawableObject
-///*********************************************************************************************************************
-///
-/// method:			drawContentWithStyle:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	draws the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Draws the object
+ * @public
+ */
 - (void)				drawContent
 {
 	if([self isBeingHitTested])
@@ -1304,22 +967,11 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			populateContextualMenu
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	add contextual menu items pertaining to the current object's context
-/// 
-/// parameters:		<themenu> a menu object to add items to
-/// result:			YES
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Add contextual menu items pertaining to the current object's context
+ * @param themenu a menu object to add items to
+ * @return YES
+ * @public
+ */
 - (BOOL)					populateContextualMenu:(NSMenu*) theMenu
 {
 	[super populateContextualMenu:theMenu];
@@ -1335,7 +987,6 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return YES;
 }
 
-
 - (NSString*)			undoActionNameForPartCode:(NSInteger) pc
 {
 	if( pc == mImageOffsetPartcode )
@@ -1343,8 +994,6 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	else
 		return [super undoActionNameForPartCode:pc];
 }
-
-
 
 - (void)			setContainer:(id<DKDrawableContainer>) container
 {
@@ -1356,24 +1005,12 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[super setContainer:container];
 }
 
-
-
 #pragma mark -
 #pragma mark As an NSObject
-///*********************************************************************************************************************
-///
-/// method:			dealloc
-/// scope:			public action method
-/// overrides:		NSObject
-/// description:	deallocates the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Deallocates the object
+ * @public
+ */
 - (void)				dealloc
 {
 	[m_image release];
@@ -1382,27 +1019,14 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[super dealloc];
 }
 
-
 #pragma mark -
 #pragma mark As part of the DKHotspotDelegate protocol
 
-
-///*********************************************************************************************************************
-///
-/// method:			hotspot:willBeginTrackingWithEvent:inView:
-/// scope:			hotspot delegate callback method
-/// overrides:		
-/// description:	saves the current cursor and sets the hand cursor
-/// 
-/// parameters:		<hs> the hotspot hit
-///					<event> the mouse down event
-///					<view> the currentview
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Saves the current cursor and sets the hand cursor
+ * @param hs the hotspot hit
+ * @param event the mouse down event
+ * @param view the currentview
+ */
 - (void)				hotspot:(DKHotspot*) hs willBeginTrackingWithEvent:(NSEvent*) event inView:(NSView*) view
 {
 	#pragma unused(hs)
@@ -1419,23 +1043,11 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hotspot:isTrackingWithEvent:inView:
-/// scope:			hotspot delegate callback method
-/// overrides:		
-/// description:	moves the hotspot to a new place dragging the image offset with it
-/// 
-/// parameters:		<hs> the hotspot hit
-///					<event> the mouse down event
-///					<view> the currentview
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Moves the hotspot to a new place dragging the image offset with it
+ * @param hs the hotspot hit
+ * @param event the mouse down event
+ * @param view the currentview
+ */
 - (void)				hotspot:(DKHotspot*) hs isTrackingWithEvent:(NSEvent*) event inView:(NSView*) view
 {
 	NSInteger pc = [hs partcode];
@@ -1461,23 +1073,11 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hotspot:didEndTrackingWithEvent:inView:
-/// scope:			hotspot delegate callback method
-/// overrides:		
-/// description:	restores hte cursor
-/// 
-/// parameters:		<hs> the hotspot hit
-///					<event> the mouse down event
-///					<view> the currentview
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Restores hte cursor
+ * @param hs the hotspot hit
+ * @param event the mouse down event
+ * @param view the currentview
+ */
 - (void)				hotspot:(DKHotspot*) hs didEndTrackingWithEvent:(NSEvent*) event inView:(NSView*) view
 {
 	#pragma unused(hs)
@@ -1487,24 +1087,15 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[NSCursor pop];
 }
 
-
 #pragma mark -
 #pragma mark As part of NSDraggingDestination protocol
 
-///*********************************************************************************************************************
-///
-/// method:			performDragOperation:
-/// scope:			NSDraggingDestination method
-/// overrides:		
-/// description:	receive a drag onto this object
-/// 
-/// parameters:		<sender> the drag sender
-/// result:			YES if the operation could be carried out, NO otherwise
-///
-/// notes:			DK allows images to be simply dragged right into an existing image shape, replacing the current image
-///
-///********************************************************************************************************************
-
+/** @brief Receive a drag onto this object
+ * @note
+ * DK allows images to be simply dragged right into an existing image shape, replacing the current image
+ * @param sender the drag sender
+ * @return YES if the operation could be carried out, NO otherwise
+ */
 - (BOOL)				performDragOperation:(id <NSDraggingInfo>) sender
 {
 	NSPasteboard* pb = [sender draggingPasteboard];
@@ -1515,24 +1106,12 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 		return [super performDragOperation:sender];
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 
-///*********************************************************************************************************************
-///
-/// method:			encodeWithCoder:
-/// scope:			NSCoding method
-/// overrides:		
-/// description:	archive the object
-/// 
-/// parameters:		<coder> a coder
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Archive the object
+ * @param coder a coder
+ */
 - (void)		encodeWithCoder:(NSCoder*) coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
@@ -1558,21 +1137,10 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	[coder encodeInteger:[self imageCroppingOptions] forKey:@"DKImageShape_croppingOptions"];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithCoder:
-/// scope:			NSCoding method
-/// overrides:		
-/// description:	dearchive the object
-/// 
-/// parameters:		<coder> a coder
-/// result:			the object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Dearchive the object
+ * @param coder a coder
+ * @return the object
+ */
 - (id)			initWithCoder:(NSCoder*) coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
@@ -1617,23 +1185,13 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
-///*********************************************************************************************************************
-///
-/// method:			copyWithZone:
-/// scope:			NSCopying method
-/// overrides:		
-/// description:	copy the object
-/// 
-/// parameters:		<zone> a zone
-/// result:			a copy of the object
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Copy the object
+ * @param zone a zone
+ * @return a copy of the object
+ */
 - (id)			copyWithZone:(NSZone*) zone
 {
 	DKImageShape* copy = [super copyWithZone:zone];
@@ -1661,20 +1219,10 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
 
-///*********************************************************************************************************************
-///
-/// method:			validateMenuItem:
-/// scope:			NSMenuValidation method
-/// overrides:		
-/// description:	enable menu items this object can respond to
-/// 
-/// parameters:		<item> the menu item
-/// result:			YES if the item is enabled, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Enable menu items this object can respond to
+ * @param item the menu item
+ * @return YES if the item is enabled, NO otherwise
+ */
 - (BOOL)			validateMenuItem:(NSMenuItem*) item
 {
 	if ([item action] == @selector(vectorize:) ||
@@ -1705,3 +1253,4 @@ NSString*	kDKOriginalNameMetadataKey				= @"dk_original_name";
 }
 
 @end
+

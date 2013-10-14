@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSAttributedString+DKAdditions.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 13/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "NSAttributedString+DKAdditions.h"
 #import "DKBezierTextContainer.h"
@@ -15,19 +13,9 @@
 #import "NSBezierPath+Geometry.h"
 #import "DKDrawKitMacros.h"
 
-///*********************************************************************************************************************
-///
-/// method:			sharedDrawingLayoutManager
-/// scope:			global helper function
-/// description:	supply a layout manager common to all DKTextShape instances
-/// 
-/// parameters:		none
-/// result:			the shared layout manager instance
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Supply a layout manager common to all DKTextShape instances
+ * @return the shared layout manager instance
+ */
 NSLayoutManager*		sharedDrawingLayoutManager( void )
 {
     // This method returns an NSLayoutManager that can be used to draw the contents of a DKTextShape.
@@ -60,20 +48,9 @@ NSLayoutManager*		sharedDrawingLayoutManager( void )
 	return sharedLM;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			sharedCaptureLayoutManager
-/// scope:			global helper function
-/// description:	supply a layout manager that can be used to capture text layout into a bezier path
-/// 
-/// parameters:		none
-/// result:			the shared layout manager instance
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Supply a layout manager that can be used to capture text layout into a bezier path
+ * @return the shared layout manager instance
+ */
 NSLayoutManager*		sharedCaptureLayoutManager( void )
 {
     static DKBezierLayoutManager*	sharedLM = nil;
@@ -105,77 +82,48 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 
 @implementation NSAttributedString (DKAdditions)
 
+/** @brief Lays out the receiver then draws it to the destination
+ * @note
+ * This method is intended to be utilised by high-level text objects such as DKTextShape and
+ * DKTextAdornment. It both lays out and renders text in many different ways according to its
+ * parameters (and the string's attributes themselves). 
+ * @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
+ * @param layoutSize a size describing the text layout container. Text is laid out to fit into this size.
+ * @param radians an angle to which the text is rotated before being drawn to <destRect>
+ * @public
+ */
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawInRect:withLayoutSize:atAngle:
-/// scope:			public instance method
-/// overrides:		
-/// description:	lays out the receiver then draws it to the destination
-/// 
-/// parameters:		<destRect> the final destination of the text. The text is scaled and translated to draw in this rect
-///					<layoutSize> a size describing the text layout container. Text is laid out to fit into this size.
-///					<radians> an angle to which the text is rotated before being drawn to <destRect>
-/// result:			none
-///
-/// notes:			this method is intended to be utilised by high-level text objects such as DKTextShape and
-///					DKTextAdornment. It both lays out and renders text in many different ways according to its
-///					parameters (and the string's attributes themselves). 
-///
-///********************************************************************************************************************
-
+/** @brief Lays out the receiver then draws it to the destination
+ * @note
+ * This method is intended to be utilised by high-level text objects such as DKTextShape and
+ * DKTextAdornment. It both lays out and renders text in many different ways according to its
+ * parameters (and the string's attributes themselves). 
+ * @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
+ * @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
+ * @param radians an angle to which the text is rotated before being drawn to <destRect>
+ * @param vAlign whether the text is positioned at top, centre, bottom or at some value
+ * @param vPos proportion of srcRect given by interval 0..1 when vAlign is proportional
+ * @public
+ */
 - (void)	drawInRect:(NSRect) destRect withLayoutSize:(NSSize) layoutSize atAngle:(CGFloat) radians
 {
 	[self drawInRect:destRect withLayoutPath:[NSBezierPath bezierPathWithRect:NSMakeRect( 0, 0, layoutSize.width, layoutSize.height)] atAngle:radians];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawInRect:withLayoutPath:atAngle:
-/// scope:			public instance method
-/// overrides:		
-/// description:	lays out the receiver then draws it to the destination
-/// 
-/// parameters:		<destRect> the final destination of the text. The text is scaled and translated to draw in this rect
-///					<layoutPath> a path describing the text layout container. Text is laid out to fit into this path.
-///					<radians> an angle to which the text is rotated before being drawn to <destRect>
-/// result:			none
-///
-/// notes:			this method is intended to be utilised by high-level text objects such as DKTextShape and
-///					DKTextAdornment. It both lays out and renders text in many different ways according to its
-///					parameters (and the string's attributes themselves). 
-///
-///********************************************************************************************************************
-
-
+/** @brief Lays out the receiver then draws it to the destination
+ * @note
+ * This method is intended to be utilised by high-level text objects such as DKTextShape and
+ * DKTextAdornment. It both lays out and renders text in many different ways according to its
+ * parameters (and the string's attributes themselves). 
+ * @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
+ * @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
+ * @param radians an angle to which the text is rotated before being drawn to <destRect>
+ * @public
+ */
 - (void)	drawInRect:(NSRect) destRect withLayoutPath:(NSBezierPath*) layoutPath atAngle:(CGFloat) radians
 {
 	[self drawInRect:destRect withLayoutPath:layoutPath atAngle:radians verticalPositioning:kDKTextShapeVerticalAlignmentTop verticalOffset:0];
 }
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawInRect:withLayoutPath:atAngle:verticalPositioning:verticalOffset:
-/// scope:			public instance method
-/// overrides:		
-/// description:	lays out the receiver then draws it to the destination
-/// 
-/// parameters:		<destRect> the final destination of the text. The text is scaled and translated to draw in this rect
-///					<layoutPath> a path describing the text layout container. Text is laid out to fit into this path.
-///					<radians> an angle to which the text is rotated before being drawn to <destRect>
-///					<vAlign> whether the text is positioned at top, centre, bottom or at some value
-///					<vPos> proportion of srcRect given by interval 0..1 when vAlign is proportional
-/// result:			none
-///
-/// notes:			this method is intended to be utilised by high-level text objects such as DKTextShape and
-///					DKTextAdornment. It both lays out and renders text in many different ways according to its
-///					parameters (and the string's attributes themselves). 
-///
-///********************************************************************************************************************
 
 - (void)	drawInRect:(NSRect) destRect
 			withLayoutPath:(NSBezierPath*) layoutPath
@@ -261,7 +209,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[contents release];
 }
 
-
 - (NSSize)	accurateSize
 {
 	// returns the accurate size needed to draw the string on a single line. This works by forcing the text layout, so is considerably more
@@ -291,7 +238,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	return as;
 }
 
-
 - (BOOL)	isHomogeneous
 {
 	// returns YES if all the attributes at index 0 apply to the entire string, or if string is empty.
@@ -307,7 +253,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 		return YES;
 }
 
-
 - (BOOL)	attributeIsHomogeneous:(NSString*) attrName
 {
 	// returns YES if the attribute named applies over the entire length of the string or the string is empty, NO otherwise (including if the attribute doesn't exist).
@@ -322,7 +267,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	else
 		return YES;
 }
-
 
 - (BOOL)	attributesAreHomogeneous:(NSDictionary*) attrs
 {
@@ -340,9 +284,7 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	return YES;
 }
 
-
 @end
-
 
 #pragma mark -
 
@@ -372,7 +314,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self endEditing];
 }
 
-
 - (void)	makeLowercase
 {
 	NSRange			effectiveRange = NSMakeRange( 0, 0 );
@@ -395,7 +336,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self endEditing];
 }
 
-
 - (void)	capitalize
 {
 	NSRange			effectiveRange = NSMakeRange( 0, 0 );
@@ -417,7 +357,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self fixAttributesInRange:NSMakeRange( 0, [self length])];
 	[self endEditing];
 }
-
 
 - (void)	convertFontsToFace:(NSString*) face
 {
@@ -444,8 +383,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self endEditing];
 }
 
-
-
 - (void)	convertFontsToFamily:(NSString*) family
 {
 	NSRange			effectiveRange = NSMakeRange( 0, 0 );
@@ -470,8 +407,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self fixFontAttributeInRange:NSMakeRange( 0, [self length])];
 	[self endEditing];
 }
-
-
 
 - (void)	convertFontsToSize:(CGFloat) aSize
 {
@@ -498,8 +433,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self endEditing];
 }
 
-
-
 - (void)	convertFontsByAddingSize:(CGFloat) aSize
 {
 	NSRange			effectiveRange = NSMakeRange( 0, 0 );
@@ -524,8 +457,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self fixFontAttributeInRange:NSMakeRange( 0, [self length])];
 	[self endEditing];
 }
-
-
 
 - (void)	convertFontsToHaveTrait:(NSFontTraitMask) traitMask
 {
@@ -552,8 +483,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self endEditing];
 }
 
-
-
 - (void)	convertFontsToNotHaveTrait:(NSFontTraitMask) traitMask
 {
 	NSRange			effectiveRange = NSMakeRange( 0, 0 );
@@ -578,7 +507,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self fixFontAttributeInRange:NSMakeRange( 0, [self length])];
 	[self endEditing];
 }
-
 
 - (void)	changeFont:(id) sender
 {
@@ -607,7 +535,6 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self endEditing];
 }
 
-
 - (void)	changeAttributes:(id) sender
 {
 	NSRange			effectiveRange = NSMakeRange( 0, 0 );
@@ -632,6 +559,5 @@ NSLayoutManager*		sharedCaptureLayoutManager( void )
 	[self endEditing];
 }
 
-
-
 @end
+

@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKSweptAngleGradient.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 13/07/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKSweptAngleGradient.h"
 
@@ -14,11 +12,9 @@
 #import "DKRandom.h"
 #import "LogEvent.h"
 
-
 @interface DKGradient (Private)
 - (void)			private_colorAtValue:(CGFloat) val components:(CGFloat*) components randomAccess:(BOOL) ra;
 @end
-
 
 #pragma mark -
 @implementation DKSweptAngleGradient
@@ -28,7 +24,6 @@
 {
 	return [self sweptAngleGradientWithStartingColor:[NSColor whiteColor] endingColor:[NSColor blackColor]];
 }
-
 
 + (DKGradient*)		sweptAngleGradientWithStartingColor:(NSColor*) c1 endingColor:(NSColor*) c2
 {
@@ -40,7 +35,6 @@
 	return [sa autorelease];
 }
 
-
 #pragma mark -
 
 - (void)			setNumberOfAngularSegments:(NSInteger) ns
@@ -48,13 +42,10 @@
 	m_sa_segments = ns;
 }
 
-
 - (NSInteger)				numberOfAngularSegments
 {
 	return m_sa_segments;
 }
-
-
 
 - (void)			preloadColours
 {
@@ -90,7 +81,6 @@
 		}
 	}
 }
-
 
 - (void)			createGradientImageWithRect:(NSRect) rect
 {
@@ -164,7 +154,6 @@
 	CGColorSpaceRelease( cSpace );
 }
 
-
 - (void)			invalidateCache
 {
 	unsigned char*	buffer;
@@ -179,7 +168,6 @@
 		m_sa_bitmap = NULL;
 	}
 }
-
 
 #pragma mark -
 #pragma mark As a DKGradient
@@ -239,7 +227,6 @@
 	RESTORE_GRAPHICS_CONTEXT	//[NSGraphicsContext restoreGraphicsState];
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (id)				init
@@ -261,13 +248,11 @@
 	return self;
 }
 
-
 - (void)			dealloc
 {
 	[self invalidateCache];
 	[super dealloc];
 }
-
 
 @end
 

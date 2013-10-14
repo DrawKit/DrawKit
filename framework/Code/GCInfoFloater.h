@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  GCInfoFloater.h
 ///  DrawKit ©2005-2008 Apptree.net
@@ -9,7 +16,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface GCInfoFloater : NSWindow
 {
 @private
@@ -17,7 +23,8 @@
 	NSSize			m_wOffset;
 }
 
-
+/** 
+ */
 + (GCInfoFloater*)	infoFloater;
 
 - (void)			setFloatValue:(float) val;
@@ -34,7 +41,6 @@
 
 @end
 
-
 /*
 
 This class provides a very simple tooltip-like window in which you can display a short piece of information, such
@@ -44,4 +50,3 @@ By positioning this next to the mouse and supplying it with info, you can enhanc
 user interaction.
 
 */
-

@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKDrawableObject+Metadata.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 19/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawableObject+Metadata.h"
 #import "DKUndoManager.h"
@@ -20,23 +18,18 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 
 #define		USE_107_OR_LATER_SCHEMA		1
 
-
-
 @implementation DKDrawableObject (Metadata)
 #pragma mark As a DKDrawableObject
-
 
 + (void)		setMetadataChangesAreUndoable:(BOOL) undo
 {
 	[[NSUserDefaults standardUserDefaults] setBool:!undo forKey:kDKUndoableChangesUserDefaultsKey];
 }
 
-
 + (BOOL)		metadataChangesAreUndoable
 {
 	return ![[NSUserDefaults standardUserDefaults] boolForKey:kDKUndoableChangesUserDefaultsKey];
 }
-
 
 - (NSMutableDictionary*)	metadata
 {
@@ -47,14 +40,10 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
-
 - (NSArray*)	metadataKeys
 {
 	return [[self metadata] allKeys];
 }
-
-
 
 - (void)		setupMetadata
 {
@@ -67,7 +56,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 	}
 }
-
 
 - (DKMetadataSchema) schema
 {
@@ -87,7 +75,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	
 	return kDKMetadataOriginalSchema;
 }
-
 
 - (void)		setMetadataItem:(DKMetadataItem*) item forKey:(NSString*) key
 {
@@ -119,12 +106,10 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	}
 }
 
-
 - (DKMetadataItem*)	metadataItemForKey:(NSString*) key
 {
 	return [self metadataItemForKey:key limitToLocalSearch:NO];
 }
-
 
 - (DKMetadataItem*)	metadataItemForKey:(NSString*) key limitToLocalSearch:(BOOL) local
 {
@@ -136,14 +121,12 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return item;
 }
 
-
 - (NSArray*)	metadataItemsForKeysInArray:(NSArray*) keyArray
 {
 	// returns an array of metadata items for the keys listed in <keyArray>. The returned order matches that of the keyArray, and is a local search only.
 
 	return [self metadataItemsForKeysInArray:keyArray limitToLocalSearch:YES];
 }
-
 
 - (NSArray*)	metadataItemsForKeysInArray:(NSArray*) keyArray limitToLocalSearch:(BOOL) local
 {
@@ -163,7 +146,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	}
 	return result;
 }
-
 
 - (void)		setMetadataItemValue:(id) value forKey:(NSString*) key
 {
@@ -186,7 +168,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 		}
 	}
 }
-
 
 - (void)		setMetadataItemType:(DKMetadataType) type forKey:(NSString*) key
 {
@@ -215,8 +196,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 		}
 	}
 }
-
-
 
 #pragma mark -
 
@@ -285,7 +264,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	}
 }
 
-
 - (id)			metadataObjectForKey:(NSString*) key
 {
 	// retrieve the metadata object for the given key. As an extra bonus, if the
@@ -333,7 +311,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
 - (BOOL)		hasMetadataForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -342,7 +319,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return ([self metadataObjectForKey:key] != nil);
 #endif
 }
-
 
 - (void)		removeMetadataForKey:(NSString*) key
 {
@@ -369,7 +345,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	[self metadataDidChangeKey:key];
 }
 
-
 - (void)		addMetadata:(NSDictionary*) dict
 {
 	if( dict )
@@ -395,7 +370,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	}
 }
 
-
 - (void)		setMetadata:(NSDictionary*) dict
 {
 	NSAssert( dict != nil, @"Cannot set metadata to a nil dictionary");
@@ -414,7 +388,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	[self metadataDidChangeKey:nil];
 }
 
-
 #pragma mark -
 - (void)		setFloatValue:(float) val forKey:(NSString*) key
 {
@@ -425,7 +398,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
 - (CGFloat)		floatValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -434,7 +406,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return [[self metadataObjectForKey:key] doubleValue];
 #endif
 }
-
 
 - (void)		setIntValue:(int) val forKey:(NSString*) key
 {
@@ -445,7 +416,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
 - (NSInteger)	intValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -454,7 +424,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return [[self metadataObjectForKey:key] integerValue];
 #endif
 }
-
 
 - (void)		setString:(NSString*) string forKey:(NSString*) key
 {
@@ -465,7 +434,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
 - (NSString*)	stringForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -474,7 +442,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return (NSString*)[self metadataObjectForKey:key];
 #endif
 }
-
 
 - (void)		setColour:(NSColor*) colour forKey:(NSString*) key
 {
@@ -485,7 +452,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
 - (NSColor*)	colourForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -494,7 +460,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return (NSColor*)[self metadataObjectForKey:key];
 #endif
 }
-
 
 - (void)		setSize:(NSSize) size forKey:(NSString*) key
 {
@@ -514,7 +479,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
 - (NSSize)		sizeForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -528,7 +492,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return size;
 #endif
 }
-
 
 #pragma mark -
 
@@ -592,7 +555,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-
 - (NSUInteger)	metadataChecksum
 {
 	// returns a number that is derived from the content of the metadata. If it changes, it means the metadata changed in some way. Don't interpret or store
@@ -625,7 +587,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	return cs;
 }
 
-
 - (void)		metadataWillChangeKey:(NSString*) key
 {
 	NSDictionary* userInfo = nil;
@@ -633,7 +594,6 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString] forKey:@"key"];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification object:self userInfo:userInfo];
 }
-
 
 - (void)		metadataDidChangeKey:(NSString*) key;
 {
@@ -643,15 +603,12 @@ NSString*	kDKUndoableChangesUserDefaultsKey	= @"DKMetadataChangesAreNotUndoable"
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification object:self userInfo:userInfo];
 }
 
-
 @end
-
 
 #pragma mark -
 #pragma mark Contants (Non-localized)
 
 NSString*	kDKPrivateShapeOriginalText			= @"Original Text";
-
 
 @implementation DKDrawableObject (DrawkitPrivateMetadata)
 
@@ -664,7 +621,6 @@ NSString*	kDKPrivateShapeOriginalText			= @"Original Text";
 #endif
 }
 
-
 - (NSAttributedString*)	originalText
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -673,7 +629,6 @@ NSString*	kDKPrivateShapeOriginalText			= @"Original Text";
 	return [self metadataObjectForKey:kDKPrivateShapeOriginalText];
 #endif
 }
-
 
 @end
 

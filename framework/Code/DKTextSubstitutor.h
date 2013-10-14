@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKTextSubstitutor.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface DKTextSubstitutor : NSObject <NSCoding>
 {
@@ -42,7 +48,6 @@
 
 extern NSString*		kDKTextSubstitutorNewStringNotification;
 
-
 #define		DEFAULT_DELIMITER_STRING	@"%%"
 #define		PADDING_DELIMITER			'#'
 
@@ -74,7 +79,6 @@ extern NSString*		kDKTextSubstitutorNewStringNotification;
 
 @end
 
-
 /*
 
 This objects abstracts the text substitution task used by text adornments, et. al. It allows strings of the form:
@@ -87,4 +91,3 @@ This objects abstracts the text substitution task used by text adornments, et. a
  are the digits 0-9 which extract the nth word from the original data, and the flags U, L and C which convert the data to upper, lower and capitalized strings respectively.
 
 */
-

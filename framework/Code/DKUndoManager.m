@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKUndoManager.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 22/06/2007, originally based on code by Will Thimbleby in the public domain
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKUndoManager.h"
 #import "LogEvent.h"
@@ -29,13 +27,11 @@
 	return old;
 }
 
-
 @end
 
 #else
 
 @implementation DKUndoManager
-
 
 - (BOOL)			enableUndoTaskCoalescing:(BOOL) enable
 {
@@ -47,30 +43,25 @@
 	return oldState;
 }
 
-
 - (BOOL)			isUndoTaskCoalescingEnabled
 {
 	return mCoalescingEnabled;
 }
-
 
 - (NSUInteger)		changeCount
 {
 	return mChangeCount;
 }
 
-
 - (void)			resetChangeCount
 {
 	mChangeCount = 0;
 }
 
-
 - (NSUInteger)		numberOfTasksInLastGroup
 {
 	return mChangePerGroupCount;
 }
-
 
 - (void)			enableSnowLeopardBackwardCompatibility:(BOOL) bcEnable
 {
@@ -83,7 +74,6 @@
 		NSLog(@"Enabling 10.4/10.5 Undo Compatibility Mode");
 	 */
 }
-
 
 - (void)			invokeEmbeddedInvocation:(NSInvocation*) invocation
 {
@@ -98,7 +88,6 @@
 		NSLog(@"an exception occurred while invoking an undo task - ignored (task = %@, exception = %@)", invocation, excp );
 	}
 }
-
 
 - (BOOL)				hasStupidIncompatibleSnowLeopardChange
 {
@@ -125,7 +114,6 @@
 	return isStupid;
 }
 
-
 - (void)			reset
 {
 	while([self groupingLevel] > 0 )
@@ -134,11 +122,8 @@
 	[self setGroupsByEvent:YES];
 }
 
-
-
 #pragma mark -
 #pragma mark As an NSUndoManager
-
 
 - (void)			beginUndoGrouping
 {
@@ -154,7 +139,6 @@
 	LogEvent_( kInfoEvent, @"%@ opened undo group, level = %d", self, [self groupingLevel]);
 }
 
-
 - (void)			endUndoGrouping
 {
 	mSkipTask = NO;
@@ -167,7 +151,6 @@
 	
 	LogEvent_( kInfoEvent, @"%@ closed undo group, level = %d, tasks submitted = %d", self, [self groupingLevel], [self numberOfTasksInLastGroup]);
 }
-
 
 - (id)				prepareWithInvocationTarget:(id)target
 {
@@ -192,7 +175,6 @@
 			return nil;
 	}
 }
-
 
 #define CONVERT_ALL_TO_NSINVOCATION	1
 
@@ -247,7 +229,6 @@
 	}
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 
@@ -265,13 +246,11 @@
 	return self;
 }
 
-
 - (void)	dealloc
 {
 	[mTarget release];
 	[super dealloc];
 }
-
 
 - (void)	forwardInvocation:(NSInvocation*) invocation
 {
@@ -311,7 +290,6 @@
 	}
 }
 
-
 - (NSMethodSignature *)	methodSignatureForSelector:(SEL) aSelector
 {
 	NSMethodSignature* sig = [super methodSignatureForSelector:aSelector];
@@ -323,7 +301,6 @@
 	}
 	return sig;
 }
-
 
 - (BOOL)				respondsToSelector:(SEL)aSelector
 {
@@ -338,9 +315,7 @@
 	return rSel;
 }
 
-
-
-
 @end
 
 #endif
+

@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKRasterizer.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 23/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKRasterizer.h"
 #import "DKStyle.h"
@@ -41,42 +39,22 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	return rend;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			container
-/// scope:			public method
-/// overrides:		
-/// description:	returns the immediate container of this object, if owned by a group
-/// 
-/// parameters:		none
-/// result:			the object's container group, if any
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the immediate container of this object, if owned by a group
+ * @return the object's container group, if any
+ * @public
+ */
 - (DKRastGroup*)	container
 {
 	return mContainerRef;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setContainer:
-/// scope:			private method
-/// overrides:		
-/// description:	sets the immediate container of this object
-/// 
-/// parameters:		<container> the objects's container - must be a group, or nil
-/// result:			none
-///
-/// notes:			this is a weak reference as the object is owned by its container. Generally this is called as
-///					required when the object is added to a group, so should not be used by app code
-///
-///********************************************************************************************************************
-
+/** @brief Sets the immediate container of this object
+ * @note
+ * This is a weak reference as the object is owned by its container. Generally this is called as
+ * required when the object is added to a group, so should not be used by app code
+ * @param container the objects's container - must be a group, or nil
+ * @private
+ */
 - (void)			setContainer:(DKRastGroup*) container
 {
 	if ( container != nil && ![container isKindOfClass:[DKRastGroup class]])
@@ -86,20 +64,13 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 }
 
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setName:
-/// scope:			public method
-/// overrides:
-/// description:	set the name of the renderer
-/// 
-/// parameters:		<name> the name to give the renderer
-/// result:			none
-///
-/// notes:			named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
-///
-///********************************************************************************************************************
 
+/** @brief Set the name of the renderer
+ * @note
+ * Named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
+ * @param name the name to give the renderer
+ * @public
+ */
 - (void)		setName:(NSString*) name
 {
 	NSString* nameCopy = [name copy];
@@ -108,41 +79,23 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	m_name = nameCopy;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			name
-/// scope:			public method
-/// overrides:
-/// description:	get the name of the renderer
-/// 
-/// parameters:		none
-/// result:			the renderer's name
-///
-/// notes:			named renderers can be referred to in scripts or bound to in the UI
-///
-///********************************************************************************************************************
-
+/** @brief Get the name of the renderer
+ * @note
+ * Named renderers can be referred to in scripts or bound to in the UI
+ * @return the renderer's name
+ * @public
+ */
 - (NSString*)	name
 {
 	return m_name;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			label
-/// scope:			public method
-/// overrides:
-/// description:	get the name or classname of the renderer
-/// 
-/// parameters:		none
-/// result:			the renderer's name or classname
-///
-/// notes:			named renderers can be referred to in scripts or bound to in the UI
-///
-///********************************************************************************************************************
-
+/** @brief Get the name or classname of the renderer
+ * @note
+ * Named renderers can be referred to in scripts or bound to in the UI
+ * @return the renderer's name or classname
+ * @public
+ */
 - (NSString*)	label
 {
 	if ([self name])
@@ -151,161 +104,94 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 		return NSStringFromClass ([self class]);
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			isValid
-/// scope:			public method
-/// overrides:
-/// description:	queries whether the renderer is valid, that is, it will draw something.
-/// 
-/// parameters:		none
-/// result:			YES if the renderer will draw something, NO otherwise
-///
-/// notes:			used to optimize drawing - invalid renderers are skipped
-///
-///********************************************************************************************************************
 
+/** @brief Queries whether the renderer is valid, that is, it will draw something.
+ * @note
+ * Used to optimize drawing - invalid renderers are skipped
+ * @return YES if the renderer will draw something, NO otherwise
+ * @public
+ */
 - (BOOL)		isValid
 {
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			styleScript
-/// scope:			public method
-/// overrides:
-/// description:	return the equivalent style script for this renderer
-/// 
-/// parameters:		none
-/// result:			a string, representing the script that would create an equivalent renderer if parsed
-///
-/// notes:			subclasses shold override this - the default method returns the object's description for debugging.
-///
-///********************************************************************************************************************
-
+/** @brief Return the equivalent style script for this renderer
+ * @note
+ * Subclasses shold override this - the default method returns the object's description for debugging.
+ * @return a string, representing the script that would create an equivalent renderer if parsed
+ * @public
+ */
 - (NSString*)	styleScript
 {
 	return [NSString stringWithFormat:@"(%@)", self];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setEnabled:
-/// scope:			public method
-/// overrides:
-/// description:	set whether the renderer is enabled or not
-/// 
-/// parameters:		<enable> YES to enable, NO to disable
-/// result:			none
-///
-/// notes:			disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
-///					larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
-///
-///********************************************************************************************************************
 
+/** @brief Set whether the renderer is enabled or not
+ * @note
+ * Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
+ * larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
+ * @param enable YES to enable, NO to disable
+ * @public
+ */
 - (void)		setEnabled:(BOOL) enable
 {
 	m_enabled = enable;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			enabled
-/// scope:			public method
-/// overrides:
-/// description:	query whether the renderer is enabled or not
-/// 
-/// parameters:		none
-/// result:			YES if enabled, NO if not
-///
-/// notes:			disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
-///					larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
-///
-///********************************************************************************************************************
-
+/** @brief Query whether the renderer is enabled or not
+ * @note
+ * Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
+ * larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
+ * @return YES if enabled, NO if not
+ * @public
+ */
 - (BOOL)		enabled
 {
 	return m_enabled;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setClipping:
-/// scope:			public method
-/// overrides:
-/// description:	set whether the rasterizer's effect is clipped to the path or not, and if so, which side
-/// 
-/// parameters:		<clipping> a DKClippingOption value
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
+ * @param clipping a DKClippingOption value
+ * @public
+ */
 - (void)		setClipping:(DKClippingOption) clipping
 {
 	mClipping = clipping;
 }
-
 
 - (void)		setClippingWithoutNotifying:(DKClippingOption) clipping
 {
 	mClipping = clipping;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			clipping:
-/// scope:			public method
-/// overrides:
-/// description:	whether the rasterizer's effect is clipped to the path or not, and if so, which side
-/// 
-/// parameters:		none
-/// result:			a DKClippingOption value
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
+ * @return a DKClippingOption value
+ * @public
+ */
 - (DKClippingOption) clipping
 {
 	return mClipping;
 }
 
-
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			renderingPathForObject:
-/// scope:			protected method
-/// overrides:
-/// description:	returns the path to render given the object doing the rendering
-/// 
-/// parameters:		<object> the object to render
-/// result:			the rendering path
-///
-/// notes:			this method is called internally by render: to obtain the path to be rendered. It is factored to
-///					allow a delegate to modify the path just before rendering, and to allow special subclasses to
-///					override it to modify the path for special effects. The normal behaviour is simply to ask the
-///					object for its rendering path.
-///
-///********************************************************************************************************************
 
+/** @brief Returns the path to render given the object doing the rendering
+ * @note
+ * This method is called internally by render: to obtain the path to be rendered. It is factored to
+ * allow a delegate to modify the path just before rendering, and to allow special subclasses to
+ * override it to modify the path for special effects. The normal behaviour is simply to ask the
+ * object for its rendering path.
+ * @param object the object to render
+ * @return the rendering path
+ */
 - (NSBezierPath*)	renderingPathForObject:(id<DKRenderable>) object
 {
 	return [object renderingPath];
 }
-
 
 - (BOOL)			copyToPasteboard:(NSPasteboard*) pb
 {
@@ -322,14 +208,12 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	return NO;
 }
 
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)		observableKeyPaths
 {
 	return [NSArray arrayWithObjects:@"name", @"enabled", @"clipping", nil];
 }
-
 
 - (NSString*)		actionNameForKeyPath:(NSString*) keypath changeKind:(NSKeyValueChange) kind
 {
@@ -352,7 +236,6 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	[super dealloc];
 }
 
-
 - (id)				init
 {
 	self = [super init];
@@ -364,46 +247,29 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of DKRasterizer Protocol
-///*********************************************************************************************************************
-///
-/// method:			extraSpaceNeeded
-/// scope:			public method
-/// overrides:
-/// description:	returns the amount of extra space the renderer needs to draw its output over and above the bounds
-///					of the object or path requesting the render
-/// 
-/// parameters:		none
-/// result:			a size, the additional width and height needed
-///
-/// notes:			default method returns zero extra space needed. Subclasses need to accurately return the amount
-///					needed. If they don't you risk drawing outside the object's bounds which will lead to improper
-///					updates and erasure of pixels.
-///
-///********************************************************************************************************************
 
+/** @brief Returns the amount of extra space the renderer needs to draw its output over and above the bounds
+ * of the object or path requesting the render
+ * @note
+ * Default method returns zero extra space needed. Subclasses need to accurately return the amount
+ * needed. If they don't you risk drawing outside the object's bounds which will lead to improper
+ * updates and erasure of pixels.
+ * @return a size, the additional width and height needed
+ * @public
+ */
 - (NSSize)		extraSpaceNeeded
 {
 	return NSZeroSize;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			render:
-/// scope:			public method
-/// overrides:
-/// description:	renders an object
-/// 
-/// parameters:		<object> the object to render
-/// result:			none
-///
-/// notes:			default method extracts the path and calls -renderPath:
-///
-///********************************************************************************************************************
-
+/** @brief Renders an object
+ * @note
+ * Default method extracts the path and calls -renderPath:
+ * @param object the object to render
+ * @public
+ */
 - (void)		render:(id<DKRenderable>) object
 {
 	if( ! [object conformsToProtocol:@protocol(DKRenderable)])
@@ -434,22 +300,13 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renderPath:
-/// scope:			public method
-/// overrides:
-/// description:	renders an object's path
-/// 
-/// parameters:		<path> the path to render
-/// result:			none
-///
-/// notes:			default method does nothing. Subclasses will override this (or -render:) and implement the actual
-///					rendering
-///
-///********************************************************************************************************************
-
+/** @brief Renders an object's path
+ * @note
+ * Default method does nothing. Subclasses will override this (or -render:) and implement the actual
+ * rendering
+ * @param path the path to render
+ * @public
+ */
 - (void)		renderPath:(NSBezierPath*) path
 {
 	#pragma unused(path)
@@ -457,28 +314,18 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	// placeholder
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isFill
-/// scope:			public method
-/// overrides:
-/// description:	queries whther the rasterizer implements a fill or not
-/// 
-/// parameters:		none
-/// result:			YES if the rasterizer is considered a fill type
-///
-/// notes:			default is NO - subclasses must override to return this appropriately. A style uses this result
-///					to determine whether it implements any fills, which in turn affect swatches, object hit-testing
-///					and so on.
-///
-///********************************************************************************************************************
-
+/** @brief Queries whther the rasterizer implements a fill or not
+ * @note
+ * Default is NO - subclasses must override to return this appropriately. A style uses this result
+ * to determine whether it implements any fills, which in turn affect swatches, object hit-testing
+ * and so on.
+ * @return YES if the rasterizer is considered a fill type
+ * @public
+ */
 - (BOOL)		isFill
 {
 	return NO;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -489,7 +336,6 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	[coder encodeBool:[self enabled] forKey:@"enabled"];
 	[coder encodeInteger:[self clipping] forKey:@"DKRasterizer_clipping"];
 }
-
 
 - (id)			initWithCoder:(NSCoder*) coder
 {
@@ -504,7 +350,6 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)			copyWithZone:(NSZone*) zone
@@ -518,25 +363,17 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	return copy;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSKeyValueObserving Protocol
-///*********************************************************************************************************************
-///
-/// method:			willChangeValueForKey:
-/// scope:			public method
-/// overrides:		NSObject
-/// description:	intercepts impending change via KVC to force an update of any client objects
-/// 
-/// parameters:		<key> the key for the value about to be changed
-/// result:			none
-///
-/// notes:			assumes top level of hierarchy is in fact a style. In practice it nearly always will be, but if
-///					not should not cause any problems. This also sends a notificaiton which can be used in more
-///					general-purpose situations such as when a rasterizer is used without a style.
-///
-///********************************************************************************************************************
 
+/** @brief Intercepts impending change via KVC to force an update of any client objects
+ * @note
+ * Assumes top level of hierarchy is in fact a style. In practice it nearly always will be, but if
+ * not should not cause any problems. This also sends a notificaiton which can be used in more
+ * general-purpose situations such as when a rasterizer is used without a style.
+ * @param key the key for the value about to be changed
+ * @public
+ */
 - (void)		willChangeValueForKey:(NSString*) key
 {
 	LogEvent_( kKVOEvent, @"%@ about to change '%@'", self, key );
@@ -552,22 +389,13 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	[super willChangeValueForKey:key];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			didChangeValueForKey:
-/// scope:			public method
-/// overrides:		NSObject
-/// description:	notifies that a property change took place
-/// 
-/// parameters:		<key> the key for the value that was changed
-/// result:			none
-///
-/// notes:			Sends a notificaiton which can be used in more
-///					general-purpose situations such as when a rasterizer is used without a style.
-///
-///********************************************************************************************************************
-
+/** @brief Notifies that a property change took place
+ * @note
+ * Sends a notificaiton which can be used in more
+ * general-purpose situations such as when a rasterizer is used without a style.
+ * @param key the key for the value that was changed
+ * @public
+ */
 - (void)		didChangeValueForKey:(NSString*) key
 {
 	[super didChangeValueForKey:key];
@@ -576,9 +404,7 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyDidChange object:self userInfo:info];
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation NSObject (DKRendererDelegate)
@@ -593,3 +419,4 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 }
 
 @end
+

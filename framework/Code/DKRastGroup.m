@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKRastGroup.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 17/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKRastGroup.h"
 #import "NSDictionary+DeepCopy.h"
@@ -15,25 +13,17 @@
 #import "DKGradient.h"
 #import "LogEvent.h"
 
-
 @implementation DKRastGroup
 #pragma mark As a DKRenderGroup
-///*********************************************************************************************************************
-///
-/// method:			setRenderList:
-/// scope:			public method
-/// overrides:		
-/// description:	set the contained objects to those in array
-/// 
-/// parameters:		<list> a list of renderer objects
-/// result:			none
-///
-/// notes:			this method no longer attempts to try and manage observing of the objects. The observer must
-///					properly stop observing before this is called, or start observing after it is called when
-///					initialising from an archive. 
-///
-///********************************************************************************************************************
 
+/** @brief Set the contained objects to those in array
+ * @note
+ * This method no longer attempts to try and manage observing of the objects. The observer must
+ * properly stop observing before this is called, or start observing after it is called when
+ * initialising from an archive. 
+ * @param list a list of renderer objects
+ * @public
+ */
 - (void)		setRenderList:(NSArray*) list
 {
 	if( list != [self renderList])
@@ -53,66 +43,34 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renderList
-/// scope:			public method
-/// overrides:		
-/// description:	get the list of contained renderers
-/// 
-/// parameters:		none
-/// result:			an array containing the list of renderers
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Get the list of contained renderers
+ * @return an array containing the list of renderers
+ * @public
+ */
 - (NSArray*)	renderList
 {
 	return m_renderList; //[[m_renderList copy] autorelease];
 }
 
-
 #pragma mark -
 
-
-///*********************************************************************************************************************
-///
-/// method:			root
-/// scope:			public method
-/// overrides:		
-/// description:	returns the top-level group in any hierarchy, which in DrawKit is a style object
-/// 
-/// parameters:		none
-/// result:			the top level group
-///
-/// notes:			will return nil if the group isn't part of a complete tree
-///
-///********************************************************************************************************************
-
+/** @brief Returns the top-level group in any hierarchy, which in DrawKit is a style object
+ * @note
+ * Will return nil if the group isn't part of a complete tree
+ * @return the top level group
+ * @public
+ */
 - (DKRastGroup*)	root
 {
 	return [[self container] root];
 }
 
-
-
-
-///*********************************************************************************************************************
-///
-/// method:			observableWasAdded:
-/// scope:			public method
-/// overrides:		
-/// description:	notifies that an observable object was added to the group
-/// 
-/// parameters:		<observable> the object to start observing
-/// result:			none
-///
-/// notes:			overridden by the root object (style)
-///
-///********************************************************************************************************************
-
+/** @brief Notifies that an observable object was added to the group
+ * @note
+ * Overridden by the root object (style)
+ * @param observable the object to start observing
+ * @public
+ */
 - (void)			observableWasAdded:(GCObservableObject*) observable
 {
 	#pragma unused(observable)
@@ -120,21 +78,12 @@
 	// placeholder
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			observableWillBeRemoved:
-/// scope:			public method
-/// overrides:		
-/// description:	notifies that an observable object is about to be removed from the group
-/// 
-/// parameters:		<observable> the object to stop observing
-/// result:			none
-///
-/// notes:			overridden by the root object (style)
-///
-///********************************************************************************************************************
-
+/** @brief Notifies that an observable object is about to be removed from the group
+ * @note
+ * Overridden by the root object (style)
+ * @param observable the object to stop observing
+ * @public
+ */
 - (void)			observableWillBeRemoved:(GCObservableObject*) observable
 {
 	#pragma unused(observable)
@@ -142,23 +91,12 @@
 	// placeholder
 }
 
-
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			addRenderer:
-/// scope:			public method
-/// overrides:		
-/// description:	adds a renderer to the group
-/// 
-/// parameters:		<renderer> a renderer object
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Adds a renderer to the group
+ * @param renderer a renderer object
+ * @public
+ */
 - (void)		addRenderer:(DKRasterizer*) renderer
 {
 	if(! [m_renderList containsObject:renderer])
@@ -172,21 +110,10 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeRenderer:
-/// scope:			public method
-/// overrides:		
-/// description:	removes a renderer from the group
-/// 
-/// parameters:		<renderer> the renderer object to remove
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes a renderer from the group
+ * @param renderer the renderer object to remove
+ * @public
+ */
 - (void)		removeRenderer:(DKRasterizer*) renderer
 {
 	if( [m_renderList containsObject:renderer])
@@ -199,22 +126,11 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveRendererAtIndex:toIndex:
-/// scope:			public method
-/// overrides:		
-/// description:	relocates a renderer within the group (which affects drawing order)
-/// 
-/// parameters:		<src> the index position of the renderer to move
-///					<dest> the index where to move it
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Relocates a renderer within the group (which affects drawing order)
+ * @param src the index position of the renderer to move
+ * @param dest the index where to move it
+ * @public
+ */
 - (void)		moveRendererAtIndex:(NSUInteger) src toIndex:(NSUInteger) dest
 {
 	if ( src == dest )
@@ -234,22 +150,11 @@
 	[moving release];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			insertRenderer:atIndex:
-/// scope:			public method
-/// overrides:		
-/// description:	inserts a renderer into the group at the given index
-/// 
-/// parameters:		<renderer> the renderer to insert
-///					<index> the index where to insert it
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Inserts a renderer into the group at the given index
+ * @param renderer the renderer to insert
+ * @param index the index where to insert it
+ * @public
+ */
 - (void)		insertRenderer:(DKRasterizer*) renderer atIndex:(NSUInteger) indx
 {
 	if(! [m_renderList containsObject:renderer])
@@ -263,21 +168,10 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeRendererAtIndex:
-/// scope:			public method
-/// overrides:		
-/// description:	removes the renderer at the given index
-/// 
-/// parameters:		<index> the index to remove
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes the renderer at the given index
+ * @param index the index to remove
+ * @public
+ */
 - (void)		removeRendererAtIndex:(NSUInteger) indx
 {
 	DKRasterizer* renderer = [self rendererAtIndex:indx];
@@ -292,62 +186,33 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			indexOfRenderer:
-/// scope:			public method
-/// overrides:		
-/// description:	returns the index of the given renderer
-/// 
-/// parameters:		<renderer> the renderer in question
-/// result:			the index position of the renderer, or NSNotFound
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the index of the given renderer
+ * @param renderer the renderer in question
+ * @return the index position of the renderer, or NSNotFound
+ * @public
+ */
 - (NSUInteger)	indexOfRenderer:(DKRasterizer*) renderer
 {
 	return [[self renderList] indexOfObject:renderer];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			rendererAtIndex:
-/// scope:			public method
-/// overrides:		
-/// description:	returns the rendere at the given index position
-/// 
-/// parameters:		<index> the index position of the renderer
-/// result:			the renderer at that position
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Returns the rendere at the given index position
+ * @param index the index position of the renderer
+ * @return the renderer at that position
+ * @public
+ */
 - (DKRasterizer*)	rendererAtIndex:(NSUInteger) indx
 {
 	return (DKRasterizer*)[self objectInRenderListAtIndex:indx];//[[self renderList] objectAtIndex:indx];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rendererWithName:
-/// scope:			public method
-/// overrides:		
-/// description:	returns the renderer matching the given name
-/// 
-/// parameters:		<name> the name of the renderer
-/// result:			the renderer with that name, if any
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the renderer matching the given name
+ * @param name the name of the renderer
+ * @return the renderer with that name, if any
+ * @public
+ */
 - (DKRasterizer*)	rendererWithName:(NSString*) name
 {
 	NSEnumerator*	iter = [[self renderList] objectEnumerator];
@@ -362,43 +227,27 @@
 	return nil;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			countRenderers
-/// scope:			public method
-/// overrides:		
-/// description:	returns the number of directly contained renderers
-/// 
-/// parameters:		none
-/// result:			the count of renderers
-///
-/// notes:			doesn't count renderers owned by nested groups within this one
-///
-///********************************************************************************************************************
 
+/** @brief Returns the number of directly contained renderers
+ * @note
+ * Doesn't count renderers owned by nested groups within this one
+ * @return the count of renderers
+ * @public
+ */
 - (NSUInteger)	countOfRenderList
 {
 	return [[self renderList] count];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			containsRendererOfClass:
-/// scope:			public method
-/// overrides:		
-/// description:	queries whether a renderer of a given class exists somewhere in the render tree
-/// 
-/// parameters:		<cl> the class to look for
-/// result:			YES if there is at least one [enabled] renderer with the given class, NO otherwise
-///
-/// notes:			usually called from the top level to get a broad idea of what the group will draw. A style
-///					has some higher level methods that call this.
-///
-///********************************************************************************************************************
-
+/** @brief Queries whether a renderer of a given class exists somewhere in the render tree
+ * @note
+ * Usually called from the top level to get a broad idea of what the group will draw. A style
+ * has some higher level methods that call this.
+ * @param cl the class to look for
+ * @return YES if there is at least one [enabled] renderer with the given class, NO otherwise
+ * @public
+ */
 - (BOOL)		containsRendererOfClass:(Class) cl
 {
 	if ([self countOfRenderList] > 0 )
@@ -422,21 +271,11 @@
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renderersOfClass:
-/// scope:			public method
-/// overrides:		
-/// description:	returns a flattened list of renderers of a given class
-/// 
-/// parameters:		<cl> the class to look for
-/// result:			an array containing the renderers matching <cl>, or nil.
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns a flattened list of renderers of a given class
+ * @param cl the class to look for
+ * @return an array containing the renderers matching <cl>, or nil.
+ * @public
+ */
 - (NSArray*)	renderersOfClass:(Class) cl
 {
 	if ([self containsRendererOfClass:cl])
@@ -463,21 +302,11 @@
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeAllRenderers
-/// scope:			public method
-/// overrides:		
-/// description:	removes all renderers from this group except other groups
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			specialist use - not generally for application use
-///
-///********************************************************************************************************************
-
+/** @brief Removes all renderers from this group except other groups
+ * @note
+ * Specialist use - not generally for application use
+ * @public
+ */
 - (void)			removeAllRenderers
 {
 	NSEnumerator*	iter = [[self renderList] reverseObjectEnumerator];
@@ -490,22 +319,14 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeRenderersOfClass:inSubgroups:
-/// scope:			public method
-/// overrides:		
-/// description:	removes all renderers of the given class, optionally traversing levels below this
-/// 
-/// parameters:		<cl> the renderer class to remove
-/// result:			<subs> if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
-///
-/// notes:			renderers must be an exact match for <class> - subclasses are not considered a match. This is
-///					intended for specialist use and should not generally be used by application code
-///
-///********************************************************************************************************************
-
+/** @brief Removes all renderers of the given class, optionally traversing levels below this
+ * @note
+ * Renderers must be an exact match for <class> - subclasses are not considered a match. This is
+ * intended for specialist use and should not generally be used by application code
+ * @param cl the renderer class to remove
+ * @return <subs> if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
+ * @public
+ */
 - (void)			removeRenderersOfClass:(Class) cl inSubgroups:(BOOL) subs
 {
 	// removes any renderers of the given *exact* class from the group. If <subs> is YES, recurses down to any subgroups below.
@@ -522,45 +343,31 @@
 	}
 }
 
-
 #pragma mark-
 #pragma mark KVO-compliant accessor methods for "renderList"
-
 
 - (id)				objectInRenderListAtIndex:(NSUInteger) indx
 {
 	return [[self renderList] objectAtIndex:indx];
 }
 
-
 - (void)			insertObject:(id) obj inRenderListAtIndex:(NSUInteger) indx
 {
 	[m_renderList insertObject:obj atIndex:indx];
 }
-
 
 - (void)			removeObjectFromRenderListAtIndex:(NSUInteger) indx
 {
 	[m_renderList removeObjectAtIndex:indx];
 }
 
-
 #pragma mark -
 #pragma mark As a DKRasterizer
-///*********************************************************************************************************************
-///
-/// method:			isValid
-/// scope:			public method
-/// overrides:		DKRasterizer
-/// description:	determines whther the group will draw anything by finding if any contained renderer will draw anything
-/// 
-/// parameters:		none
-/// result:			YES if at least one contained renderer will draw something
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Determines whther the group will draw anything by finding if any contained renderer will draw anything
+ * @return YES if at least one contained renderer will draw something
+ * @public
+ */
 - (BOOL)		isValid
 {
 	// returns YES if the group will result in something being actually drawn, NO if not. A group
@@ -585,21 +392,10 @@
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			styleScript
-/// scope:			public method
-/// overrides:		DKRasterizer
-/// description:	returns a style csript representing the group
-/// 
-/// parameters:		none
-/// result:			a string containg a complete script for the group and all contained objects
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns a style csript representing the group
+ * @return a string containg a complete script for the group and all contained objects
+ * @public
+ */
 - (NSString*)		styleScript
 {
 	// returns the spec string of this group. The spec string consists of the concatenation of the spec strings for all renderers, formatted
@@ -622,44 +418,21 @@
 	return [str autorelease];
 }
 
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 
-///*********************************************************************************************************************
-///
-/// method:			observableKeyPaths
-/// scope:			public class method
-/// overrides:		GCObservableObject
-/// description:	returns the keypaths of the properties that can be observed
-/// 
-/// parameters:		none
-/// result:			an array listing the observable key paths
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the keypaths of the properties that can be observed
+ * @return an array listing the observable key paths
+ * @public
+ */
 + (NSArray*)	observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"renderList", nil]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			observableKeyPaths
-/// scope:			public instance method
-/// overrides:		GCObservableObject
-/// description:	registers the action names for the observable properties published by the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Registers the action names for the observable properties published by the object
+ * @public
+ */
 - (void)		registerActionNames
 {
 	[super registerActionNames];
@@ -671,50 +444,31 @@
 	[self setActionName:@"#kind# Component Group" forKeyPath:@"renderList"];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setUpKVOForObserver:
-/// scope:			public instance method
-/// overrides:		GCObservableObject
-/// description:	sets up KVO for the given observer object
-/// 
-/// parameters:		<object> the observer
-/// result:			none
-///
-/// notes:			propagates the request down to all the components in the group, including other groups so the
-///					entire tree is traversed
-///
-///********************************************************************************************************************
-
+/** @brief Sets up KVO for the given observer object
+ * @note
+ * Propagates the request down to all the components in the group, including other groups so the
+ * entire tree is traversed
+ * @param object the observer
+ * @public
+ */
 - (BOOL)		setUpKVOForObserver:(id) object
 {
 	[[self renderList] makeObjectsPerformSelector:@selector( setUpKVOForObserver: ) withObject:object];
 	return [super setUpKVOForObserver:object];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			tearDownKVOForObserver:
-/// scope:			public instance method
-/// overrides:		GCObservableObject
-/// description:	tears down KVO for the given observer object
-/// 
-/// parameters:		<object> the observer
-/// result:			none
-///
-/// notes:			propagates the request down to all the components in the group, including other groups so the
-///					entire tree is traversed
-///
-///********************************************************************************************************************
-
+/** @brief Tears down KVO for the given observer object
+ * @note
+ * Propagates the request down to all the components in the group, including other groups so the
+ * entire tree is traversed
+ * @param object the observer
+ * @public
+ */
 - (BOOL)		tearDownKVOForObserver:(id) object
 {
 	[[self renderList] makeObjectsPerformSelector:@selector( tearDownKVOForObserver: ) withObject:object];
 	return [super tearDownKVOForObserver:object];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -724,7 +478,6 @@
 	[m_renderList release];
 	[super dealloc];
 }
-
 
 - (id)			init
 {
@@ -743,23 +496,13 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of DKRasterizer Protocol
-///*********************************************************************************************************************
-///
-/// method:			extraSpaceNeeded
-/// scope:			public method
-/// overrides:		DKRasterizer
-/// description:	determines the extra space needed to render by finding the most space needed by any contained renderer
-/// 
-/// parameters:		none
-/// result:			the extra width and height needed over and above the object's (path) bounds
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Determines the extra space needed to render by finding the most space needed by any contained renderer
+ * @return the extra width and height needed over and above the object's (path) bounds
+ * @public
+ */
 - (NSSize)		extraSpaceNeeded
 {
 	NSSize			rs, accSize = NSZeroSize;
@@ -784,21 +527,10 @@
 	return accSize;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			render:
-/// scope:			public method
-/// overrides:		DKRasterizer
-/// description:	renders the object by iterating over the contained renderers
-/// 
-/// parameters:		<object> the object to render
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Renders the object by iterating over the contained renderers
+ * @param object the object to render
+ * @public
+ */
 - (void)		render:(id<DKRenderable>) object
 {
 	if( ![self enabled])
@@ -814,22 +546,13 @@
 	RESTORE_GRAPHICS_CONTEXT	//[NSGraphicsContext restoreGraphicsState];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renderPath:
-/// scope:			public method
-/// overrides:		DKRasterizer
-/// description:	renders the object's path by iterating over the contained renderers
-/// 
-/// parameters:		<path> the path to render
-/// result:			none
-///
-/// notes:			normally groups and styles should use render: but this provides correct behaviour if a top level
-///					object elects to use the path (in general, don't do this)
-///
-///********************************************************************************************************************
-
+/** @brief Renders the object's path by iterating over the contained renderers
+ * @note
+ * Normally groups and styles should use render: but this provides correct behaviour if a top level
+ * object elects to use the path (in general, don't do this)
+ * @param path the path to render
+ * @public
+ */
 - (void)		renderPath:(NSBezierPath*) path
 {
 	if(! [self enabled])
@@ -840,21 +563,12 @@
 	RESTORE_GRAPHICS_CONTEXT	//[NSGraphicsContext restoreGraphicsState];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isFill
-/// scope:			public method
-/// overrides:
-/// description:	queries whther the rasterizer implements a fill or not
-/// 
-/// parameters:		none
-/// result:			YES if the rasterizer is considered a fill type
-///
-/// notes:			returns YES if any contained rasterizer returns YES, NO otherwise
-///
-///********************************************************************************************************************
-
+/** @brief Queries whther the rasterizer implements a fill or not
+ * @note
+ * Returns YES if any contained rasterizer returns YES, NO otherwise
+ * @return YES if the rasterizer is considered a fill type
+ * @public
+ */
 - (BOOL)		isFill
 {
 	NSEnumerator* iter = [[self renderList] objectEnumerator];
@@ -869,24 +583,14 @@
 	return NO;
 }
 
-
 #pragma mark -
 #pragma mark As part of GraphicsAttributes Protocol
-///*********************************************************************************************************************
-///
-/// method:			setValue:forNumericParameter:
-/// scope:			public method
-/// overrides:		NSObject (GraphicsAttributes)
-/// description:	installs renderers when built from a script
-/// 
-/// parameters:		<val> a renderer object
-///					<pnum> th eordinal position of the value in the original expression. Not used here.
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Installs renderers when built from a script
+ * @param val a renderer object
+ * @param pnum th eordinal position of the value in the original expression. Not used here.
+ * @public
+ */
 - (void)		setValue:(id) val forNumericParameter:(NSInteger) pnum
 {
 	LogEvent_(kReactiveEvent, @"anonymous parameter #%d, value = %@", pnum, val );
@@ -896,7 +600,6 @@
 	if ([val conformsToProtocol:@protocol(DKRasterizer)])
 		[self addRenderer:val];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -909,7 +612,6 @@
 	[coder encodeObject:[self renderList] forKey:@"renderlist"];
 }
 
-
 - (id)			initWithCoder:(NSCoder*) coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
@@ -921,7 +623,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -936,23 +637,16 @@
 	return copy;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSKeyValueCoding Protocol
-///*********************************************************************************************************************
-///
-/// method:			renderClassForKey:
-/// scope:			public method
-/// overrides:		
-/// description:	returns a renderer class associated with the given key
-/// 
-/// parameters:		<key> a key for the renderer class
-/// result:			a renderer class matching the key, if any
-///
-/// notes:			this is used to support simple UI's that bind to certain renderers based on generic keypaths
-///
-///********************************************************************************************************************
 
+/** @brief Returns a renderer class associated with the given key
+ * @note
+ * This is used to support simple UI's that bind to certain renderers based on generic keypaths
+ * @param key a key for the renderer class
+ * @return a renderer class matching the key, if any
+ * @public
+ */
 - (Class)		renderClassForKey:(NSString* )key
 {
 	// TO DO: make this a much smarter and more general lookup
@@ -969,24 +663,17 @@
 		return Nil;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			valueForUndefinedKey:
-/// scope:			public method
-/// overrides:		NSObject
-/// description:	returns a renderer class associated with the given key
-/// 
-/// parameters:		<key> a key for the renderer class
-/// result:			a renderer matching the key, if any
-///
-/// notes:			this is used to support simple UI's that bind to certain renderers based on generic keypaths. Here,
-///					the renderer is preferentially referred to by name, but if that fails, falls back on generic
-///					lookup based on a simplified classname.
-///
-///********************************************************************************************************************
 
+/** @brief Returns a renderer class associated with the given key
+ * @note
+ * This is used to support simple UI's that bind to certain renderers based on generic keypaths. Here,
+ * the renderer is preferentially referred to by name, but if that fails, falls back on generic
+ * lookup based on a simplified classname.
+ * @param key a key for the renderer class
+ * @return a renderer matching the key, if any
+ * @public
+ */
 - (id)			valueForUndefinedKey:(NSString*) key
 {
 	NSEnumerator*	iter = [[self renderList] objectEnumerator];
@@ -1002,5 +689,5 @@
 	return nil;
 }
 
-
 @end
+

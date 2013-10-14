@@ -8,10 +8,8 @@
 
 #import "DKMetadataItem.h"
 
-
 NSString*		DKSingleMetadataItemPBoardType = @"com.apptree.dk.meta";
 NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
-
 
 @interface DKMetadataItem (Private)
 
@@ -66,7 +64,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 			return Nil;
 	}
 }
-
 
 + (NSString*)			localizedDisplayNameForType:(DKMetadataType) type;
 {
@@ -128,106 +125,80 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	}
 }
 
-
 + (DKMetadataItem*)		metadataItemWithString:(NSString*) aString
 {
 	return [[[self alloc] initWithString:aString] autorelease];
 }
-
-
 
 + (DKMetadataItem*)		metadataItemWithInteger:(NSInteger) anInteger
 {
 	return [[[self alloc] initWithInteger:anInteger] autorelease];
 }
 
-
-
 + (DKMetadataItem*)		metadataItemWithReal:(CGFloat) aReal
 {
 	return [[[self alloc] initWithReal:aReal] autorelease];
 }
-
 
 + (DKMetadataItem*)		metadataItemWithBoolean:(BOOL) aBool
 {
 	return [[[self alloc] initWithBoolean:aBool] autorelease];
 }
 
-
-
 + (DKMetadataItem*)		metadataItemWithUnsigned:(NSUInteger) anInteger
 {
 	return [[[self alloc] initWithUnsigned:anInteger] autorelease];
 }
-
-
 
 + (DKMetadataItem*)		metadataItemWithAttributedString:(NSAttributedString*) attrString
 {
 	return [[[self alloc] initWithAttributedString:attrString] autorelease];
 }
 
-
-
 + (DKMetadataItem*)		metadataItemWithImage:(NSImage*) image
 {
 	return [[[self alloc] initWithImage:image] autorelease];
 }
-
-
 
 + (DKMetadataItem*)		metadataItemWithImageData:(NSData*) imageData
 {
 	return [[[self alloc] initWithImageData:imageData] autorelease];
 }
 
-
-
 + (DKMetadataItem*)		metadataItemWithURL:(NSURL*) url
 {
 	return [[[self alloc] initWithURL:url] autorelease];
 }
-
-
 
 + (DKMetadataItem*)		metadataItemWithDate:(NSDate*) date
 {
 	return [[[self alloc] initWithDate:date] autorelease];
 }
 
-
-
 + (DKMetadataItem*)		metadataItemWithColour:(NSColor*) colour
 {
 	return [[[self alloc] initWithColour:colour] autorelease];
 }
-
-
 
 + (DKMetadataItem*)		metadataItemWithData:(NSData*) data
 {
 	return [[[self alloc] initWithData:data] autorelease];
 }
 
-
 + (DKMetadataItem*)		metadataItemWithSize:(NSSize) size
 {
 	return [[[self alloc] initWithSize:size] autorelease];
 }
-
 
 + (DKMetadataItem*)		metadataItemWithPoint:(NSPoint) point
 {
 	return [[[self alloc] initWithPoint:point] autorelease];
 }
 
-
 + (DKMetadataItem*)		metadataItemWithRect:(NSRect) rect
 {
 	return [[[self alloc] initWithRect:rect] autorelease];
 }
-
 
 + (DKMetadataItem*)		metadataItemWithObject:(id) value
 {
@@ -291,7 +262,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return nil;
 }
 
-
 + (DKMetadataItem*)		metadataItemWithPasteboard:(NSPasteboard*) pb
 {
 	NSAssert( pb != nil, @"can't read from nil pasteboard");
@@ -307,7 +277,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return nil;
 }
-
 
 + (NSDictionary*)		dictionaryOfMetadataItemsWithDictionary:(NSDictionary*) aDict
 {
@@ -335,7 +304,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return newDict;
 }
 
-
 + (NSArray*)			arrayOfMetadataItemsWithArray:(NSArray*) array
 {
 	// returns an array of DKMetadataItems built by iterating the input array and wrapping each object using metadataItemWithObject:
@@ -357,7 +325,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return newArray;
 }
 
-
 + (NSDictionary*)		metadataItemsWithPasteboard:(NSPasteboard*) pb
 {
 	NSAssert( pb != nil, @"can't read from nil pasteboard");
@@ -376,7 +343,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return nil;
 }
-
 
 + (BOOL)				writeMetadataItems:(NSArray*) items forKeys:(NSArray*) keys toPasteboard:(NSPasteboard*) pb
 {
@@ -413,9 +379,7 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return [pb setData:data forType:DKMultipleMetadataItemsPBoardType];
 }
 
-
 #pragma mark -
-
 
 // designated initializer:
 
@@ -431,8 +395,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
-
 - (id)					initWithString:(NSString*) aString
 {
 	self = [self initWithType:DKMetadataTypeString];
@@ -443,8 +405,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return self;
 }
-
-
 
 - (id)					initWithInteger:(NSInteger) anInteger
 {
@@ -457,8 +417,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
-
 - (id)					initWithReal:(CGFloat) aReal
 {
 	self = [self initWithType:DKMetadataTypeReal];
@@ -469,7 +427,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return self;
 }
-
 
 - (id)					initWithBoolean:(BOOL) aBool
 {
@@ -482,8 +439,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
-
 - (id)					initWithUnsigned:(NSUInteger) anInteger
 {
 	self = [self initWithType:DKMetadataTypeUnsignedInt];
@@ -494,8 +449,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return self;
 }
-
-
 
 - (id)					initWithAttributedString:(NSAttributedString*) attrString
 {
@@ -508,8 +461,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
-
 - (id)					initWithImage:(NSImage*) image
 {
 	self = [self initWithType:DKMetadataTypeImage];
@@ -520,8 +471,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return self;
 }
-
-
 
 - (id)					initWithImageData:(NSData*) imageData
 {
@@ -534,8 +483,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
-
 - (id)					initWithURL:(NSURL*) url
 {
 	self = [self initWithType:DKMetadataTypeURL];
@@ -546,8 +493,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return self;
 }
-
-
 
 - (id)					initWithDate:(NSDate*) date
 {
@@ -560,8 +505,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
-
 - (id)					initWithColour:(NSColor*) colour
 {
 	self = [self initWithType:DKMetadataTypeColour];
@@ -572,8 +515,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return self;
 }
-
-
 
 - (id)					initWithData:(NSData*) data
 {
@@ -586,7 +527,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
 - (id)					initWithSize:(NSSize) size
 {
 	self = [self initWithType:DKMetadataTypeSize];
@@ -597,9 +537,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	
 	return self;
 }
-
-
-
 
 - (id)					initWithPoint:(NSPoint) point
 {
@@ -612,9 +549,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
-
-
 - (id)					initWithRect:(NSRect) rect
 {
 	self = [self initWithType:DKMetadataTypeRect];
@@ -626,7 +560,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
 #pragma mark -
 
 - (void)				setValue:(id) value
@@ -636,13 +569,10 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	[self assignValue:[self valueWithCurrentType:value]];
 }
 
-
-
 - (id)					value
 {
 	return mValue;
 }
-
 
 - (void)				takeObjectValueFrom:(id) sender
 {
@@ -650,13 +580,10 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		[self setValue:[sender objectValue]];
 }
 
-
 - (id)					objectValue
 {
 	return [self value];
 }
-
-
 
 - (void)				setType:(DKMetadataType) type
 {
@@ -670,19 +597,15 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	}
 }
 
-
-
 - (DKMetadataType)		type
 {
 	return mType;
 }
 
-
 - (NSString*)			typeDisplayName
 {
 	return [[self class] localizedDisplayNameForType:[self type]];
 }
-
 
 - (BOOL)				isLossyConversionToType:(DKMetadataType) type
 {
@@ -702,7 +625,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	}
 }
 
-
 - (DKMetadataItem*)		metadataItemWithType:(DKMetadataType) type
 {
 	// returns a new metadata item having the same value as the receiver, converted to <type>. If <type> is the current type, self is returned.
@@ -721,68 +643,55 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	}
 }
 
-
 - (NSString*)			stringValue
 {
 	return [self convertValue:[self value] toType:DKMetadataTypeString wasLossy:NULL];
 }
-
 
 - (NSAttributedString*)	attributedStringValue
 {
 	return [self convertValue:[self value] toType:DKMetadataTypeAttributedString wasLossy:NULL];
 }
 
-
 - (NSInteger)			intValue
 {
 	return [[self convertValue:[self value] toType:DKMetadataTypeInteger wasLossy:NULL] integerValue];
 }
-
-
 
 - (CGFloat)				floatValue
 {
 	return [[self convertValue:[self value] toType:DKMetadataTypeReal wasLossy:NULL] doubleValue];
 }
 
-
-
 - (BOOL)				boolValue
 {
 	return [[self convertValue:[self value] toType:DKMetadataTypeBoolean wasLossy:NULL] boolValue];
 }
-
 
 - (NSColor*)			colourValue
 {
 	return [self convertValue:[self value] toType:DKMetadataTypeColour wasLossy:NULL];
 }
 
-
 - (NSSize)				sizeValue
 {
 	return NSSizeFromString([self convertValue:[self value] toType:DKMetadataTypeSize wasLossy:NULL]);
 }
-
 
 - (NSPoint)				pointValue
 {
 	return NSPointFromString([self convertValue:[self value] toType:DKMetadataTypePoint wasLossy:NULL]);
 }
 
-
 - (NSRect)				rectValue
 {
 	return NSRectFromString([self convertValue:[self value] toType:DKMetadataTypeRect wasLossy:NULL]);
 }
 
-
 - (NSData*)				data
 {
 	return [NSKeyedArchiver archivedDataWithRootObject:self];
 }
-
 
 - (BOOL)				writeToPasteboard:(NSPasteboard*) pb
 {
@@ -794,7 +703,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 #pragma mark -
 
-
 - (void)				assignValue:(id) aValue;
 {
 	// sets the current value ignoring type and without notifying
@@ -804,12 +712,10 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	mValue = aValue;
 }
 
-
 - (id)					valueWithCurrentType:(id) inValue
 {
 	return [self convertValue:inValue toType:[self type] wasLossy:NULL];
 }
-
 
 - (id)					convertValue:(id) inValue toType:(DKMetadataType) type wasLossy:(BOOL*) lossy
 {
@@ -1067,7 +973,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return nil;	// unable to convert
 }
 
-
 #pragma mark -
 #pragma mark - as a NSObject
 
@@ -1076,14 +981,11 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return [self initWithString:@""];
 }
 
-
-
 - (void)				dealloc
 {
 	[mValue release];
 	[super dealloc];
 }
-
 
 - (id)					copyWithZone:(NSZone*) zone
 {
@@ -1097,7 +999,6 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return copy;
 }
 
-
 - (id)					initWithCoder:(NSCoder*) aDecoder
 {
 	self = [super init];
@@ -1110,13 +1011,11 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return self;
 }
 
-
 - (void)				encodeWithCoder:(NSCoder*) aCoder
 {
 	[aCoder encodeInteger:[self type] forKey:@"DKMetadataItem_type"];
 	[aCoder encodeObject:[self value] forKey:@"DKMetadataItem_value"];
 }
-
 
 - (BOOL)				isEqual:(id) obj
 {
@@ -1134,11 +1033,10 @@ NSString*		DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return NO;
 }
 
-
 - (NSString*)			description
 {
 	return [NSString stringWithFormat:@"%@ Type:%@ Value:%@", [super description], [self typeDisplayName], [self value]];
 }
 
-
 @end
+

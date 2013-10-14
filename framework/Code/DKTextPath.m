@@ -32,9 +32,7 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 
 @end
 
-
 @implementation DKTextPath
-
 
 + (DKTextPath*)				textPathWithString:(NSString*) str onPath:(NSBezierPath*) aPath
 {
@@ -45,8 +43,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [te autorelease];
 }
 
-
-
 + (void)					setDefaultTextString:(NSString*) str
 {
 	[str retain];
@@ -54,46 +50,31 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	sDefault_string = str;
 }
 
-
-
 + (NSString*)				defaultTextString
 {
 	return sDefault_string;
 }
-
-
 
 + (Class)					textAdornmentClass
 {
 	return [DKTextAdornment class];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pastableTextTypes
-/// scope:			public class method
-/// overrides:
-/// description:	return a list of types we can paste in priority order.
-/// 
-/// parameters:		none
-/// result:			a list of types
-///
-/// notes:			Cocoa's -textPasteboardTypes isn't in an order that is useful to us
-///
-///********************************************************************************************************************
-
+/** @brief Return a list of types we can paste in priority order.
+ * @note
+ * Cocoa's -textPasteboardTypes isn't in an order that is useful to us
+ * @return a list of types
+ * @public
+ */
 + (NSArray*)				pastableTextTypes
 {
 	return [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType, nil];
 }
 
-
 + (DKStyle*)				textPathDefaultStyle
 {
 	return [DKStyle styleWithFillColour:nil strokeColour:[NSColor clearColor]];
 }
-
 
 #pragma mark -
 
@@ -106,21 +87,15 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (NSTextStorage*)			text
 {
 	return [mTextAdornment textToDraw:self];
 }
 
-
-
 - (NSString*)				string
 {
 	return [[self text] string];
 }
-
-
 
 - (void)					pasteTextFromPasteboard:(NSPasteboard*) pb ignoreFormatting:(BOOL) fmt
 {
@@ -155,34 +130,25 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (BOOL)					canPasteText:(NSPasteboard*) pb
 {
 	return ([pb availableTypeFromArray:[[self class] pastableTextTypes]] != nil );
 }
-
-
 
 - (NSBezierPath*)			textPath
 {
 	return [mTextAdornment textAsPathForObject:self];
 }
 
-
-
 - (NSArray*)				textPathGlyphs
 {
 	return [self textPathGlyphsUsedSize:NULL];
 }
 
-
-
 - (NSArray*)				textPathGlyphsUsedSize:(NSSize*) textSize
 {
 	return [mTextAdornment textPathsForObject:self usedSize:textSize];
 }
-
 
 - (DKDrawablePath*)			makePathWithText
 {
@@ -201,8 +167,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	return dp;
 }
-
-
 
 - (DKDrawableShape*)		makeShapeWithText
 {
@@ -223,8 +187,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return ds;
 }
 
-
-
 - (DKShapeGroup*)			makeShapeGroupWithText
 {
 	NSArray*	paths = [self textPathGlyphs];
@@ -240,29 +202,18 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return group;
 }
 
-
-
 - (DKStyle*)				styleWithTextAttributes
 {
 	return [[self textAdornment] styleFromTextAttributes];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			syntheticStyle
-/// scope:			public instance method
-/// overrides:
-/// description:	creates a style that is the current style + any text attributes
-/// 
-/// parameters:		none
-/// result:			a new style object
-///
-/// notes:			a style which is the current style if it has text attributes, otherwise the current style with added text
-///					attributes. When cutting or copying the object's style, this is what should be used.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a style that is the current style + any text attributes
+ * @note
+ * A style which is the current style if it has text attributes, otherwise the current style with added text
+ * attributes. When cutting or copying the object's style, this is what should be used.
+ * @return a new style object
+ * @public
+ */
 - (DKStyle*)				syntheticStyle
 {
 	
@@ -281,15 +232,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
-
 - (NSDictionary*)			textAttributes
 {
 	return [mTextAdornment textAttributes];
 }
-
-
 
 - (void)					setFont:(NSFont*) font
 {
@@ -300,14 +246,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (NSFont*)					font
 {
 	return [mTextAdornment font];	
 }
-
-
 
 - (void)					setFontSize:(CGFloat) size
 {
@@ -318,13 +260,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (CGFloat)					fontSize
 {
 	return [mTextAdornment fontSize];
 }
-
 
 - (void)					scaleTextBy:(CGFloat) factor
 {
@@ -337,7 +276,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (void)					setTextColour:(NSColor*) colour
 {
 	if ( ![self locked])
@@ -347,14 +285,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (NSColor*)				textColour
 {
 	return [mTextAdornment colour];	
 }
-
-
 
 - (void)					setVerticalAlignment:(DKVerticalTextAlignment) align
 {
@@ -362,14 +296,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setVerticalAlignment:align];
 }
 
-
-
 - (DKVerticalTextAlignment)	verticalAlignment
 {
 	return [mTextAdornment verticalAlignment];	
 }
-
-
 
 - (void)					setVerticalAlignmentProportion:(CGFloat) prop
 {
@@ -377,14 +307,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setVerticalAlignmentProportion:prop];
 }
 
-
-
 - (CGFloat)					verticalAlignmentProportion
 {
 	return [mTextAdornment verticalAlignmentProportion];	
 }
-
-
 
 - (void)					setParagraphStyle:(NSParagraphStyle*) ps
 {
@@ -395,21 +321,15 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (NSParagraphStyle*)		paragraphStyle
 {
 	return [mTextAdornment paragraphStyle];
 }
 
-
-
 - (NSTextAlignment)			alignment
 {
 	return [mTextAdornment alignment];
 }
-
-
 
 - (void)					setLayoutMode:(DKTextLayoutMode) mode
 {
@@ -417,14 +337,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setLayoutMode:mode];
 }
 
-
-
 - (DKTextLayoutMode)		layoutMode
 {
 	return [mTextAdornment layoutMode];	
 }
-
-
 
 - (void)					startEditingInView:(DKDrawingView*) view
 {
@@ -475,8 +391,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (void)					endEditing
 {
 	if ( mEditorRef )
@@ -490,20 +404,15 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (BOOL)					isEditing
 {
 	return ( mEditorRef != nil);
 }
 
-
-
 - (DKTextAdornment*)		textAdornment
 {
 	return mTextAdornment;	
 }
-
-
 
 #pragma mark -
 
@@ -517,15 +426,11 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (IBAction)				changeFontSize:(id) sender
 {
 	if ( ![self locked])
 		[self setFontSize:[sender doubleValue]];
 }
-
-
 
 - (IBAction)				changeAttributes:(id) sender
 {
@@ -536,8 +441,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[self updateFontPanel];
 	}
 }
-
-
 
 - (IBAction)				editText:(id) sender
 {
@@ -558,8 +461,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (IBAction)				changeLayoutMode:(id) sender
 {
 	// sender's tag is interpreted as the layout mode
@@ -567,8 +468,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	NSInteger tag = [sender tag];
 	[self setLayoutMode:tag];
 }
-
-
 
 - (IBAction)				alignLeft:(id) sender
 {
@@ -580,8 +479,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setAlignment:NSLeftTextAlignment];
 }
 
-
-
 - (IBAction)				alignRight:(id) sender
 {
 #pragma unused(sender)
@@ -589,8 +486,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment setAlignment:NSRightTextAlignment];
 }
-
-
 
 - (IBAction)				alignCenter:(id) sender
 {
@@ -600,8 +495,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setAlignment:NSCenterTextAlignment];
 }
 
-
-
 - (IBAction)				alignJustified:(id) sender
 {
 #pragma unused(sender)
@@ -609,8 +502,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment setAlignment:NSJustifiedTextAlignment];
 }
-
-
 
 - (IBAction)				underline:(id) sender
 {
@@ -629,8 +520,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-
 - (IBAction)				loosenKerning:(id) sender
 {
 #pragma unused(sender)
@@ -638,8 +527,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment loosenKerning];
 }
-
-
 
 - (IBAction)				tightenKerning:(id) sender
 {
@@ -649,8 +536,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment tightenKerning];
 }
 
-
-
 - (IBAction)				turnOffKerning:(id)sender
 {
 #pragma unused(sender)
@@ -658,8 +543,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment turnOffKerning];
 }
-
-
 
 - (IBAction)				useStandardKerning:(id) sender
 {
@@ -669,8 +552,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment useStandardKerning];
 }
 
-
-
 - (IBAction)				lowerBaseline:(id) sender
 {
 #pragma unused(sender)
@@ -678,8 +559,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment lowerBaseline];
 }
-
-
 
 - (IBAction)				raiseBaseline:(id) sender
 {
@@ -689,8 +568,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment raiseBaseline];
 }
 
-
-
 - (IBAction)				superscript:(id) sender
 {
 #pragma unused(sender)
@@ -698,8 +575,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment superscript];
 }
-
-
 
 - (IBAction)				subscript:(id) sender
 {
@@ -709,8 +584,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment subscript];
 }
 
-
-
 - (IBAction)				unscript:(id) sender
 {
 #pragma unused(sender)
@@ -718,8 +591,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment unscript];
 }
-
-
 
 - (IBAction)				verticalAlign:(id) sender
 {
@@ -731,8 +602,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[[self undoManager] setActionName:NSLocalizedString(@"Vertical Alignment", @"undo string for vertical align")];
 	}
 }
-
-
 
 - (IBAction)				convertToShape:(id) sender
 {
@@ -759,8 +628,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		NSBeep();
 }
 
-
-
 - (IBAction)				convertToShapeGroup:(id) sender
 {
 #pragma unused(sender)
@@ -784,13 +651,11 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		NSBeep();
 }
 
-
 - (IBAction)				convertToTextShape:(id) sender
 {
 #pragma unused(sender)
 	// to do
 }
-
 
 - (IBAction)				convertToPath:(id) sender
 {
@@ -817,8 +682,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		NSBeep();
 }
 
-
-
 - (IBAction)				paste:(id) sender
 {
 #pragma unused(sender)
@@ -830,7 +693,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (IBAction)				capitalize:(id) sender
 {
 	if( ![self locked])
@@ -839,7 +701,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[[self undoManager] setActionName:NSLocalizedString(@"Change Case", @"undo string for capitalization")];
 	}
 }
-
 
 - (IBAction)				takeTextAlignmentFromSender:(id) sender
 {
@@ -855,7 +716,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (IBAction)				takeTextVerticalAlignmentFromSender:(id) sender
 {
 	// this method is designed to act as an action for a segmented button. The tag of the selected segment is interpreted as a vertical alignment setting. The whole
@@ -870,7 +730,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[[self undoManager] setActionName:NSLocalizedString(@"Vertical Alignment", @"undo string for vertical align")];
 	}
 }
-
 
 #pragma mark -
 
@@ -890,8 +749,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	return [adorn autorelease];
 }
-
-
 
 - (void)				setTextAdornment:(DKTextAdornment*) adornment
 {
@@ -914,7 +771,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (void)				changeKeyPath:(NSString*) keypath ofObject:(id) object toValue:(id) value
 {
 	if([value isEqual:[NSNull null]])
@@ -922,8 +778,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	[object setValue:value forKeyPath:keypath];
 }
-
-
 
 - (void)				mutateStyle
 {
@@ -945,13 +799,11 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (void)					updateFontPanel
 {
 	[[NSFontManager sharedFontManager] setSelectedFont:[self font] isMultiple:![[self textAdornment] attributeIsHomogeneous:NSFontAttributeName]];
 	[[NSFontManager sharedFontManager] setSelectedAttributes:[self textAttributes] isMultiple:![[self textAdornment] isHomogeneous]];
 }
-
 
 #pragma mark -
 #pragma mark - as a DKDrawablePath
@@ -977,7 +829,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 			[mTextAdornment render:self];
 	}
 }
-
 
 - (void)					drawSelectedState
 {
@@ -1017,7 +868,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[super drawSelectedState];
 }
 
-
 - (NSSize)					extraSpaceNeeded
 {
 	NSSize extra = [super extraSpaceNeeded];
@@ -1029,7 +879,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return extra;
 }
 
-
 - (void)					mouseDoubleClickedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	[super mouseDoubleClickedAtPoint:mp inPart:partcode event:evt];
@@ -1037,7 +886,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[self startEditingInView:(DKDrawingView*)[[self layer] currentView]];
 }
-
 
 - (void)					setStyle:(DKStyle*) aStyle
 {
@@ -1057,7 +905,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[self notifyVisualChange];
 	}
 }
-
 
 #define INCLUDE_ALIGNMENT_COMMANDS		0
 
@@ -1120,10 +967,8 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return YES;
 }
 
-
 #pragma mark -
 #pragma mark - as a DKDrawableObject
-
 
 - (id)						initWithStyle:(DKStyle*) aStyle
 {
@@ -1137,28 +982,15 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			copyDrawingStyle:
-/// scope:			public action method
-/// overrides:
-/// description:	copies the object's style to the general pasteboard
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Copies the object's style to the general pasteboard
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		copyDrawingStyle:(id) sender
 {
 #pragma unused(sender)
 	[[self syntheticStyle] copyToPasteboard:[NSPasteboard generalPasteboard]];
 }
-
-
 
 - (void)					objectDidBecomeSelected
 {
@@ -1166,27 +998,18 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[self updateFontPanel];
 }
 
-
 - (void)					objectIsNoLongerSelected
 {
 	[super objectIsNoLongerSelected];
 	[self endEditing];
 }
 
-///*********************************************************************************************************************
-///
-/// method:			writeSupplementaryDataToPasteboard:
-/// scope:			public instance method
-/// overrides:
-/// description:	write additional data to the pasteboard specific to the object
-/// 
-/// parameters:		<pb> the pasteboard to write to
-/// result:			none
-///
-/// notes:			Text objects add the text itself to the pasteboard
-///
-///********************************************************************************************************************
-
+/** @brief Write additional data to the pasteboard specific to the object
+ * @note
+ * Text objects add the text itself to the pasteboard
+ * @param pb the pasteboard to write to
+ * @public
+ */
 - (void)				writeSupplementaryDataToPasteboard:(NSPasteboard*) pb
 {
 	if( [pb addTypes:[NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil] owner:self])
@@ -1199,16 +1022,13 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 #pragma mark -
 #pragma mark - as a NSObject
-
 
 - (id)						init
 {
 	return [self initWithStyle:[[self class] textPathDefaultStyle]];
 }
-
 
 - (void)			dealloc
 {
@@ -1216,8 +1036,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[self setTextAdornment:nil];
 	[super dealloc];
 }
-
-
 
 - (void)			observeValueForKeyPath:(NSString*) keypath ofObject:(id) object change:(NSDictionary*) change context:(void*) context
 {
@@ -1282,7 +1100,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[coder encodeObject:mTextAdornment forKey:@"DKTextPath_textAdornment"];
 }
 
-
 - (id)						initWithCoder:(NSCoder*) coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
@@ -1294,7 +1111,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -1309,7 +1125,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	return copy;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSDraggingDestination protocol
@@ -1339,10 +1154,8 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [super performDragOperation:sender];
 }
 
-
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
-
 
 - (BOOL)				validateMenuItem:(NSMenuItem*) item
 {
@@ -1430,7 +1243,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[self endEditing];
 }
 
-
 - (BOOL)					textView:(NSTextView*) tv doCommandBySelector:(SEL) selector
 {
 	// this allows the texview to act as a special field editor. Return + Enter complete text editing, but Tab does not. Also, for convenience to
@@ -1462,5 +1274,5 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return NO;
 }
 
-
 @end
+

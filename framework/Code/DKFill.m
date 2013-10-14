@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKFill.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 25/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKFill.h"
 #import "DKStyle.h"
@@ -15,7 +13,6 @@
 #import "NSObject+GraphicsAttributes.h"
 #import "DKDrawableObject.h"
 #import "DKDrawing.h"
-
 
 @implementation DKFill
 #pragma mark As a DKFill
@@ -27,7 +24,6 @@
 	return [fill autorelease];
 }
 
-
 + (DKFill*)		fillWithGradient:(DKGradient*) gradient
 {
 	DKFill* fill = [[DKFill alloc] init];
@@ -37,7 +33,6 @@
 	return [fill autorelease];
 }
 
-
 + (DKFill*)		fillWithPatternImage:(NSImage*) image
 {
 	NSColor* pc = [NSColor colorWithPatternImage:image];
@@ -45,14 +40,12 @@
 	return [self fillWithColour:pc];
 }
 
-
 + (DKFill*)		fillWithPatternImageNamed:(NSString*) path
 {
 	NSImage* ip = [NSImage imageResourceNamed:path];
 	
 	return [self fillWithPatternImage:ip];
 }
-
 
 #pragma mark -
 - (void)		setColour:(NSColor*) colour
@@ -64,12 +57,10 @@
 	m_fillColour = colour;
 }
 
-
 - (NSColor*)	colour
 {
 	return m_fillColour;
 }
-
 
 #pragma mark -
 - (void)		setShadow:(NSShadow*) shadw
@@ -79,12 +70,10 @@
 	m_shadow = shadw;
 }
 
-
 - (NSShadow*)	shadow
 {
 	return m_shadow;
 }
-
 
 #pragma mark -
 - (void)		setGradient:(DKGradient*) grad
@@ -110,53 +99,30 @@
 	}
 }
 
-
 - (DKGradient*)	gradient
 {
 	return m_gradient;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setTracksObjectAngle:
-/// scope:			public method
-/// overrides:		
-/// description:	sets whether the gradient's angle is aligned with the rendered object's angle
-/// 
-/// parameters:		<toa> YES if the gradient angle is based off the object's angle
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Sets whether the gradient's angle is aligned with the rendered object's angle
+ * @param toa YES if the gradient angle is based off the object's angle
+ * @public
+ */
 - (void)				setTracksObjectAngle:(BOOL) toa
 {
 	m_angleTracksObject = toa;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			tracksObjectAngle
-/// scope:			public method
-/// overrides:		
-/// description:	whether the gradient's angle is aligned with the rendered object's angle
-/// 
-/// parameters:		none 
-/// result:			YES if the gradient angle is based off the object's angle
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Whether the gradient's angle is aligned with the rendered object's angle
+ * @return YES if the gradient angle is based off the object's angle
+ * @public
+ */
 - (BOOL)		tracksObjectAngle
 {
 	return m_angleTracksObject;
 }
-
 
 #pragma mark -
 #pragma mark As a DKRasterizer
@@ -165,16 +131,12 @@
 	return (m_fillColour != nil || m_gradient != nil);
 }
 
-
-
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)	observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"shadow", @"tracksObjectAngle", @"gradient", nil]];
 }
-
 
 - (void)		registerActionNames
 {
@@ -184,7 +146,6 @@
 	[self setActionName:@"#kind# Gradient" forKeyPath:@"gradient"];
 	[self setActionName:@"#kind# Tracks Object Angle" forKeyPath:@"tracksObjectAngle"];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -196,7 +157,6 @@
 	
 	[super dealloc];
 }
-
 
 - (id)			init
 {
@@ -210,7 +170,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
@@ -231,7 +190,6 @@
 	
 	return es;
 }
-
 
 - (void)		render:(id<DKRenderable>) obj
 {
@@ -291,12 +249,10 @@
 	}
 }
 
-
 - (BOOL)		isFill
 {
 	return YES;
 }
-
 
 #pragma mark -
 #pragma mark As part of GraphicAttributtes Protocol
@@ -312,7 +268,6 @@
 		[self setGradient:val];
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)		encodeWithCoder:(NSCoder*) coder
@@ -325,7 +280,6 @@
 	[coder encodeObject:[self gradient] forKey:@"fill_gradient"];
 	[coder encodeBool:[self tracksObjectAngle] forKey:@"fill_tracks_angle"];
 }
-
 
 - (id)			initWithCoder:(NSCoder*) coder
 {
@@ -340,7 +294,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -363,5 +316,5 @@
 	return copy;
 }
 
-
 @end
+

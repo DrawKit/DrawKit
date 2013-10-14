@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKBSPDirectObjectStorage.h
 //  GCDrawKit
@@ -11,7 +18,6 @@
 
 @class DKBSPDirectTree;
 
-
 @interface DKBSPDirectObjectStorage : DKLinearObjectStorage
 {
 @private
@@ -21,14 +27,11 @@
 	BOOL				mAutoRebuild;
 }
 
-
 - (void)			setTreeDepth:(NSUInteger) aDepth;
 - (id)				tree;
 - (NSBezierPath*)	debugStorageDivisions;
 
 @end
-
-
 
 #pragma mark -
 
@@ -57,7 +60,6 @@
 
 @end
 
-
 /*
 
  This uses a similar algorithm to DKBSPObjectStorage but instead of indexing the objects it stores them directly by retaining them in additional arrays
@@ -69,4 +71,3 @@
  The trade-off here is that drawing speed should be faster but object insertion, deletion and changing of Z-position may be slower.
  
 */
-

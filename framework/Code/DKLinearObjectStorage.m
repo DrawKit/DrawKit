@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKLinearObjectStorage.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 03/01/2009.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKLinearObjectStorage.h"
 #import "LogEvent.h"
@@ -53,13 +51,11 @@
 	return temp;
 }
 
-
 - (NSArray*)				objectsContainingPoint:(NSPoint) aPoint
 {
 	NSRect pr = NSMakeRect( aPoint.x - 0.0005, aPoint.y - 0.0005, 0.001, 0.001 );
 	return [self objectsIntersectingRect:pr inView:nil options:0];
 }
-
 
 - (void)					setObjects:(NSArray*) objects
 {
@@ -73,18 +69,15 @@
 	[mObjects makeObjectsPerformSelector:@selector(setStorage:) withObject:self];
 }
 
-
 - (NSArray*)				objects
 {
 	return mObjects;
 }
 
-
 - (NSUInteger)				countOfObjects
 {
 	return [[self objects] count];
 }
-
 
 - (id<DKStorableObject>)	objectInObjectsAtIndex:(NSUInteger) indx
 {
@@ -93,12 +86,10 @@
 	return [[self objects] objectAtIndex:indx];
 }
 
-
 - (NSArray*)				objectsAtIndexes:(NSIndexSet*) set
 {
 	return [[self objects] objectsAtIndexes:set];
 }
-
 
 - (void)					insertObject:(id<DKStorableObject>) obj inObjectsAtIndex:(NSUInteger) indx
 {
@@ -111,7 +102,6 @@
 	}
 }
 
-
 - (void)					removeObjectFromObjectsAtIndex:(NSUInteger) indx
 {
 	NSAssert( indx < [self countOfObjects], @"error - index is beyond bounds");
@@ -120,7 +110,6 @@
 	[obj setStorage:nil];
 	[mObjects removeObjectAtIndex:indx];
 }
-
 
 - (void)					replaceObjectInObjectsAtIndex:(NSUInteger) indx withObject:(id<DKStorableObject>) obj
 {
@@ -132,7 +121,6 @@
 	[mObjects replaceObjectAtIndex:indx withObject:obj];
 	[obj setStorage:self];
 }
-
 
 - (void)					insertObjects:(NSArray*) objs atIndexes:(NSIndexSet*) set
 {
@@ -146,7 +134,6 @@
 		[mObjects insertObjects:objs atIndexes:set];
 	}
 }
-
 
 - (void)					removeObjectsAtIndexes:(NSIndexSet*) set
 {
@@ -162,18 +149,15 @@
 	}
 }
 
-
 - (BOOL)					containsObject:(id<DKStorableObject>) object
 {
 	return [mObjects containsObject:object];
 }
 
-
 - (NSUInteger)				indexOfObject:(id<DKStorableObject>) object
 {
 	return [[self objects] indexOfObjectIdenticalTo:object];
 }
-
 
 - (void)					moveObject:(id<DKStorableObject>) obj toIndex:(NSUInteger) indx
 {
@@ -193,8 +177,6 @@
 	}
 }
 
-
-
 - (void)					object:(id<DKStorableObject>) obj didChangeBoundsFrom:(NSRect) oldBounds
 {
 #pragma unused(obj, oldBounds)
@@ -205,19 +187,15 @@
 	//NSLog(@"bounds change from: %@, old = %@, new = %@", obj, NSStringFromRect( oldBounds ), NSStringFromRect([obj bounds]));
 }
 
-
 - (void)					objectDidChangeVisibility:(id<DKStorableObject>) obj
 {
 #pragma unused(obj)	
 }
 
-
 - (void)					setCanvasSize:(NSSize) size
 {
 #pragma unused(size)	
 }
-
-
 
 #pragma mark -
 #pragma mark - as implementor of the NSCoding protocol
@@ -230,7 +208,6 @@
 	return self;
 }
 
-
 - (void)					encodeWithCoder:(NSCoder*) aCoder
 {
 #pragma unused(aCoder)
@@ -241,8 +218,6 @@
 	
 	//[aCoder encodeObject:[self objects] forKey:@"DKLinearStorage_objects"];
 }
-
-
 
 #pragma mark -
 #pragma mark - as a NSObject
@@ -258,7 +233,6 @@
 	return self;
 }
 
-
 - (void)					dealloc
 {
 	[[self objects] makeObjectsPerformSelector:@selector(setStorage:) withObject:nil];
@@ -267,3 +241,4 @@
 }
 
 @end
+

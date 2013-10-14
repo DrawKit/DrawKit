@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKObjectCreationTool.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 09/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKObjectCreationTool.h"
 #import "DKObjectDrawingLayer.h"
@@ -24,7 +22,6 @@ NSString*	kDKDrawingToolCreatedObjectsStyleDidChange	= @"kDKDrawingToolCreatedOb
 #pragma mark Static Vars
 static DKStyle*	sCreatedObjectsStyle = nil;
 
-
 @interface DKObjectCreationTool (Private)
 
 - (BOOL)	finishCreation:(DKToolController*) controller;
@@ -35,23 +32,15 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 @implementation DKObjectCreationTool
 #pragma mark As a DKObjectCreationTool
 
-///*********************************************************************************************************************
-///
-/// method:			registerDrawingToolForObject:withName:
-/// scope:			public class method
-///	overrides:
-/// description:	create a tool for an existing object
-/// 
-/// parameters:		<shape> a drawable object that can be created by the tool - typically a DKDrawableShape
-///					<name> the name of the tool to register this with
-/// result:			none
-///
-/// notes:			this method conveniently allows you to create tools for any object you already have. For example
-///					if you create a complex shape from others, or make a group of objects, you can turn that object
-///					into an interactive tool to make more of the same.
-///
-///********************************************************************************************************************
-
+/** @brief Create a tool for an existing object
+ * @note
+ * This method conveniently allows you to create tools for any object you already have. For example
+ * if you create a complex shape from others, or make a group of objects, you can turn that object
+ * into an interactive tool to make more of the same.
+ * @param shape a drawable object that can be created by the tool - typically a DKDrawableShape
+ * @param name the name of the tool to register this with
+ * @public
+ */
 + (void)				registerDrawingToolForObject:(id <NSCopying>) shape withName:(NSString*) name
 {
 	// creates a drawing tool for the given object and registers it with the name. This quickly allows you to make a tool
@@ -66,21 +55,12 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	[DKDrawingTool registerDrawingTool:dt  withName:name];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setStyleForCreatedObjects:
-/// scope:			public class method
-///	overrides:
-/// description:	set a style to be used for subsequently created objects
-/// 
-/// parameters:		<aStyle> a style object that will be applied to each new object as it is created
-/// result:			none
-///
-/// notes:			if you set nil, the style set in the prototype object for the individual tool will be used instead.
-///
-///********************************************************************************************************************
-
+/** @brief Set a style to be used for subsequently created objects
+ * @note
+ * If you set nil, the style set in the prototype object for the individual tool will be used instead.
+ * @param aStyle a style object that will be applied to each new object as it is created
+ * @public
+ */
 + (void)				setStyleForCreatedObjects:(DKStyle*) aStyle
 {
 	if(![aStyle isEqualToStyle:sCreatedObjectsStyle])
@@ -94,44 +74,24 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			styleForCreatedObjects
-/// scope:			public class method
-///	overrides:
-/// description:	return a style to be used for subsequently created objects
-/// 
-/// parameters:		none
-/// result:			a style object that will be applied to each new object as it is created, or nil
-///
-/// notes:			if you set nil, the style set in the prototype object for the individual tool will be used instead.
-///
-///********************************************************************************************************************
-
+/** @brief Return a style to be used for subsequently created objects
+ * @note
+ * If you set nil, the style set in the prototype object for the individual tool will be used instead.
+ * @return a style object that will be applied to each new object as it is created, or nil
+ * @public
+ */
 + (DKStyle*)			styleForCreatedObjects
 {
 	return sCreatedObjectsStyle;
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			initWithPrototypeObject:
-/// scope:			public instance method, designated initializer
-///	overrides:
-/// description:	initialize the tool
-/// 
-/// parameters:		<aPrototype> an object that will be used as the tool's prototype - each new object created will
-///					be a copy of this one.
-/// result:			the tool object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Initialize the tool
+ * @param aPrototype an object that will be used as the tool's prototype - each new object created will
+ * @return the tool object
+ * @public
+ */
 - (id)					initWithPrototypeObject:(id <NSObject>) aPrototype
 {
 	self = [super init];
@@ -149,24 +109,12 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	return self;
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			setPrototype:
-/// scope:			public instance method
-///	overrides:
-/// description:	set the object to be copied when the tool created a new one
-/// 
-/// parameters:		<aPrototype> an object that will be used as the tool's prototype - each new object created will
-///					be a copy of this one.
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set the object to be copied when the tool created a new one
+ * @param aPrototype an object that will be used as the tool's prototype - each new object created will
+ * @public
+ */
 - (void)				setPrototype:(id <NSObject>) aPrototype
 {
 	NSAssert( aPrototype != nil, @"prototype object cannot be nil");
@@ -176,41 +124,21 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	m_prototypeObject = aPrototype;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			prototype
-/// scope:			public instance method
-///	overrides:
-/// description:	return the object to be copied when the tool creates a new one
-/// 
-/// parameters:		none
-/// result:			an object - each new object created will be a copy of this one.
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the object to be copied when the tool creates a new one
+ * @return an object - each new object created will be a copy of this one.
+ * @public
+ */
 - (id)					prototype
 {
 	return m_prototypeObject;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectFromPrototype
-/// scope:			public instance method
-///	overrides:
-/// description:	return a new object copied from the prototype, but with the current class style if there is one
-/// 
-/// parameters:		none
-/// result:			a new object based on the prototype.
-///
-/// notes:			the returned object is autoreleased
-///
-///********************************************************************************************************************
-
+/** @brief Return a new object copied from the prototype, but with the current class style if there is one
+ * @note
+ * The returned object is autoreleased
+ * @return a new object based on the prototype.
+ * @public
+ */
 - (id)					objectFromPrototype
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWillMakeNewObjectNotification object:self];
@@ -231,7 +159,6 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	return obj;
 }
 
-
 - (void)				setStyle:(DKStyle*) aStyle
 {
 	// sets the style for the prototype (an dhence subsequently created objects). This setting is overridden by
@@ -240,7 +167,6 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	if([[self prototype] respondsToSelector:_cmd])
 		[(DKDrawableObject*)[self prototype] setStyle:aStyle];
 }
-
 
 - (DKStyle*)			style
 {
@@ -252,57 +178,33 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 		return [(DKDrawableObject*)[self prototype] style];
 }
 
-
 - (void)				setStylePickupEnabled:(BOOL) pickup
 {
 	mEnableStylePickup = pickup;
 }
-
 
 - (BOOL)				stylePickupEnabled
 {
 	return mEnableStylePickup;
 }
 
-
-
 #pragma mark -
 
-
-///*********************************************************************************************************************
-///
-/// method:			image
-/// scope:			public instance method
-///	overrides:
-/// description:	return an image showing what the tool creates
-/// 
-/// parameters:		none
-/// result:			an image
-///
-/// notes:			the image may be used as an icon for this tool in a UI, for example
-///
-///********************************************************************************************************************
-
+/** @brief Return an image showing what the tool creates
+ * @note
+ * The image may be used as an icon for this tool in a UI, for example
+ * @return an image
+ * @public
+ */
 - (NSImage*)			image
 {
 	return [[self prototype] swatchImageWithSize:kDKDefaultToolSwatchSize];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			finishCreation
-/// scope:			private instance method
-///	overrides:
-/// description:	complete the object creation cleanly
-/// 
-/// parameters:		none
-/// result:			YES if undo task generated, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Complete the object creation cleanly
+ * @return YES if undo task generated, NO otherwise
+ * @private
+ */
 - (BOOL)				finishCreation:(DKToolController*) controller
 {
 	BOOL result = NO;
@@ -371,50 +273,29 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	return result;
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 
-///*********************************************************************************************************************
-///
-/// method:			dealloc
-/// scope:			public instance method
-///	overrides:
-/// description:	deallocate the tool
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Deallocate the tool
+ * @public
+ */
 - (void)				dealloc
 {
 	[m_prototypeObject release];
 	[super dealloc];
 }
 
-
 #pragma mark -
 #pragma mark - As a DKDrawingTool
 
-///*********************************************************************************************************************
-///
-/// method:			persistentData
-/// scope:			public instance method
-///	overrides:		
-/// description:	the tool can return arbitrary persistent data that will be stored in the prefs and returned on
-///					the next launch.
-/// 
-/// parameters:		none
-/// result:			data, or nil
-///
-/// notes:			if the tool has a set style, it is archived and returned so that it can be restored to the same
-///					style next session.
-///
-///********************************************************************************************************************
-
+/** @brief The tool can return arbitrary persistent data that will be stored in the prefs and returned on
+ * the next launch.
+ * @note
+ * If the tool has a set style, it is archived and returned so that it can be restored to the same
+ * style next session.
+ * @return data, or nil
+ * @public
+ */
 - (NSData*)			persistentData
 {
 	if([self style])
@@ -423,21 +304,9 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 		return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			shouldLoadPersistentData:
-/// scope:			public instance method
-///	overrides:		
-/// description:	on launch, the data that was saved by the previous session will be reloaded
-/// 
-/// parameters:		the data to reload
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief On launch, the data that was saved by the previous session will be reloaded
+ * @public
+ */
 - (void)			shouldLoadPersistentData:(NSData*) data
 {
 	NSAssert( data != nil, @"data was nil");
@@ -473,21 +342,10 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toolControllerWillUnsetTool:
-/// scope:			public instance method
-///	overrides:		DKDrawingTool
-/// description:	clean up when tool is switched out
-/// 
-/// parameters:		<aController> the tool controller
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Clean up when tool is switched out
+ * @param aController the tool controller
+ * @public
+ */
 - (void)				toolControllerWillUnsetTool:(DKToolController*) aController
 {
 	//NSLog(@"unsetting %@, proto = %@", self, m_protoObject);
@@ -495,48 +353,27 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	[self finishCreation:aController];
 }
 
-
-
-
-
 #pragma mark -
 #pragma mark - As part of DKDrawingTool Protocol
 
-///*********************************************************************************************************************
-///
-/// method:			toolPerformsUndoableAction
-/// scope:			public class method
-///	overrides:		DKDrawingTool
-/// description:	does the tool ever implement undoable actions?
-/// 
-/// parameters:		none
-/// result:			always returns YES
-///
-/// notes:			returning YES means that the tool can POTENTIALLY do undoable things, not that it always will.
-///
-///********************************************************************************************************************
-
+/** @brief Does the tool ever implement undoable actions?
+ * @note
+ * Returning YES means that the tool can POTENTIALLY do undoable things, not that it always will.
+ * @return always returns YES
+ * @public
+ */
 + (BOOL)				toolPerformsUndoableAction
 {
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			actionName
-/// scope:			public instance method
-///	overrides:		DKDrawingTool
-/// description:	return a string representing what the tool did
-/// 
-/// parameters:		none
-/// result:			a string
-///
-/// notes:			The registered name of the tool is assumed to be descriptive of the objects it creates, for example
-///					"Rectangle", thus this returns "New Rectangle"
-///
-///********************************************************************************************************************
-
+/** @brief Return a string representing what the tool did
+ * @note
+ * The registered name of the tool is assumed to be descriptive of the objects it creates, for example
+ * "Rectangle", thus this returns "New Rectangle"
+ * @return a string
+ * @public
+ */
 - (NSString*)			actionName
 {
 	NSString* objectName = [self registeredName];
@@ -544,50 +381,31 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	return NSLocalizedString( s, @"undo string for new object (type)" );
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			cursor
-/// scope:			public instance method
-///	overrides:		DKDrawingTool
-/// description:	return the tool's cursor
-/// 
-/// parameters:		none
-/// result:			the cross-hair cursor
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the tool's cursor
+ * @return the cross-hair cursor
+ * @public
+ */
 - (NSCursor*)			cursor
 {
 	return [NSCursor crosshairCursor];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDownAtPoint:targetObject:layer:event:delegate:
-/// scope:			public instance method
-///	overrides:		DKDrawingTool
-/// description:	handle the initial mouse down
-/// 
-/// parameters:		<p> the local point where the mouse went down
-///					<obj> the target object, if there is one
-///					<layer> the layer in which the tool is being applied
-///					<event> the original event
-///					<aDel> an optional delegate
-/// result:			the partcode of object nominated by its class for creating instances of itself interactively
-///
-/// notes:			starts the creation of an object by copying the prototype and adding it to the layer as a pending
-///					object (pending objects are only committed if they are valid after being created). As a side-effect
-///					this turns off undo registration temporarily as the initial sizing of the object has no benefit
-///					being undone. Note that for some object types, like paths, the object will keep control in their
-///					own loop for the entire creation process, finally posting a mouseUp in the original view so that
-///					the finalising procedure is carried out.
-///
-///********************************************************************************************************************
-
+/** @brief Handle the initial mouse down
+ * @note
+ * Starts the creation of an object by copying the prototype and adding it to the layer as a pending
+ * object (pending objects are only committed if they are valid after being created). As a side-effect
+ * this turns off undo registration temporarily as the initial sizing of the object has no benefit
+ * being undone. Note that for some object types, like paths, the object will keep control in their
+ * own loop for the entire creation process, finally posting a mouseUp in the original view so that
+ * the finalising procedure is carried out.
+ * @param p the local point where the mouse went down
+ * @param obj the target object, if there is one
+ * @param layer the layer in which the tool is being applied
+ * @param event the original event
+ * @param aDel an optional delegate
+ * @return the partcode of object nominated by its class for creating instances of itself interactively
+ * @public
+ */
 - (NSInteger)					mouseDownAtPoint:(NSPoint) p targetObject:(DKDrawableObject*) obj layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
 {
 	#pragma unused(aDel)
@@ -672,25 +490,16 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	return mPartcode;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDraggedToPoint:partCode:layer:event:delegate:
-/// scope:			public instance method
-///	overrides:		DKDrawingTool
-/// description:	handle the mouse dragged event
-/// 
-/// parameters:		<p> the local point where the mouse has been dragged to
-///					<partCode> the partcode returned by the mouseDown method
-///					<layer> the layer in which the tool is being applied
-///					<event> the original event
-///					<aDel> an optional delegate
-/// result:			none
-///
-/// notes:			keep dragging out the object
-///
-///********************************************************************************************************************
-
+/** @brief Handle the mouse dragged event
+ * @note
+ * Keep dragging out the object
+ * @param p the local point where the mouse has been dragged to
+ * @param partCode the partcode returned by the mouseDown method
+ * @param layer the layer in which the tool is being applied
+ * @param event the original event
+ * @param aDel an optional delegate
+ * @public
+ */
 - (void)				mouseDraggedToPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
 {
 	#pragma unused(layer)
@@ -704,28 +513,20 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseUpAtPoint:partCode:layer:event:delegate:
-/// scope:			public instance method
-///	overrides:		DKDrawingTool
-/// description:	handle the mouse up event
-/// 
-/// parameters:		<p> the local point where the mouse went up
-///					<partCode> the partcode returned by the mouseDown method
-///					<layer> the layer in which the tool is being applied
-///					<event> the original event
-///					<aDel> an optional delegate
-/// result:			YES if the tool did something undoable, NO otherwise
-///
-/// notes:			this finalises he object creation by calling the -objectIsValid method. Valid means that the path
-///					is not empty or zero-sized for example. If the object is valid it is committed to the layer after
-///					re-enabling undo. Invalid objects are simply discarded. The delegate is called to signal an undoable
-///					task is about to be made.
-///
-///********************************************************************************************************************
-
+/** @brief Handle the mouse up event
+ * @note
+ * This finalises he object creation by calling the -objectIsValid method. Valid means that the path
+ * is not empty or zero-sized for example. If the object is valid it is committed to the layer after
+ * re-enabling undo. Invalid objects are simply discarded. The delegate is called to signal an undoable
+ * task is about to be made.
+ * @param p the local point where the mouse went up
+ * @param partCode the partcode returned by the mouseDown method
+ * @param layer the layer in which the tool is being applied
+ * @param event the original event
+ * @param aDel an optional delegate
+ * @return YES if the tool did something undoable, NO otherwise
+ * @public
+ */
 - (BOOL)				mouseUpAtPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
 {
 #pragma unused(pc)
@@ -744,11 +545,10 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 	return [self finishCreation:aDel];
 }
 
-
 - (BOOL)			isValidTargetLayer:(DKLayer*) aLayer
 {
 	return [aLayer isKindOfClass:[DKObjectDrawingLayer class]] && ![aLayer locked] && [aLayer visible];
 }
 
-
 @end
+

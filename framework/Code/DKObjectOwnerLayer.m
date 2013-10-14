@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKObjectOwnerLayer.m
-///  DrawKit (c) 2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 21/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKObjectOwnerLayer.h"
 #import "DKLayer+Metadata.h"
@@ -32,7 +30,6 @@ NSString*		kDKLayerDidAddObject		= @"kDKLayerDidAddObject";
 NSString*		kDKLayerWillRemoveObject	= @"kDKLayerWillRemoveObject";
 NSString*		kDKLayerDidRemoveObject		= @"kDKLayerDidRemoveObject";
 
-
 @interface DKObjectOwnerLayer (Private)
 - (void)	updateCache;
 - (void)	invalidateCache;
@@ -49,20 +46,16 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	sDefaultCacheOption = option;
 }
 
-
 + (DKLayerCacheOption)	defaultLayerCacheOption
 {
 	return sDefaultCacheOption;
 }
-
-
 
 + (void)				setStorageClass:(Class) aClass
 {
 	if([aClass conformsToProtocol:@protocol(DKObjectStorage)])
 		sStorageClass = aClass;
 }
-
 
 + (Class)				storageClass
 {
@@ -72,25 +65,15 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		return sStorageClass;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			setStorage:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the storag eobject for the layer
-/// 
-/// parameters:		<storage> a storage object
-/// result:			none
-///
-/// notes:			this is an advanced feature that allows the object storage to be replaced independently. Alternative
-///					storage algorithms can enhance performance for very large data sets, for example. Note that the
-///					storage should not be swapped while a layer contains objects, since they will be discarded. The
-///					intention is that the desired storage is part of a layer's initialisation.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the storag eobject for the layer
+ * @note
+ * This is an advanced feature that allows the object storage to be replaced independently. Alternative
+ * storage algorithms can enhance performance for very large data sets, for example. Note that the
+ * storage should not be swapped while a layer contains objects, since they will be discarded. The
+ * intention is that the desired storage is part of a layer's initialisation.
+ * @param storage a storage object
+ * @public
+ */
 - (void)						setStorage:(id<DKObjectStorage>) storage
 {
 	if([storage conformsToProtocol:@protocol(DKObjectStorage)])
@@ -103,43 +86,21 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			storage
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the storage object for the layer
-/// 
-/// parameters:		none
-/// result:			a storage object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the storage object for the layer
+ * @return a storage object
+ * @public
+ */
 - (id<DKObjectStorage>) storage
 {
 	return mStorage;
 }
 
-
 #pragma mark - the list of objects
 
-///*********************************************************************************************************************
-///
-/// method:			setObjects:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the objects that this layer owns
-/// 
-/// parameters:		<objs> an array of DKDrawableObjects, or subclasses thereof
-/// result:			none
-///
-/// notes:			used by undo and dearchivers. KVC/KVO compliant
-///
-///********************************************************************************************************************
-
+/** @brief Sets the objects that this layer owns
+ * @param objs an array of DKDrawableObjects, or subclasses thereof
+ * @public
+ */
 - (void)				setObjects:(NSArray*) objs
 {
 	NSAssert( objs != nil, @"array of objects cannot be nil");
@@ -164,62 +125,34 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objects
-/// scope:			public instance method
-///	overrides:
-/// description:	returns all owned objects
-/// 
-/// parameters:		none
-/// result:			an array of the objects
-///
-/// notes:			all objects are returned whether or not visible, locked or selected. KVC/KVO compliant
-///
-///********************************************************************************************************************
-
+/** @brief Returns all owned objects
+ * @return an array of the objects
+ * @public
+ */
 - (NSArray*)			objects
 {
 	return [[[[self storage] objects] copy] autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			availableObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that are available to the user, that is, not locked or invisible
-/// 
-/// parameters:		none
-/// result:			an array of available objects
-///
-/// notes:			If the layer itself is locked, returns the empty list
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that are available to the user, that is, not locked or invisible
+ * @note
+ * If the layer itself is locked, returns the empty list
+ * @return an array of available objects
+ * @public
+ */
 - (NSArray*)			availableObjects
 {
 	return [self availableObjectsInRect:[[self drawing] interior]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			availableObjectsInRect:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that are available to the user, that is, not locked or invisible and that
-///					intersect the rect
-/// 
-/// parameters:		<aRect> - objects must also intersect this rect
-/// result:			an array of available objects
-///
-/// notes:			If the layer itself is locked, returns the empty list
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that are available to the user, that is, not locked or invisible and that
+ * intersect the rect
+ * @note
+ * If the layer itself is locked, returns the empty list
+ * @param aRect - objects must also intersect this rect
+ * @return an array of available objects
+ * @public
+ */
 - (NSArray*)			availableObjectsInRect:(NSRect) aRect
 {
 	// an available object is one that is both visible and not locked. Stacking order is maintained.
@@ -240,21 +173,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [ao autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			availableObjectsOfClass:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that are available to the user of the given class
-/// 
-/// parameters:		<aClass> - class of the desired objects
-/// result:			an array of available objects
-///
-/// notes:			If the layer itself is locked, returns the empty list
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that are available to the user of the given class
+ * @note
+ * If the layer itself is locked, returns the empty list
+ * @param aClass - class of the desired objects
+ * @return an array of available objects
+ * @public
+ */
 - (NSArray*)			availableObjectsOfClass:(Class) aClass
 {
 	NSMutableArray*		ao = [[NSMutableArray alloc] init];
@@ -273,41 +198,24 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [ao autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			visibleObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that are visible to the user, but may be locked
-/// 
-/// parameters:		none
-/// result:			an array of visible objects
-///
-/// notes:			If the layer itself is not visible, returns nil
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that are visible to the user, but may be locked
+ * @note
+ * If the layer itself is not visible, returns nil
+ * @return an array of visible objects
+ * @public
+ */
 - (NSArray*)			visibleObjects
 {
 	return [self visibleObjectsInRect:[[self drawing] interior]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			visibleObjectsInRect:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that are visible to the user, intersect the rect, but may be locked
-/// 
-/// parameters:		<aRect> the objects returned intersect this rect
-/// result:			an array of visible objects
-///
-/// notes:			If the layer itself is not visible, returns nil
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that are visible to the user, intersect the rect, but may be locked
+ * @note
+ * If the layer itself is not visible, returns nil
+ * @param aRect the objects returned intersect this rect
+ * @return an array of visible objects
+ * @public
+ */
 - (NSArray*)			visibleObjectsInRect:(NSRect) aRect
 {
 	NSMutableArray* vo = nil;
@@ -329,22 +237,14 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [vo autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsWithStyle:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that share the given style
-/// 
-/// parameters:		<style> the style to compare
-/// result:			an array of those objects that have the style
-///
-/// notes:			the style is compared by unique key, so style clones are not considered a match. Unavailable objects are
-///					also included.
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that share the given style
+ * @note
+ * The style is compared by unique key, so style clones are not considered a match. Unavailable objects are
+ * also included.
+ * @param style the style to compare
+ * @return an array of those objects that have the style
+ * @public
+ */
 - (NSArray*)			objectsWithStyle:(DKStyle*) style
 {
 	NSMutableArray*		ao = [[NSMutableArray alloc] init];
@@ -361,23 +261,14 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [ao autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsReturning:toSelector:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that respond to the selector with the value <answer>
-/// 
-/// parameters:		<answer> a value that should match the response of the selector (can also be YES/NO)
-///					<selector> a selector taking no parameters
-/// result:			an array, objects that match the value of <answer>
-///
-/// notes:			this is a very simple type of predicate test. Note - the method <selector> must not return
-///					anything larger than an int or it will be ignored and the result may be wrong.
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that respond to the selector with the value <answer>
+ * <selector> a selector taking no parameters
+ * @note
+ * This is a very simple type of predicate test. Note - the method <selector> must not return
+ * anything larger than an int or it will be ignored and the result may be wrong.
+ * @return an array, objects that match the value of <answer>
+ * @public
+ */
 - (NSArray*)			objectsReturning:(NSInteger) answer toSelector:(SEL) selector
 {
 	NSEnumerator*	iter = [[self objects] objectEnumerator];
@@ -408,45 +299,22 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return result;
 }
 
-
-
-
 #pragma mark -
 #pragma mark - getting objects
-///*********************************************************************************************************************
-///
-/// method:			countObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the number of objects in the layer
-/// 
-/// parameters:		none
-/// result:			the count of all objects
-///
-/// notes:			KVC/KVO compliant
-///
-///********************************************************************************************************************
 
+/** @brief Returns the number of objects in the layer
+ * @return the count of all objects
+ * @public
+ */
 - (NSUInteger)				countOfObjects
 {
 	return [[self storage] countOfObjects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectAtIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the object at a given stacking position index
-/// 
-/// parameters:		<index> the stacking position
-/// result:			none
-///
-/// notes:			KVC/KVO compliant
-///
-///********************************************************************************************************************
-
+/** @brief Returns the object at a given stacking position index
+ * @param index the stacking position
+ * @public
+ */
 - (DKDrawableObject*)	objectInObjectsAtIndex:(NSUInteger) indx
 {
 	NSAssert( indx < [self countOfObjects], @"error - index is beyond bounds");
@@ -454,102 +322,53 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return (DKDrawableObject*)[[self storage] objectInObjectsAtIndex:indx];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			topObject
-/// scope:			public class method
-///	overrides:
-/// description:	returns the topmost object
-/// 
-/// parameters:		none
-/// result:			the topmost object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the topmost object
+ * @return the topmost object
+ * @public
+ */
 - (DKDrawableObject*)	topObject
 {
 	return [[self objects] lastObject];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			bottomObject
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the bottom object
-/// 
-/// parameters:		none
-/// result:			the bottom object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the bottom object
+ * @return the bottom object
+ * @public
+ */
 - (DKDrawableObject*)	bottomObject
 {
 	return [[self objects] objectAtIndex:0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			indexOfObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the stacking position of the given object
-/// 
-/// parameters:		<obj> the object
-/// result:			the object's stacking order index
-///
-/// notes:			will return NSNotFound if the object is not presently owned by the layer
-///
-///********************************************************************************************************************
-
+/** @brief Returns the stacking position of the given object
+ * @note
+ * Will return NSNotFound if the object is not presently owned by the layer
+ * @param obj the object
+ * @return the object's stacking order index
+ * @public
+ */
 - (NSUInteger)			indexOfObject:(DKDrawableObject*) obj
 {
 	return [[self storage] indexOfObject:obj];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			objectsAtIndexesInSet:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns a list of objects given by the index set
-/// 
-/// parameters:		<set> an index set
-/// result:			a list of objects
-///
-/// notes:			KVC/KVO compliant
-///
-///********************************************************************************************************************
 
+/** @brief Returns a list of objects given by the index set
+ * @param set an index set
+ * @return a list of objects
+ * @public
+ */
 - (NSArray*)			objectsAtIndexes:(NSIndexSet*) set
 {
 	return [[self storage] objectsAtIndexes:set];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			indexSetForObjectsInArray:
-/// scope:			public instance method
-///	overrides:
-/// description:	given a list of objects that are part of this layer, return an index set for them
-/// 
-/// parameters:		<objs> a list of objects
-/// result:			an index set listing the array index positions for the objects passed
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Given a list of objects that are part of this layer, return an index set for them
+ * @param objs a list of objects
+ * @return an index set listing the array index positions for the objects passed
+ * @public
+ */
 - (NSIndexSet*)			indexesOfObjectsInArray:(NSArray*) objs;
 {
 	NSAssert( objs != nil, @"can't get indexes for a nil array");
@@ -570,27 +389,16 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [mset autorelease];
 }
 
-
 #pragma mark -
 #pragma mark - adding and removing objects (KVC/KVO compliant)
 
-///*********************************************************************************************************************
-///
-/// method:			insertObject:inObjectsAtIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	adds an object to the layer
-/// 
-/// parameters:		<obj> the object to add
-///					<index> the index at which the object should be inserted
-/// result:			none
-///
-/// notes:			if layer locked, does nothing. This is the KVC/KVO compliant method for adding objects that
-///					can be observed if desired to get notified of these events. All other add/remove methods call
-///					these. Adding multiple objects calls this multiple times.
-///
-///********************************************************************************************************************
-
+/** @brief Adds an object to the layer
+ * @param obj the object to add
+ * @param index the index at which the object should be inserted
+ * @return none
+ * these. Adding multiple objects calls this multiple times.
+ * @public
+ */
 - (void)				insertObject:(DKDrawableObject*) obj inObjectsAtIndex:(NSUInteger) indx
 {
 	NSAssert( obj != nil, @"attempt to add a nil object to the layer" );
@@ -609,23 +417,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectFromObjectsAtIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	removes an object from the layer
-/// 
-/// parameters:		<index> the index at which the object should be removed
-/// result:			none
-///
-/// notes:			if layer locked, does nothing. This is the KVC/KVO compliant method for removing objects that
-///					can be observed if desired to get notified of these events. All other add/remove methods call
-///					these. Removing multiple objects calls this multiple times.
-///
-///********************************************************************************************************************
-
+/** @brief Removes an object from the layer
+ * @param index the index at which the object should be removed
+ * @return none
+ * these. Removing multiple objects calls this multiple times.
+ * @public
+ */
 - (void)				removeObjectFromObjectsAtIndex:(NSUInteger) indx
 {
 	NSAssert( indx < [self countOfObjects], @"error - index is beyond bounds");
@@ -648,23 +445,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceObjectInObjectsAtIndex:withObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	replaces an object in the layer with another
-/// 
-/// parameters:		<index> the index at which the object should be exchanged
-///					<obj> the object that will replace the item at index
-/// result:			none
-///
-/// notes:			if layer locked, does nothing. This is the KVC/KVO compliant method for exchanging objects that
-///					can be observed if desired to get notified of these events.
-///
-///********************************************************************************************************************
-
+/** @brief Replaces an object in the layer with another
+ * @param index the index at which the object should be exchanged
+ * @param obj the object that will replace the item at index
+ * @return none
+ * can be observed if desired to get notified of these events.
+ * @public
+ */
 - (void)				replaceObjectInObjectsAtIndex:(NSUInteger) indx withObject:(DKDrawableObject*) obj
 {
 	NSAssert( obj != nil, @"attempt to add a nil object to the layer (replace)" );
@@ -691,23 +478,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			insertObjects:atIndexes:
-/// scope:			public instance method
-///	overrides:
-/// description:	inserts a set of objects at the indexes given. The array and set order should match, and
-///					have equal counts.
-/// 
-/// parameters:		<objs> the objects to insert
-///					<set> the indexes where they should be inserted
-/// result:			none
-///
-/// notes:			this undoably adds objects at particular positions. KVC/KVO compliant.
-///
-///********************************************************************************************************************
-
+/** @brief Inserts a set of objects at the indexes given. The array and set order should match, and
+ * have equal counts.
+ * @param objs the objects to insert
+ * @param set the indexes where they should be inserted
+ * @public
+ */
 - (void)				insertObjects:(NSArray*) objs atIndexes:(NSIndexSet*) set
 {
 	NSAssert( objs != nil, @"can't insert a nil array");
@@ -729,21 +505,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectsAtIndexes:
-/// scope:			public instance method
-///	overrides:
-/// description:	removes objects from the indexes listed by the set
-/// 
-/// parameters:		<set> an index set
-/// result:			none
-///
-/// notes:			this allows objects to be removed undoably from distinct positions in the list. KVC/KVO compliant
-///
-///********************************************************************************************************************
-
+/** @brief Removes objects from the indexes listed by the set
+ * @param set an index set
+ * @public
+ */
 - (void)				removeObjectsAtIndexes:(NSIndexSet*) set
 {
 	NSAssert( set != nil, @"can't remove objects - index set is nil");
@@ -770,20 +535,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 #pragma mark -
 #pragma mark - adding and removing objects (general)
-///*********************************************************************************************************************
-///
-/// method:			addObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	adds an object to the layer
-/// 
-/// parameters:		<obj> the object to add
-/// result:			none
-///
-/// notes:			if layer locked, does nothing
-///
-///********************************************************************************************************************
 
+/** @brief Adds an object to the layer
+ * @note
+ * If layer locked, does nothing
+ * @param obj the object to add
+ * @public
+ */
 - (void)				addObject:(DKDrawableObject*) obj
 {
 	NSAssert( obj != nil, @"attempt to add a nil object to the layer" );
@@ -792,22 +550,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self insertObject:obj inObjectsAtIndex:[self countOfObjects]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObject:atIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	adds an object to the layer at a specific stacking index position
-/// 
-/// parameters:		<obj> the object to add
-///					<index> the stacking order position index (0 = bottom, grows upwards)
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Adds an object to the layer at a specific stacking index position
+ * @param obj the object to add
+ * @param index the stacking order position index (0 = bottom, grows upwards)
+ * @public
+ */
 - (void)				addObject:(DKDrawableObject*) obj atIndex:(NSUInteger) indx
 {
 	NSAssert( obj != nil, @"attempt to add a nil object to the layer" );
@@ -816,21 +563,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self insertObject:obj inObjectsAtIndex:indx];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObjects:
-/// scope:			public instance method
-///	overrides:
-/// description:	adds a set of objects to the layer
-/// 
-/// parameters:		<objs> an array of DKDrawableObjects, or subclasses.
-/// result:			none
-///
-/// notes:			take care that no objects are already owned by any layer - this doesn't check.
-///
-///********************************************************************************************************************
-
+/** @brief Adds a set of objects to the layer
+ * @note
+ * Take care that no objects are already owned by any layer - this doesn't check.
+ * @param objs an array of DKDrawableObjects, or subclasses.
+ * @public
+ */
 - (void)				addObjectsFromArray:(NSArray*) objs
 {
 	NSAssert( objs != nil, @"attempt to add a nil array of objects to the layer" );
@@ -842,57 +580,41 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObjects:offsetByX:byY:fromPoint:
-/// scope:			public instance method
-///	overrides:
-/// description:	adds a set of objects to the layer offsetting their location by the given delta values relative to
-///					a given point.
-/// 
-/// parameters:		<objs> a list of DKDrawableObjects to add
-///					<origin> the required relative origin of the group of objects
-///					<pin> if YES, object locations are pinned to the drawing interior
-/// result:			YES if all objects were placed within the interior bounds of the drawing, NO if any object was
-///					placed outside the interior.
-///
-/// notes:			used for paste and other similar ops. The objects are placed such that their bounding rect's origin
-///					ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
-///					method will not return NO, as no object was placed outside the interior.
-///
-///********************************************************************************************************************
-
+/** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
+ * a given point.
+ * @note
+ * Used for paste and other similar ops. The objects are placed such that their bounding rect's origin
+ * ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
+ * method will not return NO, as no object was placed outside the interior.
+ * @param objs a list of DKDrawableObjects to add
+ * @param origin the required relative origin of the group of objects
+ * @param pin if YES, object locations are pinned to the drawing interior
+ * @return YES if all objects were placed within the interior bounds of the drawing, NO if any object was
+ * placed outside the interior.
+ * @public
+ */
 - (BOOL)				addObjectsFromArray:(NSArray*) objs relativeToPoint:(NSPoint) origin pinToInterior:(BOOL) pin
 {
 	return [self addObjectsFromArray:objs bounds:NSZeroRect relativeToPoint:origin pinToInterior:pin];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObjects:offsetByX:byY:fromPoint:
-/// scope:			public instance method
-///	overrides:
-/// description:	adds a set of objects to the layer offsetting their location by the given delta values relative to
-///					a given point.
-/// 
-/// parameters:		<objs> a list of DKDrawableObjects to add
-///					<bounds> the original bounding rect of the objects. If NSZeroRect, it is calculated.
-///					<origin> the required relative origin of the group of objects
-///					<pin> if YES, object locations are pinned to the drawing interior
-/// result:			YES if all objects were placed within the interior bounds of the drawing, NO if any object was
-///					placed outside the interior.
-///
-/// notes:			used for paste and other similar ops. The objects are placed such that their bounding rect's origin
-///					ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
-///					method will not return NO, as no object was placed outside the interior. Note that the <bounds> parameter
-///					can differ when calculated compared with the original recorded bounds during the copy. This is because
-///					bounds often takes into account other relationships such as the layer's knobs and so on, which might
-///					no be available when pasting. For accurate positioning, the original bounds should be passed.
-///
-///********************************************************************************************************************
-
+/** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
+ * a given point.
+ * @note
+ * Used for paste and other similar ops. The objects are placed such that their bounding rect's origin
+ * ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
+ * method will not return NO, as no object was placed outside the interior. Note that the <bounds> parameter
+ * can differ when calculated compared with the original recorded bounds during the copy. This is because
+ * bounds often takes into account other relationships such as the layer's knobs and so on, which might
+ * no be available when pasting. For accurate positioning, the original bounds should be passed.
+ * @param objs a list of DKDrawableObjects to add
+ * @param bounds the original bounding rect of the objects. If NSZeroRect, it is calculated.
+ * @param origin the required relative origin of the group of objects
+ * @param pin if YES, object locations are pinned to the drawing interior
+ * @return YES if all objects were placed within the interior bounds of the drawing, NO if any object was
+ * placed outside the interior.
+ * @public
+ */
 - (BOOL)				addObjectsFromArray:(NSArray*) objs bounds:(NSRect) bounds relativeToPoint:(NSPoint) origin pinToInterior:(BOOL) pin;
 {
 	if (![self lockedOrHidden])
@@ -933,24 +655,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return NO;
 }
 
-
-
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			removeObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	removes the object from the layer
-/// 
-/// parameters:		<obj> the object to remove
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Removes the object from the layer
+ * @param obj the object to remove
+ * @public
+ */
 - (void)				removeObject:(DKDrawableObject*) obj
 {
 	NSAssert( obj != nil, @"cannot remove a nil object");
@@ -962,21 +672,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectAtIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	removes the object at the given stacking position index
-/// 
-/// parameters:		<index> the stacking index value
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes the object at the given stacking position index
+ * @param index the stacking index value
+ * @public
+ */
 - (void)				removeObjectAtIndex:(NSUInteger) indx
 {
 	NSAssert( indx < [self countOfObjects], @"error - index is beyond bounds");
@@ -985,43 +684,17 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self removeObjectFromObjectsAtIndex:indx];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjects:
-/// scope:			public instance method
-///	overrides:
-/// description:	removes a set of objects from the layer
-/// 
-/// parameters:		<objs>
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes a set of objects from the layer
+ * @public
+ */
 - (void)				removeObjectsInArray:(NSArray*) objs
 {
 	[self removeObjectsAtIndexes:[self indexesOfObjectsInArray:objs]];
 }
 
-
-
-
-///*********************************************************************************************************************
-///
-/// method:			removeAllObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	removes all objects from the layer
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes all objects from the layer
+ * @public
+ */
 - (void)				removeAllObjects
 {
 	if ( ![self lockedOrHidden] && [self countOfObjects] > 0 )
@@ -1031,170 +704,105 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
 #pragma mark -
 #ifdef DRAWKIT_DEPRECATED
 
-///*********************************************************************************************************************
-///
-/// method:			objectTopToBottomEnumerator
-/// scope:			public instance method
-///	overrides:
-/// description:	return an iterator that will enumerate the object in top to bottom order
-/// 
-/// parameters:		none
-/// result:			an iterator
-///
-/// notes:			the idea is to insulate you from the implementation detail of how stacking order relates to the
-///					list order of objects internally. Because this enumerates a copy of the objects list, it is safe
-///					to modify the objects in the layer itself while iterating.
-///
-///********************************************************************************************************************
-
+/** @brief Return an iterator that will enumerate the object in top to bottom order
+ * @note
+ * The idea is to insulate you from the implementation detail of how stacking order relates to the
+ * list order of objects internally. Because this enumerates a copy of the objects list, it is safe
+ * to modify the objects in the layer itself while iterating.
+ * @return an iterator
+ * @public
+ */
 - (NSEnumerator*)		objectTopToBottomEnumerator
 {
 	return [[self objects] reverseObjectEnumerator];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectBottomToTopEnumerator
-/// scope:			public instance method
-///	overrides:
-/// description:	return an iterator that will enumerate the object in bottom to top order
-/// 
-/// parameters:		none
-/// result:			an iterator
-///
-/// notes:			the idea is to insulate you from the implementation detail of how stacking order relates to the
-///					list order of objects internally. Because this enumerates a copy of the objects list, it is safe
-///					to modify the objects in the layer itself while iterating.
-///
-///********************************************************************************************************************
-
+/** @brief Return an iterator that will enumerate the object in bottom to top order
+ * @note
+ * The idea is to insulate you from the implementation detail of how stacking order relates to the
+ * list order of objects internally. Because this enumerates a copy of the objects list, it is safe
+ * to modify the objects in the layer itself while iterating.
+ * @return an iterator
+ * @public
+ */
 - (NSEnumerator*)		objectBottomToTopEnumerator
 {
 	return [[self objects] objectEnumerator];
 }
 
-
 #endif
 
-///*********************************************************************************************************************
-///
-/// method:			objectEnumeratorForUpdateRect:inView:
-/// scope:			public instance method
-///	overrides:
-/// description:	return an iterator that will enumerate the objects needing update
-/// 
-/// parameters:		<rect> the update rect as passed to a drawRect: method of a view
-///					<aView> the view being updated, if any (may be nil)
-/// result:			an iterator
-///
-/// notes:			the iterator returned iterates in bottom-to-top order and includes only those objects that are
-///					visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
-///					still used to determine inclusion.
-///
-///********************************************************************************************************************
-
+/** @brief Return an iterator that will enumerate the objects needing update
+ * @note
+ * The iterator returned iterates in bottom-to-top order and includes only those objects that are
+ * visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
+ * still used to determine inclusion.
+ * @param rect the update rect as passed to a drawRect: method of a view
+ * @param aView the view being updated, if any (may be nil)
+ * @return an iterator
+ * @public
+ */
 - (NSEnumerator*)		objectEnumeratorForUpdateRect:(NSRect) rect inView:(NSView*) aView
 {
 	return [self objectEnumeratorForUpdateRect:rect inView:aView options:0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectEnumeratorForUpdateRect:inView:options:
-/// scope:			public instance method
-///	overrides:
-/// description:	return an iterator that will enumerate the objects needing update
-/// 
-/// parameters:		<rect> the update rect as passed to a drawRect: method of a view
-///					<aView> the view being updated, if any (may be nil)
-///					<options> various flags that you can pass to modify behaviour:
-///							kDKReverseOrder			iterates in top-to-bottom order
-///							kDKIncludeInvisible		includes invisible objects
-///							kDKIgnoreUpdateRect		includes objects regardless of whether they are within the
-///													update region or not
-/// result:			an iterator
-///
-/// notes:			the iterator returned iterates in bottom-to-top order and includes only those objects that are
-///					visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
-///					still used to determine inclusion.
-///
-///********************************************************************************************************************
-
+/** @brief Return an iterator that will enumerate the objects needing update
+ * @note
+ * The iterator returned iterates in bottom-to-top order and includes only those objects that are
+ * visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
+ * still used to determine inclusion.
+ * @param rect the update rect as passed to a drawRect: method of a view
+ * @param aView the view being updated, if any (may be nil)
+ * @param options various flags that you can pass to modify behaviour:
+ * @return an iterator
+ * @public
+ */
 - (NSEnumerator*)		objectEnumeratorForUpdateRect:(NSRect) rect inView:(NSView*) aView options:(DKObjectStorageOptions) options
 {
 	return [[self objectsForUpdateRect:rect inView:aView options:options] objectEnumerator];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsForUpdateRect:inView:
-/// scope:			public instance method
-///	overrides:
-/// description:	return the objects needing update
-/// 
-/// parameters:		<rect> the update rect as passed to a drawRect: method of a view
-///					<aView> the view being updated, if any (may be nil)
-/// result:			an array, the objects needing update, in drawing order
-///
-/// notes:			If the view is nil <rect> is used to determine inclusion.
-///
-///********************************************************************************************************************
-
+/** @brief Return the objects needing update
+ * @note
+ * If the view is nil <rect> is used to determine inclusion.
+ * @param rect the update rect as passed to a drawRect: method of a view
+ * @param aView the view being updated, if any (may be nil)
+ * @return an array, the objects needing update, in drawing order
+ * @public
+ */
 - (NSArray*)			objectsForUpdateRect:(NSRect) rect inView:(NSView*) aView
 {
 	return [self objectsForUpdateRect:rect inView:aView options:0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsForUpdateRect:inView:options:
-/// scope:			public instance method
-///	overrides:
-/// description:	return the objects needing update
-/// 
-/// parameters:		<rect> the update rect as passed to a drawRect: method of a view
-///					<aView> the view being updated, if any (may be nil)
-///					<options> various flags that you can pass to modify behaviour:
-///							kDKReverseOrder			returned in top-to-bottom order
-///							kDKIncludeInvisible		includes invisible objects
-///							kDKIgnoreUpdateRect		includes objects regardless of whether they are within the
-///													update region or not
-/// result:			an array, the objects needig update, in drawing order
-///
-/// notes:			If the view is nil <rect> is used to determine inclusion.
-///
-///********************************************************************************************************************
-
+/** @brief Return the objects needing update
+ * @note
+ * If the view is nil <rect> is used to determine inclusion.
+ * @param rect the update rect as passed to a drawRect: method of a view
+ * @param aView the view being updated, if any (may be nil)
+ * @param options various flags that you can pass to modify behaviour:
+ * @return an array, the objects needig update, in drawing order
+ * @public
+ */
 - (NSArray*)			objectsForUpdateRect:(NSRect) rect inView:(NSView*) aView options:(DKObjectStorageOptions) options
 {
 	return [[self storage] objectsIntersectingRect:rect inView:aView options:options];
 }
 
-
 #pragma mark -
 #pragma mark - updating and drawing
-///*********************************************************************************************************************
-///
-/// method:			drawable:needsDisplayInRect:
-/// scope:			public instance method
-/// description:	flags part of a layer as needing redrawing
-/// 
-/// parameters:		<obj> the drawable object requesting the update
-///					<rect> the area that needs to be redrawn
-/// result:			none
-///
-/// notes:			allows the object requesting the update to be identified - by default this just invalidates <rect>
-///
-///********************************************************************************************************************
 
+/** @brief Flags part of a layer as needing redrawing
+ * @note
+ * Allows the object requesting the update to be identified - by default this just invalidates <rect>
+ * @param obj the drawable object requesting the update
+ * @param rect the area that needs to be redrawn
+ * @public
+ */
 - (void)			drawable:(DKDrawableObject*) obj needsDisplayInRect:(NSRect) rect
 {
 	#pragma unused(obj)
@@ -1206,21 +814,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[self setNeedsDisplayInRect:rect];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawVisibleObjects:
-/// scope:			public instance method
-/// description:	draws all of the visible objects
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			this is used when drawing the layer into special contexts, not for view rendering
-///
-///********************************************************************************************************************
-
+/** @brief Draws all of the visible objects
+ * @note
+ * This is used when drawing the layer into special contexts, not for view rendering
+ * @public
+ */
 - (void)			drawVisibleObjects
 {
 	NSEnumerator*		iter = [[self visibleObjects] objectEnumerator];
@@ -1244,21 +842,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			imageOfObjects:
-/// scope:			public instance method
-/// description:	get an image of the current objects in the layer
-/// 
-/// parameters:		none
-/// result:			an NSImage
-///
-/// notes:			if there are no visible objects, returns nil.
-///
-///********************************************************************************************************************
-
+/** @brief Get an image of the current objects in the layer
+ * @note
+ * If there are no visible objects, returns nil.
+ * @return an NSImage
+ * @public
+ */
 - (NSImage*)		imageOfObjects
 {
 	NSImage*			img = nil;
@@ -1285,20 +874,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [img autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pdfDataOfObjects
-/// scope:			public instance method
-/// description:	get a PDF of the current visible objects in the layer
-/// 
-/// parameters:		none
-/// result:			PDF data in an NSData object
-///
-/// notes:			if there are no visible objects, returns nil.
-///
-///********************************************************************************************************************
-
+/** @brief Get a PDF of the current visible objects in the layer
+ * @note
+ * If there are no visible objects, returns nil.
+ * @return PDF data in an NSData object
+ * @public
+ */
 - (NSData*)			pdfDataOfObjects
 {
 	NSData* pdfData = nil;
@@ -1326,27 +907,18 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return pdfData;
 }
 
-
 #pragma mark -
 #pragma mark - handling a pending object
 
-///*********************************************************************************************************************
-///
-/// method:			addPendingObject
-/// scope:			public instance method
-///	overrides:
-/// description:	adds a new object to the layer pending successful interactive creation
-/// 
-/// parameters:		<pend> a new potential object to be added to the layer
-/// result:			none
-///
-/// notes:			when interactively creating objects, it is preferable to create the object successfully before
-///					committing it to the layer - this gives the caller a chance to abort the creation without needing
-///					to be concerned about any undos, etc. The pending object is drawn on top of all others as normal
-///					but until it is committed, it creates no undo task for the layer.
-///
-///********************************************************************************************************************
-
+/** @brief Adds a new object to the layer pending successful interactive creation
+ * @note
+ * When interactively creating objects, it is preferable to create the object successfully before
+ * committing it to the layer - this gives the caller a chance to abort the creation without needing
+ * to be concerned about any undos, etc. The pending object is drawn on top of all others as normal
+ * but until it is committed, it creates no undo task for the layer.
+ * @param pend a new potential object to be added to the layer
+ * @public
+ */
 - (void)				addObjectPendingCreation:(DKDrawableObject*) pend
 {
 	NSAssert( pend != nil, @"pending object cannot be nil");
@@ -1356,23 +928,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[mNewObjectPending setContainer:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removePendingObject
-/// scope:			public instance method
-///	overrides:
-/// description:	removes a pending object in the situation that the creation was unsuccessful
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			when interactively creating objects, if for any reason the creation failed, this should be called
-///					to remove the object from the layer without triggering any undo tasks, and to remove any the object
-///					itself made
-///
-///********************************************************************************************************************
-
+/** @brief Removes a pending object in the situation that the creation was unsuccessful
+ * @note
+ * When interactively creating objects, if for any reason the creation failed, this should be called
+ * to remove the object from the layer without triggering any undo tasks, and to remove any the object
+ * itself made
+ * @public
+ */
 - (void)				removePendingObject
 {
 	if ( mNewObjectPending != nil )
@@ -1383,23 +945,14 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			commitPendingObjectWithUndoActionName:
-/// scope:			public instance method
-///	overrides:
-/// description:	commits the pending object to the layer and sets up the undo task action name
-/// 
-/// parameters:		<actionName> the action name to give the undo manager after committing the object
-/// result:			none
-///
-/// notes:			when interactively creating objects, if the creation succeeded, the pending object should be
-///					committed to the layer permanently. This does that by adding it using addObject. The undo task
-///					thus created is given the action name (note that other operations can also change this later).
-///
-///********************************************************************************************************************
-
+/** @brief Commits the pending object to the layer and sets up the undo task action name
+ * @note
+ * When interactively creating objects, if the creation succeeded, the pending object should be
+ * committed to the layer permanently. This does that by adding it using addObject. The undo task
+ * thus created is given the action name (note that other operations can also change this later).
+ * @param actionName the action name to give the undo manager after committing the object
+ * @public
+ */
 - (void)				commitPendingObjectWithUndoActionName:(NSString*) actionName
 {
 	NSAssert( mNewObjectPending != nil, @"can't commit pending object because it is nil");
@@ -1409,23 +962,14 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[[self undoManager] setActionName:actionName];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawPendingObjectInView:
-/// scope:			public instance method
-///	overrides:
-/// description:	draws the pending object, if any, in the layer - called by drawRect:inView:
-/// 
-/// parameters:		<aView> the view being drawn into
-/// result:			none
-///
-/// notes:			pending objects are drawn normally is if part of the current list, and on top of all others. Subclasses
-///					may need to override this if the selected state needs passing differently. Typically pending objects
-///					will be drawn selected, so the default is YES.
-///
-///********************************************************************************************************************
-
+/** @brief Draws the pending object, if any, in the layer - called by drawRect:inView:
+ * @note
+ * Pending objects are drawn normally is if part of the current list, and on top of all others. Subclasses
+ * may need to override this if the selected state needs passing differently. Typically pending objects
+ * will be drawn selected, so the default is YES.
+ * @param aView the view being drawn into
+ * @public
+ */
 - (void)				drawPendingObjectInView:(NSView*) aView
 {
 	if ( mNewObjectPending != nil )
@@ -1435,45 +979,25 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pendingObject
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the pending object, if any, in the layer
-/// 
-/// parameters:		none
-/// result:			the pending object, or nil
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the pending object, if any, in the layer
+ * @return the pending object, or nil
+ * @public
+ */
 - (DKDrawableObject*)	pendingObject
 {
 	return mNewObjectPending;
 }
 
-
-
 #pragma mark -
 #pragma mark - geometry
-///*********************************************************************************************************************
-///
-/// method:			unionOfAllObjectBounds
-/// scope:			public instance method
-///	overrides:
-/// description:	return the union of all the visible objects in the layer. If there are no visible objects, returns
-///					NSZeroRect.
-/// 
-/// parameters:		none
-/// result:			a rect, the union of all visible object's bounds in the layer
-///
-/// notes:			avoid using for refreshing objects. It is more efficient to use refreshAllObjects
-///
-///********************************************************************************************************************
 
+/** @brief Return the union of all the visible objects in the layer. If there are no visible objects, returns
+ * NSZeroRect.
+ * @note
+ * Avoid using for refreshing objects. It is more efficient to use refreshAllObjects
+ * @return a rect, the union of all visible object's bounds in the layer
+ * @public
+ */
 - (NSRect)				unionOfAllObjectBounds
 {
 	NSEnumerator*		iter = [[self visibleObjects] objectEnumerator];
@@ -1486,106 +1010,54 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return u;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			refreshObjectsInContainer:
-/// scope:			public instance method
-///	overrides:
-/// description:	causes all objects in the passed array, set or other container to redraw themselves
-/// 
-/// parameters:		<container> a container of drawable objects. Any NSArray or NSSet is acceptable
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Causes all objects in the passed array, set or other container to redraw themselves
+ * @param container a container of drawable objects. Any NSArray or NSSet is acceptable
+ * @public
+ */
 - (void)				refreshObjectsInContainer:(id) container
 {
 	[container makeObjectsPerformSelector:@selector(notifyVisualChange)];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			refreshAllObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	causes all visible objects to redraw themselves
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Causes all visible objects to redraw themselves
+ * @public
+ */
 - (void)				refreshAllObjects
 {
 	[self refreshObjectsInContainer:[self visibleObjects]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renderingTransform
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the layer's transform used when rendering objects within
-/// 
-/// parameters:		none
-/// result:			a transform
-///
-/// notes:			returns the identity transform
-///
-///********************************************************************************************************************
-
+/** @brief Returns the layer's transform used when rendering objects within
+ * @note
+ * Returns the identity transform
+ * @return a transform
+ * @public
+ */
 - (NSAffineTransform*)	renderingTransform
 {
 	return [NSAffineTransform transform];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			applyTransformToObjects:
-/// scope:			public instance method
-///	overrides:
-/// description:	modifies the objects by applying the given transform to each of them.
-/// 
-/// parameters:		<transform> a transform
-/// result:			none
-///
-/// notes:			this modifies the geometry of each object by applying the transform to each one. The purpose of
-///					this is to permit gross changes to a drawing's layout if the
-///					client application requires it - for example scaling all objects to some new size.
-///
-///********************************************************************************************************************
-
+/** @brief Modifies the objects by applying the given transform to each of them.
+ * @note
+ * This modifies the geometry of each object by applying the transform to each one. The purpose of
+ * this is to permit gross changes to a drawing's layout if the
+ * client application requires it - for example scaling all objects to some new size.
+ * @param transform a transform
+ * @public
+ */
 - (void)				applyTransformToObjects:(NSAffineTransform*) transform
 {
 	[[self objects] makeObjectsPerformSelector:@selector(applyTransform:) withObject:transform];
 }
 
-
 #pragma mark -
 #pragma mark - stacking order
-///*********************************************************************************************************************
-///
-/// method:			moveUpObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	moves the object up in the stacking order
-/// 
-/// parameters:		<obj> object to move
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Moves the object up in the stacking order
+ * @param obj object to move
+ * @public
+ */
 - (void)				moveUpObject:(DKDrawableObject*) obj
 {
 	NSUInteger new = [self indexOfObject:obj];
@@ -1593,21 +1065,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self moveObject:obj toIndex:new + 1];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveDownObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	moves the object down in the stacking order
-/// 
-/// parameters:		<obj> the object to move
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Moves the object down in the stacking order
+ * @param obj the object to move
+ * @public
+ */
 - (void)				moveDownObject:(DKDrawableObject*) obj
 {
 	NSUInteger new = [self indexOfObject:obj];
@@ -1615,21 +1076,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self moveObject:obj toIndex:new - 1];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveObjectToTop:
-/// scope:			public instance method
-///	overrides:
-/// description:	moves the object to the top of the stacking order
-/// 
-/// parameters:		<obj> the object to move
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Moves the object to the top of the stacking order
+ * @param obj the object to move
+ * @public
+ */
 - (void)				moveObjectToTop:(DKDrawableObject*) obj
 {
 	NSUInteger top = [self countOfObjects];
@@ -1637,42 +1087,22 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self moveObject:obj toIndex:top - 1];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveObjectToBottom:
-/// scope:			public instance method
-///	overrides:
-/// description:	moves the object to the bottom of the stacking order
-/// 
-/// parameters:		<obj> object to move
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Moves the object to the bottom of the stacking order
+ * @param obj object to move
+ * @public
+ */
 - (void)				moveObjectToBottom:(DKDrawableObject*) obj
 {
 	[self moveObject:obj toIndex:0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveObject:toIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	movesthe object to the given stacking position index
-/// 
-/// parameters:		<obj> the object to move
-///					<i> the index it should be moved to
-/// result:			none
-///
-/// notes:			used to implement all the other moveTo.. ops
-///
-///********************************************************************************************************************
-
+/** @brief Movesthe object to the given stacking position index
+ * @note
+ * Used to implement all the other moveTo.. ops
+ * @param obj the object to move
+ * @param i the index it should be moved to
+ * @public
+ */
 - (void)				moveObject:(DKDrawableObject*) obj toIndex:(NSUInteger) indx
 {
 	if ( ![self lockedOrHidden])
@@ -1696,22 +1126,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveObjectsAtIndexes:toIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	moves the objects indexed by the set to the given stacking position index
-/// 
-/// parameters:		<set> a set of indexes
-///					<indx> the index it should be moved to
-/// result:			none
-///
-/// notes:			useful for restacking several objects
-///
-///********************************************************************************************************************
-
+/** @brief Moves the objects indexed by the set to the given stacking position index
+ * @note
+ * Useful for restacking several objects
+ * @param set a set of indexes
+ * @param indx the index it should be moved to
+ * @public
+ */
 - (void)				moveObjectsAtIndexes:(NSIndexSet*) set toIndex:(NSUInteger) indx
 {
 	NSAssert( set != nil, @"cannot move objects as index set is nil");
@@ -1723,24 +1144,15 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveObjectsInArray:toIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	moves the objects in the array to the given stacking position index
-/// 
-/// parameters:		<objs> an array of objects already owned by the layer
-///					<indx> the index it should be moved to
-/// result:			none
-///
-/// notes:			useful for restacking several objects. Array passed can be the selection. The order of objects in
-///					the array is preserved relative to one another, after the operation the lowest indexed object
-///					will be at <indx> and the rest at consecutive indexes above it.
-///
-///********************************************************************************************************************
-
+/** @brief Moves the objects in the array to the given stacking position index
+ * @note
+ * Useful for restacking several objects. Array passed can be the selection. The order of objects in
+ * the array is preserved relative to one another, after the operation the lowest indexed object
+ * will be at <indx> and the rest at consecutive indexes above it.
+ * @param objs an array of objects already owned by the layer
+ * @param indx the index it should be moved to
+ * @public
+ */
 - (void)				moveObjectsInArray:(NSArray*) objs toIndex:(NSUInteger) indx
 {
 	NSAssert( objs != nil, @"can't move objects - array is nil");
@@ -1757,58 +1169,34 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-
 #pragma mark -
 #pragma mark - clipboard ops & predictive pasting support
 
-
-///*********************************************************************************************************************
-///
-/// method:			nativeObjectsFromPasteboard:
-/// scope:			public instance method
-///	overrides:
-/// description:	unarchive a list of objects from the pasteboard, if possible
-/// 
-/// parameters:		<pb> the pasteboard to take objects from
-/// result:			a list of objects
-///
-/// notes:			this factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
-///					any valid types, nil is returned
-///
-///********************************************************************************************************************
-
+/** @brief Unarchive a list of objects from the pasteboard, if possible
+ * @note
+ * This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
+ * any valid types, nil is returned
+ * @param pb the pasteboard to take objects from
+ * @return a list of objects
+ * @public
+ */
 - (NSArray*)			nativeObjectsFromPasteboard:(NSPasteboard*) pb
 {
 	return [DKDrawableObject nativeObjectsFromPasteboard:pb];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObjects:fromPasteboard:atDropLocation:
-/// scope:			public instance method
-///	overrides:
-/// description:	add objects to the layer from the pasteboard
-/// 
-/// parameters:		<objects> a list of objects already dearchived from the pasteboard
-///					<pb> the pasteboard (for information only)
-///					<p> the drop location of the objects, defined as the lower left corner of the drag image - thus
-///					this corresponds to the bottom left corner of the rect that bounds the entire list of objects. This
-///					method computes the location of the first dropped object from this so that the objects are dropped
-///					in a position corresponding to the drag image (plus any minor adjustment for the grid)
-/// result:			none
-///
-/// notes:			this is used to implement a drag/drop operation of native objects. Currently, the first object in
-///					a multiple selection is positioned at the point p, with others maintaining their positions
-///					relative to this object as in the original set. 
-///
-///					This is the preferred method to use when pasting or dropping anything, because the subclass that
-///					implements selection overrides this to handle the selection also. Thus when pasting non-native
-///					objects, convert them to native objects and pass to this method in an array.
-///
-///********************************************************************************************************************
-
+/** @brief Add objects to the layer from the pasteboard
+ * @param objects a list of objects already dearchived from the pasteboard
+ * @param pb the pasteboard (for information only)
+ * @param p the drop location of the objects, defined as the lower left corner of the drag image - thus
+ * @return none
+ * a multiple selection is positioned at the point p, with others maintaining their positions
+ * relative to this object as in the original set. 
+ * This is the preferred method to use when pasting or dropping anything, because the subclass that
+ * implements selection overrides this to handle the selection also. Thus when pasting non-native
+ * objects, convert them to native objects and pass to this method in an array.
+ * @public
+ */
 - (void)				addObjects:(NSArray*) objects fromPasteboard:(NSPasteboard*) pb atDropLocation:(NSPoint) p
 {
 	#pragma unused(pb)
@@ -1862,21 +1250,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[self addObjectsFromArray:objects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setPasteOffsetX:y:
-/// scope:			public instance method
-///	overrides:
-/// description:	establish the paste offset - a value used to position items when pasting and duplicating
-/// 
-/// parameters:		<x>, <y> the x and y values of the offset
-/// result:			none
-///
-/// notes:			the values passed will be adjusted to the nearest grid interval if snap to grid is on.
-///
-///********************************************************************************************************************
-
+/** @brief Establish the paste offset - a value used to position items when pasting and duplicating
+ * @note
+ * The values passed will be adjusted to the nearest grid interval if snap to grid is on.
+ * @param x>, <y the x and y values of the offset
+ * @public
+ */
 - (void)				setPasteOffsetX:(CGFloat) x y:(CGFloat) y
 {
 	// sets the paste/duplicate offset to x, y - if there is a grid and snap to grid is on, the offset is made a grid
@@ -1891,23 +1270,15 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			updatePasteCountWithPasteboard:
-/// scope:			public instance method
-///	overrides:
-/// description:	detect whether the paste from the pasteboard is a new paste, or a repeat paste
-/// 
-/// parameters:		<pb> the pasteboard in question
-/// result:			YES if this is a new paste, NO if a repeat
-///
-/// notes:			since this is a one-shot method that changes the internal state of the layer, it should not be
-///					called except internally to manage the auto paste repeat. It may either increment or reset the
-///					paste count. It also sets the paste origin to the origin of the pasted objects' bounds.
-///
-///********************************************************************************************************************
-
+/** @brief Detect whether the paste from the pasteboard is a new paste, or a repeat paste
+ * @note
+ * Since this is a one-shot method that changes the internal state of the layer, it should not be
+ * called except internally to manage the auto paste repeat. It may either increment or reset the
+ * paste count. It also sets the paste origin to the origin of the pasted objects' bounds.
+ * @param pb the pasteboard in question
+ * @return YES if this is a new paste, NO if a repeat
+ * @public
+ */
 - (BOOL)				updatePasteCountWithPasteboard:(NSPasteboard*) pb
 {
 	NSInteger cc = [pb changeCount];
@@ -1941,165 +1312,84 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteCount
-/// scope:			public instance method
-///	overrides:
-/// description:	return the current number of repeated pastes since the last new paste
-/// 
-/// parameters:		none
-/// result:			the current number of pastes since the last new paste
-///
-/// notes:			the paste count is reset to 1 by a new paste, and incremented for each subsequent paste of the
-///					same objects. This is used when calculating appropriate positioning for repeated pasting.
-///
-///********************************************************************************************************************
-
+/** @brief Return the current number of repeated pastes since the last new paste
+ * @note
+ * The paste count is reset to 1 by a new paste, and incremented for each subsequent paste of the
+ * same objects. This is used when calculating appropriate positioning for repeated pasting.
+ * @return the current number of pastes since the last new paste
+ * @public
+ */
 - (NSInteger)					pasteCount
 {
 	return mPasteCount;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteOrigin
-/// scope:			public instance method
-///	overrides:
-/// description:	return the current point where pasted object will be positioned relative to
-/// 
-/// parameters:		none
-/// result:			the paste origin
-///
-/// notes:			see paste: for how this is used
-///
-///********************************************************************************************************************
-
+/** @brief Return the current point where pasted object will be positioned relative to
+ * @note
+ * See paste: for how this is used
+ * @return the paste origin
+ * @public
+ */
 - (NSPoint)				pasteOrigin
 {
 	return m_pasteAnchor;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setPasteOrigin:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the current point where pasted object will be positioned relative to
-/// 
-/// parameters:		<po> the desired paste origin.
-/// result:			none
-///
-/// notes:			see paste: for how this is used
-///
-///********************************************************************************************************************
-
+/** @brief Sets the current point where pasted object will be positioned relative to
+ * @note
+ * See paste: for how this is used
+ * @param po the desired paste origin.
+ * @public
+ */
 - (void)				setPasteOrigin:(NSPoint) po
 {
 	m_pasteAnchor = po;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isRecordingPasteOffset
-/// scope:			public instance method
-///	overrides:
-/// description:	return whether the paste offset will be recorded for the current drag operation
-/// 
-/// parameters:		none
-/// result:			YES if paste offset will be recorded, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the paste offset will be recorded for the current drag operation
+ * @return YES if paste offset will be recorded, NO otherwise
+ * @public
+ */
 - (BOOL)				isRecordingPasteOffset
 {
 	return m_recordPasteOffset;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setRecordingPasteOffset:
-/// scope:			public instance method
-///	overrides:
-/// description:	set whether the paste offset will be recorded for the current drag operation
-/// 
-/// parameters:		<record> YES to record the offset
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the paste offset will be recorded for the current drag operation
+ * @param record YES to record the offset
+ * @public
+ */
 - (void)				setRecordingPasteOffset:(BOOL) record
 {
 	m_recordPasteOffset = record;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteOffset
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the paste offset (distance between successively pasted objects)
-/// 
-/// parameters:		none
-/// result:			the paste offset as a NSSize
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the paste offset (distance between successively pasted objects)
+ * @return the paste offset as a NSSize
+ * @public
+ */
 - (NSSize)				pasteOffset
 {
 	return m_pasteOffset;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setPasteOffset:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the paste offset (distance between successively pasted objects)
-/// 
-/// parameters:		<offset> the paste offset as a NSSize
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets the paste offset (distance between successively pasted objects)
+ * @param offset the paste offset as a NSSize
+ * @public
+ */
 - (void)				setPasteOffset:(NSSize) offset
 {
 	m_pasteOffset = offset;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objects:wereDraggedFromPoint:toPoint:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the paste offset (distance between successively pasted objects)
-/// 
-/// parameters:		<objects> the list of objects that were moved
-///					<startPt> the starting point for the drag
-///					<endPt> the ending point for the drag
-/// result:			none
-///
-/// notes:			called by the standard select/edit tool as part of an informal protocol. This sets the paste offset
-///					if offset recording is currently set to YES, then resets the record flag.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the paste offset (distance between successively pasted objects)
+ * @param objects the list of objects that were moved
+ * @param startPt the starting point for the drag
+ * @param endPt the ending point for the drag
+ * @return none
+ * if offset recording is currently set to YES, then resets the record flag.
+ * @public
+ */
 - (void)				objects:(NSArray*) objects wereDraggedFromPoint:(NSPoint) startPt toPoint:(NSPoint) endPt
 {
 	// called by the standard selection tool at the end of a drag of objects, this informs the layer how far the objects
@@ -2119,46 +1409,25 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-
 #pragma mark -
 #pragma mark - hit testing
-///*********************************************************************************************************************
-///
-/// method:			hitTest:
-/// scope:			public instance method
-///	overrides:
-/// description:	find which object was hit by the given point, if any
-/// 
-/// parameters:		<point> a point to test against
-/// result:			the object hit, or nil if none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Find which object was hit by the given point, if any
+ * @param point a point to test against
+ * @return the object hit, or nil if none
+ * @public
+ */
 - (DKDrawableObject*)	hitTest:(NSPoint) point
 {
 	return [self hitTest:point partCode:NULL];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hitTest:partCode:
-/// scope:			public instance method
-///	overrides:
-/// description:	performs a hit test but also returns the hit part code
-/// 
-/// parameters:		<point> the point to test
-///					<part> pointer to int, receives the partcode hit as a result of the test. Can be NULL to ignore
-///					this value.
-/// result:			the object hit, or nil if none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Performs a hit test but also returns the hit part code
+ * @param point the point to test
+ * @param part pointer to int, receives the partcode hit as a result of the test. Can be NULL to ignore
+ * @return the object hit, or nil if none
+ * @public
+ */
 - (DKDrawableObject*)	hitTest:(NSPoint) point partCode:(NSInteger*) part
 {
 	NSEnumerator*		iter;
@@ -2193,23 +1462,15 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsInRect:
-/// scope:			public instance method
-///	overrides:
-/// description:	finds all objects touched by the given rect
-/// 
-/// parameters:		<rect> a rectangle
-/// result:			a list of objects touched by the rect
-///
-/// notes:			test for inclusion by calling the object's intersectsRect method. Can be used to select objects in
-///					a given rect or for any other purpose. For selections, the results can be passed directly to
-///					exchangeSelection:
-///
-///********************************************************************************************************************
-
+/** @brief Finds all objects touched by the given rect
+ * @note
+ * Test for inclusion by calling the object's intersectsRect method. Can be used to select objects in
+ * a given rect or for any other purpose. For selections, the results can be passed directly to
+ * exchangeSelection:
+ * @param rect a rectangle
+ * @return a list of objects touched by the rect
+ * @public
+ */
 - (NSArray*)			objectsInRect:(NSRect) rect
 {
 	NSEnumerator*		iter = [self objectEnumeratorForUpdateRect:rect inView:nil];
@@ -2227,23 +1488,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [hits autorelease];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawable:wasDoubleClickedAtPoint:
-/// scope:			public instance method
-///	overrides:
-/// description:	an object owned by the layer was double-clicked
-/// 
-/// parameters:		<obj> the object hit
-///					<mp> the mouse point of the click
-/// result:			none
-///
-/// notes:			override to use
-///
-///********************************************************************************************************************
-
+/** @brief An object owned by the layer was double-clicked
+ * @note
+ * Override to use
+ * @param obj the object hit
+ * @param mp the mouse point of the click
+ * @public
+ */
 - (void)				drawable:(DKDrawableObject*) obj wasDoubleClickedAtPoint:(NSPoint) mp
 {
 #pragma unused( obj, mp )
@@ -2251,24 +1502,18 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 #pragma mark -
 #pragma mark - snapping
-///*********************************************************************************************************************
-///
-/// method:			snapPoint:toAnyObjectExcept:snapTolerance:
-/// scope:			public instance method
-///	overrides:		
-/// description:	snap a point to any existing object control point within tolerance
-/// 
-/// parameters:		<p> a point
-///					<except> don't snap to this object (intended to be the one being snapped)
-///					<tol> has to be within this distance to snap
-/// result:			the modified point, or the original point
-///
-/// notes:			if snap to object is not set for this layer, this simply returns the original point unmodified.
-///					currently uses hitPart to test for a hit, so tolerance is ignored and objects apply their internal
-///					hit testing tolerance.
-///
-///********************************************************************************************************************
 
+/** @brief Snap a point to any existing object control point within tolerance
+ * @note
+ * If snap to object is not set for this layer, this simply returns the original point unmodified.
+ * currently uses hitPart to test for a hit, so tolerance is ignored and objects apply their internal
+ * hit testing tolerance.
+ * @param p a point
+ * @param except don't snap to this object (intended to be the one being snapped)
+ * @param tol has to be within this distance to snap
+ * @return the modified point, or the original point
+ * @public
+ */
 - (NSPoint)				snapPoint:(NSPoint) p toAnyObjectExcept:(DKDrawableObject*) except snapTolerance:(CGFloat) tol
 {
 	#pragma unused(tol)
@@ -2300,21 +1545,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return p;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snappedMousePoint:forObject:
-/// scope:			public instance method
-///	overrides:		
-/// description:	snap a (mouse) point to grid, guide or other object according to settings
-/// 
-/// parameters:		<p> a point
-/// result:			the modified point, or the original point
-///
-/// notes:			usually called from snappedMousePoint: method in DKDrawableObject
-///
-///********************************************************************************************************************
-
+/** @brief Snap a (mouse) point to grid, guide or other object according to settings
+ * @note
+ * Usually called from snappedMousePoint: method in DKDrawableObject
+ * @param p a point
+ * @return the modified point, or the original point
+ * @public
+ */
 - (NSPoint)				snappedMousePoint:(NSPoint) mp forObject:(DKDrawableObject*) obj withControlFlag:(BOOL) snapControl
 {
 	NSPoint omp = mp;
@@ -2362,166 +1599,86 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return mp;
 }
 
-
 #pragma mark -
 #pragma mark - options
-///*********************************************************************************************************************
-///
-/// method:			setAllowsEditing:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets whether the layer permits editing of its objects
-/// 
-/// parameters:		<editable> YES to enable editing, NO to prevent it
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Sets whether the layer permits editing of its objects
+ * @param editable YES to enable editing, NO to prevent it
+ * @public
+ */
 - (void)				setAllowsEditing:(BOOL) editable
 {
 	m_allowEditing = editable;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allowsEditing
-/// scope:			public instance method
-///	overrides:
-/// description:	does the layer permit editing of its objects?
-/// 
-/// parameters:		none
-/// result:			YES if editing will take place, NO if it is prevented
-///
-/// notes:			locking and hiding the layer also disables editing
-///
-///********************************************************************************************************************
-
+/** @brief Does the layer permit editing of its objects?
+ * @note
+ * Locking and hiding the layer also disables editing
+ * @return YES if editing will take place, NO if it is prevented
+ * @public
+ */
 - (BOOL)				allowsEditing
 {
 	return m_allowEditing && ![self lockedOrHidden];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setAllowsSnapToObjects:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets whether the layer permits snapping to its objects
-/// 
-/// parameters:		<snap> YES to allow snapping
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether the layer permits snapping to its objects
+ * @param snap YES to allow snapping
+ * @public
+ */
 - (void)				setAllowsSnapToObjects:(BOOL) snap
 {
 	m_allowSnapToObjects = snap;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allowsSnapToObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	does the layer permit snapping to its objects?
-/// 
-/// parameters:		none
-/// result:			YES if snapping allowed
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Does the layer permit snapping to its objects?
+ * @return YES if snapping allowed
+ * @public
+ */
 - (BOOL)				allowsSnapToObjects
 {
 	return m_allowSnapToObjects;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setLayerCacheOption:
-/// scope:			public instance method
-///	overrides:
-/// description:	set whether the layer caches its content in an offscreen layer when not active, and how
-/// 
-/// parameters:		<option> the desired cache option
-/// result:			none
-///
-/// notes:			layers can cache their entire contents offscreen when they are inactive. This can boost
-///					drawing performance when there are many layers, or the layers have complex contents. When the
-///					layer is deactivated the cache is updated, on activation the "real" content is drawn.
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
+ * @note
+ * Layers can cache their entire contents offscreen when they are inactive. This can boost
+ * drawing performance when there are many layers, or the layers have complex contents. When the
+ * layer is deactivated the cache is updated, on activation the "real" content is drawn.
+ * @param option the desired cache option
+ * @public
+ */
 - (void)				setLayerCacheOption:(DKLayerCacheOption) option
 {
 	mLayerCachingOption = option;
 }
 
-///*********************************************************************************************************************
-///
-/// method:			layerCacheOption
-/// scope:			public instance method
-///	overrides:
-/// description:	query whether the layer caches its content in an offscreen layer when not active
-/// 
-/// parameters:		none
-/// result:			the current cache option
-///
-/// notes:			layers can cache their entire contents offscreen when they are inactive. This can boost
-///					drawing performance when there are many layers, or the layers have complex contents. When the
-///					layer is deactivated the cache is updated, on activation the "real" content is drawn.
-///
-///********************************************************************************************************************
-
+/** @brief Query whether the layer caches its content in an offscreen layer when not active
+ * @note
+ * Layers can cache their entire contents offscreen when they are inactive. This can boost
+ * drawing performance when there are many layers, or the layers have complex contents. When the
+ * layer is deactivated the cache is updated, on activation the "real" content is drawn.
+ * @return the current cache option
+ * @public
+ */
 - (DKLayerCacheOption)	layerCacheOption
 {
 	return mLayerCachingOption;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isHighlightedForDrag
-/// scope:			public instance method
-///	overrides:
-/// description:	query whether the layer is currently highlighted for a drag (receive) operation
-/// 
-/// parameters:		none
-/// result:			YES if highlighted, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Query whether the layer is currently highlighted for a drag (receive) operation
+ * @return YES if highlighted, NO otherwise
+ * @public
+ */
 - (BOOL)				isHighlightedForDrag
 {
 	return m_inDragOp;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setHighlightedForDrag:
-/// scope:			public instance method
-///	overrides:
-/// description:	set whether the layer is currently highlighted for a drag (receive) operation
-/// 
-/// parameters:		<highlight> YES to highlight, NO otherwise
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the layer is currently highlighted for a drag (receive) operation
+ * @param highlight YES to highlight, NO otherwise
+ * @public
+ */
 - (void)				setHighlightedForDrag:(BOOL) highlight
 {
 	if( highlight != m_inDragOp )
@@ -2531,21 +1688,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawHighlightingForDrag
-/// scope:			public instance method
-///	overrides:
-/// description:	draws the highlighting to indicate the layer is a drag target
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			is only called when the drag highlight is YES. Override for different highlight effect.
-///
-///********************************************************************************************************************
-
+/** @brief Draws the highlighting to indicate the layer is a drag target
+ * @note
+ * Is only called when the drag highlight is YES. Override for different highlight effect.
+ * @public
+ */
 - (void)				drawHighlightingForDrag
 {
 	NSRect ir = [[self drawing] interior];
@@ -2554,24 +1701,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	NSFrameRectWithWidth( NSInsetRect( ir, -5, -5), 5.0 );
 }
 
-
-
 #pragma mark -
 #pragma mark - user actions
-///*********************************************************************************************************************
-///
-/// method:			toggleSnapToObjects:
-/// scope:			public action method
-///	overrides:		
-/// description:	sets the snapping state for the layer
-/// 
-/// parameters:		<sender>
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Sets the snapping state for the layer
+ * @public
+ */
 - (IBAction)			toggleSnapToObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -2579,21 +1714,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[self setAllowsSnapToObjects:![self allowsSnapToObjects]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toggleShowStorageDebuggingPath:
-/// scope:			public action method
-///	overrides:		
-/// description:	toggles whether the debugging path is overlaid afterdrawing the content.
-/// 
-/// parameters:		<sender>
-/// result:			none
-///
-/// notes:			this is purely to assist with storage debugging and should not be invoked in production code.
-///
-///********************************************************************************************************************
-
+/** @brief Toggles whether the debugging path is overlaid afterdrawing the content.
+ * @note
+ * This is purely to assist with storage debugging and should not be invoked in production code.
+ * @public
+ */
 - (IBAction)			toggleShowStorageDebuggingPath:(id) sender;
 {
 #pragma unused(sender)
@@ -2601,110 +1726,63 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[self setNeedsDisplay:YES];
 }
 
-
 #pragma mark -
 #pragma mark - private
 
-///*********************************************************************************************************************
-///
-/// method:			updateCache
-/// scope:			private method
-///	overrides:		
-/// description:	builds the offscreen cache(s) for drawing the layer more quickly when it's inactive
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			application code shouldn't call this directly
-///
-///********************************************************************************************************************
-
+/** @brief Builds the offscreen cache(s) for drawing the layer more quickly when it's inactive
+ * @note
+ * Application code shouldn't call this directly
+ * @private
+ */
 - (void)				updateCache
 {
 	// not implemented
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			invalidateCache
-/// scope:			private method
-///	overrides:		
-/// description:	discard the offscreen cache(s) used for drawing the layer more quickly when it's inactive
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			application code shouldn't call this directly
-///
-///********************************************************************************************************************
-
+/** @brief Discard the offscreen cache(s) used for drawing the layer more quickly when it's inactive
+ * @note
+ * Application code shouldn't call this directly
+ * @private
+ */
 - (void)			invalidateCache
 {
 	// not implemented
 }
 
-
 #pragma mark -
 #pragma mark As a DKLayer
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawingHasNewUndoManager:
-/// scope:			public instance method
-/// description:	called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
-///					to update their references
-/// 
-/// parameters:		<um> the new undo manager
-/// result:			none
-///
-/// notes:			pushes out the new um to all object's styles (which cache the um)
-///
-///********************************************************************************************************************
-
+/** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
+ * to update their references
+ * @note
+ * Pushes out the new um to all object's styles (which cache the um)
+ * @param um the new undo manager
+ * @public
+ */
 - (void)			drawingHasNewUndoManager:(NSUndoManager*) um
 {
 	[[self allStyles] makeObjectsPerformSelector:@selector(setUndoManager:) withObject:um];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawingDidChangeToSize:
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	called when the drawing's size changed - this gives layers that need to know about this a
-///					direct notification
-/// 
-/// parameters:		<sizeVal> the new size of the drawing.
-/// result:			none
-///
-/// notes:			the storage is informed so that if it is spatially based it can update itself
-///
-///********************************************************************************************************************
-
+/** @brief Called when the drawing's size changed - this gives layers that need to know about this a
+ * direct notification
+ * @note
+ * The storage is informed so that if it is spatially based it can update itself
+ * @param sizeVal the new size of the drawing.
+ * @public
+ */
 - (void)			drawingDidChangeToSize:(NSValue*) sizeVal
 {
 	[[self storage] setCanvasSize:[sizeVal sizeValue]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawingDidChangeMargins:
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	called when the drawing's margins changed - this gives layers that need to know about this a
-///					direct notification
-/// 
-/// parameters:		<oldInterior> the old interior rect of the drawing - extract -rectValue.
-/// result:			none
-///
-/// notes:			you can ask the drawing directly for its new interior rect
-///
-///********************************************************************************************************************
-
+/** @brief Called when the drawing's margins changed - this gives layers that need to know about this a
+ * direct notification
+ * @note
+ * You can ask the drawing directly for its new interior rect
+ * @param oldInterior the old interior rect of the drawing - extract -rectValue.
+ * @public
+ */
 - (void)			drawingDidChangeMargins:(NSValue*) oldInterior
 {
 	LogEvent_( kReactiveEvent, @"changed margins, old = %@", NSStringFromRect([oldInterior rectValue]));
@@ -2718,23 +1796,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[self applyTransformToObjects:tfm];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawRect:inView:
-/// scope:			private instance method
-///	overrides:		DKLayer
-/// description:	draws the layer and its contents on demand
-/// 
-/// parameters:		<rect> the area being updated
-/// result:			none
-///
-/// notes:			called by the drawing when necessary to update the views. This will draw from the cache if set
-///					to do so and the layer isn't active
-///
-///********************************************************************************************************************
-
+/** @brief Draws the layer and its contents on demand
+ * @note
+ * Called by the drawing when necessary to update the views. This will draw from the cache if set
+ * to do so and the layer isn't active
+ * @param rect the area being updated
+ * @private
+ */
 - (void)				drawRect:(NSRect) rect inView:(DKDrawingView*) aView
 {
 	#pragma unused(rect)
@@ -2767,41 +1835,22 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hitLayer:
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	does the point hit anything in the layer?
-/// 
-/// parameters:		<p> the point to test
-/// result:			YES if any object is hit, NO otherwise
-///
-/// notes:			 
-///
-///********************************************************************************************************************
-
+/** @brief Does the point hit anything in the layer?
+ * @param p the point to test
+ * @return YES if any object is hit, NO otherwise
+ * @public
+ */
 - (BOOL)				hitLayer:(NSPoint) p
 {
 	return ([self hitTest:p] != nil );
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allStyles
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	returns a list of styles used by the current set of objects
-/// 
-/// parameters:		none
-/// result:			the set of unique style objects
-///
-/// notes:			being a set, the result is unordered
-///
-///********************************************************************************************************************
-
+/** @brief Returns a list of styles used by the current set of objects
+ * @note
+ * Being a set, the result is unordered
+ * @return the set of unique style objects
+ * @public
+ */
 - (NSSet*)				allStyles
 {
 	NSEnumerator*		iter = [[self objects] reverseObjectEnumerator];
@@ -2827,21 +1876,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [unionOfAllStyles autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allRegisteredStyles
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	returns a list of styles used by the current set of objects that are also registered
-/// 
-/// parameters:		none
-/// result:			the set of unique registered style objects used by objects in this layer
-///
-/// notes:			being a set, the result is unordered
-///
-///********************************************************************************************************************
-
+/** @brief Returns a list of styles used by the current set of objects that are also registered
+ * @note
+ * Being a set, the result is unordered
+ * @return the set of unique registered style objects used by objects in this layer
+ * @public
+ */
 - (NSSet*)				allRegisteredStyles
 {
 	NSEnumerator*		iter = [[self objects] reverseObjectEnumerator];
@@ -2867,21 +1907,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [unionOfAllStyles autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceMatchingStylesFromSet:
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	given a set of styles, replace those that have a matching key with the objects in the set
-/// 
-/// parameters:		<aSet> a set of style objects
-/// result:			none
-///
-/// notes:			used when consolidating a document's saved styles with the application registry after a load
-///
-///********************************************************************************************************************
-
+/** @brief Given a set of styles, replace those that have a matching key with the objects in the set
+ * @note
+ * Used when consolidating a document's saved styles with the application registry after a load
+ * @param aSet a set of style objects
+ * @public
+ */
 - (void)				replaceMatchingStylesFromSet:(NSSet*) aSet
 {
 	// propagate this to all drawables in the layer
@@ -2889,22 +1920,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[[self objects] makeObjectsPerformSelector:@selector(replaceMatchingStylesFromSet:) withObject:aSet];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteboardTypesForOperation:
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	get a list of the data types that the layer is able to deal with in a paste or drop operation
-/// 
-/// parameters:		<op> a set of flags indicating what operation the types should be relevant to. This is arranged
-///					as a bitfield to allow combinations.
-/// result:			an array of acceptable pasteboard data types for the given operation in preferred order
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Get a list of the data types that the layer is able to deal with in a paste or drop operation
+ * @param op a set of flags indicating what operation the types should be relevant to. This is arranged
+ * @return an array of acceptable pasteboard data types for the given operation in preferred order
+ * @public
+ */
 - (NSArray*)			pasteboardTypesForOperation:(DKPasteboardOperationType) op
 {
 	// we can always cut/paste and drag/drop our native type:
@@ -2934,21 +1954,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return types;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerDidBecomeActiveLayer
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	invoked when the layer becomes the active layer
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			invalidates the layer cache - only inactive layers draw from their cache
-///
-///********************************************************************************************************************
-
+/** @brief Invoked when the layer becomes the active layer
+ * @note
+ * Invalidates the layer cache - only inactive layers draw from their cache
+ * @public
+ */
 - (void)				layerDidBecomeActiveLayer
 {
 	[self invalidateCache];
@@ -2957,27 +1967,14 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self setNeedsDisplay:YES];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerDidResignActiveLayer
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	invoked when the layer resigned the active layer
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Invoked when the layer resigned the active layer
+ * @public
+ */
 - (void)				layerDidResignActiveLayer
 {
 	if(([self layerCacheOption] & kDKLayerCacheObjectOutlines) != 0 )
 		[self setNeedsDisplay:YES];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -2991,7 +1988,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[mStorage release];
 	[super dealloc];
 }
-
 
 - (id)				init
 {
@@ -3011,31 +2007,20 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return self;
 }
 
-
 - (NSString*)		description
 {
 	return [NSString stringWithFormat:@"%@,\nstorage = %@", [super description], [self storage]];
 }
 
-
-
 #pragma mark -
 #pragma mark As part of DKDrawableContainer Protocol
 
-///*********************************************************************************************************************
-///
-/// method:			layer
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the layer of a drawable's container - since this is that layer, returns self
-/// 
-/// parameters:		none
-/// result:			self
-///
-/// notes:			see DKDrawableObject which also implements this protocol
-///
-///********************************************************************************************************************
-
+/** @brief Returns the layer of a drawable's container - since this is that layer, returns self
+ * @note
+ * See DKDrawableObject which also implements this protocol
+ * @return self
+ * @public
+ */
 - (DKObjectOwnerLayer*)	layer
 {
 	return self;
@@ -3050,7 +2035,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	return [super metadataObjectForKey:key];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -3067,7 +2051,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[coder encodeBool:[self allowsSnapToObjects] forKey:@"snappable"];
 	[coder encodeInteger:[self layerCacheOption] forKey:@"DKObjectOwnerLayer_cacheOption"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -3112,7 +2095,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of the NSDraggingDestination protocol
 
@@ -3123,7 +2105,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	NSPasteboard*	pb = [sender draggingPasteboard];
 	NSPoint			cp, ip = [sender draggedImageLocation];
 	NSArray*		dropObjects = nil;
-
 
 	cp = [view convertPoint:ip fromView:nil];
 	
@@ -3197,7 +2178,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return result;
 }
 
-
 - (NSDragOperation)		draggingEntered:(id <NSDraggingInfo>) sender
 {
 	#pragma unused(sender)
@@ -3208,7 +2188,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return NSDragOperationGeneric;
 }
 
-
 - (void)				draggingExited:(id <NSDraggingInfo>) sender
 {
 	#pragma unused(sender)
@@ -3217,7 +2196,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[self setNeedsDisplay:YES];
 }
 
-
 - (NSDragOperation)		draggingUpdated:(id <NSDraggingInfo>) sender
 {
 	#pragma unused(sender)
@@ -3225,14 +2203,12 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return NSDragOperationGeneric;
 }
 
-
 - (BOOL)				prepareForDragOperation:(id <NSDraggingInfo>) sender
 {
 	#pragma unused(sender)
 
 	return YES;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
@@ -3256,7 +2232,5 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return [super validateMenuItem:item];
 }
 
-
-
-
 @end
+

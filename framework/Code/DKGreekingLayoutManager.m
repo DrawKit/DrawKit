@@ -8,9 +8,7 @@
 
 #import "DKGreekingLayoutManager.h"
 
-
 @implementation DKGreekingLayoutManager
-
 
 - (void)			setGreeking:(DKGreeking) greeking
 {
@@ -23,7 +21,6 @@
 	return mGreeking;
 }
 
-
 - (void)			setGreekingColour:(NSColor*) aColour
 {
 	[aColour retain];
@@ -31,12 +28,10 @@
 	mGreekingColour = aColour;
 }
 
-
 - (NSColor*)		greekingColour
 {
 	return mGreekingColour;
 }
-
 
 #pragma mark - as a NSLayoutManager
 
@@ -112,7 +107,6 @@
 	}
 }
 
-
 - (void)		drawBackgroundForGlyphRange:(NSRange) glyphsToShow atPoint:(NSPoint) origin
 {
 	if([self greeking] == kDKGreekingNone)
@@ -130,7 +124,6 @@
 	return self;
 }
 
-
 - (void)			dealloc
 {
 	[mGreekingColour release];
@@ -138,3 +131,4 @@
 }
 
 @end
+

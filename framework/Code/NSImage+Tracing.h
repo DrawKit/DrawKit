@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSImage+Tracing.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 23/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #ifdef qUsePotrace
 
@@ -24,7 +22,6 @@ typedef enum
 	kDKColourQuantizeMedianCut	= 4
 }
 DKColourQuantizationMethod;
-
 
 // category on NSImage returns lists of 'vector rep' objects (see below)
 
@@ -93,8 +90,6 @@ extern NSString*	kDKTracingParam_turnpolicy;			// integer value, turn policy
 extern NSString*	kDKTracingParam_alphamax;			// double value, sets smoothness of corners
 extern NSString*	kDKTracingParam_opticurve;			// boolean value, 1 = simplify curves, 0 = do not simplify
 extern NSString*	kDKTracingParam_opttolerance;		// double value, epsilon limit for curve fit
-
-
 
 /*
 

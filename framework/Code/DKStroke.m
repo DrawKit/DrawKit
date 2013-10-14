@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKStroke.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 09/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKStroke.h"
 #import "DKStyle.h"
@@ -16,14 +14,12 @@
 #import "DKDrawableObject.h"
 #import "DKDrawing.h"
 
-
 @implementation DKStroke
 #pragma mark As a DKStroke
 + (DKStroke*)	defaultStroke;
 {
 	return [[[self alloc] init] autorelease];
 }
-
 
 + (DKStroke*)	strokeWithWidth:(CGFloat) width colour:(NSColor*) colour
 {
@@ -34,7 +30,6 @@
 	
 	return [stroke autorelease];
 }
-
 
 #pragma mark -
 - (id)			initWithWidth:(CGFloat) width colour:(NSColor*) colour
@@ -59,7 +54,6 @@
 	return self;
 }
 
-
 #pragma mark -
 - (void)		setColour:(NSColor*) colour
 {
@@ -70,12 +64,10 @@
 	m_colour = colour;
 }
 
-
 - (NSColor*)	colour
 {
 	return m_colour;
 }
-
 
 #pragma mark -
 - (void)		setWidth:(CGFloat) width
@@ -88,12 +80,10 @@
 	}
 }
 
-
 - (CGFloat)		width
 {
 	return m_width;
 }
-
 
 - (void)		scaleWidthBy:(CGFloat) scale
 {
@@ -101,7 +91,6 @@
 	
 	m_width = [self width] * scale;
 }
-
 
 - (CGFloat)		allowance
 {
@@ -135,7 +124,6 @@
 	return allow;
 }
 
-
 #pragma mark -
 - (void)		setDash:(DKStrokeDash*) dash
 {
@@ -144,12 +132,10 @@
 	m_dash = dash;
 }
 
-
 - (DKStrokeDash*)	dash
 {
 	return m_dash;
 }
-
 
 - (void)		setAutoDash
 {
@@ -165,20 +151,16 @@
 	[dash release];
 }
 
-
 #pragma mark -
 - (void)		setLateralOffset:(CGFloat) offset
 {
 	mLateralOffset = offset;
 }
 
-
 - (CGFloat)		lateralOffset
 {
 	return mLateralOffset;
 }
-
-
 
 #pragma mark -
 - (void)		setShadow:(NSShadow*) shadw
@@ -188,19 +170,16 @@
 	m_shadow = shadw;
 }
 
-
 - (NSShadow*)	shadow
 {
 	return m_shadow;
 }
-
 
 #pragma mark -
 - (void)		strokeRect:(NSRect) rect
 {
 	[self renderPath:[NSBezierPath bezierPathWithRect:rect]];
 }
-
 
 - (void)				applyAttributesToPath:(NSBezierPath*) path
 {
@@ -217,7 +196,6 @@
 		[path setLineDash:NULL count:0 phase:0.0];
 }
 
-
 #pragma mark -
 - (void)				setLineCapStyle:(NSLineCapStyle) lcs
 {
@@ -227,12 +205,10 @@
 	}
 }
 
-
 - (NSLineCapStyle)		lineCapStyle
 {
 	return m_cap;
 }
-
 
 - (void)				setLineJoinStyle:(NSLineJoinStyle) ljs
 {
@@ -242,26 +218,20 @@
 	}
 }
 
-
 - (NSLineJoinStyle)		lineJoinStyle
 {
 	return m_join;
 }
-
 
 - (void)				setMiterLimit:(CGFloat) limit
 {
 	m_mitreLimit = limit;
 }
 
-
-
 - (CGFloat)				miterLimit
 {
 	return m_mitreLimit;
 }
-
-
 
 #pragma mark -
 - (void)				setTrimLength:(CGFloat) tl
@@ -273,12 +243,10 @@
 	m_trimLength = tl;
 }
 
-
 - (CGFloat)				trimLength
 {
 	return m_trimLength;
 }
-
 
 - (NSSize)				extraSpaceNeededIgnoringMitreLimit
 {
@@ -291,17 +259,12 @@
 	return es;
 }
 
-
-
 #pragma mark -
 #pragma mark As a DKRasterizer
 - (BOOL)		isValid
 {
 	return ([self colour] != nil);
 }
-
-
-
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -311,7 +274,6 @@
 																					@"shadow", @"lineCapStyle", @"lineJoinStyle",
 																					@"lateralOffset", @"trimLength", nil]];
 }
-
 
 - (void)	registerActionNames
 {
@@ -326,7 +288,6 @@
 	[self setActionName:@"#kind# Trim Length" forKeyPath:@"trimLength"];
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)		dealloc
@@ -338,12 +299,10 @@
 	[super dealloc];
 }
 
-
 - (id)			init
 {
 	return [self initWithWidth:1.0 colour:[NSColor blackColor]];
 }
-
 
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
@@ -351,7 +310,6 @@
 {
 	return NSMakeSize([self allowance], [self allowance]);
 }
-
 
 - (void)		render:(id<DKRenderable>) obj
 {
@@ -374,7 +332,6 @@
 	[super render:obj];
 	RESTORE_GRAPHICS_CONTEXT	//[NSGraphicsContext restoreGraphicsState];
 }
-
 
 - (void)		renderPath:(NSBezierPath*) path
 {
@@ -402,7 +359,6 @@
 	
 	[pc stroke];
 }
-
 
 #pragma mark -
 #pragma mark As part of GraphicAttributtes Protocol
@@ -433,7 +389,6 @@
 	}
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)		encodeWithCoder:(NSCoder*) coder
@@ -452,7 +407,6 @@
 	[coder encodeDouble:[self lateralOffset] forKey:@"DKStroke_lateralOffset"];
 	[coder encodeDouble:[self trimLength] forKey:@"trim_length"];
 }
-
 
 - (id)			initWithCoder:(NSCoder*) coder
 {
@@ -486,7 +440,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)			copyWithZone:(NSZone*) zone
@@ -513,5 +466,5 @@
 	return cp;
 }
 
-
 @end
+

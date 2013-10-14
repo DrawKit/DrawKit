@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSBezierPath+GPC.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 31/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #ifdef qUseGPC
 
@@ -20,12 +18,10 @@
 #import "CurveFit.h"
 #endif
 
-
 //#define qUseLogPoly
 #ifdef qUseLogPoly
 static void		logPoly( gpc_polygon* poly );
 #endif
-
 
 NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 
@@ -33,20 +29,10 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 @implementation NSBezierPath (GPC)
 #pragma mark As a NSBezierPath
 
-///*********************************************************************************************************************
-///
-/// method:			bezierPathWithGPCPolygon:
-/// scope:			class method
-/// overrides:
-/// description:	converts a vector polygon in gpc format to an NSBezierPath
-/// 
-/// parameters:		<poly> a gpc polygon structure
-/// result:			the same polygon as an NSBezierPath
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Converts a vector polygon in gpc format to an NSBezierPath
+ * @param poly a gpc polygon structure
+ * @return the same polygon as an NSBezierPath
+ */
 + (NSBezierPath*)		bezierPathWithGPCPolygon:(gpc_polygon*) poly
 {
 	NSAssert( poly != NULL, @"attempt to create path from NULL poly");
@@ -81,82 +67,40 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 	return path;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setPathUnflatteningPolicy:
-/// scope:			class method
-/// overrides:
-/// description:	sets the unflattening (curve fitting) policy for curve fitting flattened paths after a boolean op
-/// 
-/// parameters:		<sp> policy constant
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets the unflattening (curve fitting) policy for curve fitting flattened paths after a boolean op
+ * @param sp policy constant
+ */
 + (void)				setPathUnflatteningPolicy:(DKPathUnflatteningPolicy) sp
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:sp forKey:kDKCurveFittingPolicyDefaultsKey];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathUnflatteningPolicy
-/// scope:			class method
-/// overrides:
-/// description:	returns the unflattening (curve fitting) policy for curve fitting flattened paths after a boolean op
-/// 
-/// parameters:		none
-/// result:			the current unflattening policy
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the unflattening (curve fitting) policy for curve fitting flattened paths after a boolean op
+ * @return the current unflattening policy
+ */
 + (DKPathUnflatteningPolicy)	pathUnflatteningPolicy
 {
 	return [[NSUserDefaults standardUserDefaults] integerForKey:kDKCurveFittingPolicyDefaultsKey];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			gpcPolygon
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	converts a bezier path to a gpc polygon format structure
-/// 
-/// parameters:		none
-/// result:			a newly allocated gpc polygon structure
-///
-/// notes:			the caller is responsible for freeing the returned object (in contrast to usual cocoa rules)
-///
-///********************************************************************************************************************
 
+/** @brief Converts a bezier path to a gpc polygon format structure
+ * @note
+ * The caller is responsible for freeing the returned object (in contrast to usual cocoa rules)
+ * @return a newly allocated gpc polygon structure
+ */
 - (gpc_polygon*)		gpcPolygon
 {
 	return [self gpcPolygonWithFlatness:0.01];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			gpcPolygonWithFlatness
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	converts a bezier path to a gpc polygon format structure
-/// 
-/// parameters:		<flatness> the flatness value for converting curves to vector form
-/// result:			a newly allocated gpc polygon structure
-///
-/// notes:			the caller is responsible for freeing the returned object (in contrast to usual cocoa rules)
-///
-///********************************************************************************************************************
-
+/** @brief Converts a bezier path to a gpc polygon format structure
+ * @note
+ * The caller is responsible for freeing the returned object (in contrast to usual cocoa rules)
+ * @param flatness the flatness value for converting curves to vector form
+ * @return a newly allocated gpc polygon structure
+ */
 - (gpc_polygon*)		gpcPolygonWithFlatness:(CGFloat) flatness
 {
 	CGFloat savedFlatness = [[self class] defaultFlatness];
@@ -269,22 +213,12 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 	return poly;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			subPathCountStartingAtElement:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	counts the number of separate subpath in the path starting from a given element
-/// 
-/// parameters:		<se> the index of some element in the path
-/// result:			integer, the number of subpaths after and including se (actually the number of moveTo ops)
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Counts the number of separate subpath in the path starting from a given element
+ * @param se the index of some element in the path
+ * @return integer, the number of subpaths after and including se (actually the number of moveTo ops)
+ */
 - (NSInteger)					subPathCountStartingAtElement:(NSInteger) se
 {
 	// returns the number of elements in the subpath starting at element <se>. The caller is responsible for setting se
@@ -309,28 +243,18 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 	return sp;
 }
 
-
-
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			intersectsPath:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	tests whether this path intersects another
-/// 
-/// parameters:		<path> another path to test against
-/// result:			YES if the paths intersect, NO otherwise
-///
-/// notes:			this works by computing the intersection of the two paths and checking if it's empty. Because it
-///					does a full-blown intersection, it is not necessarily a trivial operation. It is accurate for
-///					curves, etc however. It is worth trying to eliminate all obvious non-intersecting cases prior to
-///					calling this where performance is critical - this does however return quickly if the bounds do not
-///					intersect.
-///
-///********************************************************************************************************************
 
+/** @brief Tests whether this path intersects another
+ * @note
+ * This works by computing the intersection of the two paths and checking if it's empty. Because it
+ * does a full-blown intersection, it is not necessarily a trivial operation. It is accurate for
+ * curves, etc however. It is worth trying to eliminate all obvious non-intersecting cases prior to
+ * calling this where performance is critical - this does however return quickly if the bounds do not
+ * intersect.
+ * @param path another path to test against
+ * @return YES if the paths intersect, NO otherwise
+ */
 - (BOOL)				intersectsPath:(NSBezierPath*) path
 {
 	NSRect		bbox = [path bounds];
@@ -347,24 +271,15 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 		return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathFromPath:usingBooleanOperation:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	creates a new path from a boolean operation between this path and another path
-/// 
-/// parameters:		<otherPath> another path which is combined with this one's path
-///					<op> the operation to perform - constants defined in gpc.h
-/// result:			a new path (may be empty in certain cases)
-///
-/// notes:			this applies the current flattening policy set for the class. If the policy is auto, this looks
-///					at the makeup of the contributing paths to determine whether to unflatten or not. If both source
-///					paths consist solely of line elements (no bezier curves), then no unflattening is performed.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a new path from a boolean operation between this path and another path
+ * @note
+ * This applies the current flattening policy set for the class. If the policy is auto, this looks
+ * at the makeup of the contributing paths to determine whether to unflatten or not. If both source
+ * paths consist solely of line elements (no bezier curves), then no unflattening is performed.
+ * @param otherPath another path which is combined with this one's path
+ * @param op the operation to perform - constants defined in gpc.h
+ * @return a new path (may be empty in certain cases)
+ */
 - (NSBezierPath*)		pathFromPath:(NSBezierPath*) otherPath usingBooleanOperation:(gpc_op) op
 {
 	BOOL simplify = NO;
@@ -389,23 +304,15 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 	return [self pathFromPath:otherPath usingBooleanOperation:op unflattenResult:simplify];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathFromPath:usingBooleanOperation:unflattenResult:
-/// scope:			private instance method
-/// extends:		NSBezierPath
-/// description:	creates a new path from a boolean operation between this path and another path
-/// 
-/// parameters:		<otherPath> another path which is combined with this one's path
-///					<op> the operation to perform - constants defined in gpc.h
-///					<unflattenResult> YES to attempt curve fitting on the result, NO to leave it in vector form
-/// result:			a new path (may be empty in certain cases)
-///
-/// notes:			the unflattening flag is passed directly - the curve fitting policy of the class is ignored
-///
-///********************************************************************************************************************
-
+/** @brief Creates a new path from a boolean operation between this path and another path
+ * @note
+ * The unflattening flag is passed directly - the curve fitting policy of the class is ignored
+ * @param otherPath another path which is combined with this one's path
+ * @param op the operation to perform - constants defined in gpc.h
+ * @param unflattenResult YES to attempt curve fitting on the result, NO to leave it in vector form
+ * @return a new path (may be empty in certain cases)
+ * @private
+ */
 - (NSBezierPath*)		pathFromPath:(NSBezierPath*) otherPath usingBooleanOperation:(gpc_op) op unflattenResult:(BOOL) uf
 {
 	NSBezierPath*	result;
@@ -464,22 +371,14 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 		return result;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			pathFromUnionWithPath:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	creates a new path which is the union of this path and another path
-/// 
-/// parameters:		<otherPath> another path which is unioned with this one's path
-/// result:			a new path
-///
-/// notes:			curve fitting policy for the class is applied to this method
-///
-///********************************************************************************************************************
 
+/** @brief Creates a new path which is the union of this path and another path
+ * @note
+ * Curve fitting policy for the class is applied to this method
+ * @param otherPath another path which is unioned with this one's path
+ * @return a new path
+ */
 - (NSBezierPath*)		pathFromUnionWithPath:(NSBezierPath*) otherPath
 {
 	// if the paths are disjoint, this can be accomplished using a simple concatentation of the paths, which
@@ -505,22 +404,13 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathFromIntersectionWithPath:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	creates a new path which is the intersection of this path and another path
-/// 
-/// parameters:		<otherPath> another path which is intersected with this one's path
-/// result:			a new path (possibly empty)
-///
-/// notes:			curve fitting policy for the class is applied to this method. If the paths bounds do not intersect,
-///					returns nil
-///
-///********************************************************************************************************************
-
+/** @brief Creates a new path which is the intersection of this path and another path
+ * @note
+ * Curve fitting policy for the class is applied to this method. If the paths bounds do not intersect,
+ * returns nil
+ * @param otherPath another path which is intersected with this one's path
+ * @return a new path (possibly empty)
+ */
 - (NSBezierPath*)		pathFromIntersectionWithPath:(NSBezierPath*) otherPath
 {
 	if( ! NSIntersectsRect([self bounds], [otherPath bounds]))
@@ -529,22 +419,13 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 		return [self pathFromPath:otherPath usingBooleanOperation:GPC_INT];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathFromDifferenceWithPath:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	creates a new path which is the difference of this path and another path
-/// 
-/// parameters:		<otherPath> another path which is subtracted from this one's path
-/// result:			a new path (possibly empty)
-///
-/// notes:			curve fitting policy for the class is applied to this method. If the paths bounds do not
-///					intersect, returns self, on the basis that subtracting the other path doesn't change this one.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a new path which is the difference of this path and another path
+ * @note
+ * Curve fitting policy for the class is applied to this method. If the paths bounds do not
+ * intersect, returns self, on the basis that subtracting the other path doesn't change this one.
+ * @param otherPath another path which is subtracted from this one's path
+ * @return a new path (possibly empty)
+ */
 - (NSBezierPath*)		pathFromDifferenceWithPath:(NSBezierPath*) otherPath
 {
 	if( ! NSIntersectsRect([self bounds], [otherPath bounds]))
@@ -553,21 +434,12 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 		return [self pathFromPath:otherPath usingBooleanOperation:GPC_DIFF];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathFromExclusiveOrWithPath:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	creates a new path which is the xor of this path and another path
-/// 
-/// parameters:		<otherPath> another path which is xored with this one's path
-/// result:			a new path (possibly empty)
-///
-/// notes:			curve fitting policy for the class is applied to this method
-///
-///********************************************************************************************************************
-
+/** @brief Creates a new path which is the xor of this path and another path
+ * @note
+ * Curve fitting policy for the class is applied to this method
+ * @param otherPath another path which is xored with this one's path
+ * @return a new path (possibly empty)
+ */
 - (NSBezierPath*)		pathFromExclusiveOrWithPath:(NSBezierPath*) otherPath
 {
 	// if the paths are disjoint, this is equivalent to a union, or simple path concatenation
@@ -581,22 +453,11 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 		return [self pathFromPath:otherPath usingBooleanOperation:GPC_XOR];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			bezierPathByUnflatteningPath
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	creates a new path which is the unflattened version of this
-/// 
-/// parameters:		none
-/// result:			the unflattened path (curve fitted)
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Creates a new path which is the unflattened version of this
+ * @return the unflattened path (curve fitted)
+ */
 - (NSBezierPath*)		bezierPathByUnflatteningPath
 {
 	if([self isEmpty])
@@ -615,10 +476,7 @@ NSString*	kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 #endif
 }
 
-
 @end
-
-
 
 #pragma mark -
 #pragma mark - gpc polygon utilities
@@ -643,7 +501,6 @@ NSUInteger checksumPoly( gpc_polygon* poly )
 	
 	return cs;
 }
-
 
 NSRect   boundsOfPoly( gpc_polygon* poly )
 {
@@ -680,7 +537,6 @@ NSRect   boundsOfPoly( gpc_polygon* poly )
 	return NSRectFromTwoPoints(NSMakePoint( minX, minY ), NSMakePoint( maxX, maxY ));
 }
 
-
 BOOL	 equalPolys( gpc_polygon* polyA, gpc_polygon* polyB )
 {
 	// compares two polys. Considered equal if they have the same checksum and the same bbox.
@@ -703,7 +559,6 @@ BOOL	 equalPolys( gpc_polygon* polyA, gpc_polygon* polyB )
 	return NO;
 }
 
-
 BOOL	 intersectingPolys( gpc_polygon* polyA, gpc_polygon* polyB )
 {
 	// returns YES if the bounds rects of the two polys intersect. This can be used as an initial check before doing something more
@@ -716,7 +571,6 @@ BOOL	 intersectingPolys( gpc_polygon* polyA, gpc_polygon* polyB )
 	
 	return NSIntersectsRect( bbA, bbB );
 }
-
 
 #ifdef qUseLogPoly
 static void		logPoly( gpc_polygon* poly )
@@ -744,5 +598,5 @@ static void		logPoly( gpc_polygon* poly )
 }
 #endif
 
-
 #endif /* defined (qUseGPC) */
+

@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKQuartzCache.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface DKQuartzCache : NSObject
 {
@@ -23,7 +29,6 @@
 + (DKQuartzCache*)	cacheForImage:(NSImage*) image;
 + (DKQuartzCache*)	cacheForImageRep:(NSImageRep*) imageRep;
 
-
 - (id)				initWithContext:(NSGraphicsContext*) context forRect:(NSRect) rect;
 - (NSSize)			size;
 - (CGContextRef)	context;
@@ -38,14 +43,10 @@
 - (void)			lockFocus;
 - (void)			unlockFocus;
 
-
 @end
-
 
 /*
 
 Higher-level wrapper for CGLayer, used to cache graphics in numerous places in DK.
 
-
 */
-

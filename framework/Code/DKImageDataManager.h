@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKImageDataManager.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface DKImageDataManager : NSObject <NSCoding>
 {
@@ -36,10 +42,7 @@
 
 @end
 
-
-
 extern NSString*	kDKImageDataManagerPasteboardType;
-
 
 @interface NSData	(Checksum)
 
@@ -47,7 +50,6 @@ extern NSString*	kDKImageDataManagerPasteboardType;
 - (NSString*)		checksumString;
 
 @end
-
 
 /*
 
@@ -60,5 +62,3 @@ extern NSString*	kDKImageDataManagerPasteboardType;
  When images are cut/pasted within the framework, the image key can be used to effect that operation without having to move the actual image data.
 
 */
-
-

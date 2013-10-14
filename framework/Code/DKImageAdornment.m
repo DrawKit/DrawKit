@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKImageAdornment.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 15/05/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKImageAdornment.h"
 #import "DKGeometryUtilities.h"
@@ -28,13 +26,11 @@
 	return [gir autorelease];
 }
 
-
 + (DKImageAdornment*)	imageAdornmentWithImageFromFile:(NSString*) path
 {
 	NSImage* image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 	return [self imageAdornmentWithImage:image];
 }
-
 
 #pragma mark -
 - (void)				setImage:(NSImage*) image
@@ -48,12 +44,10 @@
 	[m_image setCacheMode:NSImageCacheNever];
 }
 
-
 - (NSImage*)			image
 {
 	return m_image;
 }
-
 
 - (void)				setImageWithKey:(NSString*) key forDrawing:(DKDrawing*) drawing
 {
@@ -64,7 +58,6 @@
 	[self setImageKey:key];
 }
 
-
 - (void)				setImageKey:(NSString*) key
 {
 	[key retain];
@@ -72,13 +65,10 @@
 	mImageKey = key;
 }
 
-
 - (NSString*)			imageKey
 {
 	return mImageKey;
 }
-
-
 
 - (void)				setImageIdentifier:(NSString*) imageID
 {
@@ -87,12 +77,10 @@
 	m_imageIdentifier = imageID;
 }
 
-
 - (NSString*)			imageIdentifier
 {
 	return m_imageIdentifier;
 }
-
 
 #pragma mark -
 - (void)				setScale:(CGFloat) scale
@@ -100,12 +88,10 @@
 	m_scale = LIMIT( scale, 0.2, 8.0 );
 }
 
-
 - (CGFloat)				scale
 {
 	return m_scale;
 }
-
 
 #pragma mark -
 - (void)				setOpacity:(CGFloat) opacity
@@ -113,12 +99,10 @@
 	m_opacity = LIMIT( opacity, 0.0, 1.0 );
 }
 
-
 - (CGFloat)				opacity
 {
 	return m_opacity;
 }
-
 
 #pragma mark -
 - (void)				setOrigin:(NSPoint) origin
@@ -126,12 +110,10 @@
 	m_origin = origin;
 }
 
-
 - (NSPoint)				origin
 {
 	return m_origin;
 }
-
 
 #pragma mark -
 - (void)				setAngle:(CGFloat) angle
@@ -139,18 +121,15 @@
 	m_angle = angle;
 }
 
-
 - (CGFloat)				angle
 {
 	return m_angle;
 }
 
-
 - (void)				setAngleInDegrees:(CGFloat) degrees
 {
 	[self setAngle:DEGREES_TO_RADIANS(degrees)];
 }
-
 
 - (CGFloat)				angleInDegrees
 {
@@ -162,19 +141,16 @@
 	return angle;
 }
 
-
 #pragma mark -
 - (void)				setOperation:(NSCompositingOperation) op
 {
 	m_op = op;
 }
 
-
 - (NSCompositingOperation) operation
 {
 	return m_op;
 }
-
 
 #pragma mark -
 - (void)				setFittingOption:(DKImageFittingOption) fopt
@@ -182,12 +158,10 @@
 	m_fittingOption = fopt;
 }
 
-
 - (DKImageFittingOption) fittingOption
 {
 	return m_fittingOption;
 }
-
 
 #pragma mark -
 - (NSAffineTransform*)	imageTransformForObject:(id<DKRenderable>) renderableObject
@@ -242,14 +216,12 @@
 	return xform;
 }
 
-
 #pragma mark -
 #pragma mark As a DKRasterizer
 - (BOOL)				isValid
 {
 	return m_image != nil;
 }
-
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -259,7 +231,6 @@
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:
 				[NSArray arrayWithObjects:@"image", @"opacity", @"scale", @"fittingOption", @"angle", @"operation", nil]];
 }
-
 
 - (void)				registerActionNames
 {
@@ -273,7 +244,6 @@
 	[self setActionName:@"#kind# Compositing Operation" forKeyPath:@"operation"];
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)				dealloc
@@ -284,7 +254,6 @@
 	
 	[super dealloc];
 }
-
 
 - (id)					init
 {
@@ -299,7 +268,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
@@ -363,13 +331,10 @@
 	}
 }
 
-
 - (BOOL)		isFill
 {
 	return YES;
 }
-
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -390,7 +355,6 @@
 	[coder encodeObject:[self imageIdentifier] forKey:@"ident"];
 }
 
-
 - (id)					initWithCoder:(NSCoder*) coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
@@ -407,7 +371,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -426,5 +389,5 @@
 	return copy;
 }
 
-
 @end
+

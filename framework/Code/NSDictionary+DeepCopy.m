@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSDictionary+DeepCopy.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 12/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "NSDictionary+DeepCopy.h"
 
@@ -14,9 +12,7 @@
 
 #define DO_IT_THE_EASY_WAY		0
 
-
 @implementation NSDictionary (DeepCopy)
-
 
 - (NSDictionary*)		deepCopy
 {
@@ -40,9 +36,7 @@
 #endif
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation NSArray (DeepCopy)
@@ -69,9 +63,7 @@
 #endif
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation NSObject (DeepCopy)
@@ -81,9 +73,7 @@
 	return [self copy];
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation NSMutableArray (DeepCopy)
@@ -109,7 +99,6 @@
 	return copy;
 #endif
 }
-
 
 @end
 

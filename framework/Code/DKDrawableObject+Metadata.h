@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKDrawableObject+Metadata.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 19/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawableObject.h"
 #import "DKMetadataItem.h"
@@ -20,7 +18,6 @@ typedef enum
 	kDKMetadata107Schema		= 3
 }
 DKMetadataSchema;
-
 
 @interface DKDrawableObject (Metadata)
 
@@ -43,7 +40,6 @@ DKMetadataSchema;
 - (NSArray*)			metadataItemsForKeysInArray:(NSArray*) keyArray limitToLocalSearch:(BOOL) local;
 
 - (void)				setMetadataItemType:(DKMetadataType) type forKey:(NSString*) key;
-
 
 - (id)			metadataObjectForKey:(NSString*) key;
 - (void)		setMetadataItemValue:(id) value forKey:(NSString*) key;
@@ -101,9 +97,6 @@ extern NSString*	kDKUndoableChangesUserDefaultsKey;
 - (NSAttributedString*)	originalText;
 
 @end
-
-
-
 
 /*
 

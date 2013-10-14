@@ -1,19 +1,24 @@
 //
 //  DKGradientExtensions.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Jason Jobe on 3/3/07.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKGradientExtensions.h"
 
 #import "LogEvent.h"
 
-
 @implementation NSView (DKGradientExtensions)
 
+/** 
+ */
 - (void) dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent *)event
 {
 	NSSize size;
@@ -75,7 +80,6 @@
 
 @end
 
-
 #pragma mark -
 @implementation NSColor (DKGradientExtensions)
 
@@ -101,7 +105,6 @@
 
 @end
 
-
 #pragma mark -
 @implementation DKGradient (DKGradientPlistTransformations)
 
@@ -110,7 +113,6 @@
 
 @end
 
-
 #pragma mark -
 @implementation DKColorStop (DKGradientPlistTransformations)
 
@@ -118,7 +120,6 @@
 - (BOOL) supportsSimpleDictionaryKeyValueCoding { return YES; }
 
 @end
-
 
 #pragma mark -
 @implementation DKGradient (DKGradientExtensions)
@@ -131,7 +132,6 @@
 	}
 }
 
-
 #pragma mark -
 - (void)		setRadialStartingPoint:(NSPoint) p
 {
@@ -139,13 +139,11 @@
 	[m_extensionData setPoint:p forKey:@"radialstartingpoint"];
 }
 
-
 - (void)		setRadialEndingPoint:(NSPoint) p
 {
 	[self setUpExtensionData];
 	[m_extensionData setPoint:p forKey:@"radialendingpoint"];
 }
-
 
 - (void)		setRadialStartingRadius:(CGFloat) rad
 {
@@ -153,13 +151,11 @@
 	[m_extensionData setFloat:rad forKey:@"radialstartingradius"];
 }
 
-
 - (void)		setRadialEndingRadius:(CGFloat) rad
 {
 	[self setUpExtensionData];
 	[m_extensionData setFloat:rad forKey:@"radialendingradius"];
 }
-
 
 #pragma mark -
 - (NSPoint)		radialStartingPoint
@@ -167,24 +163,20 @@
 	return [m_extensionData pointForKey:@"radialstartingpoint"];
 }
 
-
 - (NSPoint)		radialEndingPoint
 {
 	return [m_extensionData pointForKey:@"radialendingpoint"];
 }
-
 
 - (CGFloat)		radialStartingRadius;
 {
 	return [m_extensionData floatForKey:@"radialstartingradius"];
 }
 
-
 - (CGFloat)		radialEndingRadius
 {
 	return [m_extensionData floatForKey:@"radialendingradius"];
 }
-
 
 #pragma mark -
 - (BOOL)		hasRadialSettings
@@ -197,7 +189,6 @@
 	return NO;
 }
 
-
 #pragma mark -
 - (NSPoint)		mapPoint:(NSPoint) p fromRect:(NSRect) rect
 {
@@ -209,7 +200,6 @@
 	return p;
 }
 
-
 - (NSPoint)		mapPoint:(NSPoint) p toRect:(NSRect) rect
 {
 	// given a point <p> in 0..1 space, maps it to <rect>
@@ -219,7 +209,6 @@
 	
 	return p;
 }
-
 
 #pragma mark -
 - (void)		convertOldKey:(NSString*) key
@@ -231,7 +220,6 @@
 	[m_extensionData removeObjectForKey:key];
 	[m_extensionData setPoint:p forKey:key]; 
 }
-
 
 - (void)		convertOldKeys
 {
@@ -254,9 +242,7 @@
 	}
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation NSDictionary (StructEncoding)
@@ -267,7 +253,6 @@
 	[self setFloat:p.y forKey:[key stringByAppendingString:@".y"]];
 }
 
-
 - (NSPoint)		pointForKey:(id) key
 {
 	NSPoint p;
@@ -277,18 +262,16 @@
 	return p;
 }
 
-
 #pragma mark -
 - (void)		setFloat:(float) f forKey:(id) key
 {
 	[self setValue:[NSNumber numberWithDouble:f] forKey:key];
 }
 
-
 - (float)floatForKey:(id) key
 {
 	return [[self valueForKey:key] doubleValue];
 }
 
-
 @end
+

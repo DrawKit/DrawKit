@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKKnob.h
 ///  DrawKit ©2005-2008 Apptree.net
@@ -10,7 +17,6 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
-
 // visual flags, used internally
 
 typedef enum
@@ -20,10 +26,7 @@ typedef enum
 }
 DKKnobDrawingFlags;
 
-
 @class DKHandle;
-
-
 
 @interface DKKnob : NSObject <NSCoding, NSCopying>
 {
@@ -40,6 +43,8 @@ DKKnobDrawingFlags;
 	CGFloat			mControlBarWidth;			// control bar width
 }
 
+/** 
+ */
 + (id)				standardKnobs;
 
 // main high-level methods that will be called by clients
@@ -82,7 +87,6 @@ DKKnobDrawingFlags;
 @end
 
 #pragma mark -
-
 
 @interface DKKnob (Deprecated)
 
@@ -133,11 +137,9 @@ DKKnobDrawingFlags;
 
 @end
 
-
 // keys in the userInfo that can be used to pass additional information to the knob drawing methods
 
 extern NSString*	kDKKnobPreferredHighlightColour;		// references an NSColor
-
 
 /*
 

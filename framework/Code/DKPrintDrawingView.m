@@ -1,18 +1,15 @@
-///**********************************************************************************************************************************
-///  DKPrintDrawingView.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 16/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKPrintDrawingView.h"
 
 #import "DKDrawing.h"
 #import "LogEvent.h"
-
 
 @implementation DKPrintDrawingView
 #pragma mark As a DKPrintDrawingView
@@ -23,12 +20,10 @@
 	m_printInfo = ip;
 }
 
-
 - (NSPrintInfo*)	printInfo
 {
 	return m_printInfo;
 }
-
 
 #pragma mark -
 #pragma mark As an NSView
@@ -58,7 +53,6 @@
 	
 	return YES;
 }
-
 
 - (NSRect)			rectForPage:(int) pageNumber
 {
@@ -97,5 +91,5 @@
 	[super dealloc];
 }
 
-
 @end
+

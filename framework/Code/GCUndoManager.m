@@ -12,7 +12,6 @@
 // on 10.6 so that a wider range of methods can be submitted as undo tasks. Unlike 10.6 however, it does not bypass um's -forwardInvocation:
 // method, so subclasses still work when -forwardInvocaton: is overridden.
 
-
 @interface GCUndoManagerProxy : NSProxy
 {
 @private
@@ -38,9 +37,7 @@
 
 #define CALCULATE_GROUPING_LEVEL	0
 
-
 #pragma mark -
-
 
 @implementation GCUndoManager
 
@@ -79,8 +76,6 @@
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:NSUndoManagerDidOpenUndoGroupNotification object:self];
 }
-
-
 
 - (void)				endUndoGrouping
 {
@@ -154,22 +149,16 @@
 	}
 }
 
-
-
 - (BOOL)				canUndo
 {
 	return [self numberOfUndoActions] > 0 && [self undoManagerState] == kGCUndoCollectingTasks;
 }
-
-
 
 - (BOOL)				canRedo
 {
 	[self checkpoint];	// why here? Just conforming to documentation
 	return [self numberOfRedoActions] > 0 && [self undoManagerState] == kGCUndoCollectingTasks;
 }
-
-
 
 - (void)				undo
 {
@@ -178,8 +167,6 @@
 	[self endUndoGrouping];
 	[self undoNestedGroup];
 }
-
-
 
 - (void)				redo
 {
@@ -190,21 +177,15 @@
 	[self popRedoAndPerformTasks];
 }
 
-
-
 - (BOOL)				isUndoing
 {
 	return [self undoManagerState] == kGCUndoIsUndoing;
 }
 
-
-
 - (BOOL)				isRedoing
 {
 	return [self undoManagerState] == kGCUndoIsRedoing;
 }
-
-
 
 - (void)				undoNestedGroup
 {
@@ -218,8 +199,6 @@
 	[self popUndoAndPerformTasks];
 }
 
-
-
 - (void)				enableUndoRegistration
 {
 	THROW_IF_FALSE( mEnableLevel < 0, @"inconsistent state - undo enabled when not previously disabled");
@@ -227,21 +206,15 @@
 	++mEnableLevel;
 }
 
-
-
 - (void)				disableUndoRegistration
 {
 	--mEnableLevel;
 }
 
-
-
 - (BOOL)				isUndoRegistrationEnabled
 {
 	return mEnableLevel >= 0;
 }
-
-
 
 - (NSUInteger)			groupingLevel
 {
@@ -263,28 +236,20 @@
 #endif
 }
 
-
-
 - (BOOL)				groupsByEvent
 {
 	return mGroupsByEvent;
 }
-
-
 
 - (void)				setGroupsByEvent:(BOOL) groupByEvent
 {
 	mGroupsByEvent = groupByEvent;
 }
 
-
-
 - (NSUInteger)			levelsOfUndo
 {
 	return mLevelsOfUndo;
 }
-
-
 
 - (void)				setLevelsOfUndo:(NSUInteger) levels
 {
@@ -306,14 +271,10 @@
 	}
 }
 
-
-
 - (NSArray*)			runLoopModes
 {
 	return mRunLoopModes;
 }
-
-
 
 - (void)				setRunLoopModes:(NSArray*) modes
 {
@@ -324,8 +285,6 @@
 	// n.b. if this is changed while a callback is pending, the new modes won't take effect until
 	// the next event cycle.
 }
-
-
 
 - (void)				setActionName:(NSString*) actionName
 {
@@ -341,35 +300,25 @@
 		[[self peekUndo] setActionName:actionName];
 }
 
-
-
 - (NSString*)			undoActionName
 {
 	return [[self peekUndo] actionName];
 }
-
-
 
 - (NSString*)			redoActionName
 {
 	return [[self peekRedo] actionName];
 }
 
-
-
 - (NSString*)			undoMenuItemTitle
 {
 	return [self undoMenuTitleForUndoActionName:[self undoActionName]];
 }
 
-
-
 - (NSString*)			redoMenuItemTitle
 {
 	return [self redoMenuTitleForUndoActionName:[self redoActionName]];
 }
-
-
 
 - (NSString*)			undoMenuTitleForUndoActionName:(NSString*) actionName
 {
@@ -384,8 +333,6 @@
 		return NSLocalizedString(@"Nothing To Undo", nil);
 }
 
-
-
 - (NSString*)			redoMenuTitleForUndoActionName:(NSString*) actionName
 {
 	if([self canRedo])
@@ -398,8 +345,6 @@
 	else
 		return NSLocalizedString(@"Nothing To Redo", nil);
 }
-
-
 
 - (id)					prepareWithInvocationTarget:(id) target
 {
@@ -419,8 +364,6 @@
 	}
 }
 
-
-
 - (void)				forwardInvocation:(NSInvocation*) invocation
 {
 	// registers a new undo task using a forwarded invocation, called after -prepareWithInvocationTarget: If registration
@@ -437,8 +380,6 @@
 	}
 	mNextTarget = nil;
 }
-
-
 
 - (void)				registerUndoWithTarget:(id) target selector:(SEL) selector object:(id) anObject
 {
@@ -457,7 +398,6 @@
 	mNextTarget = nil;
 }
 
-
 - (void)				removeAllActions
 {
 	// removes all tasks from the undo/redo stacks and puts the undo manager back into its default state, clearing any open groups
@@ -474,8 +414,6 @@
 		[self reset];
 	}
 }
-
-
 
 - (void)				removeAllActionsWithTarget:(id) target
 {
@@ -527,7 +465,6 @@
 	mNextTarget = nil;
 }
 
-
 #pragma mark -
 #pragma mark - private NSUndoManager API
 
@@ -538,8 +475,6 @@
 	// private API invoked by NSDocument before a document is saved. Does nothing, but required for NSDocument compatibility.
 	//NSLog(@"_processEndOfEventNotification: %@", note );
 }
-
-
 
 #pragma mark -
 #pragma mark - additional API
@@ -554,33 +489,25 @@
 	mAutoDeleteEmptyGroups = autoDiscard;
 }
 
-
 - (BOOL)				automaticallyDiscardsEmptyGroups
 {
 	return mAutoDeleteEmptyGroups;
 }
-
-
 
 - (void)				enableUndoTaskCoalescing
 {
 	mCoalescing = YES;
 }
 
-
-
 - (void)				disableUndoTaskCoalescing
 {
 	mCoalescing = NO;
 }
 
-
-
 - (BOOL)				isUndoTaskCoalescingEnabled
 {
 	return mCoalescing;
 }
-
 
 - (void)				setCoalescingKind:(GCUndoTaskCoalescingKind) kind
 {
@@ -592,12 +519,10 @@
 	mCoalKind = kind;
 }
 
-
 - (GCUndoTaskCoalescingKind) coalescingKind;
 {
 	return mCoalKind;
 }
-
 
 - (void)				setRetainsTargets:(BOOL) retainsTargets
 {
@@ -608,12 +533,10 @@
 	mRetainsTargets = retainsTargets;
 }
 
-
 - (BOOL)				retainsTargets
 {	
 	return mRetainsTargets;
 }
-
 
 - (void)				setNextTarget:(id) target
 {
@@ -621,7 +544,6 @@
 	
 	mNextTarget = target;
 }
-
 
 - (NSUInteger)			changeCount
 {
@@ -633,12 +555,10 @@
 	return mChangeCount;
 }
 
-
 - (void)				resetChangeCount
 {
 	mChangeCount = 0;
 }
-
 
 - (void)				conditionallyBeginUndoGrouping
 {
@@ -657,7 +577,6 @@
 	}
 }
 
-
 - (GCUndoGroup*)		peekUndo
 {
 	// return the current top undo task without popping it off the stack.
@@ -665,8 +584,6 @@
 	
 	return [[self undoStack] lastObject];
 }
-
-
 
 - (GCUndoGroup*)		peekRedo
 {
@@ -676,20 +593,15 @@
 	return [[self redoStack] lastObject];
 }
 
-
-
 - (NSUInteger)			numberOfUndoActions
 {
 	return [[self undoStack] count];
 }
 
-
-
 - (NSUInteger)			numberOfRedoActions
 {
 	return [[self redoStack] count];
 }
-
 
 - (GCUndoGroup*)		currentGroup
 {
@@ -698,21 +610,15 @@
 	return mOpenGroupRef;
 }
 
-
-
 - (NSArray*)			undoStack
 {
 	return mUndoStack;
 }
 
-
-
 - (NSArray*)			redoStack
 {
 	return mRedoStack;
 }
-
-
 
 - (void)				pushGroupOntoUndoStack:(GCUndoGroup*) aGroup
 {
@@ -721,15 +627,12 @@
 	[mUndoStack addObject:aGroup];
 }
 
-
-
 - (void)				pushGroupOntoRedoStack:(GCUndoGroup*) aGroup
 {
 	THROW_IF_FALSE( aGroup != nil, @"invalid attempt to push a nil group onto redo stack");
 
 	[mRedoStack addObject:aGroup];
 }
-
 
 - (BOOL)				submitUndoTask:(GCConcreteUndoTask*) aTask
 {
@@ -786,8 +689,6 @@
 	return YES;
 }
 
-
-
 - (void)				popUndoAndPerformTasks
 {
 	// pops the top undo group and invokes all of its tasks
@@ -832,8 +733,6 @@
 	}
 }
 
-
-
 - (void)				popRedoAndPerformTasks
 {
 	// pops the top redo group and invokes all of its tasks
@@ -874,7 +773,6 @@
 	}
 }
 
-
 - (GCUndoGroup*)		popUndo
 {
 	// pops the top undo task and returns it, or nil if the stack is empty.
@@ -889,7 +787,6 @@
 	else
 		return nil;
 }
-
 
 - (GCUndoGroup*)		popRedo
 {
@@ -906,7 +803,6 @@
 		return nil;
 }
 
-
 - (void)				clearRedoStack
 {
 	// removes all objects from the redo stack
@@ -919,7 +815,6 @@
 	}
 }
 
-
 - (void)				checkpoint
 {
 	// sends the checkpoint notification. Frankly, this seems very vague and called at all sorts of random points, so it's unclear
@@ -929,12 +824,10 @@
 	[[NSNotificationCenter defaultCenter] postNotificationName:NSUndoManagerCheckpointNotification object:self];
 }
 
-
 - (GCUndoManagerState)	undoManagerState
 {
 	return mState;
 }
-
 
 - (void)				setUndoManagerState:(GCUndoManagerState) aState
 {
@@ -942,7 +835,6 @@
 	
 	mState = aState;
 }
-
 
 - (void)				reset
 {
@@ -959,7 +851,6 @@
 	mEnableLevel = 0;
 	[self setUndoManagerState:kGCUndoCollectingTasks];
 }
-
 
 - (void)				explodeTopUndoAction
 {
@@ -1019,8 +910,6 @@
 	return self;
 }
 
-
-
 - (void)				dealloc
 {
 	[[NSRunLoop mainRunLoop] cancelPerformSelectorsWithTarget:self];
@@ -1032,7 +921,6 @@
 	[super dealloc];
 }
 
-
 - (NSMethodSignature*)	methodSignatureForSelector:(SEL) aSelector
 {
 #if !GCUM_USE_PROXY
@@ -1042,7 +930,6 @@
 #endif
 		return [super methodSignatureForSelector:aSelector];
 }
-
 
 - (BOOL)				respondsToSelector:(SEL) aSelector
 {
@@ -1054,13 +941,11 @@
 		return [super respondsToSelector:aSelector];
 }
 
-
 - (NSString*)			description
 {
 #warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"%@ g-level = %d, u-stack: %@, r-stack: %@", [super description], [self groupingLevel], [self undoStack], [self redoStack]];
 }
-
 
 @end
 
@@ -1073,13 +958,10 @@
 	return mGroupRef;
 }
 
-
 - (void)				setParentGroup:(GCUndoGroup*) parent
 {
 	mGroupRef = parent;
 }
-
-
 
 - (void)				perform
 {
@@ -1089,7 +971,6 @@
 }
 
 @end
-
 
 #pragma mark -
 
@@ -1103,14 +984,12 @@
 	[aTask setParentGroup:self];
 }
 
-
 - (GCUndoTask*)			taskAtIndex:(NSUInteger) indx
 {
 	THROW_IF_FALSE2( indx < [[self tasks] count], @"invalid task index (%d) in group %@", indx, self );
 	
 	return [[self tasks] objectAtIndex:indx];
 }
-
 
 - (GCConcreteUndoTask*)	lastTaskIfConcrete
 {
@@ -1122,12 +1001,10 @@
 		return nil;
 }
 
-
 - (NSArray*)			tasks
 {
 	return mTasks;
 }
-
 
 - (NSArray*)			tasksWithTarget:(id) target selector:(SEL) selector
 {
@@ -1157,7 +1034,6 @@
 	return tasks;
 }
 
-
 - (BOOL)				isEmpty
 {
 	// return whether the group contains any actual tasks. If it only contains other empty groups, returns YES.
@@ -1185,7 +1061,6 @@
 	
 	return YES;
 }
-
 
 - (void)				removeTasksWithTarget:(id) aTarget undoManager:(GCUndoManager*) um
 {
@@ -1215,8 +1090,6 @@
 	[temp release];
 }
 
-
-
 - (void)				setActionName:(NSString*) name
 {
 	// sets the group's action name. In general this is automatically handled by the owning undo manager
@@ -1226,14 +1099,10 @@
 	mActionName = name;
 }
 
-
-
 - (NSString*)			actionName
 {
 	return mActionName;
 }
-
-
 
 #pragma mark -
 #pragma mark - as a GCUndoTask
@@ -1247,8 +1116,6 @@
 	while( i-- > 0 )
 		[[self taskAtIndex:i] perform];
 }
-
-
 
 #pragma mark -
 #pragma mark - as a NSObject
@@ -1264,8 +1131,6 @@
 	return self;
 }
 
-
-
 - (void)				dealloc
 {
 	//NSLog(@"deallocating undo group %@", self );
@@ -1275,7 +1140,6 @@
 	[super dealloc];
 }
 
-
 - (NSString*)			description
 {
 #warning 64BIT: Check formatting arguments
@@ -1283,7 +1147,6 @@
 }
 
 @end
-
 
 #pragma mark -
 
@@ -1317,8 +1180,6 @@
 	return self;
 }
 
-
-
 - (id)					initWithTarget:(id) target selector:(SEL) selector object:(id) object
 {
 	// alternative initialiser for direct target/selector/object initialisation. Creates an invocation internally. If the UM is set not to retain
@@ -1345,7 +1206,6 @@
 	return self;
 }
 
-
 - (void)				setTarget:(id) target retained:(BOOL) retainIt
 {
 	// sets the invocation's target, optionally retaining it.
@@ -1360,18 +1220,15 @@
 	mTargetRetained = retainIt;
 }
 
-
 - (id)					target
 {
 	return mTarget;
 }
 
-
 - (SEL)					selector
 {
 	return [mInvocation selector];
 }
-
 
 #pragma mark -
 #pragma mark - as a GCUndoTask
@@ -1386,8 +1243,6 @@
 		[mInvocation invokeWithTarget:mTarget];
 }
 
-
-
 #pragma mark -
 #pragma mark - as a NSObject
 
@@ -1396,8 +1251,6 @@
 	[self autorelease];
 	return nil;
 }
-
-
 
 - (void)				dealloc
 {
@@ -1409,7 +1262,6 @@
 	[super dealloc];
 }
 
-
 - (NSString*)			description
 {
 #warning 64BIT: Check formatting arguments
@@ -1417,7 +1269,6 @@
 }
 
 @end
-
 
 #pragma mark -
 
@@ -1431,7 +1282,6 @@
 	return self;
 }
 
-
 - (void)				forwardInvocation:(NSInvocation*) inv
 {
 	THROW_IF_FALSE( mNextTarget != nil, @"invalid forwardInvocation (proxy) without preparing");
@@ -1441,18 +1291,15 @@
 	mNextTarget = nil;
 }
 
-
 - (NSMethodSignature*)	methodSignatureForSelector:(SEL) selector
 {
 	return [mNextTarget methodSignatureForSelector:selector];
 }
 
-
 - (BOOL)				respondsToSelector:(SEL) selector
 {
 	return [mNextTarget respondsToSelector:selector];
 }
-
 
 - (void)				_gcum_setTarget:(id) target
 {

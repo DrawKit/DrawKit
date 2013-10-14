@@ -8,16 +8,13 @@
 
 #import "DKAuxiliaryMenus.h"
 
-
 NSString*		kDKAuxiliaryMenusNibFile	= @"DK_Auxiliary_Menus";
-
 
 @interface DKAuxiliaryMenus (Private)
 
 - (id)					initWithNibName:(NSString*) nib;
 
 @end
-
 
 @implementation DKAuxiliaryMenus
 
@@ -35,8 +32,6 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 	return sAuxMenus;
 }
 
-
-
 - (NSMenu*)				copyMenuForClass:(Class) aClass
 {
 	NSString* outletName = [NSString stringWithFormat:@"_%@Menu", NSStringFromClass( aClass )];
@@ -44,7 +39,6 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 	
 	return [menu copy];
 }
-
 
 - (id)					initWithNibName:(NSString*) nib
 {
@@ -85,12 +79,11 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 	return self;
 }
 
-
 - (void)				dealloc
 {
 	[mNib release];
 	[super dealloc];
 }
 
-
 @end
+

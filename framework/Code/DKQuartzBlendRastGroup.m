@@ -1,19 +1,14 @@
-///**********************************************************************************************************************************
-///  DKQuartzBlendRastGroup.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 30/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKQuartzBlendRastGroup.h"
 
-
 static CGImageRef	CreateMaskFromImage( NSImage* image );
-
-
 
 @implementation DKQuartzBlendRastGroup
 #pragma mark As a DKQuartzBlendRastGroup
@@ -22,12 +17,10 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	m_blendMode = mode;
 }
 
-
 - (CGBlendMode)		blendMode
 {
 	return m_blendMode;
 }
-
 
 #pragma mark -
 - (void)			setAlpha:(CGFloat) alpha
@@ -35,12 +28,10 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	m_alpha = alpha;
 }
 
-
 - (CGFloat)			alpha
 {
 	return m_alpha;
 }
-
 
 #pragma mark -
 - (void)			setMaskImage:(NSImage*) image
@@ -50,12 +41,10 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	m_maskImage = image;
 }
 
-
 - (NSImage*)		maskImage
 {
 	return m_maskImage;
 }
-
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -63,7 +52,6 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"blendMode", @"alpha", @"maskImage", nil]];
 }
-
 
 - (void)			registerActionNames
 {
@@ -73,7 +61,6 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	[self setActionName:@"#kind# Blend Mask Image" forKeyPath:@"maskImage"];
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)			dealloc
@@ -82,7 +69,6 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	
 	[super dealloc];
 }
-
 
 - (id)				init
 {
@@ -95,7 +81,6 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
@@ -134,7 +119,6 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)			encodeWithCoder:(NSCoder*) coder
@@ -146,7 +130,6 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	[coder encodeDouble:[self alpha] forKey:@"alpha"];
 	[coder encodeObject:[self maskImage] forKey:@"mask_image"];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -161,7 +144,6 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)				copyWithZone:(NSZone*) zone
@@ -174,10 +156,7 @@ static CGImageRef	CreateMaskFromImage( NSImage* image );
 	return copy;
 }
 
-
 @end
-
-
 
 static CGImageRef	CreateMaskFromImage( NSImage* image )
 {

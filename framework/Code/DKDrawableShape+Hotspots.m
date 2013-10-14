@@ -1,19 +1,16 @@
-///**********************************************************************************************************************************
-///  DKDrawableShape+Hotspots.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 30/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawableShape+Hotspots.h"
 
 #import "DKDrawing.h"
 #import "DKKnob.h"
 #import "LogEvent.h"
-
 
 @implementation DKDrawableShape (Hotspots)
 #pragma mark As a DKDrawableShape
@@ -29,12 +26,10 @@
 	return [hspot partcode];
 }
 
-
 - (void)				removeHotspot:(DKHotspot*) hspot
 {
 	[m_customHotSpots removeObject:hspot];
 }
-
 
 - (void)				setHotspots:(NSArray*) spots
 {
@@ -44,12 +39,10 @@
 	[m_customHotSpots makeObjectsPerformSelector:@selector( setOwner:) withObject:self];
 }
 
-
 - (NSArray*)			hotspots
 {
 	return m_customHotSpots;
 }
-
 
 #pragma mark -
 - (DKHotspot*)			hotspotForPartCode:(NSInteger) pc
@@ -66,7 +59,6 @@
 	return nil;	// not found
 }
 
-
 - (DKHotspot*)			hotspotUnderMouse:(NSPoint) mp
 {
 	NSEnumerator*	iter = [[self hotspots] objectEnumerator];
@@ -81,14 +73,12 @@
 	return nil;	// not found
 }
 
-
 - (NSPoint)				hotspotPointForPartcode:(NSInteger) pc
 {
 	DKHotspot* hs = [self hotspotForPartCode:pc];
 	
 	return [self convertPointFromRelativeLocation:[hs relativeLocation]];
 }
-
 
 #pragma mark -
 - (NSRect)				hotspotRect:(DKHotspot*) hs
@@ -103,7 +93,6 @@
 	return hsr;
 }
 
-
 - (void)				drawHotspotAtPoint:(NSPoint) hp inState:(DKHotspotState) state
 {
 #pragma unused(state)
@@ -114,7 +103,6 @@
 	
 	[[[self layer] knobs] drawKnobAtPoint:hp ofType:kDKHotspotKnobType angle:[self angle] + FORTYFIVE_DEGREES highlightColour:hc];
 }
-
 
 - (void)				drawHotspotsInState:(DKHotspotState) state
 {
@@ -129,9 +117,7 @@
 	}
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation DKHotspot
@@ -156,13 +142,11 @@
 	return self;
 }
 
-
 #pragma mark -
 - (void)				setOwner:(DKDrawableShape*) shape
 {
 	m_owner = shape;
 }
-
 
 - (void)				setOwner:(DKDrawableShape*) shape withPartcode:(NSInteger) pc
 {
@@ -170,12 +154,10 @@
 	[self setPartcode:pc];
 }
 
-
 - (DKDrawableShape*)	owner
 {
 	return m_owner;
 }
-
 
 #pragma mark -
 - (void)				setPartcode:(NSInteger) pc
@@ -183,12 +165,10 @@
 	m_partcode = pc;
 }
 
-
 - (NSInteger)					partcode
 {
 	return m_partcode;
 }
-
 
 #pragma mark -
 - (void)				setRelativeLocation:(NSPoint) rloc
@@ -196,12 +176,10 @@
 	m_relLoc = rloc;
 }
 
-
 - (NSPoint)				relativeLocation
 {
 	return m_relLoc;
 }
-
 
 #pragma mark -
 - (void)				drawHotspotAtPoint:(NSPoint) p inState:(DKHotspotState) state
@@ -209,19 +187,16 @@
 	[[self owner] drawHotspotAtPoint:p inState:state];
 }
 
-
 #pragma mark -
 - (void)				setDelegate:(id) delegate
 {
 	m_delegate = delegate;
 }
 
-
 - (id)					delegate
 {
 	return m_delegate;
 }
-
 
 #pragma mark -
 - (void)				startMouseTracking:(NSEvent*) event inView:(NSView*) view
@@ -232,7 +207,6 @@
 		[[self delegate] hotspot:self willBeginTrackingWithEvent:event inView:view];
 }
 
-
 - (void)				continueMouseTracking:(NSEvent*) event inView:(NSView*) view
 {
 //	LogEvent_(kReactiveEvent, @"hotspot continued tracking, partcode = %d", m_partcode );
@@ -241,7 +215,6 @@
 		[[self delegate] hotspot:self isTrackingWithEvent:event inView:view];
 }
 
-
 - (void)				endMouseTracking:(NSEvent*) event inView:(NSView*) view
 {
 	LogEvent_(kReactiveEvent, @"hotspot stopped tracking, partcode = %d", m_partcode );
@@ -249,7 +222,6 @@
 	if([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:didEndTrackingWithEvent:inView:)])
 		[[self delegate] hotspot:self didEndTrackingWithEvent:event inView:view];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -261,7 +233,6 @@
 	[coder encodePoint:m_relLoc forKey:@"relative_location"];
 	[coder encodeConditionalObject:m_delegate forKey:@"delegate"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -283,7 +254,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)					copyWithZone:(NSZone*) zone
@@ -297,5 +267,5 @@
 	return copy;
 }
 
-
 @end
+

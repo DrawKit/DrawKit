@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKGeometryUtilities.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 22/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKGeometryUtilities.h"
 #import "NSBezierPath+Geometry.h"
@@ -18,21 +16,13 @@
 
 const NSPoint		NSNotFoundPoint = {-10000000.2,-999999.6};
 
-
-///*********************************************************************************************************************
-///
-/// function:		NSRectFromTwoPoints( a, b )
-/// scope:			global
-/// description:	forms a rectangle from any two corner points
-/// 
-/// parameters:		<a, b> a pair of points
-/// result:			the rectangle formed by a and b at the opposite corners
-///
-/// notes:			the rect is normalised, in that the relative positions of a and b do not affect the result - the
-///					rect always extends in the positive x and y directions.
-///
-///********************************************************************************************************************
-
+/** @brief Forms a rectangle from any two corner points
+ * @note
+ * The rect is normalised, in that the relative positions of a and b do not affect the result - the
+ * rect always extends in the positive x and y directions.
+ * @param a, b a pair of points
+ * @return the rectangle formed by a and b at the opposite corners
+ */
 NSRect NSRectFromTwoPoints( const NSPoint a, const NSPoint b)
 {
 	NSRect  r;
@@ -46,21 +36,11 @@ NSRect NSRectFromTwoPoints( const NSPoint a, const NSPoint b)
 	return r;
 }
 
-
-///*********************************************************************************************************************
-///
-/// function:		NSRectCentredOnPoint( p, size )
-/// scope:			global
-/// description:	forms a rectangle of the given size centred on p
-/// 
-/// parameters:		<p> a point
-///					<size> the rect size
-/// result:			the rectangle
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Forms a rectangle of the given size centred on p
+ * @param p a point
+ * @param size the rect size
+ * @return the rectangle
+ */
 NSRect				NSRectCentredOnPoint( const NSPoint p, const NSSize size )
 {
 	NSRect r;
@@ -72,25 +52,17 @@ NSRect				NSRectCentredOnPoint( const NSPoint p, const NSSize size )
 	return r;
 }
 
-
-///*********************************************************************************************************************
-///
-/// function:		UnionOfTwoRects( a, b )
-/// scope:			global
-/// description:	returns the smallest rect that encloses both a and b
-/// 
-/// parameters:		<a, b> a pair of rects
-/// result:			the rectangle that encloses a and b
-///
-/// notes:			unlike NSUnionRect, this is practical when either or both of the input rects have a zero
-///					width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
-///					returned, but in all other cases it correctly forms the union. While NSUnionRect might be
-///					considered mathematically correct, since a rect of zero width or height cannot "contain" anything
-///					in the set sense, what's more practically required for real geometry is to allow infinitely thin
-///					lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the smallest rect that encloses both a and b
+ * @note
+ * Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
+ * width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
+ * returned, but in all other cases it correctly forms the union. While NSUnionRect might be
+ * considered mathematically correct, since a rect of zero width or height cannot "contain" anything
+ * in the set sense, what's more practically required for real geometry is to allow infinitely thin
+ * lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
+ * @param a, b a pair of rects
+ * @return the rectangle that encloses a and b
+ */
 NSRect				UnionOfTwoRects( const NSRect a, const NSRect b )
 {
 	if ( NSEqualRects( a, NSZeroRect ))
@@ -110,21 +82,10 @@ NSRect				UnionOfTwoRects( const NSRect a, const NSRect b )
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// function:		UnionOfRectsInSet( aSet )
-/// scope:			global
-/// description:	returns the smallest rect that encloses all rects in the set
-/// 
-/// parameters:		<aSet> a set of NSValues containing rect values
-/// result:			the rectangle that encloses all rects
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the smallest rect that encloses all rects in the set
+ * @param aSet a set of NSValues containing rect values
+ * @return the rectangle that encloses all rects
+ */
 NSRect				UnionOfRectsInSet( const NSSet* aSet )
 {
 	NSEnumerator*	iter = [aSet objectEnumerator];
@@ -137,24 +98,15 @@ NSRect				UnionOfRectsInSet( const NSSet* aSet )
 	return ur;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// function:		DifferenceOfTwoRects( a, b )
-/// scope:			global
-/// description:	returns the area that is different between two input rects, as a list of rects
-/// 
-/// parameters:		<a, b> a pair of rects
-/// result:			an array of rect NSValues
-///
-/// notes:			this can be used to optimize upates. If a and b are "before and after" rects of a visual change,
-///					the resulting list is the area to update assuming that nothing changed in the common area,
-///					which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
-///					the result contains a and b.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the area that is different between two input rects, as a list of rects
+ * @note
+ * This can be used to optimize upates. If a and b are "before and after" rects of a visual change,
+ * the resulting list is the area to update assuming that nothing changed in the common area,
+ * which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
+ * the result contains a and b.
+ * @param a, b a pair of rects
+ * @return an array of rect NSValues
+ */
 NSSet*			DifferenceOfTwoRects( const NSRect a, const NSRect b )
 {
 	NSMutableSet* result = [NSMutableSet set];
@@ -183,7 +135,6 @@ NSSet*			DifferenceOfTwoRects( const NSRect a, const NSRect b )
 
 	return result;
 }
-
 
 NSSet*				SubtractTwoRects( const NSRect a, const NSRect b )
 {
@@ -225,7 +176,6 @@ NSSet*				SubtractTwoRects( const NSRect a, const NSRect b )
 	return result;
 }
 
-
 BOOL		AreSimilarRects( const NSRect a, const NSRect b, const CGFloat epsilon )
 {
 	// return YES if the rects a and b are within <epsilon> of each other.
@@ -245,10 +195,10 @@ BOOL		AreSimilarRects( const NSRect a, const NSRect b, const CGFloat epsilon )
 	return YES;
 }
 
-
 #pragma mark -
-/// return the distance that <inPoint> is from a line defined by two points a and b
 
+/** 
+ */
 CGFloat		PointFromLine( const NSPoint inPoint, const NSPoint a, const NSPoint b )
 {
 	NSPoint cp = NearestPointOnLine( inPoint, a, b );
@@ -256,9 +206,8 @@ CGFloat		PointFromLine( const NSPoint inPoint, const NSPoint a, const NSPoint b 
 	return hypotf(( inPoint.x - cp.x ), ( inPoint.y - cp.y ));
 }
 
-
-/// return the distance of <inPoint> from a line segment drawn from a to b.
-
+/** 
+ */
 NSPoint		NearestPointOnLine( const NSPoint inPoint, const NSPoint a, const NSPoint b )
 {
 	CGFloat mag = hypotf(( b.x - a.x ), ( b.y - a.y ));
@@ -285,7 +234,6 @@ NSPoint		NearestPointOnLine( const NSPoint inPoint, const NSPoint a, const NSPoi
 		return a;
 }
 
-
 NSInteger			PointInLineSegment( const NSPoint inPoint, const NSPoint a, const NSPoint b )
 {
 	// returns 0 if <inPoint> falls within the region defined by the line segment a-b, -1 if it's beyond the point a, 1 if beyond b. The "region" is an
@@ -302,9 +250,8 @@ NSInteger			PointInLineSegment( const NSPoint inPoint, const NSPoint a, const NS
 		return -1;
 }
 
-
-/// given a point on a line a,b, returns the relative distance of the point from 0..1 along the line.
-
+/** 
+ */
 CGFloat		RelPoint( const NSPoint inPoint, const NSPoint a, const NSPoint b )
 {
 	CGFloat d1, d2;
@@ -318,10 +265,10 @@ CGFloat		RelPoint( const NSPoint inPoint, const NSPoint a, const NSPoint b )
 		return 0.0;
 }
 
-
 #pragma mark -
-/// return a point halfway along a line defined by two points
 
+/** 
+ */
 NSPoint		BisectLine( const NSPoint a, const NSPoint b )
 {
 	NSPoint p;
@@ -331,9 +278,8 @@ NSPoint		BisectLine( const NSPoint a, const NSPoint b )
 	return p;
 }
 
-
-/// return a point at some proportion of a line defined by two points. <proportion> goes from 0 to 1.
-
+/** 
+ */
 NSPoint		Interpolate( const NSPoint a, const NSPoint b, const CGFloat proportion )
 {
 	NSPoint p;
@@ -343,19 +289,16 @@ NSPoint		Interpolate( const NSPoint a, const NSPoint b, const CGFloat proportion
 	return p;
 }
 
-
 CGFloat		LineLength( const NSPoint a, const NSPoint b )
 {
 	return hypotf( b.x - a.x, b.y - a.y );
 }
-
 
 #pragma mark -
 CGFloat		SquaredLength( const NSPoint p )
 {
 	return( p.x * p.x) + ( p.y * p.y );
 }
-
 
 NSPoint		DiffPoint( const NSPoint a, const NSPoint b )
 {
@@ -369,14 +312,12 @@ NSPoint		DiffPoint( const NSPoint a, const NSPoint b )
 	return c;
 }
 
-
 CGFloat		DiffPointSquaredLength( const NSPoint a, const NSPoint b )
 {
 	// returns the square of the distance between two points
 	
 	return SquaredLength( DiffPoint( a, b ));
 }
-
 
 NSPoint		SumPoint( const NSPoint a, const NSPoint b )
 {
@@ -390,7 +331,6 @@ NSPoint		SumPoint( const NSPoint a, const NSPoint b )
 	return pn;
 }
 
-
 #pragma mark -
 NSPoint		EndPoint( NSPoint origin, CGFloat angle, CGFloat length )
 {
@@ -403,14 +343,12 @@ NSPoint		EndPoint( NSPoint origin, CGFloat angle, CGFloat length )
 	return ep;
 }
 
-
 CGFloat		Slope( const NSPoint a, const NSPoint b )
 {
 	// returns the slope of a line given its end points, in radians
 	
 	return atan2f( b.y - a.y, b.x - a.x );
 }
-
 
 CGFloat		AngleBetween( const NSPoint a, const NSPoint b, const NSPoint c )
 {
@@ -419,12 +357,10 @@ CGFloat		AngleBetween( const NSPoint a, const NSPoint b, const NSPoint c )
 	return Slope( a, b ) - Slope( b, c );
 }
 
-
 CGFloat		DotProduct( const NSPoint a, const NSPoint b )
 {
 	return (a.x * b.x) + (a.y * b.y);
 }
-
 
 NSPoint		Intersection( const NSPoint aa, const NSPoint ab, const NSPoint ba, const NSPoint bb )
 {
@@ -445,7 +381,6 @@ NSPoint		Intersection( const NSPoint aa, const NSPoint ab, const NSPoint ba, con
 	
 	return i;
 }
-
 
 NSPoint		Intersection2( const NSPoint p1, const NSPoint p2, const NSPoint p3, const NSPoint p4 )
 {
@@ -478,7 +413,6 @@ NSPoint		Intersection2( const NSPoint p1, const NSPoint p2, const NSPoint p3, co
 		return NSNotFoundPoint;
 }
 
-
 #pragma mark -
 NSRect		CentreRectOnPoint( const NSRect inRect, const NSPoint p )
 {
@@ -491,7 +425,6 @@ NSRect		CentreRectOnPoint( const NSRect inRect, const NSPoint p )
 	return r;
 }
 
-
 NSPoint		MapPointFromRect( const NSPoint p, const NSRect rect )
 {
 	// given a point <p> within <rect> this returns it mapped to a 0..1 interval
@@ -502,7 +435,6 @@ NSPoint		MapPointFromRect( const NSPoint p, const NSRect rect )
 	
 	return pn;
 }
-
 
 NSPoint		MapPointToRect( const NSPoint p, const NSRect rect )
 {
@@ -515,14 +447,12 @@ NSPoint		MapPointToRect( const NSPoint p, const NSRect rect )
 	return pn;
 }
 
-
 NSPoint		MapPointFromRectToRect( const NSPoint p, const NSRect srcRect, const NSRect destRect )
 {
 	// maps a point <p> in <srcRect> to the same relative location within <destRect>
 	
 	return MapPointToRect( MapPointFromRect( p, srcRect ), destRect );
 }
-
 
 NSRect		MapRectFromRectToRect( const NSRect inRect, const NSRect srcRect, const NSRect destRect )
 {
@@ -539,8 +469,6 @@ NSRect		MapRectFromRectToRect( const NSRect inRect, const NSRect srcRect, const 
 	
 	return NSRectFromTwoPoints( p1, p2 );
 }
-
-
 
 #pragma mark -
 
@@ -559,8 +487,6 @@ NSRect		ScaleRect( const NSRect inRect, const CGFloat scale )
 	
 	return r;
 }
-
-
 
 NSRect		ScaledRectForSize( const NSSize inSize, const NSRect fitRect )
 {
@@ -597,7 +523,6 @@ NSRect		ScaledRectForSize( const NSSize inSize, const NSRect fitRect )
 	return r;
 }
 
-
 NSRect		CentreRectInRect( const NSRect r, const NSRect cr )
 {
 	// centres <r> over <cr>, returning a rect the same size as <r>
@@ -612,7 +537,6 @@ NSRect		CentreRectInRect( const NSRect r, const NSRect cr )
 	return nr;
 }
 
-
 NSBezierPath*		RotatedRect( const NSRect r, const CGFloat radians )
 {
 	// turns the rect into a path, rotated about its centre by <radians>
@@ -620,7 +544,6 @@ NSBezierPath*		RotatedRect( const NSRect r, const CGFloat radians )
 	NSBezierPath* path = [NSBezierPath bezierPathWithRect:r];
 	return [path rotatedPath:radians];
 }
-
 
 #pragma mark -
 NSRect		NormalizedRect( const NSRect r )
@@ -645,7 +568,6 @@ NSRect		NormalizedRect( const NSRect r )
 	return nr;
 }
 
-
 NSAffineTransform*	RotationTransform( const CGFloat angle, const NSPoint cp )
 {
 	// return a transform that will cause a rotation about the point given at the angle given
@@ -658,7 +580,6 @@ NSAffineTransform*	RotationTransform( const CGFloat angle, const NSPoint cp )
 	return xfm;
 }
 
-
 #pragma mark -
 #pragma mark bezier curve utils
 
@@ -668,12 +589,10 @@ static NSInteger			CrossingCount( NSPoint* v, NSInteger degree );
 static NSInteger			ControlPolygonFlatEnough( NSPoint* v, NSInteger degree );
 static double		ComputeXIntercept( NSPoint* v, NSInteger degree);
 
-
 #define MAXDEPTH	64
 #define	EPSILON		(ldexp(1.0,-MAXDEPTH-1))
 
 #define SGN(a)		(((a)<0) ? -1 : 0)
-
 
 #pragma mark -
 /*
@@ -696,7 +615,6 @@ static NSPoint*		ConvertToBezierForm( const NSPoint inp, const NSPoint bez[4] )
 	{0.4, 0.6, 0.6, 0.4},
 	{0.1, 0.3, 0.6, 1.0},
     };
-
 
     /*Determine the c's -- these are vectors created by subtracting*/
     /* point P from each of the control points				*/
@@ -752,7 +670,6 @@ static NSPoint*		ConvertToBezierForm( const NSPoint inp, const NSPoint bez[4] )
 
     return w;
 }
-
 
 /*
  *  FindRoots :
@@ -815,7 +732,6 @@ static NSInteger FindRoots( NSPoint* w, NSInteger degree, double* t, NSInteger d
     return (left_count + right_count);
 }
 
-
 /*
  * CrossingCount :
  *	Count the number of times a Bezier control polygon 
@@ -840,7 +756,6 @@ static NSInteger CrossingCount( NSPoint* v, NSInteger degree )
     }
     return n_crossings;
 }
-
 
 /*
  *  ControlPolygonFlatEnough :
@@ -950,7 +865,6 @@ static NSInteger ControlPolygonFlatEnough( NSPoint* v, NSInteger degree )
     }
 }
 
-
 /*
  *  ComputeXIntercept :
  *	Compute intersection of chord from first control point to last
@@ -980,7 +894,6 @@ static double ComputeXIntercept( NSPoint* v, NSInteger degree)
 
     return X;
 }
-
 
 #pragma mark -
 /*
@@ -1049,7 +962,6 @@ NSPoint		NearestPointOnCurve( const NSPoint inp, const NSPoint bez[4], double* t
 	return Bezier( bez, 3, t, NULL, NULL);
 }
 
-
 /*
  *  Bezier : 
  *	Evaluate a Bezier curve at a particular parameter value
@@ -1061,7 +973,6 @@ NSPoint		Bezier( const NSPoint* v, const NSInteger degree, const double t, NSPoi
 {
     NSInteger			i, j;		/* Index variables	*/
     NSPoint 	Vtemp[6][6];
-
 
     /* Copy control points	*/
     for (j =0; j <= degree; j++)
@@ -1097,7 +1008,6 @@ NSPoint		Bezier( const NSPoint* v, const NSInteger degree, const double t, NSPoi
     return (Vtemp[degree][0]);
 }
 
-
 #pragma mark -
 CGFloat		BezierSlope( const NSPoint bez[4], const CGFloat t )
 {
@@ -1128,3 +1038,4 @@ CGFloat		BezierSlope( const NSPoint bez[4], const CGFloat t )
 	
 	return atan2( y, x );
 }
+

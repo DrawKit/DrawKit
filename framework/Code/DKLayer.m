@@ -1,13 +1,10 @@
-///**********************************************************************************************************************************
-///  DKLayer.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 11/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
-
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKLayer.h"
 #import "DKKnob.h"
@@ -28,32 +25,21 @@ NSString*	kDKLayerVisibleStateDidChange				= @"kDKLayerVisibleStateDidChange";
 NSString*	kDKLayerNameDidChange						= @"kDKLayerNameDidChange";
 NSString*	kDKLayerSelectionHighlightColourDidChange	= @"kDKLayerSelectionHighlightColourDidChange";
 
-
 #pragma mark Static Vars
 static NSInteger	sLayerIndexSeed = 4;
-
 
 #pragma mark -
 @implementation DKLayer
 #pragma mark As a DKLayer
 
-
 static NSArray*	s_selectionColours = nil;
 
-
-///*********************************************************************************************************************
-///
-/// method:			setSelectionColours:
-/// scope:			public class method
-/// description:	allows a list of colours to be set for supplying the selection colours
-/// 
-/// parameters:		<listOfColours> an array containing NSColor objects
-/// result:			none
-///
-/// notes:			the list is used to supply colours in rotation when new layers are instantiated
-///
-///********************************************************************************************************************
-
+/** @brief Allows a list of colours to be set for supplying the selection colours
+ * @note
+ * The list is used to supply colours in rotation when new layers are instantiated
+ * @param listOfColours an array containing NSColor objects
+ * @public
+ */
 + (void)			setSelectionColours:(NSArray*) listOfColours
 {
 	[listOfColours retain];
@@ -61,21 +47,13 @@ static NSArray*	s_selectionColours = nil;
 	s_selectionColours = listOfColours;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionColours
-/// scope:			public class method
-/// description:	returns the list of colours used for supplying the selection colours
-/// 
-/// parameters:		none
-/// result:			an array containing NSColor objects
-///
-/// notes:			If never specifically set, this returns a very simple list of basic colours which is what DK has
-///					traditionally used.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the list of colours used for supplying the selection colours
+ * @note
+ * If never specifically set, this returns a very simple list of basic colours which is what DK has
+ * traditionally used.
+ * @return an array containing NSColor objects
+ * @public
+ */
 + (NSArray*)		selectionColours
 {
 	if( s_selectionColours == nil )
@@ -103,22 +81,15 @@ static NSArray*	s_selectionColours = nil;
 	return s_selectionColours;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionColourForIndex:
-/// scope:			public class method
-/// description:	returns a colour that can be used as the selection colour for a layer
-/// 
-/// parameters:		<index> a positive number
-/// result:			a colour
-///
-/// notes:			this simply returns a colour looked up in a table. It provides a default
-///					selection colour for new layers - you can change the layer's selection colour to whatever you like - 
-///					this just provides a default
-///
-///********************************************************************************************************************
-
+/** @brief Returns a colour that can be used as the selection colour for a layer
+ * @note
+ * This simply returns a colour looked up in a table. It provides a default
+ * selection colour for new layers - you can change the layer's selection colour to whatever you like - 
+ * this just provides a default
+ * @param index a positive number
+ * @return a colour
+ * @public
+ */
 + (NSColor*)		selectionColourForIndex:(NSUInteger) indx
 {
 	NSArray* selColours = [self selectionColours];
@@ -132,104 +103,63 @@ static NSArray*	s_selectionColours = nil;
 		return nil;
 }
 
-
 #pragma mark -
 #pragma mark - owning drawing
-///*********************************************************************************************************************
-///
-/// method:			drawing
-/// scope:			public instance method
-/// description:	returns the drawing that the layer belongs to
-/// 
-/// parameters:		none
-/// result:			the layer's owner drawing
-///
-/// notes:			the drawing is the root object in a layer hierarchy, it overrides -drawing to return self, which is
-///					how this works
-///
-///********************************************************************************************************************
 
+/** @brief Returns the drawing that the layer belongs to
+ * @note
+ * The drawing is the root object in a layer hierarchy, it overrides -drawing to return self, which is
+ * how this works
+ * @return the layer's owner drawing
+ * @public
+ */
 - (DKDrawing*)		drawing
 {
 	return [[self layerGroup] drawing];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawingHasNewUndoManager:
-/// scope:			public instance method
-/// description:	called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
-///					to update their references
-/// 
-/// parameters:		<um> the new undo manager
-/// result:			none
-///
-/// notes:			the default implementation does nothing - override to make something of it
-///
-///********************************************************************************************************************
-
+/** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
+ * to update their references
+ * @note
+ * The default implementation does nothing - override to make something of it
+ * @param um the new undo manager
+ * @public
+ */
 - (void)			drawingHasNewUndoManager:(NSUndoManager*) um
 {
 	#pragma unused(um)
 	
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawingDidChangeToSize:
-/// scope:			public instance method
-/// description:	called when the drawing's size is changed - this gives layers that need to know about this a
-///					direct notification
-/// 
-/// parameters:		<sizeVal> the new size of the drawing - extract -sizeValue.
-/// result:			none
-///
-/// notes:			if you need to know before and after sizes, you'll need to subscribe to the relevant notifications.
-///
-///********************************************************************************************************************
-
+/** @brief Called when the drawing's size is changed - this gives layers that need to know about this a
+ * direct notification
+ * @note
+ * If you need to know before and after sizes, you'll need to subscribe to the relevant notifications.
+ * @param sizeVal the new size of the drawing - extract -sizeValue.
+ * @public
+ */
 - (void)			drawingDidChangeToSize:(NSValue*) sizeVal
 {
 	#pragma unused(sizeVal)
 
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawingDidChangeMargins:
-/// scope:			public instance method
-/// description:	called when the drawing's margins changed - this gives layers that need to know about this a
-///					direct notification
-/// 
-/// parameters:		<oldInterior> the old interior rect of the drawing - extract -rectValue.
-/// result:			none
-///
-/// notes:			the old interior is passed - you can get the new one directly from the drawing
-///
-///********************************************************************************************************************
-
+/** @brief Called when the drawing's margins changed - this gives layers that need to know about this a
+ * direct notification
+ * @note
+ * The old interior is passed - you can get the new one directly from the drawing
+ * @param oldInterior the old interior rect of the drawing - extract -rectValue.
+ * @public
+ */
 - (void)			drawingDidChangeMargins:(NSValue*) oldInterior
 {
 	#pragma unused(oldInterior)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			undoManager
-/// scope:			public instance method
-/// description:	obtains the undo manager that is handling undo for the drawing and hence, this layer
-/// 
-/// parameters:		none
-/// result:			the undo manager in use
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Obtains the undo manager that is handling undo for the drawing and hence, this layer
+ * @return the undo manager in use
+ * @public
+ */
 - (NSUndoManager*)	undoManager
 {
 	// return the nominated undo manager
@@ -237,99 +167,59 @@ static NSArray*	s_selectionColours = nil;
 	return [[self drawing] undoManager];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			wasAddedToDrawing:
-/// scope:			public instance method
-/// description:	notifies the layer that it or a group containing it was added to a drawing.
-/// 
-/// parameters:		<aDrawing> the drawing that added the layer
-/// result:			none
-///
-/// notes:			this can be used to perform additional setup that requires knowledge of the drawing such as its
-///					size. The default method does nothing - override to use.
-///
-///********************************************************************************************************************
-
+/** @brief Notifies the layer that it or a group containing it was added to a drawing.
+ * @note
+ * This can be used to perform additional setup that requires knowledge of the drawing such as its
+ * size. The default method does nothing - override to use.
+ * @param aDrawing the drawing that added the layer
+ * @public
+ */
 - (void)			wasAddedToDrawing:(DKDrawing*) aDrawing
 {
 #pragma unused(aDrawing)
 }
 
-
 #pragma mark -
 #pragma mark - layer group hierarchy
-///*********************************************************************************************************************
-///
-/// method:			setGroup:
-/// scope:			protected instance method
-/// description:	sets the group that the layer is contained in - called automatically when the layer is added to a group
-/// 
-/// parameters:		<group> the group we belong to
-/// result:			none
-///
-/// notes:			the group retains this, so the group isn't retained here
-///
-///********************************************************************************************************************
 
+/** @brief Sets the group that the layer is contained in - called automatically when the layer is added to a group
+ * @note
+ * The group retains this, so the group isn't retained here
+ * @param group the group we belong to
+ */
 - (void)			setLayerGroup:(DKLayerGroup*) group
 {
 	m_groupRef = group;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			group
-/// scope:			protected instance method
-/// description:	gets the group that the layer is contained in
-/// 
-/// parameters:		none
-/// result:			the layer's group
-///
-/// notes:			the layer's group might be the drawing itself, which is a group
-///
-///********************************************************************************************************************
-
+/** @brief Gets the group that the layer is contained in
+ * @note
+ * The layer's group might be the drawing itself, which is a group
+ * @return the layer's group
+ */
 - (DKLayerGroup*)	layerGroup
 {
 	return m_groupRef;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			group
-/// scope:			public instance method
-/// description:	gets the layer's index within the group that the layer is contained in
-/// 
-/// parameters:		none
-/// result:			an integer, the layer's index
-///
-/// notes:			if the layer isn't in a group yet, result is 0. This is intended for debugging mostly.
-///
-///********************************************************************************************************************
-
+/** @brief Gets the layer's index within the group that the layer is contained in
+ * @note
+ * If the layer isn't in a group yet, result is 0. This is intended for debugging mostly.
+ * @return an integer, the layer's index
+ * @public
+ */
 - (NSUInteger)		indexInGroup
 {
 	return [[self layerGroup] indexOfLayer:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isChildOfGroup:
-/// scope:			public instance method
-/// description:	determine whether a given group is the parent of this layer, or anywhere above it in the hierarchy
-/// 
-/// parameters:		<aGroup> a layer group
-/// result:			YES if the group sits above this in the hierarchy, NO otherwise
-///
-/// notes:			intended to check for absurd operations, such as moving a parent group into one of its own children.
-///
-///********************************************************************************************************************
-
+/** @brief Determine whether a given group is the parent of this layer, or anywhere above it in the hierarchy
+ * @note
+ * Intended to check for absurd operations, such as moving a parent group into one of its own children.
+ * @param aGroup a layer group
+ * @return YES if the group sits above this in the hierarchy, NO otherwise
+ * @public
+ */
 - (BOOL)			isChildOfGroup:(DKLayerGroup*) aGroup
 {
 	if([self layerGroup] == aGroup)
@@ -340,45 +230,29 @@ static NSArray*	s_selectionColours = nil;
 		return [[self layerGroup] isChildOfGroup:aGroup];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			level
-/// scope:			public method
-/// overrides:
-/// description:	returns the hierarchical level of this layer, i.e. how deeply nested it is
-/// 
-/// parameters:		none
-/// result:			the layer's level
-///
-/// notes:			layers in the root group return 1. A layer's level is its group's level + 1 
-///
-///********************************************************************************************************************
-
+/** @brief Returns the hierarchical level of this layer, i.e. how deeply nested it is
+ * @note
+ * Layers in the root group return 1. A layer's level is its group's level + 1 
+ * @return the layer's level
+ * @public
+ */
 - (NSUInteger)		level
 {
 	return [[self layerGroup] level] + 1;
 }
 
-
 #pragma mark -
 #pragma mark - drawing
-///*********************************************************************************************************************
-///
-/// method:			drawRect:
-/// scope:			public instance method
-/// description:	main entry point for drawing the layer and its contents to the drawing's views.
-/// 
-/// parameters:		<rect> the overall area being updated
-///					<aView> the view doing the rendering
-/// result:			none
-///
-/// notes:			can be treated as the similar NSView call - to optimise drawing you can query the view that's doing
-///					the drawing and use calls such as needsToDrawRect: etc. Will not be called in
-///					cases where the layer is not visible, so you don't need to test for that. Must be overridden.
-///
-///********************************************************************************************************************
 
+/** @brief Main entry point for drawing the layer and its contents to the drawing's views.
+ * @note
+ * Can be treated as the similar NSView call - to optimise drawing you can query the view that's doing
+ * the drawing and use calls such as needsToDrawRect: etc. Will not be called in
+ * cases where the layer is not visible, so you don't need to test for that. Must be overridden.
+ * @param rect the overall area being updated
+ * @param aView the view doing the rendering
+ * @public
+ */
 - (void)			drawRect:(NSRect) rect inView:(DKDrawingView*) aView
 {
 	#pragma unused(rect)
@@ -387,163 +261,98 @@ static NSArray*	s_selectionColours = nil;
 	NSLog(@"you should override [DKLayer drawRect:inView];");
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isOpaque
-/// scope:			public instance method
-/// description:	is the layer opaque or transparent?
-/// 
-/// parameters:		none
-/// result:			whether to treat the layer as opaque or not
-///
-/// notes:			can be overridden to optimise drawing in some cases. Layers below an opaque layer are skipped
-///					when drawing, so if you know your layer is opaque, return YES to implement the optimisation.
-///					The default is NO, layers are considered to be transparent.
-///
-///********************************************************************************************************************
-
+/** @brief Is the layer opaque or transparent?
+ * @note
+ * Can be overridden to optimise drawing in some cases. Layers below an opaque layer are skipped
+ * when drawing, so if you know your layer is opaque, return YES to implement the optimisation.
+ * The default is NO, layers are considered to be transparent.
+ * @return whether to treat the layer as opaque or not
+ * @public
+ */
 - (BOOL)			isOpaque
 {
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplay:
-/// scope:			public instance method
-/// description:	flags the whole layer as needing redrawing
-/// 
-/// parameters:		<update> flag whether to update or not
-/// result:			none
-///
-/// notes:			always use this method instead of trying to access the view directly. This ensures that all attached
-///					views get refreshed correctly.
-///
-///********************************************************************************************************************
-
+/** @brief Flags the whole layer as needing redrawing
+ * @note
+ * Always use this method instead of trying to access the view directly. This ensures that all attached
+ * views get refreshed correctly.
+ * @param update flag whether to update or not
+ * @public
+ */
 - (void)			setNeedsDisplay:(BOOL) update
 {
 	[[self drawing] setNeedsDisplay:update];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplayInRect:
-/// scope:			public instance method
-/// description:	flags part of a layer as needing redrawing
-/// 
-/// parameters:		<rect> the area that needs to be redrawn
-/// result:			none
-///
-/// notes:			always use this method instead of trying to access the view directly. This ensures that all attached
-///					views get refreshed correctly.
-///
-///********************************************************************************************************************
-
+/** @brief Flags part of a layer as needing redrawing
+ * @note
+ * Always use this method instead of trying to access the view directly. This ensures that all attached
+ * views get refreshed correctly.
+ * @param rect the area that needs to be redrawn
+ * @public
+ */
 - (void)			setNeedsDisplayInRect:(NSRect) rect
 {
 	[[self drawing] setNeedsDisplayInRect:rect];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplayInRects:
-/// scope:			public instance method
-/// description:	marks several areas for update at once
-/// 
-/// parameters:		<setOfRects> a set containing NSValues with rect values
-/// result:			none
-///
-/// notes:			several update optimising methods return sets of rect values, this allows them to be processed
-///					directly.
-///
-///********************************************************************************************************************
-
+/** @brief Marks several areas for update at once
+ * @note
+ * Several update optimising methods return sets of rect values, this allows them to be processed
+ * directly.
+ * @param setOfRects a set containing NSValues with rect values
+ * @public
+ */
 - (void)			setNeedsDisplayInRects:(NSSet*) setOfRects
 {
 	[[self drawing] setNeedsDisplayInRects:setOfRects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplayInRects:
-/// scope:			public instance method
-/// description:	marks several areas for update at once
-/// 
-/// parameters:		<setOfRects> a set containing NSValues with rect values
-///					<padding> the width and height will be added to EACH rect before invalidating
-/// result:			none
-///
-/// notes:			several update optimising methods return sets of rect values, this allows them to be processed
-///					directly.
-///
-///********************************************************************************************************************
-
+/** @brief Marks several areas for update at once
+ * @note
+ * Several update optimising methods return sets of rect values, this allows them to be processed
+ * directly.
+ * @param setOfRects a set containing NSValues with rect values
+ * @param padding the width and height will be added to EACH rect before invalidating
+ * @public
+ */
 - (void)			setNeedsDisplayInRects:(NSSet*) setOfRects withExtraPadding:(NSSize) padding
 {
 	[[self drawing] setNeedsDisplayInRects:setOfRects withExtraPadding:padding];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			beginDrawing
-/// scope:			public instance method
-/// description:	called before the layer starts drawing its content
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			can be used to hook into the start of drawing - by default does nothing
-///
-///********************************************************************************************************************
-
+/** @brief Called before the layer starts drawing its content
+ * @note
+ * Can be used to hook into the start of drawing - by default does nothing
+ * @public
+ */
 - (void)			beginDrawing
 {
 	// override to make something useful of this
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			endDrawing
-/// scope:			public instance method
-/// description:	called after the layer has finished drawing its content
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			can be used to hook into the end of drawing - by default does nothing
-///
-///********************************************************************************************************************
-
+/** @brief Called after the layer has finished drawing its content
+ * @note
+ * Can be used to hook into the end of drawing - by default does nothing
+ * @public
+ */
 - (void)			endDrawing
 {
 	// override to make something useful of this
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setSelectionColour:
-/// scope:			public instance method
-/// description:	sets the colour preference to use for selected objects within this layer
-/// 
-/// parameters:		<colour> the selection colour preference
-/// result:			none
-///
-/// notes:			different layers may wish to have a different colour for selections to help the user tell which
-///					layer they are working in. The layer doesn't enforce this - it's up to objects to make use of
-///					this provided colour where necessary.
-///
-///********************************************************************************************************************
 
+/** @brief Sets the colour preference to use for selected objects within this layer
+ * @note
+ * Different layers may wish to have a different colour for selections to help the user tell which
+ * layer they are working in. The layer doesn't enforce this - it's up to objects to make use of
+ * this provided colour where necessary.
+ * @param colour the selection colour preference
+ * @public
+ */
 - (void)			setSelectionColour:(NSColor*) colour
 {
 	if( ![self locked] && ![colour isEqual:[self selectionColour]])
@@ -569,41 +378,29 @@ static NSArray*	s_selectionColours = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionColour
-/// scope:			public instance method
-/// description:	returns the currently preferred selection colour for this layer
-/// 
-/// parameters:		none
-/// result:			the colour
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the currently preferred selection colour for this layer
+ * @return the colour
+ * @public
+ */
 - (NSColor*)		selectionColour
 {
 	return m_selectionColour;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			thumbnailImageWithSize:
-/// scope:			public instance method
-/// description:	returns an image of the layer a the given size
-/// 
-/// parameters:		<size> the desired image size, or pass NSZeroSize for the default (1/8th drawing size)
-/// result:			an image of this layer only
-///
-/// notes:			while the image has the size passed, the rendered content will have the same aspect ratio as the
-///					drawing, scaled to fit. Areas left outside of the drawn portion are transparent.
-///
-///********************************************************************************************************************
 
+/** @brief Returns an image of the layer a the given size
+ * @note
+ * While the image has the size passed, the rendered content will have the same aspect ratio as the
+ * drawing, scaled to fit. Areas left outside of the drawn portion are transparent.
+ * @return an image of this layer only
+ * @public
+ */
+
+/** @brief Returns an image of the layer at the default size
+ * @return an image of this layer only
+ * @public
+ */
 - (NSImage*)		thumbnailImageWithSize:(NSSize) size
 {
 	NSSize		drsize = [[self drawing] drawingSize];
@@ -648,39 +445,17 @@ static NSArray*	s_selectionColours = nil;
 	return [thumb autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			thumbnail
-/// scope:			public instance method
-/// description:	returns an image of the layer at the default size
-/// 
-/// parameters:		none
-/// result:			an image of this layer only
-///
-/// notes:			the default size is currently 1/8th of the drawing size. See - thumbnailImageWithSize: for details
-///
-///********************************************************************************************************************
-
 - (NSImage*)		thumbnail
 {
 	return [self thumbnailImageWithSize:NSZeroSize];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pdf
-/// scope:			public instance method
-/// description:	returns the content of the layer as a pdf
-/// 
-/// parameters:		none
-/// result:			NSData containing the pdf representation of the layer and its contents
-///
-/// notes:			by default the pdf contains the entire layer's visible content exactly as drawn to a printer.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the content of the layer as a pdf
+ * @note
+ * By default the pdf contains the entire layer's visible content exactly as drawn to a printer.
+ * @return NSData containing the pdf representation of the layer and its contents
+ * @public
+ */
 - (NSData*)			pdf
 {
 	NSRect frame = NSZeroRect;
@@ -697,20 +472,13 @@ static NSArray*	s_selectionColours = nil;
 	return pdfData;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			writePDFContentToPasteboard:
-/// scope:			public instance method
-/// description:	writes the content of the layer as a pdf to a nominated pasteboard
-/// 
-/// parameters:		<pb> the pasteboard
-/// result:			YES if written OK, NO otherwise
-///
-/// notes:			becomes the new pasteboard owner and removes any existing declared types
-///
-///********************************************************************************************************************
-
+/** @brief Writes the content of the layer as a pdf to a nominated pasteboard
+ * @note
+ * Becomes the new pasteboard owner and removes any existing declared types
+ * @param pb the pasteboard
+ * @return YES if written OK, NO otherwise
+ * @public
+ */
 - (BOOL)			writePDFDataToPasteboard:(NSPasteboard*) pb
 {
 	NSAssert( pb != nil, @"Cannot write to a nil pasteboard");
@@ -719,21 +487,14 @@ static NSArray*	s_selectionColours = nil;
 	return [pb setData:[self pdf] forType:NSPDFPboardType];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			bitmapRepresentationWithDPI:
-/// scope:			public instance method
-/// description:	returns the layer's content as a transparent bitmap having the given DPI.
-/// 
-/// parameters:		<dpi> image resolution in dots per inch
-/// result:			the bitmap
-///
-/// notes:			a dpi of 0 uses the default, which is 72 dpi. The image pixel size is calculated from the drawing
-///					size and the dpi. The layer is imaged onto a transparent background with alpha.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the layer's content as a transparent bitmap having the given DPI.
+ * @note
+ * A dpi of 0 uses the default, which is 72 dpi. The image pixel size is calculated from the drawing
+ * size and the dpi. The layer is imaged onto a transparent background with alpha.
+ * @param dpi image resolution in dots per inch
+ * @return the bitmap
+ * @public
+ */
 - (NSBitmapImageRep*) bitmapRepresentationWithDPI:(NSUInteger) dpi
 {
 	if( dpi == 0 )
@@ -789,21 +550,12 @@ static NSArray*	s_selectionColours = nil;
 	return [rep autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setClipsDrawingToInterior:
-/// scope:			public method
-/// overrides:
-/// description:	sets whether drawing is limited to the interior area or not
-/// 
-/// parameters:		<clip> YES to limit drawing to the interior, NO to allow drawing to be visible in the margins.
-/// result:			none
-///
-/// notes:			default is NO, so drawings show in the margins.
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether drawing is limited to the interior area or not
+ * @note
+ * Default is NO, so drawings show in the margins.
+ * @param clip YES to limit drawing to the interior, NO to allow drawing to be visible in the margins.
+ * @public
+ */
 - (void)			setClipsDrawingToInterior:(BOOL) clip
 {
 	if( clip != [self clipsDrawingToInterior])
@@ -818,44 +570,26 @@ static NSArray*	s_selectionColours = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			clipsDrawingToInterior
-/// scope:			public method
-/// overrides:
-/// description:	whether the drawing will be clipped to the interior or not
-/// 
-/// parameters:		none
-/// result:			YES if clipping, NO if not.
-///
-/// notes:			default is NO.
-///
-///********************************************************************************************************************
-
+/** @brief Whether the drawing will be clipped to the interior or not
+ * @note
+ * Default is NO.
+ * @return YES if clipping, NO if not.
+ * @public
+ */
 - (BOOL)			clipsDrawingToInterior
 {
 	return m_clipToInterior;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setAlpha:
-/// scope:			public method
-/// overrides:
-/// description:	sets the alpha level for the layer
-/// 
-/// parameters:		<alpha> the alpha level, 0..1
-/// result:			none
-///
-/// notes:			default is 1.0 (fully opaque objects). Note that alpha must be implemented by a layer's
-///					-drawRect:inView: method to have an actual effect, and unless compositing to a CGLayer or other
-///					graphics surface, may not have the expected effect (just setting the context's alpha before
-///					drawing renders each individual object with the given alpha, for example).
-///
-///********************************************************************************************************************
-
+/** @brief Sets the alpha level for the layer
+ * @note
+ * Default is 1.0 (fully opaque objects). Note that alpha must be implemented by a layer's
+ * -drawRect:inView: method to have an actual effect, and unless compositing to a CGLayer or other
+ * graphics surface, may not have the expected effect (just setting the context's alpha before
+ * drawing renders each individual object with the given alpha, for example).
+ * @param alpha the alpha level, 0..1
+ * @public
+ */
 - (void)			setAlpha:(CGFloat) alpha
 {
 	if( ![self locked] && alpha != mAlpha )
@@ -867,26 +601,16 @@ static NSArray*	s_selectionColours = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alpha
-/// scope:			public method
-/// overrides:
-/// description:	returns the alpha level for the layer as a whole
-/// 
-/// parameters:		none
-/// result:			the current alpha level
-///
-/// notes:			default is 1.0 (fully opaque objects)
-///
-///********************************************************************************************************************
-
+/** @brief Returns the alpha level for the layer as a whole
+ * @note
+ * Default is 1.0 (fully opaque objects)
+ * @return the current alpha level
+ * @public
+ */
 - (CGFloat)			alpha
 {
 	return mAlpha;
 }
-
 
 - (void)			updateRulerMarkersForRect:(NSRect) rect
 {
@@ -894,19 +618,16 @@ static NSArray*	s_selectionColours = nil;
 		[[self layerGroup] updateRulerMarkersForRect:rect];
 }
 
-
 - (void)			hideRulerMarkers
 {
 	if([self rulerMarkerUpdatesEnabled])
 		[[self layerGroup] hideRulerMarkers];
 }
 
-
 - (void)			setRulerMarkerUpdatesEnabled:(BOOL) enable
 {
 	mRulerMarkersEnabled = enable;
 }
-
 
 - (BOOL)			rulerMarkerUpdatesEnabled
 {
@@ -915,20 +636,14 @@ static NSArray*	s_selectionColours = nil;
 
 #pragma mark -
 #pragma mark - states
-///*********************************************************************************************************************
-///
-/// method:			setLocked:
-/// scope:			public instance method
-/// description:	sets whether the layer is locked or not
-/// 
-/// parameters:		<locked> YES to lock, NO to unlock
-/// result:			none
-///
-/// notes:			a locked layer will be drawn but cannot be edited. In case the layer's appearance changes
-///					according to this state change, a refresh is performed.
-///
-///********************************************************************************************************************
 
+/** @brief Sets whether the layer is locked or not
+ * @note
+ * A locked layer will be drawn but cannot be edited. In case the layer's appearance changes
+ * according to this state change, a refresh is performed.
+ * @param locked YES to lock, NO to unlock
+ * @public
+ */
 - (void)			setLocked:(BOOL) locked
 {
 	if ( locked != m_locked )
@@ -944,39 +659,23 @@ static NSArray*	s_selectionColours = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			locked
-/// scope:			public instance method
-/// description:	returns whether the layer is locked or not
-/// 
-/// parameters:		none
-/// result:			YES if locked, NO if unlocked
-///
-/// notes:			locked layers cannot be edited. Also returns YES if the layer belongs to a locked group
-///
-///********************************************************************************************************************
-
+/** @brief Returns whether the layer is locked or not
+ * @note
+ * Locked layers cannot be edited. Also returns YES if the layer belongs to a locked group
+ * @return YES if locked, NO if unlocked
+ * @public
+ */
 - (BOOL)			locked
 {
 	return m_locked || [[self layerGroup] locked];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setVisible:
-/// scope:			public instance method
-/// description:	sets whether the layer is visible or not
-/// 
-/// parameters:		<visible> YES to show the layer, NO to hide it
-/// result:			none
-///
-/// notes:			invisible layers are neither drawn nor can be edited.
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether the layer is visible or not
+ * @note
+ * Invisible layers are neither drawn nor can be edited.
+ * @param visible YES to show the layer, NO to hide it
+ * @public
+ */
 - (void)			setVisible:(BOOL) visible
 {
 	if ( visible != m_visible )
@@ -991,98 +690,55 @@ static NSArray*	s_selectionColours = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			visible
-/// scope:			public instance method
-/// description:	is the layer visible?
-/// 
-/// parameters:		none
-/// result:			YES if visible, NO if not
-///
-/// notes:			also returns NO if the layer's group is not visible
-///
-///********************************************************************************************************************
-
+/** @brief Is the layer visible?
+ * @note
+ * Also returns NO if the layer's group is not visible
+ * @return YES if visible, NO if not
+ * @public
+ */
 - (BOOL)			visible
 {
 	return m_visible && ([self layerGroup] == nil || [[self layerGroup] visible]);
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isActive
-/// scope:			public instance method
-/// description:	is the layer the active layer?
-/// 
-/// parameters:		none
-/// result:			YES if the active layer, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Is the layer the active layer?
+ * @return YES if the active layer, NO otherwise
+ * @public
+ */
 - (BOOL)			isActive
 {
 	return ([[self drawing] activeLayer] == self);
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			lockedOrHidden
-/// scope:			public instance method
-/// description:	returns whether the layer is locked or hidden
-/// 
-/// parameters:		none
-/// result:			YES if locked or hidden, NO if unlocked and visible
-///
-/// notes:			locked or hidden layers cannot usually be edited.
-///
-///********************************************************************************************************************
-
+/** @brief Returns whether the layer is locked or hidden
+ * @note
+ * Locked or hidden layers cannot usually be edited.
+ * @return YES if locked or hidden, NO if unlocked and visible
+ * @public
+ */
 - (BOOL)			lockedOrHidden
 {
 	return [self locked] || ![self visible];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			uniqueKey
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the layer's unique key
-/// 
-/// parameters:		none
-/// result:			the unique key
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the layer's unique key
+ * @return the unique key
+ * @public
+ */
 - (NSString*)		uniqueKey
 {
 	return mLayerUniqueKey;
 }
 
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setLayerName:
-/// scope:			public instance method
-/// description:	sets the user-readable name of the layer
-/// 
-/// parameters:		<name> the layer's name
-/// result:			none
-///
-/// notes:			layer names are a convenience for the user, and can be displayed by a user interface. The name is
-///					not significant internally. This copies the name passed for safety.
-///
-///********************************************************************************************************************
 
+/** @brief Sets the user-readable name of the layer
+ * @note
+ * Layer names are a convenience for the user, and can be displayed by a user interface. The name is
+ * not significant internally. This copies the name passed for safety.
+ * @param name the layer's name
+ * @public
+ */
 - (void)			setLayerName:(NSString*) name
 {
 	if(![name isEqualToString:[self layerName]])
@@ -1103,46 +759,26 @@ static NSArray*	s_selectionColours = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerName
-/// scope:			public instance method
-/// description:	returns the layer's name
-/// 
-/// parameters:		none
-/// result:			the name
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the layer's name
+ * @return the name
+ * @public
+ */
 - (NSString*)		layerName
 {
 	return m_name;
 }
 
-
-
 #pragma mark -
 #pragma mark - user info
 
-///*********************************************************************************************************************
-///
-/// method:			setUserInfo:
-/// scope:			public instance method
-/// overrides:
-/// description:	attach a dictionary of user data to the object
-/// 
-/// parameters:		<info> a dictionary containing anything you wish
-/// result:			none
-///
-/// notes:			The dictionary replaces the current user info. To merge with any existing user info, use addUserInfo:
-///					For the more specific metadata attachemnts, refer to DKLayer+Metadata. Metadata is stored within the
-///					user info dictionary as a subdictionary.
-///
-///********************************************************************************************************************
-
+/** @brief Attach a dictionary of user data to the object
+ * @note
+ * The dictionary replaces the current user info. To merge with any existing user info, use addUserInfo:
+ * For the more specific metadata attachemnts, refer to DKLayer+Metadata. Metadata is stored within the
+ * user info dictionary as a subdictionary.
+ * @param info a dictionary containing anything you wish
+ * @public
+ */
 - (void)			setUserInfo:(NSMutableDictionary*) info
 {
 	[info retain];
@@ -1150,21 +786,12 @@ static NSArray*	s_selectionColours = nil;
 	mUserInfo = info;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addUserInfo:
-/// scope:			public instance method
-/// overrides:
-/// description:	add a dictionary of metadata to the object
-/// 
-/// parameters:		<info> a dictionary containing anything you wish
-/// result:			none
-///
-/// notes:			<info> is merged with the existin gcontent of the user info
-///
-///********************************************************************************************************************
-
+/** @brief Add a dictionary of metadata to the object
+ * @note
+ * <info> is merged with the existin gcontent of the user info
+ * @param info a dictionary containing anything you wish
+ * @public
+ */
 - (void)			addUserInfo:(NSDictionary*) info
 {
 	if( mUserInfo == nil )
@@ -1176,64 +803,34 @@ static NSArray*	s_selectionColours = nil;
 	[deepCopy release];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			userInfo
-/// scope:			public instance method
-/// overrides:
-/// description:	return the attached user info
-/// 
-/// parameters:		none
-/// result:			the user info
-///
-/// notes:			The user info is returned as a mutable dictionary (which it is), and can thus have its contents
-///					mutated directly for certain uses. Doing this cannot cause any notification of the status of
-///					the object however.
-///
-///********************************************************************************************************************
-
+/** @brief Return the attached user info
+ * @note
+ * The user info is returned as a mutable dictionary (which it is), and can thus have its contents
+ * mutated directly for certain uses. Doing this cannot cause any notification of the status of
+ * the object however.
+ * @return the user info
+ * @public
+ */
 - (NSMutableDictionary*)userInfo
 {
 	return mUserInfo;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			userInfoObjectForKey:
-/// scope:			public instance method
-/// overrides:
-/// description:	return an item of user info
-/// 
-/// parameters:		<key> the key to use to refer to the item
-/// result:			the user info item
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return an item of user info
+ * @param key the key to use to refer to the item
+ * @return the user info item
+ * @public
+ */
 - (id)					userInfoObjectForKey:(NSString*) key
 {
 	return [[self userInfo] objectForKey:key];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setUserInfoObject:forKey:
-/// scope:			public instance method
-/// overrides:
-/// description:	set an item of user info
-/// 
-/// parameters:		<obj> the object to store
-///					<key> the key to use to refer to the item
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set an item of user info
+ * @param obj the object to store
+ * @param key the key to use to refer to the item
+ * @public
+ */
 - (void)			setUserInfoObject:(id) obj forKey:(NSString*) key
 {
 	NSAssert( obj != nil, @"cannot add nil to the user info");
@@ -1245,84 +842,51 @@ static NSArray*	s_selectionColours = nil;
 	[[self userInfo] setObject:obj forKey:key];
 }
 
-
 #pragma mark -
 #pragma mark - print this layer?
 
-
-///*********************************************************************************************************************
-///
-/// method:			setShouldDrawToPrinter:
-/// scope:			public instance method
-/// description:	set whether this layer should be included in printed output
-/// 
-/// parameters:		<printIt> YES to includethe layer, NO to skip it
-/// result:			none
-///
-/// notes:			default is YES
-///
-///********************************************************************************************************************
-
+/** @brief Set whether this layer should be included in printed output
+ * @note
+ * Default is YES
+ * @param printIt YES to includethe layer, NO to skip it
+ * @public
+ */
 - (void)			setShouldDrawToPrinter:(BOOL) printIt
 {
 	m_printed = printIt;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			shouldDrawToPrinter
-/// scope:			public instance method
-/// description:	return whether the layer should be part of the printed output or not
-/// 
-/// parameters:		none
-/// result:			YES to draw to printer, NO to suppress drawing on the printer
-///
-/// notes:			some layers won't want to be printed - guides for example. Override this to return NO if you
-///					don't want the layer to be printed. By default layers are printed.
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the layer should be part of the printed output or not
+ * @note
+ * Some layers won't want to be printed - guides for example. Override this to return NO if you
+ * don't want the layer to be printed. By default layers are printed.
+ * @return YES to draw to printer, NO to suppress drawing on the printer
+ * @public
+ */
 - (BOOL)			shouldDrawToPrinter
 {
 	return m_printed;
 }
 
-
 #pragma mark -
 #pragma mark - becoming/resigning active
-///*********************************************************************************************************************
-///
-/// method:			layerMayBecomeActive
-/// scope:			public instance method
-/// description:	returns whether the layer can become the active layer
-/// 
-/// parameters:		none
-/// result:			YES if the layer can become active, NO to not become active
-///
-/// notes:			The default is YES. Layers may override this and return NO if they do not want to ever become active
-///
-///********************************************************************************************************************
 
+/** @brief Returns whether the layer can become the active layer
+ * @note
+ * The default is YES. Layers may override this and return NO if they do not want to ever become active
+ * @return YES if the layer can become active, NO to not become active
+ * @public
+ */
 - (BOOL)			layerMayBecomeActive
 {
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerDidBecomeActiveLayer
-/// scope:			public instance method
-/// description:	the layer was made the active layer by the owning drawing
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			layers may want to know when their active state changes. Override to make use of this.
-///
-///********************************************************************************************************************
-
+/** @brief The layer was made the active layer by the owning drawing
+ * @note
+ * Layers may want to know when their active state changes. Override to make use of this.
+ * @public
+ */
 - (void)			layerDidBecomeActiveLayer
 {
 	// override to make use of this message
@@ -1330,20 +894,11 @@ static NSArray*	s_selectionColours = nil;
 	LogEvent_(kReactiveEvent, @"layer %@ became active", self);
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerDidResignActiveLayer
-/// scope:			public instance method
-/// description:	the layer is no longer the active layer
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			layers may want to know when their active state changes. Override to make use of this.
-///
-///********************************************************************************************************************
-
+/** @brief The layer is no longer the active layer
+ * @note
+ * Layers may want to know when their active state changes. Override to make use of this.
+ * @public
+ */
 - (void)			layerDidResignActiveLayer
 {
 	// override to make use of this message
@@ -1351,43 +906,29 @@ static NSArray*	s_selectionColours = nil;
 	LogEvent_(kReactiveEvent, @"layer %@ resigned active", self);
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerMayBeDeleted
-/// scope:			public instance method
-/// description:	return whether the layer can be deleted
-/// 
-/// parameters:		none
-/// result:			YES if layer can be deleted, override to return NO to prevent this
-///
-/// notes:			This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
-///					It does not prevent code from directly removing the layer.
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the layer can be deleted
+ * @note
+ * This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
+ * It does not prevent code from directly removing the layer.
+ * @return YES if layer can be deleted, override to return NO to prevent this
+ * @public
+ */
 - (BOOL)			layerMayBeDeleted
 {
 	return ![self locked];
 }
 
-
 #pragma mark -
 #pragma mark - mouse event handling
-///*********************************************************************************************************************
-///
-/// method:			shouldAutoActivateWithEvent:
-/// scope:			public instance method
-/// description:	should the layer automatically activate on a click if the view has this behaviour set?
-/// 
-/// parameters:		<event> the event (usually a mouse down) of the view that is asking
-/// result:			YES if the layer is unlocked, NO otherwise
-///
-/// notes:			override to return NO if your layer type should not auto activate. Note that auto-activation also
-///					needs to be set for the view. The event is passed so that a sensible decision can be reached.
-///
-///********************************************************************************************************************
 
+/** @brief Should the layer automatically activate on a click if the view has this behaviour set?
+ * @note
+ * Override to return NO if your layer type should not auto activate. Note that auto-activation also
+ * needs to be set for the view. The event is passed so that a sensible decision can be reached.
+ * @param event the event (usually a mouse down) of the view that is asking
+ * @return YES if the layer is unlocked, NO otherwise
+ * @public
+ */
 - (BOOL)			shouldAutoActivateWithEvent:(NSEvent*) event
 {
 	#pragma unused(event)
@@ -1395,22 +936,15 @@ static NSArray*	s_selectionColours = nil;
 	return ![self locked];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hitLayer:
-/// scope:			public instance method
-/// description:	detect whether the layer was "hit" by a point.
-/// 
-/// parameters:		<p> the point to test
-/// result:			YES if the layer was hit, NO otherwise
-///
-/// notes:			this is used to implement automatic layer activation when the user clicks in a view. This isn't
-///					always the most useful behaviour, so by default this returns NO. Subclasses can override to refine
-///					the hit test appropriately.
-///
-///********************************************************************************************************************
-
+/** @brief Detect whether the layer was "hit" by a point.
+ * @note
+ * This is used to implement automatic layer activation when the user clicks in a view. This isn't
+ * always the most useful behaviour, so by default this returns NO. Subclasses can override to refine
+ * the hit test appropriately.
+ * @param p the point to test
+ * @return YES if the layer was hit, NO otherwise
+ * @public
+ */
 - (BOOL)			hitLayer:(NSPoint) p
 {
 	#pragma unused(p)
@@ -1418,22 +952,15 @@ static NSArray*	s_selectionColours = nil;
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hitTest:
-/// scope:			public instance method
-/// description:	detect what object was hit by a point.
-/// 
-/// parameters:		<p> the point to test
-/// result:			the object hit, or nil
-///
-/// notes:			layers that support objects implement this meaningfully. A non-object layer returns nil which
-///					simplifies the design of certain tools that look for targets to operate on, without the need
-///					to ascertain the layer class first.
-///
-///********************************************************************************************************************
-
+/** @brief Detect what object was hit by a point.
+ * @note
+ * Layers that support objects implement this meaningfully. A non-object layer returns nil which
+ * simplifies the design of certain tools that look for targets to operate on, without the need
+ * to ascertain the layer class first.
+ * @param p the point to test
+ * @return the object hit, or nil
+ * @public
+ */
 - (DKDrawableObject*)	hitTest:(NSPoint) p
 {
 #pragma unused(p)
@@ -1441,86 +968,52 @@ static NSArray*	s_selectionColours = nil;
 	return nil;
 }
 
-
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			mouseDown:inView:
-/// scope:			public instance method
-/// description:	the mouse went down in this layer
-/// 
-/// parameters:		<event> the original mouseDown event
-///					<view> the view which responded to the event and passed it on to us
-/// result:			none
-///
-/// notes:			override to respond to the event. Note that where tool controllers and tools are used, these
-///					methods may never be called, as the tool will operate on target objects within the layer directly.
-///
-///********************************************************************************************************************
 
+/** @brief The mouse went down in this layer
+ * @note
+ * Override to respond to the event. Note that where tool controllers and tools are used, these
+ * methods may never be called, as the tool will operate on target objects within the layer directly.
+ * @param event the original mouseDown event
+ * @param view the view which responded to the event and passed it on to us
+ * @public
+ */
 - (void)			mouseDown:(NSEvent*) event inView:(NSView*) view
 {
 	#pragma unused(event)
 	#pragma unused(view)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDragged:inView:
-/// scope:			public instance method
-/// description:	
-/// 
-/// parameters:		<event> the original mouseDragged event
-///					<view> the view which responded to the event and passed it on to us
-/// result:			none
-///
-/// notes:			Subclasses must override to be notified of mouse dragged events
-///
-///********************************************************************************************************************
-
+/** @note
+ * Subclasses must override to be notified of mouse dragged events
+ * @param event the original mouseDragged event
+ * @param view the view which responded to the event and passed it on to us
+ * @public
+ */
 - (void)			mouseDragged:(NSEvent*) event inView:(NSView*) view;
 {
 	#pragma unused(event)
 	#pragma unused(view)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseUp:inView:
-/// scope:			public instance method
-/// description:	
-/// 
-/// parameters:		<event> the original mouseUpevent
-///					<view> the view which responded to the event and passed it on to us
-/// result:			none
-///
-/// notes:			override to respond to the event
-///
-///********************************************************************************************************************
-
+/** @note
+ * Override to respond to the event
+ * @param event the original mouseUpevent
+ * @param view the view which responded to the event and passed it on to us
+ * @public
+ */
 - (void)			mouseUp:(NSEvent*) event inView:(NSView*) view;
 {
 	#pragma unused(event)
 	#pragma unused(view)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			flagsChanged:
-/// scope:			public instance method
-/// description:	respond to a change in the modifier key state
-/// 
-/// parameters:		<event> the event
-/// result:			none
-///
-/// notes:			is passed from the key view to the active layer
-///
-///********************************************************************************************************************
-
+/** @brief Respond to a change in the modifier key state
+ * @note
+ * Is passed from the key view to the active layer
+ * @param event the event
+ * @public
+ */
 - (void)			flagsChanged:(NSEvent*) event
 {
 	#pragma unused(event)
@@ -1528,87 +1021,56 @@ static NSArray*	s_selectionColours = nil;
 	// override to do something useful
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			currentView
-/// scope:			public instance method
-/// description:	returns the view which is either currently drawing the layer, or the one that mouse events are
-///					coming from
-/// 
-/// parameters:		none
-/// result:			the currently "important" view
-///
-/// notes:			this generally does the expected thing. If you're drawing, it returns the view that's doing the drawing
-///					but if you are responding to a mouse event (down/dragged/up), this returns the view that received the
-///					original event in question. At any other time it will return nil. Wherever possible you should
-///					use the view parameter that is passed to you rather than use this.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the view which is either currently drawing the layer, or the one that mouse events are
+ * coming from
+ * @note
+ * This generally does the expected thing. If you're drawing, it returns the view that's doing the drawing
+ * original event in question. At any other time it will return nil. Wherever possible you should
+ * use the view parameter that is passed to you rather than use this.
+ * @return the currently "important" view
+ * @public
+ */
 - (NSView*)			currentView
 {
 	return [DKDrawingView currentlyDrawingView];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			cursor
-/// scope:			public instance method
-/// description:	returns the cursor to display while the mouse is over this layer while it's active
-/// 
-/// parameters:		none
-/// result:			the desired cursor
-///
-/// notes:			subclasses will usually want to override this and provide a cursor appropriate to the layer or where
-///					the mouse is within it, or which tool has been attached.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the cursor to display while the mouse is over this layer while it's active
+ * @note
+ * Subclasses will usually want to override this and provide a cursor appropriate to the layer or where
+ * the mouse is within it, or which tool has been attached.
+ * @return the desired cursor
+ * @public
+ */
 - (NSCursor*)		cursor
 {
 	return [NSCursor arrowCursor];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			activeCursorRect
-/// scope:			public instance method
-/// description:	return a rect where the layer's cursor is shown when the mouse is within it
-/// 
-/// parameters:		none
-/// result:			the cursor rect
-///
-/// notes:			by default the cursor rect is the entire interior area.
-///
-///********************************************************************************************************************
-
+/** @brief Return a rect where the layer's cursor is shown when the mouse is within it
+ * @note
+ * By default the cursor rect is the entire interior area.
+ * @return the cursor rect
+ * @public
+ */
 - (NSRect)			activeCursorRect
 {
 	return [[self drawing] interior];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			menuForEvent:inView:
-/// scope:			public instance method
-/// description:	allows a contextual menu to be built for the layer or its contents
-/// 
-/// parameters:		<theEvent> the original event (a right-click mouse event)
-///					<view> the view that received the original event
-/// result:			a menu that will be displayed as a contextual menu
-///
-/// notes:			by default this returns nil, resulting in nothing being displayed. Subclasses can override to build
-///					a suitable menu for the point where the layer was clicked.
-///
-///********************************************************************************************************************
 
+/** @brief Allows a contextual menu to be built for the layer or its contents
+ * @note
+ * By default this returns nil, resulting in nothing being displayed. Subclasses can override to build
+ * a suitable menu for the point where the layer was clicked.
+ * @param theEvent the original event (a right-click mouse event)
+ * @param view the view that received the original event
+ * @return a menu that will be displayed as a contextual menu
+ * @public
+ */
 - (NSMenu *)		menuForEvent:(NSEvent *)theEvent inView:(NSView*) view
 {
 	#pragma unused(theEvent)
@@ -1620,23 +1082,14 @@ static NSArray*	s_selectionColours = nil;
 #pragma mark -
 #pragma mark supporting per-layer knob handling
 
-
-///*********************************************************************************************************************
-///
-/// method:			setKnobs:
-/// scope:			public method
-/// overrides:
-/// description:	sets the selection knob helper object used for this drawing and any objects within it
-/// 
-/// parameters:		<knobs> the knobs objects
-/// result:			none
-///
-/// notes:			selection appearance can be customised for this drawing by setting up the knobs object or subclassing
-///					it. This object is propagated down to all objects below this in the system to draw their selection.
-///					See also: -setSelectionColour, -selectionColour.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the selection knob helper object used for this drawing and any objects within it
+ * @note
+ * Selection appearance can be customised for this drawing by setting up the knobs object or subclassing
+ * it. This object is propagated down to all objects below this in the system to draw their selection.
+ * See also: -setSelectionColour, -selectionColour.
+ * @param knobs the knobs objects
+ * @public
+ */
 - (void)				setKnobs:(DKKnob*) knobs
 {
 	[knobs retain];
@@ -1646,22 +1099,13 @@ static NSArray*	s_selectionColours = nil;
 	[m_knobs setOwner:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			knobs
-/// scope:			public method
-/// overrides:
-/// description:	returns the attached selection knobs helper object
-/// 
-/// parameters:		none
-/// result:			the attached knobs object
-///
-/// notes:			if custom knobs have been set for the layer, they are returned. Otherwise, the knobs for the group
-///					or ultimately the drawing will be returned.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the attached selection knobs helper object
+ * @note
+ * If custom knobs have been set for the layer, they are returned. Otherwise, the knobs for the group
+ * or ultimately the drawing will be returned.
+ * @return the attached knobs object
+ * @public
+ */
 - (DKKnob*)				knobs
 {
 	if ( m_knobs != nil )
@@ -1670,42 +1114,24 @@ static NSArray*	s_selectionColours = nil;
 		return [[self layerGroup] knobs];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setKnobsShouldAdustToViewScale:
-/// scope:			public method
-/// overrides:
-/// description:	sets whether selection knobs should scale to compensate for the view scale. default is YES.
-/// 
-/// parameters:		<ka> YES to set knobs to scale, NO to fix their size.
-/// result:			none
-///
-/// notes:			in general it's best to scale the knobs otherwise they tend to overlap and become large at high
-///					zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
+ * @note
+ * In general it's best to scale the knobs otherwise they tend to overlap and become large at high
+ * zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
+ * @param ka YES to set knobs to scale, NO to fix their size.
+ * @public
+ */
 - (void)				setKnobsShouldAdustToViewScale:(BOOL) ka
 {
 	m_knobsAdjustToScale = ka;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			knobsShouldAdjustToViewScale
-/// scope:			public method
-/// overrides:
-/// description:	return whether the drawing will scale its selection knobs to the view or not
-/// 
-/// parameters:		none
-/// result:			YES if knobs ar scaled, NO if not
-///
-/// notes:			the default setting is YES, knobs should adjust to scale.
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the drawing will scale its selection knobs to the view or not
+ * @note
+ * The default setting is YES, knobs should adjust to scale.
+ * @return YES if knobs ar scaled, NO if not
+ * @public
+ */
 - (BOOL)				knobsShouldAdjustToViewScale
 {
 	if ( m_knobs != nil )
@@ -1714,27 +1140,16 @@ static NSArray*	s_selectionColours = nil;
 		return NO;
 }
 
-
 #pragma mark -
 #pragma mark - pasteboard/drag and drop support
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteboardTypesForOperation:
-/// scope:			public method
-/// overrides:
-/// description:	return the pasteboard types this layer is able to receive in a given operation (drop or paste)
-/// 
-/// parameters:		<op> the kind of operation we need pasteboard types for
-/// result:			an array of pasteboard types
-///
-/// notes:			subclasses that are interested in receiving drag/drop should return the list of pasteboard types
-///					they can handle and also implement the necessary parts of the NSDraggingDestination protocol
-///					just as if they were a view.
-///
-///********************************************************************************************************************
-
+/** @brief Return the pasteboard types this layer is able to receive in a given operation (drop or paste)
+ * @param op the kind of operation we need pasteboard types for
+ * @return an array of pasteboard types
+ * they can handle and also implement the necessary parts of the NSDraggingDestination protocol
+ * just as if they were a view.
+ * @public
+ */
 - (NSArray*)		pasteboardTypesForOperation:(DKPasteboardOperationType) op
 {
 	#pragma unused(op)
@@ -1742,23 +1157,13 @@ static NSArray*	s_selectionColours = nil;
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteboard:hasAvailableTypeForOperation:
-/// scope:			public method
-/// overrides:
-/// description:	tests whether the pasteboard has any of the types the layer is interested in receiving for the given
-///					operation
-/// 
-/// parameters:		<pb> the pasteboard
-///					<op> the kind of operation we need pasteboard types for
-/// result:			YES if the pasteboard has any of the types of interest, otherwise NO
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Tests whether the pasteboard has any of the types the layer is interested in receiving for the given
+ * operation
+ * @param pb the pasteboard
+ * @param op the kind of operation we need pasteboard types for
+ * @return YES if the pasteboard has any of the types of interest, otherwise NO
+ * @public
+ */
 - (BOOL)			pasteboard:(NSPasteboard*) pb hasAvailableTypeForOperation:(DKPasteboardOperationType) op
 {
 	// return whether the given pasteboard has an available data type for the given operation on this object
@@ -1776,91 +1181,56 @@ static NSArray*	s_selectionColours = nil;
 		return NO;
 }
 
-
 #pragma mark -
 #pragma mark - style utilities
 
-///*********************************************************************************************************************
-///
-/// method:			allStyles
-/// scope:			public method
-/// overrides:
-/// description:	return all of styles used by the layer
-/// 
-/// parameters:		none
-/// result:			nil
-///
-/// notes:			override if your layer uses styles
-///
-///********************************************************************************************************************
-
+/** @brief Return all of styles used by the layer
+ * @note
+ * Override if your layer uses styles
+ * @return nil
+ * @public
+ */
 - (NSSet*)			allStyles
 {
 	return nil;		// generic layers have no styles
 }
 
-///*********************************************************************************************************************
-///
-/// method:			allRegisteredStyles
-/// scope:			public method
-/// overrides:
-/// description:	return all of registered styles used by the layer
-/// 
-/// parameters:		none
-/// result:			nil
-///
-/// notes:			override if your layer uses styles
-///
-///********************************************************************************************************************
-
+/** @brief Return all of registered styles used by the layer
+ * @note
+ * Override if your layer uses styles
+ * @return nil
+ * @public
+ */
 - (NSSet*)			allRegisteredStyles
 {
 	return nil;		// generic layers have no registered styles
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceMatchingStylesFromSet:
-/// scope:			public method
-/// overrides:
-/// description:	substitute styles with those in the given set
-/// 
-/// parameters:		<aSet> a set of style objects
-/// result:			none
-///
-/// notes:			subclasses may implement this to replace styles they use with styles from the set that have matching
-///					keys. This is an important step in reconciling the styles loaded from a file with the existing
-///					registry. Implemented by DKObjectOwnerLayer, etc. Layer groups also implement this to propagate
-///					the change to all sublayers.
-///
-///********************************************************************************************************************
-
+/** @brief Substitute styles with those in the given set
+ * @note
+ * Subclasses may implement this to replace styles they use with styles from the set that have matching
+ * keys. This is an important step in reconciling the styles loaded from a file with the existing
+ * registry. Implemented by DKObjectOwnerLayer, etc. Layer groups also implement this to propagate
+ * the change to all sublayers.
+ * @param aSet a set of style objects
+ * @public
+ */
 - (void)			replaceMatchingStylesFromSet:(NSSet*) aSet
 {
 	#pragma unused(aSet)
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			showInfoWindowWithString:atPoint:
-/// scope:			public method
-/// overrides:
-/// description:	displays a small floating info window near the point p containg the string.
-/// 
-/// parameters:		<str> a pre-formatted string containg some information to display
-///					<p> a point in local drawing coordinates
-/// result:			none
-///
-/// notes:			the window is shown near the point rather than at it. Generally the info window should be used
-///					for small, dynamically changing and temporary information, like a coordinate value. The background
-///					colour is initially set to the layer's selection colour
-///
-///********************************************************************************************************************
-
+/** @brief Displays a small floating info window near the point p containg the string.
+ * @note
+ * The window is shown near the point rather than at it. Generally the info window should be used
+ * for small, dynamically changing and temporary information, like a coordinate value. The background
+ * colour is initially set to the layer's selection colour
+ * @param str a pre-formatted string containg some information to display
+ * @param p a point in local drawing coordinates
+ * @public
+ */
 - (void)			showInfoWindowWithString:(NSString*) str atPoint:(NSPoint) p
 {
 	if ( m_infoWindow == nil )
@@ -1876,22 +1246,10 @@ static NSArray*	s_selectionColours = nil;
 	[m_infoWindow show];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			setInfoWindowBackgroundColour:
-/// scope:			public method
-/// overrides:
-/// description:	sets the background colour of the small floating info window
-/// 
-/// parameters:		<colour> a colour for the window
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets the background colour of the small floating info window
+ * @param colour a colour for the window
+ * @public
+ */
 - (void)			setInfoWindowBackgroundColour:(NSColor*) colour
 {
 	if ( m_infoWindow == nil )
@@ -1906,43 +1264,22 @@ static NSArray*	s_selectionColours = nil;
 		[m_infoWindow setBackgroundColor:colour];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			hideInfoWindow
-/// scope:			public method
-/// overrides:
-/// description:	hides the info window if it's visible
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Hides the info window if it's visible
+ * @public
+ */
 - (void)			hideInfoWindow
 {
 	[m_infoWindow hide];
 }
 
-
 #pragma mark -
 #pragma mark - user actions
-///*********************************************************************************************************************
-///
-/// method:			lockLayer:
-/// scope:			public action method
-/// description:	
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			user interface level method can be linked to a menu or other appropriate UI widget
-///
-///********************************************************************************************************************
 
+/** @note
+ * User interface level method can be linked to a menu or other appropriate UI widget
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)		lockLayer:(id) sender
 {
 	#pragma unused(sender)
@@ -1951,20 +1288,11 @@ static NSArray*	s_selectionColours = nil;
 	[[self undoManager] setActionName:NSLocalizedString(@"Lock Layer", @"undo string for lock layer")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			unlockLayer:
-/// scope:			public action method
-/// description:	
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			user interface level method can be linked to a menu or other appropriate UI widget
-///
-///********************************************************************************************************************
-
+/** @note
+ * User interface level method can be linked to a menu or other appropriate UI widget
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)		unlockLayer:(id) sender
 {
 	#pragma unused(sender)
@@ -1973,20 +1301,11 @@ static NSArray*	s_selectionColours = nil;
 	[[self undoManager] setActionName:NSLocalizedString(@"Unlock Layer", @"undo string for unlock layer")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toggleLayerLock:
-/// scope:			public action method
-/// description:	
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			user interface level method can be linked to a menu or other appropriate UI widget
-///
-///********************************************************************************************************************
-
+/** @note
+ * User interface level method can be linked to a menu or other appropriate UI widget
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)		toggleLayerLock:(id) sender
 {
 	if([self locked])
@@ -1995,21 +1314,13 @@ static NSArray*	s_selectionColours = nil;
 		[self lockLayer:sender];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			showLayer:
-/// scope:			public action method
-/// description:	
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			user interface level method can be linked to a menu or other appropriate UI widget
-///
-///********************************************************************************************************************
 
+/** @note
+ * User interface level method can be linked to a menu or other appropriate UI widget
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)		showLayer:(id) sender
 {
 	#pragma unused(sender)
@@ -2018,20 +1329,11 @@ static NSArray*	s_selectionColours = nil;
 	[[self undoManager] setActionName:NSLocalizedString(@"Show Layer", @"undo string for show layer")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hideLayer:
-/// scope:			public action method
-/// description:	
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			user interface level method can be linked to a menu or other appropriate UI widget
-///
-///********************************************************************************************************************
-
+/** @note
+ * User interface level method can be linked to a menu or other appropriate UI widget
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)		hideLayer:(id) sender
 {
 	#pragma unused(sender)
@@ -2040,20 +1342,11 @@ static NSArray*	s_selectionColours = nil;
 	[[self undoManager] setActionName:NSLocalizedString(@"Hide Layer", @"undo string for hide layer")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toggleLayerVisible:
-/// scope:			public action method
-/// description:	
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			user interface level method can be linked to a menu or other appropriate UI widget
-///
-///********************************************************************************************************************
-
+/** @note
+ * User interface level method can be linked to a menu or other appropriate UI widget
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)		toggleLayerVisible:(id) sender
 {
 	if([self visible])
@@ -2062,40 +1355,21 @@ static NSArray*	s_selectionColours = nil;
 		[self showLayer:sender];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			logDescription:
-/// scope:			public action method
-/// description:	
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			debugging method
-///
-///********************************************************************************************************************
-
+/** @note
+ * Debugging method
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)		logDescription:(id) sender
 {
 #pragma unused(sender)
 	NSLog(@"%@", self );
 }
 
-///*********************************************************************************************************************
-///
-/// method:			copy:
-/// scope:			public action method
-/// overrides:
-/// description:	places the layer on the clipboard as a PDF
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Places the layer on the clipboard as a PDF
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)				copy:(id) sender
 {
 #pragma unused(sender)
@@ -2104,7 +1378,6 @@ static NSArray*	s_selectionColours = nil;
 	
 	[self writePDFDataToPasteboard:[NSPasteboard generalPasteboard]];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -2124,15 +1397,10 @@ static NSArray*	s_selectionColours = nil;
 	[super dealloc];
 }
 
-
-///*********************************************************************************************************************
-///
-/// description:	designated initializer for base class of all layers
-///
-/// notes:			a layer must be added to a group (and ultimately a drawing, which is a group) before it can be used
-///
-///********************************************************************************************************************
-
+/** @brief Designated initializer for base class of all layers
+ * @note
+ * A layer must be added to a group (and ultimately a drawing, which is a group) before it can be used
+ */
 - (id)				init
 {
 	self = [super init];
@@ -2150,12 +1418,10 @@ static NSArray*	s_selectionColours = nil;
 	return self;
 }
 
-
 - (NSString*)		description
 {
 	return [NSString stringWithFormat:@"%@; name = '%@',\nuser info = %@,\ngroup = %@", [super description], [self layerName], [self userInfo], [self layerGroup]];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -2177,7 +1443,6 @@ static NSArray*	s_selectionColours = nil;
 	
 	[coder encodeBool:![self rulerMarkerUpdatesEnabled] forKey:@"DKLayer_disableRulerMarkerUpdates"];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -2223,7 +1488,6 @@ static NSArray*	s_selectionColours = nil;
 	return self;
 }
 
-
 - (id)				awakeAfterUsingCoder:(NSCoder*) coder
 {
 	[self setLocked:[coder decodeBoolForKey:@"locked"]];
@@ -2231,22 +1495,15 @@ static NSArray*	s_selectionColours = nil;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
-///*********************************************************************************************************************
-///
-/// method:			validateMenuItem:
-/// scope:			public class method
-/// description:	
-/// 
-/// parameters:		<item> the menu item to validate
-/// result:			YES to enable the item, NO to disable it
-///
-/// notes:			Overrides NSObject
-///
-///********************************************************************************************************************
 
+/** @note
+ * Overrides NSObject
+ * @param item the menu item to validate
+ * @return YES to enable the item, NO to disable it
+ * @public
+ */
 - (BOOL)			validateMenuItem:(NSMenuItem*) item
 {
 	SEL		action = [item action];
@@ -2273,7 +1530,6 @@ static NSArray*	s_selectionColours = nil;
 	return NO;
 }
 
-
 - (BOOL)			validateUserInterfaceItem:(id < NSValidatedUserInterfaceItem >) anItem
 {
 	if([(id)anItem isKindOfClass:[NSMenuItem class]])
@@ -2289,8 +1545,6 @@ static NSArray*	s_selectionColours = nil;
 	return oldResult;
 }
 
-
-
 #pragma mark -
 #pragma mark As part of the DKKnobOwner protocol
 
@@ -2304,7 +1558,6 @@ static NSArray*	s_selectionColours = nil;
 		return 1.0;
 }
 
-
 - (BOOL)			knobsWantDrawingActiveState
 {
 	// query the currently rendering view's active state and pass it back to the knobs
@@ -2316,5 +1569,5 @@ static NSArray*	s_selectionColours = nil;
 	return ( window == nil ) || [window isMainWindow];
 }
 
-
 @end
+

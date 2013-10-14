@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKArrowStroke.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 20/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKArrowStroke.h"
 #import "DKStyle.h"
@@ -36,7 +34,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	sDimLinesAttributes = temp;
 }
 
-
 + (NSDictionary*)	dimensioningLineTextAttributes
 {
 	if ( sDimLinesAttributes == nil )
@@ -58,7 +55,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	return sDimLinesAttributes;
 }
 
-
 + (DKArrowStroke*)	standardDimensioningLine
 {
 	static DKArrowStroke*	dml = nil;
@@ -77,7 +73,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	
 	return dml;
 }
-
 
 + (NSNumberFormatter*)	defaultDimensionLineFormatter
 {
@@ -103,31 +98,26 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	
 }
 
-
 #pragma mark -
 - (void)				setArrowHeadAtStart:(DKArrowHeadKind) sa
 {
 	mArrowHeadAtStart = sa;
 }
 
-
 - (void)				setArrowHeadAtEnd:(DKArrowHeadKind) se
 {
 	mArrowHeadAtEnd = se;
 }
-
 
 - (DKArrowHeadKind)		arrowHeadAtStart
 {
 	return mArrowHeadAtStart;
 }
 
-
 - (DKArrowHeadKind)		arrowHeadAtEnd
 {
 	return mArrowHeadAtEnd;
 }
-
 
 #pragma mark -
 
@@ -136,25 +126,20 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	m_arrowWidth = width;
 }
 
-
 - (CGFloat)				arrowHeadWidth
 {
 	return m_arrowWidth;
 }
-
-
 
 - (void)				setArrowHeadLength:(CGFloat) length
 {
 	m_arrowLength = length;
 }
 
-
 - (CGFloat)				arrowHeadLength
 {
 	return m_arrowLength;
 }
-
 
 #pragma mark -
 - (void)				standardArrowForStrokeWidth:(CGFloat) sw
@@ -168,7 +153,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	[self setArrowHeadLength:MAX( 10, w * 6)];
 }
 
-
 #ifdef DRAWKIT_DEPRECATED
 - (void)				setOutlineColour:(NSColor*) colour width:(CGFloat) width
 {
@@ -179,7 +163,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 }
 #endif
 
-
 - (void)				setOutlineColour:(NSColor*) colour
 {
 	[colour retain];
@@ -187,24 +170,20 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	m_outlineColour = colour;
 }
 
-
 - (NSColor*)			outlineColour
 {
 	return m_outlineColour;
 }
-
 
 - (void)				setOutlineWidth:(CGFloat) width
 {
 	m_outlineWidth = width;
 }
 
-
 - (CGFloat)				outlineWidth
 {
 	return m_outlineWidth;
 }
-
 
 #pragma mark -
 - (NSImage*)			arrowSwatchImageWithSize:(NSSize) size strokeWidth:(CGFloat) width
@@ -238,12 +217,10 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	return [image autorelease];
 }
 
-
 - (NSImage*)			standardArrowSwatchImage
 {
 	return [self arrowSwatchImageWithSize:kDKStandardArrowSwatchImageSize strokeWidth:kDKStandardArrowSwatchStrokeWidth];
 }
-
 
 #pragma mark -
 
@@ -276,7 +253,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	
 	return trim;
 }
-
 
 - (NSBezierPath*)		arrowHeadElementForKind:(DKArrowHeadKind) kind
 {
@@ -334,7 +310,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	
 	return [path bezierPathByReversingPath];
 }
-
 
 - (NSBezierPath*)		arrowHeadForPath:(NSBezierPath*) path ofKind:(DKArrowHeadKind) kind orientation:(BOOL) flip multiple:(NSInteger) n
 {
@@ -482,7 +457,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	}
 }
 
-
 - (NSBezierPath*)		arrowHeadForPathStart:(NSBezierPath*) path
 {
 	// returns the arrow head path for the start, translated, scaled etc to the right place
@@ -490,15 +464,12 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	return [self arrowHeadForPath:path ofKind:[self arrowHeadAtStart] orientation:NO multiple:0];
 }
 
-
 - (NSBezierPath*)		arrowHeadForPathEnd:(NSBezierPath*) path
 {
 	// returns the arrow head path for the end, translated, scaled etc to the right place
 	
 	return [self arrowHeadForPath:path ofKind:[self arrowHeadAtEnd] orientation:YES multiple:0];
 }
-
-
 
 #pragma mark -
 
@@ -604,7 +575,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	return shaft;
 }
 
-
 #pragma mark -
 #pragma mark - dimensioning lines
 
@@ -615,18 +585,15 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	m_dims_formatter = fmt;
 }
 
-
 - (NSNumberFormatter*)			formatter
 {
 	return m_dims_formatter;
 }
 
-
 - (void)						setFormat:(NSString*) format
 {
 	[m_dims_formatter setFormat:format];
 }
-
 
 - (void)						setDimensioningLineOptions:(DKDimensioningLineOptions) dimOps
 {
@@ -639,12 +606,10 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	}
 }
 
-
 - (DKDimensioningLineOptions)	dimensioningLineOptions
 {
 	return mDimensionOptions;
 }
-
 
 - (NSAttributedString*)			dimensionTextForObject:(id) obj
 {
@@ -686,7 +651,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	return dimText;
 }
 
-
 - (NSString*)				toleranceTextForObject:(id) object
 {
 	if([self dimensionToleranceOption] == kDKDimensionToleranceNotShown )
@@ -717,13 +681,11 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	}
 }
 
-
 - (CGFloat)			widthOfDimensionTextForObject:(id) obj
 {
 	NSAttributedString* dimStr = [self dimensionTextForObject:obj];
 	return [dimStr size].width;
 }
-
 
 - (void)						setDimensionTextKind:(DKDimensionTextKind) kind
 {
@@ -760,25 +722,20 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	}
 }
 
-
 - (DKDimensionTextKind)			dimensionTextKind
 {
 	return mDimTextKind;
 }
-
 
 - (void)						setDimensionToleranceOption:(DKDimensionToleranceOption) option
 {
 	mDimToleranceOptions = option;
 }
 
-
 - (DKDimensionToleranceOption)	dimensionToleranceOption
 {
 	return mDimToleranceOptions;
 }
-
-
 
 - (void)			setTextAttributes:(NSDictionary*) dict
 {
@@ -787,12 +744,10 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	[[self formatter] setTextAttributesForZero:dict];
 }
 
-
 - (NSDictionary*)	textAttributes
 {
 	return [[self formatter] textAttributesForPositiveValues];
 }
-
 
 - (void)			setFont:(NSFont*) font
 {
@@ -802,12 +757,10 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	[dict release];
 }
 
-
 - (NSFont*)			font
 {
 	return [[self textAttributes] objectForKey:NSFontAttributeName];
 }
-
 
 #pragma mark -
 #pragma mark As a DKStroke
@@ -817,7 +770,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	[self standardArrowForStrokeWidth:w];
 	[super setWidth:w];
 }
-
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -838,7 +790,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 																						nil]];
 }
 
-
 - (void)			registerActionNames
 {
 	[super registerActionNames];
@@ -856,8 +807,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	[self setActionName:@"#kind# Dimension Tolerance" forKeyPath:@"dimensionToleranceOption"];
 }
 
-
-
 #pragma mark -
 #pragma mark As an NSObject
 
@@ -867,7 +816,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	
 	[super dealloc];
 }
-
 
 - (id)			init
 {
@@ -885,7 +833,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
@@ -918,7 +865,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 		return NSZeroSize;
 }
 
-
 - (void)		render:(id<DKRenderable>) obj
 {
 	if( ![obj conformsToProtocol:@protocol(DKRenderable)] || ![self enabled])
@@ -944,7 +890,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	}
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 
@@ -966,7 +911,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	[coder encodeInteger:[self dimensionTextKind] forKey:@"DKArrowStroke_dimTextKind"];
 	[coder encodeInteger:[self dimensionToleranceOption] forKey:@"DKArrowStroke_dimToleranceOption"];
 }
-
 
 - (id)			initWithCoder:(NSCoder*) coder
 {
@@ -999,7 +943,6 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 
@@ -1026,5 +969,5 @@ NSString*				kDKDimensionUnitsKey		= @"DKDimensionUnits";
 	return copy;
 }
 
-
 @end
+

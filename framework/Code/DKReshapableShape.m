@@ -1,17 +1,14 @@
-///**********************************************************************************************************************************
-///  DKReshapableShape.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 20/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKReshapableShape.h"
 
 #import "DKGeometryUtilities.h"
-
 
 @implementation DKReshapableShape
 #pragma mark As a DKReshapableShape
@@ -26,18 +23,15 @@
 	//LogEvent_(kReactiveEvent, @"selector = '%@'", [NSString stringWithCString:sel_getName( selector )]);
 }
 
-
 - (id)				shapeProvider
 {
 	return m_shapeProvider;
 }
 
-
 - (SEL)				shapeSelector
 {
 	return m_shapeSelector;
 }
-
 
 #pragma mark -
 - (void)			setOptionalParameter:(id) objParam
@@ -58,12 +52,10 @@
 	}
 }
 
-
 - (id)				optionalParameter
 {
 	return m_optionalParam;
 }
-
 
 #pragma mark -
 - (NSBezierPath*)	providedShapeForRect:(NSRect) r
@@ -78,7 +70,6 @@
 		return nil;
 }
 
-
 #pragma mark -
 #pragma mark As a DKDrawableShape
 - (void)		adoptPath:(NSBezierPath*) path
@@ -88,7 +79,6 @@
 	[super adoptPath:path];
 	[self setShapeProvider:nil selector:nil];
 }
-
 
 - (void)			reshapePath
 {
@@ -147,12 +137,10 @@
 	}
 }
 
-
 /*- (void)		parentGeometryChanged
 {
 	[self reshapePath];
 }*/
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -163,7 +151,6 @@
 	
 	[super dealloc];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -176,7 +163,6 @@
 	[coder encodeObject:NSStringFromSelector([self shapeSelector]) forKey:@"DKReshapeable_shapeSelector"];
 	[coder encodeObject:[self optionalParameter] forKey:@"optparam"];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -201,7 +187,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)				copyWithZone:(NSZone*) zone
@@ -214,5 +199,5 @@
 	return copy;
 }
 
-
 @end
+

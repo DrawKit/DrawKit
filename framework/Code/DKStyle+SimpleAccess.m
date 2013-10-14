@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKStyle+SimpleAccess.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 08/07/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKStyle+SimpleAccess.h"
 #import "DKFill.h"
@@ -15,10 +13,7 @@
 #import "DKTextAdornment.h"
 #import "DKImageAdornment.h"
 
-
-
 @implementation DKStyle (SimpleAccess)
-
 
 + (DKStyle*)	styleWithDotDensity:(CGFloat) percent foreColour:(NSColor*) fore backColour:(NSColor*) back
 {
@@ -37,7 +32,6 @@
 	return style;
 }
 
-
 - (DKStroke*)		stroke
 {
 	if([self hasStroke])
@@ -46,7 +40,6 @@
 		return nil;
 }
 
-
 - (DKFill*)			fill
 {
 	if([self hasFill])
@@ -54,8 +47,6 @@
 	else
 		return nil;
 }
-
-
 
 - (void)		setFillColour:(NSColor*) fillColour
 {
@@ -85,8 +76,6 @@
 	}
 }
 
-
-
 - (NSColor*)	fillColour
 {
 	if([self hasFill])
@@ -97,9 +86,6 @@
 	else
 		return nil;
 }
-
-
-
 
 - (void)		setStrokeColour:(NSColor*) strokeColour
 {
@@ -129,8 +115,6 @@
 	}
 }
 
-
-
 - (NSColor*)	strokeColour
 {
 	if([self hasStroke])
@@ -141,8 +125,6 @@
 	else
 		return nil;
 }
-
-
 
 - (void)		setStrokeWidth:(CGFloat) strokeWidth
 {
@@ -158,8 +140,6 @@
 	}
 }
 
-
-
 - (CGFloat)		strokeWidth
 {
 	if([self hasStroke])
@@ -172,7 +152,6 @@
 	else
 		return 0.0;
 }
-
 
 - (void)		setStrokeDash:(DKStrokeDash*) aDash
 {
@@ -188,7 +167,6 @@
 	}
 }
 
-
 - (DKStrokeDash*) strokeDash
 {
 	if([self hasStroke])
@@ -199,8 +177,6 @@
 	else
 		return nil;
 }
-
-
 
 - (void)			setStrokeLineCapStyle:(NSLineCapStyle) capStyle
 {
@@ -214,7 +190,6 @@
 	}
 }
 
-
 - (NSLineCapStyle)	strokeLineCapStyle
 {
 	if([self hasStroke])
@@ -225,9 +200,6 @@
 	else
 		return NSButtLineCapStyle;
 }
-
-
-
 
 - (void)			setStrokeLineJoinStyle:(NSLineJoinStyle) joinStyle
 {
@@ -241,8 +213,6 @@
 	}
 }
 
-
-
 - (NSLineJoinStyle)	strokeLineJoinStyle
 {
 	if([self hasStroke])
@@ -253,8 +223,6 @@
 	else
 		return NSButtLineCapStyle;
 }
-
-
 
 - (void)			setString:(NSString*) aString
 {
@@ -284,7 +252,6 @@
 	}
 }
 
-
 - (NSString*)		string
 {
 	if([self hasTextAdornment])
@@ -296,13 +263,10 @@
 		return nil;
 }
 
-
 - (BOOL)			hasImageComponent
 {
 	return [self containsRendererOfClass:[DKImageAdornment class]];
 }
-
-
 
 - (void)			setImageComponent:(NSImage*) anImage
 {
@@ -332,7 +296,6 @@
 	}
 }
 
-
 - (NSImage*)		imageComponent
 {
 	if([self hasImageComponent])
@@ -344,5 +307,5 @@
 		return nil;
 }
 
-
 @end
+

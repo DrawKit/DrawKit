@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKHandle.h
 //  GCDrawKit
@@ -10,8 +17,6 @@
 #import "DKCommonTypes.h"
 
 @class DKQuartzCache;
-
-
 
 @interface DKHandle : NSObject
 {
@@ -42,10 +47,7 @@
 - (void)				drawAtPoint:(NSPoint) point angle:(CGFloat) radians;
 - (BOOL)				hitTestPoint:(NSPoint) point inHandleAtPoint:(NSPoint) hp;
 
-
 @end
-
-
 
 /*
 
@@ -54,6 +56,4 @@ DKHandle is a base class for all handles, which are the knobs attached to shapes
  
  DKHandle is subclassed for each handle type, making it easier to customise and also add caching.
 
-
 */
-

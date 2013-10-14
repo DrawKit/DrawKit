@@ -8,18 +8,14 @@
 
 #import "NSString+DKAdditions.h"
 
-
 @implementation NSString (DKAdditions)
-
 
 - (NSComparisonResult)		localisedCaseInsensitiveNumericCompare:(NSString*) anotherString
 {
 	return [self compare:anotherString options:NSCaseInsensitiveSearch | NSNumericSearch range:NSMakeRange(0, [self length]) locale:[NSLocale currentLocale]];
 }
 
-
 /* Remove all characters from the specified set */
-
 
 - (NSString *)				stringByRemovingCharactersInSet:(NSCharacterSet*) charSet options:(NSUInteger) mask
 {
@@ -48,12 +44,10 @@
 	return newString;
 }
 
-
 - (NSString *)			stringByRemovingCharactersInSet:(NSCharacterSet*) charSet
 {
 	return [self stringByRemovingCharactersInSet:charSet options:0];
 }
-
 
 - (NSString *)			stringByRemovingCharacter:(unichar) character
 {
@@ -61,7 +55,6 @@
 	
 	return [self stringByRemovingCharactersInSet:charSet];
 }
-
 
 - (NSString*)			stringByReplacingCharactersInSet:(NSCharacterSet*) charSet withString:(NSString*) substitute
 {
@@ -95,7 +88,6 @@
 	return newString;
 }
 
-
 - (NSString*)			stringByCapitalizingFirstCharacter
 {
 	// returns a copy of the receiver with just the first character capitalized, ignoring all others. Thus, the rest of the string isn't necessarily forced to
@@ -108,7 +100,6 @@
 	
 	return sc;
 }
-
 
 - (NSString*)			stringByAbbreviatingWithOptions:(NSUInteger) flags
 {
@@ -145,7 +136,6 @@
 	return [result uppercaseString];
 }
 
-
 - (NSString*)			stringByAbbreviatingWordsWithDictionary:(NSDictionary*) abbreviations
 {
 	// breaks a string into words. If any words are keys in the dictionary, the word is substituted by its value. Keys are case insensitive (dictionary should have lower case
@@ -174,10 +164,10 @@
 	return result;
 }
 
-
 - (NSString*)				stringValue
 {
 	return self;
 }
 
 @end
+

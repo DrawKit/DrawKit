@@ -1,10 +1,14 @@
 //
 //  DKZigZagStroke.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 04/01/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKZigZagStroke.h"
@@ -12,9 +16,11 @@
 #import "NSBezierPath+Geometry.h"
 #import "NSObject+GraphicsAttributes.h"
 
-
 @implementation DKZigZagStroke
 #pragma mark As a DKZigZagStroke
+
+/** 
+ */
 - (void)		setWavelength:(CGFloat) w
 {
 	NSAssert( w > 0, @"wavelength must be > 0");
@@ -22,12 +28,10 @@
 	mWavelength = w;
 }
 
-
 - (CGFloat)		wavelength
 {
 	return mWavelength;
 }
-
 
 #pragma mark -
 - (void)		setAmplitude:(CGFloat) amp
@@ -35,12 +39,10 @@
 	mAmplitude = amp;
 }
 
-
 - (CGFloat)		amplitude
 {
 	return mAmplitude;
 }
-
 
 #pragma mark -
 - (void)		setSpread:(CGFloat) sp
@@ -48,12 +50,10 @@
 	mSpread = sp;
 }
 
-
 - (CGFloat)		spread
 {
 	return mSpread;
 }
-
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -62,7 +62,6 @@
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"wavelength", @"amplitude", @"spread", nil]];
 }
 
-
 - (void)		registerActionNames
 {
 	[super registerActionNames];
@@ -70,7 +69,6 @@
 	[self setActionName:@"#kind# Stroke Zig-Zag Amplitude" forKeyPath:@"amplitude"];
 	[self setActionName:@"#kind# Stroke Zig-Zag Spread" forKeyPath:@"spread"];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -84,7 +82,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
@@ -103,7 +100,6 @@
 		return NSZeroSize;
 }
 
-
 - (void)		renderPath:(NSBezierPath*) path
 {
 	if([self amplitude] > 0 )
@@ -115,7 +111,6 @@
 		[super renderPath:path];
 }
 
-
 #pragma mark -
 #pragma mark As part of GraphicAttributtes Protocol
 
@@ -126,7 +121,6 @@
 	
 	NSLog(@"style scripting is deprecated - please revise this code");
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -141,7 +135,6 @@
 
 }
 
-
 - (id)			initWithCoder:(NSCoder*) coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
@@ -154,7 +147,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -169,5 +161,5 @@
 	return copy;
 }
 
-
 @end
+

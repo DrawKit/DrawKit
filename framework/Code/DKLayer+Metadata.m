@@ -1,38 +1,31 @@
-///**********************************************************************************************************************************
-///  DKDrawing+Metadata.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 19/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKLayer+Metadata.h"
 #import "LogEvent.h"
-
 
 #define		USE_107_OR_LATER_SCHEMA		1
 
 NSString*	kDKLayerMetadataUserInfoKey						= @"kDKLayerMetadataUserInfoKey";
 NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUndoableChangesUserDefaultsKey";
 
-
 @implementation DKLayer (Metadata)
 #pragma mark As a DKLayer
-
 
 + (void)		setMetadataChangesAreUndoable:(BOOL) undo
 {
 	[[NSUserDefaults standardUserDefaults] setBool:!undo forKey:kDKLayerMetadataUndoableChangesUserDefaultsKey];
 }
 
-
 + (BOOL)		metadataChangesAreUndoable
 {
 	return ![[NSUserDefaults standardUserDefaults] boolForKey:kDKLayerMetadataUndoableChangesUserDefaultsKey];
 }
-
 
 - (void)		setupMetadata
 {
@@ -45,7 +38,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
 - (NSMutableDictionary*)	metadata
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -54,7 +46,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return [self userInfo];
 #endif
 }
-
 
 - (DKLayerMetadataSchema)	schema
 {
@@ -65,12 +56,10 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return kDKLayerMetadataOriginalSchema;
 }
 
-
 - (NSArray*)				metadataKeys
 {
 	return [[self metadata] allKeys];
 }
-
 
 - (void)		setMetadataItem:(DKMetadataItem*) item forKey:(NSString*) key
 {
@@ -97,7 +86,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	}
 }
 
-
 - (DKMetadataItem*)	metadataItemForKey:(NSString*) key
 {
 	DKMetadataItem* item = [[self metadata] objectForKey:[key lowercaseString]];
@@ -107,7 +95,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	
 	return item;
 }
-
 
 - (void)		setMetadataItemValue:(id) value forKey:(NSString*) key
 {
@@ -129,7 +116,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 		}
 	}
 }
-
 
 - (void)		setMetadataItemType:(DKMetadataType) type forKey:(NSString*) key
 {
@@ -158,8 +144,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	}
 }
 
-
-
 - (void)		addMetadata:(NSDictionary*) dict
 {
 	if( dict )
@@ -185,7 +169,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	}
 }
 
-
 - (void)		setMetadata:(NSDictionary*) dict
 {
 	NSAssert( dict != nil, @"Cannot set metadata to a nil dictionary");
@@ -203,7 +186,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	[md release];
 	[self metadataDidChangeKey:nil];
 }
-
 
 #pragma mark -
 - (void)		setMetadataObject:(id) obj forKey:(id) key
@@ -223,7 +205,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 		[self metadataDidChangeKey:key];
 	}
 }
-
 
 - (id)			metadataObjectForKey:(NSString*) key
 {
@@ -255,7 +236,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
 - (BOOL)		hasMetadataForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -264,7 +244,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return ([self metadataObjectForKey:key] != nil);
 #endif
 }
-
 
 - (void)		removeMetadataForKey:(NSString*) key
 {
@@ -290,7 +269,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	[self metadataDidChangeKey:key];
 }
 
-
 #pragma mark -
 - (void)		setFloatValue:(float) val forKey:(NSString*) key
 {
@@ -301,7 +279,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
 - (CGFloat)		floatValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -310,7 +287,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return [[self metadataObjectForKey:key] doubleValue];
 #endif
 }
-
 
 - (void)		setIntValue:(int) val forKey:(NSString*) key
 {
@@ -321,7 +297,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
 - (NSInteger)			intValueForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -330,7 +305,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return [[self metadataObjectForKey:key] integerValue];
 #endif
 }
-
 
 - (void)		setString:(NSString*) string forKey:(NSString*) key
 {
@@ -341,7 +315,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
 - (NSString*)	stringForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -350,7 +323,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return (NSString*)[self metadataObjectForKey:key];
 #endif
 }
-
 
 - (void)		setColour:(NSColor*) colour forKey:(NSString*) key
 {
@@ -361,7 +333,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
 - (NSColor*)	colourForKey:(NSString*) key
 {
 #if USE_107_OR_LATER_SCHEMA
@@ -370,7 +341,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return (NSColor*)[self metadataObjectForKey:key];
 #endif
 }
-
 
 - (void)		setSize:(NSSize) size forKey:(NSString*) key
 {
@@ -383,7 +353,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	[self setMetadataObject:[NSNumber numberWithDouble:size.height] forKey:[NSString stringWithFormat:@"%@.size_height", key]];
 #endif
 }
-
 
 - (NSSize)		sizeForKey:(NSString*) key
 {
@@ -399,7 +368,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
 - (void)		metadataWillChangeKey:(NSString*) key
 {
 	NSDictionary* userInfo = nil;
@@ -408,7 +376,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification object:self userInfo:userInfo];
 }
 
-
 - (void)		metadataDidChangeKey:(NSString*) key;
 {
 	NSDictionary* userInfo = nil;
@@ -416,8 +383,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString] forKey:@"key"];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification object:self userInfo:userInfo];
 }
-
-
 
 #pragma mark -
 
@@ -465,8 +430,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 #endif
 }
 
-
-
 - (NSUInteger)	metadataChecksum
 {
 	NSUInteger cs = 319162352;	// arbitrary
@@ -496,7 +459,6 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return cs;
 }
 
-
 - (BOOL)		supportsMetadata
 {
 	// subclasses that want to prevent access to metadata for a layer can override this to return NO. Controllers that provide
@@ -505,5 +467,5 @@ NSString*	kDKLayerMetadataUndoableChangesUserDefaultsKey	= @"kDKLayerMetadataUnd
 	return YES;
 }
 
-
 @end
+

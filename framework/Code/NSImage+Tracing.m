@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSImage+Tracing.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 23/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #ifdef qUsePotrace
 
@@ -15,7 +13,6 @@
 #import "bitmap.h"
 #import "DKColourQuantizer.h"
 #import "LogEvent.h"
-
 
 #pragma mark Contants (Non-localized)
 
@@ -26,7 +23,6 @@ NSString*	kDKTracingParam_turnpolicy		= @"kDKTracingParam_turnpolicy";
 NSString*	kDKTracingParam_alphamax		= @"kDKTracingParam_alphamax";
 NSString*	kDKTracingParam_opticurve		= @"kDKTracingParam_opticurve";		
 NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";		
-
 
 #pragma mark -
 @implementation NSImage (Tracing)
@@ -232,7 +228,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	return [bitplanes autorelease];
 }
 
-
 #pragma mark -
 - (NSBitmapImageRep*)	eightBitImageRep
 {
@@ -277,7 +272,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	
 	return [b8 autorelease];
 }
-
 
 - (NSBitmapImageRep*)	twentyFourBitImageRep
 {
@@ -324,11 +318,7 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	return [b24 autorelease];
 }
 
-
 @end
-
-
-
 
 #pragma mark -
 
@@ -337,9 +327,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 - (NSBezierPath*)		newPathFromTracePath:(potrace_path_t*) tp;
 
 @end
-
-
-
 
 @implementation DKImageVectorRep
 #pragma mark As a DKImageVectorRep
@@ -369,13 +356,11 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	return self;
 }
 
-
 #pragma mark -
 - (potrace_bitmap_t*)	bitmap
 {
 	return mBits;
 }
-
 
 #pragma mark -
 #pragma mark - get the traced path, performing the trace if needed
@@ -442,8 +427,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	return vd;
 }
 
-
-
 - (NSBezierPath*)		vectorPath
 {
 	if ( mVectorData == nil && mBits != NULL )
@@ -491,7 +474,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	return [mVectorData autorelease];
 }
 
-
 #pragma mark -
 #pragma mark - colour from original image associated with this bitplane
 - (void)				setColour:(NSColor*) cin
@@ -500,7 +482,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	[mColour release];
 	mColour = cin;
 }
-
 
 - (NSColor*)			colour
 {
@@ -516,7 +497,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	return mColour;
 }
 
-
 #pragma mark -
 - (void)				setTurdSize:(NSInteger) turdsize
 {
@@ -528,12 +508,10 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	mVectorData = nil;
 }
 
-
 - (NSInteger)					turdSize
 {
 	return mTraceParams->turdsize;
 }
-
 
 #pragma mark -
 - (void)				setTurnPolicy:(NSInteger) turnPolicy
@@ -543,12 +521,10 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	mVectorData = nil;
 }
 
-
 - (NSInteger)					turnPolicy
 {
 	return mTraceParams->turnpolicy;
 }
-
 
 #pragma mark -
 - (void)				setAlphaMax:(double) alphaMax
@@ -558,12 +534,10 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	mVectorData = nil;
 }
 
-
 - (double)				alphaMax
 {
 	return mTraceParams->alphamax;
 }
-
 
 #pragma mark -
 - (void)				setOptimizeCurve:(BOOL) opt
@@ -573,12 +547,10 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	mVectorData = nil;
 }
 
-
 - (BOOL)				optimizeCurve
 {
 	return mTraceParams->opticurve;
 }
-
 
 #pragma mark -
 - (void)				setOptimizeTolerance:(double) optTolerance
@@ -588,12 +560,10 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	mVectorData = nil;
 }
 
-
 - (double)				optimizeTolerance
 {
 	return mTraceParams->opttolerance;
 }
-
 
 #pragma mark -
 - (void)				setTracingParameters:(NSDictionary*) dict
@@ -631,7 +601,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 		[self setOptimizeTolerance:[val doubleValue]];
 }
 
-
 - (NSDictionary*)		tracingParameters
 {
 	// copies the current tracing params to a dictionary
@@ -648,7 +617,6 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	
 	return dict;
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -669,7 +637,7 @@ NSString*	kDKTracingParam_opttolerance	= @"kDKTracingParam_opttolerance";
 	[super dealloc];
 }
 
-
 @end
 
 #endif /* defined qUsePotrace */
+

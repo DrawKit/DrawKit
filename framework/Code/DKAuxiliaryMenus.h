@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKAuxiliaryMenus.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface DKAuxiliaryMenus : NSObject
 {
@@ -32,8 +38,6 @@
 
 extern NSString*		kDKAuxiliaryMenusNibFile;
 
-
-
 /*
 
 Most drawables in DK have contextual menus associated with them. This objects allows those menus to be simply defined in a nib
@@ -42,6 +46,4 @@ Most drawables in DK have contextual menus associated with them. This objects al
  The default nib is set up so that the menus target first responder, such that DK's message forwarding handles menu validation as
  normal. When overriding the nib in an app, you need to copy the entire nib and extend or modify any menus as you wish.
 
-
 */
-

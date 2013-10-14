@@ -1,161 +1,98 @@
-///**********************************************************************************************************************************
-///  NSColor+DKAdditions.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 26/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "NSColor+DKAdditions.h"
 
 #import "LogEvent.h"
 #include <tgmath.h>
 
-
 @implementation NSColor (DKAdditions)
 #pragma mark As an NSColor
-///*********************************************************************************************************************
-///
-/// method:			rgbWhite
-/// scope:			public class method
-/// overrides:		
-/// description:	returns the colour white as an RGB Color
-/// 
-/// parameters:		none
-/// result:			the colour white
-///
-/// notes:			uses the RGB Color space, not the greyscale Colorspace you get with NSColor's whiteColor
-///					method.
-///
-///********************************************************************************************************************
 
+/** @brief Returns the colour white as an RGB Color
+ * @note
+ * Uses the RGB Color space, not the greyscale Colorspace you get with NSColor's whiteColor
+ * method.
+ * @return the colour white
+ * @public
+ */
 + (NSColor*)			rgbWhite
 {
 	return [self rgbGrey:1.0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rgbBlack
-/// scope:			public class method
-/// overrides:		
-/// description:	returns the colour black as an RGB Color
-/// 
-/// parameters:		none
-/// result:			the colour black
-///
-/// notes:			uses the RGB Color space, not the greyscale Colorspace you get with NSColor's blackColor
-///					method.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the colour black as an RGB Color
+ * @note
+ * Uses the RGB Color space, not the greyscale Colorspace you get with NSColor's blackColor
+ * method.
+ * @return the colour black
+ * @public
+ */
 + (NSColor*)			rgbBlack
 {
 	return [self rgbGrey:0.0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rgbGrey:
-/// scope:			public class method
-/// overrides:		
-/// description:	returns a grey RGB colour
-/// 
-/// parameters:		<grayscale> 0 to 1.0
-/// result:			a grey colour
-///
-/// notes:			uses the RGB Color space, not the greyscale Colorspace you get with NSColor's grey
-///					method. 
-///
-///********************************************************************************************************************
-
+/** @brief Returns a grey RGB colour
+ * @note
+ * Uses the RGB Color space, not the greyscale Colorspace you get with NSColor's grey
+ * method. 
+ * @param grayscale 0 to 1.0
+ * @return a grey colour
+ * @public
+ */
 + (NSColor*)			rgbGrey:(CGFloat) grayscale
 {
 	return [self rgbGrey:grayscale withAlpha:1.0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rgbGrey:withAlpha:
-/// scope:			public class method
-/// overrides:		
-/// description:	returns a grey RGB colour
-/// 
-/// parameters:		<grayscale> 0 to 1.0
-///					<alpha> 0 to 1.0
-/// result:			a grey colour with variable opacity
-///
-/// notes:			uses the RGB Color space, not the greyscale Colorspace you get with NSColor's grey
-///					method.
-///
-///********************************************************************************************************************
-
+/** @brief Returns a grey RGB colour
+ * @note
+ * Uses the RGB Color space, not the greyscale Colorspace you get with NSColor's grey
+ * method.
+ * @param grayscale 0 to 1.0
+ * @param alpha 0 to 1.0
+ * @return a grey colour with variable opacity
+ * @public
+ */
 + (NSColor*)			rgbGrey:(CGFloat) grayscale withAlpha:(CGFloat) alpha
 {
 	return [self colorWithCalibratedRed:grayscale green:grayscale blue:grayscale alpha:alpha];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rgbGreyWithLuminosityFrom:withAlpha:
-/// scope:			public class method
-/// overrides:		
-/// description:	returns a grey RGB colour with the same perceived brightness as the source colour
-/// 
-/// parameters:		<colour> any colour
-///					<alpha> 0 to 1.0
-/// result:			a grey colour in rgb space of equivalent luminosity
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns a grey RGB colour with the same perceived brightness as the source colour
+ * @param colour any colour
+ * @param alpha 0 to 1.0
+ * @return a grey colour in rgb space of equivalent luminosity
+ * @public
+ */
 + (NSColor*)			rgbGreyWithLuminosityFrom:(NSColor*) colour withAlpha:(CGFloat) alpha
 {
 	return [self rgbGrey:[colour luminosity] withAlpha:alpha];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			veryLightGrey
-/// scope:			public class method
-/// overrides:		
-/// description:	a very light grey colour
-/// 
-/// parameters:		none
-/// result:			a very light grey colour in rgb space
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief A very light grey colour
+ * @return a very light grey colour in rgb space
+ * @public
+ */
 + (NSColor*)			veryLightGrey
 {
 	return [self rgbGrey:0.9];
 }
 
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			contrastingColor
-/// scope:			public class method
-/// overrides:		
-/// description:	returns black or white depending on input colour - dark colours give white, else black.
-/// 
-/// parameters:		none
-/// result:			black or white
-///
-/// notes:			colour returned is in grayscale colour space
-///
-///********************************************************************************************************************
 
+/** @brief Returns black or white depending on input colour - dark colours give white, else black.
+ * @note
+ * Colour returned is in grayscale colour space
+ * @return black or white
+ * @public
+ */
 + (NSColor*)			contrastingColor:(NSColor*) Color
 {
 	if ([Color luminosity] >= 0.5 )
@@ -164,21 +101,13 @@
 		return [NSColor whiteColor];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorWithWavelength:
-/// scope:			public class method
-/// overrides:		
-/// description:	returns an RGB colour approximating the wavelength.
-/// 
-/// parameters:		<lambda> the wavelength in nanometres
-/// result:			approximate rgb equivalent colour
-///
-/// notes:			lambda range outside 380 to 780 (nm) returns black
-///
-///********************************************************************************************************************
-
+/** @brief Returns an RGB colour approximating the wavelength.
+ * @note
+ * Lambda range outside 380 to 780 (nm) returns black
+ * @param lambda the wavelength in nanometres
+ * @return approximate rgb equivalent colour
+ * @public
+ */
 + (NSColor*)			colorWithWavelength:(CGFloat) lambda
 {
 	CGFloat   gama = 0.8;
@@ -251,21 +180,11 @@
 	return [NSColor colorWithCalibratedRed:red green:green blue:blue alpha:1.0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorWithHexString:
-/// scope:			public class method
-/// overrides:		
-/// description:	returns an RGB colour corresponding to the standard-formatted HTML hexadecimal colour string.
-/// 
-/// parameters:		<hex> a string formatted '#RRGGBB'
-/// result:			rgb equivalent colour
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns an RGB colour corresponding to the standard-formatted HTML hexadecimal colour string.
+ * @param hex a string formatted '#RRGGBB'
+ * @return rgb equivalent colour
+ * @public
+ */
 + (NSColor*)			colorWithHexString:(NSString*) hex
 {
 	if( hex == nil || [hex length] < 7 )
@@ -302,23 +221,13 @@
 	return c;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorByInterpolatingFrom:to:atValue:
-/// scope:			public class method
-/// overrides:		
-/// description:	returns a colour by interpolating between two colours
-/// 
-/// parameters:		<startColor> a colour
-///					<endColor> a second colour
-///					<interpValue> a value between 0 and 1
-/// result:			a colour that is intermediate between startColor and endColor, in RGB space
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns a colour by interpolating between two colours
+ * @param startColor a colour
+ * @param endColor a second colour
+ * @param interpValue a value between 0 and 1
+ * @return a colour that is intermediate between startColor and endColor, in RGB space
+ * @public
+ */
 + (NSColor*)			colorByInterpolatingFrom:(NSColor*) startColor to:(NSColor*) endColor atValue:(CGFloat) interpValue
 {
 	// returns an RGB color that interpolates between <start> and <end> given a value from 0..1.
@@ -343,63 +252,40 @@
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			colorWithHueFrom:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a copy ofthe receiver but substituting the hue from the given colour.
-/// 
-/// parameters:		<color> donates hue
-/// result:			a colour with the hue of <color> but the receiver's saturation and brightness
-///
-/// notes:			if the receiver is black or white or otherwise fully unsaturated, colourization may not produce visible
-///					results. Input colours must be in RGB colour space
-///
-///********************************************************************************************************************
 
+/** @brief Returns a copy ofthe receiver but substituting the hue from the given colour.
+ * @note
+ * If the receiver is black or white or otherwise fully unsaturated, colourization may not produce visible
+ * results. Input colours must be in RGB colour space
+ * @param color donates hue
+ * @return a colour with the hue of <color> but the receiver's saturation and brightness
+ * @public
+ */
 - (NSColor*)			colorWithHueFrom:(NSColor*) color
 {
 	return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[self saturationComponent] brightness:[self brightnessComponent] alpha:[self alphaComponent]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorWithHueAndSaturationFrom:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a copy ofthe receiver but substituting the hue and saturation from the given colour.
-/// 
-/// parameters:		<color> donates hue and saturation
-/// result:			a colour with the hue, sat of <color> but the receiver's brightness
-///
-/// notes:			Input colours must be in RGB colour space
-///
-///********************************************************************************************************************
-
+/** @brief Returns a copy ofthe receiver but substituting the hue and saturation from the given colour.
+ * @note
+ * Input colours must be in RGB colour space
+ * @param color donates hue and saturation
+ * @return a colour with the hue, sat of <color> but the receiver's brightness
+ * @public
+ */
 - (NSColor*)			colorWithHueAndSaturationFrom:(NSColor*) color
 {
 	return [NSColor colorWithCalibratedHue:[color hueComponent] saturation:[color saturationComponent] brightness:[self brightnessComponent] alpha:[self alphaComponent]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorWithRGBAverageFrom:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a colour by averaging the receiver with <color> in rgb space
-/// 
-/// parameters:		<color> average with this colour
-/// result:			average of the two colours
-///
-/// notes:			Input colours must be in RGB colour space
-///
-///********************************************************************************************************************
-
+/** @brief Returns a colour by averaging the receiver with <color> in rgb space
+ * @note
+ * Input colours must be in RGB colour space
+ * @param color average with this colour
+ * @return average of the two colours
+ * @public
+ */
 - (NSColor*)			colorWithRGBAverageFrom:(NSColor*) color
 {
 	CGFloat ba[4] = {0.5, 0.5, 0.5, 0.5};
@@ -407,21 +293,13 @@
 	return [self colorWithRGBBlendFrom:color blendingAmounts:ba];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorWithHSBAverageFrom:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a colour by averaging the receiver with <color> in hsb space
-/// 
-/// parameters:		<color> average with this colour
-/// result:			average of the two colours
-///
-/// notes:			Input colours must be in RGB colour space
-///
-///********************************************************************************************************************
-
+/** @brief Returns a colour by averaging the receiver with <color> in hsb space
+ * @note
+ * Input colours must be in RGB colour space
+ * @param color average with this colour
+ * @return average of the two colours
+ * @public
+ */
 - (NSColor*)			colorWithHSBAverageFrom:(NSColor*) color
 {
 	CGFloat ba[4] = {0.5, 0.5, 0.5, 0.5};
@@ -429,24 +307,14 @@
 	return [self colorWithHSBBlendFrom:color blendingAmounts:ba];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			colorWithRGBBlendFrom:blendingAmounts:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a colour by blending the receiver with <color> in rgb space
-/// 
-/// parameters:		<color> blend with this colour
-///					<blendingAmounts> an array of four values, each 0..1, specifies how components from each colour are
-///					blended
-/// result:			blend of the two colours
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Returns a colour by blending the receiver with <color> in rgb space
+ * @param color blend with this colour
+ * @param blendingAmounts an array of four values, each 0..1, specifies how components from each colour are
+ * @return blend of the two colours
+ * @public
+ */
 - (NSColor*)			colorWithRGBBlendFrom:(NSColor*) color blendingAmounts:(CGFloat[]) blends
 {
 	NSColor* sc = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -462,23 +330,12 @@
 	return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:a];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorWithHSBBlendFrom:blendingAmounts:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a colour by blending the receiver with <color> in hsb space
-/// 
-/// parameters:		<color> blend with this colour
-///					<blendingAmounts> an array of four values, each 0..1, specifies how components from each colour are
-///					blended
-/// result:			blend of the two colours
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns a colour by blending the receiver with <color> in hsb space
+ * @param color blend with this colour
+ * @param blendingAmounts an array of four values, each 0..1, specifies how components from each colour are
+ * @return blend of the two colours
+ * @public
+ */
 - (NSColor*)			colorWithHSBBlendFrom:(NSColor*) color blendingAmounts:(CGFloat[]) blends
 {
 	NSColor* sc = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -494,26 +351,18 @@
 	return [NSColor colorWithCalibratedHue:h saturation:s brightness:b alpha:a];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			luminosity
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the luminosity value of the receiver
-/// 
-/// parameters:		none
-/// result:			a value 0..1 that is the colour's luminosity
-///
-/// notes:			luminosity of a colour is both subjective and dependent on the display characteristics of particular
-///					monitors, etc. A frequently used formula can be traced to experiments done by the NTSC television
-///					standards committee in 1953, which was based on tube phosphors in common use at that time. A more
-///					modern formula is applicable for LCD monitors. This method uses the NTSC formula if
-///					NTSC_1953_STANDARD is defined, otherwise the modern one.
-///
-///********************************************************************************************************************
 
+/** @brief Returns the luminosity value of the receiver
+ * @note
+ * Luminosity of a colour is both subjective and dependent on the display characteristics of particular
+ * monitors, etc. A frequently used formula can be traced to experiments done by the NTSC television
+ * standards committee in 1953, which was based on tube phosphors in common use at that time. A more
+ * modern formula is applicable for LCD monitors. This method uses the NTSC formula if
+ * NTSC_1953_STANDARD is defined, otherwise the modern one.
+ * @return a value 0..1 that is the colour's luminosity
+ * @public
+ */
 - (CGFloat)				luminosity
 {
 	NSColor* rgb = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -525,61 +374,30 @@
 #endif
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			colorWithLuminosity:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a grey rgb colour having the same luminosity as the receiver
-/// 
-/// parameters:		none
-/// result:			a grey colour having the same luminosity
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns a grey rgb colour having the same luminosity as the receiver
+ * @return a grey colour having the same luminosity
+ * @public
+ */
 - (NSColor*)			colorWithLuminosity
 {
 	return [NSColor rgbGrey:[self luminosity]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			contrastingColor
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns black or white to give best contrast with the receiver's colour
-/// 
-/// parameters:		none
-/// result:			black or white
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns black or white to give best contrast with the receiver's colour
+ * @return black or white
+ * @public
+ */
 - (NSColor*)			contrastingColor
 {
 	return [NSColor contrastingColor:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			invertedColor
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the colour with each colour component subtracted from 1
-/// 
-/// parameters:		none
-/// result:			the "inverse" of the receiver
-///
-/// notes:			the alpha value is not inverted
-///
-///********************************************************************************************************************
-
+/** @brief Returns the colour with each colour component subtracted from 1
+ * @note
+ * The alpha value is not inverted
+ * @return the "inverse" of the receiver
+ * @public
+ */
 - (NSColor*)			invertedColor
 {
 	NSColor* rgb = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -593,21 +411,13 @@
 	return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:[rgb alphaComponent]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			lighterColorWithLevel:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a lighter colour based on a blend between the receiver and white
-/// 
-/// parameters:		<amount> a value 0.0..1.0, 0 returns the original colour, 1 returns white.
-/// result:			a lightened version of the receiver
-///
-/// notes:			the alpha value is unchanged
-///
-///********************************************************************************************************************
-
+/** @brief Returns a lighter colour based on a blend between the receiver and white
+ * @note
+ * The alpha value is unchanged
+ * @param amount a value 0.0..1.0, 0 returns the original colour, 1 returns white.
+ * @return a lightened version of the receiver
+ * @public
+ */
 - (NSColor*)			lighterColorWithLevel:(CGFloat) amount
 {
 	NSColor* rgb = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -619,21 +429,13 @@
 	return [rgb colorWithRGBBlendFrom:[NSColor rgbWhite] blendingAmounts:bl]; 
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			darkerColorWithLevel:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a darker colour based on a blend between the receiver and black
-/// 
-/// parameters:		<amount> a value 0.0..1.0, 0 returns the original colour, 1 returns black.
-/// result:			a darkened version of the receiver
-///
-/// notes:			the alpha value is unchanged
-///
-///********************************************************************************************************************
-
+/** @brief Returns a darker colour based on a blend between the receiver and black
+ * @note
+ * The alpha value is unchanged
+ * @param amount a value 0.0..1.0, 0 returns the original colour, 1 returns black.
+ * @return a darkened version of the receiver
+ * @public
+ */
 - (NSColor*)			darkerColorWithLevel:(CGFloat) amount
 {
 	NSColor* rgb = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -645,43 +447,25 @@
 	return [rgb colorWithRGBBlendFrom:[NSColor rgbBlack] blendingAmounts:bl]; 
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			interpolatedColorToColor:atValue:
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a colour by interpolating between the receiver and a second colour
-/// 
-/// parameters:		<secondColour> another colour
-///					<interpValue> a value between 0 and 1
-/// result:			a colour that is intermediate between the receiver and secondColor, in RGB space
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns a colour by interpolating between the receiver and a second colour
+ * @param secondColour another colour
+ * @param interpValue a value between 0 and 1
+ * @return a colour that is intermediate between the receiver and secondColor, in RGB space
+ * @public
+ */
 - (NSColor*)			interpolatedColorToColor:(NSColor*) secondColor atValue:(CGFloat) interpValue;
 {
 	return [NSColor colorByInterpolatingFrom:self to:secondColor atValue:interpValue];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			hexString
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a standard web-formatted hexadecimal representation of the receiver's colour
-/// 
-/// parameters:		none
-/// result:			hexadecimal string
-///
-/// notes:			format is '#000000' (black) to '#FFFFFF' (white)
-///
-///********************************************************************************************************************
 
+/** @brief Returns a standard web-formatted hexadecimal representation of the receiver's colour
+ * @note
+ * Format is '#000000' (black) to '#FFFFFF' (white)
+ * @return hexadecimal string
+ * @public
+ */
 - (NSString*)			hexString
 {
 	NSColor* rgb = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -701,23 +485,15 @@
 	return s;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			quartzColor
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns a quartz CGColorRef corresponding to the receiver's colours
-/// 
-/// parameters:		none
-/// result:			CGColorRef
-///
-/// notes:			returned colour uses the generic RGB colour space, regardless of the receivers colourspace. Caller
-///					is responsible for releasing the colour ref when done.
-///
-///********************************************************************************************************************
 
+/** @brief Returns a quartz CGColorRef corresponding to the receiver's colours
+ * @note
+ * Returned colour uses the generic RGB colour space, regardless of the receivers colourspace. Caller
+ * is responsible for releasing the colour ref when done.
+ * @return CGColorRef
+ * @public
+ */
 - (CGColorRef)			newQuartzColor
 {
     NSColor* deviceColor = [self colorUsingColorSpaceName:NSDeviceRGBColorSpace];
@@ -733,7 +509,5 @@
     return cgColor;
 }
 
-
 @end
-
 

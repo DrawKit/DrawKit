@@ -1,18 +1,15 @@
-///**********************************************************************************************************************************
-///  NSObject+GraphicsAttributes.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 09/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "NSObject+GraphicsAttributes.h"
 
 #import "DKExpression.h"
 #import "LogEvent.h"
-
 
 @interface DKExpression (DKRasterizerHelper)
 
@@ -46,8 +43,6 @@
 
 @end
 
-
-
 #pragma mark -
 @implementation NSObject (GraphicsAttributes)
 #pragma mark As an NSObject
@@ -77,7 +72,6 @@
 	return self;
 }
 
-
 - (void)			setValue:(id) val forNumericParameter:(NSInteger) pnum
 {
 	// for anonymous parameters in the spec string, positional notation is relied on. Each param will be
@@ -92,7 +86,6 @@
 	LogEvent_(kReactiveEvent, @"anonymous parameter #%d, value = %@", pnum, val );
 }
 
-
 #pragma mark -
 - (NSImage*)		imageResourceNamed:(NSString*) name
 {
@@ -103,5 +96,5 @@
 	return [image autorelease];
 }
 
-
 @end
+

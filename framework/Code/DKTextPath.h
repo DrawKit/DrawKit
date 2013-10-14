@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKTextPath.h
 //  GCDrawKit
@@ -9,10 +16,7 @@
 #import "DKDrawablePath.h"
 #import "DKCommonTypes.h"
 
-
-
 @class DKTextAdornment, DKDrawingView;
-
 
 @interface DKTextPath : DKDrawablePath <NSCopying, NSCoding>
 {
@@ -31,6 +35,13 @@
 + (void)					setDefaultTextString:(NSString*) str;
 + (NSString*)				defaultTextString;
 + (Class)					textAdornmentClass;
+
+/** @brief Return a list of types we can paste in priority order.
+ * @note
+ * Cocoa's -textPasteboardTypes isn't in an order that is useful to us
+ * @return a list of types
+ * @public
+ */
 + (NSArray*)				pastableTextTypes;
 + (DKStyle*)				textPathDefaultStyle;
 
@@ -52,6 +63,14 @@
 - (DKDrawableShape*)		makeShapeWithText;
 - (DKShapeGroup*)			makeShapeGroupWithText;
 - (DKStyle*)				styleWithTextAttributes;
+
+/** @brief Creates a style that is the current style + any text attributes
+ * @note
+ * A style which is the current style if it has text attributes, otherwise the current style with added text
+ * attributes. When cutting or copying the object's style, this is what should be used.
+ * @return a new style object
+ * @public
+ */
 - (DKStyle*)				syntheticStyle;
 
 // text attributes - accesses the internal adornment object
@@ -131,11 +150,8 @@
 
 @end
 
-
 /*
 
 Very similar to a DKTextShape but based on a path and defaulting to text-on-a-path rendering. Has virtually identical public API to DKTextShape.
 
 */
-
-

@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKStrokeDash.h
 ///  DrawKit ©2005-2008 Apptree.net
@@ -9,7 +16,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface DKStrokeDash : NSObject <NSCoding, NSCopying>
 {
 @private
@@ -20,6 +26,8 @@
 	BOOL		mEditing;
 }
 
+/** 
+ */
 + (DKStrokeDash*)	defaultDash;
 + (DKStrokeDash*)	dashWithPattern:(CGFloat[]) dashes count:(NSInteger) count;
 + (DKStrokeDash*)	dashWithName:(NSString*) name;
@@ -52,15 +60,12 @@
 
 @end
 
-
-
 @interface DKStrokeDash (Deprecated)
 
 + (void)			saveDefaults;
 + (void)			loadDefaults;
 
 @end
-
 
 /*
  This stores a particular dash pattern for stroking an NSBezierPath, and can be owned by a DKStroke.

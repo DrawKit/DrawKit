@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKPathDecorator.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 17/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKPathDecorator.h"
 
@@ -22,7 +20,6 @@
 #import "DKQuartzCache.h"
 #include <tgmath.h>
 
-
 @implementation DKPathDecorator
 #pragma mark As a DKPathDecorator
 
@@ -30,7 +27,6 @@
 {
 	return [[[self alloc] initWithImage:image] autorelease];
 }
-
 
 - (id)					initWithImage:(NSImage*) image
 {
@@ -44,7 +40,6 @@
 	}
 	return self;
 }
-
 
 #pragma mark -
 - (void)				setImage:(NSImage*) image
@@ -94,16 +89,12 @@
 	}
 }
 
-
 - (NSImage*)			image
 {
 	return m_image;
 }
 
-
-
 #define USE_DK_CACHE		1
-
 
 - (void)				setUpCache
 {
@@ -147,7 +138,6 @@
 #endif
 }
 
-
 - (void)				setPDFImageRep:(NSPDFImageRep*) rep
 {
 	// archives preferentially store ONLY the pdf data as a raw PDF rep. On dearchiving, this uses the rep to reconstruct the
@@ -169,7 +159,6 @@
 	}
 }
 
-
 #pragma mark -
 - (void)				setScale:(CGFloat) scale
 {
@@ -178,12 +167,10 @@
 	m_scale = scale;
 }
 
-
 - (CGFloat)				scale
 {
 	return m_scale;
 }
-
 
 - (void)				setScaleRandomness:(CGFloat) scRand
 {
@@ -200,12 +187,10 @@
 	}
 }
 
-
 - (CGFloat)				scaleRandomness
 {
 	return mScaleRandomness;
 }
-
 
 #pragma mark -
 - (void)				setInterval:(CGFloat) interval
@@ -213,12 +198,10 @@
 	m_interval = interval;
 }
 
-
 - (CGFloat)				interval
 {
 	return m_interval;
 }
-
 
 #pragma mark -
 - (void)				setLeaderDistance:(CGFloat) leader
@@ -226,37 +209,30 @@
 	m_leader = leader;
 }
 
-
 - (CGFloat)				leaderDistance
 {
 	return m_leader;
 }
-
 
 - (void)				setLateralOffset:(CGFloat) loff
 {
 	mLateralOffset = loff;
 }
 
-
 - (CGFloat)				lateralOffset
 {
 	return mLateralOffset;
 }
-
-
 
 - (void)				setLateralOffsetAlternates:(BOOL) alts
 {
 	mAlternateLateralOffsets = alts;
 }
 
-
 - (BOOL)				lateralOffsetAlternates
 {
 	return mAlternateLateralOffsets;
 }
-
 
 - (void)				setWobblyness:(CGFloat) wobble
 {
@@ -273,14 +249,10 @@
 	}
 }
 
-
 - (CGFloat)				wobblyness
 {
 	return mWobblyness;
 }
-
-
-
 
 #pragma mark -
 - (void)				setNormalToPath:(BOOL) norml
@@ -288,12 +260,10 @@
 	m_normalToPath = norml;
 }
 
-
 - (BOOL)				normalToPath
 {
 	return m_normalToPath;
 }
-
 
 #pragma mark -
 - (void)				setLeadInLength:(CGFloat) linLength
@@ -301,24 +271,20 @@
 	m_leadInLength = linLength;
 }
 
-
 - (void)				setLeadOutLength:(CGFloat) loutLength
 {
 	m_leadOutLength = loutLength;
 }
-
 
 - (CGFloat)				leadInLength
 {
 	return m_leadInLength;
 }
 
-
 - (CGFloat)				leadOutLength
 {
 	return m_leadOutLength;
 }
-
 
 #pragma mark -
 - (void)				setLeadInAndOutLengthProportion:(CGFloat) proportion
@@ -329,12 +295,10 @@
 		m_leadInLength = m_leadOutLength = 0.0;
 }
 
-
 - (CGFloat)				leadInAndOutLengthProportion
 {
 	return m_liloProportion;
 }
-
 
 - (CGFloat)				rampFunction:(CGFloat) val
 {
@@ -343,7 +307,6 @@
 	
 	return 0.5 * ( 1 - cosf( fmod( val, 1.0 ) * pi ));
 }
-
 
 #pragma mark -
 - (void)				setUsesChainMethod:(BOOL) chain
@@ -354,12 +317,10 @@
 	m_useChainMethod = chain;
 }
 
-
 - (BOOL)				usesChainMethod
 {
 	return m_useChainMethod;
 }	
-
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -377,7 +338,6 @@
 																								nil]];
 }
 
-
 - (void)				registerActionNames
 {
 	[super registerActionNames];
@@ -394,7 +354,6 @@
 	[self setActionName:@"#kind# Scale Randomness" forKeyPath:@"scaleRandomness"];
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)				dealloc
@@ -407,14 +366,12 @@
 	[super dealloc];
 }
 
-
 - (id)					init
 {
 	// default init method has no image - one needs to be added to get something rendered
 	
 	return [self initWithImage:nil];
 }
-
 
 #pragma mark -
 #pragma mark As part of BezierPlacement Protocol
@@ -542,7 +499,6 @@
 	return nil;
 }
 
-
 - (id)					placeLinkFromPoint:(NSPoint) pa toPoint:(NSPoint) pb onPath:(NSBezierPath*) path linkNumber:(NSInteger) lkn userInfo:(void*) userInfo
 {
 	#pragma unused(path)
@@ -566,7 +522,6 @@
 	return nil;
 }
 
-
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
 - (NSSize)				extraSpaceNeeded
@@ -585,7 +540,6 @@
 	}
 	return es;
 }
-
 
 - (void)				render:(id<DKRenderable>) obj
 {
@@ -634,7 +588,6 @@
 	}
 }
 
-
 - (void)				renderPath:(NSBezierPath*) path
 {
 	mPlacementCount = 0;
@@ -654,7 +607,6 @@
 	else
 		[path placeObjectsOnPathAtInterval:[self interval] factoryObject:self userInfo:NULL];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -686,7 +638,6 @@
 	[coder encodeDouble:mWobblyness forKey:@"DKPathDecorator_wobblyness"];
 	[coder encodeDouble:mScaleRandomness forKey:@"DKPathDecorator_scaleRandomness"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -729,7 +680,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)					copyWithZone:(NSZone*) zone
@@ -766,5 +716,5 @@
 	return dc;
 }
 
-
 @end
+

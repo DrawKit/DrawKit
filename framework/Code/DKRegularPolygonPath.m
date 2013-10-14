@@ -16,20 +16,21 @@
 #import "DKDrawkitMacros.h"
 #include <tgmath.h>
 
-
 @interface DKRegularPolygonPath (Private)
 
 - (NSBezierPath*)	calculatePath;
 - (void)			movePart:(NSInteger) pc toPoint:(NSPoint) mp constrainAngle:(BOOL) constrain;
+
+/** @brief Returns the overall angle of the object
+ * @return the overall angle
+ * @public
+ */
 - (CGFloat)			angleForVertexPartcode:(NSInteger) pc;
 - (void)			updateInfoForPartcode:(NSInteger) pc atPoint:(NSPoint) p;
 
 @end
 
-
-
 static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
-
 
 @implementation DKRegularPolygonPath
 
@@ -47,15 +48,10 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-
 - (CGFloat)			numberOfSides
 {
 	return mVertices;
 }
-
-
-
 
 - (void)			setRadius:(CGFloat) rad
 {
@@ -69,15 +65,10 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-
 - (CGFloat)			radius
 {
 	return mOuterRadius;
 }
-
-
-
 
 - (void)			setInnerRadius:(CGFloat) innerRad
 {
@@ -91,15 +82,10 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-
 - (CGFloat)			innerRadius
 {
 	return mInnerRadius;
 }
-
-
-
 
 - (void)			setTipSpread:(CGFloat) spread
 {
@@ -113,15 +99,10 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-
 - (CGFloat)			tipSpread
 {
 	return mTipSpread;
 }
-
-
-
 
 - (void)			setValleySpread:(CGFloat) spread
 {
@@ -135,13 +116,10 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-
 - (CGFloat)			valleySpread
 {
 	return mValleySpread;
 }
-
 
 - (void)			setShowsSpreadControls:(BOOL) showControls
 {
@@ -152,13 +130,10 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
 - (BOOL)			showsSpreadControls
 {
 	return mShowSpreadControls;
 }
-
-
 
 #pragma mark - private
 
@@ -252,7 +227,6 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return path;
 }
 
-
 - (void)			movePart:(NSInteger) pc toPoint:(NSPoint) mp constrainAngle:(BOOL) constrain
 {
 	CGFloat rad = hypotf( mp.x - mCentre.x, mp.y - mCentre.y );
@@ -303,7 +277,6 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	[self updateInfoForPartcode:pc atPoint:mp];
 }
 
-
 - (CGFloat)			angleForVertexPartcode:(NSInteger) pc
 {
 	// return the instantaneous angle of the vertex for the given partcode
@@ -311,7 +284,6 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	NSPoint vp = [self pointForPartcode:pc];
 	return atan2f( vp.y - [self location].y, vp.x - [self location].x );
 }
-
 
 - (void)			updateInfoForPartcode:(NSInteger) pc atPoint:(NSPoint) p
 {
@@ -371,8 +343,6 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-
 #pragma mark -
 
 - (IBAction)		convertToPath:(id) sender
@@ -398,7 +368,6 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	[layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Path", @"undo string for convert to path")];
 }
 
-
 - (IBAction)		setNumberOfSidesWithTag:(id) sender
 {
 	// sender's tag sets the number of sides. If innerRadius +ve, the tag is doubled
@@ -410,31 +379,19 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	[self setNumberOfSides:sides];
 }
 
-
 - (BOOL)			isStar
 {
 	return [self innerRadius] >= 0;
 }
 
-
 #pragma mark -
 #pragma mark - as a DKDrawablePath
 
-///*********************************************************************************************************************
-///
-/// method:			drawControlPointsOfPath:usingKnobs:
-/// scope:			public instance method
-/// overrides:		DKDrawablePath
-/// description:	draws the selection knobs as required
-/// 
-/// parameters:		<path> not used
-///					<knobs> the knobs object to use for drawing
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Draws the selection knobs as required
+ * @param path not used
+ * @param knobs the knobs object to use for drawing
+ * @public
+ */
 - (void)		drawControlPointsOfPath:(NSBezierPath*) path usingKnobs:(DKKnob*) knobs
 {
 	#pragma unused(path)
@@ -484,45 +441,27 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
 #pragma mark -
 #pragma mark - as a DKDrawableObject
 
-///*********************************************************************************************************************
-///
-/// method:			initialPartcodeForObjectCreation
-/// scope:			public class method
-/// overrides:
-/// description:	return the partcode that should be used by tools when initially creating a new object
-/// 
-/// parameters:		none
-/// result:			a partcode value
-///
-/// notes:			The client of this method is DKObjectCreationTool. An arc is created by dragging its radius to
-///					some initial value, so the inital partcode is the radius knob.
-///
-///********************************************************************************************************************
-
+/** @brief Return the partcode that should be used by tools when initially creating a new object
+ * @note
+ * The client of this method is DKObjectCreationTool. An arc is created by dragging its radius to
+ * some initial value, so the inital partcode is the radius knob.
+ * @return a partcode value
+ * @public
+ */
 + (NSInteger)				initialPartcodeForObjectCreation
 {
 	return kDKRegularPolyFirstVertexPart;
 }
 
-///*********************************************************************************************************************
-///
-/// method:			hitSelectedPart:forSnapDetection:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	hit test the point against the knobs
-/// 
-/// parameters:		<pt> the point to hit-test
-///					<snap> YES if the test is being done for snap-detecting purposes, NO for normal mouse hits
-/// result:			the partcode hit by the point, if any
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Hit test the point against the knobs
+ * @param pt the point to hit-test
+ * @param snap YES if the test is being done for snap-detecting purposes, NO for normal mouse hits
+ * @return the partcode hit by the point, if any
+ * @public
+ */
 - (NSInteger)				hitSelectedPart:(NSPoint) pt forSnapDetection:(BOOL) snap
 {
 	CGFloat	tol = [[[self layer] knobs] controlKnobSize].width;
@@ -569,21 +508,11 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return pc;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pointForPartcode:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	return the current point for a given partcode value
-/// 
-/// parameters:		<pc> the partcode
-/// result:			the partcode hit by the point, if any
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the current point for a given partcode value
+ * @param pc the partcode
+ * @return the partcode hit by the point, if any
+ * @public
+ */
 - (NSPoint)			pointForPartcode:(NSInteger) pc
 {
 	CGFloat		angle, radius;
@@ -631,24 +560,14 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return kp;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDownAtPoint:inPart:event:
-/// scope:			protected instance method
-/// overrides:		DKDrawablePath
-/// description:	handles a mouse down in the object
-/// 
-/// parameters:		<mp> the mouse point
-///					<partcode> the partcode returned earlier by hitPart:
-///					<evt> the event this came from
-/// result:			none
-///
-/// notes:			starts edit or creation of object - the creation mode can be anything other then "edit existing"
-///					for arc creation. Use the "simple mode" to create arcs in a one-stage drag.
-///
-///********************************************************************************************************************
-
+/** @brief Handles a mouse down in the object
+ * @note
+ * Starts edit or creation of object - the creation mode can be anything other then "edit existing"
+ * for arc creation. Use the "simple mode" to create arcs in a one-stage drag.
+ * @param mp the mouse point
+ * @param partcode the partcode returned earlier by hitPart:
+ * @param evt the event this came from
+ */
 - (void)				mouseDownAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	[[self layer] setInfoWindowBackgroundColour:[[self class]infoWindowBackgroundColour]];
@@ -671,24 +590,13 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDraggedAtPoint:inPart:event:
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	handles a mouse drag in the object
-/// 
-/// parameters:		<mp> the mouse point
-///					<partcode> the partcode returned earlier by hitPart:
-///					<evt> the event this came from
-/// result:			none
-///
-/// notes:			used when editing an existing path, but not creating one
-///
-///********************************************************************************************************************
-
+/** @brief Handles a mouse drag in the object
+ * @note
+ * Used when editing an existing path, but not creating one
+ * @param mp the mouse point
+ * @param partcode the partcode returned earlier by hitPart:
+ * @param evt the event this came from
+ */
 - (void)				mouseDraggedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	BOOL shift	= (([evt modifierFlags] & NSShiftKeyMask ) != 0 );
@@ -720,21 +628,9 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	[self setMouseHasMovedSinceStartOfTracking:YES];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			notifyVisualChange
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	sets the path's bounds to be updated
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets the path's bounds to be updated
+ * @public
+ */
 - (void)			notifyVisualChange
 {
 	[[self layer] drawable:self needsDisplayInRect:[self bounds]];
@@ -742,41 +638,23 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableDidChangeNotification object:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			location
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	return the object's location within the drawing
-/// 
-/// parameters:		none
-/// result:			the position of the object within the drawing
-///
-/// notes:			arc objects consider their centre origin as the datum of the location
-///
-///********************************************************************************************************************
-
+/** @brief Return the object's location within the drawing
+ * @note
+ * Arc objects consider their centre origin as the datum of the location
+ * @return the position of the object within the drawing
+ * @public
+ */
 - (NSPoint)			location
 {
 	return mCentre;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setLocation:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	move the object to a given location within the drawing
-/// 
-/// parameters:		<p> the point at which to place the object
-/// result:			none
-///
-/// notes:			arc objects consider their centre origin as the datum of the location
-///
-///********************************************************************************************************************
-
+/** @brief Move the object to a given location within the drawing
+ * @note
+ * Arc objects consider their centre origin as the datum of the location
+ * @param p the point at which to place the object
+ * @public
+ */
 - (void)			setLocation:(NSPoint) p
 {
 	if( !NSEqualPoints( p, [self location]) && ![self locked] && ![self locationLocked])
@@ -788,21 +666,12 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			bounds
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	return the total area the object is enclosed by
-/// 
-/// parameters:		none
-/// result:			the bounds rect
-///
-/// notes:			bounds includes the centre point, even if it's not visible
-///
-///********************************************************************************************************************
-
+/** @brief Return the total area the object is enclosed by
+ * @note
+ * Bounds includes the centre point, even if it's not visible
+ * @return the bounds rect
+ * @public
+ */
 - (NSRect)			bounds
 {
 	NSRect	pb = [[self path] bounds];
@@ -815,21 +684,12 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return NSInsetRect( pb, -(ex.width + tol), -( ex.height + tol ) );
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setAngle:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	sets the overall angle of the object
-/// 
-/// parameters:		<angle> the overall angle in radians
-/// result:			none
-///
-/// notes:			the angle is in radians
-///
-///********************************************************************************************************************
-
+/** @brief Sets the overall angle of the object
+ * @note
+ * The angle is in radians
+ * @param angle the overall angle in radians
+ * @public
+ */
 - (void)			setAngle:(CGFloat) angle
 {
 	if ( angle != [self angle])
@@ -842,64 +702,31 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			angle:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	returns the overall angle of the object
-/// 
-/// parameters:		none
-/// result:			the overall angle
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
 - (CGFloat)			angle
 {
 	return mAngle;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setSize:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	sets the object's size
-/// 
-/// parameters:		<aSize> the object's size
-/// result:			none
-///
-/// notes:			the larger of the width or height passed is used to set the size by adjusting the radius to half the value.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the object's size
+ * @note
+ * The larger of the width or height passed is used to set the size by adjusting the radius to half the value.
+ * @param aSize the object's size
+ * @public
+ */
 - (void)			setSize:(NSSize) aSize
 {
 	[self setRadius:MAX(aSize.width, aSize.height) * 0.5];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			group:willUngroupObjectWithTransform:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	this object is being ungrouped from a group
-/// 
-/// parameters:		<aGroup> the group containing the object
-///					<aTransform> the transform that the group is applying to the object to scale rotate and translate it.
-/// result:			none
-///
-/// notes:			when ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
-///					itself appropriately. At the time this is called, the object has already has its container set to
-///					the layer it will be added to but has not actually been added.
-///
-///********************************************************************************************************************
-
+/** @brief This object is being ungrouped from a group
+ * @note
+ * When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
+ * itself appropriately. At the time this is called, the object has already has its container set to
+ * the layer it will be added to but has not actually been added.
+ * @param aGroup the group containing the object
+ * @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
+ * @public
+ */
 - (void)				group:(DKShapeGroup*) aGroup willUngroupObjectWithTransform:(NSAffineTransform*) aTransform
 {
 	NSPoint loc = [self location];
@@ -913,21 +740,13 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	[self setAngle:[self angle] + [aGroup angle]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snappingPointsWithOffset:
-/// scope:			public action method
-/// overrides:		DKDrawableObject
-/// description:	returns a list of potential snapping points used when the path is snapped to the grid or guides
-/// 
-/// parameters:		<offset> add this offset to the points
-/// result:			an array of points as NSValue objects
-///
-/// notes:			part of the snapping protocol
-///
-///********************************************************************************************************************
-
+/** @brief Returns a list of potential snapping points used when the path is snapped to the grid or guides
+ * @note
+ * Part of the snapping protocol
+ * @param offset add this offset to the points
+ * @return an array of points as NSValue objects
+ * @public
+ */
 - (NSArray*)			snappingPointsWithOffset:(NSSize) offset
 {
 	NSInteger				i;
@@ -948,7 +767,6 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	}
 	return result;
 }
-
 
 - (BOOL)				populateContextualMenu:(NSMenu*) theMenu
 {
@@ -973,31 +791,19 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return [super populateContextualMenu:theMenu];
 }
 
-
 - (void)				applyTransform:(NSAffineTransform*) transform
 {
 	[super applyTransform:transform];
 	mCentre = [transform transformPoint:mCentre];
 }
 
-
 #pragma mark -
 #pragma mark - as a NSObject
 
-///*********************************************************************************************************************
-///
-/// method:			init
-/// scope:			public instance method
-/// overrides:		NSObject
-/// description:	designated initialiser
-/// 
-/// parameters:		none
-/// result:			the object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Designated initialiser
+ * @return the object
+ * @public
+ */
 - (id)				init
 {
 	self = [super init];
@@ -1016,21 +822,13 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			copyWithZone:
-/// scope:			public instance method
-/// overrides:		NSObject
-/// description:	copies the object
-/// 
-/// parameters:		<zone> the zone
-/// result:			the copy
-///
-/// notes:			implements <NSCopying>
-///
-///********************************************************************************************************************
-
+/** @brief Copies the object
+ * @note
+ * Implements <NSCopying>
+ * @param zone the zone
+ * @return the copy
+ * @public
+ */
 - (id)				copyWithZone:(NSZone*) zone
 {
 	DKRegularPolygonPath* copy = [super copyWithZone:zone];
@@ -1049,21 +847,10 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return copy;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			encodeWithCoder:
-/// scope:			public instance method
-/// overrides:		NSObject<NSCoding>
-/// description:	encodes the object for archiving
-/// 
-/// parameters:		<coder> the coder
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Encodes the object for archiving
+ * @param coder the coder
+ * @public
+ */
 - (void)			encodeWithCoder:(NSCoder*) coder
 {
 	[super encodeWithCoder:coder];
@@ -1077,21 +864,11 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	[coder encodeBool:[self showsSpreadControls] forKey:@"DKRegularPoly_showSpreadControls"];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithCoder:
-/// scope:			public instance method
-/// overrides:		NSObject<NSCoding>
-/// description:	decodes the object for archiving
-/// 
-/// parameters:		<coder> the coder
-/// result:			the object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Decodes the object for archiving
+ * @param coder the coder
+ * @return the object
+ * @public
+ */
 - (id)				initWithCoder:(NSCoder*) coder
 {
 	[super initWithCoder:coder];
@@ -1106,7 +883,6 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
@@ -1131,5 +907,5 @@ static CGFloat			sAngleConstraint = 0.261799387799;	// 15°
 	return [super validateMenuItem:item];
 }
 
-
 @end
+

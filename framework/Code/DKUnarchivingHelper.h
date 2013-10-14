@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKUnarchivingHelper.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface DKUnarchivingHelper : NSObject
 {
@@ -35,12 +41,8 @@
 
 @end
 
-
-
 extern NSString*	kDKUnarchiverProgressStartedNotification;
 extern NSString*	kDKUnarchiverProgressContinuedNotification;
 extern NSString*	kDKUnarchiverProgressFinishedNotification;
 
 // this helper is used when unarchiving to translate class names from older files to their modern equivalents
-
-

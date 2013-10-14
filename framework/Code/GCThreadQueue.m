@@ -1,25 +1,28 @@
 //
 //  GCThreadQueue.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 03/05/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "GCThreadQueue.h"
 
-
 @implementation GCThreadQueue
 
+/** 
+ */
 -(void)		enqueue:(id) object
 {
 	[mLock lock];
 	[mQueue addObject:object];
 	[mLock unlockWithCondition:1];
 }
-
-
 
 -(id)		dequeue
 {
@@ -31,8 +34,6 @@
 	
 	return element;
 }
-
-
 
 -(id)		tryDequeue
 {
@@ -61,8 +62,6 @@
 	return self;
 }
 
-
-
 -(void)		dealloc
 {
 	[mQueue release];
@@ -71,3 +70,4 @@
 }
 
 @end
+

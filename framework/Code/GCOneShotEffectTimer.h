@@ -1,15 +1,12 @@
-///**********************************************************************************************************************************
-///  GCOneShotEffectTimer.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 24/04/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface GCOneShotEffectTimer : NSObject
 {
@@ -25,8 +22,6 @@
 
 @end
 
-
-
 @interface NSObject (OneShotDelegate)
 
 - (void)		oneShotWillBegin;
@@ -35,9 +30,7 @@
 
 @end
 
-
 #define			kDKStandardFadeTime		0.15
-
 
 /* This class wraps up a very simple piece of timer functionality. It sets up a timer that will call the
 	delegate frequently with a value from 0..1. Once 1 is reached, it stops. The total time interval to

@@ -1,10 +1,14 @@
 //
 //  DKRoughStroke.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 14/04/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKRoughStroke.h"
@@ -14,6 +18,8 @@
 @implementation DKRoughStroke
 #pragma mark As a DKRoughStroke
 
+/** 
+ */
 - (void)					setRoughness:(CGFloat) roughness
 {
 	if( roughness != mRoughness )
@@ -22,7 +28,6 @@
 		[self invalidateCache];
 	}
 }
-
 
 - (CGFloat)					roughness
 {
@@ -39,13 +44,11 @@
 	return [NSString stringWithFormat:@"%.1f.%.1f.%.1f.%.1f", [path bounds].size.width, [path bounds].size.height, [path length], [self width]];
 }
 
-
 - (void)					invalidateCache
 {
 	[mPathCache removeAllObjects];
 	[mCacheList removeAllObjects];
 }
-
 
 - (NSBezierPath*)			roughPathFromPath:(NSBezierPath*) path
 {
@@ -106,8 +109,6 @@
 	return cp;
 }
 
-
-
 #pragma mark -
 #pragma mark As a DKStroke
 
@@ -134,7 +135,6 @@
 	[pc fill];
 }
 
-
 - (NSSize)					extraSpaceNeeded
 {
 	NSSize	es = [super extraSpaceNeeded];
@@ -146,7 +146,6 @@
 	
 	return es;
 }
-
 
 - (void)					setDash:(DKStrokeDash*) dash
 {
@@ -164,7 +163,6 @@
 	[super dealloc];
 }
 
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 
@@ -173,14 +171,11 @@
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObject:@"roughness"]];
 }
 
-
 - (void)					registerActionNames
 {
 	[super registerActionNames];
 	[self setActionName:@"#kind# Stroke Roughness" forKeyPath:@"roughness"];
 }
-
-
 
 #pragma mark -
 #pragma mark As part of the NSCoding protocol
@@ -194,7 +189,6 @@
 	
 	return self;
 }
-
 
 - (void)					encodeWithCoder:(NSCoder*) coder
 {
@@ -214,3 +208,4 @@
 }
 
 @end
+

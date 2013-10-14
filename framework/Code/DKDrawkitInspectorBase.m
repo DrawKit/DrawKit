@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKDrawkitInspectorBase.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 06/05/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawkitInspectorBase.h"
 #import "DKDrawableObject.h"
@@ -19,7 +17,6 @@
 @implementation DKDrawkitInspectorBase
 #pragma mark As a DKDrawkitInspectorBase
 
-
 - (void)				documentDidChange:(NSNotification*) note
 {
 	LogEvent_(kReactiveEvent, @"document did change (%@), window = %@", [note name], [note object]);
@@ -30,7 +27,6 @@
 		[self redisplayContentForSelection:[self selectedObjectForTargetWindow:[note object]]];
 }
 
-
 - (void)				layerDidChange:(NSNotification*) note
 {
 	#pragma unused(note)
@@ -39,7 +35,6 @@
 
 	[self redisplayContentForSelection:[self selectedObjectForCurrentTarget]];
 }
-
 
 - (void)				selectedObjectDidChange:(NSNotification*) note
 {
@@ -61,7 +56,6 @@
 	}
 }
 
-
 - (void)				subSelectionDidChange:(NSNotification*) note
 {
 	
@@ -71,7 +65,6 @@
 	[self redisplayContentForSubSelection:subsel ofObject:obj];
 }
 
-
 #pragma mark -
 - (void)				redisplayContentForSelection:(NSArray*) selection
 {
@@ -79,7 +72,6 @@
 	
 	// override to do something useful
 }
-
 
 - (void)				redisplayContentForSubSelection:(NSSet*) subsel ofObject:(DKDrawableObject*) object
 {
@@ -90,7 +82,6 @@
 	
 	// override to do something useful
 }
-
 
 #pragma mark -
 - (id)					selectedObjectForCurrentTarget
@@ -113,7 +104,6 @@
 	return nil;
 }
 
-
 - (DKDrawing*)			drawingForTargetWindow:(NSWindow*) window
 {
 	NSDocument* cd = [[NSDocumentController sharedDocumentController] documentForWindow:window];
@@ -129,7 +119,6 @@
 		
 	return nil;
 }
-
 
 - (id)					selectedObjectForTargetWindow:(NSWindow*) window
 {
@@ -149,7 +138,6 @@
 	return nil;
 }
 
-
 #pragma mark -
 - (DKDrawingDocument*)	currentDocument
 {
@@ -161,7 +149,6 @@
 		return nil;
 }
 
-
 - (DKDrawing*)			currentDrawing
 {
 	DKDrawingDocument* cd = [self currentDocument];
@@ -172,13 +159,10 @@
 		return nil;
 }
 
-
 - (DKLayer*)			currentActiveLayer
 {
 	return [[self currentDrawing] activeLayer];
 }
-
-
 
 - (DKViewController*)	currentMainViewController
 {
@@ -192,7 +176,6 @@
 	return nil;
 }
 
-
 #pragma mark -
 #pragma mark As an NSWindowController
 - (void)				showWindow:(id) sender
@@ -201,19 +184,16 @@
 	[self redisplayContentForSelection:[self selectedObjectForCurrentTarget]];
 }
 
-
 - (void)				dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
 }
 
-
 - (void)				windowDidLoad
 {
 	[self redisplayContentForSelection:[self selectedObjectForCurrentTarget]];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSNibAwaking Protocol
@@ -228,5 +208,5 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedObjectDidChange:) name:kDKLayerSelectionDidChange object:nil];
 }
 
-
 @end
+

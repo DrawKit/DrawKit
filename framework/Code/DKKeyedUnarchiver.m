@@ -8,9 +8,7 @@
 
 #import "DKKeyedUnarchiver.h"
 
-
 @implementation DKKeyedUnarchiver
-
 
 - (void)					setImageManager:(DKImageDataManager*) imgMgr
 {
@@ -19,10 +17,10 @@
 	mImageManagerRef = imgMgr;
 }
 
-
 - (DKImageDataManager*)		imageManager
 {
 	return mImageManagerRef;
 }
 
 @end
+

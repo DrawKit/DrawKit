@@ -1,15 +1,12 @@
-///**********************************************************************************************************************************
-///  DKColourQuantizer.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 25/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import <Cocoa/Cocoa.h>
-
 
 // generic interface and simple quantizer which performs uniform quantization. Results with this quantizer are generally only
 // barely acceptable - colours may be mapped to something grossly different from the original since this does not take any notice of
@@ -33,10 +30,7 @@
 
 @end
 
-
-
 #pragma mark -
-
 
 // octree quantizer which does a much better job
 // this code is mostly a port of CQuantizer (c)  1996-1997 Jeff Prosise
@@ -63,7 +57,6 @@ typedef struct _rgb_triple
 }
 rgb_triple;
 
-
 @interface DKOctreeQuantizer : DKColourQuantizer
 {
     NODE*		m_pTree;
@@ -71,7 +64,6 @@ rgb_triple;
     NODE*		m_pReducibleNodes[9];
     NSUInteger	m_nOutputMaxColors;
 }
-
 
 - (void)		addNode:(NODE**) ppNode colour:(NSUInteger[]) rgb level:(NSUInteger) level leafCount:(NSUInteger *) leafCount reducibleNodes:(NODE**) redNodes;
 - (NODE*)		createNodeAtLevel:(NSUInteger) level leafCount:(NSUInteger *) leafCount reducibleNodes:(NODE**) redNodes;
@@ -81,4 +73,3 @@ rgb_triple;
 - (void)		lookUpNode:(NODE*) pTree level:(NSUInteger) level colour:(NSUInteger[]) rgb index:(NSInteger*) index;
 
 @end
-

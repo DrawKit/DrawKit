@@ -1,10 +1,14 @@
 //
 //  DKDrawablePath.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 10/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKDrawablePath.h"
@@ -22,20 +26,19 @@
 #import "LogEvent.h"
 #include <tgmath.h>
 
-
 #pragma mark Global Vars
 NSPoint			gMouseForPathSnap = {0,0};
 
 NSString*		kDKPathOnPathHitDetectionPriorityDefaultsKey = @"kDKPathOnPathHitDetectionPriority";
 
-
 #pragma mark Static Vars
 static CGFloat			sAngleConstraint = 0.261799387799;	// 15 degrees
 static NSColor*			sInfoWindowColour = nil;
 
-
 @interface DKDrawablePath (Private)
 
+/** 
+ */
 - (void)		showLengthInfo:(CGFloat) dist atPoint:(NSPoint) p;
 
 @end
@@ -44,20 +47,13 @@ static NSColor*			sInfoWindowColour = nil;
 @implementation DKDrawablePath
 #pragma mark As a DKDrawablePath
 
-///*********************************************************************************************************************
-///
-/// method:			drawablePathWithPath:
-/// scope:			public class method
-/// overrides:		
-/// description:	creates a drawable path object for an existing NSBezierPath
-/// 
-/// parameters:		<path> the path to use
-/// result:			a new drawable path object which has the path supplied
-///
-/// notes:			convenience method allows you to turn any path into a drawable that can be added to a drawing
-///
-///********************************************************************************************************************
-
+/** @brief Creates a drawable path object for an existing NSBezierPath
+ * @note
+ * Convenience method allows you to turn any path into a drawable that can be added to a drawing
+ * @param path the path to use
+ * @return a new drawable path object which has the path supplied
+ * @public
+ */
 + (DKDrawablePath*)		drawablePathWithBezierPath:(NSBezierPath*) path
 {
 	DKDrawablePath* dp = [[self alloc] initWithBezierPath:path];
@@ -65,43 +61,28 @@ static NSColor*			sInfoWindowColour = nil;
 	return [dp autorelease];
 }
 
-
 //*********************************************************************************************************************
-///
-/// method:			drawablePathWithPath:withStyle:
-/// scope:			public class method
-/// overrides:		
-/// description:	creates a drawable path object for an existing NSBezierPath and style
-/// 
-/// parameters:		<path> the path to use
-///					<aStyle> a style to apply to the path
-/// result:			a new drawable path object which has the path supplied
-///
-/// notes:			convenience method allows you to turn any path into a drawable that can be added to a drawing
-///
-///********************************************************************************************************************
 
+/** @brief Creates a drawable path object for an existing NSBezierPath and style
+ * @note
+ * Convenience method allows you to turn any path into a drawable that can be added to a drawing
+ * @param path the path to use
+ * @param aStyle a style to apply to the path
+ * @return a new drawable path object which has the path supplied
+ * @public
+ */
 + (DKDrawablePath*)		drawablePathWithBezierPath:(NSBezierPath*) path withStyle:(DKStyle*) aStyle
 {
 	DKDrawablePath* dp = [[self alloc] initWithBezierPath:path style:aStyle];
 	return [dp autorelease];
 }
 
-
 //*********************************************************************************************************************
-///
-/// method:			setInfoWindowBackgroundColour:
-/// scope:			public class method
-/// overrides:		
-/// description:	set the background colour to use for the info window displayed when interacting with paths
-/// 
-/// parameters:		<colour> the colour to use
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Set the background colour to use for the info window displayed when interacting with paths
+ * @param colour the colour to use
+ * @public
+ */
 + (void)				setInfoWindowBackgroundColour:(NSColor*) colour
 {
 	[colour retain];
@@ -109,88 +90,58 @@ static NSColor*			sInfoWindowColour = nil;
 	sInfoWindowColour = colour;
 }
 
-
 //*********************************************************************************************************************
-///
-/// method:			infoWindowBackgroundColour:
-/// scope:			public class method
-/// overrides:		
-/// description:	return the background colour to use for the info window displayed when interacting with paths
-/// 
-/// parameters:		none 
-/// result:			the colour to use
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Return the background colour to use for the info window displayed when interacting with paths
+ * @return the colour to use
+ * @public
+ */
 + (NSColor*)			infoWindowBackgroundColour
 {
 	return sInfoWindowColour;
 }
 
-
 //*********************************************************************************************************************
-///
-/// method:			setDefaultOnPathHitDetectionPriority:
-/// scope:			public class method
-/// overrides:		
-/// description:	set whether the default hit-detection behaviour is to prioritise on-path points or off-path points
-/// 
-/// parameters:		<priority> if YES, on-path points have priority by default. 
-/// result:			none
-///
-/// notes:			Affects hit-detection when on-path and off-path points are coincident. Normally off-path points
-///					have priority, but an alternative approach is to have on-path points have priority, and the off-path
-///					points require the use of the command modifier key to be hit-detected. DK has previously always
-///					prioritised off-path points, but this setting allows you to change that for your app.
-///
-///********************************************************************************************************************
 
+/** @brief Set whether the default hit-detection behaviour is to prioritise on-path points or off-path points
+ * @note
+ * Affects hit-detection when on-path and off-path points are coincident. Normally off-path points
+ * have priority, but an alternative approach is to have on-path points have priority, and the off-path
+ * points require the use of the command modifier key to be hit-detected. DK has previously always
+ * prioritised off-path points, but this setting allows you to change that for your app.
+ * @param priority if YES, on-path points have priority by default. 
+ * @public
+ */
 + (void)				setDefaultOnPathHitDetectionPriority:(BOOL) priority
 {
 	[[NSUserDefaults standardUserDefaults] setBool:priority forKey:kDKPathOnPathHitDetectionPriorityDefaultsKey];
 }
 
-
 //*********************************************************************************************************************
-///
-/// method:			defaultOnPathHitDetectionPriority:
-/// scope:			public class method
-/// overrides:		
-/// description:	returns whether the default hit-detection behaviour is to prioritise on-path points or off-path points
-/// 
-/// parameters:		none
-/// result:			if YES, on-path points have priority by default
-///
-/// notes:			Affects hit-detection when on-path and off-path points are coincident. Normally off-path points
-///					have priority, but an alternative approach is to have on-path points have priority, and the off-path
-///					points require the use of the command modifier key to be hit-detected. DK has previously always
-///					prioritised off-path points, but this setting allows you to change that for your app.
-///
-///********************************************************************************************************************
 
+/** @brief Returns whether the default hit-detection behaviour is to prioritise on-path points or off-path points
+ * @note
+ * Affects hit-detection when on-path and off-path points are coincident. Normally off-path points
+ * have priority, but an alternative approach is to have on-path points have priority, and the off-path
+ * points require the use of the command modifier key to be hit-detected. DK has previously always
+ * prioritised off-path points, but this setting allows you to change that for your app.
+ * @return if YES, on-path points have priority by default
+ * @public
+ */
 + (BOOL)				defaultOnPathHitDetectionPriority
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kDKPathOnPathHitDetectionPriorityDefaultsKey];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			initWithPath:
-/// scope:			public instance method
-/// overrides:		
-/// description:	initialises a drawable path object from an existing path
-/// 
-/// parameters:		<aPath> the path to use
-/// result:			the drawable path object
-///
-/// notes:			the path is retained, not copied
-///
-///********************************************************************************************************************
 
+/** @brief Initialises a drawable path object from an existing path
+ * @note
+ * The path is retained, not copied
+ * @param aPath the path to use
+ * @return the drawable path object
+ * @public
+ */
 - (id)				initWithBezierPath:(NSBezierPath*) aPath
 {
 	self = [self init];
@@ -202,22 +153,14 @@ static NSColor*			sInfoWindowColour = nil;
 	return self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithPath:style:
-/// scope:			public instance method
-/// overrides:		
-/// description:	initialises a drawable path object from an existing path with the given style
-/// 
-/// parameters:		<aPath> the path to use
-///					<aStyle> the style to use
-/// result:			the drawable path object
-///
-/// notes:			the path is retained, not copied
-///
-///********************************************************************************************************************
-
+/** @brief Initialises a drawable path object from an existing path with the given style
+ * @note
+ * The path is retained, not copied
+ * @param aPath the path to use
+ * @param aStyle the style to use
+ * @return the drawable path object
+ * @public
+ */
 - (id)					initWithBezierPath:(NSBezierPath*) aPath style:(DKStyle*) aStyle
 {
 	self = [self initWithStyle:aStyle];
@@ -229,23 +172,15 @@ static NSColor*			sInfoWindowColour = nil;
 	return self;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setPath:
-/// scope:			public instance method
-/// overrides:		
-/// description:	sets the object's path to the given NSBezierPath
-/// 
-/// parameters:		<path> a path
-/// result:			none
-///
-/// notes:			path is edited in place, so pass in a copy if necessary. This method doesn't do the copy since
-///					the creation of paths require this method to keep the same object during the operation.
-///
-///********************************************************************************************************************
 
+/** @brief Sets the object's path to the given NSBezierPath
+ * @note
+ * Path is edited in place, so pass in a copy if necessary. This method doesn't do the copy since
+ * the creation of paths require this method to keep the same object during the operation.
+ * @param path a path
+ * @public
+ */
 - (void)			setPath:(NSBezierPath*) path
 {
 	if ( path != m_path )
@@ -268,42 +203,21 @@ static NSColor*			sInfoWindowColour = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			path
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the object's current path
-/// 
-/// parameters:		none
-/// result:			the NSBezierPath
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the object's current path
+ * @return the NSBezierPath
+ * @public
+ */
 - (NSBezierPath*)	path
 {
 	return m_path;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawControlPointsOfPath:usingKnobs:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	returns the actual path drawn when the object is rendered
-/// 
-/// parameters:		<path> the path to draw
-///					<knobs> the knobs object that draws the handles on the path
-/// result:			none
-///
-/// notes:			called by -drawSelectedState
-///
-///********************************************************************************************************************
-
+/** @brief Returns the actual path drawn when the object is rendered
+ * @note
+ * Called by -drawSelectedState
+ * @param path the path to draw
+ * @param knobs the knobs object that draws the handles on the path
+ */
 - (void)			drawControlPointsOfPath:(NSBezierPath*) path usingKnobs:(DKKnob*) knobs
 {
 	// draws the control points of the entire path using the knobs supplied.
@@ -429,23 +343,14 @@ static NSColor*			sInfoWindowColour = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplayForRects
-/// scope:			private instance method
-/// overrides:		
-/// description:	given a set of rects as NSValue objects, this invalidates them
-/// 
-/// parameters:		<rects> a set of rects as NSValue objects
-/// result:			none
-///
-/// notes:			used to optimize updates to an area that is much tighter to a complex path that the overall
-///					bounds would be, thus minimizing drawing. Factors in the current style's extra space. The optimization
-///					is not done if the style has a fill, because tearing can occur with some styles
-///
-///********************************************************************************************************************
-
+/** @brief Given a set of rects as NSValue objects, this invalidates them
+ * @note
+ * Used to optimize updates to an area that is much tighter to a complex path that the overall
+ * bounds would be, thus minimizing drawing. Factors in the current style's extra space. The optimization
+ * is not done if the style has a fill, because tearing can occur with some styles
+ * @param rects a set of rects as NSValue objects
+ * @private
+ */
 - (void)				setNeedsDisplayForRects:(NSSet*) rects
 {
 	if ([[self style] hasFill] || [[self style] hasHatch])
@@ -467,69 +372,42 @@ static NSColor*			sInfoWindowColour = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			length
-/// scope:			public instance method
-/// overrides:		
-/// description:	return the length of the path
-/// 
-/// parameters:		none
-/// result:			the path's length
-///
-/// notes:			length is accurately computed by summing the segment distances.
-///
-///********************************************************************************************************************
-
+/** @brief Return the length of the path
+ * @note
+ * Length is accurately computed by summing the segment distances.
+ * @return the path's length
+ * @public
+ */
 - (CGFloat)				length
 {
 	return [[self path] length];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			lengthForPoint:
-/// scope:			public instance method
-/// overrides:		
-/// description:	return the length along the path for a given point
-/// 
-/// parameters:		<mp> a point somewhere close to the path
-/// result:			a distance along the path nearest to the point
-///
-/// notes:			points too far from the path return a value of -1. To be within range, the point needs to be within
-///					4 x the widest stroke drawn by the style, or 4 points, whichever is larger.
-///
-///********************************************************************************************************************
-
+/** @brief Return the length along the path for a given point
+ * @note
+ * Points too far from the path return a value of -1. To be within range, the point needs to be within
+ * 4 x the widest stroke drawn by the style, or 4 points, whichever is larger.
+ * @param mp a point somewhere close to the path
+ * @return a distance along the path nearest to the point
+ * @public
+ */
 - (CGFloat)			lengthForPoint:(NSPoint) mp
 {
 	return [self lengthForPoint:mp tolerance:MAX( 1, [[self style] maxStrokeWidth]) * 4];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			lengthForPoint:tolerance:
-/// scope:			public instance method
-/// overrides:		
-/// description:	return the length along the path for a given point
-/// 
-/// parameters:		<mp> a point somewhere close to the path
-///					<tol> the tolerance value
-/// result:			a distance along the path nearest to the point
-///
-/// notes:			points too far from the path return a value of -1. The point needs to be <tol> or less from the path.
-///
-///********************************************************************************************************************
-
+/** @brief Return the length along the path for a given point
+ * @note
+ * Points too far from the path return a value of -1. The point needs to be <tol> or less from the path.
+ * @param mp a point somewhere close to the path
+ * @param tol the tolerance value
+ * @return a distance along the path nearest to the point
+ * @public
+ */
 - (CGFloat)			lengthForPoint:(NSPoint) mp tolerance:(CGFloat) tol
 {
 	return [[self path] distanceFromStartOfPathAtPoint:mp tolerance:tol];
 }
-
-
 
 - (void)				recordPathForUndo
 {
@@ -537,12 +415,10 @@ static NSColor*			sInfoWindowColour = nil;
 	m_undoPath = [[self path] copy];
 }
 
-
 - (NSBezierPath*)		undoPath
 {
 	return m_undoPath;
 }
-
 
 - (void)				clearUndoPath
 {
@@ -550,24 +426,16 @@ static NSColor*			sInfoWindowColour = nil;
 	m_undoPath = nil;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			combine:
-/// scope:			public instance method
-/// overrides:		
-/// description:	merges two paths by simply appending them
-/// 
-/// parameters:		<anotherPath> another drawable path object like this one
-/// result:			none
-///
-/// notes:			this simply appends the part of the other object to this one and recomputes the bounds, etc.
-///					the result can act like a union, difference or XOR according to the relative placements of the
-///					paths and the winding rules in use.
-///
-///********************************************************************************************************************
 
+/** @brief Merges two paths by simply appending them
+ * @note
+ * This simply appends the part of the other object to this one and recomputes the bounds, etc.
+ * the result can act like a union, difference or XOR according to the relative placements of the
+ * paths and the winding rules in use.
+ * @param anotherPath another drawable path object like this one
+ * @public
+ */
 - (void)				combine:(DKDrawablePath*) anotherPath
 {
 	NSBezierPath* path = [[self path] copy];
@@ -577,22 +445,14 @@ static NSColor*			sInfoWindowColour = nil;
 	[path release];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			wouldJoin:tolerance:
-/// scope:			public instance method
-/// overrides:		
-/// description:	preflights a potential join to determine if the join would be made
-/// 
-/// parameters:		<anotherPath> another drawable path object like this one
-///					<tol> a value used to determine if the end points are placed sufficiently close to be joinable
-/// result:			a join result value, indicating which end(s) would be joined, if any
-///
-/// notes:			allows a join operation to be preflighted without actually performing the join.
-///
-///********************************************************************************************************************
-
+/** @brief Preflights a potential join to determine if the join would be made
+ * @note
+ * Allows a join operation to be preflighted without actually performing the join.
+ * @param anotherPath another drawable path object like this one
+ * @param tol a value used to determine if the end points are placed sufficiently close to be joinable
+ * @return a join result value, indicating which end(s) would be joined, if any
+ * @public
+ */
 - (DKDrawablePathJoinResult)	wouldJoin:(DKDrawablePath*) anotherPath tolerance:(CGFloat) tol
 {
 	NSBezierPath* ap = [anotherPath path];
@@ -648,25 +508,16 @@ static NSColor*			sInfoWindowColour = nil;
 	return result;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			join:tolerance:makeColinear:
-/// scope:			public instance method
-/// overrides:		
-/// description:	joins open paths together at their ends
-/// 
-/// parameters:		<anotherPath> another drawable path object like this one
-///					<tol> a value used to determine if the end points are placed sufficiently close to be joinable
-///					<colin> if YES, and the joined segments are curves, this adjusts the control points of the curve
-///					so that the join is colinear.
-/// result:			a join result value, indicating which end(s) were joined, if any
-///
-/// notes:			this attempts to join either or both ends of the two paths if they are placed sufficiently
-///					closely. Usually the higher level join action at the layer level will be used.
-///
-///********************************************************************************************************************
-
+/** @brief Joins open paths together at their ends
+ * @note
+ * This attempts to join either or both ends of the two paths if they are placed sufficiently
+ * closely. Usually the higher level join action at the layer level will be used.
+ * @param anotherPath another drawable path object like this one
+ * @param tol a value used to determine if the end points are placed sufficiently close to be joinable
+ * @param colin if YES, and the joined segments are curves, this adjusts the control points of the curve
+ * @return a join result value, indicating which end(s) were joined, if any
+ * @public
+ */
 - (DKDrawablePathJoinResult) join:(DKDrawablePath*) anotherPath tolerance:(CGFloat) tol makeColinear:(BOOL) colin
 {
 //	LogEvent_(kReactiveEvent, @"joining path, tolerance = %f", tol );
@@ -790,22 +641,13 @@ static NSColor*			sInfoWindowColour = nil;
 	return kDKPathNoJoin;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			breakApart
-/// scope:			public instance method
-/// overrides:		
-/// description:	converts each subpath in the current path to a separate object
-/// 
-/// parameters:		none
-/// result:			an array of DKDrawablePath objects
-///
-/// notes:			A subpath is a path delineated by a moveTo opcode. Each one is made a separate new path. If there
-///					is only one subpath (common) then the result will have just one entry.
-///
-///********************************************************************************************************************
-
+/** @brief Converts each subpath in the current path to a separate object
+ * @note
+ * A subpath is a path delineated by a moveTo opcode. Each one is made a separate new path. If there
+ * is only one subpath (common) then the result will have just one entry.
+ * @return an array of DKDrawablePath objects
+ * @public
+ */
 - (NSArray*)			breakApart
 {
 	// returns a list of path objects each containing one subpath from this object's path. If this path only has one subpath, this
@@ -834,22 +676,14 @@ static NSColor*			sInfoWindowColour = nil;
 	return [newObjects autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			dividePathAtLength:
-/// scope:			public instance method
-/// overrides:		
-/// description:	splits a path into two paths at a specific point
-/// 
-/// parameters:		<distance> the position from the start of the path to make the split
-/// result:			a new path, being the section of the original path from <distance> to the end.
-///
-/// notes:			The new path has the same style and user info as the original, but is not added to the layer
-///					by this method. If <distance> is <= 0 or >= length, nil is returned.
-///
-///********************************************************************************************************************
-
+/** @brief Splits a path into two paths at a specific point
+ * @note
+ * The new path has the same style and user info as the original, but is not added to the layer
+ * by this method. If <distance> is <= 0 or >= length, nil is returned.
+ * @param distance the position from the start of the path to make the split
+ * @return a new path, being the section of the original path from <distance> to the end.
+ * @public
+ */
 - (DKDrawablePath*)		dividePathAtLength:(CGFloat) distance
 {
 	if( distance > 0 )
@@ -880,64 +714,36 @@ static NSColor*			sInfoWindowColour = nil;
 	return nil;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setPathEditingMode:
-/// scope:			public instance method
-/// overrides:		
-/// description:	sets the "mode" of operation for creating new path objects
-/// 
-/// parameters:		<editPathMode> a constant indicating how a new path should be constructed.
-/// result:			none
-///
-/// notes:			paths are created by tools usually so this will be rarely needed. Pass 0 for the defalt mode which
-///					is to edit an existing path (once created all paths are logically the same)
-///
-///********************************************************************************************************************
 
+/** @brief Sets the "mode" of operation for creating new path objects
+ * @note
+ * Paths are created by tools usually so this will be rarely needed. Pass 0 for the defalt mode which
+ * is to edit an existing path (once created all paths are logically the same)
+ * @param editPathMode a constant indicating how a new path should be constructed.
+ * @public
+ */
 - (void)				setPathCreationMode:(DKDrawablePathCreationMode) editPathMode
 {
 	m_editPathMode = editPathMode;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathEditingMode
-/// scope:			public instance method
-/// overrides:		
-/// description:	gets the "mode" of operation for creating new path objects
-/// 
-/// parameters:		none
-/// result:			the current editing/creation mode
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Gets the "mode" of operation for creating new path objects
+ * @public
+ */
 - (DKDrawablePathCreationMode)	pathCreationMode
 {
 	return m_editPathMode;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			pathCreateLoop:
-/// scope:			private instance method
-/// overrides:		
-/// description:	event loop for creating a curved path point by point
-/// 
-/// parameters:		<initialPoint> where to start
-/// result:			none
-///
-/// notes:			keeps control until the ending criteria are met (double-click or click on first point).
-///
-///********************************************************************************************************************
 
+/** @brief Event loop for creating a curved path point by point
+ * @note
+ * Keeps control until the ending criteria are met (double-click or click on first point).
+ * @param initialPoint where to start
+ * @private
+ */
 - (void)				pathCreateLoop:(NSPoint) initialPoint
 {
 	// when we create a path, we capture the mouse on the first mouse down and don't return until the path is complete. This is necessary because
@@ -1104,21 +910,12 @@ finish:
 	[self setPathCreationMode:kDKPathCreateModeEditExisting];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			lineCreateLoop:
-/// scope:			private instance method
-/// overrides:		
-/// description:	event loop for creating a single straight line
-/// 
-/// parameters:		<initialPoint> where to start
-/// result:			none
-///
-/// notes:			keeps control until the ending criteria are met (second click).
-///
-///********************************************************************************************************************
-
+/** @brief Event loop for creating a single straight line
+ * @note
+ * Keeps control until the ending criteria are met (second click).
+ * @param initialPoint where to start
+ * @private
+ */
 - (void)				lineCreateLoop:(NSPoint) initialPoint
 {
 	// creates a single straight line path, with only one segment. There are two ways a user can make a line - click and release,
@@ -1220,21 +1017,12 @@ finish:
 	[self postMouseUpAtPoint:p];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			polyCreateLoop:
-/// scope:			private instance method
-/// overrides:		
-/// description:	event loop for creating a polygon consisting of straight line sections
-/// 
-/// parameters:		<initialPoint> where to start
-/// result:			none
-///
-/// notes:			keeps control until the ending criteria are met (double-click or click on start point).
-///
-///********************************************************************************************************************
-
+/** @brief Event loop for creating a polygon consisting of straight line sections
+ * @note
+ * Keeps control until the ending criteria are met (double-click or click on start point).
+ * @param initialPoint where to start
+ * @private
+ */
 - (void)				polyCreateLoop:(NSPoint) initialPoint
 {
 	// creates a polygon or multi-segment line. Each click makes a new node, double-click or click in first point to finish.
@@ -1393,21 +1181,12 @@ finish:
 	[self notifyVisualChange];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			freehandCreateLoop:
-/// scope:			private instance method
-/// overrides:		
-/// description:	event loop for creating a curved path by fitting it to a series of sampled points
-/// 
-/// parameters:		<initialPoint> where to start
-/// result:			none
-///
-/// notes:			keeps control until the ending criteria are met (mouse up).
-///
-///********************************************************************************************************************
-
+/** @brief Event loop for creating a curved path by fitting it to a series of sampled points
+ * @note
+ * Keeps control until the ending criteria are met (mouse up).
+ * @param initialPoint where to start
+ * @private
+ */
 - (void)				freehandCreateLoop:(NSPoint) initialPoint
 {
 	// this works by building a freehand vector path (line segments) then smoothing it using curve fitting at the end.
@@ -1483,22 +1262,12 @@ finish:
 	[view mouseUp:theEvent];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			arcCreateLoop:
-/// scope:			private instance method
-/// overrides:		
-/// description:	event loop for creating an arc or a wedge
-/// 
-/// parameters:		<initialPoint> where to start
-/// result:			none
-///
-/// notes:			keeps control until the ending criteria are met (second click).
-///
-///********************************************************************************************************************
-
+/** @brief Event loop for creating an arc or a wedge
+ * @note
+ * Keeps control until the ending criteria are met (second click).
+ * @param initialPoint where to start
+ * @private
+ */
 - (void)				arcCreateLoop:(NSPoint) initialPoint
 {
 	// creates a circle segment. First click sets the centre, second the first radius, third the second radius.
@@ -1651,41 +1420,23 @@ finish:
 	[view mouseUp:theEvent];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathCreationLoopDidEnd
-/// scope:			private instance method
-/// overrides:		
-/// description:	overrideable hook at the end of path creation
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
+/** @brief Overrideable hook at the end of path creation
+ * @private
+ */
 - (void)				pathCreationLoopDidEnd
 {
 	// override when you need to hook into the end of path creation
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			shouldEndPathCreationWithEvent:
-/// scope:			private instance method
-/// overrides:		
-/// description:	test for the ending criterion of a path loop
-/// 
-/// parameters:		<event> an event
-/// result:			YES to end the loop, NO to continue
-///
-/// notes:			currently only checks for a double-click
-///
-///********************************************************************************************************************
 
+/** @brief Test for the ending criterion of a path loop
+ * @note
+ * Currently only checks for a double-click
+ * @param event an event
+ * @return YES to end the loop, NO to continue
+ * @private
+ */
 - (BOOL)				shouldEndPathCreationWithEvent:(NSEvent*) event
 {
 	// determine if path creation loop should be terminated - can be overridden to terminate differently.
@@ -1697,7 +1448,6 @@ finish:
 	else
 		return NO;
 }
-
 
 - (NSEvent*)	postMouseUpAtPoint:(NSPoint) p
 {
@@ -1718,42 +1468,25 @@ finish:
 	return mouseUp;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isPathClosed
-/// scope:			public instance method
-/// overrides:		
-/// description:	discover whether the path is open or closed
-/// 
-/// parameters:		none
-/// result:			YES if the path is closed, NO if open
-///
-/// notes:			A path is closed if it has a closePath element or its first and last points are coincident.
-///
-///********************************************************************************************************************
-
+/** @brief Discover whether the path is open or closed
+ * @note
+ * A path is closed if it has a closePath element or its first and last points are coincident.
+ * @return YES if the path is closed, NO if open
+ * @public
+ */
 - (BOOL)				isPathClosed
 {
 	return [[self path] isPathClosed];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isOpenEndPoint:
-/// scope:			public instance method
-/// overrides:		
-/// description:	discover whether the given partcode is an open end point of the path
-/// 
-/// parameters:		<partcode> a partcode to test
-/// result:			YES if the partcode is one of the endpoints, NO otherwise
-///
-/// notes:			A closed path always returns NO, as it has no open end points. An open path will return YES for
-///					only the first and last points.
-///
-///********************************************************************************************************************
-
+/** @brief Discover whether the given partcode is an open end point of the path
+ * @note
+ * A closed path always returns NO, as it has no open end points. An open path will return YES for
+ * only the first and last points.
+ * @param partcode a partcode to test
+ * @return YES if the partcode is one of the endpoints, NO otherwise
+ * @public
+ */
 - (BOOL)				isOpenEndPoint:(NSInteger) partcode
 {
 	if(![self isPathClosed])
@@ -1768,45 +1501,27 @@ finish:
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			shouldExtendExistingPath:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set whether the object should extend its path or start from scratch
-/// 
-/// parameters:		<xtend> YES to extend the path, NO for normal creation
-/// result:			none
-///
-/// notes:			When YES, this affects the starting partcode for the creation process. Normally paths are started
-///					from scratch, but if YES, this extends the existing path from its end if the path is open. The
-///					tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the object should extend its path or start from scratch
+ * @note
+ * When YES, this affects the starting partcode for the creation process. Normally paths are started
+ * from scratch, but if YES, this extends the existing path from its end if the path is open. The
+ * tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
+ * @param xtend YES to extend the path, NO for normal creation
+ * @public
+ */
 - (void)				setShouldExtendExistingPath:(BOOL) xtend
 {
 	m_extending = xtend;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			showLengthInfo:atPoint:
-/// scope:			public instance method
-/// overrides:		
-/// description:	conditionally display the length info feedback window
-/// 
-/// parameters:		<dist> the distance to display
-///					<p> where to put the window
-/// result:			none
-///
-/// notes:			distance is converted to drawing's current units, and point is converted to global. If the feedback
-///					display is disabled, does nothing.
-///
-///********************************************************************************************************************
-
+/** @brief Conditionally display the length info feedback window
+ * @note
+ * Distance is converted to drawing's current units, and point is converted to global. If the feedback
+ * display is disabled, does nothing.
+ * @param dist the distance to display
+ * @param p where to put the window
+ * @public
+ */
 - (void)				showLengthInfo:(CGFloat) dist atPoint:(NSPoint) p
 {
 	if([[self class] displaysSizeInfoWhenDragging])
@@ -1816,23 +1531,15 @@ finish:
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			pathDeletePointWithPartCode:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	delete the point from the path with the given part code
-/// 
-/// parameters:		<pc> the partcode to delete
-/// result:			YES if the point could be deleted, NO if not
-///
-/// notes:			only on-path points of a curve are allowed to be deleted, not control points. The partcodes will
-///					be renumbered by this, so do not cache the partcode beyond this point.
-///
-///********************************************************************************************************************
 
+/** @brief Delete the point from the path with the given part code
+ * @note
+ * Only on-path points of a curve are allowed to be deleted, not control points. The partcodes will
+ * be renumbered by this, so do not cache the partcode beyond this point.
+ * @param pc the partcode to delete
+ * @return YES if the point could be deleted, NO if not
+ */
 - (BOOL)				pathDeletePointWithPartCode:(NSInteger) pc
 {
 	// delete the point with the given partcode
@@ -1851,22 +1558,14 @@ finish:
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathDeleteElementAtIndex:
-/// scope:			public instance method
-/// overrides:		
-/// description:	delete a segment from the path at the given index
-/// 
-/// parameters:		<indx> the index of the element to delete
-/// result:			YES if the element was deleted, NO if not
-///
-/// notes:			If the element id removed from the middle, the path is split into two subpaths. If removed at
-///					either end, the path is shortened. Partcodes will change.
-///
-///********************************************************************************************************************
-
+/** @brief Delete a segment from the path at the given index
+ * @note
+ * If the element id removed from the middle, the path is split into two subpaths. If removed at
+ * either end, the path is shortened. Partcodes will change.
+ * @param indx the index of the element to delete
+ * @return YES if the element was deleted, NO if not
+ * @public
+ */
 - (BOOL)				pathDeleteElementAtIndex:(NSInteger) indx
 {
 	NSBezierPath* np = [[self path] bezierPathByRemovingElementAtIndex:indx];
@@ -1880,21 +1579,13 @@ finish:
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathDeleteElementAtPoint:
-/// scope:			public instance method
-/// overrides:		
-/// description:	delete a segment from the path at the given point
-/// 
-/// parameters:		<loc> a point
-/// result:			YES if the element was deleted, NO if not
-///
-/// notes:			Finds the element hit by the point and calls -pathDeleteElementAtIndex:
-///
-///********************************************************************************************************************
-
+/** @brief Delete a segment from the path at the given point
+ * @note
+ * Finds the element hit by the point and calls -pathDeleteElementAtIndex:
+ * @param loc a point
+ * @return YES if the element was deleted, NO if not
+ * @public
+ */
 - (BOOL)				pathDeleteElementAtPoint:(NSPoint) loc
 {
 	CGFloat tol = MAX( 4.0, [[self style] maxStrokeWidth]);
@@ -1906,22 +1597,13 @@ finish:
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pathInsertPointAt:ofType:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	insert a new point into the path
-/// 
-/// parameters:		<loc> the point at which to insert a point
-///					<pathPointType> the type of point (curve or vertex) to insert
-/// result:			the inserted point's new partcode, or 0 if the location was too far off the path.
-///
-/// notes:			the inserted point must be "close" to the path - within its drawn stroke in fact.
-///
-///********************************************************************************************************************
-
+/** @brief Insert a new point into the path
+ * @note
+ * The inserted point must be "close" to the path - within its drawn stroke in fact.
+ * @param loc the point at which to insert a point
+ * @param pathPointType the type of point (curve or vertex) to insert
+ * @return the inserted point's new partcode, or 0 if the location was too far off the path.
+ */
 - (NSInteger)					pathInsertPointAt:(NSPoint) loc ofType:(DKDrawablePathInsertType) pathPointType
 {
 	// insert a new point at the given location, returning the new point's partcode
@@ -1939,23 +1621,13 @@ finish:
 	return kDKDrawingNoPart;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			movePathPartcode:toPoint:event:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	move a single control point to a new position
-/// 
-/// parameters:		<pc> the partcode for the point to be moved
-///					<mp> the point to move it to
-///					<evt> the event (used to grab modifier flags)
-/// result:			none
-///
-/// notes:			essential interactive editing method
-///
-///********************************************************************************************************************
-
+/** @brief Move a single control point to a new position
+ * @note
+ * Essential interactive editing method
+ * @param pc the partcode for the point to be moved
+ * @param mp the point to move it to
+ * @param evt the event (used to grab modifier flags)
+ */
 - (void)				movePathPartcode:(NSInteger) pc toPoint:(NSPoint) mp event:(NSEvent*) evt
 {
 	if( pc < 4 )
@@ -1989,65 +1661,38 @@ finish:
 	[self notifyVisualChange];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setFreehandSmoothing:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the smoothness of paths created in freehand mode
-/// 
-/// parameters:		<fs> a smoothness value
-/// result:			none
-///
-/// notes:			the bigger the number, the smoother but less accurate the path. The value is the distance in
-///					base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20
-///
-///********************************************************************************************************************
 
+/** @brief Set the smoothness of paths created in freehand mode
+ * @note
+ * The bigger the number, the smoother but less accurate the path. The value is the distance in
+ * base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20
+ * @param fs a smoothness value
+ * @public
+ */
 - (void)				setFreehandSmoothing:(CGFloat) fs
 {
 	m_freehandEpsilon = fs;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			freehandSmoothing
-/// scope:			public instance method
-/// overrides:		
-/// description:	get the smoothness valueof paths created in freehand mode
-/// 
-/// parameters:		none
-/// result:			the smoothness value
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Get the smoothness valueof paths created in freehand mode
+ * @return the smoothness value
+ * @public
+ */
 - (CGFloat)				freehandSmoothing
 {
 	return m_freehandEpsilon;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			makeShape
-/// scope:			public instance method
-/// overrides:		
-/// description:	make a copy of the path into a shape object
-/// 
-/// parameters:		none
-/// result:			a DKDrawableShape object, identical to this
-///
-/// notes:			called by -convertToShape, a higher level operation. Note that the actual class of object returned
-///					can be modified by customising the interconversion table.
-///
-///********************************************************************************************************************
 
+/** @brief Make a copy of the path into a shape object
+ * @note
+ * Called by -convertToShape, a higher level operation. Note that the actual class of object returned
+ * can be modified by customising the interconversion table.
+ * @return a DKDrawableShape object, identical to this
+ * @public
+ */
 - (DKDrawableShape*)	makeShape
 {
 	NSBezierPath* mp = [[[self path] copy] autorelease];
@@ -2060,28 +1705,17 @@ finish:
 	return so;
 }
 
-
 - (BOOL)				canConvertToTrack
 {
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			makeParallelWithOffset:
-/// scope:			public instance method
-/// overrides:		
-/// description:	make a copy of the path but with a parallel offset
-/// 
-/// parameters:		<distance> the distance from the original that the path is offset (negative forupward displacement)
-///					<smooth> if YES, also smooths the resulting path
-/// result:			a DKDrawablePath object
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Make a copy of the path but with a parallel offset
+ * @param distance the distance from the original that the path is offset (negative forupward displacement)
+ * @param smooth if YES, also smooths the resulting path
+ * @return a DKDrawablePath object
+ * @public
+ */
 - (DKDrawablePath*)		makeParallelWithOffset:(CGFloat) distance smooth:(BOOL) smooth
 {
 	DKDrawablePath*		newPath = [self copy];
@@ -2099,23 +1733,15 @@ finish:
 	return [newPath autorelease];
 }
 
-
 #pragma mark -
 #pragma mark - user level commands this object can respond to
-///*********************************************************************************************************************
-///
-/// method:			convertToShape:
-/// scope:			public action method
-/// overrides:		
-/// description:	converts this object to he equivalent shape
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			undoably replaces itself in its current layer by the equivalent shape object
-///
-///********************************************************************************************************************
 
+/** @brief Converts this object to he equivalent shape
+ * @note
+ * Undoably replaces itself in its current layer by the equivalent shape object
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			convertToShape:(id) sender
 {
 	#pragma unused(sender)
@@ -2141,21 +1767,12 @@ finish:
 		NSBeep();
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addRandomNoise:
-/// scope:			public action method
-/// overrides:		
-/// description:	adds some random offset to every point on the path
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			just a fun effect
-///
-///********************************************************************************************************************
-
+/** @brief Adds some random offset to every point on the path
+ * @note
+ * Just a fun effect
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			addRandomNoise:(id) sender
 {
 	#pragma unused(sender)
@@ -2167,24 +1784,15 @@ finish:
 	[[self undoManager] setActionName:NSLocalizedString(@"Add Randomness", @"undo string for path add random")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			convertToOutline:
-/// scope:			public action method
-/// overrides:		
-/// description:	replaces the path with an outline of the path
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the result depends on the style - specifically the maximum stroke width. The path is replaced by
-///					a path whose edges are where the edge of the stroke of the original path lie. The topmost stroke
-///					is used to set the fill of the resulting object's style. The result is similar but not always
-///					identical to the original. For complex styles you will lose a lot of information.
-///
-///********************************************************************************************************************
-
+/** @brief Replaces the path with an outline of the path
+ * @note
+ * The result depends on the style - specifically the maximum stroke width. The path is replaced by
+ * a path whose edges are where the edge of the stroke of the original path lie. The topmost stroke
+ * is used to set the fill of the resulting object's style. The result is similar but not always
+ * identical to the original. For complex styles you will lose a lot of information.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			convertToOutline:(id) sender
 {
 	#pragma unused(sender)
@@ -2225,21 +1833,10 @@ finish:
 	[[self undoManager] setActionName:NSLocalizedString(@"Convert To Outline", @"undo string for convert to outline")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			breakApart:
-/// scope:			public action method
-/// overrides:		
-/// description:	replaces the object with new objects, one for each subpath in the original
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Replaces the object with new objects, one for each subpath in the original
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			breakApart:(id) sender
 {
 	#pragma unused(sender)
@@ -2263,7 +1860,6 @@ finish:
 		[odl commitSelectionUndoWithActionName:NSLocalizedString(@"Break Apart", @"undo string for break apart")];
 	}
 }
-
 
 - (IBAction)			roughenPath:(id) sender
 {
@@ -2307,23 +1903,15 @@ finish:
 	[[self undoManager] setActionName:NSLocalizedString(@"Roughen Path", @"undo string for roughen path")];
 }
 
-
 #ifdef qUseCurveFit
-///*********************************************************************************************************************
-///
-/// method:			smoothPath:
-/// scope:			public action method
-/// overrides:		
-/// description:	tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
-///					this will have no effect. vector paths can benefit however.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the current set smoothness value is used
-///
-///********************************************************************************************************************
 
+/** @brief Tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
+ * this will have no effect. vector paths can benefit however.
+ * @note
+ * The current set smoothness value is used
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			smoothPath:(id) sender
 {
 	#pragma unused(sender)
@@ -2332,22 +1920,13 @@ finish:
 	[[self undoManager] setActionName:NSLocalizedString(@"Smooth Path", @"smooth path action name")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			smoothPathMore:
-/// scope:			public action method
-/// overrides:		
-/// description:	tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
-///					this will have no effect. vector paths can benefit however.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the current set smoothness value x4 is used
-///
-///********************************************************************************************************************
-
+/** @brief Tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
+ * this will have no effect. vector paths can benefit however.
+ * @note
+ * The current set smoothness value x4 is used
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			smoothPathMore:(id) sender
 {
 	#pragma unused(sender)
@@ -2357,21 +1936,12 @@ finish:
 }
 #endif /* defined(qUseCurveFit) */
 
-
-///*********************************************************************************************************************
-///
-/// method:			parallelCopy:
-/// scope:			public action method
-/// overrides:		
-/// description:	adds a copy of the receiver to the drawing with a parallel offset path
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			this is really just a test of the algorithm
-///
-///********************************************************************************************************************
-
+/** @brief Adds a copy of the receiver to the drawing with a parallel offset path
+ * @note
+ * This is really just a test of the algorithm
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			parallelCopy:(id) sender
 {
 	#pragma unused(sender)
@@ -2389,21 +1959,12 @@ finish:
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			curveFit:
-/// scope:			public action method
-/// overrides:		
-/// description:	attempts to curve-fit the object's path
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			The path might not change, depending on how it is made up
-///
-///********************************************************************************************************************
-
+/** @brief Attempts to curve-fit the object's path
+ * @note
+ * The path might not change, depending on how it is made up
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			curveFit:(id) sender
 {
 #pragma unused(sender)
@@ -2416,22 +1977,13 @@ finish:
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			reversePath:
-/// scope:			public action method
-/// overrides:		
-/// description:	reverses the direction of the object's path
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			Does not change the path's appearance directly, but may depending on the current style, e.g. arrows
-///					will flip to the other end.
-///
-///********************************************************************************************************************
-
+/** @brief Reverses the direction of the object's path
+ * @note
+ * Does not change the path's appearance directly, but may depending on the current style, e.g. arrows
+ * will flip to the other end.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			reversePath:(id) sender
 {
 #pragma unused(sender)
@@ -2444,21 +1996,12 @@ finish:
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toggleHorizontalFlip:
-/// scope:			public action method
-/// overrides:		
-/// description:	flips the path horizontally
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the path is flipped directly
-///
-///********************************************************************************************************************
-
+/** @brief Flips the path horizontally
+ * @note
+ * The path is flipped directly
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			toggleHorizontalFlip:(id) sender
 {
 	#pragma unused(sender)
@@ -2476,21 +2019,12 @@ finish:
 	[[self undoManager] setActionName:NSLocalizedString(@"Flip Horizontally", @"h flip")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toggleVerticalFlip:
-/// scope:			public action method
-/// overrides:		
-/// description:	flips the path vertically
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the path is flipped directly
-///
-///********************************************************************************************************************
-
+/** @brief Flips the path vertically
+ * @note
+ * The path is flipped directly
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			toggleVerticalFlip:(id) sender
 {
 	#pragma unused(sender)
@@ -2508,21 +2042,12 @@ finish:
 	[[self undoManager] setActionName:NSLocalizedString(@"Flip Vertically", @"v flip")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			closePath:
-/// scope:			public action method
-/// overrides:		
-/// description:	closes the path if not already closed
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			paths created using the bezier tool are always left open by default
-///
-///********************************************************************************************************************
-
+/** @brief Closes the path if not already closed
+ * @note
+ * Paths created using the bezier tool are always left open by default
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			closePath:(id) sender
 {
 #pragma unused(sender)
@@ -2537,30 +2062,19 @@ finish:
 	}
 }
 
-
 #pragma mark -
 #pragma mark As a DKDrawableObject
 
-///*********************************************************************************************************************
-///
-/// method:			initialPartcodeForObjectCreation
-/// scope:			public class method
-/// overrides:
-/// description:	return the partcode that should be used by tools when initially creating a new object
-/// 
-/// parameters:		none
-/// result:			a partcode value - since paths start empty the 'no part' partcode is returned
-///
-/// notes:			The client of this method is DKObjectCreationTool.
-///
-///********************************************************************************************************************
-
+/** @brief Return the partcode that should be used by tools when initially creating a new object
+ * @note
+ * The client of this method is DKObjectCreationTool.
+ * @return a partcode value - since paths start empty the 'no part' partcode is returned
+ * @public
+ */
 + (NSInteger)					initialPartcodeForObjectCreation
 {
 	return kDKDrawingNoPart;
 }
-
-
 
 + (NSArray*)			pasteboardTypesForOperation:(DKPasteboardOperationType) op
 {
@@ -2569,22 +2083,14 @@ finish:
 										NSFilenamesPboardType, kDKStylePasteboardType, kDKStyleKeyPasteboardType, nil];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithStyle:
-/// scope:			public instance method
-/// overrides:
-/// description:	initializes the drawable to have the style given
-/// 
-/// parameters:		<aStyle> the initial style for the object
-/// result:			the object
-///
-/// notes:			you can use -init to initialize using the default style. Note that if creating many objects at
-///					once, supplying the style when initializing is more efficient.
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the drawable to have the style given
+ * @note
+ * You can use -init to initialize using the default style. Note that if creating many objects at
+ * once, supplying the style when initializing is more efficient.
+ * @param aStyle the initial style for the object
+ * @return the object
+ * @public
+ */
 - (id)					initWithStyle:(DKStyle*) aStyle
 {
 	self = [super initWithStyle:aStyle];
@@ -2596,20 +2102,13 @@ finish:
 	
 	return self;
 }
-///*********************************************************************************************************************
-///
-/// method:			apparentBounds
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	returns the apparent (visual) bounds of the object
-/// 
-/// parameters:		none
-/// result:			a rectangle bounding the object
-///
-/// notes:			bounds is derived from the path directly
-///
-///********************************************************************************************************************
 
+/** @brief Returns the apparent (visual) bounds of the object
+ * @note
+ * Bounds is derived from the path directly
+ * @return a rectangle bounding the object
+ * @public
+ */
 - (NSRect)			apparentBounds
 {
 	NSRect r = [[self renderingPath] bounds];
@@ -2622,21 +2121,12 @@ finish:
 	return r;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			bounds
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	returns the bounds of the object
-/// 
-/// parameters:		none
-/// result:			a rectangle bounding the object
-///
-/// notes:			bounds is derived from the path directly
-///
-///********************************************************************************************************************
-
+/** @brief Returns the bounds of the object
+ * @note
+ * Bounds is derived from the path directly
+ * @return a rectangle bounding the object
+ * @public
+ */
 - (NSRect)			bounds
 {
 	NSRect	r;
@@ -2668,21 +2158,11 @@ finish:
 	return r;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawContent
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	draws the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			when hit-testing, substitutes a style that is easier to hit
-///
-///********************************************************************************************************************
-
+/** @brief Draws the object
+ * @note
+ * When hit-testing, substitutes a style that is easier to hit
+ * @public
+ */
 - (void)			drawContent
 {
 	if([self isBeingHitTested])
@@ -2701,21 +2181,9 @@ finish:
 		[super drawContent];	
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawSelectedState
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	draws the seleciton highlight on the object when requested
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Draws the seleciton highlight on the object when requested
+ * @public
+ */
 - (void)			drawSelectedState
 {
 	// stroke the path using the standard selection
@@ -2736,23 +2204,13 @@ finish:
 	[pool drain];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawGhostedContent
-/// scope:			public instance method
-/// overrides:
-/// description:	draw the ghosted content of the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
-///					overridden for more complex appearances. Note that ghosting should deliberately keep the object
-///					unobtrusive and simple.
-///
-///********************************************************************************************************************
-
+/** @brief Draw the ghosted content of the object
+ * @note
+ * The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
+ * overridden for more complex appearances. Note that ghosting should deliberately keep the object
+ * unobtrusive and simple.
+ * @public
+ */
 - (void)			drawGhostedContent
 {
 	[[[self class] ghostColour] set];
@@ -2767,22 +2225,13 @@ finish:
 	[rp stroke];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			hitPart:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	determines the partcode hit by a given point
-/// 
-/// parameters:		<pt> a point
-/// result:			an integer value, the partcode hit.
-///
-/// notes:			partcodes apart from 0 and -1 are private to this object
-///
-///********************************************************************************************************************
-
+/** @brief Determines the partcode hit by a given point
+ * @note
+ * Partcodes apart from 0 and -1 are private to this object
+ * @param pt a point
+ * @return an integer value, the partcode hit.
+ * @public
+ */
 - (NSInteger)				hitPart:(NSPoint) pt
 {
 	NSInteger pc = [super hitPart:pt];
@@ -2806,22 +2255,13 @@ finish:
 	return pc;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hitSelectedPart:forSnapDetection:
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	determines the partcode hit by a given point
-/// 
-/// parameters:		<pt> a point
-///					<snap> YES if being called to determine snapping to the object, NO for normal mouse click
-/// result:			an integer value, the partcode hit.
-///
-/// notes:			partcodes apart from 0 and -1 are private to this object
-///
-///********************************************************************************************************************
-
+/** @brief Determines the partcode hit by a given point
+ * @note
+ * Partcodes apart from 0 and -1 are private to this object
+ * @param pt a point
+ * @param snap YES if being called to determine snapping to the object, NO for normal mouse click
+ * @return an integer value, the partcode hit.
+ */
 - (NSInteger)				hitSelectedPart:(NSPoint) pt forSnapDetection:(BOOL) snap
 {
 	CGFloat	tol = [[[self layer] knobs] controlKnobSize].width;
@@ -2861,44 +2301,25 @@ finish:
 	return pc;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			logicalBounds
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	returns the logical bounds of the object
-/// 
-/// parameters:		none
-/// result:			a rectangle bounding the object ignoring any style attributes
-///
-/// notes:			bounds is derived from the path directly
-///
-///********************************************************************************************************************
-
+/** @brief Returns the logical bounds of the object
+ * @note
+ * Bounds is derived from the path directly
+ * @return a rectangle bounding the object ignoring any style attributes
+ * @public
+ */
 - (NSRect)			logicalBounds
 {
 	return [[self renderingPath] bounds];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDownAtPoint:inPart:event:
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	handles a mouse down in the object
-/// 
-/// parameters:		<mp> the mouse point
-///					<partcode> the partcode returned earlier by hitPart:
-///					<evt> the event this came from
-/// result:			none
-///
-/// notes:			this is used mainly to grab the mousedown and start our internal creation loops according to
-///					which edit mode is set for the object.
-///
-///********************************************************************************************************************
-
+/** @brief Handles a mouse down in the object
+ * @note
+ * This is used mainly to grab the mousedown and start our internal creation loops according to
+ * which edit mode is set for the object.
+ * @param mp the mouse point
+ * @param partcode the partcode returned earlier by hitPart:
+ * @param evt the event this came from
+ */
 - (void)				mouseDownAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	[[self layer] setInfoWindowBackgroundColour:[[self class] infoWindowBackgroundColour]];
@@ -2962,23 +2383,13 @@ finish:
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDraggedAtPoint:inPart:event:
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	handles a mouse drag in the object
-/// 
-/// parameters:		<mp> the mouse point
-///					<partcode> the partcode returned earlier by hitPart:
-///					<evt> the event this came from
-/// result:			none
-///
-/// notes:			used when editing an existing path, but not creating one
-///
-///********************************************************************************************************************
-
+/** @brief Handles a mouse drag in the object
+ * @note
+ * Used when editing an existing path, but not creating one
+ * @param mp the mouse point
+ * @param partcode the partcode returned earlier by hitPart:
+ * @param evt the event this came from
+ */
 - (void)				mouseDraggedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	if (partcode == kDKDrawingEntireObjectPart )
@@ -3006,23 +2417,13 @@ finish:
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseUpAtPoint:inPart:event:
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	handles a mouseup in the object
-/// 
-/// parameters:		<mp> the mouse point
-///					<partcode> the partcode returned earlier by hitPart:
-///					<evt> the event this came from
-/// result:			none
-///
-/// notes:			used when editing an existing path, but not creating one
-///
-///********************************************************************************************************************
-
+/** @brief Handles a mouseup in the object
+ * @note
+ * Used when editing an existing path, but not creating one
+ * @param mp the mouse point
+ * @param partcode the partcode returned earlier by hitPart:
+ * @param evt the event this came from
+ */
 - (void)				mouseUpAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	if ( partcode == kDKDrawingEntireObjectPart )
@@ -3041,21 +2442,10 @@ finish:
 	[self setTrackingMouse:NO];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setLocation:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	moves the object to a new location
-/// 
-/// parameters:		<p> the new location
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Moves the object to a new location
+ * @param p the new location
+ * @public
+ */
 - (void)			setLocation:(NSPoint) p
 {
 	if(![self locationLocked])
@@ -3082,21 +2472,12 @@ finish:
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pointForPartcode:
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	given a partcode, this returns the current value of the associated point
-/// 
-/// parameters:		<pc> an integer - the private partcode
-/// result:			a point - the location of the partcode.
-///
-/// notes:			partcodes apart from 0 and -1 are private to this object
-///
-///********************************************************************************************************************
-
+/** @brief Given a partcode, this returns the current value of the associated point
+ * @note
+ * Partcodes apart from 0 and -1 are private to this object
+ * @param pc an integer - the private partcode
+ * @return a point - the location of the partcode.
+ */
 - (NSPoint)			pointForPartcode:(NSInteger) pc
 {
 	if ( pc != kDKDrawingNoPart && pc != kDKDrawingEntireObjectPart )
@@ -3114,21 +2495,11 @@ finish:
 		return [super pointForPartcode:pc];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			populateContextualMenu
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	populate the menu with commands pertaining to this object
-/// 
-/// parameters:		<theMenu> the menu to populate
-/// result:			YES
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Populate the menu with commands pertaining to this object
+ * @param theMenu the menu to populate
+ * @return YES
+ * @public
+ */
 - (BOOL)				populateContextualMenu:(NSMenu*) theMenu
 {
 	// if the object supports any contextual menu commands, it should add them to the menu and return YES. If subclassing,
@@ -3147,22 +2518,13 @@ finish:
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renderingPath
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	returns the actual path drawn when the object is rendered
-/// 
-/// parameters:		none
-/// result:			a NSBezierPath object, transformed according to its parents (groups for example)
-///
-/// notes:			this is part of the style rendering protocol. Note that the path returned is always a copy of the
-///					object's stored path and may be freely modified
-///
-///********************************************************************************************************************
-
+/** @brief Returns the actual path drawn when the object is rendered
+ * @note
+ * This is part of the style rendering protocol. Note that the path returned is always a copy of the
+ * object's stored path and may be freely modified
+ * @return a NSBezierPath object, transformed according to its parents (groups for example)
+ * @public
+ */
 - (NSBezierPath*)	renderingPath
 {
 	NSBezierPath* rPath = [[[self path] copy] autorelease];
@@ -3181,43 +2543,26 @@ finish:
 	return rPath;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rotateToAngle:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	rotates the path to the given angle
-/// 
-/// parameters:		<angle> the angle in radians
-/// result:			none
-///
-/// notes:			paths are not rotatable like shapes, but in special circumstances you may want to rotate the path
-///					in place. This will do that. The bounds remains aligned orthogonally. Note that asking for the path's
-///					angle will always return 0.
-///
-///********************************************************************************************************************
-
+/** @brief Rotates the path to the given angle
+ * @note
+ * Paths are not rotatable like shapes, but in special circumstances you may want to rotate the path
+ * in place. This will do that. The bounds remains aligned orthogonally. Note that asking for the path's
+ * angle will always return 0.
+ * @param angle the angle in radians
+ * @public
+ */
 - (void)			setAngle:(CGFloat) angle
 {
 	[self setPath:[[self path] rotatedPath:angle aboutPoint:[self location]]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snappingPointsWithOffset:
-/// scope:			public action method
-/// overrides:		DKDrawableObject
-/// description:	returns a list of potential snapping points used when the path is snapped to the grid or guides
-/// 
-/// parameters:		<offset> add this offset to the points
-/// result:			an array of points as NSValue objects
-///
-/// notes:			part of the snapping protocol
-///
-///********************************************************************************************************************
-
+/** @brief Returns a list of potential snapping points used when the path is snapped to the grid or guides
+ * @note
+ * Part of the snapping protocol
+ * @param offset add this offset to the points
+ * @return an array of points as NSValue objects
+ * @public
+ */
 - (NSArray*)			snappingPointsWithOffset:(NSSize) offset
 {
 	// utility method mainly for the purpose of snapping to guides - returns an array of the on-path points as values
@@ -3251,22 +2596,13 @@ finish:
 	return [pts autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			notifyVisualChange
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	sets the path's bounds to be updated
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			this optimizes the update to the individual element bounding rects rather than the entire bounding
-///					rect which can help a lot when there are many other objects close to the path (within its bounds
-///					but outside the element bounds).
-///
-///********************************************************************************************************************
+/** @brief Sets the path's bounds to be updated
+ * @note
+ * This optimizes the update to the individual element bounding rects rather than the entire bounding
+ * rect which can help a lot when there are many other objects close to the path (within its bounds
+ * but outside the element bounds).
+ * @public
+ */
 /*
 - (void)			notifyVisualChange
 {
@@ -3276,20 +2612,12 @@ finish:
 }
 */
 
-///*********************************************************************************************************************
-///
-/// method:			objectIsValid
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	return whether the object was valid following creation
-/// 
-/// parameters:		none
-/// result:			YES if usable and valid
-///
-/// notes:			see DKDrawableObject
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the object was valid following creation
+ * @note
+ * See DKDrawableObject
+ * @return YES if usable and valid
+ * @public
+ */
 - (BOOL)				objectIsValid
 {
 	// paths are invalid if their length is zero or there is no path or the path is empty.
@@ -3301,44 +2629,24 @@ finish:
 	return valid;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			size
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	return the object's size
-/// 
-/// parameters:		none
-/// result:			the size of the object (the size of the path bounds)
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the object's size
+ * @return the size of the object (the size of the path bounds)
+ * @public
+ */
 - (NSSize)				size
 {
 	return [[self path] bounds].size;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			group:willUngroupObjectWithTransform:
-/// scope:			public instance method
-/// overrides:
-/// description:	this object is being ungrouped from a group
-/// 
-/// parameters:		<aGroup> the group containing the object
-///					<aTransform> the transform that the group is applying to the object to scale rotate and translate it.
-/// result:			none
-///
-/// notes:			when ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
-///					itself appropriately. At the time this is called, the object has already has its container set to
-///					the layer it will be added to but has not actually been added.
-///
-///********************************************************************************************************************
-
+/** @brief This object is being ungrouped from a group
+ * @note
+ * When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
+ * itself appropriately. At the time this is called, the object has already has its container set to
+ * the layer it will be added to but has not actually been added.
+ * @param aGroup the group containing the object
+ * @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
+ * @public
+ */
 - (void)				group:(DKShapeGroup*) aGroup willUngroupObjectWithTransform:(NSAffineTransform*) aTransform
 {
 	#pragma unused(aGroup)
@@ -3351,30 +2659,16 @@ finish:
 	[path release];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			applyTransform:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	apply the transform to the object
-/// 
-/// parameters:		<transform> a transform
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Apply the transform to the object
+ * @param transform a transform
+ * @public
+ */
 - (void)				applyTransform:(NSAffineTransform*) transform
 {
 	[self notifyVisualChange];
 	[[self path] transformUsingAffineTransform:transform];
 	[self notifyVisualChange];
 }
-
-
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -3385,12 +2679,10 @@ finish:
 	[super dealloc];
 }
 
-
 - (id)				init
 {
 	return [self initWithStyle:[DKStyle styleWithFillColour:nil strokeColour:[NSColor blackColor] strokeWidth:1.0]];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -3402,7 +2694,6 @@ finish:
 	[coder encodeDouble:m_freehandEpsilon forKey:@"freehand_smoothing"];
 }
 
-
 - (id)				initWithCoder:(NSCoder*) coder
 {
 	self = [super initWithCoder:coder];
@@ -3413,7 +2704,6 @@ finish:
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -3429,7 +2719,6 @@ finish:
 	
 	return copy;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSDraggingDestination protocol
@@ -3460,7 +2749,6 @@ finish:
 	
 	return NO;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
@@ -3495,5 +2783,5 @@ finish:
 	return [super validateMenuItem:item];
 }
 
-
 @end
+

@@ -1,20 +1,22 @@
 //
 //  DKStrokeDash.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 10/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKStrokeDash.h"
 #import "DKDrawKitMacros.h"
 #include <tgmath.h>
 
-
 #pragma mark Static Vars
 static NSMutableDictionary* sDashDict = nil;
-
 
 static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 {
@@ -24,27 +26,26 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		return euclid_hcf( b, a % b );
 }
 
-
 #pragma mark -
 @implementation DKStrokeDash
 #pragma mark As a DKStrokeDash
+
+/** 
+ */
 + (DKStrokeDash*)	defaultDash
 {
 	return [[[DKStrokeDash alloc] init] autorelease];
 }
-
 
 + (DKStrokeDash*)	dashWithPattern:(CGFloat[]) dashes count:(NSInteger) count
 {
 	return [[[DKStrokeDash alloc] initWithPattern:dashes count:count] autorelease];
 }
 
-
 + (DKStrokeDash*)	dashWithName:(NSString*) name
 {
 	return [sDashDict objectForKey:name];
 }
-
 
 + (void)		registerDash:(DKStrokeDash*) dash withName:(NSString*) name
 {
@@ -53,7 +54,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		
 	[sDashDict setObject:dash forKey:name];
 }
-
 
 + (NSArray*)	registeredDashes
 {
@@ -67,7 +67,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		
 	return list;
 }
-
 
 + (DKStrokeDash*)	equallySpacedDashToFitSize:(NSSize) aSize dashLength:(CGFloat) len
 {
@@ -104,17 +103,14 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	return dash;
 }
 
-
 #pragma mark -
 + (void)		saveDefaults
 {
 }
 
-
 + (void)		loadDefaults
 {
 }
-
 
 #pragma mark -
 - (id)			initWithPattern:(CGFloat[]) dashes count:(NSInteger) count
@@ -132,7 +128,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	
 	return self;
 }
-
 
 - (void)		setDashPattern:(CGFloat[]) dashes count:(NSInteger) count
 {
@@ -157,7 +152,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		m_pattern[0] = 1.0;
 }
 
-
 - (void)		getDashPattern:(CGFloat[]) dashes count:(NSInteger*) count
 {
 	*count = m_count;
@@ -166,12 +160,10 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		dashes[i] = m_pattern[i];
 }
 
-
 - (NSInteger)			count
 {
 	return m_count;
 }
-
 
 - (void)		setPhase:(CGFloat) ph
 {
@@ -181,7 +173,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	//NSLog(@"dash %@ setting phase %f (actual = %f)", self, ph, m_phase );
 }
 
-
 - (void)		setPhaseWithoutNotifying:(CGFloat) ph
 {
 	// allows a renderer to change the phase without notifying, which triggers more drawing, etc.
@@ -189,12 +180,10 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	m_phase = LIMIT( ph, 0, [self length]);
 }
 
-
 - (CGFloat)		phase
 {
 	return m_phase;
 }
-
 
 - (CGFloat)		length
 {
@@ -210,7 +199,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	return m;
 }
 
-
 - (CGFloat)		lengthAtIndex:(NSUInteger) indx
 {
 	if( indx < m_count )
@@ -219,19 +207,16 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		return 0.0;
 }
 
-
 #pragma mark -
 - (void)		setScalesToLineWidth:(BOOL) stlw
 {
 	m_scaleToLineWidth = stlw;
 }
 
-
 - (BOOL)		scalesToLineWidth
 {
 	return m_scaleToLineWidth;
 }
-
 
 - (void)		setIsBeingEdited:(BOOL) edit
 {
@@ -241,12 +226,10 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	mEditing = edit;
 }
 
-
 - (BOOL)		isBeingEdited
 {
 	return mEditing;
 }
-
 
 #pragma mark -
 - (void)		applyToPath:(NSBezierPath*) path
@@ -254,7 +237,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	m_phase = LIMIT([self phase], 0, [self length]);
 	[self applyToPath:path withPhase:[self phase]];
 }
-
 
 - (void)		applyToPath:(NSBezierPath*) path withPhase:(CGFloat) phase
 {
@@ -275,9 +257,7 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		[path setLineDash:m_pattern count:m_count phase:-phase];
 }
 
-
 #pragma mark -
-
 
 - (NSImage*)	dashSwatchImageWithSize:(NSSize) size strokeWidth:(CGFloat) width
 {
@@ -306,12 +286,10 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	return [image autorelease];
 }
 
-
 - (NSImage*)	standardDashSwatchImage
 {
 	return [self dashSwatchImageWithSize:kDKStandardDashSwatchImageSize strokeWidth:kDKStandardDashSwatchStrokeWidth];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -363,7 +341,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	[self registerDash:[self dashWithPattern:d count:count] withName:@"default_6"];
 }
 
-
 - (id)			init
 {
 	self = [super init];
@@ -381,7 +358,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of GraphicsAttributes Protocol
 - (void)		setValue:(id) val forNumericParameter:(NSInteger) pnum
@@ -392,7 +368,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 		m_pattern[pnum] = [val doubleValue];
 	}
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -406,7 +381,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	[coder encodeInteger:[self count] forKey:@"count"];
 	[coder encodeBool:[self scalesToLineWidth] forKey:@"scale_to_width"];
 }
-
 
 - (id)			initWithCoder:(NSCoder*) coder
 {
@@ -428,7 +402,6 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)			copyWithZone:(NSZone*) zone
@@ -442,5 +415,5 @@ static NSUInteger euclid_hcf( NSUInteger a, NSUInteger b )
 	return copy;
 }
 
-
 @end
+

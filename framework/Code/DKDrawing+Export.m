@@ -1,50 +1,35 @@
-///**********************************************************************************************************************************
-///  DKDrawing+Export.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 14/06/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawing+Export.h"
 #import "DKLayer+Metadata.h"
 #import "LogEvent.h"
 
-
 NSString* kDKExportPropertiesResolution = @"kDKExportPropertiesResolution";
 NSString* kDKExportedImageHasAlpha		= @"kDKExportedImageHasAlpha";
 NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 
-
-
 @implementation DKDrawing (Export)
 
-
-///*********************************************************************************************************************
-///
-/// method:			CGImageWithResolution:hasAlpha:
-/// scope:			public instance method
-/// description:	creates the initial bitmap image that the various bitmap formats are created from.
-/// 
-/// parameters:		<dpi> the resolution of the image in dots per inch.
-///					<hasAlpha> specifies whether the image is painted in the background paper colour or not.
-///					<relScale> scaling factor, 1.0 = actual size, 0.5 = half size, etc.
-/// result:			a CG image that is used to generate the export image formats
-///
-/// notes:			returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
-///					paint the background in the paper colour if hasAlpha is NO.
-///
-///********************************************************************************************************************
-
+/** @brief Creates the initial bitmap image that the various bitmap formats are created from.
+ * @note
+ * Returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
+ * paint the background in the paper colour if hasAlpha is NO.
+ * @param dpi the resolution of the image in dots per inch.
+ * @param hasAlpha specifies whether the image is painted in the background paper colour or not.
+ * @param relScale scaling factor, 1.0 = actual size, 0.5 = half size, etc.
+ * @return a CG image that is used to generate the export image formats
+ * @public
+ */
 - (CGImageRef)			CGImageWithResolution:(NSInteger) dpi hasAlpha:(BOOL) hasAlpha
 {
 	return [self CGImageWithResolution:dpi hasAlpha:hasAlpha relativeScale:1.0];
 }
-
-
-
 
 - (CGImageRef)			CGImageWithResolution:(NSInteger) dpi hasAlpha:(BOOL) hasAlpha relativeScale:(CGFloat) relScale
 
@@ -115,22 +100,13 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	return (CGImageRef)[(NSObject*)image autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			JPEGDataWithProperties:
-/// scope:			public instance method
-/// description:	returns JPEG data for the drawing.
-/// 
-/// parameters:		<props> various parameters and properties
-/// result:			JPEG data or nil if there was a problem
-///
-/// notes:			the properties can include a mixture of Image I/O properties, NSBitMapImageRep properties and
-///					DrawKit properties that control the data generation. Users may find the convenience methods
-///					below easier to use for many typical situations.
-///
-///********************************************************************************************************************
-
+/** @brief Returns JPEG data for the drawing.
+ * @param props various parameters and properties
+ * @return JPEG data or nil if there was a problem
+ * DrawKit properties that control the data generation. Users may find the convenience methods
+ * below easier to use for many typical situations.
+ * @public
+ */
 - (NSData*)				JPEGDataWithProperties:(NSDictionary*) props
 {
 	NSAssert( props != nil, @"cannot create JPEG data - properties were nil");
@@ -191,23 +167,13 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			TIFFDataWithProperties:
-/// scope:			public instance method
-/// description:	returns TIFF data for the drawing.
-/// 
-/// parameters:		<props> various parameters and properties
-/// result:			TIFF data or nil if there was a problem
-///
-/// notes:			the properties can include a mixture of Image I/O properties, NSBitMapImageRep properties and
-///					DrawKit properties that control the data generation. Users may find the convenience methods
-///					below easier to use for many typical situations.
-///
-///********************************************************************************************************************
-
+/** @brief Returns TIFF data for the drawing.
+ * @param props various parameters and properties
+ * @return TIFF data or nil if there was a problem
+ * DrawKit properties that control the data generation. Users may find the convenience methods
+ * below easier to use for many typical situations.
+ * @public
+ */
 - (NSData*)				TIFFDataWithProperties:(NSDictionary*) props
 {
 	NSAssert( props != nil, @"cannot create TIFF data - properties were nil");
@@ -291,23 +257,13 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			PNGDataWithProperties:
-/// scope:			public instance method
-/// description:	returns PNG data for the drawing.
-/// 
-/// parameters:		<props> various parameters and properties
-/// result:			PNG data or nil if there was a problem
-///
-/// notes:			the properties can include a mixture of Image I/O properties, NSBitMapImageRep properties and
-///					DrawKit properties that control the data generation. Users may find the convenience methods
-///					below easier to use for many typical situations.
-///
-///********************************************************************************************************************
-
+/** @brief Returns PNG data for the drawing.
+ * @param props various parameters and properties
+ * @return PNG data or nil if there was a problem
+ * DrawKit properties that control the data generation. Users may find the convenience methods
+ * below easier to use for many typical situations.
+ * @public
+ */
 - (NSData*)				PNGDataWithProperties:(NSDictionary*) props
 {
 	NSAssert( props != nil, @"cannot create PNG data - properties were nil");
@@ -362,24 +318,18 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	}
 }
 
-
 #pragma mark -
 #pragma mark - high-level easy use methods
-///*********************************************************************************************************************
-///
-/// method:			JPEGDataWithResolution:quality:progressive:
-/// scope:			public instance method
-/// description:	returns JPEG data for the drawing or nil if there was a problem
-/// 
-/// parameters:		<dpi> the resolution in dots per inch
-///					<quality> a value 0..1 that indicates the amount of compression - 0 = max, 1 = none.
-///					<progressive> YES if the data is progressive, NO otherwise
-/// result:			JPEG data
-///
-/// notes:			this is a convenience wrapper around the dictionary-based methods above
-///
-///********************************************************************************************************************
 
+/** @brief Returns JPEG data for the drawing or nil if there was a problem
+ * @note
+ * This is a convenience wrapper around the dictionary-based methods above
+ * @param dpi the resolution in dots per inch
+ * @param quality a value 0..1 that indicates the amount of compression - 0 = max, 1 = none.
+ * @param progressive YES if the data is progressive, NO otherwise
+ * @return JPEG data
+ * @public
+ */
 - (NSData*)				JPEGDataWithResolution:(NSInteger) dpi quality:(CGFloat) quality progressive:(BOOL) progressive
 {
 	NSDictionary* props = [NSDictionary dictionaryWithObjectsAndKeys:	[NSNumber numberWithInteger:dpi],			kDKExportPropertiesResolution,
@@ -390,22 +340,14 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	return [self JPEGDataWithProperties:props];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			TIFFDataWithResolution:compressionType:
-/// scope:			public instance method
-/// description:	returns TIFF data for the drawing or nil if there was a problem
-/// 
-/// parameters:		<dpi> the resolution in dots per inch
-///					<compType> a valid TIFF compression type (see NSBitMapImageRep.h)
-/// result:			TIFF data
-///
-/// notes:			this is a convenience wrapper around the dictionary-based methods above
-///
-///********************************************************************************************************************
-
+/** @brief Returns TIFF data for the drawing or nil if there was a problem
+ * @note
+ * This is a convenience wrapper around the dictionary-based methods above
+ * @param dpi the resolution in dots per inch
+ * @param compType a valid TIFF compression type (see NSBitMapImageRep.h)
+ * @return TIFF data
+ * @public
+ */
 - (NSData*)				TIFFDataWithResolution:(NSInteger) dpi compressionType:(NSTIFFCompression) compType
 {
 	NSDictionary* props = [NSDictionary dictionaryWithObjectsAndKeys:	[NSNumber numberWithInteger:dpi],			kDKExportPropertiesResolution,
@@ -415,23 +357,15 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	return [self TIFFDataWithProperties:props];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			PNGDataWithResolution:gamma:interlaced:
-/// scope:			public instance method
-/// description:	returns PNG data for the drawing or nil if there was a problem
-/// 
-/// parameters:		<dpi> the resolution in dots per inch
-///					<gamma> the gamma value 0..1
-///					<interlaced> YES to interlace the image, NO otherwise
-/// result:			PNG data
-///
-/// notes:			this is a convenience wrapper around the dictionary-based methods above
-///
-///********************************************************************************************************************
-
+/** @brief Returns PNG data for the drawing or nil if there was a problem
+ * @note
+ * This is a convenience wrapper around the dictionary-based methods above
+ * @param dpi the resolution in dots per inch
+ * @param gamma the gamma value 0..1
+ * @param interlaced YES to interlace the image, NO otherwise
+ * @return PNG data
+ * @public
+ */
 - (NSData*)				PNGDataWithResolution:(NSInteger) dpi gamma:(CGFloat) gumma interlaced:(BOOL) interlaced
 {
 	NSDictionary* props = [NSDictionary dictionaryWithObjectsAndKeys:	[NSNumber numberWithInteger:dpi],			kDKExportPropertiesResolution,
@@ -442,20 +376,12 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	return [self PNGDataWithProperties:props];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			thumbnailData
-/// scope:			public instance method
-/// description:	returns JPEG data for the drawing at 50% actual size, with 50% quality
-/// 
-/// parameters:		none
-/// result:			JPEG data
-///
-/// notes:			useful for e.g. generating QuickLook thumbnails
-///
-///********************************************************************************************************************
-
+/** @brief Returns JPEG data for the drawing at 50% actual size, with 50% quality
+ * @note
+ * Useful for e.g. generating QuickLook thumbnails
+ * @return JPEG data
+ * @public
+ */
 - (NSData*)				thumbnailData
 {
 	NSDictionary* props = [NSDictionary dictionaryWithObjectsAndKeys:	[NSNumber numberWithInteger:72],			kDKExportPropertiesResolution,
@@ -467,20 +393,13 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	return [self JPEGDataWithProperties:props];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerBitmapsWithDPI:
-/// scope:			public instance method
-/// description:	returns an array of bitmaps (NSBitmapImageReps) one per layer
-/// 
-/// parameters:		<dpi> the desired resolution in dots per inch.
-/// result:			an array of bitmaps
-///
-/// notes:			the lowest index is the bottom layer. Hidden layers and non-printing layers are excluded.
-///
-///********************************************************************************************************************
-
+/** @brief Returns an array of bitmaps (NSBitmapImageReps) one per layer
+ * @note
+ * The lowest index is the bottom layer. Hidden layers and non-printing layers are excluded.
+ * @param dpi the desired resolution in dots per inch.
+ * @return an array of bitmaps
+ * @public
+ */
 - (NSArray*)			layerBitmapsWithDPI:(NSUInteger) dpi
 {
 	NSMutableArray* layerBitmaps = [NSMutableArray array];
@@ -500,24 +419,17 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	return layerBitmaps;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			multipartTIFFDataWithResolution:
-/// scope:			public instance method
-/// description:	returns TIFF data
-/// 
-/// parameters:		<dpi> the desired resolution in dots per inch.
-/// result:			TIFF data
-///
-/// notes:			Each layer is written as a separate image. This is not the same as a layered TIFF however.
-///
-///********************************************************************************************************************
-
+/** @brief Returns TIFF data
+ * @note
+ * Each layer is written as a separate image. This is not the same as a layered TIFF however.
+ * @param dpi the desired resolution in dots per inch.
+ * @return TIFF data
+ * @public
+ */
 - (NSData*)				multipartTIFFDataWithResolution:(NSUInteger) dpi
 {
 	return [NSBitmapImageRep TIFFRepresentationOfImageRepsInArray:[self layerBitmapsWithDPI:dpi]];
 }
 
-
 @end
+

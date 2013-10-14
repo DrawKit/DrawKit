@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKDrawableObject.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 11/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawableObject.h"
 #import "DKDrawing.h"
@@ -26,7 +24,6 @@
 #import "DKAuxiliaryMenus.h"
 #import "DKSelectionPDFView.h"
 #import "DKPasteboardInfo.h"
-
 
 #ifdef qIncludeGraphicDebugging
 #import "DKDrawingView.h"
@@ -49,7 +46,6 @@ NSString*		kDKDragFeedbackEnabledPreferencesKey = @"kDKDragFeedbackEnabledPrefer
 
 NSString*		kDKDrawableCachedImageKey	= @"DKD_Cached_Img";
 
-
 #pragma mark Static vars
 
 static NSColor*			s_ghostColour = nil;
@@ -59,62 +55,33 @@ static NSDictionary*	s_interconversionTable = nil;
 @implementation DKDrawableObject
 #pragma mark As a DKDrawableObject
 
-///*********************************************************************************************************************
-///
-/// method:			displaysSizeInfoWhenDragging
-/// scope:			class method
-/// overrides:		
-/// description:	return whether an info floater is displayed when resizing an object
-/// 
-/// parameters:		none 
-/// result:			YES to show the info, NO to not show it
-///
-/// notes:			size info is width and height
-///
-///********************************************************************************************************************
-
+/** @brief Return whether an info floater is displayed when resizing an object
+ * @note
+ * Size info is width and height
+ * @return YES to show the info, NO to not show it
+ */
 + (BOOL)				displaysSizeInfoWhenDragging
 {
 	return ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDragFeedbackEnabledPreferencesKey];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			setDisplaysSizeInfoWhenDragging:
-/// scope:			class method
-/// overrides:		
-/// description:	set whether an info floater is displayed when resizing an object
-/// 
-/// parameters:		<doesDisplay> YES to show the info, NO to not show it
-/// result:			none
-///
-/// notes:			size info is width and height
-///
-///********************************************************************************************************************
-
+/** @brief Set whether an info floater is displayed when resizing an object
+ * @note
+ * Size info is width and height
+ * @param doesDisplay YES to show the info, NO to not show it
+ */
 + (void)				setDisplaysSizeInfoWhenDragging:(BOOL) doesDisplay
 {
 	[[NSUserDefaults standardUserDefaults] setBool:!doesDisplay forKey:kDKDragFeedbackEnabledPreferencesKey];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			unionOfBoundsOfDrawablesInArray:
-/// scope:			class method
-/// overrides:		
-/// description:	returns the union of the bounds of the objects in the array
-/// 
-/// parameters:		<array> a list of DKDrawable objects
-/// result:			a rect, the union of the bounds of all objects
-///
-/// notes:			utility method as this is a very common task - throws exception if any object in the list is
-///					not a DKDrawableObject or subclass thereof
-///
-///********************************************************************************************************************
-
+/** @brief Returns the union of the bounds of the objects in the array
+ * @note
+ * Utility method as this is a very common task - throws exception if any object in the list is
+ * not a DKDrawableObject or subclass thereof
+ * @param array a list of DKDrawable objects
+ * @return a rect, the union of the bounds of all objects
+ */
 + (NSRect)				unionOfBoundsOfDrawablesInArray:(NSArray*) array
 {
 	NSAssert( array != nil, @"array cannot be nil");
@@ -134,84 +101,50 @@ static NSDictionary*	s_interconversionTable = nil;
 	return u;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteboardTypesForOperation:
-/// scope:			public class method
-/// overrides:
-/// description:	return pasteboard types that this object class can receive
-/// 
-/// parameters:		<op> set of flags indicating what this operation the types relate to. Currently objects can only
-///					receive drags so this is the only flag that should be passed
-/// result:			an array of pasteboard types
-///
-/// notes:			default method does nothing - subclasses will override if they can receive a drag
-///
-///********************************************************************************************************************
-
+/** @brief Return pasteboard types that this object class can receive
+ * @note
+ * Default method does nothing - subclasses will override if they can receive a drag
+ * @param op set of flags indicating what this operation the types relate to. Currently objects can only
+ * @return an array of pasteboard types
+ * @public
+ */
 + (NSArray*)		pasteboardTypesForOperation:(DKPasteboardOperationType) op
 {
 	#pragma unused(op)
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initialPartcodeForObjectCreation
-/// scope:			public class method
-/// overrides:
-/// description:	return the partcode that should be used by tools when initially creating a new object
-/// 
-/// parameters:		none
-/// result:			a partcode value
-///
-/// notes:			default method does nothing - subclasses must override this and supply the right partcode value
-///					appropriate to the class. The client of this method is DKObjectCreationTool.
-///
-///********************************************************************************************************************
-
+/** @brief Return the partcode that should be used by tools when initially creating a new object
+ * @note
+ * Default method does nothing - subclasses must override this and supply the right partcode value
+ * appropriate to the class. The client of this method is DKObjectCreationTool.
+ * @return a partcode value
+ * @public
+ */
 + (NSInteger)				initialPartcodeForObjectCreation
 {
 	return kDKDrawingNoPart;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isGroupable
-/// scope:			public class method
-/// overrides:
-/// description:	return whether obejcts of this class can be grouped
-/// 
-/// parameters:		none
-/// result:			YES if objects can be included in groups
-///
-/// notes:			default is YES. see also [DKShapeGroup objectsAvailableForGroupingFromArray];
-///********************************************************************************************************************
-
+/** @brief Return whether obejcts of this class can be grouped
+ * @note
+ * Default is YES. see also [DKShapeGroup objectsAvailableForGroupingFromArray];
+ * @return YES if objects can be included in groups
+ * @public
+ */
 + (BOOL)				isGroupable
 {
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			nativeObjectsFromPasteboard:
-/// scope:			public class method
-///	overrides:
-/// description:	unarchive a list of objects from the pasteboard, if possible
-/// 
-/// parameters:		<pb> the pasteboard to take objects from
-/// result:			a list of objects
-///
-/// notes:			this factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
-///					any valid types, nil is returned
-///
-///********************************************************************************************************************
-
+/** @brief Unarchive a list of objects from the pasteboard, if possible
+ * @note
+ * This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
+ * any valid types, nil is returned
+ * @param pb the pasteboard to take objects from
+ * @return a list of objects
+ * @public
+ */
 + (NSArray*)		nativeObjectsFromPasteboard:(NSPasteboard*) pb
 {
 	NSData*	 pbdata = [pb dataForType:kDKDrawableObjectPasteboardType];
@@ -223,43 +156,26 @@ static NSDictionary*	s_interconversionTable = nil;
 	return objects;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			countOfNativeObjectsOnPasteboard:
-/// scope:			public class method
-///	overrides:
-/// description:	return the number of native objects held by the pasteboard
-/// 
-/// parameters:		<pb> the pasteboard to read from
-/// result:			a count
-///
-/// notes:			this efficiently queries the info object rather than dearchiving the objects themselves. A value
-///					of 0 means no native objects on the pasteboard (naturally)
-///
-///********************************************************************************************************************
-
+/** @brief Return the number of native objects held by the pasteboard
+ * @note
+ * This efficiently queries the info object rather than dearchiving the objects themselves. A value
+ * of 0 means no native objects on the pasteboard (naturally)
+ * @param pb the pasteboard to read from
+ * @return a count
+ * @public
+ */
 + (NSUInteger)			countOfNativeObjectsOnPasteboard:(NSPasteboard*) pb
 {
 	DKPasteboardInfo* info = [DKPasteboardInfo pasteboardInfoWithPasteboard:pb];
 	return [info count];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setGhostColour:
-/// scope:			public class method
-///	overrides:
-/// description:	set the outline colour to use when drawing objects in their ghosted state
-/// 
-/// parameters:		<ghostColour> the colour to use
-/// result:			none
-///
-/// notes:			the ghost colour is persistent, stored using the kDKGhostColourPreferencesKey key
-///
-///********************************************************************************************************************
-
+/** @brief Set the outline colour to use when drawing objects in their ghosted state
+ * @note
+ * The ghost colour is persistent, stored using the kDKGhostColourPreferencesKey key
+ * @param ghostColour the colour to use
+ * @public
+ */
 + (void)				setGhostColour:(NSColor*) ghostColour
 {
 	[ghostColour retain];
@@ -269,21 +185,12 @@ static NSDictionary*	s_interconversionTable = nil;
 	[[NSUserDefaults standardUserDefaults] setObject:[ghostColour hexString] forKey:kDKGhostColourPreferencesKey];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			ghostColour
-/// scope:			public class method
-///	overrides:
-/// description:	return the outline colour to use when drawing objects in their ghosted state
-/// 
-/// parameters:		none
-/// result:			the colour to use
-///
-/// notes:			the default is light gray
-///
-///********************************************************************************************************************
-
+/** @brief Return the outline colour to use when drawing objects in their ghosted state
+ * @note
+ * The default is light gray
+ * @return the colour to use
+ * @public
+ */
 + (NSColor*)			ghostColour
 {
 	if( s_ghostColour == nil )
@@ -299,48 +206,30 @@ static NSDictionary*	s_interconversionTable = nil;
 	return s_ghostColour;
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			interconversionTable
-/// scope:			public class method
-///	overrides:
-/// description:	return the interconversion table
-/// 
-/// parameters:		none
-/// result:			the table (a dictionary)
-///
-/// notes:			the interconversion table is used when drawables are converted to another type. The table can be
-///					customised to permit conversions to subclasses or other types of object. The default is nil,
-///					which simply passes through the requested type unchanged.
-///
-///********************************************************************************************************************
-
+/** @brief Return the interconversion table
+ * @note
+ * The interconversion table is used when drawables are converted to another type. The table can be
+ * customised to permit conversions to subclasses or other types of object. The default is nil,
+ * which simply passes through the requested type unchanged.
+ * @return the table (a dictionary)
+ * @public
+ */
 + (NSDictionary*)		interconversionTable
 {
 	return s_interconversionTable;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setInterconversionTable:
-/// scope:			public class method
-///	overrides:
-/// description:	return the interconversion table
-/// 
-/// parameters:		<icTable> a dictionary containing mappings from standard base classes to custom classes
-/// result:			none
-///
-/// notes:			the interconversion table is used when drawables are converted to another type. The table can be
-///					customised to permit conversions to subclasses of the requested class. The default is nil,
-///					which simply passes through the requested type unchanged. The dictionary consists of the base class
-///					as a string, and returns the class to use in place of that type.
-///
-///********************************************************************************************************************
-
+/** @brief Return the interconversion table
+ * @note
+ * The interconversion table is used when drawables are converted to another type. The table can be
+ * customised to permit conversions to subclasses of the requested class. The default is nil,
+ * which simply passes through the requested type unchanged. The dictionary consists of the base class
+ * as a string, and returns the class to use in place of that type.
+ * @param icTable a dictionary containing mappings from standard base classes to custom classes
+ * @public
+ */
 + (void)				setInterconversionTable:(NSDictionary*) icTable
 {
 	[icTable retain];
@@ -348,22 +237,14 @@ static NSDictionary*	s_interconversionTable = nil;
 	s_interconversionTable = icTable;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			classForConversionRequestFor:
-/// scope:			public class method
-///	overrides:
-/// description:	return the class to use in place of the given class when performing a conversion
-/// 
-/// parameters:		<aClass> the base class which we are converting TO.
-/// result:			the actual object class to use for that conversion.
-///
-/// notes:			the default passes through the input class unchanged. By customising the conversion table, other
-///					classes can be substituted when performing a conversion.
-///
-///********************************************************************************************************************
-
+/** @brief Return the class to use in place of the given class when performing a conversion
+ * @note
+ * The default passes through the input class unchanged. By customising the conversion table, other
+ * classes can be substituted when performing a conversion.
+ * @param aClass the base class which we are converting TO.
+ * @return the actual object class to use for that conversion.
+ * @public
+ */
 + (Class)				classForConversionRequestFor:(Class) aClass
 {
 	NSAssert( aClass != Nil, @"class was Nil when requesting a conversion class");
@@ -381,23 +262,14 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			substituteClass:forClass:
-/// scope:			public class method
-///	overrides:
-/// description:	sets the class to use in place of the a base class when performing a conversion
-/// 
-/// parameters:		<newClass> the class which we are converting TO
-///					<baseClass> the base class
-/// result:			none
-///
-/// notes:			this is only used when performing conversions, not when creating new objects in other circumstances.
-///					<newClass> must be a subclass of <baseClass>
-///
-///********************************************************************************************************************
-
+/** @brief Sets the class to use in place of the a base class when performing a conversion
+ * @note
+ * This is only used when performing conversions, not when creating new objects in other circumstances.
+ * <newClass> must be a subclass of <baseClass>
+ * @param newClass the class which we are converting TO
+ * @param baseClass the base class
+ * @public
+ */
 + (void)				substituteClass:(Class) newClass forClass:(Class) baseClass
 {
 	NSAssert( newClass != Nil, @"class was Nil");
@@ -418,22 +290,14 @@ static NSDictionary*	s_interconversionTable = nil;
 		[NSException raise:NSInternalInconsistencyException format:@"you must only substitute a subclass for the base class"];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithStyle:
-/// scope:			public instance method; designated initializer
-/// overrides:
-/// description:	initializes the drawable to have the style given
-/// 
-/// parameters:		<aStyle> the initial style for the object
-/// result:			the object
-///
-/// notes:			you can use -init to initialize using the default style. Note that if creating many objects at
-///					once, supplying the style when initializing is more efficient.
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the drawable to have the style given
+ * @note
+ * You can use -init to initialize using the default style. Note that if creating many objects at
+ * once, supplying the style when initializing is more efficient.
+ * @param aStyle the initial style for the object
+ * @return the object
+ * @public
+ */
 - (id)					initWithStyle:(DKStyle*) aStyle
 {
 	self = [super init];
@@ -448,107 +312,58 @@ static NSDictionary*	s_interconversionTable = nil;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark - relationships
 
-///*********************************************************************************************************************
-///
-/// method:			layer
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the layer that this object ultimately belongs to
-/// 
-/// parameters:		none
-/// result:			the containing layer
-///
-/// notes:			this returns the layer even if container isn't the layer, by recursing up the tree as needed
-///
-///********************************************************************************************************************
-
+/** @brief Returns the layer that this object ultimately belongs to
+ * @note
+ * This returns the layer even if container isn't the layer, by recursing up the tree as needed
+ * @return the containing layer
+ * @public
+ */
 - (DKObjectOwnerLayer*)	layer
 {
 	return (DKObjectOwnerLayer*)[[self container] layer];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawing
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the drawing that owns this object's layer
-/// 
-/// parameters:		none
-/// result:			the drawing
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the drawing that owns this object's layer
+ * @return the drawing
+ * @public
+ */
 - (DKDrawing*)		drawing
 {
 	return [[self container] drawing];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			undoManager
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the undo manager used to handle undoable actions for this object
-/// 
-/// parameters:		none
-/// result:			the undo manager in use
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the undo manager used to handle undoable actions for this object
+ * @return the undo manager in use
+ * @public
+ */
 - (NSUndoManager*)	undoManager
 {
 	return [[self drawing] undoManager];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			parent
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the immediate parent of this object
-/// 
-/// parameters:		none
-/// result:			the object's parent
-///
-/// notes:			a parent is usually a layer, same as owner - but can be a group if the object is grouped
-///
-///********************************************************************************************************************
-
+/** @brief Returns the immediate parent of this object
+ * @note
+ * A parent is usually a layer, same as owner - but can be a group if the object is grouped
+ * @return the object's parent
+ * @public
+ */
 - (id<DKDrawableContainer>)	container
 {
 	return mContainerRef;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setParent:
-/// scope:			private instance method
-/// overrides:
-/// description:	sets the immediate parent of this object (a DKObjectOwnerLayer layer, typically)
-/// 
-/// parameters:		<aContainer> the immediate container of this object
-/// result:			none
-///
-/// notes:			the container itself is responsible for setting this - applications should not use this method. An
-///					object's container is usually the layer, but can be a group. <aContainer> is not retained. Note that
-///					a valid container is required for the object to locate an undo manager, so nothing is undoable
-///					until this is set to a valid object that can supply one.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the immediate parent of this object (a DKObjectOwnerLayer layer, typically)
+ * @note
+ * The container itself is responsible for setting this - applications should not use this method. An
+ * object's container is usually the layer, but can be a group. <aContainer> is not retained. Note that
+ * a valid container is required for the object to locate an undo manager, so nothing is undoable
+ * until this is set to a valid object that can supply one.
+ * @param aContainer the immediate container of this object
+ * @private
+ */
 - (void)			setContainer:(id<DKDrawableContainer>) aContainer
 {
 	if ( aContainer != mContainerRef )
@@ -571,21 +386,19 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
+/** @brief Returns the index position of this object in its container layer
+ * @note
+ * This is intended for debugging and should generally be avoided by user code.
+ * @return the index position
+ * @public
+ */
 
-///*********************************************************************************************************************
-///
-/// method:			indexInContainer
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the index position of this object in its container layer
-/// 
-/// parameters:		none
-/// result:			the index position
-///
-/// notes:			this is intended for debugging and should generally be avoided by user code.
-///
-///********************************************************************************************************************
-
+/** @brief Where object storage stores the Z-index in the object itself, this returns it.
+ * @note
+ * See DKObjectStorageProtocol.h
+ * @return the Z value for the object
+ * @public
+ */
 - (NSUInteger)			indexInContainer
 {
 	if([[self container] respondsToSelector:@selector(indexOfObject:)])
@@ -594,149 +407,79 @@ static NSDictionary*	s_interconversionTable = nil;
 		return NSNotFound;
 }
 
-
-
 #pragma mark -
 #pragma mark - as part of the DKStorableObject protocol
 
-///*********************************************************************************************************************
-///
-/// method:			setIndex:
-/// scope:			public instance method
-/// overrides:		part of the DKStorableObject protocol - exclusively for the use of the storage
-/// description:	where object storage stores the Z-index in the object itself, this is used to set it.
-/// 
-/// parameters:		<zIndex> the desired Z value for the object
-/// result:			none
-///
-/// notes:			note that this doesn't allow the Z-index to be changed, but merely recorded. This method should only
-///					be used by storage methods internal to DK and not by external client code. See DKObjectStorageProtocol.h
-///
-///********************************************************************************************************************
-
+/** @brief Where object storage stores the Z-index in the object itself, this is used to set it.
+ * @note
+ * Note that this doesn't allow the Z-index to be changed, but merely recorded. This method should only
+ * be used by storage methods internal to DK and not by external client code. See DKObjectStorageProtocol.h
+ * @param zIndex the desired Z value for the object
+ * @public
+ */
 - (void)				setIndex:(NSUInteger) zIndex
 {
 	mZIndex = zIndex;
 }
-
-
-///*********************************************************************************************************************
-///
-/// method:			index
-/// scope:			public instance method
-/// overrides:		part of the DKStorableObject protocol - exclusively for the use of the storage
-/// description:	where object storage stores the Z-index in the object itself, this returns it.
-/// 
-/// parameters:		none
-/// result:			the Z value for the object
-///
-/// notes:			See DKObjectStorageProtocol.h
-///
-///********************************************************************************************************************
 
 - (NSUInteger)			index
 {
 	return mZIndex;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			storage
-/// scope:			public instance method
-/// overrides:		part of the DKStorableObject protocol - exclusively for the use of the storage
-/// description:	returns the reference to the object's storage
-/// 
-/// parameters:		none
-/// result:			the object's storage
-///
-/// notes:			See DKObjectStorageProtocol.h
-///
-///********************************************************************************************************************
-
+/** @brief Returns the reference to the object's storage
+ * @note
+ * See DKObjectStorageProtocol.h
+ * @return the object's storage
+ * @public
+ */
 - (id<DKObjectStorage>)		storage
 {
 	return mStorageRef;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setStorage:
-/// scope:			public instance method
-/// overrides:		part of the DKStorableObject protocol - exclusively for the use of the storage
-/// description:	returns the reference to the object's storage
-/// 
-/// parameters:		<storage> the object's storage
-/// result:			none
-///
-/// notes:			See DKObjectStorageProtocol.h. Not for client code.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the reference to the object's storage
+ * @note
+ * See DKObjectStorageProtocol.h. Not for client code.
+ * @param storage the object's storage
+ * @public
+ */
 - (void)							setStorage:(id<DKObjectStorage>) storage
 {
 	mStorageRef = storage;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setMarked:
-/// scope:			public instance method
-/// overrides:		part of the DKStorableObject protocol - exclusively for the use of the storage
-/// description:	marks the object
-/// 
-/// parameters:		<markIt> a flag
-/// result:			none
-///
-/// notes:			See DKObjectStorageProtocol.h. Not for client code.
-///
-///********************************************************************************************************************
-
+/** @brief Marks the object
+ * @note
+ * See DKObjectStorageProtocol.h. Not for client code.
+ * @param markIt a flag
+ * @public
+ */
 - (void)							setMarked:(BOOL) markIt
 {
 	mMarked = markIt;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isMarked
-/// scope:			public instance method
-/// overrides:		part of the DKStorableObject protocol - exclusively for the use of the storage
-/// description:	marks the object
-/// 
-/// parameters:		none
-/// result:			a flag
-///
-/// notes:			See DKObjectStorageProtocol.h. Not for client code.
-///
-///********************************************************************************************************************
-
+/** @brief Marks the object
+ * @note
+ * See DKObjectStorageProtocol.h. Not for client code.
+ * @return a flag
+ * @public
+ */
 - (BOOL)							isMarked
 {
 	return mMarked;
 }
 
-
-
 #pragma mark -
 #pragma mark - state
-///*********************************************************************************************************************
-///
-/// method:			setVisible:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets whether the object is drawn (visible) or not
-/// 
-/// parameters:		<vis> YES to show the object, NO to hide it
-/// result:			none
-///
-/// notes:			The visible property is independent of the locked property, i.e. locked objects may be hidden & shown.
-///
-///********************************************************************************************************************
 
+/** @brief Sets whether the object is drawn (visible) or not
+ * @note
+ * The visible property is independent of the locked property, i.e. locked objects may be hidden & shown.
+ * @param vis YES to show the object, NO to hide it
+ * @public
+ */
 - (void)			setVisible:(BOOL) vis
 {
 	if ( m_visible != vis )
@@ -753,41 +496,21 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			visible
-/// scope:			public instance method
-/// overrides:
-/// description:	is the object visible?
-/// 
-/// parameters:		none
-/// result:			YES if visible, NO if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Is the object visible?
+ * @return YES if visible, NO if not
+ * @public
+ */
 - (BOOL)			visible
 {
 	return m_visible;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setLocked:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets whether the object is locked or not
-/// 
-/// parameters:		<locked> YES to lock, NO to unlock
-/// result:			none
-///
-/// notes:			locked objects are visible but can't be edited
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether the object is locked or not
+ * @note
+ * Locked objects are visible but can't be edited
+ * @param locked YES to lock, NO to unlock
+ * @public
+ */
 - (void)			setLocked:(BOOL) locked
 {
 	if ( m_locked != locked )
@@ -801,41 +524,21 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			locked
-/// scope:			public instance method
-/// overrides:
-/// description:	is the object locked?
-/// 
-/// parameters:		none
-/// result:			YES if locked, NO if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Is the object locked?
+ * @return YES if locked, NO if not
+ * @public
+ */
 - (BOOL)			locked
 {
 	return m_locked;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setLocationLocked:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets whether the object's location is locked or not
-/// 
-/// parameters:		<lockLocation> YES to lock location, NO to unlock
-/// result:			none
-///
-/// notes:			location may be locked independently of the general lock
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether the object's location is locked or not
+ * @note
+ * Location may be locked independently of the general lock
+ * @param lockLocation YES to lock location, NO to unlock
+ * @public
+ */
 - (void)				setLocationLocked:(BOOL) lockLocation
 {
 	if ( mLocationLocked != lockLocation )
@@ -847,83 +550,42 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			locationLocked:
-/// scope:			public instance method
-/// overrides:
-/// description:	whether the object's location is locked or not
-/// 
-/// parameters:		none 
-/// result:			YES if locked location, NO to unlock
-///
-/// notes:			location may be locked independently of the general lock
-///
-///********************************************************************************************************************
-
+/** @brief Whether the object's location is locked or not
+ * @note
+ * Location may be locked independently of the general lock
+ * @return YES if locked location, NO to unlock
+ * @public
+ */
 - (BOOL)				locationLocked
 {
 	return mLocationLocked;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setMouseSnappingEnabled:
-/// scope:			public instance method
-/// overrides:
-/// description:	enable mouse snapping
-/// 
-/// parameters:		<ems> YES to enable snapping (default), NO to disable it
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Enable mouse snapping
+ * @param ems YES to enable snapping (default), NO to disable it
+ * @public
+ */
 - (void)			setMouseSnappingEnabled:(BOOL) ems
 {
 	m_snapEnable = ems;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseSnappingEnabled
-/// scope:			public instance method
-/// overrides:
-/// description:	is mouse snapping enabled?
-/// 
-/// parameters:		none
-/// result:			YES if will snap on mouse actions, NO if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Is mouse snapping enabled?
+ * @return YES if will snap on mouse actions, NO if not
+ * @public
+ */
 - (BOOL)			mouseSnappingEnabled
 {
 	return m_snapEnable;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			setGhosted:
-/// scope:			public instance method
-/// overrides:
-/// description:	set whether the object is ghosted rather than with its full style
-/// 
-/// parameters:		<ghosted> YES to ghost the object, NO to unghost it
-/// result:			none
-///
-/// notes:			ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
-///					a thin outline. See also: +setGhostingColour:
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the object is ghosted rather than with its full style
+ * @note
+ * Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
+ * a thin outline. See also: +setGhostingColour:
+ * @param ghosted YES to ghost the object, NO to unghost it
+ * @public
+ */
 - (void)				setGhosted:(BOOL) ghosted
 {
 	if ( mGhosted != ghosted && ![self locked])
@@ -938,57 +600,42 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isGhosted
-/// scope:			public instance method
-/// overrides:
-/// description:	retuirn whether the object is ghosted rather than with its full style
-/// 
-/// parameters:		none
-/// result:			YES if the object is ghosted, NO otherwise
-///
-/// notes:			ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
-///					a thin outline. See also: +setGhostingColour:
-///
-///********************************************************************************************************************
-
+/** @brief Retuirn whether the object is ghosted rather than with its full style
+ * @note
+ * Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
+ * a thin outline. See also: +setGhostingColour:
+ * @return YES if the object is ghosted, NO otherwise
+ * @public
+ */
 - (BOOL)				isGhosted
 {
 	return mGhosted;
 }
-
 
 - (BOOL)			isTrackingMouse
 {
 	return m_inMouseOp;
 }
 
-
 - (void)			setTrackingMouse:(BOOL) tracking
 {
 	m_inMouseOp = tracking;
 }
-
 
 - (NSSize)			mouseDragOffset
 {
 	return m_mouseOffset;
 }
 
-
 - (void)			setMouseDragOffset:(NSSize) offset
 {
 	m_mouseOffset = offset;
 }
 
-
 - (BOOL)				mouseHasMovedSinceStartOfTracking
 {
 	return m_mouseEverMoved;
 }
-
 
 - (void)				setMouseHasMovedSinceStartOfTracking:(BOOL) moved
 {
@@ -996,62 +643,35 @@ static NSDictionary*	s_interconversionTable = nil;
 }
 
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			isSelected
-/// scope:			public instance method
-/// overrides:
-/// description:	returns whether the object is selected 
-/// 
-/// parameters:		none
-/// result:			YES if selected, NO otherwise
-///
-/// notes:			assumes that the owning layer is an object drawing layer (which is a reasonable assumption!)
-///
-///********************************************************************************************************************
 
+/** @brief Returns whether the object is selected 
+ * @note
+ * Assumes that the owning layer is an object drawing layer (which is a reasonable assumption!)
+ * @return YES if selected, NO otherwise
+ * @public
+ */
 - (BOOL)			isSelected
 {
 	return [(DKObjectDrawingLayer*)[self layer] isSelectedObject:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectDidBecomeSelected
-/// scope:			public instance method
-/// overrides:
-/// description:	get notified when the object is selected
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			subclasses can override to take action when they become selected (drawing the selection isn't
-///					part of this - the layer will do that). Overrides should generally invoke super.
-///
-///********************************************************************************************************************
-
+/** @brief Get notified when the object is selected
+ * @note
+ * Subclasses can override to take action when they become selected (drawing the selection isn't
+ * part of this - the layer will do that). Overrides should generally invoke super.
+ * @public
+ */
 - (void)			objectDidBecomeSelected
 {
 	[self notifyStatusChange];
 	[self updateRulerMarkers];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectIsNoLongerSelected
-/// scope:			public instance method
-/// overrides:
-/// description:	get notified when an object is deselected
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			subclasses can override to take action when they are deselected
-///
-///********************************************************************************************************************
-
+/** @brief Get notified when an object is deselected
+ * @note
+ * Subclasses can override to take action when they are deselected
+ * @public
+ */
 - (void)			objectIsNoLongerSelected
 {
 	[self notifyStatusChange];
@@ -1059,112 +679,66 @@ static NSDictionary*	s_interconversionTable = nil;
 	// override to make use of this notification
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			objectMayBecomeSelected
-/// scope:			public instance method
-/// overrides:
-/// description:	is the object able to be selected?
-/// 
-/// parameters:		none
-/// result:			YES if selectable, NO if not
-///
-/// notes:			subclasses can override to disallow selection. By default all objects are selectable, but for some
-///					specialised use this might be useful.
-///
-///********************************************************************************************************************
-
+/** @brief Is the object able to be selected?
+ * @note
+ * Subclasses can override to disallow selection. By default all objects are selectable, but for some
+ * specialised use this might be useful.
+ * @return YES if selectable, NO if not
+ * @public
+ */
 - (BOOL)				objectMayBecomeSelected
 {
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isPendingObject
-/// scope:			public instance method
-/// overrides:
-/// description:	is the object currently a pending object?
-/// 
-/// parameters:		none
-/// result:			YES if pending, NO if not
-///
-/// notes:			Esoteric. An object is pending while it is being created and not otherwise. There are few reasons
-///					to need to know, but one might be to implement a special selection highlight for this case.
-///
-///********************************************************************************************************************
-
+/** @brief Is the object currently a pending object?
+ * @note
+ * Esoteric. An object is pending while it is being created and not otherwise. There are few reasons
+ * to need to know, but one might be to implement a special selection highlight for this case.
+ * @return YES if pending, NO if not
+ * @public
+ */
 - (BOOL)				isPendingObject
 {
 	return [[self layer] pendingObject] == self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isKeyObject
-/// scope:			public instance method
-/// overrides:
-/// description:	is the object currently the layer's key object?
-/// 
-/// parameters:		none
-/// result:			YES if key, NO if not
-///
-/// notes:			DKObjectDrawingLayer maintains a 'key object' for the purposes of alignment operations. The drawable
-///					could use this information to draw itself in a particular way for example. Note that DK doesn't
-///					use this information except for object alignment operations.
-///
-///********************************************************************************************************************
-
+/** @brief Is the object currently the layer's key object?
+ * @note
+ * DKObjectDrawingLayer maintains a 'key object' for the purposes of alignment operations. The drawable
+ * could use this information to draw itself in a particular way for example. Note that DK doesn't
+ * use this information except for object alignment operations.
+ * @return YES if key, NO if not
+ * @public
+ */
 - (BOOL)				isKeyObject
 {
 	return [(DKObjectDrawingLayer*)[self layer] keyObject] == self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			subSelection
-/// scope:			public instance method
-/// overrides:
-/// description:	return the subselection of the object
-/// 
-/// parameters:		none
-/// result:			a set containing the selection within the object. May be empty, nil or contain self.
-///
-/// notes:			DK objects do not have subselections without subclassing, but this method provides a common method
-///					for subselections to be passed back to a UI, etc. If there is no subselection, this should return
-///					either the empty set, nil or a set containing self.
-///					Subclasses will override and return whatever is appropriate. They are also responsible for the complete
-///					implementation of the selection including hit-testing and highlighting. In addition, the notification
-///					'kDKDrawableSubselectionChangedNotification' should be sent when this changes.
-///
-///********************************************************************************************************************
-
+/** @brief Return the subselection of the object
+ * @note
+ * DK objects do not have subselections without subclassing, but this method provides a common method
+ * for subselections to be passed back to a UI, etc. If there is no subselection, this should return
+ * either the empty set, nil or a set containing self.
+ * Subclasses will override and return whatever is appropriate. They are also responsible for the complete
+ * implementation of the selection including hit-testing and highlighting. In addition, the notification
+ * 'kDKDrawableSubselectionChangedNotification' should be sent when this changes.
+ * @return a set containing the selection within the object. May be empty, nil or contain self.
+ * @public
+ */
 - (NSSet*)				subSelection
 {
 	return [NSSet setWithObject:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectWasAddedToLayer:
-/// scope:			public instance method
-/// overrides:
-/// description:	the object was added to a layer
-/// 
-/// parameters:		<aLayer> the layer this was added to
-/// result:			none
-///
-/// notes:			purely for information, should an object need to know. Override to make use of this. Subclasses
-///					should call super.
-///
-///********************************************************************************************************************
-
+/** @brief The object was added to a layer
+ * @note
+ * Purely for information, should an object need to know. Override to make use of this. Subclasses
+ * should call super.
+ * @param aLayer the layer this was added to
+ * @public
+ */
 - (void)				objectWasAddedToLayer:(DKObjectOwnerLayer*) aLayer
 {
 	#pragma unused(aLayer)
@@ -1175,22 +749,13 @@ static NSDictionary*	s_interconversionTable = nil;
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector( styleDidChange:) name:kDKStyleDidChangeNotification object:[self style]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectWasRemovedFromLayer:
-/// scope:			public instance method
-/// overrides:
-/// description:	the object was removed from the layer
-/// 
-/// parameters:		<aLayer> the layer this was removed from
-/// result:			none
-///
-/// notes:			purely for information, should an object need to know. Override to make use of this. Subclasses
-///					should call super to maintain notifications.
-///
-///********************************************************************************************************************
-
+/** @brief The object was removed from the layer
+ * @note
+ * Purely for information, should an object need to know. Override to make use of this. Subclasses
+ * should call super to maintain notifications.
+ * @param aLayer the layer this was removed from
+ * @public
+ */
 - (void)				objectWasRemovedFromLayer:(DKObjectOwnerLayer*) aLayer
 {
 	#pragma unused(aLayer)
@@ -1198,24 +763,22 @@ static NSDictionary*	s_interconversionTable = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:[self style]];
 }
 
-
 #pragma mark -
 #pragma mark - drawing
-///*********************************************************************************************************************
-///
-/// method:			drawContentWithSelectedState:
-/// scope:			public instance method
-/// overrides:
-/// description:	draw the object and its selection on demand
-/// 
-/// parameters:		<selected> YES if the object is to draw itself in the selected state, NO otherwise
-/// result:			none
-///
-/// notes:			the caller will have determined that the object needs drawing, so this will only be called when
-///					necessary. The default method does nothing - subclasses must override this.
-///
-///********************************************************************************************************************
 
+/** @brief Draw the object and its selection on demand
+ * @note
+ * The caller will have determined that the object needs drawing, so this will only be called when
+ * necessary. The default method does nothing - subclasses must override this.
+ * @param selected YES if the object is to draw itself in the selected state, NO otherwise
+ * @public
+ */
+
+/** @brief Draw the content of the object
+ * @note
+ * This just hands off to the style rendering by default, but subclasses may override it to do more.
+ * @public
+ */
 - (void)			drawContentWithSelectedState:(BOOL) selected
 {
 	NSAutoreleasePool* pool = [NSAutoreleasePool new];
@@ -1268,41 +831,15 @@ static NSDictionary*	s_interconversionTable = nil;
 	[pool drain];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawContent
-/// scope:			public instance method
-/// overrides:
-/// description:	draw the content of the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			this just hands off to the style rendering by default, but subclasses may override it to do more.
-///
-///********************************************************************************************************************
-
 - (void)			drawContent
 {
 	[self drawContentWithStyle:[self style]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawContentWithStyle:
-/// scope:			public instance method
-/// overrides:
-/// description:	draw the content of the object but using a specific style, which might not be the one attached
-/// 
-/// parameters:		<aStyle> a valid style object, or nil to use the object's current style
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Draw the content of the object but using a specific style, which might not be the one attached
+ * @param aStyle a valid style object, or nil to use the object's current style
+ * @public
+ */
 - (void)			drawContentWithStyle:(DKStyle*) aStyle
 {
 	if([self isGhosted])
@@ -1342,23 +879,13 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawGhostedContent
-/// scope:			public instance method
-/// overrides:
-/// description:	draw the ghosted content of the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
-///					overridden for more complex appearances. Note that ghosting should deliberately keep the object
-///					unobtrusive and simple.
-///
-///********************************************************************************************************************
-
+/** @brief Draw the ghosted content of the object
+ * @note
+ * The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
+ * overridden for more complex appearances. Note that ghosting should deliberately keep the object
+ * unobtrusive and simple.
+ * @public
+ */
 - (void)			drawGhostedContent
 {
 	[[[self class] ghostColour] set];
@@ -1367,44 +894,24 @@ static NSDictionary*	s_interconversionTable = nil;
 	[rp stroke];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawSelectedState
-/// scope:			public instance method
-/// overrides:
-/// description:	draw the selection highlight for the object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			the owning layer may call this independently of drawContent~ in some circumstances, so 
-///					subclasses need to be ready to factor this code as required.
-///
-///********************************************************************************************************************
-
+/** @brief Draw the selection highlight for the object
+ * @note
+ * The owning layer may call this independently of drawContent~ in some circumstances, so 
+ * subclasses need to be ready to factor this code as required.
+ * @public
+ */
 - (void)			drawSelectedState
 {
 	// placeholder - override to implement this
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawSelectionPath
-/// scope:			public instance method
-/// overrides:
-/// description:	stroke the given path using the selection highlight colour for the owning layer
-/// 
-/// parameters:		<path> the selection highlight path
-/// result:			none
-///
-/// notes:			this is a convenient utility method your subclasses can use as needed to make selections consistent
-///					among different objects and layers. A side effect is that the line width of the path may be changed.
-///
-///********************************************************************************************************************
-
+/** @brief Stroke the given path using the selection highlight colour for the owning layer
+ * @note
+ * This is a convenient utility method your subclasses can use as needed to make selections consistent
+ * among different objects and layers. A side effect is that the line width of the path may be changed.
+ * @param path the selection highlight path
+ * @public
+ */
 - (void)			drawSelectionPath:(NSBezierPath*) path
 {
 	if ([self locked])
@@ -1416,71 +923,41 @@ static NSDictionary*	s_interconversionTable = nil;
 	[path stroke];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			notifyVisualChange
-/// scope:			public instance method
-/// overrides:
-/// description:	request a redraw of this object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			marks the object's bounds as needing updating. Most operations on an object that affect its
-///					appearance to the user should call this before and after the operation is performed.
-///
-///					Subclasses that override this for optimisation purposes should make sure that the layer is
-///					updated through the drawable:needsDisplayInRect: method and that the notification is sent, otherwise
-///					there may be problems when layer contents are cached.
-///
-///********************************************************************************************************************
-
+/** @brief Request a redraw of this object
+ * @note
+ * Marks the object's bounds as needing updating. Most operations on an object that affect its
+ * appearance to the user should call this before and after the operation is performed.
+ * Subclasses that override this for optimisation purposes should make sure that the layer is
+ * updated through the drawable:needsDisplayInRect: method and that the notification is sent, otherwise
+ * there may be problems when layer contents are cached.
+ * @public
+ */
 - (void)			notifyVisualChange
 {
 	if ([self layer])
 		[[self layer] drawable:self needsDisplayInRect:[self bounds]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			notifyStatusChange
-/// scope:			public instance method
-/// overrides:
-/// description:	notify the drawing and its controllers that a non-visual status change occurred
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			the drawing passes this back to any controllers it has
-///
-///********************************************************************************************************************
-
+/** @brief Notify the drawing and its controllers that a non-visual status change occurred
+ * @note
+ * The drawing passes this back to any controllers it has
+ * @public
+ */
 - (void)			notifyStatusChange
 {
 	[[self drawing] objectDidNotifyStatusChange:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			notifyGeometryChange:
-/// scope:			public instance method
-/// overrides:
-/// description:	notify that the geomnetry of the object has changed
-/// 
-/// parameters:		<oldBounds> the bounds of the object *before* it got changed by whatever is calling this
-/// result:			none
-///
-/// notes:			subclasses can override this to make use of the change notification. This is intended to signal
-///					purely geometric changes which for some objects could be used to invalidate cached information
-///					that more general changes might not need to invalidate. This also informs the storage about the
-///					bounds change so that if the storage uses bounds information to optimise storage, it can do
-///					whatever it needs to to keep the storage correctly organised.
-///
-///********************************************************************************************************************
-
+/** @brief Notify that the geomnetry of the object has changed
+ * @note
+ * Subclasses can override this to make use of the change notification. This is intended to signal
+ * purely geometric changes which for some objects could be used to invalidate cached information
+ * that more general changes might not need to invalidate. This also informs the storage about the
+ * bounds change so that if the storage uses bounds information to optimise storage, it can do
+ * whatever it needs to to keep the storage correctly organised.
+ * @param oldBounds the bounds of the object *before* it got changed by whatever is calling this
+ * @public
+ */
 - (void)			notifyGeometryChange:(NSRect) oldBounds
 {
 	if( ! NSEqualRects( oldBounds, [self bounds]))
@@ -1491,113 +968,63 @@ static NSDictionary*	s_interconversionTable = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			updateRulerMarkers
-/// scope:			public instance method
-/// overrides:
-/// description:	sets the ruler markers for all of the drawing's views to the logical bounds of this
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			this is largely automatic, but if there is an operation that shoul dupdate the markers, you can
-///					call this to perform it. Also, if a subclass has some special way to set the markers, it may
-///					override this.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the ruler markers for all of the drawing's views to the logical bounds of this
+ * @note
+ * This is largely automatic, but if there is an operation that shoul dupdate the markers, you can
+ * call this to perform it. Also, if a subclass has some special way to set the markers, it may
+ * override this.
+ * @public
+ */
 - (void)			updateRulerMarkers
 {	
 	[[self layer] updateRulerMarkersForRect:[self logicalBounds]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplayInRect
-/// scope:			public instance method
-/// overrides:
-/// description:	mark some part of the drawing as needing update
-/// 
-/// parameters:		<rect> this area requires an update
-/// result:			none
-///
-/// notes:			usually an object should mark only areas within its bounds using this, to be polite.
-///
-///********************************************************************************************************************
-
+/** @brief Mark some part of the drawing as needing update
+ * @note
+ * Usually an object should mark only areas within its bounds using this, to be polite.
+ * @param rect this area requires an update
+ * @public
+ */
 - (void)			setNeedsDisplayInRect:(NSRect) rect
 {
 	[[self layer] drawable:self needsDisplayInRect:rect];
 }
 
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplayInRects
-/// scope:			public instance method
-/// overrides:
-/// description:	mark multiple parts of the drawing as needing update
-/// 
-/// parameters:		<setOfRects> a set of NSRect/NSValues to be updated
-/// result:			none
-///
-/// notes:			the layer call with NSZeroRect is to ensure the layer's caches work
-///
-///********************************************************************************************************************
-
+/** @brief Mark multiple parts of the drawing as needing update
+ * @note
+ * The layer call with NSZeroRect is to ensure the layer's caches work
+ * @public
+ */
 - (void)			setNeedsDisplayInRects:(NSSet*) setOfRects
 {
 	[[self layer] drawable:self needsDisplayInRect:NSZeroRect];
 	[[self layer] setNeedsDisplayInRects:setOfRects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setNeedsDisplayInRects:withExtraPadding:
-/// scope:			public instance method
-/// overrides:
-/// description:	mark multiple parts of the drawing as needing update
-/// 
-/// parameters:		<setOfRects> a set of NSRect/NSValues to be updated
-///					<padding> some additional margin added to each rect before marking as needing update
-/// result:			none
-///
-/// notes:			the layer call with NSZeroRect is to ensure the layer's caches work
-///
-///********************************************************************************************************************
-
+/** @brief Mark multiple parts of the drawing as needing update
+ * <padding> some additional margin added to each rect before marking as needing update
+ * @note
+ * The layer call with NSZeroRect is to ensure the layer's caches work
+ * @public
+ */
 - (void)			setNeedsDisplayInRects:(NSSet*) setOfRects withExtraPadding:(NSSize) padding
 {
 	[[self layer] drawable:self needsDisplayInRect:NSZeroRect];
 	[[self layer] setNeedsDisplayInRects:setOfRects withExtraPadding:padding];
 }
 
-
-
 #pragma mark -
 #pragma mark - specialised drawing methods
 
-///*********************************************************************************************************************
-///
-/// method:			drawContentInRect:fromRect:withStyle:
-/// scope:			public instance method
-/// overrides:
-/// description:	renders the object or part of it into the current context, applying scaling and/or a temporary style
-/// 
-/// parameters:		<destRect> the destination rect in the current context
-///					<srcRect> the srcRect in the same coordinate space as the current bounds, or NSZeroRect to mean the
-///					entire bounds
-///					<aStyle> currently unused - draws in the object's attached style
-/// result:			none
-///
-/// notes:			useful for rendering the object into any context at any size. The object is scaled by the ratio
-///					of srcRect to destRect. <destRect> can't be zero-sized.
-///
-///********************************************************************************************************************
-
+/** @note
+ * Useful for rendering the object into any context at any size. The object is scaled by the ratio
+ * of srcRect to destRect. <destRect> can't be zero-sized.
+ * @param destRect the destination rect in the current context
+ * @param srcRect the srcRect in the same coordinate space as the current bounds, or NSZeroRect to mean the
+ * @param aStyle currently unused - draws in the object's attached style
+ * @public
+ */
 - (void)			drawContentInRect:(NSRect) destRect fromRect:(NSRect) srcRect withStyle:(DKStyle*) aStyle
 {
 #pragma unused(aStyle)
@@ -1625,21 +1052,13 @@ static NSDictionary*	s_interconversionTable = nil;
 	RESTORE_GRAPHICS_CONTEXT	//[NSGraphicsContext restoreGraphicsState];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pdf
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the single object rendered as a PDF image
-/// 
-/// parameters:		none
-/// result:			PDF data of the object
-///
-/// notes:			this allows the object to be extracted as a single PDF in isolation. It works by creating a
-///					temporary view that draws just this object.
-///
-///********************************************************************************************************************
+/** @brief Returns the single object rendered as a PDF image
+ * @note
+ * This allows the object to be extracted as a single PDF in isolation. It works by creating a
+ * temporary view that draws just this object.
+ * @return PDF data of the object
+ * @public
+ */
 - (NSData*)				pdf
 {
 	NSRect frame = NSZeroRect;
@@ -1654,28 +1073,16 @@ static NSDictionary*	s_interconversionTable = nil;
 	return pdfData;
 }
 
-
 #pragma mark -
 #pragma mark - style
-///*********************************************************************************************************************
-///
-/// method:			setStyle:
-/// scope:			public instance method
-/// overrides:
-/// description:	attaches a style to the object
-/// 
-/// parameters:		<aStyle> the style to attach. The object will be drawn using this style from now on
-/// result:			none
-///
-/// notes:			it's important to call the inherited method if you override this, as objects generally need to
-///					subscribe to a style's notifications, and a style needs to know when it is attached to objects.
-///
-///					IMPORTANT: because styles may be set to be shared or not, the rule is that styles MUST be copied
-///					before attaching. Shared styles don't really make a copy, so the sharing of such styles occurs
-///					automatically without the client object needing to know about it.
-///
-///********************************************************************************************************************
 
+/** @brief Attaches a style to the object
+ * @note
+ * It's important to call the inherited method if you override this, as objects generally need to
+ * subscribe to a style's notifications, and a style needs to know when it is attached to objects.
+ * @param aStyle the style to attach. The object will be drawn using this style from now on
+ * @public
+ */
 - (void)			setStyle:(DKStyle*) aStyle
 {
 	// do not allow in any old object
@@ -1738,42 +1145,20 @@ static NSDictionary*	s_interconversionTable = nil;
 	[newStyle release];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			style
-/// scope:			public instance method
-/// overrides:
-/// description:	return the attached style
-/// 
-/// parameters:		none
-/// result:			the current style
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the attached style
+ * @return the current style
+ * @public
+ */
 - (DKStyle*)	style
 {
 	return m_style;
 }
 
-///*********************************************************************************************************************
-///
-/// method:			styleWillChange:
-/// scope:			private notification method
-/// overrides:
-/// description:	called when the attached style is about to change
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
 static NSRect s_oldBounds;
 
+/** @brief Called when the attached style is about to change
+ * @private
+ */
 - (void)			styleWillChange:(NSNotification*) note
 {
 	if([note object] == [self style])
@@ -1783,21 +1168,9 @@ static NSRect s_oldBounds;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			styleDidChange
-/// scope:			private notification method
-/// overrides:
-/// description:	called just after the attached style has changed
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Called just after the attached style has changed
+ * @private
+ */
 - (void)			styleDidChange:(NSNotification*) note
 {
 	if([note object] == [self style])
@@ -1807,25 +1180,15 @@ static NSRect s_oldBounds;
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			allStyles
-/// scope:			public instance method
-/// overrides:
-/// description:	return all styles used by this object
-/// 
-/// parameters:		none
-/// result:			a set, containing the object's style
-///
-/// notes:			this is part of an informal protocol used, among other possible uses, for remerging styles after
-///					a document load. Objects higher up the chain form the union of all such sets, which is why this
-///					is returned as a set, even though it contains just one style. Subclasses might also use more than
-///					one style.
-///
-///********************************************************************************************************************
-
+/** @brief Return all styles used by this object
+ * @note
+ * This is part of an informal protocol used, among other possible uses, for remerging styles after
+ * a document load. Objects higher up the chain form the union of all such sets, which is why this
+ * is returned as a set, even though it contains just one style. Subclasses might also use more than
+ * one style.
+ * @return a set, containing the object's style
+ * @public
+ */
 - (NSSet*)			allStyles
 {
 	if ([self style] != nil )
@@ -1834,28 +1197,19 @@ static NSRect s_oldBounds;
 		return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allRegisteredStyles
-/// scope:			public instance method
-/// overrides:
-/// description:	return all registered styles used by this object
-/// 
-/// parameters:		none
-/// result:			a set, containing the object's style if it is registerd or flagged for remerge
-///
-/// notes:			this is part of an informal protocol used for remerging styles after
-///					a document load. Objects higher up the chain form the union of all such sets, which is why this
-///					is returned as a set, even though it contains just one style. Subclasses might also use more than
-///					one style. After a fresh load from an archive, this returns the style if the remerge flag is set,
-///					but at all other times it returns the style if registered. The remerge flag is cleared by this
-///					method, thus you need to make sure to call it just once after a reload if it's the remerge flagged
-///					styles you want (in general this usage is automatic and is handled at a much higher level - see
-///					DKDrawingDocument).
-///
-///********************************************************************************************************************
-
+/** @brief Return all registered styles used by this object
+ * @note
+ * This is part of an informal protocol used for remerging styles after
+ * a document load. Objects higher up the chain form the union of all such sets, which is why this
+ * is returned as a set, even though it contains just one style. Subclasses might also use more than
+ * one style. After a fresh load from an archive, this returns the style if the remerge flag is set,
+ * but at all other times it returns the style if registered. The remerge flag is cleared by this
+ * method, thus you need to make sure to call it just once after a reload if it's the remerge flagged
+ * styles you want (in general this usage is automatic and is handled at a much higher level - see
+ * DKDrawingDocument).
+ * @return a set, containing the object's style if it is registerd or flagged for remerge
+ * @public
+ */
 - (NSSet*)			allRegisteredStyles
 {
 	if ([self style] != nil)
@@ -1870,23 +1224,14 @@ static NSRect s_oldBounds;
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceMatchingStylesFromSet
-/// scope:			public instance method
-/// overrides:
-/// description:	replace the object's style from any in th egiven set that have the same ID.
-/// 
-/// parameters:		<aSet> a set of style objects
-/// result:			none
-///
-/// notes:			this is part of an informal protocol used for remerging registered styles after
-///					a document load. If <aSet> contains a style having the same ID as this object's current style,
-///					the style is updated with the one from the set.
-///
-///********************************************************************************************************************
-
+/** @brief Replace the object's style from any in th egiven set that have the same ID.
+ * @note
+ * This is part of an informal protocol used for remerging registered styles after
+ * a document load. If <aSet> contains a style having the same ID as this object's current style,
+ * the style is updated with the one from the set.
+ * @param aSet a set of style objects
+ * @public
+ */
 - (void)			replaceMatchingStylesFromSet:(NSSet*) aSet
 {
 	NSAssert( aSet != nil, @"style set was nil");
@@ -1909,23 +1254,12 @@ static NSRect s_oldBounds;
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			detachStyle
-/// scope:			public instance method
-/// overrides:
-/// description:	If the object's style is currently sharable, copy it and make it non-sharable.
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			If the style is already non-sharable, this does nothing. The purpose of this is to detach this
-///					from it style such that it has its own private copy. It does not change appearance.
-///
-///********************************************************************************************************************
-
+/** @brief If the object's style is currently sharable, copy it and make it non-sharable.
+ * @note
+ * If the style is already non-sharable, this does nothing. The purpose of this is to detach this
+ * from it style such that it has its own private copy. It does not change appearance.
+ * @public
+ */
 - (void)				detachStyle
 {
 	if([[self style] isStyleSharable])
@@ -1938,43 +1272,26 @@ static NSRect s_oldBounds;
 	}
 }
 
-
 #pragma mark -
 #pragma mark - geometry
-///*********************************************************************************************************************
-///
-/// method:			setSize:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets the object's size to the width and height passed
-/// 
-/// parameters:		<size> the new size
-/// result:			none
-///
-/// notes:			subclasses should override to set the object's size
-///
-///********************************************************************************************************************
 
+/** @brief Sets the object's size to the width and height passed
+ * @note
+ * Subclasses should override to set the object's size
+ * @param size the new size
+ * @public
+ */
 - (void)			setSize:(NSSize) size
 {
 	#pragma unused(size)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			size
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the size of the object regardless of angle, etc.
-/// 
-/// parameters:		none
-/// result:			the object's size
-///
-/// notes:			subclasses should override and return something sensible
-///
-///********************************************************************************************************************
-
+/** @brief Returns the size of the object regardless of angle, etc.
+ * @note
+ * Subclasses should override and return something sensible
+ * @return the object's size
+ * @public
+ */
 - (NSSize)			size
 {
 	NSLog(@"!!! 'size' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
@@ -1982,22 +1299,13 @@ static NSRect s_oldBounds;
 	return NSZeroSize;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			resizeWidthBy:heightBy:
-/// scope:			public instance method
-/// overrides:
-/// description:	resizes the object by scaling its width and height by thye given factors.
-/// 
-/// parameters:		<xFactor> the width scale
-///					<yFactor> the height scale
-/// result:			none
-///
-/// notes:			factors of 1.0 have no effect; factors must be postive and > 0.
-///
-///********************************************************************************************************************
-
+/** @brief Resizes the object by scaling its width and height by thye given factors.
+ * @note
+ * Factors of 1.0 have no effect; factors must be postive and > 0.
+ * @param xFactor the width scale
+ * @param yFactor the height scale
+ * @public
+ */
 - (void)			resizeWidthBy:(CGFloat) xFactor heightBy:(CGFloat) yFactor
 {
 	NSAssert( xFactor > 0.0, @"x scale must be greater than 0");
@@ -2011,67 +1319,42 @@ static NSRect s_oldBounds;
 	[self setSize:newSize];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			apparentBounds
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the visually apparent bounds
-/// 
-/// parameters:		none
-/// result:			the apparent bounds rect
-///
-/// notes:			this bounds is intended for use when aligning objects to each other or to guides, etc. By default
-///					it is the same as the bounds, but subclasses may redefine it to be something else.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the visually apparent bounds
+ * @note
+ * This bounds is intended for use when aligning objects to each other or to guides, etc. By default
+ * it is the same as the bounds, but subclasses may redefine it to be something else.
+ * @return the apparent bounds rect
+ * @public
+ */
 - (NSRect)			apparentBounds
 {
 	return [self bounds];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			logicalBounds
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the logical bounds
-/// 
-/// parameters:		none
-/// result:			the logical bounds
-///
-/// notes:			the logical bounds is the object's bounds ignoring any stylistic effects. Unlike the other bounds,
-///					it remains constant for a given paht even if styles change. By default it is the same as the bounds,
-///					but subclasses will probably wish to redefine it.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the logical bounds
+ * @note
+ * The logical bounds is the object's bounds ignoring any stylistic effects. Unlike the other bounds,
+ * it remains constant for a given paht even if styles change. By default it is the same as the bounds,
+ * but subclasses will probably wish to redefine it.
+ * @return the logical bounds
+ * @public
+ */
 - (NSRect)			logicalBounds
 {
 	return [self bounds];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			intersectsRect:
-/// scope:			public instance method
-/// overrides:
-/// description:	test whether the object intersects a given rectangle
-/// 
-/// parameters:		<rect> the rect to test against
-/// result:			YES if the object intersects the rect, NO otherwise
-///
-/// notes:			used for selecting using a marquee, and other things. The default hit tests by rendering the object
-///					into a special 1-byte bitmap and testing its alpha channel - this is fast and efficient and in most
-///					simple cases doesn't need to be overridden.
-///
-///********************************************************************************************************************
 
+/** @brief Test whether the object intersects a given rectangle
+ * @note
+ * Used for selecting using a marquee, and other things. The default hit tests by rendering the object
+ * into a special 1-byte bitmap and testing its alpha channel - this is fast and efficient and in most
+ * simple cases doesn't need to be overridden.
+ * @param rect the rect to test against
+ * @return YES if the object intersects the rect, NO otherwise
+ * @public
+ */
 - (BOOL)			intersectsRect:(NSRect) rect
 {
 	NSRect ir, br = [self bounds];
@@ -2091,23 +1374,14 @@ static NSRect s_oldBounds;
 		return NO;	// invisible objects don't intersect anything
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setLocation:
-/// scope:			public instance method
-/// overrides:
-/// description:	set the location of the object to the given point
-/// 
-/// parameters:		<p> the point to locate the object at
-/// result:			none
-///
-/// notes:			the object can decide how it aligns itself about its own location in any way that is self-consistent.
-///					the default is to align the origin of the bounds at the point, but most subclasses do something
-///					more sophisticated
-///
-///********************************************************************************************************************
-
+/** @brief Set the location of the object to the given point
+ * @note
+ * The object can decide how it aligns itself about its own location in any way that is self-consistent.
+ * the default is to align the origin of the bounds at the point, but most subclasses do something
+ * more sophisticated
+ * @param p the point to locate the object at
+ * @public
+ */
 - (void)			setLocation:(NSPoint) p
 {
 	#pragma unused(p)
@@ -2115,22 +1389,11 @@ static NSRect s_oldBounds;
 	NSLog(@"**** You must override -setLocation: for the object %@ ****", self);
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			offsetLocationByX:byY:
-/// scope:			public instance method
-/// overrides:
-/// description:	offsets the object's position by the values passed
-/// 
-/// parameters:		<dx> add this much to the x coordinate
-///					<dy> add this much to the y coordinate
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Offsets the object's position by the values passed
+ * @param dx add this much to the x coordinate
+ * @param dy add this much to the y coordinate
+ * @public
+ */
 - (void)			offsetLocationByX:(CGFloat) dx byY:(CGFloat) dy
 {
 	if ( dx != 0 || dy != 0 )
@@ -2144,82 +1407,42 @@ static NSRect s_oldBounds;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			location
-/// scope:			public instance method
-/// overrides:
-/// description:	return the object's current location
-/// 
-/// parameters:		none
-/// result:			the object's location
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the object's current location
+ * @return the object's location
+ * @public
+ */
 - (NSPoint)			location
 {
 	return [self logicalBounds].origin;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			angle
-/// scope:			public instance method
-/// overrides:
-/// description:	return the object's current angle, in radians
-/// 
-/// parameters:		none
-/// result:			the object's angle
-///
-/// notes:			override if your subclass implements variable angles
-///
-///********************************************************************************************************************
-
+/** @brief Return the object's current angle, in radians
+ * @note
+ * Override if your subclass implements variable angles
+ * @return the object's angle
+ * @public
+ */
 - (CGFloat)			angle
 {
 	return 0.0f;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setAngle:
-/// scope:			public instance method
-/// overrides:
-/// description:	set the object's current angle in radians
-/// 
-/// parameters:		<angle> the object's angle (radians)
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set the object's current angle in radians
+ * @param angle the object's angle (radians)
+ * @public
+ */
 - (void)				setAngle:(CGFloat) angle
 {
 	#pragma unused(angle)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			angleInDegrees
-/// scope:			public instance method
-/// overrides:		
-/// description:	return the shape's current rotation angle
-/// 
-/// parameters:		none
-/// result:			the shape's angle in degrees
-///
-/// notes:			this method is primarily to supply the angle for display to the user, rather than for doing angular
-///					calculations with. It converts negative values -180 to 0 to +180 to 360 degrees.
-///
-///********************************************************************************************************************
-
+/** @brief Return the shape's current rotation angle
+ * @note
+ * This method is primarily to supply the angle for display to the user, rather than for doing angular
+ * calculations with. It converts negative values -180 to 0 to +180 to 360 degrees.
+ * @return the shape's angle in degrees
+ * @public
+ */
 - (CGFloat)				angleInDegrees
 {
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
@@ -2230,65 +1453,37 @@ static NSRect s_oldBounds;
 	return fmod(angle, 360.0f);
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rotateByAngle:
-/// scope:			public instance method
-/// overrides:		
-/// description:	rotate the shape by adding a delta angle to the current angle
-/// 
-/// parameters:		<da> add this much to the current angle
-/// result:			none
-///
-/// notes:			da is a value in radians
-///
-///********************************************************************************************************************
-
+/** @brief Rotate the shape by adding a delta angle to the current angle
+ * @note
+ * Da is a value in radians
+ * @param da add this much to the current angle
+ * @public
+ */
 - (void)				rotateByAngle:(CGFloat) da
 {
 	if ( da != 0 )
 		[self setAngle:[self angle] + da];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			invalidateRenderingCache
-/// scope:			public instance method
-/// overrides:		
-/// description:	discard all cached rendering information
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			the rendering cache is simply emptied. The contents of the cache are generally set by individual
-///					renderers to speed up drawing, and are not known to this object. The cache is invalidated by any
-///					change that alters the object's appearance - size, position, angle, style, etc.
-///
-///********************************************************************************************************************
-
+/** @brief Discard all cached rendering information
+ * @note
+ * The rendering cache is simply emptied. The contents of the cache are generally set by individual
+ * renderers to speed up drawing, and are not known to this object. The cache is invalidated by any
+ * change that alters the object's appearance - size, position, angle, style, etc.
+ * @public
+ */
 - (void)				invalidateRenderingCache
 {
 	[mRenderingCache removeAllObjects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			cachedImage
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns an image of the object representing its current appearance at 100% scale.
-/// 
-/// parameters:		none
-/// result:			an image of the object
-///
-/// notes:			this image is stored in the rendering cache. If the cache is empty the image is recreated. This
-///					image can be used to speed up hit testing.
-///
-///********************************************************************************************************************
-
+/** @brief Returns an image of the object representing its current appearance at 100% scale.
+ * @note
+ * This image is stored in the rendering cache. If the cache is empty the image is recreated. This
+ * image can be used to speed up hit testing.
+ * @return an image of the object
+ * @public
+ */
 - (NSImage*)			cachedImage
 {
 	NSImage* img = [mRenderingCache objectForKey:kDKDrawableCachedImageKey];
@@ -2303,20 +1498,13 @@ static NSRect s_oldBounds;
 }
 
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setOffset:
-/// scope:			public instance method
-/// overrides:		
-/// description:	set the relative offset of the object's anchor point
-/// 
-/// parameters:		<offs> a width and height value relative to the object's bounds
-/// result:			none
-///
-/// notes:			subclasses must override if they support this concept
-///
-///********************************************************************************************************************
 
+/** @brief Set the relative offset of the object's anchor point
+ * @note
+ * Subclasses must override if they support this concept
+ * @param offs a width and height value relative to the object's bounds
+ * @public
+ */
 - (void)			setOffset:(NSSize) offs
 {
 	#pragma unused(offs)
@@ -2324,81 +1512,43 @@ static NSRect s_oldBounds;
 	// placeholder
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			offset
-/// scope:			public instance method
-/// overrides:		
-/// description:	return the relative offset of the object's anchor point
-/// 
-/// parameters:		none 
-/// result:			a width and height value relative to the object's bounds
-///
-/// notes:			subclasses must override if they support this concept
-///
-///********************************************************************************************************************
-
+/** @brief Return the relative offset of the object's anchor point
+ * @note
+ * Subclasses must override if they support this concept
+ * @return a width and height value relative to the object's bounds
+ * @public
+ */
 - (NSSize)			offset
 {
 	return NSZeroSize;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			resetOffset
-/// scope:			public instance method
-/// overrides:		
-/// description:	reset the relative offset of the object's anchor point to its original value
-/// 
-/// parameters:		none 
-/// result:			none
-///
-/// notes:			subclasses must override if they support this concept
-///
-///********************************************************************************************************************
-
+/** @brief Reset the relative offset of the object's anchor point to its original value
+ * @note
+ * Subclasses must override if they support this concept
+ * @public
+ */
 - (void)			resetOffset
 {
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			transform
-/// scope:			protected instance method
-/// overrides:
-/// description:	return a transform that maps the object's stored path to its true location in the drawing
-/// 
-/// parameters:		none
-/// result:			a transform
-///
-/// notes:			override for real transforms - the default merely returns the identity matrix
-///
-///********************************************************************************************************************
-
+/** @brief Return a transform that maps the object's stored path to its true location in the drawing
+ * @note
+ * Override for real transforms - the default merely returns the identity matrix
+ * @return a transform
+ */
 - (NSAffineTransform*)	transform
 {
 	return [NSAffineTransform transform];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			applyTransform:
-/// scope:			public instance method
-/// overrides:
-/// description:	apply the transform to the object
-/// 
-/// parameters:		<transform> a transform
-/// result:			none
-///
-/// notes:			the object's position, size and path are modified by the transform. This is called by the owning
-///					layer's applyTransformToObjects method. This ignores locked objects.
-///
-///********************************************************************************************************************
-
+/** @brief Apply the transform to the object
+ * @note
+ * The object's position, size and path are modified by the transform. This is called by the owning
+ * layer's applyTransformToObjects method. This ignores locked objects.
+ * @param transform a transform
+ * @public
+ */
 - (void)				applyTransform:(NSAffineTransform*) transform
 {
 	NSAssert( transform != nil, @"nil transform in [DKDrawableObject applyTransform:]");
@@ -2410,25 +1560,15 @@ static NSRect s_oldBounds;
 	[self setSize:size];
 }
 
-
 #pragma mark -
 #pragma mark - drawing tool information
 
-///*********************************************************************************************************************
-///
-/// method:			creationTool:willBeginCreationAtPoint:
-/// scope:			protected instance method
-/// overrides:
-/// description:	called by the creation tool when this object has just beeen created by the tool
-/// 
-/// parameters:		<tool> the tool that created this
-///					<p> the initial point that the tool will start dragging the object from
-/// result:			none
-///
-/// notes:			FYI - override to make use of this
-///
-///********************************************************************************************************************
-
+/** @brief Called by the creation tool when this object has just beeen created by the tool
+ * @note
+ * FYI - override to make use of this
+ * @param tool the tool that created this
+ * @param p the initial point that the tool will start dragging the object from
+ */
 - (void)			creationTool:(DKDrawingTool*) tool willBeginCreationAtPoint:(NSPoint) p
 {
 	#pragma unused(tool)
@@ -2437,22 +1577,12 @@ static NSRect s_oldBounds;
 	// override to make use of this event
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			creationTool:willEndCreationAtPoint:
-/// scope:			protected instance method
-/// overrides:
-/// description:	called by the creation tool when this object has finished being created by the tool
-/// 
-/// parameters:		<tool> the tool that created this
-///					<p> the point that the tool finished dragging the object to
-/// result:			none
-///
-/// notes:			FYI - override to make use of this
-///
-///********************************************************************************************************************
-
+/** @brief Called by the creation tool when this object has finished being created by the tool
+ * @note
+ * FYI - override to make use of this
+ * @param tool the tool that created this
+ * @param p the point that the tool finished dragging the object to
+ */
 - (void)			creationTool:(DKDrawingTool*) tool willEndCreationAtPoint:(NSPoint) p
 {
 	#pragma unused(tool)
@@ -2461,72 +1591,44 @@ static NSRect s_oldBounds;
 	// override to make use of this event
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			objectIsValid
-/// scope:			public instance method
-/// overrides:
-/// description:	return whether the object is valid in terms of having a visible, usable state
-/// 
-/// parameters:		none
-/// result:			YES if valid, NO otherwise
-///
-/// notes:			subclasses must override and implement this appropriately. It is called by the object creation tool
-///					at the end of a creation operation to determine if what was created is in any way useful. Objects that
-///					cannot be used will not be added to the drawing. The object type needs to decide what constitutes
-///					validity - for example shapes with zero size or paths with zero length are likely not valid.
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the object is valid in terms of having a visible, usable state
+ * @note
+ * Subclasses must override and implement this appropriately. It is called by the object creation tool
+ * at the end of a creation operation to determine if what was created is in any way useful. Objects that
+ * cannot be used will not be added to the drawing. The object type needs to decide what constitutes
+ * validity - for example shapes with zero size or paths with zero length are likely not valid.
+ * @return YES if valid, NO otherwise
+ * @public
+ */
 - (BOOL)			objectIsValid
 {
 	return NO;
 }
 
-
 #pragma mark -
 #pragma mark - grouping and ungrouping support
 
-///*********************************************************************************************************************
-///
-/// method:			groupWillAddObject:
-/// scope:			public instance method
-/// overrides:
-/// description:	this object is being added to a group
-/// 
-/// parameters:		<aGroup> the group adding the object
-/// result:			none
-///
-/// notes:			can be overridden if this event is of interest. Note that for grouping, the object doesn't need
-///					to do anything special - the group takes care of it.
-///
-///********************************************************************************************************************
-
+/** @brief This object is being added to a group
+ * @note
+ * Can be overridden if this event is of interest. Note that for grouping, the object doesn't need
+ * to do anything special - the group takes care of it.
+ * @param aGroup the group adding the object
+ * @public
+ */
 - (void)				groupWillAddObject:(DKShapeGroup*) aGroup
 {
 	#pragma unused(aGroup)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			group:willUngroupObjectWithTransform:
-/// scope:			public instance method
-/// overrides:
-/// description:	this object is being ungrouped from a group
-/// 
-/// parameters:		<aGroup> the group containing the object
-///					<aTransform> the transform that the group is applying to the object to scale rotate and translate it.
-/// result:			none
-///
-/// notes:			when ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
-///					itself appropriately. At the time this is called, the object has already has its container set to
-///					the layer it will be added to but has not actually been added. Must be overridden.
-///
-///********************************************************************************************************************
-
+/** @brief This object is being ungrouped from a group
+ * @note
+ * When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
+ * itself appropriately. At the time this is called, the object has already has its container set to
+ * the layer it will be added to but has not actually been added. Must be overridden.
+ * @param aGroup the group containing the object
+ * @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
+ * @public
+ */
 - (void)				group:(DKShapeGroup*) aGroup willUngroupObjectWithTransform:(NSAffineTransform*) aTransform
 {
 	#pragma unused(aGroup)
@@ -2535,68 +1637,40 @@ static NSRect s_oldBounds;
 	NSLog(@"*** you should override -group:willUngroupObjectWithTransform: to correctly ungroup '%@' ***", NSStringFromClass([self class]));
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectWasUngrouped
-/// scope:			public instance method
-/// overrides:
-/// description:	this object was ungrouped from a group
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			this is called when the ungrouping operation has finished entirely. The object will belong to its
-///					original container and have its location, etc set as required. Override to make use of this notification.
-///
-///********************************************************************************************************************
-
+/** @brief This object was ungrouped from a group
+ * @note
+ * This is called when the ungrouping operation has finished entirely. The object will belong to its
+ * original container and have its location, etc set as required. Override to make use of this notification.
+ * @public
+ */
 - (void)				objectWasUngrouped
 {
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			willBeAddedAsSubstituteFor:toLayer:
-/// scope:			public instance method
-/// overrides:
-/// description:	some high-level operations substitute a new object in place of an existing one (or several). In
-///					those cases this should be called to allow the object to do any special substitution work.
-/// 
-/// parameters:		<obj> the original object his is being substituted for
-///					<aLayer> the layer this will be added to (but is not yet)
-/// result:			none
-///
-/// notes:			subclasses should override this to do additional work during a substitution. Note that user info
-///					and style is handled for you, this does not need to deal with those properties.
-///
-///********************************************************************************************************************
-
+/** @brief Some high-level operations substitute a new object in place of an existing one (or several). In
+ * those cases this should be called to allow the object to do any special substitution work.
+ * @note
+ * Subclasses should override this to do additional work during a substitution. Note that user info
+ * and style is handled for you, this does not need to deal with those properties.
+ * @param obj the original object his is being substituted for
+ * @param aLayer the layer this will be added to (but is not yet)
+ * @public
+ */
 - (void)				willBeAddedAsSubstituteFor:(DKDrawableObject*) obj toLayer:(DKObjectOwnerLayer*) aLayer;
 {
 #pragma unused(obj, aLayer)	
 }
 
-
 #pragma mark -
 #pragma mark - snapping to guides, grid and other objects (utility methods)
-///*********************************************************************************************************************
-///
-/// method:			snappedMousePoint
-/// scope:			protected instance method
-/// overrides:
-/// description:	offset the point to cause snap to grid + guides accoding to the drawing's settings
-/// 
-/// parameters:		<mp> a point which is the proposed location of the shape
-///					<snapControl> a control flag used to temporarily enable/disable snapping
-/// result:			a new point which may be offset from the input enough to snap it to the guides and grid
-///
-/// notes:			DKObjectOwnerLayer + DKDrawing implements the details of this method. The snapControl flag is
-///					intended to come from a modifier flag - usually <ctrl>.
-///
-///********************************************************************************************************************
 
+/** @brief Offset the point to cause snap to grid + guides accoding to the drawing's settings
+ * @note
+ * DKObjectOwnerLayer + DKDrawing implements the details of this method. The snapControl flag is
+ * intended to come from a modifier flag - usually <ctrl>.
+ * @param mp a point which is the proposed location of the shape
+ * @return a new point which may be offset from the input enough to snap it to the guides and grid
+ */
 - (NSPoint)				snappedMousePoint:(NSPoint) mp withControlFlag:(BOOL) snapControl
 {
 	if ([self mouseSnappingEnabled] && [self layer])
@@ -2605,23 +1679,14 @@ static NSRect s_oldBounds;
 	return mp;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snappedMousePoint:forSnappingPointsWithControlFlag:
-/// scope:			public instance method
-/// overrides:
-/// description:	offset the point to cause snap to grid + guides according to the drawing's settings
-/// 
-/// parameters:		<mp> a point which is the proposed location of the shape
-///					<snapControl> a flag which enables/disables snapping temporarily
-/// result:			a new point which may be offset from the input enough to snap it to the guides and grid
-///
-/// notes:			given a proposed location, this modifies it by checking if any of the points returned by the
-///					object's snappingPoints method will snap. The result can be passed to moveToPoint:
-///
-///********************************************************************************************************************
-
+/** @brief Offset the point to cause snap to grid + guides according to the drawing's settings
+ * @note
+ * Given a proposed location, this modifies it by checking if any of the points returned by the
+ * object's snappingPoints method will snap. The result can be passed to moveToPoint:
+ * @param mp a point which is the proposed location of the shape
+ * @return a new point which may be offset from the input enough to snap it to the guides and grid
+ * @public
+ */
 - (NSPoint)			snappedMousePoint:(NSPoint) mp forSnappingPointsWithControlFlag:(BOOL) snapControl
 {
 	if ([self mouseSnappingEnabled] && [self drawing])
@@ -2644,42 +1709,24 @@ static NSRect s_oldBounds;
 	return mp;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			snappingPoints
-/// scope:			public instance method
-/// overrides:
-/// description:	return an array of NSpoint values representing points that can be snapped to guides
-/// 
-/// parameters:		none
-/// result:			a list of points (NSValues)
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Return an array of NSpoint values representing points that can be snapped to guides
+ * @return a list of points (NSValues)
+ * @public
+ */
 - (NSArray*)		snappingPoints
 {
 	return [self snappingPointsWithOffset:NSZeroSize];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snappingPointsWithOffset:
-/// scope:			public instance method
-/// overrides:
-/// description:	return an array of NSpoint values representing points that can be snapped to guides
-/// 
-/// parameters:		<offset> an offset value that is added to each point
-/// result:			a list of points (NSValues)
-///
-/// notes:			snapping points are locations within an object that will snap to a guide. List can be empty.
-///
-///********************************************************************************************************************
-
+/** @brief Return an array of NSpoint values representing points that can be snapped to guides
+ * @note
+ * Snapping points are locations within an object that will snap to a guide. List can be empty.
+ * @param offset an offset value that is added to each point
+ * @return a list of points (NSValues)
+ * @public
+ */
 - (NSArray*)		snappingPointsWithOffset:(NSSize) offset
 {
 	NSPoint p = [self location];
@@ -2690,89 +1737,58 @@ static NSRect s_oldBounds;
 	return [NSArray arrayWithObject:[NSValue valueWithPoint:p]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseOffset
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the offset between the mouse point and the shape's location during a drag
-/// 
-/// parameters:		none
-/// result:			mouse offset during a drag
-///
-/// notes:			result is undefined except during a dragging operation
-///
-///********************************************************************************************************************
-
+/** @brief Returns the offset between the mouse point and the shape's location during a drag
+ * @note
+ * Result is undefined except during a dragging operation
+ * @return mouse offset during a drag
+ * @public
+ */
 - (NSSize)			mouseOffset
 {
 	return m_mouseOffset;
 }
 
-
 #pragma mark -
 #pragma mark - getting dimensions in drawing coordinates
-///*********************************************************************************************************************
-///
-/// method:			convertLength:
-/// scope:			public instance method
-/// overrides:
-/// description:	convert a distance in quartz coordinates to the units established by the drawing grid
-/// 
-/// parameters:		<len> a distance in pixels
-/// result:			the distance in drawing units
-///
-/// notes:			this is a conveniece API to query the drawing's grid layer
-///
-///********************************************************************************************************************
 
+/** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
+ * @note
+ * This is a conveniece API to query the drawing's grid layer
+ * @param len a distance in pixels
+ * @return the distance in drawing units
+ * @public
+ */
 - (CGFloat)			convertLength:(CGFloat) len
 {
 	return [[self drawing] convertLength:len];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			convertPointToDrawing:
-/// scope:			public instance method
-/// overrides:
-/// description:	convert a point in quartz coordinates to the units established by the drawing grid
-/// 
-/// parameters:		<pt> a point value
-/// result:			the equivalent point in drawing units
-///
-/// notes:			this is a conveniece API to query the drawing's grid layer
-///
-///********************************************************************************************************************
-
+/** @brief Convert a point in quartz coordinates to the units established by the drawing grid
+ * @note
+ * This is a conveniece API to query the drawing's grid layer
+ * @param pt a point value
+ * @return the equivalent point in drawing units
+ * @public
+ */
 - (NSPoint)			convertPointToDrawing:(NSPoint) pt
 {
 	return [[self drawing] convertPoint:pt];
 
 }
 
-
 #pragma mark -
 #pragma mark - hit testing
-///*********************************************************************************************************************
-///
-/// method:			hitPart:
-/// scope:			public instance method
-/// overrides:
-/// description:	hit test the object
-/// 
-/// parameters:		<pt> the mouse location
-/// result:			a part code representing which part of the object got hit, if any
-///
-/// notes:			part codes are private to the object class, except for 0 = nothing hit and -1 = entire object hit.
-///					for other parts, the object is free to return any code it likes and attach any meaning it wishes.
-///					the part code is passed back by the mouse event methods but apart from 0 and -1 is never interpreted
-///					by any other object
-///
-///********************************************************************************************************************
 
+/** @brief Hit test the object
+ * @note
+ * Part codes are private to the object class, except for 0 = nothing hit and -1 = entire object hit.
+ * for other parts, the object is free to return any code it likes and attach any meaning it wishes.
+ * the part code is passed back by the mouse event methods but apart from 0 and -1 is never interpreted
+ * by any other object
+ * @param pt the mouse location
+ * @return a part code representing which part of the object got hit, if any
+ * @public
+ */
 - (NSInteger)				hitPart:(NSPoint) pt
 {
 	if ([self visible])
@@ -2788,24 +1804,15 @@ static NSRect s_oldBounds;
 		return kDKDrawingNoPart;	// can never hit invisible objects
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hitSelectedPart:
-/// scope:			protected instance method
-/// overrides:
-/// description:	hit test the object in the selected state
-/// 
-/// parameters:		<pt> the mouse location
-///					<snap> is YES if called to detect snap, NO otherwise
-/// result:			a part code representing which part of the selected object got hit, if any
-///
-/// notes:			this is a factoring of the general hitPart: method to allow parts that only come into play when
-///					selected to be hit tested. It is also used when snapping to objects. Subclasses should override
-///					for the partcodes they define such as control knobs that operate when selected.
-///
-///********************************************************************************************************************
-
+/** @brief Hit test the object in the selected state
+ * @note
+ * This is a factoring of the general hitPart: method to allow parts that only come into play when
+ * selected to be hit tested. It is also used when snapping to objects. Subclasses should override
+ * for the partcodes they define such as control knobs that operate when selected.
+ * @param pt the mouse location
+ * @param snap is YES if called to detect snap, NO otherwise
+ * @return a part code representing which part of the selected object got hit, if any
+ */
 - (NSInteger)				hitSelectedPart:(NSPoint) pt forSnapDetection:(BOOL) snap
 {
 	#pragma unused(pt)
@@ -2814,22 +1821,14 @@ static NSRect s_oldBounds;
 	return kDKDrawingEntireObjectPart;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pointForPartcode:
-/// scope:			public instance method
-/// overrides:
-/// description:	return the point associated with the part code
-/// 
-/// parameters:		<pc> a valid partcode for this object
-/// result:			the current point associated with the partcode
-///
-/// notes:			if partcode is no object, returns {-1,-1}, if entire object, return location. Object classes
-///					should override this to correctly implement it for partcodes they define
-///
-///********************************************************************************************************************
-
+/** @brief Return the point associated with the part code
+ * @note
+ * If partcode is no object, returns {-1,-1}, if entire object, return location. Object classes
+ * should override this to correctly implement it for partcodes they define
+ * @param pc a valid partcode for this object
+ * @return the current point associated with the partcode
+ * @public
+ */
 - (NSPoint)			pointForPartcode:(NSInteger) pc
 {
 	if ( pc == kDKDrawingEntireObjectPart )
@@ -2838,22 +1837,14 @@ static NSRect s_oldBounds;
 		return NSMakePoint( -1, -1 );
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			knobTypeForPartCode:
-/// scope:			public instance method
-/// overrides:
-/// description:	provide a mapping between the object's partcode and a knob type draw for that part
-/// 
-/// parameters:		<pc> a valid partcode for this object
-/// result:			a valid knob type
-///
-/// notes:			knob types are defined by DKKnob, they describe the functional type of the knob, plus the locked
-///					state. Concrete subclasses should override this unless the default suffices.
-///
-///********************************************************************************************************************
-
+/** @brief Provide a mapping between the object's partcode and a knob type draw for that part
+ * @note
+ * Knob types are defined by DKKnob, they describe the functional type of the knob, plus the locked
+ * state. Concrete subclasses should override this unless the default suffices.
+ * @param pc a valid partcode for this object
+ * @return a valid knob type
+ * @public
+ */
 - (DKKnobType)		knobTypeForPartCode:(NSInteger) pc
 {
 	#pragma unused(pc)
@@ -2866,21 +1857,13 @@ static NSRect s_oldBounds;
 	return result;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			rectHitsPath:
-/// scope:			private instance method
-/// overrides:		
-/// description:	test if a rect encloses any of the shape's actual pixels
-/// 
-/// parameters:		<r> the rect to test
-/// result:			YES if at least one pixel enclosed by the rect, NO otherwise
-///
-/// notes:			note this can be an expensive way to test this - eliminate all obvious trivial cases first.
-///
-///********************************************************************************************************************
-
+/** @brief Test if a rect encloses any of the shape's actual pixels
+ * @note
+ * Note this can be an expensive way to test this - eliminate all obvious trivial cases first.
+ * @param r the rect to test
+ * @return YES if at least one pixel enclosed by the rect, NO otherwise
+ * @private
+ */
 - (BOOL)				rectHitsPath:(NSRect) r
 {
 	NSRect	ir = NSIntersectionRect( r, [self bounds]);
@@ -2958,21 +1941,13 @@ static NSRect s_oldBounds;
 	return hit;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pointHitsPath:
-/// scope:			private instance method
-/// overrides:		
-/// description:	test a point against the offscreen bitmap representation of the shape
-/// 
-/// parameters:		<p> the point to test
-/// result:			YES if the point hit the shape's pixels, NO otherwise
-///
-/// notes:			special case of the rectHitsPath call, which is now the fastest way to perform this test
-///
-///********************************************************************************************************************
-
+/** @brief Test a point against the offscreen bitmap representation of the shape
+ * @note
+ * Special case of the rectHitsPath call, which is now the fastest way to perform this test
+ * @param p the point to test
+ * @return YES if the point hit the shape's pixels, NO otherwise
+ * @private
+ */
 - (BOOL)				pointHitsPath:(NSPoint) p
 {
 	if( NSPointInRect( p, [self bounds]))
@@ -2984,68 +1959,41 @@ static NSRect s_oldBounds;
 		return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isBeingHitTested
-/// scope:			private instance method
-/// overrides:		
-/// description:	is a hit-test in progress
-/// 
-/// parameters:		none
-/// result:			YES if hit-testing is taking place, otherwise NO
-///
-/// notes:			drawing methods can check this to see if they can take shortcuts to save time when hit-testing.
-///					This will only return YES during calls to -drawContent etc when invoked by the rectHitsPath method.
-///
-///********************************************************************************************************************
-
+/** @brief Is a hit-test in progress
+ * @note
+ * Drawing methods can check this to see if they can take shortcuts to save time when hit-testing.
+ * This will only return YES during calls to -drawContent etc when invoked by the rectHitsPath method.
+ * @return YES if hit-testing is taking place, otherwise NO
+ * @private
+ */
 - (BOOL)				isBeingHitTested
 {
 	return mIsHitTesting;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setBeingHitTested
-/// scope:			private instance method
-/// overrides:		
-/// description:	set whether a hit-test in progress
-/// 
-/// parameters:		<hitTesting> YES if hit-testing, NO otherwise
-/// result:			none
-///
-/// notes:			Applicaitons should not generally use this. It allows certain container classes (e.g. groups) to
-///					flag the *they* are being hit tested to provide easier hitting of thin objects in groups.
-///
-///********************************************************************************************************************
-
+/** @brief Set whether a hit-test in progress
+ * @note
+ * Applicaitons should not generally use this. It allows certain container classes (e.g. groups) to
+ * flag the *they* are being hit tested to provide easier hitting of thin objects in groups.
+ * @param hitTesting YES if hit-testing, NO otherwise
+ * @private
+ */
 - (void)				setBeingHitTested:(BOOL) hitTesting
 {
 	mIsHitTesting = hitTesting;
 }
 
-
 #pragma mark -
 #pragma mark - basic event handling
 
-///*********************************************************************************************************************
-///
-/// method:			mouseDownAtPoint:inPart:event:
-/// scope:			public instance method
-/// overrides:
-/// description:	the mouse went down in this object
-/// 
-/// parameters:		<mp> the mouse point (already converted to the relevant view - gives drawing relative coordinates)
-///					<partcode> the partcode that was returned by hitPart if non-zero.
-///					<evt> the original event
-/// result:			none
-///
-/// notes:			default method records the mouse offset, but otherwise you will override to make use of this
-///
-///********************************************************************************************************************
-
+/** @brief The mouse went down in this object
+ * @note
+ * Default method records the mouse offset, but otherwise you will override to make use of this
+ * @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ * @param partcode the partcode that was returned by hitPart if non-zero.
+ * @param evt the original event
+ * @public
+ */
 - (void)			mouseDownAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	#pragma unused( evt, partcode )
@@ -3056,24 +2004,15 @@ static NSRect s_oldBounds;
 	[self setTrackingMouse:YES];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDraggedAtPoint:inPart:event:
-/// scope:			public instance method
-/// overrides:
-/// description:	the mouse is dragging within this object
-/// 
-/// parameters:		<mp> the mouse point (already converted to the relevant view - gives drawing relative coordinates)
-///					<partcode> the partcode that was returned by hitPart if non-zero.
-///					<evt> the original event
-/// result:			none
-///
-/// notes:			default method moves the entire object, and snaps to grid and guides if enabled. Control key disables
-///					snapping temporarily.
-///
-///********************************************************************************************************************
-
+/** @brief The mouse is dragging within this object
+ * @note
+ * Default method moves the entire object, and snaps to grid and guides if enabled. Control key disables
+ * snapping temporarily.
+ * @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ * @param partcode the partcode that was returned by hitPart if non-zero.
+ * @param evt the original event
+ * @public
+ */
 - (void)			mouseDraggedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	#pragma unused(partcode)
@@ -3091,23 +2030,12 @@ static NSRect s_oldBounds;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseUpAtPoint:inPart:event:
-/// scope:			public instance method
-/// overrides:
-/// description:	the mouse went up in this object
-/// 
-/// parameters:		<mp> the mouse point (already converted to the relevant view - gives drawing relative coordinates)
-///					<partcode> the partcode that was returned by hitPart if non-zero.
-///					<evt> the original event
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief The mouse went up in this object
+ * @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ * @param partcode the partcode that was returned by hitPart if non-zero.
+ * @param evt the original event
+ * @public
+ */
 - (void)			mouseUpAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	#pragma unused(mp)
@@ -3123,43 +2051,25 @@ static NSRect s_oldBounds;
 	[self setTrackingMouse:NO];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			currentView
-/// scope:			public instance method
-/// overrides:
-/// description:	get the view currently drawing or passing events to this
-/// 
-/// parameters:		none
-/// result:			the view that is either drawing or handling the mouse/responder events
-///
-/// notes:			the view is only meaningful when called from within a drawing or event handling method.
-///
-///********************************************************************************************************************
-
+/** @brief Get the view currently drawing or passing events to this
+ * @note
+ * The view is only meaningful when called from within a drawing or event handling method.
+ * @public
+ */
 - (NSView*)			currentView
 {
 	return [[self layer] currentView];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			cursorForPartcode:
-/// scope:			public instance method
-/// overrides:
-/// description:	return the cursor displayed when a given partcode is hit or entered
-/// 
-/// parameters:		<partcode> the partcode
-///					<button> YES if the mouse left button is pressed, NO otherwise
-/// result:			a cursor object
-///
-/// notes:			the cursor may be displayed when the mouse hovers over or is clicked in the area indicated by the
-///					partcode. The default is simply to return the standard arrow - override for others.
-///
-///********************************************************************************************************************
-
+/** @brief Return the cursor displayed when a given partcode is hit or entered
+ * @note
+ * The cursor may be displayed when the mouse hovers over or is clicked in the area indicated by the
+ * partcode. The default is simply to return the standard arrow - override for others.
+ * @param partcode the partcode
+ * @param button YES if the mouse left button is pressed, NO otherwise
+ * @return a cursor object
+ * @public
+ */
 - (NSCursor*)		cursorForPartcode:(NSInteger) partcode mouseButtonDown:(BOOL) button
 {
 	#pragma unused(partcode)
@@ -3168,25 +2078,16 @@ static NSRect s_oldBounds;
 	return [NSCursor arrowCursor];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDoubleClickedAtPoint:inPart:event:
-/// scope:			public instance method
-/// overrides:
-/// description:	inform the object that it was double-clicked
-/// 
-/// parameters:		<mp> the point where it was clicked
-///					<partcode> the partcode
-///					<event> the original mouse event
-/// result:			none
-///
-/// notes:			This is invoked by the select tool and any others that decide to implement it. The object can
-///					respond however it likes - by default it simply broadcasts a notification. Override for
-///					different behaviours.
-///
-///********************************************************************************************************************
-
+/** @brief Inform the object that it was double-clicked
+ * @note
+ * This is invoked by the select tool and any others that decide to implement it. The object can
+ * respond however it likes - by default it simply broadcasts a notification. Override for
+ * different behaviours.
+ * @param mp the point where it was clicked
+ * @param partcode the partcode
+ * @param event the original mouse event
+ * @public
+ */
 - (void)			mouseDoubleClickedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	#pragma unused( partcode, evt)
@@ -3201,48 +2102,30 @@ static NSRect s_oldBounds;
 	[[self layer] drawable:self wasDoubleClickedAtPoint:mp];
 }
 
-
 #pragma mark -
 #pragma mark - contextual menu
 
-
-///*********************************************************************************************************************
-///
-/// method:			menu
-/// scope:			public instance method
-/// overrides:
-/// description:	reurn the menu to use as the object's contextual menu
-/// 
-/// parameters:		none
-/// result:			the menu
-///
-/// notes:			The menu is obtained via DKAuxiliaryMenus helper object which in turn loads the menu from a nib,
-///					overridable by the app. This is the preferred method of supplying the menu. It doesn't need to
-///					be overridden by subclasses generally speaking, since all menu customisation per class is done in
-///					the nib.
-///
-///********************************************************************************************************************
-
+/** @brief Reurn the menu to use as the object's contextual menu
+ * @note
+ * The menu is obtained via DKAuxiliaryMenus helper object which in turn loads the menu from a nib,
+ * overridable by the app. This is the preferred method of supplying the menu. It doesn't need to
+ * be overridden by subclasses generally speaking, since all menu customisation per class is done in
+ * the nib.
+ * @return the menu
+ * @public
+ */
 - (NSMenu*)				menu
 {
 	return [[[DKAuxiliaryMenus auxiliaryMenus] copyMenuForClass:[self class]] autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			populateContextualMenu:
-/// scope:			public instance method
-/// overrides:
-/// description:	allows the object to populate the menu with commands that are relevant to its current state and type
-/// 
-/// parameters:		<theMenu> a menu - add items and commands to it as required
-/// result:			YES if any items were added, NO otherwise.
-///
-/// notes:			the default method adds commands to copy and paste the style
-///
-///********************************************************************************************************************
-
+/** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
+ * @note
+ * The default method adds commands to copy and paste the style
+ * @param theMenu a menu - add items and commands to it as required
+ * @return YES if any items were added, NO otherwise.
+ * @public
+ */
 - (BOOL)			populateContextualMenu:(NSMenu*) theMenu
 {
 	// if the object supports any contextual menu commands, it should add them to the menu and return YES. If subclassing,
@@ -3259,23 +2142,15 @@ static NSRect s_oldBounds;
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			populateContextualMenu:atPoint:
-/// scope:			public instance method
-/// overrides:
-/// description:	allows the object to populate the menu with commands that are relevant to its current state and type
-/// 
-/// parameters:		<theMenu> a menu - add items and commands to it as required
-///						<localPoint> the point in local (view) coordinates where the menu click went down
-/// result:			YES if any items were added, NO otherwise.
-///
-/// notes:			the default method adds commands to copy and paste the style. This method allows the point to
-///					be used by subclasses to refine the menu for special areas within the object.
-///
-///********************************************************************************************************************
-
+/** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
+ * @note
+ * The default method adds commands to copy and paste the style. This method allows the point to
+ * be used by subclasses to refine the menu for special areas within the object.
+ * @param theMenu a menu - add items and commands to it as required
+ * @param localPoint the point in local (view) coordinates where the menu click went down
+ * @return YES if any items were added, NO otherwise.
+ * @public
+ */
 - (BOOL)			populateContextualMenu:(NSMenu*) theMenu atPoint:(NSPoint) localPoint
 {
 	#pragma unused(localPoint)
@@ -3283,23 +2158,16 @@ static NSRect s_oldBounds;
 	return [self populateContextualMenu:theMenu];
 }
 
-
 #pragma mark -
 #pragma mark - swatch
-///*********************************************************************************************************************
-///
-/// method:			swatchImageWithSize:
-/// scope:			public instance method
-/// overrides:
-/// description:	returns an image of this object rendered using its current style and path
-/// 
-/// parameters:		<size> desired size of the image - shape is scaled to fit in this size
-/// result:			the image
-///
-/// notes:			if size is NSZeroRect, uses the current bounds size
-///
-///********************************************************************************************************************
 
+/** @brief Returns an image of this object rendered using its current style and path
+ * @note
+ * If size is NSZeroRect, uses the current bounds size
+ * @param size desired size of the image - shape is scaled to fit in this size
+ * @return the image
+ * @public
+ */
 - (NSImage*)		swatchImageWithSize:(NSSize) size
 {
 	if( NSEqualSizes( size, NSZeroSize ))
@@ -3324,23 +2192,15 @@ static NSRect s_oldBounds;
 		return nil;
 }
 
-
 #pragma mark -
 #pragma mark - user info
-///*********************************************************************************************************************
-///
-/// method:			setUserInfo:
-/// scope:			public instance method
-/// overrides:
-/// description:	attach a dictionary of metadata to the object
-/// 
-/// parameters:		<info> a dictionary containing anything you wish
-/// result:			none
-///
-/// notes:			The dictionary replaces the current user info. To merge with any existing user info, use addUserInfo:
-///
-///********************************************************************************************************************
 
+/** @brief Attach a dictionary of metadata to the object
+ * @note
+ * The dictionary replaces the current user info. To merge with any existing user info, use addUserInfo:
+ * @param info a dictionary containing anything you wish
+ * @public
+ */
 - (void)			setUserInfo:(NSDictionary*) info
 {
 	if( mUserInfo == nil )
@@ -3350,21 +2210,12 @@ static NSRect s_oldBounds;
 	[self notifyStatusChange];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addUserInfo:
-/// scope:			public instance method
-/// overrides:
-/// description:	add a dictionary of metadata to the object
-/// 
-/// parameters:		<info> a dictionary containing anything you wish
-/// result:			none
-///
-/// notes:			<info> is merged with the existin gcontent of the user info
-///
-///********************************************************************************************************************
-
+/** @brief Add a dictionary of metadata to the object
+ * @note
+ * <info> is merged with the existin gcontent of the user info
+ * @param info a dictionary containing anything you wish
+ * @public
+ */
 - (void)			addUserInfo:(NSDictionary*) info
 {
 	if( mUserInfo == nil )
@@ -3377,64 +2228,34 @@ static NSRect s_oldBounds;
 	[self notifyStatusChange];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			userInfo
-/// scope:			public instance method
-/// overrides:
-/// description:	return the attached user info
-/// 
-/// parameters:		none
-/// result:			the user info
-///
-/// notes:			The user info is returned as a mutable dictionary (which it is), and can thus have its contents
-///					mutated directly for certain uses. Doing this cannot cause any notification of the status of
-///					the object however.
-///
-///********************************************************************************************************************
-
+/** @brief Return the attached user info
+ * @note
+ * The user info is returned as a mutable dictionary (which it is), and can thus have its contents
+ * mutated directly for certain uses. Doing this cannot cause any notification of the status of
+ * the object however.
+ * @return the user info
+ * @public
+ */
 - (NSMutableDictionary*)userInfo
 {
 	return mUserInfo;
 }
 
-///*********************************************************************************************************************
-///
-/// method:			userInfoObjectForKey:
-/// scope:			public instance method
-/// overrides:
-/// description:	return an item of user info
-/// 
-/// parameters:		<key> the key to use to refer to the item
-/// result:			the user info item
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return an item of user info
+ * @param key the key to use to refer to the item
+ * @return the user info item
+ * @public
+ */
 - (id)					userInfoObjectForKey:(NSString*) key
 {
 	return [[self userInfo] objectForKey:key];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setUserInfoObject:forKey:
-/// scope:			public instance method
-/// overrides:
-/// description:	set an item of user info
-/// 
-/// parameters:		<obj> the object to store
-///					<key> the key to use to refer to the item
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set an item of user info
+ * @param obj the object to store
+ * @param key the key to use to refer to the item
+ * @public
+ */
 - (void)				setUserInfoObject:(id) obj forKey:(NSString*) key
 {
 	NSAssert( obj != nil, @"cannot add nil to the user info");
@@ -3447,52 +2268,34 @@ static NSRect s_oldBounds;
 	[self notifyStatusChange];
 }
 
-
 #pragma mark -
 #pragma mark - pasteboard
 
-///*********************************************************************************************************************
-///
-/// method:			writeSupplementaryDataToPasteboard:
-/// scope:			public instance method
-/// overrides:
-/// description:	write additional data to the pasteboard specific to the object
-/// 
-/// parameters:		<pb> the pasteboard to write to
-/// result:			none
-///
-/// notes:			the owning layer generally handles the case of writing the selected objects to the pasteboard but
-///					sometimes an object might wish to supplement that data. For example a text-bearing object might
-///					add the text to the pasteboard. This is only invoked when the object is the only object selected.
-///					The default method does nothing - override to make use of this. Also, your override must declare
-///					the types it's writing using addTypes:owner:
-///
-///********************************************************************************************************************
-
+/** @brief Write additional data to the pasteboard specific to the object
+ * @note
+ * The owning layer generally handles the case of writing the selected objects to the pasteboard but
+ * sometimes an object might wish to supplement that data. For example a text-bearing object might
+ * add the text to the pasteboard. This is only invoked when the object is the only object selected.
+ * The default method does nothing - override to make use of this. Also, your override must declare
+ * the types it's writing using addTypes:owner:
+ * @param pb the pasteboard to write to
+ * @public
+ */
 - (void)				writeSupplementaryDataToPasteboard:(NSPasteboard*) pb
 {
 #pragma unused(pb)
 	// override to make use of
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			readSupplementaryDataFromPasteboard:
-/// scope:			public instance method
-/// overrides:
-/// description:	read additional data from the pasteboard specific to the object
-/// 
-/// parameters:		<pb> the pasteboard to read from
-/// result:			none
-///
-/// notes:			This is invoked by the owning layer after an object has been pasted. Override to make use of. Note
-///					that this is not necessarily symmetrical with -writeSupplementaryDataToPasteboard: depending on
-///					what data types the other method actually wrote. For example standard text would not normally
-///					need to be handled as a special case.
-///
-///********************************************************************************************************************
-
+/** @brief Read additional data from the pasteboard specific to the object
+ * @note
+ * This is invoked by the owning layer after an object has been pasted. Override to make use of. Note
+ * that this is not necessarily symmetrical with -writeSupplementaryDataToPasteboard: depending on
+ * what data types the other method actually wrote. For example standard text would not normally
+ * need to be handled as a special case.
+ * @param pb the pasteboard to read from
+ * @public
+ */
 - (void)				readSupplementaryDataFromPasteboard:(NSPasteboard*) pb
 {
 #pragma unused(pb)
@@ -3501,20 +2304,11 @@ static NSRect s_oldBounds;
 
 #pragma mark -
 #pragma mark - user level commands that can be responded to by this object (and its subclasses)
-///*********************************************************************************************************************
-///
-/// method:			copyDrawingStyle:
-/// scope:			public action method
-/// overrides:
-/// description:	copies the object's style to the general pasteboard
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Copies the object's style to the general pasteboard
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		copyDrawingStyle:(id) sender
 {
 	#pragma unused(sender)
@@ -3528,21 +2322,12 @@ static NSRect s_oldBounds;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pasteDrawingStyle:
-/// scope:			public action method
-/// overrides:
-/// description:	pastes a style from the general pasteboard onto the object
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			attempts to maintain shared styles by using the style's name initially.
-///
-///********************************************************************************************************************
-
+/** @brief Pastes a style from the general pasteboard onto the object
+ * @note
+ * Attempts to maintain shared styles by using the style's name initially.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		pasteDrawingStyle:(id) sender
 {
 	#pragma unused(sender)
@@ -3568,7 +2353,6 @@ static NSRect s_oldBounds;
 	}
 }
 
-
 - (IBAction)			unlock:(id) sender
 {
 #pragma unused(sender)
@@ -3577,7 +2361,6 @@ static NSRect s_oldBounds;
 		[self setLocked:NO];
 	}
 }
-
 
 - (IBAction)			lockLocation:(id) sender
 {
@@ -3589,7 +2372,6 @@ static NSRect s_oldBounds;
 	}
 }
 
-
 - (IBAction)			unlockLocation:(id) sender
 {
 #pragma unused(sender)
@@ -3599,8 +2381,6 @@ static NSRect s_oldBounds;
 		[[self undoManager] setActionName:NSLocalizedString(@"Unlock Location", @"undo action for single object unlock location")];
 	}
 }
-
-
 
 #ifdef qIncludeGraphicDebugging
 #pragma mark -
@@ -3614,7 +2394,6 @@ static NSRect s_oldBounds;
 	[self notifyVisualChange];
 }
 
-
 - (IBAction)		toggleClipToBBox:(id) sender
 {
 	#pragma unused(sender)
@@ -3622,7 +2401,6 @@ static NSRect s_oldBounds;
 	m_clipToBBox = !m_clipToBBox;
 	[self notifyVisualChange];
 }
-
 
 - (IBAction)		toggleShowPartcodes:(id) sender
 {
@@ -3632,7 +2410,6 @@ static NSRect s_oldBounds;
 	[self notifyVisualChange];
 }
 
-
 - (IBAction)		toggleShowTargets:(id) sender
 {
 	#pragma unused(sender)
@@ -3641,7 +2418,6 @@ static NSRect s_oldBounds;
 	[self notifyVisualChange];
 }
 
-
 - (IBAction)		logDescription:(id) sender
 {
 #pragma unused(sender)
@@ -3649,7 +2425,6 @@ static NSRect s_oldBounds;
 }
 
 #endif
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -3667,12 +2442,10 @@ static NSRect s_oldBounds;
 	[super dealloc];
 }
 
-
 - (id)				init
 {
 	return [self initWithStyle:[DKStyle defaultStyle]];
 }
-
 
 - (NSString*)		description
 {
@@ -3690,7 +2463,6 @@ static NSRect s_oldBounds;
 				[self userInfo]];
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)			encodeWithCoder:(NSCoder*) coder
@@ -3707,7 +2479,6 @@ static NSRect s_oldBounds;
 	[coder encodeBool:[self isGhosted] forKey:@"DKDrawable_ghosted"];
 	[coder encodeBool:[self locationLocked] forKey:@"DKDrawable_locationLocked"];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -3744,7 +2515,6 @@ static NSRect s_oldBounds;
 	return self;
 }
 
-
 - (id)		awakeAfterUsingCoder:(NSCoder*) coder
 {
 	[self setLocationLocked:[coder decodeBoolForKey:@"DKDrawable_locationLocked"]];
@@ -3752,7 +2522,6 @@ static NSRect s_oldBounds;
 	
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -3781,7 +2550,6 @@ static NSRect s_oldBounds;
 	
 	return copy;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
@@ -3873,28 +2641,18 @@ static NSRect s_oldBounds;
 	return NO;
 }
 
-
 #pragma mark -
 #pragma mark - as an implementer of the DKRenderable protocol
 
-///*********************************************************************************************************************
-///
-/// method:			bounds
-/// scope:			public instance method
-/// overrides:
-/// description:	return the full extent of the object within the drawing, including any decoration, etc.
-/// 
-/// parameters:		none
-/// result:			the full bounds of the object
-///
-/// notes:			the object must draw only within its declared bounds. If it draws outside of this, it will leave
-///					trails and debris when moved, rotated or scaled. All style-based decoration must be contained within
-///					bounds. The style has the method -extraSpaceNeeded to help you determine the correct bounds.
-///
-///					subclasses must override this and return a valid, sensible bounds rect
-///
-///********************************************************************************************************************
-
+/** @brief Return the full extent of the object within the drawing, including any decoration, etc.
+ * @note
+ * The object must draw only within its declared bounds. If it draws outside of this, it will leave
+ * trails and debris when moved, rotated or scaled. All style-based decoration must be contained within
+ * bounds. The style has the method -extraSpaceNeeded to help you determine the correct bounds.
+ * subclasses must override this and return a valid, sensible bounds rect
+ * @return the full bounds of the object
+ * @public
+ */
 - (NSRect)			bounds
 {
 	NSLog(@"!!! 'bounds' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
@@ -3902,21 +2660,11 @@ static NSRect s_oldBounds;
 	return NSZeroRect;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			extraSpaceNeeded
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the extra space needed to display the object graphically. This will usually be the difference
-///					between the logical and reported bounds.
-/// 
-/// parameters:		none
-/// result:			the extra space required
-///
-/// notes:			
-///********************************************************************************************************************
-
+/** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
+ * between the logical and reported bounds.
+ * @return the extra space required
+ * @public
+ */
 - (NSSize)			extraSpaceNeeded
 {
 	if ([self style])
@@ -3925,25 +2673,12 @@ static NSRect s_oldBounds;
 		return NSMakeSize( 0, 0 );
 }
 
-
-
-
-
-///*********************************************************************************************************************
-///
-/// method:			containerTransform
-/// scope:			protected instance method
-/// overrides:
-/// description:	return the container's transform
-/// 
-/// parameters:		none
-/// result:			a transform
-///
-/// notes:			the container transform must be taken into account for rendering this object, as it accounts for
-///					groups and other possible containers.
-///
-///********************************************************************************************************************
-
+/** @brief Return the container's transform
+ * @note
+ * The container transform must be taken into account for rendering this object, as it accounts for
+ * groups and other possible containers.
+ * @return a transform
+ */
 - (NSAffineTransform*)	containerTransform
 {
 	NSAffineTransform*	ct = [[self container] renderingTransform];
@@ -3954,67 +2689,37 @@ static NSRect s_oldBounds;
 		return ct;
 }
 
-
-
-
-
-///*********************************************************************************************************************
-///
-/// method:			renderingPath
-/// scope:			public instance method
-/// overrides:
-/// description:	return the path that represents the final user-visible path of the drawn object
-/// 
-/// parameters:		none
-/// result:			the object's path
-///
-/// notes:			the default method does nothing. Subclasses should override this and supply the appropriate path,
-///					which is the one requested by a renderer when the object is actually drawn. See also the
-///					DKRasterizerProtocol, which makes use of this.
-///
-///********************************************************************************************************************
-
+/** @brief Return the path that represents the final user-visible path of the drawn object
+ * @note
+ * The default method does nothing. Subclasses should override this and supply the appropriate path,
+ * which is the one requested by a renderer when the object is actually drawn. See also the
+ * DKRasterizerProtocol, which makes use of this.
+ * @return the object's path
+ * @public
+ */
 - (NSBezierPath*)	renderingPath
 {
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			useLowQualityDrawing
-/// scope:			public instance method
-/// overrides:
-/// description:	return hint to rasterizers that low quality drawing should be used
-/// 
-/// parameters:		none
-/// result:			YES to use low quality drawing, no otherwise
-///
-/// notes:			part of the informal rendering protocol used by rasterizers
-///
-///********************************************************************************************************************
-
+/** @brief Return hint to rasterizers that low quality drawing should be used
+ * @note
+ * Part of the informal rendering protocol used by rasterizers
+ * @return YES to use low quality drawing, no otherwise
+ * @public
+ */
 - (BOOL)			useLowQualityDrawing
 {
 	return [[self drawing] lowRenderingQuality];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			geometryChecksum
-/// scope:			public instance method
-/// overrides:
-/// description:	return a number that changes when any aspect of the geometry changes. This can be used to detect
-///					that a change has taken place since an earlier time.
-/// 
-/// parameters:		none
-/// result:			a number
-///
-/// notes:			do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
-///
-///********************************************************************************************************************
-
+/** @brief Return a number that changes when any aspect of the geometry changes. This can be used to detect
+ * that a change has taken place since an earlier time.
+ * @note
+ * Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
+ * @return a number
+ * @public
+ */
 - (NSUInteger)		geometryChecksum
 {
 	NSUInteger cd = 282735623;	// arbitrary
@@ -4033,15 +2738,10 @@ static NSRect s_oldBounds;
 	return cd;
 }
 
-
 - (NSMutableDictionary*)	renderingCache
 {
 	return mRenderingCache;
 }
 
-
-
 @end
-
-
 

@@ -1,19 +1,14 @@
-///**********************************************************************************************************************************
-///  DKStyle+SimpleAccess.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 08/07/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKStyle.h"
 
-
 @class DKStrokeDash, DKStroke, DKFill;
-
-
 
 @interface DKStyle (SimpleAccess)
 
@@ -49,7 +44,6 @@
 
 @end
 
-
 /*
 
 This category on DKStyle provides some simple accessors if your app only has the most basic use of styles in mind, e.g. one solid fill and
@@ -67,5 +61,3 @@ The string setter sets or creates a DKTextAdornment component having the default
 If the style is locked these do nothing.
 
 */
-
-

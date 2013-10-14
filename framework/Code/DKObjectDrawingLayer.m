@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKObjectDrawingLayer.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 11/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKObjectDrawingLayer.h"
 #import "DKDrawablePath.h"
@@ -34,7 +32,6 @@ NSString*		kDKDrawableObjectInfoPasteboardType	= @"kDKDrawableObjectInfoPasteboa
 NSString*		kDKLayerSelectionDidChange			= @"kDKLayerSelectionDidChange";
 NSString*		kDKLayerKeyObjectDidChange			= @"kDKLayerKeyObjectDidChange";
 
-
 #pragma mark Static Vars
 static BOOL						sSelVisWhenInactive = NO;
 static NSMutableDictionary*		sSelectionBuffer = nil;
@@ -55,7 +52,6 @@ enum
 - (BOOL)				isBufferingSelectionChanges;
 - (void)				bufferObject:(id) obj forSelectionOp:(NSInteger) op;
 
-
 @end
 
 #pragma mark -
@@ -67,12 +63,10 @@ enum
 	sSelVisWhenInactive = visInactive;
 }
 
-
 + (BOOL)				selectionIsShownWhenInactive
 {
 	return sSelVisWhenInactive;
 }
-
 
 + (void)				setDefaultSelectionChangesAreUndoable:(BOOL) undoSel
 {
@@ -80,27 +74,18 @@ enum
 	[[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-
 + (BOOL)				defaultSelectionChangesAreUndoable
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:@"DKDrawingLayer_undoableSelectionDefault"];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerWithObjectsInArray:
-/// scope:			public instance method
-///	overrides:
-/// description:	convenience method creates an entire new layer containing the given objects
-/// 
-/// parameters:		<objects> an array containing drawable objects which must not be already owned by another layer
-/// result:			a new layer object containing the objects
-///
-/// notes:			the objects are not initially selected
-///
-///********************************************************************************************************************
-
+/** @brief Convenience method creates an entire new layer containing the given objects
+ * @note
+ * The objects are not initially selected
+ * @param objects an array containing drawable objects which must not be already owned by another layer
+ * @return a new layer object containing the objects
+ * @public
+ */
 + (DKObjectDrawingLayer*) layerWithObjectsInArray:(NSArray*) objects
 {
 	NSAssert( objects != nil, @"can't create a new layer from a nil array");
@@ -112,26 +97,17 @@ enum
 	return [newLayer autorelease];
 }
 
-
-
 #pragma mark -
 #pragma mark - useful lists of objects
-///*********************************************************************************************************************
-///
-/// method:			selectedAvailableObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the objects that are not locked, visible and selected
-/// 
-/// parameters:		none
-/// result:			an array, objects that can be acted upon by a command as a set
-///
-/// notes:			this also preserves the stacking order of the objects (unlike -selection), so is the most useful
-///					means of obtaining the set of objects that can be acted upon by a command or user interface control.
-///					Note that if the layer is locked as a whole, this always returns an empty list
-///
-///********************************************************************************************************************
 
+/** @brief Returns the objects that are not locked, visible and selected
+ * @note
+ * This also preserves the stacking order of the objects (unlike -selection), so is the most useful
+ * means of obtaining the set of objects that can be acted upon by a command or user interface control.
+ * Note that if the layer is locked as a whole, this always returns an empty list
+ * @return an array, objects that can be acted upon by a command as a set
+ * @public
+ */
 - (NSArray*)			selectedAvailableObjects
 {
 	NSMutableArray*		ao = [[NSMutableArray alloc] init];
@@ -150,21 +126,12 @@ enum
 	return [ao autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectedAvailableObjectsOfClass:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the objects that are not locked, visible and selected and which have the given class
-/// 
-/// parameters:		none
-/// result:			an array, objects of the given class that can be acted upon by a command as a set
-///
-/// notes:			see comments for selectedAvailableObjects
-///
-///********************************************************************************************************************
-
+/** @brief Returns the objects that are not locked, visible and selected and which have the given class
+ * @note
+ * See comments for selectedAvailableObjects
+ * @return an array, objects of the given class that can be acted upon by a command as a set
+ * @public
+ */
 - (NSArray*)			selectedAvailableObjectsOfClass:(Class) aClass
 {
 	NSMutableArray*		ao = [[NSMutableArray alloc] init];
@@ -183,21 +150,12 @@ enum
 	return [ao autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectedVisibleObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the objects that are visible and selected
-/// 
-/// parameters:		none
-/// result:			an array
-///
-/// notes:			see comments for selectedAvailableObjects
-///
-///********************************************************************************************************************
-
+/** @brief Returns the objects that are visible and selected
+ * @note
+ * See comments for selectedAvailableObjects
+ * @return an array
+ * @public
+ */
 - (NSArray*)			selectedVisibleObjects
 {
 	NSMutableArray*		ao = [[NSMutableArray alloc] init];
@@ -216,23 +174,15 @@ enum
 	return [ao autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectedObjectsReturning:toSelector:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that respond to the selector with the value <answer>
-/// 
-/// parameters:		<answer> a value that should match the response ofthe selector
-///					<selector> a selector taking no parameters
-/// result:			an array, objects in the selection that match the value of <answer>
-///
-/// notes:			this is a very simple type of predicate test. Note - the method <selector> must not return
-///					anything larger than an int or it will be ignored and the result may be wrong.
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that respond to the selector with the value <answer>
+ * @note
+ * This is a very simple type of predicate test. Note - the method <selector> must not return
+ * anything larger than an int or it will be ignored and the result may be wrong.
+ * @param answer a value that should match the response ofthe selector
+ * @param selector a selector taking no parameters
+ * @return an array, objects in the selection that match the value of <answer>
+ * @public
+ */
 - (NSSet*)			selectedObjectsReturning:(NSInteger) answer toSelector:(SEL) selector
 {
 	NSEnumerator*	iter = [[self selection] objectEnumerator];
@@ -265,23 +215,14 @@ enum
 	return result;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			selectedObjectsRespondingToSelector:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns objects that respond to the selector <selector>
-/// 
-/// parameters:		<selector> any selector
-/// result:			an array, objects in the selection that do respond to the given selector
-///
-/// notes:			this is a more general kind of test for ensuring that selectors are only sent to those
-///					objects that can respond. Hidden or locked objects are also excluded.
-///
-///********************************************************************************************************************
-
+/** @brief Returns objects that respond to the selector <selector>
+ * @note
+ * This is a more general kind of test for ensuring that selectors are only sent to those
+ * objects that can respond. Hidden or locked objects are also excluded.
+ * @param selector any selector
+ * @return an array, objects in the selection that do respond to the given selector
+ * @public
+ */
 - (NSSet*)				selectedObjectsRespondingToSelector:(SEL) selector
 {
 	NSEnumerator*	iter = [[self selection] objectEnumerator];
@@ -299,23 +240,13 @@ enum
 	return result;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			duplicatedSelection
-/// scope:			public instance method
-///	overrides:
-/// description:	returns an array consisting of a copy of the selected objects
-/// 
-/// parameters:		none
-/// result:			an array of objects. 
-///
-/// notes:			the result maintains the stacking order of the original objects, but the objects do not belong to
-///					this or any other layer. Usually this will be called as part of a duplicate or copy/cut command
-///					where objects are ultimately going to be pasted back in to this or another layer.
-///
-///********************************************************************************************************************
-
+/** @brief Returns an array consisting of a copy of the selected objects
+ * @note
+ * The result maintains the stacking order of the original objects, but the objects do not belong to
+ * where objects are ultimately going to be pasted back in to this or another layer.
+ * @return an array of objects. 
+ * @public
+ */
 - (NSArray*)			duplicatedSelection
 {
 	NSMutableArray*		arr;
@@ -335,23 +266,14 @@ enum
 	return [arr autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectedObjectsPreservingStackingOrder
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the selected objects in their original stacking order.
-/// 
-/// parameters:		none
-/// result:			an array, the selected objects in their original order
-///
-/// notes:			slower than -selection, as it needs to iterate over the objects. This ignores visible and locked
-///					states of the objects. See also -selectedAvailableObjects. If the layer itself is locked, returns
-///					an empty array.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the selected objects in their original stacking order.
+ * @note
+ * Slower than -selection, as it needs to iterate over the objects. This ignores visible and locked
+ * states of the objects. See also -selectedAvailableObjects. If the layer itself is locked, returns
+ * an empty array.
+ * @return an array, the selected objects in their original order
+ * @public
+ */
 - (NSArray*)			selectedObjectsPreservingStackingOrder
 {
 	NSMutableArray*		arr = [NSMutableArray array];
@@ -370,21 +292,12 @@ enum
 	return arr;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			countSelectedAvailableObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the number of objects that are visible and not locked
-/// 
-/// parameters:		none
-/// result:			the count
-///
-/// notes:			if the layer itself is locked, returns 0
-///
-///********************************************************************************************************************
-
+/** @brief Returns the number of objects that are visible and not locked
+ * @note
+ * If the layer itself is locked, returns 0
+ * @return the count
+ * @public
+ */
 - (NSUInteger)			countOfSelectedAvailableObjects
 {
 	// returns the number of selected objects that are also unlocked and visible.
@@ -405,85 +318,45 @@ enum
 	return cc;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectInSelectedAvailableObjectsAtIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the indexed object
-/// 
-/// parameters:		<indx> the index of the required object
-/// result:			the object at that index
-///
-/// notes:			KVC/KVO compliant method for querying the SAO list
-///
-///********************************************************************************************************************
-
+/** @brief Returns the indexed object
+ * @param indx the index of the required object
+ * @return the object at that index
+ * @public
+ */
 - (DKDrawableObject*)	objectInSelectedAvailableObjectsAtIndex:(NSUInteger) indx
 {
 	return [[self selectedAvailableObjects] objectAtIndex:indx];
 }
 
-
 #pragma mark -
 #pragma mark - doing stuff to each item in the selection
-///*********************************************************************************************************************
-///
-/// method:			makeSelectedAvailableObjectsPerform:
-/// scope:			public instance method
-///	overrides:
-/// description:	makes the selected available object perform a given selector.
-/// 
-/// parameters:		<selector> the selector the objects should perform
-/// result:			none
-///
-/// notes:			an easy way to apply a command to the set of selected available objects, provided that the
-///					selector requires no parameters
-///
-///********************************************************************************************************************
 
+/** @brief Makes the selected available object perform a given selector.
+ * @note
+ * An easy way to apply a command to the set of selected available objects, provided that the
+ * selector requires no parameters
+ * @param selector the selector the objects should perform
+ * @public
+ */
 - (void)				makeSelectedAvailableObjectsPerform:(SEL) selector
 {
 	[[self selectedAvailableObjects] makeObjectsPerformSelector:selector];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			makeSelectedAvailableObjectsPerform:withObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	makes the selected available object perform a given selector with a single object parameter
-/// 
-/// parameters:		<selector> the selector the objects should perform
-///					<anObject> the object parameter to pass to each method
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Makes the selected available object perform a given selector with a single object parameter
+ * @param selector the selector the objects should perform
+ * @param anObject the object parameter to pass to each method
+ * @public
+ */
 - (void)				makeSelectedAvailableObjectsPerform:(SEL) selector withObject:(id) anObject
 {
 	[[self selectedAvailableObjects] makeObjectsPerformSelector:selector withObject:anObject];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setSelectedObjectsLocked:
-/// scope:			public instance method
-///	overrides:
-/// description:	locks or unlocks all the selected objects
-/// 
-/// parameters:		<lock> YES to lock the objects, NO to unlock them
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Locks or unlocks all the selected objects
+ * @param lock YES to lock the objects, NO to unlock them
+ * @public
+ */
 - (void)				setSelectedObjectsLocked:(BOOL) lock
 {
 	NSEnumerator*		iter = [[self selection] objectEnumerator];
@@ -493,22 +366,13 @@ enum
 		[od setLocked:lock];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setSelectedObjectsVisible:
-/// scope:			public instance method
-///	overrides:
-/// description:	hides or shows all of the objects in the selection
-/// 
-/// parameters:		<visible> YES to show the objects, NO to hide them
-/// result:			none
-///
-/// notes:			since hidden selected objects are not drawn, use with care, since usability may be severely
-///					compromised (for example, how are you going to be able to select hidden objects in order to show them?)
-///
-///********************************************************************************************************************
-
+/** @brief Hides or shows all of the objects in the selection
+ * @note
+ * Since hidden selected objects are not drawn, use with care, since usability may be severely
+ * compromised (for example, how are you going to be able to select hidden objects in order to show them?)
+ * @param visible YES to show the objects, NO to hide them
+ * @public
+ */
 - (void)				setSelectedObjectsVisible:(BOOL) visible
 {
 	// sets the visible state of all objects in the selection to <visible>
@@ -520,20 +384,10 @@ enum
 		[od setVisible:visible];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setHiddenObjectsVisible:
-/// scope:			public instance method
-///	overrides:
-/// description:	reveals any hidden objects, setting the selection to those revealed
-/// 
-/// parameters:		none
-/// result:			YES if at least one object was shown, NO otherwise
-///
-///
-///********************************************************************************************************************
-
+/** @brief Reveals any hidden objects, setting the selection to those revealed
+ * @return YES if at least one object was shown, NO otherwise
+ * @public
+ */
 - (BOOL)				setHiddenObjectsVisible
 {
 	NSEnumerator*		iter = [[self objects] objectEnumerator];
@@ -558,43 +412,22 @@ enum
 		return NO;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			refreshSelectedObjects
-/// scope:			public class method
-///	overrides:
-/// description:	causes all selected objects to redraw themselves
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Causes all selected objects to redraw themselves
+ * @public
+ */
 - (void)				refreshSelectedObjects
 {
 	[self refreshObjectsInContainer:[self selection]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveSelectedObjectsByX:byY:
-/// scope:			public instance method
-///	overrides:
-/// description:	changes the location of all objects in the selection by dx and dy
-/// 
-/// parameters:		<dx> add this much to each object's x coordinate
-///					<dy> add this much to each object's y coordinate
-/// result:			YES if there were selected objects, NO if there weren't, and so nothing happened
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Changes the location of all objects in the selection by dx and dy
+ * @param dx add this much to each object's x coordinate
+ * @param dy add this much to each object's y coordinate
+ * @return YES if there were selected objects, NO if there weren't, and so nothing happened
+ * @public
+ */
 - (BOOL)				moveSelectedObjectsByX:(CGFloat) dx byY:(CGFloat) dy
 {
 	NSArray*			arr = [self selectedAvailableObjects];
@@ -613,23 +446,15 @@ enum
 		return NO;
 }
 
-
 #pragma mark -
 #pragma mark - the selection
-///*********************************************************************************************************************
-///
-/// method:			setSelection:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the selection to a given set of objects
-/// 
-/// parameters:		<sel> a set of objects to select
-/// result:			none
-///
-/// notes:			for interactive selections, exchangeSelectionWithObjectsInArray: is more appropriate and efficient
-///
-///********************************************************************************************************************
 
+/** @brief Sets the selection to a given set of objects
+ * @note
+ * For interactive selections, exchangeSelectionWithObjectsInArray: is more appropriate and efficient
+ * @param sel a set of objects to select
+ * @public
+ */
 - (void)				setSelection:(NSSet*) sel
 {
 	NSAssert( sel != nil, @"attempt to set selection with a nil set");
@@ -660,44 +485,26 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selection
-/// scope:			public instance method
-///	overrides:
-/// description:	returns the list of objects that are selected
-/// 
-/// parameters:		none
-/// result:			all selected objects
-///
-/// notes:			If stacking order of the items in the selection is important,
-///					a method such as selectedAvailableObjects or selectedObjectsPreservingStackingOrder should be used.
-///					if the layer itself is locked or hidden, always returns nil.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the list of objects that are selected
+ * @note
+ * If stacking order of the items in the selection is important,
+ * a method such as selectedAvailableObjects or selectedObjectsPreservingStackingOrder should be used.
+ * if the layer itself is locked or hidden, always returns nil.
+ * @return all selected objects
+ * @public
+ */
 - (NSSet*)			selection
 {
 	return [self lockedOrHidden]? nil : [[m_selection copy] autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			singleSelection
-/// scope:			public instance method
-///	overrides:
-/// description:	if the selection consists of a single available object, return it. Otherwise nil.
-/// 
-/// parameters:		none
-/// result:			the selected object if it's the only one and it's available
-///
-/// notes:			this is useful for easily handling the case where an operation can only operate on one object to be
-///					meaningful. It is also used by the automatic invocation forwarding mechanism.
-///
-///********************************************************************************************************************
-
+/** @brief If the selection consists of a single available object, return it. Otherwise nil.
+ * @note
+ * This is useful for easily handling the case where an operation can only operate on one object to be
+ * meaningful. It is also used by the automatic invocation forwarding mechanism.
+ * @return the selected object if it's the only one and it's available
+ * @public
+ */
 - (DKDrawableObject*)	singleSelection
 {
 	// if the selection consists of a single object, return it. nil otherwise.
@@ -708,43 +515,23 @@ enum
 		return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			countOfSelection
-/// scope:			public instance method
-///	overrides:
-/// description:	return the number of items in the selection.
-/// 
-/// parameters:		none
-/// result:			an integer, the countof selected objects
-///
-/// notes:			KVC compliant; returns 0 if the layer is locked or hidden.
-///
-///********************************************************************************************************************
-
+/** @brief Return the number of items in the selection.
+ * @note
+ * KVC compliant; returns 0 if the layer is locked or hidden.
+ * @return an integer, the countof selected objects
+ * @public
+ */
 - (NSUInteger)			countOfSelection
 {
 	return [self lockedOrHidden]? 0 : [m_selection count];
 }
 
-
 #pragma mark -
 #pragma mark - selection operations
-///*********************************************************************************************************************
-///
-/// method:			deselectAll
-/// scope:			public instance method
-///	overrides:
-/// description:	deselect any selected objects
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Deselect any selected objects
+ * @public
+ */
 - (void)				deselectAll
 {
 	if ([self isSelectionNotEmpty])
@@ -758,41 +545,22 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectAll
-/// scope:			public instance method
-///	overrides:
-/// description:	select all available objects
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			this also adds hidden objects to the selection, even though they are not visible
-///
-///********************************************************************************************************************
-
+/** @brief Select all available objects
+ * @note
+ * This also adds hidden objects to the selection, even though they are not visible
+ * @public
+ */
 - (void)				selectAll
 {
 	[self exchangeSelectionWithObjectsFromArray:[self objects]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObjectToSelection:
-/// scope:			public instance method
-///	overrides:
-/// description:	add a single object to the selection
-/// 
-/// parameters:		<obj> an object to select
-/// result:			none
-///
-/// notes:			any existing objects in the selection remain selected
-///
-///********************************************************************************************************************
-
+/** @brief Add a single object to the selection
+ * @note
+ * Any existing objects in the selection remain selected
+ * @param obj an object to select
+ * @public
+ */
 - (void)				addObjectToSelection:(DKDrawableObject*) obj
 {
 	NSAssert( obj != nil, @"cannot add a nil object to the selection");
@@ -807,21 +575,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObjectsToSelection
-/// scope:			public instance method
-///	overrides:
-/// description:	add a set of objects to the selection
-/// 
-/// parameters:		<objs> an array of objects to select
-/// result:			none
-///
-/// notes:			existing objects in the selection remain selected
-///
-///********************************************************************************************************************
-
+/** @brief Add a set of objects to the selection
+ * @note
+ * Existing objects in the selection remain selected
+ * @param objs an array of objects to select
+ * @public
+ */
 - (void)				addObjectsToSelectionFromArray:(NSArray*) objs
 {
 	NSAssert( objs != nil, @"attempt to add a nil array to the selection");
@@ -841,21 +600,11 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceSelection:
-/// scope:			public instance method
-///	overrides:
-/// description:	select the given object, deselecting all previously selected objects
-/// 
-/// parameters:		<obj> the object to select
-/// result:			YES if the selection changed, NO if it did not (i.e. if <obj> was already the only selected object)
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Select the given object, deselecting all previously selected objects
+ * @param obj the object to select
+ * @return YES if the selection changed, NO if it did not (i.e. if <obj> was already the only selected object)
+ * @public
+ */
 - (BOOL)				replaceSelectionWithObject:(DKDrawableObject*) obj
 {
 	NSAssert( obj != nil, @"attempt to replace selection with nil");
@@ -863,21 +612,12 @@ enum
 	return [self exchangeSelectionWithObjectsFromArray:[NSArray arrayWithObject:obj]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectFromSelection:
-/// scope:			public instance method
-///	overrides:
-/// description:	remove a single object from the selection
-/// 
-/// parameters:		<obj> the object to deselect
-/// result:			none
-///
-/// notes:			other objects in the selection are unaffected
-///
-///********************************************************************************************************************
-
+/** @brief Remove a single object from the selection
+ * @note
+ * Other objects in the selection are unaffected
+ * @param obj the object to deselect
+ * @public
+ */
 - (void)				removeObjectFromSelection:(DKDrawableObject*) obj
 {
 	NSAssert( obj != nil, @"attempt to remove nil object from selection");
@@ -900,21 +640,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectsFromSelectionInArray:
-/// scope:			public instance method
-///	overrides:
-/// description:	remove a series of object from the selection
-/// 
-/// parameters:		<objs> the list of objects to deselect
-/// result:			none
-///
-/// notes:			other objects in the selection are unaffected
-///
-///********************************************************************************************************************
-
+/** @brief Remove a series of object from the selection
+ * @note
+ * Other objects in the selection are unaffected
+ * @param objs the list of objects to deselect
+ * @public
+ */
 - (void)				removeObjectsFromSelectionInArray:(NSArray*) objs
 {
 	NSAssert( objs != nil, @"array passed to -removeObjectsFromSelectionInArray: was nil");
@@ -933,25 +664,17 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			exchangeSelectionWithObjectsInArray:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the selection to a given set of objects
-/// 
-/// parameters:		<sel> the set of objects to select
-/// result:			YES if the selection changed, NO if it did not
-///
-/// notes:			this is intended as a more efficient version of setSelection:, since it only changes the state of
-///					objects that differ between the current selection and the list passed. It is intended to be called
-///					when interactively making a selection such as during a marquee drag, when it's likely that the same
-///					set of objects is repeatedly offered for selection. Also, since it accepts an array parameter, it may
-///					be used directly with sets of objects without first making into a set.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the selection to a given set of objects
+ * @note
+ * This is intended as a more efficient version of setSelection:, since it only changes the state of
+ * objects that differ between the current selection and the list passed. It is intended to be called
+ * when interactively making a selection such as during a marquee drag, when it's likely that the same
+ * set of objects is repeatedly offered for selection. Also, since it accepts an array parameter, it may
+ * be used directly with sets of objects without first making into a set.
+ * @param sel the set of objects to select
+ * @return YES if the selection changed, NO if it did not
+ * @public
+ */
 - (BOOL)				exchangeSelectionWithObjectsFromArray:(NSArray*) sel
 {
 	NSAssert( sel != nil, @"attempt to exchange selection with nil array");
@@ -1020,21 +743,10 @@ enum
 	return didChange;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			scrollToSelection
-/// scope:			public instance method
-///	overrides:
-/// description:	scrolls one or all views attached to the drawing so that the selection within this layer is visible
-/// 
-/// parameters:		<aView> if not nil, the view to scroll. If nil, scrolls all views
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Scrolls one or all views attached to the drawing so that the selection within this layer is visible
+ * @param aView if not nil, the view to scroll. If nil, scrolls all views
+ * @public
+ */
 - (void)				scrollToSelectionInView:(NSView*) aView
 {
 	if ([self isSelectionNotEmpty])
@@ -1048,7 +760,6 @@ enum
 	}
 }
 
-
 #pragma mark -
 
 // these private methods implement a selection buffering behaviour used when performing automatic multiple selection forwarding. Because objects methods called that way typically
@@ -1059,7 +770,6 @@ enum
 {
 	mBufferSelectionChanges = YES;
 }
-
 
 - (void)				endBufferingSelectionChanges
 {
@@ -1093,12 +803,10 @@ enum
 	}
 }
 
-
 - (BOOL)				isBufferingSelectionChanges
 {
 	return mBufferSelectionChanges;
 }
-
 
 - (void)				bufferObject:(id) obj forSelectionOp:(NSInteger) op
 {
@@ -1154,45 +862,30 @@ enum
 	}
 }
 
-
 #pragma mark -
 #pragma mark - style operations on multiple items
-///*********************************************************************************************************************
-///
-/// method:			selectObjectsWithStyle:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the selection to the set of objects that have the given style
-/// 
-/// parameters:		<style> the style to match
-/// result:			YES if the selection changed, NO if it did not
-///
-/// notes:			the style is compared by key, so clones of the style are not considered a match
-///
-///********************************************************************************************************************
 
+/** @brief Sets the selection to the set of objects that have the given style
+ * @note
+ * The style is compared by key, so clones of the style are not considered a match
+ * @param style the style to match
+ * @return YES if the selection changed, NO if it did not
+ * @public
+ */
 - (BOOL)				selectObjectsWithStyle:(DKStyle*) style
 {
 	return [self exchangeSelectionWithObjectsFromArray:[self objectsWithStyle:style]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceStyle:withStyle:selectingObjects:
-/// scope:			public instance method
-///	overrides:
-/// description:	replaces the style of all objects that have a reference to <style> with <newStyle>, optionally selecting them
-/// 
-/// parameters:		<style> the style to match
-///					<newStyle> the style to replace it with
-///					<select> if YES, also replace the selection with the affected objects
-/// result:			YES if the selection changed, NO if it did not
-///
-/// notes:			the style is compared by key, so clones of the style are not considered a match
-///
-///********************************************************************************************************************
-
+/** @brief Replaces the style of all objects that have a reference to <style> with <newStyle>, optionally selecting them
+ * @note
+ * The style is compared by key, so clones of the style are not considered a match
+ * @param style the style to match
+ * @param newStyle the style to replace it with
+ * @param select if YES, also replace the selection with the affected objects
+ * @return YES if the selection changed, NO if it did not
+ * @public
+ */
 - (BOOL)				replaceStyle:(DKStyle*) style withStyle:(DKStyle*) newStyle selectingObjects:(BOOL) selectObjects
 {
 	NSArray*			matches = [self objectsWithStyle:style];
@@ -1208,83 +901,42 @@ enum
 		return NO;
 }
 
-
 #pragma mark -
 #pragma mark - useful selection tests
-///*********************************************************************************************************************
-///
-/// method:			isSelected:
-/// scope:			public instance method
-///	overrides:
-/// description:	query whether a given object is selected or not
-/// 
-/// parameters:		<obj> the object to test
-/// result:			YES if it is selected, NO if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Query whether a given object is selected or not
+ * @param obj the object to test
+ * @return YES if it is selected, NO if not
+ * @public
+ */
 - (BOOL)				isSelectedObject:(DKDrawableObject*) obj
 {
 	return [m_selection containsObject:obj];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionNotEmpty
-/// scope:			public instance method
-///	overrides:
-/// description:	query whether any objects are selected
-/// 
-/// parameters:		none
-/// result:			YES if there is at least one object selected, NO if none are
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Query whether any objects are selected
+ * @return YES if there is at least one object selected, NO if none are
+ * @public
+ */
 - (BOOL)				isSelectionNotEmpty
 {
 	return [[self selection] count] > 0;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			singleObjectSelected
-/// scope:			public instance method
-///	overrides:
-/// description:	query whether there is exactly one object selected
-/// 
-/// parameters:		none
-/// result:			YES if one object selected, NO if none or more than one are
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Query whether there is exactly one object selected
+ * @return YES if one object selected, NO if none or more than one are
+ * @public
+ */
 - (BOOL)				isSingleObjectSelected
 {
 	return [[self selection] count] == 1;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionContainsObjectOfClass:
-/// scope:			public instance method
-///	overrides:
-/// description:	query whether the selection contains any objects matching the given class
-/// 
-/// parameters:		<c> the class of object sought
-/// result:			YES if there is at least one object of type <c>, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Query whether the selection contains any objects matching the given class
+ * @param c the class of object sought
+ * @return YES if there is at least one object of type <c>, NO otherwise
+ * @public
+ */
 - (BOOL)				selectionContainsObjectOfClass:(Class) c
 {
 	NSEnumerator*	iter = [[self selection] objectEnumerator];
@@ -1299,21 +951,10 @@ enum
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionBounds
-/// scope:			public instance method
-///	overrides:
-/// description:	return the overall area bounded by the objects in the selection
-/// 
-/// parameters:		none
-/// result:			the union of the bounds of all selected objects
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the overall area bounded by the objects in the selection
+ * @return the union of the bounds of all selected objects
+ * @public
+ */
 - (NSRect)				selectionBounds
 {
 	//if( !NSIsEmptyRect( mSelBoundsCached ))
@@ -1332,7 +973,6 @@ enum
 	return mSelBoundsCached;
 }
 
-
 - (NSRect)				selectionLogicalBounds
 {
 	NSRect lbr = NSZeroRect;
@@ -1348,64 +988,35 @@ enum
 	return lbr;
 }
 
-
 #pragma mark -
 #pragma mark - selection undo stuff
-///*********************************************************************************************************************
-///
-/// method:			setSelectionChangesAreUndoable:
-/// scope:			public instance method
-///	overrides:
-/// description:	set whether selection changes should be recorded for undo.
-/// 
-/// parameters:		<undoable> YES to record selection changes, NO to not bother.
-/// result:			none
-///
-/// notes:			different apps may want to treat selection changes as undoable state changes or not.
-///
-///********************************************************************************************************************
 
+/** @brief Set whether selection changes should be recorded for undo.
+ * @note
+ * Different apps may want to treat selection changes as undoable state changes or not.
+ * @param undoable YES to record selection changes, NO to not bother.
+ * @public
+ */
 - (void)				setSelectionChangesAreUndoable:(BOOL) undoable
 {
 	m_selectionIsUndoable = undoable;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionChangesAreUndoable
-/// scope:			public instance method
-///	overrides:
-/// description:	are selection changes undoable?
-/// 
-/// parameters:		none
-/// result:			YES if they are undoable, NO if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Are selection changes undoable?
+ * @return YES if they are undoable, NO if not
+ * @public
+ */
 - (BOOL)				selectionChangesAreUndoable
 {
 	return m_selectionIsUndoable;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			recordSelectionForUndo
-/// scope:			private instance method
-///	overrides:
-/// description:	make a copy of the selection for a possible undo recording
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			the selection is copied and stored in the ivar <_selectionUndo>. Usually called at the start of
-///					an operation that can potentially change the selection state, such as a mouse down.
-///
-///********************************************************************************************************************
-
+/** @brief Make a copy of the selection for a possible undo recording
+ * @note
+ * The selection is copied and stored in the ivar <_selectionUndo>. Usually called at the start of
+ * an operation that can potentially change the selection state, such as a mouse down.
+ * @private
+ */
 - (void)				recordSelectionForUndo
 {
 	if ( m_selectionUndo )
@@ -1425,24 +1036,15 @@ enum
 	LogEvent_( kReactiveEvent, @"recorded selection for possible undo, count = %d", mUndoCount );
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			commitSelectionUndoWithActionName:
-/// scope:			private instance method
-///	overrides:
-/// description:	sends the recorded selection state to the undo manager and tags it with the given action name
-/// 
-/// parameters:		<actionName> undo menu string, or nil to use a preset name
-/// result:			none
-///
-/// notes:			usually called at the end of any operation than might have changed the selection. This also sets
-///					the action name even if the selection is unaffected, so callers can just call this with the
-///					desired action name and get the correct outcome, whether or not selection is undoable or changed.
-///					This will help keep code tidy.
-///
-///********************************************************************************************************************
-
+/** @brief Sends the recorded selection state to the undo manager and tags it with the given action name
+ * @note
+ * Usually called at the end of any operation than might have changed the selection. This also sets
+ * the action name even if the selection is unaffected, so callers can just call this with the
+ * desired action name and get the correct outcome, whether or not selection is undoable or changed.
+ * This will help keep code tidy.
+ * @param actionName undo menu string, or nil to use a preset name
+ * @private
+ */
 - (void)				commitSelectionUndoWithActionName:(NSString*) actionName
 {
 	// sends the recorded selection to the undo manager. If sel changes are not undoable on their own, the sel change is only
@@ -1492,21 +1094,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionHasChangedFromRecorded
-/// scope:			public instance method
-///	overrides:
-/// description:	test whether the selection is now different from the recorded selection
-/// 
-/// parameters:		none
-/// result:			YES if the selection differs, NO if they are the same
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Test whether the selection is now different from the recorded selection
+ * @return YES if the selection differs, NO if they are the same
+ * @public
+ */
 - (BOOL)				selectionHasChangedFromRecorded
 {
 	// returns whether the recorded selection differs from the current selection
@@ -1514,45 +1105,26 @@ enum
 	return ![[self selection] isEqualToSet:m_selectionUndo];
 }
 
-
 #pragma mark -
 #pragma mark - making images of the selected objects
-///*********************************************************************************************************************
-///
-/// method:			drawSelectedObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	draws only the selected objects, but with the selection highlight itself not shown. This is used when
-///					imaging the selection to a PDF or other context.
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Draws only the selected objects, but with the selection highlight itself not shown. This is used when
+ * imaging the selection to a PDF or other context.
+ * @public
+ */
 - (void)				drawSelectedObjects
 {
 	[self drawSelectedObjectsWithSelectionState:NO];
 }
 
-///*********************************************************************************************************************
-///
-/// method:			drawSelectedObjectsWithSelectionState:
-/// scope:			public instance method
-///	overrides:
-/// description:	draws only the selected objects, with the selection highlight given. This is used when
-///					imaging the selection to a PDF or other context.
-/// 
-/// parameters:		<selected> YES to show the selection, NO to not show it
-/// result:			none
-///
-/// notes:			usually there is no good reason to copy objects with the selection state set to YES, but this is
-///					provided for special needs when you do want that.
-///
-///********************************************************************************************************************
-
+/** @brief Draws only the selected objects, with the selection highlight given. This is used when
+ * imaging the selection to a PDF or other context.
+ * @note
+ * Usually there is no good reason to copy objects with the selection state set to YES, but this is
+ * provided for special needs when you do want that.
+ * @param selected YES to show the selection, NO to not show it
+ * @public
+ */
 - (void)				drawSelectedObjectsWithSelectionState:(BOOL) selected
 {
 	NSArray*			sel = [self selectedObjectsPreservingStackingOrder];
@@ -1563,22 +1135,13 @@ enum
 		[od drawContentWithSelectedState:selected];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectedObjectsImage
-/// scope:			public instance method
-///	overrides:
-/// description:	creates an image of the selected objects
-/// 
-/// parameters:		none
-/// result:			an image
-///
-/// notes:			used to create an image representation of the selection when performing a cut or copy operation, to
-///					allow the selection to be exported to graphical apps that don't understand our internal object format.
-///
-///********************************************************************************************************************
-
+/** @brief Creates an image of the selected objects
+ * @note
+ * Used to create an image representation of the selection when performing a cut or copy operation, to
+ * allow the selection to be exported to graphical apps that don't understand our internal object format.
+ * @return an image
+ * @public
+ */
 - (NSImage*)			imageOfSelectedObjects
 {
 	NSImage*			img;
@@ -1600,23 +1163,14 @@ enum
 	return [img autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pdfDataOfSelectedObjects
-/// scope:			public instance method
-///	overrides:
-/// description:	creates a PDF representation of the selected objects
-/// 
-/// parameters:		none
-/// result:			PDF data of the selected objects only
-///
-/// notes:			used to create a PDF representation of the selection when performing a cut or copy operation, to
-///					allow the selection to be exported to PDF apps that don't understand our internal object format.
-///					This requires the use of a temporary special view for recording the output as PDF.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a PDF representation of the selected objects
+ * @note
+ * Used to create a PDF representation of the selection when performing a cut or copy operation, to
+ * allow the selection to be exported to PDF apps that don't understand our internal object format.
+ * This requires the use of a temporary special view for recording the output as PDF.
+ * @return PDF data of the selected objects only
+ * @public
+ */
 - (NSData*)				pdfDataOfSelectedObjects
 {
 	// returns pdf data of the objects in the selection. This images just the selected objects and leaves out any others,
@@ -1637,24 +1191,16 @@ enum
 	return pdfData;
 }
 
-
 #pragma mark -
 #pragma mark - clipboard ops
-///*********************************************************************************************************************
-///
-/// method:			copySelectionToPasteboard:
-/// scope:			public instance method
-///	overrides:
-/// description:	copies the selection to the given pasteboard in a variety of formats
-/// 
-/// parameters:		<pb> the pasteboard to copy to
-/// result:			none
-///
-/// notes:			data is recorded as native data, PDF and TIFF. Note that locked objects can't be copied as
-///					native types, but images are still copied.
-///
-///********************************************************************************************************************
 
+/** @brief Copies the selection to the given pasteboard in a variety of formats
+ * @note
+ * Data is recorded as native data, PDF and TIFF. Note that locked objects can't be copied as
+ * native types, but images are still copied.
+ * @param pb the pasteboard to copy to
+ * @public
+ */
 - (void)				copySelectionToPasteboard:(NSPasteboard*) pb
 {
 	NSAssert( pb != nil, @"cannot write to nil pasteboard");
@@ -1704,107 +1250,63 @@ enum
 	[dataTypes release];
 }
 
-
 #pragma mark -
 #pragma mark - options
-///*********************************************************************************************************************
-///
-/// method:			setDrawsSelectionHighlightsOnTop:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets whether selection highlights should be drawn on top of all other objects, or if they should be
-///					drawn with the object at its current stacking position.
-/// 
-/// parameters:		<onTop> YES to draw on top, NO to draw in situ
-/// result:			none
-///
-/// notes:			default is YES
-///
-///********************************************************************************************************************
 
+/** @brief Sets whether selection highlights should be drawn on top of all other objects, or if they should be
+ * drawn with the object at its current stacking position.
+ * @note
+ * Default is YES
+ * @param onTop YES to draw on top, NO to draw in situ
+ * @public
+ */
 - (void)				setDrawsSelectionHighlightsOnTop:(BOOL) onTop
 {
 	m_drawSelectionOnTop = onTop;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawsSelectionHighlightsOnTop
-/// scope:			public instance method
-///	overrides:
-/// description:	draw selection highlights on top or in situ?
-/// 
-/// parameters:		none
-/// result:			YES if drawn on top, NO in situ.
-///
-/// notes:			default is YES
-///
-///********************************************************************************************************************
-
+/** @brief Draw selection highlights on top or in situ?
+ * @note
+ * Default is YES
+ * @return YES if drawn on top, NO in situ.
+ * @public
+ */
 - (BOOL)				drawsSelectionHighlightsOnTop
 {
 	return m_drawSelectionOnTop;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setAllowsObjectsToBeTargetedByDrags:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets whether a drag into this layer will target individual objects or not.
-/// 
-/// parameters:		<allow> allow individual objects to receive drags
-/// result:			none
-///
-/// notes:			if YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
-///					the object itself will be passed the drop information. Default is YES.
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether a drag into this layer will target individual objects or not.
+ * @note
+ * If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
+ * the object itself will be passed the drop information. Default is YES.
+ * @param allow allow individual objects to receive drags
+ * @public
+ */
 - (void)				setAllowsObjectsToBeTargetedByDrags:(BOOL) allow
 {
 	m_allowDragTargeting = allow;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allowsObjectsToBeTargetedByDrags
-/// scope:			public instance method
-///	overrides:
-/// description:	returns whether a drag into this layer will target individual objects or not.
-/// 
-/// parameters:		none
-/// result:			YES if objects can be targeted by drags
-///
-/// notes:			if YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
-///					the object itself will be passed the drop information. Default is YES.
-///
-///********************************************************************************************************************
-
+/** @brief Returns whether a drag into this layer will target individual objects or not.
+ * @note
+ * If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
+ * the object itself will be passed the drop information. Default is YES.
+ * @return YES if objects can be targeted by drags
+ * @public
+ */
 - (BOOL)				allowsObjectsToBeTargetedByDrags
 {
 	return m_allowDragTargeting;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setSelectionVisible:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets whether the selection is actually shown or not.
-/// 
-/// parameters:		<vis> YES to show the selection, NO to hide it
-/// result:			none
-///
-/// notes:			normally the selection should be visible, but some tools might want to hide it temporarily
-///					at certain well-defined times, such as when dragging objects.
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether the selection is actually shown or not.
+ * @note
+ * Normally the selection should be visible, but some tools might want to hide it temporarily
+ * at certain well-defined times, such as when dragging objects.
+ * @param vis YES to show the selection, NO to hide it
+ * @public
+ */
 - (void)				setSelectionVisible:(BOOL) vis
 {
 	if( vis != m_selectionVisible )
@@ -1814,76 +1316,46 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectionVisible
-/// scope:			public instance method
-///	overrides:
-/// description:	whether the selection is actually shown or not.
-/// 
-/// parameters:		none
-/// result:			YES if the selection is visible, NO if hidden
-///
-/// notes:			normally the selection should be visible, but some tools might want to hide it temporarily
-///					at certain well-defined times, such as when dragging objects.
-///
-///********************************************************************************************************************
-
+/** @brief Whether the selection is actually shown or not.
+ * @note
+ * Normally the selection should be visible, but some tools might want to hide it temporarily
+ * at certain well-defined times, such as when dragging objects.
+ * @return YES if the selection is visible, NO if hidden
+ * @public
+ */
 - (BOOL)				selectionVisible
 {
 	return m_selectionVisible;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			setMultipleSelectionAutoForwarding:
-/// scope:			public instance method
-///	overrides:
-/// description:	set whether a command/action implemented by an object is automatically forwarded to all selected
-///					objects the can respond to the message
-/// 
-/// parameters:		<autoForward> YES to automatically forward, NO to only operate on a single selected object
-/// result:			none
-///
-/// notes:			Default is NO for backward compatibility. This feature is useful to allow an action to be
-///					defined by an object but to have it invoked on all objects that are able to respond in the
-///					current selection without having to implement the action in the layer. Formerly such actions were
-///					only forwarded if exactly one object was selected that could respond. See -forwardInvocation.
-///
-///********************************************************************************************************************
-
+/** @note
+ * Default is NO for backward compatibility. This feature is useful to allow an action to be
+ * defined by an object but to have it invoked on all objects that are able to respond in the
+ * current selection without having to implement the action in the layer. Formerly such actions were
+ * only forwarded if exactly one object was selected that could respond. See -forwardInvocation.
+ * @param autoForward YES to automatically forward, NO to only operate on a single selected object
+ * @public
+ */
 - (void)				setMultipleSelectionAutoForwarding:(BOOL) autoForward
 {
 	mMultipleAutoForwarding = autoForward;
 }
-
 
 - (BOOL)				multipleSelectionAutoForwarding;
 {
 	return mMultipleAutoForwarding;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			multipleSelectionValidatedMenuItem:
-/// scope:			private instance method
-///	overrides:
-/// description:	handle validation of menu items in a multiple selection when autoforwarding is enabled
-/// 
-/// parameters:		<item> the menu item to validate
-/// result:			YES if at least one of the objects enabled the item, NO otherwise
-///
-/// notes:			This also tries to intelligently set the state of the item. If some objects set the state one way
-///					and others to another state, this will automatically set the mixed state. While the menu item
-///					itself is enabled if any object enabled it, the mixed state indicates that the outcome of the
-///					operation is likely to vary for different objects. 
-///
-///********************************************************************************************************************
-
+/** @brief Handle validation of menu items in a multiple selection when autoforwarding is enabled
+ * @note
+ * This also tries to intelligently set the state of the item. If some objects set the state one way
+ * and others to another state, this will automatically set the mixed state. While the menu item
+ * itself is enabled if any object enabled it, the mixed state indicates that the outcome of the
+ * operation is likely to vary for different objects. 
+ * @param item the menu item to validate
+ * @return YES if at least one of the objects enabled the item, NO otherwise
+ * @private
+ */
 - (BOOL)				multipleSelectionValidatedMenuItem:(NSMenuItem*) item
 {
 	NSEnumerator*		iter = [[self selection] objectEnumerator];
@@ -1915,67 +1387,38 @@ enum
 	return valid;
 }
 
-
 #pragma mark -
 #pragma mark - drag + drop
-///*********************************************************************************************************************
-///
-/// method:			setDragExclusionRect:
-/// scope:			public instance method
-///	overrides:
-/// description:	sets the rect outside of which a mouse drag will drag the selection with the drag manager.
-/// 
-/// parameters:		<aRect> a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
-///					cause all drags to immediately be treated as DM drags.
-/// result:			none
-///
-/// notes:			by default the drag exclusion rect is set to the interior of the drawing. Dragging objects to the
-///					margins thus drags them "off" the drawing.
-///
-///********************************************************************************************************************
 
+/** @brief Sets the rect outside of which a mouse drag will drag the selection with the drag manager.
+ * @note
+ * By default the drag exclusion rect is set to the interior of the drawing. Dragging objects to the
+ * margins thus drags them "off" the drawing.
+ * @param aRect a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
+ * @public
+ */
 - (void)				setDragExclusionRect:(NSRect) aRect
 {
 	m_dragExcludeRect = aRect;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			dragExclusionRect
-/// scope:			public instance method
-///	overrides:
-/// description:	gets the rect outside of which a mouse drag will drag the selection with the drag manager.
-/// 
-/// parameters:		none
-/// result:			a rect defining the area within which drags do not traigger DM operations
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Gets the rect outside of which a mouse drag will drag the selection with the drag manager.
+ * @return a rect defining the area within which drags do not traigger DM operations
+ * @public
+ */
 - (NSRect)				dragExclusionRect
 {
 	return m_dragExcludeRect;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			beginDragOfSelectedObjectsWithEvent:inView:
-/// scope:			public instance method
-///	overrides:
-/// description:	initiates a drag of the selection to another document or app, or back to self.
-/// 
-/// parameters:		<event> the event that triggered the action - must be a mouseDown or mouseDragged
-///					<view> the view in which the user dragging operation is taking place
-/// result:			none
-///
-/// notes:			Keeps control until the drag completes. Swallows the mouseUp event. called from the mouseDragged
-///					method when the mouse leaves the drag exclusion rect.
-///
-///********************************************************************************************************************
-
+/** @brief Initiates a drag of the selection to another document or app, or back to self.
+ * @note
+ * Keeps control until the drag completes. Swallows the mouseUp event. called from the mouseDragged
+ * method when the mouse leaves the drag exclusion rect.
+ * @param event the event that triggered the action - must be a mouseDown or mouseDragged
+ * @param view the view in which the user dragging operation is taking place
+ * @public
+ */
 - (void)				beginDragOfSelectedObjectsWithEvent:(NSEvent*) event inView:(NSView*) view
 {
 	// starts a "real" drag of the selection. Usually called from mouseDragged when the mouse leaves the drag exclusion rect.
@@ -2008,7 +1451,6 @@ enum
 	[view dragImage:image at:dragLoc offset:NSZeroSize event:event pasteboard:pb source:self slideBack:YES];
 }
 
-
 - (void)				drawingSizeChanged:(NSNotification*) note
 {
 	#pragma unused(note)
@@ -2019,22 +1461,15 @@ enum
 #pragma mark -
 #pragma mark - group operations
 
-///*********************************************************************************************************************
-///
-/// method:			shouldGroupObjects:intoGroup:
-/// scope:			public instance method
-///	overrides:
-/// description:	layer is about to group a number of objects
-/// 
-/// parameters:		<objectsToBeGrouped> the objects about to be grouped
-///					<aGroup> a group into which they will be placed
-/// result:			YES to proceed with the group, NO to abandon the grouping
-///
-/// notes:			the default does nothing and returns YES - subclasses could override this to enhance or refuse
-///					grouping. This is invoked by the high level groupObjects: action method.
-///
-///********************************************************************************************************************
-
+/** @brief Layer is about to group a number of objects
+ * @note
+ * The default does nothing and returns YES - subclasses could override this to enhance or refuse
+ * grouping. This is invoked by the high level groupObjects: action method.
+ * @param objectsToBeGrouped the objects about to be grouped
+ * @param aGroup a group into which they will be placed
+ * @return YES to proceed with the group, NO to abandon the grouping
+ * @public
+ */
 - (BOOL)				shouldGroupObjects:(NSArray*) objectsToBeGrouped intoGroup:(DKShapeGroup*) aGroup
 {
 #pragma unused(objectsToBeGrouped,aGroup)
@@ -2042,65 +1477,38 @@ enum
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			didAddGroup:
-/// scope:			public instance method
-///	overrides:
-/// description:	layer did create the group and added it to the layer
-/// 
-/// parameters:		<aGroup> the group just added
-/// result:			none
-///
-/// notes:			the default does nothing - subclasses could override this. This is invoked by the high level
-///					groupObjects: action method.
-///
-///********************************************************************************************************************
-
+/** @brief Layer did create the group and added it to the layer
+ * @note
+ * The default does nothing - subclasses could override this. This is invoked by the high level
+ * @param aGroup the group just added
+ * @public
+ */
 - (void)				didAddGroup:(DKShapeGroup*) aGroup
 {
 #pragma unused(aGroup)
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			shouldUngroup:
-/// scope:			public instance method
-///	overrides:
-/// description:	a group object is about to be ungrouped
-/// 
-/// parameters:		<aGroup> the group about to be ungrouped
-/// result:			YES to allow the ungroup, NO to prevent it
-///
-/// notes:			the default does nothing - subclasses could override this. This is invoked by a group when it
-///					is about to ungroup - see [DKShapeGroup ungroupObjects:]
-///
-///********************************************************************************************************************
-
+/** @brief A group object is about to be ungrouped
+ * @note
+ * The default does nothing - subclasses could override this. This is invoked by a group when it
+ * is about to ungroup - see [DKShapeGroup ungroupObjects:]
+ * @param aGroup the group about to be ungrouped
+ * @return YES to allow the ungroup, NO to prevent it
+ * @public
+ */
 - (BOOL)				shouldUngroup:(DKShapeGroup*) aGroup
 {
 #pragma unused(aGroup)
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			didUngroupObjects:
-/// scope:			public instance method
-///	overrides:
-/// description:	a group object was ungrouped and its contents added back into the layer
-/// 
-/// parameters:		<ungroupedObjects> the objects just ungrouped
-/// result:			none
-///
-/// notes:			the default does nothing - subclasses could override this. This is invoked by the group just after
-///					it has ungrouped - see [DKShapeGroup ungroupObjects:]
-///
-///********************************************************************************************************************
-
+/** @brief A group object was ungrouped and its contents added back into the layer
+ * @note
+ * The default does nothing - subclasses could override this. This is invoked by the group just after
+ * it has ungrouped - see [DKShapeGroup ungroupObjects:]
+ * @param ungroupedObjects the objects just ungrouped
+ * @public
+ */
 - (void)				didUngroupObjects:(NSArray*) ungroupedObjects
 {
 #pragma unused(ungroupedObjects)
@@ -2108,20 +1516,13 @@ enum
 
 #pragma mark -
 #pragma mark - user actions
-///*********************************************************************************************************************
-///
-/// method:			cut:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	perform a cut
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			cuts the selection
-///
-///********************************************************************************************************************
 
+/** @brief Perform a cut
+ * @note
+ * Cuts the selection
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			cut:(id) sender
 {
 	[self copy:sender];
@@ -2129,21 +1530,12 @@ enum
 	[[self undoManager] setActionName:NSLocalizedString(@"Cut", @"undo string for cut object from layer")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			copy:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	perform a copy
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			copies the selection to the general pasteboard
-///
-///********************************************************************************************************************
-
+/** @brief Perform a copy
+ * @note
+ * Copies the selection to the general pasteboard
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			copy:(id) sender
 {
 	#pragma unused(sender)
@@ -2152,21 +1544,12 @@ enum
 		[self copySelectionToPasteboard:[NSPasteboard generalPasteboard]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			paste:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	perform a paste
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			pastes from the general pasteboard
-///
-///********************************************************************************************************************
-
+/** @brief Perform a paste
+ * @note
+ * Pastes from the general pasteboard
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			paste:(id) sender
 {
 	#pragma unused(sender)
@@ -2291,21 +1674,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			delete:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	performs a delete operation
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Performs a delete operation
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			delete:(id) sender
 {
 	#pragma unused(sender)
@@ -2321,41 +1693,20 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			deleteBackward:
-/// scope:			public class method
-///	overrides:		NSResponder
-/// description:	
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			calls delete: when backspace key is typed
-///
-///********************************************************************************************************************
-
+/** @note
+ * Calls delete: when backspace key is typed
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			deleteBackward:(id) sender
 {
 	[self delete:sender];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			duplicate:
-/// scope:			public action method
-///	overrides:		
-/// description:	Duplicates the selection
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Duplicates the selection
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			duplicate:(id) sender
 {
 	#pragma unused(sender)
@@ -2382,21 +1733,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectAll:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	selects all objects
-/// 
-/// parameters:		<sender> the action's sender (in fact the view)
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Selects all objects
+ * @param sender the action's sender (in fact the view)
+ * @public
+ */
 - (IBAction)			selectAll:(id) sender
 {
 	#pragma unused(sender)
@@ -2410,21 +1750,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectNone:
-/// scope:			public action method
-///	overrides:		
-/// description:	deselects all objects in the selection
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Deselects all objects in the selection
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			selectNone:(id) sender
 {
 	#pragma unused(sender)
@@ -2437,21 +1766,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			selectOthers:
-/// scope:			public action method
-///	overrides:		
-/// description:	selects the objects not selected, deselects those that are ("inverts" selection)
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Selects the objects not selected, deselects those that are ("inverts" selection)
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			selectOthers:(id) sender
 {
 	#pragma unused(sender)
@@ -2470,21 +1788,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectBringForward:
-/// scope:			public action method
-///	overrides:
-/// description:	brings the selected object forward
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Brings the selected object forward
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			objectBringForward:(id) sender
 {
 	#pragma unused(sender)
@@ -2496,21 +1803,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectSendBackward:
-/// scope:			public action method
-///	overrides:
-/// description:	sends the selected object backward
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sends the selected object backward
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			objectSendBackward:(id) sender
 {
 	#pragma unused(sender)
@@ -2522,21 +1818,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectBringToFront:
-/// scope:			public action method
-///	overrides:
-/// description:	brings the selected object to the front
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Brings the selected object to the front
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			objectBringToFront:(id) sender
 {
 	#pragma unused(sender)
@@ -2548,21 +1833,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectSendToBack:
-/// scope:			public action method
-///	overrides:
-/// description:	sends the selected object to the back
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sends the selected object to the back
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			objectSendToBack:(id) sender
 {
 	#pragma unused(sender)
@@ -2574,21 +1848,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			lockObject:
-/// scope:			public action method
-///	overrides:
-/// description:	locks all selected objects
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Locks all selected objects
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			lockObject:(id) sender
 {
 	#pragma unused(sender)
@@ -2608,22 +1871,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			
-/// method:			unlockObject:
-/// scope:			public action method
-///	overrides:
-/// description:	unlocks all selected objects
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Unlocks all selected objects
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			unlockObject:(id) sender
 {
 	#pragma unused(sender)
@@ -2643,21 +1894,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			showObject:
-/// scope:			public action method
-///	overrides:
-/// description:	shows all selected objects
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Shows all selected objects
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			showObject:(id) sender
 {
 	#pragma unused(sender)
@@ -2670,21 +1910,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hideObject:
-/// scope:			public action method
-///	overrides:
-/// description:	hides all selected objects, then deselects all
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			caution: hiding the selection has usability implications!!
-///
-///********************************************************************************************************************
-
+/** @brief Hides all selected objects, then deselects all
+ * @note
+ * Caution: hiding the selection has usability implications!!
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			hideObject:(id) sender
 {
 	#pragma unused(sender)
@@ -2698,21 +1929,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			revealHiddenObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	reveals any hidden objects, setting the selection to them
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			beeps if no objects were hidden
-///
-///********************************************************************************************************************
-
+/** @brief Reveals any hidden objects, setting the selection to them
+ * @note
+ * Beeps if no objects were hidden
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			revealHiddenObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -2730,22 +1952,13 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			groupObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	turns the selected objects into a group.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the new group is placed on top of all objects even if the objects grouped were not on top. The group
-///					as a whole can be moved to any index - ungrouping replaces objects at that index.
-///
-///********************************************************************************************************************
-
+/** @brief Turns the selected objects into a group.
+ * @note
+ * The new group is placed on top of all objects even if the objects grouped were not on top. The group
+ * as a whole can be moved to any index - ungrouping replaces objects at that index.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			groupObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -2789,7 +2002,6 @@ enum
 	}
 }
 
-
 - (IBAction)			clusterObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -2817,21 +2029,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			ghostObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	set the selected objects ghosted.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			ghosted objects draw using an unobtrusive placeholder style
-///
-///********************************************************************************************************************
-
+/** @brief Set the selected objects ghosted.
+ * @note
+ * Ghosted objects draw using an unobtrusive placeholder style
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			ghostObjects:(id) sender
 {
 #pragma unused(sender)
@@ -2848,21 +2051,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			unghostObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	set the selected objects unghosted.
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			ghosted objects draw using an unobtrusive placeholder style
-///
-///********************************************************************************************************************
-
+/** @brief Set the selected objects unghosted.
+ * @note
+ * Ghosted objects draw using an unobtrusive placeholder style
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			unghostObjects:(id) sender
 {
 #pragma unused(sender)
@@ -2879,22 +2073,14 @@ enum
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			moveLeft:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	nudges the selected objects left by one unit
-/// 
-/// parameters:		<sender> the action's sender (in fact the view)
-/// result:			none
-///
-/// notes:			the nudge amount is determined by the drawing's grid settings
-///
-///********************************************************************************************************************
 
+/** @brief Nudges the selected objects left by one unit
+ * @note
+ * The nudge amount is determined by the drawing's grid settings
+ * @param sender the action's sender (in fact the view)
+ * @public
+ */
 - (IBAction)			moveLeft:(id) sender
 {
 	if ( ![self lockedOrHidden])
@@ -2908,21 +2094,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveRight:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	nudges the selected objects right by one unit
-/// 
-/// parameters:		<sender> the action's sender (in fact the view)
-/// result:			none
-///
-/// notes:			the nudge amount is determined by the drawing's grid settings
-///
-///********************************************************************************************************************
-
+/** @brief Nudges the selected objects right by one unit
+ * @note
+ * The nudge amount is determined by the drawing's grid settings
+ * @param sender the action's sender (in fact the view)
+ * @public
+ */
 - (IBAction)			moveRight:(id) sender
 {
 	if ( ![self lockedOrHidden])
@@ -2937,21 +2114,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveUp:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	nudges the selected objects up by one unit
-/// 
-/// parameters:		<sender> the action's sender (in fact the view)
-/// result:			none
-///
-/// notes:			the nudge amount is determined by the drawing's grid settings
-///
-///********************************************************************************************************************
-
+/** @brief Nudges the selected objects up by one unit
+ * @note
+ * The nudge amount is determined by the drawing's grid settings
+ * @param sender the action's sender (in fact the view)
+ * @public
+ */
 - (IBAction)			moveUp:(id) sender
 {
 	if ( ![self lockedOrHidden])
@@ -2965,21 +2133,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			moveDown:
-/// scope:			public action method
-///	overrides:		NSResponder
-/// description:	nudges the selected objects down by one unit
-/// 
-/// parameters:		<sender> the action's sender (in fact the view)
-/// result:			none
-///
-/// notes:			the nudge amount is determined by the drawing's grid settings
-///
-///********************************************************************************************************************
-
+/** @brief Nudges the selected objects down by one unit
+ * @note
+ * The nudge amount is determined by the drawing's grid settings
+ * @param sender the action's sender (in fact the view)
+ * @public
+ */
 - (IBAction)			moveDown:(id) sender
 {
 	if ( ![self lockedOrHidden])
@@ -2993,22 +2152,12 @@ enum
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			selectMatchingStyle:
-/// scope:			public action method
-///	overrides:		-
-/// description:	selects all objects having the same style as the single selected object
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Selects all objects having the same style as the single selected object
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			selectMatchingStyle:(id) sender
 {
 	#pragma unused(sender)
@@ -3025,21 +2174,10 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			joinPaths:
-/// scope:			public action method
-///	overrides:
-/// description:	connects any paths sharing an end point into a single path
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Connects any paths sharing an end point into a single path
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			joinPaths:(id) sender
 {
 	if(![self lockedOrHidden])
@@ -3087,23 +2225,13 @@ enum
 	}
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			applyStyle:
-/// scope:			public action method
-///	overrides:
-/// description:	applies a style to the objects in the selection
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			the sender -representedObject must be a DKStyle. This is designed to match the menu items managed
-///					by DKStyleRegistry, but can be arranged to be any object that can have a represented object.
-///
-///********************************************************************************************************************
-
+/** @brief Applies a style to the objects in the selection
+ * @note
+ * The sender -representedObject must be a DKStyle. This is designed to match the menu items managed
+ * by DKStyleRegistry, but can be arranged to be any object that can have a represented object.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			applyStyle:(id) sender
 {
 	id repObject = [sender representedObject];
@@ -3120,21 +2248,15 @@ enum
 
 #pragma mark -
 #pragma mark As a DKObjectOwnerLayer
-///*********************************************************************************************************************
-///
-/// method:			hitTest:partCode:
-/// scope:			public instance method
-///	overrides:
-/// description:	performs a hit test but also returns the hit part code
-/// 
-/// parameters:		<point> the point to test
-///					<part> pointer to int, receives the partcode hit as a result of the test
-/// result:			the object hit, or nil if none
-///
-/// notes:			see notes for hitTest:
-///
-///********************************************************************************************************************
 
+/** @brief Performs a hit test but also returns the hit part code
+ * @note
+ * See notes for hitTest:
+ * @param point the point to test
+ * @param part pointer to int, receives the partcode hit as a result of the test
+ * @return the object hit, or nil if none
+ * @public
+ */
 - (DKDrawableObject*)	hitTest:(NSPoint) point partCode:(NSInteger*) part
 {
 	// test for hits in the layer's objects. When selections are drawn on top, this first does a top-down search of the selected
@@ -3165,21 +2287,12 @@ enum
 	return [super hitTest:point partCode:part];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectFromObjectsAtIndex:
-/// scope:			public instance method
-///	overrides:
-/// description:	removes an object from the layer
-/// 
-/// parameters:		<index> the index at which the object should be removed
-/// result:			none
-///
-/// notes:			if the object is selected, it is removed from the selection
-///
-///********************************************************************************************************************
-
+/** @brief Removes an object from the layer
+ * @note
+ * If the object is selected, it is removed from the selection
+ * @param index the index at which the object should be removed
+ * @public
+ */
 - (void)				removeObjectFromObjectsAtIndex:(NSUInteger) indx
 {
 	NSAssert( indx < [self countOfObjects], @"error - index is beyond bounds");
@@ -3195,22 +2308,13 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceObjectInObjectsAtIndex:withObject:
-/// scope:			public instance method
-///	overrides:
-/// description:	replaces an object in the layer with another
-/// 
-/// parameters:		<index> the index at which the object should be exchanged
-///					<obj> the object that will replace the item at index
-/// result:			none
-///
-/// notes:			if index is selected, new object replaces the object in the selection
-///
-///********************************************************************************************************************
-
+/** @brief Replaces an object in the layer with another
+ * @note
+ * If index is selected, new object replaces the object in the selection
+ * @param index the index at which the object should be exchanged
+ * @param obj the object that will replace the item at index
+ * @public
+ */
 - (void)				replaceObjectInObjectsAtIndex:(NSUInteger) indx withObject:(DKDrawableObject*) obj
 {
 	NSAssert( obj != nil, @"attempt to add a nil object to the layer (replace)" );
@@ -3234,21 +2338,12 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectsAtIndexes:
-/// scope:			public instance method
-///	overrides:
-/// description:	removes objects from the indexes listed by the set
-/// 
-/// parameters:		<set> an index set
-/// result:			none
-///
-/// notes:			if the indexes are present in the selection, they are removed
-///
-///********************************************************************************************************************
-
+/** @brief Removes objects from the indexes listed by the set
+ * @note
+ * If the indexes are present in the selection, they are removed
+ * @param set an index set
+ * @public
+ */
 - (void)				removeObjectsAtIndexes:(NSIndexSet*) set
 {
 	NSAssert( set != nil, @"can't remove objects - index set is nil");
@@ -3264,23 +2359,14 @@ enum
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObjects:fromPasteboard:atDropLocation:
-/// scope:			public instance method
-///	overrides:		DKObjectOwnerLayer
-/// description:	add objects to the layer from the pasteboard
-/// 
-/// parameters:		<objects> a list of objects already dearchived from the pasteboard
-///					<pb> the pasteboard (for information only)
-///					<p> the drop location of the objects
-/// result:			none
-///
-/// notes:			overrides the superclass so that the added objects are initially selected
-///
-///********************************************************************************************************************
-
+/** @brief Add objects to the layer from the pasteboard
+ * @note
+ * Overrides the superclass so that the added objects are initially selected
+ * @param objects a list of objects already dearchived from the pasteboard
+ * @param pb the pasteboard (for information only)
+ * @param p the drop location of the objects
+ * @public
+ */
 - (void)				addObjects:(NSArray*) objects fromPasteboard:(NSPasteboard*) pb atDropLocation:(NSPoint) p
 {
 	[self recordSelectionForUndo];
@@ -3292,23 +2378,8 @@ enum
 	[self commitSelectionUndoWithActionName:NSLocalizedString(@"Drop", @"undo string for generic drop")];
 }
 
-
 #pragma mark -
 #pragma mark As a DKLayer
-///*********************************************************************************************************************
-///
-/// method:			drawRect:inView:
-/// scope:			private instance method
-///	overrides:		DKObjectOwnerLayer
-/// description:	draws the layer and its contents on demand
-/// 
-/// parameters:		<rect> the area being updated
-/// result:			none
-///
-/// notes:			called by the drawing when necessary to update the views. 
-///
-///********************************************************************************************************************
-
 
 // if this is set to 1, CFArrayApplyFunction is used instead of an enumerator to draw the objects
 
@@ -3320,20 +2391,23 @@ static void	 drawFunction1( const void* value, void* context )
 	[(DKDrawableObject*)value drawContentWithSelectedState:NO];
 }
 
-
 static void	 drawFunction2( const void* value, void* context )
 {
 	if([(DKObjectDrawingLayer*)context isSelectedObject:(DKDrawableObject*) value])
 		[(DKDrawableObject*)value drawSelectedState];
 }
 
-
 static void	 drawFunction3( const void* value, void* context )
 {
 	[(DKDrawableObject*)value drawContentWithSelectedState:[(DKObjectDrawingLayer*)context isSelectedObject:(DKDrawableObject*)value]];
 }
 
-
+/** @brief Draws the layer and its contents on demand
+ * @note
+ * Called by the drawing when necessary to update the views. 
+ * @param rect the area being updated
+ * @private
+ */
 - (void)				drawRect:(NSRect) rect inView:(DKDrawingView*) aView
 {
 	SAVE_GRAPHICS_CONTEXT
@@ -3421,64 +2495,34 @@ static void	 drawFunction3( const void* value, void* context )
 	RESTORE_GRAPHICS_CONTEXT
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerDidBecomeActiveLayer
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			refreshes the selection when the layer becomes active
-///
-///********************************************************************************************************************
-
+/** @note
+ * Refreshes the selection when the layer becomes active
+ * @public
+ */
 - (void)				layerDidBecomeActiveLayer
 {
 	[super layerDidBecomeActiveLayer];
 	[self refreshSelectedObjects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerDidResignActiveLayer
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			refreshes the selection when the layer resigns active state
-///
-///********************************************************************************************************************
-
+/** @note
+ * Refreshes the selection when the layer resigns active state
+ * @public
+ */
 - (void)				layerDidResignActiveLayer
 {
 	[self refreshSelectedObjects];
 	[super layerDidResignActiveLayer];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			menuForEvent:inView:
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	builds a contextual menu for the layer
-/// 
-/// parameters:		<theEvent> the event that triggered this call (right mouse click)
-///					<view> the view that received it
-/// result:			a menu
-///
-/// notes:			this first gives any hit object a chance to populate the menu, then adds the layer level commands
-///
-///********************************************************************************************************************
-
+/** @brief Builds a contextual menu for the layer
+ * @note
+ * This first gives any hit object a chance to populate the menu, then adds the layer level commands
+ * @param theEvent the event that triggered this call (right mouse click)
+ * @param view the view that received it
+ * @return a menu
+ * @public
+ */
 - (NSMenu *)			menuForEvent:(NSEvent*) theEvent inView:(NSView*) view
 {
 	if([self locked])
@@ -3537,7 +2581,6 @@ static void	 drawFunction3( const void* value, void* context )
 	return [contextmenu autorelease];
 }
 
-
 - (void)				setLayerGroup:(DKLayerGroup*) aGroup
 {
 	[super setLayerGroup:aGroup];
@@ -3546,21 +2589,12 @@ static void	 drawFunction3( const void* value, void* context )
 	[self setDragExclusionRect:[[self drawing] interior]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setLocked:
-/// scope:			public instance method
-///	overrides:		DKLayer
-/// description:	locks or unlocks the layer
-/// 
-/// parameters:		<locked> YES to lock, NO to unlock
-/// result:			none
-///
-/// notes:			redraws the objects when the layer's lock state changes (selections are not shown for locked layers)
-///
-///********************************************************************************************************************
-
+/** @brief Locks or unlocks the layer
+ * @note
+ * Redraws the objects when the layer's lock state changes (selections are not shown for locked layers)
+ * @param locked YES to lock, NO to unlock
+ * @public
+ */
 - (void)				setLocked:(BOOL) locked
 {
 	if ( locked != [self locked])
@@ -3570,7 +2604,6 @@ static void	 drawFunction3( const void* value, void* context )
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerSelectionDidChange object:self];
 	}
 }
-
 
 - (NSArray*)			pasteboardTypesForOperation:(DKPasteboardOperationType) op
 {
@@ -3603,7 +2636,6 @@ static void	 drawFunction3( const void* value, void* context )
 	return [types autorelease];
 }
 
-
 - (void)				logDescription:(id) sender
 {
 	NSSet* responders = [self selectedObjectsRespondingToSelector:_cmd];
@@ -3613,7 +2645,6 @@ static void	 drawFunction3( const void* value, void* context )
 	else
 		[super logDescription:sender];
 }
-
 
 #pragma mark -
 #pragma mark As part of the NSDraggingDestination protocol
@@ -3671,7 +2702,6 @@ static void	 drawFunction3( const void* value, void* context )
 	return result;
 }
 
-
 - (BOOL)				performDragOperation:(id <NSDraggingInfo>) sender
 {
 	DKDrawableObject*	target = [self singleSelection];
@@ -3721,7 +2751,6 @@ static void	 drawFunction3( const void* value, void* context )
 	}
 }
 
-
 	
 #pragma mark -
 #pragma mark As part of the NSDraggingSource protocol
@@ -3749,7 +2778,6 @@ static void	 drawFunction3( const void* value, void* context )
 	}
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)				dealloc
@@ -3764,23 +2792,14 @@ static void	 drawFunction3( const void* value, void* context )
 	[super dealloc];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			forwardInvocation:
-/// scope:			private instance method
-///	overrides:		NSObject
-/// description:	allows actions to be retargeted on single selected objects directly
-/// 
-/// parameters:		<invocation> the invocation
-/// result:			none
-///
-/// notes:			commands can be implemented by a selected objects that wants to make use of them - this makes
-///					it happen by forwarding unrecognised method calls to those objects if possible. If multiple
-///					auto-forwarding is NO, commands are only forwarded to a single selected object if there is one.
-///
-///********************************************************************************************************************
-
+/** @brief Allows actions to be retargeted on single selected objects directly
+ * @note
+ * Commands can be implemented by a selected objects that wants to make use of them - this makes
+ * it happen by forwarding unrecognised method calls to those objects if possible. If multiple
+ * auto-forwarding is NO, commands are only forwarded to a single selected object if there is one.
+ * @param invocation the invocation
+ * @private
+ */
 - (void)				forwardInvocation:(NSInvocation*) invocation
 {
 	SEL aSelector = [invocation selector];
@@ -3818,7 +2837,6 @@ static void	 drawFunction3( const void* value, void* context )
 	}
 }
 
-
 - (id)				init
 {
 	self = [super init];
@@ -3839,21 +2857,9 @@ static void	 drawFunction3( const void* value, void* context )
 	return self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			methodSignatureForSelector:
-/// scope:			private instance method
-///	overrides:		NSObject
-/// description:	
-/// 
-/// parameters:		<aSelector>
-/// result:			the method signature
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @return the method signature
+ * @private
+ */
 - (NSMethodSignature *)	methodSignatureForSelector:(SEL) aSelector
 {
 	NSMethodSignature* sig;
@@ -3870,21 +2876,11 @@ static void	 drawFunction3( const void* value, void* context )
 	return sig;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			respondsToSelector:
-/// scope:			private instance method
-///	overrides:		NSObject
-/// description:	
-/// 
-/// parameters:		<aSElector>
-/// result:			YES if the selector is recognised, NO if not
-///
-/// notes:			locked objects are excluded here since the unlockObject: method is handled by the layer
-///
-///********************************************************************************************************************
-
+/** @note
+ * Locked objects are excluded here since the unlockObject: method is handled by the layer
+ * @return YES if the selector is recognised, NO if not
+ * @private
+ */
 - (BOOL)				respondsToSelector:(SEL) aSelector
 {
 	DKDrawableObject* od = [self singleSelection];
@@ -3894,7 +2890,6 @@ static void	 drawFunction3( const void* value, void* context )
 
 	return (([od visible] && ![od locked] && [od respondsToSelector:aSelector]) || [super respondsToSelector:aSelector]);
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -3907,7 +2902,6 @@ static void	 drawFunction3( const void* value, void* context )
 	[coder encodeBool:m_drawSelectionOnTop forKey:@"selOnTop"];
 	[coder encodeBool:[self allowsObjectsToBeTargetedByDrags] forKey:@"DKObjectDrawingLayer_allowDragTargets"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -3941,23 +2935,14 @@ static void	 drawFunction3( const void* value, void* context )
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
-///*********************************************************************************************************************
-///
-/// method:			validateMenuItem:
-/// scope:			public instance method
-///	overrides:		NSObject
-/// description:	validates the menu items pertaining to actions that this layer can handle
-/// 
-/// parameters:		<item> the menu item to validate
-/// result:			YES if it's enabled, NO if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Validates the menu items pertaining to actions that this layer can handle
+ * @param item the menu item to validate
+ * @return YES if it's enabled, NO if not
+ * @public
+ */
 - (BOOL)				validateMenuItem:(NSMenuItem*) item
 {
 	SEL					action = [item action];
@@ -4098,7 +3083,6 @@ static void	 drawFunction3( const void* value, void* context )
 	return enable;
 }
 
-
 - (BOOL)		validateUserInterfaceItem:(id <NSValidatedUserInterfaceItem>)anItem
 {
 	NSUInteger alignCrit = [self alignmentMenuItemRequiredObjects:anItem];
@@ -4109,5 +3093,5 @@ static void	 drawFunction3( const void* value, void* context )
 	return [super validateUserInterfaceItem:anItem];
 }
 
-
 @end
+

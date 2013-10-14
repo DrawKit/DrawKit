@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKRetriggerableTimer.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface DKRetriggerableTimer : NSObject
 {
@@ -32,7 +38,6 @@
 
 @end
 
-
 /*
 
 Implements a one-shot timer that can be repeatedly extended (retriggered) preventing it timing out. When it does time out, it calls the
@@ -42,5 +47,3 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
  other way to detect them. Each event calls -retrigger, extending the timeout until no more retriggers + the period elapses.
  
 */
-
-

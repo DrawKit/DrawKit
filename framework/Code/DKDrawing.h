@@ -1,18 +1,14 @@
-///**********************************************************************************************************************************
-///  DKDrawing.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 14/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKLayerGroup.h"
 
-
 @class DKGridLayer, DKGuideLayer, DKKnob, DKViewController, DKImageDataManager, DKUndoManager;
-
 
 @interface DKDrawing : DKLayerGroup <NSCoding, NSCopying>
 {
@@ -45,21 +41,97 @@
 	id						mOwnerRef;				// back pointer to document or view that owns this
 }
 
+/** @brief Return the current version number of the framework
+ * @return a number formatted in 8-4-4 bit format representing the current version number
+ * @public
+ */
 + (NSUInteger)				drawkitVersion;
+
+/** @brief Return the current version number and release status as a preformatted string
+ * @note
+ * This is intended for occasional display, rather than testing for the framework version.
+ * @return a string, e.g. "1.0.b6"
+ * @public
+ */
 + (NSString*)				drawkitVersionString;
+
+/** @brief Return the current release status of the framework
+ * @return a string, either "alpha", "beta", "release candidate" or nil (final)
+ * @public
+ */
 + (NSString*)				drawkitReleaseStatus;
 
+/** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
+ * @note
+ * As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
+ * you'll get a fully working, prebuilt drawing system behind that view. This can be very handy for all
+ * sorts of uses. However, it is more usual to build the system the other way around - start with a
+ * drawing object within a document (say) and attach views to it. This gives you the flexibility to
+ * do it either way. For automatic construction, this method is called to supply the drawing.
+ * @param aSize - the size of the drawing to create
+ * @return a fully constructed default drawing system
+ * @public
+ */
 + (DKDrawing*)				defaultDrawingWithSize:(NSSize) aSize;
 
+/** @brief Creates a drawing from a lump of data
+ * @param drawingData data representing an archived drawing
+ * @return the unarchived drawing
+ * @public
+ */
 + (DKDrawing*)				drawingWithData:(NSData*) drawingData;
 
+/** @brief Return the default derachiving helper for deaerchiving a drawing
+ * @note
+ * This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
+ * classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
+ * replaced to provide the same functionality for application-specific classes.
+ * @return the dearchiving helper
+ * @public
+ */
 + (id)						dearchivingHelper;
+
+/** @brief Replace the default dearchiving helper for deaerchiving a drawing
+ * @note
+ * This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
+ * classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
+ * replaced to provide the same functionality for application-specific classes.
+ * @param helper a suitable helper object
+ * @public
+ */
 + (void)					setDearchivingHelper:(id) helper;
 
+/** @brief Returns a new drawing number by incrementing the current default seed value
+ * @return a new drawing number
+ * @public
+ */
 + (NSUInteger)				newDrawingNumber;
+
+/** @brief Returns a dictionary containing some standard drawing info attributes
+ * @note
+ * This is usually called by the drawing object itself when built new. Usually you'll want to replace
+ * its contents with your own info. A DKDrawingInfoLayer can interpret some of the standard values and
+ * display them in its info box.
+ * @return a mutable dictionary of standard drawing info
+ * @public
+ */
 + (NSMutableDictionary*)	defaultDrawingInfo;
 
+/** @brief Sets the abbreviation for the given drawing units string
+ * @note
+ * This allows special abbreviations to be set for units if desired. The setting writes to the user
+ * defaults so is persistent.
+ * @param abbrev the abbreviation for the unit
+ * @param fullString the full name of the drawing units
+ * @public
+ */
 + (void)					setAbbreviation:(NSString*) abbrev forDrawingUnits:(NSString*) fullString;
+
+/** @brief Returns the abbreviation for the given drawing units string
+ * @param fullString the full name of the drawing units
+ * @return a string - the abbreviated form
+ * @public
+ */
 + (NSString*)				abbreviationForDrawingUnits:(NSString*) fullString;
 
 // designated initializer:
@@ -68,7 +140,21 @@
 
 // owner (document or view)
 
+/** @brief Returns the "owner" of this drawing.
+ * @note
+ * The owner is usually either a document, a window controller or a drawing view.
+ * @return the owner
+ * @public
+ */
 - (id)						owner;
+
+/** @brief Sets the "owner" of this drawing.
+ * @note
+ * The owner is usually either a document, a window controller or a drawing view. It is not required to
+ * be set at all, though some higher-level conveniences may depend on it.
+ * @param owner the owner for this object
+ * @public
+ */
 - (void)					setOwner:(id) owner;
 
 // basic drawing parameters:
@@ -89,7 +175,22 @@
 - (void)					setFlipped:(BOOL) flipped;
 - (BOOL)					isFlipped;
 
+/** @brief Sets the destination colour space for the whole drawing
+ * @note
+ * Colours set by styles and so forth are converted to this colourspace when rendering. A value of
+ * nil will use whatever is set in the colours used by the styles.
+ * @param cSpace the colour space 
+ * @public
+ */
 - (void)					setColourSpace:(NSColorSpace*) cSpace;
+
+/** @brief Returns the colour space for the whole drawing
+ * @note
+ * Colours set by styles and so forth are converted to this colourspace when rendering. A value of
+ * nil will use whatever is set in the colours used by the styles.
+ * @return the colour space
+ * @public
+ */
 - (NSColorSpace*)			colourSpace;
 
 // setting the rulers to the grid:
@@ -111,6 +212,12 @@
 - (NSSet*)					controllers;
 - (void)					addController:(DKViewController*) aController;
 - (void)					removeController:(DKViewController*) aController;
+
+/** @brief Removes all controller from the drawing
+ * @note
+ * Typically controllers are removed when necessary - there is little reason to call this yourself
+ * @public
+ */
 - (void)					removeAllControllers;
 
 // passing information to the views:
@@ -123,6 +230,12 @@
 
 // dynamically adjusting the rendering quality:
 
+/** @brief Set whether drawing quality modulation is enabled or not
+ * @note
+ * Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
+ * the need for it. This flag allows that behaviour to be turned on or off.
+ * @public
+ */
 - (void)					setDynamicQualityModulationEnabled:(BOOL) qmEnabled;
 - (BOOL)					dynamicQualityModulationEnabled;
 
@@ -185,7 +298,25 @@
 - (NSPoint)					convertPointFromDrawingToBase:(NSPoint) pt;
 - (CGFloat)					convertLengthFromDrawingToBase:(CGFloat) len;
 
+/** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
+ * @note
+ * This wraps up length conversion and formatting for display into one method, which also calls the
+ * delegate if it implements the relevant method.
+ * @param len a distance in base points (pixels)
+ * @return a string containing a fully formatted distance plus the units abbreviation
+ * @public
+ */
 - (NSString*)				formattedConvertedLength:(CGFloat) len;
+
+/** @brief Convert a point in quartz coordinates to the units established by the drawing grid
+ * @note
+ * This wraps up length conversion and formatting for display into one method, which also calls the
+ * delegate if it implements the relevant method. The result is an array with two strings - the first
+ * is the x coordinate, the second is the y co-ordinate
+ * @param pt a point in base points (pixels)
+ * @return a pair of strings containing a fully formatted distance plus the units abbreviation
+ * @public
+ */
 - (NSArray*)				formattedConvertedPoint:(NSPoint) pt;
 
 // export:
@@ -199,6 +330,13 @@
 
 // image manager
 
+/** @brief Returns the image manager
+ * @note
+ * The image manager is an object that is used to improve archiving efficiency of images. Classes
+ * that have images, such as DKImageShape, use this to cache image data.
+ * @return the drawing's image manager
+ * @public
+ */
 - (DKImageDataManager*)		imageManager;
 
 @end
@@ -253,7 +391,6 @@ extern NSString*		kDKDrawingUnitAbbreviationsUserDefault;	// NSDictionary
 
 @end
 
-
 // additional methods
 
 @interface DKDrawing (UISupport)
@@ -262,19 +399,28 @@ extern NSString*		kDKDrawingUnitAbbreviationsUserDefault;	// NSDictionary
 
 @end
 
-
 // deprecated methods
 
 @interface DKDrawing (Deprecated)
 
 + (DKDrawing*)			drawingWithContentsOfFile:(NSString*) filepath;
 + (DKDrawing*)			drawingWithData:(NSData*) drawingData fromFileAtPath:(NSString*) filepath;
+
+/** @brief Saves the static class defaults for ALL classes in the drawing system
+ * @note
+ * Deprecated - no longer does anything
+ * @public
+ */
 + (void)				saveDefaults;
+
+/** @brief Loads the static user defaults for all classes in the drawing system
+ * @note
+ * Deprecated - no longer does anything
+ * @public
+ */
 + (void)				loadDefaults;
 
 @end
-
-
 
 /*
 

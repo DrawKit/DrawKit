@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSBezierPath-Editing.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 08/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "NSBezierPath+Editing.h"
 
@@ -20,17 +18,13 @@
 #import "NSBezierPath-OAExtensions.h"
 #endif
 
-
 #pragma mark Static Vars
 static CGFloat sAngleConstraint = 0.261799387799;	// 15°
-
-
 
 // simple partcode cracking utils:
 
 static inline NSInteger		arrayIndexForPartcode( const NSInteger pc );
 static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
-
 
 #pragma mark -
 @implementation NSBezierPath (DKEditing)
@@ -40,7 +34,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 {
 	sAngleConstraint = radians;
 }
-
 
 + (NSPoint)		colinearPointForPoint:(NSPoint) p centrePoint:(NSPoint) q
 {
@@ -54,7 +47,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return NSMakePoint( q.x - dx, q.y - dy );
 }
 
-
 + (NSPoint)		colinearPointForPoint:(NSPoint) p centrePoint:(NSPoint) q radius:(CGFloat) r
 {
 	// returns the point opposite p from q at radius r in a straight line.
@@ -63,12 +55,10 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return NSMakePoint( q.x + ( r * cos( a )), q.y + ( r * sin( a )));
 }
 
-
 + (NSInteger)			point:(NSPoint) p inNSPointArray:(NSPoint*) array count:(NSInteger) count tolerance:(CGFloat) t
 {
 	return [self point:p inNSPointArray:array count:count tolerance:t reverse:NO];
 }
-
 
 + (NSInteger)			point:(NSPoint) p inNSPointArray:(NSPoint*) array count:(NSInteger) count tolerance:(CGFloat) t reverse:(BOOL) reverse
 {
@@ -107,7 +97,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return NSNotFound;
 }
 
-
 + (void)				colineariseVertex:(NSPoint[3]) inPoints cpA:(NSPoint*) outCPA cpB:(NSPoint*) outCPB
 {
 	// given three points passed in as an array, this modifies the two outer points to lie in a straight line through the middle
@@ -133,7 +122,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 		outCPB->y = inPoints[1].y - r2 * sin( angle + pi );
 	}
 }
-
 
 #pragma mark -
 - (NSBezierPath*)		bezierPathByRemovingTrailingElements:(NSInteger) numToRemove
@@ -178,7 +166,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	
 	return [newPath autorelease];
 }
-
 
 - (NSBezierPath*)		bezierPathByStrippingRedundantElements
 {
@@ -245,7 +232,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	
 	return [newPath autorelease];
 }
-
 
 - (NSBezierPath*)		bezierPathByRemovingElementAtIndex:(NSInteger) indx
 {
@@ -321,23 +307,13 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return newPath;
 }
 
-
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			getPathMoveToCount:lineToCount:curveToCount:closePathCount:
-/// scope:			instance method
-/// extends:		NSBezierPath
-/// description:	counts the number of elements of each type in the path
-/// 
-/// parameters:		<mtc, ltc, ctc, cpc> pointers to integers that receive the counts for each element type
-/// result:			none
-///
-/// notes:			pass NULL for any values you are not interested in
-///
-///********************************************************************************************************************
 
+/** @brief Counts the number of elements of each type in the path
+ * @note
+ * Pass NULL for any values you are not interested in
+ * @param mtc, ltc, ctc, cpc pointers to integers that receive the counts for each element type
+ */
 - (void)				getPathMoveToCount:(NSInteger*) mtc lineToCount:(NSInteger*) ltc curveToCount:(NSInteger*) ctc closePathCount:(NSInteger*) cpc
 {
 	NSInteger i, ec = [self elementCount];
@@ -387,12 +363,10 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 		*cpc = p;
 }
 
-
 - (BOOL)				isPathClosed
 {
 	return [self subpathContainingElementIsClosed:0];
 }
-
 
 - (NSUInteger)			checksum
 {
@@ -425,7 +399,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	
 	return cs;
 }
-
 
 #pragma mark -
 - (BOOL)				subpathContainingElementIsClosed:(NSInteger) element
@@ -472,7 +445,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return NO;
 }
 
-
 - (NSInteger)					subpathStartingElementForElement:(NSInteger) element
 {
 	// finds the starting element for the subpath containing <element> This will always be a moveto element.
@@ -490,7 +462,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	
 	return -1;
 }
-
 
 - (NSInteger)					subpathEndingElementForElement:(NSInteger) element
 {
@@ -515,7 +486,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return ec - 1;
 }
 
-
 #pragma mark -
 
 /*
@@ -537,7 +507,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return [self elementAtIndex:elementIndexForPartcode( pc )];
 }
 
-
 - (BOOL)				isOnPathPartcode:(NSInteger) pc
 {
 	// returns YES if the given partcode is NOT a bezier control point, but is a bezier or line segment end point.
@@ -557,8 +526,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return NO;
 }
 
-
-
 - (void)				setControlPoint:(NSPoint) p forPartcode:(NSInteger) pc
 {
 	NSPoint				ap[3];
@@ -569,7 +536,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	
 	[self setAssociatedPoints:ap atIndex:elem]; 
 }
-
 
 - (NSPoint)				controlPointForPartcode:(NSInteger) pc
 {
@@ -583,25 +549,21 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return ap[ arrayIndexForPartcode( pc )];
 }
 
-
 #pragma mark -
 - (NSInteger)					partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t
 {
 	return [self partcodeHitByPoint:p tolerance:t startingFromElement:0];
 }
 
-
 - (NSInteger)					partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t prioritiseOnPathPoints:(BOOL) onpPriority
 {
 	return [self partcodeHitByPoint:p tolerance:t startingFromElement:0 prioritiseOnPathPoints:onpPriority];
 }
 
-
 - (NSInteger)					partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t startingFromElement:(NSInteger) startElement
 {
 	return [self partcodeHitByPoint:p tolerance:t startingFromElement:startElement prioritiseOnPathPoints:NO];
 }
-
 
 - (NSInteger)					partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t startingFromElement:(NSInteger) startElement prioritiseOnPathPoints:(BOOL) onpPriority;
 {
@@ -718,7 +680,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return 0;
 }
 
-
 - (NSInteger)					partcodeForLastPoint
 {
 	NSInteger m = [self elementCount] - 1;
@@ -729,7 +690,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	else
 		return partcodeForElementControlPoint( m, 0 );
 }
-
 
 - (NSPoint)				referencePointForConstrainedPartcode:(NSInteger) pc
 {
@@ -788,7 +748,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	
 	return refPt;
 }
-
 
 #pragma mark -
 - (void)				moveControlPointPartcode:(NSInteger) pc toPoint:(NSPoint) p colinear:(BOOL) colin coradial:(BOOL) corad constrainAngle:(BOOL) acon
@@ -1020,7 +979,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	depth--;
 }
 
-
 #pragma mark -
 - (NSBezierPath*)		deleteControlPointForPartcode:(NSInteger) pc
 {
@@ -1232,7 +1190,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return newPath;
 }
 
-
 - (NSPoint)				nearestPointToPoint:(NSPoint) p tolerance:(CGFloat) tol
 {
 	// given a point, this determines whether it's within <tol> distance of the path. If so, the nearest point on the path is returned,
@@ -1247,7 +1204,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	else
 		return np;
 }
-
 
 #pragma mark -
 - (CGFloat)				tangentAtStartOfSubpath:(NSInteger) elementIndex
@@ -1271,7 +1227,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	else
 		return 0.0;
 }
-
 
 - (CGFloat)				tangentAtEndOfSubpath:(NSInteger) elementIndex
 {
@@ -1305,13 +1260,11 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	}
 }
 
-
 #pragma mark -
 - (NSInteger)					elementHitByPoint:(NSPoint) p tolerance:(CGFloat) tol tValue:(CGFloat*) t
 {
 	return [self elementHitByPoint:p tolerance:tol tValue:t nearestPoint:NULL];
 }
-
 
 - (NSInteger)					elementHitByPoint:(NSPoint) p tolerance:(CGFloat) tol tValue:(CGFloat*) t nearestPoint:(NSPoint*) npp
 {
@@ -1422,7 +1375,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 #endif
 }
 
-
 - (NSInteger)					elementBoundsContainsPoint:(NSPoint) p tolerance:(CGFloat) tol
 {
 	// for each element of a bezier path, this tests the point against the bounding box of the element, returning the
@@ -1458,7 +1410,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	
 	return -1;
 }
-
 
 - (NSRect)				boundingBoxForElement:(NSInteger) elementIndex
 {
@@ -1535,7 +1486,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return bb;
 }
 
-
 - (void)				drawElementsBoundingBoxes
 {
 	// this is a debugging method - it displays the bounding rects of the path in the current view
@@ -1548,7 +1498,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	for( i = 0; i < m; ++i )
 		[NSBezierPath strokeRect:[self boundingBoxForElement:i]];
 }
-
 
 - (NSSet*)			boundingBoxesForPartcode:(NSInteger) pc
 {
@@ -1600,7 +1549,6 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return set;
 }
 
-
 - (NSSet*)				allBoundingBoxes
 {
 	NSMutableSet*	set = [NSMutableSet set];
@@ -1615,9 +1563,7 @@ static inline NSInteger		elementIndexForPartcode( const NSInteger pc );
 	return set;
 }
 
-
 @end
-
 
 #pragma mark -
 #pragma mark **** partcode utilities ****
@@ -1629,7 +1575,6 @@ NSInteger			partcodeForElement( const NSInteger element )
 	return (( element + 1 ) << 2 );
 }
 
-
 NSInteger			partcodeForElementControlPoint( const NSInteger element, const NSInteger controlPointIndex )
 {
 	// given the element and the index of the control point (0, 1 or 2 ), this returns a unique "partcode" that
@@ -1638,12 +1583,10 @@ NSInteger			partcodeForElementControlPoint( const NSInteger element, const NSInt
 	return ((( element + 1 ) << 2 ) | ( controlPointIndex & 3 ));
 }
 
-
 inline NSInteger			arrayIndexForPartcode( const NSInteger pc )
 {
 	return ( pc & 3 );
 }
-
 
 inline NSInteger			elementIndexForPartcode( const NSInteger pc )
 {

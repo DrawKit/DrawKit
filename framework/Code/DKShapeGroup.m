@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKShapeGroup.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 28/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKShapeGroup.h"
 #import "DKGeometryUtilities.h"
@@ -28,28 +26,20 @@
 
 @implementation DKShapeGroup
 #pragma mark As a DKShapeGroup
-///*********************************************************************************************************************
-///
-/// method:			groupWithBezierPaths:objectType:style:
-/// scope:			public class method
-/// overrides:		
-/// description:	creates a group of shapes or paths from a list of bezier paths
-/// 
-/// parameters:		<paths> a list of NSBezierPath objects
-///					<type> a value indicating what type of objects the group should consist of. Can be 0 = shapes or
-///					1 = paths. All other values are reserved.
-///					<style> a style object to apply to each new shape or path as it is created; pass nil to create
-///					the objects with the default style initially.
-/// result:			a new group object consisting of a set of other objects built from the supplied paths
-///
-/// notes:			this constructs a group from a list of bezier paths by wrapping a drawable around each path then
-///					grouping the result. While general purpose in nature, this is primarily to support the construction
-///					of a group containing text glyphs from a text shape object. The group's location is set to the
-///					centre of the union of the bounds of all created objects, which in turn depends on the paths' positions.
-///					caller may wish to move the group before adding it to a layer.
-///
-///********************************************************************************************************************
 
+/** @brief Creates a group of shapes or paths from a list of bezier paths
+ * @note
+ * This constructs a group from a list of bezier paths by wrapping a drawable around each path then
+ * grouping the result. While general purpose in nature, this is primarily to support the construction
+ * of a group containing text glyphs from a text shape object. The group's location is set to the
+ * centre of the union of the bounds of all created objects, which in turn depends on the paths' positions.
+ * caller may wish to move the group before adding it to a layer.
+ * @param paths a list of NSBezierPath objects
+ * @param type a value indicating what type of objects the group should consist of. Can be 0 = shapes or
+ * @param style a style object to apply to each new shape or path as it is created; pass nil to create
+ * @return a new group object consisting of a set of other objects built from the supplied paths
+ * @public
+ */
 + (DKShapeGroup*)		groupWithBezierPaths:(NSArray*) paths objectType:(NSInteger) type style:(DKStyle*) style
 {
 	NSMutableArray*		objects = [NSMutableArray array];
@@ -78,25 +68,17 @@
 	return [self groupWithObjects:objects];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			groupWithObjects:
-/// scope:			public class method
-/// overrides:		
-/// description:	creates a group from a list of existing objects
-/// 
-/// parameters:		<objects> a list of drawable objects
-/// result:			a new group object consisting of the objects supplied
-///
-/// notes:			initial location is at the centre of the rectangle that bounds all of the contributing objects.
-///					the objects can be newly created or already existing as part of a drawing. Grouping the objects
-///					will change the parent of the object but not the owner until the group is placed. The group should
-///					be added to a drawing layer after creation. The higher level "group" command in the drawing layer
-///					class will set up a group from the selection.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a group from a list of existing objects
+ * @note
+ * Initial location is at the centre of the rectangle that bounds all of the contributing objects.
+ * the objects can be newly created or already existing as part of a drawing. Grouping the objects
+ * will change the parent of the object but not the owner until the group is placed. The group should
+ * be added to a drawing layer after creation. The higher level "group" command in the drawing layer
+ * class will set up a group from the selection.
+ * @param objects a list of drawable objects
+ * @return a new group object consisting of the objects supplied
+ * @public
+ */
 + (DKShapeGroup*)		groupWithObjects:(NSArray*) objects
 {
 	DKShapeGroup* group = [[DKShapeGroup alloc] initWithObjectsInArray:objects];
@@ -104,21 +86,11 @@
 	return [group autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsAvailableForGroupingFromArray:
-/// scope:			public class method
-/// overrides:		
-/// description:	filters array to remove objects whose class returns NO to isGroupable.
-/// 
-/// parameters:		<array> a list of drawable objects
-/// result:			an array of the same objects less those that can't be grouped
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Filters array to remove objects whose class returns NO to isGroupable.
+ * @param array a list of drawable objects
+ * @return an array of the same objects less those that can't be grouped
+ * @public
+ */
 + (NSArray*)			objectsAvailableForGroupingFromArray:(NSArray*) array
 {
 	NSMutableArray*		groupables = [NSMutableArray array];
@@ -134,27 +106,20 @@
 	return groupables;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			initWithObjectsInArray:
-/// scope:			public instance method
-/// overrides:		
-/// description:	initialises a group from a list of existing objects
-/// 
-/// parameters:		<objects> a list of drawable objects
-/// result:			the group object
-///
-/// notes:			designated initialiser. initial location is at the centre of the rectangle that bounds all of
-///					the contributing objects.
-///					the objects can be newly created or already existing as part of a drawing. Grouping the objects
-///					will change the parent of the object but not the owner until the group is placed. The group should
-///					be added to a drawing layer after creation. The higher level "group" command in the drawing layer
-///					class will set up a group from the selection.
-///
-///********************************************************************************************************************
 
+/** @brief Initialises a group from a list of existing objects
+ * @note
+ * Designated initialiser. initial location is at the centre of the rectangle that bounds all of
+ * the contributing objects.
+ * the objects can be newly created or already existing as part of a drawing. Grouping the objects
+ * will change the parent of the object but not the owner until the group is placed. The group should
+ * be added to a drawing layer after creation. The higher level "group" command in the drawing layer
+ * class will set up a group from the selection.
+ * @param objects a list of drawable objects
+ * @return the group object
+ * @public
+ */
 - (id)					initWithObjectsInArray:(NSArray*) objects
 {
 	self = [super init];
@@ -178,25 +143,17 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark - setting up the group
-///*********************************************************************************************************************
-///
-/// method:			setGroupObjects:
-/// scope:			private instance method
-/// overrides:		
-/// description:	sets up the group state from the original set of objects
-/// 
-/// parameters:		<objects> the set of objects to be grouped
-/// result:			none
-///
-/// notes:			this sets the initial size and location of the group, and adjusts the position of each object so
-///					it is relative to the group, not the original drawing. It also sets the parent member of each object
-///					to the group so that the group's transform is applied when the objects are drawn.
-///
-///********************************************************************************************************************
 
+/** @brief Sets up the group state from the original set of objects
+ * @note
+ * This sets the initial size and location of the group, and adjusts the position of each object so
+ * it is relative to the group, not the original drawing. It also sets the parent member of each object
+ * to the group so that the group's transform is applied when the objects are drawn.
+ * @param objects the set of objects to be grouped
+ * @private
+ */
 - (void)				setGroupObjects:(NSArray*) objects
 {
 	NSArray* groupObjects = [[self class] objectsAvailableForGroupingFromArray:objects];
@@ -228,42 +185,21 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			groupObjects
-/// scope:			public instance method
-/// overrides:		
-/// description:	gets the list of objects contained by the group
-/// 
-/// parameters:		none
-/// result:			the list of contained objects
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Gets the list of objects contained by the group
+ * @return the list of contained objects
+ * @public
+ */
 - (NSArray*)			groupObjects
 {
 	return m_objects;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setObjects:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	sets the current list of objects to the given objects
-/// 
-/// parameters:		<objects> the objects to be grouped
-/// result:			none
-///
-/// notes:			this is a low level method called by setGroupObjects: it implements the undoable part of building
-///					a group. It should not be directly called.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the current list of objects to the given objects
+ * @note
+ * This is a low level method called by setGroupObjects: it implements the undoable part of building
+ * a group. It should not be directly called.
+ * @param objects the objects to be grouped
+ */
 - (void)				setObjects:(NSArray*) objects
 {
 	if ( objects != [self groupObjects])
@@ -279,24 +215,14 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			calcBoundingRectOfObjects:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	computes the initial overall bounding rect of the constituent objects
-/// 
-/// parameters:		<objects> the objects to be grouped
-/// result:			none
-///
-/// notes:			this sets the _bounds member to the union of the apparent bounds of the constituent objects. This
-///					rect represents the original size and position of the group, and does not change even if the group
-///					is moved or resized - transforms are calculated by comparing the original bounds to the instantaneous
-///					size and position.
-///
-///********************************************************************************************************************
-
+/** @brief Computes the initial overall bounding rect of the constituent objects
+ * @note
+ * This sets the _bounds member to the union of the apparent bounds of the constituent objects. This
+ * rect represents the original size and position of the group, and does not change even if the group
+ * is moved or resized - transforms are calculated by comparing the original bounds to the instantaneous
+ * size and position.
+ * @param objects the objects to be grouped
+ */
 - (void)				calcBoundingRectOfObjects:(NSArray*) objects
 {
 	NSRect				bounds = NSZeroRect;
@@ -312,22 +238,19 @@
 	mBounds = bounds;
 }
 
+/** @brief Computes the extra space needed for the objects
+ * @param objects the objects to be grouped
+ * @return a size, the maximum width and height needed to be added to the logical bounds to accomodate the
+ * objects visually.
+ */
 
-///*********************************************************************************************************************
-///
-/// method:			extraSpaceNeededByObjects:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	computes the extra space needed for the objects
-/// 
-/// parameters:		<objects> the objects to be grouped
-/// result:			a size, the maximum width and height needed to be added to the logical bounds to accomodate the
-///					objects visually.
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
+ * between the logical and reported bounds.
+ * @note
+ * The result is the max of all the contained objects
+ * @return the extra space required
+ * @public
+ */
 - (NSSize)				extraSpaceNeededByObjects:(NSArray*) objects
 {
 	NSEnumerator*		iter = [objects objectEnumerator];
@@ -348,41 +271,21 @@
 	return ms;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			groupBoundingRect
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the original untransformed bounds of the grouped objects
-/// 
-/// parameters:		none
-/// result:			the original group bounds
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the original untransformed bounds of the grouped objects
+ * @return the original group bounds
+ * @public
+ */
 - (NSRect)				groupBoundingRect
 {
 	return mBounds;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			groupScaleRatios
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the scale ratios that the group is currently applying to its contents.
-/// 
-/// parameters:		none
-/// result:			the scale ratios
-///
-/// notes:			the scale ratio is the ratio between the group's original bounds and its current size.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the scale ratios that the group is currently applying to its contents.
+ * @note
+ * The scale ratio is the ratio between the group's original bounds and its current size.
+ * @return the scale ratios
+ * @public
+ */
 - (NSSize)				groupScaleRatios
 {
 	NSSize sr;
@@ -393,23 +296,14 @@
 	return sr;
 }
 
-
 #pragma mark -
 #pragma mark - transforms
-///*********************************************************************************************************************
-///
-/// method:			contentTransform
-/// scope:			protected instance method
-/// overrides:		
-/// description:	returns a transform used to map the contained objects to the group's size, position and angle.
-/// 
-/// parameters:		none
-/// result:			a transform object
-///
-/// notes:			this transform is used when drawing the group's contents
-///
-///********************************************************************************************************************
 
+/** @brief Returns a transform used to map the contained objects to the group's size, position and angle.
+ * @note
+ * This transform is used when drawing the group's contents
+ * @return a transform object
+ */
 - (NSAffineTransform*)	contentTransform
 {
 	CGFloat sx, sy;
@@ -430,23 +324,12 @@
 	return xform;
 }
 
-
-
-
-///*********************************************************************************************************************
-///
-/// method:			convertPointFromContainer:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	maps a point from the original container's coordinates to the equivalent group point
-/// 
-/// parameters:		<p> a point
-/// result:			a new point
-///
-/// notes:			the container will be usually a layer or another group.
-///
-///********************************************************************************************************************
-
+/** @brief Maps a point from the original container's coordinates to the equivalent group point
+ * @note
+ * The container will be usually a layer or another group.
+ * @param p a point
+ * @return a new point
+ */
 - (NSPoint)				convertPointFromContainer:(NSPoint) p
 {
 	// given a point <p> in the container's coordinates, returns the same point relative to this group
@@ -456,26 +339,16 @@
 	return [ct transformPoint:p];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			convertPointToContainer:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	maps a point from the group's coordinates to the equivalent original container point
-/// 
-/// parameters:		<p> a point
-/// result:			a new point
-///
-/// notes:			the container will be usually a layer or another group.
-///
-///********************************************************************************************************************
-
+/** @brief Maps a point from the group's coordinates to the equivalent original container point
+ * @note
+ * The container will be usually a layer or another group.
+ * @param p a point
+ * @return a new point
+ */
 - (NSPoint)				convertPointToContainer:(NSPoint) p
 {
 	return [[self contentTransform] transformPoint:p];
 } 
-
 
 - (void)				drawGroupContent
 {
@@ -502,7 +375,6 @@
 	if ( m_transformVisually )
 		[NSGraphicsContext restoreGraphicsState];
 }
-
 
 /*
 - (NSData*)				pdfDataOfObjects
@@ -538,13 +410,10 @@
 	}
 }
 
-
 - (BOOL)				clipContentToPath
 {
 	return mClipContentToPath;
 }
-
-
 
 - (void)				setTransformsVisually:(BOOL) tv
 {
@@ -555,12 +424,10 @@
 	}
 }
 
-
 - (BOOL)				transformsVisually
 {
 	return m_transformVisually;
 }
-
 
 #pragma mark -
 #pragma mark - content caching
@@ -574,24 +441,20 @@
 	}
 }
 
-
 - (DKGroupCacheOption)	cacheOptions
 {
 	return mCacheOption;
 }
-
 
 - (void)				updateCache
 {
 	// currently no-op
 }
 
-
 - (void)				invalidateCache
 {
 	// currently no-op
 }
-
 
 - (void)				drawUntransformedContent
 {
@@ -603,27 +466,18 @@
 	mIsWritingToCache = NO;
 }
 
-
 #pragma mark -
 #pragma mark - ungrouping
-///*********************************************************************************************************************
-///
-/// method:			ungroupToLayer:
-/// scope:			protected instance method
-/// overrides:		
-/// description:	unpacks the group back into the nominated layer 
-/// 
-/// parameters:		<layer> the layer into which the objects are unpacked
-/// result:			none
-///
-/// notes:			usually it's better to call the higher level ungroupObjects: action method which calls this. This
-///					method strives to preserve as much information about the objects as possible - e.g. their rotation
-///					angle and size. Nested groups can cause distortions which are visually preserved though the bounds
-///					muct necessarily be altered. Objects are inserted into the layer at the same Z-index position as
-///					the group currently occupies.
-///
-///********************************************************************************************************************
 
+/** @brief Unpacks the group back into the nominated layer 
+ * @note
+ * Usually it's better to call the higher level ungroupObjects: action method which calls this. This
+ * method strives to preserve as much information about the objects as possible - e.g. their rotation
+ * angle and size. Nested groups can cause distortions which are visually preserved though the bounds
+ * muct necessarily be altered. Objects are inserted into the layer at the same Z-index position as
+ * the group currently occupies.
+ * @param layer the layer into which the objects are unpacked
+ */
 - (void)				ungroupToLayer:(DKObjectDrawingLayer*) layer
 {
 	[[self undoManager] registerUndoWithTarget:self selector:@selector(setObjects:) object:m_objects];
@@ -674,21 +528,12 @@
 	m_objects = nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			ungroupObjects:
-/// scope:			public action method
-/// overrides:		
-/// description:	high-level call to ungroup the group.
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			undoably ungroups this and replaces itself in its layer by its contents
-///
-///********************************************************************************************************************
-
+/** @brief High-level call to ungroup the group.
+ * @note
+ * Undoably ungroups this and replaces itself in its layer by its contents
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)			ungroupObjects:(id) sender
 {
 	#pragma unused(sender)
@@ -706,21 +551,10 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			toggleClipToPath:
-/// scope:			public action method
-/// overrides:		
-/// description:	high-level call to toggle path clipping.
-/// 
-/// parameters:		<sender> the sender of the action
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief High-level call to toggle path clipping.
+ * @param sender the sender of the action
+ * @public
+ */
 - (IBAction)			toggleClipToPath:(id) sender
 {
 #pragma unused(sender)
@@ -729,78 +563,40 @@
 	[[self undoManager] setActionName:NSLocalizedString(@"Toggle Clipping", @"undo action for toggle clipping (group)")];
 }
 
-
 #pragma mark -
 #pragma mark As a DKDrawableShape
-///*********************************************************************************************************************
-///
-/// method:			resetBoundingBox
-/// scope:			protected instance method
-/// overrides:		DKDrawableShape
-/// description:	overrides this method to ensure it has no effect
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Overrides this method to ensure it has no effect
+ */
 - (void)				resetBoundingBox
 {
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			resetBoundingBoxAndRotation
-/// scope:			protected instance method
-/// overrides:		DKDrawableShape
-/// description:	overrides this method to ensure it has no effect
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Overrides this method to ensure it has no effect
+ */
 - (void)				resetBoundingBoxAndRotation
 {
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setOperationMode:
-/// scope:			protected instance method
-/// overrides:		DKDrawableShape
-/// description:	overrides this method to ensure it has no effect
-/// 
-/// parameters:		<mode> ignored
-/// result:			none
-///
-/// notes:			distortion operations cannot be applied to a group
-///
-///********************************************************************************************************************
-
+/** @brief Overrides this method to ensure it has no effect
+ * @note
+ * Distortion operations cannot be applied to a group
+ * @param mode ignored
+ */
 - (void)				setOperationMode:(NSInteger) mode
 {
 	#pragma unused(mode)
 	
 }
 
-
 #pragma mark -
 #pragma mark As a DKDrawableObject
-
 
 - (NSRect)				bounds
 {
 	mBoundsCache = NSZeroRect;
 	return [super bounds];
 }
-
 
 - (NSSet*)				allStyles
 {
@@ -828,7 +624,6 @@
 	
 	return [unionOfAllStyles autorelease];
 }
-
 
 - (NSSet*)				allRegisteredStyles
 {
@@ -858,7 +653,6 @@
 
 }
 
-
 - (void)				replaceMatchingStylesFromSet:(NSSet*) aSet
 {
 	// propagate this to all objects in the group:
@@ -866,24 +660,12 @@
 	[[self groupObjects] makeObjectsPerformSelector:@selector(replaceMatchingStylesFromSet:) withObject:aSet];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			drawContent
-/// scope:			protected instance method
-/// overrides:		DKDrawableShape
-/// description:	draws the objects within the group.
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			depending on how the group's transforms are set to work, this either sets up the graphics context
-///					and renders the objects directly, or else it relies on the objects calling back to get the
-///					parent transform and applying it correctly.
-///
-///********************************************************************************************************************
-
+/** @brief Draws the objects within the group.
+ * @note
+ * Depending on how the group's transforms are set to work, this either sets up the graphics context
+ * and renders the objects directly, or else it relies on the objects calling back to get the
+ * parent transform and applying it correctly.
+ */
 - (void)				drawContent
 {
 	SAVE_GRAPHICS_CONTEXT
@@ -898,23 +680,13 @@
 	RESTORE_GRAPHICS_CONTEXT
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawContentWithStyle
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	draws the objects within the group but using the given style.
-/// 
-/// parameters:		<aStyle> some style object
-/// result:			none
-///
-/// notes:			depending on how the group's transforms are set to work, this either sets up the graphics context
-///					and renders the objects directly, or else it relies on the objects calling back to get the
-///					parent transform and applying it correctly.
-///
-///********************************************************************************************************************
-
+/** @brief Draws the objects within the group but using the given style.
+ * @note
+ * Depending on how the group's transforms are set to work, this either sets up the graphics context
+ * and renders the objects directly, or else it relies on the objects calling back to get the
+ * parent transform and applying it correctly.
+ * @param aStyle some style object
+ */
 - (void)			drawContentWithStyle:(DKStyle*) aStyle
 {
 	if ( m_transformVisually )
@@ -930,21 +702,10 @@
 		[NSGraphicsContext restoreGraphicsState];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawSelectedState
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	draws the group's selection highlight.
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			if set to clip the contents, the clipping path is also highlighted
-///
-///********************************************************************************************************************
-
+/** @brief Draws the group's selection highlight.
+ * @note
+ * If set to clip the contents, the clipping path is also highlighted
+ */
 - (void)				drawSelectedState
 {
 	if([self clipContentToPath])
@@ -953,42 +714,15 @@
 	[super drawSelectedState];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			extraSpaceNeeded
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the extra space needed to display the object graphically. This will usually be the difference
-///					between the logical and reported bounds.
-/// 
-/// parameters:		none
-/// result:			the extra space required
-///
-/// notes:			the result is the max of all the contained objects
-///********************************************************************************************************************
-
 - (NSSize)				extraSpaceNeeded
 {
 	return [self extraSpaceNeededByObjects:[self groupObjects]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			populateContextualMenu:
-/// scope:			protected instance method
-/// overrides:		DKDrawableShape
-/// description:	adds group commands to the contextual menu
-/// 
-/// parameters:		<theMenu> a menu to populate
-/// result:			YES
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Adds group commands to the contextual menu
+ * @param theMenu a menu to populate
+ * @return YES
+ */
 - (BOOL)				populateContextualMenu:(NSMenu*) theMenu
 {
 	[[theMenu addItemWithTitle:NSLocalizedString(@"Ungroup", @"menu item for ungroup") action:@selector( ungroupObjects: ) keyEquivalent:@""] setTarget:self];
@@ -997,22 +731,13 @@
 	return YES;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setStyle:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	propagates a style change to all objects in the group
-/// 
-/// parameters:		<style> the style to apply
-/// result:			none
-///
-/// notes:			this is a convenience method - often groups will contain objects with different styles. If you do
-///					want to apply a style to a number of different objects you can group them and call this.
-///
-///********************************************************************************************************************
-
+/** @brief Propagates a style change to all objects in the group
+ * @note
+ * This is a convenience method - often groups will contain objects with different styles. If you do
+ * want to apply a style to a number of different objects you can group them and call this.
+ * @param style the style to apply
+ * @public
+ */
 - (void)				setStyle:(DKStyle*) style
 {
 	// copies the style to all objects in the group, as a convenient way to set styles for several objects at once
@@ -1021,47 +746,29 @@
 	[self notifyVisualChange];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			style
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	returns a style from the group
-/// 
-/// parameters:		none
-/// result:			nil
-///
-/// notes:			In general, it makes little sense to ask a group for its style, since there are multiple
-///					objects contained which could have many styles. Instead, the -allStyles method will return a complete
-///					set of all styles referenced by the group. To emphasise this point, asking a group for its style
-///					always returns nil
-///
-///********************************************************************************************************************
-
+/** @brief Returns a style from the group
+ * @note
+ * In general, it makes little sense to ask a group for its style, since there are multiple
+ * objects contained which could have many styles. Instead, the -allStyles method will return a complete
+ * set of all styles referenced by the group. To emphasise this point, asking a group for its style
+ * always returns nil
+ * @return nil
+ * @public
+ */
 - (DKStyle*)			style
 {
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			group:willUngroupObjectWithTransform:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	this object is being ungrouped from a group
-/// 
-/// parameters:		<aGroup> the group containing the object
-///					<aTransform> the transform that the group is applying to the object to scale rotate and translate it.
-/// result:			none
-///
-/// notes:			when ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
-///					itself appropriately. At the time this is called, the object has already has its container set to
-///					the layer it will be added to but has not actually been added.
-///
-///********************************************************************************************************************
-
+/** @brief This object is being ungrouped from a group
+ * @note
+ * When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
+ * itself appropriately. At the time this is called, the object has already has its container set to
+ * the layer it will be added to but has not actually been added.
+ * @param aGroup the group containing the object
+ * @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
+ * @public
+ */
 - (void)				group:(DKShapeGroup*) aGroup willUngroupObjectWithTransform:(NSAffineTransform*) aTransform
 {
 	// groups within groups can be tricky, as multiple transforms apply and they are hard.
@@ -1089,29 +796,18 @@
 		[self setSize:NSZeroSize];	// force object to become invalid
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			detachStyle
-/// scope:			public instance method
-/// overrides:
-/// description:	If the object's style is currently sharable, copy it and make it non-sharable.
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			If the style is already non-sharable, this does nothing. The purpose of this is to detach this
-///					from it style such that it has its own private copy. It does not change appearance.
-///
-///********************************************************************************************************************
-
+/** @brief If the object's style is currently sharable, copy it and make it non-sharable.
+ * @note
+ * If the style is already non-sharable, this does nothing. The purpose of this is to detach this
+ * from it style such that it has its own private copy. It does not change appearance.
+ * @public
+ */
 - (void)				detachStyle
 {
 	// detaches the styles of all of its contained objects
 	
 	[[self groupObjects] makeObjectsPerformSelector:_cmd];
 }
-
 
 - (void)				setGhosted:(BOOL) ghosted
 {
@@ -1123,7 +819,6 @@
 
 	 [self notifyVisualChange];
 }
-
 
 - (BOOL)				isGhosted
 {
@@ -1139,76 +834,46 @@
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectWasAddedToLayer:
-/// scope:			public instance method
-/// overrides:
-/// description:	the object was added to a layer
-/// 
-/// parameters:		<aLayer> the layer this was added to
-/// result:			none
-///
-/// notes:			propagates this to the contained objects
-///
-///********************************************************************************************************************
-
+/** @brief The object was added to a layer
+ * @note
+ * Propagates this to the contained objects
+ * @param aLayer the layer this was added to
+ * @public
+ */
 - (void)				objectWasAddedToLayer:(DKObjectOwnerLayer*) aLayer
 {
 	[super objectWasAddedToLayer:aLayer];
 	[[self groupObjects] makeObjectsPerformSelector:_cmd withObject:aLayer];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectWasRemovedFromLayer:
-/// scope:			public instance method
-/// overrides:
-/// description:	the object was removed from the layer
-/// 
-/// parameters:		<aLayer> the layer this was removed from
-/// result:			none
-///
-/// notes:			propagates this to the contained objects
-///
-///********************************************************************************************************************
-
+/** @brief The object was removed from the layer
+ * @note
+ * Propagates this to the contained objects
+ * @param aLayer the layer this was removed from
+ * @public
+ */
 - (void)				objectWasRemovedFromLayer:(DKObjectOwnerLayer*) aLayer
 {
 	[super objectWasRemovedFromLayer:aLayer];
 	[[self groupObjects] makeObjectsPerformSelector:_cmd withObject:aLayer];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setContainer:
-/// scope:			public instance method
-/// overrides:		DKDrawableObject
-/// description:	the object's container changed
-/// 
-/// parameters:		<aContainer> the object's container
-/// result:			none
-///
-/// notes:			propagates this to the contained objects. This does not actually change their container (which is
-///					self) but if they are relying on other changes such as the parent layer to trigger other effects,
-///					this ensures that happens correctly when the groups container changes (such as on delete).
-///
-///********************************************************************************************************************
-
+/** @brief The object's container changed
+ * @note
+ * Propagates this to the contained objects. This does not actually change their container (which is
+ * self) but if they are relying on other changes such as the parent layer to trigger other effects,
+ * this ensures that happens correctly when the groups container changes (such as on delete).
+ * @param aContainer the object's container
+ * @public
+ */
 - (void)				setContainer:(id<DKDrawableContainer>) aContainer
 {
 	[super setContainer:aContainer];
 	[[self groupObjects] makeObjectsPerformSelector:_cmd withObject:self];
 }
 
-
-
 #pragma mark -
 #pragma mark As an NSObject
-
 
 - (id)					init
 {
@@ -1222,7 +887,6 @@
 	return self;
 }
 
-
 - (void)				dealloc
 {
 	[self invalidateCache];
@@ -1231,26 +895,16 @@
 	[super dealloc];
 }
 
-
 #pragma mark -
 #pragma mark As part of DKDrawableContainer Protocol
 
-///*********************************************************************************************************************
-///
-/// method:			renderingTransform
-/// scope:			protected instance method
-/// overrides:		DKDrawableObject
-/// description:	returns a transform which is the accumulation of all the parent objects above this one.
-/// 
-/// parameters:		none
-/// result:			a transform object
-///
-/// notes:			drawables will request and apply this transform when rendering. Either the identity matrix is
-///					returned if the group is visually transforming the result, or a combination of the parents above
-///					and the content transform. Either way contained objects are oblivious and do the right thing.
-///
-///********************************************************************************************************************
-
+/** @brief Returns a transform which is the accumulation of all the parent objects above this one.
+ * @note
+ * Drawables will request and apply this transform when rendering. Either the identity matrix is
+ * returned if the group is visually transforming the result, or a combination of the parents above
+ * and the content transform. Either way contained objects are oblivious and do the right thing.
+ * @return a transform object
+ */
 - (NSAffineTransform*)	renderingTransform
 {
 	// returns the concatenation of all groups and layers transforms containing this one
@@ -1282,26 +936,20 @@
 	}
 }
 
-
 - (NSUInteger)			indexOfObject:(DKDrawableObject*) obj
 {
 	return [[self groupObjects] indexOfObject:obj];
 }
-
 
 - (DKImageDataManager*)	imageManager
 {
 	return [[self drawing] imageManager];
 }
 
-
 - (id)					metadataObjectForKey:(NSString*) key
 {
 	return [super metadataObjectForKey:key];
 }
-
-
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -1314,7 +962,6 @@
 	[coder encodeObject:[self groupObjects] forKey:@"groupedobjects"];
 	[coder encodeBool:[self clipContentToPath] forKey:@"DKShapeGroup_clipContent"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -1340,7 +987,6 @@
 	
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
@@ -1374,7 +1020,6 @@
 	return copy;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
 - (BOOL)				validateMenuItem:(NSMenuItem*) item
@@ -1398,5 +1043,5 @@
 	return [super validateMenuItem:item];
 }
 
-
 @end
+

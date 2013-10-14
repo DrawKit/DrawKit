@@ -1,19 +1,24 @@
 //
 //  NSBezierPath+Combinatorial.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 28/05/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "NSBezierPath+Combinatorial.h"
 #import "NSBezierPath-OAExtensions.h"
 #import "NSBezierPath+Geometry.h"
 
-
 @interface NSBezierPath (CombinatorialPrivate)
 
+/** 
+ */
 - (void)			appendSplitElementFromPath:(NSBezierPath*) path withIntersectionInfo:(OABezierPathIntersection*) info rightOrLeft:(BOOL) isRight trailingOrLeading:(BOOL) isLeading;
 - (void)			appendElementsFromPath:(NSBezierPath*) path fromIndex:(NSInteger) firstIndex toIndex:(NSInteger) nextIndex;
 - (void)			appendElementsFromPath:(NSBezierPath*) inRange:(NSRange) range;
@@ -21,11 +26,7 @@
 
 @end
 
-
-
-
 @implementation NSBezierPath (Combinatorial)
-
 
 - (void)	showIntersectionsWithPath:(NSBezierPath*) path
 {
@@ -78,7 +79,6 @@
 	}
 }
 
-
 - (NSBezierPath*)	renormalizePath
 {
 	// this returns a path such that all of its subpaths are in a clockwise direction. It may return self if there is nothing to do. This is done first for each subpath
@@ -109,7 +109,6 @@
 	
 	return newPath;
 }
-
 
 - (void)			appendElementsFromPath:(NSBezierPath*) path inRange:(NSRange) range
 {
@@ -161,7 +160,6 @@
 	}
 }
 
-
 - (void)			appendElementsFromPath:(NSBezierPath*) path fromIndex:(NSInteger) firstIndex toIndex:(NSInteger) nextIndex
 {
 	// given a path, this copies the elements, from <first> to <next> inclusive, to this path. index values must be +ve. If nextIndex < firstIndex, the copy
@@ -188,8 +186,6 @@
 	if( isWrapping )
 		[self appendElementsFromPath:path inRange:NSMakeRange( 0, nextIndex )];
 }
-
-
 
 - (void)	appendSplitElementFromPath:(NSBezierPath*) path withIntersectionInfo:(OABezierPathIntersection*) info rightOrLeft:(BOOL) isRight trailingOrLeading:(BOOL) isLeading;
 {
@@ -236,7 +232,6 @@
 			[self lineToPoint:info->location];
 	}
 }
-
 
 - (NSArray*)		breakApartWithIntersectionInfo:(PathIntersectionList) info rightOrLeft:(BOOL) isRight
 {
@@ -288,7 +283,6 @@
 	
 	return parts;
 }
-
 
 - (NSBezierPath*)	performBooleanOp:(DKBooleanOperation) op withPath:(NSBezierPath*) path
 {
@@ -443,8 +437,6 @@
 	return newPath;
 }
 
-
-
 - (NSArray*)		dividePathWithPath:(NSBezierPath*) path
 {
 	// divides the receiver and <path> into parts split at the intersecting points between the two paths. The result is an array which in turn consists of two further
@@ -480,5 +472,5 @@
 	return allParts;
 }
 
-
 @end
+

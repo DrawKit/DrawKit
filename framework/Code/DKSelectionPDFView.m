@@ -1,10 +1,14 @@
 //
 //  DKSelectionPDFView.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 30/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKSelectionPDFView.h"
@@ -12,9 +16,10 @@
 #import "DKObjectDrawingLayer.h"
 #import "DKShapeGroup.h"
 
-
 @implementation DKSelectionPDFView
 
+/** 
+ */
 - (void)		drawRect:(NSRect) rect
 {
 	#pragma unused(rect)
@@ -35,13 +40,10 @@
 	}
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation DKLayerPDFView : DKDrawingView
-
 
 - (id)		initWithFrame:(NSRect) frame withLayer:(DKLayer*) aLayer
 {
@@ -54,13 +56,10 @@
 	return self;
 }
 
-
 - (BOOL)		isFlipped
 {
 	return YES;
 }
-
-
 
 - (void)		drawRect:(NSRect) rect
 {
@@ -83,12 +82,9 @@
 
 @end
 
-
-
 #pragma mark -
 
 @implementation DKDrawablePDFView
-
 
 - (id)		initWithFrame:(NSRect) frame object:(DKDrawableObject*) obj
 {
@@ -101,13 +97,10 @@
 	return self;
 }
 
-
-
 - (BOOL)		isFlipped
 {
 	return YES;
 }
-
 
 - (void)		drawRect:(NSRect) rect
 {
@@ -120,5 +113,5 @@
 		[mObjectRef drawContentWithSelectedState:NO];
 }
 
-
 @end
+

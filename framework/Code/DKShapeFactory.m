@@ -1,26 +1,30 @@
 //
 //  DKShapeFactory.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 20/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKShapeFactory.h"
 #import "DKDrawKitMacros.h"
 #import "LogEvent.h"
 
-
 #pragma mark Contants (Non-localized)
 NSString*	kDKSpeechBalloonType = @"kDKSpeechBalloonType";
 NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
-
 
 #pragma mark -
 @implementation DKShapeFactory
 #pragma mark As a DKShapeFactory
 
+/** 
+ */
 + (DKShapeFactory*)	sharedShapeFactory;
 {
 	static DKShapeFactory* sSharedShapeFactory = nil;
@@ -30,7 +34,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 		
 	return sSharedShapeFactory;
 }
-
 
 #pragma mark -
 + (NSRect)			rectOfUnitSize
@@ -44,12 +47,10 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return [NSBezierPath bezierPathWithRect:[self rectOfUnitSize]];
 }
 
-
 + (NSBezierPath*)	oval
 {
 	return [NSBezierPath bezierPathWithOvalInRect:[self rectOfUnitSize]];
 }
-
 
 + (NSBezierPath*)	roundRect
 {
@@ -59,12 +60,10 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return [self roundRectWithCornerRadius:0.1];
 }
 
-
 + (NSBezierPath*)	roundRectWithCornerRadius:(CGFloat) radius
 {
 	return [self roundRectInRect:[self rectOfUnitSize] andCornerRadius:radius];
 }
-
 
 + (NSBezierPath*)	roundRectInRect:(NSRect) rect andCornerRadius:(CGFloat) radius
 {
@@ -106,7 +105,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-
 #pragma mark -
 + (NSBezierPath*)	regularPolygon:(NSInteger) numberOfSides
 {
@@ -140,13 +138,11 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-
 #pragma mark -
 + (NSBezierPath*)	equilateralTriangle
 {
 	return [self regularPolygon:3];
 }
-
 
 + (NSBezierPath*)	rightTriangle
 {
@@ -169,31 +165,26 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return rtTrianglePath;
 }
 
-
 #pragma mark -
 + (NSBezierPath*)	pentagon
 {
 	return [self regularPolygon:5];
 }
 
-
 + (NSBezierPath*)	hexagon
 {
 	return [self regularPolygon:6];
 }
-
 
 + (NSBezierPath*)	heptagon
 {
 	return [self regularPolygon:7];
 }
 
-
 + (NSBezierPath*)	octagon
 {
 	return [self regularPolygon:8];
 }
-
 
 #pragma mark -
 + (NSBezierPath*)	star:(NSInteger) numberOfPoints innerDiameter:(CGFloat) diam
@@ -237,7 +228,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-
 + (NSBezierPath*)	regularStar:(NSInteger) numberOfPoints
 {
 	#pragma unused(numberOfPoints)
@@ -249,7 +239,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return nil;
 }
 
-
 + (NSBezierPath*)	cross
 {
 	NSBezierPath* path = [NSBezierPath bezierPath];
@@ -260,7 +249,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-
 + (NSBezierPath*)	diagonalCross
 {
 	NSBezierPath* path = [NSBezierPath bezierPath];
@@ -270,8 +258,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	[path lineToPoint:NSMakePoint( -0.5, 0.5 )];
 	return path;
 }
-
-
 
 #pragma mark -
 + (NSBezierPath*)	ring:(CGFloat) innerDiameter
@@ -290,12 +276,10 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-
 + (NSBezierPath*)	roundRectSpeechBalloon:(NSInteger) sbParams cornerRadius:(CGFloat) cr
 {
 	return [self roundRectSpeechBalloonInRect:[self rectOfUnitSize] params:sbParams cornerRadius:cr];
 }
-
 
 + (NSBezierPath*)	roundRectSpeechBalloonInRect:(NSRect) rect params:(NSInteger) sbParams cornerRadius:(CGFloat) cr
 {
@@ -432,7 +416,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-
 + (NSBezierPath*)	ovalSpeechBalloon:(NSInteger) sbParams
 {
 	#pragma unused(sbParams)
@@ -441,7 +424,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	
 	return nil;
 }
-
 
 + (NSBezierPath*)	arrowhead
 {
@@ -458,12 +440,10 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return sArrowhead;
 }
 
-
 + (NSBezierPath*)	arrowTailFeather
 {
 	return [self arrowTailFeatherWithRake:0.5];
 }
-
 
 + (NSBezierPath*)	arrowTailFeatherWithRake:(CGFloat) rakeFactor
 {
@@ -493,7 +473,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return feather;
 }
 
-
 + (NSBezierPath*)	inflectedArrowhead
 {
 	NSBezierPath*	arrow = [NSBezierPath bezierPath];
@@ -506,7 +485,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	 
 	return arrow;
 }
-
 
 #pragma mark -
 + (NSBezierPath*)	roundEndedRect:(NSRect) rect
@@ -545,7 +523,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	}
 }
 
-
 #pragma mark -
 + (NSBezierPath*)	pathFromGlyph:(NSString*) glyph inFontWithName:(NSString*) fontName
 {
@@ -562,13 +539,11 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-
 #pragma mark -
 - (NSBezierPath*)	roundRectInRect:(NSRect) bounds objParam:(id) param
 {
 	return [[self class] roundRectInRect:bounds andCornerRadius:[param doubleValue]];
 }
-
 
 - (NSBezierPath*)	roundEndedRect:(NSRect) rect objParam:(id) param
 {
@@ -578,7 +553,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	
 	return [[self class] roundEndedRect:rect];
 }
-
 
 - (NSBezierPath*)	speechBalloonInRect:(NSRect) rect objParam:(id) param
 {
@@ -599,7 +573,6 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return [[self class] roundRectSpeechBalloonInRect:rect params:sbtype cornerRadius:radius];
 }
 
-
 #pragma mark -
 #pragma mark - As part of the NSCoding protocol
 
@@ -615,5 +588,5 @@ NSString*	kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 
 }
 
-
 @end
+

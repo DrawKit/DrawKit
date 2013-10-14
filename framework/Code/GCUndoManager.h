@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  GCUndoManager.h
 //  GCDrawKit
@@ -29,13 +36,11 @@ typedef enum
 }
 GCUndoTaskCoalescingKind;
 
-
 @class GCUndoGroup, GCUndoManagerProxy, GCConcreteUndoTask;
 
 // the undo manager is a public-API compatible replacement for NSUndoManager but features a simpler internal implementation, some bug fixes and less
 // fragility than NSUndoManager. It can be used with NSDocument's -setUndoManager: method (cast to id or NSUndoManager). However its compatibility with
 // Core Data is unknown and untested at this time. See further notes at the end of this file.
-
 
 @interface GCUndoManager : NSObject
 {
@@ -183,13 +188,10 @@ GCUndoTaskCoalescingKind;
 
 @end
 
-
-
 #pragma mark -
 
 // undo tasks (actions) come in two types - groups and concrete tasks. Both descend from the same semi-abstract base which
 // provides the 'back pointer' to the parent group. The -perform method must be overridden by concrete subclasses.
-
 
 @interface GCUndoTask : NSObject
 {
@@ -202,7 +204,6 @@ GCUndoTaskCoalescingKind;
 - (void)				perform;
 
 @end
-
 
 #pragma mark -
 
@@ -229,7 +230,6 @@ GCUndoTaskCoalescingKind;
 - (NSString*)			actionName;
 
 @end
-
 
 #pragma mark -
 

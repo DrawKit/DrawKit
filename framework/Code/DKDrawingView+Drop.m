@@ -1,62 +1,37 @@
-///**********************************************************************************************************************************
-///  DKDrawingView+Drop.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by jason on 1/11/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawingView+Drop.h"
 #import "DKObjectOwnerLayer.h"
 
 extern DKDrawingView*	sCurDView;
 
-
-
 @implementation DKDrawingView (DropHandling)
 #pragma mark As a DKDrawingView
 
-
-///*********************************************************************************************************************
-///
-/// method:			activeLayer
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the current active layer, by asking the controller for it
-/// 
-/// parameters:		none
-/// result:			a layer, the one that is currently active
-///
-/// notes:			DKDrawing maintains the active layer - look there for a method to set it
-///
-///********************************************************************************************************************
-
+/** @brief Returns the current active layer, by asking the controller for it
+ * @note
+ * DKDrawing maintains the active layer - look there for a method to set it
+ * @return a layer, the one that is currently active
+ * @public
+ */
 - (DKLayer*)			activeLayer
 {
 	return [[self controller] activeLayer];
 }
 
-
 #pragma mark -
 #pragma mark As part of NSDraggingDestination Protocol
 
-
-///*********************************************************************************************************************
-///
-/// method:			draggingEntered
-/// scope:			protocol method
-/// overrides:		NSDraggingDestination
-/// description:	a drag entered the view
-/// 
-/// parameters:		<sender> the drag sender
-/// result:			a drag operation constant
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief A drag entered the view
+ * @param sender the drag sender
+ * @return a drag operation constant
+ */
 - (NSDragOperation)		draggingEntered:(id <NSDraggingInfo>)sender
 {
 	NSDragOperation result = NSDragOperationNone;
@@ -73,21 +48,10 @@ extern DKDrawingView*	sCurDView;
 	return result;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			draggingUpdated
-/// scope:			protocol method
-/// overrides:		NSDraggingDestination
-/// description:	a drag moved in the view
-/// 
-/// parameters:		<sender> the drag sender
-/// result:			a drag operation constant
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief A drag moved in the view
+ * @param sender the drag sender
+ * @return a drag operation constant
+ */
 - (NSDragOperation)		draggingUpdated:(id <NSDraggingInfo>)sender
 {
 	NSDragOperation result = NSDragOperationNone;
@@ -102,21 +66,10 @@ extern DKDrawingView*	sCurDView;
 	return result;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			draggingExited
-/// scope:			protocol method
-/// overrides:		NSDraggingDestination
-/// description:	a drag left the view
-/// 
-/// parameters:		<sender> the drag sender
-/// result:			a drag operation constant
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief A drag left the view
+ * @param sender the drag sender
+ * @return a drag operation constant
+ */
 - (void)				draggingExited:(id <NSDraggingInfo>) sender
 {
 	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingExited:)])
@@ -127,24 +80,13 @@ extern DKDrawingView*	sCurDView;
 	}
 }
 
-
 #pragma mark -
 
-
-///*********************************************************************************************************************
-///
-/// method:			wantsPeriodicDraggingUpdates
-/// scope:			protocol method
-/// overrides:		NSDraggingDestination
-/// description:	queries whether the active layer wantes periodic drag updates
-/// 
-/// parameters:		none
-/// result:			YES if perodic update are wanted, NO otherwise
-///
-/// notes:			a layer implementing the NSDraggingDestination protocol should return the desired flag
-///
-///********************************************************************************************************************
-
+/** @brief Queries whether the active layer wantes periodic drag updates
+ * @note
+ * A layer implementing the NSDraggingDestination protocol should return the desired flag
+ * @return YES if perodic update are wanted, NO otherwise
+ */
 - (BOOL)				wantsPeriodicDraggingUpdates
 {
 	BOOL result = NO;
@@ -159,23 +101,12 @@ extern DKDrawingView*	sCurDView;
 	return result;
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			performDragOperation
-/// scope:			protocol method
-/// overrides:		NSDraggingDestination
-/// description:	perform the drop at the end of a drag
-/// 
-/// parameters:		<sender> the sender of the drag
-/// result:			YES if the drop was handled, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Perform the drop at the end of a drag
+ * @param sender the sender of the drag
+ * @return YES if the drop was handled, NO otherwise
+ */
 - (BOOL)				performDragOperation:(id <NSDraggingInfo>) sender
 {
 	BOOL result = NO;
@@ -190,21 +121,10 @@ extern DKDrawingView*	sCurDView;
 	return result;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			prepareForDragOperation
-/// scope:			protocol method
-/// overrides:		NSDraggingDestination
-/// description:	a drop is about to be performed, so get ready
-/// 
-/// parameters:		<sender> the sender of the drag
-/// result:			YES if the drop will be handled, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief A drop is about to be performed, so get ready
+ * @param sender the sender of the drag
+ * @return YES if the drop will be handled, NO otherwise
+ */
 - (BOOL)				prepareForDragOperation:(id <NSDraggingInfo>) sender
 {
 	BOOL result = NO;
@@ -219,21 +139,9 @@ extern DKDrawingView*	sCurDView;
 	return result;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			concludeDragOperation
-/// scope:			protocol method
-/// overrides:		NSDraggingDestination
-/// description:	a drop was performed, so perform any final clean-up
-/// 
-/// parameters:		<sender> the sender of the drag
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief A drop was performed, so perform any final clean-up
+ * @param sender the sender of the drag
+ */
 - (void)				concludeDragOperation:(id <NSDraggingInfo>) sender
 {
 	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(concludeDragOperation:)])
@@ -244,7 +152,5 @@ extern DKDrawingView*	sCurDView;
 	}
 }
 
-
 @end
-
 

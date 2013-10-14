@@ -1,20 +1,15 @@
-///**********************************************************************************************************************************
-///  DKTextAdornment.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 18/05/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKRasterizer.h"
 #import "DKCommonTypes.h"
 
-
 @class DKStyle, DKTextSubstitutor;
-
-
 
 @interface DKTextAdornment : DKRasterizer <NSCoding, NSCopying>
 {
@@ -40,7 +35,6 @@
 	NSMutableDictionary*		mTACache;					// private cache used for various text layout caching
 	NSDictionary*				mDefaultAttributes;			// saves default attributes for when text is deleted altogether
 }
-
 
 // convenience constructor:
 
@@ -196,14 +190,12 @@
 
 @end
 
-
 @interface DKTextAdornment (Deprecated)
 
 - (void)						setIdentifier:(NSString*) ident;
 - (NSString*)					identifier;
 
 @end
-
 
 // objects can implement this method if they wish to support the 'centroid' layout mode. While intended for
 // positioning text at the centroid, the object is not required to return the true centroid - it can be any point.
@@ -214,7 +206,6 @@
 - (NSPoint)		pointForTextLayout;
 
 @end
-
 
 #define DEFAULT_BASELINE_OFFSET_MAX		16
 
@@ -230,9 +221,7 @@ extern NSString*	DKTextVerticalAlignmentAttributeName;
 extern NSString*	DKTextVerticalAlignmentProportionAttributeName;
 extern NSString*	DKTextCapitalizationAttributeName;
 
-
 // defined by DKTextShape, but also used by this class:
-
 
 /*
 enum
@@ -242,8 +231,6 @@ enum
 	kDKTextShapeVerticalAlignmentBottom		= 2
 };
 */
-
-
 
 /*
 
@@ -262,4 +249,3 @@ this mode such as angle and vertical alignment. However all textual attributes a
  other fixed content. See that class for details.
 
 */
-

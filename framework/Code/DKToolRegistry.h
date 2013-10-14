@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKToolRegistry.h
 //  GCDrawKit
@@ -8,21 +15,41 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @class DKDrawingTool;
-
-
 
 @interface DKToolRegistry : NSObject
 {
 	NSMutableDictionary*	mToolsReg;
 }
 
-
+/** @brief Return the shared tool registry
+ * @note
+ * Creates the registry if needed and installs the standard tools. For other tool collections
+ * you can instantiate a DKToolRegistry and add tools to it.
+ * @return a shared DKToolRegistry object
+ * @public
+ */
 + (DKToolRegistry*)		sharedToolRegistry;
 
+/** @brief Return a named tool from the registry
+ * @param name the name of the tool of interest
+ * @return the tool if found, or nil if not
+ * @public
+ */
 - (DKDrawingTool*)		drawingToolWithName:(NSString*) name;
+
+/** @brief Add a tool to the registry
+ * @param tool the tool to register
+ * @param name the name of the tool of interest
+ * @public
+ */
 - (void)				registerDrawingTool:(DKDrawingTool*) tool withName:(NSString*) name;
+
+/** @brief Find the tool having a key equivalent matching the key event
+ * @param keyEvent the key event to match
+ * @return the tool if found, or nil
+ * @public
+ */
 - (DKDrawingTool*)		drawingToolWithKeyboardEquivalent:(NSEvent*) keyEvent;
 
 - (void)				registerStandardTools;
@@ -32,14 +59,11 @@
 
 @end
 
-
 // notifications
 
 extern NSString*		kDKDrawingToolWasRegisteredNotification;
 
-
 // standard tool name constants
-
 
 extern NSString*		kDKStandardSelectionToolName;
 extern NSString*		kDKStandardRectangleToolName;
@@ -62,11 +86,9 @@ extern NSString*		kDKStandardDeletePathPointToolName;
 extern NSString*		kDKStandardDeletePathSegmentToolName;
 extern NSString*		kDKStandardZoomToolName;
 
-
 /*
 
  DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself. The old methods in DKDrawingTool now map to this class for backward
  compatibility but are deprecated.
 
 */
-

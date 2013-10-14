@@ -1,26 +1,79 @@
-///**********************************************************************************************************************************
-///  DKObjectDrawingLayer+BooleanOps.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 03/11/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 //#ifdef qUseGPC
 
 #import "DKObjectDrawingLayer.h"
 
-
 @interface DKObjectDrawingLayer (BooleanOps)
 
+/** @brief Forms the union of the selected objects and replaces the selection with the result
+ * @note
+ * Result adopts the style of the topmost object contributing.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		unionSelectedObjects:(id) sender;
+
+/** @brief Subtracts the topmost shape from the other.
+ * @note
+ * Requires exactly two contributing objects. If the shapes don't overlap, this does nothing. The
+ * 'cutter' object is removed from the layer.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		diffSelectedObjects:(id) sender;
+
+/** @brief Replaces a pair of objects by their intersection.
+ * @note
+ * Requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
+ * adopts the style of the lower contributing object
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		intersectionSelectedObjects:(id) sender;
+
+/** @brief Replaces a pair of objects by their exclusive-OR.
+ * @note
+ * Requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
+ * adopts the syle of the topmost contributing object
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		xorSelectedObjects:(id) sender;
+
+/** @brief Replaces a pair of objects by their divided replacements.
+ * @note
+ * Requires exactly two contributing objects. If the objects don't intersect, does nothing. A division
+ * splits two overlapping paths at their intersecting points into as many pieces as necessary. The
+ * original, objects are replaced by the pieces. Pieces derived from each path retain the styles of
+ * the original paths.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		divideSelectedObjects:(id) sender;
+
+/** @brief Replaces a pair of objects by combining their paths.
+ * @note
+ * Requires two or more contributing objects. The result adopts the syle of the topmost
+ * contributing object. The result can act like a union, difference or xor depending on the relative
+ * disposition of the contributing paths.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		combineSelectedObjects:(id) sender;
+
+/** @brief Sets the unflattening (smoothing) policy for GPC-based operations.
+ * @note
+ * The sender's tag is interpreted as the policy value.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		setBooleanOpsFittingPolicy:(id) sender;
 
 - (NSArray*)		cropToPath:(NSBezierPath*) croppingPath;
@@ -29,7 +82,6 @@
 - (BOOL)			intersectingDrawablesinArray:(NSArray*) array;
 
 @end
-
 
 /*
 

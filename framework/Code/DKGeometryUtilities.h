@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKGeometryUtilities.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 22/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import <Cocoa/Cocoa.h>
 
@@ -15,10 +13,32 @@ extern "C"
 {
 #endif
 
-
 NSRect				NSRectFromTwoPoints( const NSPoint a, const NSPoint b );
+
+/** @brief Forms a rectangle of the given size centred on p
+ * @param p a point
+ * @param size the rect size
+ * @return the rectangle
+ */
 NSRect				NSRectCentredOnPoint( const NSPoint p, const NSSize size );
+
+/** @brief Returns the smallest rect that encloses both a and b
+ * @note
+ * Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
+ * width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
+ * returned, but in all other cases it correctly forms the union. While NSUnionRect might be
+ * considered mathematically correct, since a rect of zero width or height cannot "contain" anything
+ * in the set sense, what's more practically required for real geometry is to allow infinitely thin
+ * lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
+ * @param a, b a pair of rects
+ * @return the rectangle that encloses a and b
+ */
 NSRect				UnionOfTwoRects( const NSRect a, const NSRect b );
+
+/** @brief Returns the smallest rect that encloses all rects in the set
+ * @param aSet a set of NSValues containing rect values
+ * @return the rectangle that encloses all rects
+ */
 NSRect				UnionOfRectsInSet( const NSSet* aSet );
 NSSet*				DifferenceOfTwoRects( const NSRect a, const NSRect b );
 NSSet*				SubtractTwoRects( const NSRect a, const NSRect b );
@@ -69,8 +89,6 @@ CGFloat				BezierSlope( const NSPoint bez[4], const CGFloat t );
 
 extern const NSPoint NSNotFoundPoint;
 
-
 #ifdef __cplusplus
 }
 #endif
-

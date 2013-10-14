@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKSelectionPDFView.h
 ///  DrawKit ©2005-2008 Apptree.net
@@ -9,17 +16,12 @@
 
 #import "DKDrawingView.h"
 
-
 @class DKDrawableObject, DKObjectOwnerLayer, DKShapeGroup;
-
 
 @interface DKSelectionPDFView : DKDrawingView
 @end
 
-
-
 @class DKObjectOwnerLayer, DKShapeGroup;
-
 
 @interface DKLayerPDFView : DKDrawingView
 {
@@ -30,14 +32,12 @@
 
 @end
 
-
 @interface DKDrawablePDFView : NSView
 {
 	DKDrawableObject*	mObjectRef;
 }
 
 - (id)		initWithFrame:(NSRect) frame object:(DKDrawableObject*) obj;
-
 
 @end
 

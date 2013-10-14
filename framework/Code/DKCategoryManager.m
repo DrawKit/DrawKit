@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKCategoryManager.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 21/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKCategoryManager.h"
 #import "NSDictionary+DeepCopy.h"
@@ -14,7 +12,6 @@
 #import "NSMutableArray+DKAdditions.h"
 #import "NSString+DKAdditions.h"
 #import "DKUnarchivingHelper.h"
-
 
 #pragma mark Contants (Non-localized)
 NSString*	kDKDefaultCategoryName						= @"All Items";
@@ -35,7 +32,6 @@ NSString*	kDKCategoryManagerDidCreateNewCategory		= @"kDKCategoryManagerDidCreat
 NSString*	kDKCategoryManagerWillDeleteCategory		= @"kDKCategoryManagerWillDeleteCategory";
 NSString*	kDKCategoryManagerDidDeleteCategory			= @"kDKCategoryManagerDidDeleteCategory";
 
-
 @interface DKCategoryManager (Private)
 
 - (DKCategoryManagerMenuInfo*) findInfoForMenu:(NSMenu*) aMenu;
@@ -48,84 +44,43 @@ NSString*	kDKCategoryManagerDidDeleteCategory			= @"kDKCategoryManagerDidDeleteC
 
 static id sDearchivingHelper = nil;
 
-
-///*********************************************************************************************************************
-///
-/// method:			categoryManager
-/// scope:			public classmethod
-/// overrides:
-/// description:	returns a new category manager object
-/// 
-/// parameters:		none
-/// result:			a category manager object
-///
-/// notes:			convenience method. Initial categories only consist of "All Items"
-///
-///********************************************************************************************************************
-
-
+/** @brief Returns a new category manager object
+ * @note
+ * Convenience method. Initial categories only consist of "All Items"
+ * @return a category manager object
+ * @public
+ */
 + (DKCategoryManager*)	categoryManager
 {
 	return [[[DKCategoryManager alloc] init] autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			categoryManagerWithDictionary
-/// scope:			public class method
-/// overrides:
-/// description:	returns a new category manager object based on an existing dictionary
-/// 
-/// parameters:		<dict> an existign dictionary
-/// result:			a category manager object
-///
-/// notes:			convenience method. Initial categories only consist of "All Items"
-///
-///********************************************************************************************************************
-
-
+/** @brief Returns a new category manager object based on an existing dictionary
+ * @note
+ * Convenience method. Initial categories only consist of "All Items"
+ * @param dict an existign dictionary
+ * @return a category manager object
+ * @public
+ */
 + (DKCategoryManager*)	categoryManagerWithDictionary:(NSDictionary*) dict
 {
 	return [[[DKCategoryManager alloc] initWithDictionary:dict] autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			defaultCategories
-/// scope:			class method
-/// overrides:
-/// description:	return the default categories defined for this class
-/// 
-/// parameters:		none
-/// result:			an array of categories
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the default categories defined for this class
+ * @return an array of categories
+ */
 + (NSArray*)			defaultCategories
 {
 	return [NSArray arrayWithObject:kDKDefaultCategoryName];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			categoryManagerKeyForObject:
-/// scope:			class method
-/// overrides:
-/// description:	given an object, return a key that can be used to store it in the category manager.
-/// 
-/// parameters:		<obj> an object
-/// result:			a key string
-///
-/// notes:			subclasses will need to define this differently - used for merging.
-///
-///********************************************************************************************************************
-
+/** @brief Given an object, return a key that can be used to store it in the category manager.
+ * @note
+ * Subclasses will need to define this differently - used for merging.
+ * @param obj an object
+ * @return a key string
+ */
 + (NSString*)			categoryManagerKeyForObject:(id) obj
 {
 	#pragma unused(obj)
@@ -135,7 +90,6 @@ static id sDearchivingHelper = nil;
 	return nil;
 }
 
-
 + (id)					dearchivingHelper
 {
 	if( sDearchivingHelper == nil )
@@ -144,7 +98,6 @@ static id sDearchivingHelper = nil;
 	return sDearchivingHelper;
 }
 
-
 + (void)				setDearchivingHelper:(id) helper
 {
 	[helper retain];
@@ -152,23 +105,16 @@ static id sDearchivingHelper = nil;
 	sDearchivingHelper = helper;
 }
 
-
 #pragma mark -
 #pragma mark - initialization
-///*********************************************************************************************************************
-///
-/// method:			initWithData:
-/// scope:			public method
-/// overrides:
-/// description:	initialized a category manager object from archive data
-/// 
-/// parameters:		<data> data containing a correctly archived category manager
-/// result:			the category manager object
-///
-/// notes:			data is permitted also to be an archived dictionary
-///
-///********************************************************************************************************************
 
+/** @brief Initialized a category manager object from archive data
+ * @note
+ * Data is permitted also to be an archived dictionary
+ * @param data data containing a correctly archived category manager
+ * @return the category manager object
+ * @public
+ */
 - (id)					initWithData:(NSData*) data
 {
 	NSAssert(data != nil, @"Expected valid data");
@@ -218,21 +164,13 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			initWithDictionary:
-/// scope:			public method
-/// overrides:
-/// description:	initialized a category manager object from an existing dictionary
-/// 
-/// parameters:		<dict> dictionary containing a set of objects and keys
-/// result:			the category manager object
-///
-/// notes:			no categories other than "All Items" are created by default. The recently added list is empty.
-///
-///********************************************************************************************************************
-
+/** @brief Initialized a category manager object from an existing dictionary
+ * @note
+ * No categories other than "All Items" are created by default. The recently added list is empty.
+ * @param dict dictionary containing a set of objects and keys
+ * @return the category manager object
+ * @public
+ */
 - (id)					initWithDictionary:(NSDictionary*) dict
 {
 	NSAssert(dict != nil, @"Expected valid dict");
@@ -263,26 +201,18 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark - adding and retrieving objects
-///*********************************************************************************************************************
-///
-/// method:			addObject:forKey:toCategory:createCategory:
-/// scope:			public method
-/// overrides:
-/// description:	add an object to the container, associating with a key and optionally a category.
-/// 
-/// parameters:		<obj> the object to add
-///					<name> the object's key
-///					<catName> the name of the category to add it to, or nil for defaults only
-///					<cg> YES to create the category if it doesn't exist. NO not to do so
-/// result:			none
-///
-/// notes:			<obj> and <name> cannot be nil. All objects are added to the default category regardless of <catName>
-///
-///********************************************************************************************************************
 
+/** @brief Add an object to the container, associating with a key and optionally a category.
+ * @note
+ * <obj> and <name> cannot be nil. All objects are added to the default category regardless of <catName>
+ * @param obj the object to add
+ * @param name the object's key
+ * @param catName the name of the category to add it to, or nil for defaults only
+ * @param cg YES to create the category if it doesn't exist. NO not to do so
+ * @public
+ */
 - (void)				addObject:(id) obj forKey:(NSString*) name toCategory:(NSString*) catName createCategory:(BOOL) cg
 {
 //	LogEvent_(kStateEvent, @"category manager adding object:%@ name:%@ to category:%@", obj, name, catName );
@@ -308,24 +238,15 @@ static id sDearchivingHelper = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddObject object:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addObject:forKey:toCategories:createCategories:
-/// scope:			public method
-/// overrides:
-/// description:	add an object to the container, associating with a key and optionally a number of categories.
-/// 
-/// parameters:		<obj> the object to add
-///					<name> the object's key
-///					<catNames> the names of the categories to add it to, or nil for defaults
-///					<cg> YES to create the categories if they don't exist. NO not to do so
-/// result:			none
-///
-/// notes:			<obj> and <name> cannot be nil. All objects are added to the default category regardless of <catNames>
-///
-///********************************************************************************************************************
-
+/** @brief Add an object to the container, associating with a key and optionally a number of categories.
+ * @note
+ * <obj> and <name> cannot be nil. All objects are added to the default category regardless of <catNames>
+ * @param obj the object to add
+ * @param name the object's key
+ * @param catNames the names of the categories to add it to, or nil for defaults
+ * @param cg YES to create the categories if they don't exist. NO not to do so
+ * @public
+ */
 - (void)				addObject:(id) obj forKey:(NSString*) name toCategories:(NSArray*) catNames createCategories:(BOOL) cg
 {
 //	LogEvent_(kStateEvent, @"category manager adding object:%@ name:%@ to categories:%@", obj, name, catNames );
@@ -351,21 +272,12 @@ static id sDearchivingHelper = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddObject object:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectForKey:
-/// scope:			public method
-/// overrides:
-/// description:	remove an object from the container
-/// 
-/// parameters:		<key> the object's key
-/// result:			none
-///
-/// notes:			after this the key will not be found in any category or either list
-///
-///********************************************************************************************************************
-
+/** @brief Remove an object from the container
+ * @note
+ * After this the key will not be found in any category or either list
+ * @param key the object's key
+ * @public
+ */
 - (void)				removeObjectForKey:(NSString*) key
 {
 	// remove this key from any/all categories and lists
@@ -373,7 +285,6 @@ static id sDearchivingHelper = nil;
 	NSAssert( key != nil, @"attempt to remove nil key");
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillRemoveObject object:self];
-
 
 	[self removeKeyFromAllCategories:key];
 	[self removeKey:key fromRecentList:kDKListRecentlyAdded];
@@ -385,21 +296,12 @@ static id sDearchivingHelper = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidRemoveObject object:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeObjectsForKeys:
-/// scope:			public method
-/// overrides:
-/// description:	remove multiple objects from the container
-/// 
-/// parameters:		<keys> a list of keys
-/// result:			none
-///
-/// notes:			after this no keys will not be found in any category or either list
-///
-///********************************************************************************************************************
-
+/** @brief Remove multiple objects from the container
+ * @note
+ * After this no keys will not be found in any category or either list
+ * @param keys a list of keys
+ * @public
+ */
 - (void)				removeObjectsForKeys:(NSArray*) keys
 {
 	NSEnumerator*	iter = [keys objectEnumerator];
@@ -409,106 +311,58 @@ static id sDearchivingHelper = nil;
 		[self removeObjectForKey:key];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			removeAllObjects
-/// scope:			public method
-/// overrides:
-/// description:	removes all objects from the container
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			does not remove the categories, but leaves them all empty.
-///
-///********************************************************************************************************************
-
+/** @brief Removes all objects from the container
+ * @note
+ * Does not remove the categories, but leaves them all empty.
+ * @public
+ */
 - (void)				removeAllObjects
 {
 	NSArray* keys = [self allKeys];
 	[self removeObjectsForKeys:keys];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			containsKey:
-/// scope:			public method
-/// overrides:
-/// description:	test whether the key is known to the container
-/// 
-/// parameters:		<key> the object's key
-/// result:			YES if known, NO if not
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Test whether the key is known to the container
+ * @param key the object's key
+ * @return YES if known, NO if not
+ * @public
+ */
 - (BOOL)				containsKey:(NSString*) key
 {
 	return [[m_masterList allKeys] containsObject:[key lowercaseString]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			count
-/// scope:			public method
-/// overrides:
-/// description:	return total number of stored objects in container
-/// 
-/// parameters:		none
-/// result:			the number of objects
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return total number of stored objects in container
+ * @return the number of objects
+ * @public
+ */
 - (NSUInteger)			count
 {
 	return [m_masterList count];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			objectForKey:
-/// scope:			public method
-/// overrides:
-/// description:	return the object for the given key, but do not remember it in the "recently used" list
-/// 
-/// parameters:		<key> the object's key
-/// result:			the object if available, else nil
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Return the object for the given key, but do not remember it in the "recently used" list
+ * @param key the object's key
+ * @return the object if available, else nil
+ * @public
+ */
 - (id)					objectForKey:(NSString*) key
 {
 	return [m_masterList objectForKey:[key lowercaseString]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectForKey:addToRecentlyUsedItems:
-/// scope:			public method
-/// overrides:
-/// description:	return the object for the given key, optionally remembering it in the "recently used" list
-/// 
-/// parameters:		<key> the object's key
-///					<add> if YES, object's key is added to recently used items
-/// result:			the object if available, else nil
-///
-/// notes:			use this method when you wish this access of the object to result in it being added to "recently used"
-///
-///********************************************************************************************************************
-
+/** @brief Return the object for the given key, optionally remembering it in the "recently used" list
+ * @note
+ * Use this method when you wish this access of the object to result in it being added to "recently used"
+ * @param key the object's key
+ * @param add if YES, object's key is added to recently used items
+ * @return the object if available, else nil
+ * @public
+ */
 - (id)					objectForKey:(NSString*) key addToRecentlyUsedItems:(BOOL) add
 {
 	// returns the object, but optionally adds it to the "recently used" list
@@ -521,22 +375,15 @@ static id sDearchivingHelper = nil;
 	return obj;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			keysForObject:
-/// scope:			public method
-/// overrides:
-/// description:	returns a list of all unique keys that refer to the given object
-/// 
-/// parameters:		<obj> the object
-/// result:			an array, listing all the unique keys that refer to the object.
-///
-/// notes:			The result may contain no keys if the object is unknown
-///
-///********************************************************************************************************************
 
+/** @brief Returns a list of all unique keys that refer to the given object
+ * @note
+ * The result may contain no keys if the object is unknown
+ * @param obj the object
+ * @return an array, listing all the unique keys that refer to the object.
+ * @public
+ */
 - (NSArray*)			keysForObject:(id) obj
 {
 	//return [[self dictionary] allKeysForObject:obj];  // doesn't work because master dict uses lowercase keys
@@ -554,45 +401,24 @@ static id sDearchivingHelper = nil;
 	return [keys autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			dictionary
-/// scope:			public method
-/// overrides:
-/// description:	return a copy of the master dictionary
-/// 
-/// parameters:		none
-/// result:			the main dictionary
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return a copy of the master dictionary
+ * @return the main dictionary
+ * @public
+ */
 - (NSDictionary*)		dictionary
 {
 	return [[m_masterList copy] autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mergeObjectsFromSet:inCategories:mergeOptions:mergeDelegate:
-/// scope:			public method
-/// overrides:
-/// description:	smartly merges objects into the category manager
-/// 
-/// parameters:		<aSet> a set of objects of the same kind as the current contents
-///					<categories> an optional list of categories to add th eobjects to. Categories will be created if needed.
-///					<options> replacxement options. Delegate may override these.
-///					<adelegate> an optional delegate that can be asked to make decisions about which objects get replaced.
-/// result:			a set, possibly empty. The set contains those objects that already existed in the CM that should replace
-///					equivalent items in the supplied set.
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Smartly merges objects into the category manager
+ * @param aSet a set of objects of the same kind as the current contents
+ * @param categories an optional list of categories to add th eobjects to. Categories will be created if needed.
+ * @param options replacxement options. Delegate may override these.
+ * @param adelegate an optional delegate that can be asked to make decisions about which objects get replaced.
+ * @return a set, possibly empty. The set contains those objects that already existed in the CM that should replace
+ * equivalent items in the supplied set.
+ * @public
+ */
 - (NSSet*)				mergeObjectsFromSet:(NSSet*) aSet inCategories:(NSArray*) categories mergeOptions:(DKCatManagerMergeOptions) options mergeDelegate:(id) aDelegate
 {
 	NSAssert( aSet != nil, @"cannot merge - set was nil");
@@ -662,22 +488,14 @@ static id sDearchivingHelper = nil;
 	return changedStyles;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mergeObject:mergeDelegate:
-/// scope:			public method
-/// overrides:
-/// description:	asks delegate to make decision about the merging of an object
-/// 
-/// parameters:		<obj> the object to consider
-///					<aDelegate> the delegate to ask
-/// result:			an equivalent object or nil. May be the supplied object or another having an identical ID.
-///
-/// notes:			subclasses must override this to make use of it. Returning nil means use existing object.
-///
-///********************************************************************************************************************
-
+/** @brief Asks delegate to make decision about the merging of an object
+ * @note
+ * Subclasses must override this to make use of it. Returning nil means use existing object.
+ * @param obj the object to consider
+ * @param aDelegate the delegate to ask
+ * @return an equivalent object or nil. May be the supplied object or another having an identical ID.
+ * @public
+ */
 - (id)					mergeObject:(id) obj mergeDelegate:(id) aDelegate
 {
 	NSAssert( obj != nil, @"cannot merge - object was nil");
@@ -699,25 +517,18 @@ static id sDearchivingHelper = nil;
 	return newObj;
 }
 
-
 #pragma mark -
 #pragma mark - retrieving lists of objects by category
-///*********************************************************************************************************************
-///
-/// method:			objectsInCategory:
-/// scope:			public method
-/// overrides:
-/// description:	return all of the objects belonging to a given category
-/// 
-/// parameters:		<catName> the category name
-/// result:			an array, the list of objects indicated by the category. May be empty.
-///
-/// notes:			returned objects are in no particular order, but do match the key order obtained by
-///					-allkeysInCategory. Should any key not exist (which should never normally occur), the entry will
-///					be represented by a NSNull object
-///
-///********************************************************************************************************************
 
+/** @brief Return all of the objects belonging to a given category
+ * @note
+ * Returned objects are in no particular order, but do match the key order obtained by
+ * -allkeysInCategory. Should any key not exist (which should never normally occur), the entry will
+ * be represented by a NSNull object
+ * @param catName the category name
+ * @return an array, the list of objects indicated by the category. May be empty.
+ * @public
+ */
 - (NSArray*)			objectsInCategory:(NSString*) catName
 {
 	NSMutableArray*		keys = [[[NSMutableArray alloc] init] autorelease];
@@ -730,23 +541,15 @@ static id sDearchivingHelper = nil;
 	return [m_masterList objectsForKeys:keys notFoundMarker:[NSNull null]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsInCategories:
-/// scope:			public method
-/// overrides:
-/// description:	return all of the objects belonging to the given categories
-/// 
-/// parameters:		<catNames> list of categories
-/// result:			an array, the list of objects indicated by the categories. May be empty.
-///
-/// notes:			returned objects are in no particular order, but do match the key order obtained by
-///					-allKeysInCategories:. Should any key not exist (which should never normally occur), the entry will
-///					be represented by a NSNull object
-///
-///********************************************************************************************************************
-
+/** @brief Return all of the objects belonging to the given categories
+ * @note
+ * Returned objects are in no particular order, but do match the key order obtained by
+ * -allKeysInCategories:. Should any key not exist (which should never normally occur), the entry will
+ * be represented by a NSNull object
+ * @param catNames list of categories
+ * @return an array, the list of objects indicated by the categories. May be empty.
+ * @public
+ */
 - (NSArray*)			objectsInCategories:(NSArray*) catNames
 {
 	NSMutableArray*		keys = [[[NSMutableArray alloc] init] autorelease];
@@ -759,22 +562,22 @@ static id sDearchivingHelper = nil;
 	return [m_masterList objectsForKeys:keys notFoundMarker:[NSNull null]];
 }
 
+/** @brief Return all of the keys in a given category
+ * @note
+ * Returned objects are in no particular order. This also treats the "recently used" and "recently added"
+ * items as pseudo-category names, returning these arrays if the catName matches.
+ * @param catName the category name
+ * @return an array, the list of keys indicated by the category. May be empty.
+ * @public
+ */
 
-///*********************************************************************************************************************
-///
-/// method:			allKeysInCategory:
-/// scope:			public method
-/// overrides:
-/// description:	return all of the keys in a given category
-/// 
-/// parameters:		<catName> the category name
-/// result:			an array, the list of keys indicated by the category. May be empty.
-///
-/// notes:			returned objects are in no particular order. This also treats the "recently used" and "recently added"
-///					items as pseudo-category names, returning these arrays if the catName matches.
-///
-///********************************************************************************************************************
-
+/** @brief Return all of the keys
+ * @note
+ * Returned objects are in no particular order. The keys are obtained by enumerating the categories
+ * because the master list contains case-modified keys that may not be matched with categories.
+ * @return an array, all keys (listed only once)
+ * @public
+ */
 - (NSArray*)			allKeysInCategory:(NSString*) catName
 {
 	if([catName isEqualToString:kDKRecentlyAddedUserString])
@@ -785,21 +588,13 @@ static id sDearchivingHelper = nil;
 		return [m_categories objectForKey:catName];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allKeysInCategories:
-/// scope:			public method
-/// overrides:
-/// description:	return all of the keys in all given categories
-/// 
-/// parameters:		<catNames> an array of category names
-/// result:			an array, the union of keys in listed categories. May be empty.
-///
-/// notes:			returned objects are in no particular order.
-///
-///********************************************************************************************************************
-
+/** @brief Return all of the keys in all given categories
+ * @note
+ * Returned objects are in no particular order.
+ * @param catNames an array of category names
+ * @return an array, the union of keys in listed categories. May be empty.
+ * @public
+ */
 - (NSArray*)			allKeysInCategories:(NSArray*) catNames
 {
 	if ([catNames count] == 1 )
@@ -824,22 +619,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allKeys
-/// scope:			public method
-/// overrides:
-/// description:	return all of the keys
-/// 
-/// parameters:		none
-/// result:			an array, all keys (listed only once)
-///
-/// notes:			returned objects are in no particular order. The keys are obtained by enumerating the categories
-///					because the master list contains case-modified keys that may not be matched with categories.
-///
-///********************************************************************************************************************
-
 - (NSArray*)			allKeys
 {
 	//return [[self dictionary] allKeys];		// doesn't work because keys are lowercase
@@ -847,88 +626,49 @@ static id sDearchivingHelper = nil;
 	return [self allKeysInCategories:[self allCategories]];	
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allObjects
-/// scope:			public method
-/// overrides:
-/// description:	return all of the objects
-/// 
-/// parameters:		none
-/// result:			an array, all objects (listed only once, in arbitrary order)
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return all of the objects
+ * @return an array, all objects (listed only once, in arbitrary order)
+ * @public
+ */
 - (NSArray*)			allObjects
 {
 	return [m_masterList allValues];
 
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allSortedKeysInCategory:
-/// scope:			public method
-/// overrides:
-/// description:	return all of the keys in a given category, sorted into some useful order
-/// 
-/// parameters:		<catName> the category name
-/// result:			an array, the list of keys indicated by the category. May be empty.
-///
-/// notes:			by default the keys are sorted alphabetically. The UI-building methods call this, so a subclass
-///					can override it and return keys sorted by some other criteria if required.
-///
-///********************************************************************************************************************
-
+/** @brief Return all of the keys in a given category, sorted into some useful order
+ * @note
+ * By default the keys are sorted alphabetically. The UI-building methods call this, so a subclass
+ * can override it and return keys sorted by some other criteria if required.
+ * @param catName the category name
+ * @return an array, the list of keys indicated by the category. May be empty.
+ * @public
+ */
 - (NSArray*)			allSortedKeysInCategory:(NSString*) catName
 {
 	return [[self allKeysInCategory:catName] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];	
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allSortedNamesInCategory:
-/// scope:			public method
-/// overrides:
-/// description:	return all of the names in a given category, sorted into some useful order
-/// 
-/// parameters:		<catName> the category name
-/// result:			an array, the list of names indicated by the category. May be empty.
-///
-/// notes:			For an ordinary DKCategoryManager, names == keys. However, subclasses may store keys in some other
-///					fashion (hint: they do) and so another method is needed to convert keys to names. Those subclasses
-///					must override this and do what's appropriate.
-///
-///********************************************************************************************************************
-
+/** @brief Return all of the names in a given category, sorted into some useful order
+ * @note
+ * For an ordinary DKCategoryManager, names == keys. However, subclasses may store keys in some other
+ * fashion (hint: they do) and so another method is needed to convert keys to names. Those subclasses
+ * must override this and do what's appropriate.
+ * @param catName the category name
+ * @return an array, the list of names indicated by the category. May be empty.
+ * @public
+ */
 - (NSArray*)			allSortedNamesInCategory:(NSString*) catName
 {
 	return [self allSortedKeysInCategory:catName];
 }
 
-
 #pragma mark -
 
-
-///*********************************************************************************************************************
-///
-/// method:			setRecentlyAddedItems:
-/// scope:			public method
-/// overrides:
-/// description:	replaces the recently added items with new items, up to the current max.
-/// 
-/// parameters:		<array> an array of suitable objects
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Replaces the recently added items with new items, up to the current max.
+ * @param array an array of suitable objects
+ * @public
+ */
 - (void)				setRecentlyAddedItems:(NSArray*) array
 {
 	[m_recentlyAdded removeAllObjects];
@@ -939,104 +679,55 @@ static id sDearchivingHelper = nil;
 		[m_recentlyAdded addObject:[array objectAtIndex:i]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			recentlyAddedItems
-/// scope:			public method
-/// overrides:
-/// description:	return the list of recently added items
-/// 
-/// parameters:		none
-/// result:			an array, the list of keys recently added.
-///
-/// notes:			returned objects are in order of addition, most recent first.
-///
-///********************************************************************************************************************
-
+/** @brief Return the list of recently added items
+ * @note
+ * Returned objects are in order of addition, most recent first.
+ * @return an array, the list of keys recently added.
+ * @public
+ */
 - (NSArray*)			recentlyAddedItems
 {
 	return m_recentlyAdded;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			recentlyUsedItems
-/// scope:			public method
-/// overrides:
-/// description:	return the list of recently used items
-/// 
-/// parameters:		none
-/// result:			an array, the list of keys recently used.
-///
-/// notes:			returned objects are in order of use, most recent first.
-///
-///********************************************************************************************************************
-
+/** @brief Return the list of recently used items
+ * @note
+ * Returned objects are in order of use, most recent first.
+ * @return an array, the list of keys recently used.
+ * @public
+ */
 - (NSArray*)			recentlyUsedItems
 {
 	return m_recentlyUsed;
 }
 
-
 #pragma mark -
 #pragma mark - category management - creating, deleting and renaming categories
 
-///*********************************************************************************************************************
-///
-/// method:			addDefaultCategories
-/// scope:			public method
-/// overrides:
-/// description:	add the default categories defined for this class or object
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			is called as part of the initialisation of the CM object
-///
-///********************************************************************************************************************
-
+/** @brief Add the default categories defined for this class or object
+ * @note
+ * Is called as part of the initialisation of the CM object
+ * @public
+ */
 - (void)				addDefaultCategories
 {
 	[self addCategories:[self defaultCategories]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			defaultCategories
-/// scope:			public method
-/// overrides:
-/// description:	return the default categories defined for this class or object
-/// 
-/// parameters:		none
-/// result:			an array of categories
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the default categories defined for this class or object
+ * @return an array of categories
+ * @public
+ */
 - (NSArray*)			defaultCategories
 {
 	return [[self class] defaultCategories];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addCategory:
-/// scope:			protected method
-/// overrides:
-/// description:	create a new category with the given name
-/// 
-/// parameters:		<catName> the name of the new category
-/// result:			none
-///
-/// notes:			if the name is already a category name, this does nothing
-///
-///********************************************************************************************************************
-
+/** @brief Create a new category with the given name
+ * @note
+ * If the name is already a category name, this does nothing
+ * @param catName the name of the new category
+ */
 - (void)				addCategory:(NSString*) catName
 {
 	if ([m_categories objectForKey:catName] == nil )
@@ -1057,21 +748,9 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addCategories:
-/// scope:			protected method
-/// overrides:
-/// description:	create a new categories with the given names
-/// 
-/// parameters:		<catNames> a list of the names of the new categories
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Create a new categories with the given names
+ * @param catNames a list of the names of the new categories
+ */
 - (void)				addCategories:(NSArray*) catNames
 {
 	NSEnumerator*   iter = [catNames objectEnumerator];
@@ -1081,23 +760,14 @@ static id sDearchivingHelper = nil;
 		[self addCategory:catName];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeCategory:
-/// scope:			public method
-/// overrides:
-/// description:	remove a category with the given name
-/// 
-/// parameters:		<catName> the category to remove
-/// result:			none
-///
-/// notes:			The objects listed in the category are not removed, as they may also be listed by other categories.
-///					If they are not, they can become orphaned however. To avoid this, never delete the "All Items"
-///					category.
-///
-///********************************************************************************************************************
-
+/** @brief Remove a category with the given name
+ * @note
+ * The objects listed in the category are not removed, as they may also be listed by other categories.
+ * If they are not, they can become orphaned however. To avoid this, never delete the "All Items"
+ * category.
+ * @param catName the category to remove
+ * @public
+ */
 - (void)				removeCategory:(NSString*) catName
 {
 //	LogEvent_(kStateEvent, @"removing category '%@'", catName );
@@ -1116,22 +786,13 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renameCategory:to:
-/// scope:			public method
-/// overrides:
-/// description:	change a category's name
-/// 
-/// parameters:		<catName> the category's old name
-///					<newname> the category's new name
-/// result:			none
-///
-/// notes:			if <newname> already exists, it will be replaced by the entries in <catname>
-///
-///********************************************************************************************************************
-
+/** @brief Change a category's name
+ * @note
+ * If <newname> already exists, it will be replaced by the entries in <catname>
+ * @param catName the category's old name
+ * @param newname the category's new name
+ * @public
+ */
 - (void)				renameCategory:(NSString*) catName to:(NSString*) newname
 {
 	LogEvent_(kStateEvent, @"renaming the category '%@' to' %@'", catName, newname );
@@ -1155,21 +816,11 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeAllCategories
-/// scope:			public method
-/// overrides:
-/// description:	removes all categories and objects from the CM.
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			after this the CM is entirely empty.
-///
-///********************************************************************************************************************
-
+/** @brief Removes all categories and objects from the CM.
+ * @note
+ * After this the CM is entirely empty.
+ * @public
+ */
 - (void)				removeAllCategories
 {
 	[m_masterList removeAllObjects];
@@ -1180,24 +831,13 @@ static id sDearchivingHelper = nil;
 	[mMenusList makeObjectsPerformSelector:@selector(removeAll)];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			addKey:toCategory:createCategory:
-/// scope:			protected method
-/// overrides:
-/// description:	adds a new key to a category, optionally creating it if necessary
-/// 
-/// parameters:		<key> the key to add
-///					<catName> the category to add it to
-///					<cg> YES to create the category if it doesn't exist, NO otherwise
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Adds a new key to a category, optionally creating it if necessary
+ * @param key the key to add
+ * @param catName the category to add it to
+ * @param cg YES to create the category if it doesn't exist, NO otherwise
+ */
 - (void)				addKey:(NSString*) key toCategory:(NSString*) catName createCategory:(BOOL) cg
 {
 	// add a key to an existing group, or to a new group if it doesn't yet exist and the flag is set
@@ -1235,23 +875,11 @@ static id sDearchivingHelper = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddKeyToCategory object:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addKey:toCategories:createCategories:
-/// scope:			protected method
-/// overrides:
-/// description:	adds a new key to several categories, optionally creating any if necessary
-/// 
-/// parameters:		<key> the key to add
-///					<catNames> a list of categories to add it to
-///					<cg> YES to create the category if it doesn't exist, NO otherwise
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Adds a new key to several categories, optionally creating any if necessary
+ * @param key the key to add
+ * @param catNames a list of categories to add it to
+ * @param cg YES to create the category if it doesn't exist, NO otherwise
+ */
 - (void)				addKey:(NSString*) key toCategories:(NSArray*) catNames createCategories:(BOOL) cg
 {
 	if ( catNames == nil )
@@ -1264,22 +892,10 @@ static id sDearchivingHelper = nil;
 		[self addKey:key toCategory:cat createCategory:cg];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeKey:fromCategory:
-/// scope:			protected method
-/// overrides:
-/// description:	removes a key from a category
-/// 
-/// parameters:		<key> the key to remove
-///					<catName> the category to remove it from
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes a key from a category
+ * @param key the key to remove
+ * @param catName the category to remove it from
+ */
 - (void)				removeKey:(NSString*) key fromCategory:(NSString*) catName
 {
 //	LogEvent_(kStateEvent, @"removing key '%@' from category '%@'", key, catName );
@@ -1299,22 +915,10 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeKey:fromCategories:
-/// scope:			protected method
-/// overrides:
-/// description:	removes a key from a number of categories
-/// 
-/// parameters:		<key> the key to remove
-///					<catNames> the list of categories to remove it from
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes a key from a number of categories
+ * @param key the key to remove
+ * @param catNames the list of categories to remove it from
+ */
 - (void)				removeKey:(NSString*) key fromCategories:(NSArray*) catNames
 {
 	if ( catNames == nil )
@@ -1327,42 +931,19 @@ static id sDearchivingHelper = nil;
 		[self removeKey:key fromCategory:cat];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeKeyFromAllCategories:
-/// scope:			protected method
-/// overrides:
-/// description:	removes a key from all categories
-/// 
-/// parameters:		<key> the key to remove
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes a key from all categories
+ * @param key the key to remove
+ */
 - (void)				removeKeyFromAllCategories:(NSString*) key
 {
 	[self removeKey:key fromCategories:[self allCategories]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			fixUpCategories
-/// scope:			protected method
-/// overrides:
-/// description:	checks that all keys refer to real objects, removing any that do not
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			rarely needed, but can correct for corrupted registries where objects got removed but not all
-///					keys that refer to it did for some reason (such as an exception).
-///
-///********************************************************************************************************************
-
+/** @brief Checks that all keys refer to real objects, removing any that do not
+ * @note
+ * Rarely needed, but can correct for corrupted registries where objects got removed but not all
+ * keys that refer to it did for some reason (such as an exception).
+ */
 - (void)				fixUpCategories
 {
 	NSEnumerator*	iter = [[self allKeys] objectEnumerator];
@@ -1375,24 +956,15 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			renameKey:to:
-/// scope:			public method
-/// overrides:
-/// description:	renames an object's key throughout
-/// 
-/// parameters:		<key> the existing key
-///					<newKey> the new key
-/// result:			none
-///
-/// notes:			if <key> doesn't exist, or if <newkey> already exists, throws an exception. After this the same
-///					object that could be located using <key> can be located using <newKey> in the same categories as
-///					it appeared in originally.
-///
-///********************************************************************************************************************
-
+/** @brief Renames an object's key throughout
+ * @note
+ * If <key> doesn't exist, or if <newkey> already exists, throws an exception. After this the same
+ * object that could be located using <key> can be located using <newKey> in the same categories as
+ * it appeared in originally.
+ * @param key the existing key
+ * @param newKey the new key
+ * @public
+ */
 - (void)				renameKey:(NSString*) key to:(NSString*) newKey
 {
 	NSAssert( key != nil, @"expected non-nil key");
@@ -1427,68 +999,40 @@ static id sDearchivingHelper = nil;
 	[object release];
 }
 
-
 #pragma mark -
 #pragma mark - getting lists, etc. of the categories
-///*********************************************************************************************************************
-///
-/// method:			allCategories
-/// scope:			public method
-/// overrides:
-/// description:	get a list of all categories
-/// 
-/// parameters:		none
-/// result:			an array containg a list of all category names
-///
-/// notes:			the list is alphabetically sorted for the convenience of a user interface
-///
-///********************************************************************************************************************
 
+/** @brief Get a list of all categories
+ * @note
+ * The list is alphabetically sorted for the convenience of a user interface
+ * @return an array containg a list of all category names
+ * @public
+ */
 - (NSArray*)			allCategories
 {
 	return [[m_categories allKeys] sortedArrayUsingSelector:@selector(localisedCaseInsensitiveNumericCompare:)];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			countOfCategories
-/// scope:			public method
-/// overrides:
-/// description:	get the count of all categories
-/// 
-/// parameters:		none
-/// result:			the number of categories currently defined
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Get the count of all categories
+ * @return the number of categories currently defined
+ * @public
+ */
 - (NSUInteger)			countOfCategories
 {
 	return [m_categories count];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			categoriesContainingKey:
-/// scope:			public method
-/// overrides:
-/// description:	get a list of all categories that contain a given key
-/// 
-/// parameters:		<key> the key in question
-/// result:			an array containing a list of categories which contain the key
-///
-/// notes:			the list is alphabetically sorted for the convenience of a user interface
-///
-///********************************************************************************************************************
-
+/** @brief Get a list of all categories that contain a given key
+ * @note
+ * The list is alphabetically sorted for the convenience of a user interface
+ * @param key the key in question
+ * @return an array containing a list of categories which contain the key
+ * @public
+ */
 - (NSArray*)			categoriesContainingKey:(NSString*) key
 {
 	return [self categoriesContainingKey:key withSorting:YES];
 }
-
 
 - (NSArray*)			categoriesContainingKey:(NSString*) key withSorting:(BOOL) sortIt
 {
@@ -1513,131 +1057,74 @@ static id sDearchivingHelper = nil;
 	return [catList autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			reservedCategories
-/// scope:			public method
-/// overrides:
-/// description:	get a list of reserved categories - those that should not be deleted or renamed
-/// 
-/// parameters:		none
-/// result:			an array containing a list of the reserved categories 
-///
-/// notes:			this list is advisory - a UI is responsible for honouring it, the cat manager itself ignores it.
-///					The default implementation returns the same as the default categories, thus reserving all
-///					default cats. Subclasses can change this as they wish.
-///
-///********************************************************************************************************************
-
+/** @brief Get a list of reserved categories - those that should not be deleted or renamed
+ * @note
+ * This list is advisory - a UI is responsible for honouring it, the cat manager itself ignores it.
+ * The default implementation returns the same as the default categories, thus reserving all
+ * default cats. Subclasses can change this as they wish.
+ * @return an array containing a list of the reserved categories 
+ * @public
+ */
 - (NSArray*)			reservedCategories
 {
 	return [self defaultCategories]; 
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			categoryExists:
-/// scope:			public method
-/// overrides:
-/// description:	test whether there is a category of the given name
-/// 
-/// parameters:		<catName> the category name
-/// result:			YES if a category exists with the name, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Test whether there is a category of the given name
+ * @param catName the category name
+ * @return YES if a category exists with the name, NO otherwise
+ * @public
+ */
 - (BOOL)				categoryExists:(NSString*) catName
 {
 	return [m_categories objectForKey:catName] != nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			countOfObjectsInCategory:
-/// scope:			public method
-/// overrides:
-/// description:	count how many objects in the category of the given name
-/// 
-/// parameters:		<catName> the category name
-/// result:			the number of objects in the category
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Count how many objects in the category of the given name
+ * @param catName the category name
+ * @return the number of objects in the category
+ * @public
+ */
 - (NSUInteger)			countOfObjectsInCategory:(NSString*) catName
 {
 	return [[m_categories objectForKey:catName] count];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			key:existsInCategory:
-/// scope:			public method
-/// overrides:
-/// description:	query whether a given key is present in a particular category
-/// 
-/// parameters:		<key> the key
-///					<catName> the category name
-/// result:			YES if the category contains <key>, NO if it doesn't
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Query whether a given key is present in a particular category
+ * @param key the key
+ * @param catName the category name
+ * @return YES if the category contains <key>, NO if it doesn't
+ * @public
+ */
 - (BOOL)				key:(NSString*) key existsInCategory:(NSString*) catName
 {
 	return [[m_categories objectForKey:catName] containsObject:key];
 }
 
-
 #pragma mark -
 #pragma mark - managing recent lists
 
-
-///*********************************************************************************************************************
-///
-/// method:			setRecentlyAddedListEnabled:
-/// scope:			public method
-/// overrides:
-/// description:	set whether the "recent;y added" list accepts new items or not
-/// 
-/// parameters:		<enable> YES to allow new items to be added, NO otherwise
-/// result:			none
-///
-/// notes:			this allows the recently added items to be temporarily disabled when bulk adding items to the
-///					manager. By default the recently added items list is enabled.
-///
-///********************************************************************************************************************
-
+/** @brief Set whether the "recent;y added" list accepts new items or not
+ * @note
+ * This allows the recently added items to be temporarily disabled when bulk adding items to the
+ * manager. By default the recently added items list is enabled.
+ * @param enable YES to allow new items to be added, NO otherwise
+ * @public
+ */
 - (void)				setRecentlyAddedListEnabled:(BOOL) enable
 {
 	mRecentlyAddedEnabled = enable;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			addKey:toRecentList:
-/// scope:			protected method
-/// overrides:
-/// description:	add a key to one of the 'recent' lists
-/// 
-/// parameters:		<key> the key to add
-///					<whichList> an identifier for the list in question
-/// result:			return YES if the key was added, otherwise NO (i.e. if list already contains item)
-///
-/// notes:			acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
-///
-///********************************************************************************************************************
-
+/** @brief Add a key to one of the 'recent' lists
+ * @note
+ * Acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
+ * @param key the key to add
+ * @param whichList an identifier for the list in question
+ * @return return YES if the key was added, otherwise NO (i.e. if list already contains item)
+ */
 - (BOOL)				addKey:(NSString*) key toRecentList:(NSInteger) whichList
 {
 	NSUInteger		max;
@@ -1688,22 +1175,12 @@ static id sDearchivingHelper = nil;
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeKey:fromRecentList:
-/// scope:			protected method
-/// overrides:
-/// description:	remove a key from one of the 'recent' lists
-/// 
-/// parameters:		<key> the key to remove
-///					<whichList> an identifier for the list in question
-/// result:			none
-///
-/// notes:			acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
-///
-///********************************************************************************************************************
-
+/** @brief Remove a key from one of the 'recent' lists
+ * @note
+ * Acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
+ * @param key the key to remove
+ * @param whichList an identifier for the list in question
+ */
 - (void)				removeKey:(NSString*) key fromRecentList:(NSInteger) whichList
 {
 	NSMutableArray* rl;
@@ -1729,22 +1206,12 @@ static id sDearchivingHelper = nil;
 	[mMenusList makeObjectsPerformSelector:@selector(addRecentlyAddedOrUsedKey:) withObject:nil];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setRecentList:maxItems:
-/// scope:			protected method
-/// overrides:
-/// description:	sets the maximum length of on eof the 'recent' lists
-/// 
-/// parameters:		<whichList> an identifier for the list in question
-///					<max> the maximum length to which a list may grow
-/// result:			none
-///
-/// notes:			acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
-///
-///********************************************************************************************************************
-
+/** @brief Sets the maximum length of on eof the 'recent' lists
+ * @note
+ * Acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
+ * @param whichList an identifier for the list in question
+ * @param max the maximum length to which a list may grow
+ */
 - (void)				setRecentList:(NSInteger) whichList maxItems:(NSUInteger) max
 {
 	switch( whichList )
@@ -1762,28 +1229,17 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
 #pragma mark -
 #pragma mark - archiving
-///*********************************************************************************************************************
-///
-/// method:			data
-/// scope:			public method
-/// overrides:
-/// description:	archives the container to a data object (for saving, etc)
-/// 
-/// parameters:		none
-/// result:			a data object, the archive of the container
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Archives the container to a data object (for saving, etc)
+ * @return a data object, the archive of the container
+ * @public
+ */
 - (NSData*)				data
 {
 	return [self dataWithFormat:NSPropertyListXMLFormat_v1_0];
 }
-
 
 - (NSData*)				dataWithFormat:(NSPropertyListFormat) format
 {
@@ -1800,42 +1256,21 @@ static id sDearchivingHelper = nil;
 	return d;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			fileType
-/// scope:			public method
-/// overrides:
-/// description:	return the filetype (for saving, etc)
-/// 
-/// parameters:		none
-/// result:			a string, the filetype of the saved/opened data
-///
-/// notes:			subclasses should override to change the filetype used for specific examples of this object
-///
-///********************************************************************************************************************
-
+/** @brief Return the filetype (for saving, etc)
+ * @note
+ * Subclasses should override to change the filetype used for specific examples of this object
+ * @public
+ */
 - (NSString*)			fileType
 {
 	return @"dkcatmgr";
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			replaceContentsWithData:
-/// scope:			public method
-/// overrides:
-/// description:	discard all existing content, then reload from the archive data passed
-/// 
-/// parameters:		<data> data, being an archive earlier obtained using -data
-/// result:			YES if the archive could be read, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Discard all existing content, then reload from the archive data passed
+ * @param data data, being an archive earlier obtained using -data
+ * @return YES if the archive could be read, NO otherwise
+ * @public
+ */
 - (BOOL)				replaceContentsWithData:(NSData*) data
 {
 	NSAssert( data != nil, @"cannot replace from nil data");
@@ -1865,25 +1300,17 @@ static id sDearchivingHelper = nil;
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			appendContentsWithData:
-/// scope:			public method
-/// overrides:
-/// description:	retain all existing content, and load additional content from the archive data passed
-/// 
-/// parameters:		<data> data, being an archive earlier obtained using -data
-/// result:			YES if the archive could be read, NO otherwise
-///
-/// notes:			because at this level DKCategoryManager has no knowledge of the objects it is storing, it has no
-///					means to be smart about merging objects that are the same in some higher abstract way. Thus it's
-///					entirely possible to end up with multiple copies of the "same" object after this operation.
-///					Subclasses may prefer to do something smarter.
-///					Note however that duplicate categories are not created.
-///
-///********************************************************************************************************************
-
+/** @brief Retain all existing content, and load additional content from the archive data passed
+ * @note
+ * Because at this level DKCategoryManager has no knowledge of the objects it is storing, it has no
+ * means to be smart about merging objects that are the same in some higher abstract way. Thus it's
+ * entirely possible to end up with multiple copies of the "same" object after this operation.
+ * Subclasses may prefer to do something smarter.
+ * Note however that duplicate categories are not created.
+ * @param data data, being an archive earlier obtained using -data
+ * @return YES if the archive could be read, NO otherwise
+ * @public
+ */
 - (BOOL)				appendContentsWithData:(NSData*) data
 {
 	NSAssert( data != nil, @"cannot append from nil data");
@@ -1901,23 +1328,14 @@ static id sDearchivingHelper = nil;
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			copyItemsFromCategoryManager:
-/// scope:			public method
-/// overrides:
-/// description:	retain all existing content, and load additional content from the cat manager passed
-/// 
-/// parameters:		<cm> a category manager object
-/// result:			none
-///
-/// notes:			categories not present in the receiver but exist in <cm> are created, and objects present in <cm>
-///					are added to the receiver if not already present (as determined solely by address). This method
-///					disables the "recently added" list while it adds the items.
-///
-///********************************************************************************************************************
-
+/** @brief Retain all existing content, and load additional content from the cat manager passed
+ * @note
+ * Categories not present in the receiver but exist in <cm> are created, and objects present in <cm>
+ * are added to the receiver if not already present (as determined solely by address). This method
+ * disables the "recently added" list while it adds the items.
+ * @param cm a category manager object
+ * @public
+ */
 - (void)				copyItemsFromCategoryManager:(DKCategoryManager*) cm
 {
 	NSAssert( cm != nil, @"cannot copy items from nil");
@@ -1942,8 +1360,6 @@ static id sDearchivingHelper = nil;
 	[self setRecentlyAddedItems:[cm recentlyAddedItems]];
 }
 
-
-
 #pragma mark -
 #pragma mark - supporting UI
 
@@ -1963,78 +1379,51 @@ static id sDearchivingHelper = nil;
 	return nil;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeMenu:
-/// scope:			public method
-/// overrides:
-/// description:	removes the menu from the list of managed menus
-/// 
-/// parameters:		<menu> a menu managed by this object
-/// result:			none
-///
-/// notes:			an object using a menu created by the category manager must remove it from management when it is
-///					no longer needed as a stale reference can cause a crash.
-///
-///********************************************************************************************************************
-
+/** @brief Removes the menu from the list of managed menus
+ * @note
+ * An object using a menu created by the category manager must remove it from management when it is
+ * no longer needed as a stale reference can cause a crash.
+ * @param menu a menu managed by this object
+ * @public
+ */
 - (void)				removeMenu:(NSMenu*) menu
 {
 	[mMenusList removeObject:[self findInfoForMenu:menu]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			updateMenusForKey:
-/// scope:			public method
-/// overrides:
-/// description:	synchronises the menus to reflect any change of the object referenced by <key>
-/// 
-/// parameters:		<key> an object's key
-/// result:			none
-///
-/// notes:			any change to a stored object that affects the menus' appearance can be handled by calling this.
-///					this only changes the menu items that represent the object, and not the entire menu, so is an
-///					efficient way to keep menus up to date with changes.
-///
-///********************************************************************************************************************
-
+/** @brief Synchronises the menus to reflect any change of the object referenced by <key>
+ * @note
+ * Any change to a stored object that affects the menus' appearance can be handled by calling this.
+ * this only changes the menu items that represent the object, and not the entire menu, so is an
+ * efficient way to keep menus up to date with changes.
+ * @param key an object's key
+ * @public
+ */
 - (void)				updateMenusForKey:(NSString*) key
 {
 	[mMenusList makeObjectsPerformSelector:@selector(updateForKey:) withObject:key];
 }
 
-
 #pragma mark - a menu with everything, organised hierarchically by category
-///*********************************************************************************************************************
-///
-/// method:			createMenuWithItemDelegate:isPopUpMenu:
-/// scope:			public method
-/// overrides:
-/// description:	creates a complete menu of the entire contents of the receiver, arranged by category
-/// 
-/// parameters:		<id> an object that is called back with each menu item created (may be nil)
-///					<isPopUp> set YES if menu is destined for use as a popup (adds extra zeroth item)
-/// result:			a menu object
-///
-/// notes:			the menu returned lists the categories, each of which is a submenu containing the actual objects
-///					corresponding to the category contents. It also populates a recent items and added items submenu.
-///					the callback object needs to set up the menu item based on the object itself. The object is added
-///					automatically as the menu item's represented object. This is one easy way to create a simple UI
-///					to the cat manager, where you can simply pick an item from the menu.
-///
-///					Note that the returned menu is fully managed - as objects are added and removed the menu will be
-///					directly managed to keep in synch. Thus the client code does not need to bother doing this just
-///					to keep the menus up to date. The menu updating is done very efficiently for performance.
-///
-///					If the content of a menu item needs to change, call -updateMenusForKey: for the object key in
-///					question. When the client is dealloc'd, it should call -removeMenu: for any menus it obtained
-///					using this, so that stale references to the callback object are cleared out.
-///
-///********************************************************************************************************************
 
+/** @brief Creates a complete menu of the entire contents of the receiver, arranged by category
+ * @note
+ * The menu returned lists the categories, each of which is a submenu containing the actual objects
+ * corresponding to the category contents. It also populates a recent items and added items submenu.
+ * the callback object needs to set up the menu item based on the object itself. The object is added
+ * automatically as the menu item's represented object. This is one easy way to create a simple UI
+ * to the cat manager, where you can simply pick an item from the menu.
+ * Note that the returned menu is fully managed - as objects are added and removed the menu will be
+ * directly managed to keep in synch. Thus the client code does not need to bother doing this just
+ * to keep the menus up to date. The menu updating is done very efficiently for performance.
+ * If the content of a menu item needs to change, call -updateMenusForKey: for the object key in
+ * question. When the client is dealloc'd, it should call -removeMenu: for any menus it obtained
+ * using this, so that stale references to the callback object are cleared out.
+ * @param id an object that is called back with each menu item created (may be nil)
+ * @param isPopUp set YES if menu is destined for use as a popup (adds extra zeroth item)
+ * @return a menu object
+ * @public
+ */
 - (NSMenu*)				createMenuWithItemDelegate:(id) del isPopUpMenu:(BOOL) isPopUp
 {
 	NSInteger options = kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems;
@@ -2045,12 +1434,10 @@ static id sDearchivingHelper = nil;
 	return [self createMenuWithItemDelegate:del options:options];
 }
 
-
 - (NSMenu*)				createMenuWithItemDelegate:(id) del options:(DKCategoryMenuOptions) options
 {
 	return [self createMenuWithItemDelegate:del itemTarget:nil itemAction:NULL options:options];
 }
-
 
 - (NSMenu*)				createMenuWithItemDelegate:(id) del itemTarget:(id) target itemAction:(SEL) action options:(DKCategoryMenuOptions) options
 {
@@ -2064,45 +1451,30 @@ static id sDearchivingHelper = nil;
 	return [menuInfo menu];
 }
 
-
 #pragma mark - menus of just the categories
-///*********************************************************************************************************************
-///
-/// method:			categoriesMenuWithSelector:target:
-/// scope:			public method
-/// overrides:
-/// description:	creates a menu of categories, recent items and All Items
-/// 
-/// parameters:		<sel> the selector which is set as the action for each added item
-///					<target> the target of category item actions
-/// result:			a menu populated with category and other names
-///
-/// notes:			sel and target may be nil
-///
-///********************************************************************************************************************
 
+/** @brief Creates a menu of categories, recent items and All Items
+ * @note
+ * Sel and target may be nil
+ * @param sel the selector which is set as the action for each added item
+ * @param target the target of category item actions
+ * @return a menu populated with category and other names
+ * @public
+ */
 - (NSMenu*)				categoriesMenuWithSelector:(SEL) sel target:(id) target
 {
 	return [self categoriesMenuWithSelector:sel target:target options:kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems | kDKIncludeAllItems];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			categoriesMenuWithOptions:selector:target:
-/// scope:			public method
-/// overrides:
-/// description:	creates a menu of categories, recent items and All Items
-/// 
-/// parameters:		<sel> the selector which is set as the action for each category item
-///					<target> the target of category item actions
-///					<options> various flags which set which items are added
-/// result:			a menu populated with category and other names
-///
-/// notes:			sel and target may be nil, options may be 0
-///
-///********************************************************************************************************************
-
+/** @brief Creates a menu of categories, recent items and All Items
+ * @note
+ * Sel and target may be nil, options may be 0
+ * @param sel the selector which is set as the action for each category item
+ * @param target the target of category item actions
+ * @param options various flags which set which items are added
+ * @return a menu populated with category and other names
+ * @public
+ */
 - (NSMenu*)				categoriesMenuWithSelector:(SEL) sel target:(id) target options:(NSInteger) options
 {
 	// create and populate a menu with the category names plus optionally the recent items lists
@@ -2115,25 +1487,14 @@ static id sDearchivingHelper = nil;
 	return [menuInfo menu];
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			checkItemsInMenu:forCategoriesContainingKey:
-/// scope:			public method
-/// overrides:
-/// description:	sets the checkmarks in a menu of category names to reflect the presence of <key> in those categories
-/// 
-/// parameters:		<menu> the menu to examine
-///					<key> the key to test against
-/// result:			none
-///
-/// notes:			assumes that item names will be the category names. For localized names, you should handle the
-///					localization external to this class so that both category names and menu items use the same strings.
-///
-///********************************************************************************************************************
-
-
+/** @brief Sets the checkmarks in a menu of category names to reflect the presence of <key> in those categories
+ * @note
+ * Assumes that item names will be the category names. For localized names, you should handle the
+ * localization external to this class so that both category names and menu items use the same strings.
+ * @param menu the menu to examine
+ * @param key the key to test against
+ * @public
+ */
 - (void)				checkItemsInMenu:(NSMenu*) menu forCategoriesContainingKey:(NSString*) key
 {
 	DKCategoryManagerMenuInfo* menuInfo = [self findInfoForMenu:menu];
@@ -2141,7 +1502,6 @@ static id sDearchivingHelper = nil;
 	if( menuInfo )
 		[menuInfo checkItemsForKey:key];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -2155,7 +1515,6 @@ static id sDearchivingHelper = nil;
 	
 	[super dealloc];
 }
-
 
 - (id)					init
 {
@@ -2189,7 +1548,6 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)				encodeWithCoder:(NSCoder*) coder
@@ -2202,7 +1560,6 @@ static id sDearchivingHelper = nil;
 	[coder encodeInteger:m_maxRecentlyAddedItems forKey:@"maxadd"];
 	[coder encodeInteger:m_maxRecentlyUsedItems forKey:@"maxuse"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -2229,7 +1586,6 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying protocol
 
@@ -2250,9 +1606,7 @@ static id sDearchivingHelper = nil;
 	return copy;
 }
 
-
 @end
-
 
 #pragma mark -
 #pragma mark DKCategoryManagerMenuInfo
@@ -2266,9 +1620,7 @@ static id sDearchivingHelper = nil;
 
 @end
 
-
 @implementation DKCategoryManagerMenuInfo
-
 
 - (id)					initWithCategoryManager:(DKCategoryManager*) mgr itemTarget:(id) target itemAction:(SEL) selector options:(DKCategoryMenuOptions) options
 {
@@ -2286,7 +1638,6 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-
 - (id)					initWithCategoryManager:(DKCategoryManager*) mgr itemDelegate:(id) delegate options:(DKCategoryMenuOptions) options
 {
 	NSAssert( delegate != nil, @"no delegate for menu item callback");
@@ -2303,7 +1654,6 @@ static id sDearchivingHelper = nil;
 	
 	return self;
 }
-
 
 - (id)					initWithCategoryManager:(DKCategoryManager*) mgr itemDelegate:(id) delegate itemTarget:(id) target itemAction:(SEL) selector options:(DKCategoryMenuOptions) options
 {
@@ -2324,15 +1674,10 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-
-
 - (NSMenu*)				menu
 {
 	return mTheMenu;
 }
-
-
-
 
 - (void)				addCategory:(NSString*) newCategory
 {
@@ -2391,8 +1736,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-
 - (void)				removeCategory:(NSString*) oldCategory
 {
 	LogEvent_( kInfoEvent, @"removing category '%@' from menu %@", oldCategory, self );
@@ -2402,7 +1745,6 @@ static id sDearchivingHelper = nil;
 	if( item != nil )
 		[mTheMenu removeItem:item];
 }
-
 
 - (void)				renameCategoryWithInfo:(NSDictionary*) info
 {
@@ -2445,8 +1787,6 @@ static id sDearchivingHelper = nil;
 		[item release];
 	}
 }
-
-
 
 - (void)				addKey:(NSString*) aKey
 {
@@ -2523,7 +1863,6 @@ static id sDearchivingHelper = nil;
 		}
 	}
 }
-
 
 - (void)				addRecentlyAddedOrUsedKey:(NSString*) aKey
 {
@@ -2613,7 +1952,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
 - (void)				syncRecentlyUsedMenuForKey:(NSString*) aKey
 {
 	// the keyed item has moved to the front of the list - do the same for the associated menu item. This is the only
@@ -2638,8 +1976,6 @@ static id sDearchivingHelper = nil;
 		}
 	}
 }
-
-
 
 - (void)				removeKey:(NSString*) aKey
 {
@@ -2687,8 +2023,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-
 - (void)				checkItemsForKey:(NSString*) key
 {
 	// puts a checkmark against any category names in the menu that contain <key>.
@@ -2717,7 +2051,6 @@ static id sDearchivingHelper = nil;
 		}
 	}
 }
-
 
 - (void)				updateForKey:(NSString*) key
 {
@@ -2788,7 +2121,6 @@ static id sDearchivingHelper = nil;
 	[categories release];
 }
 
-
 - (void)				removeAll
 {
 	// removes all managed items and submenus from the menu excluding the recent items
@@ -2808,7 +2140,6 @@ static id sDearchivingHelper = nil;
 		[mRecentlyAddedMenuItemRef setEnabled:NO];
 	}
 }
-
 
 - (void)				createMenu
 {
@@ -2898,7 +2229,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
 - (void)	createCategoriesMenu
 {
 	mTheMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Categories", @"default name for categories menu")];
@@ -2947,8 +2277,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-
-
 - (NSMenu*)		createSubmenuWithTitle:(NSString*) title forArray:(NSArray*) items
 {
 	// given an array of keys, this creates a menu listing the items. The delegate is called if present to finalise each item. The intended use for this
@@ -2982,7 +2310,6 @@ static id sDearchivingHelper = nil;
 	return [theMenu autorelease];
 }
 
-
 - (void)	dealloc
 {
 	[mTheMenu release];
@@ -3014,5 +2341,5 @@ static id sDearchivingHelper = nil;
 	[items release];
 }
 
-
 @end
+

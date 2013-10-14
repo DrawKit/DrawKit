@@ -8,9 +8,7 @@
 
 #import "DKQuartzCache.h"
 
-
 @implementation DKQuartzCache
-
 
 + (DKQuartzCache*)	cacheForCurrentContextWithSize:(NSSize) size
 {
@@ -18,13 +16,11 @@
 	return [cache autorelease];
 }
 
-
 + (DKQuartzCache*)	cacheForCurrentContextInRect:(NSRect) rect
 {
 	DKQuartzCache* cache = [[self alloc] initWithContext:[NSGraphicsContext currentContext] forRect:rect];
 	return [cache autorelease];
 }
-
 
 + (DKQuartzCache*)	cacheForImage:(NSImage*) image
 {
@@ -39,7 +35,6 @@
 	return [cache autorelease];
 }
 
-
 + (DKQuartzCache*)	cacheForImageRep:(NSImageRep*) imageRep
 {
 	NSAssert( imageRep != nil, @"cannot create cache for nil image rep");
@@ -52,11 +47,7 @@
 	return [cache autorelease];
 }
 
-
-
-
 #pragma mark -
-
 
 - (id)				initWithContext:(NSGraphicsContext*) context forRect:(NSRect) rect
 {
@@ -76,40 +67,31 @@
 	return self;
 }
 
-
-
 - (NSSize)			size
 {
 	CGSize cg_size = CGLayerGetSize( mCGLayer );
 	return NSMakeSize( cg_size.width, cg_size.height );
 }
 
-
-
 - (CGContextRef)	context
 {
 	return CGLayerGetContext( mCGLayer );
 }
-
 
 - (void)			setFlipped:(BOOL) flipped
 {
 	mFlipped = flipped;
 }
 
-
 - (BOOL)			flipped
 {
 	return mFlipped;
 }
 
-
-
 - (void)			drawAtPoint:(NSPoint) point
 {
 	[self drawAtPoint:point operation:kCGBlendModeNormal fraction:1.0];
 }
-
 
 - (void)			drawAtPoint:(NSPoint) point operation:(CGBlendMode) op fraction:(CGFloat) frac
 {
@@ -120,17 +102,12 @@
 	CGContextDrawLayerAtPoint( port, cg_point, mCGLayer );
 }
 
-
-
 - (void)			drawInRect:(NSRect) rect
 {
 	CGRect cg_rect = CGRectMake( rect.origin.x, rect.origin.y, rect.size.width, rect.size.height );
 	CGContextRef port = [[NSGraphicsContext currentContext] graphicsPort];
 	CGContextDrawLayerInRect( port, cg_rect, mCGLayer );
 }
-
-
-
 
 - (void)			lockFocus
 {
@@ -149,8 +126,6 @@
 	mFocusLocked = YES;
 }
 
-
-
 - (void)			unlockFocus
 {
 	NSAssert( mFocusLocked == YES, @"unlockFocus called without a matching lockFocus");
@@ -158,7 +133,6 @@
 	[NSGraphicsContext restoreGraphicsState];
 	mFocusLocked = NO;
 }
-
 
 #pragma mark -
 #pragma mark - as a NSObject
@@ -172,6 +146,5 @@
 	[super dealloc];
 }
 
-
-
 @end
+

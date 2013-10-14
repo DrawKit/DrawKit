@@ -8,15 +8,12 @@
 
 #import "DKBezierLayoutManager.h"
 
-
 @implementation DKBezierLayoutManager
-
 
 - (NSBezierPath*)		textPath
 {
 	return mPath;
 }
-
 
 - (NSArray*)			glyphPathsForContainer:(NSTextContainer*) container usedSize:(NSSize*) aSize
 {
@@ -87,7 +84,6 @@
 	return array;
 }
 
-
 #pragma mark -
 #pragma mark - as a NSLayoutManager
 
@@ -107,7 +103,6 @@
 	[mPath stroke];
 */
 }
-
 
 - (void)	drawUnderlineForGlyphRange:(NSRange)glyphRange
 					  underlineType:(NSInteger)underlineVal
@@ -144,7 +139,6 @@
 	return self;
 }
 
-
 - (void)	dealloc
 {
 	[mPath release];
@@ -152,3 +146,4 @@
 }
 
 @end
+

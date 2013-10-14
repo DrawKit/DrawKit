@@ -1,10 +1,14 @@
 //
 //  DKFillPattern.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 26/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKFillPattern.h"
@@ -15,11 +19,11 @@
 #import "LogEvent.h"
 #import "DKRandom.h"
 
-
 @implementation DKFillPattern
 #pragma mark As a DKFillPattern
 
-
+/** 
+ */
 + (DKFillPattern*)	defaultPattern
 {
 	// return the default pattern , which is based on some image - unlikely to be really useful so might be
@@ -28,14 +32,10 @@
 	return [[[self alloc] initWithImage:[NSImage imageNamed:@"Rect"]] autorelease];
 }
 
-
-
 + (DKFillPattern*)	fillPatternWithImage:(NSImage*) image
 {
 	return [[[self alloc] initWithImage:image] autorelease];
 }
-
-
 
 #pragma mark -
 - (void)			setPatternAlternateOffset:(NSSize) altOffset
@@ -46,12 +46,10 @@
 	m_altYOffset = LIMIT( altOffset.height, 0, 1 );
 }
 
-
 - (NSSize)			patternAlternateOffset
 {
 	return NSMakeSize( m_altXOffset, m_altYOffset );
 }
-
 
 #pragma mark -
 - (void)			fillRect:(NSRect) rect
@@ -59,7 +57,6 @@
 	NSBezierPath*	fp = [NSBezierPath bezierPathWithRect:rect];
 	[self renderPath:fp];
 }
-
 
 - (void)			drawPatternInPath:(NSBezierPath*) aPath
 {
@@ -228,25 +225,21 @@
 	[pool drain];
 }
 
-
 #pragma mark -
 - (void)			setAngle:(CGFloat) radians
 {
 	m_angle = radians;
 }
 
-
 - (CGFloat)			angle
 {
 	return m_angle;
 }
 
-
 - (void)			setAngleInDegrees:(CGFloat) degrees
 {
 	[self setAngle:DEGREES_TO_RADIANS(degrees)];
 }
-
 
 - (CGFloat)			angleInDegrees
 {
@@ -258,37 +251,30 @@
 	return angle;
 }
 
-
-
 - (void)			setAngleIsRelativeToObject:(BOOL) relAngle
 {
 	m_angleRelativeToObject = relAngle;
 }
-
 
 - (BOOL)			angleIsRelativeToObject
 {
 	return m_angleRelativeToObject;
 }
 
-
 - (void)			setMotifAngle:(CGFloat) radians
 {
 	m_motifAngle = radians;
 }
-
 
 - (CGFloat)			motifAngle
 {
 	return m_motifAngle;
 }
 
-
 - (void)			setMotifAngleInDegrees:(CGFloat) degrees
 {
 	[self setMotifAngle:DEGREES_TO_RADIANS(degrees)];
 }
-
 
 - (CGFloat)			motifAngleInDegrees
 {
@@ -300,18 +286,15 @@
 	return angle;
 }
 
-
 - (void)			setMotifAngleIsRelativeToPattern:(BOOL) mrel
 {
 	m_motifAngleRelativeToPattern = mrel;
 }
 
-
 - (BOOL)			motifAngleIsRelativeToPattern
 {
 	return m_motifAngleRelativeToPattern;
 }
-
 
 - (void)			setMotifAngleRandomness:(CGFloat) maRand
 {
@@ -328,12 +311,10 @@
 	}
 }
 
-
 - (CGFloat)			motifAngleRandomness
 {
 	return mMotifAngleRandomness;
 }
-
 
 - (void)			setDrawingOfClippedElementsSupressed:(BOOL) supress
 {
@@ -343,13 +324,10 @@
 	m_noClippedElements = supress;
 }
 
-
 - (BOOL)			drawingOfClippedElementsSupressed
 {
 	return m_noClippedElements;
 }
-
-
 
 #pragma mark -
 #pragma mark As a DKPathDecorator
@@ -368,7 +346,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)		observableKeyPaths
@@ -378,7 +355,6 @@
 									@"motifAngle", @"motifAngleIsRelativeToPattern", @"drawingOfClippedElementsSupressed",
 									@"motifAngleRandomness", nil]];
 }
-
 
 - (void)			registerActionNames
 {
@@ -407,18 +383,14 @@
 	return self;
 }
 
-
 - (void)			dealloc
 {
 	[mMotifAngleRandCache release];
 	[super dealloc];
 }
 
-
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
-
-
 
 - (void)			render:(id<DKRenderable>) obj
 {
@@ -432,7 +404,6 @@
 	}
 }
 
-
 - (void)			renderPath:(NSBezierPath*) fPath
 {
 	if ([self image] != nil )
@@ -445,7 +416,6 @@
 	}
 }
 
-
 - (NSSize)			extraSpaceNeeded
 {
 	return NSZeroSize;	// none
@@ -455,9 +425,6 @@
 {
 	return YES;
 }
-
-
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -474,7 +441,6 @@
 	[coder encodeBool:[self drawingOfClippedElementsSupressed] forKey:@"DKFillPattern_noClippedImages"];
 	[coder encodeDouble:[self motifAngleRandomness] forKey:@"DKFillPattern_motifAngleRandomness"];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -515,3 +481,4 @@
 }
 
 @end
+

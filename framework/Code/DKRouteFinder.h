@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKRouteFinder.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 typedef enum
 {
@@ -25,7 +31,6 @@ typedef enum
 	kDirectionAny					= -1
 }
 DKDirection;
-
 
 @interface DKRouteFinder : NSObject
 {
@@ -62,7 +67,6 @@ DKDirection;
 
 #define kDKDefaultAnnealingSteps		100
 
-
 // informal protocol that an object can implement to be called back as the route finding progresses.
 // <value> is in the range 0..1
 
@@ -88,6 +92,3 @@ Most simply, the +sortedArrayOfObjects:byShortestRouteForKey: will deal with any
 resolves to an NSPoint return value, and is given by <key>. The result is a new array of the same objects sorted according to the TSP solution.
 
 */
-
-
-

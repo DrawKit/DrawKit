@@ -1,25 +1,20 @@
-///**********************************************************************************************************************************
-///  GCObservableObject.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 27/05/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "GCObservableObject.h"
 #import "LogEvent.h"
-
 
 #pragma mark Contants (Non-localized)
 NSString*		kDKObserverRelayDidReceiveChange = @"kDKObserverRelayDidReceiveChange";
 NSString*		kDKObservableKeyPath = @"kDKObservableKeyPath";
 
-
 #pragma mark Static Vars
 static NSMutableDictionary*		sActionNameRegistry = nil;
-
 
 #pragma mark -
 @implementation GCObservableObject
@@ -41,7 +36,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	[sd setObject:na forKey:kp];
 }
 
-
 + (NSString*)		actionNameForKeyPath:(NSString*) kp objClass:(Class) cl
 {
 	NSDictionary*	sd = [sActionNameRegistry objectForKey:cl];
@@ -53,7 +47,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 		return nil;
 }
 
-
 + (NSArray*)		observableKeyPaths
 {
 	// subclasses can override to provide a list of observable properties for this class, which can be
@@ -63,7 +56,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	
 	return [NSArray array];
 }
-
 
 #pragma mark -
 - (BOOL)			setUpKVOForObserver:(id) object
@@ -83,7 +75,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	return YES;
 }
 
-
 - (BOOL)			tearDownKVOForObserver:(id) object
 {
 	LogEvent_( kKVOEvent, @"tearing down KVO for observer %@", [object description]);
@@ -100,7 +91,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 
 	return YES;
 }
-
 
 #pragma mark -
 - (void)			setUpObservables:(NSArray*) keypaths forObserver:(id) object
@@ -119,7 +109,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 		[self addObserver:object forKeyPath:kp options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:NULL];
 }
 
-
 - (void)			tearDownObservables:(NSArray*) keypaths forObserver:(id) object
 {
 	NSAssert( keypaths != nil, @"array of observable keypaths was nil");
@@ -133,19 +122,16 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 		[self removeObserver:object forKeyPath:kp];
 }
 
-
 #pragma mark -
 - (void)			registerActionNames
 {
 	// subclasses can override to register the action names they need to - called from init.
 }
 
-
 - (NSString*)		actionNameForKeyPath:(NSString*) keypath
 {
 	return [self actionNameForKeyPath:keypath changeKind:NSKeyValueChangeSetting];
 }
-
 
 - (NSString*)		actionNameForKeyPath:(NSString*) keypath changeKind:(NSKeyValueChange) kind
 {
@@ -196,19 +182,16 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 		return an;
 }
 
-
 #pragma mark -
 - (void)			setActionName:(NSString*) name forKeyPath:(NSString*) keypath
 {
 	[GCObservableObject registerActionName:name forKeyPath:keypath objClass:[self class]];
 }
 
-
 - (NSArray*)		oldArrayValueForKeyPath:(NSString*) keypath
 {
 	return [m_oldArrayValues objectForKey:keypath];
 }
-
 
 - (void)			sendInitialValuesForAllPropertiesToObserver:(id) object context:(void*) context
 {
@@ -240,7 +223,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	}
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)			dealloc
@@ -248,7 +230,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	[m_oldArrayValues release];
 	[super dealloc];
 }
-
 
 - (id)				init
 {
@@ -264,7 +245,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	}
 	return self;
 }
-
 
 #pragma mark -
 #pragma mark As part of NSKeyValueObserving Protocol
@@ -293,9 +273,7 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	[super willChange:change valuesAtIndexes:indexes forKey:key];
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation GCObserverUndoRelay
@@ -305,29 +283,16 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	m_um = um;
 }
 
-
 - (NSUndoManager*)		undoManager
 {
 	return m_um;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			changeKeyPath:ofObject:toValue:
-/// scope:			private method
-/// overrides:		
-/// description:	vectors undo invocations back to the object from whence they came
-/// 
-/// parameters:		<keypath> the keypath of the action, relative to the object
-///					<object> the real target of the invocation
-///					<value> the value being restored by the undo/redo task
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Vectors undo invocations back to the object from whence they came
+ * @param keypath the keypath of the action, relative to the object
+ * @param object the real target of the invocation
+ * @private
+ */
 - (void)				changeKeyPath:(NSString*) keypath ofObject:(id) object toValue:(id) value
 {
 	if([value isEqual:[NSNull null]])
@@ -335,7 +300,6 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	
 	[object setValue:value forKeyPath:keypath];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSKeyValueObserving Protocol
@@ -388,7 +352,5 @@ static NSMutableDictionary*		sActionNameRegistry = nil;
 	[changeDict release];
 }
 
-
 @end;
-
 

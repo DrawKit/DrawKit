@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKImageShape+Vectorization.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 25/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #ifdef qUsePotrace
 
@@ -14,7 +12,6 @@
 #import "NSImage+Tracing.h"
 
 @class DKShapeGroup;
-
 
 typedef enum
 {
@@ -31,7 +28,6 @@ DKVectorizingMethod;
 // to set up the various parameters.
 
 // Be sure to also check out NSImage+Tracing because that's where the real work is done.
-
 
 @interface DKImageShape (Vectorization)
 
@@ -55,13 +51,10 @@ DKVectorizingMethod;
 
 @end
 
-
 // additional dict keys that can be set in the trace params:
 
 extern NSString*	kDKIncludeStrokeStyle;		// BOOL
 extern NSString*	kDKStrokeStyleWidth;		// float
 extern NSString*	kDKStrokeStyleColour;		// NSColor
 
-
 #endif /* defined qUsePotrace */
-

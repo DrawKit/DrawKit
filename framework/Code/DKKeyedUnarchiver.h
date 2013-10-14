@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKKeyedUnarchiver.h
 //  GCDrawKit
@@ -8,10 +15,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @class DKImageDataManager;
-
-
 
 @interface DKKeyedUnarchiver : NSKeyedUnarchiver
 {
@@ -24,8 +28,6 @@
 
 @end
 
-
-
 /*
 
 This class works identically to NSKeyedUnarchiver in every way, except that it can store a reference to the drawing's DKImageDataManager instance. This allows
@@ -34,7 +36,4 @@ This class works identically to NSKeyedUnarchiver in every way, except that it c
  Note that the image manager is archived and dearchived normally, but DKDrawing sets the coder's reference having dearchived it, so subsequent unarchiving can
  find it.
 
-
 */
-
-

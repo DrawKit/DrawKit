@@ -13,13 +13,11 @@
 
 @implementation DKPasteboardInfo
 
-
 + (DKPasteboardInfo*)	pasteboardInfoForObjects:(NSArray*) objects
 {
 	DKPasteboardInfo* info = [[self alloc] initWithObjectsInArray:objects];
 	return [info autorelease];
 }
-
 
 + (DKPasteboardInfo*)	pasteboardInfoWithData:(NSData*) data
 {
@@ -33,7 +31,6 @@
 	return nil;
 }
 
-
 + (DKPasteboardInfo*)	pasteboardInfoWithPasteboard:(NSPasteboard*) pb
 {
 	NSData* data = [pb dataForType:kDKDrawableObjectInfoPasteboardType];
@@ -43,8 +40,6 @@
 	else
 		return nil;
 }
-
-
 
 - (id)					initWithObjectsInArray:(NSArray*) objects
 {
@@ -91,37 +86,30 @@
 	return self;
 }
 
-
-
 - (NSUInteger)			count
 {
 	return mCount;
 }
-
 
 - (NSRect)				bounds
 {
 	return mBoundingRect;
 }
 
-
 - (NSDictionary*)		classInfo
 {
 	return mClassInfo;
 }
-
 
 - (NSUInteger)			countOfClass:(Class) aClass
 {
 	return [[[self classInfo] objectForKey:NSStringFromClass(aClass)] integerValue];
 }
 
-
 - (NSString*)			keyOfOriginatingLayer
 {
 	return mOriginatingLayerKey;
 }
-
 
 - (NSData*)				data
 {
@@ -129,14 +117,12 @@
 	return data;
 }
 
-
 - (BOOL)				writeToPasteboard:(NSPasteboard*) pb
 {
 	NSAssert( pb != nil, @"pasteboard was nil");
 	
 	return [pb setData:[self data] forType:kDKDrawableObjectInfoPasteboardType];
 }
-
 
 #pragma mark -
 
@@ -149,7 +135,6 @@
 	return self;
 }
 
-
 - (void)				encodeWithCoder:(NSCoder*) coder
 {
 	[coder encodeInteger:mCount forKey:@"DKPasteboardInfo_count"];
@@ -158,7 +143,6 @@
 	[coder encodeObject:[self keyOfOriginatingLayer] forKey:@"DKPasteboardInfo_originatingLayerKey"];
 }
 
-
 - (void)	dealloc
 {
 	[mClassInfo release];
@@ -166,7 +150,5 @@
 	[super dealloc];
 }
 
-
 @end
-
 

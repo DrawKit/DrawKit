@@ -1,15 +1,12 @@
-///**********************************************************************************************************************************
-///  DKDrawingInfoLayer.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 27/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKLayer.h"
-
 
 // placement of info panel:
 
@@ -21,8 +18,6 @@ typedef enum
 	kDKDrawingInfoPlaceTopRight			= 3
 }
 DKInfoBoxPlacement;
-
-
 
 @interface DKDrawingInfoLayer : DKLayer <NSCoding>
 {
@@ -62,9 +57,7 @@ DKInfoBoxPlacement;
 
 @end
 
-
 extern NSString*	kDKDrawingInfoTextLabelAttributes;
-
 
 /*
 
@@ -78,7 +71,4 @@ This can also directly edit the same information.
 This is not a very important class within DK, and mays apps will not want to use it, or to use it in
 modified form. It is provided as another example of how to implement layer subclasses as much as anything.
 
-
-
 */
-

@@ -1,10 +1,14 @@
 //
 //  DKTextShape.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 16/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKTextShape.h"
@@ -26,10 +30,8 @@
 #import "DKKnob.h"
 #import "DKDrawableShape+Utilities.h"
 
-
 NSString*	kDKTextOverflowIndicatorDefaultsKey = @"DKTextOverflowIndicator";
 NSString*	kDKTextAllowsInlineImagesDefaultsKey = @"DKTextAllowsInlineImages";
-
 
 #pragma mark Static Vars
 
@@ -37,6 +39,8 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 
 @interface DKTextShape (Private)
 
+/** 
+ */
 - (DKTextAdornment*)makeTextAdornment;
 - (void)			changeKeyPath:(NSString*) keypath ofObject:(id) object toValue:(id) value;
 - (DKTextPath*)		makeTextPathObject;
@@ -45,25 +49,16 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 
 @end
 
-
-
 #pragma mark -
 @implementation DKTextShape
 #pragma mark As a DKTextShape
-///*********************************************************************************************************************
-///
-/// method:			textShapeWithString:inRect:
-/// scope:			public class method
-/// description:	create an instance of a DKTextShape with the initial string and rect.
-/// 
-/// parameters:		<str> the initial string to set
-///					<bounds> the bounding rectangle of the shape
-/// result:			an autoreleased DKTextShape instance
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Create an instance of a DKTextShape with the initial string and rect.
+ * @param str the initial string to set
+ * @param bounds the bounding rectangle of the shape
+ * @return an autoreleased DKTextShape instance
+ * @public
+ */
 + (DKTextShape*)			textShapeWithString:(NSString*) str inRect:(NSRect) bounds
 {
 	DKTextShape*  te = [[self alloc] initWithRect:bounds style:[DKStyle defaultTextStyle]];
@@ -73,21 +68,12 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [te autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			textShapeWithRTFData:inRect:
-/// scope:			public class method
-/// description:	create an instance of a DKTextShape with the RTF data and rect.
-/// 
-/// parameters:		<rtfData> NSData representing some RTF text
-///					<bounds> the bounding rectangle of the shape
-/// result:			an autoreleased DKTextShape instance
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Create an instance of a DKTextShape with the RTF data and rect.
+ * @param rtfData NSData representing some RTF text
+ * @param bounds the bounding rectangle of the shape
+ * @return an autoreleased DKTextShape instance
+ * @public
+ */
 + (DKTextShape*)			textShapeWithRTFData:(NSData*) rtfData inRect:(NSRect) bounds
 {
 	DKTextShape*  te = [[self alloc] initWithRect:bounds style:[DKStyle defaultTextStyle]];
@@ -99,21 +85,14 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [te autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			textShapeWithAttributedString:
-/// scope:			public class method
-/// description:	create an instance of a DKTextShape with the given string, laid out on one line.
-/// 
-/// parameters:		<str> the string
-/// result:			an autoreleased DKTextShape instance
-///
-/// notes:			The object is sized to fit the text string passed on a single line (up to a certain sensible
-///					maximum width). The returned object needs to be positioned where it is needed.
-///
-///********************************************************************************************************************
-
+/** @brief Create an instance of a DKTextShape with the given string, laid out on one line.
+ * @note
+ * The object is sized to fit the text string passed on a single line (up to a certain sensible
+ * maximum width). The returned object needs to be positioned where it is needed.
+ * @param str the string
+ * @return an autoreleased DKTextShape instance
+ * @public
+ */
 + (DKTextShape*)			textShapeWithAttributedString:(NSAttributedString*) str
 {
 	NSAssert( str != nil, @"string can't be nil");
@@ -131,25 +110,14 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [te autorelease];
 }
 
-
-
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			setDefaultTextString:
-/// scope:			public class method
-/// overrides:
-/// description:	set the initial text string for new text shape objects.
-/// 
-/// parameters:		<str> a string
-/// result:			none
-///
-/// notes:			The default is usually "Double-click to edit this text"
-///
-///********************************************************************************************************************
-
+/** @brief Set the initial text string for new text shape objects.
+ * @note
+ * The default is usually "Double-click to edit this text"
+ * @param str a string
+ * @public
+ */
 + (void)					setDefaultTextString:(NSString*) str
 {
 	[str retain];
@@ -157,86 +125,49 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	sDefault_string = str;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			defaultTextString:
-/// scope:			public class method
-/// overrides:
-/// description:	get the initial text string for new text shape objects.
-/// 
-/// parameters:		none
-/// result:			a string
-///
-/// notes:			The default is usually "Double-click to edit this text"
-///
-///********************************************************************************************************************
-
+/** @brief Get the initial text string for new text shape objects.
+ * @note
+ * The default is usually "Double-click to edit this text"
+ * @return a string
+ * @public
+ */
 + (NSString*)				defaultTextString
 {
 	return sDefault_string;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			textAdornmentClass:
-/// scope:			public class method
-/// overrides:
-/// description:	return the class of object to create as the shape's text adornment.
-/// 
-/// parameters:		none
-/// result:			the object class
-///
-/// notes:			this provides an opportunity for subclasses to supply a different type of object, which must be
-///					a DKTextAdornment, a subclass of it, or one that implements its API.
-///
-///********************************************************************************************************************
-
+/** @brief Return the class of object to create as the shape's text adornment.
+ * @note
+ * This provides an opportunity for subclasses to supply a different type of object, which must be
+ * a DKTextAdornment, a subclass of it, or one that implements its API.
+ * @return the object class
+ * @public
+ */
 + (Class)					textAdornmentClass
 {
 	return [DKTextAdornment class];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			pastableTextTypes
-/// scope:			public class method
-/// overrides:
-/// description:	return a list of types we can paste in priority order.
-/// 
-/// parameters:		none
-/// result:			a list of types
-///
-/// notes:			Cocoa's -textPasteboardTypes isn't in an order that is useful to us
-///
-///********************************************************************************************************************
-
+/** @brief Return a list of types we can paste in priority order.
+ * @note
+ * Cocoa's -textPasteboardTypes isn't in an order that is useful to us
+ * @return a list of types
+ * @public
+ */
 + (NSArray*)				pastableTextTypes
 {
 	return [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType, nil];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			textOverflowIndicatorPath
-/// scope:			public class method
-/// overrides:
-/// description:	return a path used for indicating unlaid text in object
-/// 
-/// parameters:		none
-/// result:			a path
-///
-/// notes:			the path consists of a plus sign within a square with origin at 0,0 and sides 1,1
-///
-///********************************************************************************************************************
-
 #define PLUS_SIGN_A		0.4
 #define PLUS_SIGN_B		0.6
 
+/** @brief Return a path used for indicating unlaid text in object
+ * @note
+ * The path consists of a plus sign within a square with origin at 0,0 and sides 1,1
+ * @return a path
+ * @public
+ */
 + (NSBezierPath*)			textOverflowIndicatorPath
 {
 	static NSBezierPath* mtp = nil;
@@ -265,81 +196,45 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return mtp;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setShowsTextOverflowIndicator
-/// scope:			public class method
-/// overrides:
-/// description:	set whether objects of this class should display an overflow symbol when text can't be fully laid
-/// 
-/// parameters:		<overflowShown> YES to dislay, NO otherwise
-/// result:			none
-///
-/// notes:			setting is persistent
-///
-///********************************************************************************************************************
-
+/** @brief Set whether objects of this class should display an overflow symbol when text can't be fully laid
+ * @note
+ * Setting is persistent
+ * @param overflowShown YES to dislay, NO otherwise
+ * @public
+ */
 + (void)					setShowsTextOverflowIndicator:(BOOL) overflowShown
 {
 	[[NSUserDefaults standardUserDefaults] setBool:overflowShown forKey:kDKTextOverflowIndicatorDefaultsKey];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			showsTextOverflowIndicator
-/// scope:			public class method
-/// overrides:
-/// description:	return whether objects of this class should display an overflow symbol when text can't be fully laid
-/// 
-/// parameters:		none 
-/// result:			YES to dislay, NO otherwise
-///
-/// notes:			see also: -drawSelectedState
-///
-///********************************************************************************************************************
-
+/** @brief Return whether objects of this class should display an overflow symbol when text can't be fully laid
+ * @note
+ * See also: -drawSelectedState
+ * @return YES to dislay, NO otherwise
+ * @public
+ */
 + (BOOL)					showsTextOverflowIndicator
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kDKTextOverflowIndicatorDefaultsKey];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setAllowsInlineImages:
-/// scope:			public class method
-/// overrides:
-/// description:	set whether text editing permits inline images to be pasted
-/// 
-/// parameters:		<allowed> YES to allow images, NO to disallow 
-/// result:			none
-///
-/// notes:			this state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
-///
-///********************************************************************************************************************
-
+/** @brief Set whether text editing permits inline images to be pasted
+ * @note
+ * This state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
+ * @param allowed YES to allow images, NO to disallow 
+ * @public
+ */
 + (void)					setAllowsInlineImages:(BOOL) allowed
 {
 	[[NSUserDefaults standardUserDefaults] setBool:allowed forKey:kDKTextAllowsInlineImagesDefaultsKey];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			allowsInlineImages:
-/// scope:			public class method
-/// overrides:
-/// description:	whether text editing permits inline images to be pasted
-/// 
-/// parameters:		none
-/// result:			YES to allow images, NO to disallow
-///
-/// notes:			this state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
-///
-///********************************************************************************************************************
-
+/** @brief Whether text editing permits inline images to be pasted
+ * @note
+ * This state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
+ * @return YES to allow images, NO to disallow
+ * @public
+ */
 + (BOOL)					allowsInlineImages
 {
 	return [[NSUserDefaults standardUserDefaults] boolForKey:kDKTextAllowsInlineImagesDefaultsKey];
@@ -348,20 +243,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 #pragma mark -
 #pragma mark - the text
 
-///*********************************************************************************************************************
-///
-/// method:			setText:
-/// scope:			public instance method
-/// overrides:
-/// description:	set the text string for the text shape
-/// 
-/// parameters:		<newText> any sort of string - NSString, NSAttributedString, NSTextStorage, etc
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set the text string for the text shape
+ * @param newText any sort of string - NSString, NSAttributedString, NSTextStorage, etc
+ * @public
+ */
 - (void)					setText:(id) newText
 {
 	if(![self locked])
@@ -371,86 +256,48 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			text
-/// scope:			public instance method
-/// overrides:
-/// description:	get the text of the text shape
-/// 
-/// parameters:		none
-/// result:			the object's text
-///
-/// notes:			the returned text has attributes applied wherever they come from - the style or local.
-///
-///********************************************************************************************************************
-
+/** @brief Get the text of the text shape
+ * @note
+ * The returned text has attributes applied wherever they come from - the style or local.
+ * @return the object's text
+ * @public
+ */
 - (NSTextStorage*)			text
 {
 	return [mTextAdornment textToDraw:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			string
-/// scope:			public instance method
-/// overrides:
-/// description:	get the string of the text shape
-/// 
-/// parameters:		none
-/// result:			the object's text string
-///
-/// notes:			this returns just the characters - no attributes
-///
-///********************************************************************************************************************
-
+/** @brief Get the string of the text shape
+ * @note
+ * This returns just the characters - no attributes
+ * @return the object's text string
+ * @public
+ */
 - (NSString*)				string
 {
 	return [[self text] string];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			sizeVerticallyToFitText
-/// scope:			public instance method
-/// overrides:
-/// description:	adjust the object's height to match the height of the current text
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			Honours the minimum and maximum sizes set
-///
-///********************************************************************************************************************
-
+/** @brief Adjust the object's height to match the height of the current text
+ * @note
+ * Honours the minimum and maximum sizes set
+ * @public
+ */
 - (void)					sizeVerticallyToFitText
 {
 	if(![self locked])
 		[self setSize:[self idealTextSize]];
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			pasteTextFromPasteboard:ignoreFormatting:
-/// scope:			public instance method
-/// overrides:
-/// description:	set the object's text from the pasteboard, optionally ignoring its formatting
-/// 
-/// parameters:		<pb> a pasteboard
-///					<fmt> YES to just paste the string and use the existing attributes, NO to update with the pasted
-///					formatting, if any
-/// result:			none
-///
-/// notes:			if the style is locked, even if fmt is NO it won't be updated.
-///
-///********************************************************************************************************************
-
+/** @brief Set the object's text from the pasteboard, optionally ignoring its formatting
+ * @note
+ * If the style is locked, even if fmt is NO it won't be updated.
+ * @param pb a pasteboard
+ * @param fmt YES to just paste the string and use the existing attributes, NO to update with the pasted
+ * @public
+ */
 - (void)					pasteTextFromPasteboard:(NSPasteboard*) pb ignoreFormatting:(BOOL) fmt
 {
 	NSAssert( pb != nil, @"pasteboard was nil");
@@ -488,64 +335,36 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			canPasteText:
-/// scope:			public instance method
-/// overrides:
-/// description:	test whether the pasteboard contains any text we can paste
-/// 
-/// parameters:		<pb> a pasteboard
-/// result:			YES if there is text of any kind that we can paste, NO otherwise
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Test whether the pasteboard contains any text we can paste
+ * @param pb a pasteboard
+ * @return YES if there is text of any kind that we can paste, NO otherwise
+ * @public
+ */
 - (BOOL)					canPasteText:(NSPasteboard*) pb
 {
 	return ([pb availableTypeFromArray:[[self class] pastableTextTypes]] != nil && ![self locked]);
 }
 
-
 #pragma mark -
 #pragma mark - text layout and drawing
 
-///*********************************************************************************************************************
-///
-/// method:			minSize
-/// scope:			public instance method
-/// overrides:
-/// description:	return the minimum size of the text layout area
-/// 
-/// parameters:		none 
-/// result:			a size, the smallest width and height text can be laid out in
-///
-/// notes:			subclasses can specify something else
-///
-///********************************************************************************************************************
-
+/** @brief Return the minimum size of the text layout area
+ * @note
+ * Subclasses can specify something else
+ * @return a size, the smallest width and height text can be laid out in
+ * @public
+ */
 - (NSSize)					minSize
 {
 	return NSMakeSize( 10.0, 16.0 );
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			maxSize
-/// scope:			public instance method
-/// overrides:
-/// description:	return the maximum size of the text layout area
-/// 
-/// parameters:		none 
-/// result:			a size, the largest width and height of the text
-///
-/// notes:			subclasses can specify something else
-///
-///********************************************************************************************************************
-
+/** @brief Return the maximum size of the text layout area
+ * @note
+ * Subclasses can specify something else
+ * @return a size, the largest width and height of the text
+ * @public
+ */
 - (NSSize)					maxSize
 {
     NSRect br   = [self bounds];
@@ -556,22 +375,13 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
     return size;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			idealTextSize
-/// scope:			public instance method
-/// overrides:
-/// description:	return the ideal size of the text layout area
-/// 
-/// parameters:		none 
-/// result:			a size, the ideal text size
-///
-/// notes:			returns the size needed to accommodate the text, honouring min and max and whether the shape has
-///					already had its size set
-///
-///********************************************************************************************************************
-
+/** @brief Return the ideal size of the text layout area
+ * @note
+ * Returns the size needed to accommodate the text, honouring min and max and whether the shape has
+ * already had its size set
+ * @return a size, the ideal text size
+ * @public
+ */
 - (NSSize)					idealTextSize
 {
     NSTextStorage *contents = [self text];
@@ -611,86 +421,43 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
         return minsize;
 }
 
-
 #pragma mark -
 #pragma mark - conversion to path/shape with text path
 
-///*********************************************************************************************************************
-///
-/// method:			textPath
-/// scope:			public instance method
-/// overrides:
-/// description:	return the current text as a path
-/// 
-/// parameters:		none
-/// result:			the path contains the glyphs laid out exactly as the object displays them, with the same line
-///					breaks, etc. The path is transformed to the object's current location and angle.
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the current text as a path
+ * @return the path contains the glyphs laid out exactly as the object displays them, with the same line
+ * breaks, etc. The path is transformed to the object's current location and angle.
+ * @public
+ */
 - (NSBezierPath*)			textPath
 {
 	return [mTextAdornment textAsPathForObject:self];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			textPathGlyphs
-/// scope:			protected instance method
-/// overrides:
-/// description:	return the individual glyph paths in an array
-/// 
-/// parameters:		none
-/// result:			an array containing all of the individual glyph paths (i.e. each item in the array is one letter).
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the individual glyph paths in an array
+ * @return an array containing all of the individual glyph paths (i.e. each item in the array is one letter).
+ */
 - (NSArray*)				textPathGlyphs
 {
 	return [self textPathGlyphsUsedSize:NULL];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			textPathGlyphsUsedSize
-/// scope:			protected instance method
-/// overrides:
-/// description:	return the individual glyph paths in an array and the size used
-/// 
-/// parameters:		<textSize> receives the resulting sixe occupied by the text
-/// result:			an array containing all of the individual glyph paths (i.e. each item in the array is one letter).
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Return the individual glyph paths in an array and the size used
+ * @param textSize receives the resulting sixe occupied by the text
+ * @return an array containing all of the individual glyph paths (i.e. each item in the array is one letter).
+ */
 - (NSArray*)				textPathGlyphsUsedSize:(NSSize*) textSize
 {
 	return [mTextAdornment textPathsForObject:self usedSize:textSize];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			makeShapeWithText
-/// scope:			public instance method
-/// overrides:
-/// description:	high level method turns the text into a drawable shape having the text as its path
-/// 
-/// parameters:		none
-/// result:			a new shape object.
-///
-/// notes:			this tries to maintain as much fidelity as it can in terms of the text's appearance - attributes
-///					such as the colour and shadow are used to construct a style for the new object.
-///
-///********************************************************************************************************************
-
+/** @brief High level method turns the text into a drawable shape having the text as its path
+ * @note
+ * This tries to maintain as much fidelity as it can in terms of the text's appearance - attributes
+ * such as the colour and shadow are used to construct a style for the new object.
+ * @return a new shape object.
+ * @public
+ */
 - (DKDrawableShape*)		makeShapeWithText
 {
 	// creates a shape object that uses the current text converted to a path as its path. The result can't be edited as text but
@@ -709,26 +476,17 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return ds;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			makeShapeGroupWithText
-/// scope:			public instance method
-/// overrides:
-/// description:	high level method turns the text into a drawable shape group having each glyph as a subobject
-/// 
-/// parameters:		none
-/// result:			a new shape group object.
-///
-/// notes:			creates a group object containing individual path objects each with one letter of the text, but
-///					overall retaining the same spatial relationships as the original text in the shape. This allows you
-///					to convert text to a graphic in a way that allows you to get at each individual letter, as opposed
-///					to converting to a path and then breaking it apart, which goes too far in that subcurves
-///					within letters become separated. May fail (returning nil) if there are fewer than 2 valid paths
-///					submitted to make a group.
-///
-///********************************************************************************************************************
-
+/** @brief High level method turns the text into a drawable shape group having each glyph as a subobject
+ * @note
+ * Creates a group object containing individual path objects each with one letter of the text, but
+ * overall retaining the same spatial relationships as the original text in the shape. This allows you
+ * to convert text to a graphic in a way that allows you to get at each individual letter, as opposed
+ * to converting to a path and then breaking it apart, which goes too far in that subcurves
+ * within letters become separated. May fail (returning nil) if there are fewer than 2 valid paths
+ * submitted to make a group.
+ * @return a new shape group object.
+ * @public
+ */
 - (DKShapeGroup*)			makeShapeGroupWithText
 {
 	NSArray*	paths = [self textPathGlyphs];
@@ -754,21 +512,9 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return group;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			styleWithTextAttributes
-/// scope:			protected instance method
-/// overrides:
-/// description:	creates a style that attempts to maintain fidelity of appearance based on the text's attributes
-/// 
-/// parameters:		none
-/// result:			a new style object.
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Creates a style that attempts to maintain fidelity of appearance based on the text's attributes
+ * @return a new style object.
+ */
 - (DKStyle*)				styleWithTextAttributes
 {
 	if(![[self style] hasTextAttributes])
@@ -782,22 +528,13 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			syntheticStyle
-/// scope:			public instance method
-/// overrides:
-/// description:	creates a style that is the current style + any text attributes
-/// 
-/// parameters:		none
-/// result:			a new style object
-///
-/// notes:			a style which is the current style if it has text attributes, otherwise the current style with added text
-///					attributes. When cutting or copying the object's style, this is what should be used.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a style that is the current style + any text attributes
+ * @note
+ * A style which is the current style if it has text attributes, otherwise the current style with added text
+ * attributes. When cutting or copying the object's style, this is what should be used.
+ * @return a new style object
+ * @public
+ */
 - (DKStyle*)				syntheticStyle
 {
 	
@@ -816,16 +553,13 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 #pragma mark -
 #pragma mark - basic text attributes
-
 
 - (NSDictionary*)			textAttributes
 {
 	return [[self textAdornment] textAttributes];
 }
-
 
 - (void)					updateFontPanel
 {
@@ -833,21 +567,12 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[[NSFontManager sharedFontManager] setSelectedAttributes:[self textAttributes] isMultiple:![[self textAdornment] isHomogeneous]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setFont:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets the text's font, if permitted
-/// 
-/// parameters:		<font> a new font
-/// result:			none
-///
-/// notes:			updates the style if using it and it's not locked
-///
-///********************************************************************************************************************
-
+/** @brief Sets the text's font, if permitted
+ * @note
+ * Updates the style if using it and it's not locked
+ * @param font a new font
+ * @public
+ */
 - (void)					setFont:(NSFont*) font
 {
 	if ( ![self locked])
@@ -857,42 +582,22 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			font
-/// scope:			public instance method
-/// overrides:
-/// description:	gets the text's font
-/// 
-/// parameters:		none
-/// result:			the current font
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Gets the text's font
+ * @return the current font
+ * @public
+ */
 - (NSFont*)					font
 {
 	return [mTextAdornment font];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setFontSize:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets the text's font size, if permitted
-/// 
-/// parameters:		<size> the point size of the font
-/// result:			none
-///
-/// notes:			updates the style if using it and it's not locked. Currently does nothing if using local attributes -
-///					use setFont: instead.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the text's font size, if permitted
+ * @note
+ * Updates the style if using it and it's not locked. Currently does nothing if using local attributes -
+ * use setFont: instead.
+ * @param size the point size of the font
+ * @public
+ */
 - (void)					setFontSize:(CGFloat) size
 {
 	if( ![self locked])
@@ -902,26 +607,14 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			fontSize
-/// scope:			public instance method
-/// overrides:
-/// description:	gets the text's font size
-/// 
-/// parameters:		none
-/// result:			the size of the text's current font
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Gets the text's font size
+ * @return the size of the text's current font
+ * @public
+ */
 - (CGFloat)					fontSize
 {
 	return [mTextAdornment fontSize];
 }
-
 
 - (void)					setTextColour:(NSColor*) colour
 {
@@ -932,12 +625,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (NSColor*)				textColour
 {
 	return [mTextAdornment colour];
 }
-
 
 - (void)					scaleTextBy:(CGFloat) factor
 {
@@ -947,7 +638,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment scaleTextBy:factor];
 }
 
-
 #pragma mark -
 - (void)					setVerticalAlignment:(DKVerticalTextAlignment) align
 {
@@ -955,12 +645,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setVerticalAlignment:align];
 }
 
-
 - (DKVerticalTextAlignment)	verticalAlignment
 {
 	return [mTextAdornment verticalAlignment];
 }
-
 
 - (void)					setVerticalAlignmentProportion:(CGFloat) prop
 {
@@ -968,12 +656,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setVerticalAlignmentProportion:prop];
 }
 
-
 - (CGFloat)					verticalAlignmentProportion
 {
 	return [mTextAdornment verticalAlignmentProportion];
 }
-
 
 - (void)					setParagraphStyle:(NSParagraphStyle*) ps
 {
@@ -981,12 +667,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setParagraphStyle:ps];
 }
 
-
 - (NSParagraphStyle*)		paragraphStyle
 {
 	return [mTextAdornment paragraphStyle];
 }
-
 
 - (void)					setAlignment:(NSTextAlignment) align
 {
@@ -997,12 +681,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (NSTextAlignment)			alignment
 {
 	return [mTextAdornment alignment];
 }
-
 
 - (void)					setLayoutMode:(DKTextLayoutMode) mode
 {
@@ -1010,12 +692,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setLayoutMode:mode];
 }
 
-
 - (DKTextLayoutMode)		layoutMode
 {
 	return [mTextAdornment layoutMode];
 }
-
 
 - (void)					setWrapsLines:(BOOL) wraps
 {
@@ -1023,16 +703,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment setWrapsLines:wraps];
 }
 
-
 - (BOOL)					wrapsLines
 {
 	return [mTextAdornment wrapsLines];
 }
-
-
-
-
-
 
 - (void)					mutateStyle
 {
@@ -1055,7 +729,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		//NSLog(@"text shape mutated style: %@", self );
 	}
 }
-
 
 #pragma mark -
 #pragma mark - editing the text
@@ -1097,7 +770,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (void)					endEditing
 {
 	if ( m_editorRef )
@@ -1113,7 +785,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (BOOL)					isEditing
 {
 	// returns YES if editing currently in progress - valid during drawing only
@@ -1121,12 +792,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return( m_editorRef && ([m_editorRef superview] == [[self drawing] currentView]) && [[NSGraphicsContext currentContext] isDrawingToScreen]);
 }
 
-
 - (DKTextAdornment*)		textAdornment
 {
 	return mTextAdornment;
 }
-
 
 #pragma mark -
 #pragma mark - user actions
@@ -1143,13 +812,11 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (IBAction)				changeFontSize:(id) sender
 {
 	if ( ![self locked])
 		[self setFontSize:[sender doubleValue]];
 }
-
 
 - (IBAction)				changeAttributes:(id) sender
 {
@@ -1160,7 +827,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[self updateFontPanel];
 	}
 }
-
 
 - (IBAction)				editText:(id) sender
 {
@@ -1181,7 +847,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (IBAction)				changeLayoutMode:(id) sender
 {
 	// sender's tag is interpreted as the layout mode
@@ -1189,7 +854,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	NSInteger tag = [sender tag];
 	[self setLayoutMode:tag];
 }
-
 
 #pragma mark -
 - (IBAction)				alignLeft:(id) sender
@@ -1201,14 +865,12 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[self setAlignment:NSLeftTextAlignment];
 }
 
-
 - (IBAction)				alignRight:(id) sender
 {
 	#pragma unused(sender)
 	
 	[self setAlignment:NSRightTextAlignment];
 }
-
 
 - (IBAction)				alignCenter:(id) sender
 {
@@ -1217,14 +879,12 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[self setAlignment:NSCenterTextAlignment];
 }
 
-
 - (IBAction)				alignJustified:(id) sender
 {
 	#pragma unused(sender)
 	
 	[self setAlignment:NSJustifiedTextAlignment];
 }
-
 
 - (IBAction)				underline:(id) sender
 {
@@ -1244,7 +904,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (IBAction)				loosenKerning:(id) sender
 {
 #pragma unused(sender)
@@ -1252,8 +911,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment loosenKerning];
 }
-
-
 
 - (IBAction)				tightenKerning:(id) sender
 {
@@ -1263,8 +920,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment tightenKerning];
 }
 
-
-
 - (IBAction)				turnOffKerning:(id)sender
 {
 #pragma unused(sender)
@@ -1272,7 +927,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment turnOffKerning];
 }
-
 
 - (IBAction)				useStandardKerning:(id) sender;
 {
@@ -1282,8 +936,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment useStandardKerning];
 }
 
-
-
 - (IBAction)				lowerBaseline:(id) sender
 {
 #pragma unused(sender)
@@ -1291,8 +943,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment lowerBaseline];
 }
-
-
 
 - (IBAction)				raiseBaseline:(id) sender
 {
@@ -1302,7 +952,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment raiseBaseline];
 }
 
-
 - (IBAction)				superscript:(id) sender
 {
 #pragma unused(sender)
@@ -1310,8 +959,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment superscript];
 }
-
-
 
 - (IBAction)				subscript:(id) sender
 {
@@ -1321,8 +968,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[mTextAdornment subscript];
 }
 
-
-
 - (IBAction)				unscript:(id) sender
 {
 #pragma unused(sender)
@@ -1330,12 +975,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	if ( ![self locked])
 		[mTextAdornment unscript];
 }
-
-
-
-
-
-
 
 #pragma mark -
 - (IBAction)				fitToText:(id) sender
@@ -1349,7 +988,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (IBAction)				verticalAlign:(id) sender
 {
 	// sender's tag is the alignment desired
@@ -1360,7 +998,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[[self undoManager] setActionName:NSLocalizedString(@"Vertical Alignment", @"undo string for vertical align")];
 	}
 }
-
 
 - (IBAction)				convertToShape:(id) sender
 {
@@ -1387,7 +1024,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		NSBeep();
 }
 
-
 - (IBAction)				convertToShapeGroup:(id) sender
 {
 	#pragma unused(sender)
@@ -1410,7 +1046,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	else
 		NSBeep();
 }
-
 
 - (IBAction)				convertToTextPath:(id) sender
 {
@@ -1438,7 +1073,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		NSBeep();
 }
 
-
 #pragma mark -
 - (IBAction)				paste:(id) sender
 {
@@ -1451,7 +1085,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (IBAction)				capitalize:(id) sender
 {
 	if( ![self locked])
@@ -1460,7 +1093,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[[self undoManager] setActionName:NSLocalizedString(@"Change Case", @"undo string for capitalization")];
 	}
 }
-
 
 - (IBAction)				takeTextAlignmentFromSender:(id) sender
 {
@@ -1475,7 +1107,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[self setAlignment:clickedSegmentTag];
 	}
 }
-
 
 - (IBAction)				takeTextVerticalAlignmentFromSender:(id) sender
 {
@@ -1492,9 +1123,7 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 #pragma mark -
-
 
 - (DKTextAdornment*)	makeTextAdornment
 {
@@ -1509,7 +1138,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [adorn autorelease];
 	
 }
-
 
 - (void)			setTextAdornment:(DKTextAdornment*) adornment
 {
@@ -1532,7 +1160,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textWillChange:) name:kDKRasterizerPropertyWillChange object:mTextAdornment];
 	}
 }
-
 
 - (DKTextPath*)				makeTextPathObject
 {
@@ -1564,7 +1191,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 
 	return textPath;
 }
-
 
 #pragma mark -
 #pragma mark As a DKDrawableShape
@@ -1603,10 +1229,8 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 }
 #endif
 
-
 #pragma mark -
 #pragma mark As a DKDrawableObject
-
 
 - (id)					initWithStyle:(DKStyle*) aStyle
 {
@@ -1639,7 +1263,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return br;
 }
 
-
 - (NSSize)				extraSpaceNeeded
 {
 	NSSize extra = [super extraSpaceNeeded];
@@ -1650,7 +1273,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	return extra;
 }
-
 
 - (NSInteger)					hitPart:(NSPoint) pt
 {
@@ -1668,8 +1290,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	return part;
 }
-
-
 
 - (void)				drawContent
 {
@@ -1692,7 +1312,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 			[mTextAdornment render:self];
 	}
 }
-
 
 - (void)				drawSelectedState
 {
@@ -1719,8 +1338,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[super drawSelectedState];
 }
 
-
-
 - (void)				mouseDoubleClickedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt
 {
 	[super mouseDoubleClickedAtPoint:mp inPart:partcode event:evt];
@@ -1729,13 +1346,11 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 		[self startEditingInView:(DKDrawingView*)[[self layer] currentView]];
 }
 
-
 - (void)				objectDidBecomeSelected
 {
 	[super objectDidBecomeSelected];
 	[self updateFontPanel];
 }
-
 
 - (void)					objectIsNoLongerSelected
 {
@@ -1806,7 +1421,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return YES;
 }
 
-
 - (void)					setStyle:(DKStyle*) aStyle
 {
 	if ( aStyle != [self style])
@@ -1828,7 +1442,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
 - (void)					creationTool:(id) tool willEndCreationAtPoint:(NSPoint) p
 {
 #pragma unused(tool, p)
@@ -1847,42 +1460,22 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			copyDrawingStyle:
-/// scope:			public action method
-/// overrides:
-/// description:	copies the object's style to the general pasteboard
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Copies the object's style to the general pasteboard
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)		copyDrawingStyle:(id) sender
 {
 #pragma unused(sender)
 	[[self syntheticStyle] copyToPasteboard:[NSPasteboard generalPasteboard]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			writeSupplementaryDataToPasteboard:
-/// scope:			public instance method
-/// overrides:
-/// description:	write additional data to the pasteboard specific to the object
-/// 
-/// parameters:		<pb> the pasteboard to write to
-/// result:			none
-///
-/// notes:			Text objects add the text itself to the pasteboard
-///
-///********************************************************************************************************************
-
+/** @brief Write additional data to the pasteboard specific to the object
+ * @note
+ * Text objects add the text itself to the pasteboard
+ * @param pb the pasteboard to write to
+ * @public
+ */
 - (void)				writeSupplementaryDataToPasteboard:(NSPasteboard*) pb
 {
 	if([pb addTypes:[NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil] owner:self])
@@ -1895,21 +1488,9 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			styleDidChange
-/// scope:			private notification method
-/// overrides:
-/// description:	called just after the attached style has changed
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Called just after the attached style has changed
+ * @private
+ */
 - (void)			styleDidChange:(NSNotification*) note
 {
 	if([[self style] hasTextAttributes])
@@ -1921,9 +1502,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	[super styleDidChange:note];
 }
-
-
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -1938,12 +1516,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[super dealloc];
 }
 
-
 - (id)						init
 {
 	return [self initWithStyle:[DKStyle defaultTextStyle]];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSDraggingDestination protocol
@@ -1973,9 +1549,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [super performDragOperation:sender];
 }
 
-
-
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)					encodeWithCoder:(NSCoder*) coder
@@ -1985,7 +1558,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	
 	[coder encodeObject:mTextAdornment forKey:@"DKTextShape_textAdornment"];
 }
-
 
 - (id)						initWithCoder:(NSCoder*) coder
 {
@@ -2012,7 +1584,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)						copyWithZone:(NSZone*) zone
@@ -2026,10 +1597,8 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return copy;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
-
 
 - (BOOL)				validateMenuItem:(NSMenuItem*) item
 {
@@ -2057,7 +1626,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	{
 		return ![self locked] && [[self textPathGlyphs] count] > 1;
 	}
-
 
 	// set checkmarks against various items
 
@@ -2116,7 +1684,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	return [super validateMenuItem:item];
 }
 
-
 #pragma mark -
 #pragma mark As a NSTextView delegate
 
@@ -2126,12 +1693,10 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[self endEditing];
 }
 
-
 - (void)					textWillChange:(NSNotification*) note
 {
 #pragma unused(note)
 }
-
 
 - (BOOL)					textView:(NSTextView*) tv doCommandBySelector:(SEL) selector
 {
@@ -2166,7 +1731,6 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 
 #pragma mark -
 #pragma mark - as a KVO observer
-
 
 - (void)					observeValueForKeyPath:(NSString*) keypath ofObject:(id) object change:(NSDictionary*) change context:(void*) context
 {
@@ -2222,23 +1786,11 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 	[self notifyVisualChange];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			changeKeyPath:ofObject:toValue:
-/// scope:			private method
-/// overrides:		
-/// description:	vectors undo invocations back to the object from whence they came
-/// 
-/// parameters:		<keypath> the keypath of the action, relative to the object
-///					<object> the real target of the invocation
-///					<value> the value being restored by the undo/redo task
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Vectors undo invocations back to the object from whence they came
+ * @param keypath the keypath of the action, relative to the object
+ * @param object the real target of the invocation
+ * @private
+ */
 - (void)				changeKeyPath:(NSString*) keypath ofObject:(id) object toValue:(id) value
 {
 	//NSLog(@"changing keypath '%@' of <%@> from Undo task, value = %@", keypath, object, value );
@@ -2250,3 +1802,4 @@ static NSString*	sDefault_string = @"Double-click to edit this text";
 }
 
 @end
+

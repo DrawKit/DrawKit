@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKCIFilterRastGroup.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 16/03/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKCIFilterRastGroup.h"
 
@@ -16,10 +14,8 @@
 #import "NSBezierPath+Geometry.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 @implementation DKCIFilterRastGroup
 #pragma mark As a DKCIFilterRastGroup
-
 
 + (DKCIFilterRastGroup*)	effectGroupWithFilter:(NSString*) filter
 {
@@ -29,7 +25,6 @@
 	
 	return [fg autorelease];
 }
-
 
 #pragma mark -
 - (void)					setFilter:(NSString*) filter
@@ -46,12 +41,10 @@
 	}
 }
 
-
 - (NSString*)				filter
 {
 	return m_filter;
 }
-
 
 #pragma mark -
 - (void)					setArguments:(NSDictionary*) dict
@@ -61,12 +54,10 @@
 	m_arguments = dict;
 }
 
-
 - (NSDictionary*)			arguments
 {
 	return m_arguments;
 }
-
 
 #pragma mark -
 - (void)					invalidateCache
@@ -75,7 +66,6 @@
 	m_cache = nil;
 }
 
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)				observableKeyPaths
@@ -83,14 +73,12 @@
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"filter", @"arguments", nil ]];
 }
 
-
 - (void)					registerActionNames
 {
 	[super registerActionNames];
 	[self setActionName:@"#kind# Filter Type" forKeyPath:@"filter"];
 	[self setActionName:@"#kind# Filter Attributes" forKeyPath:@"arguments"];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -102,7 +90,6 @@
 	
 	[super dealloc];
 }
-
 
 - (id)						init
 {
@@ -122,7 +109,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
 - (NSSize)		extraSpaceNeeded
@@ -136,7 +122,6 @@
 	}
 	return es;
 }
-
 
 - (void)		render:(DKDrawableObject*) object
 {
@@ -226,7 +211,6 @@
 	}
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)					encodeWithCoder:(NSCoder*) coder
@@ -237,7 +221,6 @@
 	[coder encodeObject:[self filter] forKey:@"filter"];
 	[coder encodeObject:[self arguments] forKey:@"arguments"];
 }
-
 
 - (id)						initWithCoder:(NSCoder*) coder
 {
@@ -262,7 +245,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)						copyWithZone:(NSZone*) zone
@@ -278,9 +260,7 @@
 	return copy;
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation NSImage (CoreImage)
@@ -306,7 +286,6 @@
 	return (NSBitmapImageRep *) rep;
 }
 
-
 - (void)				drawAtPoint:(NSPoint) point fromRect:(NSRect) fromRect coreImageFilter:(NSString*) filterName arguments:(NSDictionary*) arguments
 {
 	NSAutoreleasePool *pool;
@@ -325,10 +304,7 @@
 	[pool release];
 }
 
-
 @end
-
-
 
 #pragma mark -
 @implementation NSBitmapImageRep (CoreImage)
@@ -390,5 +366,5 @@
 	[pool release];
 }
 
-
 @end
+

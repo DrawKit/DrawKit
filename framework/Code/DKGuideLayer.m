@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKGuideLayer.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 28/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKGuideLayer.h"
 #import "DKDrawingView.h"
@@ -16,11 +14,18 @@
 #import "NSColor+DKAdditions.h"
 #import "DKUndoManager.h"
 
-
 #define DK_DRAW_GUIDES_IN_CLIP_VIEW		0
 
 @interface DKGuideLayer (Private)
 
+/** @brief Moves a given guide to a new point
+ * @note
+ * Called by mouseDragged, allows undo of a move.
+ * @param guide the guide to move
+ * @param p where to move it to
+ * @param aView which view it's drawn in
+ * @private
+ */
 - (void)		repositionGuide:(DKGuide*) guide atPoint:(NSPoint) p inView:(NSView*) aView;
 - (NSRect)		guideRectOfGuide:(DKGuide*) guide forEnclosingClipViewOfView:(NSView*) aView;
 
@@ -37,64 +42,33 @@ static BOOL		sWasInside = NO;
 @implementation DKGuideLayer
 #pragma mark As a DKGuideLayer
 
-///*********************************************************************************************************************
-///
-/// method:			setSnapTolerance:
-/// scope:			public class method
-/// overrides:
-/// description:	sets the distance a point needs to be before it is snapped to a guide
-/// 
-/// parameters:		<tol> the distance in points
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets the distance a point needs to be before it is snapped to a guide
+ * @param tol the distance in points
+ * @public
+ */
 + (void)				setDefaultSnapTolerance:(CGFloat) tol
 {
 	sSnapTolerance = tol;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snapTolerance:
-/// scope:			public class method
-/// overrides:
-/// description:	returns the distance a point needs to be before it is snapped to a guide
-/// 
-/// parameters:		none
-/// result:			the distance in points
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the distance a point needs to be before it is snapped to a guide
+ * @return the distance in points
+ * @public
+ */
 + (CGFloat)				defaultSnapTolerance
 {
 	return sSnapTolerance;
 }
 
-
 #pragma mark -
 
-
-///*********************************************************************************************************************
-///
-/// method:			addGuide:
-/// scope:			public instance method
-/// overrides:
-/// description:	adds a guide to the layer
-/// 
-/// parameters:		<guide> an existing guide object
-/// result:			none
-///
-/// notes:			sets the guide's colour to the layer's guide colour initially - after adding the guide colour can
-///					be set individually if desired.
-///
-///********************************************************************************************************************
-
+/** @brief Adds a guide to the layer
+ * @note
+ * Sets the guide's colour to the layer's guide colour initially - after adding the guide colour can
+ * be set individually if desired.
+ * @param guide an existing guide object
+ * @public
+ */
 - (void)				addGuide:(DKGuide*) guide
 {
 	NSAssert( guide != nil, @"attempt to add a nil guide to a guide layer");
@@ -113,21 +87,10 @@ static BOOL		sWasInside = NO;
 		[[self undoManager] setActionName:NSLocalizedString(@"Add Guide", @"undo action for Add Guide")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeGuide:
-/// scope:			public instance method
-/// overrides:
-/// description:	removes a guide from the layer
-/// 
-/// parameters:		<guide> an existing guide object
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes a guide from the layer
+ * @param guide an existing guide object
+ * @public
+ */
 - (void)				removeGuide:(DKGuide*) guide
 {
 	NSAssert( guide != nil, @"attempt to remove a nil guide from a guide layer");
@@ -145,21 +108,9 @@ static BOOL		sWasInside = NO;
 		[[self undoManager] setActionName:NSLocalizedString(@"Delete Guide", @"undo action for Remove Guide")];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			removeAllGuides
-/// scope:			public instance method
-/// overrides:
-/// description:	removes all guides permanently from the layer
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Removes all guides permanently from the layer
+ * @public
+ */
 - (void)				removeAllGuides
 {
 	if( ![self locked])
@@ -172,24 +123,13 @@ static BOOL		sWasInside = NO;
 	}
 }
 
-
 #pragma mark -
 
-
-///*********************************************************************************************************************
-///
-/// method:			nearestVerticalGuideToPosition
-/// scope:			public instance method
-/// overrides:
-/// description:	locates the nearest guide to the given position, if position is within the snap tolerance
-/// 
-/// parameters:		<pos> a verical coordinate value, in points
-/// result:			the nearest guide to the given point that lies within the snap tolerance, or nil
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
+ * @param pos a verical coordinate value, in points
+ * @return the nearest guide to the given point that lies within the snap tolerance, or nil
+ * @public
+ */
 - (DKGuide*)			nearestVerticalGuideToPosition:(CGFloat) pos
 {
 	NSEnumerator*	iter = [[self verticalGuides] objectEnumerator];
@@ -211,21 +151,11 @@ static BOOL		sWasInside = NO;
 	return nearestGuide;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			nearestHorizontalGuideToPosition
-/// scope:			public instance method
-/// overrides:
-/// description:	locates the nearest guide to the given position, if position is within the snap tolerance
-/// 
-/// parameters:		<pos> a horizontal coordinate value, in points
-/// result:			the nearest guide to the given point that lies within the snap tolerance, or nil
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
+ * @param pos a horizontal coordinate value, in points
+ * @return the nearest guide to the given point that lies within the snap tolerance, or nil
+ * @public
+ */
 - (DKGuide*)			nearestHorizontalGuideToPosition:(CGFloat) pos
 {
 	NSEnumerator*	iter = [[self horizontalGuides] objectEnumerator];
@@ -247,104 +177,62 @@ static BOOL		sWasInside = NO;
 	return nearestGuide;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			verticalGuides
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the list of vertical guides
-/// 
-/// parameters:		none
-/// result:			an array of DKGuide objects
-///
-/// notes:			the guides returns are not in any particular order
-///
-///********************************************************************************************************************
-
+/** @brief Returns the list of vertical guides
+ * @note
+ * The guides returns are not in any particular order
+ * @return an array of DKGuide objects
+ * @public
+ */
 - (NSArray*)			verticalGuides
 {
 	return m_vGuides;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			horizontalGuides
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the list of horizontal guides
-/// 
-/// parameters:		none
-/// result:			an array of DKGuide objects
-///
-/// notes:			the guides returns are not in any particular order
-///
-///********************************************************************************************************************
-
+/** @brief Returns the list of horizontal guides
+ * @note
+ * The guides returns are not in any particular order
+ * @return an array of DKGuide objects
+ * @public
+ */
 - (NSArray*)			horizontalGuides
 {
 	return m_hGuides;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setGuidesSnapToGrid:
-/// scope:			public instance method
-/// overrides:
-/// description:	set whether guids should snap to the grid by default or not
-/// 
-/// parameters:		<gridsnap> YES to always snap guides to the grid, NO otherwise
-/// result:			none
-///
-/// notes:			the default is NO
-///
-///********************************************************************************************************************
 
+/** @brief Set whether guids should snap to the grid by default or not
+ * @note
+ * The default is NO
+ * @param gridsnap YES to always snap guides to the grid, NO otherwise
+ * @public
+ */
 - (void)				setGuidesSnapToGrid:(BOOL) gridsnap
 {
 	m_snapToGrid = gridsnap;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			guidesSnapToGrid
-/// scope:			public instance method
-/// overrides:
-/// description:	whether guids should snap to the grid by default or not
-/// 
-/// parameters:		none 
-/// result:			YES to always snap guides to the grid, NO otherwise
-///
-/// notes:			the default is NO
-///
-///********************************************************************************************************************
-
+/** @brief Whether guids should snap to the grid by default or not
+ * @note
+ * The default is NO
+ * @return YES to always snap guides to the grid, NO otherwise
+ * @public
+ */
 - (BOOL)				guidesSnapToGrid
 {
 	return m_snapToGrid;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			snapPointToGuide:
-/// scope:			public instance method
-/// overrides:
-/// description:	snap a given point to any nearest guides within the snap tolerance
-/// 
-/// parameters:		<p> a point in local drawing coordinates 
-/// result:			a point, either the same point passed in, or a modified one that has been snapped to the guides
-///
-/// notes:			x and y coordinates of the point are of course, individually snapped, so only one coordinate
-///					might be modified, as well as none or both.
-///
-///********************************************************************************************************************
 
+/** @brief Snap a given point to any nearest guides within the snap tolerance
+ * @note
+ * X and y coordinates of the point are of course, individually snapped, so only one coordinate
+ * might be modified, as well as none or both.
+ * @param p a point in local drawing coordinates 
+ * @return a point, either the same point passed in, or a modified one that has been snapped to the guides
+ * @public
+ */
 - (NSPoint)				snapPointToGuide:(NSPoint) p
 {
 	// if the point <p> is within the snap tolerance of any guide, the returned point is snapped to that guide. Otherwise the
@@ -370,42 +258,26 @@ static BOOL		sWasInside = NO;
 	return ps;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snapRectToGuide:
-/// scope:			public instance method
-/// overrides:
-/// description:	snaps any corner of the given rect to any nearest guides within the snap tolerance
-/// 
-/// parameters:		<r> a rect in local drawing coordinates 
-/// result:			a rect, either the same rect passed in, or a modified one that has been snapped to the guides
-///
-/// notes:			the rect size is never changed by this method, but its origin may be. Does not snap the centres.
-///
-///********************************************************************************************************************
-
+/** @brief Snaps any corner of the given rect to any nearest guides within the snap tolerance
+ * @note
+ * The rect size is never changed by this method, but its origin may be. Does not snap the centres.
+ * @param r a rect in local drawing coordinates 
+ * @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
+ * @public
+ */
 - (NSRect)				snapRectToGuide:(NSRect) r
 {
 	return [self snapRectToGuide:r includingCentres:NO];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snapRectToGuide:includingCentres:
-/// scope:			public instance method
-/// overrides:
-/// description:	snaps any corner or centre point of the given rect to any nearest guides within the snap tolerance
-/// 
-/// parameters:		<r> a rect in local drawing coordinates 
-///					<centre> YES to also snap mid points of all sides, NO to just snap the corners
-/// result:			a rect, either the same rect passed in, or a modified one that has been snapped to the guides
-///
-/// notes:			the rect size is never changed by this method, but its origin may be.
-///
-///********************************************************************************************************************
-
+/** @brief Snaps any corner or centre point of the given rect to any nearest guides within the snap tolerance
+ * @note
+ * The rect size is never changed by this method, but its origin may be.
+ * @param r a rect in local drawing coordinates 
+ * @param centre YES to also snap mid points of all sides, NO to just snap the corners
+ * @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
+ * @public
+ */
 - (NSRect)				snapRectToGuide:(NSRect) r includingCentres:(BOOL) centre
 {
 	NSRect		sr;
@@ -452,52 +324,37 @@ static BOOL		sWasInside = NO;
 	return sr;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			snapPointsToGuide:
-/// scope:			public instance method
-/// overrides:
-/// description:	snaps any of a list of points to any nearest guides within the snap tolerance
-/// 
-/// parameters:		<arrayOfPoints> a list of NSValue object containing pointValues 
-/// result:			a size, being the offset between whichever point was snapped and its snapped position
-///
-/// notes:			this is intended as one step in the snapping of a complex object to the guides, where points are
-///					arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
-///					point in the list that actually snaps is used. The return value is intended to be used to offset
-///					a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
-///					Note that h and v offsets are independent, and may not refer to the same actual input point.
-///
-///********************************************************************************************************************
 
+/** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
+ * @note
+ * This is intended as one step in the snapping of a complex object to the guides, where points are
+ * arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
+ * point in the list that actually snaps is used. The return value is intended to be used to offset
+ * a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
+ * Note that h and v offsets are independent, and may not refer to the same actual input point.
+ * @param arrayOfPoints a list of NSValue object containing pointValues 
+ * @return a size, being the offset between whichever point was snapped and its snapped position
+ * @public
+ */
 - (NSSize)				snapPointsToGuide:(NSArray*) arrayOfPoints
 {
 	return [self snapPointsToGuide:arrayOfPoints verticalGuide:NULL horizontalGuide:NULL];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snapPointsToGuide:verticalGuide:horizontalGuide:
-/// scope:			public instance method
-/// overrides:
-/// description:	snaps any of a list of points to any nearest guides within the snap tolerance
-/// 
-/// parameters:		<arrayOfPoints> a list of NSValue object containing pointValues 
-///					<gv> if not NULL, receives the actual vertical guide snapped to
-///					<gh> if not NULL, receives the actual horizontal guide snapped to
-/// result:			a size, being the offset between whichever point was snapped and its snapped position
-///
-/// notes:			this is intended as one step in the snapping of a complex object to the guides, where points are
-///					arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
-///					point in the list that actually snaps is used. The return value is intended to be used to offset
-///					a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
-///					Note that h and v offsets are independent, and may not refer to the same actual input point.
-///
-///********************************************************************************************************************
-
+/** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
+ * @note
+ * This is intended as one step in the snapping of a complex object to the guides, where points are
+ * arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
+ * point in the list that actually snaps is used. The return value is intended to be used to offset
+ * a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
+ * Note that h and v offsets are independent, and may not refer to the same actual input point.
+ * @param arrayOfPoints a list of NSValue object containing pointValues 
+ * @param gv if not NULL, receives the actual vertical guide snapped to
+ * @param gh if not NULL, receives the actual horizontal guide snapped to
+ * @return a size, being the offset between whichever point was snapped and its snapped position
+ * @public
+ */
 - (NSSize)				snapPointsToGuide:(NSArray*) arrayOfPoints verticalGuide:(DKGuide**) gv horizontalGuide:(DKGuide**) gh
 {
 	NSEnumerator*	iter = [arrayOfPoints objectEnumerator];
@@ -543,64 +400,36 @@ static BOOL		sWasInside = NO;
 	return result;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setSnapTolerance:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets the distance a point needs to be before it is snapped to a guide
-/// 
-/// parameters:		<tol> the distance in points
-/// result:			none
-///
-/// notes:			the default value is determind by the class method of the same name
-///
-///********************************************************************************************************************
 
+/** @brief Sets the distance a point needs to be before it is snapped to a guide
+ * @note
+ * The default value is determind by the class method of the same name
+ * @param tol the distance in points
+ * @public
+ */
 - (void)				setSnapTolerance:(CGFloat) tol
 {
 	m_snapTolerance = tol;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			snapTolerance
-/// scope:			public instance method
-/// overrides:
-/// description:	resturns the distance a point needs to be before it is snapped to a guide
-/// 
-/// parameters:		none
-/// result:			the distance in points
-///
-/// notes:			the default value is determind by the class method of the same name
-///
-///********************************************************************************************************************
-
+/** @brief Resturns the distance a point needs to be before it is snapped to a guide
+ * @note
+ * The default value is determind by the class method of the same name
+ * @return the distance in points
+ * @public
+ */
 - (CGFloat)				snapTolerance
 {
 	return m_snapTolerance;
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			refreshGuide:
-/// scope:			public instance method
-/// overrides:
-/// description:	marks a partiuclar guide as needing to be readrawn
-/// 
-/// parameters:		<guide> the guide to update
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Marks a partiuclar guide as needing to be readrawn
+ * @param guide the guide to update
+ * @public
+ */
 - (void)				refreshGuide:(DKGuide*) guide
 {
 	NSAssert( guide != nil, @"guide was nil in refreshGuide");
@@ -608,22 +437,14 @@ static BOOL		sWasInside = NO;
 	[self setNeedsDisplayInRect:[self guideRect:guide]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			guideRect:
-/// scope:			public instance method
-/// overrides:
-/// description:	returns the rect occupied by a given guide
-/// 
-/// parameters:		<guide> the guide whose rect we are interested in
-/// result:			a rect, in drawing coordinates
-///
-/// notes:			this allows a small amount either side of the guide, and runs the full dimension of the drawing
-///					in the direction of the guide.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the rect occupied by a given guide
+ * @note
+ * This allows a small amount either side of the guide, and runs the full dimension of the drawing
+ * in the direction of the guide.
+ * @param guide the guide whose rect we are interested in
+ * @return a rect, in drawing coordinates
+ * @public
+ */
 - (NSRect)				guideRect:(DKGuide*) guide
 {
 	NSAssert( guide != nil, @"guide was nil in guideRect:");
@@ -649,23 +470,15 @@ static BOOL		sWasInside = NO;
 	return r;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			createVerticalGuideAndBeginDraggingFromPoint:
-/// scope:			public instance method
-/// overrides:
-/// description:	creates a new vertical guide at the point p, adds it to the layer and returns it
-/// 
-/// parameters:		<p> a point local to the drawing
-/// result:			the guide created, or nil
-///
-/// notes:			this is a convenient way to add a guide interactively, for example when dragging one "off" a
-///					ruler. See DKViewController for an example client of this method. If the layer is locked this
-///					does nothing and returns nil.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a new vertical guide at the point p, adds it to the layer and returns it
+ * @note
+ * This is a convenient way to add a guide interactively, for example when dragging one "off" a
+ * ruler. See DKViewController for an example client of this method. If the layer is locked this
+ * does nothing and returns nil.
+ * @param p a point local to the drawing
+ * @return the guide created, or nil
+ * @public
+ */
 - (DKGuide*)			createVerticalGuideAndBeginDraggingFromPoint:(NSPoint) p
 {
 	DKGuide* guide = nil;
@@ -692,23 +505,15 @@ static BOOL		sWasInside = NO;
 	return guide;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			createHorizontalGuideAndBeginDraggingFromPoint:
-/// scope:			public instance method
-/// overrides:
-/// description:	creates a new horizontal guide at the point p, adds it to the layer and returns it
-/// 
-/// parameters:		<p> a point local to the drawing
-/// result:			the guide created, or nil
-///
-/// notes:			this is a convenient way to add a guide interactively, for example when dragging one "off" a
-///					ruler. See DKViewController for an example client of this method. If the layer is locked this
-///					does nothing and returns nil.
-///
-///********************************************************************************************************************
-
+/** @brief Creates a new horizontal guide at the point p, adds it to the layer and returns it
+ * @note
+ * This is a convenient way to add a guide interactively, for example when dragging one "off" a
+ * ruler. See DKViewController for an example client of this method. If the layer is locked this
+ * does nothing and returns nil.
+ * @param p a point local to the drawing
+ * @return the guide created, or nil
+ * @public
+ */
 - (DKGuide*)			createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint) p
 {
 	DKGuide* guide = nil;
@@ -735,22 +540,10 @@ static BOOL		sWasInside = NO;
 	return guide;
 }
 
-
-
-///*********************************************************************************************************************
-///
-/// method:			guides
-/// scope:			public instance method
-/// overrides:
-/// description:	get all current guides
-/// 
-/// parameters:		none
-/// result:			an array of guide objects
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Get all current guides
+ * @return an array of guide objects
+ * @public
+ */
 - (NSArray*)			guides
 {
 	NSMutableArray* ga = [[self horizontalGuides] mutableCopy];
@@ -758,21 +551,10 @@ static BOOL		sWasInside = NO;
 	return [ga autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setGuides:
-/// scope:			public instance method
-/// overrides:
-/// description:	adds a set of guides to th elayer
-/// 
-/// parameters:		<guides> an array of guide objects
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Adds a set of guides to th elayer
+ * @param guides an array of guide objects
+ * @public
+ */
 - (void)				setGuides:(NSArray*) guides
 {
 	NSAssert( guides != nil, @"can't set guides from nil array");
@@ -786,23 +568,6 @@ static BOOL		sWasInside = NO;
 			[self addGuide:guide];
 	}
 }
-
-
-///*********************************************************************************************************************
-///
-/// method:			repositionGuide:atPoint:
-/// scope:			private instance method
-/// overrides:
-/// description:	moves a given guide to a new point
-/// 
-/// parameters:		<guide> the guide to move
-///					<p> where to move it to
-///					<aView> which view it's drawn in
-/// result:			none
-///
-/// notes:			called by mouseDragged, allows undo of a move.
-///
-///********************************************************************************************************************
 
 - (void)		repositionGuide:(DKGuide*) guide atPoint:(NSPoint) p inView:(NSView*) aView
 {
@@ -844,7 +609,6 @@ static BOOL		sWasInside = NO;
 	}
 }
 
-
 - (NSRect)		guideRectOfGuide:(DKGuide*) guide forEnclosingClipViewOfView:(NSView*) aView
 {
 	NSClipView* clipView = [[aView enclosingScrollView] contentView];
@@ -878,87 +642,51 @@ static BOOL		sWasInside = NO;
 		return NSZeroRect;	// no clip view
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setShowsDragInfoWindow:
-/// scope:			public instance method
-/// overrides:
-/// description:	set whether the info window should be displayed when dragging a guide
-/// 
-/// parameters:		<showsIt> YES to display the window, NO otherwise
-/// result:			none
-///
-/// notes:			default is YES, display the window
-///
-///********************************************************************************************************************
 
+/** @brief Set whether the info window should be displayed when dragging a guide
+ * @note
+ * Default is YES, display the window
+ * @param showsIt YES to display the window, NO otherwise
+ * @public
+ */
 - (void)				setShowsDragInfoWindow:(BOOL) showsIt
 {
 	m_showDragInfo = showsIt;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			showsDragInfoWindow
-/// scope:			public instance method
-/// overrides:
-/// description:	return whether the info window should be displayed when dragging a guide
-/// 
-/// parameters:		none
-/// result:			YES to display the window, NO otherwise
-///
-/// notes:			default is YES, display the window
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the info window should be displayed when dragging a guide
+ * @note
+ * Default is YES, display the window
+ * @return YES to display the window, NO otherwise
+ * @public
+ */
 - (BOOL)				showsDragInfoWindow
 {
 	return m_showDragInfo;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setGuideDeletionRect:
-/// scope:			public instance method
-/// overrides:
-/// description:	sets a rect for which guides will be deleted if they are dragged outside of it
-/// 
-/// parameters:		<rect> the rect
-/// result:			none
-///
-/// notes:			default is the same as the drawing's interior
-///
-///********************************************************************************************************************
-
+/** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
+ * @note
+ * Default is the same as the drawing's interior
+ * @param rect the rect
+ * @public
+ */
 - (void)				setGuideDeletionRect:(NSRect) rect
 {
 	mGuideDeletionZone = rect;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			guideDeletionRect
-/// scope:			public instance method
-/// overrides:
-/// description:	the rect for which guides will be deleted if they are dragged outside of it
-/// 
-/// parameters:		none
-/// result:			the rect
-///
-/// notes:			default is the same as the drawing's interior
-///
-///********************************************************************************************************************
-
+/** @brief The rect for which guides will be deleted if they are dragged outside of it
+ * @note
+ * Default is the same as the drawing's interior
+ * @return the rect
+ * @public
+ */
 - (NSRect)				guideDeletionRect
 {
 	return mGuideDeletionZone;
 }
-
 
 - (void)				setGuidesDrawnInEnclosingScrollview:(BOOL) drawOutside
 {
@@ -966,29 +694,20 @@ static BOOL		sWasInside = NO;
 	[self setNeedsDisplay:YES];
 }
 
-
 - (BOOL)				guidesDrawnInEnclosingScrollview
 {
 	return mDrawGuidesInClipView;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			clearGuides:
-/// scope:			public action method
-/// overrides:
-/// description:	high level action to remove all guides from the layer
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			can be hooked directly to a menu item for clearing the guides - will be available when the guide
-///					layer is active. Does nothing if the layer is locked.
-///
-///********************************************************************************************************************
 
+/** @brief High level action to remove all guides from the layer
+ * @note
+ * Can be hooked directly to a menu item for clearing the guides - will be available when the guide
+ * layer is active. Does nothing if the layer is locked.
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)			clearGuides:(id) sender
 {
 	#pragma unused(sender)
@@ -1000,25 +719,23 @@ static BOOL		sWasInside = NO;
 	}
 }
 
-
 #pragma mark -
 
-///*********************************************************************************************************************
-///
-/// method:			setGuideColour:
-/// scope:			public instance method
-/// overrides:
-/// description:	set the colour of all guides in this layer to a given colour
-/// 
-/// parameters:		<colour> the colour to set
-/// result:			none
-///
-/// notes:			the guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
-///					also each guide is able to have its own colour. This sets the colour for each guide to be the same
-///					so you may prefer to obtain a particular guide and set it individually.
-///
-///********************************************************************************************************************
+/** @brief Set the colour of all guides in this layer to a given colour
+ * @note
+ * The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
+ * also each guide is able to have its own colour. This sets the colour for each guide to be the same
+ * so you may prefer to obtain a particular guide and set it individually.
+ * @param colour the colour to set
+ * @public
+ */
 
+/** @brief Sets the guide's colour
+ * @note
+ * Note that this doesn't mark the guide for update - DKGuideLayer has a method for doing that.
+ * @param colour a colour 
+ * @public
+ */
 - (void)				setGuideColour:(NSColor*) colour
 {
 	if ( ![self locked] && colour != [self guideColour])
@@ -1034,46 +751,32 @@ static BOOL		sWasInside = NO;
 	}
 }
 
+/** @brief Return the layer's guide colour
+ * @note
+ * The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
+ * also each guide is able to have its own colour. This returns the selection colour, but if guides
+ * have their own colours this says nothing about them.
+ * @return a colour
+ * @public
+ */
 
-///*********************************************************************************************************************
-///
-/// method:			guideColour
-/// scope:			public instance method
-/// overrides:
-/// description:	return the layer's guide colour
-/// 
-/// parameters:		none
-/// result:			a colour
-///
-/// notes:			the guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
-///					also each guide is able to have its own colour. This returns the selection colour, but if guides
-///					have their own colours this says nothing about them.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the guide's colour
+ * @return a colour
+ * @public
+ */
 - (NSColor*)			guideColour
 {
 	return [self selectionColour];
 }
 
-
 #pragma mark -
 #pragma mark As a DKLayer
-///*********************************************************************************************************************
-///
-/// method:			drawRect:inView:
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	draws the guide layer
-/// 
-/// parameters:		<rect> the overall rect needing update
-///					<aView> the view that's doing it
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Draws the guide layer
+ * @param rect the overall rect needing update
+ * @param aView the view that's doing it
+ * @public
+ */
 - (void)				drawRect:(NSRect) rect inView:(DKDrawingView*) aView
 {
 	NSEnumerator*	iter; 
@@ -1150,21 +853,13 @@ static BOOL		sWasInside = NO;
 	[NSBezierPath setDefaultLineWidth:savedLineWidth];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hitLayer:
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	test whether the point "hits" the layer
-/// 
-/// parameters:		<p> a point in local (drawing) coordinates
-/// result:			YES if any guide was hit, NO otherwise
-///
-/// notes:			to be considered a "hit", the point needs to be within the snap tolerance of a guide.
-///
-///********************************************************************************************************************
-
+/** @brief Test whether the point "hits" the layer
+ * @note
+ * To be considered a "hit", the point needs to be within the snap tolerance of a guide.
+ * @param p a point in local (drawing) coordinates
+ * @return YES if any guide was hit, NO otherwise
+ * @public
+ */
 - (BOOL)				hitLayer:(NSPoint) p
 {
 	DKGuide* dg;
@@ -1184,23 +879,14 @@ static BOOL		sWasInside = NO;
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDown:inView:
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	respond to a mouseDown event
-/// 
-/// parameters:		<event> the mouseDown event
-///					<view> where it came from
-/// result:			none
-///
-/// notes:			begins the drag of a guide, if the layer isn't locked. Determines which guide will be dragged
-///					and sets m_dragGuideRef to it.
-///
-///********************************************************************************************************************
-
+/** @brief Respond to a mouseDown event
+ * @note
+ * Begins the drag of a guide, if the layer isn't locked. Determines which guide will be dragged
+ * and sets m_dragGuideRef to it.
+ * @param event the mouseDown event
+ * @param view where it came from
+ * @public
+ */
 - (void)				mouseDown:(NSEvent*) event inView:(NSView*) view
 {
 	if( ![self locked])
@@ -1251,22 +937,13 @@ static BOOL		sWasInside = NO;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseDragged:inView:
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	respond to a mouseDragged event
-/// 
-/// parameters:		<event> the mouseDragged event
-///					<view> where it came from
-/// result:			none
-///
-/// notes:			continues the drag of a guide, if the layer isn't locked.
-///
-///********************************************************************************************************************
-
+/** @brief Respond to a mouseDragged event
+ * @note
+ * Continues the drag of a guide, if the layer isn't locked.
+ * @param event the mouseDragged event
+ * @param view where it came from
+ * @public
+ */
 - (void)				mouseDragged:(NSEvent*) event inView:(NSView*) view
 {
 	if ( ![self locked] && m_dragGuideRef != nil )
@@ -1312,22 +989,13 @@ static BOOL		sWasInside = NO;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			mouseUp:inView:
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	respond to a mouseUp event
-/// 
-/// parameters:		<event> the mouseUp event
-///					<view> where it came from
-/// result:			none
-///
-/// notes:			completes a guide drag. If the guide was dragged out of the interior of the drawing, it is deleted.
-///
-///********************************************************************************************************************
-
+/** @brief Respond to a mouseUp event
+ * @note
+ * Completes a guide drag. If the guide was dragged out of the interior of the drawing, it is deleted.
+ * @param event the mouseUp event
+ * @param view where it came from
+ * @public
+ */
 - (void)				mouseUp:(NSEvent*) event inView:(NSView*) view
 {
 	#pragma unused(event)
@@ -1355,21 +1023,11 @@ static BOOL		sWasInside = NO;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			shouldAutoActivateWithEvent:
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	query whether the layer can be automatically activated by the given event
-/// 
-/// parameters:		<event> the event (typically a mouseDown event)
-/// result:			NO - guide layers never auto-activate by default
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Query whether the layer can be automatically activated by the given event
+ * @param event the event (typically a mouseDown event)
+ * @return NO - guide layers never auto-activate by default
+ * @public
+ */
 - (BOOL)				shouldAutoActivateWithEvent:(NSEvent*) event
 {
 	#pragma unused(event)
@@ -1377,42 +1035,23 @@ static BOOL		sWasInside = NO;
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setSelectionColour:
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	sets the "selection" colour of the layer
-/// 
-/// parameters:		<aColour> the colour to set
-/// result:			none
-///
-/// notes:			this sets the guide colour, which is the same as the selection colour. This override allows a
-///					common colour-setting UI to be easily used for all layer types.
-///
-///********************************************************************************************************************
-
+/** @brief Sets the "selection" colour of the layer
+ * @note
+ * This sets the guide colour, which is the same as the selection colour. This override allows a
+ * common colour-setting UI to be easily used for all layer types.
+ * @param aColour the colour to set
+ * @public
+ */
 - (void)				setSelectionColour:(NSColor*) aColour
 {
 	[self setGuideColour:aColour];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			cursor
-/// scope:			public instance method
-/// overrides:		DKLayer
-/// description:	returns the curor in use when this layer is active
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			closed hand when dragging a guide, open hand otherwise.
-///
-///********************************************************************************************************************
-
+/** @brief Returns the curor in use when this layer is active
+ * @note
+ * Closed hand when dragging a guide, open hand otherwise.
+ * @public
+ */
 - (NSCursor*)			cursor
 {
 	if([self locked])
@@ -1431,80 +1070,47 @@ static BOOL		sWasInside = NO;
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			activeCursorRect
-/// scope:			public instance method
-/// description:	return a rect where the layer's cursor is shown when the mouse is within it
-/// 
-/// parameters:		none
-/// result:			the cursor rect
-///
-/// notes:			guide layer's cursor rect is the deletion rect.
-///
-///********************************************************************************************************************
-
+/** @brief Return a rect where the layer's cursor is shown when the mouse is within it
+ * @note
+ * Guide layer's cursor rect is the deletion rect.
+ * @return the cursor rect
+ * @public
+ */
 - (NSRect)			activeCursorRect
 {
 	return [self guideDeletionRect];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			wasAddedToDrawing:
-/// scope:			public instance method
-/// description:	notifies the layer that it or a group containing it was added to a drawing.
-/// 
-/// parameters:		<aDrawing> the drawing that added the layer
-/// result:			none
-///
-/// notes:			sets the default deletion zone to equal the drawing's interior if it hasn't been set already
-///
-///********************************************************************************************************************
-
+/** @brief Notifies the layer that it or a group containing it was added to a drawing.
+ * @note
+ * Sets the default deletion zone to equal the drawing's interior if it hasn't been set already
+ * @param aDrawing the drawing that added the layer
+ * @public
+ */
 - (void)			wasAddedToDrawing:(DKDrawing*) aDrawing
 {
 	if( NSIsEmptyRect( mGuideDeletionZone ))
 		[self setGuideDeletionRect:[aDrawing interior]];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			layerMayBeDeleted
-/// scope:			public instance method
-/// description:	return whether the layer can be deleted
-/// 
-/// parameters:		none
-/// result:			NO - typically guide layers shouldn't be deleted
-///
-/// notes:			This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
-///					It does not prevent code from directly removing the layer.
-///
-///********************************************************************************************************************
-
+/** @brief Return whether the layer can be deleted
+ * @note
+ * This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
+ * It does not prevent code from directly removing the layer.
+ * @return NO - typically guide layers shouldn't be deleted
+ * @public
+ */
 - (BOOL)			layerMayBeDeleted
 {
 	return NO;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			menuForEvent:inView:
-/// scope:			public instance method
-/// description:	allows a contextual menu to be built for the layer or its contents
-/// 
-/// parameters:		<theEvent> the original event (a right-click mouse event)
-///					<view> the view that received the original event
-/// result:			a menu that will be displayed as a contextual menu
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Allows a contextual menu to be built for the layer or its contents
+ * @param theEvent the original event (a right-click mouse event)
+ * @param view the view that received the original event
+ * @return a menu that will be displayed as a contextual menu
+ * @public
+ */
 - (NSMenu *)		menuForEvent:(NSEvent *)theEvent inView:(NSView*) view
 {
 	NSMenu* menu = [super menuForEvent:theEvent inView:view];
@@ -1521,32 +1127,17 @@ static BOOL		sWasInside = NO;
 	return menu;
 }
 
-
 - (BOOL)			supportsMetadata
 {
 	return NO;
 }
 
-
-
-
 #pragma mark -
 #pragma mark As an NSObject
 
-///*********************************************************************************************************************
-///
-/// method:			dealloc
-/// scope:			public instance method
-/// overrides:		NSObject
-/// description:	deallocates the guide layer
-/// 
-/// parameters:		none
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Deallocates the guide layer
+ * @public
+ */
 - (void)				dealloc
 {
 	[m_hGuides release];
@@ -1555,21 +1146,17 @@ static BOOL		sWasInside = NO;
 	[super dealloc];
 }
 
+/** @brief Initializes the guide layer
+ * @note
+ * Initially the layer has no guides
+ * @return the guide layer
+ * @public
+ */
 
-///*********************************************************************************************************************
-///
-/// method:			init
-/// scope:			public instance method - designated initializer
-/// overrides:		NSObject
-/// description:	initializes the guide layer
-/// 
-/// parameters:		none
-/// result:			the guide layer
-///
-/// notes:			initially the layer has no guides
-///
-///********************************************************************************************************************
-
+/** @brief Initializes the guide
+ * @return the guide
+ * @public
+ */
 - (id)					init
 {
 	self = [super init];
@@ -1595,7 +1182,6 @@ static BOOL		sWasInside = NO;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)				encodeWithCoder:(NSCoder*) coder
@@ -1611,7 +1197,6 @@ static BOOL		sWasInside = NO;
 	[coder encodeDouble:m_snapTolerance forKey:@"snaptolerance"];
 	[coder encodeRect:[self guideDeletionRect] forKey:@"DKGuideLayer_deletionRect"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -1639,23 +1224,16 @@ static BOOL		sWasInside = NO;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
-///*********************************************************************************************************************
-///
-/// method:			validateMenuItem:
-/// scope:			public instance method
-/// overrides:		NSObject
-/// description:	enables the menu item if targeted at clearGuides
-/// 
-/// parameters:		<item> a menu item
-/// result:			YES if the item is enabled, NO otherwise
-///
-/// notes:			layer must be unlocked and have at least one guide to enable the menu.
-///
-///********************************************************************************************************************
 
+/** @brief Enables the menu item if targeted at clearGuides
+ * @note
+ * Layer must be unlocked and have at least one guide to enable the menu.
+ * @param item a menu item
+ * @return YES if the item is enabled, NO otherwise
+ * @public
+ */
 - (BOOL)				validateMenuItem:(NSMenuItem*) item
 {
 	if ([item action] == @selector( clearGuides: ))
@@ -1664,108 +1242,47 @@ static BOOL		sWasInside = NO;
 	return [super validateMenuItem:item];
 }
 
-
 @end
-
 
 #pragma mark -
 @implementation DKGuide
 #pragma mark As a DKGuide
 
-
-///*********************************************************************************************************************
-///
-/// method:			setPosition:
-/// scope:			public instance method
-/// overrides:		
-/// description:	sets the position of the guide
-/// 
-/// parameters:		<pos> a position value in drawing coordinates
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets the position of the guide
+ * @param pos a position value in drawing coordinates
+ * @public
+ */
 - (void)				setGuidePosition:(CGFloat) pos
 {
 	m_position = pos;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			position
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the position of the guide
-/// 
-/// parameters:		none
-/// result:			position value in drawing coordinates
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns the position of the guide
+ * @return position value in drawing coordinates
+ * @public
+ */
 - (CGFloat)				guidePosition
 {
 	return m_position;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setIsVerticalGuide:
-/// scope:			public instance method
-/// overrides:		
-/// description:	sets whether the guide is vertically oriented or horizontal
-/// 
-/// parameters:		<vert> YES for a vertical guide, NO for a horizontal guide
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sets whether the guide is vertically oriented or horizontal
+ * @param vert YES for a vertical guide, NO for a horizontal guide
+ * @public
+ */
 - (void)				setIsVerticalGuide:(BOOL) vert
 {
 	m_isVertical = vert;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			isVerticalGuide
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns whether the guide is vertically oriented or horizontal
-/// 
-/// parameters:		none 
-/// result:			YES for a vertical guide, NO for a horizontal guide
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Returns whether the guide is vertically oriented or horizontal
+ * @return YES for a vertical guide, NO for a horizontal guide
+ * @public
+ */
 - (BOOL)				isVerticalGuide
 {
 	return m_isVertical;
 }
-
-
-///*********************************************************************************************************************
-///
-/// method:			setGuideColour:
-/// scope:			public instance method
-/// overrides:		
-/// description:	sets the guide's colour
-/// 
-/// parameters:		<colour> a colour 
-/// result:			none
-///
-/// notes:			note that this doesn't mark the guide for update - DKGuideLayer has a method for doing that.
-///
-///********************************************************************************************************************
 
 - (void)				setGuideColour:(NSColor*) colour
 {
@@ -1774,42 +1291,18 @@ static BOOL		sWasInside = NO;
 	m_colour = colour;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			guideColour
-/// scope:			public instance method
-/// overrides:		
-/// description:	returns the guide's colour
-/// 
-/// parameters:		none 
-/// result:			a colour
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
 - (NSColor*)			guideColour
 {
 	return m_colour;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			drawInRect:inView:
-/// scope:			public instance method
-/// overrides:		
-/// description:	draws the guide
-/// 
-/// parameters:		<rect> the update rect 
-///					<lw> the line width to draw
-/// result:			none
-///
-/// notes:			is called by the guide layer only if the guide needs to be drawn
-///
-///********************************************************************************************************************
-
+/** @brief Draws the guide
+ * @note
+ * Is called by the guide layer only if the guide needs to be drawn
+ * @param rect the update rect 
+ * @param lw the line width to draw
+ * @public
+ */
 - (void)				drawInRect:(NSRect) rect lineWidth:(CGFloat) lw
 {
 	NSPoint a, b;
@@ -1832,22 +1325,8 @@ static BOOL		sWasInside = NO;
 	[NSBezierPath strokeLineFromPoint:a toPoint:b];
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
-///*********************************************************************************************************************
-///
-/// method:			init
-/// scope:			public instance method - designated initializer
-/// overrides:		NSObject
-/// description:	initializes the guide
-/// 
-/// parameters:		none
-/// result:			the guide
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
 - (id)					init
 {
@@ -1865,7 +1344,6 @@ static BOOL		sWasInside = NO;
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)				encodeWithCoder:(NSCoder*) coder
@@ -1874,7 +1352,6 @@ static BOOL		sWasInside = NO;
 	[coder encodeBool:[self isVerticalGuide] forKey:@"vertical"];
 	[coder encodeObject:[self guideColour] forKey:@"guide_colour"];
 }
-
 
 - (id)					initWithCoder:(NSCoder*) coder
 {
@@ -1893,7 +1370,6 @@ static BOOL		sWasInside = NO;
 	}
 	return self;
 }
-
 
 @end
 

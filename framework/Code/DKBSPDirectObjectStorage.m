@@ -8,11 +8,9 @@
 
 #import "DKBSPDirectObjectStorage.h"
 
-
 // if this is set to 1, various iterations are done using the much faster CFArrayApplyFunction and CFArraySortValues methods
 
 #define USE_CF_APPLIER		1
-
 
 // utility functions:
 
@@ -26,7 +24,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return (nodeIndex << 1) + 1;
 }
 
-
 @interface DKBSPDirectObjectStorage (Private)
 
 - (void)					sortObjectsByZ:(NSMutableArray*) objects;
@@ -39,7 +36,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 @end
 
 #pragma mark -
-
 
 @implementation DKBSPDirectObjectStorage
 
@@ -65,7 +61,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 {
 	return mTree;
 }	
-
 
 - (NSArray*)				objectsIntersectingRect:(NSRect) aRect inView:(NSView*) aView options:(DKObjectStorageOptions) options
 {
@@ -99,7 +94,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return results;
 }
 
-
 - (NSArray*)				objectsContainingPoint:(NSPoint) aPoint
 {
 	NSMutableArray* objects = [mTree objectsIntersectingPoint:aPoint];
@@ -109,14 +103,12 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return objects;
 }
 
-
 - (void)					setObjects:(NSArray*) objects
 {
 	[[self objects] makeObjectsPerformSelector:@selector(setStorage:) withObject:nil];
 	[super setObjects:objects];
 	[self loadBSPTree];
 }
-
 
 - (void)					insertObject:(id<DKStorableObject>) obj inObjectsAtIndex:(NSUInteger) indx
 {
@@ -134,7 +126,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 		//NSLog(@"inserted %@, index = %d", obj, indx );
 	}
 }
-
 
 - (void)					removeObjectFromObjectsAtIndex:(NSUInteger) indx
 {
@@ -179,7 +170,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 		[mTree insertItem:obj withRect:[obj bounds]];
 	}
 }
-
 
 - (void)					insertObjects:(NSArray*) objs atIndexes:(NSIndexSet*) set
 {
@@ -240,14 +230,12 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	}
 }
 
-
 - (BOOL)					containsObject:(id<DKStorableObject>) object
 {
 	// for a quick answer, return YES if the storage is set to self
 	
 	return [object storage] == self;
 }
-
 
 - (void)					moveObject:(id<DKStorableObject>) obj toIndex:(NSUInteger) indx
 {
@@ -260,7 +248,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	}
 }
 
-
 - (void)					object:(id<DKStorableObject>) obj didChangeBoundsFrom:(NSRect) oldBounds
 {
 	[obj retain];
@@ -268,7 +255,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	[mTree insertItem:obj withRect:[obj bounds]];
 	[obj release];
 }
-
 
 - (void)					setCanvasSize:(NSSize) size
 {
@@ -306,7 +292,6 @@ static NSComparisonResult zComparisonFunc( id<DKStorableObject> a, id<DKStorable
 		return NSOrderedSame;
 }
 
-
 - (void)					sortObjectsByZ:(NSMutableArray*) objects
 {
 #if USE_CF_APPLIER
@@ -317,7 +302,6 @@ static NSComparisonResult zComparisonFunc( id<DKStorableObject> a, id<DKStorable
 #endif
 }
 
-
 static void			renumberFunc( const void* value, void* context )
 {
 	id<DKStorableObject> obj = (id<DKStorableObject>)value;
@@ -325,13 +309,11 @@ static void			renumberFunc( const void* value, void* context )
 	(*(NSUInteger *) context)++;
 }
 
-
 static void			unmarkFunc( const void* value, void* context )
 {
 #pragma unused(context)
 	[(id<DKStorableObject>) value setMarked:NO];
 }
-
 
 - (void)					renumberObjectsFromIndex:(NSUInteger) indx
 {
@@ -355,7 +337,6 @@ static void			unmarkFunc( const void* value, void* context )
 #endif
 }
 
-
 - (void)					unmarkAll:(NSArray*) objects
 {
 #if USE_CF_APPLIER
@@ -370,15 +351,12 @@ static void			unmarkFunc( const void* value, void* context )
 #endif
 }
 
-
 - (NSBezierPath*)			debugStorageDivisions
 {
 	// for debugging purposes, returns a path consisting of the BSP rects
 	
 	return [mTree debugStorageDivisions];
 }
-
-
 
 - (BOOL)					checkForTreeRebuild
 {
@@ -406,7 +384,6 @@ static void			unmarkFunc( const void* value, void* context )
 	return NO;
 }
 
-
 - (void)					loadBSPTree
 {
 	[mTree removeAllObjects];
@@ -432,7 +409,6 @@ static void			unmarkFunc( const void* value, void* context )
 	//NSLog(@"loaded BSP tree with %d indexes (tree = %@)", k, mTree );
 }
 
-
 - (void)					setAutoRebuildEnable:(BOOL) enable
 {
 	mAutoRebuild = enable;
@@ -452,14 +428,11 @@ static void			unmarkFunc( const void* value, void* context )
 	return self;
 }
 
-
-
 - (void)					dealloc
 {
 	[mTree release];
 	[super dealloc];
 }
-
 
 - (id)						initWithCoder:(NSCoder*) coder
 {
@@ -473,12 +446,9 @@ static void			unmarkFunc( const void* value, void* context )
 	return self;
 }
 
-
-
 @end
 
 #pragma mark -
-
 
 @interface DKBSPDirectTree (Private)
 
@@ -489,7 +459,6 @@ static void			unmarkFunc( const void* value, void* context )
 - (void)			recursivelySearchWithPoint:(NSPoint) pt index:(NSUInteger) indx;
 - (void)			operateOnLeaf:(id) leaf;
 - (void)			removeObject:(id<DKStorableObject>) obj;
-
 
 @end
 
@@ -516,7 +485,6 @@ static void			unmarkFunc( const void* value, void* context )
 	//NSLog(@"inserted obj = %@, bounds = %@", obj, NSStringFromRect( rect ));
 }
 
-
 - (void)			removeItem:(id<DKStorableObject>) obj withRect:(NSRect) rect
 {
 #pragma unused( rect )
@@ -541,7 +509,6 @@ static void			unmarkFunc( const void* value, void* context )
 	//NSLog(@"removed %@", obj );
 }
 
-
 - (void)			removeAllObjects
 {
 	NSEnumerator* iter = [mLeaves objectEnumerator];
@@ -552,7 +519,6 @@ static void			unmarkFunc( const void* value, void* context )
 	
 	mObjectCount = 0;
 }
-
 
 - (NSMutableArray*)	objectsIntersectingRects:(const NSRect*) rects count:(NSUInteger) count inView:aView
 {
@@ -573,7 +539,6 @@ static void			unmarkFunc( const void* value, void* context )
 	return mFoundObjects;
 }
 
-
 - (NSMutableArray*)	objectsIntersectingRect:(NSRect) rect
 {
     if ([mNodes count] == 0)
@@ -587,7 +552,6 @@ static void			unmarkFunc( const void* value, void* context )
 	[self recursivelySearchWithRect:rect index:0];
 	return mFoundObjects;
 }
-
 
 - (NSMutableArray*)	objectsIntersectingPoint:(NSPoint) point
 {
@@ -603,14 +567,12 @@ static void			unmarkFunc( const void* value, void* context )
 	return mFoundObjects;
 }
 
-
 - (NSUInteger)		count
 {
 	// returns the number of unique objects in the tree. Note that this value can be unreliable if the client didn't take care (i.e. calling removeItem with a bad object).
 	
 	return mObjectCount;
 }
-
 
 #pragma mark -
 #pragma mark - as a DKBSPIndexTree
@@ -619,8 +581,6 @@ static void			unmarkFunc( const void* value, void* context )
 {
 	return [NSMutableArray class];
 }
-
-
 
 - (id)				initWithCanvasSize:(NSSize) size depth:(NSUInteger) depth
 {
@@ -632,8 +592,6 @@ static void			unmarkFunc( const void* value, void* context )
 	
 	return self;
 }
-
-
 
 static void			addValueToFoundObjects( const void* value, void* context )
 {
@@ -653,8 +611,6 @@ static void			addValueToFoundObjects( const void* value, void* context )
 		}
 	}
 }
-
-
 
 - (void)			operateOnLeaf:(id) leaf;
 {
@@ -698,7 +654,6 @@ static void			addValueToFoundObjects( const void* value, void* context )
 	}
 }
 
-
 - (void)			removeObject:(id<DKStorableObject>) obj;
 {
 	// removes all references to <obj> from the tree. Ignores its bounds and simply iterates over the leaves removing the object.
@@ -713,10 +668,8 @@ static void			addValueToFoundObjects( const void* value, void* context )
 		mObjectCount--;
 }
 
-
 #pragma mark -
 #pragma mark - as a NSObject
-
 
 - (void)			dealloc
 {
@@ -724,12 +677,11 @@ static void			addValueToFoundObjects( const void* value, void* context )
 	[super dealloc];
 }
 
-
 - (NSString*)		description
 {
 #warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"<%@ %p>, %ld leaves = %@", NSStringFromClass([self class]), self, (long)[self countOfLeaves], mLeaves];
 }
 
-
 @end
+

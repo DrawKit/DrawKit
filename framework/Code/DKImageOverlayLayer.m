@@ -1,20 +1,25 @@
 //
 //  DKImageOverlayLayer.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 28/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKImageOverlayLayer.h"
 
 #import "DKDrawing.h"
 
-
-
 @implementation DKImageOverlayLayer
 #pragma mark As a DKImageOverlayLayer
+
+/** 
+ */
 - (id)			initWithImage:(NSImage*) image
 {
 	self = [self init];
@@ -34,13 +39,11 @@
 	return self;
 }
 
-
 - (id)			initWithContentsOfFile:(NSString*) imagefile
 {
 	NSImage* img = [[[NSImage alloc] initWithContentsOfFile:imagefile] autorelease];
 	return [self initWithImage:img];
 }
-
 
 #pragma mark -
 - (void)		setImage:(NSImage*) image
@@ -51,12 +54,10 @@
 	[m_image setFlipped:YES];
 }
 
-
 - (NSImage*)	image
 {
 	return m_image;
 }
-
 
 #pragma mark -
 - (void)		setOpacity:(CGFloat) op
@@ -68,12 +69,10 @@
 	}
 }
 
-
 - (CGFloat)		opacity
 {
 	return m_opacity;
 }
-
 
 #pragma mark -
 - (void)		setCoverageMethod:(DKImageCoverageFlags) cm
@@ -85,12 +84,10 @@
 	}
 }
 
-
 - (DKImageCoverageFlags) coverageMethod
 {
 	return m_coverageMethod;
 }
-
 
 #pragma mark -
 - (NSRect)		imageDestinationRect
@@ -118,7 +115,6 @@
 		
 	return r;
 }
-
 
 #pragma mark -
 #pragma mark As a DKLayer
@@ -181,7 +177,6 @@
 	}
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)		dealloc
@@ -190,7 +185,6 @@
 	
 	[super dealloc];
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -203,7 +197,6 @@
 	[coder encodeDouble:[self opacity] forKey:@"opacity"];
 	[coder encodeInteger:[self coverageMethod] forKey:@"coveragemethod"];
 }
-
 
 - (id)			initWithCoder:(NSCoder*) coder
 {
@@ -224,5 +217,5 @@
 	return self;
 }
 
-
 @end
+

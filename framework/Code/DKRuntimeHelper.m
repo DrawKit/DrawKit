@@ -1,10 +1,14 @@
 //
 //  DKRuntimeHelper.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 27/03/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKRuntimeHelper.h"
@@ -13,15 +17,14 @@
 
 #import <objc/objc-runtime.h>
 
-
 @implementation DKRuntimeHelper
 
-
+/** 
+ */
 + (NSArray*)	allClasses
 {
 	return [self allClassesOfKind:[NSObject class]];
 }
-
 
 + (NSArray*)	allClassesOfKind:(Class) aClass
 {
@@ -80,7 +83,6 @@
 	return list;
 }
 
-
 + (NSArray*)	allImmediateSubclassesOf:(Class) aClass
 {
 	static NSMutableDictionary* cache = nil;
@@ -135,11 +137,7 @@
 	return list;
 }
 
-
-
 @end
-
-
 
 BOOL	classIsNSObject( const Class aClass )
 {
@@ -147,7 +145,6 @@ BOOL	classIsNSObject( const Class aClass )
 	
 	return classIsSubclassOfClass( aClass, [NSObject class]);
 }
-
 
 BOOL	classIsSubclassOfClass( const Class aClass, const Class subclass )
 {
@@ -167,7 +164,6 @@ BOOL	classIsSubclassOfClass( const Class aClass, const Class subclass )
 	return ( match == 0 );
 }
 
-
 BOOL	classIsImmediateSubclassOfClass( const Class aClass, const Class subclass )
 {
 /*
@@ -179,3 +175,4 @@ BOOL	classIsImmediateSubclassOfClass( const Class aClass, const Class subclass )
 */
 		return NO;
 }
+

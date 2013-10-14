@@ -10,9 +10,7 @@
 #import "DKUniqueID.h"
 #import "DKKeyedUnarchiver.h"
 
-
 NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrtype";
-
 
 @interface DKImageDataManager (Private)
 
@@ -20,17 +18,12 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 @end
 
-
-
 @implementation DKImageDataManager
-
 
 - (NSData*)			imageDataForKey:(NSString*) key
 {
 	return [mRepository objectForKey:key];
 }
-
-
 
 - (void)			setImageData:(NSData*) imageData forKey:(NSString*) key
 {
@@ -42,13 +35,10 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	[mHashList setObject:key forKey:[imageData checksumString]];
 }
 
-
-
 - (BOOL)			hasImageDataForKey:(NSString*) key
 {
 	return ([mRepository objectForKey:key] != nil);
 }
-
 
 - (NSString*)		keyForImageData:(NSData*) imageData
 {
@@ -60,18 +50,15 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 		return nil;
 }
 
-
 - (NSString*)		generateKey
 {
 	return [DKUniqueID uniqueKey];
 }
 
-
 - (NSArray*)		allKeys
 {
 	return [mRepository allKeys];
 }
-
 
 - (void)			removeKey:(NSString*) key
 {
@@ -87,7 +74,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	
 	[mRepository removeObjectForKey:key];
 }
-
 
 - (NSImage*)		makeImageWithData:(NSData*) imageData key:(NSString**) key
 {
@@ -115,7 +101,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	
 	return [[[NSImage alloc] initWithData:imageData] autorelease];
 }
-
 
 - (NSImage*)		makeImageWithPasteboard:(NSPasteboard*) pb key:(NSString**) key
 {
@@ -166,7 +151,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	return nil;
 }
 
-
 - (NSImage*)		makeImageWithContentsOfURL:(NSURL*) url key:(NSString**) key;
 {
 	// read the data from the URL and proceed as for the data case
@@ -174,7 +158,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	NSData* data = [NSData dataWithContentsOfURL:url];
 	return [self makeImageWithData:data key:key];
 }
-
 
 - (NSImage*)		makeImageForKey:(NSString*) key
 {
@@ -185,7 +168,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	else
 		return nil;
 }
-
 
 - (void)			setKey:(NSString*) key isInUse:(BOOL) inUse
 {
@@ -207,12 +189,10 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	}
 }
 
-
 - (BOOL)			keyIsInUse:(NSString*) key
 {
 	return [[mKeyUsage objectForKey:key] integerValue] > 0;
 }
-
 
 - (void)			removeUnusedData
 {
@@ -230,7 +210,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	
 	[keys release];
 }
-
 
 - (void)			buildHashList
 {
@@ -250,7 +229,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	}
 }
 
-
 #pragma mark -
 
 - (id)				init
@@ -266,8 +244,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	return self;
 }
 
-
-
 - (void)			dealloc
 {
 	[mRepository release];
@@ -280,8 +256,6 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 {
 	[coder encodeObject:mRepository forKey:@"DKImageDataManager_repo"];
 }
-
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -305,16 +279,12 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	return self;
 }
 
-
 - (NSString*)		description
 {
 	return [NSString stringWithFormat:@"%@, keys = %@", [super description], [self allKeys]];
 }
 
-
-
 @end
-
 
 #pragma mark -
 
@@ -339,13 +309,11 @@ NSString*	kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	return sum;
 }
 
-
 - (NSString*)		checksumString
 {
 #warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"%ld", (long)[self checksum]];
 }
 
-
-
 @end
+

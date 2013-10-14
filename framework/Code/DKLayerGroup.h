@@ -1,15 +1,12 @@
-///**********************************************************************************************************************************
-///  DKLayerGroup.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 23/08/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKLayer.h"
-
 
 @interface DKLayerGroup : DKLayer <NSCoding>
 {
@@ -17,8 +14,25 @@
 	NSMutableArray*			m_layers;
 }
 
+/** @brief Convenience method for building a new layer group from an existing list of layers
+ * @note
+ * The group must be added to a drawing to be useful. If the layers are already part of a drawing,
+ * or other group, they need to be removed first. It is an error to attach a layer in more than one
+ * group (or drawing, which is a group) at a time.
+ * Layers should be stacked with the top at index #0, the bottom at #(count -1)
+ * @param layers a list of existing layers
+ * @return a new layer group containing the passed layers
+ * @public
+ */
 + (DKLayerGroup*)			layerGroupWithLayers:(NSArray*) layers;
 
+/** @brief Initialize a layer group
+ * @note
+ * A layer group must be added to another group or drawing before it can be used
+ * @param layers a list of existing layers
+ * @return a new layer group
+ * @public
+ */
 - (id)						initWithLayers:(NSArray*) layers;
 
 // layer list
@@ -33,6 +47,12 @@
 - (NSArray*)				flattenedLayersOfClass:(Class) layerClass;
 - (NSArray*)				flattenedLayersOfClass:(Class) layerClass includeGroups:(BOOL) includeGroups;
 
+/** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is
+ * @note
+ * The root group returns 0, next level is 1 and so on. 
+ * @return the group's level
+ * @public
+ */
 - (NSUInteger)				level;
 
 // adding and removing layers
@@ -62,13 +82,47 @@
 - (DKLayer*)				findLayerForPoint:(NSPoint) aPoint;
 - (BOOL)					containsLayer:(DKLayer*) aLayer;
 
+/** @brief Returns a layer or layer group having the given unique key
+ * @note
+ * Unique keys are assigned to layers for the lifetime of the app. They are not persistent and must only
+ * @param key the layer's key
+ * @return the layer if found, nil otherwise.
+ * @public
+ */
 - (DKLayer*)				layerWithUniqueKey:(NSString*) key;
 
 // showing and hiding
 
+/** @brief Makes all layers in the group and in any subgroups visible
+ * @note
+ * Recurses when nested groups are found
+ * @public
+ */
 - (void)					showAll;
+
+/** @brief Makes all layers in the group and in any subgroups hidden except <aLayer>, which is made visible.
+ * @note
+ * ALayer may be nil in which case this performs a hideAll. Recurses on any subgroups.
+ * @param aLayer a layer to leave visible
+ * @public
+ */
 - (void)					hideAllExcept:(DKLayer*) aLayer;
+
+/** @brief Returns YES if the  receiver or any of its contained layers is hidden
+ * @note
+ * Recurses on any subgroups.
+ * @return YES if there are hidden layers below this, or this is hidden itself
+ * @public
+ */
 - (BOOL)					hasHiddenLayers;
+
+/** @brief Returns YES if the  receiver or any of its contained layers is visible, ignoring the one passed
+ * @note
+ * Recurses on any subgroups. Typically <aLayer> is the active layer - may be nil.
+ * @param aLayer a layer to exclude when testing this
+ * @return YES if there are visible layers below this, or this is visible itself
+ * @public
+ */
 - (BOOL)					hasVisibleLayersOtherThan:(DKLayer*) aLayer;
 
 // layer stacking order
@@ -81,16 +135,13 @@
 - (void)					moveLayer:(DKLayer*) aLayer belowLayer:(DKLayer*) otherLayer;
 - (void)					moveLayer:(DKLayer*) aLayer toIndex:(NSUInteger) i;
 
-
 @end
-
 
 extern NSString*		kDKLayerGroupDidAddLayer;
 extern NSString*		kDKLayerGroupDidRemoveLayer;
 extern NSString*		kDKLayerGroupNumberOfLayersDidChange;
 extern NSString*		kDKLayerGroupWillReorderLayers;
 extern NSString*		kDKLayerGroupDidReorderLayers;
-
 
 /*
 
@@ -109,4 +160,3 @@ the top layer at the top of such a table. Prior to beta 3, layers were stacked t
 be upside-down. This class automatically reverses the stacking order in an archive if it detects an older version.
 
 */
-

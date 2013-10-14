@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKImageShape+Vectorization.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 25/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #ifdef qUsePotrace
 
@@ -18,12 +16,10 @@
 #import "DKStroke.h"
 #import "LogEvent.h"
 
-
 #pragma mark Contants (Non-localized)
 NSString*	kDKIncludeStrokeStyle	= @"kDKIncludeStrokeStyle";		// BOOL
 NSString*	kDKStrokeStyleWidth		= @"kDKStrokeStyleWidth";		// float
 NSString*	kDKStrokeStyleColour	= @"kDKStrokeStyleColour";		// NSColor
-
 
 #pragma mark Static Vars
 static DKVectorizingMethod			sVecMethod = kDKVectorizeColour;
@@ -31,7 +27,6 @@ static NSInteger							sVecGrayLevels = 32;
 static NSInteger							sVecColourPrecision = 5;
 static DKColourQuantizationMethod	sQuantizationMethod = kDKColourQuantizeOctree;
 static NSDictionary*				sTraceParams = nil;	// use default
-
 
 #pragma mark -
 @implementation DKImageShape (Vectorization)
@@ -41,24 +36,20 @@ static NSDictionary*				sTraceParams = nil;	// use default
 	sVecMethod = method;
 }
 
-
 + (void)			setPreferredVectorizingLevels:(NSInteger) levelsOfGray
 {
 	sVecGrayLevels = levelsOfGray;
 }
-
 
 + (void)			setPreferredVectorizingPrecision:(NSInteger) colourPrecision
 {
 	sVecColourPrecision = colourPrecision;
 }
 
-
 + (void)			setPreferredQuantizationMethod:(DKColourQuantizationMethod) qm;
 {
 	sQuantizationMethod = qm;
 }
-
 
 #pragma mark -
 + (void)			setTracingParameters:(NSDictionary*) traceInfo
@@ -68,12 +59,10 @@ static NSDictionary*				sTraceParams = nil;	// use default
 	sTraceParams = traceInfo;
 }
 
-
 + (NSDictionary*)	tracingParameters
 {
 	return sTraceParams;
 }
-
 
 #pragma mark -
 - (DKShapeGroup*)	makeGroupByVectorizing
@@ -90,7 +79,6 @@ static NSDictionary*				sTraceParams = nil;	// use default
 		return nil;
 }
 
-
 - (DKShapeGroup*)	makeGroupByGrayscaleVectorizingWithLevels:(NSInteger) levelsOfGray
 {
 	NSArray* shapes = [self makeObjectsByGrayscaleVectorizingWithLevels:levelsOfGray];
@@ -104,7 +92,6 @@ static NSDictionary*				sTraceParams = nil;	// use default
 	else
 		return nil;
 }
-
 
 - (DKShapeGroup*)	makeGroupByColourVectorizingWithPrecision:(NSInteger) colourPrecision
 {
@@ -120,7 +107,6 @@ static NSDictionary*				sTraceParams = nil;	// use default
 		return nil;
 }
 
-
 #pragma mark -
 - (NSArray*)		makeObjectsByVectorizing
 {
@@ -129,7 +115,6 @@ static NSDictionary*				sTraceParams = nil;	// use default
 	else
 		return [self makeObjectsByGrayscaleVectorizingWithLevels:sVecGrayLevels];
 }
-
 
 - (NSArray*)		makeObjectsByGrayscaleVectorizingWithLevels:(NSInteger) levelsOfGray
 {
@@ -173,7 +158,6 @@ static NSDictionary*				sTraceParams = nil;	// use default
 	return [listOfShapes autorelease];
 }
 
-
 - (NSArray*)		makeObjectsByColourVectorizingWithPrecision:(NSInteger) colourPrecision
 {
 	NSArray* result = [[self imageAtRenderedSize] vectorizeToColourWithPrecision:colourPrecision quantizationMethod:sQuantizationMethod];
@@ -216,7 +200,6 @@ static NSDictionary*				sTraceParams = nil;	// use default
 	return [listOfShapes autorelease];
 }
 
-
 #pragma mark -
 - (IBAction)		vectorize:(id) sender
 {
@@ -238,9 +221,7 @@ static NSDictionary*				sTraceParams = nil;	// use default
 	}
 }
 
-
-
-
 @end
 
 #endif /* defined qUsePotrace */
+

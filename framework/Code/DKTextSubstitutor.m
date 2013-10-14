@@ -11,26 +11,18 @@
 #import "NSString+DKAdditions.h"
 #import "LogEvent.h"
 
-
 NSString*		kDKTextSubstitutorNewStringNotification = @"kDKTextSubstitutorNewStringNotification";
-
 
 #define TS_LAZY_EVALUATION			1
 
-
-
 @implementation DKTextSubstitutor
 
-
 static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
-
 
 + (NSString*)		delimiterString
 {
 	return sDelimiter;
 }
-
-
 
 + (void)			setDelimiterString:(NSString*) delim
 {
@@ -38,7 +30,6 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	[sDelimiter release];
 	sDelimiter = delim;
 }
-
 
 + (NSCharacterSet*)	keyBreakingCharacterSet
 {
@@ -58,9 +49,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return cs;
 }
 
-
 #pragma mark -
-
 
 - (id)					initWithString:(NSString*) aString
 {
@@ -70,7 +59,6 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	
 	return self;
 }
-
 
 - (id)					initWithAttributedString:(NSAttributedString*) aString
 {
@@ -82,7 +70,6 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	
 	return self;
 }
-
 
 - (void)				setMasterString:(NSAttributedString*) master
 {
@@ -115,13 +102,10 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	}
 }
 
-
-
 - (NSAttributedString*)	masterString
 {
 	return mMasterString;
 }
-
 
 - (void)				setString:(NSString*) aString withAttributes:(NSDictionary*) attrs
 {
@@ -130,12 +114,10 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	[str release];
 }
 
-
 - (NSString*)			string
 {
 	return [[self masterString] string];
 }
-
 
 - (void)				setAttributes:(NSDictionary*) attrs
 {
@@ -153,7 +135,6 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	[str release];
 }
 
-
 - (NSDictionary*)		attributes
 {
 	// this only returns the attributes that apply at index 0. If there are different attributes applied in ranges, this
@@ -165,8 +146,6 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	else
 		return nil;
 }
-
-
 
 - (void)				processMasterString
 {
@@ -260,13 +239,10 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	LogEvent_( kReactiveEvent, @"completed processing of string '%@', result = %@", mMasterString, mKeys);
 }
 
-
 - (NSArray*)			allKeys
 {
 	return [mKeys valueForKey:@"key"];
 }
-
-
 
 - (NSAttributedString*)	substitutedStringWithObject:(id) anObject
 {
@@ -323,7 +299,6 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return [newString autorelease];
 }
 
-
 - (NSString*)		metadataStringFromObject:(id) object
 {
 	// given an object returned by metadataObjectForKey, this converts it to a string.
@@ -343,7 +318,6 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return @"";
 }
 
-
 #pragma mark -
 #pragma mark - as a NSObject
 
@@ -358,14 +332,12 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return self;
 }
 
-
 - (void)			dealloc
 {
 	[mMasterString release];
 	[mKeys release];
 	[super dealloc];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -382,27 +354,21 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return self;
 }
 
-
 - (void)			encodeWithCoder:(NSCoder*) coder
 {
 	[coder encodeObject:[self masterString] forKey:@"DKOTextSubstitutor_attributedString"];
 }
-
 
 - (NSString*)		description
 {
 	return [NSString stringWithFormat:@"%@ string = %@\n keys = %@", [super description], mMasterString, mKeys];
 }
 
-
 @end
-
 
 #pragma mark -
 
-
 @implementation DKTextSubstitutionKey
-
 
 + (NSCharacterSet*)	validSubkeysCharacterSet
 {
@@ -414,15 +380,12 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return sValidSubkeys;
 }
 
-
 static NSDictionary* s_abbreviationDict = nil;
-
 
 + (NSDictionary*)	abbreviationDictionary
 {
 	return s_abbreviationDict;
 }
-
 
 + (void)			setAbbreviationDictionary:(NSDictionary*) abbreviations
 {
@@ -430,7 +393,6 @@ static NSDictionary* s_abbreviationDict = nil;
 	[s_abbreviationDict release];
 	s_abbreviationDict = abbreviations;
 }
-
 
 - (id)				initWithKey:(NSString*) key range:(NSRange) aRange
 {
@@ -504,19 +466,15 @@ static NSDictionary* s_abbreviationDict = nil;
 	return self;
 }
 
-
 - (NSString*)		key
 {
 	return mKey;
 }
 
-
-
 - (NSRange)			range
 {
 	return mRange;
 }
-
 
 - (BOOL)			isPropertyKeyPath
 {
@@ -526,12 +484,10 @@ static NSDictionary* s_abbreviationDict = nil;
 	return [firstCharacter isEqualToString:@"$"];
 }
 
-
 - (NSArray*)		subKeys
 {
 	return mSubKeys;
 }
-
 
 - (NSString*)		stringByApplyingSubkeysToString:(NSString*) inString
 {
@@ -628,7 +584,6 @@ static NSDictionary* s_abbreviationDict = nil;
 	}
 }
 
-
 - (void)			setPadding:(NSUInteger) padLength
 {
 	// sets the padding length - 0 means no padding. Max length is 20.
@@ -636,14 +591,10 @@ static NSDictionary* s_abbreviationDict = nil;
 	mPadLength = MIN( 20U, padLength );
 }
 
-
-
 - (NSUInteger)		padding
 {
 	return mPadLength;
 }
-
-
 
 - (void)			setPaddingCharacter:(NSString*) padStr
 {
@@ -654,24 +605,17 @@ static NSDictionary* s_abbreviationDict = nil;
 	mPadCharacter = padStr;
 }
 
-
-
 - (NSString*)		paddingCharacter
 {
 	return mPadCharacter;
 }
 
-
-
-
 #pragma mark -
-
 
 - (NSString*)		description
 {
 	return [NSString stringWithFormat:@"key:%@ range = %@", mKey, NSStringFromRange(mRange)];
 }
-
 
 - (void)			dealloc
 {
@@ -680,7 +624,6 @@ static NSDictionary* s_abbreviationDict = nil;
 	[mPadCharacter release];
 	[super dealloc];
 }
-
 
 @end
 

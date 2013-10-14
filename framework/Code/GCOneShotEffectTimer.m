@@ -1,17 +1,14 @@
-///**********************************************************************************************************************************
-///  GCOneShotEffectTimer.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 24/04/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "GCOneShotEffectTimer.h"
 
 #import "LogEvent.h"
-
 
 @interface GCOneShotEffectTimer (Private)
 
@@ -21,7 +18,6 @@
 - (void)	osfx_callback:(NSTimer*) timer;
 
 @end
-
 
 @implementation GCOneShotEffectTimer
 
@@ -35,12 +31,10 @@
 	return ft;
 }
 
-
 + (id)		oneShotWithStandardFadeTimeForDelegate:(id) del
 {
 	return [self oneShotWithTime:kDKStandardFadeTime forDelegate:del];
 }
-
 
 - (id)		initWithTimeInterval:(NSTimeInterval) t forDelegate:(id) del
 {
@@ -59,14 +53,12 @@
 	return self;
 }
 
-
 - (void)	dealloc
 {
 	[mTimer invalidate];
 	[mDelegate release];
 	[super dealloc];
 }
-
 
 - (void)	setDelegate:(id) del
 {
@@ -78,12 +70,10 @@
 	mDelegate = del;
 }
 
-
 - (id)		delegate
 {
 	return mDelegate;
 }
-
 
 - (void)	osfx_callback:(NSTimer*) timer
 {
@@ -109,5 +99,5 @@
 	}
 }
 
-
 @end
+

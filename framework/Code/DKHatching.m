@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKHatching.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 06/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKHatching.h"
 #import "DKDrawKitMacros.h"
@@ -14,34 +12,22 @@
 #import "NSBezierPath+Geometry.h"
 #import "DKRandom.h"
 
-
 @interface DKHatching (Private)
 
 - (void)	invalidateRoughnessCache;
 
-
 @end
-
-
 
 @implementation DKHatching
 #pragma mark As a DKHatching
 
-///*********************************************************************************************************************
-///
-/// method:			defaultHatching
-/// scope:			public class method
-/// overrides:
-/// description:	return the default hatching
-/// 
-/// parameters:		none
-/// result:			the default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
-///					apart with a width of 0.25 points.
-///
-/// notes:			be sure to copy the object if you intend to change its parameters.
-///
-///********************************************************************************************************************
-
+/** @brief Return the default hatching
+ * @note
+ * Be sure to copy the object if you intend to change its parameters.
+ * @return the default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
+ * apart with a width of 0.25 points.
+ * @public
+ */
 + (DKHatching*)		defaultHatching
 {
 	static DKHatching* sDefaulthatch = nil;
@@ -52,23 +38,15 @@
 	return sDefaulthatch;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hatchingWithLineWidth:spacing:angle:
-/// scope:			public class method
-/// overrides:
-/// description:	return a hatching with e basic parameters given
-/// 
-/// parameters:		<w> the line width of the lines
-///					<spacing> the line spacing
-///					<angle> the overall angle in radians
-/// result:			a hatching instance
-///
-/// notes:			the colour is set to black
-///
-///********************************************************************************************************************
-
+/** @brief Return a hatching with e basic parameters given
+ * @note
+ * The colour is set to black
+ * @param w the line width of the lines
+ * @param spacing the line spacing
+ * @param angle the overall angle in radians
+ * @return a hatching instance
+ * @public
+ */
 + (DKHatching*)		hatchingWithLineWidth:(CGFloat) w spacing:(CGFloat) spacing angle:(CGFloat) angle
 {
 	DKHatching* hatch = [[self defaultHatching] copy];
@@ -80,24 +58,16 @@
 	return [hatch autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hatchingWithDotPitch:diameter:
-/// scope:			public class method
-/// overrides:
-/// description:	return a hatching which implements a dot pattern
-/// 
-/// parameters:		<pitch> the spacing between the dots
-///					<diameter> the dot diameter
-/// result:			a hatching instance having the given dot pattern
-///
-/// notes:			the colour is set to black. The dot pattern is created using a dashed line at 45 degrees where
-///					the line and dash spacing is set to the dot pitch. The line width is the dot diameter and the
-///					rounded cap style is used. This is an efficient way to implement a dot pattern of a given density.
-///
-///********************************************************************************************************************
-
+/** @brief Return a hatching which implements a dot pattern
+ * @note
+ * The colour is set to black. The dot pattern is created using a dashed line at 45 degrees where
+ * the line and dash spacing is set to the dot pitch. The line width is the dot diameter and the
+ * rounded cap style is used. This is an efficient way to implement a dot pattern of a given density.
+ * @param pitch the spacing between the dots
+ * @param diameter the dot diameter
+ * @return a hatching instance having the given dot pattern
+ * @public
+ */
 + (DKHatching*)		hatchingWithDotPitch:(CGFloat) pitch diameter:(CGFloat) diameter
 {
 	DKHatching* hatch = [self hatchingWithLineWidth:diameter spacing:pitch angle:pi * 0.25];
@@ -115,22 +85,14 @@
 	return hatch;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hatchingWithDotDensity:
-/// scope:			public class method
-/// overrides:
-/// description:	return a hatching which implements a dot pattern of given density
-/// 
-/// parameters:		<density> a density figure from 0 to 1
-/// result:			a hatching instance having a dot pattern of the given density
-///
-/// notes:			Dots have a diameter of 2.0 points, and are spaced according to density. If density = 1, dots
-///					touch (spacing = 2.0), 0.5 = dots have a spacing of 4.0, etc. A density of 0 is not allowed.
-///
-///********************************************************************************************************************
-
+/** @brief Return a hatching which implements a dot pattern of given density
+ * @note
+ * Dots have a diameter of 2.0 points, and are spaced according to density. If density = 1, dots
+ * touch (spacing = 2.0), 0.5 = dots have a spacing of 4.0, etc. A density of 0 is not allowed.
+ * @param density a density figure from 0 to 1
+ * @return a hatching instance having a dot pattern of the given density
+ * @public
+ */
 + (DKHatching*)		hatchingWithDotDensity:(CGFloat) density
 {
 	if( density <= 0.0 )
@@ -139,46 +101,22 @@
 	return [self hatchingWithDotPitch:2.0/density diameter:2.0];
 }
 
-
-
 #pragma mark -
 
-
-///*********************************************************************************************************************
-///
-/// method:			hatchPath:
-/// scope:			public instance method
-/// overrides:
-/// description:	apply the hatching to the path with an object angle of 0
-/// 
-/// parameters:		<path> the path to fill
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Apply the hatching to the path with an object angle of 0
+ * @param path the path to fill
+ * @public
+ */
 - (void)			hatchPath:(NSBezierPath*)	path
 {
 	[self hatchPath:path objectAngle:0.0];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			hatchPath:objectAngle:
-/// scope:			public instance method
-/// overrides:
-/// description:	apply the hatching to the path with a given object angle
-/// 
-/// parameters:		<path> the path to fill
-///					<oa> the additional angle to apply, in radians
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Apply the hatching to the path with a given object angle
+ * @param path the path to fill
+ * @param oa the additional angle to apply, in radians
+ * @public
+ */
 - (void)			hatchPath:(NSBezierPath*) path objectAngle:(CGFloat) oa
 {
 	// if the bounds size of <path> is larger than the cached hatch, then we'll need to enlarge the cache, so invalidate
@@ -272,22 +210,12 @@
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			setAngle:
-/// scope:			public instance method
-/// overrides:
-/// description:	set the angle of the hatching
-/// 
-/// parameters:		<radians> the angle in radians
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Set the angle of the hatching
+ * @param radians the angle in radians
+ * @public
+ */
 - (void)			setAngle:(CGFloat) radians
 {
 	if ( radians != m_angle )
@@ -306,61 +234,28 @@
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			angle
-/// scope:			public instance method
-/// overrides:
-/// description:	the angle of the hatching
-/// 
-/// parameters:		none 
-/// result:			the angle in radians
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief The angle of the hatching
+ * @return the angle in radians
+ * @public
+ */
 - (CGFloat)			angle
 {
 	return m_angle;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			setAngleInDegrees:
-/// scope:			public instance method
-/// overrides:
-/// description:	set the angle of the hatching in degrees
-/// 
-/// parameters:		<degs> the angle in degrees 
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Set the angle of the hatching in degrees
+ * @param degs the angle in degrees 
+ * @public
+ */
 - (void)			setAngleInDegrees:(CGFloat) degs
 {
 	[self setAngle:DEGREES_TO_RADIANS(degs)];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			angleInDegrees
-/// scope:			public instance method
-/// overrides:
-/// description:	the angle of the hatching in degrees
-/// 
-/// parameters:		none  
-/// result:			the angle in degrees
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief The angle of the hatching in degrees
+ * @return the angle in degrees
+ * @public
+ */
 - (CGFloat)			angleInDegrees
 {
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
@@ -371,18 +266,15 @@
 	return angle;
 }
 
-
 - (void)			setAngleIsRelativeToObject:(BOOL) rel
 {
 	m_angleRelativeToObject = rel;
 }
 
-
 - (BOOL)			angleIsRelativeToObject
 {
 	return m_angleRelativeToObject;
 }
-
 
 #pragma mark -
 - (void)			setSpacing:(CGFloat) spacing
@@ -396,12 +288,10 @@
 	}
 }
 
-
 - (CGFloat)			spacing
 {
 	return m_spacing;
 }
-
 
 - (void)			setLeadIn:(CGFloat) amount
 {
@@ -412,12 +302,10 @@
 	}
 }
 
-
 - (CGFloat)			leadIn
 {
 	return m_leadIn;
 }
-
 
 #pragma mark -
 - (void)			setWidth:(CGFloat) width
@@ -426,12 +314,10 @@
 	[self invalidateRoughnessCache];
 }
 
-
 - (CGFloat)			width
 {
 	return m_lineWidth;
 }
-
 
 - (void)			setLineCapStyle:(NSLineCapStyle) lcs
 {
@@ -439,12 +325,10 @@
 	[self invalidateRoughnessCache];
 }
 
-
 - (NSLineCapStyle)	lineCapStyle
 {
 	return m_cap;
 }
-
 
 - (void)			setLineJoinStyle:(NSLineJoinStyle) ljs
 {
@@ -452,12 +336,10 @@
 	[self invalidateRoughnessCache];
 }
 
-
 - (NSLineJoinStyle)	lineJoinStyle
 {
 	return m_join;
 }
-
 
 #pragma mark -
 - (void)			setColour:(NSColor*) colour
@@ -467,12 +349,10 @@
 	m_hatchColour = colour;
 }
 
-
 - (NSColor*)		colour
 {
 	return m_hatchColour;
 }
-
 
 #pragma mark -
 - (void)			setDash:(DKStrokeDash*) dash
@@ -483,12 +363,10 @@
 	[self invalidateRoughnessCache];
 }
 
-
 - (DKStrokeDash*)		dash
 {
 	return m_hatchDash;
 }
-
 
 - (void)			setAutoDash
 {
@@ -504,7 +382,6 @@
 	[dash release];
 }
 
-
 - (void)			setRoughness:(CGFloat) amount
 {
 	mRoughness = LIMIT( amount, 0, 1 );
@@ -512,12 +389,10 @@
 	[self invalidateRoughnessCache];
 }
 
-
 - (CGFloat)			roughness
 {
 	return mRoughness;
 }
-
 
 - (void)			setWobblyness:(CGFloat) wobble
 {
@@ -525,12 +400,10 @@
 	[self invalidateCache];
 }
 
-
 - (CGFloat)			wobblyness
 {
 	return mWobblyness;
 }
-
 
 #pragma mark -
 - (void)			invalidateCache
@@ -539,7 +412,6 @@
 	m_cache = nil;
 	[self invalidateRoughnessCache];
 }
-
 
 - (void)			calcHatchInRect:(NSRect) rect
 {
@@ -588,13 +460,11 @@
 	}
 }
 
-
 - (void)	invalidateRoughnessCache
 {
 	[mRoughenedCache release];
 	mRoughenedCache = nil;
 }
-
 
 #pragma mark -
 #pragma mark As a DKRasterizer
@@ -602,7 +472,6 @@
 {
 	return YES;
 }
-
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -612,7 +481,6 @@
 											@"width", @"dash", @"leadIn",
 											@"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness", nil]];
 }
-
 
 - (void)		registerActionNames
 {
@@ -630,7 +498,6 @@
 	[self setActionName:@"#kind# Hatch Wobble" forKeyPath:@"wobblyness"];
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 - (void)			dealloc
@@ -641,7 +508,6 @@
 	
 	[super dealloc];
 }
-
 
 - (id)				init
 {
@@ -661,7 +527,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
 - (void)		render:(id<DKRenderable>) obj
@@ -676,7 +541,6 @@
 	else
 		[self hatchPath:path objectAngle:0.0f];
 }
-
 
 #pragma mark -
 #pragma mark As part of GraphicAttributtes Protocol
@@ -711,7 +575,6 @@
 	}
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)			encodeWithCoder:(NSCoder*) coder
@@ -733,7 +596,6 @@
 	[coder encodeDouble:mRoughness forKey:@"DKHatching_roughness"];
 	[coder encodeDouble:mWobblyness forKey:@"DKHatching_wobble"];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -761,7 +623,6 @@
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)				copyWithZone:(NSZone*) zone
@@ -785,5 +646,5 @@
 	return copy;
 }
 
-
 @end
+

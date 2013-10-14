@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKPasteboardInfo.h
 //  GCDrawKit
@@ -7,7 +14,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 
 @interface DKPasteboardInfo : NSObject <NSCoding>
 {
@@ -35,9 +41,7 @@
 
 @end
 
-
 extern NSString*		kDKDrawableObjectInfoPasteboardType;
-
 
 /*
 
@@ -46,6 +50,4 @@ extern NSString*		kDKDrawableObjectInfoPasteboardType;
  
  Presently this merely supplies the object count and a list of classes present and a count of each, but may be extended later
 
-
 */
-

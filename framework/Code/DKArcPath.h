@@ -1,15 +1,12 @@
-///**********************************************************************************************************************************
-///  DKArcPath.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 25/06/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawablePath.h"
-
 
 // shape types this class supports:
 
@@ -20,7 +17,6 @@ typedef enum
 	kDKArcPathCircle
 }
 DKArcPathType;
-
 
 // the class:
 
@@ -43,7 +39,16 @@ DKArcPathType;
 - (void)			setEndAngle:(CGFloat) ea;
 - (CGFloat)			endAngle;
 
+/** @brief Sets the arc type, which affects the path geometry
+ * @param arcType the required type
+ * @public
+ */
 - (void)			setArcType:(DKArcPathType) arcType;
+
+/** @brief Returns the arc type, which affects the path geometry
+ * @return the current arc type
+ * @public
+ */
 - (DKArcPathType)	arcType;
 
 - (IBAction)		convertToPath:(id) sender;
@@ -53,7 +58,6 @@ DKArcPathType;
 // partcodes this class defines - note that the implicit partcodes used by DKDrawablePath are not used by this class,
 // so we don't need to ensure these are out of range. The numbers here are entirely arbitrary, but the code does assume
 // they are consecutive, continuous, and ordered thus:
-
 
 enum
 {
@@ -73,4 +77,3 @@ enum
 {
 	kDKArcSimpleCreationMode	= 7
 };
-

@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  NSBezierPath-Geometry.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 22/10/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import <Cocoa/Cocoa.h>
 
@@ -120,10 +118,7 @@
 
 - (void)				appendBezierPathRemovingInitialMoveToPoint:(NSBezierPath*) path;
 
-
 @end
-
-
 
 // informal protocol for iterating over the elements in a bezier path using bezierPathByIteratingWithDelegate:contextInfo:
 
@@ -136,7 +131,6 @@
 						subPathIndex:(NSInteger) spi				// which subpath this is
 						subPathClosed:(BOOL) spClosed		// is the subpath closed?
 						contextInfo:(void*) contextInfo;	// the context info
-
 
 @end
 
@@ -177,6 +171,4 @@ extern CGPathRef	CGContextCopyPath( CGContextRef context );
  *
  */
 
-
 void	subdivideBezierAtT(const NSPoint bez[4], NSPoint bez1[4], NSPoint bez2[4], CGFloat t);
-

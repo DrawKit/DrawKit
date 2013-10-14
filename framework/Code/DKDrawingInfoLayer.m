@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKDrawingInfoLayer.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 27/08/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKDrawingInfoLayer.h"
 
@@ -14,10 +12,8 @@
 #import "DKDrawingView.h"
 #import "DKGridLayer.h"
 
-
 #pragma mark Contants (Non-localized)
 NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttributes";
-
 
 #pragma mark -
 @implementation DKDrawingInfoLayer
@@ -34,12 +30,10 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-
 - (NSSize)		size
 {
 	return m_size;
 }
-
 
 #pragma mark -
 - (void)		setPlacement:(DKInfoBoxPlacement) placement
@@ -51,12 +45,10 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-
 - (DKInfoBoxPlacement)	placement
 {
 	return m_placement;
 }
-
 
 #pragma mark -
 - (void)		setBackgroundColour:(NSColor*) colour
@@ -64,12 +56,10 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	[self setSelectionColour:colour];
 }
 
-
 - (NSColor*)	backgroundColour
 {
 	return [self selectionColour];
 }
-
 
 #pragma mark -
 - (void)		setDrawsBorder:(BOOL) border
@@ -81,12 +71,10 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-
 - (BOOL)		drawsBorder
 {
 	return m_drawBorder;
 }
-
 
 #pragma mark -
 - (NSRect)		infoBoxRect
@@ -124,7 +112,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	
 	return r;
 }
-
 
 - (void)		drawInfoInRect:(NSRect) br
 {
@@ -201,7 +188,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	[bp stroke];
 }
 
-
 - (NSDictionary*)	attributesForDrawingInfoItem:(NSString*) key
 {
 	// given the key of an item in the drawign info, this returns som etext drawign attributes suitable for drawing that item. You
@@ -228,7 +214,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	return ad;
 }
 
-
 - (void)		drawString:(NSString*) str inRect:(NSRect) r withAttributes:(NSDictionary*) attr
 {
 	// draws the given string into the rect <r>, applying the attributes <attr> and the alignment <align>.
@@ -241,7 +226,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		[as release];
 	}
 }
-
 
 - (NSAttributedString*)	labelForDrawingInfoItem:(NSString*) key;
 {
@@ -265,7 +249,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		
 	return [s autorelease];
 }
-
 
 - (NSRect)			layoutRectForDrawingInfoItem:(NSString*) key inRect:(NSRect) bounds
 {
@@ -311,7 +294,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	return r;
 }
 
-
 - (NSRect)			labelRectInRect:(NSRect) itemRect forLabel:(NSAttributedString*) ls
 {
 	NSRect r = itemRect;
@@ -321,7 +303,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	
 	return r;
 }
-
 
 #pragma mark -
 - (NSString*)			keyForEditableRegionUnderMouse:(NSPoint) p
@@ -345,7 +326,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	return nil;
 }
 
-
 - (void)				textViewDidChangeSelection:(NSNotification*) aNotification
 {
 	// the editable text changed. Get the text from the editor and set the dictionary's entry for the current key
@@ -363,7 +343,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	[self setNeedsDisplayInRect:r];
 }
 
-
 #pragma mark -
 #pragma mark As a DKLayer
 - (NSRect)			activeCursorRect
@@ -373,12 +352,10 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	return [self infoBoxRect];
 }
 
-
 - (NSCursor*)		cursor
 {
 	return [NSCursor IBeamCursor];
 }
-
 
 - (void)		drawRect:(NSRect) rect inView:(DKDrawingView*) aView
 {
@@ -410,12 +387,10 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-
 - (BOOL)			hitLayer:(NSPoint) p
 {
 	return NSPointInRect( p, [self infoBoxRect]);
 }
-
 
 - (void)			layerDidResignActiveLayer
 {
@@ -425,7 +400,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		m_editingKeyRef = nil;
 	}
 }
-
 
 - (void)			mouseDown:(NSEvent*) event inView:(NSView*) view
 {
@@ -460,8 +434,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-
-
 #pragma mark -
 #pragma mark As an NSObject
 - (id)			init
@@ -484,7 +456,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)			encodeWithCoder:(NSCoder*) coder
@@ -496,7 +467,6 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	[coder encodeSize:[self size] forKey:@"infoBoxSize"];
 	[coder encodeBool:[self drawsBorder] forKey:@"drawBorder"];
 }
-
 
 - (id)				initWithCoder:(NSCoder*) coder
 {
@@ -515,5 +485,5 @@ NSString*	kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	return self;
 }
 
-
 @end
+

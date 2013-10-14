@@ -1,3 +1,10 @@
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 //  DKGradientExtensions.h
 ///  DrawKit ©2005-2008 Apptree.net
@@ -9,12 +16,13 @@
 
 #import "DKGradient.h"
 
-
 @interface NSView (DKGradientExtensions)
 
 - (void) dragGradient:(DKGradient*)gradient swatchSize:(NSSize)size
 			slideBack:(BOOL)slideBack event:(NSEvent *)event;
 
+/** 
+ */
 - (void) dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent *)event;
 
 - (void) dragColor:(NSColor*)color swatchSize:(NSSize)size slideBack:(BOOL)slideBack event:(NSEvent *)event;
@@ -26,8 +34,6 @@
 - (NSImage*) swatchImageWithSize:(NSSize) size withBorder:(BOOL) showBorder;
 
 @end
-
-
 
 @interface DKGradient (DKGradientExtensions)
 
@@ -53,7 +59,6 @@
 
 @end
 
-
 @interface		NSDictionary (StructEncoding)
 
 - (void)		setPoint:(NSPoint) p forKey:(id) key;
@@ -63,4 +68,3 @@
 - (float)floatForKey:(id) key;
 
 @end
-

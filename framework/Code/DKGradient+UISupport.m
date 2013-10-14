@@ -1,10 +1,14 @@
 //
 //  DKGradient+UISupport.m
-///  DrawKit ©2005-2008 Apptree.net
 //
 //  Created by Graham Cox on 26/03/2008.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 //
 
 #import "DKGradient+UISupport.h"
@@ -14,10 +18,10 @@ static void		glossInterpolation(void *info, const CGFloat *input, CGFloat *outpu
 static CGFloat	perceptualGlossFractionForColor(CGFloat *inputComponents);
 static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *outputComponents);
 
-
 @implementation DKGradient (UISupport)
 
-
+/** 
+ */
 + (DKGradient*)		aquaSelectedGradient
 {
 	DKGradient* grad = [[DKGradient alloc] init];
@@ -30,7 +34,6 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
 	
 	return [grad autorelease];
 }
-
 
 + (DKGradient*)		aquaNormalGradient
 {
@@ -45,7 +48,6 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
 	return [grad autorelease];
 }
 
-
 + (DKGradient*)		aquaPressedGradient
 {
 	DKGradient* grad = [[DKGradient alloc] init];
@@ -59,7 +61,6 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
 	return [grad autorelease];
 }
 
-
 + (DKGradient*)		unifiedSelectedGradient
 {
 	DKGradient* grad = [[DKGradient alloc] init];
@@ -71,7 +72,6 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
 	return [grad autorelease];
 }
 
-
 + (DKGradient*)		unifiedNormalGradient
 {
 	DKGradient* grad = [[DKGradient alloc] init];
@@ -82,7 +82,6 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
 	
 	return [grad autorelease];
 }
-
 
 + (DKGradient*)		unifiedPressedGradient
 {
@@ -106,7 +105,6 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
 	return [grad autorelease];
 }
 
-
 + (DKGradient*)		sourceListSelectedGradient
 {
 	DKGradient* grad = [[DKGradient alloc] init];
@@ -127,7 +125,6 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
 	
 	return [grad autorelease];
 }
-
 
 + (void)				drawShinyGradientInRect:(NSRect) inRect withColour:(NSColor*) colour
 {
@@ -205,11 +202,7 @@ static void		perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *o
     CGFunctionRelease(gradientFunction);
 }
 
-
 @end
-
-
-
 
 static void glossInterpolation(void *info, const CGFloat *input, CGFloat *output)
 {
@@ -241,8 +234,6 @@ static void glossInterpolation(void *info, const CGFloat *input, CGFloat *output
         output[3] = params->color[3] * (1.0 - progress) + params->caustic[3] * progress;
     }
 }
-
-
 
 static void perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *outputComponents)
 {
@@ -284,7 +275,6 @@ static void perceptualCausticColorForColor(CGFloat *inputComponents, CGFloat *ou
     [targetColor getComponents:outputComponents];
 }
 
-
 static CGFloat perceptualGlossFractionForColor(CGFloat *inputComponents)
 {
     const CGFloat REFLECTION_SCALE_NUMBER = 0.2;
@@ -296,5 +286,4 @@ static CGFloat perceptualGlossFractionForColor(CGFloat *inputComponents)
     glossScale = pow(glossScale, REFLECTION_SCALE_NUMBER);
     return glossScale;
 }
-
 

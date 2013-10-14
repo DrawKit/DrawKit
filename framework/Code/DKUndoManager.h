@@ -1,19 +1,15 @@
-///**********************************************************************************************************************************
-///  DKUndoManager.h
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 22/06/2007.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
-
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import <Foundation/Foundation.h>
 #import "GCUndoManager.h"
 
 #define	USE_GC_UNDO_MANAGER		1
-
 
 #if USE_GC_UNDO_MANAGER
 
@@ -68,7 +64,6 @@ received. It is largely safe to use with coalescing enabled even for normal undo
 It also records a change count which is an easy way to check if the state of the undo stack has changed from some earlier time -
 just compare the change count with one you recorded earlier.
 
-
 ************* NOTE - THIS DOES NOT WORK - DO NOT ENABLE GROUP DEFERRAL!! ***************
 
 Group deferral is another useful thing that works around an NSUndoManager bug. When beginUndoGrouping is called, the group is not
@@ -78,5 +73,3 @@ bogus Undo item on the stack for empty groups. This allows client code to simply
 and close the group at mouse up without creating bogus stack states.
 
 */
-
-

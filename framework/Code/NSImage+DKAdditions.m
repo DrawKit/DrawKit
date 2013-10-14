@@ -16,7 +16,6 @@
 	return [self imageFromImage:srcImage withSize:size fraction:1.0 allowScaleUp:YES];
 }
 
-
 + (NSImage*)	imageFromImage:(NSImage*) srcImage withSize:(NSSize) size fraction:(CGFloat) opacity allowScaleUp:(BOOL) scaleUp
 {
 	// makes a copy of <srcImage> by drawing it into a bitmap representation of <size>, scaling as needed. A new temporary graphics context is
@@ -85,7 +84,5 @@
 	return [image autorelease];
 }
 
-
-
-
 @end
+

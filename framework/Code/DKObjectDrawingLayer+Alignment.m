@@ -1,12 +1,10 @@
-///**********************************************************************************************************************************
-///  DKObjectDrawingLayer+Alignment.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 18/09/2006.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKObjectDrawingLayer+Alignment.h"
 
@@ -15,32 +13,35 @@
 #import "DKGridLayer.h"
 #import "LogEvent.h"
 
-
 #pragma mark Static Functions
-static NSInteger vertLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, void* context );
-static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, void* context );
 
+/** @brief Determines the relative vertical position order of a pair of objects
+ * @note
+ * Objects must respond to the -apparentBounds method
+ * @param a>, <b the objects to compare
+ * @return sort order constant
+ */
+static NSInteger vertLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, void* context );
+
+/** @brief Determines the relative horizontal position order of a pair of objects
+ * @note
+ * Objects must respond to the -apparentBounds method
+ * @param a>, <b the objects to compare
+ * @return sort order constant
+ */
+static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, void* context );
 
 #pragma mark -
 @implementation DKObjectDrawingLayer (Alignment)
 #pragma mark As a DKObjectDrawingLayer
 
-
-///*********************************************************************************************************************
-///
-/// method:			setKeyObject:
-/// scope:			public instance method
-///	overrides:		
-/// description:	nominates an object as the master to be used for alignment operations, etc
-/// 
-/// parameters:		<keyObject> an object that is to be considered key for alignment ops
-/// result:			none
-///
-/// notes:			the object is not retained as it should already be owned. A nil object can be set to mean that the
-///					topmost select object should be considered key.
-///
-///********************************************************************************************************************
-
+/** @brief Nominates an object as the master to be used for alignment operations, etc
+ * @note
+ * The object is not retained as it should already be owned. A nil object can be set to mean that the
+ * topmost select object should be considered key.
+ * @param keyObject an object that is to be considered key for alignment ops
+ * @public
+ */
 - (void)				setKeyObject:(DKDrawableObject*) keyObject
 {
 	if( keyObject != mKeyAlignmentObject )
@@ -50,22 +51,13 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			keyObject
-/// scope:			public instance method
-///	overrides:		
-/// description:	returns the object as the master to be used for alignment operations, etc
-/// 
-/// parameters:		none
-/// result:			an object that is to be considered key for alignment ops
-///
-/// notes:			If no specific object is set (nil), then the first object in the selection is returned. If there's
-///					no selection, returns nil. 
-///
-///********************************************************************************************************************
-
+/** @brief Returns the object as the master to be used for alignment operations, etc
+ * @note
+ * If no specific object is set (nil), then the first object in the selection is returned. If there's
+ * no selection, returns nil. 
+ * @return an object that is to be considered key for alignment ops
+ * @public
+ */
 - (DKDrawableObject*)	keyObject
 {
 	if( mKeyAlignmentObject )
@@ -81,44 +73,24 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignObjects:withAlignment:
-/// scope:			public instance method
-///	overrides:
-/// description:	aligns a set of objects
-/// 
-/// parameters:		<objects> the objects to align
-///					<align> the alignment operation required
-/// result:			none
-///
-/// notes:			objects are aligned with the layer's nominated key object, by default the first object in the supplied list
-///
-///********************************************************************************************************************
-
+/** @brief Aligns a set of objects
+ * @note
+ * Objects are aligned with the layer's nominated key object, by default the first object in the supplied list
+ * @param objects the objects to align
+ * @param align the alignment operation required
+ * @public
+ */
 - (void)		alignObjects:(NSArray*) objects withAlignment:(NSInteger) align
 {
 	[self alignObjects:objects toMasterObject:[self keyObject] withAlignment:align];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignObjects:toMasterObject:withAlignment:
-/// scope:			public instance method
-///	overrides:
-/// description:	aligns a set ofobjects
-/// 
-/// parameters:		<objects> the objects to align
-///					<object> the "master" object - the one to which the others are aligned
-///					<align> the alignment operation required
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Aligns a set ofobjects
+ * @param objects the objects to align
+ * @param object the "master" object - the one to which the others are aligned
+ * @param align the alignment operation required
+ * @public
+ */
 - (void)		alignObjects:(NSArray*) objects toMasterObject:(id) object withAlignment:(NSInteger) align
 {
 	// if we are distributing the objects, use the distributor method first - master
@@ -156,23 +128,12 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignObjects:toLocation:withAlignment:
-/// scope:			public instance method
-///	overrides:
-/// description:	aligns a set of objects to a given point
-/// 
-/// parameters:		<objects> the objects to align
-///					<loc> the point to which the objects are aligned
-///					<align> the alignment operation required
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Aligns a set of objects to a given point
+ * @param objects the objects to align
+ * @param loc the point to which the objects are aligned
+ * @param align the alignment operation required
+ * @public
+ */
 - (void)		alignObjects:(NSArray*) objects toLocation:(NSPoint) loc withAlignment:(NSInteger) align
 {
 	#pragma unused(objects)
@@ -184,24 +145,16 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	// TO DO
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			alignObjectEdges:toGrid:
-/// scope:			public instance method
-///	overrides:
-/// description:	aligns the objects to the grid, resizing and positioning as necessary so that all edges lie on
-///					the grid. The logical bounds is used for alignment, consistent with normal snapping behaviour.
-/// 
-/// parameters:		<objects> the objects to align
-///					<grid> the grid to use
-/// result:			none
-///
-/// notes:			may minimally resize the objects.
-///
-///********************************************************************************************************************
 
+/** @brief Aligns the objects to the grid, resizing and positioning as necessary so that all edges lie on
+ * the grid. The logical bounds is used for alignment, consistent with normal snapping behaviour.
+ * @note
+ * May minimally resize the objects.
+ * @param objects the objects to align
+ * @param grid the grid to use
+ * @public
+ */
 - (void)		alignObjectEdges:(NSArray*) objects toGrid:(DKGridLayer*) grid
 {
 	NSAssert( grid != nil, @"grid parameter is nil" );
@@ -235,22 +188,13 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignObjectLocation:toGrid:
-/// scope:			public instance method
-///	overrides:
-/// description:	aligns a set of objects so their locations lie on a grid intersection
-/// 
-/// parameters:		<objects> the objects to align
-///					<grid> the grid to use
-/// result:			none
-///
-/// notes:			does not resize the objects
-///
-///********************************************************************************************************************
-
+/** @brief Aligns a set of objects so their locations lie on a grid intersection
+ * @note
+ * Does not resize the objects
+ * @param objects the objects to align
+ * @param grid the grid to use
+ * @public
+ */
 - (void)		alignObjectLocation:(NSArray*) objects toGrid:(DKGridLayer*) grid
 {
 	NSAssert( grid != nil, @"grid parameter is nil" );
@@ -268,24 +212,17 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			totalVerticalSpace:
-/// scope:			private instance method
-///	overrides:
-/// description:	computes the amount of space available for a vertical distribution operation
-/// 
-/// parameters:		<objects> the objects to align
-/// result:			the total space available for distribution in the vertical direction
-///
-/// notes:			the list of objects must be sorted into order of their vertical location.
-///					The space is the total distance between the top and bottom objects, minus the sum of the heights
-///					of the objects in between
-///
-///********************************************************************************************************************
 
+/** @brief Computes the amount of space available for a vertical distribution operation
+ * @note
+ * The list of objects must be sorted into order of their vertical location.
+ * The space is the total distance between the top and bottom objects, minus the sum of the heights
+ * of the objects in between
+ * @param objects the objects to align
+ * @return the total space available for distribution in the vertical direction
+ * @private
+ */
 - (CGFloat)		totalVerticalSpace:(NSArray*) objects
 {
 	CGFloat		span, sumHeight = 0.0;
@@ -307,23 +244,15 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	return span - sumHeight;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			totalHorizontalSpace:
-/// scope:			private instance method
-///	overrides:
-/// description:	computes the amount of space available for a horizontal distribution operation
-/// 
-/// parameters:		<objects> the objects to align
-/// result:			the total space available for distribution in the horizontal direction
-///
-/// notes:			the list of objects must be sorted into order of their horizontal location.
-///					The space is the total distance between the leftmost and rightmost objects, minus the sum of the widths
-///					of the objects in between
-///
-///********************************************************************************************************************
-
+/** @brief Computes the amount of space available for a horizontal distribution operation
+ * @note
+ * The list of objects must be sorted into order of their horizontal location.
+ * The space is the total distance between the leftmost and rightmost objects, minus the sum of the widths
+ * of the objects in between
+ * @param objects the objects to align
+ * @return the total space available for distribution in the horizontal direction
+ * @private
+ */
 - (CGFloat)		totalHorizontalSpace:(NSArray*) objects
 {
 	CGFloat		span, sumWidth = 0.0;
@@ -345,22 +274,13 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	return span - sumWidth;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			objectsSortedByVerticalPosition:
-/// scope:			private instance method
-///	overrides:
-/// description:	sorts a set of objects into order of their vertical location
-/// 
-/// parameters:		<objects> the objects to sort
-/// result:			a copy of the array sorted into vertical order
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Sorts a set of objects into order of their vertical location
+ * @param objects the objects to sort
+ * @return a copy of the array sorted into vertical order
+ * @private
+ */
 - (NSArray*)	objectsSortedByVerticalPosition:(NSArray*) objects
 {
 	LogEvent_(kReactiveEvent, @"sorting objects into vertical order");
@@ -371,21 +291,11 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	return [na autorelease];
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			objectsSortedByHorizontalPosition:
-/// scope:			private instance method
-///	overrides:
-/// description:	sorts a set of objects into order of their horizontal location
-/// 
-/// parameters:		<objects> the objects to sort
-/// result:			a copy of the array sorted into horizontal order
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Sorts a set of objects into order of their horizontal location
+ * @param objects the objects to sort
+ * @return a copy of the array sorted into horizontal order
+ * @private
+ */
 - (NSArray*)	objectsSortedByHorizontalPosition:(NSArray*) objects
 {
 	LogEvent_(kReactiveEvent, @"sorting objects into horizontal order");
@@ -396,24 +306,17 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	return [na autorelease];
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			distributeObjects:withAlignment:
-/// scope:			public instance method
-///	overrides:
-/// description:	distributes a set of objects
-/// 
-/// parameters:		<objects> the objects to distribute
-///					<align> the distribution required
-/// result:			YES if the operation could be performed, NO otherwise
-///
-/// notes:			normally this is called by the higher level alignObjects: methods when a distribution alignment is
-///					detected
-///
-///********************************************************************************************************************
 
+/** @brief Distributes a set of objects
+ * @note
+ * Normally this is called by the higher level alignObjects: methods when a distribution alignment is
+ * detected
+ * @param objects the objects to distribute
+ * @param align the distribution required
+ * @return YES if the operation could be performed, NO otherwise
+ * @public
+ */
 - (BOOL)		distributeObjects:(NSArray*) objects withAlignment:(NSInteger) align
 {
 	// distribute the objects - this is usually called from the alignment method as needed - calling it directly will
@@ -574,22 +477,15 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	return YES;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			alignmentMenuItemRequiredObjects:
-/// scope:			public action method
-///	overrides:
-/// description:	returns the minimum number of objects needed to enable the user interface item
-/// 
-/// parameters:		<item> the user interface item to validate
-/// result:			number of objects needed for validation. If the item isn't a known alignment command, returns 0
-///
-/// notes:			call this from a generic validateMenuItem method for the layer as a whole
-///
-///********************************************************************************************************************
 
+/** @brief Returns the minimum number of objects needed to enable the user interface item
+ * @note
+ * Call this from a generic validateMenuItem method for the layer as a whole
+ * @param item the user interface item to validate
+ * @return number of objects needed for validation. If the item isn't a known alignment command, returns 0
+ * @public
+ */
 - (NSUInteger)	alignmentMenuItemRequiredObjects:(id<NSValidatedUserInterfaceItem>) item
 {
 	SEL		action = [item action];
@@ -614,23 +510,13 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	return 0;
 }
 
-
 #pragma mark -
 #pragma mark - user actions
-///*********************************************************************************************************************
-///
-/// method:			alignLeftEdges:
-/// scope:			public action method
-///	overrides:
-/// description:	aligns the selected objects on their left edges
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Aligns the selected objects on their left edges
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	alignLeftEdges:(id) sender
 {
 	#pragma unused(sender)
@@ -642,21 +528,10 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignRightEdges:
-/// scope:			public action method
-///	overrides:
-/// description:	aligns the selected objects on their right edges
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Aligns the selected objects on their right edges
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	alignRightEdges:(id) sender
 {
 	#pragma unused(sender)
@@ -668,21 +543,10 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignHorizontalCentres:
-/// scope:			public action method
-///	overrides:
-/// description:	aligns the selected objects on their horizontal centres
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Aligns the selected objects on their horizontal centres
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	alignHorizontalCentres:(id) sender
 {
 	#pragma unused(sender)
@@ -694,22 +558,12 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			alignTopEdges:
-/// scope:			public action method
-///	overrides:
-/// description:	aligns the selected objects on their top edges
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Aligns the selected objects on their top edges
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	alignTopEdges:(id) sender
 {
 	#pragma unused(sender)
@@ -721,21 +575,10 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignBottomEdges:
-/// scope:			public action method
-///	overrides:
-/// description:	aligns the selected objects on their bottom edges
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Aligns the selected objects on their bottom edges
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	alignBottomEdges:(id) sender
 {
 	#pragma unused(sender)
@@ -747,21 +590,10 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			alignVerticalCentres:
-/// scope:			public action method
-///	overrides:
-/// description:	aligns the selected objects on their vertical centres
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Aligns the selected objects on their vertical centres
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	alignVerticalCentres:(id) sender
 {
 	#pragma unused(sender)
@@ -773,22 +605,12 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			distributeVerticalCentres:
-/// scope:			public action method
-///	overrides:
-/// description:	distributes the selected objects to equalize the vertical centres
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Distributes the selected objects to equalize the vertical centres
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	distributeVerticalCentres:(id) sender
 {
 	#pragma unused(sender)
@@ -800,21 +622,10 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			distributeVerticalSpace:
-/// scope:			public action method
-///	overrides:
-/// description:	distributes the selected objects to equalize the vertical space
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Distributes the selected objects to equalize the vertical space
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	distributeVerticalSpace:(id) sender
 {
 	#pragma unused(sender)
@@ -826,22 +637,12 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			distributeHorizontalCentres:
-/// scope:			public action method
-///	overrides:
-/// description:	distributes the selected objects to equalize the horizontal centres
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Distributes the selected objects to equalize the horizontal centres
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	distributeHorizontalCentres:(id) sender
 {
 	#pragma unused(sender)
@@ -853,21 +654,10 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			distributeHorizontalSpace:
-/// scope:			public action method
-///	overrides:
-/// description:	distributes the selected objects to equalize the horizontal space
-/// 
-/// parameters:		<sender> the action's sender
-/// result:			none
-///
-/// notes:			
-///
-///********************************************************************************************************************
-
+/** @brief Distributes the selected objects to equalize the horizontal space
+ * @param sender the action's sender
+ * @public
+ */
 - (IBAction)	distributeHorizontalSpace:(id) sender
 {
 	#pragma unused(sender)
@@ -878,7 +668,6 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 		[[self undoManager] setActionName:NSLocalizedString(@"Distribute Horizontal Space", @"undo string for distribute h space")];
 	}
 }
-
 
 #pragma mark -
 - (IBAction)	alignEdgesToGrid:(id) sender
@@ -893,7 +682,6 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
 - (IBAction)	alignLocationToGrid:(id) sender
 {
 	#pragma unused(sender)
@@ -906,7 +694,6 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	}
 }
 
-
 - (IBAction)	assignKeyObject:(id) sender
 {
 #pragma unused(sender)
@@ -915,25 +702,10 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 	[self setKeyObject:obj];
 }
 
-
 @end
-
 
 #pragma mark -
 #pragma mark Static Functions
-///*********************************************************************************************************************
-///
-/// method:			vertLocSortFunc()
-/// scope:			static function
-///	overrides:
-/// description:	determines the relative vertical position order of a pair of objects
-/// 
-/// parameters:		<a>, <b> the objects to compare
-/// result:			sort order constant
-///
-/// notes:			objects must respond to the -apparentBounds method
-///
-///********************************************************************************************************************
 
 static NSInteger vertLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, void* context )
 {
@@ -952,21 +724,6 @@ static NSInteger vertLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, void
 		return NSOrderedSame;
 }
 
-
-///*********************************************************************************************************************
-///
-/// method:			horizLocSortFunc()
-/// scope:			static function
-///	overrides:
-/// description:	determines the relative horizontal position order of a pair of objects
-/// 
-/// parameters:		<a>, <b> the objects to compare
-/// result:			sort order constant
-///
-/// notes:			objects must respond to the -apparentBounds method
-///
-///********************************************************************************************************************
-
 static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, void* context )
 {
 	#pragma unused(context)
@@ -984,23 +741,13 @@ static NSInteger horizLocSortFunc( DKDrawableObject* a, DKDrawableObject* b, voi
 		return NSOrderedSame;
 }
 
-
 #pragma mark -
-///*********************************************************************************************************************
-///
-/// method:			calculateAlignmentOffset()
-/// scope:			internal function
-///	overrides:
-/// description:	returns an offset indicating the distance sr needs to be moved to give the chosen alignment with mr
-/// 
-/// parameters:		<mr>, <sr> two bounding rectangles
-///					<alignment> the type of alignment being applied
-/// result:			an x and y offset
-///
-/// notes:			
-///
-///********************************************************************************************************************
 
+/** @brief Returns an offset indicating the distance sr needs to be moved to give the chosen alignment with mr
+ * @param mr>, <sr two bounding rectangles
+ * @param alignment the type of alignment being applied
+ * @return an x and y offset
+ */
 NSPoint calculateAlignmentOffset( NSRect mr, NSRect sr, NSInteger alignment )
 {
 	NSPoint p = { 0, 0 };

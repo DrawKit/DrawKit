@@ -1,16 +1,13 @@
-///**********************************************************************************************************************************
-///  DKBSPObjectStorage.m
-///  DrawKit ©2005-2008 Apptree.net
-///
-///  Created by Graham Cox on 03/01/2009.
-///
-///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-///
-///**********************************************************************************************************************************
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "DKBSPObjectStorage.h"
 #import "LogEvent.h"
-
 
 // utility functions:
 
@@ -36,7 +33,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 
 @implementation DKBSPObjectStorage
 
-
 - (void)					setTreeDepth:(NSUInteger) aDepth
 {
 	// intended to be set when the storage is created. Defaults to 0, meaning that the tree is dynamically rebuilt when needed
@@ -52,12 +48,10 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	}
 }
 
-
 - (id)						tree
 {
 	return mTree;
 }
-
 
 - (NSArray*)				objectsIntersectingRect:(NSRect) aRect inView:(NSView*) aView options:(DKObjectStorageOptions) options
 {
@@ -100,7 +94,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return array;
 }
 
-
 - (NSArray*)				objectsContainingPoint:(NSPoint) aPoint
 {
 	NSIndexSet* indexes = [mTree itemsIntersectingPoint:aPoint];
@@ -120,15 +113,11 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return array;
 }
 
-
-
 - (void)					setObjects:(NSArray*) objects
 {
 	[super setObjects:objects];
 	[self setDepthAndLoadTree:mTreeDepth];
 }
-
-
 
 - (void)					insertObject:(id<DKStorableObject>) obj inObjectsAtIndex:(NSUInteger) indx
 {
@@ -143,8 +132,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 		}
 	}
 }
-
-
 
 - (void)					removeObjectFromObjectsAtIndex:(NSUInteger) indx
 {
@@ -162,8 +149,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	[super removeObjectFromObjectsAtIndex:indx];
 }
 
-
-
 - (void)					replaceObjectInObjectsAtIndex:(NSUInteger) indx withObject:(id<DKStorableObject>) obj
 {
 	id<DKStorableObject> old = [self objectInObjectsAtIndex:indx];
@@ -176,8 +161,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	[super replaceObjectInObjectsAtIndex:indx withObject:obj];
 }
 
-
-
 - (void)					insertObjects:(NSArray*) objs atIndexes:(NSIndexSet*) set
 {
 	// this may be expensive, as it rebuilds the entire tree due to the extensive renumbering of items
@@ -188,8 +171,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 		[self setDepthAndLoadTree:mTreeDepth];
 }
 
-
-
 - (void)					removeObjectsAtIndexes:(NSIndexSet*) set
 {
 	// this may be expensive, as it rebuilds the entire tree due to the extensive renumbering of items
@@ -199,8 +180,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	if(![self checkForTreeRebuild])
 		[self setDepthAndLoadTree:mTreeDepth];
 }
-
-
 
 - (void)					moveObject:(id<DKStorableObject>) obj toIndex:(NSUInteger) indx
 {
@@ -221,8 +200,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	}
 }
 
-
-
 - (void)					object:(id<DKStorableObject>) obj didChangeBoundsFrom:(NSRect) oldBounds
 {
 	// n.b. only called if the bounds has actually changed, so we don't need to test that again
@@ -235,7 +212,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	}
 }
 
-
 - (void)					objectDidChangeVisibility:(id<DKStorableObject>) obj
 {
 	NSUInteger indx = [self indexOfObject:obj];
@@ -245,7 +221,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	else
 		[mTree removeItemIndex:indx withRect:[obj bounds]];
 }
-
 
 - (void)					setCanvasSize:(NSSize) size
 {
@@ -262,7 +237,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	}
 }
 
-
 - (void)					setDepthAndLoadTree:(NSUInteger) aDepth
 {
 	NSUInteger depth = (aDepth == 0? MAX(depthForObjectCount([self countOfObjects]), kDKMinimumDepth ) : aDepth);
@@ -270,7 +244,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	[mTree setDepth:MAX( depth, kDKMinimumDepth )];
 	[self loadBSPTree];
 }
-
 
 - (void)					loadBSPTree
 {
@@ -290,8 +263,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	
 	//NSLog(@"loaded BSP tree with %d indexes (tree = %@)", k, mTree );
 }
-
-
 
 - (BOOL)					checkForTreeRebuild
 {
@@ -319,8 +290,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return NO;
 }
 
-
-
 #pragma mark -
 #pragma mark - as implementor of the NSCoding protocol
 
@@ -335,7 +304,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return self;
 }
 
-
 #pragma mark -
 #pragma mark - as a NSObject
 
@@ -345,14 +313,9 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	[super dealloc];
 }
 
-
 @end
 
-
-
 #pragma mark -
-
-/// node object - only used internally with DKBSPIndexTree
 
 @interface DKBSPNode : NSObject
 {
@@ -365,6 +328,8 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	}u;
 }
 
+/** 
+ */
 - (void)			setType:(DKLeafType) aType;
 - (DKLeafType)		type;
 
@@ -374,11 +339,9 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 - (void)			setOffset:(CGFloat) offset;
 - (CGFloat)			offset;
 
-
 @end
 
 #pragma mark -
-
 
 @implementation DKBSPNode
 
@@ -387,47 +350,30 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	mType = aType;
 }
 
-
-
 - (DKLeafType)		type
 {
 	return mType;
 }
-
-
-
 
 - (void)			setLeafIndex:(NSUInteger) indx
 {
 	u.mIndex = indx;
 }
 
-
-
 - (NSUInteger)		leafIndex
 {
 	return u.mIndex;
 }
-
-
-
 
 - (void)			setOffset:(CGFloat) offset
 {
 	u.mOffset = offset;
 }
 
-
-
 - (CGFloat)			offset
 {
 	return u.mOffset;
 }
-
-
-
-
-
 
 @end
 
@@ -443,23 +389,16 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 - (void)			allocateLeaves:(NSUInteger) howMany;
 - (void)			removeIndex:(NSUInteger) indx;
 
-
 @end
-
-
-
 
 #pragma mark -
 
-
 @implementation DKBSPIndexTree
-
 
 + (Class)			leafClass
 {
 	return [NSMutableIndexSet class];
 }
-
 
 - (id)				initWithCanvasSize:(NSSize) size depth:(NSUInteger) depth
 {
@@ -478,12 +417,10 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return self;
 }
 
-
 - (NSSize)			canvasSize
 {
 	return mCanvasSize;
 }
-
 
 // a.k.a "initialize"
 
@@ -515,8 +452,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	LogEvent_( kInfoEvent, @"%@ <%p> (re)inited BSP, size = %@, depth = %d, nodes = %d, leaves = %d", NSStringFromClass([self class]), self, NSStringFromSize( mCanvasSize ), depth, [mNodes count], [mLeaves count] );
 }
 
-
-
 - (void)			insertItemIndex:(NSUInteger) idx withRect:(NSRect) rect
 {
     if ([mNodes count] == 0)
@@ -528,8 +463,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	
 	//NSLog(@"inserted index = %d, bounds = %@", idx, NSStringFromRect( rect ));
 }
-
-
 
 - (void)			removeItemIndex:(NSUInteger) idx withRect:(NSRect) rect
 {
@@ -544,7 +477,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	
 	[self removeIndex:idx];
 }
-
 
 - (NSIndexSet*)		itemsIntersectingRects:(const NSRect*) rects count:(NSUInteger) count
 {
@@ -564,7 +496,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return mResults;
 }
 
-
 - (NSIndexSet*)		itemsIntersectingRect:(NSRect) rect
 {
     if ([mNodes count] == 0)
@@ -576,8 +507,6 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	[self recursivelySearchWithRect:rect index:0];
 	return mResults;
 }
-
-
 
 - (NSIndexSet*)		itemsIntersectingPoint:(NSPoint) point
 {
@@ -591,15 +520,10 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	return mResults;
 }
 
-
-
-
 - (NSUInteger)		countOfLeaves
 {
 	return [mLeaves count];
 }
-
-
 
 - (void)			shiftIndexesStartingAtIndex:(NSUInteger) startIndex by:(NSInteger) delta
 {
@@ -614,18 +538,12 @@ static inline NSUInteger childNodeAtIndex( NSUInteger nodeIndex )
 	
 }
 
-
 - (NSBezierPath*)	debugStorageDivisions
 {
 	// returns a path consisting of all the BSP rect divisions
 	
 	return mDebugPath;
 }
-
-
-
-
-
 
 #pragma mark -
 #pragma mark - private
@@ -693,11 +611,9 @@ static NSUInteger sLeafCount = 0;
     }
 }
 
-
 // if set to 1, recursive function avoids obj-C message dispatch for slightly more performance
 
 #define qUseImpCaching		1
-
 
 - (void)			recursivelySearchWithRect:(NSRect) rect index:(NSUInteger) indx
 {
@@ -768,8 +684,6 @@ static NSUInteger sLeafCount = 0;
     }
 }
 
-
-
 - (void)			recursivelySearchWithPoint:(NSPoint) pt index:(NSUInteger) indx
 {
     DKBSPNode* node = [mNodes objectAtIndex:indx];
@@ -800,7 +714,6 @@ static NSUInteger sLeafCount = 0;
     }
 }
 
-
 - (void)			operateOnLeaf:(id) leaf;
 {
 	// <leaf> is a pointer to the NSMutableIndexSet at the leaf
@@ -824,13 +737,11 @@ static NSUInteger sLeafCount = 0;
 	}
 }
 
-
 - (void)			removeNodesAndLeaves
 {
 	[mNodes removeAllObjects];
 	[mLeaves removeAllObjects];
 }
-
 
 - (void)			allocateLeaves:(NSUInteger) howMany
 {
@@ -846,7 +757,6 @@ static NSUInteger sLeafCount = 0;
 	}
 }
 
-
 - (void)			removeIndex:(NSUInteger) indx
 {
 	NSEnumerator* iter = [mLeaves objectEnumerator];
@@ -856,10 +766,8 @@ static NSUInteger sLeafCount = 0;
 		[is removeIndex:indx];
 }
 
-
 #pragma mark -
 #pragma mark - as a NSObject
-
 
 - (void)			dealloc
 {
@@ -871,7 +779,6 @@ static NSUInteger sLeafCount = 0;
 	[super dealloc];
 }
 
-
 - (NSString*)		description
 {
 	// warning: description string can be very large, as it enumerates the leaves
@@ -881,5 +788,4 @@ static NSUInteger sLeafCount = 0;
 }
 
 @end
-
 
