@@ -1246,7 +1246,7 @@
 /// result:			a transform object
 ///
 /// notes:			drawables will request and apply this transform when rendering. Either the identity matrix is
-//					returned if the group is visually transforming the result, or a combination of the parents above
+///					returned if the group is visually transforming the result, or a combination of the parents above
 ///					and the content transform. Either way contained objects are oblivious and do the right thing.
 ///
 ///********************************************************************************************************************

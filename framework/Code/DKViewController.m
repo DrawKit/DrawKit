@@ -749,7 +749,7 @@ static NSTimer* s_autoscrollTimer = nil;
 /// result:			none
 ///
 /// notes:			autscrolls the view if the mouse is outside it during a drag, then invokes the controller's
-//					mouseDragged: method.
+///					mouseDragged: method.
 ///
 ///********************************************************************************************************************
 

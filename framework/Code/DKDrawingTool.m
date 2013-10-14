@@ -603,7 +603,6 @@ NSString*		kDKDrawingToolUserDefaultsKey			= @"DK_DrawingTool_Defaults";
 /// result:			none
 ///
 /// notes:			override this to get notified when the modifier keys change state while your tool is set
-
 ///
 ///********************************************************************************************************************
 

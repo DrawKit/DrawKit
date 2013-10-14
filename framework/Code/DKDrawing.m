@@ -216,12 +216,6 @@ static id	sDearchivingHelper = nil;
 	return [dr autorelease];
 }
 
-
-//! Creates a drawing from a data object.
-
-//! Unarchives the data, and returns the unarchived drawing object
-//! \param drawingData a NSData object containing a complete archive of a drawing
-
 ///*********************************************************************************************************************
 ///
 /// method:			drawingWithData:
@@ -333,13 +327,6 @@ static id	sDearchivingHelper = nil;
 	
 	return dNum;
 }
-
-
-//! Returns the default metadata that is attached to new drawings.
-
-//! This is called by the drawing object itself when built new. Often you'll want to replace
-///	its contents with your own info. A DKDrawingInfoLayer can interpret some of the standard values and
-///	display them in its info box.
 
 ///*********************************************************************************************************************
 ///

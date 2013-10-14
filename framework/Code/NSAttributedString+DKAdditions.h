@@ -1,11 +1,12 @@
-//
-//  NSAttributedString+DKAdditions.h
+///**********************************************************************************************************************************
+///  NSAttributedString+DKAdditions.m
 ///  DrawKit ©2005-2008 Apptree.net
-//
-//  Created by Graham Cox on 27/05/2008.
+///
+///  Created by Graham Cox on 13/08/2006.
 ///
 ///	 This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file. 
-//
+///
+///**********************************************************************************************************************************
 
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"

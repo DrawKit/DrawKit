@@ -293,7 +293,7 @@ static NSMutableDictionary*		sFileExportBindings = nil;
 /// result:			a new controller object
 ///
 /// notes:			usually you won't call this yourself but you can override it to supply different types of controllers.
-//					The default supplies a general purpose drawing tool controller. Note that the relationship
+///					The default supplies a general purpose drawing tool controller. Note that the relationship
 ///					between the view and the controller is set up by this, but NOT the relationship between the drawing
 ///					and the controller - the controller must be added to the drawing using -addController.
 ///					(Other parts of this class handle that).

@@ -683,13 +683,13 @@ static NSSize			sTempSavedOffset;
 /// parameters:		none
 /// result:			none
 ///
-// Notes:
-// some shapes will need to be reshaped when their size changes. An example would be a round-cornered rect where the corners
-// are expected to remain at a fixed radius whatever the shape's overall size. This means that the path needs to be reshaped
-// so that the final size of the shape is used to compute the path, which is then transformed back to the internally stored
-// form. This method gives a shape the opportunity to do this - it is called by the setSize method. The default method does
-// nothing but subclasses can override this to implement the desired reshaping.
-// note that after reshaping, the object is refreshed automatically so you don't need to refresh it as part of this.
+/// Notes:
+/// some shapes will need to be reshaped when their size changes. An example would be a round-cornered rect where the corners
+/// are expected to remain at a fixed radius whatever the shape's overall size. This means that the path needs to be reshaped
+/// so that the final size of the shape is used to compute the path, which is then transformed back to the internally stored
+/// form. This method gives a shape the opportunity to do this - it is called by the setSize method. The default method does
+/// nothing but subclasses can override this to implement the desired reshaping.
+/// note that after reshaping, the object is refreshed automatically so you don't need to refresh it as part of this.
 ///
 ///********************************************************************************************************************
 
