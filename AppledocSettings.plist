@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Identifiers -->
+	<key>--company-id</key>
+	<string>drawkit.github.io</string>
+	<key>--project-company</key>
+	<string>DrawKit</string>
+	<key>--project-name</key>
+	<string>DrawKit</string>
+	<key>--project-version</key>
+	<string>1.0</string>
+	<!-- DocSet Feed -->
+	<key>--docset-atom-filename</key>
+	<string>DKDrawKit.atom</string>
+	<key>--docset-feed-url</key>
+	<string>http://drawkit.github.io/%DOCSETATOMFILENAME</string>
+	<key>--docset-package-url</key>
+	<string>http://drawkit.github.io/%DOCSETPACKAGEFILENAME</string>
+	<key>--docset-fallback-url</key>
+	<string>http://drawkit.github.io/</string>
+	<!-- Content -->
+	<key>--ignore</key>
+	<array>
+		<string>*.m</string>
+		<string>documentation/*</string>
+		<string>framework/ThirdParty/*</string>
+		<string>framework/Omni/*</string>
+	</array>
+	<key>--repeat-first-par</key>
+	<false/>
+	<!-- Layout and Formatting -->
+	<key>--templates</key>
+	<string>./documentation/appledoc</string>
+	<key>--verbose</key>
+	<integer>3</integer>
+	<key>--keep-intermediate-files</key>
+	<true/>
+	<key>--no-warn-invalid-crossref</key>
+	<true/>
+	<key>--install-docset</key>
+	<false/>	
+	<key>--output</key>
+	<string>documentation/appledoc/build</string>
+	<key>--logformat</key>
+	<integer>1</integer>
+	<key>--print-settings</key>
+	<true/>
+</dict>
+</plist>
+
