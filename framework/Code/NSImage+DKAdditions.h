@@ -5,13 +5,6 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
-//
-//  NSImage+DKAdditions.h
-//  GCDrawKit
-//
-//  Created by Graham Cox on 9/04/10.
-//  Copyright 2010 Apptree.net. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 

@@ -1,7 +1,3 @@
-//
-//  NSBezierPath+Shapes.m
-//
-//  Created by Graham Cox on 08/01/2008.
 /**
  * @author Graham Cox, Apptree.net
  * @author Graham Miln, miln.eu
@@ -9,7 +5,6 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
-//
 
 #import "NSBezierPath+Shapes.h"
 #import "NSBezierPath+Geometry.h"

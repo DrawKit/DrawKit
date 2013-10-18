@@ -5,17 +5,6 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
-//
-//  GCUndoManager.h
-//  GCDrawKit
-//
-//  Created by Graham Cox on 4/12/09.
-//  Copyright 2009 Apptree.net. All rights reserved.
-//
-
-// VERSION HISTORY:
-// 2009/12/09 - first release
-// 2010/01/01 - fixes for Core Data, optional retaining of targets, and prevention of reentrancy when removing tasks
 
 #import <Cocoa/Cocoa.h>
 

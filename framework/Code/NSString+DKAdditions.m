@@ -1,10 +1,10 @@
-//
-//  NSString+DKAdditions.m
-//  GCDrawKit
-//
-//  Created by Graham Cox on 12/08/2008.
-//  Copyright 2008 Apptree.net. All rights reserved.
-//
+/**
+ * @author Graham Cox, Apptree.net
+ * @author Graham Miln, miln.eu
+ * @author Contributions from the community
+ * @date 2005-2013
+ * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ */
 
 #import "NSString+DKAdditions.h"
 

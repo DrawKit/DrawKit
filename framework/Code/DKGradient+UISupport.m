@@ -1,7 +1,3 @@
-//
-//  DKGradient+UISupport.m
-//
-//  Created by Graham Cox on 26/03/2008.
 /**
  * @author Graham Cox, Apptree.net
  * @author Graham Miln, miln.eu
@@ -9,8 +5,7 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
-//
-
+ 
 #import "DKGradient+UISupport.h"
 #include <tgmath.h>
 

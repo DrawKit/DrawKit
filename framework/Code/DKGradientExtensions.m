@@ -1,15 +1,11 @@
-//
-//  DKGradientExtensions.m
-//
-//  Created by Jason Jobe on 3/3/07.
 /**
  * @author Graham Cox, Apptree.net
  * @author Graham Miln, miln.eu
+ * @author Jason Job
  * @author Contributions from the community
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
-//
 
 #import "DKGradientExtensions.h"
 

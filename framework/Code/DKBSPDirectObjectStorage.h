@@ -5,13 +5,6 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
-//
-//  DKBSPDirectObjectStorage.h
-//  GCDrawKit
-//
-//  Created by Graham Cox on 15/01/2009.
-//  Copyright 2009 Apptree.net. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import "DKBSPObjectStorage.h"

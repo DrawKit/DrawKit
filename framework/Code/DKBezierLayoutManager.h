@@ -5,13 +5,6 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
-//
-//  DKBezierLayoutManager.h
-//  GCDrawKit
-//
-//  Created by Graham Cox on 26/11/2008.
-//  Copyright 2008 Apptree.net. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 
