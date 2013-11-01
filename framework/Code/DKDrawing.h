@@ -397,6 +397,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 @end
 
 /** @name notifications
+ * @memberof DKDrawing
  * @{
  */
 
@@ -410,8 +411,9 @@ extern NSString*		kDKDrawingWillChangeMargins;
 extern NSString*		kDKDrawingDidChangeMargins;
 extern NSString*		kDKDrawingWillBeSavedOrExported;
 
-/** @} */
-/** @name keys for standard drawing info items:
+/** @}
+ * @name keys for standard drawing info items:
+ * @memberof DKDrawing
  * @{
  */
 
@@ -431,13 +433,15 @@ extern NSString*		kDKDrawingInfoDrawingDimensions;		/**< data type NSSize */
 extern NSString*		kDKDrawingInfoDimensionsUnits;			/**< data type NSString */
 extern NSString*		kDKDrawingInfoDimensionsShortUnits;		/**< data type NSString */
 
-/** @} */
-
-/** @brief keys for user defaults items
+/** @}
+ * @brief keys for user defaults items
+ * @{
  */
 extern NSString*		kDKDrawingSnapToGridUserDefault;		/**< BOOL */
 extern NSString*		kDKDrawingSnapToGuidesUserDefault;		/**< BOOL */
 extern NSString*		kDKDrawingUnitAbbreviationsUserDefault;	/**< NSDictionary */
+
+/** @} */
 
 /** @brief Delegate methods
  */

@@ -1,0 +1,8 @@
+Document-based applications
+---------------------------
+
+If your application is a document-based drawing application, DrawKit can play a major role in providing the core "engine" that you need. In fact, this is its main design focus. In such an application, a document (`NSDocument` subclass) will typically own a `DKDrawing` instance and arrange for one or more `DKDrawingViews` to display and interact with it. To make this approach even easier, you could base your document class on `DKDrawingDocument`.
+
+`DKDrawingDocument` is an `NSDocument` subclass that owns a `DKDrawing` and arranges for it to be created when the document is initialised or opened from a file on disk. It also provides an outlet called m_mainView which you can hook up to a `DKDrawingView` in Interface Builder (of course if you have other arrangements in mind you can easily extend this approach). `DKDrawingDocument` automatically connects a valid `DKDrawingView` on that outlet to the `DKDrawing` instance it creates via a suitable controller, so it very much "just works" for this typical case.
+
+The important thing to remember is the M-V-C design - you need all three: model, view and controller for the Drawkit system to hang together and function. `DKDrawingDocument` makes these connections if you use it, but if you prefer to go it alone, you need to make these connections yourself. Recall that `DKDrawing` owns its controllers (`DKViewController` or subclass), the view is owned by its superview or window, and the drawing itself must be owned by some other object - typically the document.

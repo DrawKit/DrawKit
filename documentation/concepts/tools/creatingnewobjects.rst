@@ -1,0 +1,21 @@
+Creating New Objects
+--------------------
+
+A single tool class - `DKObjectCreationTool` - is responsible for creating new objects in the active layer. The same tool class is able to make all types of drawable so a typical drawing application might have numerous instances of this registered, one for each kind of shape or path it can natively create. The reason this tool appears to be so versatile is that in fact the majority of the work it does is carried out by the object it creates itself.
+
+Object creation is based on copying a prototype object attached to the tool. When the tool is brought into use, the prototype object, whatever it is, is copied and becomes the new object. The prototype is copied faithfully, so you can set up the state of this object when you make the tool as part of your application's setup. For instance `DKDrawablePath` is the same whether it is created as a line, polygon, bezier path, arc or other form - what differs is the initial "creation mode" parameter of the prototype object. When the tool copies the prototype, the creation mode is already set and the tool allows the new object to largely handle its own creation.
+
+The prototype object also has an initial style, which will be copied also. However, commonly applications may wish to set the style for new objects separately from the tool itself, so `DKObjectCreationTool` has some handy class methods that allow you to set a style independently which will override the style from the prototype for the new copy.
+
+This tool works in conjunction with `DKObjectOwnerLayer` as well as the object it is making to coordinate the creation process. First, the new object is added to the layer only as a "pending" object. This allows it to be drawn normally but doesn't commit the layer to fully taking on the object at this stage - during creation the object is in a "probationary period". The object's class is consulted to determine what partcode should be used for the intial creation of the object - since partcodes are private to the objects only its class can supply this information. For a rectangle for example, the initial partcode is the bottom, right corner, because by convention new shapes are dragged into existence by dragging out the bottom, right corner while anchoring the top, left corner at the initial click point. So once dragging is underway, the creation tool is basically proceeding as for the edit tool, and letting the object do all its own work.
+
+When the user releases the mouse, the object may then become a full citizen of the target layer, provided that the object is sensible - so for example if the user didn't drag it out so that it has no width or height, it is not committed to the layer but instead merely discarded. This prevents badly-formed objects becoming part of a drawing and potentially causing problems.
+
+Snap To Grid is honoured for object creation just as for any editing operation.
+Path creation follows much the same sequence as shapes, except that the path "captures" the initial mouse event and for each method of path creation set by the "creation mode", keeps control in its own event loop until the user is done. This approach has the advantage that the exact mouse gestures needed for each type of path are tuned for the best user experience for each path type, and that in many cases these can involve a mouse- up or a drag without the mouse button being down without ending the creation process. Thus the mouse gestures for each type are:
+
+* Straight lines - click, move, click to end OR click-drag-release.
+* Irregular polygons - click, move, click for each corner, double-click or click on first point to end.
+* Freehand - click, drag, release.
+* Bezier path - click, drag and release to set control points, move end point, repeat. click on first point or double-click to end. (This is far easier to do than to explain, and is a very quick and easy way to drag out bezier curves once learned).
+* Arc and Wedge - click, move to set radius, click, move to set arc, click to finish.

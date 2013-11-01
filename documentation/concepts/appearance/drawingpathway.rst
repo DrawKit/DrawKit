@@ -1,0 +1,8 @@
+Drawing Pathway
+---------------
+
+When an object needs to be drawn, the drawing will start with a call to `DKDrawingView`'s -drawRect: method (as for any `NSView`). The view will start at the root `DKDrawing` and ask it to draw itself, which in turn will request each layer to draw itself in the right order using the -drawRect:inView: methods. When a `DKObjectDrawingLayer` gets a shot at the drawing, it will first weed out any objects that are outside of the update area and then request that those within it draw themselves. If the object is selected, that fact is also passed along so that the object can add the visible selection adornment.
+
+A `DKDrawableObject` is generally drawn primarily by its attached style object. The style is passed a -render: message with the object in question. The style applies each rasterizer in its list to the object's path (returned by -renderingPath) in turn. The rasterizers can fill or stroke the path, add text or do anything they like.
+
+If the drawable has no style at all, a default light gray stroke of the path is performed. This is mainly to prevent any such objects from getting visually "lost" in the drawing, since they are still real objects, merely lacking any other way to make themselves visible. Generally drawables should have a style attached - if you genuinely want to suppress all drawing, you can do so by attaching a style having a single fill rasterizer with clearColor. Such objects will be effectively invisible but can still be selected.

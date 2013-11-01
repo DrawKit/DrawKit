@@ -1,0 +1,14 @@
+`DKDrawing` - the root of the layer tree
+----------------------------------------
+
+`DKDrawing` is a subclass of `DKLayerGroup`, because it contains layers. The only drawing done by `DKDrawing` that does not originate in one of its contained layers is the erasure of the background or "paper" colour when drawing to the screen, which defaults to white.
+`DKDrawing` sits at the root of the entire drawing hierarchy, and importantly provides ownership of any number of controller objects (`DKViewController` or subclass) which forge the link between the drawing and its views. It also owns its layers and layer groups.
+Because `DKDrawing` owns the controllers, it provides a number of 'view-like' methods that are used to mark various areas of the drawing for update. In turn these methods pass that update request back via the controllers to the views that display the drawing. Since every layer maintains a back-reference to the drawing it is easy for any object to mark its own area as needing update whenever needed. While `DKDrawing` supports a general - setNeedsDisplay: method (like `NSView`), for performance reasons it is important to only invalidate the smallest possible area that you can get away with. For individual `DKDrawableObject` instances, this is usually accomplished using its -notifyVisualChange method.
+
+A key property of `DKDrawing` is the "active" layer - this is a layer nominated as the target for the user interface and user input events. The active layer can be any layer that does not refuse the active layer status.
+
+`DKDrawing` also provides a central place for handling snapping to grid and so forth. Because the grid is itself implemented as a layer, most objects will find it much more convenient to use their back-references to the drawing to handle grid snapping, rather than having to locate the grid themselves and work with it directly. This indirection also allows the grid behaviour to be substantially altered if required without breaking the protocols of existing objects.
+
+Finally, `DKDrawing` provides a convenient place to move drawing data into and out of the model, in a variety of forms. These data handling methods are the basis for saving drawings to disk, etc.
+
+`DKDrawing` is the object that provides a connection between the DrawKit system and the undo manager in use. At some point you need to tell `DKDrawing` which undo manager it should direct all of its undo tasks to - this could come from a document (typically) or perhaps a view. Without an undo manager, nothing in DrawKit itself can be undoable. Your application is required to supply `DKDrawing` with its undo manager - though this is done for you by `DKDrawingDocument` and when a view automatically creates a drawing.

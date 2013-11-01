@@ -1,0 +1,6 @@
+Groups
+------
+
+`DKShapeGroup` is the basis for grouping objects in DrawKit. It inherits from `DKDrawableShape` so that it gains all the usual interactive editing features such as resizing and rotation, but its content is of course other `DKDrawableObjects`. A group can contain any other kind of drawable. When objects are grouped, the nested transforms of each group (if more than one) are taken into account in order to render the content correctly. Thus objects can be scaled and rotated within groups and their paths will be transformed as needed. When ungrouped, such changes are made permanent by adjusting the paths of each object.
+
+Note that the appearance of objects is not necessarily subject to these transformations - so for example a stroke width of 6 points on an object will remain 6 points even if the group is resized dramatically. An alternative is for groups to visually transform their contents, which will scale all the stylistic variation as well. However when ungrouping, work needs to be done to make these style changes permanent.

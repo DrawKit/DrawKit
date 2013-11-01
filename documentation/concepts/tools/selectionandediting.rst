@@ -1,0 +1,19 @@
+Selection and Editing
+---------------------
+
+Selection and editing of objects is handled by a single tool, `DKSelectAndEditTool`. This tool is also able to move and copy objects. This tool appears to do a lot but once again, the objects themselves do most of the hard work. The large number of actions that this tool implements reflects the fact that in most applications, the "select" tool, with the plain arrow cursor, is highly context-sensitive and typically a lot less modal than other kinds of tools.
+
+The "mode" of operation of the tool is determined from the context of the initial mouse-down click. Depending on whether or not an object was hit, and whether that hit was general in nature or hit a partcode will determine what the subsequent drag and mouse-up phases will do. The mode is set to one of selection-marquee dragging, move/copy of objects or dragging an editable knob with a distinct partcode. There is also an "invalid" mode used to prevent the tool from performing any actions if an attempt is made to use it in an inappropriate layer type.
+
+Selection by dragging is detected by a mouse down in no object, but in the background of a layer. This starts the drag of the selection marquee or rectangle, which is drawn using a nominated style which should be (and by default is) a fairly transparent style. This is because it draws on top of all the objects so you need to be able to see them through it. You can replace the style altogether to change the appearance of the selection marquee, and it isn't required to have a fill at all - you could just have a dotted outline for example. When dragging a selection marquee, all objects touched by the marquee are selected. Drawkit optimises this operation to minimise drawing as much as it can, so as the marquee changes, only objects whose selection state actually changes get redrawn, and then only those intersecting the difference between this marquee rectangle and the previous one. This allows selection of objects to remain fast and smooth, even if they are graphically complex. Holding down the shift key extends the selection as you drag, rather than replacing it.
+
+The other two modes of this tool also select objects initially so that the usual click-selection of objects works in the conventional manner. Thus to select an object one simply clicks it. If the tool is subsequently dragged the object is also dragged with it. The modifier keys are used to alter the selection as suggested by the Humian Interface Guidelines as follows:
+
+* + shift - extends the selection, adding the clicked objects to the existing selection.
+* + command - inverts the selected state of the clicked object, adding or removing it from the existing selection.
+
+The tool can drag all objects in the selection or only one, depending on an option flag you set for the tool. The option is set to drag multiple objects by default. In this mode, whichever object you click to select, all others in the current selection are dragged too, maintaining their relative positions. In single object mode, only the single object actually clicked is moved. If objects are not actually moved, on mouse up the single object clicked is exclusively selected so reducing the number of mouse clicks needed to manipulate single objects. In general this tool has a lot of gestural intelligence to separate out the various operations it carries out.
+
+When moving an object, holding down the option key makes a copy of the selection first, allowing you to rapidly duplicate objects.
+
+In object editing mode, the tool mosty just passes on the clicks and drags to the object itself, after first setting it as the single selection. This mode is detected on mouse-down by the object returning a private partcode value to the tool. The tool does not interpret this partcode, it only knows it's not a generic value of 0 or -1, but it will faithfully pass the partcode back to the object in the subsequent drag and mouse-up phases.

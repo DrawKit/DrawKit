@@ -1,0 +1,10 @@
+How Undo works
+--------------
+
+DrawKit implements undo extensively. Almost any activity is undoable if it changes the data content. Because DrawKit is highly interactive, many operations can generate many nearly identical undo tasks. Because of that, a simple `NSUndoManager` subclass is recommended to coalesce identical consecutive tasks into one undoable task, thus the undo doesn't replay all the intermediate states the user dragged an object through, it just jumps back to where it started from. This saves a great deal of memory and unnecessary retention of tasks.
+
+DrawKit uses whatever undo manager object you give it, so the coalescing is NOT automatic. `DKDrawingDocument` does set up a coalescing undo manager however, so you only need to give this any thought if you are not using it.
+
+The undo manager is typically set per-document, so each is individually undoable, but you might want to consider sharing an undo manager across all your documents. Consider that a style's properties are generally undoable, yet styles can be shared by multiple objects, including those in different documents. If the undo manager is per-document, the shared style's undoable changes will only be recorded by the undo manager for the most recent object that the style was attached to. For unshared styles this is fine, but for styles shared across more than one document, this can lead to a sitaution where a user can't undo a style's change if the "wrong" document is active. By using a global undo manager, this is avoided, but has the downside that as a series of tasks are undone, the document they apply to will change, and may not be the active one. Your application design will need to take a view on which approach is better, given that undo is not a frequent operation and in most real-world cases will do the expected thing.
+
+`DKDrawingDocument` has a compile-time setting as to whether to use a global or a per-document undo manager.
