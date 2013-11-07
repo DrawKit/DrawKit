@@ -50,11 +50,13 @@ With all the tools installed, you can build the document with the commands ::
   cd documentation
   make html
 
-Building will take a few moments and the output will appear in the _build folder. The _/html/ folder is published to the `DrawKit web site`__.
+Building will take a few moments and the output will appear in the _build folder. The _build/html/ folder is published to the `DrawKit web site`__.
 
 .. __: http://drawkit.github.io
 
-
+.. note::
+  A `.nojekyll` file is needed to allow github.io to `serve contents from folders beginning with underscore`__ (_).
+.. __: https://help.github.com/articles/files-that-start-with-an-underscore-are-missing
 
 .. http://docutils.sourceforge.net/docs/user/rst/quickref.html
 .. https://github.com/mitsuhiko/flask-sphinx-themes
