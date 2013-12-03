@@ -215,7 +215,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 /**
  * @}
- * @name setting the rulers to the grid */
+ * @name setting the rulers to the grid
  * @{ */
 
 - (void)					setDrawingUnits:(NSString*) units unitToPointsConversionFactor:(CGFloat) conversionFactor;
