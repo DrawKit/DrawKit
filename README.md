@@ -7,6 +7,8 @@ DrawKit is an illustration and vector artwork framework for Mac OS X.
 
 Mac OS X 10.7 or later; compiles with Xcode 4 or later.
 
+[![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit)
+
 Introduction
 ============
 
