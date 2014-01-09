@@ -20,7 +20,8 @@ typedef enum
 }
 DKShapeEditOperation;
 
-/**
+/** @brief A semi-abstract base class for a drawable object consisting of any path-based shape that can be drawn to fit a rectangle.
+
 DKDrawableShape is a semi-abstract base class for a drawable object consisting of any path-based shape that can be drawn to fit a
 rectangle. DKShapeFactory can be used to supply lots of different path shapes usable with this class.
 
@@ -221,5 +222,3 @@ enum
 	kDKShapeTransformVerticalShear		= 3,		// shear vertically
 	kDKShapeTransformPerspective		= 4			// perspective
 };
-	
-

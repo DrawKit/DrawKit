@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief this helper is used when unarchiving to translate class names from older files to their modern equivalents
+*/
 @interface DKUnarchivingHelper : NSObject
 {
 	NSUInteger	mCount;
@@ -21,9 +23,10 @@
 
 @end
 
-// if a substitution would return NSObject, return this insead, which provides a stub for -initWithCoder rather than throwing
-// an exception during dearchiving.
+/** @brief substitution class for avoiding an exception during dearchiving
 
+if a substitution would return NSObject, return this insead, which provides a stub for -initWithCoder rather than throwing an exception during dearchiving.
+*/
 @interface DKNullObject : NSObject <NSCoding>
 {
 	NSString*	mSubstitutedForClassname;
@@ -38,4 +41,3 @@ extern NSString*	kDKUnarchiverProgressStartedNotification;
 extern NSString*	kDKUnarchiverProgressContinuedNotification;
 extern NSString*	kDKUnarchiverProgressFinishedNotification;
 
-// this helper is used when unarchiving to translate class names from older files to their modern equivalents

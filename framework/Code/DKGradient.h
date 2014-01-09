@@ -40,8 +40,8 @@ typedef enum
 }
 DKGradientInterpolation;
 
-// A DKGradient encapsulates gradient/shading drawing.
-
+/** @brief A DKGradient encapsulates gradient/shading drawing.
+*/
 @interface DKGradient : GCObservableObject <NSCoding, NSCopying>
 {
 	NSMutableArray*			m_colorStops;		// color stops
@@ -275,8 +275,9 @@ DKGradientInterpolation;
 #define DKGradientSwatchSize (NSMakeSize (20, 20))
 
 #pragma mark -
-/// DKColorStop class - small object that links a Color with its relative position
 
+/** @brief small object that links a Color with its relative position
+*/
 @interface DKColorStop : NSObject <NSCoding, NSCopying>
 {
 	NSColor*			mColor;
@@ -314,9 +315,3 @@ extern NSString*	kDKNotificationGradientWillRemoveColorStop;
 extern NSString*	kDKNotificationGradientDidRemoveColorStop;
 extern NSString*	kDKNotificationGradientWillChange;
 extern NSString*	kDKNotificationGradientDidChange;
-
-// DKGradient is a simplified version of GCGradient as used in GradientPanel. Because this responds to exactly the same
-// methods, you can cast a GCGradient to a DKGradient and it will work. This allows the GradientPanel to be used in a DK-based
-// application without there being a clash between different frameworks.
-
-// DKGradient drops the UI convenience methods and support for wavelength-based gradients
