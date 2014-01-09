@@ -14,6 +14,23 @@
 
 @class DKObjectOwnerLayer, DKStyle, DKDrawing, DKDrawingTool, DKShapeGroup;
 
+/**
+A drawable object is owned by a DKObjectDrawingLayer, which is responsible for drawing it when required and handling
+ selections. This object is responsible for the visual representation of the selection as well as any content.
+ 
+ It can draw whatever it likes within <bounds>, which it is responsible for calculating correctly.
+ 
+ hitTest can return an integer to indicate which part was hit - a value of 0 means nothing hit. The returned value's meaning
+ is otherwise private to the class, but is returned in the mouse event methods.
+ 
+ This is intended to be a semi-abstract class - it draws nothing itself. Subclasses include DKDrawableShape and DKDrawablePath -
+ often subclassing one of those will be more straightforward than subclassing this. A subclass must implement NSCoding and
+ NSCopying to be archivable, etc. There are also numerous informal protocols for geometry, snapping, hit testing, drawing and ungrouping
+ that need to be implemented correctly for a subclass to work fully correctly within DK.
+ 
+ The user info is a dictionary attached to an object. It plays no part in the graphics system, but can be used by applications
+ to attach arbitrary data to any drawable object.
+*/
 @interface DKDrawableObject : NSObject <DKStorableObject, DKRenderable, NSCoding, NSCopying>
 {
 @private
@@ -729,21 +746,3 @@ extern NSString*		kDKDrawableClickedPointKey;
 extern NSString*		kDKGhostColourPreferencesKey;
 extern NSString*		kDKDragFeedbackEnabledPreferencesKey;
 
-/*
- A drawable object is owned by a DKObjectDrawingLayer, which is responsible for drawing it when required and handling
- selections. This object is responsible for the visual representation of the selection as well as any content.
- 
- It can draw whatever it likes within <bounds>, which it is responsible for calculating correctly.
- 
- hitTest can return an integer to indicate which part was hit - a value of 0 means nothing hit. The returned value's meaning
- is otherwise private to the class, but is returned in the mouse event methods.
- 
- This is intended to be a semi-abstract class - it draws nothing itself. Subclasses include DKDrawableShape and DKDrawablePath -
- often subclassing one of those will be more straightforward than subclassing this. A subclass must implement NSCoding and
- NSCopying to be archivable, etc. There are also numerous informal protocols for geometry, snapping, hit testing, drawing and ungrouping
- that need to be implemented correctly for a subclass to work fully correctly within DK.
- 
- The user info is a dictionary attached to an object. It plays no part in the graphics system, but can be used by applications
- to attach arbitrary data to any drawable object.
-
-*/

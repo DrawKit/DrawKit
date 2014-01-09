@@ -9,6 +9,12 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawing.h"
 
+/** @brief This category on DKDrawing simply supplies some common ISO paper sizes in terms of Quartz point dimensions.
+
+This category on DKDrawing simply supplies some common ISO paper sizes in terms of Quartz point dimensions.
+
+The sizes can be passed directly to -initWithSize:
+*/
 @interface DKDrawing (Paper)
 
 + (NSSize)					isoA0PaperSize:(BOOL) portrait;
@@ -20,10 +26,3 @@
 
 @end
 
-/*
-
-This category on DKDrawing simply supplies some common ISO paper sizes in terms of Quartz point dimensions.
-
-The sizes can be passed directly to -initWithSize:
-
-*/

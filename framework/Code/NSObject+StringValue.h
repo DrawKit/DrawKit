@@ -8,6 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief This category allows -stringValue to be called on a broader range of objects than standard - in fact any object.
+
+This category allows -stringValue to be called on a broader range of objects than standard - in fact any object.
+
+The most useful is probably NSValue, since this will automatically use NSStringFromRect/Point/Size etc.
+*/
 @interface NSObject (StringValue)
 
 /** 
@@ -59,10 +65,3 @@
 
 @end
 
-/*
-
-This category allows -stringValue to be called on a broader range of objects than standard - in fact any object.
-
-The most useful is probably NSValue, since this will automatically use NSStringFromRect/Point/Size etc. 
-
-*/

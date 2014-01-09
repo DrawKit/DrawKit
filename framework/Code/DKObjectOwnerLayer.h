@@ -25,6 +25,31 @@ DKLayerCacheOption;
 
 // the class
 
+/** @brief This layer class can be the owner of any number of DKDrawableObjects.
+
+This layer class can be the owner of any number of DKDrawableObjects. It implements the ability to contain and render
+these objects.
+
+It does NOT support the concept of a selection, or of a list of selected objects (DKObjectDrawingLayer subclasses this to
+provide that functionality).
+
+This split between the owner/renderer layer and selection allows a more fine-grained opportunity to subclass for different
+application needs.
+
+Layer caching:
+
+When a layer is NOT active, it may boost drawing performance to cache the layer's contents offscreen. This is especially beneficial
+if you are using many layers. By setting the cache option, you can control how caching is done. If set to "none", objects
+are never drawn using a cache, but simply drawn in the usual way. If "pdf", the cache is an NSPDFImageRep, which stores the image
+as a PDF and so draws it at full vector quality at all zoom scales. If "CGLayer", an offscreen CGLayer is used which gives the
+fastest rendering but will show pixellation at higher zooms. If both pdf and CGLayer are set, both caches will be created and
+the CGLayer one used when DKDrawing has its "low quality" hint set, and the PDF rep otherwise.
+
+The cache is only used for screen drawing.
+ 
+NOTE: PDF caching has been shown to be actually slower when there are many objects, espcially with advanced storage in use. This is
+because it's an all-or-nothing rendering proposition which direct drawing of a layer's objects is not.
+*/
 @interface DKObjectOwnerLayer : DKLayer <NSCoding, DKDrawableContainer>
 {
 @private
@@ -794,29 +819,3 @@ extern NSString*		kDKLayerDidRemoveObject;
 
 #define	DEFAULT_PASTE_OFFSET	20
 
-/*
-
-This layer class can be the owner of any number of DKDrawableObjects. It implements the ability to contain and render
-these objects.
-
-It does NOT support the concept of a selection, or of a list of selected objects (DKObjectDrawingLayer subclasses this to
-provide that functionality).
-
-This split between the owner/renderer layer and selection allows a more fine-grained opportunity to subclass for different
-application needs.
-
-Layer caching:
-
-When a layer is NOT active, it may boost drawing performance to cache the layer's contents offscreen. This is especially beneficial
-if you are using many layers. By setting the cache option, you can control how caching is done. If set to "none", objects
-are never drawn using a cache, but simply drawn in the usual way. If "pdf", the cache is an NSPDFImageRep, which stores the image
-as a PDF and so draws it at full vector quality at all zoom scales. If "CGLayer", an offscreen CGLayer is used which gives the
-fastest rendering but will show pixellation at higher zooms. If both pdf and CGLayer are set, both caches will be created and
-the CGLayer one used when DKDrawing has its "low quality" hint set, and the PDF rep otherwise.
-
-The cache is only used for screen drawing.
- 
-NOTE: PDF caching has been shown to be actually slower when there are many objects, espcially with advanced storage in use. This is
-because it's an all-or-nothing rendering proposition which direct drawing of a layer's objects is not.
-
-*/

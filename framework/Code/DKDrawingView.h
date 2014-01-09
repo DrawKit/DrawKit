@@ -37,17 +37,17 @@ DKCropMarkKind;
 @interface DKDrawingView : GCZoomView
 {
 @private
-	NSTextView*			m_textEditViewRef;		// if valid, set to text editing view
-	BOOL				mTextEditViewInUse;		// YES if editor in use
-	BOOL				mPageBreaksVisible;		// YES if page breaks are drawn in the view
-	NSPrintInfo*		mPrintInfo;				// print info used to draw page breaks and paginate, etc
-	DKCropMarkKind		mCropMarkKind;			// what kind of crop marks to add to the printed output
-	DKViewController*	mControllerRef;			// the view's controller (weak ref)
-	DKDrawing*			mAutoDrawing;			// the drawing we created automatically (if we did so - typically nil for doc-based apps)
-	BOOL				m_didCreateDrawing;		// YES if the window built the back end itself
-	NSRect				mEditorFrame;			// tracks current frame of text editor
-	NSTimeInterval		mLastMouseDragTime;		// time of last mouseDragged: event
-	NSDictionary*		mRulerMarkersDict;		// tracks ruler markers
+	NSTextView*			m_textEditViewRef; /**< if valid, set to text editing view */
+	BOOL				mTextEditViewInUse; /**< YES if editor in use */
+	BOOL				mPageBreaksVisible; /**< YES if page breaks are drawn in the view */
+	NSPrintInfo*		mPrintInfo; /**< print info used to draw page breaks and paginate, etc */
+	DKCropMarkKind		mCropMarkKind; /**< what kind of crop marks to add to the printed output */
+	DKViewController*	mControllerRef; /**< the view's controller (weak ref) */
+	DKDrawing*			mAutoDrawing; /**< the drawing we created automatically (if we did so - typically nil for doc-based apps) */
+	BOOL				m_didCreateDrawing; /**< YES if the window built the back end itself */
+	NSRect				mEditorFrame; /**< tracks current frame of text editor */
+	NSTimeInterval		mLastMouseDragTime; /**< time of last mouseDragged: event */
+	NSDictionary*		mRulerMarkersDict; /**< tracks ruler markers */
 }
 
 /** @brief Return the view currently drawing
@@ -91,12 +91,17 @@ DKCropMarkKind;
  */
 + (NSImage*)			imageResourceNamed:(NSString*) name;
 
-// setting the class to use for the temporary text editor
+/** @name Temporary Text Editor
+ * @brief Setting the class to use for the temporary text editor
+ * @{
+ */
 
 + (Class)				classForTextEditor;
 + (void)				setClassForTextEditor:(Class) aClass;
 + (void)				setTextEditorAllowsTypingUndo:(BOOL) allowUndo;
 + (BOOL)				textEditorAllowsTypingUndo;
+
+/** @} */
 
 // the view's controller
 

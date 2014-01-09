@@ -8,6 +8,25 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief This is used to permit setting up KVO in a simpler manner than comes as standard.
+
+This is used to permit setting up KVO in a simpler manner than comes as standard.
+
+The idea is that each class simply publishes a list of the observable properties that an observer can observe. When the observer wants to
+start observing all of these published properties, it calls setUpKVOForObserver: conversely, tearDownKVOForObserver: will stop the
+observer watching all the published properties.
+
+Subclasses can also override these methods to be more selective about which properties are observed, or to propagate the message to
+additional observable objects they own.
+
+This class also works around a bug or oversight in the KVO implementation (in 10.4 at least). When an array is changed, the old
+value isn't sent to the observer. To allow this, we record the old value locally. An observer can then call us back to get this
+old array if it needs to (for example, when building an Undo invocation).
+
+The undo relay class provides a standard implementation for using KVO to implement Undo when using GCObservables. The relay needs
+to be added as an observer to any observable and given an undo manager. Then it will relay undoable actions from the observed
+objects to the undo manager and vice versa, implementing undo for all keypaths declared by the observee.
+*/
 @interface GCObservableObject : NSObject
 {
 @private
@@ -61,23 +80,3 @@
 extern NSString*		kDKObserverRelayDidReceiveChange;
 extern NSString*		kDKObservableKeyPath;
 
-/*
-
-This is used to permit setting up KVO in a simpler manner than comes as standard.
-
-The idea is that each class simply publishes a list of the observable properties that an observer can observe. When the observer wants to
-start observing all of these published properties, it calls setUpKVOForObserver: conversely, tearDownKVOForObserver: will stop the
-observer watching all the published properties.
-
-Subclasses can also override these methods to be more selective about which properties are observed, or to propagate the message to
-additional observable objects they own.
-
-This class also works around a bug or oversight in the KVO implementation (in 10.4 at least). When an array is changed, the old
-value isn't sent to the observer. To allow this, we record the old value locally. An observer can then call us back to get this
-old array if it needs to (for example, when building an Undo invocation).
-
-The undo relay class provides a standard implementation for using KVO to implement Undo when using GCObservables. The relay needs
-to be added as an observer to any observable and given an undo manager. Then it will relay undoable actions from the observed
-objects to the undo manager and vice versa, implementing undo for all keypaths declared by the observee.
-
-*/

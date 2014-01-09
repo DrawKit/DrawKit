@@ -17,18 +17,7 @@ typedef enum
 }
 DKBooleanOperation;
 
-@interface NSBezierPath (Combinatorial)
-
-- (void)			showIntersectionsWithPath:(NSBezierPath*) path;
-- (NSBezierPath*)	renormalizePath;
-- (NSArray*)		dividePathWithPath:(NSBezierPath*) path;
-
-- (NSBezierPath*)	performBooleanOp:(DKBooleanOperation) op withPath:(NSBezierPath*) path;
-
-@end
-
-/*
-
+/**
 ######## NOTE ######## NOT YET IMPLEMENTED - DO NOT USE - THESE FILES ARE A PLACEHOLDER ONLY
 
 implements union, intersection, diff and xor between pairs of paths.
@@ -44,5 +33,14 @@ operation because every path segments needs to be tested against every path segm
 
 then, the paths are split up into new path fragments at the intersecting points. Depending on which operation is being performed, some of these paths will be
 thrown away, and the rest joined up into the new path.
-
 */
+@interface NSBezierPath (Combinatorial)
+
+- (void)			showIntersectionsWithPath:(NSBezierPath*) path;
+- (NSBezierPath*)	renormalizePath;
+- (NSArray*)		dividePathWithPath:(NSBezierPath*) path;
+
+- (NSBezierPath*)	performBooleanOp:(DKBooleanOperation) op withPath:(NSBezierPath*) path;
+
+@end
+

@@ -20,6 +20,10 @@ typedef enum
 }
 DKImageFittingOption;
 
+/** @brief This class allows any image to be part of the rendering tree.
+
+This class allows any image to be part of the rendering tree.
+*/
 @interface DKImageAdornment : DKRasterizer <NSCoding, NSCopying>
 {
 @private
@@ -71,8 +75,3 @@ DKImageFittingOption;
 
 @end
 
-/*
-
-This class allows any image to be part of the rendering tree. 
-
-*/

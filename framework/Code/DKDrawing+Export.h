@@ -8,6 +8,24 @@
 
 #import "DKDrawing.h"
 
+/** @brief This category provides methods for exporting drawings in a variety of formats, such as TIFF, JPEG and PNG.
+
+This category provides methods for exporting drawings in a variety of formats, such as TIFF, JPEG and PNG. As these are all bitmap formats,
+a way to specify the resolution of the exported image is also provided. All methods return NSData that is the formatted image data - this can be
+written directly as a file of the designated kind.
+
+All image export starts with the pdf representation of the drawing as exported directly by DKDrawing. This is then imaged into a new bitmap image
+rep before conversion to the final format. The use of the pdf data ensures that results are consistent and require no major knowledge of the
+drawing's internals.
+
+All images are exported in 24/32 bit full colour.
+
+dpi is specified directly, e.g. 72 for 72 dpi, 150 for 150 dpi, etc. The image size will be the drawing size scaled by the dpi, so a 144dpi image
+will be twice as wide and twice as high as the drawing. If the dpi passed does not result in a whole multiple of the drawing size, it is rounded up
+to the nearest whole value that is.
+
+This uses Image I/O to perform the data encoding.
+*/
 @interface DKDrawing (Export)
 
 // generate the master bitmap (from pdf data):
@@ -112,22 +130,3 @@ extern NSString* kDKExportPropertiesResolution;
 extern NSString* kDKExportedImageHasAlpha;
 extern NSString* kDKExportedImageRelativeScale;
 
-/*
-
-This category provides methods for exporting drawings in a variety of formats, such as TIFF, JPEG and PNG. As these are all bitmap formats,
-a way to specify the resolution of the exported image is also provided. All methods return NSData that is the formatted image data - this can be
-written directly as a file of the designated kind.
-
-All image export starts with the pdf representation of the drawing as exported directly by DKDrawing. This is then imaged into a new bitmap image
-rep before conversion to the final format. The use of the pdf data ensures that results are consistent and require no major knowledge of the
-drawing's internals.
-
-All images are exported in 24/32 bit full colour.
-
-dpi is specified directly, e.g. 72 for 72 dpi, 150 for 150 dpi, etc. The image size will be the drawing size scaled by the dpi, so a 144dpi image
-will be twice as wide and twice as high as the drawing. If the dpi passed does not result in a whole multiple of the drawing size, it is rounded up
-to the nearest whole value that is.
-
-This uses Image I/O to perform the data encoding.
-
-*/

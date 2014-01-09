@@ -8,6 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief This object is archived and added to the pasteboard when copying items within DK.
+
+This object is archived and added to the pasteboard when copying items within DK. It allows information about a paste to be determined without dearchiving the
+ actual objects themselves, which is much more efficient for simply managing menus, etc.
+ 
+ Presently this merely supplies the object count and a list of classes present and a count of each, but may be extended later
+*/
 @interface DKPasteboardInfo : NSObject <NSCoding>
 {
 	NSInteger			mCount;
@@ -36,11 +43,3 @@
 
 extern NSString*		kDKDrawableObjectInfoPasteboardType;
 
-/*
-
- This object is archived and added to the pasteboard when copying items within DK. It allows information about a paste to be determined without dearchiving the
- actual objects themselves, which is much more efficient for simply managing menus, etc.
- 
- Presently this merely supplies the object count and a list of classes present and a count of each, but may be extended later
-
-*/

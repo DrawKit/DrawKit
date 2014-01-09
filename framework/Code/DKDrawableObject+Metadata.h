@@ -19,6 +19,14 @@ typedef enum
 }
 DKMetadataSchema;
 
+/** @brief Stores various drawkit private variables in the metadata.
+
+Stores various drawkit private variables in the metadata.
+
+Note that the details of how metadata is stored changed in 1.0b6. Now, the metadata is held in a separate dictionary within the overall userinfo dictionary, rather than as
+ individual items within userInfo. This permits the userInfo dictionary to be used more extensively while keeping metadata grouped together. Using this API shields you
+ from those changes, though if you were accessing userInfo to obtain the metadata, you may need to revise code to call -metadata instead.
+*/
 @interface DKDrawableObject (Metadata)
 
 + (void)				setMetadataChangesAreUndoable:(BOOL) undo;
@@ -98,11 +106,3 @@ extern NSString*	kDKUndoableChangesUserDefaultsKey;
 
 @end
 
-/*
-
-Stores various drawkit private variables in the metadata.
-
-Note that the details of how metadata is stored changed in 1.0b6. Now, the metadata is held in a separate dictionary within the overall userinfo dictionary, rather than as
- individual items within userInfo. This permits the userInfo dictionary to be used more extensively while keeping metadata grouped together. Using this API shields you
- from those changes, though if you were accessing userInfo to obtain the metadata, you may need to revise code to call -metadata instead.
-*/

@@ -10,6 +10,12 @@
 
 @class DKDrawing, DKLayer, DKDrawableObject, DKDrawingDocument, DKViewController;
 
+/** @brief This is a base class for any inspector for looking at DrawKit.
+
+This is a base class for any inspector for looking at DrawKit. All it does is respond to the various selection changed
+notifications at the document, layer and object levels, and call a method which you can override to set up the displayed
+content.
+*/
 @interface DKDrawkitInspectorBase : NSWindowController
 
 - (void)				documentDidChange:(NSNotification*) note;
@@ -36,10 +42,3 @@
 
 @end
 
-/*
-
-This is a base class for any inspector for looking at DrawKit. All it does is respond to the various selection changed
-notifications at the document, layer and object levels, and call a method which you can override to set up the displayed
-content.
-
-*/

@@ -11,6 +11,23 @@
 
 @class DKDrawingView, DKShapeGroup, DKTextAdornment;
 
+/** @brief Text shapes are shapes that draw text.
+
+Text shapes are shapes that draw text. 
+ 
+ For b5 and later this object has been redesigned to harmonise text handling to common classes within the framework. This has numerous advantages such as fewer bugs and
+ more flexibility. Now, a text shape has a DKTextAdornment property that is independent of its style. This T/A handles the text storage, layout and rendering of the text
+ just as it does when contained by a style. This T/A is drawn after (on top of) all other style renderings.
+ 
+ Because the T/A is independent of the style, it may be directly changed by text attibute operations such as font changes without concern for whether the style is locked
+ or not. Unless th eobject itself is locked therefore, text attributs are always changeable. When a style is set and it has text attributes, those attributes are initially
+ applied to the T/A but from then on take no further part. Thus the need to synchronise styles and local attributes disappears.
+ 
+ The use of a T/A opens up more options for text layout such as flowed into the path, along the path as well as block text.
+ 
+ Some methods no longer have meaning in the redesigned class and have been deprecated. Calling them is now a no-op. Reading in an old-style version of the class will be
+ translated to the new approach. Some functionality has been moved to the DKTextAdornment class.
+*/
 @interface DKTextShape : DKDrawableShape <NSCoding, NSCopying>
 {
 @private
@@ -379,20 +396,3 @@
 extern NSString*	kDKTextOverflowIndicatorDefaultsKey;
 extern NSString*	kDKTextAllowsInlineImagesDefaultsKey;
 
-/*
-Text shapes are shapes that draw text. 
- 
- For b5 and later this object has been redesigned to harmonise text handling to common classes within the framework. This has numerous advantages such as fewer bugs and
- more flexibility. Now, a text shape has a DKTextAdornment property that is independent of its style. This T/A handles the text storage, layout and rendering of the text
- just as it does when contained by a style. This T/A is drawn after (on top of) all other style renderings.
- 
- Because the T/A is independent of the style, it may be directly changed by text attibute operations such as font changes without concern for whether the style is locked
- or not. Unless th eobject itself is locked therefore, text attributs are always changeable. When a style is set and it has text attributes, those attributes are initially
- applied to the T/A but from then on take no further part. Thus the need to synchronise styles and local attributes disappears.
- 
- The use of a T/A opens up more options for text layout such as flowed into the path, along the path as well as block text.
- 
- Some methods no longer have meaning in the redesigned class and have been deprecated. Calling them is now a no-op. Reading in an old-style version of the class will be
- translated to the new approach. Some functionality has been moved to the DKTextAdornment class.
-
-*/

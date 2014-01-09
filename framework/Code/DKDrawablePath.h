@@ -47,6 +47,13 @@ DKDrawablePathInsertType;
 
 // the class:
 
+/** @brief DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
+
+DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
+
+The path is rendered at its stored size, not transformed to its final size like DKDrawableShape. Thus this type of object doesn't
+maintain the concept of rotation or scale - it just is what it is.
+*/
 @interface DKDrawablePath : DKDrawableObject <NSCoding, NSCopying>
 {
 @private
@@ -477,11 +484,3 @@ extern NSPoint gMouseForPathSnap;
 
 extern NSString*		kDKPathOnPathHitDetectionPriorityDefaultsKey;
 
-/*
-
-DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
-
-The path is rendered at its stored size, not transformed to its final size like DKDrawableShape. Thus this type of object doesn't
-maintain the concept of rotation or scale - it just is what it is.
-
-*/

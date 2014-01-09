@@ -8,6 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+/**
+This class provides a very simple tooltip-like window in which you can display a short piece of information, such
+as a single numeric value.
+
+By positioning this next to the mouse and supplying it with info, you can enhance the usability of some kinds of
+user interaction.
+*/
 @interface GCInfoFloater : NSWindow
 {
 @private
@@ -33,12 +40,3 @@
 
 @end
 
-/*
-
-This class provides a very simple tooltip-like window in which you can display a short piece of information, such
-as a single numeric value.
-
-By positioning this next to the mouse and supplying it with info, you can enhance the usability of some kinds of
-user interaction.
-
-*/

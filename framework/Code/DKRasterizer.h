@@ -21,6 +21,10 @@ typedef enum
 }
 DKClippingOption;
 
+/** @brief Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
+
+Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
+*/
 @interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying>
 {
 @private
@@ -108,7 +112,3 @@ extern NSString*	kDKRasterizerChangedPropertyKey;
 
 @end
 
-/*
- Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
-
-*/

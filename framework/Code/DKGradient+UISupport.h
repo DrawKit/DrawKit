@@ -9,6 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
+/**
+This category of DKGradient supplies a number of prebuilt gradients that implement a variety of user-interface gradients
+as found in numerour apps, including Apple's own.
+*/
 @interface DKGradient (UISupport)
 
 + (DKGradient*)			aquaSelectedGradient;
@@ -39,9 +43,3 @@ typedef struct
 }
 GlossParameters;
 
-/*
-
-This category of DKGradient supplies a number of prebuilt gradients that implement a variety of user-interface gradients
-as found in numerour apps, including Apple's own.
-
-*/

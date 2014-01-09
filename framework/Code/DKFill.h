@@ -10,6 +10,16 @@
 
 @class DKGradient;
 
+/** @brief A renderer that implements a colour fill with optional shadow.
+
+A renderer that implements a colour fill with optional shadow. Note that the shadow is applied only to the path rendered
+by this fill, and has no side effects.
+
+This can also have a gradient property (gradient were formerly renderers, but now they are not, for parity with gradient panel).
+
+A gradient takes precedence over a solid fill; any shadow is based on the solid fill however. If the gradient contains transparent
+areas the solid fill will show through.
+*/
 @interface DKFill : DKRasterizer <NSCoding, NSCopying>
 {
 @private
@@ -38,14 +48,3 @@
 
 @end
 
-/*
-
-A renderer that implements a colour fill with optional shadow. Note that the shadow is applied only to the path rendered
-by this fill, and has no side effects.
-
-This can also have a gradient property (gradient were formerly renderers, but now they are not, for parity with gradient panel).
-
-A gradient takes precedence over a solid fill; any shadow is based on the solid fill however. If the gradient contains transparent
-areas the solid fill will show through.
-
-*/

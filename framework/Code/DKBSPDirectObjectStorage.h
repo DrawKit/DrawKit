@@ -11,6 +11,15 @@
 
 @class DKBSPDirectTree;
 
+/**
+This uses a similar algorithm to DKBSPObjectStorage but instead of indexing the objects it stores them directly by retaining them in additional arrays
+ within the BSP tree. This is likely to be faster than the indexing approach though profiling is needed to confirm this.
+ 
+ To facilitate correct z-ordering, each object stores its own Z-position and the objects are sorted on this property when necessary. Objects need to be
+ renumbered when indexes change.
+
+ The trade-off here is that drawing speed should be faster but object insertion, deletion and changing of Z-position may be slower.
+*/
 @interface DKBSPDirectObjectStorage : DKLinearObjectStorage
 {
 @private
@@ -53,14 +62,3 @@
 
 @end
 
-/*
-
- This uses a similar algorithm to DKBSPObjectStorage but instead of indexing the objects it stores them directly by retaining them in additional arrays
- within the BSP tree. This is likely to be faster than the indexing approach though profiling is needed to confirm this.
- 
- To facilitate correct z-ordering, each object stores its own Z-position and the objects are sorted on this property when necessary. Objects need to be
- renumbered when indexes change.
-
- The trade-off here is that drawing speed should be faster but object insertion, deletion and changing of Z-position may be slower.
- 
-*/

@@ -20,6 +20,10 @@ typedef enum
 }
 DKPathToolMode;
 
+/** @brief This tool is able to insert or delete on-path points from a path.
+
+This tool is able to insert or delete on-path points from a path. If applied to other object type it does nothing.
+*/
 @interface DKPathInsertDeleteTool : DKDrawingTool
 {
 @private
@@ -41,8 +45,3 @@ extern NSString*	kDKInsertPathPointCursorImageName;
 extern NSString*	kDKDeletePathPointCursorImageName;
 extern NSString*	kDKDeletePathElementCursorImageName;
 
-/*
-
-This tool is able to insert or delete on-path points from a path. If applied to other object type it does nothing.
-
-*/

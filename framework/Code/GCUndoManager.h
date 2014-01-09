@@ -31,6 +31,30 @@ GCUndoTaskCoalescingKind;
 // fragility than NSUndoManager. It can be used with NSDocument's -setUndoManager: method (cast to id or NSUndoManager). However its compatibility with
 // Core Data is unknown and untested at this time. See further notes at the end of this file.
 
+/** @brief This class is a public API-compatible replacement for NSUndoManager.
+
+This class is a public API-compatible replacement for NSUndoManager. It can only be used with Appkit however, not with other types of executable.
+ 
+The point of this is to provide an undo manager whose source is openly readable, available and debuggable. It also does not exhibit the
+ NSUndoManager bug whereby opening and closing a group without adding any tasks creates an empty task. That substantially simplifies how
+ it can be used in an interactive situation such as handling the mouse down/drag/up triplet of views.
+ 
+ This also includes task coalescing whereby consecutive tasks having the same target and selector are only submitted to the stack once. This
+ helps a lot with interactive tasks involving multiple events such as mouse dragging, so that undo does not replay all the intermediate steps.
+ 
+ Instances of this can be used as well as NSUndoManager if required. This handles all of its own event loop observing and automatic open
+ and close of groups independently of the standard mechanism.
+ 
+ Otherwise this should behave identically to NSUndoManager when used in an application, except as noted below.
+ 
+ The sending of notifications is not quite as it appears to be documented for NSUndoManager. If you implement as documented, the
+ change count for NSDocument is not managed correctly. Instead, this sends notifications in a manner that appears to be what NSUndoManager
+ actually does, and so NSDocument change counts work as they should. Also, the purpose and exact usage of NSCheckPointNotification is
+ unclear so while this follows the documentation, any code relying on this vague notification might not work correctly.
+ 
+ -undoNestedGroup only operates on top level groups in this implementation, and is thus functionally equivalent to -undo. In fact -undo simply
+ calls -undoNestedGroup here.
+*/
 @interface GCUndoManager : NSObject
 {
 @private
@@ -249,28 +273,3 @@ GCUndoTaskCoalescingKind;
 #define THROW_IF_FALSE2( condition, string, param1, param2 )	if(!(condition)){[NSException raise:NSInternalInconsistencyException format:(string), (param1), (param2)];}
 #endif
 
-/*
- 
-This class is a public API-compatible replacement for NSUndoManager. It can only be used with Appkit however, not with other types of executable.
- 
-The point of this is to provide an undo manager whose source is openly readable, available and debuggable. It also does not exhibit the
- NSUndoManager bug whereby opening and closing a group without adding any tasks creates an empty task. That substantially simplifies how
- it can be used in an interactive situation such as handling the mouse down/drag/up triplet of views.
- 
- This also includes task coalescing whereby consecutive tasks having the same target and selector are only submitted to the stack once. This
- helps a lot with interactive tasks involving multiple events such as mouse dragging, so that undo does not replay all the intermediate steps.
- 
- Instances of this can be used as well as NSUndoManager if required. This handles all of its own event loop observing and automatic open
- and close of groups independently of the standard mechanism.
- 
- Otherwise this should behave identically to NSUndoManager when used in an application, except as noted below.
- 
- The sending of notifications is not quite as it appears to be documented for NSUndoManager. If you implement as documented, the
- change count for NSDocument is not managed correctly. Instead, this sends notifications in a manner that appears to be what NSUndoManager
- actually does, and so NSDocument change counts work as they should. Also, the purpose and exact usage of NSCheckPointNotification is
- unclear so while this follows the documentation, any code relying on this vague notification might not work correctly.
- 
- -undoNestedGroup only operates on top level groups in this implementation, and is thus functionally equivalent to -undo. In fact -undo simply
- calls -undoNestedGroup here.
- 
- */

@@ -30,6 +30,14 @@ DKCatManagerMergeOptions;
 
 // the class
 
+/** @brief The cat manager supports a UI based on menu(s).
+
+The cat manager supports a UI based on menu(s). To assist, the DKCategoryManagerMenuInfo class is used to "own" a menu - the cat manager keeps a list of these.
+
+When the CM is asked for a menu, this helper object is used to create and manage it. As the CM is used (items and categories added/removed) the menu helpers are
+informed of the changes and in turn update the menus to match by adding or deleting menu items. This is necessary because when the CM grows to a significant number
+of items, rebuilding the menus is very time-consuming. This way performance is much better.
+*/
 @interface DKCategoryManager : NSObject <NSCoding, NSCopying>
 {
 @private
@@ -731,11 +739,3 @@ enum
 	kDKCategoryManagerRecentMenuItemTag			= -43
 };
 
-/*
-The cat manager supports a UI based on menu(s). To assist, the DKCategoryManagerMenuInfo class is used to "own" a menu - the cat manager keeps a list of these.
-
-When the CM is asked for a menu, this helper object is used to create and manage it. As the CM is used (items and categories added/removed) the menu helpers are
-informed of the changes and in turn update the menus to match by adding or deleting menu items. This is necessary because when the CM grows to a significant number
-of items, rebuilding the menus is very time-consuming. This way performance is much better.
-
-*/

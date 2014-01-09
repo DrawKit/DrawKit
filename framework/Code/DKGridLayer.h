@@ -15,6 +15,36 @@ typedef enum
 }
 DKGridMeasurementSystem;
 
+/** @brief This class is a layer that draws a grid like a piece of graph paper.
+
+This class is a layer that draws a grid like a piece of graph paper. In addition it can modify a point to lie at the intersection of
+any of its "squares" (for snap to grid, etc).
+
+The master interval is called the graph's span. It will be set to the actual number of coordinate units representing the main unit
+of the grid. For example, a 1cm grid has a span of ~28.35.
+
+The span is divided into an integral number of smaller divisions, for example 10 divisions of 1cm gives 1mm small squares.
+
+A integral number of spans is called the major interval. This is drawn in a darker colour and bolder width. For example you could
+highlight every 10cm by setting the spans per major to 10. The same style is also used to draw a border around the whole thing
+allowing for the set margins.
+
+Class methods exist to return a number of "standard" grids.
+
+The spans, minor and major intervals are all drawn in different colours, but more typically you'll set a single "theme" colour which
+derives the three colours such that they form a coherent set.
+
+Grid Layers work with methods in DKDrawing to manage the rulers in an NSRulerView. Generally the rulers are set to align with the
+span interval of the grid and allow for the drawing's margins. Because a ruler's settings require a name, you need to set this up along
+with the grid's parameters. To help make this easy for a client application (that will probably want to present a user interface for
+setting this all up), the "one stop shop" method -setSpan:unitToPointsConversionFactor:measurementSystem:drawingUnits:divisions:majors:rulerSteps:
+will set up the grid AND the rulers provided the layer has already been added to a drawing. Due to limitations in NSRuler regarding its step up
+and step down ratios, this method also imposes similar limits on the span divisions.
+
+General-purpose "snap to grid" type methods are implemented by DKDrawing using the grid as a basis - the grid itself doesn't implement snapping.
+
+Note: caching in a CGLayer is not recommended - the code is here but it doesn't draw nicely at high zooms. Turned off by default.
+*/
 @interface DKGridLayer : DKLayer <NSCoding>
 {
 @private
@@ -283,34 +313,3 @@ extern NSString*	kDKGridDrawingLayerStandardMetric;
 extern NSString*	kDKGridDrawingLayerStandardImperial;
 extern NSString*	kDKGridDrawingLayerStandardImperialPCB;
 
-/*
-
-This class is a layer that draws a grid like a piece of graph paper. In addition it can modify a point to lie at the intersection of
-any of its "squares" (for snap to grid, etc).
-
-The master interval is called the graph's span. It will be set to the actual number of coordinate units representing the main unit
-of the grid. For example, a 1cm grid has a span of ~28.35.
-
-The span is divided into an integral number of smaller divisions, for example 10 divisions of 1cm gives 1mm small squares.
-
-A integral number of spans is called the major interval. This is drawn in a darker colour and bolder width. For example you could
-highlight every 10cm by setting the spans per major to 10. The same style is also used to draw a border around the whole thing
-allowing for the set margins.
-
-Class methods exist to return a number of "standard" grids.
-
-The spans, minor and major intervals are all drawn in different colours, but more typically you'll set a single "theme" colour which
-derives the three colours such that they form a coherent set.
-
-Grid Layers work with methods in DKDrawing to manage the rulers in an NSRulerView. Generally the rulers are set to align with the
-span interval of the grid and allow for the drawing's margins. Because a ruler's settings require a name, you need to set this up along
-with the grid's parameters. To help make this easy for a client application (that will probably want to present a user interface for
-setting this all up), the "one stop shop" method -setSpan:unitToPointsConversionFactor:measurementSystem:drawingUnits:divisions:majors:rulerSteps:
-will set up the grid AND the rulers provided the layer has already been added to a drawing. Due to limitations in NSRuler regarding its step up
-and step down ratios, this method also imposes similar limits on the span divisions.
-
-General-purpose "snap to grid" type methods are implemented by DKDrawing using the grid as a basis - the grid itself doesn't implement snapping.
-
-Note: caching in a CGLayer is not recommended - the code is here but it doesn't draw nicely at high zooms. Turned off by default.
-
-*/

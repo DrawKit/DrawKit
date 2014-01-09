@@ -10,6 +10,16 @@
 
 @class DKStyle;
 
+/** @brief This tool class is used to make all kinds of drawable objects.
+
+This tool class is used to make all kinds of drawable objects. It works by copying a prototype object which will be some kind of drawable, adding
+it to the target layer as a pending object, then proceeding as for an edit operation. When complete, if the object is valid it is committed to
+the layer as a permanent item.
+
+The prototype object can have all of its parameters set up in advance as required, including an attached style.
+
+You can also set up a style to be applied to all new objects initially as an independent parameter.
+*/
 @interface DKObjectCreationTool : DKDrawingTool
 {
 @private
@@ -98,14 +108,3 @@
 extern NSString*		kDKDrawingToolWillMakeNewObjectNotification;
 extern NSString*		kDKDrawingToolCreatedObjectsStyleDidChange;
 
-/*
-
-This tool class is used to make all kinds of drawable objects. It works by copying a prototype object which will be some kind of drawable, adding
-it to the target layer as a pending object, then proceeding as for an edit operation. When complete, if the object is valid it is committed to
-the layer as a permanent item.
-
-The prototype object can have all of its parameters set up in advance as required, including an attached style.
-
-You can also set up a style to be applied to all new objects initially as an independent parameter.
-
-*/

@@ -10,6 +10,19 @@
 
 @class DKGuide;
 
+/**
+A guide layer implements any number of horizontal and vertical guidelines and provides methods for snapping points and rectangles
+to them.
+
+A drawing typically has one guide layer, though you are not limited to just one - however since DKDrawing will generally provide
+snapping to both guides and grid as a high-level method, having more than one guide layer can create ambiguities for the user
+unless your client code takes account of the possibility of multiple guide layers.
+
+The default snap tolerance for guides is 6 points.
+
+By default guides don't snap to the grid. You can force a guide to snap to the grid even if this setting is off by dragging with
+the shift key down.
+*/
 @interface DKGuideLayer : DKLayer <NSCoding>
 {
 @private
@@ -370,18 +383,3 @@
 
 @end
 
-/*
-
-A guide layer implements any number of horizontal and vertical guidelines and provides methods for snapping points and rectangles
-to them.
-
-A drawing typically has one guide layer, though you are not limited to just one - however since DKDrawing will generally provide
-snapping to both guides and grid as a high-level method, having more than one guide layer can create ambiguities for the user
-unless your client code takes account of the possibility of multiple guide layers.
-
-The default snap tolerance for guides is 6 points.
-
-By default guides don't snap to the grid. You can force a guide to snap to the grid even if this setting is off by dragging with
-the shift key down.
-
-*/

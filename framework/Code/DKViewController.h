@@ -12,6 +12,38 @@
 
 // the controller class:
 
+/** @brief DKViewController is a basic controller class that sits between a DKDrawingView and the DKDrawing itself, which implements the data model.
+
+DKViewController is a basic controller class that sits between a DKDrawingView and the DKDrawing itself, which implements the data model.
+
+Its job is broadly divided into two areas, input and output.
+
+When part of a drawing needs to be redisplayed in the view, the drawing will pass the area needing update to the controller, which will
+set that area for redisplay in the view, if appropriate. The view redisplays the content accordingly (it may call DKDrawing's drawRect:inView: method).
+Other subclasses of this might present the drawing differently - for example a layers palette could display the layers as a list in a tableview.
+
+Each view of the drawing has one controller, so the drawing has a to-many relationship with its controllers, but each controller has a
+to-one relationship with the view.
+
+An important function of the controller is to receive user input from the view and direct it to the active layer in an appropriate way. This
+includes handling the "tool" that a user might select in an interface and applying it to the drawing. See DKToolController (a subclass of this).
+This also implements autoscrolling around the mouse down/up calls which by and large "just work". However if you override these methods you should
+call super to keep autoscrolling operative.
+
+Ownership: drawings own the controllers which reference the view. Views keep a reference to their controllers. When a view is dealloc'd, its
+controller is removed from the drawing. The controller has weak references to both its view and the drawing - this permits a view to own a drawing
+without a retain cycle being introduced - whichever of the drawing or the view gets dealloc'd first, the view controller is also dealloc'd. A view can
+own a drawing in the special circumstance of a view creating the drawing automatically if none has been set up prior to the first call to -drawRect:
+
+Flow of control: initially all messages that cannot be directly handled by DKDrawingView are forwarded to its controller. The controller can
+handle the message or pass it on to the active layer. This is the default behaviour - typically layer subclasses handle most of their own
+action messages and some handle their own mouse input. For most object layers, where a "tool" can be applied, the controller works with the tool
+to implement the desired behaviour within the target layer. The view and the controller both use invocation forwarding to push messages down
+into the DK system via the controller, the active layer, any selection within it, and finally the target object(s) there.
+
+A subclass of this can also implement drawRect: if it needs to, and can thus draw into its view. This is called after all other drawing has been
+completed except for page breaks. Tool controllers for example can draw selection rects, etc.
+*/
 @interface DKViewController : NSObject
 {
 @private
@@ -389,36 +421,3 @@
 
 #define		kDKAutoscrollRate		(1.0/20.0)
 
-/*
-
-DKViewController is a basic controller class that sits between a DKDrawingView and the DKDrawing itself, which implements the data model.
-
-Its job is broadly divided into two areas, input and output.
-
-When part of a drawing needs to be redisplayed in the view, the drawing will pass the area needing update to the controller, which will
-set that area for redisplay in the view, if appropriate. The view redisplays the content accordingly (it may call DKDrawing's drawRect:inView: method).
-Other subclasses of this might present the drawing differently - for example a layers palette could display the layers as a list in a tableview.
-
-Each view of the drawing has one controller, so the drawing has a to-many relationship with its controllers, but each controller has a
-to-one relationship with the view.
-
-An important function of the controller is to receive user input from the view and direct it to the active layer in an appropriate way. This
-includes handling the "tool" that a user might select in an interface and applying it to the drawing. See DKToolController (a subclass of this).
-This also implements autoscrolling around the mouse down/up calls which by and large "just work". However if you override these methods you should
-call super to keep autoscrolling operative.
-
-Ownership: drawings own the controllers which reference the view. Views keep a reference to their controllers. When a view is dealloc'd, its
-controller is removed from the drawing. The controller has weak references to both its view and the drawing - this permits a view to own a drawing
-without a retain cycle being introduced - whichever of the drawing or the view gets dealloc'd first, the view controller is also dealloc'd. A view can
-own a drawing in the special circumstance of a view creating the drawing automatically if none has been set up prior to the first call to -drawRect:
-
-Flow of control: initially all messages that cannot be directly handled by DKDrawingView are forwarded to its controller. The controller can
-handle the message or pass it on to the active layer. This is the default behaviour - typically layer subclasses handle most of their own
-action messages and some handle their own mouse input. For most object layers, where a "tool" can be applied, the controller works with the tool
-to implement the desired behaviour within the target layer. The view and the controller both use invocation forwarding to push messages down
-into the DK system via the controller, the active layer, any selection within it, and finally the target object(s) there.
-
-A subclass of this can also implement drawRect: if it needs to, and can thus draw into its view. This is called after all other drawing has been
-completed except for page breaks. Tool controllers for example can draw selection rects, etc.
-
-*/

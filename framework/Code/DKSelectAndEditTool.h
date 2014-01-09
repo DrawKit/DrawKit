@@ -34,6 +34,17 @@ DKEditToolDragPhase;
 
 // tool class
 
+/**
+This tool implements the standard selection and edit tool behaviour (multi-purpose tool) which allows objects to be selected,
+moved by dragging and to be edited by having their knobs dragged. For editing, objects mostly handle this themselves, but this
+provides the initial translation of mouse events into edit operations.
+
+Note that the tool can only be used in layers which are DKObjectDrawingLayers - if the layer is not of this kind then the
+tool mode is set to invalid and nothing is done.
+
+The 'marquee' (selection rect) is drawn using a style, giving great flexibility as to its appearance. In general a style that
+has a very low opacity should be used - the default style takes the system's highlight colour and makes a low opacity version of it.
+*/
 @interface DKSelectAndEditTool : DKDrawingTool <DKRenderable>
 {
 @private
@@ -249,16 +260,3 @@ extern NSString*			kDKSelectionToolDidFinishEditingObject;
 extern NSString*			kDKSelectionToolTargetLayer;
 extern NSString*			kDKSelectionToolTargetObject;
 
-/*
-
-This tool implements the standard selection and edit tool behaviour (multi-purpose tool) which allows objects to be selected,
-moved by dragging and to be edited by having their knobs dragged. For editing, objects mostly handle this themselves, but this
-provides the initial translation of mouse events into edit operations.
-
-Note that the tool can only be used in layers which are DKObjectDrawingLayers - if the layer is not of this kind then the
-tool mode is set to invalid and nothing is done.
-
-The 'marquee' (selection rect) is drawn using a style, giving great flexibility as to its appearance. In general a style that
-has a very low opacity should be used - the default style takes the system's highlight colour and makes a low opacity version of it.
-
-*/

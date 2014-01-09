@@ -15,6 +15,12 @@ typedef enum
 }
 DKShadowDrawingOperation;
 
+/**
+a big annoyance with NSShadow is that it ignores the current CTM when it is set, meaning that as a drawing is scaled,
+the shadow stays fixed. This is a solution. Here, if you call setAbsolute instead of set, the parameters of the shadow are
+used to set a different shadow that is scaled using the current CTM, so the original shadow appears to remain at the right size
+as you scale.
+*/
 @interface NSShadow (DKAdditions)
 
 - (void)		setAbsolute;
@@ -40,11 +46,3 @@ DKShadowDrawingOperation;
 
 @end
 
-/*
-
-a big annoyance with NSShadow is that it ignores the current CTM when it is set, meaning that as a drawing is scaled,
-the shadow stays fixed. This is a solution. Here, if you call setAbsolute instead of set, the parameters of the shadow are
-used to set a different shadow that is scaled using the current CTM, so the original shadow appears to remain at the right size
-as you scale.
-
-*/

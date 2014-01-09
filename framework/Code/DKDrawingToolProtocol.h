@@ -36,14 +36,7 @@
 // Thus a tool can signal to its delegate that the operation it is about to perform will create an undo task, and so the delegate can
 // open an undo group if it needs to. Note that tools can also turn off undo registration temporarily if they see fit.
 
-@interface NSObject (DKToolDelegate)
-
-- (void)			toolWillPerformUndoableAction:(id<DKDrawingTool>) aTool;
-- (void)			toolDidPerformUndoableAction:(id<DKDrawingTool>) aTool;
-
-@end
-
-/*
+/** @brief The drawing tool protocol must be implemented by all tools that can be used to operate on a drawing.
 
 The drawing tool protocol must be implemented by all tools that can be used to operate on a drawing. Getting tools right is tricky, 
 because of all the different cases that need to be considered, undo tasks, and so forth. Thus the following rules must be followed:
@@ -62,7 +55,11 @@ from mouse down and mouse up are essential to allow the correct management of un
 action name when requested.
 
 6. Tools must supply a cursor which is displayed during the mouse down/drag/up sequence and whenever the tool is set.
-
 */
+@interface NSObject (DKToolDelegate)
 
+- (void)			toolWillPerformUndoableAction:(id<DKDrawingTool>) aTool;
+- (void)			toolDidPerformUndoableAction:(id<DKDrawingTool>) aTool;
+
+@end
 

@@ -22,6 +22,11 @@ typedef enum
 }
 DKImageCoverageFlags;
 
+/** @brief This layer type implements a single image overlay, for example for tracing a photograph in another layer.
+
+This layer type implements a single image overlay, for example for tracing a photograph in another layer. The coverage method
+sets whether the image is scaled, tiled or drawn only once in a particular position.
+*/
 @interface DKImageOverlayLayer : DKLayer <NSCoding>
 {
 	NSImage*				m_image;
@@ -45,9 +50,3 @@ DKImageCoverageFlags;
 
 @end
 
-/*
-
-This layer type implements a single image overlay, for example for tracing a photograph in another layer. The coverage method
-sets whether the image is scaled, tiled or drawn only once in a particular position.
-
-*/

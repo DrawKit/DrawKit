@@ -8,6 +8,10 @@
 
 #import "DKObjectDrawingLayer.h"
 
+/** @brief Some handy methods for implementing various kinds of object duplications.
+
+Some handy methods for implementing various kinds of object duplications.
+*/
 @interface DKObjectDrawingLayer (Duplication)
 
 /** @brief Duplicates one or more objects radially around a common centre
@@ -78,8 +82,3 @@
 
 @end
 
-/*
-
-Some handy methods for implementing various kinds of object duplications.
-
-*/

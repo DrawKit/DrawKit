@@ -11,6 +11,13 @@
 
 @class DKQuartzCache;
 
+/** @brief DKHandle is a base class for all handles, which are the knobs attached to shapes for interacting with them.
+
+DKHandle is a base class for all handles, which are the knobs attached to shapes for interacting with them. This is an evolution of DKKnob
+ which is still used as a central helper class for dispatching drawing to handles as needed.
+ 
+ DKHandle is subclassed for each handle type, making it easier to customise and also add caching.
+*/
 @interface DKHandle : NSObject
 {
 @private
@@ -42,11 +49,3 @@
 
 @end
 
-/*
-
-DKHandle is a base class for all handles, which are the knobs attached to shapes for interacting with them. This is an evolution of DKKnob
- which is still used as a central helper class for dispatching drawing to handles as needed.
- 
- DKHandle is subclassed for each handle type, making it easier to customise and also add caching.
-
-*/

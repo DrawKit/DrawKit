@@ -8,6 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief Higher-level wrapper for CGLayer, used to cache graphics in numerous places in DK.
+
+Higher-level wrapper for CGLayer, used to cache graphics in numerous places in DK.
+*/
 @interface DKQuartzCache : NSObject
 {
 @private
@@ -38,8 +42,3 @@
 
 @end
 
-/*
-
-Higher-level wrapper for CGLayer, used to cache graphics in numerous places in DK.
-
-*/

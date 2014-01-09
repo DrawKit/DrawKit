@@ -11,6 +11,10 @@
 
 @class DKTextAdornment, DKDrawingView;
 
+/** @brief Very similar to a DKTextShape but based on a path and defaulting to text-on-a-path rendering.
+
+Very similar to a DKTextShape but based on a path and defaulting to text-on-a-path rendering. Has virtually identical public API to DKTextShape.
+*/
 @interface DKTextPath : DKDrawablePath <NSCopying, NSCoding>
 {
 @private
@@ -143,8 +147,3 @@
 
 @end
 
-/*
-
-Very similar to a DKTextShape but based on a path and defaulting to text-on-a-path rendering. Has virtually identical public API to DKTextShape.
-
-*/

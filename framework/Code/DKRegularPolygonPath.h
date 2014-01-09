@@ -8,6 +8,15 @@
 
 #import "DKDrawablePath.h"
 
+/**
+Implements a regular polygon and variations of it (stars and other similar shapes)
+
+The innerRadius, tip and valley spread values are all relative to the main (outer) radius, so the shape's path is stable with respect to scale. A -ve
+value for the inner radius turns off the secondary radius altogether, allowing ordinary regular polygons.
+
+the tip spread is the roundness of the tips or outer vertices of a star or polygon shape, the valley spread is the roundness of the inner vertices of
+a star shape (not used if the inner radius is -ve).
+*/
 @interface DKRegularPolygonPath : DKDrawablePath <NSCopying,NSCoding>
 {
 @private
@@ -62,13 +71,3 @@ enum
 	kDKRegularPolyCreationMode	= 7
 };
 
-/*
-Implements a regular polygon and variations of it (stars and other similar shapes)
-
-The innerRadius, tip and valley spread values are all relative to the main (outer) radius, so the shape's path is stable with respect to scale. A -ve
-value for the inner radius turns off the secondary radius altogether, allowing ordinary regular polygons.
-
-the tip spread is the roundness of the tips or outer vertices of a star or polygon shape, the valley spread is the roundness of the inner vertices of
-a star shape (not used if the inner radius is -ve).
-
-*/

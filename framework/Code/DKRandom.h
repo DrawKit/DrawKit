@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief returns a random number between 0 and 1 */
 @interface DKRandom : NSObject
 {
 }
@@ -16,5 +17,3 @@
 + (CGFloat)		randomPositiveOrNegativeNumber;
 
 @end
-
-/* returns a random number between 0 and 1 */

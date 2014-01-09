@@ -41,6 +41,9 @@ enum
 	kDKAlignmentDistributionMask		= kDKAlignmentAlignVDistribution | kDKAlignmentAlignHDistribution | kDKAlignmentAlignVSpaceDistribution | kDKAlignmentAlignHSpaceDistribution
 };
 
+/**
+This category implements object alignment features for DKObjectDrawingLayer
+*/
 @interface DKObjectDrawingLayer (Alignment)
 
 // setting the key object (used by alignment methods)
@@ -236,8 +239,3 @@ enum
 
 NSPoint		calculateAlignmentOffset( NSRect mr, NSRect sr, NSInteger alignment );
 
-/*
-
- This category implements object alignment features for DKObjectDrawingLayer
-
-*/

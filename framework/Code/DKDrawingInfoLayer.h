@@ -19,6 +19,18 @@ typedef enum
 }
 DKInfoBoxPlacement;
 
+/** @brief This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
+
+This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
+
+The info panel takes data from DKDrawing's metadata dictionary ind displays some of it - standard
+keys such as the drawing number, name of the draughtsman, creation and modification dates and so on.
+
+This can also directly edit the same information.
+
+This is not a very important class within DK, and mays apps will not want to use it, or to use it in
+modified form. It is provided as another example of how to implement layer subclasses as much as anything.
+*/
 @interface DKDrawingInfoLayer : DKLayer <NSCoding>
 {
 	DKInfoBoxPlacement	m_placement;			// which corner is the panel placed in
@@ -59,16 +71,3 @@ DKInfoBoxPlacement;
 
 extern NSString*	kDKDrawingInfoTextLabelAttributes;
 
-/*
-
-This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
-
-The info panel takes data from DKDrawing's metadata dictionary ind displays some of it - standard
-keys such as the drawing number, name of the draughtsman, creation and modification dates and so on.
-
-This can also directly edit the same information.
-
-This is not a very important class within DK, and mays apps will not want to use it, or to use it in
-modified form. It is provided as another example of how to implement layer subclasses as much as anything.
-
-*/

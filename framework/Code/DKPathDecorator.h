@@ -10,6 +10,13 @@
 
 @class DKQuartzCache;
 
+/** @brief This renderer draws the image along the path of another object spaced at <interval> distance.
+
+This renderer draws the image along the path of another object spaced at <interval> distance. Each image is scaled by <scale> and is
+rotated to be normal to the path unless _normalToPath is NO.
+
+This prefers PDF image representations where the image contains one, preserving resolution as the drawing is scaled.
+*/
 @interface DKPathDecorator : DKRasterizer <NSCoding, NSCopying>
 {
 @private
@@ -90,11 +97,3 @@ enum
 	kDKPathDecoratorClipInsidePath	= 2
 };
 
-/*
-
-This renderer draws the image along the path of another object spaced at <interval> distance. Each image is scaled by <scale> and is
-rotated to be normal to the path unless _normalToPath is NO.
-
-This prefers PDF image representations where the image contains one, preserving resolution as the drawing is scaled.
-
-*/

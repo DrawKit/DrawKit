@@ -20,6 +20,20 @@ DKKnobDrawingFlags;
 
 @class DKHandle;
 
+/** @brief simple class used to provide the drawing of knobs for object selection.
+
+simple class used to provide the drawing of knobs for object selection. You can override this and replace it (attached to any layer)
+to customise the appearance of the selection knobs for all drawn objects in that layer.
+
+The main method a drawable will call is drawKnobAtPoint:ofType:userInfo:
+
+The type (DKKnobType) is a functional description of the knob only - this class maps that functional description to a consistent appearance taking
+into account the basic type and a couple of generic state flags. Clients should generally avoid trying to do drawing themselves of knobs, but if they do,
+should use the lower level methods here to get consistent results.
+
+Subclasses may want to customise many aspects of a knob's appearance, and can override any suitable factored methods according to their needs. Customisations
+might include the shape of a knob, its colours, whether stroked or filled or both, etc.
+*/
 @interface DKKnob : NSObject <NSCoding, NSCopying>
 {
 @private
@@ -133,18 +147,3 @@ DKKnobDrawingFlags;
 
 extern NSString*	kDKKnobPreferredHighlightColour;		// references an NSColor
 
-/*
-
-simple class used to provide the drawing of knobs for object selection. You can override this and replace it (attached to any layer)
-to customise the appearance of the selection knobs for all drawn objects in that layer.
-
-The main method a drawable will call is drawKnobAtPoint:ofType:userInfo:
-
-The type (DKKnobType) is a functional description of the knob only - this class maps that functional description to a consistent appearance taking
-into account the basic type and a couple of generic state flags. Clients should generally avoid trying to do drawing themselves of knobs, but if they do,
-should use the lower level methods here to get consistent results.
-
-Subclasses may want to customise many aspects of a knob's appearance, and can override any suitable factored methods according to their needs. Customisations
-might include the shape of a knob, its colours, whether stroked or filled or both, etc.
-
-*/

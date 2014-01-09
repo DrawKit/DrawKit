@@ -10,6 +10,11 @@
 
 @class DKDrawingTool;
 
+/** @brief DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself.
+
+DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself. The old methods in DKDrawingTool now map to this class for backward
+ compatibility but are deprecated.
+*/
 @interface DKToolRegistry : NSObject
 {
 	NSMutableDictionary*	mToolsReg;
@@ -79,9 +84,3 @@ extern NSString*		kDKStandardDeletePathPointToolName;
 extern NSString*		kDKStandardDeletePathSegmentToolName;
 extern NSString*		kDKStandardZoomToolName;
 
-/*
-
- DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself. The old methods in DKDrawingTool now map to this class for backward
- compatibility but are deprecated.
-
-*/

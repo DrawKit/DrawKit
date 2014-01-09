@@ -19,6 +19,24 @@ DKImageCroppingOptions;
 
 // the class
 
+/** @brief DKImageShape is a drawable shape that displays an image.
+
+DKImageShape is a drawable shape that displays an image. The image is scaled and rotated to the path bounds and clipped to the
+path. The opacity of the image can be set, and whether the image is drawn before or after the normal path rendering.
+
+This object is quite flexible - by changing the path clipping and drawing styles, a very wide range of different effects are
+possible. (n.b. if you don't attach a style, the path is not drawn at all [the default], but still clips the image. The default
+path is a rect so that the entire image is drawn.
+
+There are two basic modes of operation - scaling and cropping. Scaling fills the shape's bounds with the image. Cropping keeps the image at its
+original size and allows the path to clip it as it is resized. In both cases the image offset can be used to position the image within the bounds.
+A hotspot is added to allow the user to drag the image offset position around.
+ 
+ Image shapes automatically manage image data efficiently, such that if there is more than one shape with the same image, only one copy of
+ the data is maintained, and that data is the original compressed data from the file (if it did come from a file). This data sharing is
+ facilitated by a central DKImageDataManager object, which is managed by the drawing. Note that using certian operations, such as creating
+ the shape with an NSImage will bypass this benefit.
+*/
 @interface DKImageShape : DKDrawableShape <NSCoding, NSCopying>
 {
 @private
@@ -337,22 +355,3 @@ extern NSString*	kDKOriginalFileMetadataKey;
 extern NSString*	kDKOriginalImageDimensionsMetadataKey;
 extern NSString*	kDKOriginalNameMetadataKey;
 
-/*
-
-DKImageShape is a drawable shape that displays an image. The image is scaled and rotated to the path bounds and clipped to the
-path. The opacity of the image can be set, and whether the image is drawn before or after the normal path rendering.
-
-This object is quite flexible - by changing the path clipping and drawing styles, a very wide range of different effects are
-possible. (n.b. if you don't attach a style, the path is not drawn at all [the default], but still clips the image. The default
-path is a rect so that the entire image is drawn.
-
-There are two basic modes of operation - scaling and cropping. Scaling fills the shape's bounds with the image. Cropping keeps the image at its
-original size and allows the path to clip it as it is resized. In both cases the image offset can be used to position the image within the bounds.
-A hotspot is added to allow the user to drag the image offset position around.
- 
- Image shapes automatically manage image data efficiently, such that if there is more than one shape with the same image, only one copy of
- the data is maintained, and that data is the original compressed data from the file (if it did come from a file). This data sharing is
- facilitated by a central DKImageDataManager object, which is managed by the drawing. Note that using certian operations, such as creating
- the shape with an NSImage will bypass this benefit.
-
-*/

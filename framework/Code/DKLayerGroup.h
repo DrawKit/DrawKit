@@ -8,6 +8,22 @@
 
 #import "DKLayer.h"
 
+/** @brief A layer group is a layer which maintains a list of other layers.
+
+A layer group is a layer which maintains a list of other layers. This permits layers to be organised hierarchically if
+the application wishes to do so.
+
+DKDrawing is a subclass of this, so it inherits the ability to maintain a list of layers. However it doesn't honour
+every possible feature of a layer group, particularly those the group inherits from DKLayer. This is because
+DKLayerGroup is actually a refactoring of DKDrawing and backward compatibility with existing files is required. In particular one
+should take care not to add a DKDrawing instance to a layer group belonging to another drawing (or create circular references).
+
+The stacking order of layers is arranged so that the top layer always has the index zero, and the bottom is at (count -1).
+In general your code should minimise its exposure to the actual layer index, but the reason that layers are stacked this
+way is so that a layer UI such as a NSTableView doesn't have to do anything special to view layers in a natural way, with
+the top layer at the top of such a table. Prior to beta 3, layers were stacked the other way so such tables appeared to
+be upside-down. This class automatically reverses the stacking order in an archive if it detects an older version.
+*/
 @interface DKLayerGroup : DKLayer <NSCoding>
 {
 @private
@@ -143,20 +159,3 @@ extern NSString*		kDKLayerGroupNumberOfLayersDidChange;
 extern NSString*		kDKLayerGroupWillReorderLayers;
 extern NSString*		kDKLayerGroupDidReorderLayers;
 
-/*
-
-A layer group is a layer which maintains a list of other layers. This permits layers to be organised hierarchically if
-the application wishes to do so.
-
-DKDrawing is a subclass of this, so it inherits the ability to maintain a list of layers. However it doesn't honour
-every possible feature of a layer group, particularly those the group inherits from DKLayer. This is because
-DKLayerGroup is actually a refactoring of DKDrawing and backward compatibility with existing files is required. In particular one
-should take care not to add a DKDrawing instance to a layer group belonging to another drawing (or create circular references).
-
-The stacking order of layers is arranged so that the top layer always has the index zero, and the bottom is at (count -1).
-In general your code should minimise its exposure to the actual layer index, but the reason that layers are stacked this
-way is so that a layer UI such as a NSTableView doesn't have to do anything special to view layers in a natural way, with
-the top layer at the top of such a table. Prior to beta 3, layers were stacked the other way so such tables appeared to
-be upside-down. This class automatically reverses the stacking order in an archive if it detects an older version.
-
-*/

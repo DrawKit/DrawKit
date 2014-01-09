@@ -25,6 +25,21 @@ typedef enum
 }
 DKDirection;
 
+/** @brief This object implements an heuristic solution to the travelling salesman problem.
+
+This object implements an heuristic solution to the travelling salesman problem. The algorithm is based on simulated annealing
+and is due to "Numerical Recipes in C", Chapter 10.
+
+To use, initialise with an array of NSValues containing NSPoints. Then request the shortestRoute. The order of points returned by -shortestRoute
+will be the shortest route as determined by the algorithm. The first point object in both input and output arrays is the same - in other words
+the zeroth element of the input array sets the starting point of the path.
+
+For uses with other object types, the -shortestRouteOrder might be more useful. This returns an array of integers which is the order of the
+objects. This can then be used to reorder arbitrary objects.
+
+Most simply, the +sortedArrayOfObjects:byShortestRouteForKey: will deal with any objects as long as they have a KVC-compliant property that 
+resolves to an NSPoint return value, and is given by <key>. The result is a new array of the same objects sorted according to the TSP solution.
+*/
 @interface DKRouteFinder : NSObject
 {
 @private
@@ -69,19 +84,3 @@ DKDirection;
 
 @end
 
-/*
-
-This object implements an heuristic solution to the travelling salesman problem. The algorithm is based on simulated annealing
-and is due to "Numerical Recipes in C", Chapter 10.
-
-To use, initialise with an array of NSValues containing NSPoints. Then request the shortestRoute. The order of points returned by -shortestRoute
-will be the shortest route as determined by the algorithm. The first point object in both input and output arrays is the same - in other words
-the zeroth element of the input array sets the starting point of the path.
-
-For uses with other object types, the -shortestRouteOrder might be more useful. This returns an array of integers which is the order of the
-objects. This can then be used to reorder arbitrary objects.
-
-Most simply, the +sortedArrayOfObjects:byShortestRouteForKey: will deal with any objects as long as they have a KVC-compliant property that 
-resolves to an NSPoint return value, and is given by <key>. The result is a new array of the same objects sorted according to the TSP solution.
-
-*/

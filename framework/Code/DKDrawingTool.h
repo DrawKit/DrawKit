@@ -10,6 +10,24 @@
 
 @class DKToolController;
 
+/** @brief DKDrawingTool is the semi-abstract base class for all types of drawing tool.
+
+DKDrawingTool is the semi-abstract base class for all types of drawing tool. The point of a tool is to act as a translator for basic mouse events and
+convert those events into meaningful operations on the target layer or object(s). One tool can be set at a time (see DKToolController) and
+establishes a "mode" of operation for handling mouse events.
+
+The tool also supplies a cursor for the view when that tool is selected.
+
+A tool typically targets a layer or the objects within it. The calling sequence to a tool is coordinated by the DKToolController, targeting
+the current active layer. Tools can change the data content of the layer or not - for example a zoom zool would only change the scale of
+a view, not change any data.
+
+Tools should be considered to be controllers, and sit between the view and the drawing data model.
+
+Note: do not confuse "tools" as DK defines them with a palette of buttons or other UI - an application might implement an interface to
+select a tool in such a way, but the buttons are not tools. A button could store a tool as its representedObject however. These UI con-
+siderations are outside the scope of DK itself.
+*/
 @interface DKDrawingTool : NSObject <DKDrawingTool>
 {
 @private
@@ -181,22 +199,3 @@
 
 @end
 
-/*
-
-DKDrawingTool is the semi-abstract base class for all types of drawing tool. The point of a tool is to act as a translator for basic mouse events and
-convert those events into meaningful operations on the target layer or object(s). One tool can be set at a time (see DKToolController) and
-establishes a "mode" of operation for handling mouse events.
-
-The tool also supplies a cursor for the view when that tool is selected.
-
-A tool typically targets a layer or the objects within it. The calling sequence to a tool is coordinated by the DKToolController, targeting
-the current active layer. Tools can change the data content of the layer or not - for example a zoom zool would only change the scale of
-a view, not change any data.
-
-Tools should be considered to be controllers, and sit between the view and the drawing data model.
-
-Note: do not confuse "tools" as DK defines them with a palette of buttons or other UI - an application might implement an interface to
-select a tool in such a way, but the buttons are not tools. A button could store a tool as its representedObject however. These UI con-
-siderations are outside the scope of DK itself.
-
-*/

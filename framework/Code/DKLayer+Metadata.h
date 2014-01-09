@@ -17,6 +17,11 @@ typedef enum
 }
 DKLayerMetadataSchema;
 
+/** @brief adds some convenience methods for standard meta data attached to a graphic object.
+
+adds some convenience methods for standard meta data attached to a graphic object. By default the metadata is just an uncomitted
+id, but using this sets it to be a mutable dictionary. You can then easily get and set values in that dictionary.
+*/
 @interface DKLayer (Metadata)
 
 + (void)		setMetadataChangesAreUndoable:(BOOL) undo;
@@ -75,7 +80,3 @@ extern NSString*	kDKMetadataDidChangeNotification;
 
 @end
 
-/* adds some convenience methods for standard meta data attached to a graphic object. By default the metadata is just an uncomitted
-id, but using this sets it to be a mutable dictionary. You can then easily get and set values in that dictionary.
-
-*/

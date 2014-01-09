@@ -8,6 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief This category provides some basic methods for supporting interactive editing of a NSBezierPath object.
+
+This category provides some basic methods for supporting interactive editing of a NSBezierPath object. This can be more tricky
+than it looks because control points are often not edited in isolation - they often crosslink to other control points (such as
+when two curveto segments are joined and a colinear handle is needed).
+
+These methods allow you to refer to any individual control point in the object using a unique partcode. These methods will
+hit detect all control points, giving the partcode, and then get and set that point.
+
+The moveControlPointPartcode:toPoint:colinear: is a high-level call that will handle most editing tasks in a simple to use way. It
+optionally maintains colinearity across curve joins, and knows how to maintain closed loops properly.
+*/
 @interface NSBezierPath (DKEditing)
 
 + (void)				setConstraintAngle:(CGFloat) radians;
@@ -79,16 +91,3 @@
 NSInteger		partcodeForElement( const NSInteger element );
 NSInteger		partcodeForElementControlPoint( const NSInteger element, const NSInteger controlPointIndex );
 
-/*
-
-This category provides some basic methods for supporting interactive editing of a NSBezierPath object. This can be more tricky
-than it looks because control points are often not edited in isolation - they often crosslink to other control points (such as
-when two curveto segments are joined and a colinear handle is needed).
-
-These methods allow you to refer to any individual control point in the object using a unique partcode. These methods will
-hit detect all control points, giving the partcode, and then get and set that point.
-
-The moveControlPointPartcode:toPoint:colinear: is a high-level call that will handle most editing tasks in a simple to use way. It
-optionally maintains colinearity across curve joins, and knows how to maintain closed loops properly.
-
-*/

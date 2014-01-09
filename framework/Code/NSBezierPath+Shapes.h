@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+/**
+A category on NSBezierPath for creating various unusual shape paths, particularly for engineering use
+*/
 @interface NSBezierPath (Shapes)
 
 // chains and sprockets
@@ -50,8 +53,3 @@ enum
 	kHexFastenerFaceCurvesDrawn			= 1 << 5
 };
 
-/*
-
-A category on NSBezierPath for creating various unusual shape paths, particularly for engineering use
-
-*/

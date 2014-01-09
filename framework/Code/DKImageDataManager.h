@@ -8,6 +8,15 @@
  
 #import <Cocoa/Cocoa.h>
 
+/**
+The purpose of this class is to allow images to be archived much more efficiently, by archiving the original data that the image was created from rather than any bitmaps or
+ other uncompressed forms, and to avoid storing multiple copies of the same image. Each drawing will have an instance of this class and any image using objects such as DKImageShape
+ can make use of it.
+ 
+ This only comes into play when archiving, dearchiving or creating images - each object still maintains an NSImage derived from the data stored here.
+ 
+ When images are cut/pasted within the framework, the image key can be used to effect that operation without having to move the actual image data.
+*/
 @interface DKImageDataManager : NSObject <NSCoding>
 {
 @private
@@ -44,14 +53,3 @@ extern NSString*	kDKImageDataManagerPasteboardType;
 
 @end
 
-/*
-
- The purpose of this class is to allow images to be archived much more efficiently, by archiving the original data that the image was created from rather than any bitmaps or
- other uncompressed forms, and to avoid storing multiple copies of the same image. Each drawing will have an instance of this class and any image using objects such as DKImageShape
- can make use of it.
- 
- This only comes into play when archiving, dearchiving or creating images - each object still maintains an NSImage derived from the data stored here.
- 
- When images are cut/pasted within the framework, the image key can be used to effect that operation without having to move the actual image data.
-
-*/

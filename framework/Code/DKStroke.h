@@ -10,6 +10,14 @@
 
 @class DKStrokeDash;
 
+/** @brief represents the stroke of a path, and can be added as an attribute of a DKStyle.
+
+represents the stroke of a path, and can be added as an attribute of a DKStyle. Note that because a stroke
+is an object, it's easy to stroke a path multiple times for special effects. A DKStyle will apply all
+the strokes it is aware of in order when it is asked to stroke a path.
+
+DKStyle can contains a list of strokes without limit.
+*/
 @interface DKStroke : DKRasterizer <NSCoding, NSCopying>
 {
 @private
@@ -67,12 +75,3 @@
 
 @end
 
-/*
-
-represents the stroke of a path, and can be added as an attribute of a DKStyle. Note that because a stroke
-is an object, it's easy to stroke a path multiple times for special effects. A DKStyle will apply all
-the strokes it is aware of in order when it is asked to stroke a path.
-
-DKStyle can contains a list of strokes without limit.
-
-*/

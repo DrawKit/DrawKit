@@ -8,6 +8,13 @@
 
 #import "DKPathDecorator.h"
 
+/** @brief This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
+
+This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
+
+This subclasses DKPathDecorator which carries out the bulk of the work - it stores the image and caches it, this
+just sets up the path clipping and calls the rendering method for each location of the repeating pattern.
+*/
 @interface DKFillPattern : DKPathDecorator <NSCoding, NSCopying>
 {
 @private
@@ -59,11 +66,3 @@
 
 extern NSString* kDKDrawingViewDidChangeScale;
 
-/*
-
-This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
-
-This subclasses DKPathDecorator which carries out the bulk of the work - it stores the image and caches it, this
-just sets up the path clipping and calls the rendering method for each location of the repeating pattern.
-
-*/

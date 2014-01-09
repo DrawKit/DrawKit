@@ -8,6 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+/** @brief This subclass of NSLayoutManager captures the laid-out text in a bezier path which it creates.
+
+This subclass of NSLayoutManager captures the laid-out text in a bezier path which it creates. It can be used where a normal
+ NSLayoutManager would be used to return the text as a path.
+*/
 @interface DKBezierLayoutManager : NSLayoutManager
 {
 	NSBezierPath*		mPath;
@@ -18,9 +23,3 @@
 
 @end
 
-/*
-
- This subclass of NSLayoutManager captures the laid-out text in a bezier path which it creates. It can be used where a normal
- NSLayoutManager would be used to return the text as a path.
-
-*/

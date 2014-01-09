@@ -32,6 +32,35 @@ typedef enum
 }
 DKMetadataType;
 
+/**
+DKMetadataItems are used to store metadata (attribute) values in user info dictionaries attached to various objects such as layers and
+ drawables. Using a special wrapper preserves the type information under editing whereas using raw NSValue/NSNumber objects does not.
+ 
+ Values passed to -setValue are always converted to the current type wherever possible. Conversely, using -setType converts the current value
+ to that type where possible. A conversion is always attempted, so in some cases a nonsensical conversion will result in data loss, e.g.
+ converting a URL to a colour. The -isLossyConversionToType: will return YES for lossy conversions, NO if the conversion will succeed.
+ 
+ <type> and <value> properties are KVO-observable, any other methods call these.
+  
+ Values are stored in whatever class is appropriate to the type, viz:
+ 
+ Type				Class
+ ----------------------------
+ String				NSString
+ Integer			NSNumber (int)
+ Real				NSNumber (double)
+ Boolean			NSNumber (BOOL)
+ Unsigned			NSNumber (int)
+ Attributed String	NSAttributedString
+ Image				NSImage
+ Image Data			NSData
+ Data				NSData
+ URL				NSURL
+ Date				NSDate
+ Size				NSString
+ Point				NSString
+ Rect				NSString
+*/
 @interface DKMetadataItem : NSObject <NSCoding, NSCopying>
 {
 @private
@@ -141,34 +170,3 @@ extern NSString*		DKMultipleMetadataItemsPBoardType;
 
 @end
 
-/*
- 
- DKMetadataItems are used to store metadata (attribute) values in user info dictionaries attached to various objects such as layers and
- drawables. Using a special wrapper preserves the type information under editing whereas using raw NSValue/NSNumber objects does not.
- 
- Values passed to -setValue are always converted to the current type wherever possible. Conversely, using -setType converts the current value
- to that type where possible. A conversion is always attempted, so in some cases a nonsensical conversion will result in data loss, e.g.
- converting a URL to a colour. The -isLossyConversionToType: will return YES for lossy conversions, NO if the conversion will succeed.
- 
- <type> and <value> properties are KVO-observable, any other methods call these.
-  
- Values are stored in whatever class is appropriate to the type, viz:
- 
- Type				Class
- ----------------------------
- String				NSString
- Integer			NSNumber (int)
- Real				NSNumber (double)
- Boolean			NSNumber (BOOL)
- Unsigned			NSNumber (int)
- Attributed String	NSAttributedString
- Image				NSImage
- Image Data			NSData
- Data				NSData
- URL				NSURL
- Date				NSDate
- Size				NSString
- Point				NSString
- Rect				NSString
- 
-  */

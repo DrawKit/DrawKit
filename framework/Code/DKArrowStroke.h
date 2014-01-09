@@ -59,6 +59,13 @@ DKDimensionToleranceOption;
 
 // the class:
 
+/** @brief DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths.
+
+DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
+arrowhead using the same colour as the stroke, thus seamlessly blending the head into the path. Where multiple
+strokes are used, the resulting effect should be correct when angles are kept the same and lengths are calculated
+from the stroke width.
+*/
 @interface DKArrowStroke : DKStroke <NSCoding, NSCopying>
 {
 @private
@@ -152,11 +159,3 @@ extern NSString*				kDKNegativeToleranceKey;
 extern NSString*				kDKDimensionValueKey;
 extern NSString*				kDKDimensionUnitsKey;
 
-/*
-
-DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
-arrowhead using the same colour as the stroke, thus seamlessly blending the head into the path. Where multiple
-strokes are used, the resulting effect should be correct when angles are kept the same and lengths are calculated
-from the stroke width.
-
-*/

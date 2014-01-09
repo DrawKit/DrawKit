@@ -9,6 +9,16 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
+/** @brief These category methods perform high-level text layout.
+
+These category methods perform high-level text layout.
+
+In the first case, the text is laid out in the layoutRect which dictates the line wrapping and number lines by its width or height (this rect
+is the text container in other words). The resulting text is then rotated to the given angle and mapped into <destRect>, which applies any visual scaling
+and translation, and drawn into the current context.
+
+The second method is similar except that text is flowed into the layoutPath.
+*/
 @interface NSAttributedString (DKAdditions)
 
 /** @brief Lays out the receiver then draws it to the destination
@@ -85,14 +95,3 @@ NSLayoutManager*		sharedDrawingLayoutManager( void );
  */
 NSLayoutManager*		sharedCaptureLayoutManager( void );
 
-/*
-
-These category methods perform high-level text layout.
-
-In the first case, the text is laid out in the layoutRect which dictates the line wrapping and number lines by its width or height (this rect
-is the text container in other words). The resulting text is then rotated to the given angle and mapped into <destRect>, which applies any visual scaling
-and translation, and drawn into the current context.
-
-The second method is similar except that text is flowed into the layoutPath.
-
-*/

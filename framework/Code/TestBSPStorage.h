@@ -9,6 +9,14 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import "DKBSPDirectObjectStorage.h"
 
+/** @brief Unit Test for the BSP storage sub-system.
+
+Unit Test for the BSP storage sub-system. This works by populating a storage instance with dummy objects (instances of testStorableObject) then randomly operating on them.
+ The objects are randomly deleted, inserted, moved, reordered and retrieved many times. If any problems with the storage exist this should throw light on it.
+ 
+ The dummy objects conform to the storable protocol as they are required to do but otherwise merely store their parameters. This ensures that the tests here truly apply to the
+ storage, and not to real storable objects. Other unit tests may test real storables in isolation.
+*/
 @interface TestBSPStorage : SenTestCase
 
 - (void)	testBSPStorage;
@@ -43,13 +51,3 @@
 
 @end
 
-/*
- 
- Unit Test for the BSP storage sub-system. This works by populating a storage instance with dummy objects (instances of testStorableObject) then randomly operating on them.
- The objects are randomly deleted, inserted, moved, reordered and retrieved many times. If any problems with the storage exist this should throw light on it.
- 
- The dummy objects conform to the storable protocol as they are required to do but otherwise merely store their parameters. This ensures that the tests here truly apply to the
- storage, and not to real storable objects. Other unit tests may test real storables in isolation.
- 
- 
- */
