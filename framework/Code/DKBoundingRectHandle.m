@@ -10,24 +10,27 @@
 
 @implementation DKBoundingRectHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKBoundingRectKnobType;
+    return kDKBoundingRectKnobType;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor colorWithDeviceRed:0.5 green:0.9 blue:1.0 alpha:1.0];
+    return [NSColor colorWithDeviceRed:0.5
+                                 green:0.9
+                                  blue:1.0
+                                 alpha:1.0];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return [NSColor blackColor];
+    return [NSColor blackColor];
 }
 
-+ (CGFloat)				scaleFactor
++ (CGFloat)scaleFactor
 {
-	return 0.9;
+    return 0.9;
 }
 
 @end
@@ -36,25 +39,25 @@
 
 @implementation DKLockedBoundingRectHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKBoundingRectKnobType | kDKKnobIsDisabledFlag;
+    return kDKBoundingRectKnobType | kDKKnobIsDisabledFlag;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor whiteColor];
+    return [NSColor whiteColor];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return [NSColor grayColor];
+    return [NSColor grayColor];
 }
 
-- (void)				setColour:(NSColor*) colour
+- (void)setColour:(NSColor*)colour
 {
 #pragma unused(colour)
-	[super setColour:nil];
+    [super setColour:nil];
 }
 
 @end
@@ -63,26 +66,25 @@
 
 @implementation DKInactiveBoundingRectHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKBoundingRectKnobType | kDKKnobIsInactiveFlag;
+    return kDKBoundingRectKnobType | kDKKnobIsInactiveFlag;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor lightGrayColor];
+    return [NSColor lightGrayColor];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return [NSColor grayColor];
+    return [NSColor grayColor];
 }
 
-- (void)				setColour:(NSColor*) colour
+- (void)setColour:(NSColor*)colour
 {
 #pragma unused(colour)
-	[super setColour:nil];
+    [super setColour:nil];
 }
 
 @end
-

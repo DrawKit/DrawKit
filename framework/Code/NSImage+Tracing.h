@@ -13,83 +13,80 @@
 
 // possible values for the quantization method (not all implemented)
 
-typedef enum
-{
-	kDKColourQuantizeUniform	= 0,		// implemented, very basic results but fast
-	kDKColourQuantizePopular555	= 1,
-	kDKColourQuantizePopular444	= 2,
-	kDKColourQuantizeOctree		= 3,		// implemented, fairly good results and fast
-	kDKColourQuantizeMedianCut	= 4
-}
-DKColourQuantizationMethod;
+typedef enum {
+    kDKColourQuantizeUniform = 0, // implemented, very basic results but fast
+    kDKColourQuantizePopular555 = 1,
+    kDKColourQuantizePopular444 = 2,
+    kDKColourQuantizeOctree = 3, // implemented, fairly good results and fast
+    kDKColourQuantizeMedianCut = 4
+} DKColourQuantizationMethod;
 
 // category on NSImage returns lists of 'vector rep' objects (see below)
 
 @interface NSImage (Tracing)
 
-- (NSArray*)			vectorizeToGrayscale:(NSInteger) levels;
-- (NSArray*)			vectorizeToColourWithPrecision:(NSInteger) prec quantizationMethod:(DKColourQuantizationMethod) qm;
+- (NSArray*)vectorizeToGrayscale:(NSInteger)levels;
+- (NSArray*)vectorizeToColourWithPrecision:(NSInteger)prec quantizationMethod:(DKColourQuantizationMethod)qm;
 
-- (NSBitmapImageRep*)	eightBitImageRep;
-- (NSBitmapImageRep*)	twentyFourBitImageRep;
+- (NSBitmapImageRep*)eightBitImageRep;
+- (NSBitmapImageRep*)twentyFourBitImageRep;
 
 @end
 
 // the 'vector rep' object represents each bitplane or separate colour in the image, and will perform the vectorization
 // using potrace when the vector data is requested (lazy vectorization).
 
-@interface DKImageVectorRep	: NSObject
-{
-	potrace_bitmap_t*	mBits;
-	NSUInteger			mLevels;
-	NSUInteger			mPixelValue;
-	potrace_param_t*	mTraceParams;
-	NSBezierPath*		mVectorData;
-	NSColor*			mColour;
+@interface DKImageVectorRep : NSObject {
+    potrace_bitmap_t* mBits;
+    NSUInteger mLevels;
+    NSUInteger mPixelValue;
+    potrace_param_t* mTraceParams;
+    NSBezierPath* mVectorData;
+    NSColor* mColour;
 }
 
-- (id)					initWithImageSize:(NSSize) isize pixelValue:(NSUInteger) pixv levels:(NSUInteger) lev;
+- (id)initWithImageSize:(NSSize)isize pixelValue:(NSUInteger)pixv levels:(NSUInteger)lev;
 
-- (potrace_bitmap_t*)	bitmap;
+- (potrace_bitmap_t*)bitmap;
 
 // get the traced path, performing the trace if needed
 
-- (NSBezierPath*)		vectorPath;
+- (NSBezierPath*)vectorPath;
 
 // colour from original image associated with this bitplane
 
-- (void)				setColour:(NSColor*) cin;
-- (NSColor*)			colour;
+- (void)setColour:(NSColor*)cin;
+- (NSColor*)colour;
 
 // tracing parameters
 
-- (void)				setTurdSize:(NSInteger) turdsize;
-- (NSInteger)					turdSize;
+- (void)setTurdSize:(NSInteger)turdsize;
+- (NSInteger)turdSize;
 
-- (void)				setTurnPolicy:(NSInteger) turnPolicy;
-- (NSInteger)					turnPolicy;
+- (void)setTurnPolicy:(NSInteger)turnPolicy;
+- (NSInteger)turnPolicy;
 
-- (void)				setAlphaMax:(double) alphaMax;
-- (double)				alphaMax;
+- (void)setAlphaMax:(double)alphaMax;
+- (double)alphaMax;
 
-- (void)				setOptimizeCurve:(BOOL) opt;
-- (BOOL)				optimizeCurve;
+- (void)setOptimizeCurve:(BOOL)opt;
+- (BOOL)optimizeCurve;
 
-- (void)				setOptimizeTolerance:(double) optTolerance;
-- (double)				optimizeTolerance;
+- (void)setOptimizeTolerance:(double)optTolerance;
+- (double)optimizeTolerance;
 
-- (void)				setTracingParameters:(NSDictionary*) dict;
-- (NSDictionary*)		tracingParameters;
+- (void)setTracingParameters:(NSDictionary*)dict;
+- (NSDictionary*)tracingParameters;
 
 @end
 
 // dict keys used to set tracing parameters from a dictionary
 
-extern NSString*	kDKTracingParam_turdsize;			// integer value, sets pixel area below which is not traced
-extern NSString*	kDKTracingParam_turnpolicy;			// integer value, turn policy
-extern NSString*	kDKTracingParam_alphamax;			// double value, sets smoothness of corners
-extern NSString*	kDKTracingParam_opticurve;			// boolean value, 1 = simplify curves, 0 = do not simplify
-extern NSString*	kDKTracingParam_opttolerance;		// double value, epsilon limit for curve fit
+extern NSString* kDKTracingParam_turdsize; // integer value, sets pixel area below which is not traced
+extern NSString* kDKTracingParam_turnpolicy; // integer value, turn policy
+extern NSString* kDKTracingParam_alphamax; // double value, sets smoothness of corners
+extern NSString* kDKTracingParam_opticurve; // boolean value, 1 = simplify curves, 0 = do not simplify
+extern NSString* kDKTracingParam_opttolerance; // double value, epsilon limit for curve fit
 
 /*
 

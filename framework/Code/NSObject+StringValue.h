@@ -18,50 +18,49 @@ The most useful is probably NSValue, since this will automatically use NSStringF
 
 /** 
  */
-- (NSString*)	stringValue;
-- (NSString*)	address;
+- (NSString*)stringValue;
+- (NSString*)address;
 
 @end
 
 @interface NSValue (StringValue)
 
-- (NSString*)	stringValue;
+- (NSString*)stringValue;
 
 @end
 
 @interface NSColor (StringValue)
 
-- (NSString*)	stringValue;
+- (NSString*)stringValue;
 
 @end
 
 @interface NSArray (StringValue)
 
-- (NSString*)	stringValue;
+- (NSString*)stringValue;
 
 @end
 
 @interface NSDictionary (StringValue)
 
-- (NSString*)	stringValue;
+- (NSString*)stringValue;
 
 @end
 
 @interface NSSet (StringValue)
 
-- (NSString*)	stringValue;
+- (NSString*)stringValue;
 
 @end
 
 @interface NSString (StringValue)
 
-- (NSString*)	stringValue;
+- (NSString*)stringValue;
 
 @end
 
 @interface NSDate (StringValue)
 
-- (NSString*)	stringValue;
+- (NSString*)stringValue;
 
 @end
-

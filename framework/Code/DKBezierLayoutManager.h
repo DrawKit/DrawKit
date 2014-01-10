@@ -13,13 +13,11 @@
 This subclass of NSLayoutManager captures the laid-out text in a bezier path which it creates. It can be used where a normal
  NSLayoutManager would be used to return the text as a path.
 */
-@interface DKBezierLayoutManager : NSLayoutManager
-{
-	NSBezierPath*		mPath;
+@interface DKBezierLayoutManager : NSLayoutManager {
+    NSBezierPath* mPath;
 }
 
-- (NSBezierPath*)		textPath;
-- (NSArray*)			glyphPathsForContainer:(NSTextContainer*) container usedSize:(NSSize*) aSize;
+- (NSBezierPath*)textPath;
+- (NSArray*)glyphPathsForContainer:(NSTextContainer*)container usedSize:(NSSize*)aSize;
 
 @end
-

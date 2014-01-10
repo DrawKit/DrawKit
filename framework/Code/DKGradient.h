@@ -12,45 +12,38 @@
 
 // gradient type:
 
-typedef enum
-{
-	kDKGradientTypeLinear		= 0,
-	kDKGradientTypeRadial		= 1,
-	kDKGradientSweptAngle		= 3
-}
-DKGradientType;
+typedef enum {
+    kDKGradientTypeLinear = 0,
+    kDKGradientTypeRadial = 1,
+    kDKGradientSweptAngle = 3
+} DKGradientType;
 
 // gradient blending mode:
 
-typedef enum
-{
-	kDKGradientRGBBlending			= 0,
-	kDKGradientHSBBlending			= 1,
-	kDKGradientAlphaBlending		= 64
-}
-DKGradientBlending;
+typedef enum {
+    kDKGradientRGBBlending = 0,
+    kDKGradientHSBBlending = 1,
+    kDKGradientAlphaBlending = 64
+} DKGradientBlending;
 
-typedef enum
-{
-	kDKGradientInterpLinear			= 0,
-	kDKGradientInterpQuadratic		= 2,
-	kDKGradientInterpCubic			= 3,
-	kDKGradientInterpSinus			= 4,
-	kDKGradientInterpSinus2			= 5
-}
-DKGradientInterpolation;
+typedef enum {
+    kDKGradientInterpLinear = 0,
+    kDKGradientInterpQuadratic = 2,
+    kDKGradientInterpCubic = 3,
+    kDKGradientInterpSinus = 4,
+    kDKGradientInterpSinus2 = 5
+} DKGradientInterpolation;
 
 /** @brief A DKGradient encapsulates gradient/shading drawing.
 */
-@interface DKGradient : GCObservableObject <NSCoding, NSCopying>
-{
-	NSMutableArray*			m_colorStops;		// color stops
-	id						m_extensionData;	// additional supplementary data 
-	CGFloat					m_gradAngle;		// linear angle in radians
-	DKGradientType			m_gradType;			// type
-	DKGradientBlending		m_blending;			// method to blend colours
-	DKGradientInterpolation	m_interp;			// interpolation function
-	CGFunctionRef			m_cbfunc;			// callback function
+@interface DKGradient : GCObservableObject <NSCoding, NSCopying> {
+    NSMutableArray* m_colorStops; // color stops
+    id m_extensionData; // additional supplementary data
+    CGFloat m_gradAngle; // linear angle in radians
+    DKGradientType m_gradType; // type
+    DKGradientBlending m_blending; // method to blend colours
+    DKGradientInterpolation m_interp; // interpolation function
+    CGFunctionRef m_cbfunc; // callback function
 }
 
 // simple gradient convenience methods
@@ -59,7 +52,7 @@ DKGradientInterpolation;
  * @return autoreleased default gradient object
  * @public
  */
-+ (DKGradient*)			defaultGradient;
++ (DKGradient*)defaultGradient;
 
 /** @brief Returns a linear gradient from Color c1 to c2
  * @note
@@ -69,7 +62,7 @@ DKGradientInterpolation;
  * @return gradient object
  * @public
  */
-+ (DKGradient*)			gradientWithStartingColor:(NSColor*) c1 endingColor:(NSColor*) c2;
++ (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2;
 
 /** @brief Returns a gradient from Color c1 to c2 with given type and angle
  * @param c1 the starting Color
@@ -79,7 +72,7 @@ DKGradientInterpolation;
  * @return gradient object
  * @public
  */
-+ (DKGradient*)			gradientWithStartingColor:(NSColor*) c1 endingColor:(NSColor*) c2 type:(NSInteger) gt angle:(CGFloat) degrees;
++ (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2 type:(NSInteger)gt angle:(CGFloat)degrees;
 
 // modified copies:
 
@@ -88,35 +81,35 @@ DKGradientInterpolation;
  * @return a new gradient, a copy of the receiver in every way except colourized by <color> 
  * @public
  */
-- (DKGradient*)			gradientByColorizingWithColor:(NSColor*) color;
+- (DKGradient*)gradientByColorizingWithColor:(NSColor*)color;
 
 /** @brief Creates a copy of the gradient but sets the alpha vealue of all stop colours to <alpha>
  * @param alpha the desired alpha
  * @return a new gradient, a copy of the receiver with requested alpha 
  * @public
  */
-- (DKGradient*)			gradientWithAlpha:(CGFloat) alpha;
+- (DKGradient*)gradientWithAlpha:(CGFloat)alpha;
 
 // setting up the Color stops
 
-- (DKColorStop*)		addColor:(NSColor*) Color at:(CGFloat) pos;
-- (void)				addColorStop:(DKColorStop*) stop;
+- (DKColorStop*)addColor:(NSColor*)Color at:(CGFloat)pos;
+- (void)addColorStop:(DKColorStop*)stop;
 
 /** @brief Removes the last Color from he list of Colors
  * @public
  */
-- (void)				removeLastColor;
+- (void)removeLastColor;
 
 /** @brief Removes a Color stop from the list of Colors
  * @param stop the stop to remove
  * @public
  */
-- (void)				removeColorStop:(DKColorStop*) stop;
+- (void)removeColorStop:(DKColorStop*)stop;
 
 /** @brief Removes all Colors from the list of Colors
  * @public
  */
-- (void)				removeAllColors;
+- (void)removeAllColors;
 
 /** @brief Sets the list of Color stops in the gradient
  * @note
@@ -124,7 +117,7 @@ DKGradientInterpolation;
  * @param stops an array of DKColorStop objects
  * @public
  */
-- (void)				setColorStops:(NSArray*) stops;
+- (void)setColorStops:(NSArray*)stops;
 
 /** @brief Returns the list of Color stops in the gradient
  * @note
@@ -132,21 +125,21 @@ DKGradientInterpolation;
  * @return the array of DKColorStop (color + position) objects in the gradient
  * @public
  */
-- (NSArray*)			colorStops;
+- (NSArray*)colorStops;
 
 /** @brief Sorts the Color stops into position order
  * @note
  * Stops are sorted in place
  * @public
  */
-- (void)				sortColorStops;
+- (void)sortColorStops;
 
 /** @brief Reverses the order of all the Color stops so "inverting" the gradient
  * @note
  * Stop positions are changed, but Colors are not touched
  * @public
  */
-- (void)				reverseColorStops;
+- (void)reverseColorStops;
 
 // KVO compliant accessors:
 
@@ -156,7 +149,7 @@ DKGradientInterpolation;
  * @return an integer, the number of Colors used to compute the gradient
  * @public
  */
-- (NSUInteger)		countOfColorStops;
+- (NSUInteger)countOfColorStops;
 
 /** @brief Returns the the indexed Color stop
  * @note
@@ -165,13 +158,13 @@ DKGradientInterpolation;
  * @return a Color stop
  * @public
  */
-- (DKColorStop*)		objectInColorStopsAtIndex:(NSUInteger) ix;
-- (void)				insertObject:(DKColorStop*) stop inColorStopsAtIndex:(NSUInteger) ix;
-- (void)				removeObjectFromColorStopsAtIndex:(NSUInteger) ix;
+- (DKColorStop*)objectInColorStopsAtIndex:(NSUInteger)ix;
+- (void)insertObject:(DKColorStop*)stop inColorStopsAtIndex:(NSUInteger)ix;
+- (void)removeObjectFromColorStopsAtIndex:(NSUInteger)ix;
 
 // a variety of ways to fill a path
 
-- (void)				fillRect:(NSRect)rect;
+- (void)fillRect:(NSRect)rect;
 
 /** @brief Fills the path using the gradient
  * @note
@@ -180,19 +173,23 @@ DKGradientInterpolation;
  * @param path the bezier path to fill. 
  * @public
  */
-- (void)				fillPath:(NSBezierPath*) path;
+- (void)fillPath:(NSBezierPath*)path;
 
 /** @brief Fills the path using the gradient
  * @param path the bezier path to fill
  * @param co displacement from the centre for the start of a radial fill
  * @public
  */
-- (void)				fillPath:(NSBezierPath*) path centreOffset:(NSPoint) co;
-- (void)				fillPath:(NSBezierPath*) path startingAtPoint:(NSPoint) sp
-								startRadius:(CGFloat) sr endingAtPoint:(NSPoint) ep endRadius:(CGFloat) er;
+- (void)fillPath:(NSBezierPath*)path centreOffset:(NSPoint)co;
+- (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp
+        startRadius:(CGFloat)sr
+      endingAtPoint:(NSPoint)ep
+          endRadius:(CGFloat)er;
 
-- (void)				fillContext:(CGContextRef) context startingAtPoint:(NSPoint) sp
-								startRadius:(CGFloat) sr endingAtPoint:(NSPoint) ep endRadius:(CGFloat) er;
+- (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
+        startRadius:(CGFloat)sr
+      endingAtPoint:(NSPoint)ep
+          endRadius:(CGFloat)er;
 
 /** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
  * @note
@@ -208,7 +205,7 @@ DKGradientInterpolation;
  * @return a Color value
  * @public
  */
-- (NSColor*)			colorAtValue:(CGFloat) val;
+- (NSColor*)colorAtValue:(CGFloat)val;
 
 // setting the angle
 
@@ -216,26 +213,26 @@ DKGradientInterpolation;
  * @param ang the desired angle in radians
  * @public
  */
-- (void)				setAngle:(CGFloat) ang;
+- (void)setAngle:(CGFloat)ang;
 
 /** @brief Returns the gradient's current angle in radians
  * @return angle expressed in radians
  * @public
  */
-- (CGFloat)				angle;
+- (CGFloat)angle;
 
 /** @brief Sets the angle of the gradient to the given angle
  * @param degrees the desired angle expressed in degrees
  * @public
  */
-- (void)				setAngleInDegrees:(CGFloat) degrees;
+- (void)setAngleInDegrees:(CGFloat)degrees;
 
 /** @brief Returns the gradient's current angle in degrees
  * @return angle expressed in degrees
  * @public
  */
-- (CGFloat)				angleInDegrees;
-- (void)				setAngleWithoutNotifying:(CGFloat) ang;
+- (CGFloat)angleInDegrees;
+- (void)setAngleWithoutNotifying:(CGFloat)ang;
 
 // setting gradient type, blending and interpolation settings
 
@@ -245,19 +242,19 @@ DKGradientInterpolation;
  * @param gt the type
  * @public
  */
-- (void)				setGradientType:(DKGradientType) gt;
-- (DKGradientType)		gradientType;
+- (void)setGradientType:(DKGradientType)gt;
+- (DKGradientType)gradientType;
 
-- (void)				setGradientBlending:(DKGradientBlending) bt;
-- (DKGradientBlending)  gradientBlending;
+- (void)setGradientBlending:(DKGradientBlending)bt;
+- (DKGradientBlending)gradientBlending;
 
-- (void)				setGradientInterpolation:(DKGradientInterpolation) intrp;
+- (void)setGradientInterpolation:(DKGradientInterpolation)intrp;
 
 /** @brief Returns the interpolation algorithm for the gradient
  * @return the current interpolation
  * @public
  */
-- (DKGradientInterpolation)	gradientInterpolation;
+- (DKGradientInterpolation)gradientInterpolation;
 
 // swatch images
 
@@ -267,51 +264,50 @@ DKGradientInterpolation;
  * @return an NSIMage containing the current gradient
  * @public
  */
-- (NSImage*)			swatchImageWithSize:(NSSize) size withBorder:(BOOL) showBorder;
-- (NSImage*)			standardSwatchImage;
+- (NSImage*)swatchImageWithSize:(NSSize)size withBorder:(BOOL)showBorder;
+- (NSImage*)standardSwatchImage;
 
 @end
 
-#define DKGradientSwatchSize (NSMakeSize (20, 20))
+#define DKGradientSwatchSize (NSMakeSize(20, 20))
 
 #pragma mark -
 
 /** @brief small object that links a Color with its relative position
 */
-@interface DKColorStop : NSObject <NSCoding, NSCopying>
-{
-	NSColor*			mColor;
-	CGFloat				position;
-	DKGradient*			m_ownerRef;
+@interface DKColorStop : NSObject <NSCoding, NSCopying> {
+    NSColor* mColor;
+    CGFloat position;
+    DKGradient* m_ownerRef;
 @public
-	CGFloat				components[4];  // cached rgba values
+    CGFloat components[4]; // cached rgba values
 }
 
-- (id)					initWithColor:(NSColor*) aColor at:(CGFloat) pos;
+- (id)initWithColor:(NSColor*)aColor at:(CGFloat)pos;
 
-- (NSColor*)			color;
-- (void)				setColor:(NSColor*) aColor;
+- (NSColor*)color;
+- (void)setColor:(NSColor*)aColor;
 
 /** @brief Set the alpha of the colour associated with this stop
  * @param alpha the alpha to set
  * @public
  */
-- (void)				setAlpha:(CGFloat) alpha;
+- (void)setAlpha:(CGFloat)alpha;
 
 /** @brief Get the stop's relative position
  * @return a value between 0 and 1
  * @public
  */
-- (CGFloat)				position;
-- (void)				setPosition:(CGFloat) pos;
+- (CGFloat)position;
+- (void)setPosition:(CGFloat)pos;
 
 @end
 
 // notifications sent by DKGradient:
 
-extern NSString*	kDKNotificationGradientWillAddColorStop;
-extern NSString*	kDKNotificationGradientDidAddColorStop;
-extern NSString*	kDKNotificationGradientWillRemoveColorStop;
-extern NSString*	kDKNotificationGradientDidRemoveColorStop;
-extern NSString*	kDKNotificationGradientWillChange;
-extern NSString*	kDKNotificationGradientDidChange;
+extern NSString* kDKNotificationGradientWillAddColorStop;
+extern NSString* kDKNotificationGradientDidAddColorStop;
+extern NSString* kDKNotificationGradientWillRemoveColorStop;
+extern NSString* kDKNotificationGradientDidRemoveColorStop;
+extern NSString* kDKNotificationGradientWillChange;
+extern NSString* kDKNotificationGradientDidChange;

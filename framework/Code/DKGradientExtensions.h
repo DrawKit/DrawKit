@@ -11,53 +11,54 @@
 
 @interface NSView (DKGradientExtensions)
 
-- (void) dragGradient:(DKGradient*)gradient swatchSize:(NSSize)size
-			slideBack:(BOOL)slideBack event:(NSEvent *)event;
+- (void)dragGradient:(DKGradient*)gradient swatchSize:(NSSize)size
+           slideBack:(BOOL)slideBack
+               event:(NSEvent*)event;
 
 /** 
  */
-- (void) dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent *)event;
+- (void)dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent*)event;
 
-- (void) dragColor:(NSColor*)color swatchSize:(NSSize)size slideBack:(BOOL)slideBack event:(NSEvent *)event;
+- (void)dragColor:(NSColor*)color swatchSize:(NSSize)size slideBack:(BOOL)slideBack event:(NSEvent*)event;
 
 @end
 
 @interface NSColor (DKGradientExtensions)
 
-- (NSImage*) swatchImageWithSize:(NSSize) size withBorder:(BOOL) showBorder;
+- (NSImage*)swatchImageWithSize:(NSSize)size withBorder:(BOOL)showBorder;
 
 @end
 
 @interface DKGradient (DKGradientExtensions)
 
-- (void)		setUpExtensionData;
+- (void)setUpExtensionData;
 
-- (void)		setRadialStartingPoint:(NSPoint) p;
-- (void)		setRadialEndingPoint:(NSPoint) p;
-- (void)		setRadialStartingRadius:(CGFloat) rad;
-- (void)		setRadialEndingRadius:(CGFloat) rad;
+- (void)setRadialStartingPoint:(NSPoint)p;
+- (void)setRadialEndingPoint:(NSPoint)p;
+- (void)setRadialStartingRadius:(CGFloat)rad;
+- (void)setRadialEndingRadius:(CGFloat)rad;
 
-- (NSPoint)		radialStartingPoint;
-- (NSPoint)		radialEndingPoint;
-- (CGFloat)		radialStartingRadius;
-- (CGFloat)		radialEndingRadius;
+- (NSPoint)radialStartingPoint;
+- (NSPoint)radialEndingPoint;
+- (CGFloat)radialStartingRadius;
+- (CGFloat)radialEndingRadius;
 
-- (BOOL)		hasRadialSettings;
+- (BOOL)hasRadialSettings;
 
-- (NSPoint)		mapPoint:(NSPoint) p fromRect:(NSRect) rect;
-- (NSPoint)		mapPoint:(NSPoint) p toRect:(NSRect) rect;
+- (NSPoint)mapPoint:(NSPoint)p fromRect:(NSRect)rect;
+- (NSPoint)mapPoint:(NSPoint)p toRect:(NSRect)rect;
 
-- (void)		convertOldKey:(NSString*) key;
-- (void)		convertOldKeys;
+- (void)convertOldKey:(NSString*)key;
+- (void)convertOldKeys;
 
 @end
 
-@interface		NSDictionary (StructEncoding)
+@interface NSDictionary (StructEncoding)
 
-- (void)		setPoint:(NSPoint) p forKey:(id) key;
-- (NSPoint)		pointForKey:(id) key;
+- (void)setPoint:(NSPoint)p forKey:(id)key;
+- (NSPoint)pointForKey:(id)key;
 
-- (void)		setFloat:(float) f forKey:(id) key;
-- (float)floatForKey:(id) key;
+- (void)setFloat:(float)f forKey:(id)key;
+- (float)floatForKey:(id)key;
 
 @end

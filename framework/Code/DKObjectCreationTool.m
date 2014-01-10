@@ -16,15 +16,15 @@
 #import "LogEvent.h"
 
 #pragma mark Contants (Non-localized)
-NSString*	kDKDrawingToolWillMakeNewObjectNotification = @"kDKDrawingToolWillMakeNewObjectNotification";
-NSString*	kDKDrawingToolCreatedObjectsStyleDidChange	= @"kDKDrawingToolCreatedObjectsStyleDidChange";
+NSString* kDKDrawingToolWillMakeNewObjectNotification = @"kDKDrawingToolWillMakeNewObjectNotification";
+NSString* kDKDrawingToolCreatedObjectsStyleDidChange = @"kDKDrawingToolCreatedObjectsStyleDidChange";
 
 #pragma mark Static Vars
-static DKStyle*	sCreatedObjectsStyle = nil;
+static DKStyle* sCreatedObjectsStyle = nil;
 
 @interface DKObjectCreationTool (Private)
 
-- (BOOL)	finishCreation:(DKToolController*) controller;
+- (BOOL)finishCreation:(DKToolController*)controller;
 
 @end
 
@@ -41,18 +41,19 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @param name the name of the tool to register this with
  * @public
  */
-+ (void)				registerDrawingToolForObject:(id <NSCopying>) shape withName:(NSString*) name
++ (void)registerDrawingToolForObject:(id<NSCopying>)shape withName:(NSString*)name
 {
-	// creates a drawing tool for the given object and registers it with the name. This quickly allows you to make a tool
-	// for any object you already have, give it a name and use it to make more similar objects in the drawing.
-	
-	NSAssert( shape != nil, @"trying to make a tool for nil shape");
-	
-	id						cpy = [shape copyWithZone:nil];
-	DKObjectCreationTool*	dt = [[[DKObjectCreationTool alloc] initWithPrototypeObject:cpy] autorelease];
-	[cpy release];
-	
-	[DKDrawingTool registerDrawingTool:dt  withName:name];
+    // creates a drawing tool for the given object and registers it with the name. This quickly allows you to make a tool
+    // for any object you already have, give it a name and use it to make more similar objects in the drawing.
+
+    NSAssert(shape != nil, @"trying to make a tool for nil shape");
+
+    id cpy = [shape copyWithZone:nil];
+    DKObjectCreationTool* dt = [[[DKObjectCreationTool alloc] initWithPrototypeObject:cpy] autorelease];
+    [cpy release];
+
+    [DKDrawingTool registerDrawingTool:dt
+                              withName:name];
 }
 
 /** @brief Set a style to be used for subsequently created objects
@@ -61,17 +62,17 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @param aStyle a style object that will be applied to each new object as it is created
  * @public
  */
-+ (void)				setStyleForCreatedObjects:(DKStyle*) aStyle
++ (void)setStyleForCreatedObjects:(DKStyle*)aStyle
 {
-	if(![aStyle isEqualToStyle:sCreatedObjectsStyle])
-	{
-		//NSLog(@"setting style for created objects = '%@'", [aStyle name]);
-		
-		[aStyle retain];
-		[sCreatedObjectsStyle release];
-		sCreatedObjectsStyle = aStyle;
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolCreatedObjectsStyleDidChange object:self];
-	}
+    if (![aStyle isEqualToStyle:sCreatedObjectsStyle]) {
+        //NSLog(@"setting style for created objects = '%@'", [aStyle name]);
+
+        [aStyle retain];
+        [sCreatedObjectsStyle release];
+        sCreatedObjectsStyle = aStyle;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolCreatedObjectsStyleDidChange
+                                                            object:self];
+    }
 }
 
 /** @brief Return a style to be used for subsequently created objects
@@ -80,9 +81,9 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return a style object that will be applied to each new object as it is created, or nil
  * @public
  */
-+ (DKStyle*)			styleForCreatedObjects
++ (DKStyle*)styleForCreatedObjects
 {
-	return sCreatedObjectsStyle;
+    return sCreatedObjectsStyle;
 }
 
 #pragma mark -
@@ -92,21 +93,19 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return the tool object
  * @public
  */
-- (id)					initWithPrototypeObject:(id <NSObject>) aPrototype
+- (id)initWithPrototypeObject:(id<NSObject>)aPrototype
 {
-	self = [super init];
-	if (self != nil)
-	{
-		[self setPrototype:aPrototype];
-		[self setStylePickupEnabled:YES];
+    self = [super init];
+    if (self != nil) {
+        [self setPrototype:aPrototype];
+        [self setStylePickupEnabled:YES];
 
-		if (m_prototypeObject == nil)
-		{
-			[self autorelease];
-			self = nil;
-		}
-	}
-	return self;
+        if (m_prototypeObject == nil) {
+            [self autorelease];
+            self = nil;
+        }
+    }
+    return self;
 }
 
 #pragma mark -
@@ -115,22 +114,22 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @param aPrototype an object that will be used as the tool's prototype - each new object created will
  * @public
  */
-- (void)				setPrototype:(id <NSObject>) aPrototype
+- (void)setPrototype:(id<NSObject>)aPrototype
 {
-	NSAssert( aPrototype != nil, @"prototype object cannot be nil");
-	
-	[aPrototype retain];
-	[m_prototypeObject release];
-	m_prototypeObject = aPrototype;
+    NSAssert(aPrototype != nil, @"prototype object cannot be nil");
+
+    [aPrototype retain];
+    [m_prototypeObject release];
+    m_prototypeObject = aPrototype;
 }
 
 /** @brief Return the object to be copied when the tool creates a new one
  * @return an object - each new object created will be a copy of this one.
  * @public
  */
-- (id)					prototype
+- (id)prototype
 {
-	return m_prototypeObject;
+    return m_prototypeObject;
 }
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
@@ -139,53 +138,52 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return a new object based on the prototype.
  * @public
  */
-- (id)					objectFromPrototype
+- (id)objectFromPrototype
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWillMakeNewObjectNotification object:self];
-	
-	id obj = [[[self prototype] copy] autorelease];
-	
-	NSAssert( obj != nil, @"couldn't create new object from prototype");
-	
-	// if there is a class setting for a style, set it. Otherwise use the prototype's style.
-	
-	if([obj isKindOfClass:[DKDrawableObject class]])
-	{
-		if([[self class] styleForCreatedObjects] != nil )
-		{
-			[(DKDrawableObject*)obj setStyle:[[self class] styleForCreatedObjects]];
-		}
-	}
-	return obj;
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWillMakeNewObjectNotification
+                                                        object:self];
+
+    id obj = [[[self prototype] copy] autorelease];
+
+    NSAssert(obj != nil, @"couldn't create new object from prototype");
+
+    // if there is a class setting for a style, set it. Otherwise use the prototype's style.
+
+    if ([obj isKindOfClass:[DKDrawableObject class]]) {
+        if ([[self class] styleForCreatedObjects] != nil) {
+            [(DKDrawableObject*)obj setStyle:[[self class] styleForCreatedObjects]];
+        }
+    }
+    return obj;
 }
 
-- (void)				setStyle:(DKStyle*) aStyle
+- (void)setStyle:(DKStyle*)aStyle
 {
-	// sets the style for the prototype (an dhence subsequently created objects). This setting is overridden by
-	// a style set for the class as a whole.
-	
-	if([[self prototype] respondsToSelector:_cmd])
-		[(DKDrawableObject*)[self prototype] setStyle:aStyle];
+    // sets the style for the prototype (an dhence subsequently created objects). This setting is overridden by
+    // a style set for the class as a whole.
+
+    if ([[self prototype] respondsToSelector:_cmd])
+        [(DKDrawableObject*)[self prototype] setStyle:aStyle];
 }
 
-- (DKStyle*)			style
+- (DKStyle*)style
 {
-	// returns the style that will be used by this tool. That is the prototype's style or the general style applied by the class.
-	
-	if([[self class] styleForCreatedObjects] != nil )
-		return [[self class] styleForCreatedObjects];
-	else
-		return [(DKDrawableObject*)[self prototype] style];
+    // returns the style that will be used by this tool. That is the prototype's style or the general style applied by the class.
+
+    if ([[self class] styleForCreatedObjects] != nil)
+        return [[self class] styleForCreatedObjects];
+    else
+        return [(DKDrawableObject*)[self prototype] style];
 }
 
-- (void)				setStylePickupEnabled:(BOOL) pickup
+- (void)setStylePickupEnabled:(BOOL)pickup
 {
-	mEnableStylePickup = pickup;
+    mEnableStylePickup = pickup;
 }
 
-- (BOOL)				stylePickupEnabled
+- (BOOL)stylePickupEnabled
 {
-	return mEnableStylePickup;
+    return mEnableStylePickup;
 }
 
 #pragma mark -
@@ -196,81 +194,80 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return an image
  * @public
  */
-- (NSImage*)			image
+- (NSImage*)image
 {
-	return [[self prototype] swatchImageWithSize:kDKDefaultToolSwatchSize];
+    return [[self prototype] swatchImageWithSize:kDKDefaultToolSwatchSize];
 }
 
 /** @brief Complete the object creation cleanly
  * @return YES if undo task generated, NO otherwise
  * @private
  */
-- (BOOL)				finishCreation:(DKToolController*) controller
+- (BOOL)finishCreation:(DKToolController*)controller
 {
-	BOOL result = NO;
-	
-	if( m_protoObject )
-	{
-		DKObjectOwnerLayer* layer = (DKObjectOwnerLayer*)[controller activeLayer];
-		
-		// let the object know we are finishing, whether it is valid or not
-		@try
-		{
-			[m_protoObject mouseUpAtPoint:mLastPoint inPart:mPartcode event:[NSApp currentEvent]];
-			[m_protoObject creationTool:self willEndCreationAtPoint:mLastPoint];
-		}
-		@catch( NSException* e )
-		{
-			[m_protoObject release];
-			m_protoObject = nil;
-		}
-		
-		// if the object created is not valid, the pending add to the layer needs to be
-		// aborted. Otherwise the object is committed to the layer
-		
-		if (![m_protoObject objectIsValid])
-		{
-			[layer removePendingObject];
-			LogEvent_( kReactiveEvent, @"object invalid - not committed to layer");
-			result = NO;
-			
-			// should be unnecessary as undo disabled while tool creating, but in case code turned it on...
-			
-			[[layer undoManager] removeAllActionsWithTarget:m_protoObject];
-			
-			[m_protoObject release];
-			m_protoObject = nil;
+    BOOL result = NO;
 
-			// turn undo back on
-			
-			if(![[layer undoManager] isUndoRegistrationEnabled])
-				[[layer undoManager] enableUndoRegistration];
-		}
-		else
-		{
-			// a valid object was made, so commit it to the layer and select it
-			// turn undo back on and commit the object
-			
-			if(![[layer undoManager] isUndoRegistrationEnabled])
-				[[layer undoManager] enableUndoRegistration];
-			
-			[controller toolWillPerformUndoableAction:self];
-			
-			[(DKObjectDrawingLayer*)layer recordSelectionForUndo];
-			[(DKObjectDrawingLayer*)layer commitPendingObjectWithUndoActionName:[self actionName]];
-			[(DKObjectDrawingLayer*)layer replaceSelectionWithObject:m_protoObject];
-			[(DKObjectDrawingLayer*)layer commitSelectionUndoWithActionName:[self actionName]];
-			
-			LogEvent_( kReactiveEvent, @"object OK - committed to layer");
-			
-			[m_protoObject release];
-			m_protoObject = nil;
-			
-			result = YES;
-		}
-	}
-	
-	return result;
+    if (m_protoObject) {
+        DKObjectOwnerLayer* layer = (DKObjectOwnerLayer*)[controller activeLayer];
+
+        // let the object know we are finishing, whether it is valid or not
+        @try
+        {
+            [m_protoObject mouseUpAtPoint:mLastPoint
+                                   inPart:mPartcode
+                                    event:[NSApp currentEvent]];
+            [m_protoObject creationTool:self
+                 willEndCreationAtPoint:mLastPoint];
+        }
+        @catch (NSException* e)
+        {
+            [m_protoObject release];
+            m_protoObject = nil;
+        }
+
+        // if the object created is not valid, the pending add to the layer needs to be
+        // aborted. Otherwise the object is committed to the layer
+
+        if (![m_protoObject objectIsValid]) {
+            [layer removePendingObject];
+            LogEvent_(kReactiveEvent, @"object invalid - not committed to layer");
+            result = NO;
+
+            // should be unnecessary as undo disabled while tool creating, but in case code turned it on...
+
+            [[layer undoManager] removeAllActionsWithTarget:m_protoObject];
+
+            [m_protoObject release];
+            m_protoObject = nil;
+
+            // turn undo back on
+
+            if (![[layer undoManager] isUndoRegistrationEnabled])
+                [[layer undoManager] enableUndoRegistration];
+        } else {
+            // a valid object was made, so commit it to the layer and select it
+            // turn undo back on and commit the object
+
+            if (![[layer undoManager] isUndoRegistrationEnabled])
+                [[layer undoManager] enableUndoRegistration];
+
+            [controller toolWillPerformUndoableAction:self];
+
+            [(DKObjectDrawingLayer*)layer recordSelectionForUndo];
+            [(DKObjectDrawingLayer*)layer commitPendingObjectWithUndoActionName:[self actionName]];
+            [(DKObjectDrawingLayer*)layer replaceSelectionWithObject:m_protoObject];
+            [(DKObjectDrawingLayer*)layer commitSelectionUndoWithActionName:[self actionName]];
+
+            LogEvent_(kReactiveEvent, @"object OK - committed to layer");
+
+            [m_protoObject release];
+            m_protoObject = nil;
+
+            result = YES;
+        }
+    }
+
+    return result;
 }
 
 #pragma mark -
@@ -279,10 +276,10 @@ static DKStyle*	sCreatedObjectsStyle = nil;
 /** @brief Deallocate the tool
  * @public
  */
-- (void)				dealloc
+- (void)dealloc
 {
-	[m_prototypeObject release];
-	[super dealloc];
+    [m_prototypeObject release];
+    [super dealloc];
 }
 
 #pragma mark -
@@ -296,61 +293,61 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return data, or nil
  * @public
  */
-- (NSData*)			persistentData
+- (NSData*)persistentData
 {
-	if([self style])
-		return [NSKeyedArchiver archivedDataWithRootObject:[self style]];
-	else
-		return nil;
+    if ([self style])
+        return [NSKeyedArchiver archivedDataWithRootObject:[self style]];
+    else
+        return nil;
 }
 
 /** @brief On launch, the data that was saved by the previous session will be reloaded
  * @public
  */
-- (void)			shouldLoadPersistentData:(NSData*) data
+- (void)shouldLoadPersistentData:(NSData*)data
 {
-	NSAssert( data != nil, @"data was nil");
-	
-	@try
-	{
-		DKStyle* aStyle = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-	
-		if( aStyle )
-		{
-			// this style may be registered, which means we must merge it with the registry correctly
-			
-			if([aStyle requiresRemerge])
-			{
-				NSSet* set = [NSSet setWithObject:aStyle];
-				set = [DKStyleRegistry mergeStyles:set inCategories:nil options:kDKReturnExistingStyles mergeDelegate:nil];
-				
-				aStyle = [set anyObject];
-				[aStyle clearRemergeFlag];
-			}
-			
-			//NSLog(@"restoring style '%@' to '%@'", [aStyle name], [self registeredName]);
-			
-			[self setStyle:aStyle];
-		}
-	}
-	@catch( NSException* excp )
-	{
-		NSLog(@"Tool '%@' was unable to load the style - will use default. Exception: %@", [self registeredName], excp );
-		
-		// ignore exception
-		
-	}
+    NSAssert(data != nil, @"data was nil");
+
+    @try
+    {
+        DKStyle* aStyle = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+
+        if (aStyle) {
+            // this style may be registered, which means we must merge it with the registry correctly
+
+            if ([aStyle requiresRemerge]) {
+                NSSet* set = [NSSet setWithObject:aStyle];
+                set = [DKStyleRegistry mergeStyles:set
+                                      inCategories:nil
+                                           options:kDKReturnExistingStyles
+                                     mergeDelegate:nil];
+
+                aStyle = [set anyObject];
+                [aStyle clearRemergeFlag];
+            }
+
+            //NSLog(@"restoring style '%@' to '%@'", [aStyle name], [self registeredName]);
+
+            [self setStyle:aStyle];
+        }
+    }
+    @catch (NSException* excp)
+    {
+        NSLog(@"Tool '%@' was unable to load the style - will use default. Exception: %@", [self registeredName], excp);
+
+        // ignore exception
+    }
 }
 
 /** @brief Clean up when tool is switched out
  * @param aController the tool controller
  * @public
  */
-- (void)				toolControllerWillUnsetTool:(DKToolController*) aController
+- (void)toolControllerWillUnsetTool:(DKToolController*)aController
 {
-	//NSLog(@"unsetting %@, proto = %@", self, m_protoObject);
-	
-	[self finishCreation:aController];
+    //NSLog(@"unsetting %@, proto = %@", self, m_protoObject);
+
+    [self finishCreation:aController];
 }
 
 #pragma mark -
@@ -362,9 +359,9 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return always returns YES
  * @public
  */
-+ (BOOL)				toolPerformsUndoableAction
++ (BOOL)toolPerformsUndoableAction
 {
-	return YES;
+    return YES;
 }
 
 /** @brief Return a string representing what the tool did
@@ -374,20 +371,20 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return a string
  * @public
  */
-- (NSString*)			actionName
+- (NSString*)actionName
 {
-	NSString* objectName = [self registeredName];
-	NSString* s = [NSString stringWithFormat:@"New %@", objectName];
-	return NSLocalizedString( s, @"undo string for new object (type)" );
+    NSString* objectName = [self registeredName];
+    NSString* s = [NSString stringWithFormat:@"New %@", objectName];
+    return NSLocalizedString(s, @"undo string for new object (type)");
 }
 
 /** @brief Return the tool's cursor
  * @return the cross-hair cursor
  * @public
  */
-- (NSCursor*)			cursor
+- (NSCursor*)cursor
 {
-	return [NSCursor crosshairCursor];
+    return [NSCursor crosshairCursor];
 }
 
 /** @brief Handle the initial mouse down
@@ -406,88 +403,90 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return the partcode of object nominated by its class for creating instances of itself interactively
  * @public
  */
-- (NSInteger)					mouseDownAtPoint:(NSPoint) p targetObject:(DKDrawableObject*) obj layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(aDel)
-	
-	NSAssert( layer != nil, @"layer in creation tool mouse down was nil");
-	
-	mPartcode = kDKDrawingNoPart;
-	mDidPickup = NO;
-	m_protoObject = nil;
-	
-	// sanity check the layer type - in practice it shouldn't ever be anything else as this is also checked by the tool controller.
-		
-	if ([layer isKindOfClass:[DKObjectOwnerLayer class]])
-	{
-		// this tool may do a style pickup if enabled. This allows a command-click to choose the style of the clicked object
-		
-		BOOL pickUpStyle = (obj != nil) && [self stylePickupEnabled] && (([event modifierFlags] & NSCommandKeyMask) != 0);
-		
-		if( pickUpStyle )
-		{
-			DKStyle* style = [obj style];
-			[self setStyle:style];
-			mDidPickup = YES;
-			return mPartcode;
-		}
-		
-		// because this tool creates new objects, ignore the <obj> parameter and just make a new one
-		
-		if( m_protoObject == nil )
-			m_protoObject = [[self objectFromPrototype] retain];
-		
-		NSAssert( m_protoObject != nil, @"creation tool couldn't create object from prototype");
-		
-		// turn off recording of undo until we commit the object
-		
-		[[layer undoManager] disableUndoRegistration];
-		
-		@try
-		{
-			// the object is initially added as a pending object - this allows it to be created without making undo tasks for
-			// the layer being added to. If the creation subsequently fails, the pending object can be discarded and the layer state
-			// remains as it was before.
-				
-			[(DKObjectOwnerLayer*)layer addObjectPendingCreation:m_protoObject];
+#pragma unused(aDel)
 
-			// align mouse click to the grid/guides - note, no point checking for ctrl key at this point as mouseDown + ctrl = right click -> menu
-			// thus we just accept the current setting for grid snapping applied to the drawing as a whole
-			
-			p = [m_protoObject snappedMousePoint:p forSnappingPointsWithControlFlag:NO];
-			
-			// set the object's initial size and position (zero size, at the mouse point)
-			// the call below to the object's mouseDown method will set up the drag anchoring and offset as needed
-			
-			LogEvent_( kReactiveEvent, @"creating object %@ at: %@", [m_protoObject description], NSStringFromPoint(p));
-			
-			[m_protoObject setLocation:p];
-			[m_protoObject setSize:NSZeroSize];
-			
-			// let the object know we are about to start:
-			
-			[m_protoObject creationTool:self willBeginCreationAtPoint:p];
+    NSAssert(layer != nil, @"layer in creation tool mouse down was nil");
 
-			// object creation starts by dragging some part - the object class can tell us what part to use here, we shouldn't
-			// rely on hit-testing it directly because the result can be ambiguous for such a small object size:
-			
-			mPartcode = [[m_protoObject class] initialPartcodeForObjectCreation];
-			[m_protoObject mouseDownAtPoint:p inPart:mPartcode event:event];
-		}
-		@catch( NSException* excp )
-		{
-			[m_protoObject release];
-			m_protoObject = nil;
-			
-			[[layer undoManager] enableUndoRegistration];
-			
-			@throw;
-		}
-	}
-	
-	// return the partcode for the new object, so that we get it passed back in subsequent calls
+    mPartcode = kDKDrawingNoPart;
+    mDidPickup = NO;
+    m_protoObject = nil;
 
-	return mPartcode;
+    // sanity check the layer type - in practice it shouldn't ever be anything else as this is also checked by the tool controller.
+
+    if ([layer isKindOfClass:[DKObjectOwnerLayer class]]) {
+        // this tool may do a style pickup if enabled. This allows a command-click to choose the style of the clicked object
+
+        BOOL pickUpStyle = (obj != nil) && [self stylePickupEnabled] && (([event modifierFlags] & NSCommandKeyMask) != 0);
+
+        if (pickUpStyle) {
+            DKStyle* style = [obj style];
+            [self setStyle:style];
+            mDidPickup = YES;
+            return mPartcode;
+        }
+
+        // because this tool creates new objects, ignore the <obj> parameter and just make a new one
+
+        if (m_protoObject == nil)
+            m_protoObject = [[self objectFromPrototype] retain];
+
+        NSAssert(m_protoObject != nil, @"creation tool couldn't create object from prototype");
+
+        // turn off recording of undo until we commit the object
+
+        [[layer undoManager] disableUndoRegistration];
+
+        @try
+        {
+            // the object is initially added as a pending object - this allows it to be created without making undo tasks for
+            // the layer being added to. If the creation subsequently fails, the pending object can be discarded and the layer state
+            // remains as it was before.
+
+            [(DKObjectOwnerLayer*)layer addObjectPendingCreation:m_protoObject];
+
+            // align mouse click to the grid/guides - note, no point checking for ctrl key at this point as mouseDown + ctrl = right click -> menu
+            // thus we just accept the current setting for grid snapping applied to the drawing as a whole
+
+            p = [m_protoObject snappedMousePoint:p
+                forSnappingPointsWithControlFlag:NO];
+
+            // set the object's initial size and position (zero size, at the mouse point)
+            // the call below to the object's mouseDown method will set up the drag anchoring and offset as needed
+
+            LogEvent_(kReactiveEvent, @"creating object %@ at: %@", [m_protoObject description], NSStringFromPoint(p));
+
+            [m_protoObject setLocation:p];
+            [m_protoObject setSize:NSZeroSize];
+
+            // let the object know we are about to start:
+
+            [m_protoObject creationTool:self
+                willBeginCreationAtPoint:p];
+
+            // object creation starts by dragging some part - the object class can tell us what part to use here, we shouldn't
+            // rely on hit-testing it directly because the result can be ambiguous for such a small object size:
+
+            mPartcode = [[m_protoObject class] initialPartcodeForObjectCreation];
+            [m_protoObject mouseDownAtPoint:p
+                                     inPart:mPartcode
+                                      event:event];
+        }
+        @catch (NSException* excp)
+        {
+            [m_protoObject release];
+            m_protoObject = nil;
+
+            [[layer undoManager] enableUndoRegistration];
+
+            @throw;
+        }
+    }
+
+    // return the partcode for the new object, so that we get it passed back in subsequent calls
+
+    return mPartcode;
 }
 
 /** @brief Handle the mouse dragged event
@@ -500,17 +499,18 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @param aDel an optional delegate
  * @public
  */
-- (void)				mouseDraggedToPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(layer)
-	#pragma unused(aDel)
-	
-	if ( m_protoObject != nil && !mDidPickup)
-	{
-		[m_protoObject mouseDraggedAtPoint:p inPart:pc event:event];
-	
-		mLastPoint = p;
-	}
+#pragma unused(layer)
+#pragma unused(aDel)
+
+    if (m_protoObject != nil && !mDidPickup) {
+        [m_protoObject mouseDraggedAtPoint:p
+                                    inPart:pc
+                                     event:event];
+
+        mLastPoint = p;
+    }
 }
 
 /** @brief Handle the mouse up event
@@ -527,28 +527,27 @@ static DKStyle*	sCreatedObjectsStyle = nil;
  * @return YES if the tool did something undoable, NO otherwise
  * @public
  */
-- (BOOL)				mouseUpAtPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
 #pragma unused(pc)
-	NSAssert( layer != nil, @"layer was nil in creation tool mouse up");
-	
-	if( mDidPickup )
-	{
-		mDidPickup = NO;
-		return NO;
-	}
-	
-	BOOL controlKey = ([event modifierFlags] & NSControlKeyMask) != 0;
-	p = [[layer drawing] snapToGrid:p withControlFlag:controlKey];
-	mLastPoint = p;
+    NSAssert(layer != nil, @"layer was nil in creation tool mouse up");
 
-	return [self finishCreation:aDel];
+    if (mDidPickup) {
+        mDidPickup = NO;
+        return NO;
+    }
+
+    BOOL controlKey = ([event modifierFlags] & NSControlKeyMask) != 0;
+    p = [[layer drawing] snapToGrid:p
+                    withControlFlag:controlKey];
+    mLastPoint = p;
+
+    return [self finishCreation:aDel];
 }
 
-- (BOOL)			isValidTargetLayer:(DKLayer*) aLayer
+- (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
-	return [aLayer isKindOfClass:[DKObjectDrawingLayer class]] && ![aLayer locked] && [aLayer visible];
+    return [aLayer isKindOfClass:[DKObjectDrawingLayer class]] && ![aLayer locked] && [aLayer visible];
 }
 
 @end
-

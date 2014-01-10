@@ -20,17 +20,16 @@ The prototype object can have all of its parameters set up in advance as require
 
 You can also set up a style to be applied to all new objects initially as an independent parameter.
 */
-@interface DKObjectCreationTool : DKDrawingTool
-{
+@interface DKObjectCreationTool : DKDrawingTool {
 @private
-	id			m_prototypeObject;
-	BOOL		mEnableStylePickup;
-	BOOL		mDidPickup;
-	NSPoint		mLastPoint;
-	NSInteger	mPartcode;
+    id m_prototypeObject;
+    BOOL mEnableStylePickup;
+    BOOL mDidPickup;
+    NSPoint mLastPoint;
+    NSInteger mPartcode;
 
-@protected	
-	id			m_protoObject;
+@protected
+    id m_protoObject;
 }
 
 /** @brief Create a tool for an existing object
@@ -42,7 +41,7 @@ You can also set up a style to be applied to all new objects initially as an ind
  * @param name the name of the tool to register this with
  * @public
  */
-+ (void)				registerDrawingToolForObject:(id <NSCopying>) shape withName:(NSString*) name;
++ (void)registerDrawingToolForObject:(id<NSCopying>)shape withName:(NSString*)name;
 
 /** @brief Set a style to be used for subsequently created objects
  * @note
@@ -50,7 +49,7 @@ You can also set up a style to be applied to all new objects initially as an ind
  * @param aStyle a style object that will be applied to each new object as it is created
  * @public
  */
-+ (void)				setStyleForCreatedObjects:(DKStyle*) aStyle;
++ (void)setStyleForCreatedObjects:(DKStyle*)aStyle;
 
 /** @brief Return a style to be used for subsequently created objects
  * @note
@@ -58,26 +57,26 @@ You can also set up a style to be applied to all new objects initially as an ind
  * @return a style object that will be applied to each new object as it is created, or nil
  * @public
  */
-+ (DKStyle*)			styleForCreatedObjects;
++ (DKStyle*)styleForCreatedObjects;
 
 /** @brief Initialize the tool
  * @param aPrototype an object that will be used as the tool's prototype - each new object created will
  * @return the tool object
  * @public
  */
-- (id)					initWithPrototypeObject:(id <NSObject>) aPrototype;
+- (id)initWithPrototypeObject:(id<NSObject>)aPrototype;
 
 /** @brief Set the object to be copied when the tool created a new one
  * @param aPrototype an object that will be used as the tool's prototype - each new object created will
  * @public
  */
-- (void)				setPrototype:(id <NSObject>) aPrototype;
+- (void)setPrototype:(id<NSObject>)aPrototype;
 
 /** @brief Return the object to be copied when the tool creates a new one
  * @return an object - each new object created will be a copy of this one.
  * @public
  */
-- (id)					prototype;
+- (id)prototype;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
  * @note
@@ -85,13 +84,13 @@ You can also set up a style to be applied to all new objects initially as an ind
  * @return a new object based on the prototype.
  * @public
  */
-- (id)					objectFromPrototype;
+- (id)objectFromPrototype;
 
-- (void)				setStyle:(DKStyle*) aStyle;
-- (DKStyle*)			style;
+- (void)setStyle:(DKStyle*)aStyle;
+- (DKStyle*)style;
 
-- (void)				setStylePickupEnabled:(BOOL) pickup;
-- (BOOL)				stylePickupEnabled;
+- (void)setStylePickupEnabled:(BOOL)pickup;
+- (BOOL)stylePickupEnabled;
 
 /** @brief Return an image showing what the tool creates
  * @note
@@ -99,12 +98,11 @@ You can also set up a style to be applied to all new objects initially as an ind
  * @return an image
  * @public
  */
-- (NSImage*)			image;
+- (NSImage*)image;
 
 @end
 
-#define  kDKDefaultToolSwatchSize		(NSMakeSize( 64, 64 ))
+#define kDKDefaultToolSwatchSize (NSMakeSize(64, 64))
 
-extern NSString*		kDKDrawingToolWillMakeNewObjectNotification;
-extern NSString*		kDKDrawingToolCreatedObjectsStyleDidChange;
-
+extern NSString* kDKDrawingToolWillMakeNewObjectNotification;
+extern NSString* kDKDrawingToolCreatedObjectsStyleDidChange;

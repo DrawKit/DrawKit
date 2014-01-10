@@ -5,7 +5,7 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
- 
+
 #import "DKDrawableShape+Utilities.h"
 
 @implementation DKDrawableShape (Utilities)
@@ -17,13 +17,13 @@
  * @return a rectangular path transformed to the current true size, position and angle of the shape
  * @public
  */
-- (NSBezierPath*)			pathWithRelativeRect:(NSRect) relRect
+- (NSBezierPath*)pathWithRelativeRect:(NSRect)relRect
 {
-	NSBezierPath* path = [NSBezierPath bezierPathWithRect:relRect];
-	NSAffineTransform* transform = [self transformIncludingParent];
-	[path transformUsingAffineTransform:transform];
-	
-	return path;
+    NSBezierPath* path = [NSBezierPath bezierPathWithRect:relRect];
+    NSAffineTransform* transform = [self transformIncludingParent];
+    [path transformUsingAffineTransform:transform];
+
+    return path;
 }
 
 /** @brief Return a rectangular path with given relative origin but absolute final size
@@ -35,17 +35,17 @@
  * @return a rectangular path transformed to the current true size, position and angle of the shape
  * @public
  */
-- (NSBezierPath*)			pathWithRelativePosition:(NSPoint) relLoc finalSize:(NSSize) size
+- (NSBezierPath*)pathWithRelativePosition:(NSPoint)relLoc finalSize:(NSSize)size
 {
-	// work out a fully relative rect
-	
-	NSRect relRect;
-	
-	relRect.origin = relLoc;
-	relRect.size.width = size.width / [self size].width;
-	relRect.size.height = size.height / [self size].height;
-	
-	return [self pathWithRelativeRect:relRect];
+    // work out a fully relative rect
+
+    NSRect relRect;
+
+    relRect.origin = relLoc;
+    relRect.size.width = size.width / [self size].width;
+    relRect.size.height = size.height / [self size].height;
+
+    return [self pathWithRelativeRect:relRect];
 }
 
 /** @brief Return a rectangular path offset from a given partcode
@@ -60,24 +60,23 @@
  * @return a rectangular path transformed to the current true size, position and angle of the shape
  * @public
  */
-- (NSBezierPath*)			pathWithFinalSize:(NSSize) size offsetBy:(NSPoint) offset fromPartcode:(NSInteger) pc
+- (NSBezierPath*)pathWithFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc
 {
-	NSSize ss = [self size];
-	
-	if( ss.width > 0.0 && ss.height > 0.0 )
-	{
-		NSPoint	p = [self pointForPartcode:pc];
-		NSAffineTransform* transform = [self transformIncludingParent];
-		[transform invert];
-		p = [transform transformPoint:p];
-		
-		p.x += ( offset.x / ss.width );
-		p.y += ( offset.y / ss.height );
-		
-		return [self pathWithRelativePosition:p finalSize:size];
-	}
-	else
-		return nil;
+    NSSize ss = [self size];
+
+    if (ss.width > 0.0 && ss.height > 0.0) {
+        NSPoint p = [self pointForPartcode:pc];
+        NSAffineTransform* transform = [self transformIncludingParent];
+        [transform invert];
+        p = [transform transformPoint:p];
+
+        p.x += (offset.x / ss.width);
+        p.y += (offset.y / ss.height);
+
+        return [self pathWithRelativePosition:p
+                                    finalSize:size];
+    } else
+        return nil;
 }
 
 /** @brief Transforms a path to the final size and position relative to a partcode
@@ -93,39 +92,40 @@
  * @return the transformed path
  * @public
  */
-- (NSBezierPath*)			path:(NSBezierPath*) inPath withFinalSize:(NSSize) size offsetBy:(NSPoint) offset fromPartcode:(NSInteger) pc
+- (NSBezierPath*)path:(NSBezierPath*)inPath withFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc
 {
-	NSAssert( inPath != nil, @"can't do this with a nil path");
-	
-	// eliminate the path's origin offset and size it to the desired final size
-	
-	NSSize	ss = [self size];
-	
-	if( ss.width > 0 && ss.height > 0 )
-	{
-		NSPoint	p = [self pointForPartcode:pc];
-		NSAffineTransform* transform = [self transformIncludingParent];
-		[transform invert];
-		p = [transform transformPoint:p];
-		
-		p.x += ( offset.x / ss.width );
-		p.y += ( offset.y / ss.height );
+    NSAssert(inPath != nil, @"can't do this with a nil path");
 
-		NSRect pr = [inPath bounds];
-		
-		NSAffineTransform* tfm = [NSAffineTransform transform];
-		[tfm translateXBy:p.x yBy:p.y];
-		[tfm scaleXBy:size.width / (pr.size.width * ss.width) yBy:size.height / (pr.size.height * ss.height)];
-		[tfm translateXBy:-pr.origin.x yBy:-pr.origin.y];
-		
-		NSBezierPath* newPath = [tfm transformBezierPath:inPath];
-	
-		[newPath transformUsingAffineTransform:[self transformIncludingParent]];
-		
-		return newPath;
-	}
-	else
-		return nil;
+    // eliminate the path's origin offset and size it to the desired final size
+
+    NSSize ss = [self size];
+
+    if (ss.width > 0 && ss.height > 0) {
+        NSPoint p = [self pointForPartcode:pc];
+        NSAffineTransform* transform = [self transformIncludingParent];
+        [transform invert];
+        p = [transform transformPoint:p];
+
+        p.x += (offset.x / ss.width);
+        p.y += (offset.y / ss.height);
+
+        NSRect pr = [inPath bounds];
+
+        NSAffineTransform* tfm = [NSAffineTransform transform];
+        [tfm translateXBy:p.x
+                      yBy:p.y];
+        [tfm scaleXBy:size.width / (pr.size.width * ss.width)
+                  yBy:size.height / (pr.size.height * ss.height)];
+        [tfm translateXBy:-pr.origin.x
+            yBy:-pr.origin.y];
+
+        NSBezierPath* newPath = [tfm transformBezierPath:inPath];
+
+        [newPath transformUsingAffineTransform:[self transformIncludingParent]];
+
+        return newPath;
+    } else
+        return nil;
 }
 
 /** @brief Convert a point from relative coordinates to absolute coordinates
@@ -135,11 +135,10 @@
  * @return the absolute point taking into account scale, position and angle
  * @public
  */
-- (NSPoint)					pointForRelativeLocation:(NSPoint) relLoc
+- (NSPoint)pointForRelativeLocation:(NSPoint)relLoc
 {
-	NSAffineTransform* transform = [self transformIncludingParent];
-	return [transform transformPoint:relLoc];
+    NSAffineTransform* transform = [self transformIncludingParent];
+    return [transform transformPoint:relLoc];
 }
 
 @end
-

@@ -9,152 +9,137 @@
 
 #import "DKSymbol.h"
 
-
 #pragma mark Static Vars
 static NSMutableDictionary* sSymbolMap;
 static NSInteger sSymCounter = 0;
 
-
 #pragma mark -
 @implementation DKSymbol
 #pragma mark As a DKSymbol
-+ (NSMutableDictionary*)	symbolMap
++ (NSMutableDictionary*)symbolMap
 {
     if (sSymbolMap == nil)
         sSymbolMap = [[NSMutableDictionary alloc] init];
-   
-	return sSymbolMap;
+
+    return sSymbolMap;
 }
 
-
-+ (DKSymbol*)				symbolForString:(NSString*) str
++ (DKSymbol*)symbolForString:(NSString*)str
 {
-    DKSymbol *sym = [[DKSymbol symbolMap] valueForKey:str];
-    
-	if (sym == nil)
-	{
-        sym = [[DKSymbol alloc] initWithString:str index:(++sSymCounter)];
-        [[DKSymbol symbolMap] setValue:sym forKey:[sym string]];
+    DKSymbol* sym = [[DKSymbol symbolMap] valueForKey:str];
+
+    if (sym == nil) {
+        sym = [[DKSymbol alloc] initWithString:str
+                                         index:(++sSymCounter)];
+        [[DKSymbol symbolMap] setValue:sym
+                                forKey:[sym string]];
         [sym release];
     }
-    
-	return sym;
+
+    return sym;
 }
 
-
-+ (DKSymbol*)				symbolForCString:(const char*) cstr length:(NSInteger) len
++ (DKSymbol*)symbolForCString:(const char*)cstr length:(NSInteger)len
 {
-    NSString *str = [[NSString alloc] initWithCString:cstr length:len];
+    NSString* str = [[NSString alloc] initWithCString:cstr
+                                               length:len];
     DKSymbol* sym = [DKSymbol symbolForString:str];
     [str release];
     return sym;
 }
 
-
 #pragma mark -
-- (id)						initWithString:(NSString*) str index:(NSInteger) ndx
+- (id)initWithString:(NSString*)str index:(NSInteger)ndx
 {
-	self = [super init];
-	if (self != nil)
-	{
-		mString = [str retain];
-		mIndex = ndx;
-		
-		if (mString == nil)
-		{
-			[self autorelease];
-			self = nil;
-		}
-	}
-	return self;
+    self = [super init];
+    if (self != nil) {
+        mString = [str retain];
+        mIndex = ndx;
+
+        if (mString == nil) {
+            [self autorelease];
+            self = nil;
+        }
+    }
+    return self;
 }
 
--(NSInteger)						index
+- (NSInteger)index
 {
     return mIndex;
 }
 
-
 #pragma mark -
 #pragma mark As an NSString
-- (unichar)					characterAtIndex:(NSUInteger) ndx
+- (unichar)characterAtIndex:(NSUInteger)ndx
 {
-	return [mString characterAtIndex:ndx];
+    return [mString characterAtIndex:ndx];
 }
 
-
-- (void)					getCharacters:(unichar *) buffer range:(NSRange) aRange
+- (void)getCharacters:(unichar*)buffer range:(NSRange)aRange
 {
-	[mString getCharacters:buffer range:aRange];
+    [mString getCharacters:buffer
+                     range:aRange];
 }
 
-
-- (BOOL)					isEqualToString:(NSString*) str
+- (BOOL)isEqualToString:(NSString*)str
 {
-	return ((self == str) || [mString isEqualToString:str]);
+    return ((self == str) || [mString isEqualToString:str]);
 }
 
-- (NSUInteger)			length
+- (NSUInteger)length
 {
-	return [mString length];
+    return [mString length];
 }
 
-
--(NSString*)				string
+- (NSString*)string
 {
     return mString;
 }
 
-
 #pragma mark -
-- (BOOL)					isLiteralValue
+- (BOOL)isLiteralValue
 {
-	return NO;
+    return NO;
 }
 
-
-- (BOOL)					isSmoothAtom
+- (BOOL)isSmoothAtom
 {
-	return NO;
+    return NO;
 }
 
-
-- (BOOL)					isSmoothIdentifier
+- (BOOL)isSmoothIdentifier
 {
-	return YES;
+    return YES;
 }
-
 
 // NSString protocol
 #pragma mark -
 #pragma mark As an NSObject
-- (void)					dealloc
+- (void)dealloc
 {
     [mString release];
-	
+
     [super dealloc];
 }
 
-
-- (NSString*)				description
+- (NSString*)description
 {
     return mString;
 }
 
--(BOOL)						isEqualTo:(id) anObject
+- (BOOL)isEqualTo:(id)anObject
 {
-	return ((self == anObject) || [mString isEqualToString:[anObject description]]);
+    return ((self == anObject) || [mString isEqualToString:[anObject description]]);
 }
-
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
-- (id)						copyWithZone:(NSZone*) zone
+- (id)copyWithZone:(NSZone*)zone
 {
-	#pragma unused(zone)
-	
-	return [self retain];
-}
+#pragma unused(zone)
 
+    return [self retain];
+}
 
 @end

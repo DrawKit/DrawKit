@@ -18,7 +18,6 @@ One intended client for this is to assign unique registry keys to styles to solv
 
 /** 
  */
-+ (NSString*)			uniqueKey;
++ (NSString*)uniqueKey;
 
 @end
-

@@ -4,25 +4,24 @@
 #include "reader_g.tab.h"
 
 typedef struct _Scanner {
-	/* Scanner state. */
+    /* Scanner state. */
     NSInteger cs;
     NSInteger act;
     NSInteger have;
     NSInteger curline;
-    char *tokstart;
-    char *tokend;
-    char *p;
-    char *pe;
+    char* tokstart;
+    char* tokend;
+    char* p;
+    char* pe;
 
-	/* Token data */
-	char *data;
-	NSInteger len;
+    /* Token data */
+    char* data;
+    NSInteger len;
     NSInteger token;
-	char *token_name;
-	char *buf;
-	
-} Scanner;
+    char* token_name;
+    char* buf;
 
+} Scanner;
 
 #define TK_NO_TOKEN (-1)
 

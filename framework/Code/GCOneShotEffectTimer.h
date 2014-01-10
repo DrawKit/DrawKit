@@ -28,27 +28,25 @@ This class wraps up a very simple piece of timer functionality. It sets up a tim
 	release self (the delegate) when the completion method is called. Short version: it just works - don't
 	try and retain/release anything in any different way from usual.
 */
-@interface GCOneShotEffectTimer : NSObject
-{
+@interface GCOneShotEffectTimer : NSObject {
 @private
-	NSTimer*			mTimer;
-	NSTimeInterval		mStart;
-	NSTimeInterval		mTotal;
-	id					mDelegate;
+    NSTimer* mTimer;
+    NSTimeInterval mStart;
+    NSTimeInterval mTotal;
+    id mDelegate;
 }
 
-+ (id)			oneShotWithStandardFadeTimeForDelegate:(id) del;
-+ (id)			oneShotWithTime:(NSTimeInterval) t forDelegate:(id) del;
++ (id)oneShotWithStandardFadeTimeForDelegate:(id)del;
++ (id)oneShotWithTime:(NSTimeInterval)t forDelegate:(id)del;
 
 @end
 
 @interface NSObject (OneShotDelegate)
 
-- (void)		oneShotWillBegin;
-- (void)		oneShotHasReached:(CGFloat) relpos;
-- (void)		oneShotComplete;
+- (void)oneShotWillBegin;
+- (void)oneShotHasReached:(CGFloat)relpos;
+- (void)oneShotComplete;
 
 @end
 
-#define			kDKStandardFadeTime		0.15
-
+#define kDKStandardFadeTime 0.15

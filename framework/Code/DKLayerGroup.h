@@ -24,10 +24,9 @@ way is so that a layer UI such as a NSTableView doesn't have to do anything spec
 the top layer at the top of such a table. Prior to beta 3, layers were stacked the other way so such tables appeared to
 be upside-down. This class automatically reverses the stacking order in an archive if it detects an older version.
 */
-@interface DKLayerGroup : DKLayer <NSCoding>
-{
+@interface DKLayerGroup : DKLayer <NSCoding> {
 @private
-	NSMutableArray*			m_layers;
+    NSMutableArray* m_layers;
 }
 
 /** @brief Convenience method for building a new layer group from an existing list of layers
@@ -40,7 +39,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * @return a new layer group containing the passed layers
  * @public
  */
-+ (DKLayerGroup*)			layerGroupWithLayers:(NSArray*) layers;
++ (DKLayerGroup*)layerGroupWithLayers:(NSArray*)layers;
 
 /** @brief Initialize a layer group
  * @note
@@ -49,19 +48,19 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * @return a new layer group
  * @public
  */
-- (id)						initWithLayers:(NSArray*) layers;
+- (id)initWithLayers:(NSArray*)layers;
 
 // layer list
 
-- (void)					setLayers:(NSArray*) layers;											// KVC/KVO compliant
-- (NSArray*)				layers;																	// KVC/KVO compliant
-- (NSUInteger)				countOfLayers;															// KVC/KVO compliant
-- (NSUInteger)				indexOfHighestOpaqueLayer;
+- (void)setLayers:(NSArray*)layers; // KVC/KVO compliant
+- (NSArray*)layers; // KVC/KVO compliant
+- (NSUInteger)countOfLayers; // KVC/KVO compliant
+- (NSUInteger)indexOfHighestOpaqueLayer;
 
-- (NSArray*)				flattenedLayers;
-- (NSArray*)				flattenedLayersIncludingGroups:(BOOL) includeGroups;
-- (NSArray*)				flattenedLayersOfClass:(Class) layerClass;
-- (NSArray*)				flattenedLayersOfClass:(Class) layerClass includeGroups:(BOOL) includeGroups;
+- (NSArray*)flattenedLayers;
+- (NSArray*)flattenedLayersIncludingGroups:(BOOL)includeGroups;
+- (NSArray*)flattenedLayersOfClass:(Class)layerClass;
+- (NSArray*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups;
 
 /** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is
  * @note
@@ -69,34 +68,34 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * @return the group's level
  * @public
  */
-- (NSUInteger)				level;
+- (NSUInteger)level;
 
 // adding and removing layers
 
-- (DKLayer*)				addNewLayerOfClass:(Class) layerClass;
-- (void)					addLayer:(DKLayer*) aLayer;
-- (void)					addLayer:(DKLayer*) aLayer aboveLayerIndex:(NSUInteger) layerIndex;
-- (void)					insertObject:(DKLayer*) aLayer inLayersAtIndex:(NSUInteger) layerIndex;	// KVC/KVO compliant
-- (void)					removeObjectFromLayersAtIndex:(NSUInteger) layerIndex;					// KVC/KVO compliant
-- (void)					removeLayer:(DKLayer*) aLayer;
-- (void)					removeAllLayers;
-- (NSString*)				uniqueLayerNameForName:(NSString*) aName;
+- (DKLayer*)addNewLayerOfClass:(Class)layerClass;
+- (void)addLayer:(DKLayer*)aLayer;
+- (void)addLayer:(DKLayer*)aLayer aboveLayerIndex:(NSUInteger)layerIndex;
+- (void)insertObject:(DKLayer*)aLayer inLayersAtIndex:(NSUInteger)layerIndex; // KVC/KVO compliant
+- (void)removeObjectFromLayersAtIndex:(NSUInteger)layerIndex; // KVC/KVO compliant
+- (void)removeLayer:(DKLayer*)aLayer;
+- (void)removeAllLayers;
+- (NSString*)uniqueLayerNameForName:(NSString*)aName;
 
 // getting layers
 
-- (DKLayer*)				objectInLayersAtIndex:(NSUInteger) layerIndex;							// KVC/KVO compliant
-- (DKLayer*)				topLayer;
-- (DKLayer*)				bottomLayer;
-- (NSUInteger)				indexOfLayer:(DKLayer*) aLayer;
-- (DKLayer*)				firstLayerOfClass:(Class) cl;
-- (DKLayer*)				firstLayerOfClass:(Class) cl performDeepSearch:(BOOL) deep;
-- (NSArray*)				layersOfClass:(Class) cl;
-- (NSArray*)				layersOfClass:(Class) cl performDeepSearch:(BOOL) deep;
-- (NSEnumerator*)			layerTopToBottomEnumerator;
-- (NSEnumerator*)			layerBottomToTopEnumerator;
+- (DKLayer*)objectInLayersAtIndex:(NSUInteger)layerIndex; // KVC/KVO compliant
+- (DKLayer*)topLayer;
+- (DKLayer*)bottomLayer;
+- (NSUInteger)indexOfLayer:(DKLayer*)aLayer;
+- (DKLayer*)firstLayerOfClass:(Class)cl;
+- (DKLayer*)firstLayerOfClass:(Class)cl performDeepSearch:(BOOL)deep;
+- (NSArray*)layersOfClass:(Class)cl;
+- (NSArray*)layersOfClass:(Class)cl performDeepSearch:(BOOL)deep;
+- (NSEnumerator*)layerTopToBottomEnumerator;
+- (NSEnumerator*)layerBottomToTopEnumerator;
 
-- (DKLayer*)				findLayerForPoint:(NSPoint) aPoint;
-- (BOOL)					containsLayer:(DKLayer*) aLayer;
+- (DKLayer*)findLayerForPoint:(NSPoint)aPoint;
+- (BOOL)containsLayer:(DKLayer*)aLayer;
 
 /** @brief Returns a layer or layer group having the given unique key
  * @note
@@ -105,7 +104,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * @return the layer if found, nil otherwise.
  * @public
  */
-- (DKLayer*)				layerWithUniqueKey:(NSString*) key;
+- (DKLayer*)layerWithUniqueKey:(NSString*)key;
 
 // showing and hiding
 
@@ -114,7 +113,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * Recurses when nested groups are found
  * @public
  */
-- (void)					showAll;
+- (void)showAll;
 
 /** @brief Makes all layers in the group and in any subgroups hidden except <aLayer>, which is made visible.
  * @note
@@ -122,7 +121,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * @param aLayer a layer to leave visible
  * @public
  */
-- (void)					hideAllExcept:(DKLayer*) aLayer;
+- (void)hideAllExcept:(DKLayer*)aLayer;
 
 /** @brief Returns YES if the  receiver or any of its contained layers is hidden
  * @note
@@ -130,7 +129,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * @return YES if there are hidden layers below this, or this is hidden itself
  * @public
  */
-- (BOOL)					hasHiddenLayers;
+- (BOOL)hasHiddenLayers;
 
 /** @brief Returns YES if the  receiver or any of its contained layers is visible, ignoring the one passed
  * @note
@@ -139,23 +138,22 @@ be upside-down. This class automatically reverses the stacking order in an archi
  * @return YES if there are visible layers below this, or this is visible itself
  * @public
  */
-- (BOOL)					hasVisibleLayersOtherThan:(DKLayer*) aLayer;
+- (BOOL)hasVisibleLayersOtherThan:(DKLayer*)aLayer;
 
 // layer stacking order
 
-- (void)					moveUpLayer:(DKLayer*) aLayer;
-- (void)					moveDownLayer:(DKLayer*) aLayer;
-- (void)					moveLayerToTop:(DKLayer*) aLayer;
-- (void)					moveLayerToBottom:(DKLayer*) aLayer;
-- (void)					moveLayer:(DKLayer*) aLayer aboveLayer:(DKLayer*) otherLayer;
-- (void)					moveLayer:(DKLayer*) aLayer belowLayer:(DKLayer*) otherLayer;
-- (void)					moveLayer:(DKLayer*) aLayer toIndex:(NSUInteger) i;
+- (void)moveUpLayer:(DKLayer*)aLayer;
+- (void)moveDownLayer:(DKLayer*)aLayer;
+- (void)moveLayerToTop:(DKLayer*)aLayer;
+- (void)moveLayerToBottom:(DKLayer*)aLayer;
+- (void)moveLayer:(DKLayer*)aLayer aboveLayer:(DKLayer*)otherLayer;
+- (void)moveLayer:(DKLayer*)aLayer belowLayer:(DKLayer*)otherLayer;
+- (void)moveLayer:(DKLayer*)aLayer toIndex:(NSUInteger)i;
 
 @end
 
-extern NSString*		kDKLayerGroupDidAddLayer;
-extern NSString*		kDKLayerGroupDidRemoveLayer;
-extern NSString*		kDKLayerGroupNumberOfLayersDidChange;
-extern NSString*		kDKLayerGroupWillReorderLayers;
-extern NSString*		kDKLayerGroupDidReorderLayers;
-
+extern NSString* kDKLayerGroupDidAddLayer;
+extern NSString* kDKLayerGroupDidRemoveLayer;
+extern NSString* kDKLayerGroupNumberOfLayersDidChange;
+extern NSString* kDKLayerGroupWillReorderLayers;
+extern NSString* kDKLayerGroupDidReorderLayers;

@@ -29,11 +29,10 @@ its drawing.
 If you subclass this to have more views, etc, bear this in mind - you have to consider how the document's drawing gets hooked up to the views you want. Outlets
 like this are one easy way to do it, but not the only way.
 */
-@interface DKDrawingDocument : NSDocument
-{
+@interface DKDrawingDocument : NSDocument {
 @private
-	IBOutlet DKDrawingView*	mMainDrawingView;
-	DKDrawing*				m_drawing;
+    IBOutlet DKDrawingView* mMainDrawingView;
+    DKDrawing* m_drawing;
 }
 
 /** @brief Returns an undo manager that can be shared by multiple documents
@@ -42,7 +41,7 @@ like this are one easy way to do it, but not the only way.
  * @return the shared instance of the undo manager
  * @public
  */
-+ (NSUndoManager*)		sharedDrawkitUndoManager;
++ (NSUndoManager*)sharedDrawkitUndoManager;
 
 /** @brief Establishes a mapping between a file type and a method that can import that file type
  * @note
@@ -54,7 +53,7 @@ like this are one easy way to do it, but not the only way.
  * @param aSelector a class method of DKDrawing that can import the file type
  * @public
  */
-+ (void)				bindFileImportType:(NSString*) fileType toSelector:(SEL) aSelector;
++ (void)bindFileImportType:(NSString*)fileType toSelector:(SEL)aSelector;
 
 /** @brief Establishes a mapping between a file type and a method that can export that file type
  * @note
@@ -66,13 +65,13 @@ like this are one easy way to do it, but not the only way.
  * @param selector a selector for the method that implements the file export
  * @public
  */
-+ (void)				bindFileExportType:(NSString*) fileType toSelector:(SEL) aSelector;
++ (void)bindFileExportType:(NSString*)fileType toSelector:(SEL)aSelector;
 
 /** @brief Set the default levels of undo assigned to new documents
  * @param levels the number of undo levels
  * @public
  */
-+ (void)				setDefaultLevelsOfUndo:(NSUInteger) levels;
++ (void)setDefaultLevelsOfUndo:(NSUInteger)levels;
 
 /** @brief Return the default levels of undo assigned to new documents
  * @note
@@ -80,7 +79,7 @@ like this are one easy way to do it, but not the only way.
  * @return the number of undo levels
  * @public
  */
-+ (NSUInteger)			defaultLevelsOfUndo;
++ (NSUInteger)defaultLevelsOfUndo;
 
 /** @brief Set the document's drawing object
  * @note
@@ -88,7 +87,7 @@ like this are one easy way to do it, but not the only way.
  * @param drwg a drawing object
  * @public
  */
-- (void)				setDrawing:(DKDrawing*) drwg;
+- (void)setDrawing:(DKDrawing*)drwg;
 
 /** @brief Return the document's drawing object
  * @note
@@ -96,7 +95,7 @@ like this are one easy way to do it, but not the only way.
  * @return the document's drawing object
  * @public
  */
-- (DKDrawing*)			drawing;
+- (DKDrawing*)drawing;
 
 /** @brief Return the document's main view
  * @note
@@ -105,7 +104,7 @@ like this are one easy way to do it, but not the only way.
  * @return the document's main view
  * @public
  */
-- (DKDrawingView*)		mainView;
+- (DKDrawingView*)mainView;
 
 /** @brief Create a controller object to connect the given view to the document's drawing
  * @note
@@ -118,7 +117,7 @@ like this are one easy way to do it, but not the only way.
  * @return a new controller object
  * @public
  */
-- (DKViewController*)	makeControllerForView:(NSView*) aView;
+- (DKViewController*)makeControllerForView:(NSView*)aView;
 
 /** @brief Create a drawing object to be used when the document is not opened from a file on disk
  * @note
@@ -126,7 +125,7 @@ like this are one easy way to do it, but not the only way.
  * @return a default drawing object
  * @public
  */
-- (DKDrawing*)			makeDefaultDrawing;
+- (DKDrawing*)makeDefaultDrawing;
 
 /** @brief Return the class of the layer for New Layer and default drawing construction.
  * @note
@@ -136,7 +135,7 @@ like this are one easy way to do it, but not the only way.
  * @return the class of the default drawing layer
  * @public
  */
-- (Class)				classOfDefaultDrawingLayer;
+- (Class)classOfDefaultDrawingLayer;
 
 /** @brief Return whether an info layer should be added to the default drawing.
  * @note
@@ -144,13 +143,13 @@ like this are one easy way to do it, but not the only way.
  * @return YES, by default
  * @public
  */
-- (BOOL)				wantsInfoLayer;
+- (BOOL)wantsInfoLayer;
 
 /** @brief Returns all styles used by the document's drawing
  * @return a set of all styles in the drawing
  * @public
  */
-- (NSSet*)				allStyles;
+- (NSSet*)allStyles;
 
 /** @brief Returns all registered styles used by the document's drawing
  * @note
@@ -160,7 +159,7 @@ like this are one easy way to do it, but not the only way.
  * @return a set of all registered styles in the drawing
  * @public
  */
-- (NSSet*)				allRegisteredStyles;
+- (NSSet*)allRegisteredStyles;
 
 /** @brief The first step in reconsolidating a newly opened document's registered styles with the current
  * style registry.
@@ -172,7 +171,7 @@ like this are one easy way to do it, but not the only way.
  * @param url the url from whence the document was loaded (ignored by default)
  * @public
  */
-- (void)				remergeStyles:(NSSet*) stylesToMerge readFromURL:(NSURL*) url;
+- (void)remergeStyles:(NSSet*)stylesToMerge readFromURL:(NSURL*)url;
 
 /** @brief The second step in reconsolidating a newly opened document's registered styles with the current
  * style registry.
@@ -181,13 +180,13 @@ like this are one easy way to do it, but not the only way.
  * @param aSetOfStyles the styles returned from the registry that should replace those in the document
  * @public
  */
-- (void)				replaceDocumentStylesWithMatchingStylesFromSet:(NSSet*) aSetOfStyles;
+- (void)replaceDocumentStylesWithMatchingStylesFromSet:(NSSet*)aSetOfStyles;
 
 /** @brief Returns a name that can be used for a style registry category for this document
  * @return a string - just the document's filename without the extension or other path components
  * @public
  */
-- (NSString*)			documentStyleCategoryName;
+- (NSString*)documentStyleCategoryName;
 
 /** @brief Sets the main view's drawing tool to the given tool
  * @note
@@ -198,7 +197,7 @@ like this are one easy way to do it, but not the only way.
  * @param aTool a drawing tool object
  * @public
  */
-- (void)				setDrawingTool:(DKDrawingTool*) aTool;
+- (void)setDrawingTool:(DKDrawingTool*)aTool;
 
 /** @brief Returns the main view's current drawing tool
  * @note
@@ -207,7 +206,7 @@ like this are one easy way to do it, but not the only way.
  * @return a drawing tool object, if any
  * @public
  */
-- (DKDrawingTool*)		drawingTool;
+- (DKDrawingTool*)drawingTool;
 
 /** @brief High-level method to add a new drawing layer to the document
  * @note
@@ -215,7 +214,7 @@ like this are one easy way to do it, but not the only way.
  * @param sender the sender of the message
  * @public
  */
-- (IBAction)			newDrawingLayer:(id) sender;
+- (IBAction)newDrawingLayer:(id)sender;
 
 /** @brief High-level method to add a new drawing layer to the document and move the selected objects to it
  * @note
@@ -224,7 +223,7 @@ like this are one easy way to do it, but not the only way.
  * @param sender the sender of the message
  * @public
  */
-- (IBAction)			newLayerWithSelection:(id) sender;
+- (IBAction)newLayerWithSelection:(id)sender;
 
 /** @brief High-level method to delete the active layer from the drawing
  * @note
@@ -232,7 +231,7 @@ like this are one easy way to do it, but not the only way.
  * @param sender the sender of the message
  * @public
  */
-- (IBAction)			deleteActiveLayer:(id) sender;
+- (IBAction)deleteActiveLayer:(id)sender;
 
 /** @brief Creates a view used to handle printing.
  * @note
@@ -240,16 +239,15 @@ like this are one easy way to do it, but not the only way.
  * @return a view suitable for printing the document's drawing
  * @public
  */
-- (DKDrawingView*)		makePrintDrawingView;
+- (DKDrawingView*)makePrintDrawingView;
 
 @end
 
-extern NSString*		kDKDrawingDocumentType;
-extern NSString*		kDKDrawingDocumentUTI;
-extern NSString*		kDKDrawingDocumentXMLType;
-extern NSString*		kDKDrawingDocumentXMLUTI;
+extern NSString* kDKDrawingDocumentType;
+extern NSString* kDKDrawingDocumentUTI;
+extern NSString* kDKDrawingDocumentXMLType;
+extern NSString* kDKDrawingDocumentXMLUTI;
 
-extern NSString*		kDKDocumentLevelsOfUndoDefaultsKey;
+extern NSString* kDKDocumentLevelsOfUndoDefaultsKey;
 
-#define DEFAULT_LEVELS_OF_UNDO		24
-
+#define DEFAULT_LEVELS_OF_UNDO 24

@@ -10,20 +10,16 @@
 
 // internal undo manager state is one of these constants
 
-typedef enum
-{
-	kGCUndoCollectingTasks		= 0,
-	kGCUndoIsUndoing			= 1,
-	kGCUndoIsRedoing			= 2
-}
-GCUndoManagerState;
+typedef enum {
+    kGCUndoCollectingTasks = 0,
+    kGCUndoIsUndoing = 1,
+    kGCUndoIsRedoing = 2
+} GCUndoManagerState;
 
-typedef enum
-{
-	kGCCoalesceLastTask			= 0,
-	kGCCoalesceAllMatchingTasks	= 1
-}
-GCUndoTaskCoalescingKind;
+typedef enum {
+    kGCCoalesceLastTask = 0,
+    kGCCoalesceAllMatchingTasks = 1
+} GCUndoTaskCoalescingKind;
 
 @class GCUndoGroup, GCUndoManagerProxy, GCConcreteUndoTask;
 
@@ -55,149 +51,148 @@ The point of this is to provide an undo manager whose source is openly readable,
  -undoNestedGroup only operates on top level groups in this implementation, and is thus functionally equivalent to -undo. In fact -undo simply
  calls -undoNestedGroup here.
 */
-@interface GCUndoManager : NSObject
-{
+@interface GCUndoManager : NSObject {
 @private
-	NSMutableArray*		mUndoStack;				// list of groups making up the undo stack
-	NSMutableArray*		mRedoStack;				// list of groups making up the redo stack
-	NSArray*			mRunLoopModes;			// current run loop modes, used by automatic grouping by event
-	id					mNextTarget;			// next prepared target
-	GCUndoGroup*		mOpenGroupRef;			// internal reference to current open group
-	GCUndoManagerProxy*	mProxy;					// the proxy object returned by -prepareWithInvocationTarget: if proxying is used
-	NSInteger			mGroupLevel;			// current grouping level, 0 = no groups open
-	NSUInteger			mLevelsOfUndo;			// how many undo actions are added before old ones are discarded, 0 = unlimited
-	NSInteger			mEnableLevel;			// enable ref count, 0 = enabled.
-	NSUInteger			mChangeCount;			// count of changes (submitting any task increments this)
-	GCUndoManagerState	mState;					// current undo manager state
-	GCUndoTaskCoalescingKind mCoalKind;			// coalescing behaviour - match on emost recent task or all tasks in group
-	BOOL				mGroupsByEvent;			// YES if automatic grouping occurs for the main loop event cycle
-	BOOL				mCoalescing;			// YES if consecutive tasks are coalesced
-	BOOL				mAutoDeleteEmptyGroups;	// YES if empty groups are automatically removed from the stack
-	BOOL				mRetainsTargets;		// YES if invocation targets are retained
-	BOOL				mIsRemovingTargets;		// YES during stack clean-up to prevent re-entrancy
+    NSMutableArray* mUndoStack; // list of groups making up the undo stack
+    NSMutableArray* mRedoStack; // list of groups making up the redo stack
+    NSArray* mRunLoopModes; // current run loop modes, used by automatic grouping by event
+    id mNextTarget; // next prepared target
+    GCUndoGroup* mOpenGroupRef; // internal reference to current open group
+    GCUndoManagerProxy* mProxy; // the proxy object returned by -prepareWithInvocationTarget: if proxying is used
+    NSInteger mGroupLevel; // current grouping level, 0 = no groups open
+    NSUInteger mLevelsOfUndo; // how many undo actions are added before old ones are discarded, 0 = unlimited
+    NSInteger mEnableLevel; // enable ref count, 0 = enabled.
+    NSUInteger mChangeCount; // count of changes (submitting any task increments this)
+    GCUndoManagerState mState; // current undo manager state
+    GCUndoTaskCoalescingKind mCoalKind; // coalescing behaviour - match on emost recent task or all tasks in group
+    BOOL mGroupsByEvent; // YES if automatic grouping occurs for the main loop event cycle
+    BOOL mCoalescing; // YES if consecutive tasks are coalesced
+    BOOL mAutoDeleteEmptyGroups; // YES if empty groups are automatically removed from the stack
+    BOOL mRetainsTargets; // YES if invocation targets are retained
+    BOOL mIsRemovingTargets; // YES during stack clean-up to prevent re-entrancy
 }
 
 // NSUndoManager compatible API
 // undo groups
 
-- (void)				beginUndoGrouping;
-- (void)				endUndoGrouping;
+- (void)beginUndoGrouping;
+- (void)endUndoGrouping;
 
-- (NSUInteger)			groupingLevel;
-- (BOOL)				groupsByEvent;
-- (void)				setGroupsByEvent:(BOOL) groupByEvent;
+- (NSUInteger)groupingLevel;
+- (BOOL)groupsByEvent;
+- (void)setGroupsByEvent:(BOOL)groupByEvent;
 
-- (NSArray*)			runLoopModes;
-- (void)				setRunLoopModes:(NSArray*) modes;
+- (NSArray*)runLoopModes;
+- (void)setRunLoopModes:(NSArray*)modes;
 
 // enabling undo registration
 
-- (void)				enableUndoRegistration;
-- (void)				disableUndoRegistration;
-- (BOOL)				isUndoRegistrationEnabled;
+- (void)enableUndoRegistration;
+- (void)disableUndoRegistration;
+- (BOOL)isUndoRegistrationEnabled;
 
 // setting the number of undos allowed before old ones are discarded
 
-- (NSUInteger)			levelsOfUndo;
-- (void)				setLevelsOfUndo:(NSUInteger) levels;
+- (NSUInteger)levelsOfUndo;
+- (void)setLevelsOfUndo:(NSUInteger)levels;
 
 // performing the undo or redo
 
-- (BOOL)				canUndo;
-- (BOOL)				canRedo;
+- (BOOL)canUndo;
+- (BOOL)canRedo;
 
-- (void)				undo;
-- (void)				redo;
-- (void)				undoNestedGroup;
+- (void)undo;
+- (void)redo;
+- (void)undoNestedGroup;
 
-- (BOOL)				isUndoing;
-- (BOOL)				isRedoing;
+- (BOOL)isUndoing;
+- (BOOL)isRedoing;
 
 // undo menu management
 
-- (void)				setActionName:(NSString*) actionName;
-- (NSString*)			undoActionName;
-- (NSString*)			redoActionName;
-- (NSString*)			undoMenuItemTitle;
-- (NSString*)			redoMenuItemTitle;
-- (NSString*)			undoMenuTitleForUndoActionName:(NSString*) actionName;
-- (NSString*)			redoMenuTitleForUndoActionName:(NSString*) actionName;
+- (void)setActionName:(NSString*)actionName;
+- (NSString*)undoActionName;
+- (NSString*)redoActionName;
+- (NSString*)undoMenuItemTitle;
+- (NSString*)redoMenuItemTitle;
+- (NSString*)undoMenuTitleForUndoActionName:(NSString*)actionName;
+- (NSString*)redoMenuTitleForUndoActionName:(NSString*)actionName;
 
 // registering actions with the undo manager
 
-- (id)					prepareWithInvocationTarget:(id) target;
-- (void)				forwardInvocation:(NSInvocation*) invocation;
-- (void)				registerUndoWithTarget:(id) target selector:(SEL) selector object:(id) anObject;
+- (id)prepareWithInvocationTarget:(id)target;
+- (void)forwardInvocation:(NSInvocation*)invocation;
+- (void)registerUndoWithTarget:(id)target selector:(SEL)selector object:(id)anObject;
 
 // removing actions
 
-- (void)				removeAllActions;
-- (void)				removeAllActionsWithTarget:(id) target;
+- (void)removeAllActions;
+- (void)removeAllActionsWithTarget:(id)target;
 
 // private NSUndoManager API for compatibility
 
-- (void)				_processEndOfEventNotification:(NSNotification*) note;
+- (void)_processEndOfEventNotification:(NSNotification*)note;
 
 // additional API
 // automatic empty group discarding (default = YES)
 
-- (void)				setAutomaticallyDiscardsEmptyGroups:(BOOL) autoDiscard;
-- (BOOL)				automaticallyDiscardsEmptyGroups;
+- (void)setAutomaticallyDiscardsEmptyGroups:(BOOL)autoDiscard;
+- (BOOL)automaticallyDiscardsEmptyGroups;
 
 // task coalescing (default = NO)
 
-- (void)				enableUndoTaskCoalescing;
-- (void)				disableUndoTaskCoalescing;
-- (BOOL)				isUndoTaskCoalescingEnabled;
+- (void)enableUndoTaskCoalescing;
+- (void)disableUndoTaskCoalescing;
+- (BOOL)isUndoTaskCoalescingEnabled;
 
-- (void)				setCoalescingKind:(GCUndoTaskCoalescingKind) kind;
-- (GCUndoTaskCoalescingKind) coalescingKind;
+- (void)setCoalescingKind:(GCUndoTaskCoalescingKind)kind;
+- (GCUndoTaskCoalescingKind)coalescingKind;
 
 // retaining targets
 
-- (void)				setRetainsTargets:(BOOL) retainsTargets;
-- (BOOL)				retainsTargets;
-- (void)				setNextTarget:(id) target;
+- (void)setRetainsTargets:(BOOL)retainsTargets;
+- (BOOL)retainsTargets;
+- (void)setNextTarget:(id)target;
 
 // getting/resetting change count
 
-- (NSUInteger)			changeCount;
-- (void)				resetChangeCount;
+- (NSUInteger)changeCount;
+- (void)resetChangeCount;
 
 // internal methods - public to permit overriding
 
-- (GCUndoGroup*)		currentGroup;
+- (GCUndoGroup*)currentGroup;
 
-- (NSArray*)			undoStack;
-- (NSArray*)			redoStack;
+- (NSArray*)undoStack;
+- (NSArray*)redoStack;
 
-- (GCUndoGroup*)		peekUndo;
-- (GCUndoGroup*)		peekRedo;
-- (NSUInteger)			numberOfUndoActions;
-- (NSUInteger)			numberOfRedoActions;
+- (GCUndoGroup*)peekUndo;
+- (GCUndoGroup*)peekRedo;
+- (NSUInteger)numberOfUndoActions;
+- (NSUInteger)numberOfRedoActions;
 
-- (void)				pushGroupOntoUndoStack:(GCUndoGroup*) aGroup;
-- (void)				pushGroupOntoRedoStack:(GCUndoGroup*) aGroup;
+- (void)pushGroupOntoUndoStack:(GCUndoGroup*)aGroup;
+- (void)pushGroupOntoRedoStack:(GCUndoGroup*)aGroup;
 
-- (BOOL)				submitUndoTask:(GCConcreteUndoTask*) aTask;
+- (BOOL)submitUndoTask:(GCConcreteUndoTask*)aTask;
 
-- (void)				popUndoAndPerformTasks;
-- (void)				popRedoAndPerformTasks;
-- (GCUndoGroup*)		popUndo;
-- (GCUndoGroup*)		popRedo;
+- (void)popUndoAndPerformTasks;
+- (void)popRedoAndPerformTasks;
+- (GCUndoGroup*)popUndo;
+- (GCUndoGroup*)popRedo;
 
-- (void)				clearRedoStack;
-- (void)				checkpoint;
+- (void)clearRedoStack;
+- (void)checkpoint;
 
-- (GCUndoManagerState)	undoManagerState;
-- (void)				setUndoManagerState:(GCUndoManagerState) aState;
-- (void)				reset;
+- (GCUndoManagerState)undoManagerState;
+- (void)setUndoManagerState:(GCUndoManagerState)aState;
+- (void)reset;
 
-- (void)				conditionallyBeginUndoGrouping;
+- (void)conditionallyBeginUndoGrouping;
 
 // debugging utility:
 
-- (void)				explodeTopUndoAction;
+- (void)explodeTopUndoAction;
 
 @end
 
@@ -206,15 +201,14 @@ The point of this is to provide an undo manager whose source is openly readable,
 // undo tasks (actions) come in two types - groups and concrete tasks. Both descend from the same semi-abstract base which
 // provides the 'back pointer' to the parent group. The -perform method must be overridden by concrete subclasses.
 
-@interface GCUndoTask : NSObject
-{
+@interface GCUndoTask : NSObject {
 @private
-	GCUndoGroup*		mGroupRef;
+    GCUndoGroup* mGroupRef;
 }
 
-- (GCUndoGroup*)		parentGroup;
-- (void)				setParentGroup:(GCUndoGroup*) parent;
-- (void)				perform;
+- (GCUndoGroup*)parentGroup;
+- (void)setParentGroup:(GCUndoGroup*)parent;
+- (void)perform;
 
 @end
 
@@ -224,23 +218,22 @@ The point of this is to provide an undo manager whose source is openly readable,
 // of groups, even if they only contain a single concrete task. The group also provides the storage for the action name associated with
 // the action. Groups own their tasks.
 
-@interface GCUndoGroup	: GCUndoTask
-{
+@interface GCUndoGroup : GCUndoTask {
 @private
-	NSString*			mActionName;
-	NSMutableArray*		mTasks;
+    NSString* mActionName;
+    NSMutableArray* mTasks;
 }
 
-- (void)				addTask:(GCUndoTask*) aTask;
-- (GCUndoTask*)			taskAtIndex:(NSUInteger) indx;
-- (GCConcreteUndoTask*)	lastTaskIfConcrete;
-- (NSArray*)			tasks;
-- (NSArray*)			tasksWithTarget:(id) target selector:(SEL) selector;
-- (BOOL)				isEmpty;
+- (void)addTask:(GCUndoTask*)aTask;
+- (GCUndoTask*)taskAtIndex:(NSUInteger)indx;
+- (GCConcreteUndoTask*)lastTaskIfConcrete;
+- (NSArray*)tasks;
+- (NSArray*)tasksWithTarget:(id)target selector:(SEL)selector;
+- (BOOL)isEmpty;
 
-- (void)				removeTasksWithTarget:(id) aTarget undoManager:(GCUndoManager*) um;
-- (void)				setActionName:(NSString*) name;
-- (NSString*)			actionName;
+- (void)removeTasksWithTarget:(id)aTarget undoManager:(GCUndoManager*)um;
+- (void)setActionName:(NSString*)name;
+- (NSString*)actionName;
 
 @end
 
@@ -249,27 +242,34 @@ The point of this is to provide an undo manager whose source is openly readable,
 // concrete tasks wrap the NSInvocation which embodies the actual method call that is made when an action is undone or redone.
 // Concrete tasks own the invocation, which is set to always retain its target and arguments.
 
-@interface GCConcreteUndoTask : GCUndoTask
-{
+@interface GCConcreteUndoTask : GCUndoTask {
 @private
-	NSInvocation*		mInvocation;
-	id					mTarget;
-	BOOL				mTargetRetained;
+    NSInvocation* mInvocation;
+    id mTarget;
+    BOOL mTargetRetained;
 }
 
-- (id)					initWithInvocation:(NSInvocation*) inv;
-- (id)					initWithTarget:(id) target selector:(SEL) selector object:(id) object;
-- (void)				setTarget:(id) target retained:(BOOL) retainIt;
-- (id)					target;
-- (SEL)					selector;
+- (id)initWithInvocation:(NSInvocation*)inv;
+- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)object;
+- (void)setTarget:(id)target retained:(BOOL)retainIt;
+- (id)target;
+- (SEL)selector;
 
 @end
 
 // macros to throw exceptions (similar to NSAssert but always compiled in)
 
 #ifndef THROW_IF_FALSE
-#define THROW_IF_FALSE( condition, string )						if(!(condition)){[NSException raise:NSInternalInconsistencyException format:(string)];}
-#define THROW_IF_FALSE1( condition, string, param1 )			if(!(condition)){[NSException raise:NSInternalInconsistencyException format:(string), (param1)];}
-#define THROW_IF_FALSE2( condition, string, param1, param2 )	if(!(condition)){[NSException raise:NSInternalInconsistencyException format:(string), (param1), (param2)];}
+#define THROW_IF_FALSE(condition, string)                                     \
+    if (!(condition)) {                                                       \
+        [NSException raise:NSInternalInconsistencyException format:(string)]; \
+    }
+#define THROW_IF_FALSE1(condition, string, param1)                                      \
+    if (!(condition)) {                                                                 \
+        [NSException raise:NSInternalInconsistencyException format:(string), (param1)]; \
+    }
+#define THROW_IF_FALSE2(condition, string, param1, param2)                                        \
+    if (!(condition)) {                                                                           \
+        [NSException raise:NSInternalInconsistencyException format:(string), (param1), (param2)]; \
+    }
 #endif
-

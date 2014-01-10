@@ -8,17 +8,16 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface GCThreadQueue : NSObject
-{
+@interface GCThreadQueue : NSObject {
 @private
-	NSMutableArray*		mQueue;
-	NSConditionLock*	mLock;
+    NSMutableArray* mQueue;
+    NSConditionLock* mLock;
 }
 
 /** 
  */
--(void)		enqueue:(id) object;
--(id)		dequeue;						// Blocks until there is an object to return
--(id)		tryDequeue;						// Returns NULL if the queue is empty
+- (void)enqueue:(id)object;
+- (id)dequeue; // Blocks until there is an object to return
+- (id)tryDequeue; // Returns NULL if the queue is empty
 
 @end

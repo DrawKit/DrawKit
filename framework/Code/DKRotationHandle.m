@@ -10,29 +10,29 @@
 
 @implementation DKRotationHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKRotationKnobType;
+    return kDKRotationKnobType;
 }
 
-+ (NSBezierPath*)		pathWithSize:(NSSize) size
++ (NSBezierPath*)pathWithSize:(NSSize)size
 {
-	return [NSBezierPath bezierPathWithOvalInRect:NSMakeRect( 0, 0, size.width, size.height )];
+    return [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(0, 0, size.width, size.height)];
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor purpleColor];
+    return [NSColor purpleColor];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return [NSColor whiteColor];
+    return [NSColor whiteColor];
 }
 
-+ (CGFloat)				scaleFactor
++ (CGFloat)scaleFactor
 {
-	return 1.1;
+    return 1.1;
 }
 
 @end
@@ -41,10 +41,9 @@
 
 @implementation DKLockedRotationHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKRotationKnobType | kDKKnobIsDisabledFlag;
+    return kDKRotationKnobType | kDKKnobIsDisabledFlag;
 }
 
 @end
-

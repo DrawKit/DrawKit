@@ -32,31 +32,30 @@ that need to be implemented correctly for a subclass to work fully correctly wit
 The user info is a dictionary attached to an object. It plays no part in the graphics system, but can be used by applications
 to attach arbitrary data to any drawable object.
 */
-@interface DKDrawableObject : NSObject <DKStorableObject, DKRenderable, NSCoding, NSCopying>
-{
+@interface DKDrawableObject : NSObject <DKStorableObject, DKRenderable, NSCoding, NSCopying> {
 @private
-	id<DKDrawableContainer> mContainerRef;		// the immediate container of this object (layer, group or another drawable)
-	DKStyle*			m_style;				// the drawing style attached
-	id<DKObjectStorage>	mStorageRef;			// ref to the object's storage (DKStorableObject protocol)
-	NSMutableDictionary* mUserInfo;				// user info including metadata is stored in this dictionary
-	NSSize				m_mouseOffset;			// used to track where mouse was relative to bounds
-	NSUInteger			mZIndex;				// used by the DKStorableObject protocol
-	BOOL				m_visible;				// YES if visible
-	BOOL				m_locked;				// YES if locked
-	BOOL				mLocationLocked;		// YES if location is locked (independently of general lock)
-	BOOL				m_snapEnable;			// YES if mouse actions snap to grid/guides
-	BOOL				m_inMouseOp;			// YES while a mouse operation (drag) is in progress
-	BOOL				m_mouseEverMoved;		// used to set up undo for mouse operations
-	BOOL				mMarked;				// used by DKStorableObject protocol implementation
-	BOOL				mGhosted;				// YES if object is drawn ghosted
-	BOOL				mIsHitTesting;			// YES when drawContent is called for the purposes of hit-testing
-	NSMutableDictionary*	mRenderingCache;	// a dictionary to support general caching by renderers
+    id<DKDrawableContainer> mContainerRef; // the immediate container of this object (layer, group or another drawable)
+    DKStyle* m_style; // the drawing style attached
+    id<DKObjectStorage> mStorageRef; // ref to the object's storage (DKStorableObject protocol)
+    NSMutableDictionary* mUserInfo; // user info including metadata is stored in this dictionary
+    NSSize m_mouseOffset; // used to track where mouse was relative to bounds
+    NSUInteger mZIndex; // used by the DKStorableObject protocol
+    BOOL m_visible; // YES if visible
+    BOOL m_locked; // YES if locked
+    BOOL mLocationLocked; // YES if location is locked (independently of general lock)
+    BOOL m_snapEnable; // YES if mouse actions snap to grid/guides
+    BOOL m_inMouseOp; // YES while a mouse operation (drag) is in progress
+    BOOL m_mouseEverMoved; // used to set up undo for mouse operations
+    BOOL mMarked; // used by DKStorableObject protocol implementation
+    BOOL mGhosted; // YES if object is drawn ghosted
+    BOOL mIsHitTesting; // YES when drawContent is called for the purposes of hit-testing
+    NSMutableDictionary* mRenderingCache; // a dictionary to support general caching by renderers
 @protected
-	BOOL				m_showBBox:1;			// debugging - display the object's bounding box
-	BOOL				m_clipToBBox:1;			// debugging - force clip region to the bbox
-	BOOL				m_showPartcodes:1;		// debugging - display the partcodes for each control/knob/handle
-	BOOL				m_showTargets:1;		// debugging - show the bbox for each control/knob/handle
-	BOOL				m_unused_padding:4;		// not used - reserved
+    BOOL m_showBBox : 1; // debugging - display the object's bounding box
+    BOOL m_clipToBBox : 1; // debugging - force clip region to the bbox
+    BOOL m_showPartcodes : 1; // debugging - display the partcodes for each control/knob/handle
+    BOOL m_showTargets : 1; // debugging - show the bbox for each control/knob/handle
+    BOOL m_unused_padding : 4; // not used - reserved
 }
 
 /** @brief Return whether an info floater is displayed when resizing an object
@@ -64,14 +63,14 @@ to attach arbitrary data to any drawable object.
  * Size info is width and height
  * @return YES to show the info, NO to not show it
  */
-+ (BOOL)				displaysSizeInfoWhenDragging;
++ (BOOL)displaysSizeInfoWhenDragging;
 
 /** @brief Set whether an info floater is displayed when resizing an object
  * @note
  * Size info is width and height
  * @param doesDisplay YES to show the info, NO to not show it
  */
-+ (void)				setDisplaysSizeInfoWhenDragging:(BOOL) doesDisplay;
++ (void)setDisplaysSizeInfoWhenDragging:(BOOL)doesDisplay;
 
 /** @brief Returns the union of the bounds of the objects in the array
  * @note
@@ -80,8 +79,8 @@ to attach arbitrary data to any drawable object.
  * @param array a list of DKDrawable objects
  * @return a rect, the union of the bounds of all objects
  */
-+ (NSRect)				unionOfBoundsOfDrawablesInArray:(NSArray*) array;
-+ (NSInteger)			initialPartcodeForObjectCreation;
++ (NSRect)unionOfBoundsOfDrawablesInArray:(NSArray*)array;
++ (NSInteger)initialPartcodeForObjectCreation;
 
 /** @brief Return whether obejcts of this class can be grouped
  * @note
@@ -89,7 +88,7 @@ to attach arbitrary data to any drawable object.
  * @return YES if objects can be included in groups
  * @public
  */
-+ (BOOL)				isGroupable;
++ (BOOL)isGroupable;
 
 // ghosting settings:
 
@@ -99,7 +98,7 @@ to attach arbitrary data to any drawable object.
  * @param ghostColour the colour to use
  * @public
  */
-+ (void)				setGhostColour:(NSColor*) ghostColour;
++ (void)setGhostColour:(NSColor*)ghostColour;
 
 /** @brief Return the outline colour to use when drawing objects in their ghosted state
  * @note
@@ -107,12 +106,12 @@ to attach arbitrary data to any drawable object.
  * @return the colour to use
  * @public
  */
-+ (NSColor*)			ghostColour;
++ (NSColor*)ghostColour;
 
 // pasteboard types for drag/drop:
 
-+ (NSArray*)			pasteboardTypesForOperation:(DKPasteboardOperationType) op;
-+ (NSArray*)			nativeObjectsFromPasteboard:(NSPasteboard*) pb;
++ (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
++ (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb;
 
 /** @brief Return the number of native objects held by the pasteboard
  * @note
@@ -122,7 +121,7 @@ to attach arbitrary data to any drawable object.
  * @return a count
  * @public
  */
-+ (NSUInteger)			countOfNativeObjectsOnPasteboard:(NSPasteboard*) pb;
++ (NSUInteger)countOfNativeObjectsOnPasteboard:(NSPasteboard*)pb;
 
 // interconversion table used when changing one drawable into another - can be customised
 
@@ -134,7 +133,7 @@ to attach arbitrary data to any drawable object.
  * @return the table (a dictionary)
  * @public
  */
-+ (NSDictionary*)		interconversionTable;
++ (NSDictionary*)interconversionTable;
 
 /** @brief Return the interconversion table
  * @note
@@ -145,7 +144,7 @@ to attach arbitrary data to any drawable object.
  * @param icTable a dictionary containing mappings from standard base classes to custom classes
  * @public
  */
-+ (void)				setInterconversionTable:(NSDictionary*) icTable;
++ (void)setInterconversionTable:(NSDictionary*)icTable;
 
 /** @brief Return the class to use in place of the given class when performing a conversion
  * @note
@@ -155,7 +154,7 @@ to attach arbitrary data to any drawable object.
  * @return the actual object class to use for that conversion.
  * @public
  */
-+ (Class)				classForConversionRequestFor:(Class) aClass;
++ (Class)classForConversionRequestFor:(Class)aClass;
 
 /** @brief Sets the class to use in place of the a base class when performing a conversion
  * @note
@@ -165,7 +164,7 @@ to attach arbitrary data to any drawable object.
  * @param baseClass the base class
  * @public
  */
-+ (void)				substituteClass:(Class) newClass forClass:(Class) baseClass;
++ (void)substituteClass:(Class)newClass forClass:(Class)baseClass;
 
 // initializers:
 
@@ -177,7 +176,7 @@ to attach arbitrary data to any drawable object.
  * @return the object
  * @public
  */
-- (id)					initWithStyle:(DKStyle*) aStyle;
+- (id)initWithStyle:(DKStyle*)aStyle;
 
 // relationships:
 
@@ -187,9 +186,9 @@ to attach arbitrary data to any drawable object.
  * @return the containing layer
  * @public
  */
-- (DKObjectOwnerLayer*)	layer;
-- (DKDrawing*)			drawing;
-- (NSUndoManager*)		undoManager;
+- (DKObjectOwnerLayer*)layer;
+- (DKDrawing*)drawing;
+- (NSUndoManager*)undoManager;
 
 /** @brief Returns the immediate parent of this object
  * @note
@@ -197,8 +196,8 @@ to attach arbitrary data to any drawable object.
  * @return the object's parent
  * @public
  */
-- (id<DKDrawableContainer>)	container;
-- (void)				setContainer:(id<DKDrawableContainer>) aContainer;
+- (id<DKDrawableContainer>)container;
+- (void)setContainer:(id<DKDrawableContainer>)aContainer;
 
 /** @brief Returns the index position of this object in its container layer
  * @note
@@ -213,14 +212,14 @@ to attach arbitrary data to any drawable object.
  * @return the Z value for the object
  * @public
  */
-- (NSUInteger)			indexInContainer;
+- (NSUInteger)indexInContainer;
 
 // state:
 
-- (void)				setVisible:(BOOL) vis;
-- (BOOL)				visible;
-- (void)				setLocked:(BOOL) locked;
-- (BOOL)				locked;
+- (void)setVisible:(BOOL)vis;
+- (BOOL)visible;
+- (void)setLocked:(BOOL)locked;
+- (BOOL)locked;
 
 /** @brief Sets whether the object's location is locked or not
  * @note
@@ -228,7 +227,7 @@ to attach arbitrary data to any drawable object.
  * @param lockLocation YES to lock location, NO to unlock
  * @public
  */
-- (void)				setLocationLocked:(BOOL) lockLocation;
+- (void)setLocationLocked:(BOOL)lockLocation;
 
 /** @brief Whether the object's location is locked or not
  * @note
@@ -236,9 +235,9 @@ to attach arbitrary data to any drawable object.
  * @return YES if locked location, NO to unlock
  * @public
  */
-- (BOOL)				locationLocked;
-- (void)				setMouseSnappingEnabled:(BOOL) ems;
-- (BOOL)				mouseSnappingEnabled;
+- (BOOL)locationLocked;
+- (void)setMouseSnappingEnabled:(BOOL)ems;
+- (BOOL)mouseSnappingEnabled;
 
 /** @brief Set whether the object is ghosted rather than with its full style
  * @note
@@ -247,7 +246,7 @@ to attach arbitrary data to any drawable object.
  * @param ghosted YES to ghost the object, NO to unghost it
  * @public
  */
-- (void)				setGhosted:(BOOL) ghosted;
+- (void)setGhosted:(BOOL)ghosted;
 
 /** @brief Retuirn whether the object is ghosted rather than with its full style
  * @note
@@ -256,24 +255,24 @@ to attach arbitrary data to any drawable object.
  * @return YES if the object is ghosted, NO otherwise
  * @public
  */
-- (BOOL)				isGhosted;
+- (BOOL)isGhosted;
 
 // internal state accessors:
 
-- (BOOL)				isTrackingMouse;
-- (void)				setTrackingMouse:(BOOL) tracking;
+- (BOOL)isTrackingMouse;
+- (void)setTrackingMouse:(BOOL)tracking;
 
-- (NSSize)				mouseDragOffset;
-- (void)				setMouseDragOffset:(NSSize) offset;
+- (NSSize)mouseDragOffset;
+- (void)setMouseDragOffset:(NSSize)offset;
 
-- (BOOL)				mouseHasMovedSinceStartOfTracking;
-- (void)				setMouseHasMovedSinceStartOfTracking:(BOOL) moved;
+- (BOOL)mouseHasMovedSinceStartOfTracking;
+- (void)setMouseHasMovedSinceStartOfTracking:(BOOL)moved;
 
 // selection state:
 
-- (BOOL)				isSelected;
-- (void)				objectDidBecomeSelected;
-- (void)				objectIsNoLongerSelected;
+- (BOOL)isSelected;
+- (void)objectDidBecomeSelected;
+- (void)objectIsNoLongerSelected;
 
 /** @brief Is the object able to be selected?
  * @note
@@ -282,7 +281,7 @@ to attach arbitrary data to any drawable object.
  * @return YES if selectable, NO if not
  * @public
  */
-- (BOOL)				objectMayBecomeSelected;
+- (BOOL)objectMayBecomeSelected;
 
 /** @brief Is the object currently a pending object?
  * @note
@@ -291,7 +290,7 @@ to attach arbitrary data to any drawable object.
  * @return YES if pending, NO if not
  * @public
  */
-- (BOOL)				isPendingObject;
+- (BOOL)isPendingObject;
 
 /** @brief Is the object currently the layer's key object?
  * @note
@@ -301,7 +300,7 @@ to attach arbitrary data to any drawable object.
  * @return YES if key, NO if not
  * @public
  */
-- (BOOL)				isKeyObject;
+- (BOOL)isKeyObject;
 
 /** @brief Return the subselection of the object
  * @note
@@ -314,7 +313,7 @@ to attach arbitrary data to any drawable object.
  * @return a set containing the selection within the object. May be empty, nil or contain self.
  * @public
  */
-- (NSSet*)				subSelection;
+- (NSSet*)subSelection;
 
 // notification about being added and removed from a layer
 
@@ -325,7 +324,7 @@ to attach arbitrary data to any drawable object.
  * @param aLayer the layer this was added to
  * @public
  */
-- (void)				objectWasAddedToLayer:(DKObjectOwnerLayer*) aLayer;
+- (void)objectWasAddedToLayer:(DKObjectOwnerLayer*)aLayer;
 
 /** @brief The object was removed from the layer
  * @note
@@ -334,39 +333,39 @@ to attach arbitrary data to any drawable object.
  * @param aLayer the layer this was removed from
  * @public
  */
-- (void)				objectWasRemovedFromLayer:(DKObjectOwnerLayer*) aLayer;
+- (void)objectWasRemovedFromLayer:(DKObjectOwnerLayer*)aLayer;
 
 // primary drawing method:
 
-- (void)				drawContentWithSelectedState:(BOOL) selected;
+- (void)drawContentWithSelectedState:(BOOL)selected;
 
 // drawing factors:
 
-- (void)				drawContent;
-- (void)				drawContentWithStyle:(DKStyle*) aStyle;
-- (void)				drawGhostedContent;
-- (void)				drawSelectedState;
-- (void)				drawSelectionPath:(NSBezierPath*) path;
+- (void)drawContent;
+- (void)drawContentWithStyle:(DKStyle*)aStyle;
+- (void)drawGhostedContent;
+- (void)drawSelectedState;
+- (void)drawSelectionPath:(NSBezierPath*)path;
 
 // refresh notifiers:
 
-- (void)				notifyVisualChange;
-- (void)				notifyStatusChange;
-- (void)				notifyGeometryChange:(NSRect) oldBounds;
-- (void)				updateRulerMarkers;
+- (void)notifyVisualChange;
+- (void)notifyStatusChange;
+- (void)notifyGeometryChange:(NSRect)oldBounds;
+- (void)updateRulerMarkers;
 
-- (void)				setNeedsDisplayInRect:(NSRect) rect;
-- (void)				setNeedsDisplayInRects:(NSSet*) setOfRects;
-- (void)				setNeedsDisplayInRects:(NSSet*) setOfRects withExtraPadding:(NSSize) padding;
+- (void)setNeedsDisplayInRect:(NSRect)rect;
+- (void)setNeedsDisplayInRects:(NSSet*)setOfRects;
+- (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding;
 
-- (NSBezierPath*)		renderingPath;
-- (BOOL)				useLowQualityDrawing;
+- (NSBezierPath*)renderingPath;
+- (BOOL)useLowQualityDrawing;
 
-- (NSUInteger)			geometryChecksum;
+- (NSUInteger)geometryChecksum;
 
 // specialised drawing:
 
-- (void)				drawContentInRect:(NSRect) destRect fromRect:(NSRect) srcRect withStyle:(DKStyle*) aStyle;
+- (void)drawContentInRect:(NSRect)destRect fromRect:(NSRect)srcRect withStyle:(DKStyle*)aStyle;
 
 /** @brief Returns the single object rendered as a PDF image
  * @note
@@ -375,17 +374,17 @@ to attach arbitrary data to any drawable object.
  * @return PDF data of the object
  * @public
  */
-- (NSData*)				pdf;
+- (NSData*)pdf;
 
 // style:
 
-- (void)				setStyle:(DKStyle*) aStyle;
-- (DKStyle*)			style;
-- (void)				styleWillChange:(NSNotification*) note;
-- (void)				styleDidChange:(NSNotification*) note;
-- (NSSet*)				allStyles;
-- (NSSet*)				allRegisteredStyles;
-- (void)				replaceMatchingStylesFromSet:(NSSet*) aSet;
+- (void)setStyle:(DKStyle*)aStyle;
+- (DKStyle*)style;
+- (void)styleWillChange:(NSNotification*)note;
+- (void)styleDidChange:(NSNotification*)note;
+- (NSSet*)allStyles;
+- (NSSet*)allRegisteredStyles;
+- (void)replaceMatchingStylesFromSet:(NSSet*)aSet;
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
  * @note
@@ -393,20 +392,20 @@ to attach arbitrary data to any drawable object.
  * from it style such that it has its own private copy. It does not change appearance.
  * @public
  */
-- (void)				detachStyle;
+- (void)detachStyle;
 
 // geometry:
 // size (invariant with angle)
 
-- (void)				setSize:(NSSize) size;
-- (NSSize)				size;
-- (void)				resizeWidthBy:(CGFloat) xFactor heightBy:(CGFloat) yFactor;
+- (void)setSize:(NSSize)size;
+- (NSSize)size;
+- (void)resizeWidthBy:(CGFloat)xFactor heightBy:(CGFloat)yFactor;
 
 // location within the drawing
 
-- (void)				setLocation:(NSPoint) p;
-- (NSPoint)				location;
-- (void)				offsetLocationByX:(CGFloat) dx byY:(CGFloat) dy;
+- (void)setLocation:(NSPoint)p;
+- (NSPoint)location;
+- (void)offsetLocationByX:(CGFloat)dx byY:(CGFloat)dy;
 
 // angle of object with respect to its container
 
@@ -414,8 +413,8 @@ to attach arbitrary data to any drawable object.
  * @param angle the object's angle (radians)
  * @public
  */
-- (void)				setAngle:(CGFloat) angle;
-- (CGFloat)				angle;
+- (void)setAngle:(CGFloat)angle;
+- (CGFloat)angle;
 
 /** @brief Return the shape's current rotation angle
  * @note
@@ -424,7 +423,7 @@ to attach arbitrary data to any drawable object.
  * @return the shape's angle in degrees
  * @public
  */
-- (CGFloat)				angleInDegrees;
+- (CGFloat)angleInDegrees;
 
 /** @brief Rotate the shape by adding a delta angle to the current angle
  * @note
@@ -432,13 +431,13 @@ to attach arbitrary data to any drawable object.
  * @param da add this much to the current angle
  * @public
  */
-- (void)				rotateByAngle:(CGFloat) da;
+- (void)rotateByAngle:(CGFloat)da;
 
 // relative offset of locus within the object
 
-- (void)				setOffset:(NSSize) offs;
-- (NSSize)				offset;
-- (void)				resetOffset;
+- (void)setOffset:(NSSize)offs;
+- (NSSize)offset;
+- (void)resetOffset;
 
 // path transforms
 
@@ -447,7 +446,7 @@ to attach arbitrary data to any drawable object.
  * Override for real transforms - the default merely returns the identity matrix
  * @return a transform
  */
-- (NSAffineTransform*)	transform;
+- (NSAffineTransform*)transform;
 
 /** @brief Return the container's transform
  * @note
@@ -455,7 +454,7 @@ to attach arbitrary data to any drawable object.
  * groups and other possible containers.
  * @return a transform
  */
-- (NSAffineTransform*)	containerTransform;
+- (NSAffineTransform*)containerTransform;
 
 /** @brief Apply the transform to the object
  * @note
@@ -464,20 +463,20 @@ to attach arbitrary data to any drawable object.
  * @param transform a transform
  * @public
  */
-- (void)				applyTransform:(NSAffineTransform*) transform;
+- (void)applyTransform:(NSAffineTransform*)transform;
 
 // bounding rects:
 
-- (NSRect)				bounds;
-- (NSRect)				apparentBounds;
-- (NSRect)				logicalBounds;
-- (NSSize)				extraSpaceNeeded;
+- (NSRect)bounds;
+- (NSRect)apparentBounds;
+- (NSRect)logicalBounds;
+- (NSSize)extraSpaceNeeded;
 
 // creation tool protocol:
 
-- (void)				creationTool:(DKDrawingTool*) tool willBeginCreationAtPoint:(NSPoint) p;
-- (void)				creationTool:(DKDrawingTool*) tool willEndCreationAtPoint:(NSPoint) p;
-- (BOOL)				objectIsValid;
+- (void)creationTool:(DKDrawingTool*)tool willBeginCreationAtPoint:(NSPoint)p;
+- (void)creationTool:(DKDrawingTool*)tool willEndCreationAtPoint:(NSPoint)p;
+- (BOOL)objectIsValid;
 
 // grouping/ungrouping protocol:
 
@@ -488,7 +487,7 @@ to attach arbitrary data to any drawable object.
  * @param aGroup the group adding the object
  * @public
  */
-- (void)				groupWillAddObject:(DKShapeGroup*) aGroup;
+- (void)groupWillAddObject:(DKShapeGroup*)aGroup;
 
 /** @brief This object is being ungrouped from a group
  * @note
@@ -499,7 +498,7 @@ to attach arbitrary data to any drawable object.
  * @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
  * @public
  */
-- (void)				group:(DKShapeGroup*) aGroup willUngroupObjectWithTransform:(NSAffineTransform*) aTransform;
+- (void)group:(DKShapeGroup*)aGroup willUngroupObjectWithTransform:(NSAffineTransform*)aTransform;
 
 /** @brief This object was ungrouped from a group
  * @note
@@ -507,7 +506,7 @@ to attach arbitrary data to any drawable object.
  * original container and have its location, etc set as required. Override to make use of this notification.
  * @public
  */
-- (void)				objectWasUngrouped;
+- (void)objectWasUngrouped;
 
 // post-processing when being substituted for another object (boolean ops, etc)
 
@@ -520,7 +519,7 @@ to attach arbitrary data to any drawable object.
  * @param aLayer the layer this will be added to (but is not yet)
  * @public
  */
-- (void)				willBeAddedAsSubstituteFor:(DKDrawableObject*) obj toLayer:(DKObjectOwnerLayer*) aLayer;
+- (void)willBeAddedAsSubstituteFor:(DKDrawableObject*)obj toLayer:(DKObjectOwnerLayer*)aLayer;
 
 // snapping to guides, grid and other objects (utility methods)
 
@@ -531,25 +530,25 @@ to attach arbitrary data to any drawable object.
  * @param mp a point which is the proposed location of the shape
  * @return a new point which may be offset from the input enough to snap it to the guides and grid
  */
-- (NSPoint)				snappedMousePoint:(NSPoint) mp withControlFlag:(BOOL) snapControl;
-- (NSPoint)				snappedMousePoint:(NSPoint) mp forSnappingPointsWithControlFlag:(BOOL) snapControl;
+- (NSPoint)snappedMousePoint:(NSPoint)mp withControlFlag:(BOOL)snapControl;
+- (NSPoint)snappedMousePoint:(NSPoint)mp forSnappingPointsWithControlFlag:(BOOL)snapControl;
 
-- (NSArray*)			snappingPoints;
-- (NSArray*)			snappingPointsWithOffset:(NSSize) offset;
-- (NSSize)				mouseOffset;
+- (NSArray*)snappingPoints;
+- (NSArray*)snappingPointsWithOffset:(NSSize)offset;
+- (NSSize)mouseOffset;
 
 // getting dimensions in drawing coordinates
 
-- (CGFloat)				convertLength:(CGFloat) len;
-- (NSPoint)				convertPointToDrawing:(NSPoint) pt;
+- (CGFloat)convertLength:(CGFloat)len;
+- (NSPoint)convertPointToDrawing:(NSPoint)pt;
 
 // hit testing:
 
-- (BOOL)				intersectsRect:(NSRect) rect;
-- (NSInteger)			hitPart:(NSPoint) pt;
-- (NSInteger)			hitSelectedPart:(NSPoint) pt forSnapDetection:(BOOL) snap;
-- (NSPoint)				pointForPartcode:(NSInteger) pc;
-- (DKKnobType)			knobTypeForPartCode:(NSInteger) pc;
+- (BOOL)intersectsRect:(NSRect)rect;
+- (NSInteger)hitPart:(NSPoint)pt;
+- (NSInteger)hitSelectedPart:(NSPoint)pt forSnapDetection:(BOOL)snap;
+- (NSPoint)pointForPartcode:(NSInteger)pc;
+- (DKKnobType)knobTypeForPartCode:(NSInteger)pc;
 
 /** @brief Test if a rect encloses any of the shape's actual pixels
  * @note
@@ -558,7 +557,7 @@ to attach arbitrary data to any drawable object.
  * @return YES if at least one pixel enclosed by the rect, NO otherwise
  * @private
  */
-- (BOOL)				rectHitsPath:(NSRect) r;
+- (BOOL)rectHitsPath:(NSRect)r;
 
 /** @brief Test a point against the offscreen bitmap representation of the shape
  * @note
@@ -567,7 +566,7 @@ to attach arbitrary data to any drawable object.
  * @return YES if the point hit the shape's pixels, NO otherwise
  * @private
  */
-- (BOOL)				pointHitsPath:(NSPoint) p;
+- (BOOL)pointHitsPath:(NSPoint)p;
 
 /** @brief Is a hit-test in progress
  * @note
@@ -576,7 +575,7 @@ to attach arbitrary data to any drawable object.
  * @return YES if hit-testing is taking place, otherwise NO
  * @private
  */
-- (BOOL)				isBeingHitTested;
+- (BOOL)isBeingHitTested;
 
 /** @brief Set whether a hit-test in progress
  * @note
@@ -585,17 +584,17 @@ to attach arbitrary data to any drawable object.
  * @param hitTesting YES if hit-testing, NO otherwise
  * @private
  */
-- (void)				setBeingHitTested:(BOOL) hitTesting;
+- (void)setBeingHitTested:(BOOL)hitTesting;
 
 // mouse events:
 
-- (void)				mouseDownAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt;
-- (void)				mouseDraggedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt;
-- (void)				mouseUpAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt;
-- (NSView*)				currentView;
+- (void)mouseDownAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
+- (void)mouseDraggedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
+- (void)mouseUpAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
+- (NSView*)currentView;
 
-- (NSCursor*)			cursorForPartcode:(NSInteger) partcode mouseButtonDown:(BOOL) button;
-- (void)				mouseDoubleClickedAtPoint:(NSPoint) mp inPart:(NSInteger) partcode event:(NSEvent*) evt;
+- (NSCursor*)cursorForPartcode:(NSInteger)partcode mouseButtonDown:(BOOL)button;
+- (void)mouseDoubleClickedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
 
 // contextual menu:
 
@@ -608,18 +607,18 @@ to attach arbitrary data to any drawable object.
  * @return the menu
  * @public
  */
-- (NSMenu*)				menu;
-- (BOOL)				populateContextualMenu:(NSMenu*) theMenu;
-- (BOOL)				populateContextualMenu:(NSMenu*) theMenu atPoint:(NSPoint) localPoint;
+- (NSMenu*)menu;
+- (BOOL)populateContextualMenu:(NSMenu*)theMenu;
+- (BOOL)populateContextualMenu:(NSMenu*)theMenu atPoint:(NSPoint)localPoint;
 
 // swatch image of this object:
 
-- (NSImage*)			swatchImageWithSize:(NSSize) size;
+- (NSImage*)swatchImageWithSize:(NSSize)size;
 
 // user info:
 
-- (void)				setUserInfo:(NSDictionary*) info;
-- (void)				addUserInfo:(NSDictionary*) info;
+- (void)setUserInfo:(NSDictionary*)info;
+- (void)addUserInfo:(NSDictionary*)info;
 
 /** @brief Return the attached user info
  * @note
@@ -636,14 +635,14 @@ to attach arbitrary data to any drawable object.
  * @return the user info item
  * @public
  */
-- (id)					userInfoObjectForKey:(NSString*) key;
+- (id)userInfoObjectForKey:(NSString*)key;
 
 /** @brief Set an item of user info
  * @param obj the object to store
  * @param key the key to use to refer to the item
  * @public
  */
-- (void)				setUserInfoObject:(id) obj forKey:(NSString*) key;
+- (void)setUserInfoObject:(id)obj forKey:(NSString*)key;
 
 // cache management:
 
@@ -654,7 +653,7 @@ to attach arbitrary data to any drawable object.
  * change that alters the object's appearance - size, position, angle, style, etc.
  * @public
  */
-- (void)				invalidateRenderingCache;
+- (void)invalidateRenderingCache;
 
 /** @brief Returns an image of the object representing its current appearance at 100% scale.
  * @note
@@ -663,7 +662,7 @@ to attach arbitrary data to any drawable object.
  * @return an image of the object
  * @public
  */
-- (NSImage*)			cachedImage;
+- (NSImage*)cachedImage;
 
 // pasteboard:
 
@@ -677,7 +676,7 @@ to attach arbitrary data to any drawable object.
  * @param pb the pasteboard to write to
  * @public
  */
-- (void)				writeSupplementaryDataToPasteboard:(NSPasteboard*) pb;
+- (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb;
 
 /** @brief Read additional data from the pasteboard specific to the object
  * @note
@@ -688,25 +687,25 @@ to attach arbitrary data to any drawable object.
  * @param pb the pasteboard to read from
  * @public
  */
-- (void)				readSupplementaryDataFromPasteboard:(NSPasteboard*) pb;
+- (void)readSupplementaryDataFromPasteboard:(NSPasteboard*)pb;
 
 // user level commands that can be responded to by this object (and its subclasses)
 
-- (IBAction)			copyDrawingStyle:(id) sender;
-- (IBAction)			pasteDrawingStyle:(id) sender;
-- (IBAction)			lock:(id) sender;
-- (IBAction)			unlock:(id) sender;
-- (IBAction)			lockLocation:(id) sender;
-- (IBAction)			unlockLocation:(id) sender;
+- (IBAction)copyDrawingStyle:(id)sender;
+- (IBAction)pasteDrawingStyle:(id)sender;
+- (IBAction)lock:(id)sender;
+- (IBAction)unlock:(id)sender;
+- (IBAction)lockLocation:(id)sender;
+- (IBAction)unlockLocation:(id)sender;
 
 #ifdef qIncludeGraphicDebugging
 // debugging:
 
-- (IBAction)			toggleShowBBox:(id) sender;
-- (IBAction)			toggleClipToBBox:(id) sender;
-- (IBAction)			toggleShowPartcodes:(id) sender;
-- (IBAction)			toggleShowTargets:(id) sender;
-- (IBAction)			logDescription:(id) sender;
+- (IBAction)toggleShowBBox:(id)sender;
+- (IBAction)toggleClipToBBox:(id)sender;
+- (IBAction)toggleShowPartcodes:(id)sender;
+- (IBAction)toggleShowTargets:(id)sender;
+- (IBAction)logDescription:(id)sender;
 
 #endif
 
@@ -714,36 +713,33 @@ to attach arbitrary data to any drawable object.
 
 // partcodes that are known to the layer - most are private to the drawable object class, but these are public:
 
-enum
-{
-	kDKDrawingNoPart			= 0,
-	kDKDrawingEntireObjectPart	= -1
+enum {
+    kDKDrawingNoPart = 0,
+    kDKDrawingEntireObjectPart = -1
 };
 
 // used to identify a possible "Convert To" submenu in an object's contextual menu
 
-enum
-{
-	kDKConvertToSubmenuTag		= -55
+enum {
+    kDKConvertToSubmenuTag = -55
 };
 
 // constant strings:
 
-extern NSString*		kDKDrawableObjectPasteboardType;
-extern NSString*		kDKDrawableDidChangeNotification;
-extern NSString*		kDKDrawableStyleWillBeDetachedNotification;
-extern NSString*		kDKDrawableStyleWasAttachedNotification;
-extern NSString*		kDKDrawableDoubleClickNotification;
-extern NSString*		kDKDrawableSubselectionChangedNotification;
+extern NSString* kDKDrawableObjectPasteboardType;
+extern NSString* kDKDrawableDidChangeNotification;
+extern NSString* kDKDrawableStyleWillBeDetachedNotification;
+extern NSString* kDKDrawableStyleWasAttachedNotification;
+extern NSString* kDKDrawableDoubleClickNotification;
+extern NSString* kDKDrawableSubselectionChangedNotification;
 
 // keys for items in user info sent with notifications
 
-extern NSString*		kDKDrawableOldStyleKey;
-extern NSString*		kDKDrawableNewStyleKey;
-extern NSString*		kDKDrawableClickedPointKey;
+extern NSString* kDKDrawableOldStyleKey;
+extern NSString* kDKDrawableNewStyleKey;
+extern NSString* kDKDrawableClickedPointKey;
 
 // prefs keys
 
-extern NSString*		kDKGhostColourPreferencesKey;
-extern NSString*		kDKDragFeedbackEnabledPreferencesKey;
-
+extern NSString* kDKGhostColourPreferencesKey;
+extern NSString* kDKDragFeedbackEnabledPreferencesKey;

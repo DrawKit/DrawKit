@@ -11,15 +11,14 @@
 
 @class DKParser;
 
-@interface DKStyleReader : DKEvaluator
-{
-	DKParser*	mParser;
+@interface DKStyleReader : DKEvaluator {
+    DKParser* mParser;
 }
 
-- (id)			evaluateScript:(NSString*) script;
-- (id)			readContentsOfFile:(NSString*) filenamet;
-- (void)		loadBuiltinSymbols;
+- (id)evaluateScript:(NSString*)script;
+- (id)readContentsOfFile:(NSString*)filenamet;
+- (void)loadBuiltinSymbols;
 
-- (void)		registerClass:(id) aClass withShortName:(NSString*) sym;
+- (void)registerClass:(id)aClass withShortName:(NSString*)sym;
 
 @end

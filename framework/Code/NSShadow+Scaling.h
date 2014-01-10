@@ -8,12 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum
-{
-	kDKShadowDrawFill	= ( 1 << 0 ),
-	kDKShadowDrawStroke	= ( 1 << 1 )
-}
-DKShadowDrawingOperation;
+typedef enum {
+    kDKShadowDrawFill = (1 << 0),
+    kDKShadowDrawStroke = (1 << 1)
+} DKShadowDrawingOperation;
 
 /**
 a big annoyance with NSShadow is that it ignores the current CTM when it is set, meaning that as a drawing is scaled,
@@ -23,26 +21,25 @@ as you scale.
 */
 @interface NSShadow (DKAdditions)
 
-- (void)		setAbsolute;
-- (void)		setAbsoluteFlipped:(BOOL) flipped;
+- (void)setAbsolute;
+- (void)setAbsoluteFlipped:(BOOL)flipped;
 
 #ifdef DRAWKIT_DEPRECATED
-- (void)		setShadowAngle:(CGFloat) radians distance:(CGFloat) dist;
-- (void)		setShadowAngleInDegrees:(CGFloat) degrees distance:(CGFloat) dist;
-- (CGFloat)		shadowAngle;
-- (CGFloat)		shadowAngleInDegrees;
+- (void)setShadowAngle:(CGFloat)radians distance:(CGFloat)dist;
+- (void)setShadowAngleInDegrees:(CGFloat)degrees distance:(CGFloat)dist;
+- (CGFloat)shadowAngle;
+- (CGFloat)shadowAngleInDegrees;
 #endif
 
-- (void)		setAngle:(CGFloat) radians;
-- (void)		setAngleInDegrees:(CGFloat) degrees;
-- (CGFloat)		angle;
-- (CGFloat)		angleInDegrees;
+- (void)setAngle:(CGFloat)radians;
+- (void)setAngleInDegrees:(CGFloat)degrees;
+- (CGFloat)angle;
+- (CGFloat)angleInDegrees;
 
-- (void)		setDistance:(CGFloat) distance;
-- (CGFloat)		distance;
-- (CGFloat)		extraSpace;
+- (void)setDistance:(CGFloat)distance;
+- (CGFloat)distance;
+- (CGFloat)extraSpace;
 
-- (void)		drawApproximateShadowWithPath:(NSBezierPath*) path operation:(DKShadowDrawingOperation) op strokeWidth:(NSInteger) sw;
+- (void)drawApproximateShadowWithPath:(NSBezierPath*)path operation:(DKShadowDrawingOperation)op strokeWidth:(NSInteger)sw;
 
 @end
-

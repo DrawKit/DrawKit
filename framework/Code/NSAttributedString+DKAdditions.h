@@ -44,7 +44,7 @@ The second method is similar except that text is flowed into the layoutPath.
  * @param vPos proportion of srcRect given by interval 0..1 when vAlign is proportional
  * @public
  */
-- (void)	drawInRect:(NSRect) destRect withLayoutSize:(NSSize) layoutSize atAngle:(CGFloat) radians;
+- (void)drawInRect:(NSRect)destRect withLayoutSize:(NSSize)layoutSize atAngle:(CGFloat)radians;
 
 /** @brief Lays out the receiver then draws it to the destination
  * @note
@@ -56,30 +56,30 @@ The second method is similar except that text is flowed into the layoutPath.
  * @param radians an angle to which the text is rotated before being drawn to <destRect>
  * @public
  */
-- (void)	drawInRect:(NSRect) destRect withLayoutPath:(NSBezierPath*) layoutPath atAngle:(CGFloat) radians;
-- (void)	drawInRect:(NSRect) destRect withLayoutPath:(NSBezierPath*) layoutPath atAngle:(CGFloat) radians verticalPositioning:(DKVerticalTextAlignment) vAlign verticalOffset:(CGFloat) vPos;
-- (NSSize)	accurateSize;
-- (BOOL)	isHomogeneous;
-- (BOOL)	attributeIsHomogeneous:(NSString*) attrName;
-- (BOOL)	attributesAreHomogeneous:(NSDictionary*) attrs;
+- (void)drawInRect:(NSRect)destRect withLayoutPath:(NSBezierPath*)layoutPath atAngle:(CGFloat)radians;
+- (void)drawInRect:(NSRect)destRect withLayoutPath:(NSBezierPath*)layoutPath atAngle:(CGFloat)radians verticalPositioning:(DKVerticalTextAlignment)vAlign verticalOffset:(CGFloat)vPos;
+- (NSSize)accurateSize;
+- (BOOL)isHomogeneous;
+- (BOOL)attributeIsHomogeneous:(NSString*)attrName;
+- (BOOL)attributesAreHomogeneous:(NSDictionary*)attrs;
 
 @end
 
 @interface NSMutableAttributedString (DKAdditions)
 
-- (void)	makeUppercase;
-- (void)	makeLowercase;
-- (void)	capitalize;
+- (void)makeUppercase;
+- (void)makeLowercase;
+- (void)capitalize;
 
-- (void)	convertFontsToFace:(NSString*) face;
-- (void)	convertFontsToFamily:(NSString*) family;
-- (void)	convertFontsToSize:(CGFloat) aSize;
-- (void)	convertFontsByAddingSize:(CGFloat) aSize;
-- (void)	convertFontsToHaveTrait:(NSFontTraitMask) traitMask;
-- (void)	convertFontsToNotHaveTrait:(NSFontTraitMask) traitMask;
+- (void)convertFontsToFace:(NSString*)face;
+- (void)convertFontsToFamily:(NSString*)family;
+- (void)convertFontsToSize:(CGFloat)aSize;
+- (void)convertFontsByAddingSize:(CGFloat)aSize;
+- (void)convertFontsToHaveTrait:(NSFontTraitMask)traitMask;
+- (void)convertFontsToNotHaveTrait:(NSFontTraitMask)traitMask;
 
-- (void)	changeFont:(id) sender;
-- (void)	changeAttributes:(id) sender;
+- (void)changeFont:(id)sender;
+- (void)changeAttributes:(id)sender;
 
 @end
 
@@ -88,10 +88,9 @@ The second method is similar except that text is flowed into the layoutPath.
 /** @brief Supply a layout manager common to all DKTextShape instances
  * @return the shared layout manager instance
  */
-NSLayoutManager*		sharedDrawingLayoutManager( void );
+NSLayoutManager* sharedDrawingLayoutManager(void);
 
 /** @brief Supply a layout manager that can be used to capture text layout into a bezier path
  * @return the shared layout manager instance
  */
-NSLayoutManager*		sharedCaptureLayoutManager( void );
-
+NSLayoutManager* sharedCaptureLayoutManager(void);

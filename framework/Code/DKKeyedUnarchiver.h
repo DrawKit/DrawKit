@@ -18,14 +18,12 @@ This class works identically to NSKeyedUnarchiver in every way, except that it c
  Note that the image manager is archived and dearchived normally, but DKDrawing sets the coder's reference having dearchived it, so subsequent unarchiving can
  find it.
 */
-@interface DKKeyedUnarchiver : NSKeyedUnarchiver
-{
+@interface DKKeyedUnarchiver : NSKeyedUnarchiver {
 @private
-	DKImageDataManager*		mImageManagerRef;
+    DKImageDataManager* mImageManagerRef;
 }
 
-- (void)					setImageManager:(DKImageDataManager*) imgMgr;
-- (DKImageDataManager*)		imageManager;
+- (void)setImageManager:(DKImageDataManager*)imgMgr;
+- (DKImageDataManager*)imageManager;
 
 @end
-

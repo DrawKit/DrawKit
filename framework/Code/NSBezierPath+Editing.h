@@ -22,72 +22,71 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 */
 @interface NSBezierPath (DKEditing)
 
-+ (void)				setConstraintAngle:(CGFloat) radians;
-+ (NSPoint)				colinearPointForPoint:(NSPoint) p centrePoint:(NSPoint) q;
-+ (NSPoint)				colinearPointForPoint:(NSPoint) p centrePoint:(NSPoint) q radius:(CGFloat) r;
-+ (NSInteger)			point:(NSPoint) p inNSPointArray:(NSPoint*) array count:(NSInteger) count tolerance:(CGFloat) t;
-+ (NSInteger)			point:(NSPoint) p inNSPointArray:(NSPoint*) array count:(NSInteger) count tolerance:(CGFloat) t reverse:(BOOL) reverse;
-+ (void)				colineariseVertex:(NSPoint[3]) inPoints cpA:(NSPoint*) outCPA cpB:(NSPoint*) outCPB;
++ (void)setConstraintAngle:(CGFloat)radians;
++ (NSPoint)colinearPointForPoint:(NSPoint)p centrePoint:(NSPoint)q;
++ (NSPoint)colinearPointForPoint:(NSPoint)p centrePoint:(NSPoint)q radius:(CGFloat)r;
++ (NSInteger)point:(NSPoint)p inNSPointArray:(NSPoint*)array count:(NSInteger)count tolerance:(CGFloat)t;
++ (NSInteger)point:(NSPoint)p inNSPointArray:(NSPoint*)array count:(NSInteger)count tolerance:(CGFloat)t reverse:(BOOL)reverse;
++ (void)colineariseVertex:(NSPoint[3])inPoints cpA:(NSPoint*)outCPA cpB:(NSPoint*)outCPB;
 
-- (NSBezierPath*)		bezierPathByRemovingTrailingElements:(NSInteger) numToRemove;
-- (NSBezierPath*)		bezierPathByStrippingRedundantElements;
-- (NSBezierPath*)		bezierPathByRemovingElementAtIndex:(NSInteger) indx;
+- (NSBezierPath*)bezierPathByRemovingTrailingElements:(NSInteger)numToRemove;
+- (NSBezierPath*)bezierPathByStrippingRedundantElements;
+- (NSBezierPath*)bezierPathByRemovingElementAtIndex:(NSInteger)indx;
 
 /** @brief Counts the number of elements of each type in the path
  * @note
  * Pass NULL for any values you are not interested in
  * @param mtc, ltc, ctc, cpc pointers to integers that receive the counts for each element type
  */
-- (void)				getPathMoveToCount:(NSInteger*) mtc lineToCount:(NSInteger*) ltc curveToCount:(NSInteger*) ctc closePathCount:(NSInteger*) cpc;
+- (void)getPathMoveToCount:(NSInteger*)mtc lineToCount:(NSInteger*)ltc curveToCount:(NSInteger*)ctc closePathCount:(NSInteger*)cpc;
 
-- (BOOL)				isPathClosed;
-- (NSUInteger)			checksum;
+- (BOOL)isPathClosed;
+- (NSUInteger)checksum;
 
-- (BOOL)				subpathContainingElementIsClosed:(NSInteger) element;
-- (NSInteger)			subpathStartingElementForElement:(NSInteger) element;
-- (NSInteger)			subpathEndingElementForElement:(NSInteger) element;
+- (BOOL)subpathContainingElementIsClosed:(NSInteger)element;
+- (NSInteger)subpathStartingElementForElement:(NSInteger)element;
+- (NSInteger)subpathEndingElementForElement:(NSInteger)element;
 
-- (NSBezierPathElement)	elementTypeForPartcode:(NSInteger) pc;
-- (BOOL)				isOnPathPartcode:(NSInteger) pc;
+- (NSBezierPathElement)elementTypeForPartcode:(NSInteger)pc;
+- (BOOL)isOnPathPartcode:(NSInteger)pc;
 
-- (void)				setControlPoint:(NSPoint) p forPartcode:(NSInteger) pc;
-- (NSPoint)				controlPointForPartcode:(NSInteger) pc;
+- (void)setControlPoint:(NSPoint)p forPartcode:(NSInteger)pc;
+- (NSPoint)controlPointForPartcode:(NSInteger)pc;
 
-- (NSInteger)			partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t;
-- (NSInteger)			partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t prioritiseOnPathPoints:(BOOL) onpPriority;
-- (NSInteger)			partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t startingFromElement:(NSInteger) startElement;
-- (NSInteger)			partcodeHitByPoint:(NSPoint) p tolerance:(CGFloat) t startingFromElement:(NSInteger) startElement prioritiseOnPathPoints:(BOOL) onpPriority;
-- (NSInteger)			partcodeForLastPoint;
-- (NSPoint)				referencePointForConstrainedPartcode:(NSInteger) pc;
+- (NSInteger)partcodeHitByPoint:(NSPoint)p tolerance:(CGFloat)t;
+- (NSInteger)partcodeHitByPoint:(NSPoint)p tolerance:(CGFloat)t prioritiseOnPathPoints:(BOOL)onpPriority;
+- (NSInteger)partcodeHitByPoint:(NSPoint)p tolerance:(CGFloat)t startingFromElement:(NSInteger)startElement;
+- (NSInteger)partcodeHitByPoint:(NSPoint)p tolerance:(CGFloat)t startingFromElement:(NSInteger)startElement prioritiseOnPathPoints:(BOOL)onpPriority;
+- (NSInteger)partcodeForLastPoint;
+- (NSPoint)referencePointForConstrainedPartcode:(NSInteger)pc;
 
-- (void)				moveControlPointPartcode:(NSInteger) pc toPoint:(NSPoint) p colinear:(BOOL) colin coradial:(BOOL) corad constrainAngle:(BOOL) acon;
+- (void)moveControlPointPartcode:(NSInteger)pc toPoint:(NSPoint)p colinear:(BOOL)colin coradial:(BOOL)corad constrainAngle:(BOOL)acon;
 
 // adding and deleting points from a path:
 // note that all of these methods return a new path since NSBezierPath doesn't support deletion/insertion except by reconstructing a path.
 
-- (NSBezierPath*)		deleteControlPointForPartcode:(NSInteger) pc;
-- (NSBezierPath*)		insertControlPointAtPoint:(NSPoint) p tolerance:(CGFloat) tol type:(NSInteger) controlPointType;
+- (NSBezierPath*)deleteControlPointForPartcode:(NSInteger)pc;
+- (NSBezierPath*)insertControlPointAtPoint:(NSPoint)p tolerance:(CGFloat)tol type:(NSInteger)controlPointType;
 
-- (NSPoint)				nearestPointToPoint:(NSPoint) p tolerance:(CGFloat) tol;
+- (NSPoint)nearestPointToPoint:(NSPoint)p tolerance:(CGFloat)tol;
 
 // geometry utilities:
 
-- (CGFloat)				tangentAtStartOfSubpath:(NSInteger) elementIndex;
-- (CGFloat)				tangentAtEndOfSubpath:(NSInteger) elementIndex;
+- (CGFloat)tangentAtStartOfSubpath:(NSInteger)elementIndex;
+- (CGFloat)tangentAtEndOfSubpath:(NSInteger)elementIndex;
 
-- (NSInteger)			elementHitByPoint:(NSPoint) p tolerance:(CGFloat) tol tValue:(CGFloat*) t;
-- (NSInteger)			elementHitByPoint:(NSPoint) p tolerance:(CGFloat) tol tValue:(CGFloat*) t nearestPoint:(NSPoint*) npp;
-- (NSInteger)			elementBoundsContainsPoint:(NSPoint) p tolerance:(CGFloat) tol;
+- (NSInteger)elementHitByPoint:(NSPoint)p tolerance:(CGFloat)tol tValue:(CGFloat*)t;
+- (NSInteger)elementHitByPoint:(NSPoint)p tolerance:(CGFloat)tol tValue:(CGFloat*)t nearestPoint:(NSPoint*)npp;
+- (NSInteger)elementBoundsContainsPoint:(NSPoint)p tolerance:(CGFloat)tol;
 
 // element bounding boxes - can reduce need to draw entire path when only a part is edited
 
-- (NSRect)				boundingBoxForElement:(NSInteger) elementIndex;
-- (void)				drawElementsBoundingBoxes;
-- (NSSet*)				boundingBoxesForPartcode:(NSInteger) pc;
-- (NSSet*)				allBoundingBoxes;
+- (NSRect)boundingBoxForElement:(NSInteger)elementIndex;
+- (void)drawElementsBoundingBoxes;
+- (NSSet*)boundingBoxesForPartcode:(NSInteger)pc;
+- (NSSet*)allBoundingBoxes;
 
 @end
 
-NSInteger		partcodeForElement( const NSInteger element );
-NSInteger		partcodeForElementControlPoint( const NSInteger element, const NSInteger controlPointIndex );
-
+NSInteger partcodeForElement(const NSInteger element);
+NSInteger partcodeForElementControlPoint(const NSInteger element, const NSInteger controlPointIndex);

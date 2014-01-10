@@ -27,39 +27,39 @@
 
 #pragma mark Contants (Non-localized)
 
-NSString*		kDKStylePasteboardType					= @"net.apptree.drawkit.style";
-NSString*		kDKStyleKeyPasteboardType				= @"net.apptree.drawkit.stylekey";
+NSString* kDKStylePasteboardType = @"net.apptree.drawkit.style";
+NSString* kDKStyleKeyPasteboardType = @"net.apptree.drawkit.stylekey";
 
-NSString*		kDKStyleWillChangeNotification			= @"kDKDrawingStyleWillChangeNotification";
-NSString*		kDKStyleDidChangeNotification			= @"kDKDrawingStyleDidChangeNotification";
-NSString*		kDKStyleWasAttachedNotification			= @"kDKDrawingStyleWasAttachedNotification";
-NSString*		kDKStyleWillBeDetachedNotification		= @"kDKDrawingStyleWillBeDetachedNotification";
-NSString*		kDKStyleLockStateChangedNotification	= @"kDKStyleLockStateChangedNotification";
-NSString*		kDKStyleSharableFlagChangedNotification = @"kDKStyleSharableFlagChangedNotification";
-NSString*		kDKStyleNameChangedNotification			= @"kDKStyleNameChangedNotification";
-NSString*		kDKStyleTextAttributesDidChangeNotification = @"kDKStyleTextAttributesDidChangeNotification";
+NSString* kDKStyleWillChangeNotification = @"kDKDrawingStyleWillChangeNotification";
+NSString* kDKStyleDidChangeNotification = @"kDKDrawingStyleDidChangeNotification";
+NSString* kDKStyleWasAttachedNotification = @"kDKDrawingStyleWasAttachedNotification";
+NSString* kDKStyleWillBeDetachedNotification = @"kDKDrawingStyleWillBeDetachedNotification";
+NSString* kDKStyleLockStateChangedNotification = @"kDKStyleLockStateChangedNotification";
+NSString* kDKStyleSharableFlagChangedNotification = @"kDKStyleSharableFlagChangedNotification";
+NSString* kDKStyleNameChangedNotification = @"kDKStyleNameChangedNotification";
+NSString* kDKStyleTextAttributesDidChangeNotification = @"kDKStyleTextAttributesDidChangeNotification";
 
-NSString*		kDKStyleDisplayPerformance_no_anti_aliasing = @"kDKStyleDisplayPerformance_no_anti_aliasing";
-NSString*		kDKStyleDisplayPerformance_no_shadows		= @"kDKStyleDisplayPerformance_no_shadows";
-NSString*		kDKStyleDisplayPerformance_substitute_styles = @"kDKStyleDisplayPerformance_substitute_styles";
+NSString* kDKStyleDisplayPerformance_no_anti_aliasing = @"kDKStyleDisplayPerformance_no_anti_aliasing";
+NSString* kDKStyleDisplayPerformance_no_shadows = @"kDKStyleDisplayPerformance_no_shadows";
+NSString* kDKStyleDisplayPerformance_substitute_styles = @"kDKStyleDisplayPerformance_substitute_styles";
 
 // the fixed default styles need to have a predetermined (but still unique) key. We define them here.
 // Do not change or interpret these values.
 
-static NSString* kDKBasicStyleDefaultKey				= @"1DFD6D8A-6C8B-4E4B-9186-90F64654F79F";
-static NSString* kDKBasicTrackStyleDefaultKey			= @"6B1A0430-204A-4012-B96D-A4EE9890A2A3";
+static NSString* kDKBasicStyleDefaultKey = @"1DFD6D8A-6C8B-4E4B-9186-90F64654F79F";
+static NSString* kDKBasicTrackStyleDefaultKey = @"6B1A0430-204A-4012-B96D-A4EE9890A2A3";
 
 #pragma mark Static Vars
 
-static BOOL					sStylesShared = YES;
-static NSMutableDictionary*	sPasteboardRegistry = nil;
-static BOOL					sShouldDrawShadows = YES;
-static BOOL					sAntialias = YES;
-static BOOL					sSubstitute = NO;
+static BOOL sStylesShared = YES;
+static NSMutableDictionary* sPasteboardRegistry = nil;
+static BOOL sShouldDrawShadows = YES;
+static BOOL sAntialias = YES;
+static BOOL sSubstitute = NO;
 
 @interface DKStyle (Private)
 
-- (NSSize)		extraSpaceNeededIgnoringMitreLimit;
+- (NSSize)extraSpaceNeededIgnoringMitreLimit;
 
 @end
 
@@ -73,24 +73,25 @@ static BOOL					sSubstitute = NO;
  * @return a style object
  * @public
  */
-+ (DKStyle*)		defaultStyle
++ (DKStyle*)defaultStyle
 {
-	DKStyle* basic = [DKStyleRegistry styleForKey:kDKBasicStyleDefaultKey];
+    DKStyle* basic = [DKStyleRegistry styleForKey:kDKBasicStyleDefaultKey];
 
-	if ( basic == nil )
-	{
-		basic = [self styleWithFillColour:[NSColor veryLightGrey] strokeColour:[NSColor blackColor]];
-		[basic setName:NSLocalizedString(@"Basic", @"default name for basic style")];
-		
-		// because this is a framework default, its unique key must always be recreated the same. This is not something any client
-		// code or other part of the framework should ever attempt.
-		
-		basic->m_uniqueKey = kDKBasicStyleDefaultKey;
-		
-		[DKStyleRegistry registerStyle:basic inCategories:[NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory]];
-	}
+    if (basic == nil) {
+        basic = [self styleWithFillColour:[NSColor veryLightGrey]
+                             strokeColour:[NSColor blackColor]];
+        [basic setName:NSLocalizedString(@"Basic", @"default name for basic style")];
 
-	return basic;
+        // because this is a framework default, its unique key must always be recreated the same. This is not something any client
+        // code or other part of the framework should ever attempt.
+
+        basic->m_uniqueKey = kDKBasicStyleDefaultKey;
+
+        [DKStyleRegistry registerStyle:basic
+                          inCategories:[NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory]];
+    }
+
+    return basic;
 }
 
 /** @brief Returns a basic style with a dual stroke, 5.6pt light grey over 8.0pt black
@@ -99,26 +100,29 @@ static BOOL					sSubstitute = NO;
  * @return a style object
  * @public
  */
-+ (DKStyle*)		defaultTrackStyle
++ (DKStyle*)defaultTrackStyle
 {
-	DKStyle* deftrack = [DKStyleRegistry styleForKey:kDKBasicTrackStyleDefaultKey];
-	
-	if ( deftrack == nil )
-	{
-		deftrack = [DKStyle styleWithFillColour:nil strokeColour:[NSColor blackColor] strokeWidth:8.0];
-		[deftrack addRenderer:[DKStroke strokeWithWidth:5.6 colour:[NSColor veryLightGrey]]];
-		
-		[deftrack setName:NSLocalizedString(@"Basic Track", @"default name for basic track style")];
-		
-		// because this is a framework default, its unique key must always be recreated the same. This is not something any client
-		// code or other part of the framework should ever attempt.
+    DKStyle* deftrack = [DKStyleRegistry styleForKey:kDKBasicTrackStyleDefaultKey];
 
-		deftrack->m_uniqueKey = kDKBasicTrackStyleDefaultKey;
-		
-		[DKStyleRegistry registerStyle:deftrack inCategories:[NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory]];
-	}
-	
-	return deftrack;
+    if (deftrack == nil) {
+        deftrack = [DKStyle styleWithFillColour:nil
+                                   strokeColour:[NSColor blackColor]
+                                    strokeWidth:8.0];
+        [deftrack addRenderer:[DKStroke strokeWithWidth:5.6
+                                                 colour:[NSColor veryLightGrey]]];
+
+        [deftrack setName:NSLocalizedString(@"Basic Track", @"default name for basic track style")];
+
+        // because this is a framework default, its unique key must always be recreated the same. This is not something any client
+        // code or other part of the framework should ever attempt.
+
+        deftrack->m_uniqueKey = kDKBasicTrackStyleDefaultKey;
+
+        [DKStyleRegistry registerStyle:deftrack
+                          inCategories:[NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory]];
+    }
+
+    return deftrack;
 }
 
 #pragma mark -
@@ -134,9 +138,11 @@ static BOOL					sSubstitute = NO;
  * @return a style object
  * @public
  */
-+ (DKStyle*)		styleWithFillColour:(NSColor*) fc strokeColour:(NSColor*) sc
++ (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc
 {
-	return [self styleWithFillColour:fc strokeColour:sc strokeWidth:1.0];
+    return [self styleWithFillColour:fc
+                        strokeColour:sc
+                         strokeWidth:1.0];
 }
 
 /** @brief Creates a simple style with fill and strokes of the colours passed
@@ -150,29 +156,27 @@ static BOOL					sSubstitute = NO;
  * @return a style object
  * @public
  */
-+ (DKStyle*)		styleWithFillColour:(NSColor*) fc strokeColour:(NSColor*) sc strokeWidth:(CGFloat) sw
++ (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc strokeWidth:(CGFloat)sw
 {
-	if( fc == nil && sc == nil )
-	{
-		NSLog(@"DKStyle was passed nil for both colour arguments - will substitute a light gray fill (please fix)");
-		fc = [NSColor lightGrayColor];
-	}
-	
-	DKStyle* style = [[DKStyle alloc] init];
-	
-	if ( fc )
-	{
-		DKFill* fill = [DKFill fillWithColour:fc];
-		[style addRenderer:fill];
-	}
-	
-	if ( sc )
-	{
-		DKStroke* stroke = [DKStroke strokeWithWidth:sw colour:sc];
-		[style addRenderer:stroke];
-	}
-	
-	return [style autorelease];
+    if (fc == nil && sc == nil) {
+        NSLog(@"DKStyle was passed nil for both colour arguments - will substitute a light gray fill (please fix)");
+        fc = [NSColor lightGrayColor];
+    }
+
+    DKStyle* style = [[DKStyle alloc] init];
+
+    if (fc) {
+        DKFill* fill = [DKFill fillWithColour:fc];
+        [style addRenderer:fill];
+    }
+
+    if (sc) {
+        DKStroke* stroke = [DKStroke strokeWithWidth:sw
+                                              colour:sc];
+        [style addRenderer:stroke];
+    }
+
+    return [style autorelease];
 }
 
 /** @brief Creates a style from data on the pasteboard
@@ -182,36 +186,35 @@ static BOOL					sSubstitute = NO;
  * @return a style object
  * @public
  */
-+ (DKStyle*)		styleFromPasteboard:(NSPasteboard*) pb
++ (DKStyle*)styleFromPasteboard:(NSPasteboard*)pb
 {
-	NSString*		sname = [pb stringForType:kDKStyleKeyPasteboardType];
-	DKStyle*	style = [self styleWithPasteboardName:sname];
-	
-	if ( style == nil )
-	{
-		// the name isn't known, so fall back on using the archived style data
-		
-		NSData* sd = [pb dataForType:kDKStylePasteboardType];
-		
-		if ( sd )
-			style = [NSKeyedUnarchiver unarchiveObjectWithData:sd];
-	}
-	
-	return style;
+    NSString* sname = [pb stringForType:kDKStyleKeyPasteboardType];
+    DKStyle* style = [self styleWithPasteboardName:sname];
+
+    if (style == nil) {
+        // the name isn't known, so fall back on using the archived style data
+
+        NSData* sd = [pb dataForType:kDKStylePasteboardType];
+
+        if (sd)
+            style = [NSKeyedUnarchiver unarchiveObjectWithData:sd];
+    }
+
+    return style;
 }
 
 /** @brief Return a list of types supported by styles for pasteboard operations
  * @return an array listing the pasteboard types usable by DKStyle
  * @public
  */
-+ (NSArray*)			stylePasteboardTypes
++ (NSArray*)stylePasteboardTypes
 {
-	static NSArray* spTypes = nil;
-	
-	if( spTypes == nil )
-		spTypes = [[NSArray arrayWithObjects:kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil] retain];
-	
-	return spTypes;
+    static NSArray* spTypes = nil;
+
+    if (spTypes == nil)
+        spTypes = [[NSArray arrayWithObjects:kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil] retain];
+
+    return spTypes;
 }
 
 /** @brief Determine if the pasteboard carries a style
@@ -219,38 +222,39 @@ static BOOL					sSubstitute = NO;
  * @return YES if a style can be made from the pastebaord
  * @public
  */
-+ (BOOL)			canInitWithPasteboard:(NSPasteboard*) pb
++ (BOOL)canInitWithPasteboard:(NSPasteboard*)pb
 {
-	return ([pb availableTypeFromArray:[self stylePasteboardTypes]] != nil );
+    return ([pb availableTypeFromArray:[self stylePasteboardTypes]] != nil);
 }
 
 #pragma mark -
 #pragma mark - pasted styles - separate non-persistent registry
-+ (DKStyle*)		styleWithPasteboardName:(NSString*) name
++ (DKStyle*)styleWithPasteboardName:(NSString*)name
 {
-	// look for the style in the pasteboard registry. If not there, look in the main registry.
-	
-	DKStyle*	style = nil;
-	
-	if ( sPasteboardRegistry )
-		style = [sPasteboardRegistry objectForKey:name];
+    // look for the style in the pasteboard registry. If not there, look in the main registry.
 
-	if( style == nil )
-		style = [DKStyleRegistry styleForKey:name];
-		
-	return style;
+    DKStyle* style = nil;
+
+    if (sPasteboardRegistry)
+        style = [sPasteboardRegistry objectForKey:name];
+
+    if (style == nil)
+        style = [DKStyleRegistry styleForKey:name];
+
+    return style;
 }
 
-+ (void)				registerStyle:(DKStyle*) style withPasteboardName:(NSString*) pbname
++ (void)registerStyle:(DKStyle*)style withPasteboardName:(NSString*)pbname
 {
-	// put the style into the pasteboard registry
-	
-	LogEvent_(kStateEvent, @"saving key for paste: %@ '%@'", pbname, [style name]);
-	
-	if ( sPasteboardRegistry == nil )
-		sPasteboardRegistry = [[NSMutableDictionary alloc] init];
-		
-	[sPasteboardRegistry setObject:style forKey:pbname];
+    // put the style into the pasteboard registry
+
+    LogEvent_(kStateEvent, @"saving key for paste: %@ '%@'", pbname, [style name]);
+
+    if (sPasteboardRegistry == nil)
+        sPasteboardRegistry = [[NSMutableDictionary alloc] init];
+
+    [sPasteboardRegistry setObject:style
+                            forKey:pbname];
 }
 
 #pragma mark -
@@ -264,9 +268,9 @@ static BOOL					sSubstitute = NO;
  * @param share YES to share styles, NO to return unique copies.
  * @public
  */
-+ (void)				setStylesAreSharableByDefault:(BOOL) share
++ (void)setStylesAreSharableByDefault:(BOOL)share
 {
-	sStylesShared = share;
+    sStylesShared = share;
 }
 
 /** @brief Query whether styles are generally shared or not
@@ -275,9 +279,9 @@ static BOOL					sSubstitute = NO;
  * @return YES if styles are shared, NO if unique copies will be returned
  * @public
  */
-+ (BOOL)				stylesAreSharableByDefault
++ (BOOL)stylesAreSharableByDefault
 {
-	return sStylesShared;
+    return sStylesShared;
 }
 
 #pragma mark -
@@ -289,15 +293,16 @@ static BOOL					sSubstitute = NO;
  * @return a shadow object
  * @public
  */
-+ (NSShadow*)			defaultShadow
++ (NSShadow*)defaultShadow
 {
-	NSShadow* shadw = [[NSShadow alloc] init];
-		
-	[shadw setShadowColor:[NSColor rgbGrey:0.0 withAlpha:0.5]];
-	[shadw setShadowBlurRadius:10.0];
-	[shadw setShadowOffset:NSMakeSize( 6, 6 )];
-	
-	return [shadw autorelease];
+    NSShadow* shadw = [[NSShadow alloc] init];
+
+    [shadw setShadowColor:[NSColor rgbGrey:0.0
+                                 withAlpha:0.5]];
+    [shadw setShadowBlurRadius:10.0];
+    [shadw setShadowOffset:NSMakeSize(6, 6)];
+
+    return [shadw autorelease];
 }
 
 /** @brief Set whether shadow attributes within a style should be drawn
@@ -308,13 +313,14 @@ static BOOL					sSubstitute = NO;
  * @return the previous state of this setting
  * @public
  */
-+ (BOOL)				setWillDrawShadows:(BOOL) drawShadows
++ (BOOL)setWillDrawShadows:(BOOL)drawShadows
 {
-	BOOL willDrawOld = sShouldDrawShadows;
-	sShouldDrawShadows = drawShadows;
-	[[NSUserDefaults standardUserDefaults] setBool:!drawShadows forKey:kDKStyleDisplayPerformance_no_shadows];
-	
-	return willDrawOld;
+    BOOL willDrawOld = sShouldDrawShadows;
+    sShouldDrawShadows = drawShadows;
+    [[NSUserDefaults standardUserDefaults] setBool:!drawShadows
+                                            forKey:kDKStyleDisplayPerformance_no_shadows];
+
+    return willDrawOld;
 }
 
 /** @brief Set whether shadow attributes within a style should be drawn
@@ -324,9 +330,9 @@ static BOOL					sSubstitute = NO;
  * @return YES to draw shadows, NO to suppress them
  * @public
  */
-+ (BOOL)				willDrawShadows
++ (BOOL)willDrawShadows
 {
-	return sShouldDrawShadows;
+    return sShouldDrawShadows;
 }
 
 #pragma mark -
@@ -338,10 +344,11 @@ static BOOL					sSubstitute = NO;
  * @param aa YES to anti-alias, NO to turn anti-aliasing off
  * @public
  */
-+ (void)				setShouldAntialias:(BOOL) aa
++ (void)setShouldAntialias:(BOOL)aa
 {
-	sAntialias = aa;
-	[[NSUserDefaults standardUserDefaults] setBool:!aa forKey:kDKStyleDisplayPerformance_no_anti_aliasing];
+    sAntialias = aa;
+    [[NSUserDefaults standardUserDefaults] setBool:!aa
+                                            forKey:kDKStyleDisplayPerformance_no_anti_aliasing];
 }
 
 /** @brief Set whether drawing should be anti-aliased or not
@@ -350,9 +357,9 @@ static BOOL					sSubstitute = NO;
  * @return YES to anti-alias, NO to turn anti-aliasing off
  * @public
  */
-+ (BOOL)				shouldAntialias
++ (BOOL)shouldAntialias
 {
-	return sAntialias;
+    return sAntialias;
 }
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
@@ -363,10 +370,11 @@ static BOOL					sSubstitute = NO;
  * @param substitute YES to substitute a faster placeholder style for complex styles
  * @public
  */
-+ (void)				setShouldSubstitutePlaceholderStyle:(BOOL) substitute
++ (void)setShouldSubstitutePlaceholderStyle:(BOOL)substitute
 {
-	sSubstitute = substitute;
-	[[NSUserDefaults standardUserDefaults] setBool:substitute forKey:kDKStyleDisplayPerformance_substitute_styles];
+    sSubstitute = substitute;
+    [[NSUserDefaults standardUserDefaults] setBool:substitute
+                                            forKey:kDKStyleDisplayPerformance_substitute_styles];
 }
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
@@ -377,9 +385,9 @@ static BOOL					sSubstitute = NO;
  * @return YES to substitute a faster placeholder style for complex styles
  * @public
  */
-+ (BOOL)				shouldSubstitutePlaceholderStyle
++ (BOOL)shouldSubstitutePlaceholderStyle
 {
-	return sSubstitute;
+    return sSubstitute;
 }
 
 #pragma mark -
@@ -387,26 +395,28 @@ static BOOL					sSubstitute = NO;
 
 /** @brief Informs clients that a property of the style is about to change
  */
-- (void)				notifyClientsBeforeChange
+- (void)notifyClientsBeforeChange
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWillChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWillChangeNotification
+                                                        object:self];
 }
 
 /** @brief Informs clients that a property of the style has just changed
  * @note
  * This method is called in response to any observed change to any renderer the style contains
  */
-- (void)				notifyClientsAfterChange
+- (void)notifyClientsAfterChange
 {
-	// update the timestamp so that style registry can determine which of a pair of similar styles is the more recent
-	
-	m_lastModTime = [NSDate timeIntervalSinceReferenceDate];
+    // update the timestamp so that style registry can determine which of a pair of similar styles is the more recent
 
-	// invalidate any swatch cache to ensure cache is forced to be rebuilt after a change
-	
-	[mSwatchCache removeAllObjects];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleDidChangeNotification object:self];
+    m_lastModTime = [NSDate timeIntervalSinceReferenceDate];
+
+    // invalidate any swatch cache to ensure cache is forced to be rebuilt after a change
+
+    [mSwatchCache removeAllObjects];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleDidChangeNotification
+                                                        object:self];
 }
 
 /** @brief Called when a style is attached to an object
@@ -416,19 +426,22 @@ static BOOL					sSubstitute = NO;
  * @param toObject the object the style was attached to
  * @public
  */
-- (void)				styleWasAttached:(DKDrawableObject*) toObject
+- (void)styleWasAttached:(DKDrawableObject*)toObject
 {
-	// DKDrawableObject calls these methods in its setStyle: method so that the style can get notified about who
-	// is using it. By default these do nothing but send notifications - you can override for other uses.
-	
-	//LogEvent_(kReactiveEvent, @"style %@ attached to object %@", self, toObject );
-	
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObject:self forKey:@"style"];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasAttachedNotification object:toObject userInfo:userInfo];
-	
-	// keep track of the number of clients using this
-	
-	++m_clientCount;
+    // DKDrawableObject calls these methods in its setStyle: method so that the style can get notified about who
+    // is using it. By default these do nothing but send notifications - you can override for other uses.
+
+    //LogEvent_(kReactiveEvent, @"style %@ attached to object %@", self, toObject );
+
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObject:self
+                                                         forKey:@"style"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasAttachedNotification
+                                                        object:toObject
+                                                      userInfo:userInfo];
+
+    // keep track of the number of clients using this
+
+    ++m_clientCount;
 }
 
 /** @brief Called when a style is about to be removed from an object
@@ -439,16 +452,19 @@ static BOOL					sSubstitute = NO;
  * @param toObject the object the style was attached to
  * @public
  */
-- (void)				styleWillBeRemoved:(DKDrawableObject*) fromObject
+- (void)styleWillBeRemoved:(DKDrawableObject*)fromObject
 {
-	//LogEvent_(kReactiveEvent, @"style %@ removed from object %@", self, fromObject );
+    //LogEvent_(kReactiveEvent, @"style %@ removed from object %@", self, fromObject );
 
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObject:self forKey:@"style"];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWillBeDetachedNotification object:fromObject userInfo:userInfo];
-	
-	// keep track of the number of clients using this
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObject:self
+                                                         forKey:@"style"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWillBeDetachedNotification
+                                                        object:fromObject
+                                                      userInfo:userInfo];
 
-	--m_clientCount;
+    // keep track of the number of clients using this
+
+    --m_clientCount;
 }
 
 /** @brief Returns the number of client objects using this style
@@ -457,9 +473,9 @@ static BOOL					sSubstitute = NO;
  * @return an unsigned integer, the number of clients using this style
  * @public
  */
-- (NSUInteger)			countOfClients
+- (NSUInteger)countOfClients
 {
-	return m_clientCount;
+    return m_clientCount;
 }
 
 #pragma mark -
@@ -472,18 +488,18 @@ static BOOL					sSubstitute = NO;
  * DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
  * @param attrs a dictionary of text attributes
  */
-- (void)				setTextAttributes:(NSDictionary*) attrs
+- (void)setTextAttributes:(NSDictionary*)attrs
 {
-	if(! [self locked])
-	{
-		[[[self undoManager] prepareWithInvocationTarget:self] setTextAttributes:[self textAttributes]];
-		[self notifyClientsBeforeChange];
-		NSDictionary* temp = [attrs copy];
-		[m_textAttributes release];
-		m_textAttributes = temp;
-		[self notifyClientsAfterChange];
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleTextAttributesDidChangeNotification object:self];
-	}
+    if (![self locked]) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setTextAttributes:[self textAttributes]];
+        [self notifyClientsBeforeChange];
+        NSDictionary* temp = [attrs copy];
+        [m_textAttributes release];
+        m_textAttributes = temp;
+        [self notifyClientsAfterChange];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleTextAttributesDidChangeNotification
+                                                            object:self];
+    }
 }
 
 /** @brief Returns the attributes dictionary
@@ -492,18 +508,18 @@ static BOOL					sSubstitute = NO;
  * @return a dictionary of attributes
  * @public
  */
-- (NSDictionary*)		textAttributes
+- (NSDictionary*)textAttributes
 {
-	return m_textAttributes;
+    return m_textAttributes;
 }
 
 /** @brief Return wjether the style has any text attributes set
  * @return YES if there are any text attributes
  * @public
  */
-- (BOOL)				hasTextAttributes
+- (BOOL)hasTextAttributes
 {
-	return ([self textAttributes] != nil && [[self textAttributes] count] > 0);
+    return ([self textAttributes] != nil && [[self textAttributes] count] > 0);
 }
 
 /** @brief Remove all of the style's current text attributes
@@ -511,9 +527,9 @@ static BOOL					sSubstitute = NO;
  * Does nothing if the style is locked
  * @public
  */
-- (void)				removeTextAttributes
+- (void)removeTextAttributes
 {
-	[self setTextAttributes:nil];
+    [self setTextAttributes:nil];
 }
 
 #pragma mark -
@@ -527,13 +543,13 @@ static BOOL					sSubstitute = NO;
  * @param share YES to share among several objects, NO to make unique copies.
  * @public
  */
-- (void)				setStyleSharable:(BOOL) share
+- (void)setStyleSharable:(BOOL)share
 {
-	if( share != [self isStyleSharable])
-	{
-		m_shared = share;
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleSharableFlagChangedNotification object:self];
-	}
+    if (share != [self isStyleSharable]) {
+        m_shared = share;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleSharableFlagChangedNotification
+                                                            object:self];
+    }
 }
 
 /** @brief Returns whether the style can be shared among multiple objects, or whether unique copies should be
@@ -541,9 +557,9 @@ static BOOL					sSubstitute = NO;
  * @return YES to share among several objects, NO to make unique copies.
  * @public
  */
-- (BOOL)				isStyleSharable
+- (BOOL)isStyleSharable
 {
-	return m_shared;
+    return m_shared;
 }
 
 /** @brief Set whether style is locked (editable)
@@ -556,23 +572,23 @@ static BOOL					sSubstitute = NO;
  * @param lock YES to lock the style
  * @public
  */
-- (void)				setLocked:(BOOL) lock
+- (void)setLocked:(BOOL)lock
 {
-	if ( lock != m_locked )
-	{
-		[[[self undoManager] prepareWithInvocationTarget:self] setLocked:[self locked]];
-		m_locked = lock;
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleLockStateChangedNotification object:self];
-	}
+    if (lock != m_locked) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setLocked:[self locked]];
+        m_locked = lock;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleLockStateChangedNotification
+                                                            object:self];
+    }
 }
 
 /** @brief Returns whether the style is locked and cannot be edited
  * @return YES if locked (non-editable)
  * @public
  */
-- (BOOL)				locked
+- (BOOL)locked
 {
-	return m_locked;
+    return m_locked;
 }
 
 #pragma mark -
@@ -586,9 +602,9 @@ static BOOL					sSubstitute = NO;
  * @return YES if known to the registry
  * @public
  */
-- (BOOL)				isStyleRegistered
+- (BOOL)isStyleRegistered
 {
-	return [[DKStyleRegistry sharedStyleRegistry] containsKey:[self uniqueKey]];
+    return [[DKStyleRegistry sharedStyleRegistry] containsKey:[self uniqueKey]];
 }
 
 /** @brief Returns the list of keys that the style is registered under (if any)
@@ -599,9 +615,9 @@ static BOOL					sSubstitute = NO;
  * @return a list of keys (NSStrings)
  * @public
  */
-- (NSArray*)			registryKeys
+- (NSArray*)registryKeys
 {
-	return [NSArray arrayWithObject:[self uniqueKey]];  //[[DKStyleRegistry sharedStyleRegistry] keysForObject:self];
+    return [NSArray arrayWithObject:[self uniqueKey]]; //[[DKStyleRegistry sharedStyleRegistry] keysForObject:self];
 }
 
 /** @brief Returns the unique key of the style
@@ -611,9 +627,9 @@ static BOOL					sSubstitute = NO;
  * @return a string
  * @public
  */
-- (NSString*)			uniqueKey
+- (NSString*)uniqueKey
 {
-	return [[m_uniqueKey copy] autorelease];
+    return [[m_uniqueKey copy] autorelease];
 }
 
 /** @brief Sets the unique key of the style
@@ -623,15 +639,14 @@ static BOOL					sSubstitute = NO;
  * ordinary name.
  * @private
  */
-- (void)				assignUniqueKey
+- (void)assignUniqueKey
 {
-	NSAssert( m_uniqueKey == nil, @"unique key already assigned - cannot be changed");
-	
-	if ( m_uniqueKey == nil )
-	{
-		m_uniqueKey = [[DKUniqueID uniqueKey] retain];
-	//	LogEvent_(kStateEvent, @"assigned unique key: %@", m_uniqueKey);
-	}
+    NSAssert(m_uniqueKey == nil, @"unique key already assigned - cannot be changed");
+
+    if (m_uniqueKey == nil) {
+        m_uniqueKey = [[DKUniqueID uniqueKey] retain];
+        //	LogEvent_(kStateEvent, @"assigned unique key: %@", m_uniqueKey);
+    }
 }
 
 /** @brief Query whether the style should be considered for a re-merge with the registry
@@ -642,19 +657,19 @@ static BOOL					sSubstitute = NO;
  * @return <YES> if the style should be a candidate for re-merging
  * @private
  */
-- (BOOL)				requiresRemerge
+- (BOOL)requiresRemerge
 {
-	return m_mergeFlag;
+    return m_mergeFlag;
 }
 
-- (void)				clearRemergeFlag
+- (void)clearRemergeFlag
 {
-	m_mergeFlag = NO;
+    m_mergeFlag = NO;
 }
 
-- (NSTimeInterval)		lastModificationTimestamp
+- (NSTimeInterval)lastModificationTimestamp
 {
-	return m_lastModTime;
+    return m_lastModTime;
 }
 
 /** @brief Is this style the same as <aStyle>?
@@ -664,14 +679,14 @@ static BOOL					sSubstitute = NO;
  * @return YES if the styles ar the same, NO otherwise
  * @public
  */
-- (BOOL)				isEqualToStyle:(DKStyle*) aStyle
+- (BOOL)isEqualToStyle:(DKStyle*)aStyle
 {
-	BOOL same = NO;
-	
-	if([[self uniqueKey] isEqualToString:[aStyle uniqueKey]])
-		same = ([self lastModificationTimestamp] == [aStyle lastModificationTimestamp]);
+    BOOL same = NO;
 
-	return same;
+    if ([[self uniqueKey] isEqualToString:[aStyle uniqueKey]])
+        same = ([self lastModificationTimestamp] == [aStyle lastModificationTimestamp]);
+
+    return same;
 }
 
 #pragma mark -
@@ -683,18 +698,18 @@ static BOOL					sSubstitute = NO;
  * @param undomanager the manager to use
  * @public
  */
-- (void)				setUndoManager:(NSUndoManager*) undomanager
+- (void)setUndoManager:(NSUndoManager*)undomanager
 {
-	m_undoManagerRef = undomanager;
+    m_undoManagerRef = undomanager;
 }
 
 /** @brief Returns the undo manager that style changes will be recorded by
  * @return the style's current undo manager
  * @public
  */
-- (NSUndoManager*)		undoManager
+- (NSUndoManager*)undoManager
 {
-	return m_undoManagerRef;
+    return m_undoManagerRef;
 }
 
 /** @brief Vectors undo invocations back to the object from whence they came
@@ -702,12 +717,13 @@ static BOOL					sSubstitute = NO;
  * @param object the real target of the invocation
  * @private
  */
-- (void)				changeKeyPath:(NSString*) keypath ofObject:(id) object toValue:(id) value
+- (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value
 {
-	if([value isEqual:[NSNull null]])
-		value = nil;
-	
-	[object setValue:value forKeyPath:keypath];
+    if ([value isEqual:[NSNull null]])
+        value = nil;
+
+    [object setValue:value
+          forKeyPath:keypath];
 }
 
 #pragma mark -
@@ -718,78 +734,73 @@ static BOOL					sSubstitute = NO;
  * @param quiet if YES, will ignore locked state and not inform clients. This is done when making hit
  * @public
  */
-- (void)				scaleStrokeWidthsBy:(CGFloat) scale withoutInformingClients:(BOOL) quiet
+- (void)scaleStrokeWidthsBy:(CGFloat)scale withoutInformingClients:(BOOL)quiet
 {
-	if ( quiet || ![self locked])
-	{
-		if ( ! quiet)
-			[self notifyClientsBeforeChange];
-		
-		NSEnumerator*	iter = [[self renderersOfClass:[DKStroke class]] objectEnumerator];
-		DKStroke*		stroke;
-		
-		while(( stroke = [iter nextObject]))
-			[stroke scaleWidthBy:scale];
-		
-		if ( ! quiet)
-			[self notifyClientsAfterChange];
-	}
+    if (quiet || ![self locked]) {
+        if (!quiet)
+            [self notifyClientsBeforeChange];
+
+        NSEnumerator* iter = [[self renderersOfClass:[DKStroke class]] objectEnumerator];
+        DKStroke* stroke;
+
+        while ((stroke = [iter nextObject]))
+            [stroke scaleWidthBy:scale];
+
+        if (!quiet)
+            [self notifyClientsAfterChange];
+    }
 }
 
 /** @brief Returns the widest stroke width in the style
  * @return a number, the width of the widest contained stroke, or 0.0 if there are no strokes.
  * @public
  */
-- (CGFloat)				maxStrokeWidth
+- (CGFloat)maxStrokeWidth
 {
-	CGFloat maxWid = 0.0;
-	
-	NSArray*	strokes = [self renderersOfClass:[DKStroke class]];
-	
-	if ( strokes )
-	{
-		NSEnumerator*	iter = [strokes objectEnumerator];
-		DKStroke*		stk;
-		
-		while(( stk = [iter nextObject]))
-		{
-			if ([stk width] > maxWid )
-				maxWid = [stk width];
-		}
-	}
+    CGFloat maxWid = 0.0;
 
-	return maxWid;
+    NSArray* strokes = [self renderersOfClass:[DKStroke class]];
+
+    if (strokes) {
+        NSEnumerator* iter = [strokes objectEnumerator];
+        DKStroke* stk;
+
+        while ((stk = [iter nextObject])) {
+            if ([stk width] > maxWid)
+                maxWid = [stk width];
+        }
+    }
+
+    return maxWid;
 }
 
 /** @brief Returns the difference between the widest and narrowest strokes
  * @return a number, can be 0.0 if there are no strokes or only one stroke
  * @public
  */
-- (CGFloat)				maxStrokeWidthDifference
+- (CGFloat)maxStrokeWidthDifference
 {
-	CGFloat	maxWid = 0.0;
-	CGFloat	minWid = 1000.0;
-	
-	NSArray*	strokes = [self renderersOfClass:[DKStroke class]];
-	
-	if ( strokes != nil && [strokes count] > 1 )
-	{
-		NSEnumerator*	iter = [strokes objectEnumerator];
-		DKStroke*		stk;
-		
-		while(( stk = [iter nextObject]))
-		{
-			if ([stk width] > maxWid )
-				maxWid = [stk width];
-				
-			if ([stk width] < minWid )
-				minWid = [stk width];
-		}
-		
-		return maxWid - minWid;
-	}
-	
-	return 0.0;
+    CGFloat maxWid = 0.0;
+    CGFloat minWid = 1000.0;
+
+    NSArray* strokes = [self renderersOfClass:[DKStroke class]];
+
+    if (strokes != nil && [strokes count] > 1) {
+        NSEnumerator* iter = [strokes objectEnumerator];
+        DKStroke* stk;
+
+        while ((stk = [iter nextObject])) {
+            if ([stk width] > maxWid)
+                maxWid = [stk width];
+
+            if ([stk width] < minWid)
+                minWid = [stk width];
+        }
+
+        return maxWid - minWid;
+    }
+
+    return 0.0;
 }
 
 /** @brief Applies the cap, join, mitre limit, dash and line width attributes of the rear-most stroke to the path
@@ -801,18 +812,17 @@ static BOOL					sSubstitute = NO;
  * @param path a bezier path to apply the attributes to
  * @public
  */
-- (void)				applyStrokeAttributesToPath:(NSBezierPath*) path
+- (void)applyStrokeAttributesToPath:(NSBezierPath*)path
 {
-	NSAssert( path != nil, @"nil path in applyStrokeAttributesToPath:");
-	
-	NSArray* strokes = [self renderersOfClass:[DKStroke class]];
-	
-	if( strokes != nil && [strokes count] > 0 )
-	{
-		DKStroke* stroke = [strokes objectAtIndex:0];
-		[stroke applyAttributesToPath:path];
-		[path setLineWidth:[self maxStrokeWidth]];
-	}
+    NSAssert(path != nil, @"nil path in applyStrokeAttributesToPath:");
+
+    NSArray* strokes = [self renderersOfClass:[DKStroke class]];
+
+    if (strokes != nil && [strokes count] > 0) {
+        DKStroke* stroke = [strokes objectAtIndex:0];
+        [stroke applyAttributesToPath:path];
+        [path setLineWidth:[self maxStrokeWidth]];
+    }
 }
 
 /** @brief Returns the number of strokes
@@ -821,9 +831,9 @@ static BOOL					sSubstitute = NO;
  * @return the number of stroke rasterizers
  * @public
  */
-- (NSUInteger)			countOfStrokes
+- (NSUInteger)countOfStrokes
 {
-	return [[self renderersOfClass:[DKStroke class]] count];
+    return [[self renderersOfClass:[DKStroke class]] count];
 }
 
 #pragma mark -
@@ -836,35 +846,38 @@ static BOOL					sSubstitute = NO;
  * @param pb the pasteboard to copy to
  * @public
  */
-- (BOOL)				copyToPasteboard:(NSPasteboard*) pb
+- (BOOL)copyToPasteboard:(NSPasteboard*)pb
 {
-	BOOL		registered = [self isStyleRegistered];
-	NSString*	key = [self uniqueKey];
-	
-	if (!registered && [self isStyleSharable])
-	{
-		// this style is meant to be shared, yet is unregistered. That means that when the style is pasted it won't be found
-		// in the registry, and so will not be shared, but copied. To resolve this, we must register it using its unique key
-		// in the temporary paste registry
-		
-		[DKStyle registerStyle:self withPasteboardName:key];
-		registered = YES;
-	}
-	
-	NSArray* types;
-	
-	if ( registered )
-		types = [NSArray arrayWithObjects:kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil];
-	else
-		types = [NSArray arrayWithObject:kDKStylePasteboardType];
-		
-	[pb addTypes:types owner:self];
+    BOOL registered = [self isStyleRegistered];
+    NSString* key = [self uniqueKey];
 
-	if ( registered )
-		[pb setString:key forType:kDKStyleKeyPasteboardType];
+    if (!registered && [self isStyleSharable]) {
+        // this style is meant to be shared, yet is unregistered. That means that when the style is pasted it won't be found
+        // in the registry, and so will not be shared, but copied. To resolve this, we must register it using its unique key
+        // in the temporary paste registry
 
-	NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
-	return [pb setData:data forType:kDKStylePasteboardType];
+        [DKStyle registerStyle:self
+            withPasteboardName:key];
+        registered = YES;
+    }
+
+    NSArray* types;
+
+    if (registered)
+        types = [NSArray arrayWithObjects:kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil];
+    else
+        types = [NSArray arrayWithObject:kDKStylePasteboardType];
+
+    [pb addTypes:types
+           owner:self];
+
+    if (registered)
+        [pb setString:key
+              forType:kDKStyleKeyPasteboardType];
+
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    return [pb setData:data
+               forType:kDKStylePasteboardType];
 }
 
 /** @brief Returns a style based on the receiver plus any data on the clipboard we are able to use
@@ -883,9 +896,10 @@ static BOOL					sSubstitute = NO;
  * @return a new style
  * @public
  */
-- (DKStyle*)			derivedStyleWithPasteboard:(NSPasteboard*) pb
+- (DKStyle*)derivedStyleWithPasteboard:(NSPasteboard*)pb
 {
-	return [self derivedStyleWithPasteboard:pb withOptions:kDKDerivedStyleDefault];
+    return [self derivedStyleWithPasteboard:pb
+                                withOptions:kDKDerivedStyleDefault];
 }
 
 /** @brief Returns a style based on the receiver plus any data on the clipboard we are able to use
@@ -898,132 +912,116 @@ static BOOL					sSubstitute = NO;
  * @return a new style
  * @public
  */
-- (DKStyle*)			derivedStyleWithPasteboard:(NSPasteboard*) pb withOptions:(DKDerivedStyleOptions) options
+- (DKStyle*)derivedStyleWithPasteboard:(NSPasteboard*)pb withOptions:(DKDerivedStyleOptions)options
 {
-	DKStyle*	style = [self mutableCopy];
-	NSColor*	colour = [NSColor colorFromPasteboard:pb];
-	BOOL		wasMutated = NO;
-	
-	if ( colour != nil )
-	{
-		// if the style already has a fill, mutate it - otherwise add a new one
-	
-		DKFill* fill = [[style renderersOfClass:[DKFill class]] lastObject];
-		
-		if ( fill == nil )
-		{
-			// no fill, so before adding one, see if we should work on the stroke instead
-			
-			DKStroke* stroke = [[style renderersOfClass:[DKStroke class]] lastObject];
-			
-			if ( stroke )
-				[stroke setColour:colour];
-			else
-			{
-				fill = [DKFill fillWithColour:colour];
-				[style addRenderer:fill];
-			}
-		}
-		else
-			[fill setColour:colour];
-			
-		wasMutated = YES;
-	}	
-	
-	// if there's an image on the pasteboard, work out what to do with it - first see if any existing renderers can
-	// use an image - if so, apply the image there. If not, add an image adornment.
-	
-	if([NSImage canInitWithPasteboard:pb])
-	{
-		// yes there's an image - what can we do with it? Rasterizers that take an image include DKFillPattern, DKPathDecorator
-		// and DKImageAdornment. If the style has any of these, apply it to the frontmost one. If it doesn't, create an image
-		// adornment and add it to the front.
-		
-		NSImage* image = [[NSImage alloc] initWithPasteboard:pb];
-		
-		if ( image != nil )
-		{
-			NSEnumerator*	iter = [[style renderList] reverseObjectEnumerator];
-			DKRasterizer*	rast = nil;
-			
-			while(( rast = [iter nextObject]))
-			{
-				if([rast respondsToSelector:@selector(setImage:)])
-				{
-					[(id)rast setImage:image];
-					break;
-				}
-			}
-			
-			if ( rast == nil )
-			{
-				// no existing rasterizer can handle it - add an adornment. If the hint suggests a path, make a path decorator instead
-				DKRasterizer* adorn;
-				
-				if ( options == kDKDerivedStyleForPathHint )
-					adorn = [DKPathDecorator pathDecoratorWithImage:image];
-				else
-				{
-					adorn = [DKImageAdornment imageAdornmentWithImage:image];
-					[(DKImageAdornment*)adorn setFittingOption:kDKScaleToFitPreservingAspectRatio];
-				}	
-				[style addRenderer:adorn];
-			}
-		
-			[image release];
-			wasMutated = YES;
-		}
-	}
-	
-	// text - if there is text on the pasteboard, set the text of an appropriate renderer, or add a text adornment
-	
-	NSString* pbString = [pb stringForType:NSStringPboardType];
-	
-	if ( pbString != nil )
-	{
-		// look for renderers that can accept a string.  Currently this is only DKTextAdornment
-		
-		NSArray*			textList = [style renderersOfClass:[DKTextAdornment class]];
-		DKTextAdornment*	tr;
-		
-		if ( textList != nil && [textList count] > 0 )
-		{
-			tr = [textList lastObject];
-			[tr setLabel:pbString];
-		}
-		else
-		{
-			tr = [DKTextAdornment textAdornmentWithText:pbString];
-			
-			// if the style has text attributes, set these as the initial attributes for the adornment
-			
-			if([self hasTextAttributes])
-				[tr setTextAttributes:[self textAttributes]];
-			
-			// if the options suggest a shape, set the text to block mode and centre it
-			
-			if( options == kDKDerivedStyleForPathHint )
-			{
-				[tr setLayoutMode:kDKTextLayoutAlongPath];
-				[tr setAlignment:NSJustifiedTextAlignment];
-				[tr setVerticalAlignment:kDKTextShapeVerticalAlignmentTop];
-			}
-			
-			[style addRenderer:tr];
-		}
-		
-		wasMutated = YES;
-	}
-	
-	if ( wasMutated )
-		return [style autorelease];
-	else
-	{
-		// nothing was done, so return self to avoid unwanted cloning of the style
-		
-		[style release];
-		return self;
-	}
+    DKStyle* style = [self mutableCopy];
+    NSColor* colour = [NSColor colorFromPasteboard:pb];
+    BOOL wasMutated = NO;
+
+    if (colour != nil) {
+        // if the style already has a fill, mutate it - otherwise add a new one
+
+        DKFill* fill = [[style renderersOfClass:[DKFill class]] lastObject];
+
+        if (fill == nil) {
+            // no fill, so before adding one, see if we should work on the stroke instead
+
+            DKStroke* stroke = [[style renderersOfClass:[DKStroke class]] lastObject];
+
+            if (stroke)
+                [stroke setColour:colour];
+            else {
+                fill = [DKFill fillWithColour:colour];
+                [style addRenderer:fill];
+            }
+        } else
+            [fill setColour:colour];
+
+        wasMutated = YES;
+    }
+
+    // if there's an image on the pasteboard, work out what to do with it - first see if any existing renderers can
+    // use an image - if so, apply the image there. If not, add an image adornment.
+
+    if ([NSImage canInitWithPasteboard:pb]) {
+        // yes there's an image - what can we do with it? Rasterizers that take an image include DKFillPattern, DKPathDecorator
+        // and DKImageAdornment. If the style has any of these, apply it to the frontmost one. If it doesn't, create an image
+        // adornment and add it to the front.
+
+        NSImage* image = [[NSImage alloc] initWithPasteboard:pb];
+
+        if (image != nil) {
+            NSEnumerator* iter = [[style renderList] reverseObjectEnumerator];
+            DKRasterizer* rast = nil;
+
+            while ((rast = [iter nextObject])) {
+                if ([rast respondsToSelector:@selector(setImage:)]) {
+                    [(id)rast setImage:image];
+                    break;
+                }
+            }
+
+            if (rast == nil) {
+                // no existing rasterizer can handle it - add an adornment. If the hint suggests a path, make a path decorator instead
+                DKRasterizer* adorn;
+
+                if (options == kDKDerivedStyleForPathHint)
+                    adorn = [DKPathDecorator pathDecoratorWithImage:image];
+                else {
+                    adorn = [DKImageAdornment imageAdornmentWithImage:image];
+                    [(DKImageAdornment*)adorn setFittingOption:kDKScaleToFitPreservingAspectRatio];
+                }
+                [style addRenderer:adorn];
+            }
+
+            [image release];
+            wasMutated = YES;
+        }
+    }
+
+    // text - if there is text on the pasteboard, set the text of an appropriate renderer, or add a text adornment
+
+    NSString* pbString = [pb stringForType:NSStringPboardType];
+
+    if (pbString != nil) {
+        // look for renderers that can accept a string.  Currently this is only DKTextAdornment
+
+        NSArray* textList = [style renderersOfClass:[DKTextAdornment class]];
+        DKTextAdornment* tr;
+
+        if (textList != nil && [textList count] > 0) {
+            tr = [textList lastObject];
+            [tr setLabel:pbString];
+        } else {
+            tr = [DKTextAdornment textAdornmentWithText:pbString];
+
+            // if the style has text attributes, set these as the initial attributes for the adornment
+
+            if ([self hasTextAttributes])
+                [tr setTextAttributes:[self textAttributes]];
+
+            // if the options suggest a shape, set the text to block mode and centre it
+
+            if (options == kDKDerivedStyleForPathHint) {
+                [tr setLayoutMode:kDKTextLayoutAlongPath];
+                [tr setAlignment:NSJustifiedTextAlignment];
+                [tr setVerticalAlignment:kDKTextShapeVerticalAlignmentTop];
+            }
+
+            [style addRenderer:tr];
+        }
+
+        wasMutated = YES;
+    }
+
+    if (wasMutated)
+        return [style autorelease];
+    else {
+        // nothing was done, so return self to avoid unwanted cloning of the style
+
+        [style release];
+        return self;
+    }
 }
 
 #pragma mark -
@@ -1033,9 +1031,9 @@ static BOOL					sSubstitute = NO;
  * @return YES if there are one or more strokes, NO otherwise
  * @public
  */
-- (BOOL)				hasStroke
+- (BOOL)hasStroke
 {
-	return [self containsRendererOfClass:[DKStroke class]];
+    return [self containsRendererOfClass:[DKStroke class]];
 }
 
 /** @brief Queries whether the style has at least one filling property
@@ -1044,9 +1042,9 @@ static BOOL					sSubstitute = NO;
  * @return YES if there are one or more fill properties, NO otherwise
  * @public
  */
-- (BOOL)				hasFill
+- (BOOL)hasFill
 {
-	return [self isFill];
+    return [self isFill];
 }
 
 /** @brief Queries whether the style has at least one hatch property
@@ -1055,27 +1053,27 @@ static BOOL					sSubstitute = NO;
  * @return YES if there are one or more hatches, NO otherwise
  * @public
  */
-- (BOOL)				hasHatch
+- (BOOL)hasHatch
 {
-	return [self containsRendererOfClass:[DKHatching class]];
+    return [self containsRendererOfClass:[DKHatching class]];
 }
 
 /** @brief Queries whether the style has at least one text adornment property
  * @return YES if there are one or more text adornments, NO otherwise
  * @public
  */
-- (BOOL)				hasTextAdornment
+- (BOOL)hasTextAdornment
 {
-	return [self containsRendererOfClass:[DKTextAdornment class]];
+    return [self containsRendererOfClass:[DKTextAdornment class]];
 }
 
 /** @brief Queries whether the style has any components at all
  * @return YES if there are no components and no text attributes, NO if there is at least 1 or has text 
  * @public
  */
-- (BOOL)				isEmpty
+- (BOOL)isEmpty
 {
-	return [self countOfRenderList] == 0 && ![self hasTextAttributes];
+    return [self countOfRenderList] == 0 && ![self hasTextAttributes];
 }
 
 #pragma mark -
@@ -1087,105 +1085,107 @@ static BOOL					sSubstitute = NO;
  * @return an image of a default path rendered using this style
  * @public
  */
-- (NSImage*)			styleSwatchWithSize:(NSSize) size type:(DKStyleSwatchType) type
+- (NSImage*)styleSwatchWithSize:(NSSize)size type:(DKStyleSwatchType)type
 {
-	// return the cached swatch if possible - i.e. size and type are the same and there is a cached swatch. Changes to the
-	// style attributes etc should discard the cached swatch
-	
-	NSString* cacheKey = [self swatchCacheKeyForSize:size type:type];
-	
-	if ([mSwatchCache objectForKey:cacheKey] != nil )
-		return [mSwatchCache objectForKey:cacheKey];
-	
-	//NSLog(@"building swatch (size: %@) for style '%@'", NSStringFromSize( size ), [self name]);
+    // return the cached swatch if possible - i.e. size and type are the same and there is a cached swatch. Changes to the
+    // style attributes etc should discard the cached swatch
 
-	// construct the image
-	
-	NSImage*		image = [[NSImage alloc] initWithSize:size];
-	NSBezierPath*	path;
-	NSRect			r, br = NSMakeRect( 0, 0, size.width, size.height );
-	
-	// note that because we know that the path drawn will be a rectangle, we can ignore the mitre limit and get more space.
-	
-	NSSize			extra = [self extraSpaceNeededIgnoringMitreLimit];
-	
-	// r is the size of the dummy path to be rendered, taking into account how much space the style needs.
-	// If r shrinks too small though the style will look silly, so make sure it is at least some size (10 x 10)
-	
-	r = NSInsetRect( br, extra.width, extra.height );
-	
-	if ( r.size.width < 10 )
-		r.size.width = 10;
-		
-	if ( r.size.height < 10 )
-		r.size.height = 10;
+    NSString* cacheKey = [self swatchCacheKeyForSize:size
+                                                type:type];
 
-	[image setFlipped:YES];
-	
-	if( type == kDKStyleSwatchAutomatic )
-	{
-		if([self hasFill] || [self hasTextAttributes] || [self hasHatch] || [self countOfRenderList] == 0)
-			type = kDKStyleSwatchRectanglePath;
-		else
-			type = kDKStyleSwatchCurvePath;
-	}
-	
-	if (type == kDKStyleSwatchCurvePath )
-	{
-		// draw a small curved segment
-		
-		path = [NSBezierPath bezierPath];
-		[path moveToPoint:NSMakePoint(NSMinX(r), NSMaxY(r))];
-		
-		NSPoint		ep, cp1, cp2;
-		
-		ep = NSMakePoint( NSMaxX(r), NSMinY(r));
-		cp1 = NSMakePoint( NSMinX(r) + 6.0, NSMidY(r));
-		cp2 = NSMakePoint( NSMaxX(r) - 6.0, NSMidY(r));
-		
-		[path curveToPoint:ep controlPoint1:cp1 controlPoint2:cp2];
-	}
-	else
-		path = [NSBezierPath bezierPathWithRect:r];
-		
-	// create a temporary shape that will render using this style and the calculated path
-	
-	DKDrawableShape* od = [DKDrawableShape drawableShapeWithBezierPath:path withStyle:self];
-	
-	[image lockFocus];
-	
-	//[[NSColor clearColor] set];
-	//NSRectFill( br );
-	
-	[od drawContent];
-	
-	// if there are text attributes, show an example string using these attributes. Use a text adornment so that any private attributes such
-	// as knockout is displayed
-	
-	if ([self hasTextAttributes])
-	{
-		NSAttributedString*	example = [[NSAttributedString alloc] initWithString:@"AaBbCcDdEe" attributes:[self textAttributes]];
-		DKTextAdornment* ta = [DKTextAdornment textAdornmentWithText:example];
-		[ta setLayoutMode:kDKTextLayoutInBoundingRect];
-		
-		[ta drawInRect:r];
-		
-		[example release];
-		
-		//[example drawInRect:r withAttributes:[self textAttributes]];
-	}
-	
-	[image unlockFocus];
-	
-	// cache the swatch - the image will only be rebuilt if the size or type requested changes,
-	// or if the style itself is modified. The cache remembers all previously requested sizes until invalidated. The
-	// use of this cache significantly speeds up building of user interfaces where swatches are used a lot, because
-	// generating the swatch from scratch is relatively expensive.
-	
-	if( image )
-		[mSwatchCache setObject:image forKey:cacheKey];
-	
-	return [image autorelease];
+    if ([mSwatchCache objectForKey:cacheKey] != nil)
+        return [mSwatchCache objectForKey:cacheKey];
+
+    //NSLog(@"building swatch (size: %@) for style '%@'", NSStringFromSize( size ), [self name]);
+
+    // construct the image
+
+    NSImage* image = [[NSImage alloc] initWithSize:size];
+    NSBezierPath* path;
+    NSRect r, br = NSMakeRect(0, 0, size.width, size.height);
+
+    // note that because we know that the path drawn will be a rectangle, we can ignore the mitre limit and get more space.
+
+    NSSize extra = [self extraSpaceNeededIgnoringMitreLimit];
+
+    // r is the size of the dummy path to be rendered, taking into account how much space the style needs.
+    // If r shrinks too small though the style will look silly, so make sure it is at least some size (10 x 10)
+
+    r = NSInsetRect(br, extra.width, extra.height);
+
+    if (r.size.width < 10)
+        r.size.width = 10;
+
+    if (r.size.height < 10)
+        r.size.height = 10;
+
+    [image setFlipped:YES];
+
+    if (type == kDKStyleSwatchAutomatic) {
+        if ([self hasFill] || [self hasTextAttributes] || [self hasHatch] || [self countOfRenderList] == 0)
+            type = kDKStyleSwatchRectanglePath;
+        else
+            type = kDKStyleSwatchCurvePath;
+    }
+
+    if (type == kDKStyleSwatchCurvePath) {
+        // draw a small curved segment
+
+        path = [NSBezierPath bezierPath];
+        [path moveToPoint:NSMakePoint(NSMinX(r), NSMaxY(r))];
+
+        NSPoint ep, cp1, cp2;
+
+        ep = NSMakePoint(NSMaxX(r), NSMinY(r));
+        cp1 = NSMakePoint(NSMinX(r) + 6.0, NSMidY(r));
+        cp2 = NSMakePoint(NSMaxX(r) - 6.0, NSMidY(r));
+
+        [path curveToPoint:ep
+             controlPoint1:cp1
+             controlPoint2:cp2];
+    } else
+        path = [NSBezierPath bezierPathWithRect:r];
+
+    // create a temporary shape that will render using this style and the calculated path
+
+    DKDrawableShape* od = [DKDrawableShape drawableShapeWithBezierPath:path
+                                                             withStyle:self];
+
+    [image lockFocus];
+
+    //[[NSColor clearColor] set];
+    //NSRectFill( br );
+
+    [od drawContent];
+
+    // if there are text attributes, show an example string using these attributes. Use a text adornment so that any private attributes such
+    // as knockout is displayed
+
+    if ([self hasTextAttributes]) {
+        NSAttributedString* example = [[NSAttributedString alloc] initWithString:@"AaBbCcDdEe"
+                                                                      attributes:[self textAttributes]];
+        DKTextAdornment* ta = [DKTextAdornment textAdornmentWithText:example];
+        [ta setLayoutMode:kDKTextLayoutInBoundingRect];
+
+        [ta drawInRect:r];
+
+        [example release];
+
+        //[example drawInRect:r withAttributes:[self textAttributes]];
+    }
+
+    [image unlockFocus];
+
+    // cache the swatch - the image will only be rebuilt if the size or type requested changes,
+    // or if the style itself is modified. The cache remembers all previously requested sizes until invalidated. The
+    // use of this cache significantly speeds up building of user interfaces where swatches are used a lot, because
+    // generating the swatch from scratch is relatively expensive.
+
+    if (image)
+        [mSwatchCache setObject:image
+                         forKey:cacheKey];
+
+    return [image autorelease];
 }
 
 /** @brief Creates a thumbnail image of the style
@@ -1194,43 +1194,46 @@ static BOOL					sSubstitute = NO;
  * @return an image of a path rendered using this style in the default size
  * @public
  */
-- (NSImage*)			standardStyleSwatch
+- (NSImage*)standardStyleSwatch
 {
-	return [self styleSwatchWithSize:STYLE_SWATCH_SIZE type:kDKStyleSwatchAutomatic];
+    return [self styleSwatchWithSize:STYLE_SWATCH_SIZE
+                                type:kDKStyleSwatchAutomatic];
 }
 
-- (NSImage*)			imageToFitSize:(NSSize) aSize
+- (NSImage*)imageToFitSize:(NSSize)aSize
 {
-	//NSLog(@"request for image, size = %@", NSStringFromSize( aSize ));
-	
-	NSString*	cacheKey = [self swatchCacheKeyForSize:aSize type:kDKStyleSwatchAutomatic];
-	NSImage*	swatch;
-	
-	swatch = [mSwatchCache objectForKey:cacheKey];
-	
-	if( swatch != nil )
-		return swatch;
+    //NSLog(@"request for image, size = %@", NSStringFromSize( aSize ));
 
-	swatch = [self standardStyleSwatch];
-	
-	// if size is non-zero, image is scaled down to fit that size preserving the aspect ratio. This is good for making icons
-	
-	if( swatch != nil && !NSEqualSizes( aSize, NSZeroSize ))
-	{
-		// scale down if necessary keeping the same aspect ratio. If image is smaller than icon, just centre it.
-		
-		NSImage* iconImage = [NSImage imageFromImage:swatch withSize:aSize];
-		[mSwatchCache setObject:iconImage forKey:cacheKey];
-		
-		return iconImage;
-	}
+    NSString* cacheKey = [self swatchCacheKeyForSize:aSize
+                                                type:kDKStyleSwatchAutomatic];
+    NSImage* swatch;
 
-	return swatch;
+    swatch = [mSwatchCache objectForKey:cacheKey];
+
+    if (swatch != nil)
+        return swatch;
+
+    swatch = [self standardStyleSwatch];
+
+    // if size is non-zero, image is scaled down to fit that size preserving the aspect ratio. This is good for making icons
+
+    if (swatch != nil && !NSEqualSizes(aSize, NSZeroSize)) {
+        // scale down if necessary keeping the same aspect ratio. If image is smaller than icon, just centre it.
+
+        NSImage* iconImage = [NSImage imageFromImage:swatch
+                                            withSize:aSize];
+        [mSwatchCache setObject:iconImage
+                         forKey:cacheKey];
+
+        return iconImage;
+    }
+
+    return swatch;
 }
 
-- (NSImage*)			image
+- (NSImage*)image
 {
-	return [self imageToFitSize:NSMakeSize( 128, 128 )];
+    return [self imageToFitSize:NSMakeSize(128, 128)];
 }
 
 /** @brief Return a key for the swatch cache for the given size and type of swatch
@@ -1240,10 +1243,10 @@ static BOOL					sSubstitute = NO;
  * @return a string that is used as the key to the swatches in the cache
  * @public
  */
-- (NSString*)			swatchCacheKeyForSize:(NSSize) size type:(DKStyleSwatchType) type
+- (NSString*)swatchCacheKeyForSize:(NSSize)size type:(DKStyleSwatchType)type
 {
 #warning 64BIT: Inspect use of long
-	return [NSString stringWithFormat:@"%@_%ld", NSStringFromSize( size ), (long)type];
+    return [NSString stringWithFormat:@"%@_%ld", NSStringFromSize(size), (long)type];
 }
 
 /** @brief As -extraSpaceNeeded but any mitre limit applied by renderes are ignored
@@ -1252,31 +1255,29 @@ static BOOL					sSubstitute = NO;
  * @return the space needed for the style without mitre limit
  * @private
  */
-- (NSSize)				extraSpaceNeededIgnoringMitreLimit
+- (NSSize)extraSpaceNeededIgnoringMitreLimit
 {
-	NSSize			rs, accSize = NSZeroSize;
-	
-	if ([self enabled])
-	{
-		NSEnumerator*	iter = [[self renderList] objectEnumerator];
-		DKRasterizer*		rend;
-		
-		while(( rend = [iter nextObject]))
-		{
-			if([rend respondsToSelector:_cmd])
-				rs = [(id)rend extraSpaceNeededIgnoringMitreLimit];
-			else
-				rs = [rend extraSpaceNeeded];
-			
-			if ( rs.width > accSize.width )
-				accSize.width = rs.width;
-			
-			if ( rs.height > accSize.height )
-				accSize.height = rs.height;
-		}
-	}
-	
-	return accSize;
+    NSSize rs, accSize = NSZeroSize;
+
+    if ([self enabled]) {
+        NSEnumerator* iter = [[self renderList] objectEnumerator];
+        DKRasterizer* rend;
+
+        while ((rend = [iter nextObject])) {
+            if ([rend respondsToSelector:_cmd])
+                rs = [(id)rend extraSpaceNeededIgnoringMitreLimit];
+            else
+                rs = [rend extraSpaceNeeded];
+
+            if (rs.width > accSize.width)
+                accSize.width = rs.width;
+
+            if (rs.height > accSize.height)
+                accSize.height = rs.height;
+        }
+    }
+
+    return accSize;
 }
 
 #pragma mark -
@@ -1289,9 +1290,9 @@ static BOOL					sSubstitute = NO;
  * @return the current rendering object
  * @public
  */
-- (id)					currentRenderClient
+- (id)currentRenderClient
 {
-	return m_renderClientRef;
+    return m_renderClientRef;
 }
 
 /** @brief Returns a new style formed by copying the rasterizers from the receiver and the other style into one
@@ -1303,22 +1304,21 @@ static BOOL					sSubstitute = NO;
  * @return a new style object
  * @public
  */
-- (DKStyle*)			styleByMergingFromStyle:(DKStyle*) otherStyle
+- (DKStyle*)styleByMergingFromStyle:(DKStyle*)otherStyle
 {
-	NSAssert( otherStyle != nil, @"can't merge a nil style");
-	
-	DKStyle*		newStyle = [self mutableCopy];
-	NSEnumerator*	iter = [[otherStyle renderList] objectEnumerator];
-	DKRasterizer*	rast;
-	
-	while(( rast = [iter nextObject]))
-	{
-		rast = [rast copy];
-		[newStyle addRenderer:rast];
-		[rast release];
-	}
-	
-	return [newStyle autorelease];
+    NSAssert(otherStyle != nil, @"can't merge a nil style");
+
+    DKStyle* newStyle = [self mutableCopy];
+    NSEnumerator* iter = [[otherStyle renderList] objectEnumerator];
+    DKRasterizer* rast;
+
+    while ((rast = [iter nextObject])) {
+        rast = [rast copy];
+        [newStyle addRenderer:rast];
+        [rast release];
+    }
+
+    return [newStyle autorelease];
 }
 
 /** @brief Returns a new style formed by copying the rasterizers from the receiver but not those of <aClass>
@@ -1326,13 +1326,14 @@ static BOOL					sSubstitute = NO;
  * @return a new style object
  * @public
  */
-- (DKStyle*)			styleByRemovingRenderersOfClass:(Class) aClass
+- (DKStyle*)styleByRemovingRenderersOfClass:(Class)aClass
 {
-	DKStyle*	newStyle = [[self mutableCopy] autorelease];
-	
-	[newStyle removeRenderersOfClass:aClass inSubgroups:YES];
-	
-	return newStyle;
+    DKStyle* newStyle = [[self mutableCopy] autorelease];
+
+    [newStyle removeRenderersOfClass:aClass
+                         inSubgroups:YES];
+
+    return newStyle;
 }
 
 /** @brief Returns a copy of the style having a new unique ID
@@ -1341,11 +1342,11 @@ static BOOL					sSubstitute = NO;
  * @return a new style object
  * @public
  */
-- (id)					clone
+- (id)clone
 {
-	DKStyle* clone = [self mutableCopy];
-	[clone setName:[self name]];
-	return [clone autorelease];
+    DKStyle* clone = [self mutableCopy];
+    [clone setName:[self name]];
+    return [clone autorelease];
 }
 
 #pragma mark -
@@ -1355,15 +1356,14 @@ static BOOL					sSubstitute = NO;
  * @param renderer the renderer to attach
  * @private
  */
-- (void)				addRenderer:(DKRasterizer*) renderer
+- (void)addRenderer:(DKRasterizer*)renderer
 {
-	if ( ![self locked])
-	{
-		[[[self undoManager] prepareWithInvocationTarget:self] removeRenderer:renderer];
-		[self notifyClientsBeforeChange];
-		[super addRenderer:renderer];
-		[self notifyClientsAfterChange];
-	}
+    if (![self locked]) {
+        [[[self undoManager] prepareWithInvocationTarget:self] removeRenderer:renderer];
+        [self notifyClientsBeforeChange];
+        [super addRenderer:renderer];
+        [self notifyClientsAfterChange];
+    }
 }
 
 /** @brief Inserts a renderer into the style, ensuring internal KVO linkage is established
@@ -1371,32 +1371,32 @@ static BOOL					sSubstitute = NO;
  * @param index the index where the renderer is inserted
  * @private
  */
-- (void)				insertRenderer:(DKRasterizer*) renderer atIndex:(NSUInteger) indx
+- (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
-	if ( ![self locked])
-	{
-		[[[self undoManager] prepareWithInvocationTarget:self] removeRenderer:renderer];
-		[self notifyClientsBeforeChange];
-		[super insertRenderer:renderer atIndex:indx];
-		[self notifyClientsAfterChange];
-	}
+    if (![self locked]) {
+        [[[self undoManager] prepareWithInvocationTarget:self] removeRenderer:renderer];
+        [self notifyClientsBeforeChange];
+        [super insertRenderer:renderer
+                      atIndex:indx];
+        [self notifyClientsAfterChange];
+    }
 }
 
 /** @brief Removes a renderer from the style, ensuring internal KVO linkage is removed
  * @param renderer the renderer to remove
  * @private
  */
-- (void)				removeRenderer:(DKRasterizer*) renderer
+- (void)removeRenderer:(DKRasterizer*)renderer
 {
-	if ( ![self locked])
-	{
-		NSUInteger indx = [self indexOfRenderer:renderer];
-		
-		[[[self undoManager] prepareWithInvocationTarget:self] insertRenderer:renderer atIndex:indx];
-		[self notifyClientsBeforeChange];
-		[super removeRenderer:renderer];
-		[self notifyClientsAfterChange];
-	}
+    if (![self locked]) {
+        NSUInteger indx = [self indexOfRenderer:renderer];
+
+        [[[self undoManager] prepareWithInvocationTarget:self] insertRenderer:renderer
+                                                                      atIndex:indx];
+        [self notifyClientsBeforeChange];
+        [super removeRenderer:renderer];
+        [self notifyClientsAfterChange];
+    }
 }
 
 /** @brief Moves a renderer from one place in the list to another, setting up undo
@@ -1406,50 +1406,51 @@ static BOOL					sSubstitute = NO;
  * @param dest where it will move to
  * @private
  */
-- (void)				moveRendererAtIndex:(NSUInteger) src toIndex:(NSUInteger) dest
+- (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
-	if ( ![self locked] && ( src != dest ))
-	{
-		LogEvent_(kStateEvent, @"moving style component at %d to %d", src, dest );
+    if (![self locked] && (src != dest)) {
+        LogEvent_(kStateEvent, @"moving style component at %d to %d", src, dest);
 
-		[[[self undoManager] prepareWithInvocationTarget:self] moveRendererAtIndex:dest toIndex:src];
-		[self notifyClientsBeforeChange];
-		[super moveRendererAtIndex:src toIndex:dest];
-		[self notifyClientsAfterChange];
-	}
+        [[[self undoManager] prepareWithInvocationTarget:self] moveRendererAtIndex:dest
+                                                                           toIndex:src];
+        [self notifyClientsBeforeChange];
+        [super moveRendererAtIndex:src
+                           toIndex:dest];
+        [self notifyClientsAfterChange];
+    }
 }
 
 /** @brief Returns the root of the group tree - which is always self
  * @return self
  * @private
  */
-- (DKRastGroup*)		root
+- (DKRastGroup*)root
 {
-	return self;
+    return self;
 }
 
 /** @brief Informs the style that a new component was added to the tree and needs observing
  * @param observable the object to start watching
  * @private
  */
-- (void)				observableWasAdded:(GCObservableObject*) observable
+- (void)observableWasAdded:(GCObservableObject*)observable
 {
-	LogEvent_( kKVOEvent, @"observable %@ will start being observed by %@ ('%@')", [observable description], [self description], [self name]);
+    LogEvent_(kKVOEvent, @"observable %@ will start being observed by %@ ('%@')", [observable description], [self description], [self name]);
 
-	NSAssert( observable != nil, @"observable object was nil");
-	[observable setUpKVOForObserver:self];
+    NSAssert(observable != nil, @"observable object was nil");
+    [observable setUpKVOForObserver:self];
 }
 
 /** @brief Informs the style that a  component is about to be removed from the tree and should stop being observed
  * @param observable the object to stop watching
  * @private
  */
-- (void)				observableWillBeRemoved:(GCObservableObject*) observable
+- (void)observableWillBeRemoved:(GCObservableObject*)observable
 {
-	LogEvent_( kKVOEvent, @"observable %@ will stop being observed by %@ ('%@')", [observable description], [self description], [self name]);
-	
-	NSAssert( observable != nil, @"observable object was nil");
-	[observable tearDownKVOForObserver:self];
+    LogEvent_(kKVOEvent, @"observable %@ will stop being observed by %@ ('%@')", [observable description], [self description], [self name]);
+
+    NSAssert(observable != nil, @"observable object was nil");
+    [observable tearDownKVOForObserver:self];
 }
 
 #pragma mark -
@@ -1459,55 +1460,55 @@ static BOOL					sSubstitute = NO;
  * @note
  * Sets the value of the client for the duration of rendering
  */
-- (void)				render:(id<DKRenderable>) object
+- (void)render:(id<DKRenderable>)object
 {
-	if( ![object conformsToProtocol:@protocol(DKRenderable)])
-		return;
+    if (![object conformsToProtocol:@protocol(DKRenderable)])
+        return;
 
-	if([self enabled])
-	{
-		NSAutoreleasePool* pool = [NSAutoreleasePool new];
-		
-		if( ![[self class] shouldAntialias] && [NSGraphicsContext currentContextDrawingToScreen])
-		{
-			[[NSGraphicsContext currentContext] setShouldAntialias:NO];
-			[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
-		}
-		
-		m_renderClientRef = object;
-		
-		@try
-		{
-			[super render:object];
-		}
-		@catch( NSException* exception )
-		{
-			// exceptions thrown during drawing can cause a lot of problems that multiply a minor bug into a major one.
-			// Each renderer should ideally take steps to catch an yexceptions and deal with them appropriately - if it does not
-			// this catch will log the problem, but NOT rethrown, so higher level drawing code doesn't see the exception. If you
-			// see this log, the problem should be investigated.
-			
-			NSLog(@"An exception occurred while rendering the style - PLEASE FIX - %@. Exception = %@", self, exception);
-		}
-		m_renderClientRef = nil;
-		
-		[pool drain];
-	}
+    if ([self enabled]) {
+        NSAutoreleasePool* pool = [NSAutoreleasePool new];
+
+        if (![[self class] shouldAntialias] && [NSGraphicsContext currentContextDrawingToScreen]) {
+            [[NSGraphicsContext currentContext] setShouldAntialias:NO];
+            [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+        }
+
+        m_renderClientRef = object;
+
+        @try
+        {
+            [super render:object];
+        }
+        @catch (NSException* exception)
+        {
+            // exceptions thrown during drawing can cause a lot of problems that multiply a minor bug into a major one.
+            // Each renderer should ideally take steps to catch an yexceptions and deal with them appropriately - if it does not
+            // this catch will log the problem, but NOT rethrown, so higher level drawing code doesn't see the exception. If you
+            // see this log, the problem should be investigated.
+
+            NSLog(@"An exception occurred while rendering the style - PLEASE FIX - %@. Exception = %@", self, exception);
+        }
+        m_renderClientRef = nil;
+
+        [pool drain];
+    }
 }
 
 /** @brief Sets the style's name undoably
  * @note
  * Does not inform the client(s) as this is not typically a visual change, but does send a notification
  */
-- (void)				setName:(NSString*) name
+- (void)setName:(NSString*)name
 {
-	if(![self locked])
-	{
-		[[self undoManager] registerUndoWithTarget:self selector:@selector(setName:) object:[self name]];
-		[super setName:name];
-		[[self undoManager] setActionName:NSLocalizedString(@"Style Name", nil )];
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleNameChangedNotification object:self];
-	}
+    if (![self locked]) {
+        [[self undoManager] registerUndoWithTarget:self
+                                          selector:@selector(setName:)
+                                            object:[self name]];
+        [super setName:name];
+        [[self undoManager] setActionName:NSLocalizedString(@"Style Name", nil)];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleNameChangedNotification
+                                                            object:self];
+    }
 }
 
 /** @brief Set whether the style is enabled or not
@@ -1516,169 +1517,169 @@ static BOOL					sSubstitute = NO;
  * @param enable YES to enable, NO to disable
  * @public
  */
-- (void)		setEnabled:(BOOL) enable
+- (void)setEnabled:(BOOL)enable
 {
-	if ( enable != [self enabled])
-	{
-		[[[self undoManager] prepareWithInvocationTarget:self] setEnabled:[self enabled]];
-		[self notifyClientsBeforeChange];
-		[super setEnabled:enable];
-		[self notifyClientsAfterChange];
-		
-		if(![[self undoManager] isUndoing] && ![[self undoManager] isRedoing])
-		{
-			if([self enabled])
-				[[self undoManager] setActionName:NSLocalizedString(@"Enable Style", @"undo string for enable style")];
-			else
-				[[self undoManager] setActionName:NSLocalizedString(@"Disable Style", @"undo string for disable style")];
-		}
-	}
+    if (enable != [self enabled]) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setEnabled:[self enabled]];
+        [self notifyClientsBeforeChange];
+        [super setEnabled:enable];
+        [self notifyClientsAfterChange];
+
+        if (![[self undoManager] isUndoing] && ![[self undoManager] isRedoing]) {
+            if ([self enabled])
+                [[self undoManager] setActionName:NSLocalizedString(@"Enable Style", @"undo string for enable style")];
+            else
+                [[self undoManager] setActionName:NSLocalizedString(@"Disable Style", @"undo string for disable style")];
+        }
+    }
 }
 
 #pragma mark -
 #pragma mark As a GCObservableObject
 
-+ (NSArray*)			observableKeyPaths
++ (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"locked", @"styleSharable", nil]];
+    return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"locked", @"styleSharable", nil]];
 }
 
 #pragma mark -
 #pragma mark As a NSObject
 
-+ (void)				initialize
++ (void)initialize
 {
-	sShouldDrawShadows = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKStyleDisplayPerformance_no_shadows];
-	sAntialias = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKStyleDisplayPerformance_no_anti_aliasing];
-	sSubstitute = [[NSUserDefaults standardUserDefaults] boolForKey:kDKStyleDisplayPerformance_substitute_styles];
+    sShouldDrawShadows = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKStyleDisplayPerformance_no_shadows];
+    sAntialias = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKStyleDisplayPerformance_no_anti_aliasing];
+    sSubstitute = [[NSUserDefaults standardUserDefaults] boolForKey:kDKStyleDisplayPerformance_substitute_styles];
 }
 
-- (void)				dealloc
+- (void)dealloc
 {
-	LogEvent_( kKVOEvent, @"style %@ ('%@') is being deallocated, will stop observing all components", self, [self name]);
-	
-	// stop observing all of the component rasterizers - any group objects in the list will propagate this
-	// message down to their subordinate objects.
-	
-	[[self renderList] makeObjectsPerformSelector:@selector(tearDownKVOForObserver:) withObject:self];
-	
-	[mSwatchCache release];
-	[m_textAttributes release];
-	[m_uniqueKey release];
-	
-	[super dealloc];
+    LogEvent_(kKVOEvent, @"style %@ ('%@') is being deallocated, will stop observing all components", self, [self name]);
+
+    // stop observing all of the component rasterizers - any group objects in the list will propagate this
+    // message down to their subordinate objects.
+
+    [[self renderList] makeObjectsPerformSelector:@selector(tearDownKVOForObserver:)
+                                       withObject:self];
+
+    [mSwatchCache release];
+    [m_textAttributes release];
+    [m_uniqueKey release];
+
+    [super dealloc];
 }
 
-- (id)					init
+- (id)init
 {
-	self = [super init];
-	if (self != nil)
-	{
-		m_textAttributes = nil;
-		NSAssert(m_undoManagerRef == nil, @"Expected init to zero");
-		[self setStyleSharable:[[self class] stylesAreSharableByDefault]]; 
-		NSAssert(!m_locked, @"Expected init to NO");
-		NSAssert(m_renderClientRef == nil, @"Expected init to zero");
-		
-		m_mergeFlag = NO;
-		[self assignUniqueKey];
-		m_lastModTime = [NSDate timeIntervalSinceReferenceDate];
-		mSwatchCache = [[NSMutableDictionary alloc] init];
-		m_clientCount = 0;
-		
-		if (m_uniqueKey == nil)
-		{
-			[self autorelease];
-			self = nil;
-		}
-	}
-	return self;
+    self = [super init];
+    if (self != nil) {
+        m_textAttributes = nil;
+        NSAssert(m_undoManagerRef == nil, @"Expected init to zero");
+        [self setStyleSharable:[[self class] stylesAreSharableByDefault]];
+        NSAssert(!m_locked, @"Expected init to NO");
+        NSAssert(m_renderClientRef == nil, @"Expected init to zero");
+
+        m_mergeFlag = NO;
+        [self assignUniqueKey];
+        m_lastModTime = [NSDate timeIntervalSinceReferenceDate];
+        mSwatchCache = [[NSMutableDictionary alloc] init];
+        m_clientCount = 0;
+
+        if (m_uniqueKey == nil) {
+            [self autorelease];
+            self = nil;
+        }
+    }
+    return self;
 }
 
-- (NSString*)			description
+- (NSString*)description
 {
 #warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"%@ <0x%x> '%@' [%@]", NSStringFromClass([self class]), self, [self name], [self uniqueKey]];
+    return [NSString stringWithFormat:@"%@ <0x%x> '%@' [%@]", NSStringFromClass([self class]), self, [self name], [self uniqueKey]];
 }
 
 // n.b. isEqual: defines equality more loosely than isEqualToStyle: which also considers the timestamp
 
-- (BOOL)				isEqual:(id) anObject
+- (BOOL)isEqual:(id)anObject
 {
-	if([anObject respondsToSelector:@selector(uniqueKey)])
-		return [[self uniqueKey] isEqualToString:[anObject uniqueKey]];
-	else
-		return NO;
+    if ([anObject respondsToSelector:@selector(uniqueKey)])
+        return [[self uniqueKey] isEqualToString:[anObject uniqueKey]];
+    else
+        return NO;
 }
 
-- (NSUInteger)			hash
+- (NSUInteger)hash
 {
-	return [[self uniqueKey] hash];
+    return [[self uniqueKey] hash];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
-- (void)				encodeWithCoder:(NSCoder*) coder
+- (void)encodeWithCoder:(NSCoder*)coder
 {
-	NSAssert(coder != nil, @"Expected valid coder");
-	[super encodeWithCoder:coder];
-	
-	[coder encodeObject:[self uniqueKey] forKey:@"DKDrawingStyle_uniqueKey"];
-	[coder encodeBool:[self isStyleRegistered] forKey:@"DKDrawingStyle_registeredStyle"];
-	[coder encodeDouble:[self lastModificationTimestamp] forKey:@"DKDrawingStyle_lastModTime"];
-	
-	[coder encodeObject:[self textAttributes] forKey:@"styledict"];
-	[coder encodeBool:[self isStyleSharable] forKey:@"shared"];
-	[coder encodeBool:[self locked] forKey:@"locked"];
+    NSAssert(coder != nil, @"Expected valid coder");
+    [super encodeWithCoder:coder];
+
+    [coder encodeObject:[self uniqueKey]
+                 forKey:@"DKDrawingStyle_uniqueKey"];
+    [coder encodeBool:[self isStyleRegistered]
+               forKey:@"DKDrawingStyle_registeredStyle"];
+    [coder encodeDouble:[self lastModificationTimestamp]
+                 forKey:@"DKDrawingStyle_lastModTime"];
+
+    [coder encodeObject:[self textAttributes]
+                 forKey:@"styledict"];
+    [coder encodeBool:[self isStyleSharable]
+               forKey:@"shared"];
+    [coder encodeBool:[self locked]
+               forKey:@"locked"];
 }
 
-- (id)					initWithCoder:(NSCoder*) coder
+- (id)initWithCoder:(NSCoder*)coder
 {
-	NSAssert(coder != nil, @"Expected valid coder");
-	self = [super initWithCoder:coder];
-	if (self != nil)
-	{
-		// recover the unique key - older files won't have it so assign one
-		
-		NSString*	uk = [coder decodeObjectForKey:@"DKDrawingStyle_uniqueKey"];
-		
-		if ( uk == nil )
-		{
-			// the style was saved without a key, so assign one - no remerging will be
-			// attempted as there's no information to go on. This will only apply to
-			// very old files that predate this mechanism.
-			
-			[self assignUniqueKey];
-			m_lastModTime = [NSDate timeIntervalSinceReferenceDate];
-			m_mergeFlag = NO;
-		}
-		else
-		{
-			m_uniqueKey = [uk retain];
-		
-			// do not re-register styles immediately. Instead, just flag them as needing a potential remerge with the
-			// registry. The user might have other ideas - the document is able to handle the remerge of a document's styles
-			// en masse by building a set of styles that have this flag set.
-		
-			m_mergeFlag = [coder decodeBoolForKey:@"DKDrawingStyle_registeredStyle"];
-			m_lastModTime = [coder decodeDoubleForKey:@"DKDrawingStyle_lastModTime"];
-		}
-		
-		[self setTextAttributes:[coder decodeObjectForKey:@"styledict"]];
-		NSAssert(m_undoManagerRef == nil, @"Expected init to zero");
-		[self setStyleSharable:[coder decodeBoolForKey:@"shared"]];
-		[self setLocked:[coder decodeBoolForKey:@"locked"]];
-		mSwatchCache = [[NSMutableDictionary alloc] init];
-		NSAssert(m_renderClientRef == nil, @"Expected init to zero");
-		m_clientCount = 0;
-		
-		// once the entire style and its rasterizer tree have been unarchived, start observing all of the individual
-		// components. Any group items in the tree will propagate this message down to the objects they contain.
-		
-		[[self renderList] makeObjectsPerformSelector:@selector(setUpKVOForObserver:) withObject:self];
-	}
+    NSAssert(coder != nil, @"Expected valid coder");
+    self = [super initWithCoder:coder];
+    if (self != nil) {
+        // recover the unique key - older files won't have it so assign one
 
-	return self;
+        NSString* uk = [coder decodeObjectForKey:@"DKDrawingStyle_uniqueKey"];
+
+        if (uk == nil) {
+            // the style was saved without a key, so assign one - no remerging will be
+            // attempted as there's no information to go on. This will only apply to
+            // very old files that predate this mechanism.
+
+            [self assignUniqueKey];
+            m_lastModTime = [NSDate timeIntervalSinceReferenceDate];
+            m_mergeFlag = NO;
+        } else {
+            m_uniqueKey = [uk retain];
+
+            // do not re-register styles immediately. Instead, just flag them as needing a potential remerge with the
+            // registry. The user might have other ideas - the document is able to handle the remerge of a document's styles
+            // en masse by building a set of styles that have this flag set.
+
+            m_mergeFlag = [coder decodeBoolForKey:@"DKDrawingStyle_registeredStyle"];
+            m_lastModTime = [coder decodeDoubleForKey:@"DKDrawingStyle_lastModTime"];
+        }
+
+        [self setTextAttributes:[coder decodeObjectForKey:@"styledict"]];
+        NSAssert(m_undoManagerRef == nil, @"Expected init to zero");
+        [self setStyleSharable:[coder decodeBoolForKey:@"shared"]];
+        [self setLocked:[coder decodeBoolForKey:@"locked"]];
+        mSwatchCache = [[NSMutableDictionary alloc] init];
+        NSAssert(m_renderClientRef == nil, @"Expected init to zero");
+        m_clientCount = 0;
+
+        // once the entire style and its rasterizer tree have been unarchived, start observing all of the individual
+        // components. Any group items in the tree will propagate this message down to the objects they contain.
+
+        [[self renderList] makeObjectsPerformSelector:@selector(setUpKVOForObserver:)
+                                           withObject:self];
+    }
+
+    return self;
 }
 
 #pragma mark -
@@ -1688,12 +1689,12 @@ static BOOL					sSubstitute = NO;
  * Styles should always be copied before use, in order that the shared flag is automatically
  * honoured. Drawable objects do this by default, so within drawkit this 'just works'.
  */
-- (id)					copyWithZone:(NSZone*) zone
+- (id)copyWithZone:(NSZone*)zone
 {
-	if ([self isStyleSharable])
-		return [self retain];
-	else
-		return [self mutableCopyWithZone:zone];
+    if ([self isStyleSharable])
+        return [self retain];
+    else
+        return [self mutableCopyWithZone:zone];
 }
 
 #pragma mark -
@@ -1701,50 +1702,48 @@ static BOOL					sSubstitute = NO;
 
 /** @brief Sets up undo invocations when the value of a contained property is changed
  */
-- (void)			observeValueForKeyPath:(NSString*) keypath ofObject:(id) object change:(NSDictionary*) change context:(void*) context
+- (void)observeValueForKeyPath:(NSString*)keypath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
-	#pragma unused(context)
-	
-	// this is called whenever a property of a renderer contained in the style is changed. Its job is to consolidate both undo
-	// and client object refresh when properties are altered directly, which of course they usually will be. This powerfully
-	// means that renderers themselves do not need to know anything about undo or how they fit into the overall scheme of things.
-	
-	NSKeyValueChange ch = [[change objectForKey:NSKeyValueChangeKindKey] integerValue];
-	BOOL	wasChanged = NO;
-	
-	if ( ch == NSKeyValueChangeSetting )
-	{
-		if(![[change objectForKey:NSKeyValueChangeOldKey] isEqual:[change objectForKey:NSKeyValueChangeNewKey]])
-		{
-			[[[self undoManager] prepareWithInvocationTarget:self]	changeKeyPath:keypath
-																	ofObject:object
-																	toValue:[change objectForKey:NSKeyValueChangeOldKey]];
-			wasChanged = YES;
-		}
-	}
-	else if ( ch == NSKeyValueChangeInsertion || ch == NSKeyValueChangeRemoval )
-	{
-		// Cocoa has a bug where array insertion/deletion changes don't properly record the old array.
-		// GCObserveableObject gives us a workaround
-				
-		NSArray* old = [object oldArrayValueForKeyPath:keypath];
-		
-		[[[self undoManager] prepareWithInvocationTarget:self]	changeKeyPath:keypath
-																ofObject:object
-																toValue:old];	
-																
-		wasChanged = YES;
-	}
-	
-	if ( wasChanged && !([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-	{
-		if([object respondsToSelector:@selector(actionNameForKeyPath:changeKind:)])
-			[[self undoManager] setActionName:[object actionNameForKeyPath:keypath changeKind:ch]];
-		else
-			[[self undoManager] setActionName:[GCObservableObject actionNameForKeyPath:keypath objClass:[object class]]];
-	}
-	
-	[self notifyClientsAfterChange];
+#pragma unused(context)
+
+    // this is called whenever a property of a renderer contained in the style is changed. Its job is to consolidate both undo
+    // and client object refresh when properties are altered directly, which of course they usually will be. This powerfully
+    // means that renderers themselves do not need to know anything about undo or how they fit into the overall scheme of things.
+
+    NSKeyValueChange ch = [[change objectForKey:NSKeyValueChangeKindKey] integerValue];
+    BOOL wasChanged = NO;
+
+    if (ch == NSKeyValueChangeSetting) {
+        if (![[change objectForKey:NSKeyValueChangeOldKey] isEqual:[change objectForKey:NSKeyValueChangeNewKey]]) {
+            [[[self undoManager] prepareWithInvocationTarget:self] changeKeyPath:keypath
+                                                                        ofObject:object
+                                                                         toValue:[change objectForKey:NSKeyValueChangeOldKey]];
+            wasChanged = YES;
+        }
+    } else if (ch == NSKeyValueChangeInsertion || ch == NSKeyValueChangeRemoval) {
+        // Cocoa has a bug where array insertion/deletion changes don't properly record the old array.
+        // GCObserveableObject gives us a workaround
+
+        NSArray* old = [object oldArrayValueForKeyPath:keypath];
+
+        [[[self undoManager] prepareWithInvocationTarget:self] changeKeyPath:keypath
+                                                                    ofObject:object
+                                                                     toValue:old];
+
+        wasChanged = YES;
+    }
+
+    if (wasChanged && !([[self undoManager] isUndoing] || [[self undoManager] isRedoing])) {
+        if ([object respondsToSelector:@selector(actionNameForKeyPath:
+                                                           changeKind:)])
+            [[self undoManager] setActionName:[object actionNameForKeyPath:keypath
+                                                                changeKind:ch]];
+        else
+            [[self undoManager] setActionName:[GCObservableObject actionNameForKeyPath:keypath
+                                                                              objClass:[object class]]];
+    }
+
+    [self notifyClientsAfterChange];
 }
 
 #pragma mark -
@@ -1753,24 +1752,24 @@ static BOOL					sSubstitute = NO;
 /** @note
  * The copy's initial name is deliberately not set
  */
-- (id)				mutableCopyWithZone:(NSZone*) zone
+- (id)mutableCopyWithZone:(NSZone*)zone
 {
-	DKStyle* copy = [super copyWithZone:zone];	
-	[copy setLocked:NO];
-	[copy setName:nil];
-	[copy setStyleSharable:[self isStyleSharable]];
-	
-	NSDictionary* attribs = [[self textAttributes] deepCopy];
-	
-	[copy setTextAttributes:attribs];
-	[attribs release];
-	
-	// the copy needs to start observing all of its components:
-	
-	[[copy renderList] makeObjectsPerformSelector:@selector(setUpKVOForObserver:) withObject:copy];
-	
-	return copy;
+    DKStyle* copy = [super copyWithZone:zone];
+    [copy setLocked:NO];
+    [copy setName:nil];
+    [copy setStyleSharable:[self isStyleSharable]];
+
+    NSDictionary* attribs = [[self textAttributes] deepCopy];
+
+    [copy setTextAttributes:attribs];
+    [attribs release];
+
+    // the copy needs to start observing all of its components:
+
+    [[copy renderList] makeObjectsPerformSelector:@selector(setUpKVOForObserver:)
+                                       withObject:copy];
+
+    return copy;
 }
 
 @end
-

@@ -10,7 +10,7 @@
 
 @interface NSImage (DKAdditions)
 
-+ (NSImage*)	imageFromImage:(NSImage*) srcImage withSize:(NSSize) size;
-+ (NSImage*)	imageFromImage:(NSImage*) srcImage withSize:(NSSize) size fraction:(CGFloat) opacity allowScaleUp:(BOOL) scaleUp;
++ (NSImage*)imageFromImage:(NSImage*)srcImage withSize:(NSSize)size;
++ (NSImage*)imageFromImage:(NSImage*)srcImage withSize:(NSSize)size fraction:(CGFloat)opacity allowScaleUp:(BOOL)scaleUp;
 
 @end

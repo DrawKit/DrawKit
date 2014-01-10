@@ -26,12 +26,11 @@ Some handy methods for implementing various kinds of object duplications.
  * @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  * @public
  */
-- (NSArray*)	polarDuplicate:(NSArray*) objectsToDuplicate
-				centre:(NSPoint) centre
-				numberOfCopies:(NSInteger) nCopies
-				incrementAngle:(CGFloat) incRadians
-				rotateCopies:(BOOL) rotCopies;
-				
+- (NSArray*)polarDuplicate:(NSArray*)objectsToDuplicate
+                    centre:(NSPoint)centre
+            numberOfCopies:(NSInteger)nCopies
+            incrementAngle:(CGFloat)incRadians
+              rotateCopies:(BOOL)rotCopies;
 
 /** @brief Duplicates one or more objects linearly
  * @note
@@ -43,10 +42,9 @@ Some handy methods for implementing various kinds of object duplications.
  * @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  * @public
  */
-- (NSArray*)	linearDuplicate:(NSArray*) objectsToDuplicate
-				offset:(NSSize) offset
-				numberOfCopies:(NSInteger) nCopies;
-				
+- (NSArray*)linearDuplicate:(NSArray*)objectsToDuplicate
+                     offset:(NSSize)offset
+             numberOfCopies:(NSInteger)nCopies;
 
 /** @brief Automatically polar duplicates object to fit a circle exactly
  * @note
@@ -58,9 +56,8 @@ Some handy methods for implementing various kinds of object duplications.
  * @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  * @public
  */
-- (NSArray*)	autoPolarDuplicate:(DKDrawableObject*) object
-				centre:(NSPoint) centre;
-				
+- (NSArray*)autoPolarDuplicate:(DKDrawableObject*)object
+                        centre:(NSPoint)centre;
 
 /** @brief Duplicates one or more objects concentrically around a common centre
  * @note
@@ -74,11 +71,9 @@ Some handy methods for implementing various kinds of object duplications.
  * @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  * @public
  */
-- (NSArray*)	concentricDuplicate:(NSArray*) objectsToDuplicate
-				centre:(NSPoint) centre
-				numberOfCopies:(NSInteger) nCopies
-				insetBy:(CGFloat) inset;
-				
+- (NSArray*)concentricDuplicate:(NSArray*)objectsToDuplicate
+                         centre:(NSPoint)centre
+                 numberOfCopies:(NSInteger)nCopies
+                        insetBy:(CGFloat)inset;
 
 @end
-

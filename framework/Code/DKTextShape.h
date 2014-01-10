@@ -28,19 +28,18 @@ Text shapes are shapes that draw text.
  Some methods no longer have meaning in the redesigned class and have been deprecated. Calling them is now a no-op. Reading in an old-style version of the class will be
  translated to the new approach. Some functionality has been moved to the DKTextAdornment class.
 */
-@interface DKTextShape : DKDrawableShape <NSCoding, NSCopying>
-{
+@interface DKTextShape : DKDrawableShape <NSCoding, NSCopying> {
 @private
-	DKTextAdornment*		mTextAdornment;				// handles the text storage, layout and rendering of the text
-	NSTextView*				m_editorRef;				// when editing, a reference to the editor view
-	BOOL					mIsSettingStyle;			// flags text being set by style
-	
+    DKTextAdornment* mTextAdornment; // handles the text storage, layout and rendering of the text
+    NSTextView* m_editorRef; // when editing, a reference to the editor view
+    BOOL mIsSettingStyle; // flags text being set by style
+
 #ifdef DRAWKIT_DEPRECATED
-	NSTextStorage*			m_text;						// the text
-	NSRect					m_textRect;					// rect of the text relative to the final shape
-	DKVerticalTextAlignment	m_vertAlign;				// vertical text alignment
-	BOOL					m_ignoreStyleAttributes;	// YES to keep the text attributes distinct from style
-	CGFloat					mVerticalAlignmentAmount;	// value between 0..1 to set v align in prop mode
+    NSTextStorage* m_text; // the text
+    NSRect m_textRect; // rect of the text relative to the final shape
+    DKVerticalTextAlignment m_vertAlign; // vertical text alignment
+    BOOL m_ignoreStyleAttributes; // YES to keep the text attributes distinct from style
+    CGFloat mVerticalAlignmentAmount; // value between 0..1 to set v align in prop mode
 #endif
 }
 
@@ -52,7 +51,7 @@ Text shapes are shapes that draw text.
  * @return an autoreleased DKTextShape instance
  * @public
  */
-+ (DKTextShape*)			textShapeWithString:(NSString*) str inRect:(NSRect) bounds;
++ (DKTextShape*)textShapeWithString:(NSString*)str inRect:(NSRect)bounds;
 
 /** @brief Create an instance of a DKTextShape with the RTF data and rect.
  * @param rtfData NSData representing some RTF text
@@ -60,7 +59,7 @@ Text shapes are shapes that draw text.
  * @return an autoreleased DKTextShape instance
  * @public
  */
-+ (DKTextShape*)			textShapeWithRTFData:(NSData*) rtfData inRect:(NSRect) bounds;
++ (DKTextShape*)textShapeWithRTFData:(NSData*)rtfData inRect:(NSRect)bounds;
 
 /** @brief Create an instance of a DKTextShape with the given string, laid out on one line.
  * @note
@@ -70,7 +69,7 @@ Text shapes are shapes that draw text.
  * @return an autoreleased DKTextShape instance
  * @public
  */
-+ (DKTextShape*)			textShapeWithAttributedString:(NSAttributedString*) str;
++ (DKTextShape*)textShapeWithAttributedString:(NSAttributedString*)str;
 
 // setting class defaults:
 
@@ -80,7 +79,7 @@ Text shapes are shapes that draw text.
  * @param str a string
  * @public
  */
-+ (void)					setDefaultTextString:(NSString*) str;
++ (void)setDefaultTextString:(NSString*)str;
 
 /** @brief Get the initial text string for new text shape objects.
  * @note
@@ -88,7 +87,7 @@ Text shapes are shapes that draw text.
  * @return a string
  * @public
  */
-+ (NSString*)				defaultTextString;
++ (NSString*)defaultTextString;
 
 /** @brief Return the class of object to create as the shape's text adornment.
  * @note
@@ -97,7 +96,7 @@ Text shapes are shapes that draw text.
  * @return the object class
  * @public
  */
-+ (Class)					textAdornmentClass;
++ (Class)textAdornmentClass;
 
 /** @brief Return a list of types we can paste in priority order.
  * @note
@@ -105,7 +104,7 @@ Text shapes are shapes that draw text.
  * @return a list of types
  * @public
  */
-+ (NSArray*)				pastableTextTypes;
++ (NSArray*)pastableTextTypes;
 
 /** @brief Return a path used for indicating unlaid text in object
  * @note
@@ -113,7 +112,7 @@ Text shapes are shapes that draw text.
  * @return a path
  * @public
  */
-+ (NSBezierPath*)			textOverflowIndicatorPath;
++ (NSBezierPath*)textOverflowIndicatorPath;
 
 /** @brief Set whether objects of this class should display an overflow symbol when text can't be fully laid
  * @note
@@ -121,7 +120,7 @@ Text shapes are shapes that draw text.
  * @param overflowShown YES to dislay, NO otherwise
  * @public
  */
-+ (void)					setShowsTextOverflowIndicator:(BOOL) overflowShown;
++ (void)setShowsTextOverflowIndicator:(BOOL)overflowShown;
 
 /** @brief Return whether objects of this class should display an overflow symbol when text can't be fully laid
  * @note
@@ -129,7 +128,7 @@ Text shapes are shapes that draw text.
  * @return YES to dislay, NO otherwise
  * @public
  */
-+ (BOOL)					showsTextOverflowIndicator;
++ (BOOL)showsTextOverflowIndicator;
 
 /** @brief Set whether text editing permits inline images to be pasted
  * @note
@@ -137,7 +136,7 @@ Text shapes are shapes that draw text.
  * @param allowed YES to allow images, NO to disallow 
  * @public
  */
-+ (void)					setAllowsInlineImages:(BOOL) allowed;
++ (void)setAllowsInlineImages:(BOOL)allowed;
 
 /** @brief Whether text editing permits inline images to be pasted
  * @note
@@ -145,11 +144,11 @@ Text shapes are shapes that draw text.
  * @return YES to allow images, NO to disallow
  * @public
  */
-+ (BOOL)					allowsInlineImages;
++ (BOOL)allowsInlineImages;
 
 // the text:
 
-- (void)					setText:(id) contents;
+- (void)setText:(id)contents;
 
 /** @brief Get the text of the text shape
  * @note
@@ -157,7 +156,7 @@ Text shapes are shapes that draw text.
  * @return the object's text
  * @public
  */
-- (NSTextStorage*)			text;
+- (NSTextStorage*)text;
 
 /** @brief Get the string of the text shape
  * @note
@@ -165,14 +164,14 @@ Text shapes are shapes that draw text.
  * @return the object's text string
  * @public
  */
-- (NSString*)				string;
+- (NSString*)string;
 
 /** @brief Adjust the object's height to match the height of the current text
  * @note
  * Honours the minimum and maximum sizes set
  * @public
  */
-- (void)					sizeVerticallyToFitText;
+- (void)sizeVerticallyToFitText;
 
 // pasteboard ops:
 
@@ -183,14 +182,14 @@ Text shapes are shapes that draw text.
  * @param fmt YES to just paste the string and use the existing attributes, NO to update with the pasted
  * @public
  */
-- (void)					pasteTextFromPasteboard:(NSPasteboard*) pb ignoreFormatting:(BOOL) fmt;
+- (void)pasteTextFromPasteboard:(NSPasteboard*)pb ignoreFormatting:(BOOL)fmt;
 
 /** @brief Test whether the pasteboard contains any text we can paste
  * @param pb a pasteboard
  * @return YES if there is text of any kind that we can paste, NO otherwise
  * @public
  */
-- (BOOL)					canPasteText:(NSPasteboard*) pb;
+- (BOOL)canPasteText:(NSPasteboard*)pb;
 
 // text layout and drawing:
 
@@ -200,7 +199,7 @@ Text shapes are shapes that draw text.
  * @return a size, the smallest width and height text can be laid out in
  * @public
  */
-- (NSSize)					minSize;
+- (NSSize)minSize;
 
 /** @brief Return the maximum size of the text layout area
  * @note
@@ -208,7 +207,7 @@ Text shapes are shapes that draw text.
  * @return a size, the largest width and height of the text
  * @public
  */
-- (NSSize)					maxSize;
+- (NSSize)maxSize;
 
 /** @brief Return the ideal size of the text layout area
  * @note
@@ -217,7 +216,7 @@ Text shapes are shapes that draw text.
  * @return a size, the ideal text size
  * @public
  */
-- (NSSize)					idealTextSize;
+- (NSSize)idealTextSize;
 
 // conversion to path/shape with text path:
 
@@ -226,18 +225,18 @@ Text shapes are shapes that draw text.
  * breaks, etc. The path is transformed to the object's current location and angle.
  * @public
  */
-- (NSBezierPath*)			textPath;
+- (NSBezierPath*)textPath;
 
 /** @brief Return the individual glyph paths in an array
  * @return an array containing all of the individual glyph paths (i.e. each item in the array is one letter).
  */
-- (NSArray*)				textPathGlyphs;
+- (NSArray*)textPathGlyphs;
 
 /** @brief Return the individual glyph paths in an array and the size used
  * @param textSize receives the resulting sixe occupied by the text
  * @return an array containing all of the individual glyph paths (i.e. each item in the array is one letter).
  */
-- (NSArray*)				textPathGlyphsUsedSize:(NSSize*) textSize;
+- (NSArray*)textPathGlyphsUsedSize:(NSSize*)textSize;
 
 /** @brief High level method turns the text into a drawable shape having the text as its path
  * @note
@@ -246,7 +245,7 @@ Text shapes are shapes that draw text.
  * @return a new shape object.
  * @public
  */
-- (DKDrawableShape*)		makeShapeWithText;
+- (DKDrawableShape*)makeShapeWithText;
 
 /** @brief High level method turns the text into a drawable shape group having each glyph as a subobject
  * @note
@@ -259,12 +258,12 @@ Text shapes are shapes that draw text.
  * @return a new shape group object.
  * @public
  */
-- (DKShapeGroup*)			makeShapeGroupWithText;
+- (DKShapeGroup*)makeShapeGroupWithText;
 
 /** @brief Creates a style that attempts to maintain fidelity of appearance based on the text's attributes
  * @return a new style object.
  */
-- (DKStyle*)				styleWithTextAttributes;
+- (DKStyle*)styleWithTextAttributes;
 
 /** @brief Creates a style that is the current style + any text attributes
  * @note
@@ -273,12 +272,12 @@ Text shapes are shapes that draw text.
  * @return a new style object
  * @public
  */
-- (DKStyle*)				syntheticStyle;
+- (DKStyle*)syntheticStyle;
 
 // text attributes - accesses the internal adornment object
 
-- (NSDictionary*)			textAttributes;
-- (void)					updateFontPanel;
+- (NSDictionary*)textAttributes;
+- (void)updateFontPanel;
 
 // setting text attributes for the entire text:
 
@@ -288,13 +287,13 @@ Text shapes are shapes that draw text.
  * @param font a new font
  * @public
  */
-- (void)					setFont:(NSFont*) font;
+- (void)setFont:(NSFont*)font;
 
 /** @brief Gets the text's font
  * @return the current font
  * @public
  */
-- (NSFont*)					font;
+- (NSFont*)font;
 
 /** @brief Sets the text's font size, if permitted
  * @note
@@ -303,81 +302,81 @@ Text shapes are shapes that draw text.
  * @param size the point size of the font
  * @public
  */
-- (void)					setFontSize:(CGFloat) size;
+- (void)setFontSize:(CGFloat)size;
 
 /** @brief Gets the text's font size
  * @return the size of the text's current font
  * @public
  */
-- (CGFloat)					fontSize;
-- (void)					setTextColour:(NSColor*) colour;
-- (NSColor*)				textColour;
+- (CGFloat)fontSize;
+- (void)setTextColour:(NSColor*)colour;
+- (NSColor*)textColour;
 
-- (void)					scaleTextBy:(CGFloat) factor;
+- (void)scaleTextBy:(CGFloat)factor;
 
 // paragraph style attributes:
 
-- (void)					setVerticalAlignment:(DKVerticalTextAlignment) align;
-- (DKVerticalTextAlignment)	verticalAlignment;
-- (void)					setVerticalAlignmentProportion:(CGFloat) prop;
-- (CGFloat)					verticalAlignmentProportion;
-- (void)					setParagraphStyle:(NSParagraphStyle*) ps;
-- (NSParagraphStyle*)		paragraphStyle;
-- (void)					setAlignment:(NSTextAlignment) align;
-- (NSTextAlignment)			alignment;
+- (void)setVerticalAlignment:(DKVerticalTextAlignment)align;
+- (DKVerticalTextAlignment)verticalAlignment;
+- (void)setVerticalAlignmentProportion:(CGFloat)prop;
+- (CGFloat)verticalAlignmentProportion;
+- (void)setParagraphStyle:(NSParagraphStyle*)ps;
+- (NSParagraphStyle*)paragraphStyle;
+- (void)setAlignment:(NSTextAlignment)align;
+- (NSTextAlignment)alignment;
 
 // layout within the text object:
 
-- (void)					setLayoutMode:(DKTextLayoutMode) mode;
-- (DKTextLayoutMode)		layoutMode;
-- (void)					setWrapsLines:(BOOL) wraps;
-- (BOOL)					wrapsLines;
+- (void)setLayoutMode:(DKTextLayoutMode)mode;
+- (DKTextLayoutMode)layoutMode;
+- (void)setWrapsLines:(BOOL)wraps;
+- (BOOL)wrapsLines;
 
 // editing the text:
 
-- (void)					startEditingInView:(DKDrawingView*) view;
-- (void)					endEditing;
-- (BOOL)					isEditing;
-- (DKTextAdornment*)		textAdornment;
-- (void)					setTextAdornment:(DKTextAdornment*) adornment;
+- (void)startEditingInView:(DKDrawingView*)view;
+- (void)endEditing;
+- (BOOL)isEditing;
+- (DKTextAdornment*)textAdornment;
+- (void)setTextAdornment:(DKTextAdornment*)adornment;
 
 // user actions:
 
-- (IBAction)				changeFont:(id) sender;
-- (IBAction)				changeFontSize:(id) sender;
-- (IBAction)				changeAttributes:(id) sender;
-- (IBAction)				editText:(id) sender;
+- (IBAction)changeFont:(id)sender;
+- (IBAction)changeFontSize:(id)sender;
+- (IBAction)changeAttributes:(id)sender;
+- (IBAction)editText:(id)sender;
 
-- (IBAction)				changeLayoutMode:(id) sender;
+- (IBAction)changeLayoutMode:(id)sender;
 
-- (IBAction)				alignLeft:(id) sender;
-- (IBAction)				alignRight:(id) sender;
-- (IBAction)				alignCenter:(id) sender;
-- (IBAction)				alignJustified:(id) sender;
-- (IBAction)				underline:(id) sender;
+- (IBAction)alignLeft:(id)sender;
+- (IBAction)alignRight:(id)sender;
+- (IBAction)alignCenter:(id)sender;
+- (IBAction)alignJustified:(id)sender;
+- (IBAction)underline:(id)sender;
 
-- (IBAction)				loosenKerning:(id) sender;
-- (IBAction)				tightenKerning:(id) sender;
-- (IBAction)				turnOffKerning:(id)sender;
-- (IBAction)				useStandardKerning:(id) sender;
+- (IBAction)loosenKerning:(id)sender;
+- (IBAction)tightenKerning:(id)sender;
+- (IBAction)turnOffKerning:(id)sender;
+- (IBAction)useStandardKerning:(id)sender;
 
-- (IBAction)				lowerBaseline:(id) sender;
-- (IBAction)				raiseBaseline:(id) sender;
-- (IBAction)				superscript:(id) sender;
-- (IBAction)				subscript:(id) sender;
-- (IBAction)				unscript:(id) ssender;
+- (IBAction)lowerBaseline:(id)sender;
+- (IBAction)raiseBaseline:(id)sender;
+- (IBAction)superscript:(id)sender;
+- (IBAction)subscript:(id)sender;
+- (IBAction)unscript:(id)ssender;
 
-- (IBAction)				fitToText:(id) sender;
-- (IBAction)				verticalAlign:(id) sender;
-- (IBAction)				convertToShape:(id) sender;
-- (IBAction)				convertToShapeGroup:(id) sender;
-- (IBAction)				convertToTextPath:(id) sender;
+- (IBAction)fitToText:(id)sender;
+- (IBAction)verticalAlign:(id)sender;
+- (IBAction)convertToShape:(id)sender;
+- (IBAction)convertToShapeGroup:(id)sender;
+- (IBAction)convertToTextPath:(id)sender;
 
-- (IBAction)				paste:(id) sender;
-- (IBAction)				capitalize:(id) sender;
+- (IBAction)paste:(id)sender;
+- (IBAction)capitalize:(id)sender;
 
-- (IBAction)				takeTextAlignmentFromSender:(id) sender;
-- (IBAction)				takeTextVerticalAlignmentFromSender:(id) sender;
+- (IBAction)takeTextAlignmentFromSender:(id)sender;
+- (IBAction)takeTextVerticalAlignmentFromSender:(id)sender;
 
 @end
 
@@ -387,12 +386,11 @@ Text shapes are shapes that draw text.
 
 @interface DKTextShape (Deprecated)
 
-- (NSPoint)					textOriginForSize:(NSSize) textSize;
+- (NSPoint)textOriginForSize:(NSSize)textSize;
 
 @end
 
 #endif
 
-extern NSString*	kDKTextOverflowIndicatorDefaultsKey;
-extern NSString*	kDKTextAllowsInlineImagesDefaultsKey;
-
+extern NSString* kDKTextOverflowIndicatorDefaultsKey;
+extern NSString* kDKTextAllowsInlineImagesDefaultsKey;

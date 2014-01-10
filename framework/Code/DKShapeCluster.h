@@ -22,10 +22,9 @@ The main differences from a group are that when selected the main object acts as
 cluster size and angle are controlled by the user's hits on the main object. Clusters need to be programatically created
 since the master object must be nominated when creating the cluster.
 */
-@interface DKShapeCluster : DKShapeGroup
-{
+@interface DKShapeCluster : DKShapeGroup {
 @private
-	DKDrawableShape*		m_masterObjRef;
+    DKDrawableShape* m_masterObjRef;
 }
 
 /** @brief Creates a new cluster from a set of objects
@@ -36,7 +35,7 @@ since the master object must be nominated when creating the cluster.
  * @return a new autoreleased cluster object, which should be added to a suitable drawing layer before use
  * @public
  */
-+ (DKShapeCluster*)		clusterWithObjects:(NSArray*) objects masterObject:(DKDrawableShape*) master;
++ (DKShapeCluster*)clusterWithObjects:(NSArray*)objects masterObject:(DKDrawableShape*)master;
 
 /** @brief Sets the master object for the cluster
  * @note
@@ -44,13 +43,12 @@ since the master object must be nominated when creating the cluster.
  * @param master the master object
  * @public
  */
-- (void)				setMasterObject:(DKDrawableShape*) master;
+- (void)setMasterObject:(DKDrawableShape*)master;
 
 /** @brief What is the cluster's master object?
  * @return the master object for this cluster
  * @public
  */
-- (DKDrawableShape*)	masterObject;
+- (DKDrawableShape*)masterObject;
 
 @end
-

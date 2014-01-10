@@ -10,23 +10,19 @@
 
 // menu creation options:
 
-typedef enum
-{
-	kDKIncludeRecentlyAddedItems	= ( 1 << 0 ),
-	kDKIncludeRecentlyUsedItems		= ( 1 << 1 ),
-	kDKIncludeAllItems				= ( 1 << 2 ),
-	kDKDontAddDividingLine			= ( 1 << 3 ),
-	kDKMenuIsPopUpMenu				= ( 1 << 4 )
-}
-DKCategoryMenuOptions;
+typedef enum {
+    kDKIncludeRecentlyAddedItems = (1 << 0),
+    kDKIncludeRecentlyUsedItems = (1 << 1),
+    kDKIncludeAllItems = (1 << 2),
+    kDKDontAddDividingLine = (1 << 3),
+    kDKMenuIsPopUpMenu = (1 << 4)
+} DKCategoryMenuOptions;
 
-typedef enum
-{
-	kDKReplaceExisting				= ( 1 << 1 ),		// objects passed in replace those with the same key (doc -> reg)
-	kDKReturnExisting				= ( 1 << 2 ),		// objects in reg with the same keys are returned (reg -> doc)
-	kDKAddAsNewVersions				= ( 1 << 3 )		// objects with the same keys are copied and registered again (reg || doc)
-}
-DKCatManagerMergeOptions;
+typedef enum {
+    kDKReplaceExisting = (1 << 1), // objects passed in replace those with the same key (doc -> reg)
+    kDKReturnExisting = (1 << 2), // objects in reg with the same keys are returned (reg -> doc)
+    kDKAddAsNewVersions = (1 << 3) // objects with the same keys are copied and registered again (reg || doc)
+} DKCatManagerMergeOptions;
 
 // the class
 
@@ -38,17 +34,16 @@ When the CM is asked for a menu, this helper object is used to create and manage
 informed of the changes and in turn update the menus to match by adding or deleting menu items. This is necessary because when the CM grows to a significant number
 of items, rebuilding the menus is very time-consuming. This way performance is much better.
 */
-@interface DKCategoryManager : NSObject <NSCoding, NSCopying>
-{
+@interface DKCategoryManager : NSObject <NSCoding, NSCopying> {
 @private
-	NSMutableDictionary*	m_masterList;
-	NSMutableDictionary*	m_categories;
-	NSMutableArray*			m_recentlyAdded;
-	NSMutableArray*			m_recentlyUsed;
-	NSUInteger				m_maxRecentlyAddedItems;
-	NSUInteger				m_maxRecentlyUsedItems;
-	NSMutableArray*			mMenusList;
-	BOOL					mRecentlyAddedEnabled;
+    NSMutableDictionary* m_masterList;
+    NSMutableDictionary* m_categories;
+    NSMutableArray* m_recentlyAdded;
+    NSMutableArray* m_recentlyUsed;
+    NSUInteger m_maxRecentlyAddedItems;
+    NSUInteger m_maxRecentlyUsedItems;
+    NSMutableArray* mMenusList;
+    BOOL mRecentlyAddedEnabled;
 }
 
 /** @brief Returns a new category manager object
@@ -57,7 +52,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return a category manager object
  * @public
  */
-+ (DKCategoryManager*)	categoryManager;
++ (DKCategoryManager*)categoryManager;
 
 /** @brief Returns a new category manager object based on an existing dictionary
  * @note
@@ -66,12 +61,12 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return a category manager object
  * @public
  */
-+ (DKCategoryManager*)	categoryManagerWithDictionary:(NSDictionary*) dict;
++ (DKCategoryManager*)categoryManagerWithDictionary:(NSDictionary*)dict;
 
 /** @brief Return the default categories defined for this class
  * @return an array of categories
  */
-+ (NSArray*)			defaultCategories;
++ (NSArray*)defaultCategories;
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
  * @note
@@ -79,10 +74,10 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param obj an object
  * @return a key string
  */
-+ (NSString*)			categoryManagerKeyForObject:(id) obj;
++ (NSString*)categoryManagerKeyForObject:(id)obj;
 
-+ (id)					dearchivingHelper;
-+ (void)				setDearchivingHelper:(id) helper;
++ (id)dearchivingHelper;
++ (void)setDearchivingHelper:(id)helper;
 
 // initialization
 
@@ -93,7 +88,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return the category manager object
  * @public
  */
-- (id)					initWithData:(NSData*) data;
+- (id)initWithData:(NSData*)data;
 
 /** @brief Initialized a category manager object from an existing dictionary
  * @note
@@ -102,7 +97,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return the category manager object
  * @public
  */
-- (id)					initWithDictionary:(NSDictionary*) dict;
+- (id)initWithDictionary:(NSDictionary*)dict;
 
 // adding and retrieving objects
 
@@ -115,7 +110,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param cg YES to create the category if it doesn't exist. NO not to do so
  * @public
  */
-- (void)				addObject:(id) obj forKey:(NSString*) name toCategory:(NSString*) catName createCategory:(BOOL) cg;
+- (void)addObject:(id)obj forKey:(NSString*)name toCategory:(NSString*)catName createCategory:(BOOL)cg;
 
 /** @brief Add an object to the container, associating with a key and optionally a number of categories.
  * @note
@@ -126,7 +121,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param cg YES to create the categories if they don't exist. NO not to do so
  * @public
  */
-- (void)				addObject:(id) obj forKey:(NSString*) name toCategories:(NSArray*) catNames createCategories:(BOOL) cg;
+- (void)addObject:(id)obj forKey:(NSString*)name toCategories:(NSArray*)catNames createCategories:(BOOL)cg;
 
 /** @brief Remove an object from the container
  * @note
@@ -134,7 +129,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param key the object's key
  * @public
  */
-- (void)				removeObjectForKey:(NSString*) key;
+- (void)removeObjectForKey:(NSString*)key;
 
 /** @brief Remove multiple objects from the container
  * @note
@@ -142,29 +137,29 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param keys a list of keys
  * @public
  */
-- (void)				removeObjectsForKeys:(NSArray*) keys;
+- (void)removeObjectsForKeys:(NSArray*)keys;
 
 /** @brief Removes all objects from the container
  * @note
  * Does not remove the categories, but leaves them all empty.
  * @public
  */
-- (void)				removeAllObjects;
+- (void)removeAllObjects;
 
-- (BOOL)				containsKey:(NSString*) name;
+- (BOOL)containsKey:(NSString*)name;
 
 /** @brief Return total number of stored objects in container
  * @return the number of objects
  * @public
  */
-- (NSUInteger)			count;
+- (NSUInteger)count;
 
 /** @brief Return the object for the given key, but do not remember it in the "recently used" list
  * @param key the object's key
  * @return the object if available, else nil
  * @public
  */
-- (id)					objectForKey:(NSString*) key;
+- (id)objectForKey:(NSString*)key;
 
 /** @brief Return the object for the given key, optionally remembering it in the "recently used" list
  * @note
@@ -174,7 +169,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return the object if available, else nil
  * @public
  */
-- (id)					objectForKey:(NSString*) key addToRecentlyUsedItems:(BOOL) add;
+- (id)objectForKey:(NSString*)key addToRecentlyUsedItems:(BOOL)add;
 
 /** @brief Returns a list of all unique keys that refer to the given object
  * @note
@@ -183,13 +178,13 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, listing all the unique keys that refer to the object.
  * @public
  */
-- (NSArray*)			keysForObject:(id) obj;
+- (NSArray*)keysForObject:(id)obj;
 
 /** @brief Return a copy of the master dictionary
  * @return the main dictionary
  * @public
  */
-- (NSDictionary*)		dictionary;
+- (NSDictionary*)dictionary;
 
 // smartly merging objects:
 
@@ -202,7 +197,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * equivalent items in the supplied set.
  * @public
  */
-- (NSSet*)				mergeObjectsFromSet:(NSSet*) aSet inCategories:(NSArray*) categories mergeOptions:(DKCatManagerMergeOptions) options mergeDelegate:(id) aDelegate;
+- (NSSet*)mergeObjectsFromSet:(NSSet*)aSet inCategories:(NSArray*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id)aDelegate;
 
 /** @brief Asks delegate to make decision about the merging of an object
  * @note
@@ -212,7 +207,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an equivalent object or nil. May be the supplied object or another having an identical ID.
  * @public
  */
-- (id)					mergeObject:(id) obj mergeDelegate:(id) aDelegate;
+- (id)mergeObject:(id)obj mergeDelegate:(id)aDelegate;
 
 // retrieving lists of objects by category
 
@@ -225,7 +220,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, the list of objects indicated by the category. May be empty.
  * @public
  */
-- (NSArray*)			objectsInCategory:(NSString*) catName;
+- (NSArray*)objectsInCategory:(NSString*)catName;
 
 /** @brief Return all of the objects belonging to the given categories
  * @note
@@ -236,7 +231,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, the list of objects indicated by the categories. May be empty.
  * @public
  */
-- (NSArray*)			objectsInCategories:(NSArray*) catNames;
+- (NSArray*)objectsInCategories:(NSArray*)catNames;
 
 /** @brief Return all of the keys in a given category
  * @note
@@ -254,7 +249,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, all keys (listed only once)
  * @public
  */
-- (NSArray*)			allKeysInCategory:(NSString*) catName;
+- (NSArray*)allKeysInCategory:(NSString*)catName;
 
 /** @brief Return all of the keys in all given categories
  * @note
@@ -263,14 +258,14 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, the union of keys in listed categories. May be empty.
  * @public
  */
-- (NSArray*)			allKeysInCategories:(NSArray*) catNames;
-- (NSArray*)			allKeys;
+- (NSArray*)allKeysInCategories:(NSArray*)catNames;
+- (NSArray*)allKeys;
 
 /** @brief Return all of the objects
  * @return an array, all objects (listed only once, in arbitrary order)
  * @public
  */
-- (NSArray*)			allObjects;
+- (NSArray*)allObjects;
 
 /** @brief Return all of the keys in a given category, sorted into some useful order
  * @note
@@ -280,7 +275,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, the list of keys indicated by the category. May be empty.
  * @public
  */
-- (NSArray*)			allSortedKeysInCategory:(NSString*) catName;
+- (NSArray*)allSortedKeysInCategory:(NSString*)catName;
 
 /** @brief Return all of the names in a given category, sorted into some useful order
  * @note
@@ -291,13 +286,13 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, the list of names indicated by the category. May be empty.
  * @public
  */
-- (NSArray*)			allSortedNamesInCategory:(NSString*) catName;
+- (NSArray*)allSortedNamesInCategory:(NSString*)catName;
 
 /** @brief Replaces the recently added items with new items, up to the current max.
  * @param array an array of suitable objects
  * @public
  */
-- (void)				setRecentlyAddedItems:(NSArray*) array;
+- (void)setRecentlyAddedItems:(NSArray*)array;
 
 /** @brief Return the list of recently added items
  * @note
@@ -305,7 +300,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, the list of keys recently added.
  * @public
  */
-- (NSArray*)			recentlyAddedItems;
+- (NSArray*)recentlyAddedItems;
 
 /** @brief Return the list of recently used items
  * @note
@@ -313,7 +308,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array, the list of keys recently used.
  * @public
  */
-- (NSArray*)			recentlyUsedItems;
+- (NSArray*)recentlyUsedItems;
 
 // category management - creating, deleting and renaming categories
 
@@ -322,25 +317,25 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * Is called as part of the initialisation of the CM object
  * @public
  */
-- (void)				addDefaultCategories;
+- (void)addDefaultCategories;
 
 /** @brief Return the default categories defined for this class or object
  * @return an array of categories
  * @public
  */
-- (NSArray*)			defaultCategories;
+- (NSArray*)defaultCategories;
 
 /** @brief Create a new category with the given name
  * @note
  * If the name is already a category name, this does nothing
  * @param catName the name of the new category
  */
-- (void)				addCategory:(NSString*) catName;
+- (void)addCategory:(NSString*)catName;
 
 /** @brief Create a new categories with the given names
  * @param catNames a list of the names of the new categories
  */
-- (void)				addCategories:(NSArray*) catNames;
+- (void)addCategories:(NSArray*)catNames;
 
 /** @brief Remove a category with the given name
  * @note
@@ -350,7 +345,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param catName the category to remove
  * @public
  */
-- (void)				removeCategory:(NSString*) catName;
+- (void)removeCategory:(NSString*)catName;
 
 /** @brief Change a category's name
  * @note
@@ -359,52 +354,52 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param newname the category's new name
  * @public
  */
-- (void)				renameCategory:(NSString*) catName to:(NSString*) newname;
+- (void)renameCategory:(NSString*)catName to:(NSString*)newname;
 
 /** @brief Removes all categories and objects from the CM.
  * @note
  * After this the CM is entirely empty.
  * @public
  */
-- (void)				removeAllCategories;
+- (void)removeAllCategories;
 
 /** @brief Adds a new key to a category, optionally creating it if necessary
  * @param key the key to add
  * @param catName the category to add it to
  * @param cg YES to create the category if it doesn't exist, NO otherwise
  */
-- (void)				addKey:(NSString*) key toCategory:(NSString*) catName createCategory:(BOOL) cg;
+- (void)addKey:(NSString*)key toCategory:(NSString*)catName createCategory:(BOOL)cg;
 
 /** @brief Adds a new key to several categories, optionally creating any if necessary
  * @param key the key to add
  * @param catNames a list of categories to add it to
  * @param cg YES to create the category if it doesn't exist, NO otherwise
  */
-- (void)				addKey:(NSString*) key toCategories:(NSArray*) catNames createCategories:(BOOL) cg;
+- (void)addKey:(NSString*)key toCategories:(NSArray*)catNames createCategories:(BOOL)cg;
 
 /** @brief Removes a key from a category
  * @param key the key to remove
  * @param catName the category to remove it from
  */
-- (void)				removeKey:(NSString*) key fromCategory:(NSString*) catName;
+- (void)removeKey:(NSString*)key fromCategory:(NSString*)catName;
 
 /** @brief Removes a key from a number of categories
  * @param key the key to remove
  * @param catNames the list of categories to remove it from
  */
-- (void)				removeKey:(NSString*) key fromCategories:(NSArray*) catNames;
+- (void)removeKey:(NSString*)key fromCategories:(NSArray*)catNames;
 
 /** @brief Removes a key from all categories
  * @param key the key to remove
  */
-- (void)				removeKeyFromAllCategories:(NSString*) key;
+- (void)removeKeyFromAllCategories:(NSString*)key;
 
 /** @brief Checks that all keys refer to real objects, removing any that do not
  * @note
  * Rarely needed, but can correct for corrupted registries where objects got removed but not all
  * keys that refer to it did for some reason (such as an exception).
  */
-- (void)				fixUpCategories;
+- (void)fixUpCategories;
 
 /** @brief Renames an object's key throughout
  * @note
@@ -415,7 +410,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param newKey the new key
  * @public
  */
-- (void)				renameKey:(NSString*) key to:(NSString*) newKey;
+- (void)renameKey:(NSString*)key to:(NSString*)newKey;
 
 // getting lists, etc. of the categories
 
@@ -425,13 +420,13 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array containg a list of all category names
  * @public
  */
-- (NSArray*)			allCategories;
+- (NSArray*)allCategories;
 
 /** @brief Get the count of all categories
  * @return the number of categories currently defined
  * @public
  */
-- (NSUInteger)			countOfCategories;
+- (NSUInteger)countOfCategories;
 
 /** @brief Get a list of all categories that contain a given key
  * @note
@@ -440,8 +435,8 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array containing a list of categories which contain the key
  * @public
  */
-- (NSArray*)			categoriesContainingKey:(NSString*) key;
-- (NSArray*)			categoriesContainingKey:(NSString*) key withSorting:(BOOL) sortIt;
+- (NSArray*)categoriesContainingKey:(NSString*)key;
+- (NSArray*)categoriesContainingKey:(NSString*)key withSorting:(BOOL)sortIt;
 
 /** @brief Get a list of reserved categories - those that should not be deleted or renamed
  * @note
@@ -451,21 +446,21 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return an array containing a list of the reserved categories 
  * @public
  */
-- (NSArray*)			reservedCategories;
+- (NSArray*)reservedCategories;
 
 /** @brief Test whether there is a category of the given name
  * @param catName the category name
  * @return YES if a category exists with the name, NO otherwise
  * @public
  */
-- (BOOL)				categoryExists:(NSString*) catName;
+- (BOOL)categoryExists:(NSString*)catName;
 
 /** @brief Count how many objects in the category of the given name
  * @param catName the category name
  * @return the number of objects in the category
  * @public
  */
-- (NSUInteger)			countOfObjectsInCategory:(NSString*) catName;
+- (NSUInteger)countOfObjectsInCategory:(NSString*)catName;
 
 /** @brief Query whether a given key is present in a particular category
  * @param key the key
@@ -473,7 +468,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return YES if the category contains <key>, NO if it doesn't
  * @public
  */
-- (BOOL)				key:(NSString*) key existsInCategory:(NSString*) catName;
+- (BOOL)key:(NSString*)key existsInCategory:(NSString*)catName;
 
 // managing recent lists
 
@@ -484,7 +479,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param enable YES to allow new items to be added, NO otherwise
  * @public
  */
-- (void)				setRecentlyAddedListEnabled:(BOOL) enable;
+- (void)setRecentlyAddedListEnabled:(BOOL)enable;
 
 /** @brief Add a key to one of the 'recent' lists
  * @note
@@ -493,7 +488,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param whichList an identifier for the list in question
  * @return return YES if the key was added, otherwise NO (i.e. if list already contains item)
  */
-- (BOOL)				addKey:(NSString*) key toRecentList:(NSInteger) whichList;
+- (BOOL)addKey:(NSString*)key toRecentList:(NSInteger)whichList;
 
 /** @brief Remove a key from one of the 'recent' lists
  * @note
@@ -501,7 +496,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param key the key to remove
  * @param whichList an identifier for the list in question
  */
-- (void)				removeKey:(NSString*) key fromRecentList:(NSInteger) whichList;
+- (void)removeKey:(NSString*)key fromRecentList:(NSInteger)whichList;
 
 /** @brief Sets the maximum length of on eof the 'recent' lists
  * @note
@@ -509,7 +504,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param whichList an identifier for the list in question
  * @param max the maximum length to which a list may grow
  */
-- (void)				setRecentList:(NSInteger) whichList maxItems:(NSUInteger) max;
+- (void)setRecentList:(NSInteger)whichList maxItems:(NSUInteger)max;
 
 // archiving
 
@@ -517,22 +512,22 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return a data object, the archive of the container
  * @public
  */
-- (NSData*)				data;
-- (NSData*)				dataWithFormat:(NSPropertyListFormat) format;
+- (NSData*)data;
+- (NSData*)dataWithFormat:(NSPropertyListFormat)format;
 
 /** @brief Return the filetype (for saving, etc)
  * @note
  * Subclasses should override to change the filetype used for specific examples of this object
  * @public
  */
-- (NSString*)			fileType;
+- (NSString*)fileType;
 
 /** @brief Discard all existing content, then reload from the archive data passed
  * @param data data, being an archive earlier obtained using -data
  * @return YES if the archive could be read, NO otherwise
  * @public
  */
-- (BOOL)				replaceContentsWithData:(NSData*) data;
+- (BOOL)replaceContentsWithData:(NSData*)data;
 
 /** @brief Retain all existing content, and load additional content from the archive data passed
  * @note
@@ -545,7 +540,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return YES if the archive could be read, NO otherwise
  * @public
  */
-- (BOOL)				appendContentsWithData:(NSData*) data;
+- (BOOL)appendContentsWithData:(NSData*)data;
 
 /** @brief Retain all existing content, and load additional content from the cat manager passed
  * @note
@@ -555,7 +550,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param cm a category manager object
  * @public
  */
-- (void)				copyItemsFromCategoryManager:(DKCategoryManager*) cm;
+- (void)copyItemsFromCategoryManager:(DKCategoryManager*)cm;
 
 // supporting UI:
 // menus of just the categories:
@@ -568,7 +563,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return a menu populated with category and other names
  * @public
  */
-- (NSMenu*)				categoriesMenuWithSelector:(SEL) sel target:(id) target;
+- (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target;
 
 /** @brief Creates a menu of categories, recent items and All Items
  * @note
@@ -579,7 +574,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return a menu populated with category and other names
  * @public
  */
-- (NSMenu*)				categoriesMenuWithSelector:(SEL) sel target:(id) target options:(NSInteger) options;
+- (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target options:(NSInteger)options;
 
 /** @brief Sets the checkmarks in a menu of category names to reflect the presence of <key> in those categories
  * @note
@@ -589,7 +584,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param key the key to test against
  * @public
  */
-- (void)				checkItemsInMenu:(NSMenu*) menu forCategoriesContainingKey:(NSString*) key;
+- (void)checkItemsInMenu:(NSMenu*)menu forCategoriesContainingKey:(NSString*)key;
 
 // a menu with everything, organised hierarchically by category. Delegate is called for each new item - see protocol below
 
@@ -611,9 +606,9 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @return a menu object
  * @public
  */
-- (NSMenu*)				createMenuWithItemDelegate:(id) del isPopUpMenu:(BOOL) isPopUp;
-- (NSMenu*)				createMenuWithItemDelegate:(id) del options:(DKCategoryMenuOptions) options;
-- (NSMenu*)				createMenuWithItemDelegate:(id) del itemTarget:(id) target itemAction:(SEL) action options:(DKCategoryMenuOptions) options;
+- (NSMenu*)createMenuWithItemDelegate:(id)del isPopUpMenu:(BOOL)isPopUp;
+- (NSMenu*)createMenuWithItemDelegate:(id)del options:(DKCategoryMenuOptions)options;
+- (NSMenu*)createMenuWithItemDelegate:(id)del itemTarget:(id)target itemAction:(SEL)action options:(DKCategoryMenuOptions)options;
 
 /** @brief Removes the menu from the list of managed menus
  * @note
@@ -622,7 +617,7 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param menu a menu managed by this object
  * @public
  */
-- (void)				removeMenu:(NSMenu*) menu;
+- (void)removeMenu:(NSMenu*)menu;
 
 /** @brief Synchronises the menus to reflect any change of the object referenced by <key>
  * @note
@@ -632,39 +627,38 @@ of items, rebuilding the menus is very time-consuming. This way performance is m
  * @param key an object's key
  * @public
  */
-- (void)				updateMenusForKey:(NSString*) key;
+- (void)updateMenusForKey:(NSString*)key;
 
 @end
 
 // various constants:
 
-enum
-{
-	kDKDefaultMaxRecentArraySize	= 20,
-	kDKListRecentlyAdded			= 0,
-	kDKListRecentlyUsed				= 1
+enum {
+    kDKDefaultMaxRecentArraySize = 20,
+    kDKListRecentlyAdded = 0,
+    kDKListRecentlyUsed = 1
 };
 
 // standard name for "All items" category:
 
-extern NSString*	kDKDefaultCategoryName;
+extern NSString* kDKDefaultCategoryName;
 
-extern NSString*	kDKRecentlyAddedUserString;
-extern NSString*	kDKRecentlyUsedUserString;
+extern NSString* kDKRecentlyAddedUserString;
+extern NSString* kDKRecentlyUsedUserString;
 
-extern NSString*	kDKCategoryManagerWillAddObject;
-extern NSString*	kDKCategoryManagerDidAddObject;
-extern NSString*	kDKCategoryManagerWillRemoveObject;
-extern NSString*	kDKCategoryManagerDidRemoveObject;
-extern NSString*	kDKCategoryManagerDidRenameCategory;
-extern NSString*	kDKCategoryManagerWillAddKeyToCategory;
-extern NSString*	kDKCategoryManagerDidAddKeyToCategory;
-extern NSString*	kDKCategoryManagerWillRemoveKeyFromCategory;
-extern NSString*	kDKCategoryManagerDidRemoveKeyFromCategory;
-extern NSString*	kDKCategoryManagerWillCreateNewCategory;
-extern NSString*	kDKCategoryManagerDidCreateNewCategory;
-extern NSString*	kDKCategoryManagerWillDeleteCategory;
-extern NSString*	kDKCategoryManagerDidDeleteCategory;
+extern NSString* kDKCategoryManagerWillAddObject;
+extern NSString* kDKCategoryManagerDidAddObject;
+extern NSString* kDKCategoryManagerWillRemoveObject;
+extern NSString* kDKCategoryManagerDidRemoveObject;
+extern NSString* kDKCategoryManagerDidRenameCategory;
+extern NSString* kDKCategoryManagerWillAddKeyToCategory;
+extern NSString* kDKCategoryManagerDidAddKeyToCategory;
+extern NSString* kDKCategoryManagerWillRemoveKeyFromCategory;
+extern NSString* kDKCategoryManagerDidRemoveKeyFromCategory;
+extern NSString* kDKCategoryManagerWillCreateNewCategory;
+extern NSString* kDKCategoryManagerDidCreateNewCategory;
+extern NSString* kDKCategoryManagerWillDeleteCategory;
+extern NSString* kDKCategoryManagerDidDeleteCategory;
 
 /*
 
@@ -682,7 +676,7 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 @interface NSObject (CategoryManagerMenuItemDelegate)
 
-- (void)			menuItem:(NSMenuItem*) item wasAddedForObject:(id) object inCategory:(NSString*) category;
+- (void)menuItem:(NSMenuItem*)item wasAddedForObject:(id)object inCategory:(NSString*)category;
 
 @end
 
@@ -690,52 +684,49 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 @interface NSObject (categoryManagerMergeDelegate)
 
-- (id)				categoryManager:(DKCategoryManager*) cm shouldReplaceObject:(id) regObject withObject:(id) docObject;
+- (id)categoryManager:(DKCategoryManager*)cm shouldReplaceObject:(id)regObject withObject:(id)docObject;
 
 @end
 
 // private object used to store menu info - allows efficient management of the menu to match
 // the C/Mgrs contents. Menu creation and management is moved to this class, but API in Cat Manager functions as previously.
 
-@interface DKCategoryManagerMenuInfo : NSObject
-{
+@interface DKCategoryManagerMenuInfo : NSObject {
 @private
-	DKCategoryManager*		mCatManagerRef;					// the category manager that owns this
-	NSMenu*					mTheMenu;						// the menu being managed
-	id						mTargetRef;						// initial target for new menu items
-	id						mCallbackTargetRef;				// delegate for menu items
-	SEL						mSelector;						// initial action for new menu items
-	DKCategoryMenuOptions	mOptions;						// option flags
-	BOOL					mCategoriesOnly;				// YES if the menu just lists the categories and not the category contents
-	NSMenuItem*				mRecentlyUsedMenuItemRef;		// the menu item for "recently used"
-	NSMenuItem*				mRecentlyAddedMenuItemRef;		// the menu item for "recently added"
+    DKCategoryManager* mCatManagerRef; // the category manager that owns this
+    NSMenu* mTheMenu; // the menu being managed
+    id mTargetRef; // initial target for new menu items
+    id mCallbackTargetRef; // delegate for menu items
+    SEL mSelector; // initial action for new menu items
+    DKCategoryMenuOptions mOptions; // option flags
+    BOOL mCategoriesOnly; // YES if the menu just lists the categories and not the category contents
+    NSMenuItem* mRecentlyUsedMenuItemRef; // the menu item for "recently used"
+    NSMenuItem* mRecentlyAddedMenuItemRef; // the menu item for "recently added"
 }
 
-- (id)					initWithCategoryManager:(DKCategoryManager*) mgr itemTarget:(id) target itemAction:(SEL) selector options:(DKCategoryMenuOptions) options;
-- (id)					initWithCategoryManager:(DKCategoryManager*) mgr itemDelegate:(id) delegate options:(DKCategoryMenuOptions) options;
-- (id)					initWithCategoryManager:(DKCategoryManager*) mgr itemDelegate:(id) delegate itemTarget:(id) target itemAction:(SEL) selector options:(DKCategoryMenuOptions) options;
+- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options;
+- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate options:(DKCategoryMenuOptions)options;
+- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options;
 
-- (NSMenu*)				menu;
+- (NSMenu*)menu;
 
-- (void)				addCategory:(NSString*) newCategory;
-- (void)				removeCategory:(NSString*) oldCategory;
-- (void)				renameCategoryWithInfo:(NSDictionary*) info;
-- (void)				addKey:(NSString*) aKey;
-- (void)				addRecentlyAddedOrUsedKey:(NSString*) aKey;
-- (void)				syncRecentlyUsedMenuForKey:(NSString*) aKey;
-- (void)				removeKey:(NSString*) aKey;
-- (void)				checkItemsForKey:(NSString*) key;
-- (void)				updateForKey:(NSString*) key;
-- (void)				removeAll;
+- (void)addCategory:(NSString*)newCategory;
+- (void)removeCategory:(NSString*)oldCategory;
+- (void)renameCategoryWithInfo:(NSDictionary*)info;
+- (void)addKey:(NSString*)aKey;
+- (void)addRecentlyAddedOrUsedKey:(NSString*)aKey;
+- (void)syncRecentlyUsedMenuForKey:(NSString*)aKey;
+- (void)removeKey:(NSString*)aKey;
+- (void)checkItemsForKey:(NSString*)key;
+- (void)updateForKey:(NSString*)key;
+- (void)removeAll;
 
 @end
 
 // this tag is set in every menu item that we create/manage automatically. Normally client code of the menus shouldn't use the tags of these items but instead the represented object,
 // so this tag identifies items that we can freely discard or modify. Any others are left alone, allowing clients to add other items to the menus that won't get disturbed.
 
-enum
-{
-	kDKCategoryManagerManagedMenuItemTag		= -42,
-	kDKCategoryManagerRecentMenuItemTag			= -43
+enum {
+    kDKCategoryManagerManagedMenuItemTag = -42,
+    kDKCategoryManagerRecentMenuItemTag = -43
 };
-

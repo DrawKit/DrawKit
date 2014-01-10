@@ -27,56 +27,53 @@ The undo relay class provides a standard implementation for using KVO to impleme
 to be added as an observer to any observable and given an undo manager. Then it will relay undoable actions from the observed
 objects to the undo manager and vice versa, implementing undo for all keypaths declared by the observee.
 */
-@interface GCObservableObject : NSObject
-{
+@interface GCObservableObject : NSObject {
 @private
-	NSMutableDictionary*	m_oldArrayValues;
+    NSMutableDictionary* m_oldArrayValues;
 }
 
-+ (void)			registerActionName:(NSString*) na forKeyPath:(NSString*) kp objClass:(Class) cl;
-+ (NSString*)		actionNameForKeyPath:(NSString*) kp objClass:(Class) cl;
++ (void)registerActionName:(NSString*)na forKeyPath:(NSString*)kp objClass:(Class)cl;
++ (NSString*)actionNameForKeyPath:(NSString*)kp objClass:(Class)cl;
 
-+ (NSArray*)		observableKeyPaths;
++ (NSArray*)observableKeyPaths;
 
-- (BOOL)			setUpKVOForObserver:(id) object;
-- (BOOL)			tearDownKVOForObserver:(id) object;
+- (BOOL)setUpKVOForObserver:(id)object;
+- (BOOL)tearDownKVOForObserver:(id)object;
 
-- (void)			setUpObservables:(NSArray*) keypaths forObserver:(id) object;
-- (void)			tearDownObservables:(NSArray*) keypaths forObserver:(id) object;
+- (void)setUpObservables:(NSArray*)keypaths forObserver:(id)object;
+- (void)tearDownObservables:(NSArray*)keypaths forObserver:(id)object;
 
-- (void)			registerActionNames;
-- (NSString*)		actionNameForKeyPath:(NSString*) keypath;
-- (NSString*)		actionNameForKeyPath:(NSString*) keypath changeKind:(NSKeyValueChange) kind;
+- (void)registerActionNames;
+- (NSString*)actionNameForKeyPath:(NSString*)keypath;
+- (NSString*)actionNameForKeyPath:(NSString*)keypath changeKind:(NSKeyValueChange)kind;
 
-- (void)			setActionName:(NSString*) name forKeyPath:(NSString*) keypath;
-- (NSArray*)		oldArrayValueForKeyPath:(NSString*) keypath;
+- (void)setActionName:(NSString*)name forKeyPath:(NSString*)keypath;
+- (NSArray*)oldArrayValueForKeyPath:(NSString*)keypath;
 
-- (void)			sendInitialValuesForAllPropertiesToObserver:(id) object context:(void*) context;
+- (void)sendInitialValuesForAllPropertiesToObserver:(id)object context:(void*)context;
 
 @end
 
-#define				kDKChangeKindStringMarkerTag		#kind#
+#define kDKChangeKindStringMarkerTag #kind #
 
 // the observer relay is a simple object that can liaise between any undo manager instance and any class
 // set up as an observer. It also implements the above protocol so that observees are easily able to hook up to it.
 
-@interface GCObserverUndoRelay : NSObject
-{
-	NSUndoManager*		m_um;
+@interface GCObserverUndoRelay : NSObject {
+    NSUndoManager* m_um;
 }
 
-- (void)				setUndoManager:(NSUndoManager*) um;
-- (NSUndoManager*)		undoManager;
+- (void)setUndoManager:(NSUndoManager*)um;
+- (NSUndoManager*)undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  * @param keypath the keypath of the action, relative to the object
  * @param object the real target of the invocation
  * @private
  */
-- (void)				changeKeyPath:(NSString*) keypath ofObject:(id) object toValue:(id) value;
+- (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value;
 
 @end
 
-extern NSString*		kDKObserverRelayDidReceiveChange;
-extern NSString*		kDKObservableKeyPath;
-
+extern NSString* kDKObserverRelayDidReceiveChange;
+extern NSString* kDKObservableKeyPath;

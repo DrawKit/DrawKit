@@ -12,6 +12,6 @@
 
 /** 
  */
-- (void)				addUniqueObjectsFromArray:(NSArray*) array;
+- (void)addUniqueObjectsFromArray:(NSArray*)array;
 
 @end

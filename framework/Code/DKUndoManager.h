@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GCUndoManager.h"
 
-#define	USE_GC_UNDO_MANAGER		1
+#define USE_GC_UNDO_MANAGER 1
 
 #if USE_GC_UNDO_MANAGER
 
@@ -31,43 +31,41 @@ and close the group at mouse up without creating bogus stack states.
 */
 @interface DKUndoManager : GCUndoManager
 
-- (BOOL)			enableUndoTaskCoalescing:(BOOL) enable;
+- (BOOL)enableUndoTaskCoalescing:(BOOL)enable;
 
 @end
 
 #else
 
-@interface DKUndoManager : NSUndoManager
-{
+@interface DKUndoManager : NSUndoManager {
 @private
-	BOOL			mCoalescingEnabled;
-	BOOL			mEmulate105Behaviour;
-	id				mSkipTargetRef;
-	id				mLastTargetRef;
-	NSUInteger		mChangeCount;
-	NSUInteger		mChangePerGroupCount;
-	BOOL			mInPrivateMethod;
-	BOOL			mSkipTask;
-	SEL				mLastSelector;
-	id				mTarget;
+    BOOL mCoalescingEnabled;
+    BOOL mEmulate105Behaviour;
+    id mSkipTargetRef;
+    id mLastTargetRef;
+    NSUInteger mChangeCount;
+    NSUInteger mChangePerGroupCount;
+    BOOL mInPrivateMethod;
+    BOOL mSkipTask;
+    SEL mLastSelector;
+    id mTarget;
 }
 
-- (BOOL)			enableUndoTaskCoalescing:(BOOL) enable;
-- (BOOL)			isUndoTaskCoalescingEnabled;
+- (BOOL)enableUndoTaskCoalescing:(BOOL)enable;
+- (BOOL)isUndoTaskCoalescingEnabled;
 
-- (NSUInteger)		changeCount;
-- (void)			resetChangeCount;
+- (NSUInteger)changeCount;
+- (void)resetChangeCount;
 
-- (NSUInteger)		numberOfTasksInLastGroup;
+- (NSUInteger)numberOfTasksInLastGroup;
 
-- (void)			enableSnowLeopardBackwardCompatibility:(BOOL) slpEnable;
-- (void)			invokeEmbeddedInvocation:(NSInvocation*) invocation;
+- (void)enableSnowLeopardBackwardCompatibility:(BOOL)slpEnable;
+- (void)invokeEmbeddedInvocation:(NSInvocation*)invocation;
 
-- (BOOL)			hasStupidIncompatibleSnowLeopardChange;
+- (BOOL)hasStupidIncompatibleSnowLeopardChange;
 
-- (void)			reset;
+- (void)reset;
 
 @end
 
 #endif
-

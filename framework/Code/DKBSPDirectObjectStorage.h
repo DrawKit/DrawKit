@@ -20,18 +20,17 @@ This uses a similar algorithm to DKBSPObjectStorage but instead of indexing the 
 
  The trade-off here is that drawing speed should be faster but object insertion, deletion and changing of Z-position may be slower.
 */
-@interface DKBSPDirectObjectStorage : DKLinearObjectStorage
-{
+@interface DKBSPDirectObjectStorage : DKLinearObjectStorage {
 @private
-	DKBSPDirectTree*	mTree;
-	NSUInteger			mTreeDepth;
-	NSUInteger			mLastItemCount;
-	BOOL				mAutoRebuild;
+    DKBSPDirectTree* mTree;
+    NSUInteger mTreeDepth;
+    NSUInteger mLastItemCount;
+    BOOL mAutoRebuild;
 }
 
-- (void)			setTreeDepth:(NSUInteger) aDepth;
-- (id)				tree;
-- (NSBezierPath*)	debugStorageDivisions;
+- (void)setTreeDepth:(NSUInteger)aDepth;
+- (id)tree;
+- (NSBezierPath*)debugStorageDivisions;
 
 @end
 
@@ -39,26 +38,24 @@ This uses a similar algorithm to DKBSPObjectStorage but instead of indexing the 
 
 /// tree object
 
-@interface DKBSPDirectTree : DKBSPIndexTree
-{
+@interface DKBSPDirectTree : DKBSPIndexTree {
 @public
-	id<DKStorableObject>	mObj;
-	NSMutableArray*			mFoundObjects;
-	NSUInteger				mObjectCount;
-	NSView*					mViewRef;
-	NSRect					mRect;
+    id<DKStorableObject> mObj;
+    NSMutableArray* mFoundObjects;
+    NSUInteger mObjectCount;
+    NSView* mViewRef;
+    NSRect mRect;
 }
 
-- (void)			insertItem:(id<DKStorableObject>) obj withRect:(NSRect) rect;
-- (void)			removeItem:(id<DKStorableObject>) obj withRect:(NSRect) rect;
-- (void)			removeAllObjects;
-- (NSUInteger)		count;
+- (void)insertItem:(id<DKStorableObject>)obj withRect:(NSRect)rect;
+- (void)removeItem:(id<DKStorableObject>)obj withRect:(NSRect)rect;
+- (void)removeAllObjects;
+- (NSUInteger)count;
 
 // tree returns mutable results so that they can be sorted in place without needing to be copied
 
-- (NSMutableArray*)	objectsIntersectingRects:(const NSRect*) rects count:(NSUInteger) count inView:aView;
-- (NSMutableArray*)	objectsIntersectingRect:(NSRect) rect;
-- (NSMutableArray*)	objectsIntersectingPoint:(NSPoint) point;
+- (NSMutableArray*)objectsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count inView:aView;
+- (NSMutableArray*)objectsIntersectingRect:(NSRect)rect;
+- (NSMutableArray*)objectsIntersectingPoint:(NSPoint)point;
 
 @end
-

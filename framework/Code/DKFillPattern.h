@@ -15,54 +15,52 @@ This object represents a pattern consisting of a repeated motif spaced out at in
 This subclasses DKPathDecorator which carries out the bulk of the work - it stores the image and caches it, this
 just sets up the path clipping and calls the rendering method for each location of the repeating pattern.
 */
-@interface DKFillPattern : DKPathDecorator <NSCoding, NSCopying>
-{
+@interface DKFillPattern : DKPathDecorator <NSCoding, NSCopying> {
 @private
-	CGFloat				m_altYOffset;
-	CGFloat				m_altXOffset;
-	CGFloat				m_angle;
-	CGFloat				m_objectAngle;
-	CGFloat				m_motifAngle;
-	CGFloat				mMotifAngleRandomness;
-	BOOL				m_angleRelativeToObject;
-	BOOL				m_motifAngleRelativeToPattern;
-	BOOL				m_noClippedElements;
-	NSMutableArray*		mMotifAngleRandCache;
+    CGFloat m_altYOffset;
+    CGFloat m_altXOffset;
+    CGFloat m_angle;
+    CGFloat m_objectAngle;
+    CGFloat m_motifAngle;
+    CGFloat mMotifAngleRandomness;
+    BOOL m_angleRelativeToObject;
+    BOOL m_motifAngleRelativeToPattern;
+    BOOL m_noClippedElements;
+    NSMutableArray* mMotifAngleRandCache;
 }
 
 /** 
  */
-+ (DKFillPattern*)	defaultPattern;
-+ (DKFillPattern*)	fillPatternWithImage:(NSImage*) image;
++ (DKFillPattern*)defaultPattern;
++ (DKFillPattern*)fillPatternWithImage:(NSImage*)image;
 
-- (void)			setPatternAlternateOffset:(NSSize) altOffset;
-- (NSSize)			patternAlternateOffset;
+- (void)setPatternAlternateOffset:(NSSize)altOffset;
+- (NSSize)patternAlternateOffset;
 
-- (void)			fillRect:(NSRect) rect;
-- (void)			drawPatternInPath:(NSBezierPath*) aPath;
+- (void)fillRect:(NSRect)rect;
+- (void)drawPatternInPath:(NSBezierPath*)aPath;
 
-- (void)			setAngle:(CGFloat) radians;
-- (CGFloat)			angle;
-- (void)			setAngleInDegrees:(CGFloat) degrees;
-- (CGFloat)			angleInDegrees;
+- (void)setAngle:(CGFloat)radians;
+- (CGFloat)angle;
+- (void)setAngleInDegrees:(CGFloat)degrees;
+- (CGFloat)angleInDegrees;
 
-- (void)			setAngleIsRelativeToObject:(BOOL) relAngle;
-- (BOOL)			angleIsRelativeToObject;
+- (void)setAngleIsRelativeToObject:(BOOL)relAngle;
+- (BOOL)angleIsRelativeToObject;
 
-- (void)			setMotifAngle:(CGFloat) radians;
-- (CGFloat)			motifAngle;
-- (void)			setMotifAngleInDegrees:(CGFloat) degrees;
-- (CGFloat)			motifAngleInDegrees;
-- (void)			setMotifAngleRandomness:(CGFloat) maRand;
-- (CGFloat)			motifAngleRandomness;
+- (void)setMotifAngle:(CGFloat)radians;
+- (CGFloat)motifAngle;
+- (void)setMotifAngleInDegrees:(CGFloat)degrees;
+- (CGFloat)motifAngleInDegrees;
+- (void)setMotifAngleRandomness:(CGFloat)maRand;
+- (CGFloat)motifAngleRandomness;
 
-- (void)			setMotifAngleIsRelativeToPattern:(BOOL) mrel;
-- (BOOL)			motifAngleIsRelativeToPattern;
+- (void)setMotifAngleIsRelativeToPattern:(BOOL)mrel;
+- (BOOL)motifAngleIsRelativeToPattern;
 
-- (void)			setDrawingOfClippedElementsSupressed:(BOOL) suppress;
-- (BOOL)			drawingOfClippedElementsSupressed;
+- (void)setDrawingOfClippedElementsSupressed:(BOOL)suppress;
+- (BOOL)drawingOfClippedElementsSupressed;
 
 @end
 
 extern NSString* kDKDrawingViewDidChangeScale;
-

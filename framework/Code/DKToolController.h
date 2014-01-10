@@ -12,13 +12,11 @@
 
 // this type is used to set the scope of tools within a DK application:
 
-typedef enum
-{
-	kDKToolScopeLocalToView		= 0,		// tools can be individually set per view
-	kDKToolScopeLocalToDocument	= 1,		// tools are set individually for the document, the same tool in all views of that document (default)
-	kDKToolScopeGlobal			= 2			// tools are set globally for the whole application
-}
-DKDrawingToolScope;
+typedef enum {
+    kDKToolScopeLocalToView = 0, // tools can be individually set per view
+    kDKToolScopeLocalToDocument = 1, // tools are set individually for the document, the same tool in all views of that document (default)
+    kDKToolScopeGlobal = 2 // tools are set globally for the whole application
+} DKDrawingToolScope;
 
 // controller class:
 
@@ -56,14 +54,13 @@ tool and set it. As a convenience, the -selectDrawingToolByName: action method w
 set the tool if one exists in the registry with this name - thus a palette of buttons for example can just set each button title to the
 tool's name and target first responder with this action.
 */
-@interface DKToolController : DKViewController
-{
+@interface DKToolController : DKViewController {
 @private
-	DKDrawingTool*		mTool;				// the current tool if stored locally
-	BOOL				mAutoRevert;		// YES to "spring" tool back to selection after each one completes
-	NSInteger			mPartcode;			// partcode to pass back during mouse ops
-	BOOL				mOpenedUndoGroup;	// YES if an undo group was requested by the tool at some point
-	BOOL				mAbortiveMouseDown;	// YES flagged after exception during mouse down - rejects drag and up events
+    DKDrawingTool* mTool; // the current tool if stored locally
+    BOOL mAutoRevert; // YES to "spring" tool back to selection after each one completes
+    NSInteger mPartcode; // partcode to pass back during mouse ops
+    BOOL mOpenedUndoGroup; // YES if an undo group was requested by the tool at some point
+    BOOL mAbortiveMouseDown; // YES flagged after exception during mouse down - rejects drag and up events
 }
 
 /** @brief Set the operating scope for tools for this application
@@ -75,7 +72,7 @@ tool's name and target first responder with this action.
  * @param scope the operating scope for tools
  * @public
  */
-+ (void)				setDrawingToolOperatingScope:(DKDrawingToolScope) scope;
++ (void)setDrawingToolOperatingScope:(DKDrawingToolScope)scope;
 
 /** @brief Return the operating scope for tools for this application
  * @note
@@ -85,7 +82,7 @@ tool's name and target first responder with this action.
  * @return the operating scope for tools
  * @public
  */
-+ (DKDrawingToolScope)	drawingToolOperatingScope;
++ (DKDrawingToolScope)drawingToolOperatingScope;
 
 /** @brief Set whether setting a tool will auto-activate a layer appropriate to the tool
  * @note
@@ -95,7 +92,7 @@ tool's name and target first responder with this action.
  * @param autoActivate YES to autoactivate, NO otherwise
  * @public
  */
-+ (void)				setToolsAutoActivateValidLayer:(BOOL) autoActivate;
++ (void)setToolsAutoActivateValidLayer:(BOOL)autoActivate;
 
 /** @brief Return whether setting a tool will auto-activate a layer appropriate to the tool
  * @note
@@ -105,7 +102,7 @@ tool's name and target first responder with this action.
  * @return YES if tools auto-activate appropriate layer, NO if not
  * @public
  */
-+ (BOOL)				toolsAutoActivateValidLayer;
++ (BOOL)toolsAutoActivateValidLayer;
 
 /** @brief Sets the current drawing tool
  * @note
@@ -113,7 +110,7 @@ tool's name and target first responder with this action.
  * @param aTool the tool to set
  * @public
  */
-- (void)				setDrawingTool:(DKDrawingTool*) aTool;
+- (void)setDrawingTool:(DKDrawingTool*)aTool;
 
 /** @brief Select the tool using its registered name
  * @note
@@ -122,7 +119,7 @@ tool's name and target first responder with this action.
  * @param name the registered name of the required tool
  * @public
  */
-- (void)				setDrawingToolWithName:(NSString*) name;
+- (void)setDrawingToolWithName:(NSString*)name;
 
 /** @brief Return the current drawing tool
  * @note
@@ -130,7 +127,7 @@ tool's name and target first responder with this action.
  * @return the current tool
  * @public
  */
-- (DKDrawingTool*)		drawingTool;
+- (DKDrawingTool*)drawingTool;
 
 /** @brief Check if the tool can be set for the current active layer
  * @note
@@ -142,7 +139,7 @@ tool's name and target first responder with this action.
  * @return YES if the tool can be applied to the current active layer, NO if not
  * @public
  */
-- (BOOL)				canSetDrawingTool:(DKDrawingTool*) aTool;
+- (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool;
 
 /** @brief Set whether the tool should automatically "spring back" to the selection tool after each application
  * @note
@@ -150,7 +147,7 @@ tool's name and target first responder with this action.
  * @param reverts YES to spring back, NO to leave the present tool active after each use
  * @public
  */
-- (void)				setAutomaticallyRevertsToSelectionTool:(BOOL) reverts;
+- (void)setAutomaticallyRevertsToSelectionTool:(BOOL)reverts;
 
 /** @brief Whether the tool should automatically "spring back" to the selection tool after each application
  * @note
@@ -158,7 +155,7 @@ tool's name and target first responder with this action.
  * @return YES to spring back, NO to leave the present tool active after each use
  * @public
  */
-- (BOOL)				automaticallyRevertsToSelectionTool;
+- (BOOL)automaticallyRevertsToSelectionTool;
 
 /** @brief Select the tool using its registered name based on the title of a UI control, etc.
  * @note
@@ -169,7 +166,7 @@ tool's name and target first responder with this action.
  * @param sender the sender of the action - it should implement -title (e.g. a button, menu item)
  * @public
  */
-- (IBAction)			selectDrawingToolByName:(id) sender;
+- (IBAction)selectDrawingToolByName:(id)sender;
 
 /** @brief Select the tool using the represented object of a UI control, etc.
  * @note
@@ -179,7 +176,7 @@ tool's name and target first responder with this action.
  * @param sender the sender of the action - it should implement -representedObject (e.g. a button, menu item)
  * @public
  */
-- (IBAction)			selectDrawingToolByRepresentedObject:(id) sender;
+- (IBAction)selectDrawingToolByRepresentedObject:(id)sender;
 
 /** @brief Toggle the state of the automatic tool "spring" behaviour.
  * @note
@@ -188,14 +185,14 @@ tool's name and target first responder with this action.
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)			toggleAutoRevertAction:(id) sender;
+- (IBAction)toggleAutoRevertAction:(id)sender;
 
-- (id)					undoManager;
+- (id)undoManager;
 
 /** @brief Opens a new undo manager group if one has not already been opened
  * @public
  */
-- (void)				openUndoGroup;
+- (void)openUndoGroup;
 
 /** @brief Closes the current undo manager group if one has been opened
  * @note
@@ -204,21 +201,20 @@ tool's name and target first responder with this action.
  * the erroneous task is removed from the stack by invoking undo while temporarily disabling the UM.
  * @public
  */
-- (void)				closeUndoGroup;
+- (void)closeUndoGroup;
 
 @end
 
 // notifications:
 
-extern NSString*		kDKWillChangeToolNotification;
-extern NSString*		kDKDidChangeToolNotification;
-extern NSString*		kDKDidChangeToolAutoRevertStateNotification;
+extern NSString* kDKWillChangeToolNotification;
+extern NSString* kDKDidChangeToolNotification;
+extern NSString* kDKDidChangeToolAutoRevertStateNotification;
 
 // defaults keys:
 
-extern NSString*		kDKDrawingToolAutoActivatesLayerDefaultsKey;
+extern NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey;
 
 // constants:
 
-extern NSString*		kDKStandardSelectionToolName;
-
+extern NSString* kDKStandardSelectionToolName;

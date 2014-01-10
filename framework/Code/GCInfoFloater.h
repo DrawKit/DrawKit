@@ -15,28 +15,26 @@ as a single numeric value.
 By positioning this next to the mouse and supplying it with info, you can enhance the usability of some kinds of
 user interaction.
 */
-@interface GCInfoFloater : NSWindow
-{
+@interface GCInfoFloater : NSWindow {
 @private
-	NSControl*		m_infoViewRef;
-	NSSize			m_wOffset;
+    NSControl* m_infoViewRef;
+    NSSize m_wOffset;
 }
 
 /** 
  */
-+ (GCInfoFloater*)	infoFloater;
++ (GCInfoFloater*)infoFloater;
 
-- (void)			setFloatValue:(float) val;
-- (void)			setDoubleValue:(double) val;
-- (void)			setStringValue:(NSString*) str;
+- (void)setFloatValue:(float)val;
+- (void)setDoubleValue:(double)val;
+- (void)setStringValue:(NSString*)str;
 
-- (void)			setFormat:(NSString*) fmt;
-- (void)			setWindowOffset:(NSSize) offset;
-- (void)			positionNearPoint:(NSPoint) p inView:(NSView*) v;
-- (void)			positionAtScreenPoint:(NSPoint) sp;
+- (void)setFormat:(NSString*)fmt;
+- (void)setWindowOffset:(NSSize)offset;
+- (void)positionNearPoint:(NSPoint)p inView:(NSView*)v;
+- (void)positionAtScreenPoint:(NSPoint)sp;
 
-- (void)			show;
-- (void)			hide;
+- (void)show;
+- (void)hide;
 
 @end
-

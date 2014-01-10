@@ -18,25 +18,24 @@ to retain the semantics of a normal copy, the object returned is not autorelease
 */
 @interface NSDictionary (DeepCopy)
 
-- (NSDictionary*)		deepCopy;
+- (NSDictionary*)deepCopy;
 
 @end
 
 @interface NSArray (DeepCopy)
 
-- (NSArray*)			deepCopy;
+- (NSArray*)deepCopy;
 
 @end
 
 @interface NSObject (DeepCopy)
 
-- (id)					deepCopy;
+- (id)deepCopy;
 
 @end
 
 @interface NSMutableArray (DeepCopy)
 
-- (NSMutableArray*)		deepCopy;
+- (NSMutableArray*)deepCopy;
 
 @end
-

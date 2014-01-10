@@ -10,29 +10,29 @@
 
 @implementation DKOnPathPointHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKOnPathKnobType;
+    return kDKOnPathKnobType;
 }
 
-+ (NSBezierPath*)		pathWithSize:(NSSize) size
++ (NSBezierPath*)pathWithSize:(NSSize)size
 {
-	return [NSBezierPath bezierPathWithOvalInRect:NSMakeRect( 0, 0, size.width, size.height )];
+    return [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(0, 0, size.width, size.height)];
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor orangeColor];
+    return [NSColor orangeColor];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return nil;
+    return nil;
 }
 
-+ (CGFloat)				scaleFactor
++ (CGFloat)scaleFactor
 {
-	return 0.85;
+    return 0.85;
 }
 
 @end
@@ -41,19 +41,19 @@
 
 @implementation DKLockedOnPathPointHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKOnPathKnobType | kDKKnobIsDisabledFlag;
+    return kDKOnPathKnobType | kDKKnobIsDisabledFlag;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor whiteColor];
+    return [NSColor whiteColor];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return [NSColor grayColor];
+    return [NSColor grayColor];
 }
 
 @end
@@ -62,19 +62,19 @@
 
 @implementation DKInactiveOnPathPointHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKOnPathKnobType | kDKKnobIsInactiveFlag;
+    return kDKOnPathKnobType | kDKKnobIsInactiveFlag;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor lightGrayColor];
+    return [NSColor lightGrayColor];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return [NSColor grayColor];
+    return [NSColor grayColor];
 }
 
 @end
@@ -83,14 +83,14 @@
 
 @implementation DKOffPathPointHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKControlPointKnobType;
+    return kDKControlPointKnobType;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor cyanColor];
+    return [NSColor cyanColor];
 }
 
 @end
@@ -99,14 +99,14 @@
 
 @implementation DKLockedOffPathPointHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKControlPointKnobType | kDKKnobIsDisabledFlag;
+    return kDKControlPointKnobType | kDKKnobIsDisabledFlag;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor lightGrayColor];
+    return [NSColor lightGrayColor];
 }
 
 @end
@@ -115,20 +115,19 @@
 
 @implementation DKInactiveOffPathPointHandle
 
-+ (DKKnobType)			type
++ (DKKnobType)type
 {
-	return kDKControlPointKnobType | kDKKnobIsInactiveFlag;
+    return kDKControlPointKnobType | kDKKnobIsInactiveFlag;
 }
 
-+ (NSColor*)			fillColour
++ (NSColor*)fillColour
 {
-	return [NSColor lightGrayColor];
+    return [NSColor lightGrayColor];
 }
 
-+ (NSColor*)			strokeColour
++ (NSColor*)strokeColour
 {
-	return [NSColor grayColor];
+    return [NSColor grayColor];
 }
 
 @end
-

@@ -25,20 +25,20 @@
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
+#define YYTOKENTYPE
+/* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
-   enum yytokentype {
-     TK_ERR = 128,
-     TK_EOF = 129,
-     TK_Identifier = 130,
-     TK_Integer = 131,
-     TK_Real = 132,
-     TK_Hex = 133,
-     TK_Keyword = 134,
-     TK_String = 135,
-     TK_Keypath = 136
-   };
+enum yytokentype {
+    TK_ERR = 128,
+    TK_EOF = 129,
+    TK_Identifier = 130,
+    TK_Integer = 131,
+    TK_Real = 132,
+    TK_Hex = 133,
+    TK_Keyword = 134,
+    TK_String = 135,
+    TK_Keypath = 136
+};
 #endif
 #define TK_ERR 128
 #define TK_EOF 129
@@ -50,31 +50,21 @@
 #define TK_String 135
 #define TK_Keypath 136
 
-
-
-
-#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
+#if !defined(YYSTYPE) && !defined(YYSTYPE_IS_DECLARED)
 typedef NSInteger YYSTYPE;
-# define yystype YYSTYPE /* obsolescent; will be withdrawn */
-# define YYSTYPE_IS_DECLARED 1
-# define YYSTYPE_IS_TRIVIAL 1
+#define yystype YYSTYPE /* obsolescent; will be withdrawn */
+#define YYSTYPE_IS_DECLARED 1
+#define YYSTYPE_IS_TRIVIAL 1
 #endif
 
-
-
-#if ! defined (YYLTYPE) && ! defined (YYLTYPE_IS_DECLARED)
-typedef struct YYLTYPE
-{
-  NSInteger first_line;
-  NSInteger first_column;
-  NSInteger last_line;
-  NSInteger last_column;
+#if !defined(YYLTYPE) && !defined(YYLTYPE_IS_DECLARED)
+typedef struct YYLTYPE {
+    NSInteger first_line;
+    NSInteger first_column;
+    NSInteger last_line;
+    NSInteger last_column;
 } YYLTYPE;
-# define yyltype YYLTYPE /* obsolescent; will be withdrawn */
-# define YYLTYPE_IS_DECLARED 1
-# define YYLTYPE_IS_TRIVIAL 1
+#define yyltype YYLTYPE /* obsolescent; will be withdrawn */
+#define YYLTYPE_IS_DECLARED 1
+#define YYLTYPE_IS_TRIVIAL 1
 #endif
-
-
-
-

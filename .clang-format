@@ -1,0 +1,10 @@
+# http://clang.llvm.org/docs/ClangFormatStyleOptions.html
+
+# See http://www.webkit.org/coding/coding-style.html
+BasedOnStyle: WebKit
+
+# Do not wrap columns
+ColumnLimit: 0
+
+# Detect C++ version
+Standard: Auto

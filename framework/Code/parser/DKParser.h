@@ -15,59 +15,55 @@
 
 @class DKExpression;
 
+@interface DKParser : NSObject {
+    Scanner scanr;
+    NSMutableDictionary* mFactories;
+    NSMutableArray* mParseStack;
+    id mDelegate;
 
-@interface DKParser : NSObject
-{
-	Scanner					scanr;
-	NSMutableDictionary*	mFactories;
-	NSMutableArray*			mParseStack;
-	id						mDelegate;
-	
-	// Formatters
-	NSNumberFormatter*		numberFormatter;
-	
-	// Processing flags
-	BOOL					throwErrorIfMissingFactory;
+    // Formatters
+    NSNumberFormatter* numberFormatter;
+
+    // Processing flags
+    BOOL throwErrorIfMissingFactory;
 }
 
-- (void)			registerFactoryClass:(id) fClass forKey:(NSString*) key;
+- (void)registerFactoryClass:(id)fClass forKey:(NSString*)key;
 
-- (id)				parseContentsOfFile:(NSString*) filename;
-- (id)				parseString:(NSString*) inString;
+- (id)parseContentsOfFile:(NSString*)filename;
+- (id)parseString:(NSString*)inString;
 
-- (id)				delegate;
-- (void)			setDelegate:(id) anObject;
+- (id)delegate;
+- (void)setDelegate:(id)anObject;
 
 // Settings
--(void)				setThrowErrorIfMissingFactory:(BOOL) flag;
--(BOOL)				willThrowErrorIfMissingFactory;
+- (void)setThrowErrorIfMissingFactory:(BOOL)flag;
+- (BOOL)willThrowErrorIfMissingFactory;
 
 // Parser interface
-- (id)				currentToken;
+- (id)currentToken;
 
-- (NSArray*)		parseStack;
+- (NSArray*)parseStack;
 
-- (void)			push:(id) value;
-- (id)				pop;
-- (id)				instantiate:(NSString*) type;
-- (void)			setNodeValue:(id) value forKey:(NSString*) key;
-- (void)			addNode:(id) node;
+- (void)push:(id)value;
+- (id)pop;
+- (id)instantiate:(NSString*)type;
+- (void)setNodeValue:(id)value forKey:(NSString*)key;
+- (void)addNode:(id)node;
 
 @end
 
 @interface DKParser (ParserDebugging)
 
-- (void)			setGrammarDebug:(BOOL) flag;
+- (void)setGrammarDebug:(BOOL)flag;
 
 @end
-
 
 @interface NSObject (DKParserProtocols)
 
-- (id)				initWithExpression:(DKExpression*) params;
-- (id)				instantiateObjectWithShortName:(NSString*) shortname parameters:(DKExpression*) dict;
+- (id)initWithExpression:(DKExpression*)params;
+- (id)instantiateObjectWithShortName:(NSString*)shortname parameters:(DKExpression*)dict;
 
 @end
-
 
 #define TK_NO_TOKEN (-1)

@@ -19,13 +19,13 @@
  * @return a new autoreleased cluster object, which should be added to a suitable drawing layer before use
  * @public
  */
-+ (DKShapeCluster*)		clusterWithObjects:(NSArray*) objects masterObject:(DKDrawableShape*) master;
++ (DKShapeCluster*)clusterWithObjects:(NSArray*)objects masterObject:(DKDrawableShape*)master;
 {
-	DKShapeCluster* cluster = [[DKShapeCluster alloc] initWithObjectsInArray:objects];
+    DKShapeCluster* cluster = [[DKShapeCluster alloc] initWithObjectsInArray:objects];
 
-	[cluster setMasterObject:master];
-	
-	return [cluster autorelease];
+    [cluster setMasterObject:master];
+
+    return [cluster autorelease];
 }
 
 #pragma mark -
@@ -36,26 +36,28 @@
  * @param master the master object
  * @public
  */
-- (void)				setMasterObject:(DKDrawableShape*) master
+- (void)setMasterObject:(DKDrawableShape*)master
 {
-	if ([[self groupObjects] containsObject:master])
-	{
-		m_masterObjRef = master;	// not retained
-		
-		// sets the cluster's rotation centre to the master object's location
-		
-		NSPoint cp = [self convertPointToContainer:[master location]];
-		[super moveKnob:kDKDrawableShapeOriginTarget toPoint:cp allowRotate:NO constrain:NO];
-	}
+    if ([[self groupObjects] containsObject:master]) {
+        m_masterObjRef = master; // not retained
+
+        // sets the cluster's rotation centre to the master object's location
+
+        NSPoint cp = [self convertPointToContainer:[master location]];
+        [super moveKnob:kDKDrawableShapeOriginTarget
+                toPoint:cp
+            allowRotate:NO
+              constrain:NO];
+    }
 }
 
 /** @brief What is the cluster's master object?
  * @return the master object for this cluster
  * @public
  */
-- (DKDrawableShape*)	masterObject
+- (DKDrawableShape*)masterObject
 {
-	return m_masterObjRef;
+    return m_masterObjRef;
 }
 
 #pragma mark -
@@ -67,28 +69,30 @@
  * @param constrain YES to constrain aspect ratio
  * @private
  */
-- (void)				moveKnob:(NSInteger) knobPartCode toPoint:(NSPoint) p allowRotate:(BOOL) rotate constrain:(BOOL) constrain
+- (void)moveKnob:(NSInteger)knobPartCode toPoint:(NSPoint)p allowRotate:(BOOL)rotate constrain:(BOOL)constrain
 {
-	// the cluster as a whole must be resized/rotated but the mouse point is operating on the master object. Thus the point must
-	// be mapped to the equivalent partcode on the cluster itself.
-	
-	NSPoint np = p;
-	
-	if ( knobPartCode != kDKDrawableShapeOriginTarget )
-	{
-		NSPoint	mk = [[self masterObject] pointForPartcode:knobPartCode];
-		
-		CGFloat dx, dy;
-		
-		dx = p.x - mk.x;
-		dy = p.y - mk.y;
-		
-		np = [self pointForPartcode:knobPartCode];
-		
-		np.x += dx;
-		np.y += dy;
-	}
-	[super moveKnob:knobPartCode toPoint:np allowRotate:rotate constrain:constrain];
+    // the cluster as a whole must be resized/rotated but the mouse point is operating on the master object. Thus the point must
+    // be mapped to the equivalent partcode on the cluster itself.
+
+    NSPoint np = p;
+
+    if (knobPartCode != kDKDrawableShapeOriginTarget) {
+        NSPoint mk = [[self masterObject] pointForPartcode:knobPartCode];
+
+        CGFloat dx, dy;
+
+        dx = p.x - mk.x;
+        dy = p.y - mk.y;
+
+        np = [self pointForPartcode:knobPartCode];
+
+        np.x += dx;
+        np.y += dy;
+    }
+    [super moveKnob:knobPartCode
+            toPoint:np
+        allowRotate:rotate
+          constrain:constrain];
 }
 
 /** @brief Sets the shape's offset to the location of the given knob partcode, after saving the current offset
@@ -97,22 +101,22 @@
  * @param part a knob partcode
  * @private
  */
-- (void)				setDragAnchorToPart:(NSInteger) part
+- (void)setDragAnchorToPart:(NSInteger)part
 {
-	[super setDragAnchorToPart:part];
-	
-	NSPoint p = [[self masterObject] knobPoint:part];
-	NSAffineTransform* ti = [self transformIncludingParent];
-	[ti invert];
-	
-	p = [ti transformPoint:p];
-	
-	NSSize	offs;
-	
-	offs.width = p.x;
-	offs.height = p.y;
-	
-	[self setOffset:offs];
+    [super setDragAnchorToPart:part];
+
+    NSPoint p = [[self masterObject] knobPoint:part];
+    NSAffineTransform* ti = [self transformIncludingParent];
+    [ti invert];
+
+    p = [ti transformPoint:p];
+
+    NSSize offs;
+
+    offs.width = p.x;
+    offs.height = p.y;
+
+    [self setOffset:offs];
 }
 
 #pragma mark -
@@ -120,21 +124,21 @@
 
 /** @brief Draw the cluster in its selected state
  */
-- (void)				drawSelectedState
+- (void)drawSelectedState
 {
-	/*
+    /*
 	NSBezierPath* pp = [NSBezierPath bezierPathWithRect:[self canonicalPathBounds]];
 
 	[pp transformUsingAffineTransform:[self transformIncludingParent]];
 	[[[NSColor lightGrayColor] colorWithAlphaComponent:0.1] set];
 	[pp fill];
 	*/
-	
-	[[self masterObject] drawSelectedState];
-	[self drawKnob:kDKDrawableShapeOriginTarget];
-	
-	if ( m_inRotateOp )
-		[super drawSelectedState];
+
+    [[self masterObject] drawSelectedState];
+    [self drawKnob:kDKDrawableShapeOriginTarget];
+
+    if (m_inRotateOp)
+        [super drawSelectedState];
 }
 
 /** @brief Detects which part of the cluster was hit
@@ -144,9 +148,10 @@
  * @param snap YES if detecting a snap to object, NO otherwise
  * @return a number which is the partcode hit
  */
-- (NSInteger)					hitSelectedPart:(NSPoint) mp forSnapDetection:(BOOL) snap
+- (NSInteger)hitSelectedPart:(NSPoint)mp forSnapDetection:(BOOL)snap
 {
-	return [[self masterObject] hitSelectedPart:mp forSnapDetection:snap];
+    return [[self masterObject] hitSelectedPart:mp
+                               forSnapDetection:snap];
 }
 
 /** @brief Gets the location of the rotation knob
@@ -155,28 +160,27 @@
  * @return a point, the position of the rotation knob
  * @private
  */
-- (NSPoint)				rotationKnobPoint
+- (NSPoint)rotationKnobPoint
 {
-	return [[self masterObject] rotationKnobPoint];
+    return [[self masterObject] rotationKnobPoint];
 }
 
 /** @brief When the cluster's style is set, the master object gets it
  * @param aStyle a style object
  * @public
  */
-- (void)				setStyle:(DKStyle*) aStyle
+- (void)setStyle:(DKStyle*)aStyle
 {
-	[[self masterObject] setStyle:aStyle];
+    [[self masterObject] setStyle:aStyle];
 }
 
 /** @brief Returns the master object's style
  * @return the current style
  * @public
  */
-- (DKStyle*)		style
+- (DKStyle*)style
 {
-	return [[self masterObject] style];
+    return [[self masterObject] style];
 }
 
 @end
-

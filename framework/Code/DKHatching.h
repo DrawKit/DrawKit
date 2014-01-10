@@ -21,23 +21,22 @@ The hatch is cached in an NSBezierPath object based on the bounds of the path. I
 than the cached size, it is not rebuilt. It is rebuilt if the angle or spacing changes or a bigger path is hatched. Linewidth also
 doesn't change the cache.
 */
-@interface DKHatching : DKRasterizer <NSCoding, NSCopying>
-{
+@interface DKHatching : DKRasterizer <NSCoding, NSCopying> {
 @private
-	NSBezierPath*	m_cache;
-	NSBezierPath*	mRoughenedCache;
-	NSColor*		m_hatchColour;
-	DKStrokeDash*	m_hatchDash;
-	NSLineCapStyle	m_cap;
-	NSLineJoinStyle	m_join;
-	CGFloat			m_leadIn;
-	CGFloat			m_spacing;
-	CGFloat			m_angle;
-	CGFloat			m_lineWidth;
-	BOOL			m_angleRelativeToObject;
-	BOOL			mRoughenStrokes;
-	CGFloat			mRoughness;
-	CGFloat			mWobblyness;
+    NSBezierPath* m_cache;
+    NSBezierPath* mRoughenedCache;
+    NSColor* m_hatchColour;
+    DKStrokeDash* m_hatchDash;
+    NSLineCapStyle m_cap;
+    NSLineJoinStyle m_join;
+    CGFloat m_leadIn;
+    CGFloat m_spacing;
+    CGFloat m_angle;
+    CGFloat m_lineWidth;
+    BOOL m_angleRelativeToObject;
+    BOOL mRoughenStrokes;
+    CGFloat mRoughness;
+    CGFloat mWobblyness;
 }
 
 /** @brief Return the default hatching
@@ -47,7 +46,7 @@ doesn't change the cache.
  * apart with a width of 0.25 points.
  * @public
  */
-+ (DKHatching*)		defaultHatching;
++ (DKHatching*)defaultHatching;
 
 /** @brief Return a hatching with e basic parameters given
  * @note
@@ -58,7 +57,7 @@ doesn't change the cache.
  * @return a hatching instance
  * @public
  */
-+ (DKHatching*)		hatchingWithLineWidth:(CGFloat) w spacing:(CGFloat) spacing angle:(CGFloat) angle;
++ (DKHatching*)hatchingWithLineWidth:(CGFloat)w spacing:(CGFloat)spacing angle:(CGFloat)angle;
 
 /** @brief Return a hatching which implements a dot pattern
  * @note
@@ -70,7 +69,7 @@ doesn't change the cache.
  * @return a hatching instance having the given dot pattern
  * @public
  */
-+ (DKHatching*)		hatchingWithDotPitch:(CGFloat) pitch diameter:(CGFloat) diameter;
++ (DKHatching*)hatchingWithDotPitch:(CGFloat)pitch diameter:(CGFloat)diameter;
 
 /** @brief Return a hatching which implements a dot pattern of given density
  * @note
@@ -80,69 +79,68 @@ doesn't change the cache.
  * @return a hatching instance having a dot pattern of the given density
  * @public
  */
-+ (DKHatching*)		hatchingWithDotDensity:(CGFloat) density;
++ (DKHatching*)hatchingWithDotDensity:(CGFloat)density;
 
-- (void)			hatchPath:(NSBezierPath*) path;
+- (void)hatchPath:(NSBezierPath*)path;
 
 /** @brief Apply the hatching to the path with a given object angle
  * @param path the path to fill
  * @param oa the additional angle to apply, in radians
  * @public
  */
-- (void)			hatchPath:(NSBezierPath*) path objectAngle:(CGFloat) oa;
+- (void)hatchPath:(NSBezierPath*)path objectAngle:(CGFloat)oa;
 
 /** @brief Set the angle of the hatching
  * @param radians the angle in radians
  * @public
  */
-- (void)			setAngle:(CGFloat) radians;
+- (void)setAngle:(CGFloat)radians;
 
 /** @brief The angle of the hatching
  * @return the angle in radians
  * @public
  */
-- (CGFloat)			angle;
+- (CGFloat)angle;
 
 /** @brief Set the angle of the hatching in degrees
  * @param degs the angle in degrees 
  * @public
  */
-- (void)			setAngleInDegrees:(CGFloat) degs;
+- (void)setAngleInDegrees:(CGFloat)degs;
 
 /** @brief The angle of the hatching in degrees
  * @return the angle in degrees
  * @public
  */
-- (CGFloat)			angleInDegrees;
-- (void)			setAngleIsRelativeToObject:(BOOL) rel;
-- (BOOL)			angleIsRelativeToObject;
+- (CGFloat)angleInDegrees;
+- (void)setAngleIsRelativeToObject:(BOOL)rel;
+- (BOOL)angleIsRelativeToObject;
 
-- (void)			setSpacing:(CGFloat) spacing;
-- (CGFloat)			spacing;
-- (void)			setLeadIn:(CGFloat) amount;
-- (CGFloat)			leadIn;
+- (void)setSpacing:(CGFloat)spacing;
+- (CGFloat)spacing;
+- (void)setLeadIn:(CGFloat)amount;
+- (CGFloat)leadIn;
 
-- (void)			setWidth:(CGFloat) width;
-- (CGFloat)			width;
-- (void)			setLineCapStyle:(NSLineCapStyle) lcs;
-- (NSLineCapStyle)	lineCapStyle;
-- (void)			setLineJoinStyle:(NSLineJoinStyle) ljs;
-- (NSLineJoinStyle)	lineJoinStyle;
+- (void)setWidth:(CGFloat)width;
+- (CGFloat)width;
+- (void)setLineCapStyle:(NSLineCapStyle)lcs;
+- (NSLineCapStyle)lineCapStyle;
+- (void)setLineJoinStyle:(NSLineJoinStyle)ljs;
+- (NSLineJoinStyle)lineJoinStyle;
 
-- (void)			setColour:(NSColor*) colour;
-- (NSColor*)		colour;
+- (void)setColour:(NSColor*)colour;
+- (NSColor*)colour;
 
-- (void)			setDash:(DKStrokeDash*) dash;
-- (DKStrokeDash*)	dash;
-- (void)			setAutoDash;
+- (void)setDash:(DKStrokeDash*)dash;
+- (DKStrokeDash*)dash;
+- (void)setAutoDash;
 
-- (void)			setRoughness:(CGFloat) amount;
-- (CGFloat)			roughness;
-- (void)			setWobblyness:(CGFloat) wobble;
-- (CGFloat)			wobblyness;
+- (void)setRoughness:(CGFloat)amount;
+- (CGFloat)roughness;
+- (void)setWobblyness:(CGFloat)wobble;
+- (CGFloat)wobblyness;
 
-- (void)			invalidateCache;
-- (void)			calcHatchInRect:(NSRect) rect;
+- (void)invalidateCache;
+- (void)calcHatchInRect:(NSRect)rect;
 
 @end
-

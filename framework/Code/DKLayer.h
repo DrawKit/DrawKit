@@ -31,24 +31,23 @@ As layers are retained by the drawing, this does not retain the drawing.
 
 By definition the bounds of the layer is the same as the bounds of the drawing.
 */
-@interface DKLayer : NSObject <NSCoding, DKKnobOwner, NSUserInterfaceValidations>
-{
+@interface DKLayer : NSObject <NSCoding, DKKnobOwner, NSUserInterfaceValidations> {
 @private
-	NSString*				m_name;					// layer name
-	NSColor*				m_selectionColour;		// colour preference for selection highlights in this layer
-	DKKnob*					m_knobs;				// knobs helper object if set - normally nil to defer to drawing
-	BOOL					m_knobsAdjustToScale;	// YES if knobs allow for the view scale
-	BOOL					m_visible;				// is the layer visible?
-	BOOL					m_locked;				// is the layer locked?
-	BOOL					m_printed;				// is the layer drawn when printing?
-	BOOL					mRulerMarkersEnabled;	// YES to pass ruler marker updates to enclosing group, NO to ignore
-	GCInfoFloater*			m_infoWindow;			// info window instance that can be used by client objects as they wish
-	DKLayerGroup*			m_groupRef;				// group we are contained by (or drawing)
-	BOOL					m_clipToInterior;		// YES to clip drawing to inside the interior region
-	NSMutableDictionary*	mUserInfo;				// metadata
-	NSUInteger				mReserved[3];			// unused
-	NSString*				mLayerUniqueKey;		// unique ID for the layer
-	CGFloat					mAlpha;					// alpha value applied to layer as a whole
+    NSString* m_name; // layer name
+    NSColor* m_selectionColour; // colour preference for selection highlights in this layer
+    DKKnob* m_knobs; // knobs helper object if set - normally nil to defer to drawing
+    BOOL m_knobsAdjustToScale; // YES if knobs allow for the view scale
+    BOOL m_visible; // is the layer visible?
+    BOOL m_locked; // is the layer locked?
+    BOOL m_printed; // is the layer drawn when printing?
+    BOOL mRulerMarkersEnabled; // YES to pass ruler marker updates to enclosing group, NO to ignore
+    GCInfoFloater* m_infoWindow; // info window instance that can be used by client objects as they wish
+    DKLayerGroup* m_groupRef; // group we are contained by (or drawing)
+    BOOL m_clipToInterior; // YES to clip drawing to inside the interior region
+    NSMutableDictionary* mUserInfo; // metadata
+    NSUInteger mReserved[3]; // unused
+    NSString* mLayerUniqueKey; // unique ID for the layer
+    CGFloat mAlpha; // alpha value applied to layer as a whole
 }
 
 /** @brief Allows a list of colours to be set for supplying the selection colours
@@ -57,7 +56,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param listOfColours an array containing NSColor objects
  * @public
  */
-+ (void)			setSelectionColours:(NSArray*) listOfColours;
++ (void)setSelectionColours:(NSArray*)listOfColours;
 
 /** @brief Returns the list of colours used for supplying the selection colours
  * @note
@@ -66,8 +65,8 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return an array containing NSColor objects
  * @public
  */
-+ (NSArray*)		selectionColours;
-+ (NSColor*)		selectionColourForIndex:(NSUInteger) index;
++ (NSArray*)selectionColours;
++ (NSColor*)selectionColourForIndex:(NSUInteger)index;
 
 // owning drawing:
 
@@ -78,7 +77,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the layer's owner drawing
  * @public
  */
-- (DKDrawing*)		drawing;
+- (DKDrawing*)drawing;
 
 /** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
  * to update their references
@@ -87,7 +86,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param um the new undo manager
  * @public
  */
-- (void)			drawingHasNewUndoManager:(NSUndoManager*) um;
+- (void)drawingHasNewUndoManager:(NSUndoManager*)um;
 
 /** @brief Called when the drawing's size is changed - this gives layers that need to know about this a
  * direct notification
@@ -96,14 +95,14 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param sizeVal the new size of the drawing - extract -sizeValue.
  * @public
  */
-- (void)			drawingDidChangeToSize:(NSValue*) sizeVal;
-- (void)			drawingDidChangeMargins:(NSValue*) newInterior;
+- (void)drawingDidChangeToSize:(NSValue*)sizeVal;
+- (void)drawingDidChangeMargins:(NSValue*)newInterior;
 
 /** @brief Obtains the undo manager that is handling undo for the drawing and hence, this layer
  * @return the undo manager in use
  * @public
  */
-- (NSUndoManager*)	undoManager;
+- (NSUndoManager*)undoManager;
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
  * @note
@@ -112,7 +111,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param aDrawing the drawing that added the layer
  * @public
  */
-- (void)			wasAddedToDrawing:(DKDrawing*) aDrawing;
+- (void)wasAddedToDrawing:(DKDrawing*)aDrawing;
 
 // layer group hierarchy:
 
@@ -121,14 +120,14 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * The group retains this, so the group isn't retained here
  * @param group the group we belong to
  */
-- (void)			setLayerGroup:(DKLayerGroup*) group;
+- (void)setLayerGroup:(DKLayerGroup*)group;
 
 /** @brief Gets the group that the layer is contained in
  * @note
  * The layer's group might be the drawing itself, which is a group
  * @return the layer's group
  */
-- (DKLayerGroup*)	layerGroup;
+- (DKLayerGroup*)layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
  * @note
@@ -136,7 +135,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return an integer, the layer's index
  * @public
  */
-- (NSUInteger)		indexInGroup;
+- (NSUInteger)indexInGroup;
 
 /** @brief Determine whether a given group is the parent of this layer, or anywhere above it in the hierarchy
  * @note
@@ -145,7 +144,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if the group sits above this in the hierarchy, NO otherwise
  * @public
  */
-- (BOOL)			isChildOfGroup:(DKLayerGroup*) aGroup;
+- (BOOL)isChildOfGroup:(DKLayerGroup*)aGroup;
 
 /** @brief Returns the hierarchical level of this layer, i.e. how deeply nested it is
  * @note
@@ -153,7 +152,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the layer's level
  * @public
  */
-- (NSUInteger)		level;
+- (NSUInteger)level;
 
 // drawing:
 
@@ -166,7 +165,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param aView the view doing the rendering
  * @public
  */
-- (void)			drawRect:(NSRect) rect inView:(DKDrawingView*) aView;
+- (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView;
 
 /** @brief Is the layer opaque or transparent?
  * @note
@@ -176,7 +175,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return whether to treat the layer as opaque or not
  * @public
  */
-- (BOOL)			isOpaque;
+- (BOOL)isOpaque;
 
 /** @brief Flags the whole layer as needing redrawing
  * @note
@@ -185,7 +184,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param update flag whether to update or not
  * @public
  */
-- (void)			setNeedsDisplay:(BOOL) update;
+- (void)setNeedsDisplay:(BOOL)update;
 
 /** @brief Flags part of a layer as needing redrawing
  * @note
@@ -194,7 +193,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param rect the area that needs to be redrawn
  * @public
  */
-- (void)			setNeedsDisplayInRect:(NSRect) rect;
+- (void)setNeedsDisplayInRect:(NSRect)rect;
 
 /** @brief Marks several areas for update at once
  * @note
@@ -203,7 +202,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param setOfRects a set containing NSValues with rect values
  * @public
  */
-- (void)			setNeedsDisplayInRects:(NSSet*) setOfRects;
+- (void)setNeedsDisplayInRects:(NSSet*)setOfRects;
 
 /** @brief Marks several areas for update at once
  * @note
@@ -213,21 +212,21 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param padding the width and height will be added to EACH rect before invalidating
  * @public
  */
-- (void)			setNeedsDisplayInRects:(NSSet*) setOfRects withExtraPadding:(NSSize) padding;
+- (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding;
 
 /** @brief Called before the layer starts drawing its content
  * @note
  * Can be used to hook into the start of drawing - by default does nothing
  * @public
  */
-- (void)			beginDrawing;
+- (void)beginDrawing;
 
 /** @brief Called after the layer has finished drawing its content
  * @note
  * Can be used to hook into the end of drawing - by default does nothing
  * @public
  */
-- (void)			endDrawing;
+- (void)endDrawing;
 
 /** @brief Sets the colour preference to use for selected objects within this layer
  * @note
@@ -237,13 +236,13 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param colour the selection colour preference
  * @public
  */
-- (void)			setSelectionColour:(NSColor*) colour;
+- (void)setSelectionColour:(NSColor*)colour;
 
 /** @brief Returns the currently preferred selection colour for this layer
  * @return the colour
  * @public
  */
-- (NSColor*)		selectionColour;
+- (NSColor*)selectionColour;
 
 /** @brief Returns an image of the layer a the given size
  * @note
@@ -257,8 +256,8 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return an image of this layer only
  * @public
  */
-- (NSImage*)		thumbnailImageWithSize:(NSSize) size;
-- (NSImage*)		thumbnail;
+- (NSImage*)thumbnailImageWithSize:(NSSize)size;
+- (NSImage*)thumbnail;
 
 /** @brief Returns the content of the layer as a pdf
  * @note
@@ -266,7 +265,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return NSData containing the pdf representation of the layer and its contents
  * @public
  */
-- (NSData*)			pdf;
+- (NSData*)pdf;
 
 /** @brief Writes the content of the layer as a pdf to a nominated pasteboard
  * @note
@@ -275,7 +274,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if written OK, NO otherwise
  * @public
  */
-- (BOOL)			writePDFDataToPasteboard:(NSPasteboard*) pb;
+- (BOOL)writePDFDataToPasteboard:(NSPasteboard*)pb;
 
 /** @brief Returns the layer's content as a transparent bitmap having the given DPI.
  * @note
@@ -285,7 +284,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the bitmap
  * @public
  */
-- (NSBitmapImageRep*) bitmapRepresentationWithDPI:(NSUInteger) dpi;
+- (NSBitmapImageRep*)bitmapRepresentationWithDPI:(NSUInteger)dpi;
 
 /** @brief Sets whether drawing is limited to the interior area or not
  * @note
@@ -293,7 +292,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param clip YES to limit drawing to the interior, NO to allow drawing to be visible in the margins.
  * @public
  */
-- (void)			setClipsDrawingToInterior:(BOOL) clip;
+- (void)setClipsDrawingToInterior:(BOOL)clip;
 
 /** @brief Whether the drawing will be clipped to the interior or not
  * @note
@@ -301,7 +300,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if clipping, NO if not.
  * @public
  */
-- (BOOL)			clipsDrawingToInterior;
+- (BOOL)clipsDrawingToInterior;
 
 /** @brief Sets the alpha level for the layer
  * @note
@@ -312,7 +311,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param alpha the alpha level, 0..1
  * @public
  */
-- (void)			setAlpha:(CGFloat) alpha;
+- (void)setAlpha:(CGFloat)alpha;
 
 /** @brief Returns the alpha level for the layer as a whole
  * @note
@@ -320,14 +319,14 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the current alpha level
  * @public
  */
-- (CGFloat)			alpha;
+- (CGFloat)alpha;
 
 // managing ruler markers:
 
-- (void)			updateRulerMarkersForRect:(NSRect) rect;
-- (void)			hideRulerMarkers;
-- (void)			setRulerMarkerUpdatesEnabled:(BOOL) enable;
-- (BOOL)			rulerMarkerUpdatesEnabled;
+- (void)updateRulerMarkersForRect:(NSRect)rect;
+- (void)hideRulerMarkers;
+- (void)setRulerMarkerUpdatesEnabled:(BOOL)enable;
+- (BOOL)rulerMarkerUpdatesEnabled;
 
 // states:
 
@@ -338,7 +337,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param locked YES to lock, NO to unlock
  * @public
  */
-- (void)			setLocked:(BOOL) locked;
+- (void)setLocked:(BOOL)locked;
 
 /** @brief Returns whether the layer is locked or not
  * @note
@@ -346,7 +345,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if locked, NO if unlocked
  * @public
  */
-- (BOOL)			locked;
+- (BOOL)locked;
 
 /** @brief Sets whether the layer is visible or not
  * @note
@@ -354,7 +353,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param visible YES to show the layer, NO to hide it
  * @public
  */
-- (void)			setVisible:(BOOL) visible;
+- (void)setVisible:(BOOL)visible;
 
 /** @brief Is the layer visible?
  * @note
@@ -362,13 +361,13 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if visible, NO if not
  * @public
  */
-- (BOOL)			visible;
+- (BOOL)visible;
 
 /** @brief Is the layer the active layer?
  * @return YES if the active layer, NO otherwise
  * @public
  */
-- (BOOL)			isActive;
+- (BOOL)isActive;
 
 /** @brief Returns whether the layer is locked or hidden
  * @note
@@ -376,7 +375,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if locked or hidden, NO if unlocked and visible
  * @public
  */
-- (BOOL)			lockedOrHidden;
+- (BOOL)lockedOrHidden;
 
 /** @brief Sets the user-readable name of the layer
  * @note
@@ -385,18 +384,18 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param name the layer's name
  * @public
  */
-- (void)			setLayerName:(NSString*) name;
+- (void)setLayerName:(NSString*)name;
 
 /** @brief Returns the layer's name
  * @return the name
  * @public
  */
-- (NSString*)		layerName;
+- (NSString*)layerName;
 
 // user info support
 
-- (void)				setUserInfo:(NSMutableDictionary*) info;
-- (void)				addUserInfo:(NSDictionary*) info;
+- (void)setUserInfo:(NSMutableDictionary*)info;
+- (void)addUserInfo:(NSDictionary*)info;
 
 /** @brief Return the attached user info
  * @note
@@ -413,14 +412,14 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the user info item
  * @public
  */
-- (id)					userInfoObjectForKey:(NSString*) key;
-- (void)				setUserInfoObject:(id) obj forKey:(NSString*) key;
+- (id)userInfoObjectForKey:(NSString*)key;
+- (void)setUserInfoObject:(id)obj forKey:(NSString*)key;
 
 /** @brief Returns the layer's unique key
  * @return the unique key
  * @public
  */
-- (NSString*)		uniqueKey;
+- (NSString*)uniqueKey;
 
 // print this layer?
 
@@ -430,7 +429,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param printIt YES to includethe layer, NO to skip it
  * @public
  */
-- (void)			setShouldDrawToPrinter:(BOOL) printIt;
+- (void)setShouldDrawToPrinter:(BOOL)printIt;
 
 /** @brief Return whether the layer should be part of the printed output or not
  * @note
@@ -439,7 +438,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES to draw to printer, NO to suppress drawing on the printer
  * @public
  */
-- (BOOL)			shouldDrawToPrinter;
+- (BOOL)shouldDrawToPrinter;
 
 // becoming/resigning active:
 
@@ -449,21 +448,21 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if the layer can become active, NO to not become active
  * @public
  */
-- (BOOL)			layerMayBecomeActive;
+- (BOOL)layerMayBecomeActive;
 
 /** @brief The layer was made the active layer by the owning drawing
  * @note
  * Layers may want to know when their active state changes. Override to make use of this.
  * @public
  */
-- (void)			layerDidBecomeActiveLayer;
+- (void)layerDidBecomeActiveLayer;
 
 /** @brief The layer is no longer the active layer
  * @note
  * Layers may want to know when their active state changes. Override to make use of this.
  * @public
  */
-- (void)			layerDidResignActiveLayer;
+- (void)layerDidResignActiveLayer;
 
 // permitting deleton:
 
@@ -474,7 +473,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if layer can be deleted, override to return NO to prevent this
  * @public
  */
-- (BOOL)			layerMayBeDeleted;
+- (BOOL)layerMayBeDeleted;
 
 // mouse event handling:
 
@@ -486,7 +485,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if the layer is unlocked, NO otherwise
  * @public
  */
-- (BOOL)			shouldAutoActivateWithEvent:(NSEvent*) event;
+- (BOOL)shouldAutoActivateWithEvent:(NSEvent*)event;
 
 /** @brief Detect whether the layer was "hit" by a point.
  * @note
@@ -497,7 +496,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if the layer was hit, NO otherwise
  * @public
  */
-- (BOOL)			hitLayer:(NSPoint) p;
+- (BOOL)hitLayer:(NSPoint)p;
 
 /** @brief Detect what object was hit by a point.
  * @note
@@ -508,7 +507,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the object hit, or nil
  * @public
  */
-- (DKDrawableObject*)	hitTest:(NSPoint) p;
+- (DKDrawableObject*)hitTest:(NSPoint)p;
 
 /** @brief The mouse went down in this layer
  * @note
@@ -518,7 +517,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param view the view which responded to the event and passed it on to us
  * @public
  */
-- (void)			mouseDown:(NSEvent*) event inView:(NSView*) view;
+- (void)mouseDown:(NSEvent*)event inView:(NSView*)view;
 
 /** @note
  * Subclasses must override to be notified of mouse dragged events
@@ -526,7 +525,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param view the view which responded to the event and passed it on to us
  * @public
  */
-- (void)			mouseDragged:(NSEvent*) event inView:(NSView*) view;
+- (void)mouseDragged:(NSEvent*)event inView:(NSView*)view;
 
 /** @note
  * Override to respond to the event
@@ -534,7 +533,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param view the view which responded to the event and passed it on to us
  * @public
  */
-- (void)			mouseUp:(NSEvent*) event inView:(NSView*) view;
+- (void)mouseUp:(NSEvent*)event inView:(NSView*)view;
 
 /** @brief Respond to a change in the modifier key state
  * @note
@@ -542,7 +541,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param event the event
  * @public
  */
-- (void)			flagsChanged:(NSEvent*) event;
+- (void)flagsChanged:(NSEvent*)event;
 
 /** @brief Returns the view which is either currently drawing the layer, or the one that mouse events are
  * coming from
@@ -553,7 +552,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the currently "important" view
  * @public
  */
-- (NSView*)			currentView;
+- (NSView*)currentView;
 
 /** @brief Returns the cursor to display while the mouse is over this layer while it's active
  * @note
@@ -562,7 +561,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the desired cursor
  * @public
  */
-- (NSCursor*)		cursor;
+- (NSCursor*)cursor;
 
 /** @brief Return a rect where the layer's cursor is shown when the mouse is within it
  * @note
@@ -570,7 +569,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return the cursor rect
  * @public
  */
-- (NSRect)			activeCursorRect;
+- (NSRect)activeCursorRect;
 
 /** @brief Allows a contextual menu to be built for the layer or its contents
  * @note
@@ -581,14 +580,14 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return a menu that will be displayed as a contextual menu
  * @public
  */
-- (NSMenu *)		menuForEvent:(NSEvent *)theEvent inView:(NSView*) view;
+- (NSMenu*)menuForEvent:(NSEvent*)theEvent inView:(NSView*)view;
 
 // supporting per-layer knob handling - default defers to the drawing as before
 
-- (void)			setKnobs:(DKKnob*) knobs;
-- (DKKnob*)			knobs;
-- (void)			setKnobsShouldAdustToViewScale:(BOOL) ka;
-- (BOOL)			knobsShouldAdjustToViewScale;
+- (void)setKnobs:(DKKnob*)knobs;
+- (DKKnob*)knobs;
+- (void)setKnobsShouldAdustToViewScale:(BOOL)ka;
+- (BOOL)knobsShouldAdjustToViewScale;
 
 // pasteboard types for drag/drop etc:
 
@@ -599,7 +598,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * just as if they were a view.
  * @public
  */
-- (NSArray*)		pasteboardTypesForOperation:(DKPasteboardOperationType) op;
+- (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
 
 /** @brief Tests whether the pasteboard has any of the types the layer is interested in receiving for the given
  * operation
@@ -608,7 +607,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return YES if the pasteboard has any of the types of interest, otherwise NO
  * @public
  */
-- (BOOL)			pasteboard:(NSPasteboard*) pb hasAvailableTypeForOperation:(DKPasteboardOperationType) op;
+- (BOOL)pasteboard:(NSPasteboard*)pb hasAvailableTypeForOperation:(DKPasteboardOperationType)op;
 
 // style utilities (implemented by subclasses such as DKObjectOwnerLayer)
 
@@ -618,7 +617,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return nil
  * @public
  */
-- (NSSet*)			allStyles;
+- (NSSet*)allStyles;
 
 /** @brief Return all of registered styles used by the layer
  * @note
@@ -626,7 +625,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @return nil
  * @public
  */
-- (NSSet*)			allRegisteredStyles;
+- (NSSet*)allRegisteredStyles;
 
 /** @brief Substitute styles with those in the given set
  * @note
@@ -637,7 +636,7 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param aSet a set of style objects
  * @public
  */
-- (void)			replaceMatchingStylesFromSet:(NSSet*) aSet;
+- (void)replaceMatchingStylesFromSet:(NSSet*)aSet;
 
 // info window utilities:
 
@@ -650,18 +649,18 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param p a point in local drawing coordinates
  * @public
  */
-- (void)			showInfoWindowWithString:(NSString*) str atPoint:(NSPoint) p;
+- (void)showInfoWindowWithString:(NSString*)str atPoint:(NSPoint)p;
 
 /** @brief Hides the info window if it's visible
  * @public
  */
-- (void)			hideInfoWindow;
+- (void)hideInfoWindow;
 
 /** @brief Sets the background colour of the small floating info window
  * @param colour a colour for the window
  * @public
  */
-- (void)			setInfoWindowBackgroundColour:(NSColor*) colour;
+- (void)setInfoWindowBackgroundColour:(NSColor*)colour;
 
 // user actions:
 
@@ -670,61 +669,60 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)		lockLayer:(id) sender;
+- (IBAction)lockLayer:(id)sender;
 
 /** @note
  * User interface level method can be linked to a menu or other appropriate UI widget
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)		unlockLayer:(id) sender;
+- (IBAction)unlockLayer:(id)sender;
 
 /** @note
  * User interface level method can be linked to a menu or other appropriate UI widget
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)		toggleLayerLock:(id) sender;
+- (IBAction)toggleLayerLock:(id)sender;
 
 /** @note
  * User interface level method can be linked to a menu or other appropriate UI widget
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)		showLayer:(id) sender;
+- (IBAction)showLayer:(id)sender;
 
 /** @note
  * User interface level method can be linked to a menu or other appropriate UI widget
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)		hideLayer:(id) sender;
+- (IBAction)hideLayer:(id)sender;
 
 /** @note
  * User interface level method can be linked to a menu or other appropriate UI widget
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)		toggleLayerVisible:(id) sender;
+- (IBAction)toggleLayerVisible:(id)sender;
 
 /** @note
  * Debugging method
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)		logDescription:(id) sender;
-- (IBAction)		copy:(id) sender;
+- (IBAction)logDescription:(id)sender;
+- (IBAction)copy:(id)sender;
 
 @end
 
-@interface DKLayer	(OptionalMethods)
+@interface DKLayer (OptionalMethods)
 
-- (void)			mouseMoved:(NSEvent*) event inView:(NSView*) view;
+- (void)mouseMoved:(NSEvent*)event inView:(NSView*)view;
 
 @end
 
-extern NSString*	kDKLayerLockStateDidChange;
-extern NSString*	kDKLayerVisibleStateDidChange;
-extern NSString*	kDKLayerNameDidChange;
-extern NSString*	kDKLayerSelectionHighlightColourDidChange;
-
+extern NSString* kDKLayerLockStateDidChange;
+extern NSString* kDKLayerVisibleStateDidChange;
+extern NSString* kDKLayerNameDidChange;
+extern NSString* kDKLayerSelectionHighlightColourDidChange;

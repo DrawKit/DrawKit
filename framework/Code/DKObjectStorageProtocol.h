@@ -10,77 +10,68 @@
 
 @protocol DKObjectStorage;
 
-
-typedef enum
-{
-	kDKReverseOrder				= ( 1 << 0 ),		// return objects in top to bottom order if set
-	kDKIncludeInvisible			= ( 1 << 1 ),		// includes invisible objects
-	kDKIgnoreUpdateRect			= ( 1 << 2 ),		// includes objects regardless of whether they are within the update region or not
-	kDKZOrderMayBeRelaxed		= ( 1 << 3 )		// if set, the strict Z-ordering of objects may be relaxed if there is a performance benefit
-}
-DKObjectStorageOptions;
-
-
+typedef enum {
+    kDKReverseOrder = (1 << 0), // return objects in top to bottom order if set
+    kDKIncludeInvisible = (1 << 1), // includes invisible objects
+    kDKIgnoreUpdateRect = (1 << 2), // includes objects regardless of whether they are within the update region or not
+    kDKZOrderMayBeRelaxed = (1 << 3) // if set, the strict Z-ordering of objects may be relaxed if there is a performance benefit
+} DKObjectStorageOptions;
 
 @protocol DKStorableObject <NSObject, NSCoding, NSCopying>
 
-- (id<DKObjectStorage>)		storage;
-- (void)					setStorage:(id<DKObjectStorage>) storage;
+- (id<DKObjectStorage>)storage;
+- (void)setStorage:(id<DKObjectStorage>)storage;
 
-- (NSUInteger)				index;
-- (void)					setIndex:(NSUInteger) indx;
+- (NSUInteger)index;
+- (void)setIndex:(NSUInteger)indx;
 
-- (void)					setMarked:(BOOL) markIt;
-- (BOOL)					isMarked;
+- (void)setMarked:(BOOL)markIt;
+- (BOOL)isMarked;
 
-- (BOOL)					visible;
-- (NSRect)					bounds;
+- (BOOL)visible;
+- (NSRect)bounds;
 
 @end
-
-
 
 @protocol DKObjectStorage <NSObject>
 
 // objects returned by these methods should be returned in bottom-to-top (drawing) Z-order unless the kDKZOrderMayBeRelaxed flag is set in which case
 // the order can be arbitrary. Z-order and object index are synonymous
 
-- (NSArray*)				objectsIntersectingRect:(NSRect) aRect inView:(NSView*) aView options:(DKObjectStorageOptions) options;
-- (NSArray*)				objectsContainingPoint:(NSPoint) aPoint;
-- (NSArray*)				objects;
+- (NSArray*)objectsIntersectingRect:(NSRect)aRect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
+- (NSArray*)objectsContainingPoint:(NSPoint)aPoint;
+- (NSArray*)objects;
 
 // bulk load the storage e.g. when dearchiving
 
-- (void)					setObjects:(NSArray*) objects;
+- (void)setObjects:(NSArray*)objects;
 
 // insertion and deletion is observable using KVO
 
-- (NSUInteger)				countOfObjects;
-- (id<DKStorableObject>)	objectInObjectsAtIndex:(NSUInteger) indx;													// KVC/KVO compliant
-- (NSArray*)				objectsAtIndexes:(NSIndexSet*) set;														// KVC/KVO compliant
+- (NSUInteger)countOfObjects;
+- (id<DKStorableObject>)objectInObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
+- (NSArray*)objectsAtIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 
-- (void)					insertObject:(id<DKStorableObject>) obj inObjectsAtIndex:(NSUInteger) indx;				// KVC/KVO compliant
-- (void)					removeObjectFromObjectsAtIndex:(NSUInteger) indx;											// KVC/KVO compliant
-- (void)					replaceObjectInObjectsAtIndex:(NSUInteger) indx withObject:(id<DKStorableObject>) obj;	// KVC/KVO compliant
-- (void)					insertObjects:(NSArray*) objs atIndexes:(NSIndexSet*) set;								// KVC/KVO compliant
-- (void)					removeObjectsAtIndexes:(NSIndexSet*) set;												// KVC/KVO compliant
+- (void)insertObject:(id<DKStorableObject>)obj inObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
+- (void)removeObjectFromObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
+- (void)replaceObjectInObjectsAtIndex:(NSUInteger)indx withObject:(id<DKStorableObject>)obj; // KVC/KVO compliant
+- (void)insertObjects:(NSArray*)objs atIndexes:(NSIndexSet*)set; // KVC/KVO compliant
+- (void)removeObjectsAtIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 
-- (BOOL)					containsObject:(id<DKStorableObject>) object;
-- (NSUInteger)				indexOfObject:(id<DKStorableObject>) object;
-- (void)					moveObject:(id<DKStorableObject>) obj toIndex:(NSUInteger) indx;
+- (BOOL)containsObject:(id<DKStorableObject>)object;
+- (NSUInteger)indexOfObject:(id<DKStorableObject>)object;
+- (void)moveObject:(id<DKStorableObject>)obj toIndex:(NSUInteger)indx;
 
 // methods that may be used by spatially sensitive storage algorithms
 
-- (void)					object:(id<DKStorableObject>) obj didChangeBoundsFrom:(NSRect) oldBounds;
-- (void)					objectDidChangeVisibility:(id<DKStorableObject>) obj;
-- (void)					setCanvasSize:(NSSize) size;
+- (void)object:(id<DKStorableObject>)obj didChangeBoundsFrom:(NSRect)oldBounds;
+- (void)objectDidChangeVisibility:(id<DKStorableObject>)obj;
+- (void)setCanvasSize:(NSSize)size;
 
 @optional
-- (NSBezierPath*)			debugStorageDivisions;
+- (NSBezierPath*)debugStorageDivisions;
 
 @end
-
-
 
 /*
 
@@ -96,5 +87,3 @@ The storage object is required to own any number of objects and return them on d
 
 
 */
-
-

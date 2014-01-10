@@ -31,44 +31,42 @@ as well, so the root object is given the opportunity to observe any component an
 themselves are observed for changes to their lists, so the root object is able to track changes to the group structure
 as well.
 */
-@interface DKRastGroup : DKRasterizer <NSCoding, NSCopying>
-{
+@interface DKRastGroup : DKRasterizer <NSCoding, NSCopying> {
 @private
-	NSMutableArray*		m_renderList;
+    NSMutableArray* m_renderList;
 }
 
-- (void)				setRenderList:(NSArray*) list;
-- (NSArray*)			renderList;
+- (void)setRenderList:(NSArray*)list;
+- (NSArray*)renderList;
 
-- (DKRastGroup*)		root;
+- (DKRastGroup*)root;
 
-- (void)				observableWasAdded:(GCObservableObject*) observable;
-- (void)				observableWillBeRemoved:(GCObservableObject*) observable;
-	
-- (void)				addRenderer:(DKRasterizer*) renderer;
-- (void)				removeRenderer:(DKRasterizer*) renderer;
-- (void)				moveRendererAtIndex:(NSUInteger) src toIndex:(NSUInteger) dest;
-- (void)				insertRenderer:(DKRasterizer*) renderer atIndex:(NSUInteger) index;
-- (void)				removeRendererAtIndex:(NSUInteger) index;
-- (NSUInteger)			indexOfRenderer:(DKRasterizer*) renderer;
+- (void)observableWasAdded:(GCObservableObject*)observable;
+- (void)observableWillBeRemoved:(GCObservableObject*)observable;
 
-- (DKRasterizer*)		rendererAtIndex:(NSUInteger) index;
-- (DKRasterizer*)		rendererWithName:(NSString*) name;
+- (void)addRenderer:(DKRasterizer*)renderer;
+- (void)removeRenderer:(DKRasterizer*)renderer;
+- (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest;
+- (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)index;
+- (void)removeRendererAtIndex:(NSUInteger)index;
+- (NSUInteger)indexOfRenderer:(DKRasterizer*)renderer;
 
-- (NSUInteger)			countOfRenderList;
-- (BOOL)				containsRendererOfClass:(Class) cl;
-- (NSArray*)			renderersOfClass:(Class) cl;
-	
-- (BOOL)				isValid;
+- (DKRasterizer*)rendererAtIndex:(NSUInteger)index;
+- (DKRasterizer*)rendererWithName:(NSString*)name;
 
-- (void)				removeAllRenderers;
-- (void)				removeRenderersOfClass:(Class) cl inSubgroups:(BOOL) subs;
+- (NSUInteger)countOfRenderList;
+- (BOOL)containsRendererOfClass:(Class)cl;
+- (NSArray*)renderersOfClass:(Class)cl;
+
+- (BOOL)isValid;
+
+- (void)removeAllRenderers;
+- (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs;
 
 // KVO compliant variants of the render list management methods, key = "renderList"
 
-- (id)					objectInRenderListAtIndex:(NSUInteger) indx;
-- (void)				insertObject:(id) obj inRenderListAtIndex:(NSUInteger) index;
-- (void)				removeObjectFromRenderListAtIndex:(NSUInteger) indx;
+- (id)objectInRenderListAtIndex:(NSUInteger)indx;
+- (void)insertObject:(id)obj inRenderListAtIndex:(NSUInteger)index;
+- (void)removeObjectFromRenderListAtIndex:(NSUInteger)indx;
 
 @end
-

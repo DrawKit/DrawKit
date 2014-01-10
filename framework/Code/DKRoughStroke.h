@@ -19,24 +19,22 @@ Because a roughened path is both fairly complicated to compute and has a lot of 
 paths it generates and re-uses them as much as it can. A path is cached based on its bounds, width and length, giving a key that is likely to be unique in practice.
 Paths are cached up to the maximum number set by the constant, after which least used cached paths are discarded.
 */
-@interface DKRoughStroke : DKStroke <NSCoding, NSCopying>
-{
+@interface DKRoughStroke : DKStroke <NSCoding, NSCopying> {
 @private
-	CGFloat					mRoughness;
-	NSMutableDictionary*	mPathCache;
-	NSMutableArray*			mCacheList;
+    CGFloat mRoughness;
+    NSMutableDictionary* mPathCache;
+    NSMutableArray* mCacheList;
 }
 
 /** 
  */
-- (void)					setRoughness:(CGFloat) roughness;
-- (CGFloat)					roughness;
+- (void)setRoughness:(CGFloat)roughness;
+- (CGFloat)roughness;
 
-- (NSString*)				pathKeyForPath:(NSBezierPath*) path;
-- (void)					invalidateCache;
-- (NSBezierPath*)			roughPathFromPath:(NSBezierPath*) path;
+- (NSString*)pathKeyForPath:(NSBezierPath*)path;
+- (void)invalidateCache;
+- (NSBezierPath*)roughPathFromPath:(NSBezierPath*)path;
 
 @end
 
-#define		kDKRoughPathCacheMaximumCapacity	99
-
+#define kDKRoughPathCacheMaximumCapacity 99

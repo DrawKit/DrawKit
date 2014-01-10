@@ -5,7 +5,7 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
- 
+
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
@@ -15,17 +15,15 @@ This layout manager subclass draws greeking rectangles instead of glyphs, either
  
  Greeking can be faster for certain operations such as hit-testing where exact glyph rendition is not needed.
 */
-@interface DKGreekingLayoutManager : NSLayoutManager
-{
-	DKGreeking		mGreeking;
-	NSColor*		mGreekingColour;
+@interface DKGreekingLayoutManager : NSLayoutManager {
+    DKGreeking mGreeking;
+    NSColor* mGreekingColour;
 }
 
-- (void)			setGreeking:(DKGreeking) greeking;
-- (DKGreeking)		greeking;
+- (void)setGreeking:(DKGreeking)greeking;
+- (DKGreeking)greeking;
 
-- (void)			setGreekingColour:(NSColor*) aColour;
-- (NSColor*)		greekingColour;
+- (void)setGreekingColour:(NSColor*)aColour;
+- (NSColor*)greekingColour;
 
 @end
-

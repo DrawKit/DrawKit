@@ -12,14 +12,13 @@
 
 /** 
  */
-+ (NSString*)			uniqueKey
++ (NSString*)uniqueKey
 {
-	CFUUIDRef uuid = CFUUIDCreate( kCFAllocatorDefault );
-	CFStringRef str = CFUUIDCreateString( kCFAllocatorDefault, uuid );
-	CFRelease( uuid );
-	
-	return [(NSString*)str autorelease];
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+    CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+    CFRelease(uuid);
+
+    return [(NSString*)str autorelease];
 }
 
 @end
-

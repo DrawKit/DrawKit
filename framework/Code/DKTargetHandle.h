@@ -12,5 +12,5 @@
 @interface DKTargetHandle : DKHandle
 @end
 
-@interface DKLockedTargetHandle: DKTargetHandle
+@interface DKLockedTargetHandle : DKTargetHandle
 @end

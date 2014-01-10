@@ -12,9 +12,9 @@
 
 @interface NSObject (GraphicsAttributes)
 
-- (id)			initWithExpression:(DKExpression*) expr;
-- (void)		setValue:(id) val forNumericParameter:(NSInteger) pnum;
+- (id)initWithExpression:(DKExpression*)expr;
+- (void)setValue:(id)val forNumericParameter:(NSInteger)pnum;
 
-- (NSImage*)	imageResourceNamed:(NSString*) name;
+- (NSImage*)imageResourceNamed:(NSString*)name;
 
 @end

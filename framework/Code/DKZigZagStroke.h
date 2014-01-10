@@ -8,23 +8,22 @@
 
 #import "DKStroke.h"
 
-@interface DKZigZagStroke : DKStroke <NSCoding, NSCopying>
-{
+@interface DKZigZagStroke : DKStroke <NSCoding, NSCopying> {
 @private
-	CGFloat		mWavelength;
-	CGFloat		mAmplitude;
-	CGFloat		mSpread;
+    CGFloat mWavelength;
+    CGFloat mAmplitude;
+    CGFloat mSpread;
 }
 
 /** 
  */
-- (void)		setWavelength:(CGFloat) w;
-- (CGFloat)		wavelength;
+- (void)setWavelength:(CGFloat)w;
+- (CGFloat)wavelength;
 
-- (void)		setAmplitude:(CGFloat) amp;
-- (CGFloat)		amplitude;
+- (void)setAmplitude:(CGFloat)amp;
+- (CGFloat)amplitude;
 
-- (void)		setSpread:(CGFloat) sp;
-- (CGFloat)		spread;
+- (void)setSpread:(CGFloat)sp;
+- (CGFloat)spread;
 
 @end

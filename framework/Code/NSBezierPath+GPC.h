@@ -13,13 +13,11 @@
 
 // path simplifying constants - auto will not simplify when both source paths consist only of line segments
 
-typedef enum
-{
-	kDKPathUnflattenNever	= 0,
-	kDKPathUnflattenAlways	= 1,
-	kDKPathUnflattenAuto	= 2
-}
-DKPathUnflatteningPolicy;
+typedef enum {
+    kDKPathUnflattenNever = 0,
+    kDKPathUnflattenAlways = 1,
+    kDKPathUnflattenAuto = 2
+} DKPathUnflatteningPolicy;
 
 @interface NSBezierPath (GPC)
 
@@ -27,20 +25,20 @@ DKPathUnflatteningPolicy;
  * @param poly a gpc polygon structure
  * @return the same polygon as an NSBezierPath
  */
-+ (NSBezierPath*)		bezierPathWithGPCPolygon:(gpc_polygon*) poly;
++ (NSBezierPath*)bezierPathWithGPCPolygon:(gpc_polygon*)poly;
 
 /** @brief Sets the unflattening (curve fitting) policy for curve fitting flattened paths after a boolean op
  * @param sp policy constant
  */
-+ (void)				setPathUnflatteningPolicy:(DKPathUnflatteningPolicy) sp;
-+ (DKPathUnflatteningPolicy) pathUnflatteningPolicy;
++ (void)setPathUnflatteningPolicy:(DKPathUnflatteningPolicy)sp;
++ (DKPathUnflatteningPolicy)pathUnflatteningPolicy;
 
 /** @brief Converts a bezier path to a gpc polygon format structure
  * @note
  * The caller is responsible for freeing the returned object (in contrast to usual cocoa rules)
  * @return a newly allocated gpc polygon structure
  */
-- (gpc_polygon*)		gpcPolygon;
+- (gpc_polygon*)gpcPolygon;
 
 /** @brief Converts a bezier path to a gpc polygon format structure
  * @note
@@ -48,9 +46,9 @@ DKPathUnflatteningPolicy;
  * @param flatness the flatness value for converting curves to vector form
  * @return a newly allocated gpc polygon structure
  */
-- (gpc_polygon*)		gpcPolygonWithFlatness:(CGFloat) flatness;
+- (gpc_polygon*)gpcPolygonWithFlatness:(CGFloat)flatness;
 
-- (NSInteger)			subPathCountStartingAtElement:(NSInteger) se;
+- (NSInteger)subPathCountStartingAtElement:(NSInteger)se;
 
 /** @brief Tests whether this path intersects another
  * @note
@@ -62,7 +60,7 @@ DKPathUnflatteningPolicy;
  * @param path another path to test against
  * @return YES if the paths intersect, NO otherwise
  */
-- (BOOL)				intersectsPath:(NSBezierPath*) path;
+- (BOOL)intersectsPath:(NSBezierPath*)path;
 
 /** @brief Creates a new path from a boolean operation between this path and another path
  * @note
@@ -73,7 +71,7 @@ DKPathUnflatteningPolicy;
  * @param op the operation to perform - constants defined in gpc.h
  * @return a new path (may be empty in certain cases)
  */
-- (NSBezierPath*)		pathFromPath:(NSBezierPath*) otherPath usingBooleanOperation:(gpc_op) op;
+- (NSBezierPath*)pathFromPath:(NSBezierPath*)otherPath usingBooleanOperation:(gpc_op)op;
 
 /** @brief Creates a new path from a boolean operation between this path and another path
  * @note
@@ -84,7 +82,7 @@ DKPathUnflatteningPolicy;
  * @return a new path (may be empty in certain cases)
  * @private
  */
-- (NSBezierPath*)		pathFromPath:(NSBezierPath*) otherPath usingBooleanOperation:(gpc_op) op unflattenResult:(BOOL) uf;
+- (NSBezierPath*)pathFromPath:(NSBezierPath*)otherPath usingBooleanOperation:(gpc_op)op unflattenResult:(BOOL)uf;
 
 // boolean ops on bezier paths yay!
 
@@ -94,7 +92,7 @@ DKPathUnflatteningPolicy;
  * @param otherPath another path which is unioned with this one's path
  * @return a new path
  */
-- (NSBezierPath*)		pathFromUnionWithPath:(NSBezierPath*) otherPath;
+- (NSBezierPath*)pathFromUnionWithPath:(NSBezierPath*)otherPath;
 
 /** @brief Creates a new path which is the intersection of this path and another path
  * @note
@@ -103,7 +101,7 @@ DKPathUnflatteningPolicy;
  * @param otherPath another path which is intersected with this one's path
  * @return a new path (possibly empty)
  */
-- (NSBezierPath*)		pathFromIntersectionWithPath:(NSBezierPath*) otherPath;
+- (NSBezierPath*)pathFromIntersectionWithPath:(NSBezierPath*)otherPath;
 
 /** @brief Creates a new path which is the difference of this path and another path
  * @note
@@ -112,7 +110,7 @@ DKPathUnflatteningPolicy;
  * @param otherPath another path which is subtracted from this one's path
  * @return a new path (possibly empty)
  */
-- (NSBezierPath*)		pathFromDifferenceWithPath:(NSBezierPath*) otherPath;
+- (NSBezierPath*)pathFromDifferenceWithPath:(NSBezierPath*)otherPath;
 
 /** @brief Creates a new path which is the xor of this path and another path
  * @note
@@ -120,23 +118,23 @@ DKPathUnflatteningPolicy;
  * @param otherPath another path which is xored with this one's path
  * @return a new path (possibly empty)
  */
-- (NSBezierPath*)		pathFromExclusiveOrWithPath:(NSBezierPath*) otherPath;
+- (NSBezierPath*)pathFromExclusiveOrWithPath:(NSBezierPath*)otherPath;
 
 // unflatten a poly-based path using curve fitting
 
 /** @brief Creates a new path which is the unflattened version of this
  * @return the unflattened path (curve fitted)
  */
-- (NSBezierPath*)		bezierPathByUnflatteningPath;
+- (NSBezierPath*)bezierPathByUnflatteningPath;
 
 @end
 
-NSUInteger	checksumPoly( gpc_polygon* poly );
-NSRect		boundsOfPoly( gpc_polygon* poly );
-BOOL		equalPolys( gpc_polygon* polyA, gpc_polygon* polyB );
-BOOL		intersectingPolys( gpc_polygon* polyA, gpc_polygon* polyB );
+NSUInteger checksumPoly(gpc_polygon* poly);
+NSRect boundsOfPoly(gpc_polygon* poly);
+BOOL equalPolys(gpc_polygon* polyA, gpc_polygon* polyB);
+BOOL intersectingPolys(gpc_polygon* polyA, gpc_polygon* polyB);
 
-#define		kDKCurveFittingErrorValue		1E-4
+#define kDKCurveFittingErrorValue 1E-4
 
 extern NSString* kDKCurveFittingPolicyDefaultsKey;
 

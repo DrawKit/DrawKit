@@ -44,15 +44,14 @@ into the DK system via the controller, the active layer, any selection within it
 A subclass of this can also implement drawRect: if it needs to, and can thus draw into its view. This is called after all other drawing has been
 completed except for page breaks. Tool controllers for example can draw selection rects, etc.
 */
-@interface DKViewController : NSObject
-{
+@interface DKViewController : NSObject {
 @private
-	NSView*				mViewRef;				// weak ref to the view that is associated with this
-	DKDrawing*			mDrawingRef;			// weak ref to the drawing that owns this
-	BOOL				m_autoLayerSelect;		// YES to allow mouse to activate layers automatically
-	BOOL				mEnableDKMenus;			// YES to enable all standard contextual menus provided by DK.
+    NSView* mViewRef; // weak ref to the view that is associated with this
+    DKDrawing* mDrawingRef; // weak ref to the drawing that owns this
+    BOOL m_autoLayerSelect; // YES to allow mouse to activate layers automatically
+    BOOL mEnableDKMenus; // YES to enable all standard contextual menus provided by DK.
 @protected
-	NSEvent*			mDragEvent;				// cached drag event for autoscroll to use
+    NSEvent* mDragEvent; // cached drag event for autoscroll to use
 }
 
 // designated initializer
@@ -62,7 +61,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return the controller object
  * @public
  */
-- (id)					initWithView:(NSView*) aView;
+- (id)initWithView:(NSView*)aView;
 
 // fundamental objects in the controller's world
 
@@ -70,13 +69,13 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return the controller's view
  * @public
  */
-- (NSView*)				view;
+- (NSView*)view;
 
 /** @brief Return the controller's drawing
  * @return the controller's drawing
  * @public
  */
-- (DKDrawing*)			drawing;
+- (DKDrawing*)drawing;
 
 // updating the view from the drawing (refresh). Note that these are typically invoked via the DKDrawing,
 // so you should look there for similarly named methods that take simple types. The object type parameters
@@ -89,7 +88,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param updateBoolValue an NSNumber containing a boolValue, YES to update, NO to not update
  * @public
  */
-- (void)				setViewNeedsDisplay:(NSNumber*) updateBoolValue;
+- (void)setViewNeedsDisplay:(NSNumber*)updateBoolValue;
 
 /** @brief Mark part of the view for update
  * @note
@@ -98,7 +97,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param updateRectValue an NSValue containing a rectValue, the area to mark for update
  * @public
  */
-- (void)				setViewNeedsDisplayInRect:(NSValue*) updateRectValue;
+- (void)setViewNeedsDisplayInRect:(NSValue*)updateRectValue;
 
 /** @brief Notify that the drawing has had its size changed
  * @note
@@ -106,7 +105,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param drawingSizeValue an NSValue containing a sizeValue
  * @public
  */
-- (void)				drawingDidChangeToSize:(NSValue*) drawingSizeValue;
+- (void)drawingDidChangeToSize:(NSValue*)drawingSizeValue;
 
 /** @brief Scroll the view so that the given area is visible
  * @note
@@ -115,7 +114,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param rectValue an NSValue containing a rectValue, the rect to scroll into view
  * @public
  */
-- (void)				scrollViewToRect:(NSValue*) rectValue;
+- (void)scrollViewToRect:(NSValue*)rectValue;
 
 /** @brief Set the ruler markers to the given rect
  * @note
@@ -124,7 +123,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param rectValue an NSValue containing a rectValue, the rect to move ruler markers to
  * @public
  */
-- (void)				updateViewRulerMarkersForRect:(NSValue*) rectValue;
+- (void)updateViewRulerMarkersForRect:(NSValue*)rectValue;
 
 /** @brief Hide the view's ruler markers
  * @note
@@ -132,7 +131,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * similar drawing methods that take simple parameter types
  * @public
  */
-- (void)				hideViewRulerMarkers;
+- (void)hideViewRulerMarkers;
 
 /** @brief Set the rulers to match the unit string
  * @note
@@ -141,7 +140,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param unitString a string used to look up the previously established ruler settings
  * @public
  */
-- (void)				synchronizeViewRulersWithUnits:(NSString*) unitString;
+- (void)synchronizeViewRulersWithUnits:(NSString*)unitString;
 
 /** @brief Invalidate the cursor rects for the view
  * @note
@@ -149,7 +148,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * similar drawing methods that take simple parameter types
  * @public
  */
-- (void)				invalidateCursors;
+- (void)invalidateCursors;
 
 /** @brief Stop any text editing that may be taking place in the view
  * @note
@@ -157,7 +156,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * similar drawing methods that take simple parameter types
  * @public
  */
-- (void)				exitTemporaryTextEditingMode;
+- (void)exitTemporaryTextEditingMode;
 
 /** @brief An object in the drawing notified a status (rather than visual) change
  * @note
@@ -165,7 +164,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param object the object that changed
  * @public
  */
-- (void)				objectDidNotifyStatusChange:(id) object;
+- (void)objectDidNotifyStatusChange:(id)object;
 
 // info about current view state
 
@@ -173,7 +172,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return a float value representing the view's zoom scale, 1.0 = 100%, 2.0 = 200% etc.
  * @public
  */
-- (CGFloat)				viewScale;
+- (CGFloat)viewScale;
 
 // handling mouse input events from the view
 
@@ -185,13 +184,13 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param event the event
  * @public
  */
-- (void)				mouseDown:(NSEvent*) event;
+- (void)mouseDown:(NSEvent*)event;
 
 /** @brief Handle the mouse dragged event
  * @param event the event
  * @public
  */
-- (void)				mouseDragged:(NSEvent*) event;
+- (void)mouseDragged:(NSEvent*)event;
 
 /** @brief Handle the mouse up event
  * @note
@@ -200,7 +199,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param event the event
  * @public
  */
-- (void)				mouseUp:(NSEvent*) event;
+- (void)mouseUp:(NSEvent*)event;
 
 /** @brief Handle the mouse moved event
  * @note
@@ -209,13 +208,13 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param event the event
  * @public
  */
-- (void)				mouseMoved:(NSEvent*) event;
+- (void)mouseMoved:(NSEvent*)event;
 
 /** @brief Handle the flags changed event
  * @param event the event
  * @public
  */
-- (void)				flagsChanged:(NSEvent*) event;
+- (void)flagsChanged:(NSEvent*)event;
 
 /** @brief Respond to a mouse-down in one of the view's rulers
  * @note
@@ -225,13 +224,13 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param event the event
  * @public
  */
-- (void)				rulerView:(NSRulerView*) aRulerView handleMouseDown:(NSEvent*) event;
+- (void)rulerView:(NSRulerView*)aRulerView handleMouseDown:(NSEvent*)event;
 
 /** @brief Return the cursor to display when the mouse is in the view
  * @return a cursor
  * @public
  */
-- (NSCursor*)			cursor;
+- (NSCursor*)cursor;
 
 /** @brief Return the active cursor rect
  * @note
@@ -240,7 +239,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return a rect
  * @public
  */
-- (NSRect)				activeCursorRect;
+- (NSRect)activeCursorRect;
 
 /** @brief Set whether the standard contextual menus within DK are enabled or not
  * @note
@@ -249,7 +248,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param enable YES to enable the menus, NO to disable them
  * @public
  */
-- (void)				setContextualMenusEnabled:(BOOL) enable;
+- (void)setContextualMenusEnabled:(BOOL)enable;
 
 /** @brief Are the standard contextual menus within DK are enabled or not?
  * @note
@@ -257,8 +256,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return YES if standard contextual menus are enabled, NO if not
  * @public
  */
-- (BOOL)				contextualMenusEnabled;
-- (NSMenu*)				menuForEvent:(NSEvent*) event;
+- (BOOL)contextualMenusEnabled;
+- (NSMenu*)menuForEvent:(NSEvent*)event;
 
 // autoscrolling:
 
@@ -268,15 +267,15 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * the view. Normally autoscrolling should start on mouse down and stop on mouse up.
  * @public
  */
-- (void)				startAutoscrolling;
+- (void)startAutoscrolling;
 
 /** @brief Stop the autoscroll timer
  * @note
  * Normally autoscrolling should start on mouse down and stop on mouse up.
  * @public
  */
-- (void)				stopAutoscrolling;
-- (void)				autoscrollTimerCallback:(NSTimer*) timer;
+- (void)stopAutoscrolling;
+- (void)autoscrollTimerCallback:(NSTimer*)timer;
 
 // layer info
 
@@ -284,14 +283,14 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return the active layer
  * @public
  */
-- (DKLayer*)			activeLayer;
+- (DKLayer*)activeLayer;
 
 /** @brief Return the drawing's current active layer if it matches the given class, else nil
  * @param aClass a layer class
  * @return the active layer if it matches the class, otherwise nil
  * @public
  */
-- (id)					activeLayerOfClass:(Class) aClass;
+- (id)activeLayerOfClass:(Class)aClass;
 
 /** @brief Should a mouse down activate the layer it hits automatically?
  * @note
@@ -299,7 +298,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param acts YES to auto-activate a layer, NO to leave it to someone else
  * @public
  */
-- (void)				setActivatesLayersAutomatically:(BOOL) acts;
+- (void)setActivatesLayersAutomatically:(BOOL)acts;
 
 /** @brief Should a mouse down activate the layer it hits automatically?
  * @note
@@ -307,7 +306,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return YES to auto-activate a layer, NO to leave it to someone else
  * @public
  */
-- (BOOL)				activatesLayersAutomatically;
+- (BOOL)activatesLayersAutomatically;
 
 /** @brief Which layer did the point hit?
  * @note
@@ -317,13 +316,13 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @return the topmost layer hit by the given point, else nil
  * @public
  */
-- (DKLayer*)			findLayer:(NSPoint) p;
+- (DKLayer*)findLayer:(NSPoint)p;
 
 /** @brief A new layer is about to be activated
  * @param aLayer the layer about to be activated 
  * @public
  */
-- (void)				activeLayerWillChangeToLayer:(DKLayer*) aLayer;
+- (void)activeLayerWillChangeToLayer:(DKLayer*)aLayer;
 
 /** @brief A new layer was activated
  * @note
@@ -332,13 +331,13 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param aLayer the layer that was activated 
  * @public
  */
-- (void)				activeLayerDidChangeToLayer:(DKLayer*) aLayer;
+- (void)activeLayerDidChangeToLayer:(DKLayer*)aLayer;
 
 /** @brief If layers can be automatically activated, perform that switch
  * @param event the initiating event - typically a mouseDown event. 
  * @return YES if a new layer was actually made active, NO if it remained the same
  */
-- (BOOL)				autoActivateLayerWithEvent:(NSEvent*) event;
+- (BOOL)autoActivateLayerWithEvent:(NSEvent*)event;
 
 // user actions for layer stacking
 
@@ -348,7 +347,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param sender the sender of the action 
  * @public
  */
-- (IBAction)			layerBringToFront:(id) sender;
+- (IBAction)layerBringToFront:(id)sender;
 
 /** @brief Move the active layer 1 position forward within its group
  * @note
@@ -356,7 +355,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param sender the sender of the action 
  * @public
  */
-- (IBAction)			layerBringForward:(id) sender;
+- (IBAction)layerBringForward:(id)sender;
 
 /** @brief Move the active layer to the back within its group
  * @note
@@ -364,7 +363,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param sender the sender of the action 
  * @public
  */
-- (IBAction)			layerSendToBack:(id) sender;
+- (IBAction)layerSendToBack:(id)sender;
 
 /** @brief Move the active layer 1 position towards the back within its group
  * @note
@@ -372,7 +371,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param sender the sender of the action 
  * @public
  */
-- (IBAction)			layerSendBackward:(id) sender;
+- (IBAction)layerSendBackward:(id)sender;
 
 /** @brief Hides all inactive layers and shows the active layer (if it's hidden)
  * @note
@@ -380,7 +379,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param sender the sender of the action 
  * @public
  */
-- (IBAction)			hideInactiveLayers:(id) sender;
+- (IBAction)hideInactiveLayers:(id)sender;
 
 /** @brief Shows all layers
  * @note
@@ -388,15 +387,15 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param sender the sender of the action 
  * @public
  */
-- (IBAction)			showAllLayers:(id) sender;
+- (IBAction)showAllLayers:(id)sender;
 
 // other user actions
 
-- (IBAction)			toggleSnapToGrid:(id) sender;
-- (IBAction)			toggleSnapToGuides:(id) sender;
-- (IBAction)			toggleGridVisible:(id) sender;
-- (IBAction)			toggleGuidesVisible:(id) sender;
-- (IBAction)			copyDrawing:(id) sender;
+- (IBAction)toggleSnapToGrid:(id)sender;
+- (IBAction)toggleSnapToGuides:(id)sender;
+- (IBAction)toggleGridVisible:(id)sender;
+- (IBAction)toggleGuidesVisible:(id)sender;
+- (IBAction)copyDrawing:(id)sender;
 
 // establishing relationships:
 
@@ -407,7 +406,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param aDrawing the drawing object 
  * @public
  */
-- (void)				setDrawing:(DKDrawing*) aDrawing;
+- (void)setDrawing:(DKDrawing*)aDrawing;
 
 /** @brief Set the view that the controller is associated with
  * @note
@@ -415,9 +414,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
  * @param aView the view 
  * @public
  */
-- (void)				setView:(NSView*) aView;
+- (void)setView:(NSView*)aView;
 
 @end
 
-#define		kDKAutoscrollRate		(1.0/20.0)
-
+#define kDKAutoscrollRate (1.0 / 20.0)

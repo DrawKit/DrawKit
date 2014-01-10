@@ -59,7 +59,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)		unionSelectedObjects:(id) sender;
+- (IBAction)unionSelectedObjects:(id)sender;
 
 /** @brief Subtracts the topmost shape from the other.
  * @note
@@ -68,7 +68,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)		diffSelectedObjects:(id) sender;
+- (IBAction)diffSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by their intersection.
  * @note
@@ -77,7 +77,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)		intersectionSelectedObjects:(id) sender;
+- (IBAction)intersectionSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by their exclusive-OR.
  * @note
@@ -86,7 +86,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)		xorSelectedObjects:(id) sender;
+- (IBAction)xorSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by their divided replacements.
  * @note
@@ -97,7 +97,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)		divideSelectedObjects:(id) sender;
+- (IBAction)divideSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by combining their paths.
  * @note
@@ -107,7 +107,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)		combineSelectedObjects:(id) sender;
+- (IBAction)combineSelectedObjects:(id)sender;
 
 /** @brief Sets the unflattening (smoothing) policy for GPC-based operations.
  * @note
@@ -115,12 +115,12 @@ since the code this calls operates purely at the abstract NSBezierPath level.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)		setBooleanOpsFittingPolicy:(id) sender;
+- (IBAction)setBooleanOpsFittingPolicy:(id)sender;
 
-- (NSArray*)		cropToPath:(NSBezierPath*) croppingPath;
-- (NSArray*)		cropToRect:(NSRect) croppingRect;
+- (NSArray*)cropToPath:(NSBezierPath*)croppingPath;
+- (NSArray*)cropToRect:(NSRect)croppingRect;
 
-- (BOOL)			intersectingDrawablesinArray:(NSArray*) array;
+- (BOOL)intersectingDrawablesinArray:(NSArray*)array;
 
 @end
 

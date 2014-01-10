@@ -29,7 +29,6 @@ correctly implement the protocol to its requirements, and not just "hope for the
  * @return a layer, the one that is currently active
  * @public
  */
-- (DKLayer*)			activeLayer;
+- (DKLayer*)activeLayer;
 
 @end
-

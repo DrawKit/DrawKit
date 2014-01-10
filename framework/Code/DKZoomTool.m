@@ -13,27 +13,27 @@
 
 @implementation DKZoomTool
 
-- (void)	setZoomsOut:(BOOL) zoomOut
+- (void)setZoomsOut:(BOOL)zoomOut
 {
-	mMode = zoomOut;
-	
-	if( zoomOut )
-		mModeModifierMask = 0;
+    mMode = zoomOut;
+
+    if (zoomOut)
+        mModeModifierMask = 0;
 }
 
-- (BOOL)	zoomsOut
+- (BOOL)zoomsOut
 {
-	return mMode;
+    return mMode;
 }
 
-- (void)		setModeModifierMask:(NSUInteger) msk
+- (void)setModeModifierMask:(NSUInteger)msk
 {
-	mModeModifierMask = msk;
+    mModeModifierMask = msk;
 }
 
-- (NSUInteger)	modeModifierMask
+- (NSUInteger)modeModifierMask
 {
-	return mModeModifierMask;
+    return mModeModifierMask;
 }
 
 #pragma mark - As a DKDrawingTool
@@ -47,18 +47,18 @@
  * @return the partcode of the target that was hit, or 0 (no object)
  * @public
  */
-- (NSInteger)				mouseDownAtPoint:(NSPoint) p targetObject:(DKDrawableObject*) obj layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(obj)
-	#pragma unused(layer)
-	#pragma unused(aDel)
-	
-	if([self modeModifierMask] != 0)
-		mMode = (([event modifierFlags] & [self modeModifierMask]) != 0 );
-	
-	mAnchor = p;
-	mZoomRect = NSZeroRect;
-	return 0;
+#pragma unused(obj)
+#pragma unused(layer)
+#pragma unused(aDel)
+
+    if ([self modeModifierMask] != 0)
+        mMode = (([event modifierFlags] & [self modeModifierMask]) != 0);
+
+    mAnchor = p;
+    mZoomRect = NSZeroRect;
+    return 0;
 }
 
 /** @brief Handle the mouse dragged event
@@ -69,18 +69,17 @@
  * @param aDel an optional delegate
  * @public
  */
-- (void)			mouseDraggedToPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(pc)
-	#pragma unused(event)
-	#pragma unused(aDel)
-	
-	if ( !mMode )
-	{
-		[layer setNeedsDisplayInRect:mZoomRect];
-		mZoomRect = NSRectFromTwoPoints( mAnchor, p );
-		[layer setNeedsDisplayInRect:mZoomRect];
-	}
+#pragma unused(pc)
+#pragma unused(event)
+#pragma unused(aDel)
+
+    if (!mMode) {
+        [layer setNeedsDisplayInRect:mZoomRect];
+        mZoomRect = NSRectFromTwoPoints(mAnchor, p);
+        [layer setNeedsDisplayInRect:mZoomRect];
+    }
 }
 
 /** @brief Handle the mouse up event
@@ -92,35 +91,35 @@
  * @return YES if the tool did something undoable, NO otherwise
  * @public
  */
-- (BOOL)			mouseUpAtPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(pc)
-	#pragma unused(event)
-	#pragma unused(aDel)
-	
-	DKDrawingView* zv = (DKDrawingView*)[layer currentView];
+#pragma unused(pc)
+#pragma unused(event)
+#pragma unused(aDel)
 
-	if ( !mMode )
-	{
-		NSRect temp = mZoomRect;
-		mZoomRect = NSZeroRect;
-		
-		[layer setNeedsDisplayInRect:temp];
-		temp = NSRectFromTwoPoints( mAnchor, p );
-		[layer setNeedsDisplayInRect:temp];
-		
-		// if dragged area < 4 pixels, treat as click
-		
-		if ( NSIsEmptyRect( NSInsetRect( temp, 2.0, 2.0 )))
-			[zv zoomViewByFactor:2.0 andCentrePoint:p];
-		else
-			[zv zoomViewToRect:temp];
-	}
-	else
-		[zv zoomViewByFactor:0.5 andCentrePoint:p];
-	
-	mZoomRect = NSZeroRect;
-	return NO;
+    DKDrawingView* zv = (DKDrawingView*)[layer currentView];
+
+    if (!mMode) {
+        NSRect temp = mZoomRect;
+        mZoomRect = NSZeroRect;
+
+        [layer setNeedsDisplayInRect:temp];
+        temp = NSRectFromTwoPoints(mAnchor, p);
+        [layer setNeedsDisplayInRect:temp];
+
+        // if dragged area < 4 pixels, treat as click
+
+        if (NSIsEmptyRect(NSInsetRect(temp, 2.0, 2.0)))
+            [zv zoomViewByFactor:2.0
+                  andCentrePoint:p];
+        else
+            [zv zoomViewToRect:temp];
+    } else
+        [zv zoomViewByFactor:0.5
+              andCentrePoint:p];
+
+    mZoomRect = NSZeroRect;
+    return NO;
 }
 
 /** @brief Draw the tool's graphic
@@ -128,21 +127,22 @@
  * @param aView the view that is doing the drawing
  * @public
  */
-- (void)			drawRect:(NSRect) aRect inView:(NSView*) aView
+- (void)drawRect:(NSRect)aRect inView:(NSView*)aView
 {
-	#pragma unused(aRect)
-	
-	if (!NSIsEmptyRect(mZoomRect) && [aView needsToDrawRect:mZoomRect])
-	{
-		CGFloat sc = 1.0 / [(DKDrawingView*)aView scale];
-		CGFloat dash[] = { 4.0 * sc, 3.0 * sc };
-		
-		NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect( mZoomRect, sc, sc )];
-		[zoomPath setLineWidth:sc];
-		[zoomPath setLineDash:dash count:2 phase:0.0];
-		[[NSColor grayColor] set];
-		[zoomPath stroke];
-	}
+#pragma unused(aRect)
+
+    if (!NSIsEmptyRect(mZoomRect) && [aView needsToDrawRect:mZoomRect]) {
+        CGFloat sc = 1.0 / [(DKDrawingView*)aView scale];
+        CGFloat dash[] = { 4.0 * sc, 3.0 * sc };
+
+        NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect(mZoomRect, sc, sc)];
+        [zoomPath setLineWidth:sc];
+        [zoomPath setLineDash:dash
+                        count:2
+                        phase:0.0];
+        [[NSColor grayColor] set];
+        [zoomPath stroke];
+    }
 }
 
 /** @brief The state of the modifier keys changed
@@ -150,19 +150,17 @@
  * @param layer the current layer that the tool is being applied to
  * @public
  */
-- (void)			flagsChanged:(NSEvent*) event inLayer:(DKLayer*) layer
+- (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer
 {
-	if([self modeModifierMask] != 0)
-	{
-		mMode = (([event modifierFlags] & [self modeModifierMask]) != 0 );
-		[[self cursor] set];
-		
-		if ( mMode )
-		{
-			[layer setNeedsDisplayInRect:mZoomRect];
-			mZoomRect = NSZeroRect;
-		}
-	}
+    if ([self modeModifierMask] != 0) {
+        mMode = (([event modifierFlags] & [self modeModifierMask]) != 0);
+        [[self cursor] set];
+
+        if (mMode) {
+            [layer setNeedsDisplayInRect:mZoomRect];
+            mZoomRect = NSZeroRect;
+        }
+    }
 }
 
 /** @brief Return whether the target layer can be used by this tool
@@ -172,43 +170,42 @@
  * @return YES if the tool can be used with the given layer, NO otherwise
  * @public
  */
-- (BOOL)			isValidTargetLayer:(DKLayer*) aLayer
+- (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
-	#pragma unused(aLayer)
-	
-	return YES;
+#pragma unused(aLayer)
+
+    return YES;
 }
 
 /** @brief Return the tool's cursor
  * @return the arrow cursor
  * @public
  */
-- (NSCursor*)		cursor
+- (NSCursor*)cursor
 {
-	NSImage* img;
-	
-	if ( mMode )
-		img = [NSImage imageNamed:@"mag_minus"];
-	else
-		img = [NSImage imageNamed:@"mag_plus"];
-	
-	NSCursor* curs = [[NSCursor alloc] initWithImage:img hotSpot:NSMakePoint( 12, 12 )];	
-	return [curs autorelease];
+    NSImage* img;
+
+    if (mMode)
+        img = [NSImage imageNamed:@"mag_minus"];
+    else
+        img = [NSImage imageNamed:@"mag_plus"];
+
+    NSCursor* curs = [[NSCursor alloc] initWithImage:img
+                                             hotSpot:NSMakePoint(12, 12)];
+    return [curs autorelease];
 }
 
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)				init
+- (id)init
 {
-	self = [super init];
-	if( self )
-	{
-		mModeModifierMask = NSAlternateKeyMask;
-	}
-	
-	return self;
+    self = [super init];
+    if (self) {
+        mModeModifierMask = NSAlternateKeyMask;
+    }
+
+    return self;
 }
 
 @end
-

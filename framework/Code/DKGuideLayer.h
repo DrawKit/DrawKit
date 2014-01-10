@@ -23,17 +23,16 @@ The default snap tolerance for guides is 6 points.
 By default guides don't snap to the grid. You can force a guide to snap to the grid even if this setting is off by dragging with
 the shift key down.
 */
-@interface DKGuideLayer : DKLayer <NSCoding>
-{
+@interface DKGuideLayer : DKLayer <NSCoding> {
 @private
-	NSMutableArray*		m_hGuides;					// the list of horizontal guides
-	NSMutableArray*		m_vGuides;					// the list of vertical guides
-	BOOL				m_snapToGrid;				// YES if snap to grid is enabled
-	BOOL				m_showDragInfo;				// YES if dragging a guide displays the floating info window
-	DKGuide*			m_dragGuideRef;				// the current guide being dragged
-	CGFloat				m_snapTolerance;			// the current snap tolerance value
-	NSRect				mGuideDeletionZone;			// guides dragged outside this rect are deleted
-	BOOL				mDrawGuidesInClipView;		// if YES, guides are extended to be drawn in the clip view of an enclosing scroller
+    NSMutableArray* m_hGuides; // the list of horizontal guides
+    NSMutableArray* m_vGuides; // the list of vertical guides
+    BOOL m_snapToGrid; // YES if snap to grid is enabled
+    BOOL m_showDragInfo; // YES if dragging a guide displays the floating info window
+    DKGuide* m_dragGuideRef; // the current guide being dragged
+    CGFloat m_snapTolerance; // the current snap tolerance value
+    NSRect mGuideDeletionZone; // guides dragged outside this rect are deleted
+    BOOL mDrawGuidesInClipView; // if YES, guides are extended to be drawn in the clip view of an enclosing scroller
 }
 
 // default snapping tolerance:
@@ -42,13 +41,13 @@ the shift key down.
  * @param tol the distance in points
  * @public
  */
-+ (void)				setDefaultSnapTolerance:(CGFloat) tol;
++ (void)setDefaultSnapTolerance:(CGFloat)tol;
 
 /** @brief Returns the distance a point needs to be before it is snapped to a guide
  * @return the distance in points
  * @public
  */
-+ (CGFloat)				defaultSnapTolerance;
++ (CGFloat)defaultSnapTolerance;
 
 // adding and removing guides:
 
@@ -59,18 +58,18 @@ the shift key down.
  * @param guide an existing guide object
  * @public
  */
-- (void)				addGuide:(DKGuide*) guide;
+- (void)addGuide:(DKGuide*)guide;
 
 /** @brief Removes a guide from the layer
  * @param guide an existing guide object
  * @public
  */
-- (void)				removeGuide:(DKGuide*) guide;
+- (void)removeGuide:(DKGuide*)guide;
 
 /** @brief Removes all guides permanently from the layer
  * @public
  */
-- (void)				removeAllGuides;
+- (void)removeAllGuides;
 
 /** @brief Creates a new vertical guide at the point p, adds it to the layer and returns it
  * @note
@@ -81,7 +80,7 @@ the shift key down.
  * @return the guide created, or nil
  * @public
  */
-- (DKGuide*)			createVerticalGuideAndBeginDraggingFromPoint:(NSPoint) p;
+- (DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
 /** @brief Creates a new horizontal guide at the point p, adds it to the layer and returns it
  * @note
@@ -92,19 +91,19 @@ the shift key down.
  * @return the guide created, or nil
  * @public
  */
-- (DKGuide*)			createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint) p;
+- (DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
 /** @brief Get all current guides
  * @return an array of guide objects
  * @public
  */
-- (NSArray*)			guides;
+- (NSArray*)guides;
 
 /** @brief Adds a set of guides to th elayer
  * @param guides an array of guide objects
  * @public
  */
-- (void)				setGuides:(NSArray*) guides;
+- (void)setGuides:(NSArray*)guides;
 
 // finding guides close to a given position
 
@@ -113,14 +112,14 @@ the shift key down.
  * @return the nearest guide to the given point that lies within the snap tolerance, or nil
  * @public
  */
-- (DKGuide*)			nearestVerticalGuideToPosition:(CGFloat) pos;
+- (DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos;
 
 /** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
  * @param pos a horizontal coordinate value, in points
  * @return the nearest guide to the given point that lies within the snap tolerance, or nil
  * @public
  */
-- (DKGuide*)			nearestHorizontalGuideToPosition:(CGFloat) pos;
+- (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos;
 
 /** @brief Returns the list of vertical guides
  * @note
@@ -128,7 +127,7 @@ the shift key down.
  * @return an array of DKGuide objects
  * @public
  */
-- (NSArray*)			verticalGuides;
+- (NSArray*)verticalGuides;
 
 /** @brief Returns the list of horizontal guides
  * @note
@@ -136,7 +135,7 @@ the shift key down.
  * @return an array of DKGuide objects
  * @public
  */
-- (NSArray*)			horizontalGuides;
+- (NSArray*)horizontalGuides;
 
 // setting a common colour for the guides:
 
@@ -155,7 +154,7 @@ the shift key down.
  * @param colour a colour 
  * @public
  */
-- (void)				setGuideColour:(NSColor*) colour;
+- (void)setGuideColour:(NSColor*)colour;
 
 /** @brief Return the layer's guide colour
  * @note
@@ -170,7 +169,7 @@ the shift key down.
  * @return a colour
  * @public
  */
-- (NSColor*)			guideColour;
+- (NSColor*)guideColour;
 
 // set whether guides snap to grid or not
 
@@ -180,7 +179,7 @@ the shift key down.
  * @param gridsnap YES to always snap guides to the grid, NO otherwise
  * @public
  */
-- (void)				setGuidesSnapToGrid:(BOOL) gridsnap;
+- (void)setGuidesSnapToGrid:(BOOL)gridsnap;
 
 /** @brief Whether guids should snap to the grid by default or not
  * @note
@@ -188,7 +187,7 @@ the shift key down.
  * @return YES to always snap guides to the grid, NO otherwise
  * @public
  */
-- (BOOL)				guidesSnapToGrid;
+- (BOOL)guidesSnapToGrid;
 
 // set the snapping tolerance for this layer
 
@@ -198,7 +197,7 @@ the shift key down.
  * @param tol the distance in points
  * @public
  */
-- (void)				setSnapTolerance:(CGFloat) tol;
+- (void)setSnapTolerance:(CGFloat)tol;
 
 /** @brief Resturns the distance a point needs to be before it is snapped to a guide
  * @note
@@ -206,7 +205,7 @@ the shift key down.
  * @return the distance in points
  * @public
  */
-- (CGFloat)				snapTolerance;
+- (CGFloat)snapTolerance;
 
 // set whether the info window is displayed or not
 
@@ -216,7 +215,7 @@ the shift key down.
  * @param showsIt YES to display the window, NO otherwise
  * @public
  */
-- (void)				setShowsDragInfoWindow:(BOOL) showsIt;
+- (void)setShowsDragInfoWindow:(BOOL)showsIt;
 
 /** @brief Return whether the info window should be displayed when dragging a guide
  * @note
@@ -224,7 +223,7 @@ the shift key down.
  * @return YES to display the window, NO otherwise
  * @public
  */
-- (BOOL)				showsDragInfoWindow;
+- (BOOL)showsDragInfoWindow;
 
 /** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
  * @note
@@ -232,7 +231,7 @@ the shift key down.
  * @param rect the rect
  * @public
  */
-- (void)				setGuideDeletionRect:(NSRect) rect;
+- (void)setGuideDeletionRect:(NSRect)rect;
 
 /** @brief The rect for which guides will be deleted if they are dragged outside of it
  * @note
@@ -240,10 +239,10 @@ the shift key down.
  * @return the rect
  * @public
  */
-- (NSRect)				guideDeletionRect;
+- (NSRect)guideDeletionRect;
 
-- (void)				setGuidesDrawnInEnclosingScrollview:(BOOL) drawOutside;
-- (BOOL)				guidesDrawnInEnclosingScrollview;
+- (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside;
+- (BOOL)guidesDrawnInEnclosingScrollview;
 
 // snapping points and rects to the guides:
 
@@ -255,7 +254,7 @@ the shift key down.
  * @return a point, either the same point passed in, or a modified one that has been snapped to the guides
  * @public
  */
-- (NSPoint)				snapPointToGuide:(NSPoint) p;
+- (NSPoint)snapPointToGuide:(NSPoint)p;
 
 /** @brief Snaps any corner of the given rect to any nearest guides within the snap tolerance
  * @note
@@ -264,7 +263,7 @@ the shift key down.
  * @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
  * @public
  */
-- (NSRect)				snapRectToGuide:(NSRect) r;
+- (NSRect)snapRectToGuide:(NSRect)r;
 
 /** @brief Snaps any corner or centre point of the given rect to any nearest guides within the snap tolerance
  * @note
@@ -274,7 +273,7 @@ the shift key down.
  * @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
  * @public
  */
-- (NSRect)				snapRectToGuide:(NSRect) r includingCentres:(BOOL) centre;
+- (NSRect)snapRectToGuide:(NSRect)r includingCentres:(BOOL)centre;
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
  * @note
@@ -287,7 +286,7 @@ the shift key down.
  * @return a size, being the offset between whichever point was snapped and its snapped position
  * @public
  */
-- (NSSize)				snapPointsToGuide:(NSArray*) arrayOfPoints;
+- (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints;
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
  * @note
@@ -302,7 +301,7 @@ the shift key down.
  * @return a size, being the offset between whichever point was snapped and its snapped position
  * @public
  */
-- (NSSize)				snapPointsToGuide:(NSArray*) arrayOfPoints verticalGuide:(DKGuide**) gv horizontalGuide:(DKGuide**) gh;
+- (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh;
 
 // redrawing the guides
 
@@ -310,7 +309,7 @@ the shift key down.
  * @param guide the guide to update
  * @public
  */
-- (void)				refreshGuide:(DKGuide*) guide;
+- (void)refreshGuide:(DKGuide*)guide;
 
 /** @brief Returns the rect occupied by a given guide
  * @note
@@ -320,7 +319,7 @@ the shift key down.
  * @return a rect, in drawing coordinates
  * @public
  */
-- (NSRect)				guideRect:(DKGuide*) guide;
+- (NSRect)guideRect:(DKGuide*)guide;
 
 // user actions:
 
@@ -331,46 +330,45 @@ the shift key down.
  * @param sender the action's sender
  * @public
  */
-- (IBAction)			clearGuides:(id) sender;
+- (IBAction)clearGuides:(id)sender;
 
 @end
 
 // each guide is implemented by an instance of DKGuide:
 
-@interface DKGuide : NSObject <NSCoding>
-{
+@interface DKGuide : NSObject <NSCoding> {
 @private
-	CGFloat				m_position;
-	BOOL				m_isVertical;
-	NSColor*			m_colour;
+    CGFloat m_position;
+    BOOL m_isVertical;
+    NSColor* m_colour;
 }
 
 /** @brief Sets the position of the guide
  * @param pos a position value in drawing coordinates
  * @public
  */
-- (void)				setGuidePosition:(CGFloat) pos;
+- (void)setGuidePosition:(CGFloat)pos;
 
 /** @brief Returns the position of the guide
  * @return position value in drawing coordinates
  * @public
  */
-- (CGFloat)				guidePosition;
+- (CGFloat)guidePosition;
 
 /** @brief Sets whether the guide is vertically oriented or horizontal
  * @param vert YES for a vertical guide, NO for a horizontal guide
  * @public
  */
-- (void)				setIsVerticalGuide:(BOOL) vert;
+- (void)setIsVerticalGuide:(BOOL)vert;
 
 /** @brief Returns whether the guide is vertically oriented or horizontal
  * @return YES for a vertical guide, NO for a horizontal guide
  * @public
  */
-- (BOOL)				isVerticalGuide;
+- (BOOL)isVerticalGuide;
 
-- (void)				setGuideColour:(NSColor*) colour;
-- (NSColor*)			guideColour;
+- (void)setGuideColour:(NSColor*)colour;
+- (NSColor*)guideColour;
 
 /** @brief Draws the guide
  * @note
@@ -379,7 +377,6 @@ the shift key down.
  * @param lw the line width to draw
  * @public
  */
-- (void)				drawInRect:(NSRect) rect lineWidth:(CGFloat) lw;
+- (void)drawInRect:(NSRect)rect lineWidth:(CGFloat)lw;
 
 @end
-

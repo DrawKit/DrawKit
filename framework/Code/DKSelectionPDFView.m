@@ -15,24 +15,23 @@
 
 /** 
  */
-- (void)		drawRect:(NSRect) rect
+- (void)drawRect:(NSRect)rect
 {
-	#pragma unused(rect)
-	
-	//[[NSColor clearColor] set];
-	//NSRectFill([self bounds]);
-	
-	NSUInteger mask = ( NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask );
-	BOOL drawSelected = (([[NSApp currentEvent] modifierFlags] & mask) == mask );
-	
-	DKObjectDrawingLayer*	layer = (DKObjectDrawingLayer*)[[self controller] activeLayer];
+#pragma unused(rect)
 
-	if ( [layer isKindOfClass:[DKObjectDrawingLayer class]])
-	{
-		[self set];
-		[layer drawSelectedObjectsWithSelectionState:drawSelected];
-		[[self class] pop];
-	}
+    //[[NSColor clearColor] set];
+    //NSRectFill([self bounds]);
+
+    NSUInteger mask = (NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask);
+    BOOL drawSelected = (([[NSApp currentEvent] modifierFlags] & mask) == mask);
+
+    DKObjectDrawingLayer* layer = (DKObjectDrawingLayer*)[[self controller] activeLayer];
+
+    if ([layer isKindOfClass:[DKObjectDrawingLayer class]]) {
+        [self set];
+        [layer drawSelectedObjectsWithSelectionState:drawSelected];
+        [[self class] pop];
+    }
 }
 
 @end
@@ -40,39 +39,38 @@
 #pragma mark -
 @implementation DKLayerPDFView : DKDrawingView
 
-- (id)		initWithFrame:(NSRect) frame withLayer:(DKLayer*) aLayer
+- (id)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer
 {
-	self = [super initWithFrame:frame];
-	if( self != nil )
-	{
-		mLayerRef = aLayer;
-	}
-	
-	return self;
+    self = [super initWithFrame:frame];
+    if (self != nil) {
+        mLayerRef = aLayer;
+    }
+
+    return self;
 }
 
-- (BOOL)		isFlipped
+- (BOOL)isFlipped
 {
-	return YES;
+    return YES;
 }
 
-- (void)		drawRect:(NSRect) rect
+- (void)drawRect:(NSRect)rect
 {
-	#pragma unused(rect)
-	
-	//[[NSColor clearColor] set];
-	//NSRectFill([self bounds]);
-	
-	if ( mLayerRef != nil )
-	{
-		[self set];
-		
-		[mLayerRef beginDrawing];
-		[mLayerRef drawRect:[self bounds] inView:self];
-		[mLayerRef endDrawing];
-		
-		[[self class] pop];
-	}
+#pragma unused(rect)
+
+    //[[NSColor clearColor] set];
+    //NSRectFill([self bounds]);
+
+    if (mLayerRef != nil) {
+        [self set];
+
+        [mLayerRef beginDrawing];
+        [mLayerRef drawRect:[self bounds]
+                     inView:self];
+        [mLayerRef endDrawing];
+
+        [[self class] pop];
+    }
 }
 
 @end
@@ -81,32 +79,30 @@
 
 @implementation DKDrawablePDFView
 
-- (id)		initWithFrame:(NSRect) frame object:(DKDrawableObject*) obj
+- (id)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj
 {
-	self = [super initWithFrame:frame];
-	if( self != nil )
-	{
-		mObjectRef = obj;
-	}
-	
-	return self;
+    self = [super initWithFrame:frame];
+    if (self != nil) {
+        mObjectRef = obj;
+    }
+
+    return self;
 }
 
-- (BOOL)		isFlipped
+- (BOOL)isFlipped
 {
-	return YES;
+    return YES;
 }
 
-- (void)		drawRect:(NSRect) rect
+- (void)drawRect:(NSRect)rect
 {
 #pragma unused(rect)
-	
-	[[NSColor clearColor] set];
-	NSRectFill([self bounds]);
-	
-	if ( mObjectRef )
-		[mObjectRef drawContentWithSelectedState:NO];
+
+    [[NSColor clearColor] set];
+    NSRectFill([self bounds]);
+
+    if (mObjectRef)
+        [mObjectRef drawContentWithSelectedState:NO];
 }
 
 @end
-

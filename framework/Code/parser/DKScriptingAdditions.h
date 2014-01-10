@@ -11,17 +11,16 @@
 
 @class DKExpression;
 
-
 @interface NSColor (DKStyleExpressions)
 
-+ (NSColor*)	instantiateFromExpression:(DKExpression*)expr;
-- (NSString*)	styleScript;
++ (NSColor*)instantiateFromExpression:(DKExpression*)expr;
+- (NSString*)styleScript;
 
 @end
 
 @interface NSShadow (DKStyleExpressions)
 
-+ (NSShadow*)	instantiateFromExpression:(DKExpression*) expr;
-- (NSString*)	styleScript;
++ (NSShadow*)instantiateFromExpression:(DKExpression*)expr;
+- (NSString*)styleScript;
 
 @end

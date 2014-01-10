@@ -8,14 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum
-{
-	kDKBooleanOpUnion			= 0,
-	kDKBooleanOpIntersection	= 1,
-	kDKBooleanOpDifference		= 2,
-	kDKBooleanOpExclusiveOR		= 3
-}
-DKBooleanOperation;
+typedef enum {
+    kDKBooleanOpUnion = 0,
+    kDKBooleanOpIntersection = 1,
+    kDKBooleanOpDifference = 2,
+    kDKBooleanOpExclusiveOR = 3
+} DKBooleanOperation;
 
 /**
 ######## NOTE ######## NOT YET IMPLEMENTED - DO NOT USE - THESE FILES ARE A PLACEHOLDER ONLY
@@ -36,11 +34,10 @@ thrown away, and the rest joined up into the new path.
 */
 @interface NSBezierPath (Combinatorial)
 
-- (void)			showIntersectionsWithPath:(NSBezierPath*) path;
-- (NSBezierPath*)	renormalizePath;
-- (NSArray*)		dividePathWithPath:(NSBezierPath*) path;
+- (void)showIntersectionsWithPath:(NSBezierPath*)path;
+- (NSBezierPath*)renormalizePath;
+- (NSArray*)dividePathWithPath:(NSBezierPath*)path;
 
-- (NSBezierPath*)	performBooleanOp:(DKBooleanOperation) op withPath:(NSBezierPath*) path;
+- (NSBezierPath*)performBooleanOp:(DKBooleanOperation)op withPath:(NSBezierPath*)path;
 
 @end
-

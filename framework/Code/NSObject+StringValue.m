@@ -13,142 +13,138 @@
 
 /** 
  */
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	return NSStringFromClass([self class]);
+    return NSStringFromClass([self class]);
 }
 
-- (NSString*)	address
+- (NSString*)address
 {
 #warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"0x%X", self];
+    return [NSString stringWithFormat:@"0x%X", self];
 }
 
 @end
 
 @implementation NSValue (StringValue)
 
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	const char* objcType = [self objCType];
-	NSInteger m = -1;
-	
-	m = strncmp( objcType, @encode(NSRect), strlen( objcType ));
-	
-	if ( m == 0 )
-		return NSStringFromRect([self rectValue]);
-		
-	m = strncmp( objcType, @encode(NSPoint), strlen( objcType ));
-	
-	if ( m == 0 )
-		return NSStringFromPoint([self pointValue]);
-		
-	m = strncmp( objcType, @encode(NSSize), strlen( objcType ));
-	
-	if ( m == 0 )
-		return NSStringFromSize([self sizeValue]);
-		
-	m = strncmp( objcType, @encode(NSRange), strlen( objcType ));
-	
-	if ( m == 0 )
-		return NSStringFromRange([self rangeValue]);
-		
-	return nil;
+    const char* objcType = [self objCType];
+    NSInteger m = -1;
+
+    m = strncmp(objcType, @encode(NSRect), strlen(objcType));
+
+    if (m == 0)
+        return NSStringFromRect([self rectValue]);
+
+    m = strncmp(objcType, @encode(NSPoint), strlen(objcType));
+
+    if (m == 0)
+        return NSStringFromPoint([self pointValue]);
+
+    m = strncmp(objcType, @encode(NSSize), strlen(objcType));
+
+    if (m == 0)
+        return NSStringFromSize([self sizeValue]);
+
+    m = strncmp(objcType, @encode(NSRange), strlen(objcType));
+
+    if (m == 0)
+        return NSStringFromRange([self rangeValue]);
+
+    return nil;
 }
 
 @end
 
 @implementation NSColor (StringValue)
 
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	return [self hexString];
+    return [self hexString];
 }
 
 @end
 
 @implementation NSArray (StringValue)
 
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	NSMutableString*	sv = [[NSMutableString alloc] init];
-	NSUInteger			i;
-	id					object;
-	
-	for( i = 0; i < [self count]; ++i )
-	{
-		object = [self objectAtIndex:i];
-#warning 64BIT: Inspect use of long
-		[sv appendString:[NSString stringWithFormat:@"%ld: %@\n", (long)i, [object stringValue]]];
-	}
-	
-	if ([sv length] > 0)
-		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+    NSMutableString* sv = [[NSMutableString alloc] init];
+    NSUInteger i;
+    id object;
 
-	return [sv autorelease];
+    for (i = 0; i < [self count]; ++i) {
+        object = [self objectAtIndex:i];
+#warning 64BIT: Inspect use of long
+        [sv appendString:[NSString stringWithFormat:@"%ld: %@\n", (long)i, [object stringValue]]];
+    }
+
+    if ([sv length] > 0)
+        [sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+
+    return [sv autorelease];
 }
 
 @end
 
 @implementation NSDictionary (StringValue)
 
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	NSMutableString*	sv = [[NSMutableString alloc] init];
-	id					object;
-	id					key;
-	NSEnumerator*		iter = [[self allKeys] objectEnumerator];
-	
-	while(( key = [iter nextObject]))
-	{
-		object = [self objectForKey:key];
-		[sv appendString:[NSString stringWithFormat:@"%@: %@\n", key, [object stringValue]]];
-	}
-	
-	if ([sv length] > 0)
-		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+    NSMutableString* sv = [[NSMutableString alloc] init];
+    id object;
+    id key;
+    NSEnumerator* iter = [[self allKeys] objectEnumerator];
 
-	return [sv autorelease];
+    while ((key = [iter nextObject])) {
+        object = [self objectForKey:key];
+        [sv appendString:[NSString stringWithFormat:@"%@: %@\n", key, [object stringValue]]];
+    }
+
+    if ([sv length] > 0)
+        [sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+
+    return [sv autorelease];
 }
 
 @end
 
 @implementation NSSet (StringValue)
 
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	NSMutableString*	sv = [[NSMutableString alloc] init];
-	id					object;
-	NSEnumerator*		iter = [self objectEnumerator];
-	
-	while(( object = [iter nextObject]))
-	{
-		[sv appendString:[NSString stringWithFormat:@"%@\n", [object stringValue]]];
-	}
-	
-	if ([sv length] > 0)
-		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+    NSMutableString* sv = [[NSMutableString alloc] init];
+    id object;
+    NSEnumerator* iter = [self objectEnumerator];
 
-	return [sv autorelease];
+    while ((object = [iter nextObject])) {
+        [sv appendString:[NSString stringWithFormat:@"%@\n", [object stringValue]]];
+    }
+
+    if ([sv length] > 0)
+        [sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+
+    return [sv autorelease];
 }
 
 @end
 
 @implementation NSString (StringValue)
 
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	return self;
+    return self;
 }
 
 @end
 
 @implementation NSDate (StringValue)
 
-- (NSString*)	stringValue
+- (NSString*)stringValue
 {
-	return [self description];
+    return [self description];
 }
 
 @end
-

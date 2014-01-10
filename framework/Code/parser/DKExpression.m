@@ -9,316 +9,280 @@
 
 #import "DKExpression.h"
 
-
 @implementation DKExpression
 #pragma mark As a DKExpression
-- (void)		setType:(NSString*) aType
+- (void)setType:(NSString*)aType
 {
-	[aType retain];
-	[mType release];
-	mType = aType;
+    [aType retain];
+    [mType release];
+    mType = aType;
 }
 
-
-- (NSString*)	type
+- (NSString*)type
 {
-	return mType;
+    return mType;
 }
 
-
-- (BOOL)		isSequence
+- (BOOL)isSequence
 {
-	if ([@"seq" isEqualToString:mType])
-		return YES;
-	
-	if ([@"emptySeq" isEqualToString:mType])
-		return YES;
+    if ([@"seq" isEqualToString:mType])
+        return YES;
 
-	return NO;
+    if ([@"emptySeq" isEqualToString:mType])
+        return YES;
+
+    return NO;
 }
 
-
-- (BOOL)		isMethodCall
+- (BOOL)isMethodCall
 {
-	if ([@"mcall" isEqualToString:mType])
-		return YES;
+    if ([@"mcall" isEqualToString:mType])
+        return YES;
 
-	return NO;
+    return NO;
 }
-
 
 #pragma mark -
-- (BOOL)		isLiteralValue
+- (BOOL)isLiteralValue
 {
-    NSEnumerator*	curs = [mValues objectEnumerator];
-    id				item;
-	
-    while ((item = [curs nextObject]))
-    {
-		if (! [item isLiteralValue])
-			return NO;
+    NSEnumerator* curs = [mValues objectEnumerator];
+    id item;
+
+    while ((item = [curs nextObject])) {
+        if (![item isLiteralValue])
+            return NO;
     }
-    
-	return YES;
+
+    return YES;
 }
 
-
-- (NSInteger)			argCount
+- (NSInteger)argCount
 {
-	return [mValues count];
+    return [mValues count];
 }
-
 
 #pragma mark -
-- (id)			valueAtIndex:(NSInteger) ndx
+- (id)valueAtIndex:(NSInteger)ndx
 {
-	if (ndx < 0)
-		ndx = [mValues count] + ndx;
-		
-	id item = [mValues objectAtIndex:ndx];
-	if ([item isKindOfClass:[DKExpressionPair class]])
-		return [(DKExpressionPair*)item value];
-	else
-		return item;
+    if (ndx < 0)
+        ndx = [mValues count] + ndx;
+
+    id item = [mValues objectAtIndex:ndx];
+    if ([item isKindOfClass:[DKExpressionPair class]])
+        return [(DKExpressionPair*)item value];
+    else
+        return item;
 }
 
-
-- (id)			valueForKey:(NSString*) key
+- (id)valueForKey:(NSString*)key
 {
-	Class PairClass = [DKExpressionPair class];
-	NSEnumerator*		curs = [mValues objectEnumerator];
-	DKExpressionPair*	pair;
-	
-	while ((pair = [curs nextObject]))
-	{
-		if ([pair isKindOfClass:PairClass] && [[pair key] isEqualToString:key])
-			return [pair value];
-	}
-	
-	return nil;
-}
+    Class PairClass = [DKExpressionPair class];
+    NSEnumerator* curs = [mValues objectEnumerator];
+    DKExpressionPair* pair;
 
+    while ((pair = [curs nextObject])) {
+        if ([pair isKindOfClass:PairClass] && [[pair key] isEqualToString:key])
+            return [pair value];
+    }
+
+    return nil;
+}
 
 #pragma mark -
 // This method may return a key:value "pair"
 
-- (id)			objectAtIndex:(NSInteger) ndx
+- (id)objectAtIndex:(NSInteger)ndx
 {
-	if (ndx < 0)
-		ndx = [mValues count] + ndx;
-		
-	return [mValues objectAtIndex:ndx];
+    if (ndx < 0)
+        ndx = [mValues count] + ndx;
+
+    return [mValues objectAtIndex:ndx];
 }
 
-
-- (void)		replaceObjectAtIndex:(NSInteger) ndx withObject:(id) obj
+- (void)replaceObjectAtIndex:(NSInteger)ndx withObject:(id)obj
 {
-	[mValues replaceObjectAtIndex:ndx withObject:obj];
+    [mValues replaceObjectAtIndex:ndx
+                       withObject:obj];
 }
-
 
 #pragma mark -
-- (void)		addObject:(id) aValue
+- (void)addObject:(id)aValue
 {
-	[mValues addObject:aValue];
+    [mValues addObject:aValue];
 }
 
-
-- (void)		addObject:(id) aValue forKey:(NSString*) key
+- (void)addObject:(id)aValue forKey:(NSString*)key
 {
-	DKExpressionPair *pair = [[DKExpressionPair alloc] initWithKey:key value:aValue];
-	
-	[mValues addObject:pair];
-	[pair release];
-}
+    DKExpressionPair* pair = [[DKExpressionPair alloc] initWithKey:key
+                                                             value:aValue];
 
+    [mValues addObject:pair];
+    [pair release];
+}
 
 #pragma mark -
-- (void)		applyKeyedValuesTo:(id) anObject
+- (void)applyKeyedValuesTo:(id)anObject
 {
-	Class PairClass = [DKExpressionPair class];
-	
-	NSEnumerator*		curs = [self objectEnumerator];
-	DKExpressionPair*	pair;
-	
-	while ((pair = [curs nextObject]))
-	{
-		if ([pair isKindOfClass:PairClass])
-			[anObject setValue:[pair value] forKey:[pair key]];
-	}
-}
+    Class PairClass = [DKExpressionPair class];
 
+    NSEnumerator* curs = [self objectEnumerator];
+    DKExpressionPair* pair;
+
+    while ((pair = [curs nextObject])) {
+        if ([pair isKindOfClass:PairClass])
+            [anObject setValue:[pair value]
+                        forKey:[pair key]];
+    }
+}
 
 #pragma mark -
-- (NSString*)	selectorFromKeys
+- (NSString*)selectorFromKeys
 {
-	return nil;
+    return nil;
 }
-
 
 #pragma mark -
-- (NSArray*)           allKeys
+- (NSArray*)allKeys
 {
-	NSMutableArray *keys = [NSMutableArray array];
-	
-	NSEnumerator*           curs = [mValues objectEnumerator];
-	DKExpressionPair*       pair;
-	Class PairClass = [DKExpressionPair class]; // loop optimization
-	
-	while ((pair = [curs nextObject]))
-	{
-		if ([pair isKindOfClass:PairClass])
-			[keys addObject:[pair key]];
-	}
-	return keys;
+    NSMutableArray* keys = [NSMutableArray array];
+
+    NSEnumerator* curs = [mValues objectEnumerator];
+    DKExpressionPair* pair;
+    Class PairClass = [DKExpressionPair class]; // loop optimization
+
+    while ((pair = [curs nextObject])) {
+        if ([pair isKindOfClass:PairClass])
+            [keys addObject:[pair key]];
+    }
+    return keys;
 }
 
-
-- (NSEnumerator*)      keyEnumerator
+- (NSEnumerator*)keyEnumerator
 {
-	return [[self allKeys] objectEnumerator];
+    return [[self allKeys] objectEnumerator];
 }
 
-
-- (NSEnumerator*)      objectEnumerator
+- (NSEnumerator*)objectEnumerator
 {
-  return [mValues objectEnumerator];
+    return [mValues objectEnumerator];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)		dealloc
+- (void)dealloc
 {
-	[mValues release];
-	[mType release];
-	
-	[super dealloc];
+    [mValues release];
+    [mType release];
+
+    [super dealloc];
 }
 
-
-- (NSString*)	description
+- (NSString*)description
 {
-	NSMutableString *desc;
-	NSString *start, *end;
-	
-	if ([@"seq" isEqualToString:mType] ||
-		[@"emptySeq" isEqualToString:mType])
-	{
-		start = @"{";
-		end = @"}\n";
-	}
-	else if ([@"expr" isEqualToString:mType] ||
-		[@"emptyExpr" isEqualToString:mType])
-	{
-		start = @"(";
-		end = @")\n";
-	}
-	else if ([@"mcall" isEqualToString:mType])
-	{
-		start = @"[";
-		end = @"]\n";
-	} else {
-		start = @"";
-		end = @"";
-	}
+    NSMutableString* desc;
+    NSString* start, *end;
 
-	desc = [NSMutableString stringWithString:start];
-	NSEnumerator *curs = [mValues objectEnumerator];
-	id item;
-	
-	while ((item = [curs nextObject]))
-		[desc appendFormat:@"%@ ", item];
+    if ([@"seq" isEqualToString:mType] ||
+        [@"emptySeq" isEqualToString:mType]) {
+        start = @"{";
+        end = @"}\n";
+    } else if ([@"expr" isEqualToString:mType] ||
+               [@"emptyExpr" isEqualToString:mType]) {
+        start = @"(";
+        end = @")\n";
+    } else if ([@"mcall" isEqualToString:mType]) {
+        start = @"[";
+        end = @"]\n";
+    } else {
+        start = @"";
+        end = @"";
+    }
 
-	[desc appendString:end];
-	return desc;
+    desc = [NSMutableString stringWithString:start];
+    NSEnumerator* curs = [mValues objectEnumerator];
+    id item;
+
+    while ((item = [curs nextObject]))
+        [desc appendFormat:@"%@ ", item];
+
+    [desc appendString:end];
+    return desc;
 }
 
-
-- (id)			init
+- (id)init
 {
-	self = [super init];
-	if (self != nil)
-	{
-		[self setType:@"expr"];
-		mValues = [[NSMutableArray alloc] init];
-		
-		if (mType == nil 
-				|| mValues == nil)
-		{
-			[self autorelease];
-			self = nil;
-		}
-	}
-	return self;
-}
+    self = [super init];
+    if (self != nil) {
+        [self setType:@"expr"];
+        mValues = [[NSMutableArray alloc] init];
 
+        if (mType == nil
+            || mValues == nil) {
+            [self autorelease];
+            self = nil;
+        }
+    }
+    return self;
+}
 
 @end
 
-
 #pragma mark -
-@implementation DKExpressionPair 
+@implementation DKExpressionPair
 
-- (id)			initWithKey:(NSString*) aKey value:(id) aValue
+- (id)initWithKey:(NSString*)aKey value:(id)aValue
 {
-	if ((self = [super init]) != nil )
-	{
-		key = [aKey retain];
-		value = [aValue retain];
-	}
-	return self;
+    if ((self = [super init]) != nil) {
+        key = [aKey retain];
+        value = [aValue retain];
+    }
+    return self;
 }
 
-- (NSString*)	key
+- (NSString*)key
 {
-	return key;
+    return key;
 }
 
-- (id)			value
+- (id)value
 {
-	return value;
+    return value;
 }
 
-
-- (void)		setValue:(id) val
+- (void)setValue:(id)val
 {
-	[val retain];
-	[value release];
-	value = val;
+    [val retain];
+    [value release];
+    value = val;
 }
 
-
-- (BOOL)		isLiteralValue
+- (BOOL)isLiteralValue
 {
-	return [value isLiteralValue];
+    return [value isLiteralValue];
 }
-
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)		dealloc
+- (void)dealloc
 {
-	[key release];
-	[value release];
-	[super dealloc];
+    [key release];
+    [value release];
+    [super dealloc];
 }
 
-
-- (NSString*)	description
+- (NSString*)description
 {
-	return [NSString stringWithFormat:@"%@: %@", key, value];
+    return [NSString stringWithFormat:@"%@: %@", key, value];
 }
-
 
 @end
-
 
 #pragma mark -
 @implementation NSObject (DKExpressionSupport)
 
-- (BOOL)		isLiteralValue
+- (BOOL)isLiteralValue
 {
-	return YES;
+    return YES;
 }
 
 @end

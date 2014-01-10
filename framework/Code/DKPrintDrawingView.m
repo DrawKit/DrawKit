@@ -13,16 +13,16 @@
 
 @implementation DKPrintDrawingView
 #pragma mark As a DKPrintDrawingView
-- (void)			setPrintInfo:(NSPrintInfo*) ip
+- (void)setPrintInfo:(NSPrintInfo*)ip
 {
-	[ip retain];
-	[m_printInfo release];
-	m_printInfo = ip;
+    [ip retain];
+    [m_printInfo release];
+    m_printInfo = ip;
 }
 
-- (NSPrintInfo*)	printInfo
+- (NSPrintInfo*)printInfo
 {
-	return m_printInfo;
+    return m_printInfo;
 }
 
 #pragma mark -
@@ -84,12 +84,11 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)			dealloc
+- (void)dealloc
 {
-	[m_printInfo release];
-	
-	[super dealloc];
+    [m_printInfo release];
+
+    [super dealloc];
 }
 
 @end
-

@@ -5,7 +5,7 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
- 
+
 #import <Cocoa/Cocoa.h>
 
 /**
@@ -17,39 +17,37 @@ The purpose of this class is to allow images to be archived much more efficientl
  
  When images are cut/pasted within the framework, the image key can be used to effect that operation without having to move the actual image data.
 */
-@interface DKImageDataManager : NSObject <NSCoding>
-{
+@interface DKImageDataManager : NSObject <NSCoding> {
 @private
-	NSMutableDictionary*	mRepository;
-	NSMutableDictionary*	mHashList;
-	NSMutableDictionary*	mKeyUsage;
+    NSMutableDictionary* mRepository;
+    NSMutableDictionary* mHashList;
+    NSMutableDictionary* mKeyUsage;
 }
 
-- (NSData*)			imageDataForKey:(NSString*) key;
-- (void)			setImageData:(NSData*) imageData forKey:(NSString*) key;
-- (BOOL)			hasImageDataForKey:(NSString*) key;
-- (NSString*)		generateKey;
-- (NSString*)		keyForImageData:(NSData*) imageData;
-- (NSArray*)		allKeys;
-- (void)			removeKey:(NSString*) key;
+- (NSData*)imageDataForKey:(NSString*)key;
+- (void)setImageData:(NSData*)imageData forKey:(NSString*)key;
+- (BOOL)hasImageDataForKey:(NSString*)key;
+- (NSString*)generateKey;
+- (NSString*)keyForImageData:(NSData*)imageData;
+- (NSArray*)allKeys;
+- (void)removeKey:(NSString*)key;
 
-- (NSImage*)		makeImageWithData:(NSData*) imageData key:(NSString**) key;
-- (NSImage*)		makeImageWithPasteboard:(NSPasteboard*) pb key:(NSString**) key;
-- (NSImage*)		makeImageWithContentsOfURL:(NSURL*) url key:(NSString**) key;
-- (NSImage*)		makeImageForKey:(NSString*) key;
+- (NSImage*)makeImageWithData:(NSData*)imageData key:(NSString**)key;
+- (NSImage*)makeImageWithPasteboard:(NSPasteboard*)pb key:(NSString**)key;
+- (NSImage*)makeImageWithContentsOfURL:(NSURL*)url key:(NSString**)key;
+- (NSImage*)makeImageForKey:(NSString*)key;
 
-- (void)			setKey:(NSString*) key isInUse:(BOOL) inUse;
-- (BOOL)			keyIsInUse:(NSString*) key;
-- (void)			removeUnusedData;
-
-@end
-
-extern NSString*	kDKImageDataManagerPasteboardType;
-
-@interface NSData	(Checksum)
-
-- (NSUInteger)		checksum;
-- (NSString*)		checksumString;
+- (void)setKey:(NSString*)key isInUse:(BOOL)inUse;
+- (BOOL)keyIsInUse:(NSString*)key;
+- (void)removeUnusedData;
 
 @end
 
+extern NSString* kDKImageDataManagerPasteboardType;
+
+@interface NSData (Checksum)
+
+- (NSUInteger)checksum;
+- (NSString*)checksumString;
+
+@end

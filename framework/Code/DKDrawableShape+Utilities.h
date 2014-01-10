@@ -5,7 +5,7 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
- 
+
 #import <Cocoa/Cocoa.h>
 #import "DKDrawableShape.h"
 
@@ -21,7 +21,7 @@
  * @return a rectangular path transformed to the current true size, position and angle of the shape
  * @public
  */
-- (NSBezierPath*)			pathWithRelativeRect:(NSRect) relRect;
+- (NSBezierPath*)pathWithRelativeRect:(NSRect)relRect;
 
 /** @brief Return a rectangular path with given relative origin but absolute final size
  * @note
@@ -32,7 +32,7 @@
  * @return a rectangular path transformed to the current true size, position and angle of the shape
  * @public
  */
-- (NSBezierPath*)			pathWithRelativePosition:(NSPoint) relLoc finalSize:(NSSize) size;
+- (NSBezierPath*)pathWithRelativePosition:(NSPoint)relLoc finalSize:(NSSize)size;
 
 /** @brief Return a rectangular path offset from a given partcode
  * @note
@@ -46,7 +46,7 @@
  * @return a rectangular path transformed to the current true size, position and angle of the shape
  * @public
  */
-- (NSBezierPath*)			pathWithFinalSize:(NSSize) size offsetBy:(NSPoint) offset fromPartcode:(NSInteger) pc;
+- (NSBezierPath*)pathWithFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc;
 
 /** @brief Transforms a path to the final size and position relative to a partcode
  * @note
@@ -61,7 +61,7 @@
  * @return the transformed path
  * @public
  */
-- (NSBezierPath*)			path:(NSBezierPath*) inPath withFinalSize:(NSSize) size offsetBy:(NSPoint) offset fromPartcode:(NSInteger) pc;
+- (NSBezierPath*)path:(NSBezierPath*)inPath withFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc;
 
 /** @brief Convert a point from relative coordinates to absolute coordinates
  * @note
@@ -70,6 +70,6 @@
  * @return the absolute point taking into account scale, position and angle
  * @public
  */
-- (NSPoint)					pointForRelativeLocation:(NSPoint) relLoc;
+- (NSPoint)pointForRelativeLocation:(NSPoint)relLoc;
 
 @end

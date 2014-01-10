@@ -10,35 +10,32 @@
 
 @class DKGridLayer;
 
-enum
-{
-	kDKAlignmentLeftEdge				= 0,
-	kDKAlignmentTopEdge					= 1,
-	kDKAlignmentRightEdge				= 2,
-	kDKAlignmentBottomEdge				= 3,
-	kDKAlignmentVerticalCentre			= 4,
-	kDKAlignmentHorizontalCentre		= 5,
-	kDKAlignmentVerticalDistribution	= 6,
-	kDKAlignmentHorizontalDistribution  = 7,
-	kDKAlignmentVSpaceDistribution		= 8,
-	kDKAlignmentHSpaceDistribution		= 9,
-	
-	kDKAlignmentAlignLeftEdge			= ( 1 << kDKAlignmentLeftEdge ),
-	kDKAlignmentAlignTopEdge			= ( 1 << kDKAlignmentTopEdge ),
-	kDKAlignmentAlignRightEdge			= ( 1 << kDKAlignmentRightEdge ),
-	kDKAlignmentAlignBottomEdge			= ( 1 << kDKAlignmentBottomEdge ),
-	kDKAlignmentAlignVerticalCentre		= ( 1 << kDKAlignmentVerticalCentre ),
-	kDKAlignmentAlignHorizontalCentre	= ( 1 << kDKAlignmentHorizontalCentre ),
-	kDKAlignmentAlignVDistribution		= ( 1 << kDKAlignmentVerticalDistribution ),
-	kDKAlignmentAlignHDistribution		= ( 1 << kDKAlignmentHorizontalDistribution ),
-	kDKAlignmentAlignVSpaceDistribution = ( 1 << kDKAlignmentVSpaceDistribution ),
-	kDKAlignmentAlignHSpaceDistribution = ( 1 << kDKAlignmentHSpaceDistribution ),
-	
-	kDKAlignmentAlignNone				= 0,
-	kDKAlignmentAlignColocate			= kDKAlignmentAlignVerticalCentre | kDKAlignmentAlignHorizontalCentre,
-	kDKAlignmentHorizontalAlignMask		= kDKAlignmentAlignLeftEdge | kDKAlignmentAlignRightEdge | kDKAlignmentAlignHorizontalCentre | kDKAlignmentAlignHDistribution | kDKAlignmentAlignHSpaceDistribution,
-	kDKAlignmentVerticalAlignMask		= kDKAlignmentAlignTopEdge | kDKAlignmentAlignBottomEdge | kDKAlignmentAlignVerticalCentre | kDKAlignmentAlignVDistribution | kDKAlignmentAlignVSpaceDistribution,
-	kDKAlignmentDistributionMask		= kDKAlignmentAlignVDistribution | kDKAlignmentAlignHDistribution | kDKAlignmentAlignVSpaceDistribution | kDKAlignmentAlignHSpaceDistribution
+enum {
+    kDKAlignmentLeftEdge = 0,
+    kDKAlignmentTopEdge = 1,
+    kDKAlignmentRightEdge = 2,
+    kDKAlignmentBottomEdge = 3,
+    kDKAlignmentVerticalCentre = 4,
+    kDKAlignmentHorizontalCentre = 5,
+    kDKAlignmentVerticalDistribution = 6,
+    kDKAlignmentHorizontalDistribution = 7,
+    kDKAlignmentVSpaceDistribution = 8,
+    kDKAlignmentHSpaceDistribution = 9,
+    kDKAlignmentAlignLeftEdge = (1 << kDKAlignmentLeftEdge),
+    kDKAlignmentAlignTopEdge = (1 << kDKAlignmentTopEdge),
+    kDKAlignmentAlignRightEdge = (1 << kDKAlignmentRightEdge),
+    kDKAlignmentAlignBottomEdge = (1 << kDKAlignmentBottomEdge),
+    kDKAlignmentAlignVerticalCentre = (1 << kDKAlignmentVerticalCentre),
+    kDKAlignmentAlignHorizontalCentre = (1 << kDKAlignmentHorizontalCentre),
+    kDKAlignmentAlignVDistribution = (1 << kDKAlignmentVerticalDistribution),
+    kDKAlignmentAlignHDistribution = (1 << kDKAlignmentHorizontalDistribution),
+    kDKAlignmentAlignVSpaceDistribution = (1 << kDKAlignmentVSpaceDistribution),
+    kDKAlignmentAlignHSpaceDistribution = (1 << kDKAlignmentHSpaceDistribution),
+    kDKAlignmentAlignNone = 0,
+    kDKAlignmentAlignColocate = kDKAlignmentAlignVerticalCentre | kDKAlignmentAlignHorizontalCentre,
+    kDKAlignmentHorizontalAlignMask = kDKAlignmentAlignLeftEdge | kDKAlignmentAlignRightEdge | kDKAlignmentAlignHorizontalCentre | kDKAlignmentAlignHDistribution | kDKAlignmentAlignHSpaceDistribution,
+    kDKAlignmentVerticalAlignMask = kDKAlignmentAlignTopEdge | kDKAlignmentAlignBottomEdge | kDKAlignmentAlignVerticalCentre | kDKAlignmentAlignVDistribution | kDKAlignmentAlignVSpaceDistribution,
+    kDKAlignmentDistributionMask = kDKAlignmentAlignVDistribution | kDKAlignmentAlignHDistribution | kDKAlignmentAlignVSpaceDistribution | kDKAlignmentAlignHSpaceDistribution
 };
 
 /**
@@ -55,7 +52,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @param keyObject an object that is to be considered key for alignment ops
  * @public
  */
-- (void)				setKeyObject:(DKDrawableObject*) keyObject;
+- (void)setKeyObject:(DKDrawableObject*)keyObject;
 
 /** @brief Returns the object as the master to be used for alignment operations, etc
  * @note
@@ -64,7 +61,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @return an object that is to be considered key for alignment ops
  * @public
  */
-- (DKDrawableObject*)	keyObject;
+- (DKDrawableObject*)keyObject;
 
 /** @brief Aligns a set of objects
  * @note
@@ -73,7 +70,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @param align the alignment operation required
  * @public
  */
-- (void)		alignObjects:(NSArray*) objects withAlignment:(NSInteger) align;
+- (void)alignObjects:(NSArray*)objects withAlignment:(NSInteger)align;
 
 /** @brief Aligns a set ofobjects
  * @param objects the objects to align
@@ -81,7 +78,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @param align the alignment operation required
  * @public
  */
-- (void)		alignObjects:(NSArray*) objects toMasterObject:(id) object withAlignment:(NSInteger) align;
+- (void)alignObjects:(NSArray*)objects toMasterObject:(id)object withAlignment:(NSInteger)align;
 
 /** @brief Aligns a set of objects to a given point
  * @param objects the objects to align
@@ -89,7 +86,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @param align the alignment operation required
  * @public
  */
-- (void)		alignObjects:(NSArray*) objects toLocation:(NSPoint) loc withAlignment:(NSInteger) align;
+- (void)alignObjects:(NSArray*)objects toLocation:(NSPoint)loc withAlignment:(NSInteger)align;
 
 /** @brief Aligns the objects to the grid, resizing and positioning as necessary so that all edges lie on
  * the grid. The logical bounds is used for alignment, consistent with normal snapping behaviour.
@@ -99,7 +96,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @param grid the grid to use
  * @public
  */
-- (void)		alignObjectEdges:(NSArray*) objects toGrid:(DKGridLayer*) grid;
+- (void)alignObjectEdges:(NSArray*)objects toGrid:(DKGridLayer*)grid;
 
 /** @brief Aligns a set of objects so their locations lie on a grid intersection
  * @note
@@ -108,7 +105,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @param grid the grid to use
  * @public
  */
-- (void)		alignObjectLocation:(NSArray*) objects toGrid:(DKGridLayer*) grid;
+- (void)alignObjectLocation:(NSArray*)objects toGrid:(DKGridLayer*)grid;
 
 /** @brief Computes the amount of space available for a vertical distribution operation
  * @note
@@ -119,7 +116,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @return the total space available for distribution in the vertical direction
  * @private
  */
-- (CGFloat)		totalVerticalSpace:(NSArray*) objects;
+- (CGFloat)totalVerticalSpace:(NSArray*)objects;
 
 /** @brief Computes the amount of space available for a horizontal distribution operation
  * @note
@@ -130,21 +127,21 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @return the total space available for distribution in the horizontal direction
  * @private
  */
-- (CGFloat)		totalHorizontalSpace:(NSArray*) objects;
+- (CGFloat)totalHorizontalSpace:(NSArray*)objects;
 
 /** @brief Sorts a set of objects into order of their vertical location
  * @param objects the objects to sort
  * @return a copy of the array sorted into vertical order
  * @private
  */
-- (NSArray*)	objectsSortedByVerticalPosition:(NSArray*) objects;
+- (NSArray*)objectsSortedByVerticalPosition:(NSArray*)objects;
 
 /** @brief Sorts a set of objects into order of their horizontal location
  * @param objects the objects to sort
  * @return a copy of the array sorted into horizontal order
  * @private
  */
-- (NSArray*)	objectsSortedByHorizontalPosition:(NSArray*) objects;
+- (NSArray*)objectsSortedByHorizontalPosition:(NSArray*)objects;
 
 /** @brief Distributes a set of objects
  * @note
@@ -155,7 +152,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @return YES if the operation could be performed, NO otherwise
  * @public
  */
-- (BOOL)		distributeObjects:(NSArray*) objects withAlignment:(NSInteger) align;
+- (BOOL)distributeObjects:(NSArray*)objects withAlignment:(NSInteger)align;
 
 /** @brief Returns the minimum number of objects needed to enable the user interface item
  * @note
@@ -164,7 +161,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @return number of objects needed for validation. If the item isn't a known alignment command, returns 0
  * @public
  */
-- (NSUInteger)	alignmentMenuItemRequiredObjects:(id<NSValidatedUserInterfaceItem>) item;
+- (NSUInteger)alignmentMenuItemRequiredObjects:(id<NSValidatedUserInterfaceItem>)item;
 
 // user actions:
 
@@ -172,70 +169,69 @@ This category implements object alignment features for DKObjectDrawingLayer
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	alignLeftEdges:(id) sender;
+- (IBAction)alignLeftEdges:(id)sender;
 
 /** @brief Aligns the selected objects on their right edges
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	alignRightEdges:(id) sender;
+- (IBAction)alignRightEdges:(id)sender;
 
 /** @brief Aligns the selected objects on their horizontal centres
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	alignHorizontalCentres:(id) sender;
+- (IBAction)alignHorizontalCentres:(id)sender;
 
 /** @brief Aligns the selected objects on their top edges
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	alignTopEdges:(id) sender;
+- (IBAction)alignTopEdges:(id)sender;
 
 /** @brief Aligns the selected objects on their bottom edges
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	alignBottomEdges:(id) sender;
+- (IBAction)alignBottomEdges:(id)sender;
 
 /** @brief Aligns the selected objects on their vertical centres
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	alignVerticalCentres:(id) sender;
+- (IBAction)alignVerticalCentres:(id)sender;
 
 /** @brief Distributes the selected objects to equalize the vertical centres
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	distributeVerticalCentres:(id) sender;
+- (IBAction)distributeVerticalCentres:(id)sender;
 
 /** @brief Distributes the selected objects to equalize the vertical space
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	distributeVerticalSpace:(id) sender;
+- (IBAction)distributeVerticalSpace:(id)sender;
 
 /** @brief Distributes the selected objects to equalize the horizontal centres
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	distributeHorizontalCentres:(id) sender;
+- (IBAction)distributeHorizontalCentres:(id)sender;
 
 /** @brief Distributes the selected objects to equalize the horizontal space
  * @param sender the action's sender
  * @public
  */
-- (IBAction)	distributeHorizontalSpace:(id) sender;
+- (IBAction)distributeHorizontalSpace:(id)sender;
 
-- (IBAction)	alignEdgesToGrid:(id) sender;
-- (IBAction)	alignLocationToGrid:(id) sender;
+- (IBAction)alignEdgesToGrid:(id)sender;
+- (IBAction)alignLocationToGrid:(id)sender;
 
-- (IBAction)	assignKeyObject:(id) sender;
+- (IBAction)assignKeyObject:(id)sender;
 
 @end
 
 // alignment helper function:
 
-NSPoint		calculateAlignmentOffset( NSRect mr, NSRect sr, NSInteger alignment );
-
+NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, NSInteger alignment);

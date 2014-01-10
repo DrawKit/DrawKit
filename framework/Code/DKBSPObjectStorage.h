@@ -13,23 +13,19 @@
 
 /// node types
 
-typedef enum
-{
-	kNodeHorizontal,
-	kNodeVertical,
-	kNodeLeaf
-}
-DKLeafType;
+typedef enum {
+    kNodeHorizontal,
+    kNodeVertical,
+    kNodeLeaf
+} DKLeafType;
 
 /// tree operations
 
-typedef enum
-{
-	kDKOperationInsert,
-	kDKOperationDelete,
-	kDKOperationAccumulate
-}
-DKBSPOperation;
+typedef enum {
+    kDKOperationInsert,
+    kDKOperationDelete,
+    kDKOperationAccumulate
+} DKBSPOperation;
 
 /** @brief The actual storage object.
 
@@ -37,16 +33,15 @@ The actual storage object. This inherits the linear array which actually stores 
 stores indexes that refer to this array. Thus the objects' Z-order is strictly maintained by the array as for the linear case, but objects can
 be extracted very rapidly when performing a spatial query.
 */
-@interface DKBSPObjectStorage : DKLinearObjectStorage
-{
+@interface DKBSPObjectStorage : DKLinearObjectStorage {
 @private
-	DKBSPIndexTree*	mTree;
-	NSUInteger		mTreeDepth;
-	NSUInteger		mLastItemCount;
+    DKBSPIndexTree* mTree;
+    NSUInteger mTreeDepth;
+    NSUInteger mLastItemCount;
 }
 
-- (void)			setTreeDepth:(NSUInteger) aDepth;
-- (id)				tree;
+- (void)setTreeDepth:(NSUInteger)aDepth;
+- (id)tree;
 
 @end
 
@@ -62,39 +57,38 @@ note that this is equivalent to a binary search in 2 dimensions. The purpose is 
 client for drawing. Internally it is tuned for speed but it relies heavily on the performance of Cocoa's NSIndexSet class, and -addIndexes: in particular. If these turn
 out to be slow, this may be detrimental to drawing performance.
 */
-@interface DKBSPIndexTree : NSObject
-{
+@interface DKBSPIndexTree : NSObject {
 @protected
-	NSMutableArray*		mLeaves;
-	NSMutableArray*		mNodes;
-	NSMutableIndexSet*	mResults;
-	NSSize				mCanvasSize;
-	DKBSPOperation		mOp;
-	NSUInteger			mOpIndex;
-	NSBezierPath*		mDebugPath;
+    NSMutableArray* mLeaves;
+    NSMutableArray* mNodes;
+    NSMutableIndexSet* mResults;
+    NSSize mCanvasSize;
+    DKBSPOperation mOp;
+    NSUInteger mOpIndex;
+    NSBezierPath* mDebugPath;
 }
 
-+ (Class)			leafClass;
++ (Class)leafClass;
 
-- (id)				initWithCanvasSize:(NSSize) size depth:(NSUInteger) depth;
-- (NSSize)			canvasSize;
+- (id)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth;
+- (NSSize)canvasSize;
 
-- (void)			setDepth:(NSUInteger) depth;
-- (NSUInteger)		countOfLeaves;
+- (void)setDepth:(NSUInteger)depth;
+- (NSUInteger)countOfLeaves;
 
-- (void)			insertItemIndex:(NSUInteger) idx withRect:(NSRect) rect;
-- (void)			removeItemIndex:(NSUInteger) idx withRect:(NSRect) rect;
+- (void)insertItemIndex:(NSUInteger)idx withRect:(NSRect)rect;
+- (void)removeItemIndex:(NSUInteger)idx withRect:(NSRect)rect;
 
-- (NSIndexSet*)		itemsIntersectingRects:(const NSRect*) rects count:(NSUInteger) count;
-- (NSIndexSet*)		itemsIntersectingRect:(NSRect) rect;
-- (NSIndexSet*)		itemsIntersectingPoint:(NSPoint) point;
+- (NSIndexSet*)itemsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count;
+- (NSIndexSet*)itemsIntersectingRect:(NSRect)rect;
+- (NSIndexSet*)itemsIntersectingPoint:(NSPoint)point;
 
-- (void)			shiftIndexesStartingAtIndex:(NSUInteger) startIndex by:(NSInteger) delta;
+- (void)shiftIndexesStartingAtIndex:(NSUInteger)startIndex by:(NSInteger)delta;
 
-- (NSBezierPath*)	debugStorageDivisions;
+- (NSBezierPath*)debugStorageDivisions;
 
 @end
 
-#define	kDKBSPSlack				48
-#define kDKMinimumDepth			10U
-#define kDKMaximumDepth			0U		// set 0 for no limit
+#define kDKBSPSlack 48
+#define kDKMinimumDepth 10U
+#define kDKMaximumDepth 0U // set 0 for no limit

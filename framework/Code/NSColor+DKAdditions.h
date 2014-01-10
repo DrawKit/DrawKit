@@ -17,7 +17,7 @@
  * @return the colour white
  * @public
  */
-+ (NSColor*)			rgbWhite;
++ (NSColor*)rgbWhite;
 
 /** @brief Returns the colour black as an RGB Color
  * @note
@@ -26,7 +26,7 @@
  * @return the colour black
  * @public
  */
-+ (NSColor*)			rgbBlack;
++ (NSColor*)rgbBlack;
 
 /** @brief Returns a grey RGB colour
  * @note
@@ -36,7 +36,7 @@
  * @return a grey colour
  * @public
  */
-+ (NSColor*)			rgbGrey:(CGFloat) grayscale;
++ (NSColor*)rgbGrey:(CGFloat)grayscale;
 
 /** @brief Returns a grey RGB colour
  * @note
@@ -47,7 +47,7 @@
  * @return a grey colour with variable opacity
  * @public
  */
-+ (NSColor*)			rgbGrey:(CGFloat) grayscale withAlpha:(CGFloat) alpha;
++ (NSColor*)rgbGrey:(CGFloat)grayscale withAlpha:(CGFloat)alpha;
 
 /** @brief Returns a grey RGB colour with the same perceived brightness as the source colour
  * @param colour any colour
@@ -55,15 +55,15 @@
  * @return a grey colour in rgb space of equivalent luminosity
  * @public
  */
-+ (NSColor*)			rgbGreyWithLuminosityFrom:(NSColor*) colour withAlpha:(CGFloat) alpha;
++ (NSColor*)rgbGreyWithLuminosityFrom:(NSColor*)colour withAlpha:(CGFloat)alpha;
 
 /** @brief A very light grey colour
  * @return a very light grey colour in rgb space
  * @public
  */
-+ (NSColor*)			veryLightGrey;
++ (NSColor*)veryLightGrey;
 
-+ (NSColor*)			contrastingColor:(NSColor*) color;
++ (NSColor*)contrastingColor:(NSColor*)color;
 
 /** @brief Returns an RGB colour approximating the wavelength.
  * @note
@@ -72,14 +72,14 @@
  * @return approximate rgb equivalent colour
  * @public
  */
-+ (NSColor*)			colorWithWavelength:(CGFloat) lambda;
++ (NSColor*)colorWithWavelength:(CGFloat)lambda;
 
 /** @brief Returns an RGB colour corresponding to the standard-formatted HTML hexadecimal colour string.
  * @param hex a string formatted '#RRGGBB'
  * @return rgb equivalent colour
  * @public
  */
-+ (NSColor*)			colorWithHexString:(NSString*) hex;
++ (NSColor*)colorWithHexString:(NSString*)hex;
 
 /** @brief Returns a colour by interpolating between two colours
  * @param startColor a colour
@@ -88,7 +88,7 @@
  * @return a colour that is intermediate between startColor and endColor, in RGB space
  * @public
  */
-+ (NSColor*)			colorByInterpolatingFrom:(NSColor*) startColor to:(NSColor*) endColor atValue:(CGFloat) interpValue;
++ (NSColor*)colorByInterpolatingFrom:(NSColor*)startColor to:(NSColor*)endColor atValue:(CGFloat)interpValue;
 
 /** @brief Returns a copy ofthe receiver but substituting the hue from the given colour.
  * @note
@@ -98,7 +98,7 @@
  * @return a colour with the hue of <color> but the receiver's saturation and brightness
  * @public
  */
-- (NSColor*)			colorWithHueFrom:(NSColor*) color;
+- (NSColor*)colorWithHueFrom:(NSColor*)color;
 
 /** @brief Returns a copy ofthe receiver but substituting the hue and saturation from the given colour.
  * @note
@@ -107,7 +107,7 @@
  * @return a colour with the hue, sat of <color> but the receiver's brightness
  * @public
  */
-- (NSColor*)			colorWithHueAndSaturationFrom:(NSColor*) color;
+- (NSColor*)colorWithHueAndSaturationFrom:(NSColor*)color;
 
 /** @brief Returns a colour by averaging the receiver with <color> in rgb space
  * @note
@@ -116,7 +116,7 @@
  * @return average of the two colours
  * @public
  */
-- (NSColor*)			colorWithRGBAverageFrom:(NSColor*) color;
+- (NSColor*)colorWithRGBAverageFrom:(NSColor*)color;
 
 /** @brief Returns a colour by averaging the receiver with <color> in hsb space
  * @note
@@ -125,7 +125,7 @@
  * @return average of the two colours
  * @public
  */
-- (NSColor*)			colorWithHSBAverageFrom:(NSColor*) color;
+- (NSColor*)colorWithHSBAverageFrom:(NSColor*)color;
 
 /** @brief Returns a colour by blending the receiver with <color> in rgb space
  * @param color blend with this colour
@@ -133,7 +133,7 @@
  * @return blend of the two colours
  * @public
  */
-- (NSColor*)			colorWithRGBBlendFrom:(NSColor*) color blendingAmounts:(CGFloat[]) blends;
+- (NSColor*)colorWithRGBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends;
 
 /** @brief Returns a colour by blending the receiver with <color> in hsb space
  * @param color blend with this colour
@@ -141,7 +141,7 @@
  * @return blend of the two colours
  * @public
  */
-- (NSColor*)			colorWithHSBBlendFrom:(NSColor*) color blendingAmounts:(CGFloat[]) blends;
+- (NSColor*)colorWithHSBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends;
 
 /** @brief Returns the luminosity value of the receiver
  * @note
@@ -153,19 +153,19 @@
  * @return a value 0..1 that is the colour's luminosity
  * @public
  */
-- (CGFloat)				luminosity;
+- (CGFloat)luminosity;
 
 /** @brief Returns a grey rgb colour having the same luminosity as the receiver
  * @return a grey colour having the same luminosity
  * @public
  */
-- (NSColor*)			colorWithLuminosity;
+- (NSColor*)colorWithLuminosity;
 
 /** @brief Returns black or white to give best contrast with the receiver's colour
  * @return black or white
  * @public
  */
-- (NSColor*)			contrastingColor;
+- (NSColor*)contrastingColor;
 
 /** @brief Returns the colour with each colour component subtracted from 1
  * @note
@@ -173,7 +173,7 @@
  * @return the "inverse" of the receiver
  * @public
  */
-- (NSColor*)			invertedColor;
+- (NSColor*)invertedColor;
 
 /** @brief Returns a lighter colour based on a blend between the receiver and white
  * @note
@@ -182,7 +182,7 @@
  * @return a lightened version of the receiver
  * @public
  */
-- (NSColor*)			lighterColorWithLevel:(CGFloat) amount;
+- (NSColor*)lighterColorWithLevel:(CGFloat)amount;
 
 /** @brief Returns a darker colour based on a blend between the receiver and black
  * @note
@@ -191,7 +191,7 @@
  * @return a darkened version of the receiver
  * @public
  */
-- (NSColor*)			darkerColorWithLevel:(CGFloat) amount;
+- (NSColor*)darkerColorWithLevel:(CGFloat)amount;
 
 /** @brief Returns a colour by interpolating between the receiver and a second colour
  * @param secondColour another colour
@@ -199,7 +199,7 @@
  * @return a colour that is intermediate between the receiver and secondColor, in RGB space
  * @public
  */
-- (NSColor*)			interpolatedColorToColor:(NSColor*) secondColor atValue:(CGFloat) interpValue;
+- (NSColor*)interpolatedColorToColor:(NSColor*)secondColor atValue:(CGFloat)interpValue;
 
 /** @brief Returns a standard web-formatted hexadecimal representation of the receiver's colour
  * @note
@@ -207,7 +207,7 @@
  * @return hexadecimal string
  * @public
  */
-- (NSString*)			hexString;
+- (NSString*)hexString;
 
 /** @brief Returns a quartz CGColorRef corresponding to the receiver's colours
  * @note
@@ -216,6 +216,6 @@
  * @return CGColorRef
  * @public
  */
-- (CGColorRef)			newQuartzColor;
+- (CGColorRef)newQuartzColor;
 
 @end

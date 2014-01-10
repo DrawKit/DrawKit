@@ -11,13 +11,11 @@
 
 // metadata has been through a bit of evolution. This constant indicates which schema is in use
 
-typedef enum
-{
-	kDKMetadataOriginalSchema	= 1,
-	kDKMetadataMark2Schema		= 2,
-	kDKMetadata107Schema		= 3
-}
-DKMetadataSchema;
+typedef enum {
+    kDKMetadataOriginalSchema = 1,
+    kDKMetadataMark2Schema = 2,
+    kDKMetadata107Schema = 3
+} DKMetadataSchema;
 
 /** @brief Stores various drawkit private variables in the metadata.
 
@@ -29,52 +27,52 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 */
 @interface DKDrawableObject (Metadata)
 
-+ (void)				setMetadataChangesAreUndoable:(BOOL) undo;
-+ (BOOL)				metadataChangesAreUndoable;
++ (void)setMetadataChangesAreUndoable:(BOOL)undo;
++ (BOOL)metadataChangesAreUndoable;
 
-- (void)				addMetadata:(NSDictionary*) dict;
-- (void)				setMetadata:(NSDictionary*) dict;
+- (void)addMetadata:(NSDictionary*)dict;
+- (void)setMetadata:(NSDictionary*)dict;
 - (NSMutableDictionary*)metadata;
-- (NSArray*)			metadataKeys;
+- (NSArray*)metadataKeys;
 
-- (void)				setupMetadata;
-- (DKMetadataSchema)	schema;
+- (void)setupMetadata;
+- (DKMetadataSchema)schema;
 
-- (void)				setMetadataItem:(DKMetadataItem*) item forKey:(NSString*) key;
-- (DKMetadataItem*)		metadataItemForKey:(NSString*) key;
-- (DKMetadataItem*)		metadataItemForKey:(NSString*) key limitToLocalSearch:(BOOL) local;
+- (void)setMetadataItem:(DKMetadataItem*)item forKey:(NSString*)key;
+- (DKMetadataItem*)metadataItemForKey:(NSString*)key;
+- (DKMetadataItem*)metadataItemForKey:(NSString*)key limitToLocalSearch:(BOOL)local;
 
-- (NSArray*)			metadataItemsForKeysInArray:(NSArray*) keyArray;
-- (NSArray*)			metadataItemsForKeysInArray:(NSArray*) keyArray limitToLocalSearch:(BOOL) local;
+- (NSArray*)metadataItemsForKeysInArray:(NSArray*)keyArray;
+- (NSArray*)metadataItemsForKeysInArray:(NSArray*)keyArray limitToLocalSearch:(BOOL)local;
 
-- (void)				setMetadataItemType:(DKMetadataType) type forKey:(NSString*) key;
+- (void)setMetadataItemType:(DKMetadataType)type forKey:(NSString*)key;
 
-- (id)			metadataObjectForKey:(NSString*) key;
-- (void)		setMetadataItemValue:(id) value forKey:(NSString*) key;
+- (id)metadataObjectForKey:(NSString*)key;
+- (void)setMetadataItemValue:(id)value forKey:(NSString*)key;
 
-- (BOOL)		hasMetadataForKey:(NSString*) key;
-- (void)		removeMetadataForKey:(NSString*) key;
+- (BOOL)hasMetadataForKey:(NSString*)key;
+- (void)removeMetadataForKey:(NSString*)key;
 
-- (void)		setFloatValue:(float) val forKey:(NSString*) key;
-- (CGFloat)		floatValueForKey:(NSString*) key;
+- (void)setFloatValue:(float)val forKey:(NSString*)key;
+- (CGFloat)floatValueForKey:(NSString*)key;
 
-- (void)		setIntValue:(int) val forKey:(NSString*) key;
-- (NSInteger)	intValueForKey:(NSString*) key;
+- (void)setIntValue:(int)val forKey:(NSString*)key;
+- (NSInteger)intValueForKey:(NSString*)key;
 
-- (void)		setString:(NSString*) string forKey:(NSString*) key;
-- (NSString*)	stringForKey:(NSString*) key;
+- (void)setString:(NSString*)string forKey:(NSString*)key;
+- (NSString*)stringForKey:(NSString*)key;
 
-- (void)		setColour:(NSColor*) colour forKey:(NSString*) key;
-- (NSColor*)	colourForKey:(NSString*) key;
+- (void)setColour:(NSColor*)colour forKey:(NSString*)key;
+- (NSColor*)colourForKey:(NSString*)key;
 
-- (void)		setSize:(NSSize) size forKey:(NSString*) key;
-- (NSSize)		sizeForKey:(NSString*) key;
+- (void)setSize:(NSSize)size forKey:(NSString*)key;
+- (NSSize)sizeForKey:(NSString*)key;
 
-- (void)		updateMetadataKeys;
-- (NSUInteger)	metadataChecksum;
+- (void)updateMetadataKeys;
+- (NSUInteger)metadataChecksum;
 
-- (void)		metadataWillChangeKey:(NSString*) key;
-- (void)		metadataDidChangeKey:(NSString*) key;
+- (void)metadataWillChangeKey:(NSString*)key;
+- (void)metadataDidChangeKey:(NSString*)key;
 
 @end
 
@@ -83,7 +81,7 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 
 @interface DKDrawableObject (MetadataDeprecated)
 
-- (void)		setMetadataObject:(id) obj forKey:(NSString*) key;
+- (void)setMetadataObject:(id)obj forKey:(NSString*)key;
 
 @end
 
@@ -92,17 +90,16 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 
 */
 
-extern NSString*	kDKMetaDataUserInfoKey;
-extern NSString*	kDKMetaDataUserInfo107OrLaterKey;
-extern NSString*	kDKPrivateShapeOriginalText;
-extern NSString*	kDKMetadataWillChangeNotification;
-extern NSString*	kDKMetadataDidChangeNotification;
-extern NSString*	kDKUndoableChangesUserDefaultsKey;
+extern NSString* kDKMetaDataUserInfoKey;
+extern NSString* kDKMetaDataUserInfo107OrLaterKey;
+extern NSString* kDKPrivateShapeOriginalText;
+extern NSString* kDKMetadataWillChangeNotification;
+extern NSString* kDKMetadataDidChangeNotification;
+extern NSString* kDKUndoableChangesUserDefaultsKey;
 
 @interface DKDrawableObject (DrawkitPrivateMetadata)
 
-- (void)				setOriginalText:(NSAttributedString*) text;
-- (NSAttributedString*)	originalText;
+- (void)setOriginalText:(NSAttributedString*)text;
+- (NSAttributedString*)originalText;
 
 @end
-

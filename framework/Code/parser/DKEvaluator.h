@@ -9,21 +9,17 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @class DKExpression;
 
-
-@interface DKEvaluator : NSObject
-{
-	NSMutableDictionary*	mSymbolTable;
+@interface DKEvaluator : NSObject {
+    NSMutableDictionary* mSymbolTable;
 }
 
+- (void)addValue:(id)value forSymbol:(NSString*)symbol;
 
-- (void)	addValue:(id) value forSymbol:(NSString*)symbol;
-
-- (id)		evaluateSymbol:(NSString*) symbol;
-- (id)		evaluateObject:(id) anObject;
-- (id)		evaluateExpression:(DKExpression*) expr;
-- (id)		evaluateSimpleExpression:(DKExpression*) expr;
+- (id)evaluateSymbol:(NSString*)symbol;
+- (id)evaluateObject:(id)anObject;
+- (id)evaluateExpression:(DKExpression*)expr;
+- (id)evaluateSimpleExpression:(DKExpression*)expr;
 
 @end

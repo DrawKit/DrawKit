@@ -11,41 +11,40 @@
 #import "LogEvent.h"
 #import "NSBezierPath+Geometry.h"
 
-NSString*	kDKRasterizerPasteboardType		= @"kDKRendererPasteboardType";
-NSString*	kDKRasterizerPropertyWillChange	= @"kDKRasterizerPropertyWillChange";
-NSString*	kDKRasterizerPropertyDidChange	= @"kDKRasterizerPropertyDidChange";
-NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
+NSString* kDKRasterizerPasteboardType = @"kDKRendererPasteboardType";
+NSString* kDKRasterizerPropertyWillChange = @"kDKRasterizerPropertyWillChange";
+NSString* kDKRasterizerPropertyDidChange = @"kDKRasterizerPropertyDidChange";
+NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 @implementation DKRasterizer
 #pragma mark As a DKRasterizer
 
-+ (DKRasterizer*)		rasterizerFromPasteboard:(NSPasteboard*) pb
++ (DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb
 {
-	// creates a renderer from the pasteboard if possible. Returns the renderer, or nil.
-	
-	NSAssert( pb != nil, @"expected a non-nil pasteboard");
-	
-	DKRasterizer* rend = nil;
-	NSString* typeString = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKRasterizerPasteboardType]];
-	
-	if ( typeString != nil )
-	{
-		NSData* data = [pb dataForType:typeString];
-		
-		if ( data != nil )
-			rend = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-	}
-	
-	return rend;
+    // creates a renderer from the pasteboard if possible. Returns the renderer, or nil.
+
+    NSAssert(pb != nil, @"expected a non-nil pasteboard");
+
+    DKRasterizer* rend = nil;
+    NSString* typeString = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKRasterizerPasteboardType]];
+
+    if (typeString != nil) {
+        NSData* data = [pb dataForType:typeString];
+
+        if (data != nil)
+            rend = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
+
+    return rend;
 }
 
 /** @brief Returns the immediate container of this object, if owned by a group
  * @return the object's container group, if any
  * @public
  */
-- (DKRastGroup*)	container
+- (DKRastGroup*)container
 {
-	return mContainerRef;
+    return mContainerRef;
 }
 
 /** @brief Sets the immediate container of this object
@@ -55,12 +54,13 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param container the objects's container - must be a group, or nil
  * @private
  */
-- (void)			setContainer:(DKRastGroup*) container
+- (void)setContainer:(DKRastGroup*)container
 {
-	if ( container != nil && ![container isKindOfClass:[DKRastGroup class]])
-		[NSException raise:NSInternalInconsistencyException format:@"attempt to set the container to an illegal object type"];
-	
-	mContainerRef = container;
+    if (container != nil && ![container isKindOfClass:[DKRastGroup class]])
+        [NSException raise:NSInternalInconsistencyException
+                    format:@"attempt to set the container to an illegal object type"];
+
+    mContainerRef = container;
 }
 
 #pragma mark -
@@ -71,12 +71,12 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param name the name to give the renderer
  * @public
  */
-- (void)		setName:(NSString*) name
+- (void)setName:(NSString*)name
 {
-	NSString* nameCopy = [name copy];
-	
-	[m_name release];
-	m_name = nameCopy;
+    NSString* nameCopy = [name copy];
+
+    [m_name release];
+    m_name = nameCopy;
 }
 
 /** @brief Get the name of the renderer
@@ -85,9 +85,9 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @return the renderer's name
  * @public
  */
-- (NSString*)	name
+- (NSString*)name
 {
-	return m_name;
+    return m_name;
 }
 
 /** @brief Get the name or classname of the renderer
@@ -96,12 +96,12 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @return the renderer's name or classname
  * @public
  */
-- (NSString*)	label
+- (NSString*)label
 {
-	if ([self name])
-		return [self name];
-	else
-		return NSStringFromClass ([self class]);
+    if ([self name])
+        return [self name];
+    else
+        return NSStringFromClass([self class]);
 }
 
 #pragma mark -
@@ -112,9 +112,9 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @return YES if the renderer will draw something, NO otherwise
  * @public
  */
-- (BOOL)		isValid
+- (BOOL)isValid
 {
-	return NO;
+    return NO;
 }
 
 /** @brief Return the equivalent style script for this renderer
@@ -123,9 +123,9 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @return a string, representing the script that would create an equivalent renderer if parsed
  * @public
  */
-- (NSString*)	styleScript
+- (NSString*)styleScript
 {
-	return [NSString stringWithFormat:@"(%@)", self];
+    return [NSString stringWithFormat:@"(%@)", self];
 }
 
 #pragma mark -
@@ -137,9 +137,9 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param enable YES to enable, NO to disable
  * @public
  */
-- (void)		setEnabled:(BOOL) enable
+- (void)setEnabled:(BOOL)enable
 {
-	m_enabled = enable;
+    m_enabled = enable;
 }
 
 /** @brief Query whether the renderer is enabled or not
@@ -149,32 +149,32 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @return YES if enabled, NO if not
  * @public
  */
-- (BOOL)		enabled
+- (BOOL)enabled
 {
-	return m_enabled;
+    return m_enabled;
 }
 
 /** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
  * @param clipping a DKClippingOption value
  * @public
  */
-- (void)		setClipping:(DKClippingOption) clipping
+- (void)setClipping:(DKClippingOption)clipping
 {
-	mClipping = clipping;
+    mClipping = clipping;
 }
 
-- (void)		setClippingWithoutNotifying:(DKClippingOption) clipping
+- (void)setClippingWithoutNotifying:(DKClippingOption)clipping
 {
-	mClipping = clipping;
+    mClipping = clipping;
 }
 
 /** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
  * @return a DKClippingOption value
  * @public
  */
-- (DKClippingOption) clipping
+- (DKClippingOption)clipping
 {
-	return mClipping;
+    return mClipping;
 }
 
 #pragma mark -
@@ -188,63 +188,62 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param object the object to render
  * @return the rendering path
  */
-- (NSBezierPath*)	renderingPathForObject:(id<DKRenderable>) object
+- (NSBezierPath*)renderingPathForObject:(id<DKRenderable>)object
 {
-	return [object renderingPath];
+    return [object renderingPath];
 }
 
-- (BOOL)			copyToPasteboard:(NSPasteboard*) pb
+- (BOOL)copyToPasteboard:(NSPasteboard*)pb
 {
-	NSAssert( pb != nil, @"expected pasteboard to be non-nil");
-	
-	NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
+    NSAssert(pb != nil, @"expected pasteboard to be non-nil");
 
-	if ( data != nil )
-	{
-		[pb declareTypes:[NSArray arrayWithObject:kDKRasterizerPasteboardType] owner:self];
-		return [pb setData:data forType:kDKRasterizerPasteboardType];
-	}
-	
-	return NO;
+    NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
+
+    if (data != nil) {
+        [pb declareTypes:[NSArray arrayWithObject:kDKRasterizerPasteboardType]
+                   owner:self];
+        return [pb setData:data
+                   forType:kDKRasterizerPasteboardType];
+    }
+
+    return NO;
 }
 
 #pragma mark -
 #pragma mark As a GCObservableObject
-+ (NSArray*)		observableKeyPaths
++ (NSArray*)observableKeyPaths
 {
-	return [NSArray arrayWithObjects:@"name", @"enabled", @"clipping", nil];
+    return [NSArray arrayWithObjects:@"name", @"enabled", @"clipping", nil];
 }
 
-- (NSString*)		actionNameForKeyPath:(NSString*) keypath changeKind:(NSKeyValueChange) kind
+- (NSString*)actionNameForKeyPath:(NSString*)keypath changeKind:(NSKeyValueChange)kind
 {
-	if([keypath isEqualToString:@"enabled"])
-	{
-		if ([self enabled])
-			return NSLocalizedString(@"Enable Style Component", @"undo string for enable component");
-		else
-			return NSLocalizedString(@"Disable Style Component", @"undo string for enable component");
-	}
-	else	
-		return [super actionNameForKeyPath:keypath changeKind:kind];
+    if ([keypath isEqualToString:@"enabled"]) {
+        if ([self enabled])
+            return NSLocalizedString(@"Enable Style Component", @"undo string for enable component");
+        else
+            return NSLocalizedString(@"Disable Style Component", @"undo string for enable component");
+    } else
+        return [super actionNameForKeyPath:keypath
+                                changeKind:kind];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)		dealloc
+- (void)dealloc
 {
-	[m_name release];
-	[super dealloc];
+    [m_name release];
+    [super dealloc];
 }
 
-- (id)				init
+- (id)init
 {
-	self = [super init];
-	if(self != nil)
-	{
-		m_enabled = YES;
-		mClipping = kDKClippingNone;
-	}
-	return self;
+    self = [super init];
+    if (self != nil) {
+        m_enabled = YES;
+        mClipping = kDKClippingNone;
+    }
+    return self;
 }
 
 #pragma mark -
@@ -259,9 +258,9 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @return a size, the additional width and height needed
  * @public
  */
-- (NSSize)		extraSpaceNeeded
+- (NSSize)extraSpaceNeeded
 {
-	return NSZeroSize;
+    return NSZeroSize;
 }
 
 /** @brief Renders an object
@@ -270,34 +269,32 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param object the object to render
  * @public
  */
-- (void)		render:(id<DKRenderable>) object
+- (void)render:(id<DKRenderable>)object
 {
-	if( ! [object conformsToProtocol:@protocol(DKRenderable)])
-		return;
-	
-	if ([self enabled])
-	{
-		NSBezierPath* path = [self renderingPathForObject:object];
-		SAVE_GRAPHICS_CONTEXT	//[NSGraphicsContext saveGraphicsState];
-		
-		switch([self clipping])
-		{
-			default:
-			case kDKClippingNone:
-				break;
-			
-			case kDKClipInsidePath:
-				[path addClip];
-				break;
-				
-			case kDKClipOutsidePath:
-				[path addInverseClip];
-				break;
-		}
-		
-		[self renderPath:path];
-		RESTORE_GRAPHICS_CONTEXT		//[NSGraphicsContext restoreGraphicsState];
-	}
+    if (![object conformsToProtocol:@protocol(DKRenderable)])
+        return;
+
+    if ([self enabled]) {
+        NSBezierPath* path = [self renderingPathForObject:object];
+        SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+            switch ([self clipping])
+        {
+        default:
+        case kDKClippingNone:
+            break;
+
+        case kDKClipInsidePath:
+            [path addClip];
+            break;
+
+        case kDKClipOutsidePath:
+            [path addInverseClip];
+            break;
+        }
+
+        [self renderPath:path];
+        RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+    }
 }
 
 /** @brief Renders an object's path
@@ -307,11 +304,11 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param path the path to render
  * @public
  */
-- (void)		renderPath:(NSBezierPath*) path
+- (void)renderPath:(NSBezierPath*)path
 {
-	#pragma unused(path)
-	
-	// placeholder
+#pragma unused(path)
+
+    // placeholder
 }
 
 /** @brief Queries whther the rasterizer implements a fill or not
@@ -322,45 +319,47 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @return YES if the rasterizer is considered a fill type
  * @public
  */
-- (BOOL)		isFill
+- (BOOL)isFill
 {
-	return NO;
+    return NO;
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
-- (void)		encodeWithCoder:(NSCoder*) coder
+- (void)encodeWithCoder:(NSCoder*)coder
 {
-	NSAssert(coder != nil, @"Expected valid coder");
-	[coder encodeObject:[self name] forKey:@"name"];
-	[coder encodeBool:[self enabled] forKey:@"enabled"];
-	[coder encodeInteger:[self clipping] forKey:@"DKRasterizer_clipping"];
+    NSAssert(coder != nil, @"Expected valid coder");
+    [coder encodeObject:[self name]
+                 forKey:@"name"];
+    [coder encodeBool:[self enabled]
+               forKey:@"enabled"];
+    [coder encodeInteger:[self clipping]
+                  forKey:@"DKRasterizer_clipping"];
 }
 
-- (id)			initWithCoder:(NSCoder*) coder
+- (id)initWithCoder:(NSCoder*)coder
 {
-	NSAssert(coder != nil, @"Expected valid coder");
-	self = [super init];
-	if(self != nil)
-	{
-		[self setName:[coder decodeObjectForKey:@"name"]];
-		[self setEnabled:[coder decodeBoolForKey:@"enabled"]];
-		[self setClipping:[coder decodeIntegerForKey:@"DKRasterizer_clipping"]];
-	}
-	return self;
+    NSAssert(coder != nil, @"Expected valid coder");
+    self = [super init];
+    if (self != nil) {
+        [self setName:[coder decodeObjectForKey:@"name"]];
+        [self setEnabled:[coder decodeBoolForKey:@"enabled"]];
+        [self setClipping:[coder decodeIntegerForKey:@"DKRasterizer_clipping"]];
+    }
+    return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
-- (id)			copyWithZone:(NSZone*) zone
+- (id)copyWithZone:(NSZone*)zone
 {
-	DKRasterizer* copy = [[[self class] allocWithZone:zone] init];
-	
-	[copy setName:[self name]];
-	[copy setEnabled:[self enabled]];
-	[copy setClipping:[self clipping]];
-	
-	return copy;
+    DKRasterizer* copy = [[[self class] allocWithZone:zone] init];
+
+    [copy setName:[self name]];
+    [copy setEnabled:[self enabled]];
+    [copy setClipping:[self clipping]];
+
+    return copy;
 }
 
 #pragma mark -
@@ -374,19 +373,22 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param key the key for the value about to be changed
  * @public
  */
-- (void)		willChangeValueForKey:(NSString*) key
+- (void)willChangeValueForKey:(NSString*)key
 {
-	LogEvent_( kKVOEvent, @"%@ about to change '%@'", self, key );
-	
-	NSDictionary* info = [NSDictionary dictionaryWithObject:key forKey:kDKRasterizerChangedPropertyKey];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyWillChange object:self userInfo:info];
+    LogEvent_(kKVOEvent, @"%@ about to change '%@'", self, key);
 
-	id top = [[self container] root];
-	
-	if( top && [top respondsToSelector:@selector(notifyClientsBeforeChange)])
-		[top notifyClientsBeforeChange]; 
+    NSDictionary* info = [NSDictionary dictionaryWithObject:key
+                                                     forKey:kDKRasterizerChangedPropertyKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyWillChange
+                                                        object:self
+                                                      userInfo:info];
 
-	[super willChangeValueForKey:key];
+    id top = [[self container] root];
+
+    if (top && [top respondsToSelector:@selector(notifyClientsBeforeChange)])
+        [top notifyClientsBeforeChange];
+
+    [super willChangeValueForKey:key];
 }
 
 /** @brief Notifies that a property change took place
@@ -396,12 +398,15 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
  * @param key the key for the value that was changed
  * @public
  */
-- (void)		didChangeValueForKey:(NSString*) key
+- (void)didChangeValueForKey:(NSString*)key
 {
-	[super didChangeValueForKey:key];
+    [super didChangeValueForKey:key];
 
-	NSDictionary* info = [NSDictionary dictionaryWithObject:key forKey:kDKRasterizerChangedPropertyKey];
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyDidChange object:self userInfo:info];
+    NSDictionary* info = [NSDictionary dictionaryWithObject:key
+                                                     forKey:kDKRasterizerChangedPropertyKey];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyDidChange
+                                                        object:self
+                                                      userInfo:info];
 }
 
 @end
@@ -409,14 +414,13 @@ NSString*	kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 #pragma mark -
 @implementation NSObject (DKRendererDelegate)
 #pragma mark Renderer Delegate
-- (NSBezierPath*)	renderer:(DKRasterizer*) aRenderer willRenderPath:(NSBezierPath*) aPath
+- (NSBezierPath*)renderer:(DKRasterizer*)aRenderer willRenderPath:(NSBezierPath*)aPath
 {
-	#pragma unused(aRenderer)
-	
-	// default is to return the path entirely unmodified
-	
-	return aPath;
+#pragma unused(aRenderer)
+
+    // default is to return the path entirely unmodified
+
+    return aPath;
 }
 
 @end
-

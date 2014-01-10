@@ -16,26 +16,24 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
  This is analogous to a retriggerable monostable in electronics - useful for detecting when a series of rapid events ceases if there is no
  other way to detect them. Each event calls -retrigger, extending the timeout until no more retriggers + the period elapses.
 */
-@interface DKRetriggerableTimer : NSObject
-{
+@interface DKRetriggerableTimer : NSObject {
 @private
-	NSTimer*				mTimer;
-	NSTimeInterval			mPeriod;
-	SEL						mAction;
-	id						mTarget;
+    NSTimer* mTimer;
+    NSTimeInterval mPeriod;
+    SEL mAction;
+    id mTarget;
 }
 
-+ (DKRetriggerableTimer*)	retriggerableTimerWithPeriod:(NSTimeInterval) period target:(id) target selector:(SEL) action;
++ (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(id)target selector:(SEL)action;
 
-- (id)						initWithPeriod:(NSTimeInterval) period;
-- (NSTimeInterval)			period;
+- (id)initWithPeriod:(NSTimeInterval)period;
+- (NSTimeInterval)period;
 
-- (void)					retrigger;
+- (void)retrigger;
 
-- (void)					setAction:(SEL) action;
-- (SEL)						action;
-- (void)					setTarget:(id) target;
-- (id)						target;
+- (void)setAction:(SEL)action;
+- (SEL)action;
+- (void)setTarget:(id)target;
+- (id)target;
 
 @end
-

@@ -15,41 +15,40 @@ the text it displays. Other objects that use text can make use of this as they w
 */
 @interface DKStyle (TextAdditions)
 
-+ (DKStyle*)			defaultTextStyle;
-+ (DKStyle*)			textStyleWithFont:(NSFont*) font;
++ (DKStyle*)defaultTextStyle;
++ (DKStyle*)textStyleWithFont:(NSFont*)font;
 
 /** @brief Returns the name and size of the font in a form that can be used as a style name
  * @param font a font
  * @return a string, such as "Helvetica Bold 18pt"
  * @public
  */
-+ (NSString*)			styleNameForFont:(NSFont*) font;
++ (NSString*)styleNameForFont:(NSFont*)font;
 
-- (void)				setParagraphStyle:(NSParagraphStyle*) style;
-- (NSParagraphStyle*)	paragraphStyle;
+- (void)setParagraphStyle:(NSParagraphStyle*)style;
+- (NSParagraphStyle*)paragraphStyle;
 
-- (void)				setAlignment:(NSTextAlignment) align;
-- (NSTextAlignment)		alignment;
+- (void)setAlignment:(NSTextAlignment)align;
+- (NSTextAlignment)alignment;
 
-- (void)				changeTextAttribute:(NSString*) attribute toValue:(id) val;
-- (NSString*)			actionNameForTextAttribute:(NSString*) attribute;
+- (void)changeTextAttribute:(NSString*)attribute toValue:(id)val;
+- (NSString*)actionNameForTextAttribute:(NSString*)attribute;
 
-- (void)				setFont:(NSFont*) font;
-- (NSFont*)				font;
-- (void)				setFontSize:(CGFloat) size;
-- (CGFloat)				fontSize;
+- (void)setFont:(NSFont*)font;
+- (NSFont*)font;
+- (void)setFontSize:(CGFloat)size;
+- (CGFloat)fontSize;
 
-- (void)				setTextColour:(NSColor*) aColour;
-- (NSColor*)			textColour;
+- (void)setTextColour:(NSColor*)aColour;
+- (NSColor*)textColour;
 
-- (void)				setUnderlined:(NSInteger) uval;
-- (NSInteger)			underlined;
-- (void)				toggleUnderlined;
+- (void)setUnderlined:(NSInteger)uval;
+- (NSInteger)underlined;
+- (void)toggleUnderlined;
 
-- (void)				applyToText:(NSMutableAttributedString*) text;
-- (void)				adoptFromText:(NSAttributedString*) text;
+- (void)applyToText:(NSMutableAttributedString*)text;
+- (void)adoptFromText:(NSAttributedString*)text;
 
-- (DKStyle*)			drawingStyleFromTextAttributes;
+- (DKStyle*)drawingStyleFromTextAttributes;
 
 @end
-

@@ -20,21 +20,18 @@ these objects are never used to make a visible view. Their only function is to a
 
 @class DKObjectOwnerLayer, DKShapeGroup;
 
-@interface DKLayerPDFView : DKDrawingView
-{
-	DKLayer* mLayerRef;
+@interface DKLayerPDFView : DKDrawingView {
+    DKLayer* mLayerRef;
 }
 
-- (id)		initWithFrame:(NSRect) frame withLayer:(DKLayer*) aLayer;
+- (id)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer;
 
 @end
 
-@interface DKDrawablePDFView : NSView
-{
-	DKDrawableObject*	mObjectRef;
+@interface DKDrawablePDFView : NSView {
+    DKDrawableObject* mObjectRef;
 }
 
-- (id)		initWithFrame:(NSRect) frame object:(DKDrawableObject*) obj;
+- (id)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj;
 
 @end
-

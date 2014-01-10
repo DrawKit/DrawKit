@@ -9,20 +9,18 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface DKSymbol : NSString <NSCopying>
-{
-    NSString*		mString;
-    NSInteger				mIndex;
+@interface DKSymbol : NSString <NSCopying> {
+    NSString* mString;
+    NSInteger mIndex;
 }
 
-+ (NSMutableDictionary*)	symbolMap;
-+ (DKSymbol*)				symbolForString:(NSString*) str;
-+ (DKSymbol*)				symbolForCString:(const char*) cstr length:(NSInteger) len;
++ (NSMutableDictionary*)symbolMap;
++ (DKSymbol*)symbolForString:(NSString*)str;
++ (DKSymbol*)symbolForCString:(const char*)cstr length:(NSInteger)len;
 
-- (id)						initWithString:(NSString*) str index:(NSInteger) ndx;
+- (id)initWithString:(NSString*)str index:(NSInteger)ndx;
 
--(NSInteger)						index;
--(NSString*)				string;
+- (NSInteger)index;
+- (NSString*)string;
 
 @end

@@ -10,25 +10,24 @@
 
 @interface NSString (DKAdditions)
 
-- (NSComparisonResult)		localisedCaseInsensitiveNumericCompare:(NSString*) anotherString;
+- (NSComparisonResult)localisedCaseInsensitiveNumericCompare:(NSString*)anotherString;
 
-- (NSString*)				stringByRemovingCharactersInSet:(NSCharacterSet*) charSet options:(NSUInteger) mask;
-- (NSString*)				stringByRemovingCharactersInSet:(NSCharacterSet*) charSet;
-- (NSString*)				stringByRemovingCharacter:(unichar) character;
-- (NSString*)				stringByReplacingCharactersInSet:(NSCharacterSet*) charSet withString:(NSString*) substitute;
+- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSUInteger)mask;
+- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet;
+- (NSString*)stringByRemovingCharacter:(unichar)character;
+- (NSString*)stringByReplacingCharactersInSet:(NSCharacterSet*)charSet withString:(NSString*)substitute;
 
-- (NSString*)				stringByCapitalizingFirstCharacter;
-- (NSString*)				stringByAbbreviatingWithOptions:(NSUInteger) flags;
-- (NSString*)				stringByAbbreviatingWordsWithDictionary:(NSDictionary*) abbreviations;
+- (NSString*)stringByCapitalizingFirstCharacter;
+- (NSString*)stringByAbbreviatingWithOptions:(NSUInteger)flags;
+- (NSString*)stringByAbbreviatingWordsWithDictionary:(NSDictionary*)abbreviations;
 
-- (NSString*)				stringValue;
+- (NSString*)stringValue;
 
 @end
 
 // abbreviation flags
 
-enum
-{
-	kDKAbbreviationOptionAddPeriods			= ( 1 << 0 ),
-	kDKAbbreviationOptionAmpersand			= ( 1 << 1 )
+enum {
+    kDKAbbreviationOptionAddPeriods = (1 << 0),
+    kDKAbbreviationOptionAmpersand = (1 << 1)
 };

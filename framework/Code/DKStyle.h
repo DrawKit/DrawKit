@@ -8,69 +8,64 @@
 
 #import "DKRastGroup.h"
 
-@class	DKDrawableObject, DKUndoManager;
+@class DKDrawableObject, DKUndoManager;
 
 // swatch types that can be passed to -styleSwatchWithSize:type:
 
-typedef enum
-{
-	kDKStyleSwatchAutomatic			= -1,
-	kDKStyleSwatchRectanglePath		= 0,
-	kDKStyleSwatchCurvePath			= 1
-}
-DKStyleSwatchType;
+typedef enum {
+    kDKStyleSwatchAutomatic = -1,
+    kDKStyleSwatchRectanglePath = 0,
+    kDKStyleSwatchCurvePath = 1
+} DKStyleSwatchType;
 
 // options that can be passed to -derivedStyleWithPasteboard:withOptions:
 
-typedef enum
-{
-	kDKDerivedStyleDefault			= 0,
-	kDKDerivedStyleForPathHint		= 1,
-	kDKDerivedStyleForShapeHint		= 2
-}
-DKDerivedStyleOptions;
+typedef enum {
+    kDKDerivedStyleDefault = 0,
+    kDKDerivedStyleForPathHint = 1,
+    kDKDerivedStyleForShapeHint = 2
+} DKDerivedStyleOptions;
 
-#define STYLE_SWATCH_SIZE		NSMakeSize( 128.0, 128.0 )
+#define STYLE_SWATCH_SIZE NSMakeSize(128.0, 128.0)
 
 // n.b. for style registry API, see DKStyleRegistry.h
 
-@interface DKStyle : DKRastGroup <NSCoding, NSCopying, NSMutableCopying>
-{
+@interface DKStyle : DKRastGroup <NSCoding, NSCopying, NSMutableCopying> {
 @private
-	NSDictionary*			m_textAttributes;		// supports text additions
-	NSUndoManager*			m_undoManagerRef;		// style's undo manager
-	BOOL					m_shared;				// YES if the style is shared
-	BOOL					m_locked;				// YES if style can't be edited
-	id						m_renderClientRef;		// valid only while actually drawing
-	NSString*				m_uniqueKey;			// unique key, set once for all time
-	BOOL					m_mergeFlag;			// set to YES when a style is read in from a file and was saved in a registered state.
-	NSTimeInterval			m_lastModTime;			// timestamp to determine when styles have been updated
-	NSUInteger				m_clientCount;			// keeps count of the clients using the style
-	NSMutableDictionary*	mSwatchCache;			// cache of swatches at various sizes previously requested
+    NSDictionary* m_textAttributes; // supports text additions
+    NSUndoManager* m_undoManagerRef; // style's undo manager
+    BOOL m_shared; // YES if the style is shared
+    BOOL m_locked; // YES if style can't be edited
+    id m_renderClientRef; // valid only while actually drawing
+    NSString* m_uniqueKey; // unique key, set once for all time
+    BOOL m_mergeFlag; // set to YES when a style is read in from a file and was saved in a registered state.
+    NSTimeInterval m_lastModTime; // timestamp to determine when styles have been updated
+    NSUInteger m_clientCount; // keeps count of the clients using the style
+    NSMutableDictionary* mSwatchCache; // cache of swatches at various sizes previously requested
 }
 
 // basic standard styles:
 
-+ (DKStyle*)			defaultStyle;			// very boring, black stroke and light gray fill
-+ (DKStyle*)			defaultTrackStyle;		// grey stroke over wider black stroke, no fill
++ (DKStyle*)defaultStyle; // very boring, black stroke and light gray fill
++ (DKStyle*)defaultTrackStyle; // grey stroke over wider black stroke, no fill
 
 // easy construction of other simple styles:
 
-+ (DKStyle*)			styleWithFillColour:(NSColor*) fc strokeColour:(NSColor*) sc;
-+ (DKStyle*)			styleWithFillColour:(NSColor*) fc strokeColour:(NSColor*) sc strokeWidth:(CGFloat) sw;
-+ (DKStyle*)			styleFromPasteboard:(NSPasteboard*) pb;
++ (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc;
++ (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc strokeWidth:(CGFloat)sw;
++ (DKStyle*)styleFromPasteboard:(NSPasteboard*)pb;
 
 /** @brief Return a list of types supported by styles for pasteboard operations
  * @return an array listing the pasteboard types usable by DKStyle
  * @public
  */
-+ (NSArray*)			stylePasteboardTypes;
-+ (BOOL)				canInitWithPasteboard:(NSPasteboard*) pb;
++ (NSArray*)stylePasteboardTypes;
++ (BOOL)canInitWithPasteboard:(NSPasteboard*)pb;
 
 // pasted styles - separate non-persistent registry
 
-+ (DKStyle*)			styleWithPasteboardName:(NSString*) name;
-+ (void)				registerStyle:(DKStyle*) style withPasteboardName:(NSString*) pbname;
++ (DKStyle*)styleWithPasteboardName:(NSString*)name;
++ (void)registerStyle:(DKStyle*)style withPasteboardName:(NSString*)pbname;
 
 // default sharing flag
 
@@ -82,7 +77,7 @@ DKDerivedStyleOptions;
  * @param share YES to share styles, NO to return unique copies.
  * @public
  */
-+ (void)				setStylesAreSharableByDefault:(BOOL) share;
++ (void)setStylesAreSharableByDefault:(BOOL)share;
 
 /** @brief Query whether styles are generally shared or not
  * @note
@@ -90,7 +85,7 @@ DKDerivedStyleOptions;
  * @return YES if styles are shared, NO if unique copies will be returned
  * @public
  */
-+ (BOOL)				stylesAreSharableByDefault;
++ (BOOL)stylesAreSharableByDefault;
 
 // shadows:
 
@@ -100,7 +95,7 @@ DKDerivedStyleOptions;
  * @return a shadow object
  * @public
  */
-+ (NSShadow*)			defaultShadow;
++ (NSShadow*)defaultShadow;
 
 /** @brief Set whether shadow attributes within a style should be drawn
  * @note
@@ -110,7 +105,7 @@ DKDerivedStyleOptions;
  * @return the previous state of this setting
  * @public
  */
-+ (BOOL)				setWillDrawShadows:(BOOL) drawShadows;
++ (BOOL)setWillDrawShadows:(BOOL)drawShadows;
 
 /** @brief Set whether shadow attributes within a style should be drawn
  * @note
@@ -119,7 +114,7 @@ DKDerivedStyleOptions;
  * @return YES to draw shadows, NO to suppress them
  * @public
  */
-+ (BOOL)				willDrawShadows;
++ (BOOL)willDrawShadows;
 
 // performance options:
 
@@ -129,7 +124,7 @@ DKDerivedStyleOptions;
  * @param aa YES to anti-alias, NO to turn anti-aliasing off
  * @public
  */
-+ (void)				setShouldAntialias:(BOOL) aa;
++ (void)setShouldAntialias:(BOOL)aa;
 
 /** @brief Set whether drawing should be anti-aliased or not
  * @note
@@ -137,7 +132,7 @@ DKDerivedStyleOptions;
  * @return YES to anti-alias, NO to turn anti-aliasing off
  * @public
  */
-+ (BOOL)				shouldAntialias;
++ (BOOL)shouldAntialias;
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
  * render.
@@ -147,7 +142,7 @@ DKDerivedStyleOptions;
  * @param substitute YES to substitute a faster placeholder style for complex styles
  * @public
  */
-+ (void)				setShouldSubstitutePlaceholderStyle:(BOOL) substitute;
++ (void)setShouldSubstitutePlaceholderStyle:(BOOL)substitute;
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
  * render.
@@ -157,19 +152,19 @@ DKDerivedStyleOptions;
  * @return YES to substitute a faster placeholder style for complex styles
  * @public
  */
-+ (BOOL)				shouldSubstitutePlaceholderStyle;
++ (BOOL)shouldSubstitutePlaceholderStyle;
 
 // updating & notifying clients:
 
 /** @brief Informs clients that a property of the style is about to change
  */
-- (void)				notifyClientsBeforeChange;
+- (void)notifyClientsBeforeChange;
 
 /** @brief Informs clients that a property of the style has just changed
  * @note
  * This method is called in response to any observed change to any renderer the style contains
  */
-- (void)				notifyClientsAfterChange;
+- (void)notifyClientsAfterChange;
 
 /** @brief Called when a style is attached to an object
  * @note
@@ -178,7 +173,7 @@ DKDerivedStyleOptions;
  * @param toObject the object the style was attached to
  * @public
  */
-- (void)				styleWasAttached:(DKDrawableObject*) toObject;
+- (void)styleWasAttached:(DKDrawableObject*)toObject;
 
 /** @brief Called when a style is about to be removed from an object
  * @note
@@ -188,7 +183,7 @@ DKDerivedStyleOptions;
  * @param toObject the object the style was attached to
  * @public
  */
-- (void)				styleWillBeRemoved:(DKDrawableObject*) fromObject;
+- (void)styleWillBeRemoved:(DKDrawableObject*)fromObject;
 
 /** @brief Returns the number of client objects using this style
  * @note
@@ -196,7 +191,7 @@ DKDerivedStyleOptions;
  * @return an unsigned integer, the number of clients using this style
  * @public
  */
-- (NSUInteger)			countOfClients;
+- (NSUInteger)countOfClients;
 
 // (text) attributes - basic support
 
@@ -207,7 +202,7 @@ DKDerivedStyleOptions;
  * DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
  * @param attrs a dictionary of text attributes
  */
-- (void)				setTextAttributes:(NSDictionary*) attrs;
+- (void)setTextAttributes:(NSDictionary*)attrs;
 
 /** @brief Returns the attributes dictionary
  * @note
@@ -215,20 +210,20 @@ DKDerivedStyleOptions;
  * @return a dictionary of attributes
  * @public
  */
-- (NSDictionary*)		textAttributes;
+- (NSDictionary*)textAttributes;
 
 /** @brief Return wjether the style has any text attributes set
  * @return YES if there are any text attributes
  * @public
  */
-- (BOOL)				hasTextAttributes;
+- (BOOL)hasTextAttributes;
 
 /** @brief Remove all of the style's current text attributes
  * @note
  * Does nothing if the style is locked
  * @public
  */
-- (void)				removeTextAttributes;
+- (void)removeTextAttributes;
 
 // shared and locked status:
 
@@ -240,14 +235,14 @@ DKDerivedStyleOptions;
  * @param share YES to share among several objects, NO to make unique copies.
  * @public
  */
-- (void)				setStyleSharable:(BOOL) share;
+- (void)setStyleSharable:(BOOL)share;
 
 /** @brief Returns whether the style can be shared among multiple objects, or whether unique copies should be
  * used.
  * @return YES to share among several objects, NO to make unique copies.
  * @public
  */
-- (BOOL)				isStyleSharable;
+- (BOOL)isStyleSharable;
 
 /** @brief Set whether style is locked (editable)
  * @note
@@ -259,13 +254,13 @@ DKDerivedStyleOptions;
  * @param lock YES to lock the style
  * @public
  */
-- (void)				setLocked:(BOOL) lock;
+- (void)setLocked:(BOOL)lock;
 
 /** @brief Returns whether the style is locked and cannot be edited
  * @return YES if locked (non-editable)
  * @public
  */
-- (BOOL)				locked;
+- (BOOL)locked;
 
 // registry info:
 
@@ -277,7 +272,7 @@ DKDerivedStyleOptions;
  * @return YES if known to the registry
  * @public
  */
-- (BOOL)				isStyleRegistered;
+- (BOOL)isStyleRegistered;
 
 /** @brief Returns the list of keys that the style is registered under (if any)
  * @note
@@ -287,7 +282,7 @@ DKDerivedStyleOptions;
  * @return a list of keys (NSStrings)
  * @public
  */
-- (NSArray*)			registryKeys;
+- (NSArray*)registryKeys;
 
 /** @brief Returns the unique key of the style
  * @note
@@ -296,7 +291,7 @@ DKDerivedStyleOptions;
  * @return a string
  * @public
  */
-- (NSString*)			uniqueKey;
+- (NSString*)uniqueKey;
 
 /** @brief Sets the unique key of the style
  * @note
@@ -305,7 +300,7 @@ DKDerivedStyleOptions;
  * ordinary name.
  * @private
  */
-- (void)				assignUniqueKey;
+- (void)assignUniqueKey;
 
 /** @brief Query whether the style should be considered for a re-merge with the registry
  * @note
@@ -315,9 +310,9 @@ DKDerivedStyleOptions;
  * @return <YES> if the style should be a candidate for re-merging
  * @private
  */
-- (BOOL)				requiresRemerge;
-- (void)				clearRemergeFlag;
-- (NSTimeInterval)		lastModificationTimestamp;
+- (BOOL)requiresRemerge;
+- (void)clearRemergeFlag;
+- (NSTimeInterval)lastModificationTimestamp;
 
 /** @brief Is this style the same as <aStyle>?
  * @note
@@ -326,7 +321,7 @@ DKDerivedStyleOptions;
  * @return YES if the styles ar the same, NO otherwise
  * @public
  */
-- (BOOL)				isEqualToStyle:(DKStyle*) aStyle;
+- (BOOL)isEqualToStyle:(DKStyle*)aStyle;
 
 // undo:
 
@@ -336,20 +331,20 @@ DKDerivedStyleOptions;
  * @param undomanager the manager to use
  * @public
  */
-- (void)				setUndoManager:(NSUndoManager*) undomanager;
+- (void)setUndoManager:(NSUndoManager*)undomanager;
 
 /** @brief Returns the undo manager that style changes will be recorded by
  * @return the style's current undo manager
  * @public
  */
-- (NSUndoManager*)		undoManager;
+- (NSUndoManager*)undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  * @param keypath the keypath of the action, relative to the object
  * @param object the real target of the invocation
  * @private
  */
-- (void)				changeKeyPath:(NSString*) keypath ofObject:(id) object toValue:(id) value;
+- (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value;
 
 // stroke utilities:
 
@@ -358,19 +353,19 @@ DKDerivedStyleOptions;
  * @param quiet if YES, will ignore locked state and not inform clients. This is done when making hit
  * @public
  */
-- (void)				scaleStrokeWidthsBy:(CGFloat) scale withoutInformingClients:(BOOL) quiet;
+- (void)scaleStrokeWidthsBy:(CGFloat)scale withoutInformingClients:(BOOL)quiet;
 
 /** @brief Returns the widest stroke width in the style
  * @return a number, the width of the widest contained stroke, or 0.0 if there are no strokes.
  * @public
  */
-- (CGFloat)				maxStrokeWidth;
+- (CGFloat)maxStrokeWidth;
 
 /** @brief Returns the difference between the widest and narrowest strokes
  * @return a number, can be 0.0 if there are no strokes or only one stroke
  * @public
  */
-- (CGFloat)				maxStrokeWidthDifference;
+- (CGFloat)maxStrokeWidthDifference;
 
 /** @brief Applies the cap, join, mitre limit, dash and line width attributes of the rear-most stroke to the path
  * @note
@@ -381,7 +376,7 @@ DKDerivedStyleOptions;
  * @param path a bezier path to apply the attributes to
  * @public
  */
-- (void)				applyStrokeAttributesToPath:(NSBezierPath*) path;
+- (void)applyStrokeAttributesToPath:(NSBezierPath*)path;
 
 /** @brief Returns the number of strokes
  * @note
@@ -389,7 +384,7 @@ DKDerivedStyleOptions;
  * @return the number of stroke rasterizers
  * @public
  */
-- (NSUInteger)			countOfStrokes;
+- (NSUInteger)countOfStrokes;
 
 // clipboard:
 
@@ -400,7 +395,7 @@ DKDerivedStyleOptions;
  * @param pb the pasteboard to copy to
  * @public
  */
-- (BOOL)				copyToPasteboard:(NSPasteboard*) pb;
+- (BOOL)copyToPasteboard:(NSPasteboard*)pb;
 
 /** @brief Returns a style based on the receiver plus any data on the clipboard we are able to use
  * @note
@@ -418,7 +413,7 @@ DKDerivedStyleOptions;
  * @return a new style
  * @public
  */
-- (DKStyle*)			derivedStyleWithPasteboard:(NSPasteboard*) pb;
+- (DKStyle*)derivedStyleWithPasteboard:(NSPasteboard*)pb;
 
 /** @brief Returns a style based on the receiver plus any data on the clipboard we are able to use
  * @note
@@ -430,7 +425,7 @@ DKDerivedStyleOptions;
  * @return a new style
  * @public
  */
-- (DKStyle*)			derivedStyleWithPasteboard:(NSPasteboard*) pb withOptions:(DKDerivedStyleOptions) options;
+- (DKStyle*)derivedStyleWithPasteboard:(NSPasteboard*)pb withOptions:(DKDerivedStyleOptions)options;
 
 // query methods:
 
@@ -438,7 +433,7 @@ DKDerivedStyleOptions;
  * @return YES if there are one or more strokes, NO otherwise
  * @public
  */
-- (BOOL)				hasStroke;
+- (BOOL)hasStroke;
 
 /** @brief Queries whether the style has at least one filling property
  * @note
@@ -446,7 +441,7 @@ DKDerivedStyleOptions;
  * @return YES if there are one or more fill properties, NO otherwise
  * @public
  */
-- (BOOL)				hasFill;
+- (BOOL)hasFill;
 
 /** @brief Queries whether the style has at least one hatch property
  * @note
@@ -454,19 +449,19 @@ DKDerivedStyleOptions;
  * @return YES if there are one or more hatches, NO otherwise
  * @public
  */
-- (BOOL)				hasHatch;
+- (BOOL)hasHatch;
 
 /** @brief Queries whether the style has at least one text adornment property
  * @return YES if there are one or more text adornments, NO otherwise
  * @public
  */
-- (BOOL)				hasTextAdornment;
+- (BOOL)hasTextAdornment;
 
 /** @brief Queries whether the style has any components at all
  * @return YES if there are no components and no text attributes, NO if there is at least 1 or has text 
  * @public
  */
-- (BOOL)				isEmpty;
+- (BOOL)isEmpty;
 
 // swatch images:
 
@@ -476,7 +471,7 @@ DKDerivedStyleOptions;
  * @return an image of a default path rendered using this style
  * @public
  */
-- (NSImage*)			styleSwatchWithSize:(NSSize) size type:(DKStyleSwatchType) type;
+- (NSImage*)styleSwatchWithSize:(NSSize)size type:(DKStyleSwatchType)type;
 
 /** @brief Creates a thumbnail image of the style
  * @note
@@ -484,9 +479,9 @@ DKDerivedStyleOptions;
  * @return an image of a path rendered using this style in the default size
  * @public
  */
-- (NSImage*)			standardStyleSwatch;
-- (NSImage*)			image;
-- (NSImage*)			imageToFitSize:(NSSize) aSize;
+- (NSImage*)standardStyleSwatch;
+- (NSImage*)image;
+- (NSImage*)imageToFitSize:(NSSize)aSize;
 
 /** @brief Return a key for the swatch cache for the given size and type of swatch
  * @note
@@ -495,7 +490,7 @@ DKDerivedStyleOptions;
  * @return a string that is used as the key to the swatches in the cache
  * @public
  */
-- (NSString*)			swatchCacheKeyForSize:(NSSize) size type:(DKStyleSwatchType) type;
+- (NSString*)swatchCacheKeyForSize:(NSSize)size type:(DKStyleSwatchType)type;
 
 // currently rendering client (may be queried by renderers)
 
@@ -506,7 +501,7 @@ DKDerivedStyleOptions;
  * @return the current rendering object
  * @public
  */
-- (id)					currentRenderClient;
+- (id)currentRenderClient;
 
 // making derivative styles:
 
@@ -519,14 +514,14 @@ DKDerivedStyleOptions;
  * @return a new style object
  * @public
  */
-- (DKStyle*)			styleByMergingFromStyle:(DKStyle*) otherStyle;
+- (DKStyle*)styleByMergingFromStyle:(DKStyle*)otherStyle;
 
 /** @brief Returns a new style formed by copying the rasterizers from the receiver but not those of <aClass>
  * @param aClass the rasterizer class not to be copied
  * @return a new style object
  * @public
  */
-- (DKStyle*)			styleByRemovingRenderersOfClass:(Class) aClass;
+- (DKStyle*)styleByRemovingRenderersOfClass:(Class)aClass;
 
 /** @brief Returns a copy of the style having a new unique ID
  * @note
@@ -534,28 +529,28 @@ DKDerivedStyleOptions;
  * @return a new style object
  * @public
  */
-- (id)					clone;
+- (id)clone;
 
 @end
 
 // pasteboard types:
 
-extern NSString*		kDKStylePasteboardType;
-extern NSString*		kDKStyleKeyPasteboardType;
+extern NSString* kDKStylePasteboardType;
+extern NSString* kDKStyleKeyPasteboardType;
 
 // notifications:
 
-extern NSString*		kDKStyleWillChangeNotification;
-extern NSString*		kDKStyleDidChangeNotification;
-extern NSString*		kDKStyleTextAttributesDidChangeNotification; 
-extern NSString*		kDKStyleWasAttachedNotification;
-extern NSString*		kDKStyleWillBeDetachedNotification;
-extern NSString*		kDKStyleLockStateChangedNotification;
-extern NSString*		kDKStyleSharableFlagChangedNotification;
-extern NSString*		kDKStyleNameChangedNotification;
+extern NSString* kDKStyleWillChangeNotification;
+extern NSString* kDKStyleDidChangeNotification;
+extern NSString* kDKStyleTextAttributesDidChangeNotification;
+extern NSString* kDKStyleWasAttachedNotification;
+extern NSString* kDKStyleWillBeDetachedNotification;
+extern NSString* kDKStyleLockStateChangedNotification;
+extern NSString* kDKStyleSharableFlagChangedNotification;
+extern NSString* kDKStyleNameChangedNotification;
 
 // preferences keys
 
-extern NSString*		kDKStyleDisplayPerformance_no_anti_aliasing;
-extern NSString*		kDKStyleDisplayPerformance_no_shadows;
-extern NSString*		kDKStyleDisplayPerformance_substitute_styles;
+extern NSString* kDKStyleDisplayPerformance_no_anti_aliasing;
+extern NSString* kDKStyleDisplayPerformance_no_shadows;
+extern NSString* kDKStyleDisplayPerformance_substitute_styles;

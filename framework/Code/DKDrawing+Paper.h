@@ -17,12 +17,11 @@ The sizes can be passed directly to -initWithSize:
 */
 @interface DKDrawing (Paper)
 
-+ (NSSize)					isoA0PaperSize:(BOOL) portrait;
-+ (NSSize)					isoA1PaperSize:(BOOL) portrait;
-+ (NSSize)					isoA2PaperSize:(BOOL) portrait;
-+ (NSSize)					isoA3PaperSize:(BOOL) portrait;
-+ (NSSize)					isoA4PaperSize:(BOOL) portrait;
-+ (NSSize)					isoA5PaperSize:(BOOL) portrait;
++ (NSSize)isoA0PaperSize:(BOOL)portrait;
++ (NSSize)isoA1PaperSize:(BOOL)portrait;
++ (NSSize)isoA2PaperSize:(BOOL)portrait;
++ (NSSize)isoA3PaperSize:(BOOL)portrait;
++ (NSSize)isoA4PaperSize:(BOOL)portrait;
++ (NSSize)isoA5PaperSize:(BOOL)portrait;
 
 @end
-

@@ -5,7 +5,7 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
- 
+
 #import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
@@ -15,31 +15,29 @@ as found in numerour apps, including Apple's own.
 */
 @interface DKGradient (UISupport)
 
-+ (DKGradient*)			aquaSelectedGradient;
-+ (DKGradient*)			aquaNormalGradient;
-+ (DKGradient*)			aquaPressedGradient;
++ (DKGradient*)aquaSelectedGradient;
++ (DKGradient*)aquaNormalGradient;
++ (DKGradient*)aquaPressedGradient;
 
-+ (DKGradient*)			unifiedSelectedGradient;
-+ (DKGradient*)			unifiedNormalGradient;
-+ (DKGradient*)			unifiedPressedGradient;
-+ (DKGradient*)			unifiedDarkGradient;
++ (DKGradient*)unifiedSelectedGradient;
++ (DKGradient*)unifiedNormalGradient;
++ (DKGradient*)unifiedPressedGradient;
++ (DKGradient*)unifiedDarkGradient;
 
-+ (DKGradient*)			sourceListSelectedGradient;
-+ (DKGradient*)			sourceListUnselectedGradient;
++ (DKGradient*)sourceListSelectedGradient;
++ (DKGradient*)sourceListUnselectedGradient;
 
-+ (void)				drawShinyGradientInRect:(NSRect) aRect withColour:(NSColor*) colour;
++ (void)drawShinyGradientInRect:(NSRect)aRect withColour:(NSColor*)colour;
 
 @end
 
 typedef struct
-{
-	CGFloat color[4];
-	CGFloat caustic[4];
-	CGFloat expCoefficient;
-	CGFloat expScale;
-	CGFloat expOffset;
-	CGFloat initialWhite;
-	CGFloat finalWhite;
-}
-GlossParameters;
-
+    {
+    CGFloat color[4];
+    CGFloat caustic[4];
+    CGFloat expCoefficient;
+    CGFloat expScale;
+    CGFloat expOffset;
+    CGFloat initialWhite;
+    CGFloat finalWhite;
+} GlossParameters;

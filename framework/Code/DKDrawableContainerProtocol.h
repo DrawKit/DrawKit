@@ -10,24 +10,19 @@
 
 @class DKDrawing, DKLayer, DKImageDataManager, DKDrawableObject, DKMetadataItem;
 
-
 @protocol DKDrawableContainer <NSObject>
 
-- (DKDrawing*)				drawing;
-- (DKLayer*)				layer;
-- (NSAffineTransform*)		renderingTransform;
-- (DKImageDataManager*)		imageManager;
-- (NSUInteger)				indexOfObject:(DKDrawableObject*) obj;
+- (DKDrawing*)drawing;
+- (DKLayer*)layer;
+- (NSAffineTransform*)renderingTransform;
+- (DKImageDataManager*)imageManager;
+- (NSUInteger)indexOfObject:(DKDrawableObject*)obj;
 
 @optional
-- (DKMetadataItem*)			metadataItemForKey:(NSString*) key;
-- (id)						metadataObjectForKey:(NSString*) key;
+- (DKMetadataItem*)metadataItemForKey:(NSString*)key;
+- (id)metadataObjectForKey:(NSString*)key;
 
 @end
-
-
-
-
 
 /*
 
@@ -37,5 +32,3 @@ This includes DKObjectOwnerLayer, DKShapeGroup
 
 
 */
-
-

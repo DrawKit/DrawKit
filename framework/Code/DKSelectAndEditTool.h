@@ -13,24 +13,20 @@
 
 // modes of operation determined by what was hit and what is in the selection
 
-typedef enum
-{
-	kDKEditToolInvalidMode		= 0,
-	kDKEditToolSelectionMode	= 1,
-	kDKEditToolEditObjectMode	= 2,
-	kDKEditToolMoveObjectsMode	= 3
-}
-DKEditToolOperation;
+typedef enum {
+    kDKEditToolInvalidMode = 0,
+    kDKEditToolSelectionMode = 1,
+    kDKEditToolEditObjectMode = 2,
+    kDKEditToolMoveObjectsMode = 3
+} DKEditToolOperation;
 
 // drag phases passed to dragObjectAsGroup:...
 
-typedef enum
-{
-	kDKDragMouseDown			= 1,
-	kDKDragMouseDragged			= 2,
-	kDKDragMouseUp				= 3
-}
-DKEditToolDragPhase;
+typedef enum {
+    kDKDragMouseDown = 1,
+    kDKDragMouseDragged = 2,
+    kDKDragMouseUp = 3
+} DKEditToolDragPhase;
 
 // tool class
 
@@ -45,30 +41,29 @@ tool mode is set to invalid and nothing is done.
 The 'marquee' (selection rect) is drawn using a style, giving great flexibility as to its appearance. In general a style that
 has a very low opacity should be used - the default style takes the system's highlight colour and makes a low opacity version of it.
 */
-@interface DKSelectAndEditTool : DKDrawingTool <DKRenderable>
-{
+@interface DKSelectAndEditTool : DKDrawingTool <DKRenderable> {
 @private
-	DKEditToolOperation		mOperationMode;				// what the tool is doing (selecting, editing or moving)
-	NSPoint					mAnchorPoint;				// the point of the initial mouse down
-	NSPoint					mLastPoint;					// last point seen
-	NSRect					mMarqueeRect;				// the selection rect, while selecting
-	DKStyle*				mMarqueeStyle;				// the appearance style of the marquee
-	NSInteger				mPartcode;					// current partcode
-	NSString*				mUndoAction;				// the most recently performed action name
-	BOOL					mHideSelectionOnDrag;		// YES to hide knobs and jhandles while dragging an object
-	BOOL					mAllowMultiObjectDrag;		// YES to allow all objects in the selection to be moved at once
-	BOOL					mAllowMultiObjectKnobDrag;	// YES to allow movement of all selected objects, even when dragging on a control point
-	BOOL					mPerformedUndoableTask;		// YES if the tool did anything undoable
-	BOOL					mAllowDirectCopying;		// YES if option-drag copies the objects directly
-	BOOL					mDidCopyDragObjects;		// YES if objects were copied when dragged
-	BOOL					mMouseMoved;				// YES if mouse was actually dragged, not just clicked
-	CGFloat					mViewScale;					// the view's current scale, valid for the renderingPath callback
-	NSUInteger				mProxyDragThreshold;		// number of objects in the selection where a proxy drag is used; 0 = never do a proxy drag
-	BOOL					mInProxyDrag;				// YES during a proxy drag
-	NSImage*				mProxyDragImage;			// the proxy image being dragged
-	NSRect					mProxyDragDestRect;			// where it is drawn
-	NSArray*				mDraggedObjects;			// cache of objects being dragged
-	BOOL					mWasInLockedObject;			// YES if initial mouse down was in a locked object
+    DKEditToolOperation mOperationMode; // what the tool is doing (selecting, editing or moving)
+    NSPoint mAnchorPoint; // the point of the initial mouse down
+    NSPoint mLastPoint; // last point seen
+    NSRect mMarqueeRect; // the selection rect, while selecting
+    DKStyle* mMarqueeStyle; // the appearance style of the marquee
+    NSInteger mPartcode; // current partcode
+    NSString* mUndoAction; // the most recently performed action name
+    BOOL mHideSelectionOnDrag; // YES to hide knobs and jhandles while dragging an object
+    BOOL mAllowMultiObjectDrag; // YES to allow all objects in the selection to be moved at once
+    BOOL mAllowMultiObjectKnobDrag; // YES to allow movement of all selected objects, even when dragging on a control point
+    BOOL mPerformedUndoableTask; // YES if the tool did anything undoable
+    BOOL mAllowDirectCopying; // YES if option-drag copies the objects directly
+    BOOL mDidCopyDragObjects; // YES if objects were copied when dragged
+    BOOL mMouseMoved; // YES if mouse was actually dragged, not just clicked
+    CGFloat mViewScale; // the view's current scale, valid for the renderingPath callback
+    NSUInteger mProxyDragThreshold; // number of objects in the selection where a proxy drag is used; 0 = never do a proxy drag
+    BOOL mInProxyDrag; // YES during a proxy drag
+    NSImage* mProxyDragImage; // the proxy image being dragged
+    NSRect mProxyDragDestRect; // where it is drawn
+    NSArray* mDraggedObjects; // cache of objects being dragged
+    BOOL mWasInLockedObject; // YES if initial mouse down was in a locked object
 }
 
 /** @brief Returns the default style to use for drawing the selection marquee
@@ -79,7 +74,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * @return a style object
  * @public
  */
-+ (DKStyle*)				defaultMarqueeStyle;
++ (DKStyle*)defaultMarqueeStyle;
 
 // modes of operation:
 
@@ -89,12 +84,12 @@ has a very low opacity should be used - the default style takes the system's hig
  * initial click.
  * @param op the mode to enter
  */
-- (void)					setOperationMode:(DKEditToolOperation) op;
+- (void)setOperationMode:(DKEditToolOperation)op;
 
 /** @brief Returns the tool's current operation mode
  * @return the current operation mode
  */
-- (DKEditToolOperation)		operationMode;
+- (DKEditToolOperation)operationMode;
 
 // drawing the marquee (selection rect):
 
@@ -104,12 +99,12 @@ has a very low opacity should be used - the default style takes the system's hig
  * the style
  * @param aView the view being drawn in
  */
-- (void)					drawMarqueeInView:(DKDrawingView*) aView;
+- (void)drawMarqueeInView:(DKDrawingView*)aView;
 
 /** @brief Returns the current marquee (selection rect)
  * @return a rect
  */
-- (NSRect)					marqueeRect;
+- (NSRect)marqueeRect;
 
 /** @brief Sets the current marquee (selection rect)
  * @note
@@ -119,7 +114,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * @param alayer the current layer (used to mark the update for the marquee rect)
  * @return a rect
  */
-- (void)					setMarqueeRect:(NSRect) marqueeRect inLayer:(DKLayer*) aLayer;
+- (void)setMarqueeRect:(NSRect)marqueeRect inLayer:(DKLayer*)aLayer;
 
 /** @brief Set the drawing style for the marquee (selection rect)
  * @note
@@ -127,7 +122,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * otherwise it will be hard to see what you are selecting!
  * @param aStyle a style object
  */
-- (void)					setMarqueeStyle:(DKStyle*) aStyle;
+- (void)setMarqueeStyle:(DKStyle*)aStyle;
 
 /** @brief Set the drawing style for the marquee (selection rect)
  * @note
@@ -135,7 +130,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * otherwise it will be hard to see what you are selecting!
  * @param aStyle a style object
  */
-- (DKStyle*)				marqueeStyle;
+- (DKStyle*)marqueeStyle;
 
 // setting up optional behaviours:
 
@@ -144,18 +139,18 @@ has a very low opacity should be used - the default style takes the system's hig
  * The default is YES. Hiding the selection can make positioning objects by eye more precise.
  * @param hideSel YES to hide selections during a drag, NO to leave them visible
  */
-- (void)					setSelectionShouldHideDuringDrag:(BOOL) hideSel;
+- (void)setSelectionShouldHideDuringDrag:(BOOL)hideSel;
 
 /** @brief Should the selection highlight of objects should be supressed during a drag?
  * @note
  * The default is YES. Hiding the selection can make positioning objects by eye more precise.
  * @return YES to hide selections during a drag, NO to leave them visible
  */
-- (BOOL)					selectionShouldHideDuringDrag;
-- (void)					setDragsAllObjectsInSelection:(BOOL) multi;
-- (BOOL)					dragsAllObjectsInSelection;
-- (void)					setAllowsDirectDragCopying:(BOOL) dragCopy;
-- (BOOL)					allowsDirectDragCopying;
+- (BOOL)selectionShouldHideDuringDrag;
+- (void)setDragsAllObjectsInSelection:(BOOL)multi;
+- (BOOL)dragsAllObjectsInSelection;
+- (void)setAllowsDirectDragCopying:(BOOL)dragCopy;
+- (BOOL)allowsDirectDragCopying;
 
 /** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
  * @note
@@ -163,7 +158,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
  * @public
  */
-- (void)					setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL) dragWithKnob;
+- (void)setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL)dragWithKnob;
 
 /** @brief Returns whether a hit on a knob in a multiple selection drags the objects or drags the knob
  * @note
@@ -171,7 +166,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * @return YES to drag the selection, NO to change the selection and drag the knob
  * @public
  */
-- (BOOL)					dragsAllObjectsInSelectionWhenDraggingKnob;
+- (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob;
 
 /** @brief Sets the number of selected objects at which a proxy drag is used rather than a live drag
  * @note
@@ -184,7 +179,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * @param numberOfObjects the number above which a proxy drag is used 
  * @public
  */
-- (void)					setProxyDragThreshold:(NSUInteger) numberOfObjects;
+- (void)setProxyDragThreshold:(NSUInteger)numberOfObjects;
 
 /** @brief The number of selected objects at which a proxy drag is used rather than a live drag
  * @note
@@ -194,7 +189,7 @@ has a very low opacity should be used - the default style takes the system's hig
  * @return the number above which a proxy drag is used
  * @public
  */
-- (NSUInteger)				proxyDragThreshold;
+- (NSUInteger)proxyDragThreshold;
 
 // handling the selection
 
@@ -211,11 +206,11 @@ has a very low opacity should be used - the default style takes the system's hig
  * @param event the event
  * @public
  */
-- (void)					changeSelectionWithTarget:(DKDrawableObject*) targ inLayer:(DKObjectDrawingLayer*) layer event:(NSEvent*) event;
+- (void)changeSelectionWithTarget:(DKDrawableObject*)targ inLayer:(DKObjectDrawingLayer*)layer event:(NSEvent*)event;
 
 // dragging objects
 
-- (void)					dragObjectsAsGroup:(NSArray*) objects inLayer:(DKObjectDrawingLayer*) layer toPoint:(NSPoint) p event:(NSEvent*) event dragPhase:(DKEditToolDragPhase) ph;
+- (void)dragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph;
 
 /** @brief Prepare the proxy drag image for the given objects
  * @note
@@ -228,35 +223,34 @@ has a very low opacity should be used - the default style takes the system's hig
  * @return an image, representing the dragged objects.
  * @public
  */
-- (NSImage*)				prepareDragImage:(NSArray*) objectsToDrag inLayer:(DKObjectDrawingLayer*) layer;
+- (NSImage*)prepareDragImage:(NSArray*)objectsToDrag inLayer:(DKObjectDrawingLayer*)layer;
 
 // setting the undo action name
 
-- (void)					setUndoAction:(NSString*) action;
+- (void)setUndoAction:(NSString*)action;
 
 @end
 
 // informal protocol ised to verify use of tool with target layer
 
-@interface NSObject		(SelectionToolDelegate)
+@interface NSObject (SelectionToolDelegate)
 
-- (BOOL)		canBeUsedWithSelectionTool;
+- (BOOL)canBeUsedWithSelectionTool;
 
 @end
 
-#define kDKSelectToolDefaultProxyDragThreshold			50
+#define kDKSelectToolDefaultProxyDragThreshold 50
 
 // notifications:
 
-extern NSString*			kDKSelectionToolWillStartSelectionDrag;
-extern NSString*			kDKSelectionToolDidFinishSelectionDrag;
-extern NSString*			kDKSelectionToolWillStartMovingObjects;
-extern NSString*			kDKSelectionToolDidFinishMovingObjects;
-extern NSString*			kDKSelectionToolWillStartEditingObject;
-extern NSString*			kDKSelectionToolDidFinishEditingObject;
+extern NSString* kDKSelectionToolWillStartSelectionDrag;
+extern NSString* kDKSelectionToolDidFinishSelectionDrag;
+extern NSString* kDKSelectionToolWillStartMovingObjects;
+extern NSString* kDKSelectionToolDidFinishMovingObjects;
+extern NSString* kDKSelectionToolWillStartEditingObject;
+extern NSString* kDKSelectionToolDidFinishEditingObject;
 
 // keys for user info dictionary:
 
-extern NSString*			kDKSelectionToolTargetLayer;
-extern NSString*			kDKSelectionToolTargetObject;
-
+extern NSString* kDKSelectionToolTargetLayer;
+extern NSString* kDKSelectionToolTargetObject;

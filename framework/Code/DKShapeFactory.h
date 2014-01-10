@@ -25,71 +25,69 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 
 /** 
  */
-+ (DKShapeFactory*)	sharedShapeFactory;
++ (DKShapeFactory*)sharedShapeFactory;
 
-+ (NSRect)			rectOfUnitSize;
++ (NSRect)rectOfUnitSize;
 
-+ (NSBezierPath*)	rect;
-+ (NSBezierPath*)	oval;
-+ (NSBezierPath*)	roundRect;
-+ (NSBezierPath*)	roundRectWithCornerRadius:(CGFloat) radius;
-+ (NSBezierPath*)	roundRectInRect:(NSRect) rect andCornerRadius:(CGFloat) radius;
++ (NSBezierPath*)rect;
++ (NSBezierPath*)oval;
++ (NSBezierPath*)roundRect;
++ (NSBezierPath*)roundRectWithCornerRadius:(CGFloat)radius;
++ (NSBezierPath*)roundRectInRect:(NSRect)rect andCornerRadius:(CGFloat)radius;
 
-+ (NSBezierPath*)	regularPolygon:(NSInteger) numberOfSides;
++ (NSBezierPath*)regularPolygon:(NSInteger)numberOfSides;
 
-+ (NSBezierPath*)	equilateralTriangle;
-+ (NSBezierPath*)	rightTriangle;
++ (NSBezierPath*)equilateralTriangle;
++ (NSBezierPath*)rightTriangle;
 
-+ (NSBezierPath*)	pentagon;
-+ (NSBezierPath*)	hexagon;
-+ (NSBezierPath*)	heptagon;
-+ (NSBezierPath*)	octagon;
++ (NSBezierPath*)pentagon;
++ (NSBezierPath*)hexagon;
++ (NSBezierPath*)heptagon;
++ (NSBezierPath*)octagon;
 
-+ (NSBezierPath*)	star:(NSInteger) numberOfPoints innerDiameter:(CGFloat) diam;
-+ (NSBezierPath*)	regularStar:(NSInteger) numberOfPoints;
++ (NSBezierPath*)star:(NSInteger)numberOfPoints innerDiameter:(CGFloat)diam;
++ (NSBezierPath*)regularStar:(NSInteger)numberOfPoints;
 
-+ (NSBezierPath*)	cross;
-+ (NSBezierPath*)	diagonalCross;
++ (NSBezierPath*)cross;
++ (NSBezierPath*)diagonalCross;
 
-+ (NSBezierPath*)	ring:(CGFloat) innerDiameter;
++ (NSBezierPath*)ring:(CGFloat)innerDiameter;
 
-+ (NSBezierPath*)	roundRectSpeechBalloon:(NSInteger) sbParams cornerRadius:(CGFloat) cr;
-+ (NSBezierPath*)	roundRectSpeechBalloonInRect:(NSRect) rect params:(NSInteger) sbParams cornerRadius:(CGFloat) cr;
-+ (NSBezierPath*)	ovalSpeechBalloon:(NSInteger) sbParams;
++ (NSBezierPath*)roundRectSpeechBalloon:(NSInteger)sbParams cornerRadius:(CGFloat)cr;
++ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(NSInteger)sbParams cornerRadius:(CGFloat)cr;
++ (NSBezierPath*)ovalSpeechBalloon:(NSInteger)sbParams;
 
-+ (NSBezierPath*)	arrowhead;
-+ (NSBezierPath*)	arrowTailFeather;
-+ (NSBezierPath*)	arrowTailFeatherWithRake:(CGFloat) rakeFactor;
-+ (NSBezierPath*)	inflectedArrowhead;
++ (NSBezierPath*)arrowhead;
++ (NSBezierPath*)arrowTailFeather;
++ (NSBezierPath*)arrowTailFeatherWithRake:(CGFloat)rakeFactor;
++ (NSBezierPath*)inflectedArrowhead;
 
-+ (NSBezierPath*)	roundEndedRect:(NSRect) rect;
++ (NSBezierPath*)roundEndedRect:(NSRect)rect;
 
-+ (NSBezierPath*)	pathFromGlyph:(NSString*) glyph inFontWithName:(NSString*) fontName;
++ (NSBezierPath*)pathFromGlyph:(NSString*)glyph inFontWithName:(NSString*)fontName;
 
-- (NSBezierPath*)	roundRectInRect:(NSRect) bounds objParam:(id) param;
-- (NSBezierPath*)	roundEndedRect:(NSRect) rect objParam:(id) param;
-- (NSBezierPath*)	speechBalloonInRect:(NSRect) rect objParam:(id) param;
+- (NSBezierPath*)roundRectInRect:(NSRect)bounds objParam:(id)param;
+- (NSBezierPath*)roundEndedRect:(NSRect)rect objParam:(id)param;
+- (NSBezierPath*)speechBalloonInRect:(NSRect)rect objParam:(id)param;
 
 @end
 
 // params for speech balloon shapes:
 
-enum
-{
-	kDKSpeechBalloonPointsLeft		= 0,
-	kDKSpeechBalloonPointsRight		= 1,
-	kDKSpeechBalloonPointsDown		= 0,
-	kDKSpeechBalloonPointsUp		= 1,
-	kDKSpeechBalloonLeftEdge		= 2,
-	kDKSpeechBalloonRightEdge		= 4,
-	kDKSpeechBalloonTopEdge			= 6,
-	kDKSpeechBalloonBottomEdge		= 8,
-	kDKStandardSpeechBalloon		= kDKSpeechBalloonTopEdge | kDKSpeechBalloonPointsLeft,
-	kDKSpeechBalloonEdgeMask		= 0x0E
+enum {
+    kDKSpeechBalloonPointsLeft = 0,
+    kDKSpeechBalloonPointsRight = 1,
+    kDKSpeechBalloonPointsDown = 0,
+    kDKSpeechBalloonPointsUp = 1,
+    kDKSpeechBalloonLeftEdge = 2,
+    kDKSpeechBalloonRightEdge = 4,
+    kDKSpeechBalloonTopEdge = 6,
+    kDKSpeechBalloonBottomEdge = 8,
+    kDKStandardSpeechBalloon = kDKSpeechBalloonTopEdge | kDKSpeechBalloonPointsLeft,
+    kDKSpeechBalloonEdgeMask = 0x0E
 };
 
 // param keys for dictionary passed to provider methods:
 
-extern NSString*	kDKSpeechBalloonType;
-extern NSString*	kDKSpeechBalloonCornerRadius;
-
+extern NSString* kDKSpeechBalloonType;
+extern NSString* kDKSpeechBalloonCornerRadius;

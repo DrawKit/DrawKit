@@ -18,60 +18,58 @@ the strokes it is aware of in order when it is asked to stroke a path.
 
 DKStyle can contains a list of strokes without limit.
 */
-@interface DKStroke : DKRasterizer <NSCoding, NSCopying>
-{
+@interface DKStroke : DKRasterizer <NSCoding, NSCopying> {
 @private
-	NSColor*			m_colour;
-	DKStrokeDash*		m_dash;
-	NSShadow*			m_shadow;
-	NSLineCapStyle		m_cap;
-	NSLineJoinStyle		m_join;
-	CGFloat				m_mitreLimit;
-	CGFloat				m_trimLength;
-	CGFloat				mLateralOffset;
+    NSColor* m_colour;
+    DKStrokeDash* m_dash;
+    NSShadow* m_shadow;
+    NSLineCapStyle m_cap;
+    NSLineJoinStyle m_join;
+    CGFloat m_mitreLimit;
+    CGFloat m_trimLength;
+    CGFloat mLateralOffset;
 @protected
-	CGFloat				m_width;
+    CGFloat m_width;
 }
 
-+ (DKStroke*)			defaultStroke;
-+ (DKStroke*)			strokeWithWidth:(CGFloat) width colour:(NSColor*) colour;
++ (DKStroke*)defaultStroke;
++ (DKStroke*)strokeWithWidth:(CGFloat)width colour:(NSColor*)colour;
 
-- (id)					initWithWidth:(CGFloat) width colour:(NSColor*) colour;
+- (id)initWithWidth:(CGFloat)width colour:(NSColor*)colour;
 
-- (void)				setColour:(NSColor*) colour;
-- (NSColor*)			colour;
+- (void)setColour:(NSColor*)colour;
+- (NSColor*)colour;
 
-- (void)				setWidth:(CGFloat) width;
-- (CGFloat)				width;
-- (void)				scaleWidthBy:(CGFloat) scale;
-- (CGFloat)				allowance;
+- (void)setWidth:(CGFloat)width;
+- (CGFloat)width;
+- (void)scaleWidthBy:(CGFloat)scale;
+- (CGFloat)allowance;
 
-- (void)				setDash:(DKStrokeDash*) dash;
-- (DKStrokeDash*)		dash;
-- (void)				setAutoDash;
+- (void)setDash:(DKStrokeDash*)dash;
+- (DKStrokeDash*)dash;
+- (void)setAutoDash;
 
-- (void)				setLateralOffset:(CGFloat) offset;
-- (CGFloat)				lateralOffset;
+- (void)setLateralOffset:(CGFloat)offset;
+- (CGFloat)lateralOffset;
 
-- (void)				setShadow:(NSShadow*) shadow;
-- (NSShadow*)			shadow;
+- (void)setShadow:(NSShadow*)shadow;
+- (NSShadow*)shadow;
 
-- (void)				strokeRect:(NSRect) rect;
-- (void)				applyAttributesToPath:(NSBezierPath*) path;
+- (void)strokeRect:(NSRect)rect;
+- (void)applyAttributesToPath:(NSBezierPath*)path;
 
-- (void)				setLineCapStyle:(NSLineCapStyle) lcs;
-- (NSLineCapStyle)		lineCapStyle;
+- (void)setLineCapStyle:(NSLineCapStyle)lcs;
+- (NSLineCapStyle)lineCapStyle;
 
-- (void)				setLineJoinStyle:(NSLineJoinStyle) ljs;
-- (NSLineJoinStyle)		lineJoinStyle;
+- (void)setLineJoinStyle:(NSLineJoinStyle)ljs;
+- (NSLineJoinStyle)lineJoinStyle;
 
-- (void)				setMiterLimit:(CGFloat) limit;
-- (CGFloat)				miterLimit;
+- (void)setMiterLimit:(CGFloat)limit;
+- (CGFloat)miterLimit;
 
-- (void)				setTrimLength:(CGFloat) tl;
-- (CGFloat)				trimLength;
+- (void)setTrimLength:(CGFloat)tl;
+- (CGFloat)trimLength;
 
-- (NSSize)				extraSpaceNeededIgnoringMitreLimit;
+- (NSSize)extraSpaceNeededIgnoringMitreLimit;
 
 @end
-

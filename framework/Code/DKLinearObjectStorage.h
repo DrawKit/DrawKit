@@ -19,11 +19,9 @@ Basic storage class stores objects in a standard array. For many uses this will 
  so that the files can be correctly dearchived. Re-saving the files will update to the new approach. Archiving of the storage isn't curremtly done, and attempting to
  archive will throw an exception.
 */
-@interface DKLinearObjectStorage : NSObject <DKObjectStorage, NSCoding>
-{
+@interface DKLinearObjectStorage : NSObject <DKObjectStorage, NSCoding> {
 @private
-	NSMutableArray*		mObjects;
+    NSMutableArray* mObjects;
 }
 
 @end
-

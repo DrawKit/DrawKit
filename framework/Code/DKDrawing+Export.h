@@ -40,8 +40,8 @@ This uses Image I/O to perform the data encoding.
  * @return a CG image that is used to generate the export image formats
  * @public
  */
-- (CGImageRef)			CGImageWithResolution:(NSInteger) dpi hasAlpha:(BOOL) hasAlpha;
-- (CGImageRef)			CGImageWithResolution:(NSInteger) dpi hasAlpha:(BOOL) hasAlpha relativeScale:(CGFloat) relScale;
+- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha;
+- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha relativeScale:(CGFloat)relScale;
 
 // convert to various formats:
 
@@ -52,7 +52,7 @@ This uses Image I/O to perform the data encoding.
  * below easier to use for many typical situations.
  * @public
  */
-- (NSData*)				JPEGDataWithProperties:(NSDictionary*) props;
+- (NSData*)JPEGDataWithProperties:(NSDictionary*)props;
 
 /** @brief Returns TIFF data for the drawing.
  * @param props various parameters and properties
@@ -61,7 +61,7 @@ This uses Image I/O to perform the data encoding.
  * below easier to use for many typical situations.
  * @public
  */
-- (NSData*)				TIFFDataWithProperties:(NSDictionary*) props;
+- (NSData*)TIFFDataWithProperties:(NSDictionary*)props;
 
 /** @brief Returns PNG data for the drawing.
  * @param props various parameters and properties
@@ -70,7 +70,7 @@ This uses Image I/O to perform the data encoding.
  * below easier to use for many typical situations.
  * @public
  */
-- (NSData*)				PNGDataWithProperties:(NSDictionary*) props;
+- (NSData*)PNGDataWithProperties:(NSDictionary*)props;
 
 // convenience methods that set up the property dictionaries for you:
 
@@ -83,7 +83,7 @@ This uses Image I/O to perform the data encoding.
  * @return JPEG data
  * @public
  */
-- (NSData*)				JPEGDataWithResolution:(NSInteger) dpi quality:(CGFloat) quality progressive:(BOOL) progressive;
+- (NSData*)JPEGDataWithResolution:(NSInteger)dpi quality:(CGFloat)quality progressive:(BOOL)progressive;
 
 /** @brief Returns TIFF data for the drawing or nil if there was a problem
  * @note
@@ -93,8 +93,8 @@ This uses Image I/O to perform the data encoding.
  * @return TIFF data
  * @public
  */
-- (NSData*)				TIFFDataWithResolution:(NSInteger) dpi compressionType:(NSTIFFCompression) compType;
-- (NSData*)				PNGDataWithResolution:(NSInteger) dpi gamma:(CGFloat) gamma interlaced:(BOOL) interlaced;
+- (NSData*)TIFFDataWithResolution:(NSInteger)dpi compressionType:(NSTIFFCompression)compType;
+- (NSData*)PNGDataWithResolution:(NSInteger)dpi gamma:(CGFloat)gamma interlaced:(BOOL)interlaced;
 
 /** @brief Returns JPEG data for the drawing at 50% actual size, with 50% quality
  * @note
@@ -102,7 +102,7 @@ This uses Image I/O to perform the data encoding.
  * @return JPEG data
  * @public
  */
-- (NSData*)				thumbnailData;
+- (NSData*)thumbnailData;
 
 // another approach - get an array of bitmaps from each layer
 
@@ -113,7 +113,7 @@ This uses Image I/O to perform the data encoding.
  * @return an array of bitmaps
  * @public
  */
-- (NSArray*)			layerBitmapsWithDPI:(NSUInteger) dpi;
+- (NSArray*)layerBitmapsWithDPI:(NSUInteger)dpi;
 
 /** @brief Returns TIFF data
  * @note
@@ -122,11 +122,10 @@ This uses Image I/O to perform the data encoding.
  * @return TIFF data
  * @public
  */
-- (NSData*)				multipartTIFFDataWithResolution:(NSUInteger) dpi;
+- (NSData*)multipartTIFFDataWithResolution:(NSUInteger)dpi;
 
 @end
 
 extern NSString* kDKExportPropertiesResolution;
 extern NSString* kDKExportedImageHasAlpha;
 extern NSString* kDKExportedImageRelativeScale;
-

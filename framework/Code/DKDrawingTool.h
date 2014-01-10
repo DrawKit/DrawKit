@@ -28,11 +28,10 @@ Note: do not confuse "tools" as DK defines them with a palette of buttons or oth
 select a tool in such a way, but the buttons are not tools. A button could store a tool as its representedObject however. These UI con-
 siderations are outside the scope of DK itself.
 */
-@interface DKDrawingTool : NSObject <DKDrawingTool>
-{
+@interface DKDrawingTool : NSObject <DKDrawingTool> {
 @private
-	NSString*			mKeyboardEquivalent;
-	NSUInteger			mKeyboardModifiers;
+    NSString* mKeyboardEquivalent;
+    NSUInteger mKeyboardModifiers;
 }
 
 /** @brief Does the tool ever implement undoable actions?
@@ -42,7 +41,7 @@ siderations are outside the scope of DK itself.
  * @return NO
  * @public
  */
-+ (BOOL)				toolPerformsUndoableAction;
++ (BOOL)toolPerformsUndoableAction;
 
 /** @brief Load tool defaults from the user defaults
  * @note
@@ -51,7 +50,7 @@ siderations are outside the scope of DK itself.
  * on app launch after the tools have all been set up and registered.
  * @public
  */
-+ (void)				loadDefaults;
++ (void)loadDefaults;
 
 /** @brief Save tool defaults to the user defaults
  * @note
@@ -59,8 +58,8 @@ siderations are outside the scope of DK itself.
  * restore the styles associated with each tool when the app is next launched.
  * @public
  */
-+ (void)				saveDefaults;
-+ (id)					firstResponderAbleToSetTool;
++ (void)saveDefaults;
++ (id)firstResponderAbleToSetTool;
 
 /** @brief Return the registry name for this tool
  * @note
@@ -68,10 +67,10 @@ siderations are outside the scope of DK itself.
  * @return a string, the name this tool is registerd under, if any:
  * @public
  */
-- (NSString*)			registeredName;
-- (void)				drawRect:(NSRect) aRect inView:(NSView*) aView;
-- (void)				flagsChanged:(NSEvent*) event inLayer:(DKLayer*) layer;
-- (BOOL)				isValidTargetLayer:(DKLayer*) aLayer;
+- (NSString*)registeredName;
+- (void)drawRect:(NSRect)aRect inView:(NSView*)aView;
+- (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer;
+- (BOOL)isValidTargetLayer:(DKLayer*)aLayer;
 
 /** @brief Return whether the tool is some sort of object selection tool
  * @note
@@ -80,7 +79,7 @@ siderations are outside the scope of DK itself.
  * @return YES if the tool selects objects, NO otherwise
  * @public
  */
-- (BOOL)				isSelectionTool;
+- (BOOL)isSelectionTool;
 
 /** @brief Sets the tool as the current tool for the key view in the main window, if possible
  * @note
@@ -89,7 +88,7 @@ siderations are outside the scope of DK itself.
  * current tool. This might be more convenient than other ways of setting a tool.
  * @public
  */
-- (void)				set;
+- (void)set;
 
 /** @brief Called when this tool is set by a tool controller
  * @note
@@ -97,7 +96,7 @@ siderations are outside the scope of DK itself.
  * @param aController the controller that set this tool
  * @public
  */
-- (void)				toolControllerDidSetTool:(DKToolController*) aController;
+- (void)toolControllerDidSetTool:(DKToolController*)aController;
 
 /** @brief Called when this tool is about to be unset by a tool controller
  * @note
@@ -106,7 +105,7 @@ siderations are outside the scope of DK itself.
  * @param aController the controller that set this tool
  * @public
  */
-- (void)				toolControllerWillUnsetTool:(DKToolController*) aController;
+- (void)toolControllerWillUnsetTool:(DKToolController*)aController;
 
 /** @brief Called when this tool is unset by a tool controller
  * @note
@@ -114,26 +113,26 @@ siderations are outside the scope of DK itself.
  * @param aController the controller that set this tool
  * @public
  */
-- (void)				toolControllerDidUnsetTool:(DKToolController*) aController;
-- (void)				setCursorForPoint:(NSPoint) mp targetObject:(DKDrawableObject*) obj inLayer:(DKLayer*) aLayer event:(NSEvent*) event;
+- (void)toolControllerDidUnsetTool:(DKToolController*)aController;
+- (void)setCursorForPoint:(NSPoint)mp targetObject:(DKDrawableObject*)obj inLayer:(DKLayer*)aLayer event:(NSEvent*)event;
 
 // if a keyboard equivalent is set, the tool controller will set the tool if the keyboard equivalent is received in keyDown:
 // the tool must be registered for this to function.
 
-- (void)				setKeyboardEquivalent:(NSString*) str modifierFlags:(NSUInteger) flags;
-- (NSString*)			keyboardEquivalent;
-- (NSUInteger)			keyboardModifierFlags;
+- (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSUInteger)flags;
+- (NSString*)keyboardEquivalent;
+- (NSUInteger)keyboardModifierFlags;
 
 // drawing tools can optionally return arbitrary persistent data that DK will store in the prefs for it
 
-- (NSData*)				persistentData;
-- (void)				shouldLoadPersistentData:(NSData*) data;
+- (NSData*)persistentData;
+- (void)shouldLoadPersistentData:(NSData*)data;
 
 @end
 
-@interface DKDrawingTool	(OptionalMethods)
+@interface DKDrawingTool (OptionalMethods)
 
-- (void)			mouseMoved:(NSEvent*) event inView:(NSView*) view;
+- (void)mouseMoved:(NSEvent*)event inView:(NSView*)view;
 
 @end
 
@@ -149,7 +148,7 @@ siderations are outside the scope of DK itself.
  * @return a dictionary - contains drawing tool objects keyed by name
  * @public
  */
-+ (NSDictionary*)		sharedToolRegistry;
++ (NSDictionary*)sharedToolRegistry;
 
 /** @brief Retrieve a tool from the registry with the given name
  * @note
@@ -158,7 +157,7 @@ siderations are outside the scope of DK itself.
  * @return the tool if it exists, or nil
  * @public
  */
-+ (DKDrawingTool*)		drawingToolWithName:(NSString*) name;
++ (DKDrawingTool*)drawingToolWithName:(NSString*)name;
 
 /** @brief Register a tool in th eregistry with the given name
  * @note
@@ -167,7 +166,7 @@ siderations are outside the scope of DK itself.
  * @param name a name to register it against.
  * @public
  */
-+ (void)				registerDrawingTool:(DKDrawingTool*) tool withName:(NSString*) name;
++ (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name;
 
 /** @brief Retrieve a tool from the registry matching the key equivalent indicated by the key event passed
  * @note
@@ -176,7 +175,7 @@ siderations are outside the scope of DK itself.
  * @return the tool if it can be matched, or nil
  * @public
  */
-+ (DKDrawingTool*)		drawingToolWithKeyboardEquivalent:(NSEvent*) keyEvent;
++ (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
 
 /** @brief Set a "standard" set of tools in the registry
  * @note
@@ -187,7 +186,7 @@ siderations are outside the scope of DK itself.
  * can simply set up the table.
  * @public
  */
-+ (void)				registerStandardTools;
++ (void)registerStandardTools;
 
 /** @brief Return a list of registered tools' names, sorted alphabetically
  * @note
@@ -195,7 +194,6 @@ siderations are outside the scope of DK itself.
  * @return an array, a list of NSStrings
  * @public
  */
-+ (NSArray*)			toolNames;
++ (NSArray*)toolNames;
 
 @end
-

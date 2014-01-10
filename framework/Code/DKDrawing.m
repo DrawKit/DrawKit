@@ -31,44 +31,44 @@
 
 // notifications:
 
-NSString*		kDKDrawingActiveLayerWillChange			= @"kDKDrawingActiveLayerWillChange";
-NSString*		kDKDrawingActiveLayerDidChange			= @"kDKDrawingActiveLayerDidChange";
-NSString*		kDKDrawingWillChangeSize				= @"kDKDrawingWillChangeSize";
-NSString*		kDKDrawingDidChangeSize					= @"kDKDrawingDidChangeSize";
-NSString*		kDKDrawingUnitsWillChange				= @"kDKDrawingUnitsWillChange";
-NSString*		kDKDrawingUnitsDidChange				= @"kDKDrawingUnitsDidChange";
-NSString*		kDKDrawingWillChangeMargins				= @"kDKDrawingWillChangeMargins";
-NSString*		kDKDrawingDidChangeMargins				= @"kDKDrawingDidChangeMargins";
-NSString*		kDKDrawingWillBeSavedOrExported			= @"kDKDrawingWillBeSavedOrExported";
+NSString* kDKDrawingActiveLayerWillChange = @"kDKDrawingActiveLayerWillChange";
+NSString* kDKDrawingActiveLayerDidChange = @"kDKDrawingActiveLayerDidChange";
+NSString* kDKDrawingWillChangeSize = @"kDKDrawingWillChangeSize";
+NSString* kDKDrawingDidChangeSize = @"kDKDrawingDidChangeSize";
+NSString* kDKDrawingUnitsWillChange = @"kDKDrawingUnitsWillChange";
+NSString* kDKDrawingUnitsDidChange = @"kDKDrawingUnitsDidChange";
+NSString* kDKDrawingWillChangeMargins = @"kDKDrawingWillChangeMargins";
+NSString* kDKDrawingDidChangeMargins = @"kDKDrawingDidChangeMargins";
+NSString* kDKDrawingWillBeSavedOrExported = @"kDKDrawingWillBeSavedOrExported";
 
 // drawng info keys:
 
-NSString*		kDKDrawingInfoUserInfoKey				= @"kDKDrawingInfoUserInfoKey";
+NSString* kDKDrawingInfoUserInfoKey = @"kDKDrawingInfoUserInfoKey";
 
-NSString*		kDKDrawingInfoDrawingNumber				= @"kDKDrawingInfoDrawingNumber";
-NSString*		kDKDrawingInfoDrawingNumberUnformatted	= @"kDKDrawingInfoDrawingNumberUnformatted";
-NSString*		kDKDrawingInfoDrawingRevision			= @"kDKDrawingInfoDrawingRevision";
-NSString*		kDKDrawingInfoDrawingPrefix				= @"kDKDrawingInfoDrawingPrefix";
+NSString* kDKDrawingInfoDrawingNumber = @"kDKDrawingInfoDrawingNumber";
+NSString* kDKDrawingInfoDrawingNumberUnformatted = @"kDKDrawingInfoDrawingNumberUnformatted";
+NSString* kDKDrawingInfoDrawingRevision = @"kDKDrawingInfoDrawingRevision";
+NSString* kDKDrawingInfoDrawingPrefix = @"kDKDrawingInfoDrawingPrefix";
 
-NSString*		kDKDrawingInfoDraughter					= @"kDKDrawingInfoDraughter";
-NSString*		kDKDrawingInfoCreationDate				= @"kDKDrawingInfoCreationDate";
-NSString*		kDKDrawingInfoLastModificationDate		= @"kDKDrawingInfoLastModificationDate";
-NSString*		kDKDrawingInfoModificationHistory		= @"kDKDrawingInfoModificationHistory";
-NSString*		kDKDrawingInfoOriginalFilename			= @"kDKDrawingInfoOriginalFilename";
-NSString*		kDKDrawingInfoTitle						= @"kDKDrawingInfoTitle";
-NSString*		kDKDrawingInfoDrawingDimensions			= @"kDKDrawingInfoDrawingDimensions";
-NSString*		kDKDrawingInfoDimensionsUnits			= @"kDKDrawingInfoDimensionsUnits";
-NSString*		kDKDrawingInfoDimensionsShortUnits		= @"kDKDrawingInfoDimensionsShortUnits";
+NSString* kDKDrawingInfoDraughter = @"kDKDrawingInfoDraughter";
+NSString* kDKDrawingInfoCreationDate = @"kDKDrawingInfoCreationDate";
+NSString* kDKDrawingInfoLastModificationDate = @"kDKDrawingInfoLastModificationDate";
+NSString* kDKDrawingInfoModificationHistory = @"kDKDrawingInfoModificationHistory";
+NSString* kDKDrawingInfoOriginalFilename = @"kDKDrawingInfoOriginalFilename";
+NSString* kDKDrawingInfoTitle = @"kDKDrawingInfoTitle";
+NSString* kDKDrawingInfoDrawingDimensions = @"kDKDrawingInfoDrawingDimensions";
+NSString* kDKDrawingInfoDimensionsUnits = @"kDKDrawingInfoDimensionsUnits";
+NSString* kDKDrawingInfoDimensionsShortUnits = @"kDKDrawingInfoDimensionsShortUnits";
 
 // user default keys:
 
-NSString*		kDKDrawingSnapToGridUserDefault			= @"kDKDrawingSnapToGridUserDefault";
-NSString*		kDKDrawingSnapToGuidesUserDefault		= @"kDKDrawingSnapToGuidesUserDefault";
-NSString*		kDKDrawingUnitAbbreviationsUserDefault	= @"kDKDrawingUnitAbbreviations";
+NSString* kDKDrawingSnapToGridUserDefault = @"kDKDrawingSnapToGridUserDefault";
+NSString* kDKDrawingSnapToGuidesUserDefault = @"kDKDrawingSnapToGuidesUserDefault";
+NSString* kDKDrawingUnitAbbreviationsUserDefault = @"kDKDrawingUnitAbbreviations";
 
 #pragma mark Static vars
 
-static id	sDearchivingHelper = nil;
+static id sDearchivingHelper = nil;
 
 #pragma mark -
 @implementation DKDrawing
@@ -81,9 +81,9 @@ static id	sDearchivingHelper = nil;
  * @return a number formatted in 8-4-4 bit format representing the current version number
  * @public
  */
-+ (NSUInteger)				drawkitVersion
++ (NSUInteger)drawkitVersion
 {
-	return 0x0107;
+    return 0x0107;
 }
 
 //! Return the current release status of the framework.
@@ -94,9 +94,9 @@ static id	sDearchivingHelper = nil;
  * @return a string, either "alpha", "beta", "release candidate" or nil (final)
  * @public
  */
-+ (NSString*)				drawkitReleaseStatus
++ (NSString*)drawkitReleaseStatus
 {
-	return @"beta";
+    return @"beta";
 }
 
 /** @brief Return the current version number and release status as a preformatted string
@@ -105,22 +105,22 @@ static id	sDearchivingHelper = nil;
  * @return a string, e.g. "1.0.b6"
  * @public
  */
-+ (NSString*)				drawkitVersionString
++ (NSString*)drawkitVersionString
 {
-	NSUInteger		v = [self drawkitVersion];
-	unsigned char	s = 0;
-	
-	NSString* status = [self drawkitReleaseStatus];
-	
-	if([status isEqualToString:@"beta"])
-		s = 'b';
-	else if([status isEqualToString:@"alpha"])
-		s = 'a';
-	
+    NSUInteger v = [self drawkitVersion];
+    unsigned char s = 0;
+
+    NSString* status = [self drawkitReleaseStatus];
+
+    if ([status isEqualToString:@"beta"])
+        s = 'b';
+    else if ([status isEqualToString:@"alpha"])
+        s = 'a';
+
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
-	return [NSString stringWithFormat:@"%ld.%ld.%c%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)( v & 0x0F )];
+    return [NSString stringWithFormat:@"%ld.%ld.%c%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)(v & 0x0F)];
 }
 
 #pragma mark -
@@ -142,39 +142,42 @@ static id	sDearchivingHelper = nil;
  * @return a fully constructed default drawing system
  * @public
  */
-+ (DKDrawing*)				defaultDrawingWithSize:(NSSize) aSize
++ (DKDrawing*)defaultDrawingWithSize:(NSSize)aSize
 {
-	// for when a view builds the back-end automatically, this supplies a default drawing complete with a grid layer, an object drawing
-	// layer, and the view attached. The drawing size is set to the current view bounds size.
-	
-	NSAssert( aSize.width > 0.0, @"width of drawing size was zero or negative");
-	NSAssert( aSize.height > 0.0, @"height of drawing size was zero or negative");
-	
-	// the defaults chosen here may need to be simplified - in general, would we want a grid, for example?
-	
-	DKDrawing*	dr = [[self alloc] initWithSize:aSize];		
-	[dr setMarginsLeft:5.0 top:5.0 right:5.0 bottom:5.0];	
-	
-	// attach a grid layer
-	[DKGridLayer setDefaultGridThemeColour:[[NSColor brownColor] colorWithAlphaComponent:0.5]];
-	DKGridLayer* grid = [DKGridLayer standardMetricGridLayer];
-	[dr addLayer:grid];
-	[grid tweakDrawingMargins];
-	
-	// attach a drawing layer and make it the active layer
-	
-	DKObjectDrawingLayer*	layer = [[DKObjectDrawingLayer alloc] init];
-	[dr addLayer:layer];
-	[dr setActiveLayer:layer];
-	[layer release];
-	
-	// attach a guide layer
-	
-	DKGuideLayer*	guides = [[DKGuideLayer alloc] init];
-	[dr addLayer:guides];
-	[guides release];
-		
-	return [dr autorelease];
+    // for when a view builds the back-end automatically, this supplies a default drawing complete with a grid layer, an object drawing
+    // layer, and the view attached. The drawing size is set to the current view bounds size.
+
+    NSAssert(aSize.width > 0.0, @"width of drawing size was zero or negative");
+    NSAssert(aSize.height > 0.0, @"height of drawing size was zero or negative");
+
+    // the defaults chosen here may need to be simplified - in general, would we want a grid, for example?
+
+    DKDrawing* dr = [[self alloc] initWithSize:aSize];
+    [dr setMarginsLeft:5.0
+                   top:5.0
+                 right:5.0
+                bottom:5.0];
+
+    // attach a grid layer
+    [DKGridLayer setDefaultGridThemeColour:[[NSColor brownColor] colorWithAlphaComponent:0.5]];
+    DKGridLayer* grid = [DKGridLayer standardMetricGridLayer];
+    [dr addLayer:grid];
+    [grid tweakDrawingMargins];
+
+    // attach a drawing layer and make it the active layer
+
+    DKObjectDrawingLayer* layer = [[DKObjectDrawingLayer alloc] init];
+    [dr addLayer:layer];
+    [dr setActiveLayer:layer];
+    [layer release];
+
+    // attach a guide layer
+
+    DKGuideLayer* guides = [[DKGuideLayer alloc] init];
+    [dr addLayer:guides];
+    [guides release];
+
+    return [dr autorelease];
 }
 
 /** @brief Creates a drawing from a lump of data
@@ -182,32 +185,32 @@ static id	sDearchivingHelper = nil;
  * @return the unarchived drawing
  * @public
  */
-+ (DKDrawing*)				drawingWithData:(NSData*) drawingData
++ (DKDrawing*)drawingWithData:(NSData*)drawingData
 {
-	NSAssert( drawingData != nil, @"drawing data was nil - unable to proceed");
-	NSAssert([drawingData length] > 0, @"drawing data was empty - unable to proceed");
-	
-	// using DKKeyedUnarchiver allows passing of image data manager to dearchiving methods for certain objects
-	
-	DKKeyedUnarchiver*		unarch = [[DKKeyedUnarchiver alloc] initForReadingWithData:drawingData];
-	
-	// in order to translate older files with classes named 'GC' instead of 'DK', need a delegate that can handle the
-	// translation. DKUnarchivingHelper can also be used to report loading progress.
-	
-	id dearchivingHelper = [self dearchivingHelper];
-	if([dearchivingHelper respondsToSelector:@selector(reset)])
-		[dearchivingHelper reset];
-	
-	[unarch setDelegate:dearchivingHelper];
-	
-	LogEvent_(kReactiveEvent, @"decoding drawing root object......");
-	
-	DKDrawing* dwg = [unarch decodeObjectForKey:@"root"];
-	
-	[unarch finishDecoding];
-	[unarch release];
-	
-	return dwg;
+    NSAssert(drawingData != nil, @"drawing data was nil - unable to proceed");
+    NSAssert([drawingData length] > 0, @"drawing data was empty - unable to proceed");
+
+    // using DKKeyedUnarchiver allows passing of image data manager to dearchiving methods for certain objects
+
+    DKKeyedUnarchiver* unarch = [[DKKeyedUnarchiver alloc] initForReadingWithData:drawingData];
+
+    // in order to translate older files with classes named 'GC' instead of 'DK', need a delegate that can handle the
+    // translation. DKUnarchivingHelper can also be used to report loading progress.
+
+    id dearchivingHelper = [self dearchivingHelper];
+    if ([dearchivingHelper respondsToSelector:@selector(reset)])
+        [dearchivingHelper reset];
+
+    [unarch setDelegate:dearchivingHelper];
+
+    LogEvent_(kReactiveEvent, @"decoding drawing root object......");
+
+    DKDrawing* dwg = [unarch decodeObjectForKey:@"root"];
+
+    [unarch finishDecoding];
+    [unarch release];
+
+    return dwg;
 }
 
 /** @brief Return the default derachiving helper for deaerchiving a drawing
@@ -218,12 +221,12 @@ static id	sDearchivingHelper = nil;
  * @return the dearchiving helper
  * @public
  */
-+ (id)						dearchivingHelper
++ (id)dearchivingHelper
 {
-	if( sDearchivingHelper == nil )
-		sDearchivingHelper = [[DKUnarchivingHelper alloc] init];
-	
-	return sDearchivingHelper;
+    if (sDearchivingHelper == nil)
+        sDearchivingHelper = [[DKUnarchivingHelper alloc] init];
+
+    return sDearchivingHelper;
 }
 
 /** @brief Replace the default dearchiving helper for deaerchiving a drawing
@@ -234,11 +237,11 @@ static id	sDearchivingHelper = nil;
  * @param helper a suitable helper object
  * @public
  */
-+ (void)					setDearchivingHelper:(id) helper
++ (void)setDearchivingHelper:(id)helper
 {
-	[helper retain];
-	[sDearchivingHelper release];
-	sDearchivingHelper = helper;
+    [helper retain];
+    [sDearchivingHelper release];
+    sDearchivingHelper = helper;
 }
 
 #pragma mark -
@@ -247,12 +250,13 @@ static id	sDearchivingHelper = nil;
  * @return a new drawing number
  * @public
  */
-+ (NSUInteger)				newDrawingNumber
++ (NSUInteger)newDrawingNumber
 {
-	NSUInteger dNum = [[NSUserDefaults standardUserDefaults] integerForKey:@"DKDrawing_drawingNumberSeedValue"] + 1;
-	[[NSUserDefaults standardUserDefaults] setInteger:dNum forKey:@"DKDrawing_drawingNumberSeedValue"];
-	
-	return dNum;
+    NSUInteger dNum = [[NSUserDefaults standardUserDefaults] integerForKey:@"DKDrawing_drawingNumberSeedValue"] + 1;
+    [[NSUserDefaults standardUserDefaults] setInteger:dNum
+                                               forKey:@"DKDrawing_drawingNumberSeedValue"];
+
+    return dNum;
 }
 
 /** @brief Returns a dictionary containing some standard drawing info attributes
@@ -263,27 +267,34 @@ static id	sDearchivingHelper = nil;
  * @return a mutable dictionary of standard drawing info
  * @public
  */
-+ (NSMutableDictionary*)	defaultDrawingInfo
++ (NSMutableDictionary*)defaultDrawingInfo
 {
-	NSMutableDictionary*	di = [[NSMutableDictionary alloc] init];
-	
-	NSUInteger	revision = 1;
-	NSUInteger	drawingNumber = [self newDrawingNumber];
-	NSString*	prefix = @"A2";
-	
-	[di setObject:[NSNumber numberWithInteger:revision] forKey:[kDKDrawingInfoDrawingRevision lowercaseString]];
-	[di setObject:prefix forKey:[kDKDrawingInfoDrawingPrefix lowercaseString]];
-	[di setObject:[NSNumber numberWithInteger:drawingNumber] forKey:[kDKDrawingInfoDrawingNumberUnformatted lowercaseString]];
+    NSMutableDictionary* di = [[NSMutableDictionary alloc] init];
+
+    NSUInteger revision = 1;
+    NSUInteger drawingNumber = [self newDrawingNumber];
+    NSString* prefix = @"A2";
+
+    [di setObject:[NSNumber numberWithInteger:revision]
+           forKey:[kDKDrawingInfoDrawingRevision lowercaseString]];
+    [di setObject:prefix
+           forKey:[kDKDrawingInfoDrawingPrefix lowercaseString]];
+    [di setObject:[NSNumber numberWithInteger:drawingNumber]
+           forKey:[kDKDrawingInfoDrawingNumberUnformatted lowercaseString]];
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Check formatting arguments
-	[di setObject:[NSString stringWithFormat:@"%@-%06ld-%04ld", prefix, (long)drawingNumber, (long)revision] forKey:[kDKDrawingInfoDrawingNumber lowercaseString]];
-	
-	[di setObject:[NSFullUserName() capitalizedString] forKey:[kDKDrawingInfoDraughter lowercaseString]];
-	[di setObject:[NSDate date] forKey:[kDKDrawingInfoCreationDate lowercaseString]];
-	[di setObject:[NSDate date] forKey:[kDKDrawingInfoLastModificationDate lowercaseString]];
+    [di setObject:[NSString stringWithFormat:@"%@-%06ld-%04ld", prefix, (long)drawingNumber, (long)revision]
+           forKey:[kDKDrawingInfoDrawingNumber lowercaseString]];
 
-	return [di autorelease];
+    [di setObject:[NSFullUserName() capitalizedString]
+           forKey:[kDKDrawingInfoDraughter lowercaseString]];
+    [di setObject:[NSDate date]
+           forKey:[kDKDrawingInfoCreationDate lowercaseString]];
+    [di setObject:[NSDate date]
+           forKey:[kDKDrawingInfoLastModificationDate lowercaseString]];
+
+    return [di autorelease];
 }
 
 /** @brief Sets the abbreviation for the given drawing units string
@@ -294,18 +305,20 @@ static id	sDearchivingHelper = nil;
  * @param fullString the full name of the drawing units
  * @public
  */
-+ (void)					setAbbreviation:(NSString*) abbrev forDrawingUnits:(NSString*) fullString
++ (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(NSString*)fullString
 {
-	// ensure the defaults exist
-	
-	[self abbreviationForDrawingUnits:fullString];
-	
-	// change or set the setting
-	
-	NSMutableDictionary* dict = [[[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault] mutableCopy];
-	[dict setObject:abbrev forKey:[fullString lowercaseString]];
-	[[NSUserDefaults standardUserDefaults] setObject:dict forKey:kDKDrawingUnitAbbreviationsUserDefault];
-	[dict release];
+    // ensure the defaults exist
+
+    [self abbreviationForDrawingUnits:fullString];
+
+    // change or set the setting
+
+    NSMutableDictionary* dict = [[[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault] mutableCopy];
+    [dict setObject:abbrev
+             forKey:[fullString lowercaseString]];
+    [[NSUserDefaults standardUserDefaults] setObject:dict
+                                              forKey:kDKDrawingUnitAbbreviationsUserDefault];
+    [dict release];
 }
 
 /** @brief Returns the abbreviation for the given drawing units string
@@ -313,38 +326,37 @@ static id	sDearchivingHelper = nil;
  * @return a string - the abbreviated form
  * @public
  */
-+ (NSString*)				abbreviationForDrawingUnits:(NSString*) fullString
++ (NSString*)abbreviationForDrawingUnits:(NSString*)fullString
 {
-	NSDictionary*	abbrevs = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault];
-	
-	if ( abbrevs == nil )
-	{
-		abbrevs = [NSDictionary dictionaryWithObjectsAndKeys:  @"in.", @"inches",
-																@"mm", @"millimetres",
-																@"cm", @"centimetres",
-																@"m", @"metres",
-																@"km", @"kilometres",
-																@"pc", @"picas",
-																@"px", @"pixels",
-																@"ft.", @"feet",
-																@"yd.", @"yards",
-																@"pt", @"points",
-																@"mi", @"miles", nil];
-		
-		[[NSUserDefaults standardUserDefaults] setObject:abbrevs forKey:kDKDrawingUnitAbbreviationsUserDefault];
-	}
-	
-	NSString* abbr = [abbrevs objectForKey:[fullString lowercaseString]];
-	
-	if ( abbr == nil )
-	{
-		// make up an abbreviation using the first two characters and a .
-		//abbr = [NSString stringWithFormat:@"%@.", [[fullString lowercaseString] substringWithRange:NSMakeRange(0, MIN([fullString length], 2U))]];
-		
-		abbr = fullString;
-	}
-	
-	return abbr;
+    NSDictionary* abbrevs = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault];
+
+    if (abbrevs == nil) {
+        abbrevs = [NSDictionary dictionaryWithObjectsAndKeys:@"in.", @"inches",
+                                                             @"mm", @"millimetres",
+                                                             @"cm", @"centimetres",
+                                                             @"m", @"metres",
+                                                             @"km", @"kilometres",
+                                                             @"pc", @"picas",
+                                                             @"px", @"pixels",
+                                                             @"ft.", @"feet",
+                                                             @"yd.", @"yards",
+                                                             @"pt", @"points",
+                                                             @"mi", @"miles", nil];
+
+        [[NSUserDefaults standardUserDefaults] setObject:abbrevs
+                                                  forKey:kDKDrawingUnitAbbreviationsUserDefault];
+    }
+
+    NSString* abbr = [abbrevs objectForKey:[fullString lowercaseString]];
+
+    if (abbr == nil) {
+        // make up an abbreviation using the first two characters and a .
+        //abbr = [NSString stringWithFormat:@"%@.", [[fullString lowercaseString] substringWithRange:NSMakeRange(0, MIN([fullString length], 2U))]];
+
+        abbr = fullString;
+    }
+
+    return abbr;
 }
 
 #pragma mark -
@@ -362,9 +374,10 @@ static id	sDearchivingHelper = nil;
  * @return the unarchived drawing
  * @public
  */
-+ (DKDrawing*)				drawingWithContentsOfFile:(NSString*) filename
++ (DKDrawing*)drawingWithContentsOfFile:(NSString*)filename
 {
-	return [self drawingWithData:[NSData dataWithContentsOfMappedFile:filename] fromFileAtPath:filename];
+    return [self drawingWithData:[NSData dataWithContentsOfMappedFile:filename]
+                  fromFileAtPath:filename];
 }
 
 /** @brief Creates a drawing from a lump of data, and also sets the drawing metadata to contain the original filename
@@ -375,15 +388,16 @@ static id	sDearchivingHelper = nil;
  * @return the unarchived drawing
  * @public
  */
-+ (DKDrawing*)				drawingWithData:(NSData*) drawingData fromFileAtPath:(NSString*) filepath
++ (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath
 {
-	DKDrawing*	dwg = [self drawingWithData:drawingData];
-	
-	// insert the filename into the drawing metadata
-	
-	[[dwg drawingInfo] setObject:[filepath lastPathComponent] forKey:kDKDrawingInfoOriginalFilename];
-	
-	return dwg;
+    DKDrawing* dwg = [self drawingWithData:drawingData];
+
+    // insert the filename into the drawing metadata
+
+    [[dwg drawingInfo] setObject:[filepath lastPathComponent]
+                          forKey:kDKDrawingInfoOriginalFilename];
+
+    return dwg;
 }
 
 /** @brief Saves the static class defaults for ALL classes in the drawing system
@@ -391,7 +405,7 @@ static id	sDearchivingHelper = nil;
  * Deprecated - no longer does anything
  * @public
  */
-+ (void)				saveDefaults
++ (void)saveDefaults
 {
 }
 
@@ -400,7 +414,7 @@ static id	sDearchivingHelper = nil;
  * Deprecated - no longer does anything
  * @public
  */
-+ (void)				loadDefaults
++ (void)loadDefaults
 {
 }
 
@@ -414,42 +428,44 @@ static id	sDearchivingHelper = nil;
  * @return the initialised drawing object
  * @public
  */
-- (id)					initWithSize:(NSSize) size
+- (id)initWithSize:(NSSize)size
 {
-	self = [super init];
-	if (self != nil)
-	{
-		[self setFlipped:YES];
-		[self setDrawingSize:size];
-		CGFloat m = 25.0;
-		[self setMarginsLeft:m top:m right:m bottom:m];
-		[self setDrawingUnits:@"Centimetres" unitToPointsConversionFactor:kDKGridDrawingLayerMetricInterval];
-		mControllers = [[NSMutableSet alloc] init];
+    self = [super init];
+    if (self != nil) {
+        [self setFlipped:YES];
+        [self setDrawingSize:size];
+        CGFloat m = 25.0;
+        [self setMarginsLeft:m
+                         top:m
+                       right:m
+                      bottom:m];
+        [self setDrawingUnits:@"Centimetres"
+            unitToPointsConversionFactor:kDKGridDrawingLayerMetricInterval];
+        mControllers = [[NSMutableSet alloc] init];
 
-		[self setKnobs:[DKKnob standardKnobs]];
-		[self setPaperColour:[NSColor whiteColor]];
-		[self setDrawingInfo:[[self class] defaultDrawingInfo]];
-		
-		m_snapsToGrid = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingSnapToGridUserDefault];
-		m_snapsToGuides = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingSnapToGuidesUserDefault];
-		[self setKnobsShouldAdustToViewScale:YES];
-		m_lastRenderTime = [NSDate timeIntervalSinceReferenceDate];
-		
-		[self setDynamicQualityModulationEnabled:NO];
-		[self setLowQualityTriggerInterval:0.2];
-		
-		mImageManager = [[DKImageDataManager alloc] init];
-		
-		if (m_units == nil 
-				|| [self knobs] == nil 
-				|| m_paperColour == nil 
-				|| mControllers == nil )
-		{
-			[self autorelease];
-			self = nil;
-		}
-	}
-	return self;
+        [self setKnobs:[DKKnob standardKnobs]];
+        [self setPaperColour:[NSColor whiteColor]];
+        [self setDrawingInfo:[[self class] defaultDrawingInfo]];
+
+        m_snapsToGrid = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingSnapToGridUserDefault];
+        m_snapsToGuides = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingSnapToGuidesUserDefault];
+        [self setKnobsShouldAdustToViewScale:YES];
+        m_lastRenderTime = [NSDate timeIntervalSinceReferenceDate];
+
+        [self setDynamicQualityModulationEnabled:NO];
+        [self setLowQualityTriggerInterval:0.2];
+
+        mImageManager = [[DKImageDataManager alloc] init];
+
+        if (m_units == nil
+            || [self knobs] == nil
+            || m_paperColour == nil
+            || mControllers == nil) {
+            [self autorelease];
+            self = nil;
+        }
+    }
+    return self;
 }
 
 /** @brief Returns the "owner" of this drawing.
@@ -458,9 +474,9 @@ static id	sDearchivingHelper = nil;
  * @return the owner
  * @public
  */
-- (id)						owner
+- (id)owner
 {
-	return mOwnerRef;
+    return mOwnerRef;
 }
 
 /** @brief Sets the "owner" of this drawing.
@@ -470,9 +486,9 @@ static id	sDearchivingHelper = nil;
  * @param owner the owner for this object
  * @public
  */
-- (void)					setOwner:(id) owner
+- (void)setOwner:(id)owner
 {
-	mOwnerRef = owner;
+    mOwnerRef = owner;
 }
 
 #pragma mark -
@@ -484,39 +500,41 @@ static id	sDearchivingHelper = nil;
  * @param aSize the paper size in Quartz units
  * @public
  */
-- (void)				setDrawingSize:(NSSize) aSize
+- (void)setDrawingSize:(NSSize)aSize
 {
-	NSAssert( aSize.width > 0.0, @"width cant be zero or negative");
-	NSAssert( aSize.height > 0.0, @"height can't be zero or negative");
-	
-	if (! NSEqualSizes( aSize, m_size ))
-	{
-		LogEvent_(kReactiveEvent, @"setting drawing size = {%f, %f}", aSize.width, aSize.height);
+    NSAssert(aSize.width > 0.0, @"width cant be zero or negative");
+    NSAssert(aSize.height > 0.0, @"height can't be zero or negative");
 
-		[[[self undoManager] prepareWithInvocationTarget:self] setDrawingSize:[self drawingSize]];
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingWillChangeSize object:self];
-		m_size = aSize;
-		
-		// adjust bounds of every view to match
-		
-		[self drawingDidChangeToSize:[NSValue valueWithSize:aSize]];
-		[[self controllers] makeObjectsPerformSelector:@selector( drawingDidChangeToSize:) withObject:[NSValue valueWithSize:aSize]];
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingDidChangeSize object:self];
-		
-		if(! ([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-			[[self undoManager] setActionName:NSLocalizedString(@"Change Drawing Size", @"undo action for set drawing size")];
-	}
+    if (!NSEqualSizes(aSize, m_size)) {
+        LogEvent_(kReactiveEvent, @"setting drawing size = {%f, %f}", aSize.width, aSize.height);
+
+        [[[self undoManager] prepareWithInvocationTarget:self] setDrawingSize:[self drawingSize]];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingWillChangeSize
+                                                            object:self];
+        m_size = aSize;
+
+        // adjust bounds of every view to match
+
+        [self drawingDidChangeToSize:[NSValue valueWithSize:aSize]];
+        [[self controllers] makeObjectsPerformSelector:@selector(drawingDidChangeToSize:)
+                                            withObject:[NSValue valueWithSize:aSize]];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingDidChangeSize
+                                                            object:self];
+
+        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Drawing Size", @"undo action for set drawing size")];
+    }
 }
 
 /** @brief Returns the current paper size of the drawing
  * @return the drawing size
  * @public
  */
-- (NSSize)				drawingSize
+- (NSSize)drawingSize
 {
-	return m_size;
+    return m_size;
 }
 
 /** @brief Sets the drawing's paper size and margins to be equal to the sizes stored in a NSPrintInfo object.
@@ -525,12 +543,12 @@ static id	sDearchivingHelper = nil;
  * @param printInfo a NSPrintInfo object, obtained from the printing system
  * @public
  */
-- (void)				setDrawingSizeWithPrintInfo:(NSPrintInfo*) printInfo
+- (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo
 {
-	NSAssert( printInfo != nil, @"unable to set drawing size - print info was nil");
-	
-	[self setDrawingSize:[printInfo paperSize]];
-	[self setMarginsWithPrintInfo:printInfo];
+    NSAssert(printInfo != nil, @"unable to set drawing size - print info was nil");
+
+    [self setDrawingSize:[printInfo paperSize]];
+    [self setMarginsWithPrintInfo:printInfo];
 }
 
 #pragma mark -
@@ -541,30 +559,34 @@ static id	sDearchivingHelper = nil;
  * @param left,top, right,bottom the margin sizes in Quartz units
  * @public
  */
-- (void)				setMarginsLeft:(CGFloat) l top:(CGFloat) t right:(CGFloat) r bottom:(CGFloat) b
+- (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b
 {
-	if( l != m_leftMargin || r != m_rightMargin || t != m_topMargin || b != m_bottomMargin )
-	{
-		LogEvent_(kReactiveEvent, @"setting margins = {%f, %f, %f, %f}", l, t, r, b);
-		
-		[[[self undoManager] prepareWithInvocationTarget:self] setMarginsLeft:m_leftMargin top:m_topMargin right:m_rightMargin bottom:m_bottomMargin];
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingWillChangeMargins object:self];
-		
-		NSRect oldInterior = [self interior];
-		
-		m_leftMargin = l;
-		m_rightMargin = r;
-		m_topMargin = t;
-		m_bottomMargin = b;
-		
-		[self drawingDidChangeMargins:[NSValue valueWithRect:oldInterior]];
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingDidChangeMargins object:self];
-		[self setNeedsDisplay:YES];
+    if (l != m_leftMargin || r != m_rightMargin || t != m_topMargin || b != m_bottomMargin) {
+        LogEvent_(kReactiveEvent, @"setting margins = {%f, %f, %f, %f}", l, t, r, b);
 
-		if(! ([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-			[[self undoManager] setActionName:NSLocalizedString(@"Change Margins", @"undo action for set margins")];
-	}
+        [[[self undoManager] prepareWithInvocationTarget:self] setMarginsLeft:m_leftMargin
+                                                                          top:m_topMargin
+                                                                        right:m_rightMargin
+                                                                       bottom:m_bottomMargin];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingWillChangeMargins
+                                                            object:self];
+
+        NSRect oldInterior = [self interior];
+
+        m_leftMargin = l;
+        m_rightMargin = r;
+        m_topMargin = t;
+        m_bottomMargin = b;
+
+        [self drawingDidChangeMargins:[NSValue valueWithRect:oldInterior]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingDidChangeMargins
+                                                            object:self];
+        [self setNeedsDisplay:YES];
+
+        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+            [[self undoManager] setActionName:NSLocalizedString(@"Change Margins", @"undo action for set margins")];
+    }
 }
 
 /** @brief Sets the margins from the margin values stored in a NSPrintInfo object
@@ -573,61 +595,61 @@ static id	sDearchivingHelper = nil;
  * @param printInfo a NSPrintInfo object, obtained from the printing system
  * @public
  */
-- (void)				setMarginsWithPrintInfo:(NSPrintInfo*) printInfo
+- (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo
 {
-	[self setMarginsLeft:	[printInfo leftMargin]
-					top:	[printInfo topMargin]
-					right:	[printInfo rightMargin]
-					bottom:	[printInfo bottomMargin]];
+    [self setMarginsLeft:[printInfo leftMargin]
+                     top:[printInfo topMargin]
+                   right:[printInfo rightMargin]
+                  bottom:[printInfo bottomMargin]];
 }
 
 /** @return the width of the left margin
  * @public
  */
-- (CGFloat)				leftMargin
+- (CGFloat)leftMargin
 {
-	return m_leftMargin;
+    return m_leftMargin;
 }
 
 /** @return the width of the right margin
  * @public
  */
-- (CGFloat)				rightMargin
+- (CGFloat)rightMargin
 {
-	return m_rightMargin;
+    return m_rightMargin;
 }
 
 /** @return the width of the top margin
  * @public
  */
-- (CGFloat)				topMargin
+- (CGFloat)topMargin
 {
-	return m_topMargin;
+    return m_topMargin;
 }
 
 /** @return the width of the bottom margin
  * @public
  */
-- (CGFloat)				bottomMargin
+- (CGFloat)bottomMargin
 {
-	return m_bottomMargin;
+    return m_bottomMargin;
 }
 
 /** @brief Returns the interior region of the drawing, within the margins
  * @return a rectangle, the interior area of the drawing (paper size less margins)
  * @public
  */
-- (NSRect)				interior
+- (NSRect)interior
 {
-	NSRect r = NSZeroRect;
-	
-	r.size = [self drawingSize];
-	r.origin.x += [self leftMargin];
-	r.origin.y += [self topMargin];
-	r.size.width -= ([self leftMargin] + [self rightMargin]);
-	r.size.height -= ([self topMargin] + [self bottomMargin]);
-	
-	return r;
+    NSRect r = NSZeroRect;
+
+    r.size = [self drawingSize];
+    r.origin.x += [self leftMargin];
+    r.origin.y += [self topMargin];
+    r.size.width -= ([self leftMargin] + [self rightMargin]);
+    r.size.height -= ([self topMargin] + [self bottomMargin]);
+
+    return r;
 }
 
 /** @brief Constrains the point within the interior area of the drawing
@@ -635,15 +657,15 @@ static id	sDearchivingHelper = nil;
  * @return a point, equal to p if p is within the interior, otherwise pinned to the nearest point within
  * @public
  */
-- (NSPoint)				pinPointToInterior:(NSPoint) p
+- (NSPoint)pinPointToInterior:(NSPoint)p
 {
-	NSRect	r = [self interior];
-	NSPoint	pin;
-	
-	pin.x = LIMIT( p.x, NSMinX( r ), NSMaxX( r ));
-	pin.y = LIMIT( p.y, NSMinY( r ), NSMaxY( r ));
-	
-	return pin;
+    NSRect r = [self interior];
+    NSPoint pin;
+
+    pin.x = LIMIT(p.x, NSMinX(r), NSMaxX(r));
+    pin.y = LIMIT(p.y, NSMinY(r), NSMaxY(r));
+
+    return pin;
 }
 
 /** @brief Sets whether the Y axis of the drawing is flipped
@@ -654,13 +676,12 @@ static id	sDearchivingHelper = nil;
  * @param flipped YES to have increase Y going down, NO for increasing Y going up
  * @public
  */
-- (void)				setFlipped:(BOOL) flipped
+- (void)setFlipped:(BOOL)flipped
 {
-	if( flipped != mFlipped )
-	{
-		mFlipped = flipped;
-		[self setNeedsDisplay:YES];
-	}
+    if (flipped != mFlipped) {
+        mFlipped = flipped;
+        [self setNeedsDisplay:YES];
+    }
 }
 
 /** @brief Whether the Y axis of the drawing is flipped
@@ -670,9 +691,9 @@ static id	sDearchivingHelper = nil;
  * @return YES to have increase Y going down, NO for increasing Y going up
  * @public
  */
-- (BOOL)				isFlipped
+- (BOOL)isFlipped
 {
-	return mFlipped;
+    return mFlipped;
 }
 
 /** @brief Sets the destination colour space for the whole drawing
@@ -682,11 +703,11 @@ static id	sDearchivingHelper = nil;
  * @param cSpace the colour space 
  * @public
  */
-- (void)					setColourSpace:(NSColorSpace*) cSpace
+- (void)setColourSpace:(NSColorSpace*)cSpace
 {
-	[cSpace retain];
-	[mColourSpace release];
-	mColourSpace = cSpace;
+    [cSpace retain];
+    [mColourSpace release];
+    mColourSpace = cSpace;
 }
 
 /** @brief Returns the colour space for the whole drawing
@@ -696,9 +717,9 @@ static id	sDearchivingHelper = nil;
  * @return the colour space
  * @public
  */
-- (NSColorSpace*)			colourSpace
+- (NSColorSpace*)colourSpace
 {
-	return mColourSpace;
+    return mColourSpace;
 }
 
 #pragma mark -
@@ -709,33 +730,35 @@ static id	sDearchivingHelper = nil;
  * @param conversionFactor how many Quartz points per basic unit?
  * @public
  */
-- (void)				setDrawingUnits:(NSString*) units unitToPointsConversionFactor:(CGFloat) conversionFactor
+- (void)setDrawingUnits:(NSString*)units unitToPointsConversionFactor:(CGFloat)conversionFactor
 {
-	NSAssert( units != nil, @"cannot set drawing units to nil");
-	NSAssert([units length] > 0, @"units string is empty"); 
-	
-	if ( conversionFactor != m_unitConversionFactor || ![units isEqualToString:m_units])
-	{
-		LogEvent_( kReactiveEvent, @"setting drawing units:'%@'", units);
-		
-		[[[self undoManager] prepareWithInvocationTarget:self] setDrawingUnits:m_units unitToPointsConversionFactor:m_unitConversionFactor];
-		
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingUnitsWillChange object:self];
-		[units retain];
-		[m_units release];
-		m_units = units;
-		m_unitConversionFactor = conversionFactor;
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingUnitsDidChange object:self];
-	}
+    NSAssert(units != nil, @"cannot set drawing units to nil");
+    NSAssert([units length] > 0, @"units string is empty");
+
+    if (conversionFactor != m_unitConversionFactor || ![units isEqualToString:m_units]) {
+        LogEvent_(kReactiveEvent, @"setting drawing units:'%@'", units);
+
+        [[[self undoManager] prepareWithInvocationTarget:self] setDrawingUnits:m_units
+                                                  unitToPointsConversionFactor:m_unitConversionFactor];
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingUnitsWillChange
+                                                            object:self];
+        [units retain];
+        [m_units release];
+        m_units = units;
+        m_unitConversionFactor = conversionFactor;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingUnitsDidChange
+                                                            object:self];
+    }
 }
 
 /** @brief Returns the full name of the drawing's units
  * @return a string
  * @public
  */
-- (NSString*)			drawingUnits
+- (NSString*)drawingUnits
 {
-	return m_units;
+    return m_units;
 }
 
 /** @brief Returns the abbreviation of the drawing's units
@@ -745,26 +768,28 @@ static id	sDearchivingHelper = nil;
  * @return a string
  * @public
  */
-- (NSString*)			abbreviatedDrawingUnits
+- (NSString*)abbreviatedDrawingUnits
 {
-	NSString* abbrev = nil;
-	
-	if([[self delegate] respondsToSelector:@selector(drawing:willReturnAbbreviationForUnit:)])
-		abbrev = [[self delegate] drawing:self willReturnAbbreviationForUnit:[self drawingUnits]];
-	
-	if( abbrev )
-		return abbrev;
-	else
-		return [[self class] abbreviationForDrawingUnits:[self drawingUnits]];
+    NSString* abbrev = nil;
+
+    if ([[self delegate] respondsToSelector:@selector(drawing:
+                                                willReturnAbbreviationForUnit:)])
+        abbrev = [[self delegate] drawing:self
+            willReturnAbbreviationForUnit:[self drawingUnits]];
+
+    if (abbrev)
+        return abbrev;
+    else
+        return [[self class] abbreviationForDrawingUnits:[self drawingUnits]];
 }
 
 /** @brief Returns the number of Quartz units per basic drawing unit
  * @return the conversion value
  * @public
  */
-- (CGFloat)				unitToPointsConversionFactor
+- (CGFloat)unitToPointsConversionFactor
 {
-	return m_unitConversionFactor;
+    return m_unitConversionFactor;
 }
 
 /** @brief Returns the number of Quartz units per basic drawing unit, as optionally determined by the delegate
@@ -776,12 +801,12 @@ static id	sDearchivingHelper = nil;
  * @return the conversion value
  * @public
  */
-- (CGFloat)				effectiveUnitToPointsConversionFactor
+- (CGFloat)effectiveUnitToPointsConversionFactor
 {
-	if([[self delegate] respondsToSelector:@selector(drawingWillReturnUnitToPointsConversonFactor:)])
-		return [[self delegate] drawingWillReturnUnitToPointsConversonFactor:self];
-	else
-		return [self unitToPointsConversionFactor];
+    if ([[self delegate] respondsToSelector:@selector(drawingWillReturnUnitToPointsConversonFactor:)])
+        return [[self delegate] drawingWillReturnUnitToPointsConversonFactor:self];
+    else
+        return [self unitToPointsConversionFactor];
 }
 
 /** @brief Sets up the rulers for all attached views to a previously registered ruler state
@@ -792,9 +817,10 @@ static id	sDearchivingHelper = nil;
  * @param unitString the name of a previously registered ruler state
  * @public
  */
-- (void)				synchronizeRulersWithUnits:(NSString*) unitString
+- (void)synchronizeRulersWithUnits:(NSString*)unitString
 {
-	[[self controllers] makeObjectsPerformSelector:@selector(synchronizeViewRulersWithUnits:) withObject:unitString];
+    [[self controllers] makeObjectsPerformSelector:@selector(synchronizeViewRulersWithUnits:)
+                                        withObject:unitString];
 }
 
 /** @brief Sets the delegate
@@ -803,9 +829,9 @@ static id	sDearchivingHelper = nil;
  * @param aDelegate some delegate object
  * @public
  */
-- (void)				setDelegate:(id) aDelegate
+- (void)setDelegate:(id)aDelegate
 {
-	mDelegateRef = aDelegate;
+    mDelegateRef = aDelegate;
 }
 
 /** @brief Return the delegate
@@ -814,9 +840,9 @@ static id	sDearchivingHelper = nil;
  * @return some delegate object
  * @public
  */
-- (id)					delegate
+- (id)delegate
 {
-	return mDelegateRef;
+    return mDelegateRef;
 }
 
 #pragma mark -
@@ -828,9 +854,9 @@ static id	sDearchivingHelper = nil;
  * @return a set of the current controllers
  * @public
  */
-- (NSSet*)				controllers
+- (NSSet*)controllers
 {
-	return mControllers;
+    return mControllers;
 }
 
 /** @brief Add a controller to the drawing
@@ -842,20 +868,21 @@ static id	sDearchivingHelper = nil;
  * @param aController the controller to add
  * @public
  */
-- (void)				addController:(DKViewController*) aController
+- (void)addController:(DKViewController*)aController
 {
-	NSAssert( aController != nil, @"cannot add a nil controller to drawing");
-	
-	if(![aController isKindOfClass:[DKViewController class]])
-		[NSException raise:NSInternalInconsistencyException format:@"attempt to add an invalid object as a controller"];
-	
-	// synch the rulers here in case we got this far without any sort of view infrastructure in place - this can
-	// occur when launching the app with a file to open in the Finder. Without synching the ruler class with throw
-	// an exception which breaks the setup.
-	
-	[[self gridLayer] synchronizeRulers];
-	[mControllers addObject:aController];
-	[aController setDrawing:self];
+    NSAssert(aController != nil, @"cannot add a nil controller to drawing");
+
+    if (![aController isKindOfClass:[DKViewController class]])
+        [NSException raise:NSInternalInconsistencyException
+                    format:@"attempt to add an invalid object as a controller"];
+
+    // synch the rulers here in case we got this far without any sort of view infrastructure in place - this can
+    // occur when launching the app with a file to open in the Finder. Without synching the ruler class with throw
+    // an exception which breaks the setup.
+
+    [[self gridLayer] synchronizeRulers];
+    [mControllers addObject:aController];
+    [aController setDrawing:self];
 }
 
 /** @brief Removes a controller from the drawing
@@ -864,15 +891,14 @@ static id	sDearchivingHelper = nil;
  * @param aController the controller to remove
  * @public
  */
-- (void)				removeController:(DKViewController*) aController
+- (void)removeController:(DKViewController*)aController
 {
-	NSAssert( aController != nil, @"attempt to remove a nil controller from drawing");
-	
-	if([[self controllers] containsObject:aController])
-	{
-		[aController setDrawing:nil];
-		[mControllers removeObject:aController];
-	}
+    NSAssert(aController != nil, @"attempt to remove a nil controller from drawing");
+
+    if ([[self controllers] containsObject:aController]) {
+        [aController setDrawing:nil];
+        [mControllers removeObject:aController];
+    }
 }
 
 /** @brief Removes all controller from the drawing
@@ -880,10 +906,11 @@ static id	sDearchivingHelper = nil;
  * Typically controllers are removed when necessary - there is little reason to call this yourself
  * @public
  */
-- (void)					removeAllControllers
+- (void)removeAllControllers
 {
-	[mControllers makeObjectsPerformSelector:@selector(setDrawing:) withObject:nil];
-	[mControllers removeAllObjects];
+    [mControllers makeObjectsPerformSelector:@selector(setDrawing:)
+                                  withObject:nil];
+    [mControllers removeAllObjects];
 }
 
 #pragma mark -
@@ -892,9 +919,9 @@ static id	sDearchivingHelper = nil;
  * that may be in use to be updated.
  * @public
  */
-- (void)				invalidateCursors
+- (void)invalidateCursors
 {
-	[[self controllers] makeObjectsPerformSelector:_cmd];
+    [[self controllers] makeObjectsPerformSelector:_cmd];
 }
 
 /** @brief Causes all attached views to scroll to show the rect, if necessary
@@ -905,9 +932,10 @@ static id	sDearchivingHelper = nil;
  * @param rect the rect to reveal
  * @public
  */
-- (void)				scrollToRect:(NSRect) rect
+- (void)scrollToRect:(NSRect)rect
 {
-	[[self controllers] makeObjectsPerformSelector:@selector(scrollViewToRect:) withObject:[NSValue valueWithRect:rect]];
+    [[self controllers] makeObjectsPerformSelector:@selector(scrollViewToRect:)
+                                        withObject:[NSValue valueWithRect:rect]];
 }
 
 /** @brief Notifies all the controllers that an object within the drawing notified a status change
@@ -916,9 +944,10 @@ static id	sDearchivingHelper = nil;
  * @param object the original object that sent the notification
  * @public
  */
-- (void)				objectDidNotifyStatusChange:(id) object
+- (void)objectDidNotifyStatusChange:(id)object
 {
-	[[self controllers] makeObjectsPerformSelector:_cmd withObject:object];
+    [[self controllers] makeObjectsPerformSelector:_cmd
+                                        withObject:object];
 }
 
 #pragma mark -
@@ -930,14 +959,14 @@ static id	sDearchivingHelper = nil;
  * the need for it. This flag allows that behaviour to be turned on or off.
  * @public
  */
-- (void)					setDynamicQualityModulationEnabled:(BOOL) qmEnabled
+- (void)setDynamicQualityModulationEnabled:(BOOL)qmEnabled
 {
-	m_qualityModEnabled = qmEnabled;
+    m_qualityModEnabled = qmEnabled;
 }
 
-- (BOOL)					dynamicQualityModulationEnabled
+- (BOOL)dynamicQualityModulationEnabled
 {
-	return m_qualityModEnabled;
+    return m_qualityModEnabled;
 }
 
 /** @brief Advise whether drawing should be done in best quality or not
@@ -949,14 +978,13 @@ static id	sDearchivingHelper = nil;
  * @param quickAndDirty YES to offer low quality faster rendering
  * @public
  */
-- (void)				setLowRenderingQuality:(BOOL) quickAndDirty
+- (void)setLowRenderingQuality:(BOOL)quickAndDirty
 {
-	if ( quickAndDirty != m_useQandDRendering )
-	{
-		m_useQandDRendering = quickAndDirty;
-	
-	//	LogEvent_(kStateEvent, @"setting rendering quality: %@", m_useQandDRendering? @"LOW": @"HIGH" );
-	}
+    if (quickAndDirty != m_useQandDRendering) {
+        m_useQandDRendering = quickAndDirty;
+
+        //	LogEvent_(kStateEvent, @"setting rendering quality: %@", m_useQandDRendering? @"LOW": @"HIGH" );
+    }
 }
 
 /** @brief Advise whether drawing should be done in best quality or not
@@ -968,9 +996,9 @@ static id	sDearchivingHelper = nil;
  * @return YES if low quality is an option
  * @public
  */
-- (BOOL)				lowRenderingQuality
+- (BOOL)lowRenderingQuality
 {
-	return m_useQandDRendering;
+    return m_useQandDRendering;
 }
 
 /** @brief Dynamically check if low or high quality should be used
@@ -980,65 +1008,64 @@ static id	sDearchivingHelper = nil;
  * quality after a delay.
  * @private
  */
-- (void)				checkIfLowQualityRequired
+- (void)checkIfLowQualityRequired
 {
-	// if this is being called frequently, set low quality and start a timer to restore high quality after a delay. If the timer is
-	// already running, retrigger it.
-	
-	// if not drawing to screen, don't do this - always use HQ
-	
-	if (![[NSGraphicsContext currentContext] isDrawingToScreen])
-	{
-		[self setLowRenderingQuality:NO];
-		return;
-	}
+    // if this is being called frequently, set low quality and start a timer to restore high quality after a delay. If the timer is
+    // already running, retrigger it.
 
-	if([self dynamicQualityModulationEnabled])
-	{
-		
-		[self setLowRenderingQuality:YES];
-		
-		if ( m_renderQualityTimer == nil )
-		{
-			// start the timer:
-			
-			m_renderQualityTimer = [[NSTimer scheduledTimerWithTimeInterval:mTriggerPeriod target:self selector:@selector(qualityTimerCallback:) userInfo:nil repeats:YES] retain];
-			[[NSRunLoop currentRunLoop] addTimer:m_renderQualityTimer forMode:NSEventTrackingRunLoopMode];
-		}
-		else
-		{
-			// already running - retrigger it:
-			
-			[m_renderQualityTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:mTriggerPeriod]];
-		}
-	}
-	else
-		[self setLowRenderingQuality:NO];
+    // if not drawing to screen, don't do this - always use HQ
+
+    if (![[NSGraphicsContext currentContext] isDrawingToScreen]) {
+        [self setLowRenderingQuality:NO];
+        return;
+    }
+
+    if ([self dynamicQualityModulationEnabled]) {
+
+        [self setLowRenderingQuality:YES];
+
+        if (m_renderQualityTimer == nil) {
+            // start the timer:
+
+            m_renderQualityTimer = [[NSTimer scheduledTimerWithTimeInterval:mTriggerPeriod
+                                                                     target:self
+                                                                   selector:@selector(qualityTimerCallback:)
+                                                                   userInfo:nil
+                                                                    repeats:YES] retain];
+            [[NSRunLoop currentRunLoop] addTimer:m_renderQualityTimer
+                                         forMode:NSEventTrackingRunLoopMode];
+        } else {
+            // already running - retrigger it:
+
+            [m_renderQualityTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:mTriggerPeriod]];
+        }
+    } else
+        [self setLowRenderingQuality:NO];
 }
 
-- (void)				qualityTimerCallback:(NSTimer*) timer
+- (void)qualityTimerCallback:(NSTimer*)timer
 {
-	#pragma unused(timer)
-	
-	// if the timer ever fires it calls this, so we simply invalidate it and set high quality
-	
-	[m_renderQualityTimer invalidate];
-	[m_renderQualityTimer release];
-	m_renderQualityTimer = nil;
-	[self setLowRenderingQuality:NO];
-	m_isForcedHQUpdate = YES;
-	[self setNeedsDisplayInRect:m_lastRectUpdated];
-	m_lastRectUpdated = NSZeroRect;
+#pragma unused(timer)
+
+    // if the timer ever fires it calls this, so we simply invalidate it and set high quality
+
+    [m_renderQualityTimer invalidate];
+    [m_renderQualityTimer release];
+    m_renderQualityTimer = nil;
+    [self setLowRenderingQuality:NO];
+    m_isForcedHQUpdate = YES;
+    [self setNeedsDisplayInRect:m_lastRectUpdated];
+    m_lastRectUpdated = NSZeroRect;
 }
 
-- (void)				setLowQualityTriggerInterval:(NSTimeInterval) t
+- (void)setLowQualityTriggerInterval:(NSTimeInterval)t
 {
-	mTriggerPeriod = t;
+    mTriggerPeriod = t;
 }
 
-- (NSTimeInterval)		lowQualityTriggerInterval;
+- (NSTimeInterval)lowQualityTriggerInterval;
 {
-	return mTriggerPeriod;
+    return mTriggerPeriod;
 }
 
 #pragma mark -
@@ -1052,30 +1079,29 @@ static id	sDearchivingHelper = nil;
  * @param um the undo manager to use
  * @public
  */
-- (void)				setUndoManager:(id) um
+- (void)setUndoManager:(id)um
 {
-	if ( um != m_undoManager )
-	{
-		[m_undoManager removeAllActions];
-		
-		[um retain];
-		[m_undoManager release];
-		m_undoManager = um;
-		
-		// the undo manager needs to be known objects (particularly styles) that the drawing contains. For a drawing created from an
-		// archive, this needs to be pushed out to all those objects
-		
-		[self drawingHasNewUndoManager:um];
-	}
+    if (um != m_undoManager) {
+        [m_undoManager removeAllActions];
+
+        [um retain];
+        [m_undoManager release];
+        m_undoManager = um;
+
+        // the undo manager needs to be known objects (particularly styles) that the drawing contains. For a drawing created from an
+        // archive, this needs to be pushed out to all those objects
+
+        [self drawingHasNewUndoManager:um];
+    }
 }
 
 /** @brief Returns the undo manager for the drawing
  * @return the currently used undo manager
  * @public
  */
-- (id)		undoManager
+- (id)undoManager
 {
-	return m_undoManager;
+    return m_undoManager;
 }
 
 #pragma mark -
@@ -1089,18 +1115,19 @@ static id	sDearchivingHelper = nil;
  * @param info the drawing info dictionary
  * @public
  */
-- (void)				setDrawingInfo:(NSMutableDictionary*) info
+- (void)setDrawingInfo:(NSMutableDictionary*)info
 {
-	[self setUserInfoObject:info forKey:kDKDrawingInfoUserInfoKey];
+    [self setUserInfoObject:info
+                     forKey:kDKDrawingInfoUserInfoKey];
 }
 
 /** @brief Returns the current drawing info metadata
  * @return a dictionary, the drawing info
  * @public
  */
-- (NSMutableDictionary*) drawingInfo
+- (NSMutableDictionary*)drawingInfo
 {
-	return [self userInfoObjectForKey:kDKDrawingInfoUserInfoKey];
+    return [self userInfoObjectForKey:kDKDrawingInfoUserInfoKey];
 }
 
 #pragma mark -
@@ -1111,20 +1138,19 @@ static id	sDearchivingHelper = nil;
  * @param colour the colour to set for the drawing's background (paper) colour
  * @public
  */
-- (void)				setPaperColour:(NSColor*) colour
+- (void)setPaperColour:(NSColor*)colour
 {
-	if( colour != [self paperColour])
-	{
-		[[[self undoManager] prepareWithInvocationTarget:self] setPaperColour:[self paperColour]];
-		
-		[colour retain];
-		[m_paperColour release];
-		m_paperColour = colour;
-		[self setNeedsDisplay:YES];
-		
-		if(! ([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-			[[self undoManager] setActionName:NSLocalizedString(@"Background Colour", @"undo action for setPaperColour")];
-	}
+    if (colour != [self paperColour]) {
+        [[[self undoManager] prepareWithInvocationTarget:self] setPaperColour:[self paperColour]];
+
+        [colour retain];
+        [m_paperColour release];
+        m_paperColour = colour;
+        [self setNeedsDisplay:YES];
+
+        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+            [[self undoManager] setActionName:NSLocalizedString(@"Background Colour", @"undo action for setPaperColour")];
+    }
 }
 
 /** @brief The curremt paper colour of the drawing
@@ -1133,9 +1159,9 @@ static id	sDearchivingHelper = nil;
  * @return the current colour of the background (paper)
  * @public
  */
-- (NSColor*)			paperColour
+- (NSColor*)paperColour
 {
-	return m_paperColour;
+    return m_paperColour;
 }
 
 /** @brief Set whether the paper colour is printed or not
@@ -1144,9 +1170,9 @@ static id	sDearchivingHelper = nil;
  * @param printIt YES to include the paper colour when printing
  * @public
  */
-- (void)				setPaperColourIsPrinted:(BOOL) printIt
+- (void)setPaperColourIsPrinted:(BOOL)printIt
 {
-	mPaperColourIsPrinted = printIt;
+    mPaperColourIsPrinted = printIt;
 }
 
 /** @brief Whether the paper colour is printed or not
@@ -1155,9 +1181,9 @@ static id	sDearchivingHelper = nil;
  * @return YES if the paper colour is included when printing
  * @public
  */
-- (BOOL)				paperColourIsPrinted
+- (BOOL)paperColourIsPrinted
 {
-	return mPaperColourIsPrinted;
+    return mPaperColourIsPrinted;
 }
 
 #pragma mark -
@@ -1172,9 +1198,9 @@ static id	sDearchivingHelper = nil;
  * will also recover from a situation (bug!) where more than one has a text editing operation mode open.
  * @private
  */
-- (void)				exitTemporaryTextEditingMode
+- (void)exitTemporaryTextEditingMode
 {
-	[[self controllers] makeObjectsPerformSelector:_cmd];
+    [[self controllers] makeObjectsPerformSelector:_cmd];
 }
 
 #pragma mark -
@@ -1188,9 +1214,10 @@ static id	sDearchivingHelper = nil;
  * @return YES if the active layer changed, NO if not
  * @public
  */
-- (BOOL)			setActiveLayer:(DKLayer*) aLayer
+- (BOOL)setActiveLayer:(DKLayer*)aLayer
 {
-	return [self setActiveLayer:aLayer withUndo:NO];
+    return [self setActiveLayer:aLayer
+                       withUndo:NO];
 }
 
 /** @brief Sets which layer is currently active, optionally making this change undoable
@@ -1202,41 +1229,45 @@ static id	sDearchivingHelper = nil;
  * @return YES if the active layer changed, NO if not
  * @public
  */
-- (BOOL)			setActiveLayer:(DKLayer*) aLayer withUndo:(BOOL) undo
+- (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo
 {
-	// we already own this, so don't retain it
-	
-	if ( aLayer != m_activeLayerRef && (aLayer == nil || [aLayer layerMayBecomeActive]) && ![self locked])
-	{
-		if( undo )
-			[[[self undoManager] prepareWithInvocationTarget:self] setActiveLayer:m_activeLayerRef withUndo:YES];
+    // we already own this, so don't retain it
 
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingActiveLayerWillChange object:self];
-		[[self controllers] makeObjectsPerformSelector:@selector(activeLayerWillChangeToLayer:) withObject:aLayer];
-		
-		[m_activeLayerRef layerDidResignActiveLayer];
-		m_activeLayerRef = aLayer;
-		[m_activeLayerRef layerDidBecomeActiveLayer];
-		[self invalidateCursors];
+    if (aLayer != m_activeLayerRef && (aLayer == nil || [aLayer layerMayBecomeActive]) && ![self locked]) {
+        if (undo)
+            [[[self undoManager] prepareWithInvocationTarget:self] setActiveLayer:m_activeLayerRef
+                                                                         withUndo:YES];
 
-		[[self controllers] makeObjectsPerformSelector:@selector(activeLayerDidChangeToLayer:) withObject:aLayer];
-		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingActiveLayerDidChange object:self];
-		
-		LogEvent_(kReactiveEvent, @"Active Layer changed to: %@", aLayer);
-		
-		return YES;
-	}
-	
-	return NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingActiveLayerWillChange
+                                                            object:self];
+        [[self controllers] makeObjectsPerformSelector:@selector(activeLayerWillChangeToLayer:)
+                                            withObject:aLayer];
+
+        [m_activeLayerRef layerDidResignActiveLayer];
+        m_activeLayerRef = aLayer;
+        [m_activeLayerRef layerDidBecomeActiveLayer];
+        [self invalidateCursors];
+
+        [[self controllers] makeObjectsPerformSelector:@selector(activeLayerDidChangeToLayer:)
+                                            withObject:aLayer];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingActiveLayerDidChange
+                                                            object:self];
+
+        LogEvent_(kReactiveEvent, @"Active Layer changed to: %@", aLayer);
+
+        return YES;
+    }
+
+    return NO;
 }
 
 /** @brief Returns the current active layer
  * @return a DKLayer object, or subclass, which is the current active layer
  * @public
  */
-- (DKLayer*)		activeLayer
+- (DKLayer*)activeLayer
 {
-	return m_activeLayerRef;
+    return m_activeLayerRef;
 }
 
 /** @brief Returns the active layer if it matches the requested class
@@ -1244,12 +1275,12 @@ static id	sDearchivingHelper = nil;
  * @return the active layer if it matches the requested class, otherwise nil
  * @public
  */
-- (id)					activeLayerOfClass:(Class) aClass
+- (id)activeLayerOfClass:(Class)aClass
 {
-	if ([[self activeLayer] isKindOfClass:aClass])
-		return [self activeLayer];
-	else
-		return nil;
+    if ([[self activeLayer] isKindOfClass:aClass])
+        return [self activeLayer];
+    else
+        return nil;
 }
 
 /** @brief Adds a layer to the drawing and optionally activates it
@@ -1271,22 +1302,23 @@ static id	sDearchivingHelper = nil;
  * @param aLayer a DKLayer object, or subclass thereof
  * @public
  */
-- (void)				addLayer:(DKLayer*) aLayer andActivateIt:(BOOL) activateIt
+- (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt
 {
-	NSAssert( aLayer != nil, @"cannot add a nil layer to the drawing");
-	
-	NSString* layerName = [self uniqueLayerNameForName:[aLayer layerName]];
-	[aLayer setLayerName:layerName];
+    NSAssert(aLayer != nil, @"cannot add a nil layer to the drawing");
 
-	[super addLayer:aLayer];
+    NSString* layerName = [self uniqueLayerNameForName:[aLayer layerName]];
+    [aLayer setLayerName:layerName];
 
-	// tell the layer it was added to the root (drawing)
-	
-	[aLayer drawingHasNewUndoManager:[self undoManager]];
-	[aLayer wasAddedToDrawing:self];
+    [super addLayer:aLayer];
 
-	if( activateIt )
-		[self setActiveLayer:aLayer withUndo:YES];
+    // tell the layer it was added to the root (drawing)
+
+    [aLayer drawingHasNewUndoManager:[self undoManager]];
+    [aLayer wasAddedToDrawing:self];
+
+    if (activateIt)
+        [self setActiveLayer:aLayer
+                    withUndo:YES];
 }
 
 /** @brief Removes a layer from the drawing and optionally activates another one
@@ -1307,38 +1339,38 @@ static id	sDearchivingHelper = nil;
  * @param aLayer a DKLayer object, or subclass thereof, that already exists in the drawing
  * @public
  */
-- (void)				removeLayer:(DKLayer*) aLayer andActivateLayer:(DKLayer*) anotherLayer
+- (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(DKLayer*)anotherLayer
 {
-	NSAssert( aLayer != nil, @"can't remove a nil layer from the drawing ");
-	NSAssert( aLayer != anotherLayer, @"cannot activate the layer being removed - layers must be different");
-	
-	// retain the layer until we are completely done with it
-	
-	[aLayer retain];
-	
-	BOOL removingActive = ( aLayer == [self activeLayer]);
-	
-	// remove it from the drawing
-	
-	[super removeLayer:aLayer];
+    NSAssert(aLayer != nil, @"can't remove a nil layer from the drawing ");
+    NSAssert(aLayer != anotherLayer, @"cannot activate the layer being removed - layers must be different");
 
-	if( removingActive && ( anotherLayer == nil ))
-	{
-		// for convenience activate the topmost layer of the same class as the one being removed. If that
-		// returns nil, activate the top layer.
-		
-		DKLayer* newActive = [self firstLayerOfClass:[aLayer class]];
-	
-		if( newActive == nil )
-			newActive = [self topLayer];
-			
-		anotherLayer = newActive;
-	}
-	
-	if( anotherLayer )
-		[self setActiveLayer:anotherLayer withUndo:YES];
-	
-	[aLayer release];
+    // retain the layer until we are completely done with it
+
+    [aLayer retain];
+
+    BOOL removingActive = (aLayer == [self activeLayer]);
+
+    // remove it from the drawing
+
+    [super removeLayer:aLayer];
+
+    if (removingActive && (anotherLayer == nil)) {
+        // for convenience activate the topmost layer of the same class as the one being removed. If that
+        // returns nil, activate the top layer.
+
+        DKLayer* newActive = [self firstLayerOfClass:[aLayer class]];
+
+        if (newActive == nil)
+            newActive = [self topLayer];
+
+        anotherLayer = newActive;
+    }
+
+    if (anotherLayer)
+        [self setActiveLayer:anotherLayer
+                    withUndo:YES];
+
+    [aLayer release];
 }
 
 /** @brief Finds the first layer of the given class that can be activated.
@@ -1348,19 +1380,19 @@ static id	sDearchivingHelper = nil;
  * @return the first such layer that returns yes to -layerMayBecomeActive
  * @public
  */
-- (DKLayer*)			firstActivateableLayerOfClass:(Class) cl
+- (DKLayer*)firstActivateableLayerOfClass:(Class)cl
 {
-	NSArray*		layers = [self layersOfClass:cl performDeepSearch:YES];
-	NSEnumerator*	iter = [layers objectEnumerator];
-	DKLayer*		layer;
-	
-	while(( layer = [iter nextObject]))
-	{
-		if([layer layerMayBecomeActive])
-			return layer;
-	}
-	
-	return nil;
+    NSArray* layers = [self layersOfClass:cl
+                        performDeepSearch:YES];
+    NSEnumerator* iter = [layers objectEnumerator];
+    DKLayer* layer;
+
+    while ((layer = [iter nextObject])) {
+        if ([layer layerMayBecomeActive])
+            return layer;
+    }
+
+    return nil;
 }
 
 #pragma mark -
@@ -1373,19 +1405,20 @@ static id	sDearchivingHelper = nil;
  * @param snaps YES to turn on snap to grid, NO to turn it off
  * @public
  */
-- (void)				setSnapsToGrid:(BOOL) snaps
+- (void)setSnapsToGrid:(BOOL)snaps
 {
-	m_snapsToGrid = snaps;
-	[[NSUserDefaults standardUserDefaults] setBool:!snaps forKey:kDKDrawingSnapToGridUserDefault];
+    m_snapsToGrid = snaps;
+    [[NSUserDefaults standardUserDefaults] setBool:!snaps
+                                            forKey:kDKDrawingSnapToGridUserDefault];
 }
 
 /** @brief Whether snap to grid os on or off
  * @return YES if grid snap is on, NO if off
  * @public
  */
-- (BOOL)				snapsToGrid
+- (BOOL)snapsToGrid
 {
-	return m_snapsToGrid;
+    return m_snapsToGrid;
 }
 
 /** @brief Sets whether mouse actions within the drawing should snap to guides or not.
@@ -1395,19 +1428,20 @@ static id	sDearchivingHelper = nil;
  * @param snaps YES to turn on snap to guides, NO to turn it off
  * @public
  */
-- (void)				setSnapsToGuides:(BOOL) snaps
+- (void)setSnapsToGuides:(BOOL)snaps
 {
-	m_snapsToGuides = snaps;
-	[[NSUserDefaults standardUserDefaults] setBool:!snaps forKey:kDKDrawingSnapToGuidesUserDefault];
+    m_snapsToGuides = snaps;
+    [[NSUserDefaults standardUserDefaults] setBool:!snaps
+                                            forKey:kDKDrawingSnapToGuidesUserDefault];
 }
 
 /** @brief Whether snap to grid os on or off
  * @return YES if grid snap is on, NO if off
  * @public
  */
-- (BOOL)				snapsToGuides
+- (BOOL)snapsToGuides
 {
-	return m_snapsToGuides;
+    return m_snapsToGuides;
 }
 
 #pragma mark -
@@ -1423,19 +1457,18 @@ static id	sDearchivingHelper = nil;
  * @return a modified point located at the nearest grid intersection
  * @public
  */
-- (NSPoint)				snapToGrid:(NSPoint) p withControlFlag:(BOOL) snapControl
+- (NSPoint)snapToGrid:(NSPoint)p withControlFlag:(BOOL)snapControl
 {
-	BOOL doSnap = snapControl != [self snapsToGrid];
-	
-	if( doSnap )
-	{
-		DKGridLayer* grid = [self gridLayer];
-	
-		if ( grid != nil )
-			p = [grid nearestGridIntersectionToPoint:p];
-	}
-		
-	return p;
+    BOOL doSnap = snapControl != [self snapsToGrid];
+
+    if (doSnap) {
+        DKGridLayer* grid = [self gridLayer];
+
+        if (grid != nil)
+            p = [grid nearestGridIntersectionToPoint:p];
+    }
+
+    return p;
 }
 
 /** @brief Moves a point to the nearest grid position if snap is turned ON, otherwise returns it unchanged
@@ -1448,14 +1481,14 @@ static id	sDearchivingHelper = nil;
  * @return a modified point located at the nearest grid intersection
  * @public
  */
-- (NSPoint)				snapToGrid:(NSPoint) p ignoringUserSetting:(BOOL) ignore
+- (NSPoint)snapToGrid:(NSPoint)p ignoringUserSetting:(BOOL)ignore
 {
-	DKGridLayer* grid = [self gridLayer];
-	
-	if ( grid != nil && ([self snapsToGrid] || ignore ))
-		p = [grid nearestGridIntersectionToPoint:p];
-		
-	return p;
+    DKGridLayer* grid = [self gridLayer];
+
+    if (grid != nil && ([self snapsToGrid] || ignore))
+        p = [grid nearestGridIntersectionToPoint:p];
+
+    return p;
 }
 
 /** @brief Moves a point to a nearby guide position if snap is turned ON, otherwise returns it unchanged
@@ -1465,14 +1498,14 @@ static id	sDearchivingHelper = nil;
  * @return a modified point located at a nearby guide
  * @public
  */
-- (NSPoint)				snapToGuides:(NSPoint) p
+- (NSPoint)snapToGuides:(NSPoint)p
 {
-	DKGuideLayer*	gl = [self guideLayer];
-	
-	if ( gl != nil && [self snapsToGuides])
-		p = [gl snapPointToGuide:p];
-		
-	return p;
+    DKGuideLayer* gl = [self guideLayer];
+
+    if (gl != nil && [self snapsToGuides])
+        p = [gl snapPointToGuide:p];
+
+    return p;
 }
 
 /** @brief Snaps any edge (and optionally the centre) of a rect to any nearby guide
@@ -1484,14 +1517,15 @@ static id	sDearchivingHelper = nil;
  * one of the guides
  * @public
  */
-- (NSRect)				snapRectToGuides:(NSRect) r includingCentres:(BOOL) cent
+- (NSRect)snapRectToGuides:(NSRect)r includingCentres:(BOOL)cent
 {
-	DKGuideLayer*	gl = [self guideLayer];
-	
-	if ( gl != nil && [self snapsToGuides])
-		r = [gl snapRectToGuide:r includingCentres:cent];
-		
-	return r;
+    DKGuideLayer* gl = [self guideLayer];
+
+    if (gl != nil && [self snapsToGuides])
+        r = [gl snapRectToGuide:r
+               includingCentres:cent];
+
+    return r;
 }
 
 /** @brief Determines the snap offset for any of a list of points
@@ -1502,14 +1536,14 @@ static id	sDearchivingHelper = nil;
  * usually be simply added to the current mouse point that is dragging the object
  * @public
  */
-- (NSSize)				snapPointsToGuide:(NSArray*) points
+- (NSSize)snapPointsToGuide:(NSArray*)points
 {
-	DKGuideLayer*	gl = [self guideLayer];
-	
-	if ( gl != nil && [self snapsToGuides])
-		return [gl snapPointsToGuide:points];
-		
-	return NSZeroSize;
+    DKGuideLayer* gl = [self guideLayer];
+
+    if (gl != nil && [self snapsToGuides])
+        return [gl snapPointsToGuide:points];
+
+    return NSZeroSize;
 }
 
 #pragma mark -
@@ -1519,22 +1553,20 @@ static id	sDearchivingHelper = nil;
  * and snapping is on, this will be a grid interval. Otherwise it will be 1.
  * @public
  */
-- (NSPoint)				nudgeOffset
+- (NSPoint)nudgeOffset
 {
-	// returns the x and y distances a nudge operation should move an object. If snapToGrid is on, this returns the grid division
-	// size, otherwise it returns 1, 1. Note that an actual nudge may want to take steps to actually align the object to the grid.
-	
-	DKGridLayer*	grid = [self gridLayer];
-	BOOL			ctrl = ([[NSApp currentEvent] modifierFlags] & NSControlKeyMask) != 0;
-	
-	if ( grid != nil && [self snapsToGrid] && !ctrl )
-	{
-		NSPoint nudge;
-		nudge.x = nudge.y = [grid divisionDistance];
-		return nudge;
-	}
-	else
-		return NSMakePoint( 1.0, 1.0 );
+    // returns the x and y distances a nudge operation should move an object. If snapToGrid is on, this returns the grid division
+    // size, otherwise it returns 1, 1. Note that an actual nudge may want to take steps to actually align the object to the grid.
+
+    DKGridLayer* grid = [self gridLayer];
+    BOOL ctrl = ([[NSApp currentEvent] modifierFlags] & NSControlKeyMask) != 0;
+
+    if (grid != nil && [self snapsToGrid] && !ctrl) {
+        NSPoint nudge;
+        nudge.x = nudge.y = [grid divisionDistance];
+        return nudge;
+    } else
+        return NSMakePoint(1.0, 1.0);
 }
 
 #pragma mark -
@@ -1548,20 +1580,20 @@ static id	sDearchivingHelper = nil;
  * @return the grid layer, or nil
  * @public
  */
-- (DKGridLayer*)	gridLayer
+- (DKGridLayer*)gridLayer
 {
-	NSArray* gridLayers = [self layersOfClass:[DKGridLayer class] performDeepSearch:YES];
-	
-	NSEnumerator*	iter = [gridLayers objectEnumerator];
-	DKGridLayer*	grid;
-	
-	while(( grid = [iter nextObject]))
-	{
-		if([grid isMasterGrid])
-			return grid;
-	}
-	
-	return nil;
+    NSArray* gridLayers = [self layersOfClass:[DKGridLayer class]
+                            performDeepSearch:YES];
+
+    NSEnumerator* iter = [gridLayers objectEnumerator];
+    DKGridLayer* grid;
+
+    while ((grid = [iter nextObject])) {
+        if ([grid isMasterGrid])
+            return grid;
+    }
+
+    return nil;
 }
 
 /** @brief Returns the guide layer, if there is one
@@ -1570,9 +1602,10 @@ static id	sDearchivingHelper = nil;
  * @return the guide layer, or nil
  * @public
  */
-- (DKGuideLayer*)		guideLayer
+- (DKGuideLayer*)guideLayer
 {
-	return (DKGuideLayer*)[self firstLayerOfClass:[DKGuideLayer class] performDeepSearch:YES];
+    return (DKGuideLayer*)[self firstLayerOfClass:[DKGuideLayer class]
+                                performDeepSearch:YES];
 }
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
@@ -1584,14 +1617,16 @@ static id	sDearchivingHelper = nil;
  * @return the distance in drawing units
  * @public
  */
-- (CGFloat)			convertLength:(CGFloat) len
+- (CGFloat)convertLength:(CGFloat)len
 {
-	CGFloat length = [[self gridLayer] gridDistanceForQuartzDistance:len];
-	
-	if([[self delegate] respondsToSelector:@selector(drawing:convertDistanceToExternalCoordinates:)])
-		length = [[self delegate] drawing:self convertDistanceToExternalCoordinates:length];
-	
-	return length;
+    CGFloat length = [[self gridLayer] gridDistanceForQuartzDistance:len];
+
+    if ([[self delegate] respondsToSelector:@selector(drawing:
+                                                convertDistanceToExternalCoordinates:)])
+        length = [[self delegate] drawing:self
+            convertDistanceToExternalCoordinates:length];
+
+    return length;
 }
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
@@ -1602,14 +1637,16 @@ static id	sDearchivingHelper = nil;
  * @return the position ofthe point in drawing units
  * @public
  */
-- (NSPoint)			convertPoint:(NSPoint) pt
+- (NSPoint)convertPoint:(NSPoint)pt
 {
-	NSPoint cpt = [[self gridLayer] gridLocationForPoint:pt];
-	
-	if([[self delegate] respondsToSelector:@selector(drawing:convertLocationToExternalCoordinates:)])
-		cpt = [[self delegate] drawing:self convertLocationToExternalCoordinates:cpt];
-	
-	return cpt;
+    NSPoint cpt = [[self gridLayer] gridLocationForPoint:pt];
+
+    if ([[self delegate] respondsToSelector:@selector(drawing:
+                                                convertLocationToExternalCoordinates:)])
+        cpt = [[self delegate] drawing:self
+            convertLocationToExternalCoordinates:cpt];
+
+    return cpt;
 }
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
@@ -1620,15 +1657,17 @@ static id	sDearchivingHelper = nil;
  * @return a string containing a fully formatted distance plus the units abbreviation
  * @public
  */
-- (NSString*)				formattedConvertedLength:(CGFloat) len
+- (NSString*)formattedConvertedLength:(CGFloat)len
 {
-	CGFloat length = [[self gridLayer] gridDistanceForQuartzDistance:len];
-	
-	if([[self delegate] respondsToSelector:@selector(drawing:willReturnFormattedCoordinateForDistance:)])
-		return [[self delegate] drawing:self willReturnFormattedCoordinateForDistance:length];
-	else
+    CGFloat length = [[self gridLayer] gridDistanceForQuartzDistance:len];
+
+    if ([[self delegate] respondsToSelector:@selector(drawing:
+                                                willReturnFormattedCoordinateForDistance:)])
+        return [[self delegate] drawing:self
+            willReturnFormattedCoordinateForDistance:length];
+    else
 #warning 64BIT: Check formatting arguments
-		return [NSString stringWithFormat:@"%.2f %@", length, [self abbreviatedDrawingUnits]];
+        return [NSString stringWithFormat:@"%.2f %@", length, [self abbreviatedDrawingUnits]];
 }
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
@@ -1640,30 +1679,30 @@ static id	sDearchivingHelper = nil;
  * @return a pair of strings containing a fully formatted distance plus the units abbreviation
  * @public
  */
-- (NSArray*)				formattedConvertedPoint:(NSPoint) pt
+- (NSArray*)formattedConvertedPoint:(NSPoint)pt
 {
-	NSMutableArray* array = [NSMutableArray array];
-	NSPoint			cpt = [[self gridLayer] gridLocationForPoint:pt];
-	NSString*		fmt;
-	
-	if([[self delegate] respondsToSelector:@selector(drawing:willReturnFormattedCoordinateForDistance:)])
-	{
-		fmt = [[self delegate] drawing:self willReturnFormattedCoordinateForDistance:cpt.x];
-		[array addObject:fmt];
-		fmt = [[self delegate] drawing:self willReturnFormattedCoordinateForDistance:cpt.y];
-		[array addObject:fmt];
-	}
-	else
-	{
+    NSMutableArray* array = [NSMutableArray array];
+    NSPoint cpt = [[self gridLayer] gridLocationForPoint:pt];
+    NSString* fmt;
+
+    if ([[self delegate] respondsToSelector:@selector(drawing:
+                                                willReturnFormattedCoordinateForDistance:)]) {
+        fmt = [[self delegate] drawing:self
+            willReturnFormattedCoordinateForDistance:cpt.x];
+        [array addObject:fmt];
+        fmt = [[self delegate] drawing:self
+            willReturnFormattedCoordinateForDistance:cpt.y];
+        [array addObject:fmt];
+    } else {
 #warning 64BIT: Check formatting arguments
-		fmt = [NSString stringWithFormat:@"%.2f %@", cpt.x, [self abbreviatedDrawingUnits]];
-		[array addObject:fmt];
+        fmt = [NSString stringWithFormat:@"%.2f %@", cpt.x, [self abbreviatedDrawingUnits]];
+        [array addObject:fmt];
 #warning 64BIT: Check formatting arguments
-		fmt = [NSString stringWithFormat:@"%.2f %@", cpt.y, [self abbreviatedDrawingUnits]];
-		[array addObject:fmt];
-	}
-	
-	return array;
+        fmt = [NSString stringWithFormat:@"%.2f %@", cpt.y, [self abbreviatedDrawingUnits]];
+        [array addObject:fmt];
+    }
+
+    return array;
 }
 
 /** @brief Convert a point in drawing coordinates to the underlying Quartz coordinates
@@ -1673,9 +1712,9 @@ static id	sDearchivingHelper = nil;
  * @return the position of the point in Quartz units
  * @public
  */
-- (NSPoint)			convertPointFromDrawingToBase:(NSPoint) pt
+- (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt
 {
-	return [[self gridLayer] pointForGridLocation:pt];
+    return [[self gridLayer] pointForGridLocation:pt];
 }
 
 /** @brief Convert a length in drawing coordinates to the underlying Quartz coordinates
@@ -1685,9 +1724,9 @@ static id	sDearchivingHelper = nil;
  * @return the distance in Quartz units
  * @public
  */
-- (CGFloat)			convertLengthFromDrawingToBase:(CGFloat) len
+- (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len
 {
-	return [[self gridLayer] quartzDistanceForGridDistance:len];
+    return [[self gridLayer] quartzDistanceForGridDistance:len];
 }
 
 #pragma mark -
@@ -1698,34 +1737,42 @@ static id	sDearchivingHelper = nil;
  * Can be overridden or you can make use of the notification
  * @public
  */
-- (void)			finalizePriorToSaving
+- (void)finalizePriorToSaving
 {
-	[[self undoManager] disableUndoRegistration];
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingWillBeSavedOrExported object:self];
-	
-	// the drawing size is updated/added to the metadata by default here.
-	
-	NSSize ds = [self drawingSize];
-	CGFloat upc = [self unitToPointsConversionFactor];
-	
-	ds.width /= upc;
-	ds.height /= upc;
-	
-	[self setSize:ds forKey:kDKDrawingInfoDrawingDimensions];
-	[self setString:[self drawingUnits] forKey:kDKDrawingInfoDimensionsUnits];
-	[self setString:[self abbreviatedDrawingUnits] forKey:kDKDrawingInfoDimensionsShortUnits];
-	
-	// for compatibility with info file, copy the same information directly to the drawing info as well
-	
-	[[self drawingInfo] setObject:[self abbreviatedDrawingUnits] forKey:[kDKDrawingInfoDimensionsShortUnits lowercaseString]];
-	[[self drawingInfo] setObject:[self drawingUnits] forKey:[kDKDrawingInfoDimensionsUnits lowercaseString]];
+    [[self undoManager] disableUndoRegistration];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingWillBeSavedOrExported
+                                                        object:self];
+
+    // the drawing size is updated/added to the metadata by default here.
+
+    NSSize ds = [self drawingSize];
+    CGFloat upc = [self unitToPointsConversionFactor];
+
+    ds.width /= upc;
+    ds.height /= upc;
+
+    [self setSize:ds
+           forKey:kDKDrawingInfoDrawingDimensions];
+    [self setString:[self drawingUnits]
+             forKey:kDKDrawingInfoDimensionsUnits];
+    [self setString:[self abbreviatedDrawingUnits]
+             forKey:kDKDrawingInfoDimensionsShortUnits];
+
+    // for compatibility with info file, copy the same information directly to the drawing info as well
+
+    [[self drawingInfo] setObject:[self abbreviatedDrawingUnits]
+                           forKey:[kDKDrawingInfoDimensionsShortUnits lowercaseString]];
+    [[self drawingInfo] setObject:[self drawingUnits]
+                           forKey:[kDKDrawingInfoDimensionsUnits lowercaseString]];
 #warning 64BIT: Check formatting arguments
-	[[self drawingInfo] setObject:[NSString stringWithFormat:@"%f", ds.width] forKey:[[NSString stringWithFormat:@"%@.size_width", kDKDrawingInfoDrawingDimensions] lowercaseString]];
+    [[self drawingInfo] setObject:[NSString stringWithFormat:@"%f", ds.width]
+                           forKey:[[NSString stringWithFormat:@"%@.size_width", kDKDrawingInfoDrawingDimensions] lowercaseString]];
 #warning 64BIT: Check formatting arguments
-	[[self drawingInfo] setObject:[NSString stringWithFormat:@"%f", ds.height] forKey:[[NSString stringWithFormat:@"%@.size_height", kDKDrawingInfoDrawingDimensions] lowercaseString]];
-	
-	[[self undoManager] enableUndoRegistration];
+    [[self drawingInfo] setObject:[NSString stringWithFormat:@"%f", ds.height]
+                           forKey:[[NSString stringWithFormat:@"%@.size_height", kDKDrawingInfoDrawingDimensions] lowercaseString]];
+
+    [[self undoManager] enableUndoRegistration];
 }
 
 /** @brief Saves the entire drawing to a file
@@ -1736,13 +1783,15 @@ static id	sDearchivingHelper = nil;
  * @return YES if succesfully written, NO otherwise
  * @public
  */
-- (BOOL)				writeToFile:(NSString*) filename atomically:(BOOL) atom
+- (BOOL)writeToFile:(NSString*)filename atomically:(BOOL)atom
 {
-	NSAssert( filename != nil, @"filename was nil");
-	NSAssert([filename length] > 0, @"filename was empty");
-	
-	[[self drawingInfo] setObject:filename forKey:kDKDrawingInfoOriginalFilename];
-	return [[self drawingData] writeToFile:filename atomically:atom];
+    NSAssert(filename != nil, @"filename was nil");
+    NSAssert([filename length] > 0, @"filename was empty");
+
+    [[self drawingInfo] setObject:filename
+                           forKey:kDKDrawingInfoOriginalFilename];
+    return [[self drawingData] writeToFile:filename
+                                atomically:atom];
 }
 
 /** @brief Returns the entire drawing's data in XML format, having the key "root"
@@ -1751,9 +1800,9 @@ static id	sDearchivingHelper = nil;
  * @return an NSData object which is the entire drawing and all its contents
  * @public
  */
-- (NSData*)				drawingAsXMLDataAtRoot
+- (NSData*)drawingAsXMLDataAtRoot
 {
-	return [self drawingAsXMLDataForKey:@"root"];
+    return [self drawingAsXMLDataForKey:@"root"];
 }
 
 /** @brief Returns the entire drawing's data in XML format, having the key passed
@@ -1763,26 +1812,27 @@ static id	sDearchivingHelper = nil;
  * @return an NSData object which is the entire drawing and all its contents
  * @public
  */
-- (NSData*)				drawingAsXMLDataForKey:(NSString*) key
+- (NSData*)drawingAsXMLDataForKey:(NSString*)key
 {
-	NSAssert( key != nil, @"key cannot be nil");
-	NSAssert( [key length] > 0, @"key cannot be empty");
-	
-	NSMutableData*		data = [[NSMutableData alloc] init];
-	
-	NSAssert( data != nil, @"couldn't create data for archiving");
-	
-	NSKeyedArchiver*	karch = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-	
-	NSAssert( karch != nil, @"couldn't create archiver for archiving with data");
+    NSAssert(key != nil, @"key cannot be nil");
+    NSAssert([key length] > 0, @"key cannot be empty");
 
-	[karch setOutputFormat:NSPropertyListXMLFormat_v1_0];
-	[self finalizePriorToSaving];
-	[karch encodeObject:self forKey:key];
-	[karch finishEncoding];
-	[karch release];
-	
-	return [data autorelease];
+    NSMutableData* data = [[NSMutableData alloc] init];
+
+    NSAssert(data != nil, @"couldn't create data for archiving");
+
+    NSKeyedArchiver* karch = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
+
+    NSAssert(karch != nil, @"couldn't create archiver for archiving with data");
+
+    [karch setOutputFormat:NSPropertyListXMLFormat_v1_0];
+    [self finalizePriorToSaving];
+    [karch encodeObject:self
+                 forKey:key];
+    [karch finishEncoding];
+    [karch release];
+
+    return [data autorelease];
 }
 
 /** @brief Returns the entire drawing's data in binary format
@@ -1791,10 +1841,10 @@ static id	sDearchivingHelper = nil;
  * @return an NSData object which is the entire drawing and all its contents
  * @public
  */
-- (NSData*)				drawingData
+- (NSData*)drawingData
 {
-	[self finalizePriorToSaving];
-	return [NSKeyedArchiver archivedDataWithRootObject:self];
+    [self finalizePriorToSaving];
+    return [NSKeyedArchiver archivedDataWithRootObject:self];
 }
 
 /** @brief The entire drawing in PDF format
@@ -1804,10 +1854,10 @@ static id	sDearchivingHelper = nil;
  * @return an NSData object, containing the PDF representation of the entire drawing
  * @public
  */
-- (NSData*)				pdf
+- (NSData*)pdf
 {
-	[self finalizePriorToSaving];
-	return [super pdf];
+    [self finalizePriorToSaving];
+    return [super pdf];
 }
 
 /** @brief Returns the image manager
@@ -1817,45 +1867,45 @@ static id	sDearchivingHelper = nil;
  * @return the drawing's image manager
  * @public
  */
-- (DKImageDataManager*)		imageManager
+- (DKImageDataManager*)imageManager
 {
-	return mImageManager;
+    return mImageManager;
 }
 
 #pragma mark -
 #pragma mark As a DKLayerGroup
 
-- (void)				addLayer:(DKLayer*) aLayer
+- (void)addLayer:(DKLayer*)aLayer
 {
-	NSAssert( aLayer != nil, @"cannot add nil layer");
-	
-	[super addLayer:aLayer];
-	
-	if ([self countOfLayers] == 1 || [self activeLayer] == nil)
-		[self setActiveLayer:aLayer];
-	
-	// tell the layer it was added to the root (drawing)
-	
-	[aLayer drawingHasNewUndoManager:[self undoManager]];
-	[aLayer wasAddedToDrawing:self];
+    NSAssert(aLayer != nil, @"cannot add nil layer");
+
+    [super addLayer:aLayer];
+
+    if ([self countOfLayers] == 1 || [self activeLayer] == nil)
+        [self setActiveLayer:aLayer];
+
+    // tell the layer it was added to the root (drawing)
+
+    [aLayer drawingHasNewUndoManager:[self undoManager]];
+    [aLayer wasAddedToDrawing:self];
 }
 
-- (void)				removeLayer:(DKLayer*) aLayer
+- (void)removeLayer:(DKLayer*)aLayer
 {
-	NSAssert( aLayer != nil, @"cannot remove nil layer");
+    NSAssert(aLayer != nil, @"cannot remove nil layer");
 
-	[super removeLayer:aLayer];
-	if ( aLayer == [self activeLayer])
-		[self setActiveLayer:nil];
+    [super removeLayer:aLayer];
+    if (aLayer == [self activeLayer])
+        [self setActiveLayer:nil];
 }
 
 /** @brief Removes all of the drawing's layers
  * @public
  */
-- (void)				removeAllLayers
+- (void)removeAllLayers
 {
-	[super removeAllLayers];
-	[self setActiveLayer:nil];
+    [super removeAllLayers];
+    [self setActiveLayer:nil];
 }
 
 /** @brief Disambiguates a layer's name by appending digits until there is no conflict
@@ -1867,25 +1917,24 @@ static id	sDearchivingHelper = nil;
  * @return a string, either the original string or a modified version of it
  * @public
  */
-- (NSString*)				uniqueLayerNameForName:(NSString*) aName
+- (NSString*)uniqueLayerNameForName:(NSString*)aName
 {
-	NSArray*	existingNames = [[self flattenedLayersIncludingGroups:YES] valueForKey:@"layerName"];
-	NSInteger	numeral = 0;
-	BOOL		found = YES;
-	NSString*	temp = aName;
-	
-	while( found )
-	{
-		NSInteger	k = [existingNames indexOfObject:temp];
-		
-		if ( k == NSNotFound )
-			found = NO;
-		else
+    NSArray* existingNames = [[self flattenedLayersIncludingGroups:YES] valueForKey:@"layerName"];
+    NSInteger numeral = 0;
+    BOOL found = YES;
+    NSString* temp = aName;
+
+    while (found) {
+        NSInteger k = [existingNames indexOfObject:temp];
+
+        if (k == NSNotFound)
+            found = NO;
+        else
 #warning 64BIT: Inspect use of long
-			temp = [NSString stringWithFormat:@"%@ %ld", aName, (long)++numeral];
-	}
-	
-	return temp;
+            temp = [NSString stringWithFormat:@"%@ %ld", aName, (long)++numeral];
+    }
+
+    return temp;
 }
 
 #pragma mark -
@@ -1898,9 +1947,9 @@ static id	sDearchivingHelper = nil;
  * @return the drawing, which is self of course
  * @public
  */
-- (DKDrawing*)		drawing
+- (DKDrawing*)drawing
 {
-	return self;
+    return self;
 }
 
 /** @brief Renders the drawing in the view
@@ -1910,62 +1959,68 @@ static id	sDearchivingHelper = nil;
  * @param aView the view that is curremtly rendering the drawing.
  * @public
  */
-- (void)				drawRect:(NSRect) rect inView:(DKDrawingView*) aView
+- (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
 {
-	// save the graphics context on entry so that we can restore it when we return. This allows recovery from an exception
-	// that could leave the context stack unbalanced.
-	
-	NSGraphicsContext* topContext = [[NSGraphicsContext currentContext] retain];
-	
-	@try
-	{
-		// paint the paper colour over the view area. Not printed unless explictly set to do so.
-		
-		if([NSGraphicsContext currentContextDrawingToScreen] || [self paperColourIsPrinted])
-		{
-			[[self paperColour] set];
-			NSRectFillUsingOperation( rect, NSCompositeSourceOver );
-		}
-		
-		// if no layers, nothing to draw
-		
-		if ([self visible] && [self countOfLayers] > 0 )
-		{
-			// if not forcing a high quality render, set low quality and start the timer
-			
-			if ( !m_isForcedHQUpdate )
-			{
-				[self checkIfLowQualityRequired];
-				m_lastRectUpdated = NSUnionRect( m_lastRectUpdated, rect );
-			}
-			
-			if ([self knobsShouldAdjustToViewScale] && aView != nil )
-				[[self knobs] setControlKnobSizeForViewScale:[aView scale]];
+    // save the graphics context on entry so that we can restore it when we return. This allows recovery from an exception
+    // that could leave the context stack unbalanced.
 
-			// draw all the layer content
-			
-			if([[self delegate] respondsToSelector:@selector(drawing:willDrawRect:inView:)])
-				[[self delegate] drawing:self willDrawRect:rect inView:aView];
-			
-			[self beginDrawing];
-			[super drawRect:rect inView:aView];
-			[self endDrawing];
+    NSGraphicsContext* topContext = [[NSGraphicsContext currentContext] retain];
 
-			if([[self delegate] respondsToSelector:@selector(drawing:didDrawRect:inView:)])
-				[[self delegate] drawing:self didDrawRect:rect inView:aView];
-		}
-	}
-	@catch(id exc)
-	{
-		NSLog(@"### DK: An exception occurred while drawing - (%@) - will be ignored ###", exc );
-	}
-	@finally
-	{
-		m_isForcedHQUpdate = NO;
-	}
-	
-	[NSGraphicsContext setCurrentContext:topContext];
-	[topContext release];
+    @try
+    {
+        // paint the paper colour over the view area. Not printed unless explictly set to do so.
+
+        if ([NSGraphicsContext currentContextDrawingToScreen] || [self paperColourIsPrinted]) {
+            [[self paperColour] set];
+            NSRectFillUsingOperation(rect, NSCompositeSourceOver);
+        }
+
+        // if no layers, nothing to draw
+
+        if ([self visible] && [self countOfLayers] > 0) {
+            // if not forcing a high quality render, set low quality and start the timer
+
+            if (!m_isForcedHQUpdate) {
+                [self checkIfLowQualityRequired];
+                m_lastRectUpdated = NSUnionRect(m_lastRectUpdated, rect);
+            }
+
+            if ([self knobsShouldAdjustToViewScale] && aView != nil)
+                [[self knobs] setControlKnobSizeForViewScale:[aView scale]];
+
+            // draw all the layer content
+
+            if ([[self delegate] respondsToSelector:@selector(drawing:
+                                                         willDrawRect:
+                                                               inView:)])
+                [[self delegate] drawing:self
+                            willDrawRect:rect
+                                  inView:aView];
+
+            [self beginDrawing];
+            [super drawRect:rect
+                     inView:aView];
+            [self endDrawing];
+
+            if ([[self delegate] respondsToSelector:@selector(drawing:
+                                                          didDrawRect:
+                                                               inView:)])
+                [[self delegate] drawing:self
+                             didDrawRect:rect
+                                  inView:aView];
+        }
+    }
+    @catch (id exc)
+    {
+        NSLog(@"### DK: An exception occurred while drawing - (%@) - will be ignored ###", exc);
+    }
+    @finally
+    {
+        m_isForcedHQUpdate = NO;
+    }
+
+    [NSGraphicsContext setCurrentContext:topContext];
+    [topContext release];
 }
 
 /** @brief Marks the entire drawing as needing updating (or not) for all attached views
@@ -1974,9 +2029,10 @@ static id	sDearchivingHelper = nil;
  * @param refresh YES to update the entire drawing, NO to stop any updates.
  * @public
  */
-- (void)				setNeedsDisplay:(BOOL) refresh
+- (void)setNeedsDisplay:(BOOL)refresh
 {
-	[[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplay:) withObject:[NSNumber numberWithBool:refresh]];
+    [[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplay:)
+                                        withObject:[NSNumber numberWithBool:refresh]];
 }
 
 /** @brief Marks the rect as needing update in all attached views
@@ -1986,9 +2042,10 @@ static id	sDearchivingHelper = nil;
  * @param rect the rectangle within the drawing to update
  * @public
  */
-- (void)				setNeedsDisplayInRect:(NSRect) rect
+- (void)setNeedsDisplayInRect:(NSRect)rect
 {
-	[[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplayInRect:) withObject:[NSValue valueWithRect:rect]];
+    [[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplayInRect:)
+                                        withObject:[NSValue valueWithRect:rect]];
 }
 
 /** @brief Marks several areas for update at once
@@ -1997,15 +2054,16 @@ static id	sDearchivingHelper = nil;
  * @param setOfRects a set containing NSValues with rect values
  * @public
  */
-- (void)			setNeedsDisplayInRects:(NSSet*) setOfRects
+- (void)setNeedsDisplayInRects:(NSSet*)setOfRects
 {
-	NSAssert( setOfRects != nil, @"update set was nil");
-	
-	NSEnumerator*	iter = [setOfRects objectEnumerator];
-	NSValue*		val;
-	
-	while(( val = [iter nextObject]))
-		[[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplayInRect:) withObject:val];
+    NSAssert(setOfRects != nil, @"update set was nil");
+
+    NSEnumerator* iter = [setOfRects objectEnumerator];
+    NSValue* val;
+
+    while ((val = [iter nextObject]))
+        [[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplayInRect:)
+                                            withObject:val];
 }
 
 /** @brief Marks several areas for update at once
@@ -2016,28 +2074,27 @@ static id	sDearchivingHelper = nil;
  * @param padding the width and height will be added to EACH rect before invalidating
  * @public
  */
-- (void)			setNeedsDisplayInRects:(NSSet*) setOfRects withExtraPadding:(NSSize) padding
+- (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding
 {
-	NSAssert( setOfRects != nil, @"update set was nil");
-	
-	NSEnumerator*	iter = [setOfRects objectEnumerator];
-	NSValue*		val;
-	NSRect			ur;
-	
-	while(( val = [iter nextObject]))
-	{
-		ur = NSInsetRect([val rectValue], -padding.width, -padding.height);
-		[self setNeedsDisplayInRect:ur];
-	}
+    NSAssert(setOfRects != nil, @"update set was nil");
+
+    NSEnumerator* iter = [setOfRects objectEnumerator];
+    NSValue* val;
+    NSRect ur;
+
+    while ((val = [iter nextObject])) {
+        ur = NSInsetRect([val rectValue], -padding.width, -padding.height);
+        [self setNeedsDisplayInRect:ur];
+    }
 }
 
 /** @brief Return whether the layer can be deleted
  * @return NO - the root drawing can't be deleted
  * @public
  */
-- (BOOL)			layerMayBeDeleted
+- (BOOL)layerMayBeDeleted
 {
-	return NO;
+    return NO;
 }
 
 /** @brief Migrate user info to current schema
@@ -2045,20 +2102,19 @@ static id	sDearchivingHelper = nil;
  * See DKLayer+Metadata for more details. This migrates drawing info to the current schema.
  * @public
  */
-- (void)			updateMetadataKeys
+- (void)updateMetadataKeys
 {
-	if([self drawingInfo] == nil )
-	{
-		// assumes that all items in userInfo belong to drawing info. This is certainly true for DK implementations prior
-		// to 107, since all info values got dumped into the user info as a flat list.
-		
-		NSMutableDictionary* oldDrawingInfo = [[self userInfo] mutableCopy];
-		[[self userInfo] removeAllObjects];
-		
-		if( oldDrawingInfo )
-			[self setDrawingInfo:oldDrawingInfo];
-		[oldDrawingInfo release];
-	}
+    if ([self drawingInfo] == nil) {
+        // assumes that all items in userInfo belong to drawing info. This is certainly true for DK implementations prior
+        // to 107, since all info values got dumped into the user info as a flat list.
+
+        NSMutableDictionary* oldDrawingInfo = [[self userInfo] mutableCopy];
+        [[self userInfo] removeAllObjects];
+
+        if (oldDrawingInfo)
+            [self setDrawingInfo:oldDrawingInfo];
+        [oldDrawingInfo release];
+    }
 }
 
 /** @brief Updates the ruler markers for all attached views to indicate the rectangle
@@ -2067,9 +2123,10 @@ static id	sDearchivingHelper = nil;
  * @param rect a rectangle within the drawing (usually the bounds of the selected object(s))
  * @public
  */
-- (void)				updateRulerMarkersForRect:(NSRect) rect
+- (void)updateRulerMarkersForRect:(NSRect)rect
 {
-	[[self controllers] makeObjectsPerformSelector:@selector(updateViewRulerMarkersForRect:) withObject:[NSValue valueWithRect:rect]];
+    [[self controllers] makeObjectsPerformSelector:@selector(updateViewRulerMarkersForRect:)
+                                        withObject:[NSValue valueWithRect:rect]];
 }
 
 /** @brief Hides the ruler markers in all attached views
@@ -2077,182 +2134,193 @@ static id	sDearchivingHelper = nil;
  * Ruler markers are generally hidden when there is no selection
  * @public
  */
-- (void)				hideRulerMarkers
+- (void)hideRulerMarkers
 {
-	[[self controllers] makeObjectsPerformSelector:@selector(hideViewRulerMarkers)];
+    [[self controllers] makeObjectsPerformSelector:@selector(hideViewRulerMarkers)];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 
-- (void)				dealloc
+- (void)dealloc
 {
-	LogEvent_( kLifeEvent, @"deallocating DKDrawing %@", self );
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[self setUndoManager:nil];
-	[self exitTemporaryTextEditingMode];
-	[self removeAllControllers];
-	[mControllers release];
-	
-	m_activeLayerRef = nil;
-	mDelegateRef = nil;
-	
-	if (m_renderQualityTimer != nil)
-	{
-		[m_renderQualityTimer invalidate];
-		[m_renderQualityTimer release];
-		m_renderQualityTimer = nil;
-	}
-	
-	[m_paperColour release];
-	[mColourSpace release];
-	[m_units release];
-	[mImageManager release];
-	
-	[super dealloc];
+    LogEvent_(kLifeEvent, @"deallocating DKDrawing %@", self);
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    [self setUndoManager:nil];
+    [self exitTemporaryTextEditingMode];
+    [self removeAllControllers];
+    [mControllers release];
+
+    m_activeLayerRef = nil;
+    mDelegateRef = nil;
+
+    if (m_renderQualityTimer != nil) {
+        [m_renderQualityTimer invalidate];
+        [m_renderQualityTimer release];
+        m_renderQualityTimer = nil;
+    }
+
+    [m_paperColour release];
+    [mColourSpace release];
+    [m_units release];
+    [mImageManager release];
+
+    [super dealloc];
 }
 
-- (id)					init
+- (id)init
 {
-	return [self initWithSize:[DKDrawing isoA2PaperSize:NO]];
+    return [self initWithSize:[DKDrawing isoA2PaperSize:NO]];
 }
 
-- (id)					copyWithZone:(NSZone*) zone
+- (id)copyWithZone:(NSZone*)zone
 {
-	// drawings are not copyable but are sometimes used a dict key, so they need to respond to the copying protocol
-	#pragma unused(zone)
-	
-	return self;
+// drawings are not copyable but are sometimes used a dict key, so they need to respond to the copying protocol
+#pragma unused(zone)
+
+    return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
-- (void)				encodeWithCoder:(NSCoder*) coder
+- (void)encodeWithCoder:(NSCoder*)coder
 {
-	NSAssert(coder != nil, @"Expected valid coder");
-	// this flag used to detect gross change of architecture in older files
-	
-	[coder encodeBool:YES forKey:@"hasHierarchicalLayers"];
-	
-	[super encodeWithCoder:coder];
-	
-	// note: due to the way image manager clients work, the image manager itself does not need to be archived
-	
-	[coder encodeSize:[self drawingSize] forKey:@"drawingSize"];
-	[coder encodeBool:[self isFlipped] forKey:@"DKDrawing_isFlipped"];
-	[coder encodeDouble:[self leftMargin] forKey:@"leftMargin"];
-	[coder encodeDouble:[self rightMargin] forKey:@"rightMargin"];
-	[coder encodeDouble:[self topMargin] forKey:@"topMargin"];
-	[coder encodeDouble:[self bottomMargin] forKey:@"bottomMargin"];
-	[coder encodeObject:[self drawingUnits] forKey:@"drawing_units"];
-	[coder encodeDouble:[self unitToPointsConversionFactor] forKey:@"utp_conv"];
-	[coder encodeObject:[self colourSpace] forKey:@"DKDrawing_colourspace"];
-	[coder encodeObject:[self paperColour] forKey:@"papercolour"];
-	[coder encodeBool:[self paperColourIsPrinted] forKey:@"DKDrawing_printPaperColour"];
-	
-	[coder encodeBool:[self snapsToGrid] forKey:@"gridsnap"];
-	[coder encodeBool:[self snapsToGuides] forKey:@"guidesnap"];
-	[coder encodeBool:[self clipsDrawingToInterior] forKey:@"clips"];
+    NSAssert(coder != nil, @"Expected valid coder");
+    // this flag used to detect gross change of architecture in older files
+
+    [coder encodeBool:YES
+               forKey:@"hasHierarchicalLayers"];
+
+    [super encodeWithCoder:coder];
+
+    // note: due to the way image manager clients work, the image manager itself does not need to be archived
+
+    [coder encodeSize:[self drawingSize]
+               forKey:@"drawingSize"];
+    [coder encodeBool:[self isFlipped]
+               forKey:@"DKDrawing_isFlipped"];
+    [coder encodeDouble:[self leftMargin]
+                 forKey:@"leftMargin"];
+    [coder encodeDouble:[self rightMargin]
+                 forKey:@"rightMargin"];
+    [coder encodeDouble:[self topMargin]
+                 forKey:@"topMargin"];
+    [coder encodeDouble:[self bottomMargin]
+                 forKey:@"bottomMargin"];
+    [coder encodeObject:[self drawingUnits]
+                 forKey:@"drawing_units"];
+    [coder encodeDouble:[self unitToPointsConversionFactor]
+                 forKey:@"utp_conv"];
+    [coder encodeObject:[self colourSpace]
+                 forKey:@"DKDrawing_colourspace"];
+    [coder encodeObject:[self paperColour]
+                 forKey:@"papercolour"];
+    [coder encodeBool:[self paperColourIsPrinted]
+               forKey:@"DKDrawing_printPaperColour"];
+
+    [coder encodeBool:[self snapsToGrid]
+               forKey:@"gridsnap"];
+    [coder encodeBool:[self snapsToGuides]
+               forKey:@"guidesnap"];
+    [coder encodeBool:[self clipsDrawingToInterior]
+               forKey:@"clips"];
 }
 
-- (id)					initWithCoder:(NSCoder*) coder
+- (id)initWithCoder:(NSCoder*)coder
 {
-	NSAssert(coder != nil, @"Expected valid coder");
-	
-	LogEvent_(kFileEvent, @"decoding drawing %@", self);
-	
-	// set drawing units before layers are added so grid layer can use the values
-	
-	[self setDrawingUnits:[coder decodeObjectForKey:@"drawing_units"] unitToPointsConversionFactor:[coder decodeDoubleForKey:@"utp_conv"]];
-	
-	// create an image manager - it is not necessary for this object to be archived
-	
-	mImageManager = [[DKImageDataManager alloc] init];
-	
-	// if the coder can respond to the -setImageManager: method, set it. This allows certain objects to dearchive images that
-	// are held by the image manager even though the object doesn't have a valid reference to the drawing to get it. It can get it from the
-	// dearchiver instead.
-	
-	if([coder respondsToSelector:@selector(setImageManager:)])
-		[(DKKeyedUnarchiver*)coder setImageManager:mImageManager];
-	
-	// older files had a flat layer structure and the drawing didn't inherit from the layer group - this
-	// flag detects that and decodes the archive accordingly
-	
-	BOOL newFileFormat = [coder decodeBoolForKey:@"hasHierarchicalLayers"];
-	
-	if ( newFileFormat )
-		self = [super initWithCoder:coder];
-	else
-		self = [self init];
-		
-	if (self != nil)
-	{
-		if([coder containsValueForKey:@"DKDrawing_isFlipped"])
-			[self setFlipped:[coder decodeBoolForKey:@"DKDrawing_isFlipped"]];
-		else
-			[self setFlipped:YES];
-		
-		[self setDrawingSize:[coder decodeSizeForKey:@"drawingSize"]];
-		m_leftMargin = [coder decodeDoubleForKey:@"leftMargin"];
-		m_rightMargin = [coder decodeDoubleForKey:@"rightMargin"];
-		m_topMargin = [coder decodeDoubleForKey:@"topMargin"];
-		m_bottomMargin = [coder decodeDoubleForKey:@"bottomMargin"];
-		
-		mControllers = [[NSMutableSet alloc] init];
-		
-		[self setColourSpace:[coder decodeObjectForKey:@"DKDrawing_colourspace"]];
-		[self setPaperColour:[coder decodeObjectForKey:@"papercolour"]];
-		[self setPaperColourIsPrinted:[coder decodeBoolForKey:@"DKDrawing_printPaperColour"]];
-		
-		// metadata handling has changed. Now this is inherited from DKLayer, and is archived by that class. However, older files
-		// will have the older archive format, so here we detect that and try loading the old format data if not loaded by DKLayer
-		
-		if([self drawingInfo] == nil && [coder containsValueForKey:@"info"])
-			[self setDrawingInfo:[coder decodeObjectForKey:@"info"]];
-		
-		[self setSnapsToGrid:[coder decodeBoolForKey:@"gridsnap"]];
-		[self setSnapsToGuides:[coder decodeBoolForKey:@"guidesnap"]];
-		[self setClipsDrawingToInterior:[coder decodeBoolForKey:@"clips"]];
+    NSAssert(coder != nil, @"Expected valid coder");
 
-		m_lastRenderTime = [NSDate timeIntervalSinceReferenceDate];
-		
-		// older files handled the knobs differently, so if at this point there are no knobs, Supply a default set
-		
-		if([self knobs] == nil )
-			[self setKnobs:[DKKnob standardKnobs]];
-		
-		if (m_units == nil 
-				|| m_paperColour == nil )
-		{
-			NSLog(@"drawing failed initialization (%@)", self );
-			
-			[self autorelease];
-			self = nil;
-		}
-		
-		// notify all the contained layers that they were added to the root drawing, allowing them to perform any special
-		// set up.
-		
-		[self wasAddedToDrawing:self];
-	}
-	if (self != nil)
-	{
-		if ( ! newFileFormat)
-		{
-			LogEvent_(kReactiveEvent, @"old file format - dearchiving layers directly");
+    LogEvent_(kFileEvent, @"decoding drawing %@", self);
 
-			[self setLayers:[coder decodeObjectForKey:@"layers"]];
- 		}
-		// make the first drawing layer active. It would be possible to save the active layer and restore it when reading the
-		// file - would that be better? I'm unsure whether the active layer is legitimately part of a saved file's state.
-		
-		[self setActiveLayer:[self firstLayerOfClass:[DKObjectDrawingLayer class]]];
-	}
-	
-	return self;
+    // set drawing units before layers are added so grid layer can use the values
+
+    [self setDrawingUnits:[coder decodeObjectForKey:@"drawing_units"]
+        unitToPointsConversionFactor:[coder decodeDoubleForKey:@"utp_conv"]];
+
+    // create an image manager - it is not necessary for this object to be archived
+
+    mImageManager = [[DKImageDataManager alloc] init];
+
+    // if the coder can respond to the -setImageManager: method, set it. This allows certain objects to dearchive images that
+    // are held by the image manager even though the object doesn't have a valid reference to the drawing to get it. It can get it from the
+    // dearchiver instead.
+
+    if ([coder respondsToSelector:@selector(setImageManager:)])
+        [(DKKeyedUnarchiver*)coder setImageManager:mImageManager];
+
+    // older files had a flat layer structure and the drawing didn't inherit from the layer group - this
+    // flag detects that and decodes the archive accordingly
+
+    BOOL newFileFormat = [coder decodeBoolForKey:@"hasHierarchicalLayers"];
+
+    if (newFileFormat)
+        self = [super initWithCoder:coder];
+    else
+        self = [self init];
+
+    if (self != nil) {
+        if ([coder containsValueForKey:@"DKDrawing_isFlipped"])
+            [self setFlipped:[coder decodeBoolForKey:@"DKDrawing_isFlipped"]];
+        else
+            [self setFlipped:YES];
+
+        [self setDrawingSize:[coder decodeSizeForKey:@"drawingSize"]];
+        m_leftMargin = [coder decodeDoubleForKey:@"leftMargin"];
+        m_rightMargin = [coder decodeDoubleForKey:@"rightMargin"];
+        m_topMargin = [coder decodeDoubleForKey:@"topMargin"];
+        m_bottomMargin = [coder decodeDoubleForKey:@"bottomMargin"];
+
+        mControllers = [[NSMutableSet alloc] init];
+
+        [self setColourSpace:[coder decodeObjectForKey:@"DKDrawing_colourspace"]];
+        [self setPaperColour:[coder decodeObjectForKey:@"papercolour"]];
+        [self setPaperColourIsPrinted:[coder decodeBoolForKey:@"DKDrawing_printPaperColour"]];
+
+        // metadata handling has changed. Now this is inherited from DKLayer, and is archived by that class. However, older files
+        // will have the older archive format, so here we detect that and try loading the old format data if not loaded by DKLayer
+
+        if ([self drawingInfo] == nil && [coder containsValueForKey:@"info"])
+            [self setDrawingInfo:[coder decodeObjectForKey:@"info"]];
+
+        [self setSnapsToGrid:[coder decodeBoolForKey:@"gridsnap"]];
+        [self setSnapsToGuides:[coder decodeBoolForKey:@"guidesnap"]];
+        [self setClipsDrawingToInterior:[coder decodeBoolForKey:@"clips"]];
+
+        m_lastRenderTime = [NSDate timeIntervalSinceReferenceDate];
+
+        // older files handled the knobs differently, so if at this point there are no knobs, Supply a default set
+
+        if ([self knobs] == nil)
+            [self setKnobs:[DKKnob standardKnobs]];
+
+        if (m_units == nil
+            || m_paperColour == nil) {
+            NSLog(@"drawing failed initialization (%@)", self);
+
+            [self autorelease];
+            self = nil;
+        }
+
+        // notify all the contained layers that they were added to the root drawing, allowing them to perform any special
+        // set up.
+
+        [self wasAddedToDrawing:self];
+    }
+    if (self != nil) {
+        if (!newFileFormat) {
+            LogEvent_(kReactiveEvent, @"old file format - dearchiving layers directly");
+
+            [self setLayers:[coder decodeObjectForKey:@"layers"]];
+        }
+        // make the first drawing layer active. It would be possible to save the active layer and restore it when reading the
+        // file - would that be better? I'm unsure whether the active layer is legitimately part of a saved file's state.
+
+        [self setActiveLayer:[self firstLayerOfClass:[DKObjectDrawingLayer class]]];
+    }
+
+    return self;
 }
 
 @end
@@ -2261,34 +2329,31 @@ static id	sDearchivingHelper = nil;
 
 @implementation DKDrawing (UISupport)
 
-- (NSWindow*)			windowForSheet
+- (NSWindow*)windowForSheet
 {
-	// attempts to return a window useful for hosting a sheet by referring to its owner. If that doesn't work, it asks each of its controllers.
-	
-	id owner = [self owner];
-	
-	if([owner respondsToSelector:_cmd])
-		return [owner windowForSheet];
-	else if([owner respondsToSelector:@selector(window)])
-		return [owner window];
-	else
-	{
-		// roll up sleeves and go through the controllers
-		
-		NSEnumerator*		iter = [[self controllers] objectEnumerator];
-		DKViewController*	cllr;
-		
-		while(( cllr = [iter nextObject]))
-		{
-			if([cllr respondsToSelector:_cmd])
-				return [(id)cllr windowForSheet];
-			else if([[cllr view] respondsToSelector:@selector(window)])
-				return [[cllr view] window];
-		}
-	}
-	
-	return nil;	// give up
+    // attempts to return a window useful for hosting a sheet by referring to its owner. If that doesn't work, it asks each of its controllers.
+
+    id owner = [self owner];
+
+    if ([owner respondsToSelector:_cmd])
+        return [owner windowForSheet];
+    else if ([owner respondsToSelector:@selector(window)])
+        return [owner window];
+    else {
+        // roll up sleeves and go through the controllers
+
+        NSEnumerator* iter = [[self controllers] objectEnumerator];
+        DKViewController* cllr;
+
+        while ((cllr = [iter nextObject])) {
+            if ([cllr respondsToSelector:_cmd])
+                return [(id)cllr windowForSheet];
+            else if ([[cllr view] respondsToSelector:@selector(window)])
+                return [[cllr view] window];
+        }
+    }
+
+    return nil; // give up
 }
 
 @end
-

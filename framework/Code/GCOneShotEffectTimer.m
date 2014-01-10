@@ -12,92 +12,95 @@
 
 @interface GCOneShotEffectTimer (Private)
 
-- (id)		initWithTimeInterval:(NSTimeInterval) t forDelegate:(id) del;
-- (void)	setDelegate:(id) del;
-- (id)		delegate;
-- (void)	osfx_callback:(NSTimer*) timer;
+- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id)del;
+- (void)setDelegate:(id)del;
+- (id)delegate;
+- (void)osfx_callback:(NSTimer*)timer;
 
 @end
 
 @implementation GCOneShotEffectTimer
 
-+ (id)		oneShotWithTime:(NSTimeInterval) t forDelegate:(id) del
++ (id)oneShotWithTime:(NSTimeInterval)t forDelegate:(id)del
 {
-	GCOneShotEffectTimer* ft = [[GCOneShotEffectTimer alloc] initWithTimeInterval:t forDelegate:del];
-	
-	// unlike the usual case, this is returned retained (by self, effectively). The one-shot releases
-	// itself when it's complete
-	
-	return ft;
+    GCOneShotEffectTimer* ft = [[GCOneShotEffectTimer alloc] initWithTimeInterval:t
+                                                                      forDelegate:del];
+
+    // unlike the usual case, this is returned retained (by self, effectively). The one-shot releases
+    // itself when it's complete
+
+    return ft;
 }
 
-+ (id)		oneShotWithStandardFadeTimeForDelegate:(id) del
++ (id)oneShotWithStandardFadeTimeForDelegate:(id)del
 {
-	return [self oneShotWithTime:kDKStandardFadeTime forDelegate:del];
+    return [self oneShotWithTime:kDKStandardFadeTime
+                     forDelegate:del];
 }
 
-- (id)		initWithTimeInterval:(NSTimeInterval) t forDelegate:(id) del
+- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id)del
 {
-	[super init];
-	[self setDelegate:del];
-	
-	mTotal = t;
-	
-	if ( mDelegate && [mDelegate respondsToSelector:@selector(oneShotWillBegin)])
-		[mDelegate oneShotWillBegin];
-	
-	mTimer = [NSTimer scheduledTimerWithTimeInterval:1/48.0f target:self selector:@selector(osfx_callback:) userInfo:nil repeats:YES];
-	[[NSRunLoop currentRunLoop] addTimer:mTimer forMode:NSEventTrackingRunLoopMode];
-	mStart = [NSDate timeIntervalSinceReferenceDate];
+    [super init];
+    [self setDelegate:del];
 
-	return self;
+    mTotal = t;
+
+    if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotWillBegin)])
+        [mDelegate oneShotWillBegin];
+
+    mTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 48.0f
+                                              target:self
+                                            selector:@selector(osfx_callback:)
+                                            userInfo:nil
+                                             repeats:YES];
+    [[NSRunLoop currentRunLoop] addTimer:mTimer
+                                 forMode:NSEventTrackingRunLoopMode];
+    mStart = [NSDate timeIntervalSinceReferenceDate];
+
+    return self;
 }
 
-- (void)	dealloc
+- (void)dealloc
 {
-	[mTimer invalidate];
-	[mDelegate release];
-	[super dealloc];
+    [mTimer invalidate];
+    [mDelegate release];
+    [super dealloc];
 }
 
-- (void)	setDelegate:(id) del
+- (void)setDelegate:(id)del
 {
-	// delegate is retained and released when one-shot completes. This allows some effects to work even
-	// though the original delegate might be released by the caller.
-	
-	[del retain];
-	[mDelegate release];
-	mDelegate = del;
+    // delegate is retained and released when one-shot completes. This allows some effects to work even
+    // though the original delegate might be released by the caller.
+
+    [del retain];
+    [mDelegate release];
+    mDelegate = del;
 }
 
-- (id)		delegate
+- (id)delegate
 {
-	return mDelegate;
+    return mDelegate;
 }
 
-- (void)	osfx_callback:(NSTimer*) timer
+- (void)osfx_callback:(NSTimer*)timer
 {
-	NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - mStart;
-	CGFloat val = elapsed / mTotal;
-	
-//	LogEvent_(kReactiveEvent, @"t = %f", val );
-	
-	if ( elapsed > mTotal )
-	{
-		[timer invalidate];
-		mTimer = nil;
+    NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - mStart;
+    CGFloat val = elapsed / mTotal;
 
-		if ( mDelegate && [mDelegate respondsToSelector:@selector(oneShotComplete)])
-			[mDelegate oneShotComplete];
-		
-		[self release];
-	}
-	else
-	{
-		if ( mDelegate && [mDelegate respondsToSelector:@selector(oneShotHasReached:)])
-			[mDelegate oneShotHasReached:val];
-	}
+    //	LogEvent_(kReactiveEvent, @"t = %f", val );
+
+    if (elapsed > mTotal) {
+        [timer invalidate];
+        mTimer = nil;
+
+        if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotComplete)])
+            [mDelegate oneShotComplete];
+
+        [self release];
+    } else {
+        if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotHasReached:)])
+            [mDelegate oneShotHasReached:val];
+    }
 }
 
 @end
-

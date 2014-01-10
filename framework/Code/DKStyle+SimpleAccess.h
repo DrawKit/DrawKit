@@ -28,35 +28,34 @@ If the style is locked these do nothing.
 */
 @interface DKStyle (SimpleAccess)
 
-+ (DKStyle*)		styleWithDotDensity:(CGFloat) percent foreColour:(NSColor*) fore backColour:(NSColor*) back;
++ (DKStyle*)styleWithDotDensity:(CGFloat)percent foreColour:(NSColor*)fore backColour:(NSColor*)back;
 
-- (DKStroke*)		stroke;
-- (DKFill*)			fill;
+- (DKStroke*)stroke;
+- (DKFill*)fill;
 
-- (void)			setFillColour:(NSColor*) fillColour;
-- (NSColor*)		fillColour;
+- (void)setFillColour:(NSColor*)fillColour;
+- (NSColor*)fillColour;
 
-- (void)			setStrokeColour:(NSColor*) strokeColour;
-- (NSColor*)		strokeColour;
+- (void)setStrokeColour:(NSColor*)strokeColour;
+- (NSColor*)strokeColour;
 
-- (void)			setStrokeWidth:(CGFloat) strokeWidth;
-- (CGFloat)			strokeWidth;
+- (void)setStrokeWidth:(CGFloat)strokeWidth;
+- (CGFloat)strokeWidth;
 
-- (void)			setStrokeDash:(DKStrokeDash*) aDash;
-- (DKStrokeDash*)	strokeDash;
+- (void)setStrokeDash:(DKStrokeDash*)aDash;
+- (DKStrokeDash*)strokeDash;
 
-- (void)			setStrokeLineCapStyle:(NSLineCapStyle) capStyle;
-- (NSLineCapStyle)	strokeLineCapStyle;
+- (void)setStrokeLineCapStyle:(NSLineCapStyle)capStyle;
+- (NSLineCapStyle)strokeLineCapStyle;
 
-- (void)			setStrokeLineJoinStyle:(NSLineJoinStyle) joinStyle;
-- (NSLineJoinStyle)	strokeLineJoinStyle;
+- (void)setStrokeLineJoinStyle:(NSLineJoinStyle)joinStyle;
+- (NSLineJoinStyle)strokeLineJoinStyle;
 
-- (void)			setString:(NSString*) aString;
-- (NSString*)		string;
+- (void)setString:(NSString*)aString;
+- (NSString*)string;
 
-- (BOOL)			hasImageComponent;
-- (void)			setImageComponent:(NSImage*) anImage;
-- (NSImage*)		imageComponent;
+- (BOOL)hasImageComponent;
+- (void)setImageComponent:(NSImage*)anImage;
+- (NSImage*)imageComponent;
 
 @end
-

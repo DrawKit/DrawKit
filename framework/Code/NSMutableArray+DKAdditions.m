@@ -12,19 +12,17 @@
 
 /** 
  */
-- (void)				addUniqueObjectsFromArray:(NSArray*) array
+- (void)addUniqueObjectsFromArray:(NSArray*)array
 {
-	// adds objects from <array> to the receiver, but only those not already contained by it
-	
-	NSEnumerator*	iter = [array objectEnumerator];
-	id				obj;
-	
-	while(( obj = [iter nextObject]))
-	{
-		if (! [self containsObject:obj])
-			[self addObject:obj];
-	}
+    // adds objects from <array> to the receiver, but only those not already contained by it
+
+    NSEnumerator* iter = [array objectEnumerator];
+    id obj;
+
+    while ((obj = [iter nextObject])) {
+        if (![self containsObject:obj])
+            [self addObject:obj];
+    }
 }
 
 @end
-

@@ -5,23 +5,20 @@
  * @date 2005-2013
  * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
- 
-#import <Cocoa/Cocoa.h>
 
+#import <Cocoa/Cocoa.h>
 
 @class DKDrawableObject, DKLayer;
 
-
 @protocol DKDrawingTool
 
-- (NSString*)		actionName;
-- (NSCursor*)		cursor;
-- (NSInteger)		mouseDownAtPoint:(NSPoint) p targetObject:(DKDrawableObject*) obj layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel;
-- (void)			mouseDraggedToPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel;
-- (BOOL)			mouseUpAtPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel;
+- (NSString*)actionName;
+- (NSCursor*)cursor;
+- (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel;
+- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel;
+- (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel;
 
 @end
-
 
 // informally, a tool can also implement this, which will be called from DKToolController if the object does respond to it.
 
@@ -58,8 +55,7 @@ action name when requested.
 */
 @interface NSObject (DKToolDelegate)
 
-- (void)			toolWillPerformUndoableAction:(id<DKDrawingTool>) aTool;
-- (void)			toolDidPerformUndoableAction:(id<DKDrawingTool>) aTool;
+- (void)toolWillPerformUndoableAction:(id<DKDrawingTool>)aTool;
+- (void)toolDidPerformUndoableAction:(id<DKDrawingTool>)aTool;
 
 @end
-

@@ -30,22 +30,21 @@ the shape just making its own path, rather than using a helper object, but as a 
 to know or care about that - it's just a level of indirection that you can ignore. The point is that shape functionality can
 be added to DKShapeFactory rather than having to make lots of individual subclasses of DKDrawableShape for each one.
 */
-@interface DKReshapableShape : DKDrawableShape <NSCoding, NSCopying>
-{
+@interface DKReshapableShape : DKDrawableShape <NSCoding, NSCopying> {
 @private
-	SEL				m_shapeSelector;
-	id				m_shapeProvider;
-	id				m_optionalParam;
+    SEL m_shapeSelector;
+    id m_shapeProvider;
+    id m_optionalParam;
 }
 
-- (void)			setShapeProvider:(id) provider selector:(SEL) selector;
-- (id)				shapeProvider;
-- (SEL)				shapeSelector;
+- (void)setShapeProvider:(id)provider selector:(SEL)selector;
+- (id)shapeProvider;
+- (SEL)shapeSelector;
 
-- (void)			setOptionalParameter:(id) objParam;
-- (id)				optionalParameter;
+- (void)setOptionalParameter:(id)objParam;
+- (id)optionalParameter;
 
-- (NSBezierPath*)	providedShapeForRect:(NSRect) r;
+- (NSBezierPath*)providedShapeForRect:(NSRect)r;
 
 @end
 
@@ -53,8 +52,7 @@ be added to DKShapeFactory rather than having to make lots of individual subclas
 // - (NSBezierPath*)	someShapeInRect:(NSRect) r otherParameters:(id) object;
 // this is actually called by a C function call internally, so the following is the real prototype:
 
-typedef NSBezierPath* (*shapeProviderFunction)( id, SEL, NSRect, id );
+typedef NSBezierPath* (*shapeProviderFunction)(id, SEL, NSRect, id);
 
 // the <otherParameters> part is optional but must be an object - for example an NSValue, NSNumber or NSDictionary are all valid, but
 // the provider and the providee need to informally agree on what to expect here.
-

@@ -24,16 +24,16 @@
  * @return the partcode of the target that was hit, or 0 (no object)
  * @public
  */
-- (NSInteger)				mouseDownAtPoint:(NSPoint) p targetObject:(DKDrawableObject*) obj layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(obj)
-	#pragma unused(layer)
-	#pragma unused(aDel)
-	#pragma unused(event)
-	
-	mAnchor = p;
-	mZoomRect = NSZeroRect;
-	return 0;
+#pragma unused(obj)
+#pragma unused(layer)
+#pragma unused(aDel)
+#pragma unused(event)
+
+    mAnchor = p;
+    mZoomRect = NSZeroRect;
+    return 0;
 }
 
 /** @brief Handle the mouse dragged event
@@ -44,15 +44,15 @@
  * @param aDel an optional delegate
  * @public
  */
-- (void)			mouseDraggedToPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(pc)
-	#pragma unused(event)
-	#pragma unused(aDel)
-	
-	[layer setNeedsDisplayInRect:mZoomRect];
-	mZoomRect = NSRectFromTwoPoints( mAnchor, p );
-	[layer setNeedsDisplayInRect:mZoomRect];
+#pragma unused(pc)
+#pragma unused(event)
+#pragma unused(aDel)
+
+    [layer setNeedsDisplayInRect:mZoomRect];
+    mZoomRect = NSRectFromTwoPoints(mAnchor, p);
+    [layer setNeedsDisplayInRect:mZoomRect];
 }
 
 /** @brief Handle the mouse up event
@@ -64,23 +64,21 @@
  * @return YES if the tool did something undoable, NO otherwise
  * @public
  */
-- (BOOL)			mouseUpAtPoint:(NSPoint) p partCode:(NSInteger) pc layer:(DKLayer*) layer event:(NSEvent*) event delegate:(id) aDel
+- (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
-	#pragma unused(pc)
-	#pragma unused(event)
-	#pragma unused(aDel)
-	
-	
-	mZoomRect = NSRectFromTwoPoints( mAnchor, p );
-	[layer setNeedsDisplayInRect:mZoomRect];
-	
-	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)layer;
-	
-	[odl cropToRect:mZoomRect];
-	
-	
-	mZoomRect = NSZeroRect;
-	return NO;
+#pragma unused(pc)
+#pragma unused(event)
+#pragma unused(aDel)
+
+    mZoomRect = NSRectFromTwoPoints(mAnchor, p);
+    [layer setNeedsDisplayInRect:mZoomRect];
+
+    DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)layer;
+
+    [odl cropToRect:mZoomRect];
+
+    mZoomRect = NSZeroRect;
+    return NO;
 }
 
 /** @brief Draw the tool's graphic
@@ -88,19 +86,18 @@
  * @param aView the view that is doing the drawing
  * @public
  */
-- (void)			drawRect:(NSRect) aRect inView:(NSView*) aView
+- (void)drawRect:(NSRect)aRect inView:(NSView*)aView
 {
-	#pragma unused(aRect)
-	
-	if ([aView needsToDrawRect:mZoomRect])
-	{
-		CGFloat sc = 1.0;
-		
-		NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect( mZoomRect, sc, sc )];
-		[zoomPath setLineWidth:sc];
-		[[NSColor redColor] set];
-		[zoomPath stroke];
-	}
+#pragma unused(aRect)
+
+    if ([aView needsToDrawRect:mZoomRect]) {
+        CGFloat sc = 1.0;
+
+        NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect(mZoomRect, sc, sc)];
+        [zoomPath setLineWidth:sc];
+        [[NSColor redColor] set];
+        [zoomPath stroke];
+    }
 }
 
 /** @brief Return whether the target layer can be used by this tool
@@ -108,10 +105,9 @@
  * @return YES if the tool can be used with the given layer, NO otherwise
  * @public
  */
-- (BOOL)			isValidTargetLayer:(DKLayer*) aLayer
+- (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
-	return [aLayer isKindOfClass:[DKObjectDrawingLayer class]];
+    return [aLayer isKindOfClass:[DKObjectDrawingLayer class]];
 }
 
 @end
-

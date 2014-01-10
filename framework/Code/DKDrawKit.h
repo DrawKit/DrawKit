@@ -94,7 +94,7 @@
 #import "DKRouteFinder.h"
 
 #ifdef qUseCurveFit
- #import "CurveFit.h"
+#import "CurveFit.h"
 #endif
 #import "DKGradient.h"
 #import "DKGradient+UISupport.h"
@@ -114,5 +114,5 @@
 #import "DKQuartzCache.h"
 
 #ifdef qUseLogEvent
- #import "LogEvent.h"
+#import "LogEvent.h"
 #endif

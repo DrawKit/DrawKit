@@ -14,14 +14,12 @@
 
 // caching options
 
-typedef enum
-{
-	kDKLayerCacheNone			= 0,				// no caching
-	kDKLayerCacheUsingPDF		= ( 1 << 0 ),		// layer is cached in a PDF Image Rep
-	kDKLayerCacheUsingCGLayer	= ( 1 << 1 ),		// layer is cached in a CGLayer bitmap
-	kDKLayerCacheObjectOutlines = ( 1 << 2 )		// objects are drawn using a simple outline stroke only
-}
-DKLayerCacheOption;
+typedef enum {
+    kDKLayerCacheNone = 0, // no caching
+    kDKLayerCacheUsingPDF = (1 << 0), // layer is cached in a PDF Image Rep
+    kDKLayerCacheUsingCGLayer = (1 << 1), // layer is cached in a CGLayer bitmap
+    kDKLayerCacheObjectOutlines = (1 << 2) // objects are drawn using a simple outline stroke only
+} DKLayerCacheOption;
 
 // the class
 
@@ -50,40 +48,39 @@ The cache is only used for screen drawing.
 NOTE: PDF caching has been shown to be actually slower when there are many objects, espcially with advanced storage in use. This is
 because it's an all-or-nothing rendering proposition which direct drawing of a layer's objects is not.
 */
-@interface DKObjectOwnerLayer : DKLayer <NSCoding, DKDrawableContainer>
-{
+@interface DKObjectOwnerLayer : DKLayer <NSCoding, DKDrawableContainer> {
 @private
-	id<DKObjectStorage>		mStorage;				// the object storage
-	NSPoint					m_pasteAnchor;			// used when recording the paste/duplication offset
-	BOOL					m_allowEditing;			// YES to allow editing of objects, NO to prevent
-	BOOL					m_allowSnapToObjects;	// YES to let snapping look for other objects
-	DKDrawableObject*		mNewObjectPending;		// temporary object being created - is drawn and handled as a normal object but can be deleted without undo
-	DKLayerCacheOption		mLayerCachingOption;	// see constants defined above
-	NSRect					mCacheBounds;			// the bounds rect of the cached layer or PDF rep - used to accurately position the cache when drawn
-	BOOL					m_inDragOp;				// YES if a drag is happening over the layer
-	NSSize					m_pasteOffset;			// distance to offset a pasted object
-	BOOL					m_recordPasteOffset;	// set to YES following a paste, and NO following a drag. When YES, paste offset is recorded.
-	NSInteger				mPasteboardLastChange;	// last change count recorded during a paste
-	NSInteger				mPasteCount;			// number of repeated paste operations since last new paste
+    id<DKObjectStorage> mStorage; // the object storage
+    NSPoint m_pasteAnchor; // used when recording the paste/duplication offset
+    BOOL m_allowEditing; // YES to allow editing of objects, NO to prevent
+    BOOL m_allowSnapToObjects; // YES to let snapping look for other objects
+    DKDrawableObject* mNewObjectPending; // temporary object being created - is drawn and handled as a normal object but can be deleted without undo
+    DKLayerCacheOption mLayerCachingOption; // see constants defined above
+    NSRect mCacheBounds; // the bounds rect of the cached layer or PDF rep - used to accurately position the cache when drawn
+    BOOL m_inDragOp; // YES if a drag is happening over the layer
+    NSSize m_pasteOffset; // distance to offset a pasted object
+    BOOL m_recordPasteOffset; // set to YES following a paste, and NO following a drag. When YES, paste offset is recorded.
+    NSInteger mPasteboardLastChange; // last change count recorded during a paste
+    NSInteger mPasteCount; // number of repeated paste operations since last new paste
 @protected
-	BOOL					mShowStorageDebugging;	// if YES, draws the debugging path for the storage on top (debugging feature only)
+    BOOL mShowStorageDebugging; // if YES, draws the debugging path for the storage on top (debugging feature only)
 }
 
-+ (void)				setDefaultLayerCacheOption:(DKLayerCacheOption) option;
-+ (DKLayerCacheOption)	defaultLayerCacheOption;
++ (void)setDefaultLayerCacheOption:(DKLayerCacheOption)option;
++ (DKLayerCacheOption)defaultLayerCacheOption;
 
 // setting the storage (n.b. storage is set by default, this is an advanced feature that you can ignore 99% of the time):
 
-+ (void)				setStorageClass:(Class) aClass;
-+ (Class)				storageClass;
++ (void)setStorageClass:(Class)aClass;
++ (Class)storageClass;
 
-- (void)				setStorage:(id<DKObjectStorage>) storage;
+- (void)setStorage:(id<DKObjectStorage>)storage;
 
 /** @brief Returns the storage object for the layer
  * @return a storage object
  * @public
  */
-- (id<DKObjectStorage>) storage;
+- (id<DKObjectStorage>)storage;
 
 // as a container for a DKDrawableObject:
 
@@ -93,7 +90,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return self
  * @public
  */
-- (DKObjectOwnerLayer*)	layer;
+- (DKObjectOwnerLayer*)layer;
 
 // the list of objects:
 
@@ -101,13 +98,13 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param objs an array of DKDrawableObjects, or subclasses thereof
  * @public
  */
-- (void)				setObjects:(NSArray*) objs;				// KVC/KVO compliant
+- (void)setObjects:(NSArray*)objs; // KVC/KVO compliant
 
 /** @brief Returns all owned objects
  * @return an array of the objects
  * @public
  */
-- (NSArray*)			objects;								// KVC/KVO compliant
+- (NSArray*)objects; // KVC/KVO compliant
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible
  * @note
@@ -115,7 +112,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array of available objects
  * @public
  */
-- (NSArray*)			availableObjects;
+- (NSArray*)availableObjects;
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible and that
  * intersect the rect
@@ -125,7 +122,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array of available objects
  * @public
  */
-- (NSArray*)			availableObjectsInRect:(NSRect) aRect;
+- (NSArray*)availableObjectsInRect:(NSRect)aRect;
 
 /** @brief Returns objects that are available to the user of the given class
  * @note
@@ -134,7 +131,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array of available objects
  * @public
  */
-- (NSArray*)			availableObjectsOfClass:(Class) aClass;
+- (NSArray*)availableObjectsOfClass:(Class)aClass;
 
 /** @brief Returns objects that are visible to the user, but may be locked
  * @note
@@ -142,7 +139,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array of visible objects
  * @public
  */
-- (NSArray*)			visibleObjects;
+- (NSArray*)visibleObjects;
 
 /** @brief Returns objects that are visible to the user, intersect the rect, but may be locked
  * @note
@@ -151,7 +148,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array of visible objects
  * @public
  */
-- (NSArray*)			visibleObjectsInRect:(NSRect) aRect;
+- (NSArray*)visibleObjectsInRect:(NSRect)aRect;
 
 /** @brief Returns objects that share the given style
  * @note
@@ -161,7 +158,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array of those objects that have the style
  * @public
  */
-- (NSArray*)			objectsWithStyle:(DKStyle*) style;
+- (NSArray*)objectsWithStyle:(DKStyle*)style;
 
 /** @brief Returns objects that respond to the selector with the value <answer>
  * <selector> a selector taking no parameters
@@ -171,29 +168,29 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array, objects that match the value of <answer>
  * @public
  */
-- (NSArray*)			objectsReturning:(NSInteger) answer toSelector:(SEL) selector;
+- (NSArray*)objectsReturning:(NSInteger)answer toSelector:(SEL)selector;
 
 // getting objects:
 
-- (NSUInteger)			countOfObjects;							// KVC/KVO compliant
+- (NSUInteger)countOfObjects; // KVC/KVO compliant
 
 /** @brief Returns the object at a given stacking position index
  * @param index the stacking position
  * @public
  */
-- (DKDrawableObject*)	objectInObjectsAtIndex:(NSUInteger) indx;	// KVC/KVO compliant
+- (DKDrawableObject*)objectInObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
 
 /** @brief Returns the topmost object
  * @return the topmost object
  * @public
  */
-- (DKDrawableObject*)	topObject;
+- (DKDrawableObject*)topObject;
 
 /** @brief Returns the bottom object
  * @return the bottom object
  * @public
  */
-- (DKDrawableObject*)	bottomObject;
+- (DKDrawableObject*)bottomObject;
 
 /** @brief Returns the stacking position of the given object
  * @note
@@ -202,21 +199,21 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return the object's stacking order index
  * @public
  */
-- (NSUInteger)			indexOfObject:(DKDrawableObject*) obj;
+- (NSUInteger)indexOfObject:(DKDrawableObject*)obj;
 
 /** @brief Returns a list of objects given by the index set
  * @param set an index set
  * @return a list of objects
  * @public
  */
-- (NSArray*)			objectsAtIndexes:(NSIndexSet*) set;		// KVC/KVO compliant
+- (NSArray*)objectsAtIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 
 /** @brief Given a list of objects that are part of this layer, return an index set for them
  * @param objs a list of objects
  * @return an index set listing the array index positions for the objects passed
  * @public
  */
-- (NSIndexSet*)			indexesOfObjectsInArray:(NSArray*) objs;
+- (NSIndexSet*)indexesOfObjectsInArray:(NSArray*)objs;
 
 // adding and removing objects:
 // note that the 'objects' property is fully KVC/KVO compliant because where necessary all methods call some directly KVC/KVO compliant method internally.
@@ -230,7 +227,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * these. Adding multiple objects calls this multiple times.
  * @public
  */
-- (void)				insertObject:(DKDrawableObject*) obj inObjectsAtIndex:(NSUInteger) indx;				// KVC/KVO compliant
+- (void)insertObject:(DKDrawableObject*)obj inObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
 
 /** @brief Removes an object from the layer
  * @param index the index at which the object should be removed
@@ -238,7 +235,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * these. Removing multiple objects calls this multiple times.
  * @public
  */
-- (void)				removeObjectFromObjectsAtIndex:(NSUInteger) indx;										// KVC/KVO compliant
+- (void)removeObjectFromObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
 
 /** @brief Replaces an object in the layer with another
  * @param index the index at which the object should be exchanged
@@ -247,7 +244,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * can be observed if desired to get notified of these events.
  * @public
  */
-- (void)				replaceObjectInObjectsAtIndex:(NSUInteger) indx withObject:(DKDrawableObject*) obj;	// KVC/KVO compliant
+- (void)replaceObjectInObjectsAtIndex:(NSUInteger)indx withObject:(DKDrawableObject*)obj; // KVC/KVO compliant
 
 /** @brief Inserts a set of objects at the indexes given. The array and set order should match, and
  * have equal counts.
@@ -255,13 +252,13 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param set the indexes where they should be inserted
  * @public
  */
-- (void)				insertObjects:(NSArray*) objs atIndexes:(NSIndexSet*) set;							// KVC/KVO compliant
+- (void)insertObjects:(NSArray*)objs atIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 
 /** @brief Removes objects from the indexes listed by the set
  * @param set an index set
  * @public
  */
-- (void)				removeObjectsAtIndexes:(NSIndexSet*) set;											// KVC/KVO compliant
+- (void)removeObjectsAtIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 
 // general purpose adding/removal (call through to KVC/KVO methods as necessary, but can't be observed directly)
 
@@ -271,8 +268,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param obj the object to add
  * @public
  */
-- (void)				addObject:(DKDrawableObject*) obj;
-- (void)				addObject:(DKDrawableObject*) obj atIndex:(NSUInteger) index;
+- (void)addObject:(DKDrawableObject*)obj;
+- (void)addObject:(DKDrawableObject*)obj atIndex:(NSUInteger)index;
 
 /** @brief Adds a set of objects to the layer
  * @note
@@ -280,7 +277,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param objs an array of DKDrawableObjects, or subclasses.
  * @public
  */
-- (void)				addObjectsFromArray:(NSArray*) objs;
+- (void)addObjectsFromArray:(NSArray*)objs;
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  * a given point.
@@ -295,7 +292,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * placed outside the interior.
  * @public
  */
-- (BOOL)				addObjectsFromArray:(NSArray*) objs relativeToPoint:(NSPoint) origin pinToInterior:(BOOL) pin;
+- (BOOL)addObjectsFromArray:(NSArray*)objs relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin;
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  * a given point.
@@ -314,29 +311,29 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * placed outside the interior.
  * @public
  */
-- (BOOL)				addObjectsFromArray:(NSArray*) objs bounds:(NSRect) bounds relativeToPoint:(NSPoint) origin pinToInterior:(BOOL) pin;
+- (BOOL)addObjectsFromArray:(NSArray*)objs bounds:(NSRect)bounds relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin;
 
 /** @brief Removes the object from the layer
  * @param obj the object to remove
  * @public
  */
-- (void)				removeObject:(DKDrawableObject*) obj;
+- (void)removeObject:(DKDrawableObject*)obj;
 
 /** @brief Removes the object at the given stacking position index
  * @param index the stacking index value
  * @public
  */
-- (void)				removeObjectAtIndex:(NSUInteger) indx;
+- (void)removeObjectAtIndex:(NSUInteger)indx;
 
 /** @brief Removes a set of objects from the layer
  * @public
  */
-- (void)				removeObjectsInArray:(NSArray*) objs;
+- (void)removeObjectsInArray:(NSArray*)objs;
 
 /** @brief Removes all objects from the layer
  * @public
  */
-- (void)				removeAllObjects;
+- (void)removeAllObjects;
 
 // enumerating objects (typically for drawing)
 
@@ -350,7 +347,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an iterator
  * @public
  */
-- (NSEnumerator*)		objectEnumeratorForUpdateRect:(NSRect) rect inView:(NSView*) aView;
+- (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView;
 
 /** @brief Return an iterator that will enumerate the objects needing update
  * @note
@@ -363,7 +360,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an iterator
  * @public
  */
-- (NSEnumerator*)		objectEnumeratorForUpdateRect:(NSRect) rect inView:(NSView*) aView options:(DKObjectStorageOptions) options;
+- (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
 
 /** @brief Return the objects needing update
  * @note
@@ -373,7 +370,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array, the objects needing update, in drawing order
  * @public
  */
-- (NSArray*)			objectsForUpdateRect:(NSRect) rect inView:(NSView*) aView;
+- (NSArray*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView;
 
 /** @brief Return the objects needing update
  * @note
@@ -384,14 +381,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an array, the objects needig update, in drawing order
  * @public
  */
-- (NSArray*)			objectsForUpdateRect:(NSRect) rect inView:(NSView*) aView options:(DKObjectStorageOptions) options;
+- (NSArray*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
 
 // updating & drawing objects:
 
-- (void)				drawable:(DKDrawableObject*) obj needsDisplayInRect:(NSRect) rect;
-- (void)				drawVisibleObjects;
-- (NSImage*)			imageOfObjects;
-- (NSData*)				pdfDataOfObjects;
+- (void)drawable:(DKDrawableObject*)obj needsDisplayInRect:(NSRect)rect;
+- (void)drawVisibleObjects;
+- (NSImage*)imageOfObjects;
+- (NSData*)pdfDataOfObjects;
 
 // pending object - used during interactive creation of new objects
 
@@ -404,7 +401,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param pend a new potential object to be added to the layer
  * @public
  */
-- (void)				addObjectPendingCreation:(DKDrawableObject*) pend;
+- (void)addObjectPendingCreation:(DKDrawableObject*)pend;
 
 /** @brief Removes a pending object in the situation that the creation was unsuccessful
  * @note
@@ -413,7 +410,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * itself made
  * @public
  */
-- (void)				removePendingObject;
+- (void)removePendingObject;
 
 /** @brief Commits the pending object to the layer and sets up the undo task action name
  * @note
@@ -423,7 +420,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param actionName the action name to give the undo manager after committing the object
  * @public
  */
-- (void)				commitPendingObjectWithUndoActionName:(NSString*) actionName;
+- (void)commitPendingObjectWithUndoActionName:(NSString*)actionName;
 
 /** @brief Draws the pending object, if any, in the layer - called by drawRect:inView:
  * @note
@@ -433,13 +430,13 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param aView the view being drawn into
  * @public
  */
-- (void)				drawPendingObjectInView:(NSView*) aView;
+- (void)drawPendingObjectInView:(NSView*)aView;
 
 /** @brief Returns the pending object, if any, in the layer
  * @return the pending object, or nil
  * @public
  */
-- (DKDrawableObject*)	pendingObject;
+- (DKDrawableObject*)pendingObject;
 
 // geometry:
 
@@ -450,18 +447,18 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return a rect, the union of all visible object's bounds in the layer
  * @public
  */
-- (NSRect)				unionOfAllObjectBounds;
+- (NSRect)unionOfAllObjectBounds;
 
 /** @brief Causes all objects in the passed array, set or other container to redraw themselves
  * @param container a container of drawable objects. Any NSArray or NSSet is acceptable
  * @public
  */
-- (void)				refreshObjectsInContainer:(id) container;
+- (void)refreshObjectsInContainer:(id)container;
 
 /** @brief Causes all visible objects to redraw themselves
  * @public
  */
-- (void)				refreshAllObjects;
+- (void)refreshAllObjects;
 
 /** @brief Returns the layer's transform used when rendering objects within
  * @note
@@ -469,7 +466,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return a transform
  * @public
  */
-- (NSAffineTransform*)	renderingTransform;
+- (NSAffineTransform*)renderingTransform;
 
 /** @brief Modifies the objects by applying the given transform to each of them.
  * @note
@@ -479,7 +476,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param transform a transform
  * @public
  */
-- (void)				applyTransformToObjects:(NSAffineTransform*) transform;
+- (void)applyTransformToObjects:(NSAffineTransform*)transform;
 
 // stacking order:
 
@@ -487,25 +484,25 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param obj object to move
  * @public
  */
-- (void)				moveUpObject:(DKDrawableObject*) obj;
+- (void)moveUpObject:(DKDrawableObject*)obj;
 
 /** @brief Moves the object down in the stacking order
  * @param obj the object to move
  * @public
  */
-- (void)				moveDownObject:(DKDrawableObject*) obj;
+- (void)moveDownObject:(DKDrawableObject*)obj;
 
 /** @brief Moves the object to the top of the stacking order
  * @param obj the object to move
  * @public
  */
-- (void)				moveObjectToTop:(DKDrawableObject*) obj;
+- (void)moveObjectToTop:(DKDrawableObject*)obj;
 
 /** @brief Moves the object to the bottom of the stacking order
  * @param obj object to move
  * @public
  */
-- (void)				moveObjectToBottom:(DKDrawableObject*) obj;
+- (void)moveObjectToBottom:(DKDrawableObject*)obj;
 
 /** @brief Movesthe object to the given stacking position index
  * @note
@@ -514,7 +511,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param i the index it should be moved to
  * @public
  */
-- (void)				moveObject:(DKDrawableObject*) obj toIndex:(NSUInteger) indx;
+- (void)moveObject:(DKDrawableObject*)obj toIndex:(NSUInteger)indx;
 
 // restacking multiple objects:
 
@@ -525,7 +522,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param indx the index it should be moved to
  * @public
  */
-- (void)				moveObjectsAtIndexes:(NSIndexSet*) set toIndex:(NSUInteger) indx;
+- (void)moveObjectsAtIndexes:(NSIndexSet*)set toIndex:(NSUInteger)indx;
 
 /** @brief Moves the objects in the array to the given stacking position index
  * @note
@@ -536,7 +533,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param indx the index it should be moved to
  * @public
  */
-- (void)				moveObjectsInArray:(NSArray*) objs toIndex:(NSUInteger) indx;
+- (void)moveObjectsInArray:(NSArray*)objs toIndex:(NSUInteger)indx;
 
 // clipboard ops:
 
@@ -552,7 +549,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * objects, convert them to native objects and pass to this method in an array.
  * @public
  */
-- (void)				addObjects:(NSArray*) objects fromPasteboard:(NSPasteboard*) pb atDropLocation:(NSPoint) p;
+- (void)addObjects:(NSArray*)objects fromPasteboard:(NSPasteboard*)pb atDropLocation:(NSPoint)p;
 
 /** @brief Detect whether the paste from the pasteboard is a new paste, or a repeat paste
  * @note
@@ -563,20 +560,20 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return YES if this is a new paste, NO if a repeat
  * @public
  */
-- (BOOL)				updatePasteCountWithPasteboard:(NSPasteboard*) pb;
+- (BOOL)updatePasteCountWithPasteboard:(NSPasteboard*)pb;
 
 /** @brief Return whether the paste offset will be recorded for the current drag operation
  * @return YES if paste offset will be recorded, NO otherwise
  * @public
  */
-- (BOOL)				isRecordingPasteOffset;
+- (BOOL)isRecordingPasteOffset;
 
 /** @brief Set whether the paste offset will be recorded for the current drag operation
  * @param record YES to record the offset
  * @public
  */
-- (void)				setRecordingPasteOffset:(BOOL) record;
-- (NSInteger)			pasteCount;
+- (void)setRecordingPasteOffset:(BOOL)record;
+- (NSInteger)pasteCount;
 
 /** @brief Return the current point where pasted object will be positioned relative to
  * @note
@@ -584,7 +581,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return the paste origin
  * @public
  */
-- (NSPoint)				pasteOrigin;
+- (NSPoint)pasteOrigin;
 
 /** @brief Sets the current point where pasted object will be positioned relative to
  * @note
@@ -592,19 +589,19 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param po the desired paste origin.
  * @public
  */
-- (void)				setPasteOrigin:(NSPoint) po;
+- (void)setPasteOrigin:(NSPoint)po;
 
 /** @brief Returns the paste offset (distance between successively pasted objects)
  * @return the paste offset as a NSSize
  * @public
  */
-- (NSSize)				pasteOffset;
+- (NSSize)pasteOffset;
 
 /** @brief Sets the paste offset (distance between successively pasted objects)
  * @param offset the paste offset as a NSSize
  * @public
  */
-- (void)				setPasteOffset:(NSSize) offset;
+- (void)setPasteOffset:(NSSize)offset;
 
 /** @brief Establish the paste offset - a value used to position items when pasting and duplicating
  * @note
@@ -612,7 +609,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param x>, <y the x and y values of the offset
  * @public
  */
-- (void)				setPasteOffsetX:(CGFloat) x y:(CGFloat) y;
+- (void)setPasteOffsetX:(CGFloat)x y:(CGFloat)y;
 
 /** @brief Sets the paste offset (distance between successively pasted objects)
  * @param objects the list of objects that were moved
@@ -622,7 +619,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * if offset recording is currently set to YES, then resets the record flag.
  * @public
  */
-- (void)				objects:(NSArray*) objects wereDraggedFromPoint:(NSPoint) startPt toPoint:(NSPoint) endPt;
+- (void)objects:(NSArray*)objects wereDraggedFromPoint:(NSPoint)startPt toPoint:(NSPoint)endPt;
 
 // hit testing:
 
@@ -631,7 +628,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return the object hit, or nil if none
  * @public
  */
-- (DKDrawableObject*)	hitTest:(NSPoint) point;
+- (DKDrawableObject*)hitTest:(NSPoint)point;
 
 /** @brief Performs a hit test but also returns the hit part code
  * @param point the point to test
@@ -639,7 +636,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return the object hit, or nil if none
  * @public
  */
-- (DKDrawableObject*)	hitTest:(NSPoint) point partCode:(NSInteger*) part;
+- (DKDrawableObject*)hitTest:(NSPoint)point partCode:(NSInteger*)part;
 
 /** @brief Finds all objects touched by the given rect
  * @note
@@ -650,7 +647,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return a list of objects touched by the rect
  * @public
  */
-- (NSArray*)			objectsInRect:(NSRect) rect;
+- (NSArray*)objectsInRect:(NSRect)rect;
 
 /** @brief An object owned by the layer was double-clicked
  * @note
@@ -659,7 +656,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param mp the mouse point of the click
  * @public
  */
-- (void)				drawable:(DKDrawableObject*) obj wasDoubleClickedAtPoint:(NSPoint) mp;
+- (void)drawable:(DKDrawableObject*)obj wasDoubleClickedAtPoint:(NSPoint)mp;
 
 // snapping:
 
@@ -674,7 +671,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return the modified point, or the original point
  * @public
  */
-- (NSPoint)				snapPoint:(NSPoint) p toAnyObjectExcept:(DKDrawableObject*) except snapTolerance:(CGFloat) tol;
+- (NSPoint)snapPoint:(NSPoint)p toAnyObjectExcept:(DKDrawableObject*)except snapTolerance:(CGFloat)tol;
 
 /** @brief Snap a (mouse) point to grid, guide or other object according to settings
  * @note
@@ -683,7 +680,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return the modified point, or the original point
  * @public
  */
-- (NSPoint)				snappedMousePoint:(NSPoint) mp forObject:(DKDrawableObject*) obj withControlFlag:(BOOL) snapControl;
+- (NSPoint)snappedMousePoint:(NSPoint)mp forObject:(DKDrawableObject*)obj withControlFlag:(BOOL)snapControl;
 
 // options:
 
@@ -691,7 +688,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param editable YES to enable editing, NO to prevent it
  * @public
  */
-- (void)				setAllowsEditing:(BOOL) editable;
+- (void)setAllowsEditing:(BOOL)editable;
 
 /** @brief Does the layer permit editing of its objects?
  * @note
@@ -699,19 +696,19 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return YES if editing will take place, NO if it is prevented
  * @public
  */
-- (BOOL)				allowsEditing;
+- (BOOL)allowsEditing;
 
 /** @brief Sets whether the layer permits snapping to its objects
  * @param snap YES to allow snapping
  * @public
  */
-- (void)				setAllowsSnapToObjects:(BOOL) snap;
+- (void)setAllowsSnapToObjects:(BOOL)snap;
 
 /** @brief Does the layer permit snapping to its objects?
  * @return YES if snapping allowed
  * @public
  */
-- (BOOL)				allowsSnapToObjects;
+- (BOOL)allowsSnapToObjects;
 
 /** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
  * @note
@@ -721,7 +718,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @param option the desired cache option
  * @public
  */
-- (void)				setLayerCacheOption:(DKLayerCacheOption) option;
+- (void)setLayerCacheOption:(DKLayerCacheOption)option;
 
 /** @brief Query whether the layer caches its content in an offscreen layer when not active
  * @note
@@ -731,40 +728,40 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return the current cache option
  * @public
  */
-- (DKLayerCacheOption)	layerCacheOption;
+- (DKLayerCacheOption)layerCacheOption;
 
 /** @brief Query whether the layer is currently highlighted for a drag (receive) operation
  * @return YES if highlighted, NO otherwise
  * @public
  */
-- (BOOL)				isHighlightedForDrag;
+- (BOOL)isHighlightedForDrag;
 
 /** @brief Set whether the layer is currently highlighted for a drag (receive) operation
  * @param highlight YES to highlight, NO otherwise
  * @public
  */
-- (void)				setHighlightedForDrag:(BOOL) highlight;
+- (void)setHighlightedForDrag:(BOOL)highlight;
 
 /** @brief Draws the highlighting to indicate the layer is a drag target
  * @note
  * Is only called when the drag highlight is YES. Override for different highlight effect.
  * @public
  */
-- (void)				drawHighlightingForDrag;
+- (void)drawHighlightingForDrag;
 
 // user actions:
 
 /** @brief Sets the snapping state for the layer
  * @public
  */
-- (IBAction)			toggleSnapToObjects:(id) sender;
+- (IBAction)toggleSnapToObjects:(id)sender;
 
 /** @brief Toggles whether the debugging path is overlaid afterdrawing the content.
  * @note
  * This is purely to assist with storage debugging and should not be invoked in production code.
  * @public
  */
-- (IBAction)			toggleShowStorageDebuggingPath:(id) sender;
+- (IBAction)toggleShowStorageDebuggingPath:(id)sender;
 
 @end
 
@@ -782,7 +779,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an iterator
  * @public
  */
-- (NSEnumerator*)		objectTopToBottomEnumerator;
+- (NSEnumerator*)objectTopToBottomEnumerator;
 
 /** @brief Return an iterator that will enumerate the object in bottom to top order
  * @note
@@ -792,7 +789,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return an iterator
  * @public
  */
-- (NSEnumerator*)		objectBottomToTopEnumerator;
+- (NSEnumerator*)objectBottomToTopEnumerator;
 
 /** @brief Unarchive a list of objects from the pasteboard, if possible
  * @note
@@ -802,20 +799,19 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  * @return a list of objects
  * @public
  */
-- (NSArray*)			nativeObjectsFromPasteboard:(NSPasteboard*) pb;
+- (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb;
 
 @end
 
 #endif
 
-extern NSString*		kDKDrawableObjectPasteboardType;
-extern NSString*		kDKDrawableObjectInfoPasteboardType;
-extern NSString*		kDKLayerDidReorderObjects;
+extern NSString* kDKDrawableObjectPasteboardType;
+extern NSString* kDKDrawableObjectInfoPasteboardType;
+extern NSString* kDKLayerDidReorderObjects;
 
-extern NSString*		kDKLayerWillAddObject;
-extern NSString*		kDKLayerDidAddObject;
-extern NSString*		kDKLayerWillRemoveObject;
-extern NSString*		kDKLayerDidRemoveObject;
+extern NSString* kDKLayerWillAddObject;
+extern NSString* kDKLayerDidAddObject;
+extern NSString* kDKLayerWillRemoveObject;
+extern NSString* kDKLayerDidRemoveObject;
 
-#define	DEFAULT_PASTE_OFFSET	20
-
+#define DEFAULT_PASTE_OFFSET 20

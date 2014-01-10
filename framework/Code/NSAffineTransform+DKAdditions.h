@@ -12,12 +12,12 @@
 
 /** 
  */
-- (NSAffineTransform*)		mapFrom:(NSRect) src to:(NSRect) dst;
-- (NSAffineTransform*)		mapFrom:(NSRect) src to:(NSRect) dst dstAngle:(CGFloat) radians;
+- (NSAffineTransform*)mapFrom:(NSRect)src to:(NSRect)dst;
+- (NSAffineTransform*)mapFrom:(NSRect)src to:(NSRect)dst dstAngle:(CGFloat)radians;
 
-- (NSAffineTransform*)		scaleBounds:(NSRect) bounds toHeight:(CGFloat) height centeredDistance:(CGFloat) distance abovePoint:(NSPoint) location;
-- (NSAffineTransform*)		scaleBounds:(NSRect) bounds toHeight: (CGFloat) height centeredAboveOrigin:(CGFloat) distance;
-- (NSAffineTransform*)		flipVertical:(NSRect) bounds;
+- (NSAffineTransform*)scaleBounds:(NSRect)bounds toHeight:(CGFloat)height centeredDistance:(CGFloat)distance abovePoint:(NSPoint)location;
+- (NSAffineTransform*)scaleBounds:(NSRect)bounds toHeight:(CGFloat)height centeredAboveOrigin:(CGFloat)distance;
+- (NSAffineTransform*)flipVertical:(NSRect)bounds;
 
 @end
 

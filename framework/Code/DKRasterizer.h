@@ -13,34 +13,31 @@
 
 // clipping values:
 
-typedef enum
-{
-	kDKClippingNone			= 0,
-	kDKClipOutsidePath		= 1,
-	kDKClipInsidePath		= 2
-}
-DKClippingOption;
+typedef enum {
+    kDKClippingNone = 0,
+    kDKClipOutsidePath = 1,
+    kDKClipInsidePath = 2
+} DKClippingOption;
 
 /** @brief Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
 
 Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
 */
-@interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying>
-{
+@interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying> {
 @private
-	DKRastGroup*		mContainerRef;		// group that contains this
-	NSString*			m_name;				// optional name
-	BOOL				m_enabled;			// YES if actually drawn
-	DKClippingOption	mClipping;			// set path clipping to this
+    DKRastGroup* mContainerRef; // group that contains this
+    NSString* m_name; // optional name
+    BOOL m_enabled; // YES if actually drawn
+    DKClippingOption mClipping; // set path clipping to this
 }
 
-+ (DKRasterizer*)	rasterizerFromPasteboard:(NSPasteboard*) pb;
++ (DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
 
 /** @brief Returns the immediate container of this object, if owned by a group
  * @return the object's container group, if any
  * @public
  */
-- (DKRastGroup*)	container;
+- (DKRastGroup*)container;
 
 /** @brief Sets the immediate container of this object
  * @note
@@ -49,26 +46,26 @@ Renderers can now have a delegate attached which is able to modify behaviours su
  * @param container the objects's container - must be a group, or nil
  * @private
  */
-- (void)			setContainer:(DKRastGroup*) container;
+- (void)setContainer:(DKRastGroup*)container;
 
-- (void)			setName:(NSString*) name;
-- (NSString*)		name;
-- (NSString*)		label;
+- (void)setName:(NSString*)name;
+- (NSString*)name;
+- (NSString*)label;
 
-- (BOOL)			isValid;
-- (NSString*)		styleScript;
+- (BOOL)isValid;
+- (NSString*)styleScript;
 
-- (void)			setEnabled:(BOOL) enable;
-- (BOOL)			enabled;
+- (void)setEnabled:(BOOL)enable;
+- (BOOL)enabled;
 
-- (void)			setClipping:(DKClippingOption) clipping;
-- (void)			setClippingWithoutNotifying:(DKClippingOption) clipping;
+- (void)setClipping:(DKClippingOption)clipping;
+- (void)setClippingWithoutNotifying:(DKClippingOption)clipping;
 
 /** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
  * @return a DKClippingOption value
  * @public
  */
-- (DKClippingOption) clipping;
+- (DKClippingOption)clipping;
 
 /** @brief Returns the path to render given the object doing the rendering
  * @note
@@ -79,17 +76,17 @@ Renderers can now have a delegate attached which is able to modify behaviours su
  * @param object the object to render
  * @return the rendering path
  */
-- (NSBezierPath*)	renderingPathForObject:(id<DKRenderable>) object;
+- (NSBezierPath*)renderingPathForObject:(id<DKRenderable>)object;
 
-- (BOOL)			copyToPasteboard:(NSPasteboard*) pb;
+- (BOOL)copyToPasteboard:(NSPasteboard*)pb;
 
 @end
 
-extern NSString*	kDKRasterizerPasteboardType;
+extern NSString* kDKRasterizerPasteboardType;
 
-extern NSString*	kDKRasterizerPropertyWillChange;
-extern NSString*	kDKRasterizerPropertyDidChange;
-extern NSString*	kDKRasterizerChangedPropertyKey;
+extern NSString* kDKRasterizerPropertyWillChange;
+extern NSString* kDKRasterizerPropertyDidChange;
+extern NSString* kDKRasterizerChangedPropertyKey;
 
 /*
  DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
@@ -108,7 +105,6 @@ extern NSString*	kDKRasterizerChangedPropertyKey;
 
 @interface NSObject (DKRendererDelegate)
 
-- (NSBezierPath*)	renderer:(DKRasterizer*) aRenderer willRenderPath:(NSBezierPath*) aPath;
+- (NSBezierPath*)renderer:(DKRasterizer*)aRenderer willRenderPath:(NSBezierPath*)aPath;
 
 @end
-

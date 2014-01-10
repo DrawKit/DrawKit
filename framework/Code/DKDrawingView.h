@@ -10,13 +10,11 @@
 
 @class DKDrawing, DKLayer, DKViewController;
 
-typedef enum
-{
-	DKCropMarksNone		= 0,
-	DKCropMarksCorners	= 1,
-	DKCropMarksEdges	= 2
-}
-DKCropMarkKind;
+typedef enum {
+    DKCropMarksNone = 0,
+    DKCropMarksCorners = 1,
+    DKCropMarksEdges = 2
+} DKCropMarkKind;
 
 /** @brief DKDrawingView is the visible "front end" for the DKDrawing architecture.
 
@@ -34,20 +32,19 @@ DKCropMarkKind;
  Note that because the controllers are owned by the drawing, there is no retain cycle even when the view owns the drawing. Views are owned by
  their parent view or window, not by their controller.
 */
-@interface DKDrawingView : GCZoomView
-{
+@interface DKDrawingView : GCZoomView {
 @private
-	NSTextView*			m_textEditViewRef; /**< if valid, set to text editing view */
-	BOOL				mTextEditViewInUse; /**< YES if editor in use */
-	BOOL				mPageBreaksVisible; /**< YES if page breaks are drawn in the view */
-	NSPrintInfo*		mPrintInfo; /**< print info used to draw page breaks and paginate, etc */
-	DKCropMarkKind		mCropMarkKind; /**< what kind of crop marks to add to the printed output */
-	DKViewController*	mControllerRef; /**< the view's controller (weak ref) */
-	DKDrawing*			mAutoDrawing; /**< the drawing we created automatically (if we did so - typically nil for doc-based apps) */
-	BOOL				m_didCreateDrawing; /**< YES if the window built the back end itself */
-	NSRect				mEditorFrame; /**< tracks current frame of text editor */
-	NSTimeInterval		mLastMouseDragTime; /**< time of last mouseDragged: event */
-	NSDictionary*		mRulerMarkersDict; /**< tracks ruler markers */
+    NSTextView* m_textEditViewRef; /**< if valid, set to text editing view */
+    BOOL mTextEditViewInUse; /**< YES if editor in use */
+    BOOL mPageBreaksVisible; /**< YES if page breaks are drawn in the view */
+    NSPrintInfo* mPrintInfo; /**< print info used to draw page breaks and paginate, etc */
+    DKCropMarkKind mCropMarkKind; /**< what kind of crop marks to add to the printed output */
+    DKViewController* mControllerRef; /**< the view's controller (weak ref) */
+    DKDrawing* mAutoDrawing; /**< the drawing we created automatically (if we did so - typically nil for doc-based apps) */
+    BOOL m_didCreateDrawing; /**< YES if the window built the back end itself */
+    NSRect mEditorFrame; /**< tracks current frame of text editor */
+    NSTimeInterval mLastMouseDragTime; /**< time of last mouseDragged: event */
+    NSDictionary* mRulerMarkersDict; /**< tracks ruler markers */
 }
 
 /** @brief Return the view currently drawing
@@ -57,49 +54,49 @@ DKCropMarkKind;
  * @return the current view that is drawing
  * @public
  */
-+ (DKDrawingView*)		currentlyDrawingView;
-+ (void)				pop;
++ (DKDrawingView*)currentlyDrawingView;
++ (void)pop;
 
 /** @brief Set the colour used to draw the page breaks
  * @param colour the colour to draw page breaks with
  * @public
  */
-+ (void)				setPageBreakColour:(NSColor*) colour;
++ (void)setPageBreakColour:(NSColor*)colour;
 
 /** @brief Get the colour used to draw the page breaks
  * @return a colour
  * @public
  */
-+ (NSColor*)			pageBreakColour;
++ (NSColor*)pageBreakColour;
 
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
  * @return a colour
  * @public
  */
-+ (NSColor*)			backgroundColour;
++ (NSColor*)backgroundColour;
 
 /** @brief Get the point for the initial mouse down that last opened a contextual menu
  * @return a point in the drawing's coordinates
  * @public
  */
-+ (NSPoint)				pointForLastContextualMenuEvent;
++ (NSPoint)pointForLastContextualMenuEvent;
 
 /** @brief Return an image resource from the framework bundle
  * @param name the image name
  * @return the image, if available
  * @public
  */
-+ (NSImage*)			imageResourceNamed:(NSString*) name;
++ (NSImage*)imageResourceNamed:(NSString*)name;
 
 /** @name Temporary Text Editor
  * @brief Setting the class to use for the temporary text editor
  * @{
  */
 
-+ (Class)				classForTextEditor;
-+ (void)				setClassForTextEditor:(Class) aClass;
-+ (void)				setTextEditorAllowsTypingUndo:(BOOL) allowUndo;
-+ (BOOL)				textEditorAllowsTypingUndo;
++ (Class)classForTextEditor;
++ (void)setClassForTextEditor:(Class)aClass;
++ (void)setTextEditorAllowsTypingUndo:(BOOL)allowUndo;
++ (BOOL)textEditorAllowsTypingUndo;
 
 /** @} */
 
@@ -114,7 +111,7 @@ DKCropMarkKind;
  * @return a controller, an instance of DKViewController or one of its subclasses
  * @public
  */
-- (DKViewController*)	makeViewController;
+- (DKViewController*)makeViewController;
 
 /** @brief Set the view's controller
  * @note
@@ -123,13 +120,13 @@ DKCropMarkKind;
  * @param aController the controller for this view
  * @public
  */
-- (void)				setController:(DKViewController*) aController;
+- (void)setController:(DKViewController*)aController;
 
 /** @brief Return the view's controller
  * @return the controller
  * @public
  */
-- (DKViewController*)	controller;
+- (DKViewController*)controller;
 
 /** @brief Sea new controller for this view
  * @note
@@ -139,7 +136,7 @@ DKCropMarkKind;
  * @param newController the new controller
  * @public
  */
-- (void)				replaceControllerWithController:(DKViewController*) newController;
+- (void)replaceControllerWithController:(DKViewController*)newController;
 
 // automatic drawing info
 
@@ -151,7 +148,7 @@ DKCropMarkKind;
  * @return a drawing object
  * @public
  */
-- (DKDrawing*)			drawing;
+- (DKDrawing*)drawing;
 
 /** @brief Create an entire "back end" for the view 
  * @note
@@ -161,7 +158,7 @@ DKCropMarkKind;
  * functional drawing program. For more sophisticated needs however, you really need to build it yourself.
  * @private
  */
-- (void)				createAutomaticDrawing;
+- (void)createAutomaticDrawing;
 
 // drawing page breaks & crop marks
 
@@ -174,7 +171,7 @@ DKCropMarkKind;
  * @param options crop marks kind
  * @return a bezier path, may be stroked in various ways to show page breaks, crop marks, etc.
  */
-- (NSBezierPath*)		pageBreakPathWithExtension:(CGFloat) amount options:(DKCropMarkKind) options;
+- (NSBezierPath*)pageBreakPathWithExtension:(CGFloat)amount options:(DKCropMarkKind)options;
 
 /** @brief Sets whether the page breaks are shown or not
  * @note
@@ -182,17 +179,17 @@ DKCropMarkKind;
  * @param pbVisible YES to show the page breaks, NO otherwise
  * @public
  */
-- (void)				setPageBreaksVisible:(BOOL) pbVisible;
+- (void)setPageBreaksVisible:(BOOL)pbVisible;
 
 /** @brief Are page breaks vissble?
  * @return YES if page breaks are visible
  * @public
  */
-- (BOOL)				pageBreaksVisible;
+- (BOOL)pageBreaksVisible;
 
 /** @brief Draw page breaks based on the page break print info
  */
-- (void)				drawPageBreaks;
+- (void)drawPageBreaks;
 
 /** @brief Set what kind of crop marks printed output includes
  * @note
@@ -200,7 +197,7 @@ DKCropMarkKind;
  * @param kind the kind of crop mark (including none)
  * @public
  */
-- (void)				setPrintCropMarkKind:(DKCropMarkKind) kind;
+- (void)setPrintCropMarkKind:(DKCropMarkKind)kind;
 
 /** @brief What sort of crop mark sare applied to printed output
  * @note
@@ -208,21 +205,21 @@ DKCropMarkKind;
  * @return the crop mark kind
  * @public
  */
-- (DKCropMarkKind)		printCropMarkKind;
+- (DKCropMarkKind)printCropMarkKind;
 
 /** @brief Draws the crop marks if set to do so and the view is being printed
  */
-- (void)				drawCropMarks;
+- (void)drawCropMarks;
 
-- (void)				setPrintInfo:(NSPrintInfo*) printInfo;
+- (void)setPrintInfo:(NSPrintInfo*)printInfo;
 
 /** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations
  * @return a NSPrintInfo object
  * @public
  */
-- (NSPrintInfo*)		printInfo;
+- (NSPrintInfo*)printInfo;
 
-- (void)				set;
+- (void)set;
 
 // editing text directly in the drawing:
 
@@ -239,7 +236,7 @@ DKCropMarkKind;
  * @return the temporary text view created to handle the job
  * @public
  */
-- (NSTextView*)			editText:(NSAttributedString*) text inRect:(NSRect) rect delegate:(id) del;
+- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del;
 
 /** @brief Start editing text in a box within the view
  * @note
@@ -255,12 +252,12 @@ DKCropMarkKind;
  * @return the temporary text view created to handle the job
  * @public
  */
-- (NSTextView*)			editText:(NSAttributedString*) text inRect:(NSRect) rect delegate:(id) del drawsBackground:(BOOL) drawBkGnd;
+- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del drawsBackground:(BOOL)drawBkGnd;
 
 /** @brief Stop the temporary text editing and get rid of the editing view
  * @public
  */
-- (void)				endTextEditing;
+- (void)endTextEditing;
 
 /** @brief Return the text from the temporary editing view
  * @note
@@ -268,13 +265,13 @@ DKCropMarkKind;
  * @return the text
  * @public
  */
-- (NSTextStorage*)		editedText;
+- (NSTextStorage*)editedText;
 
 /** @brief Return the current temporary text editing view
  * @return the text editing view, or nil
  * @public
  */
-- (NSTextView*)			textEditingView;
+- (NSTextView*)textEditingView;
 
 /** @brief Respond to frame size changes in the text editor view
  * @note
@@ -284,7 +281,7 @@ DKCropMarkKind;
  * @param note the notification
  * @private
  */
-- (void)				editorFrameChangedNotification:(NSNotification*) note;
+- (void)editorFrameChangedNotification:(NSNotification*)note;
 
 /** @brief Is the text editor visible and active?
  * @note
@@ -293,7 +290,7 @@ DKCropMarkKind;
  * @return YES if text editing is in progress, NO otherwise
  * @public
  */
-- (BOOL)				isTextBeingEdited;
+- (BOOL)isTextBeingEdited;
 
 // ruler stuff
 
@@ -304,26 +301,26 @@ DKCropMarkKind;
  * @param loc a position value to move the ruler marker to
  * @public
  */
-- (void)				moveRulerMarkerNamed:(NSString*) markerName toLocation:(CGFloat) loc;
+- (void)moveRulerMarkerNamed:(NSString*)markerName toLocation:(CGFloat)loc;
 
 /** @brief Set up the markers for the rulers.
  * @note
  * Done as part of the view's initialization - markers are initially created offscreen.
  * @public
  */
-- (void)				createRulerMarkers;
+- (void)createRulerMarkers;
 
 /** @brief Remove the markers from the rulers.
  * @public
  */
-- (void)				removeRulerMarkers;
+- (void)removeRulerMarkers;
 
 /** @brief Set up the client view for the rulers.
  * @note
  * Done as part of the view's initialization
  * @public
  */
-- (void)				resetRulerClientView;
+- (void)resetRulerClientView;
 
 /** @brief Set the ruler lines to the current mouse point
  * @note
@@ -331,7 +328,7 @@ DKCropMarkKind;
  * showing up correctly at the same time. No workaround is known. Fixed in 10.5+
  * @param mouse the current mouse poin tin local coordinates
  */
-- (void)				updateRulerMouseTracking:(NSPoint) mouse;
+- (void)updateRulerMouseTracking:(NSPoint)mouse;
 
 // user actions
 
@@ -339,8 +336,8 @@ DKCropMarkKind;
  * @param sender the action's sender
  * @public
  */
-- (IBAction)			toggleRuler:(id) sender;
-- (IBAction)			toggleShowPageBreaks:(id) sender;
+- (IBAction)toggleRuler:(id)sender;
+- (IBAction)toggleShowPageBreaks:(id)sender;
 
 // window activations
 
@@ -351,7 +348,7 @@ DKCropMarkKind;
  * @param note the notification
  * @private
  */
-- (void)				windowActiveStateChanged:(NSNotification*) note;
+- (void)windowActiveStateChanged:(NSNotification*)note;
 
 @end
 

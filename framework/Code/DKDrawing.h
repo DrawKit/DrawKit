@@ -28,42 +28,41 @@ at a time, there is no contention here.) The commands will go to whichever view 
 
 Drawings can be saved simply by archiving them, thus all parts of the drawing need to adopt the NSCoding protocol.
 */
-@interface DKDrawing : DKLayerGroup <NSCoding, NSCopying>
-{
+@interface DKDrawing : DKLayerGroup <NSCoding, NSCopying> {
 @private
-	NSString*				m_units;				/**< user readable drawing units string, e.g. "millimetres" */
-	DKLayer*				m_activeLayerRef;		/**< which one is active for editing, etc */
-	NSColor*				m_paperColour;			/**< underlying colour of the "paper" */
-	DKUndoManager*			m_undoManager;			/**< undo manager to use for data changes */
-	NSColorSpace*			mColourSpace;			/**< the colour space of the drawing as a whole (nil means use default) */
-	NSSize					m_size;					/**< dimensions of the drawing */
-	CGFloat					m_leftMargin;			/**< margins */
-	CGFloat					m_rightMargin;
-	CGFloat					m_topMargin;
-	CGFloat					m_bottomMargin;
-	CGFloat					m_unitConversionFactor;	/**< how many pixels does 1 unit cover? */
-	BOOL					mFlipped;				/**< YES if Y coordinates increase downwards, NO if they increase upwards */
-	BOOL					m_snapsToGrid;			/**< YES if grid snapping enabled */
-	BOOL					m_snapsToGuides;		/**< YES if guide snapping enabled */
-	BOOL					m_useQandDRendering;	/**< if YES, renderers have the option to use a fast but low quality drawing method */
-	BOOL					m_isForcedHQUpdate;		/**< YES while refreshing to HQ after a LQ series */
-	BOOL					m_qualityModEnabled;	/**< YES if the quality modulation is enabled */
-	BOOL					mPaperColourIsPrinted;	/**< YES if paper colour should be printed (default is NO) */
-	NSTimer*				m_renderQualityTimer;	/**< a timer used to set up high or low quality rendering dynamically */
-	NSTimeInterval			m_lastRenderTime;		/**< time the last render operation occurred */
-	NSTimeInterval			mTriggerPeriod;			/**< the time interval to use to trigger low quality rendering */
-	NSRect					m_lastRectUpdated;		/**< for refresh in HQ mode */
-	NSMutableSet*			mControllers;			/**< the set of current controllers */
-	DKImageDataManager*		mImageManager;			/**< internal object used to substantially improve efficiency of image archiving */
-	id						mDelegateRef;			/**< delegate, if any */
-	id						mOwnerRef;				/**< back pointer to document or view that owns this */
+    NSString* m_units; /**< user readable drawing units string, e.g. "millimetres" */
+    DKLayer* m_activeLayerRef; /**< which one is active for editing, etc */
+    NSColor* m_paperColour; /**< underlying colour of the "paper" */
+    DKUndoManager* m_undoManager; /**< undo manager to use for data changes */
+    NSColorSpace* mColourSpace; /**< the colour space of the drawing as a whole (nil means use default) */
+    NSSize m_size; /**< dimensions of the drawing */
+    CGFloat m_leftMargin; /**< margins */
+    CGFloat m_rightMargin;
+    CGFloat m_topMargin;
+    CGFloat m_bottomMargin;
+    CGFloat m_unitConversionFactor; /**< how many pixels does 1 unit cover? */
+    BOOL mFlipped; /**< YES if Y coordinates increase downwards, NO if they increase upwards */
+    BOOL m_snapsToGrid; /**< YES if grid snapping enabled */
+    BOOL m_snapsToGuides; /**< YES if guide snapping enabled */
+    BOOL m_useQandDRendering; /**< if YES, renderers have the option to use a fast but low quality drawing method */
+    BOOL m_isForcedHQUpdate; /**< YES while refreshing to HQ after a LQ series */
+    BOOL m_qualityModEnabled; /**< YES if the quality modulation is enabled */
+    BOOL mPaperColourIsPrinted; /**< YES if paper colour should be printed (default is NO) */
+    NSTimer* m_renderQualityTimer; /**< a timer used to set up high or low quality rendering dynamically */
+    NSTimeInterval m_lastRenderTime; /**< time the last render operation occurred */
+    NSTimeInterval mTriggerPeriod; /**< the time interval to use to trigger low quality rendering */
+    NSRect m_lastRectUpdated; /**< for refresh in HQ mode */
+    NSMutableSet* mControllers; /**< the set of current controllers */
+    DKImageDataManager* mImageManager; /**< internal object used to substantially improve efficiency of image archiving */
+    id mDelegateRef; /**< delegate, if any */
+    id mOwnerRef; /**< back pointer to document or view that owns this */
 }
 
 /** @brief Return the current version number of the framework
  * @return a number formatted in 8-4-4 bit format representing the current version number
  * @public
  */
-+ (NSUInteger)				drawkitVersion;
++ (NSUInteger)drawkitVersion;
 
 /** @brief Return the current version number and release status as a preformatted string
  * @note
@@ -71,13 +70,13 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return a string, e.g. "1.0.b6"
  * @public
  */
-+ (NSString*)				drawkitVersionString;
++ (NSString*)drawkitVersionString;
 
 /** @brief Return the current release status of the framework
  * @return a string, either "alpha", "beta", "release candidate" or nil (final)
  * @public
  */
-+ (NSString*)				drawkitReleaseStatus;
++ (NSString*)drawkitReleaseStatus;
 
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
  * @note
@@ -90,14 +89,14 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return a fully constructed default drawing system
  * @public
  */
-+ (DKDrawing*)				defaultDrawingWithSize:(NSSize) aSize;
++ (DKDrawing*)defaultDrawingWithSize:(NSSize)aSize;
 
 /** @brief Creates a drawing from a lump of data
  * @param drawingData data representing an archived drawing
  * @return the unarchived drawing
  * @public
  */
-+ (DKDrawing*)				drawingWithData:(NSData*) drawingData;
++ (DKDrawing*)drawingWithData:(NSData*)drawingData;
 
 /** @brief Return the default derachiving helper for deaerchiving a drawing
  * @note
@@ -107,7 +106,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return the dearchiving helper
  * @public
  */
-+ (id)						dearchivingHelper;
++ (id)dearchivingHelper;
 
 /** @brief Replace the default dearchiving helper for deaerchiving a drawing
  * @note
@@ -117,13 +116,13 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @param helper a suitable helper object
  * @public
  */
-+ (void)					setDearchivingHelper:(id) helper;
++ (void)setDearchivingHelper:(id)helper;
 
 /** @brief Returns a new drawing number by incrementing the current default seed value
  * @return a new drawing number
  * @public
  */
-+ (NSUInteger)				newDrawingNumber;
++ (NSUInteger)newDrawingNumber;
 
 /** @brief Returns a dictionary containing some standard drawing info attributes
  * @note
@@ -133,7 +132,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return a mutable dictionary of standard drawing info
  * @public
  */
-+ (NSMutableDictionary*)	defaultDrawingInfo;
++ (NSMutableDictionary*)defaultDrawingInfo;
 
 /** @brief Sets the abbreviation for the given drawing units string
  * @note
@@ -143,18 +142,18 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @param fullString the full name of the drawing units
  * @public
  */
-+ (void)					setAbbreviation:(NSString*) abbrev forDrawingUnits:(NSString*) fullString;
++ (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(NSString*)fullString;
 
 /** @brief Returns the abbreviation for the given drawing units string
  * @param fullString the full name of the drawing units
  * @return a string - the abbreviated form
  * @public
  */
-+ (NSString*)				abbreviationForDrawingUnits:(NSString*) fullString;
++ (NSString*)abbreviationForDrawingUnits:(NSString*)fullString;
 
 /** @brief designated initializer
  */
-- (id)						initWithSize:(NSSize) size;
+- (id)initWithSize:(NSSize)size;
 
 // owner (document or view)
 
@@ -164,7 +163,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return the owner
  * @public
  */
-- (id)						owner;
+- (id)owner;
 
 /** @brief Sets the "owner" of this drawing.
  * @note
@@ -173,27 +172,27 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @param owner the owner for this object
  * @public
  */
-- (void)					setOwner:(id) owner;
+- (void)setOwner:(id)owner;
 
 /** @name basic drawing parameters
  *	@{
  */
 
-- (void)					setDrawingSize:(NSSize) aSize;
-- (NSSize)					drawingSize;
-- (void)					setDrawingSizeWithPrintInfo:(NSPrintInfo*) printInfo;
+- (void)setDrawingSize:(NSSize)aSize;
+- (NSSize)drawingSize;
+- (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo;
 
-- (void)					setMarginsLeft:(CGFloat) l top:(CGFloat) t right:(CGFloat) r bottom:(CGFloat) b;
-- (void)					setMarginsWithPrintInfo:(NSPrintInfo*) printInfo;
-- (CGFloat)					leftMargin;
-- (CGFloat)					rightMargin;
-- (CGFloat)					topMargin;
-- (CGFloat)					bottomMargin;
-- (NSRect)					interior;
-- (NSPoint)					pinPointToInterior:(NSPoint) p;
+- (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b;
+- (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo;
+- (CGFloat)leftMargin;
+- (CGFloat)rightMargin;
+- (CGFloat)topMargin;
+- (CGFloat)bottomMargin;
+- (NSRect)interior;
+- (NSPoint)pinPointToInterior:(NSPoint)p;
 
-- (void)					setFlipped:(BOOL) flipped;
-- (BOOL)					isFlipped;
+- (void)setFlipped:(BOOL)flipped;
+- (BOOL)isFlipped;
 
 /** @brief Sets the destination colour space for the whole drawing
  * @note
@@ -202,7 +201,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @param cSpace the colour space 
  * @public
  */
-- (void)					setColourSpace:(NSColorSpace*) cSpace;
+- (void)setColourSpace:(NSColorSpace*)cSpace;
 
 /** @brief Returns the colour space for the whole drawing
  * @note
@@ -211,140 +210,140 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return the colour space
  * @public
  */
-- (NSColorSpace*)			colourSpace;
+- (NSColorSpace*)colourSpace;
 
 /**
  * @}
  * @name setting the rulers to the grid
  * @{ */
 
-- (void)					setDrawingUnits:(NSString*) units unitToPointsConversionFactor:(CGFloat) conversionFactor;
-- (NSString*)				drawingUnits;
-- (NSString*)				abbreviatedDrawingUnits;
-- (CGFloat)					unitToPointsConversionFactor;
-- (CGFloat)					effectiveUnitToPointsConversionFactor;
-- (void)					synchronizeRulersWithUnits:(NSString*) unitString;
+- (void)setDrawingUnits:(NSString*)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
+- (NSString*)drawingUnits;
+- (NSString*)abbreviatedDrawingUnits;
+- (CGFloat)unitToPointsConversionFactor;
+- (CGFloat)effectiveUnitToPointsConversionFactor;
+- (void)synchronizeRulersWithUnits:(NSString*)unitString;
 
 /** @} */
 /** @name setting the delegate */
 
-- (void)					setDelegate:(id) aDelegate;
-- (id)						delegate;
+- (void)setDelegate:(id)aDelegate;
+- (id)delegate;
 
 /** @name the drawing's view controllers
  * @{
  */
 
-- (NSSet*)					controllers;
-- (void)					addController:(DKViewController*) aController;
-- (void)					removeController:(DKViewController*) aController;
+- (NSSet*)controllers;
+- (void)addController:(DKViewController*)aController;
+- (void)removeController:(DKViewController*)aController;
 
 /** @brief Removes all controller from the drawing
  * @note
  * Typically controllers are removed when necessary - there is little reason to call this yourself
  * @public
  */
-- (void)					removeAllControllers;
+- (void)removeAllControllers;
 
 /** @}
  * @name passing information to the views
  * @{
  */
 
-- (void)					invalidateCursors;
-- (void)					scrollToRect:(NSRect) rect;
-- (void)					exitTemporaryTextEditingMode;
+- (void)invalidateCursors;
+- (void)scrollToRect:(NSRect)rect;
+- (void)exitTemporaryTextEditingMode;
 
-- (void)					objectDidNotifyStatusChange:(id) object;
+- (void)objectDidNotifyStatusChange:(id)object;
 
 /** @} */
 /** @name dynamically adjusting the rendering quality:
  * @{
  */
- 
+
 /** @brief Set whether drawing quality modulation is enabled or not
  * @note
  * Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
  * the need for it. This flag allows that behaviour to be turned on or off.
  * @public
  */
-- (void)					setDynamicQualityModulationEnabled:(BOOL) qmEnabled;
-- (BOOL)					dynamicQualityModulationEnabled;
+- (void)setDynamicQualityModulationEnabled:(BOOL)qmEnabled;
+- (BOOL)dynamicQualityModulationEnabled;
 
-- (void)					setLowRenderingQuality:(BOOL) quickAndDirty;
-- (BOOL)					lowRenderingQuality;
-- (void)					checkIfLowQualityRequired;
-- (void)					qualityTimerCallback:(NSTimer*) timer;
-- (void)					setLowQualityTriggerInterval:(NSTimeInterval) t;
-- (NSTimeInterval)			lowQualityTriggerInterval;
+- (void)setLowRenderingQuality:(BOOL)quickAndDirty;
+- (BOOL)lowRenderingQuality;
+- (void)checkIfLowQualityRequired;
+- (void)qualityTimerCallback:(NSTimer*)timer;
+- (void)setLowQualityTriggerInterval:(NSTimeInterval)t;
+- (NSTimeInterval)lowQualityTriggerInterval;
 
 /** @} */
 /** @name setting the undo manager:
  * @{
  */
- 
-- (void)					setUndoManager:(id) um;
-- (id)						undoManager;
+
+- (void)setUndoManager:(id)um;
+- (id)undoManager;
 
 /** @} */
 /** @name drawing meta-data:
  * @{
  */
- 
-- (void)					setDrawingInfo:(NSMutableDictionary*) info;
-- (NSMutableDictionary*)	drawingInfo;
+
+- (void)setDrawingInfo:(NSMutableDictionary*)info;
+- (NSMutableDictionary*)drawingInfo;
 
 /** @name rendering the drawing:
  * @{
  */
- 
-- (void)					setPaperColour:(NSColor*) colour;
-- (NSColor*)				paperColour;
-- (void)					setPaperColourIsPrinted:(BOOL) printIt;
-- (BOOL)					paperColourIsPrinted;
+
+- (void)setPaperColour:(NSColor*)colour;
+- (NSColor*)paperColour;
+- (void)setPaperColourIsPrinted:(BOOL)printIt;
+- (BOOL)paperColourIsPrinted;
 
 /** @} */
 /** @name active layer
  * @{
  */
-- (BOOL)					setActiveLayer:(DKLayer*) aLayer;
-- (BOOL)					setActiveLayer:(DKLayer*) aLayer withUndo:(BOOL) undo;
-- (DKLayer*)				activeLayer;
-- (id)						activeLayerOfClass:(Class) aClass;
+- (BOOL)setActiveLayer:(DKLayer*)aLayer;
+- (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo;
+- (DKLayer*)activeLayer;
+- (id)activeLayerOfClass:(Class)aClass;
 
 /** @} */
 /** @name high level methods that help support a UI
  * @{
  */
 
-- (void)					addLayer:(DKLayer*) aLayer andActivateIt:(BOOL) activateIt;
-- (void)					removeLayer:(DKLayer*) aLayer andActivateLayer:(DKLayer*) anotherLayer;
-- (DKLayer*)				firstActivateableLayerOfClass:(Class) cl;
+- (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt;
+- (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(DKLayer*)anotherLayer;
+- (DKLayer*)firstActivateableLayerOfClass:(Class)cl;
 
 /** @} */
 /** @name interaction with grid and guides
  * @{
  */
 
-- (void)					setSnapsToGrid:(BOOL) snaps;
-- (BOOL)					snapsToGrid;
-- (void)					setSnapsToGuides:(BOOL) snaps;
-- (BOOL)					snapsToGuides;
+- (void)setSnapsToGrid:(BOOL)snaps;
+- (BOOL)snapsToGrid;
+- (void)setSnapsToGuides:(BOOL)snaps;
+- (BOOL)snapsToGuides;
 
-- (NSPoint)					snapToGrid:(NSPoint) p withControlFlag:(BOOL) snapControl;
-- (NSPoint)					snapToGrid:(NSPoint) p ignoringUserSetting:(BOOL) ignore;
-- (NSPoint)					snapToGuides:(NSPoint) p;
-- (NSRect)					snapRectToGuides:(NSRect) r includingCentres:(BOOL) cent;
-- (NSSize)					snapPointsToGuide:(NSArray*) points;
+- (NSPoint)snapToGrid:(NSPoint)p withControlFlag:(BOOL)snapControl;
+- (NSPoint)snapToGrid:(NSPoint)p ignoringUserSetting:(BOOL)ignore;
+- (NSPoint)snapToGuides:(NSPoint)p;
+- (NSRect)snapRectToGuides:(NSRect)r includingCentres:(BOOL)cent;
+- (NSSize)snapPointsToGuide:(NSArray*)points;
 
-- (NSPoint)					nudgeOffset;
+- (NSPoint)nudgeOffset;
 
-- (DKGridLayer*)			gridLayer;
-- (DKGuideLayer*)			guideLayer;
-- (CGFloat)					convertLength:(CGFloat) len;
-- (NSPoint)					convertPoint:(NSPoint) pt;
-- (NSPoint)					convertPointFromDrawingToBase:(NSPoint) pt;
-- (CGFloat)					convertLengthFromDrawingToBase:(CGFloat) len;
+- (DKGridLayer*)gridLayer;
+- (DKGuideLayer*)guideLayer;
+- (CGFloat)convertLength:(CGFloat)len;
+- (NSPoint)convertPoint:(NSPoint)pt;
+- (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt;
+- (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len;
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
  * @note
@@ -354,7 +353,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return a string containing a fully formatted distance plus the units abbreviation
  * @public
  */
-- (NSString*)				formattedConvertedLength:(CGFloat) len;
+- (NSString*)formattedConvertedLength:(CGFloat)len;
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
  * @note
@@ -365,19 +364,19 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return a pair of strings containing a fully formatted distance plus the units abbreviation
  * @public
  */
-- (NSArray*)				formattedConvertedPoint:(NSPoint) pt;
+- (NSArray*)formattedConvertedPoint:(NSPoint)pt;
 
 /** @} */
 /** @name export
  * @{
  */
 
-- (void)					finalizePriorToSaving;
-- (BOOL)					writeToFile:(NSString*) filename atomically:(BOOL) atom;
-- (NSData*)					drawingAsXMLDataAtRoot;
-- (NSData*)					drawingAsXMLDataForKey:(NSString*) key;
-- (NSData*)					drawingData;
-- (NSData*)					pdf;
+- (void)finalizePriorToSaving;
+- (BOOL)writeToFile:(NSString*)filename atomically:(BOOL)atom;
+- (NSData*)drawingAsXMLDataAtRoot;
+- (NSData*)drawingAsXMLDataForKey:(NSString*)key;
+- (NSData*)drawingData;
+- (NSData*)pdf;
 
 /** @} */
 /** @name image manager
@@ -391,7 +390,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @return the drawing's image manager
  * @public
  */
-- (DKImageDataManager*)		imageManager;
+- (DKImageDataManager*)imageManager;
 
 /** @} */
 @end
@@ -401,15 +400,15 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  * @{
  */
 
-extern NSString*		kDKDrawingActiveLayerWillChange;
-extern NSString*		kDKDrawingActiveLayerDidChange;
-extern NSString*		kDKDrawingWillChangeSize;
-extern NSString*		kDKDrawingDidChangeSize;
-extern NSString*		kDKDrawingUnitsWillChange;
-extern NSString*		kDKDrawingUnitsDidChange;
-extern NSString*		kDKDrawingWillChangeMargins;
-extern NSString*		kDKDrawingDidChangeMargins;
-extern NSString*		kDKDrawingWillBeSavedOrExported;
+extern NSString* kDKDrawingActiveLayerWillChange;
+extern NSString* kDKDrawingActiveLayerDidChange;
+extern NSString* kDKDrawingWillChangeSize;
+extern NSString* kDKDrawingDidChangeSize;
+extern NSString* kDKDrawingUnitsWillChange;
+extern NSString* kDKDrawingUnitsDidChange;
+extern NSString* kDKDrawingWillChangeMargins;
+extern NSString* kDKDrawingDidChangeMargins;
+extern NSString* kDKDrawingWillBeSavedOrExported;
 
 /** @}
  * @name keys for standard drawing info items:
@@ -417,29 +416,29 @@ extern NSString*		kDKDrawingWillBeSavedOrExported;
  * @{
  */
 
-extern NSString*		kDKDrawingInfoUserInfoKey;				/**< the key for the drawing info dictionary within the user info */
+extern NSString* kDKDrawingInfoUserInfoKey; /**< the key for the drawing info dictionary within the user info */
 
-extern NSString*		kDKDrawingInfoDrawingNumber;			/**< data type NSString */
-extern NSString*		kDKDrawingInfoDrawingNumberUnformatted;	/**< data type NSNumber (integer) */
-extern NSString*		kDKDrawingInfoDrawingRevision;			/**< data type NSNumber (integer) */
-extern NSString*		kDKDrawingInfoDrawingPrefix;			/**< data type NSString */
-extern NSString*		kDKDrawingInfoDraughter;				/**< data type NSString */
-extern NSString*		kDKDrawingInfoCreationDate;				/**< data type NSDate */
-extern NSString*		kDKDrawingInfoLastModificationDate;		/**< data type NSDate */
-extern NSString*		kDKDrawingInfoModificationHistory;		/**< data type NSArray */
-extern NSString*		kDKDrawingInfoOriginalFilename;			/**< data type NSString */
-extern NSString*		kDKDrawingInfoTitle;					/**< data type NSString */
-extern NSString*		kDKDrawingInfoDrawingDimensions;		/**< data type NSSize */
-extern NSString*		kDKDrawingInfoDimensionsUnits;			/**< data type NSString */
-extern NSString*		kDKDrawingInfoDimensionsShortUnits;		/**< data type NSString */
+extern NSString* kDKDrawingInfoDrawingNumber; /**< data type NSString */
+extern NSString* kDKDrawingInfoDrawingNumberUnformatted; /**< data type NSNumber (integer) */
+extern NSString* kDKDrawingInfoDrawingRevision; /**< data type NSNumber (integer) */
+extern NSString* kDKDrawingInfoDrawingPrefix; /**< data type NSString */
+extern NSString* kDKDrawingInfoDraughter; /**< data type NSString */
+extern NSString* kDKDrawingInfoCreationDate; /**< data type NSDate */
+extern NSString* kDKDrawingInfoLastModificationDate; /**< data type NSDate */
+extern NSString* kDKDrawingInfoModificationHistory; /**< data type NSArray */
+extern NSString* kDKDrawingInfoOriginalFilename; /**< data type NSString */
+extern NSString* kDKDrawingInfoTitle; /**< data type NSString */
+extern NSString* kDKDrawingInfoDrawingDimensions; /**< data type NSSize */
+extern NSString* kDKDrawingInfoDimensionsUnits; /**< data type NSString */
+extern NSString* kDKDrawingInfoDimensionsShortUnits; /**< data type NSString */
 
 /** @}
  * @brief keys for user defaults items
  * @{
  */
-extern NSString*		kDKDrawingSnapToGridUserDefault;		/**< BOOL */
-extern NSString*		kDKDrawingSnapToGuidesUserDefault;		/**< BOOL */
-extern NSString*		kDKDrawingUnitAbbreviationsUserDefault;	/**< NSDictionary */
+extern NSString* kDKDrawingSnapToGridUserDefault; /**< BOOL */
+extern NSString* kDKDrawingSnapToGuidesUserDefault; /**< BOOL */
+extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 
 /** @} */
 
@@ -447,13 +446,13 @@ extern NSString*		kDKDrawingUnitAbbreviationsUserDefault;	/**< NSDictionary */
  */
 @interface NSObject (DKDrawingDelegate)
 
-- (void)				drawing:(DKDrawing*) drawing willDrawRect:(NSRect) rect inView:(DKDrawingView*) aView;
-- (void)				drawing:(DKDrawing*) drawing didDrawRect:(NSRect) rect inView:(DKDrawingView*) aView;
-- (NSPoint)				drawing:(DKDrawing*) drawing convertLocationToExternalCoordinates:(NSPoint) drawingPt;
-- (CGFloat)				drawing:(DKDrawing*) drawing convertDistanceToExternalCoordinates:(CGFloat) drawingDistance;
-- (NSString*)			drawing:(DKDrawing*) drawing willReturnAbbreviationForUnit:(NSString*) unit;
-- (NSString*)			drawing:(DKDrawing*) drawing willReturnFormattedCoordinateForDistance:(CGFloat) drawingDistance;
-- (CGFloat)				drawingWillReturnUnitToPointsConversonFactor:(DKDrawing*) drawing;
+- (void)drawing:(DKDrawing*)drawing willDrawRect:(NSRect)rect inView:(DKDrawingView*)aView;
+- (void)drawing:(DKDrawing*)drawing didDrawRect:(NSRect)rect inView:(DKDrawingView*)aView;
+- (NSPoint)drawing:(DKDrawing*)drawing convertLocationToExternalCoordinates:(NSPoint)drawingPt;
+- (CGFloat)drawing:(DKDrawing*)drawing convertDistanceToExternalCoordinates:(CGFloat)drawingDistance;
+- (NSString*)drawing:(DKDrawing*)drawing willReturnAbbreviationForUnit:(NSString*)unit;
+- (NSString*)drawing:(DKDrawing*)drawing willReturnFormattedCoordinateForDistance:(CGFloat)drawingDistance;
+- (CGFloat)drawingWillReturnUnitToPointsConversonFactor:(DKDrawing*)drawing;
 
 @end
 
@@ -461,7 +460,7 @@ extern NSString*		kDKDrawingUnitAbbreviationsUserDefault;	/**< NSDictionary */
 */
 @interface DKDrawing (UISupport)
 
-- (NSWindow*)			windowForSheet;
+- (NSWindow*)windowForSheet;
 
 @end
 
@@ -469,21 +468,21 @@ extern NSString*		kDKDrawingUnitAbbreviationsUserDefault;	/**< NSDictionary */
  */
 @interface DKDrawing (Deprecated)
 
-+ (DKDrawing*)			drawingWithContentsOfFile:(NSString*) filepath;
-+ (DKDrawing*)			drawingWithData:(NSData*) drawingData fromFileAtPath:(NSString*) filepath;
++ (DKDrawing*)drawingWithContentsOfFile:(NSString*)filepath;
++ (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath;
 
 /** @brief Saves the static class defaults for ALL classes in the drawing system
  * @note
  * Deprecated - no longer does anything
  * @public
  */
-+ (void)				saveDefaults;
++ (void)saveDefaults;
 
 /** @brief Loads the static user defaults for all classes in the drawing system
  * @note
  * Deprecated - no longer does anything
  * @public
  */
-+ (void)				loadDefaults;
++ (void)loadDefaults;
 
 @end

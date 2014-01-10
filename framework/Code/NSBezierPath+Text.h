@@ -17,21 +17,21 @@
  * This shared layout manager is used by text on path drawing unless a specific manager is passed.
  * @return a shared layout manager instance
  */
-+ (NSLayoutManager*)	textOnPathLayoutManager;
++ (NSLayoutManager*)textOnPathLayoutManager;
 
 /** @brief Returns the attributes used to draw strings on paths.
  * @note
  * The default is 12 point Helvetica Roman black text with the default paragraph style.
  * @return a dictionary of string attributes
  */
-+ (NSDictionary*)		textOnPathDefaultAttributes;
++ (NSDictionary*)textOnPathDefaultAttributes;
 
 /** @brief Sets the attributes used to draw strings on paths.
  * @note
  * Pass nil to set the default. The attributes are used by the drawStringOnPath: method.
  * @param attrs a dictionary of text attributes
  */
-+ (void)				setTextOnPathDefaultAttributes:(NSDictionary*) attrs;
++ (void)setTextOnPathDefaultAttributes:(NSDictionary*)attrs;
 
 // drawing text along a path - high level methods that use a default layout manager and don't use a cache:
 
@@ -45,7 +45,7 @@
  * @return YES if the text was fully laid out, NO if some text could not be drawn (for example because it
  * would not all fit on the path).
  */
-- (BOOL)				drawTextOnPath:(NSAttributedString*) str yOffset:(CGFloat) dy;
+- (BOOL)drawTextOnPath:(NSAttributedString*)str yOffset:(CGFloat)dy;
 
 /** @brief Renders a string on a path.
  * @note
@@ -54,7 +54,7 @@
  * @return YES if the text was fully laid out, NO if some text could not be drawn (for example because it
  * would not all fit on the path).
  */
-- (BOOL)				drawStringOnPath:(NSString*) str;
+- (BOOL)drawStringOnPath:(NSString*)str;
 
 /** @brief Renders a string on a path.
  * @note
@@ -64,7 +64,7 @@
  * @return YES if the text was fully laid out, NO if some text could not be drawn (for example because it
  * would not all fit on the path).
  */
-- (BOOL)				drawStringOnPath:(NSString*) str attributes:(NSDictionary*) attrs;
+- (BOOL)drawStringOnPath:(NSString*)str attributes:(NSDictionary*)attrs;
 
 // more advanced method called by the others allows use of different layout managers and cached information for better efficiency. If an object passes back the same
 // cache each time, text-on-path rendering avoids recalculating several things. The caller is responsible for invalidating the cache if the actual string
@@ -83,7 +83,7 @@
  * @return YES if the text was fully laid out, NO if some text could not be drawn (for example because it
  * would not all fit on the path).
  */
-- (BOOL)				drawTextOnPath:(NSAttributedString*) str yOffset:(CGFloat) dy layoutManager:(NSLayoutManager*) lm cache:(NSMutableDictionary*) cache;
+- (BOOL)drawTextOnPath:(NSAttributedString*)str yOffset:(CGFloat)dy layoutManager:(NSLayoutManager*)lm cache:(NSMutableDictionary*)cache;
 
 // obtaining the paths of the glyphs laid out on the path
 
@@ -94,7 +94,7 @@
  * @param dy the baseline offset between the path and the text
  * @return a list of bezier path objects.
  */
-- (NSArray*)			bezierPathsWithGlyphsOnPath:(NSAttributedString*) str yOffset:(CGFloat) dy;
+- (NSArray*)bezierPathsWithGlyphsOnPath:(NSAttributedString*)str yOffset:(CGFloat)dy;
 
 /** @brief Returns a single path consisting of all of the laid out glyphs of the text.
  * @note
@@ -104,7 +104,7 @@
  * @param dy the baseline offset between the path and the text
  * @return a single bezier path.
  */
-- (NSBezierPath*)		bezierPathWithTextOnPath:(NSAttributedString*) str yOffset:(CGFloat) dy;
+- (NSBezierPath*)bezierPathWithTextOnPath:(NSAttributedString*)str yOffset:(CGFloat)dy;
 
 /** @brief Returns a single path consisting of all of the laid out glyphs of the text.
  * @note
@@ -112,14 +112,14 @@
  * @param str the  string to render
  * @return a list of bezier path objects.
  */
-- (NSBezierPath*)		bezierPathWithStringOnPath:(NSString*) str;
+- (NSBezierPath*)bezierPathWithStringOnPath:(NSString*)str;
 
 /** @brief Returns a single path consisting of all of the laid out glyphs of the text.
  * @param str the  string to render
  * @param attrs the drawing attributes for the text
  * @return a list of bezier path objects.
  */
-- (NSBezierPath*)		bezierPathWithStringOnPath:(NSString*) str attributes:(NSDictionary*) attrs;
+- (NSBezierPath*)bezierPathWithStringOnPath:(NSString*)str attributes:(NSDictionary*)attrs;
 
 // low-level glyph layout method called by all other methods to generate the glyphs. The result depends on the helper object which must conform
 // to the textOnPathPlacement informal protocol (see below)
@@ -137,11 +137,11 @@
  * @param cache a cache used to save layout informaiton to avoid recalculation
  * @return YES if all text was laid out, NO if some text was not laid out.
  */
-- (BOOL)				layoutStringOnPath:(NSTextStorage*) str
-								   yOffset:(CGFloat) dy
-						 usingLayoutHelper:(id) helperObject
-							 layoutManager:(NSLayoutManager*) lm
-									 cache:(NSMutableDictionary*) cache;
+- (BOOL)layoutStringOnPath:(NSTextStorage*)str
+                   yOffset:(CGFloat)dy
+         usingLayoutHelper:(id)helperObject
+             layoutManager:(NSLayoutManager*)lm
+                     cache:(NSMutableDictionary*)cache;
 
 /** @brief Low level method adjusts text to fit the path length.
  * @note
@@ -153,7 +153,7 @@
  * @return none.
  * @private
  */
-- (void)				kernText:(NSTextStorage*) text toFitLength:(CGFloat) length;
+- (void)kernText:(NSTextStorage*)text toFitLength:(CGFloat)length;
 
 /** @brief Low level method adjusts justified text to fit the path length.
  * @note
@@ -164,7 +164,7 @@
  * @return none.
  * @private
  */
-- (NSTextStorage*)		preadjustedTextStorageWithString:(NSAttributedString*) str layoutManager:(NSLayoutManager*) lm;
+- (NSTextStorage*)preadjustedTextStorageWithString:(NSAttributedString*)str layoutManager:(NSLayoutManager*)lm;
 
 // drawing underline and strikethrough paths
 
@@ -180,7 +180,7 @@
  * @return none.
  * @private
  */
-- (void)				drawUnderlinePathForLayoutManager:(NSLayoutManager*) lm yOffset:(CGFloat) dy cache:(NSMutableDictionary*) cache;
+- (void)drawUnderlinePathForLayoutManager:(NSLayoutManager*)lm yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
 /** @brief Low level method draws the strikethrough attributes for the text if necessary.
  * @note
@@ -194,7 +194,7 @@
  * @return none.
  * @private
  */
-- (void)				drawStrikethroughPathForLayoutManager:(NSLayoutManager*) lm yOffset:(CGFloat) dy cache:(NSMutableDictionary*) cache;
+- (void)drawStrikethroughPathForLayoutManager:(NSLayoutManager*)lm yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
 /** @brief Low level method draws the undeline attributes for ranges of text.
  * @note
@@ -206,7 +206,7 @@
  * @return none.
  * @private
  */
-- (void)				drawUnderlinePathForLayoutManager:(NSLayoutManager*) lm range:(NSRange) range yOffset:(CGFloat) dy cache:(NSMutableDictionary*) cache;
+- (void)drawUnderlinePathForLayoutManager:(NSLayoutManager*)lm range:(NSRange)range yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
 /** @brief Low level method draws the strikethrough attributes for ranges of text.
  * @note
@@ -218,7 +218,7 @@
  * @return none.
  * @private
  */
-- (void)				drawStrikethroughPathForLayoutManager:(NSLayoutManager*) lm range:(NSRange) range yOffset:(CGFloat) dy cache:(NSMutableDictionary*) cache;
+- (void)drawStrikethroughPathForLayoutManager:(NSLayoutManager*)lm range:(NSRange)range yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
 /** @brief Calculates the start and end locations of ranges of text on the path.
  * @note
@@ -230,7 +230,7 @@
  * @param range the range of characters of interest within the string
  * @private
  */
-- (void)				pathPosition:(CGFloat*) start andLength:(CGFloat*) length forCharactersOfString:(NSAttributedString*) str inRange:(NSRange) range;
+- (void)pathPosition:(CGFloat*)start andLength:(CGFloat*)length forCharactersOfString:(NSAttributedString*)str inRange:(NSRange)range;
 
 /** @brief Determines the positions of any descender breaks for drawing underlines.
  * @note
@@ -244,7 +244,7 @@
  * @return A list of descender break positions (NSValues with NSPoint values)
  * @private
  */
-- (NSArray*)			descenderBreaksForString:(NSAttributedString*) str range:(NSRange) range underlineOffset:(CGFloat) offset;
+- (NSArray*)descenderBreaksForString:(NSAttributedString*)str range:(NSRange)range underlineOffset:(CGFloat)offset;
 
 /** @brief Converts all the information about an underline into a path that can be drawn.
  * @note
@@ -262,13 +262,13 @@
  * @return A path. Stroking this path draws the underline.
  * @private
  */
-- (NSBezierPath*)		textLinePathWithMask:(NSInteger) mask
-						  startPosition:(CGFloat) sp
-								 length:(CGFloat) length
-								 offset:(CGFloat) offset
-						  lineThickness:(CGFloat) lineThickness
-						descenderBreaks:(NSArray*) breaks
-						  grotThreshold:(CGFloat) gt;
+- (NSBezierPath*)textLinePathWithMask:(NSInteger)mask
+                        startPosition:(CGFloat)sp
+                               length:(CGFloat)length
+                               offset:(CGFloat)offset
+                        lineThickness:(CGFloat)lineThickness
+                      descenderBreaks:(NSArray*)breaks
+                        grotThreshold:(CGFloat)gt;
 
 // getting text layout rects for running text within a shape
 
@@ -283,7 +283,7 @@
  * @param yPosition the distance between the top edge of the bounds and the line to test
  * @return a list of NSValues containing NSPoints
  */
-- (NSArray*)			intersectingPointsWithHorizontalLineAtY:(CGFloat) yPosition;
+- (NSArray*)intersectingPointsWithHorizontalLineAtY:(CGFloat)yPosition;
 
 /** @brief Find rectangles within which text can be laid out to place the text within the path.
  * @note
@@ -297,7 +297,7 @@
  * @param lineHeight the lineheight for the lines of text
  * @return a list of NSValues containing NSRects
  */
-- (NSArray*)			lineFragmentRectsForFixedLineheight:(CGFloat) lineHeight;
+- (NSArray*)lineFragmentRectsForFixedLineheight:(CGFloat)lineHeight;
 
 /** @brief Find a line fragement rectange for laying out text in this shape.
  * @note
@@ -305,7 +305,7 @@
  * @param aRect the proposed rectangle
  * @return the available rectangle for the text given the proposed rect
  */
-- (NSRect)				lineFragmentRectForProposedRect:(NSRect) aRect remainingRect:(NSRect*) rem;
+- (NSRect)lineFragmentRectForProposedRect:(NSRect)aRect remainingRect:(NSRect*)rem;
 
 /** @brief Find a line fragement rectange for laying out text in this shape.
  * @note
@@ -317,7 +317,7 @@
  * @param dOffset a value between +0.5 and -0.5 that represents the relative position within the line used
  * @return the available rectangle for the text given the proposed rect
  */
-- (NSRect)				lineFragmentRectForProposedRect:(NSRect) aRect remainingRect:(NSRect*) rem datumOffset:(CGFloat) dOffset;
+- (NSRect)lineFragmentRectForProposedRect:(NSRect)aRect remainingRect:(NSRect*)rem datumOffset:(CGFloat)dOffset;
 
 // drawing/placing/moving anything along a path:
 
@@ -329,7 +329,7 @@
  * @param userInfo information passed to the factory object
  * @return A list of placed objects
  */
-- (NSArray*)			placeObjectsOnPathAtInterval:(CGFloat) interval factoryObject:(id) object userInfo:(void*) userInfo;
+- (NSArray*)placeObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id)object userInfo:(void*)userInfo;
 
 /** @brief Places objects at regular intervals along the path.
  * @note
@@ -339,7 +339,7 @@
  * @param userInfo information passed to the factory object
  * @return A single path consisting of all of the added paths
  */
-- (NSBezierPath*)		bezierPathWithObjectsOnPathAtInterval:(CGFloat) interval factoryObject:(id) object userInfo:(void*) userInfo;
+- (NSBezierPath*)bezierPathWithObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id)object userInfo:(void*)userInfo;
 
 /** @brief Places copies of a given path at regular intervals along the path.
  * @note
@@ -349,7 +349,7 @@
  * @param interval the distance between each object placed
  * @return A single path consisting of all of the added paths
  */
-- (NSBezierPath*)		bezierPathWithPath:(NSBezierPath*) path atInterval:(CGFloat) interval;
+- (NSBezierPath*)bezierPathWithPath:(NSBezierPath*)path atInterval:(CGFloat)interval;
 
 /** @brief Places copies of a given path at regular intervals along the path.
  * @note
@@ -362,7 +362,7 @@
  * @param taperDel an optional taper delegate.
  * @return A single path consisting of all of the added paths
  */
-- (NSBezierPath*)		bezierPathWithPath:(NSBezierPath*) path atInterval:(CGFloat) interval phase:(CGFloat) phase alternate:(BOOL) alt taperDelegate:(id) taperDel;
+- (NSBezierPath*)bezierPathWithPath:(NSBezierPath*)path atInterval:(CGFloat)interval phase:(CGFloat)phase alternate:(BOOL)alt taperDelegate:(id)taperDel;
 
 // placing "chain links" along a path:
 
@@ -374,7 +374,7 @@
  * @param userInfo user info passed to the factory object
  * @return a list of created link objects
  */
-- (NSArray*)			placeLinksOnPathWithLinkLength:(CGFloat) ll factoryObject:(id) object userInfo:(void*) userInfo;
+- (NSArray*)placeLinksOnPathWithLinkLength:(CGFloat)ll factoryObject:(id)object userInfo:(void*)userInfo;
 
 /** @brief Places "links" along the path at alternating even and odd intervals.
  * @note
@@ -394,7 +394,7 @@
  * @param userInfo user info passed to the factory object
  * @return a list of created link objects
  */
-- (NSArray*)			placeLinksOnPathWithEvenLinkLength:(CGFloat) ell oddLinkLength:(CGFloat) oll factoryObject:(id) object userInfo:(void*) userInfo;
+- (NSArray*)placeLinksOnPathWithEvenLinkLength:(CGFloat)ell oddLinkLength:(CGFloat)oll factoryObject:(id)object userInfo:(void*)userInfo;
 
 // easy motion method:
 
@@ -409,7 +409,7 @@
  * @param loop YES to repeatedly loop the movement when it gets to the end, NO for one-time motion.
  * @param userInfo user info passed to the object
  */
-- (void)				moveObject:(id) object atSpeed:(CGFloat) speed loop:(BOOL) loop userInfo:(id) userInfo;
+- (void)moveObject:(id)object atSpeed:(CGFloat)speed loop:(BOOL)loop userInfo:(id)userInfo;
 
 @end
 
@@ -424,9 +424,9 @@
 
 @interface NSObject (BezierPlacement)
 
-- (id)					placeObjectAtPoint:(NSPoint) p onPath:(NSBezierPath*) path position:(CGFloat) pos slope:(CGFloat) slope userInfo:(void*) userInfo;
-- (BOOL)				moveObjectTo:(NSPoint) p position:(CGFloat) pos slope:(CGFloat) slope userInfo:(id) userInfo;
-- (id)					placeLinkFromPoint:(NSPoint) pa toPoint:(NSPoint) pb onPath:(NSBezierPath*) path linkNumber:(NSInteger) lkn userInfo:(void*) userInfo;
+- (id)placeObjectAtPoint:(NSPoint)p onPath:(NSBezierPath*)path position:(CGFloat)pos slope:(CGFloat)slope userInfo:(void*)userInfo;
+- (BOOL)moveObjectTo:(NSPoint)p position:(CGFloat)pos slope:(CGFloat)slope userInfo:(id)userInfo;
+- (id)placeLinkFromPoint:(NSPoint)pa toPoint:(NSPoint)pb onPath:(NSBezierPath*)path linkNumber:(NSInteger)lkn userInfo:(void*)userInfo;
 
 @end
 
@@ -434,11 +434,11 @@
 
 // when laying out glyphs on the path, a helper object with this informal protocol is used. The object can process the glyph appropriately, for example
 // just drawing it after applying a transform, or accumulating the glyph path. An object implementing this protocol is passed internally by the text on
-// path methods as necessary, or you can supply one. 
+// path methods as necessary, or you can supply one.
 
 @interface NSObject (TextOnPathPlacement)
 
-- (void)				layoutManager:(NSLayoutManager*) lm willPlaceGlyphAtIndex:(NSUInteger) glyphIndex atLocation:(NSPoint) location pathAngle:(CGFloat) angle yOffset:(CGFloat) dy;
+- (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end
 
@@ -448,20 +448,19 @@
 
 @interface NSObject (TaperPathDelegate)
 
-- (CGFloat)				taperFactorAtDistance:(CGFloat) distance onPath:(NSBezierPath*) path ofLength:(CGFloat) length;
+- (CGFloat)taperFactorAtDistance:(CGFloat)distance onPath:(NSBezierPath*)path ofLength:(CGFloat)length;
 @end
 
 #pragma mark -
 
 // helper objects used internally when accumulating or laying glyphs
 
-@interface DKTextOnPathGlyphAccumulator	: NSObject
-{
-	NSMutableArray*		mGlyphs;
+@interface DKTextOnPathGlyphAccumulator : NSObject {
+    NSMutableArray* mGlyphs;
 }
 
-- (NSArray*)			glyphs;
-- (void)				layoutManager:(NSLayoutManager*) lm willPlaceGlyphAtIndex:(NSUInteger) glyphIndex atLocation:(NSPoint) location pathAngle:(CGFloat) angle yOffset:(CGFloat) dy;
+- (NSArray*)glyphs;
+- (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end
 
@@ -470,9 +469,9 @@
 // this just applies the transform and causes the layout manager to draw the glyph. This ensures that all the stylistic variations on the glyph are applied allowing
 // attributed strings to be drawn along the path.
 
-@interface DKTextOnPathGlyphDrawer	: NSObject
+@interface DKTextOnPathGlyphDrawer : NSObject
 
-- (void)				layoutManager:(NSLayoutManager*) lm willPlaceGlyphAtIndex:(NSUInteger) glyphIndex atLocation:(NSPoint) location pathAngle:(CGFloat) angle yOffset:(CGFloat) dy;
+- (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end
 
@@ -481,17 +480,16 @@
 // this helper calculates the start and length of a given run of characters in the string. The character range should be set prior to use. As each glyph is laid, the
 // glyph run position and length along the line fragment rectangle is calculated.
 
-@interface DKTextOnPathMetricsHelper : NSObject
-{
-	CGFloat		mStartPosition;
-	CGFloat		mLength;
-	NSRange		mCharacterRange;
+@interface DKTextOnPathMetricsHelper : NSObject {
+    CGFloat mStartPosition;
+    CGFloat mLength;
+    NSRange mCharacterRange;
 }
 
-- (void)				setCharacterRange:(NSRange) range;
-- (CGFloat)				length;
-- (CGFloat)				position;
-- (void)				layoutManager:(NSLayoutManager*) lm willPlaceGlyphAtIndex:(NSUInteger) glyphIndex atLocation:(NSPoint) location pathAngle:(CGFloat) angle yOffset:(CGFloat) dy;
+- (void)setCharacterRange:(NSRange)range;
+- (CGFloat)length;
+- (CGFloat)position;
+- (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end
 
@@ -499,17 +497,16 @@
 
 // this is a small wrapper object used to cache information about locations on a path, to save recalculating them each time.
 
-@interface DKPathGlyphInfo : NSObject
-{
-	NSUInteger	mGlyphIndex;
-	NSPoint		mPoint;
-	CGFloat		mSlope;
+@interface DKPathGlyphInfo : NSObject {
+    NSUInteger mGlyphIndex;
+    NSPoint mPoint;
+    CGFloat mSlope;
 }
 
-- (id)			initWithGlyphIndex:(NSUInteger) glyphIndex position:(NSPoint) pt slope:(CGFloat) slope;
-- (NSUInteger)	glyphIndex;
-- (CGFloat)		slope;
-- (NSPoint)		point;
+- (id)initWithGlyphIndex:(NSUInteger)glyphIndex position:(NSPoint)pt slope:(CGFloat)slope;
+- (NSUInteger)glyphIndex;
+- (CGFloat)slope;
+- (NSPoint)point;
 
 @end
 
@@ -520,7 +517,7 @@
 
 @interface NSFont (DKUnderlineCategory)
 
-- (CGFloat)	valueForInvalidUnderlinePosition;
-- (CGFloat)	valueForInvalidUnderlineThickness;
+- (CGFloat)valueForInvalidUnderlinePosition;
+- (CGFloat)valueForInvalidUnderlineThickness;
 
 @end

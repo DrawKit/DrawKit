@@ -10,12 +10,10 @@
 
 // option constants for crop or scale image
 
-typedef enum
-{
-	kDKImageScaleToPath		= 0,
-	kDKImageCropToPath		= 1
-}
-DKImageCroppingOptions;
+typedef enum {
+    kDKImageScaleToPath = 0,
+    kDKImageCropToPath = 1
+} DKImageCroppingOptions;
 
 // the class
 
@@ -37,22 +35,21 @@ A hotspot is added to allow the user to drag the image offset position around.
  facilitated by a central DKImageDataManager object, which is managed by the drawing. Note that using certian operations, such as creating
  the shape with an NSImage will bypass this benefit.
 */
-@interface DKImageShape : DKDrawableShape <NSCoding, NSCopying>
-{
+@interface DKImageShape : DKDrawableShape <NSCoding, NSCopying> {
 @private
-	NSString*				mImageKey;				// key in the image manager holding original data for this image
-	NSImage*				m_image;				// the image the shape displays
-	CGFloat					m_opacity;				// its opacity
-	CGFloat					m_imageScale;			// its scale (currently ignored, but set to 1.0)
-	NSPoint					m_imageOffset;			// the offset of the image within the bounds
-	BOOL					m_drawnOnTop;			// YES if image drawn after style, NO for before
-	NSCompositingOperation	m_op;					// the Quartz compositing mode to apply
-	DKImageCroppingOptions	mImageCropping;			// whether the image is scaled or cropped to the bounds
-	NSInteger				mImageOffsetPartcode;	// the partcode of the image offset hotspot
-	NSData*					mOriginalImageData;		// original image data (shared with image manager)
+    NSString* mImageKey; // key in the image manager holding original data for this image
+    NSImage* m_image; // the image the shape displays
+    CGFloat m_opacity; // its opacity
+    CGFloat m_imageScale; // its scale (currently ignored, but set to 1.0)
+    NSPoint m_imageOffset; // the offset of the image within the bounds
+    BOOL m_drawnOnTop; // YES if image drawn after style, NO for before
+    NSCompositingOperation m_op; // the Quartz compositing mode to apply
+    DKImageCroppingOptions mImageCropping; // whether the image is scaled or cropped to the bounds
+    NSInteger mImageOffsetPartcode; // the partcode of the image offset hotspot
+    NSData* mOriginalImageData; // original image data (shared with image manager)
 }
 
-+ (DKStyle*)				imageShapeDefaultStyle;
++ (DKStyle*)imageShapeDefaultStyle;
 
 /** @brief Initializes the image shape from an image
  * @note
@@ -61,7 +58,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the object if it was successfully initialized, or nil
  * @public
  */
-- (id)						initWithImage:(NSImage*) anImage;
+- (id)initWithImage:(NSImage*)anImage;
 
 /** @brief Initializes the image shape from image data
  * @note
@@ -72,7 +69,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the object if it was successfully initialized, or nil
  * @public
  */
-- (id)						initWithImageData:(NSData*) imageData;
+- (id)initWithImageData:(NSData*)imageData;
 
 /** @brief Initializes the image shape from an image file given by the path
  * @note
@@ -82,7 +79,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the object if it was successfully initialized, or nil
  * @public
  */
-- (id)						initWithContentsOfFile:(NSString*) filepath;
+- (id)initWithContentsOfFile:(NSString*)filepath;
 
 /** @brief Sets the object's image
  * @note
@@ -90,13 +87,13 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param anImage an image to display in this shape.
  * @public
  */
-- (void)					setImage:(NSImage*) anImage;
+- (void)setImage:(NSImage*)anImage;
 
 /** @brief Get the object's image
  * @return the image
  * @public
  */
-- (NSImage*)				image;
+- (NSImage*)image;
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
  * @note
@@ -104,7 +101,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the image
  * @public
  */
-- (NSImage*)				imageAtRenderedSize;
+- (NSImage*)imageAtRenderedSize;
 
 /** @brief Set the object's image from image data in the drawing's image data manager
  * @note
@@ -115,7 +112,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param coder the dearchiver in use, if any.
  * @public
  */
-- (void)					setImageWithKey:(NSString*) key coder:(NSCoder*) coder;
+- (void)setImageWithKey:(NSString*)key coder:(NSCoder*)coder;
 
 /** @brief Transfer the image key when the object is added to a new container
  * @note
@@ -123,7 +120,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param container the new container 
  * @public
  */
-- (void)					transferImageKeyToNewContainer:(id<DKDrawableContainer>) container;
+- (void)transferImageKeyToNewContainer:(id<DKDrawableContainer>)container;
 
 /** @brief Set the object's image from image data on the pasteboard
  * @note
@@ -133,7 +130,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return YES if the operation succeeded, NO otherwise
  * @public
  */
-- (BOOL)					setImageWithPasteboard:(NSPasteboard*) pb;
+- (BOOL)setImageWithPasteboard:(NSPasteboard*)pb;
 
 /** @brief Place the object's image data on the pasteboard
  * @note
@@ -143,7 +140,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return YES if the operation succeeded, NO otherwise
  * @public
  */
-- (BOOL)					writeImageToPasteboard:(NSPasteboard*) pb;
+- (BOOL)writeImageToPasteboard:(NSPasteboard*)pb;
 
 /** @brief Set the object's image key
  * @note
@@ -151,13 +148,13 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param key the image's key
  * @public
  */
-- (void)					setImageKey:(NSString*) key;
+- (void)setImageKey:(NSString*)key;
 
 /** @brief Return the object's image key
  * @return the image's key
  * @public
  */
-- (NSString*)				imageKey;
+- (NSString*)imageKey;
 
 /** @brief Sets the image from data
  * @note
@@ -166,7 +163,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param data data containing image data 
  * @public
  */
-- (void)					setImageData:(NSData*) data;
+- (void)setImageData:(NSData*)data;
 
 /** @brief Returns the image original data
  * @note
@@ -176,7 +173,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return data containing image data
  * @public
  */
-- (NSData*)					imageData;
+- (NSData*)imageData;
 
 /** @brief Set the image's opacity
  * @note
@@ -184,7 +181,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param opacity an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
  * @public
  */
-- (void)					setImageOpacity:(CGFloat) opacity;
+- (void)setImageOpacity:(CGFloat)opacity;
 
 /** @brief Get the image's opacity
  * @note
@@ -192,7 +189,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return <opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
  * @public
  */
-- (CGFloat)					imageOpacity;
+- (CGFloat)imageOpacity;
 
 /** @brief Set whether the image draws above or below the rendering done by the style
  * @note
@@ -200,7 +197,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param onTop YES to draw on top (after) the style, NO to draw below (before)
  * @public
  */
-- (void)					setImageDrawsOnTop:(BOOL) onTop;
+- (void)setImageDrawsOnTop:(BOOL)onTop;
 
 /** @brief Whether the image draws above or below the rendering done by the style
  * @note
@@ -208,7 +205,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return YES to draw on top (after) the style, NO to draw below (before)
  * @public
  */
-- (BOOL)					imageDrawsOnTop;
+- (BOOL)imageDrawsOnTop;
 
 /** @brief Set the Quartz composition mode to use when compositing the image
  * @note
@@ -216,7 +213,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param op an NSCompositingOperation constant
  * @public
  */
-- (void)					setCompositingOperation:(NSCompositingOperation) op;
+- (void)setCompositingOperation:(NSCompositingOperation)op;
 
 /** @brief Get the Quartz composition mode to use when compositing the image
  * @note
@@ -224,7 +221,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return an NSCompositingOperation constant
  * @public
  */
-- (NSCompositingOperation)	compositingOperation;
+- (NSCompositingOperation)compositingOperation;
 
 /** @brief Set the scale factor for the image
  * @note
@@ -233,7 +230,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param scale a scaling value, 1.0 = 100% 
  * @public
  */
-- (void)					setImageScale:(CGFloat) scale;
+- (void)setImageScale:(CGFloat)scale;
 
 /** @brief Get the scale factor for the image
  * @note
@@ -242,7 +239,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the scale
  * @public
  */
-- (CGFloat)					imageScale;
+- (CGFloat)imageScale;
 
 /** @brief Set the offset position for the image
  * @note
@@ -251,7 +248,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param imgoff the offset position 
  * @public
  */
-- (void)					setImageOffset:(NSPoint) imgoff;
+- (void)setImageOffset:(NSPoint)imgoff;
 
 /** @brief Get the offset position for the image
  * @note
@@ -260,7 +257,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the image offset
  * @public
  */
-- (NSPoint)					imageOffset;
+- (NSPoint)imageOffset;
 
 /** @brief Set the display mode for the object - crop image or scale it
  * @note
@@ -268,7 +265,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param crop a mode value
  * @public
  */
-- (void)					setImageCroppingOptions:(DKImageCroppingOptions) crop;
+- (void)setImageCroppingOptions:(DKImageCroppingOptions)crop;
 
 /** @brief Get the display mode for the object - crop image or scale it
  * @note
@@ -276,7 +273,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return a mode value
  * @public
  */
-- (DKImageCroppingOptions)	imageCroppingOptions;
+- (DKImageCroppingOptions)imageCroppingOptions;
 
 // user actions
 
@@ -287,13 +284,13 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param sender the message sender
  * @public
  */
-- (IBAction)				selectCropOrScaleAction:(id) sender;
+- (IBAction)selectCropOrScaleAction:(id)sender;
 
 /** @brief Toggle between image drawn on top and image drawn below the rest of the style
  * @param sender the message sender
  * @public
  */
-- (IBAction)				toggleImageAboveAction:(id) sender;
+- (IBAction)toggleImageAboveAction:(id)sender;
 
 /** @brief Copy the image directly to the pasteboard.
  * @note
@@ -303,13 +300,13 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param sender the message sender
  * @public
  */
-- (IBAction)				copyImage:(id) sender;
+- (IBAction)copyImage:(id)sender;
 
 /** @brief Replace the shape's image with one from the pasteboard if possible.
  * @param sender the message sender
  * @public
  */
-- (IBAction)				pasteImage:(id) sender;
+- (IBAction)pasteImage:(id)sender;
 
 /** @brief Resizes the shape to exactly fit the image at its original size.
  * @note
@@ -319,7 +316,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @param sender the message sender
  * @public
  */
-- (IBAction)				fitToImage:(id) sender;
+- (IBAction)fitToImage:(id)sender;
 
 @end
 
@@ -334,7 +331,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the objet if it was successfully initialized, or nil
  * @public
  */
-- (id)						initWithPasteboard:(NSPasteboard*) pboard;
+- (id)initWithPasteboard:(NSPasteboard*)pboard;
 
 /** @brief Initializes the image shape from an image
  * @note
@@ -343,7 +340,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  * @return the object if it was successfully initialized, or nil
  * @public
  */
-- (id)						initWithImageNamed:(NSString*) imageName;
+- (id)initWithImageNamed:(NSString*)imageName;
 
 @end
 
@@ -351,7 +348,6 @@ A hotspot is added to allow the user to drag the image offset position around.
 
 // metadata keys for data installed by this object when created
 
-extern NSString*	kDKOriginalFileMetadataKey;
-extern NSString*	kDKOriginalImageDimensionsMetadataKey;
-extern NSString*	kDKOriginalNameMetadataKey;
-
+extern NSString* kDKOriginalFileMetadataKey;
+extern NSString* kDKOriginalImageDimensionsMetadataKey;
+extern NSString* kDKOriginalNameMetadataKey;

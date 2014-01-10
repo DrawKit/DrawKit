@@ -19,35 +19,33 @@ Unit Test for the BSP storage sub-system. This works by populating a storage ins
 */
 @interface TestBSPStorage : SenTestCase
 
-- (void)	testBSPStorage;
-- (void)	testIndexedBSPStorage;
+- (void)testBSPStorage;
+- (void)testIndexedBSPStorage;
 
-- (void)	populateStorage:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize;
-- (void)	deletionTest:(id<DKObjectStorage>) storage;
-- (void)	insertionTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize;
-- (void)	replacementTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize;
-- (void)	retrievalTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize;
-- (void)	pointRetrievalTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize;
-- (void)	repositioningTest:(id<DKObjectStorage>) storage canvasSize:(NSSize) canvasSize;
-- (void)	reorderingTest:(id<DKObjectStorage>) storage;
+- (void)populateStorage:(id<DKObjectStorage>)storage canvasSize:(NSSize)canvasSize;
+- (void)deletionTest:(id<DKObjectStorage>)storage;
+- (void)insertionTest:(id<DKObjectStorage>)storage canvasSize:(NSSize)canvasSize;
+- (void)replacementTest:(id<DKObjectStorage>)storage canvasSize:(NSSize)canvasSize;
+- (void)retrievalTest:(id<DKObjectStorage>)storage canvasSize:(NSSize)canvasSize;
+- (void)pointRetrievalTest:(id<DKObjectStorage>)storage canvasSize:(NSSize)canvasSize;
+- (void)repositioningTest:(id<DKObjectStorage>)storage canvasSize:(NSSize)canvasSize;
+- (void)reorderingTest:(id<DKObjectStorage>)storage;
 
-- (void)	verifyRenumbering:(DKBSPDirectObjectStorage*) storage;
-- (void)	verifyStorageIntegrity:(DKBSPDirectObjectStorage*) storage;
-- (void)	verifyIndexSpotcheck:(DKBSPDirectObjectStorage*) storage;
+- (void)verifyRenumbering:(DKBSPDirectObjectStorage*)storage;
+- (void)verifyStorageIntegrity:(DKBSPDirectObjectStorage*)storage;
+- (void)verifyIndexSpotcheck:(DKBSPDirectObjectStorage*)storage;
 
-- (void)	verifyIndexedStorageIntegrity:(DKBSPObjectStorage*) storage;
+- (void)verifyIndexedStorageIntegrity:(DKBSPObjectStorage*)storage;
 
 @end
 
-@interface testStorableObject : NSObject <DKStorableObject>
-{
-	NSRect					_bounds;
-	NSUInteger				_index;
-	BOOL					_marked;
-	id<DKObjectStorage>		_storage;
+@interface testStorableObject : NSObject <DKStorableObject> {
+    NSRect _bounds;
+    NSUInteger _index;
+    BOOL _marked;
+    id<DKObjectStorage> _storage;
 }
 
-- (void)					setBounds:(NSRect) newBounds;
+- (void)setBounds:(NSRect)newBounds;
 
 @end
-

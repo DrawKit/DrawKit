@@ -8,12 +8,10 @@
 
 #import "DKLayer.h"
 
-typedef enum
-{
-	kDKMetricDrawingGrid			= 0,
-	kDKImperialDrawingGrid
-}
-DKGridMeasurementSystem;
+typedef enum {
+    kDKMetricDrawingGrid = 0,
+    kDKImperialDrawingGrid
+} DKGridMeasurementSystem;
 
 /** @brief This class is a layer that draws a grid like a piece of graph paper.
 
@@ -45,58 +43,57 @@ General-purpose "snap to grid" type methods are implemented by DKDrawing using t
 
 Note: caching in a CGLayer is not recommended - the code is here but it doesn't draw nicely at high zooms. Turned off by default.
 */
-@interface DKGridLayer : DKLayer <NSCoding>
-{
+@interface DKGridLayer : DKLayer <NSCoding> {
 @private
-	NSColor*				m_spanColour;					// the colour of the spans grid
-	NSColor*				m_divisionColour;				// the colour of the divisions grid
-	NSColor*				m_majorColour;					// the colour of the majors grid
-	NSBezierPath*			m_divsCache;					// the path for the divisions grid
-	NSBezierPath*			m_spanCache;					// the path for the spans grid
-	NSBezierPath*			m_majorsCache;					// the path for the majors grid
-	NSPoint					m_zeroDatum;					// where "zero" is supposed to be
-	BOOL					mDrawsDivisions;				// YES to draw divisions
-	BOOL					mDrawsSpans;					// YES to draw spans
-	BOOL					mDrawsMajors;					// YES to draw majors
-	CGFloat					m_spanLineWidth;				// the line width to draw the spans
-	CGFloat					m_divisionLineWidth;			// the line width to draw the divisions
-	CGFloat					m_majorLineWidth;				// the line width to draw the majors
-	NSUInteger				m_rulerStepUpCycle;				// the ruler step-up cycle to use
-	BOOL					m_cacheInLayer;					// YES if the grid is cache dusing a CGLayer
-	CGLayerRef				m_cgl;							// the CGLayer when the grid is cached there
-	NSUInteger				mSpanCycle;						// span increment cycle (typically 1)
-	CGFloat					mDivsSupressionScale;			// scale below which divs are not drawn at all (default = 0.5)
-	CGFloat					mSpanSupressionScale;			// scale below which span is not drawn at all (default = 0.1)
-	CGFloat					mSpanCycleChangeThreshold;		// scale below which span cycle is incremented
-	CGFloat					mCachedViewScale;				// view scale cache currently set up for
+    NSColor* m_spanColour; // the colour of the spans grid
+    NSColor* m_divisionColour; // the colour of the divisions grid
+    NSColor* m_majorColour; // the colour of the majors grid
+    NSBezierPath* m_divsCache; // the path for the divisions grid
+    NSBezierPath* m_spanCache; // the path for the spans grid
+    NSBezierPath* m_majorsCache; // the path for the majors grid
+    NSPoint m_zeroDatum; // where "zero" is supposed to be
+    BOOL mDrawsDivisions; // YES to draw divisions
+    BOOL mDrawsSpans; // YES to draw spans
+    BOOL mDrawsMajors; // YES to draw majors
+    CGFloat m_spanLineWidth; // the line width to draw the spans
+    CGFloat m_divisionLineWidth; // the line width to draw the divisions
+    CGFloat m_majorLineWidth; // the line width to draw the majors
+    NSUInteger m_rulerStepUpCycle; // the ruler step-up cycle to use
+    BOOL m_cacheInLayer; // YES if the grid is cache dusing a CGLayer
+    CGLayerRef m_cgl; // the CGLayer when the grid is cached there
+    NSUInteger mSpanCycle; // span increment cycle (typically 1)
+    CGFloat mDivsSupressionScale; // scale below which divs are not drawn at all (default = 0.5)
+    CGFloat mSpanSupressionScale; // scale below which span is not drawn at all (default = 0.1)
+    CGFloat mSpanCycleChangeThreshold; // scale below which span cycle is incremented
+    CGFloat mCachedViewScale; // view scale cache currently set up for
 @protected
-	CGFloat					mSpanMultiplier;				// the span is unit distance x this (usually 1.0)
-	NSUInteger				m_divisionsPerSpan;				// the number of divisions per span
-	NSUInteger				m_spansPerMajor;				// the number of spans per major
+    CGFloat mSpanMultiplier; // the span is unit distance x this (usually 1.0)
+    NSUInteger m_divisionsPerSpan; // the number of divisions per span
+    NSUInteger m_spansPerMajor; // the number of spans per major
 }
 
 // setting class defaults:
 
-+ (void)					setDefaultSpanColour:(NSColor*) colour;
-+ (NSColor*)				defaultSpanColour;
-+ (void)					setDefaultDivisionColour:(NSColor*) colour;
-+ (NSColor*)				defaultDivisionColour;
-+ (void)					setDefaultMajorColour:(NSColor*) colour;
-+ (NSColor*)				defaultMajorColour;
-+ (void)					setDefaultGridThemeColour:(NSColor*) colour;
++ (void)setDefaultSpanColour:(NSColor*)colour;
++ (NSColor*)defaultSpanColour;
++ (void)setDefaultDivisionColour:(NSColor*)colour;
++ (NSColor*)defaultDivisionColour;
++ (void)setDefaultMajorColour:(NSColor*)colour;
++ (NSColor*)defaultMajorColour;
++ (void)setDefaultGridThemeColour:(NSColor*)colour;
 
-+ (DKGridLayer*)			standardMetricGridLayer;
-+ (DKGridLayer*)			standardImperialGridLayer;
-+ (DKGridLayer*)			standardImperialPCBGridLayer;
++ (DKGridLayer*)standardMetricGridLayer;
++ (DKGridLayer*)standardImperialGridLayer;
++ (DKGridLayer*)standardImperialPCBGridLayer;
 
 // setting up the grid
 
-- (void)					setMetricDefaults;
-- (void)					setImperialDefaults;
+- (void)setMetricDefaults;
+- (void)setImperialDefaults;
 
 // using the grid as the master grid for a drawing
 
-- (BOOL)					isMasterGrid;
+- (BOOL)isMasterGrid;
 
 // one-stop shop for setting grid, drawing and rulers in one hit:
 
@@ -113,42 +110,42 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @param steps> the ruler step-up cycle (see NSRulerView), must be  1
  * @public
  */
-- (void)					setDistanceForUnitSpan:(CGFloat) conversionFactor
-							drawingUnits:(NSString*) units
-							span:(CGFloat) span
-							divisions:(NSUInteger) divs
-							majors:(NSUInteger) majors
-							rulerSteps:(NSUInteger) steps;
+- (void)setDistanceForUnitSpan:(CGFloat)conversionFactor
+                  drawingUnits:(NSString*)units
+                          span:(CGFloat)span
+                     divisions:(NSUInteger)divs
+                        majors:(NSUInteger)majors
+                    rulerSteps:(NSUInteger)steps;
 
 // other settings:
 
-- (CGFloat)					spanDistance;
+- (CGFloat)spanDistance;
 
 /** @brief Returns the actual distance, in points, between each division
  * @return the distance in quartz points for one division.
  * @public
  */
-- (CGFloat)					divisionDistance;
-- (void)					setZeroPoint:(NSPoint) zero;
-- (NSPoint)					zeroPoint;
-- (NSUInteger)				divisions;
-- (NSUInteger)				majors;
-- (CGFloat)					spanMultiplier;
+- (CGFloat)divisionDistance;
+- (void)setZeroPoint:(NSPoint)zero;
+- (NSPoint)zeroPoint;
+- (NSUInteger)divisions;
+- (NSUInteger)majors;
+- (CGFloat)spanMultiplier;
 
 // hiding elements of the grid
 
-- (void)					setDivisionsHidden:(BOOL) hide;
-- (BOOL)					divisionsHidden;
-- (void)					setSpansHidden:(BOOL) hide;
-- (BOOL)					spansHidden;
-- (void)					setMajorsHidden:(BOOL) hide;
-- (BOOL)					majorsHidden;
+- (void)setDivisionsHidden:(BOOL)hide;
+- (BOOL)divisionsHidden;
+- (void)setSpansHidden:(BOOL)hide;
+- (BOOL)spansHidden;
+- (void)setMajorsHidden:(BOOL)hide;
+- (BOOL)majorsHidden;
 
 // managing rulers and margins
 
-- (void)					setRulerSteps:(NSUInteger) steps;
-- (NSUInteger)				rulerSteps;
-- (void)					synchronizeRulers;
+- (void)setRulerSteps:(NSUInteger)steps;
+- (NSUInteger)rulerSteps;
+- (void)synchronizeRulers;
 
 /** @brief Adjust the drawing margins to encompass an integral number of grid spans
  * @note
@@ -161,7 +158,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * stay more or less where it is.
  * @public
  */
-- (void)					tweakDrawingMargins;
+- (void)tweakDrawingMargins;
 
 // colours for grid display
 
@@ -172,8 +169,8 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @param colour a colour
  * @public
  */
-- (void)					setSpanColour:(NSColor*) colour;
-- (NSColor*)				spanColour;
+- (void)setSpanColour:(NSColor*)colour;
+- (NSColor*)spanColour;
 
 /** @brief Sets the colour used to draw the divisions
  * @note
@@ -182,8 +179,8 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @param colour a colour
  * @public
  */
-- (void)					setDivisionColour:(NSColor*) colour;
-- (NSColor*)				divisionColour;
+- (void)setDivisionColour:(NSColor*)colour;
+- (NSColor*)divisionColour;
 
 /** @brief Sets the colour used to draw the majors
  * @note
@@ -192,8 +189,8 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @param colour a colour
  * @public
  */
-- (void)					setMajorColour:(NSColor*) colour;
-- (NSColor*)				majorColour;
+- (void)setMajorColour:(NSColor*)colour;
+- (NSColor*)majorColour;
 
 /** @brief Sets the colours used to draw the grid as a whole
  * @note
@@ -204,8 +201,8 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @param colour a colour
  * @public
  */
-- (void)					setGridThemeColour:(NSColor*) colour;
-- (NSColor*)				themeColour;
+- (void)setGridThemeColour:(NSColor*)colour;
+- (NSColor*)themeColour;
 
 // converting between the base (Quartz) coordinate system and the grid
 
@@ -217,7 +214,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @return a point, the nearest grid intersection to the point
  * @public
  */
-- (NSPoint)					nearestGridIntersectionToPoint:(NSPoint) p;
+- (NSPoint)nearestGridIntersectionToPoint:(NSPoint)p;
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
  * number of divisions
@@ -227,7 +224,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @return a size, the nearest whole number of divisions to the original size
  * @public
  */
-- (NSSize)					nearestGridIntegralToSize:(NSSize) size;
+- (NSSize)nearestGridIntegralToSize:(NSSize)size;
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
  * number of spans
@@ -238,7 +235,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @return a size, the nearest whole number of spans to the original size
  * @public
  */
-- (NSSize)					nearestGridSpanIntegralToSize:(NSSize) size;
+- (NSSize)nearestGridSpanIntegralToSize:(NSSize)size;
 
 /** @brief Given a point in drawing coordinates, returns the "real world" coordinate of the same point
  * @note
@@ -247,7 +244,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @return a point giving the same position in terms of the grid's drawing units, etc.
  * @public
  */
-- (NSPoint)					gridLocationForPoint:(NSPoint) pt;
+- (NSPoint)gridLocationForPoint:(NSPoint)pt;
 
 /** @brief Given a point in "real world" coordinates, returns the drawing coordinates of the same point
  * @note
@@ -256,7 +253,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @return a point giving the same position in the drawing.
  * @public
  */
-- (NSPoint)					pointForGridLocation:(NSPoint) gpt;
+- (NSPoint)pointForGridLocation:(NSPoint)gpt;
 
 /** @brief Given a distance value in drawing coordinates, returns the grid's "real world" equivalent
  * @note
@@ -266,7 +263,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @return the distance in grid units
  * @public
  */
-- (CGFloat)					gridDistanceForQuartzDistance:(CGFloat) qd;
+- (CGFloat)gridDistanceForQuartzDistance:(CGFloat)qd;
 
 /** @brief Given a distance value in the grid's "real world" coordinates, returns the quartz equivalent
  * @note
@@ -275,7 +272,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @return the distance in quartz units
  * @public
  */
-- (CGFloat)					quartzDistanceForGridDistance:(CGFloat) gd;
+- (CGFloat)quartzDistanceForGridDistance:(CGFloat)gd;
 
 // private:
 
@@ -286,10 +283,10 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @param scale the view's current scale
  * @private
  */
-- (void)					adjustSpanCycleForViewScale:(CGFloat) scale;
-- (void)					invalidateCache;
-- (void)					createGridCacheInRect:(NSRect) r;
-- (void)					drawBorderOutline:(DKDrawingView*) aView;
+- (void)adjustSpanCycleForViewScale:(CGFloat)scale;
+- (void)invalidateCache;
+- (void)createGridCacheInRect:(NSRect)r;
+- (void)drawBorderOutline:(DKDrawingView*)aView;
 
 // user actions
 
@@ -300,16 +297,15 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  * @param sender the sender of the action
  * @public
  */
-- (IBAction)				setMeasurementSystemAction:(id) sender;
+- (IBAction)setMeasurementSystemAction:(id)sender;
 
 @end
 
 // fundamental constants for grid setup - do not change:
 
-#define				kDKGridDrawingLayerMetricInterval		28.346456692913		// 1cm, = 72 / 2.54
-#define				kDKGridDrawingLayerImperialInterval		72.00				// 1 inch
+#define kDKGridDrawingLayerMetricInterval 28.346456692913 // 1cm, = 72 / 2.54
+#define kDKGridDrawingLayerImperialInterval 72.00 // 1 inch
 
-extern NSString*	kDKGridDrawingLayerStandardMetric;
-extern NSString*	kDKGridDrawingLayerStandardImperial;
-extern NSString*	kDKGridDrawingLayerStandardImperialPCB;
-
+extern NSString* kDKGridDrawingLayerStandardMetric;
+extern NSString* kDKGridDrawingLayerStandardImperial;
+extern NSString* kDKGridDrawingLayerStandardImperialPCB;
