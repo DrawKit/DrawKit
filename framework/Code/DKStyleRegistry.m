@@ -609,7 +609,7 @@ static BOOL s_NoDKDefaults = NO;
  See +resetRgistry
  @param noDKDefaults YES to turn OFF the defaults
  */
-+ (void)setShouldNotAddDKDefaultCategory:(BOOL)noDKDefaults;
++ (void)setShouldNotAddDKDefaultCategory:(BOOL)noDKDefaults
 {
     s_NoDKDefaults = noDKDefaults;
 }

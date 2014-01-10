@@ -886,7 +886,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
         [mTextAdornment turnOffKerning];
 }
 
-- (IBAction)useStandardKerning:(id)sender;
+- (IBAction)useStandardKerning:(id)sender
 {
 #pragma unused(sender)
 

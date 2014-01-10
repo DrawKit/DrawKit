@@ -560,7 +560,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
              prioritiseOnPathPoints:NO];
 }
 
-- (NSInteger)partcodeHitByPoint:(NSPoint)p tolerance:(CGFloat)t startingFromElement:(NSInteger)startElement prioritiseOnPathPoints:(BOOL)onpPriority;
+- (NSInteger)partcodeHitByPoint:(NSPoint)p tolerance:(CGFloat)t startingFromElement:(NSInteger)startElement prioritiseOnPathPoints:(BOOL)onpPriority
 {
     // given a point <p>, this detects whether any of the control points in the path were hit. A hit has to
     // be within <t> of the point's position. Returns the partcode of the point hit, or 0 if not hit. If <onpPriority> is YES, on-path points

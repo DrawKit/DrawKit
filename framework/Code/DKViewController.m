@@ -688,7 +688,7 @@ static NSTimer* s_autoscrollTimer = nil;
  High-level method can be invoked directly from a menu. Flips the current state of snap to grid.
  @param sender the sender of the action 
  */
-- (IBAction)toggleSnapToGrid:(id)sender;
+- (IBAction)toggleSnapToGrid:(id)sender
 {
 #pragma unused(sender)
 

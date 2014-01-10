@@ -449,7 +449,7 @@
  @param interpValue a value between 0 and 1
  @return a colour that is intermediate between the receiver and secondColor, in RGB space
  */
-- (NSColor*)interpolatedColorToColor:(NSColor*)secondColor atValue:(CGFloat)interpValue;
+- (NSColor*)interpolatedColorToColor:(NSColor*)secondColor atValue:(CGFloat)interpValue
 {
     return [NSColor colorByInterpolatingFrom:self
                                           to:secondColor

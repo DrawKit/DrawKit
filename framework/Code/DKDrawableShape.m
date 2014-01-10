@@ -300,7 +300,7 @@ static NSSize sTempSavedOffset;
  @param aRect the bounding rect for an oval
  @return the initialized object
  */
-- (id)initWithOvalInRect:(NSRect)aRect;
+- (id)initWithOvalInRect:(NSRect)aRect
 {
     return [self initWithOvalInRect:aRect
                               style:[DKStyle defaultStyle]];
@@ -1531,7 +1531,7 @@ static NSSize sTempSavedOffset;
 /** @brief Return the current distortion transform
  @return the distortion transform if there is one, or nil otherwise
  */
-- (DKDistortionTransform*)distortionTransform;
+- (DKDistortionTransform*)distortionTransform
 {
     return m_distortTransform;
 }
@@ -1651,7 +1651,7 @@ static NSSize sTempSavedOffset;
 /** @brief Sets the operation mode of the shape based on the sender's tag
  @param sender the action's sender
  */
-- (IBAction)setDistortMode:(id)sender;
+- (IBAction)setDistortMode:(id)sender
 {
     NSInteger m = [sender tag];
     [self setOperationMode:m];
@@ -2097,7 +2097,7 @@ static NSSize sTempSavedOffset;
 /** @brief Sets the shape's location to the given point
  @param location the new location of the object
  */
-- (void)setLocation:(NSPoint)location;
+- (void)setLocation:(NSPoint)location
 {
     if (!NSEqualPoints(location, [self location]) && ![self locationLocked]) {
         NSRect oldBounds = [self bounds];

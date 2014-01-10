@@ -1561,7 +1561,7 @@ static NSRect s_oldBounds;
  @param obj the original object his is being substituted for
  @param aLayer the layer this will be added to (but is not yet)
  */
-- (void)willBeAddedAsSubstituteFor:(DKDrawableObject*)obj toLayer:(DKObjectOwnerLayer*)aLayer;
+- (void)willBeAddedAsSubstituteFor:(DKDrawableObject*)obj toLayer:(DKObjectOwnerLayer*)aLayer
 {
 #pragma unused(obj, aLayer)
 }

@@ -15,7 +15,7 @@
 /**  */
 - (void)appendSplitElementFromPath:(NSBezierPath*)path withIntersectionInfo:(OABezierPathIntersection*)info rightOrLeft:(BOOL)isRight trailingOrLeading:(BOOL)isLeading;
 - (void)appendElementsFromPath:(NSBezierPath*)path fromIndex:(NSInteger)firstIndex toIndex:(NSInteger)nextIndex;
-- (void)appendElementsFromPath:(NSBezierPath*)inRange:(NSRange)range;
+- (void)appendElementsFromPath:(NSBezierPath*)path inRange:(NSRange)range;
 - (NSArray*)breakApartWithIntersectionInfo:(PathIntersectionList)info rightOrLeft:(BOOL)isRight;
 
 @end
@@ -181,7 +181,7 @@
                              inRange:NSMakeRange(0, nextIndex)];
 }
 
-- (void)appendSplitElementFromPath:(NSBezierPath*)path withIntersectionInfo:(OABezierPathIntersection*)info rightOrLeft:(BOOL)isRight trailingOrLeading:(BOOL)isLeading;
+- (void)appendSplitElementFromPath:(NSBezierPath*)path withIntersectionInfo:(OABezierPathIntersection*)info rightOrLeft:(BOOL)isRight trailingOrLeading:(BOOL)isLeading
 {
     NSAssert(path != nil, @"can't append elements from nil path");
 

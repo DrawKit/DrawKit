@@ -46,7 +46,7 @@ static NSDictionary* sTraceParams = nil; // use default
     sVecColourPrecision = colourPrecision;
 }
 
-+ (void)setPreferredQuantizationMethod:(DKColourQuantizationMethod)qm;
++ (void)setPreferredQuantizationMethod:(DKColourQuantizationMethod)qm
 {
     sQuantizationMethod = qm;
 }

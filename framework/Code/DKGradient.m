@@ -184,7 +184,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 /** @brief Removes a Color stop from the list of Colors
  @param stop the stop to remove
  */
-- (void)removeColorStop:(DKColorStop*)stop;
+- (void)removeColorStop:(DKColorStop*)stop
 {
     if ([[self colorStops] containsObject:stop]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillRemoveColorStop
@@ -649,7 +649,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  @param sr the starting radius
  @param ep the end point of the fill
  @param er the ending radius */
-- (CGShadingRef)newRadialShaderForStartingPoint:(NSPoint)sp startRadius:(CGFloat)sr endPoint:(NSPoint)ep endRadius:(CGFloat)er;
+- (CGShadingRef)newRadialShaderForStartingPoint:(NSPoint)sp startRadius:(CGFloat)sr endPoint:(NSPoint)ep endRadius:(CGFloat)er
 {
     return CGShadingCreateRadial([DKGradient sharedGradientColorSpace], *(CGPoint*)&sp, sr, *(CGPoint*)&ep, er, m_cbfunc, YES, YES);
 }
@@ -888,7 +888,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  Swatch has standard size and a border
  @return an NSImage containing the current gradient
  */
-- (NSImage*)standardSwatchImage;
+- (NSImage*)standardSwatchImage
 {
     return [self swatchImageWithSize:DKGradientSwatchSize
                           withBorder:YES];
@@ -1141,7 +1141,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  @param pos the relative position within the gradient, valid range = 0.0..1.0
  @return the stop
  */
-- (id)initWithColor:(NSColor*)Color at:(CGFloat)pos;
+- (id)initWithColor:(NSColor*)Color at:(CGFloat)pos
 {
     self = [super init];
     if (self != nil) {
@@ -1211,7 +1211,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  Value is constrained between 0.0 and 1.0
  @param pos a vlue between 0 and 1
  */
-- (void)setPosition:(CGFloat)pos;
+- (void)setPosition:(CGFloat)pos
 {
     [[self owner] colorStopWillChangePosition:self];
     position = LIMIT(pos, 0.0, 1.0);

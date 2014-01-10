@@ -16,7 +16,7 @@
 
 @implementation DKStroke
 #pragma mark As a DKStroke
-+ (DKStroke*)defaultStroke;
++ (DKStroke*)defaultStroke
 {
     return [[[self alloc] init] autorelease];
 }

@@ -498,7 +498,7 @@
     mCoalKind = kind;
 }
 
-- (GCUndoTaskCoalescingKind)coalescingKind;
+- (GCUndoTaskCoalescingKind)coalescingKind
 {
     return mCoalKind;
 }

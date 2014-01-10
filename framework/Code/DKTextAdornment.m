@@ -65,7 +65,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 #pragma mark As a DKTextAdornment
 
-+ (DKTextAdornment*)textAdornmentWithText:(id)anySortOfText;
++ (DKTextAdornment*)textAdornmentWithText:(id)anySortOfText
 {
     DKTextAdornment* dkt = [[self alloc] init];
 

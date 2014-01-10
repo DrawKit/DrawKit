@@ -933,7 +933,7 @@ static NSArray* s_selectionColours = nil;
  @param event the original mouseDragged event
  @param view the view which responded to the event and passed it on to us
  */
-- (void)mouseDragged:(NSEvent*)event inView:(NSView*)view;
+- (void)mouseDragged:(NSEvent*)event inView:(NSView*)view
 {
 #pragma unused(event)
 #pragma unused(view)
@@ -944,7 +944,7 @@ static NSArray* s_selectionColours = nil;
  @param event the original mouseUpevent
  @param view the view which responded to the event and passed it on to us
  */
-- (void)mouseUp:(NSEvent*)event inView:(NSView*)view;
+- (void)mouseUp:(NSEvent*)event inView:(NSView*)view
 {
 #pragma unused(event)
 #pragma unused(view)

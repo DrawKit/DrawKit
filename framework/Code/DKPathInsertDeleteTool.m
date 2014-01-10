@@ -35,7 +35,7 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
     return [tool autorelease];
 }
 
-+ (DKDrawingTool*)pathElementDeletionTool;
++ (DKDrawingTool*)pathElementDeletionTool
 {
     DKPathInsertDeleteTool* tool = [[DKPathInsertDeleteTool alloc] init];
 

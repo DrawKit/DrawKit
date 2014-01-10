@@ -719,7 +719,7 @@ static NSUInteger sLeafCount = 0;
     }
 }
 
-- (void)operateOnLeaf:(id)leaf;
+- (void)operateOnLeaf:(id)leaf
 {
     // <leaf> is a pointer to the NSMutableIndexSet at the leaf
 

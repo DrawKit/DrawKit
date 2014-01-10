@@ -139,7 +139,7 @@
     }
 }
 
-- (void)setWindowOffset:(NSSize)offset;
+- (void)setWindowOffset:(NSSize)offset
 {
     m_wOffset = offset;
 }

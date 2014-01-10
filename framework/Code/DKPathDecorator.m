@@ -23,7 +23,7 @@
 @implementation DKPathDecorator
 #pragma mark As a DKPathDecorator
 
-+ (DKPathDecorator*)pathDecoratorWithImage:(NSImage*)image;
++ (DKPathDecorator*)pathDecoratorWithImage:(NSImage*)image
 {
     return [[[self alloc] initWithImage:image] autorelease];
 }

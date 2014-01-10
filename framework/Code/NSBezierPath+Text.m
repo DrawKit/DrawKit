@@ -197,7 +197,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
  @param attrs the attributes to use to draw the string - may be nil
  @return YES if the text was fully laid out, NO if some text could not be drawn (for example because it
  would not all fit on the path). */
-- (BOOL)drawStringOnPath:(NSString*)str attributes:(NSDictionary*)attrs;
+- (BOOL)drawStringOnPath:(NSString*)str attributes:(NSDictionary*)attrs
 {
     // draws a string along the path with the supplied attributes
 

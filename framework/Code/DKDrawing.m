@@ -1011,7 +1011,7 @@ static id sDearchivingHelper = nil;
     mTriggerPeriod = t;
 }
 
-- (NSTimeInterval)lowQualityTriggerInterval;
+- (NSTimeInterval)lowQualityTriggerInterval
 {
     return mTriggerPeriod;
 }

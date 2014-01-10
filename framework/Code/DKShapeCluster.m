@@ -18,7 +18,7 @@
  @param master the master object
  @return a new autoreleased cluster object, which should be added to a suitable drawing layer before use
  */
-+ (DKShapeCluster*)clusterWithObjects:(NSArray*)objects masterObject:(DKDrawableShape*)master;
++ (DKShapeCluster*)clusterWithObjects:(NSArray*)objects masterObject:(DKDrawableShape*)master
 {
     DKShapeCluster* cluster = [[DKShapeCluster alloc] initWithObjectsInArray:objects];
 

@@ -668,7 +668,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
  drag the image on a drag and clean up on mouse up. The point <p> is already pre-snapped for
  a multi-object drag and the caller will take care of other normal housekeeping.
  */
-- (void)proxyDragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph;
+- (void)proxyDragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph
 {
 #pragma unused(event)
 

@@ -1254,7 +1254,7 @@ enum {
     mMultipleAutoForwarding = autoForward;
 }
 
-- (BOOL)multipleSelectionAutoForwarding;
+- (BOOL)multipleSelectionAutoForwarding
 {
     return mMultipleAutoForwarding;
 }

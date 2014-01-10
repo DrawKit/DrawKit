@@ -64,7 +64,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
     }
 }
 
-+ (NSString*)localizedDisplayNameForType:(DKMetadataType)type;
++ (NSString*)localizedDisplayNameForType:(DKMetadataType)type
 {
     switch (type) {
     case DKMetadataTypeString:
@@ -703,7 +703,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 #pragma mark -
 
-- (void)assignValue:(id)aValue;
+- (void)assignValue:(id)aValue
 {
     // sets the current value ignoring type and without notifying
 

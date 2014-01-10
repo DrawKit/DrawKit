@@ -56,7 +56,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param pboard a pasteboard
  @return the objet if it was successfully initialized, or nil
  */
-- (id)initWithPasteboard:(NSPasteboard*)pboard;
+- (id)initWithPasteboard:(NSPasteboard*)pboard
 {
     NSImage* image = nil;
     if ([NSImage canInitWithPasteboard:pboard]) {

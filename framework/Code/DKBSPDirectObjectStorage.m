@@ -608,7 +608,7 @@ static void addValueToFoundObjects(const void* value, void* context)
     }
 }
 
-- (void)operateOnLeaf:(id)leaf;
+- (void)operateOnLeaf:(id)leaf
 {
     // <leaf> is a pointer to the NSMutableArray at the leaf
 
@@ -644,7 +644,7 @@ static void addValueToFoundObjects(const void* value, void* context)
     }
 }
 
-- (void)removeObject:(id<DKStorableObject>)obj;
+- (void)removeObject:(id<DKStorableObject>)obj
 {
     // removes all references to <obj> from the tree. Ignores its bounds and simply iterates over the leaves removing the object.
 

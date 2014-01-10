@@ -124,12 +124,12 @@ static struct pointInfo getLinePoint(const NSPoint *a, CGFloat position) {
     return (NSPoint){ nanf(""), nanf("") };
 }
 
-- (BOOL)strokesSimilarlyIgnoringEndcapsToPath:(NSBezierPath *)otherPath;
+- (BOOL)strokesSimilarlyIgnoringEndcapsToPath:(NSBezierPath *)otherPath
 {
     return [[self countedSetOfEncodedStrokeSegments] isEqual:[otherPath countedSetOfEncodedStrokeSegments]];
 }
 
-- (NSCountedSet *)countedSetOfEncodedStrokeSegments;
+- (NSCountedSet *)countedSetOfEncodedStrokeSegments
 {
     NSPoint unlikelyPoint = {-10275847.33894, -10275847.33894};
     NSPoint firstPoint = unlikelyPoint, currentPoint = NSZeroPoint;
@@ -289,7 +289,7 @@ static void copyIntersection(OABezierPathIntersection *buf, const struct interse
     }
 }
 
-- (BOOL)firstIntersectionWithLine:(OABezierPathIntersection *)result lineStart:(NSPoint)lineStart lineEnd:(NSPoint)lineEnd;
+- (BOOL)firstIntersectionWithLine:(OABezierPathIntersection *)result lineStart:(NSPoint)lineStart lineEnd:(NSPoint)lineEnd
 {
     subpathWalkingState iter;
     NSPoint lineCoefficients[2];
@@ -548,7 +548,7 @@ static BOOL subsequent(struct OABezierPathIntersectionHalf *one, struct OABezier
 }
 
 // TODO: Write unit tests for this. In particular, make sure the winding count comes out right even if the test point is lined up with a vertex or cusp.
-- (void)getWinding:(NSInteger *)windingCountPtr andHit:(NSUInteger *)hitCountPtr forPoint:(NSPoint)point;
+- (void)getWinding:(NSInteger *)windingCountPtr andHit:(NSUInteger *)hitCountPtr forPoint:(NSPoint)point
 {
     NSInteger windingCount;
     NSUInteger hitCount;
@@ -779,7 +779,7 @@ void splitBezierCurveTo(const NSPoint *c, CGFloat t, NSPoint *l, NSPoint *r)
 //
 
 // From Scott Anguish's Cocoa book, I believe.
-- (void)appendBezierPathWithRoundedRectangle:(NSRect)aRect withRadius:(CGFloat)radius;
+- (void)appendBezierPathWithRoundedRectangle:(NSRect)aRect withRadius:(CGFloat)radius
 {
     NSPoint topMid = NSMakePoint(NSMidX(aRect), NSMaxY(aRect));
     NSPoint topLeft = NSMakePoint(NSMinX(aRect), NSMaxY(aRect));
@@ -794,7 +794,7 @@ void splitBezierCurveTo(const NSPoint *c, CGFloat t, NSPoint *l, NSPoint *r)
     [self closePath];
 }
 
-- (void)appendBezierPathWithLeftRoundedRectangle:(NSRect)aRect withRadius:(CGFloat)radius;
+- (void)appendBezierPathWithLeftRoundedRectangle:(NSRect)aRect withRadius:(CGFloat)radius
 {
     NSPoint topMid = NSMakePoint(NSMidX(aRect), NSMaxY(aRect));
     NSPoint topLeft = NSMakePoint(NSMinX(aRect), NSMaxY(aRect));
@@ -809,7 +809,7 @@ void splitBezierCurveTo(const NSPoint *c, CGFloat t, NSPoint *l, NSPoint *r)
     [self closePath];
 }
 
-- (void)appendBezierPathWithRightRoundedRectangle:(NSRect)aRect withRadius:(CGFloat)radius;
+- (void)appendBezierPathWithRightRoundedRectangle:(NSRect)aRect withRadius:(CGFloat)radius
 {
     NSPoint topMid = NSMakePoint(NSMidX(aRect), NSMaxY(aRect));
     NSPoint topLeft = NSMakePoint(NSMinX(aRect), NSMaxY(aRect));
@@ -1060,7 +1060,7 @@ static double subpathElementLength( subpathWalkingState *iter, double errorBudge
 }
 
 
-- (double)lengthToSegment:(NSInteger)seg parameter:(double)parameter totalLength:(double *)totalLengthOut;
+- (double)lengthToSegment:(NSInteger)seg parameter:(double)parameter totalLength:(double *)totalLengthOut
 {
     subpathWalkingState cursor;
     double partialLength;
@@ -1117,7 +1117,7 @@ static double subpathElementLength( subpathWalkingState *iter, double errorBudge
     return partialLength;
 }
 
-- (NSInteger)segmentAndParameter:(double *)outParameter afterLength:(double)position fractional:(BOOL)positionIsFractionOfTotal;
+- (NSInteger)segmentAndParameter:(double *)outParameter afterLength:(double)position fractional:(BOOL)positionIsFractionOfTotal
 {    
     subpathWalkingState cursor;
     const double totalErrorBudget = 0.5;
@@ -1287,7 +1287,7 @@ static NSInteger compareFloat(const void *a_, const void *b_)
 
 // load and save
 
-- (NSMutableDictionary *)propertyListRepresentation;
+- (NSMutableDictionary *)propertyListRepresentation
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     NSMutableArray *segments = [NSMutableArray array];
@@ -1364,7 +1364,7 @@ static NSInteger compareFloat(const void *a_, const void *b_)
 
 // NSObject overrides
 
-- (BOOL)isEqual:(NSBezierPath *)otherBezierPath;
+- (BOOL)isEqual:(NSBezierPath *)otherBezierPath
 {
     NSUInteger elementIndex, elementCount = [self elementCount];
 
@@ -1424,7 +1424,7 @@ static inline NSUInteger _threeBitsForPoint(NSPoint point)
     return ((NSUInteger)(bothAxes / pow(10.0, floor(log10(bothAxes))))) & 0x7;
 }
 
-- (NSUInteger)hash;
+- (NSUInteger)hash
 {
     NSUInteger hashValue = 0;
     NSUInteger elementIndex, elementCount = [self elementCount];

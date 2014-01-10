@@ -349,7 +349,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  @param objs a list of objects
  @return an index set listing the array index positions for the objects passed
  */
-- (NSIndexSet*)indexesOfObjectsInArray:(NSArray*)objs;
+- (NSIndexSet*)indexesOfObjectsInArray:(NSArray*)objs
 {
     NSAssert(objs != nil, @"can't get indexes for a nil array");
 
@@ -605,7 +605,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  @return YES if all objects were placed within the interior bounds of the drawing, NO if any object was
  placed outside the interior.
  */
-- (BOOL)addObjectsFromArray:(NSArray*)objs bounds:(NSRect)bounds relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin;
+- (BOOL)addObjectsFromArray:(NSArray*)objs bounds:(NSRect)bounds relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin
 {
     if (![self lockedOrHidden]) {
         NSEnumerator* iter = [objs objectEnumerator];
@@ -1648,7 +1648,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  @note
  This is purely to assist with storage debugging and should not be invoked in production code.
  */
-- (IBAction)toggleShowStorageDebuggingPath:(id)sender;
+- (IBAction)toggleShowStorageDebuggingPath:(id)sender
 {
 #pragma unused(sender)
     mShowStorageDebugging = !mShowStorageDebugging;
