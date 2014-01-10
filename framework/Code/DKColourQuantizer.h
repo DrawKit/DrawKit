@@ -1,17 +1,21 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import <Cocoa/Cocoa.h>
 
-// generic interface and simple quantizer which performs uniform quantization. Results with this quantizer are generally only
-// barely acceptable - colours may be mapped to something grossly different from the original since this does not take any notice of
-// the pixels actually used in the image, only the basic size of the RGB colour space it is given.
+/** @brief generic interface and simple quantizer which performs uniform quantization.
 
+ @notes
+ Results with this quantizer are generally only barely acceptable - colours may be mapped
+ to something grossly different from the original since this does not take any notice of
+ the pixels actually used in the image, only the basic size of the RGB colour space it is given.
+ @see DKOctreeQuantizer
+ */
 @interface DKColourQuantizer : NSObject {
     NSUInteger m_maxColours;
     NSUInteger m_nBits;
@@ -52,6 +56,7 @@ typedef struct _rgb_triple {
     CGFloat b;
 } rgb_triple;
 
+/** @brief octree quantizer which does a much better job than DKColourQuantizer */
 @interface DKOctreeQuantizer : DKColourQuantizer {
     NODE* m_pTree;
     NSUInteger m_nLeafCount;

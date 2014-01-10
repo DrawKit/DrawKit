@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKTextPath.h"
@@ -62,10 +62,9 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 }
 
 /** @brief Return a list of types we can paste in priority order.
- * @note
- * Cocoa's -textPasteboardTypes isn't in an order that is useful to us
- * @return a list of types
- * @public
+ @note
+ Cocoa's -textPasteboardTypes isn't in an order that is useful to us
+ @return a list of types
  */
 + (NSArray*)pastableTextTypes
 {
@@ -215,11 +214,10 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 }
 
 /** @brief Creates a style that is the current style + any text attributes
- * @note
- * A style which is the current style if it has text attributes, otherwise the current style with added text
- * attributes. When cutting or copying the object's style, this is what should be used.
- * @return a new style object
- * @public
+ @note
+ A style which is the current style if it has text attributes, otherwise the current style with added text
+ attributes. When cutting or copying the object's style, this is what should be used.
+ @return a new style object
  */
 - (DKStyle*)syntheticStyle
 {
@@ -989,8 +987,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 }
 
 /** @brief Copies the object's style to the general pasteboard
- * @param sender the action's sender
- * @public
+ @param sender the action's sender
  */
 - (IBAction)copyDrawingStyle:(id)sender
 {
@@ -1011,10 +1008,9 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 }
 
 /** @brief Write additional data to the pasteboard specific to the object
- * @note
- * Text objects add the text itself to the pasteboard
- * @param pb the pasteboard to write to
- * @public
+ @note
+ Text objects add the text itself to the pasteboard
+ @param pb the pasteboard to write to
  */
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {

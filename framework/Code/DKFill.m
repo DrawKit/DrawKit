@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKFill.h"
@@ -104,8 +104,7 @@
 #pragma mark -
 
 /** @brief Sets whether the gradient's angle is aligned with the rendered object's angle
- * @param toa YES if the gradient angle is based off the object's angle
- * @public
+ @param toa YES if the gradient angle is based off the object's angle
  */
 - (void)setTracksObjectAngle:(BOOL)toa
 {
@@ -113,8 +112,7 @@
 }
 
 /** @brief Whether the gradient's angle is aligned with the rendered object's angle
- * @return YES if the gradient angle is based off the object's angle
- * @public
+ @return YES if the gradient angle is based off the object's angle
  */
 - (BOOL)tracksObjectAngle
 {

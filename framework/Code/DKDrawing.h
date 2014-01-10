@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKLayerGroup.h"
@@ -59,124 +59,109 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 }
 
 /** @brief Return the current version number of the framework
- * @return a number formatted in 8-4-4 bit format representing the current version number
- * @public
+ @return a number formatted in 8-4-4 bit format representing the current version number
  */
 + (NSUInteger)drawkitVersion;
 
 /** @brief Return the current version number and release status as a preformatted string
- * @note
- * This is intended for occasional display, rather than testing for the framework version.
- * @return a string, e.g. "1.0.b6"
- * @public
+ @note
+ This is intended for occasional display, rather than testing for the framework version.
+ @return a string, e.g. "1.0.b6"
  */
 + (NSString*)drawkitVersionString;
 
 /** @brief Return the current release status of the framework
- * @return a string, either "alpha", "beta", "release candidate" or nil (final)
- * @public
+ @return a string, either "alpha", "beta", "release candidate" or nil (final)
  */
 + (NSString*)drawkitReleaseStatus;
 
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
- * @note
- * As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
- * you'll get a fully working, prebuilt drawing system behind that view. This can be very handy for all
- * sorts of uses. However, it is more usual to build the system the other way around - start with a
- * drawing object within a document (say) and attach views to it. This gives you the flexibility to
- * do it either way. For automatic construction, this method is called to supply the drawing.
- * @param aSize - the size of the drawing to create
- * @return a fully constructed default drawing system
- * @public
+ @note
+ As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
+ you'll get a fully working, prebuilt drawing system behind that view. This can be very handy for all
+ sorts of uses. However, it is more usual to build the system the other way around - start with a
+ drawing object within a document (say) and attach views to it. This gives you the flexibility to
+ do it either way. For automatic construction, this method is called to supply the drawing.
+ @param aSize - the size of the drawing to create
+ @return a fully constructed default drawing system
  */
 + (DKDrawing*)defaultDrawingWithSize:(NSSize)aSize;
 
 /** @brief Creates a drawing from a lump of data
- * @param drawingData data representing an archived drawing
- * @return the unarchived drawing
- * @public
+ @param drawingData data representing an archived drawing
+ @return the unarchived drawing
  */
 + (DKDrawing*)drawingWithData:(NSData*)drawingData;
 
 /** @brief Return the default derachiving helper for deaerchiving a drawing
- * @note
- * This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
- * classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
- * replaced to provide the same functionality for application-specific classes.
- * @return the dearchiving helper
- * @public
+ @note
+ This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
+ classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
+ replaced to provide the same functionality for application-specific classes.
+ @return the dearchiving helper
  */
 + (id)dearchivingHelper;
 
 /** @brief Replace the default dearchiving helper for deaerchiving a drawing
- * @note
- * This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
- * classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
- * replaced to provide the same functionality for application-specific classes.
- * @param helper a suitable helper object
- * @public
+ @note
+ This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
+ classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
+ replaced to provide the same functionality for application-specific classes.
+ @param helper a suitable helper object
  */
 + (void)setDearchivingHelper:(id)helper;
 
 /** @brief Returns a new drawing number by incrementing the current default seed value
- * @return a new drawing number
- * @public
+ @return a new drawing number
  */
 + (NSUInteger)newDrawingNumber;
 
 /** @brief Returns a dictionary containing some standard drawing info attributes
- * @note
- * This is usually called by the drawing object itself when built new. Usually you'll want to replace
- * its contents with your own info. A DKDrawingInfoLayer can interpret some of the standard values and
- * display them in its info box.
- * @return a mutable dictionary of standard drawing info
- * @public
+ @note
+ This is usually called by the drawing object itself when built new. Usually you'll want to replace
+ its contents with your own info. A DKDrawingInfoLayer can interpret some of the standard values and
+ display them in its info box.
+ @return a mutable dictionary of standard drawing info
  */
 + (NSMutableDictionary*)defaultDrawingInfo;
 
 /** @brief Sets the abbreviation for the given drawing units string
- * @note
- * This allows special abbreviations to be set for units if desired. The setting writes to the user
- * defaults so is persistent.
- * @param abbrev the abbreviation for the unit
- * @param fullString the full name of the drawing units
- * @public
+ @note
+ This allows special abbreviations to be set for units if desired. The setting writes to the user
+ defaults so is persistent.
+ @param abbrev the abbreviation for the unit
+ @param fullString the full name of the drawing units
  */
 + (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(NSString*)fullString;
 
 /** @brief Returns the abbreviation for the given drawing units string
- * @param fullString the full name of the drawing units
- * @return a string - the abbreviated form
- * @public
+ @param fullString the full name of the drawing units
+ @return a string - the abbreviated form
  */
 + (NSString*)abbreviationForDrawingUnits:(NSString*)fullString;
 
-/** @brief designated initializer
- */
+/** @brief designated initializer */
 - (id)initWithSize:(NSSize)size;
 
 // owner (document or view)
 
 /** @brief Returns the "owner" of this drawing.
- * @note
- * The owner is usually either a document, a window controller or a drawing view.
- * @return the owner
- * @public
+ @note
+ The owner is usually either a document, a window controller or a drawing view.
+ @return the owner
  */
 - (id)owner;
 
 /** @brief Sets the "owner" of this drawing.
- * @note
- * The owner is usually either a document, a window controller or a drawing view. It is not required to
- * be set at all, though some higher-level conveniences may depend on it.
- * @param owner the owner for this object
- * @public
+ @note
+ The owner is usually either a document, a window controller or a drawing view. It is not required to
+ be set at all, though some higher-level conveniences may depend on it.
+ @param owner the owner for this object
  */
 - (void)setOwner:(id)owner;
 
 /** @name basic drawing parameters
- *	@{
- */
+ *	@{ */
 
 - (void)setDrawingSize:(NSSize)aSize;
 - (NSSize)drawingSize;
@@ -195,27 +180,25 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (BOOL)isFlipped;
 
 /** @brief Sets the destination colour space for the whole drawing
- * @note
- * Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- * nil will use whatever is set in the colours used by the styles.
- * @param cSpace the colour space 
- * @public
+ @note
+ Colours set by styles and so forth are converted to this colourspace when rendering. A value of
+ nil will use whatever is set in the colours used by the styles.
+ @param cSpace the colour space 
  */
 - (void)setColourSpace:(NSColorSpace*)cSpace;
 
 /** @brief Returns the colour space for the whole drawing
- * @note
- * Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- * nil will use whatever is set in the colours used by the styles.
- * @return the colour space
- * @public
+ @note
+ Colours set by styles and so forth are converted to this colourspace when rendering. A value of
+ nil will use whatever is set in the colours used by the styles.
+ @return the colour space
  */
 - (NSColorSpace*)colourSpace;
 
 /**
- * @}
- * @name setting the rulers to the grid
- * @{ */
+ @}
+ @name setting the rulers to the grid
+ @{ */
 
 - (void)setDrawingUnits:(NSString*)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
 - (NSString*)drawingUnits;
@@ -231,24 +214,21 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (id)delegate;
 
 /** @name the drawing's view controllers
- * @{
- */
+ @{ */
 
 - (NSSet*)controllers;
 - (void)addController:(DKViewController*)aController;
 - (void)removeController:(DKViewController*)aController;
 
 /** @brief Removes all controller from the drawing
- * @note
- * Typically controllers are removed when necessary - there is little reason to call this yourself
- * @public
+ @note
+ Typically controllers are removed when necessary - there is little reason to call this yourself
  */
 - (void)removeAllControllers;
 
 /** @}
- * @name passing information to the views
- * @{
- */
+ @name passing information to the views
+ @{ */
 
 - (void)invalidateCursors;
 - (void)scrollToRect:(NSRect)rect;
@@ -258,14 +238,12 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 /** @} */
 /** @name dynamically adjusting the rendering quality:
- * @{
- */
+ @{ */
 
 /** @brief Set whether drawing quality modulation is enabled or not
- * @note
- * Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
- * the need for it. This flag allows that behaviour to be turned on or off.
- * @public
+ @note
+ Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
+ the need for it. This flag allows that behaviour to be turned on or off.
  */
 - (void)setDynamicQualityModulationEnabled:(BOOL)qmEnabled;
 - (BOOL)dynamicQualityModulationEnabled;
@@ -279,23 +257,20 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 /** @} */
 /** @name setting the undo manager:
- * @{
- */
+ @{ */
 
 - (void)setUndoManager:(id)um;
 - (id)undoManager;
 
 /** @} */
 /** @name drawing meta-data:
- * @{
- */
+ @{ */
 
 - (void)setDrawingInfo:(NSMutableDictionary*)info;
 - (NSMutableDictionary*)drawingInfo;
 
 /** @name rendering the drawing:
- * @{
- */
+ @{ */
 
 - (void)setPaperColour:(NSColor*)colour;
 - (NSColor*)paperColour;
@@ -304,8 +279,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 /** @} */
 /** @name active layer
- * @{
- */
+ @{ */
 - (BOOL)setActiveLayer:(DKLayer*)aLayer;
 - (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo;
 - (DKLayer*)activeLayer;
@@ -313,8 +287,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 /** @} */
 /** @name high level methods that help support a UI
- * @{
- */
+ @{ */
 
 - (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt;
 - (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(DKLayer*)anotherLayer;
@@ -322,8 +295,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 /** @} */
 /** @name interaction with grid and guides
- * @{
- */
+ @{ */
 
 - (void)setSnapsToGrid:(BOOL)snaps;
 - (BOOL)snapsToGrid;
@@ -346,30 +318,27 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len;
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
- * @note
- * This wraps up length conversion and formatting for display into one method, which also calls the
- * delegate if it implements the relevant method.
- * @param len a distance in base points (pixels)
- * @return a string containing a fully formatted distance plus the units abbreviation
- * @public
+ @note
+ This wraps up length conversion and formatting for display into one method, which also calls the
+ delegate if it implements the relevant method.
+ @param len a distance in base points (pixels)
+ @return a string containing a fully formatted distance plus the units abbreviation
  */
 - (NSString*)formattedConvertedLength:(CGFloat)len;
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
- * @note
- * This wraps up length conversion and formatting for display into one method, which also calls the
- * delegate if it implements the relevant method. The result is an array with two strings - the first
- * is the x coordinate, the second is the y co-ordinate
- * @param pt a point in base points (pixels)
- * @return a pair of strings containing a fully formatted distance plus the units abbreviation
- * @public
+ @note
+ This wraps up length conversion and formatting for display into one method, which also calls the
+ delegate if it implements the relevant method. The result is an array with two strings - the first
+ is the x coordinate, the second is the y co-ordinate
+ @param pt a point in base points (pixels)
+ @return a pair of strings containing a fully formatted distance plus the units abbreviation
  */
 - (NSArray*)formattedConvertedPoint:(NSPoint)pt;
 
 /** @} */
 /** @name export
- * @{
- */
+ @{ */
 
 - (void)finalizePriorToSaving;
 - (BOOL)writeToFile:(NSString*)filename atomically:(BOOL)atom;
@@ -380,15 +349,13 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 /** @} */
 /** @name image manager
- * @{
- */
+ @{ */
 
 /** @brief Returns the image manager
- * @note
- * The image manager is an object that is used to improve archiving efficiency of images. Classes
- * that have images, such as DKImageShape, use this to cache image data.
- * @return the drawing's image manager
- * @public
+ @note
+ The image manager is an object that is used to improve archiving efficiency of images. Classes
+ that have images, such as DKImageShape, use this to cache image data.
+ @return the drawing's image manager
  */
 - (DKImageDataManager*)imageManager;
 
@@ -396,9 +363,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 @end
 
 /** @name notifications
- * @memberof DKDrawing
- * @{
- */
+ @memberof DKDrawing
+ @{ */
 
 extern NSString* kDKDrawingActiveLayerWillChange;
 extern NSString* kDKDrawingActiveLayerDidChange;
@@ -411,10 +377,9 @@ extern NSString* kDKDrawingDidChangeMargins;
 extern NSString* kDKDrawingWillBeSavedOrExported;
 
 /** @}
- * @name keys for standard drawing info items:
- * @memberof DKDrawing
- * @{
- */
+ @name keys for standard drawing info items:
+ @memberof DKDrawing
+ @{ */
 
 extern NSString* kDKDrawingInfoUserInfoKey; /**< the key for the drawing info dictionary within the user info */
 
@@ -433,17 +398,15 @@ extern NSString* kDKDrawingInfoDimensionsUnits; /**< data type NSString */
 extern NSString* kDKDrawingInfoDimensionsShortUnits; /**< data type NSString */
 
 /** @}
- * @brief keys for user defaults items
- * @{
- */
+ @brief keys for user defaults items
+ @{ */
 extern NSString* kDKDrawingSnapToGridUserDefault; /**< BOOL */
 extern NSString* kDKDrawingSnapToGuidesUserDefault; /**< BOOL */
 extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 
 /** @} */
 
-/** @brief Delegate methods
- */
+/** @brief Delegate methods */
 @interface NSObject (DKDrawingDelegate)
 
 - (void)drawing:(DKDrawing*)drawing willDrawRect:(NSRect)rect inView:(DKDrawingView*)aView;
@@ -464,24 +427,21 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 
 @end
 
-/** @brief deprecated methods
- */
+/** @brief deprecated methods */
 @interface DKDrawing (Deprecated)
 
 + (DKDrawing*)drawingWithContentsOfFile:(NSString*)filepath;
 + (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath;
 
 /** @brief Saves the static class defaults for ALL classes in the drawing system
- * @note
- * Deprecated - no longer does anything
- * @public
+ @note
+ Deprecated - no longer does anything
  */
 + (void)saveDefaults;
 
 /** @brief Loads the static user defaults for all classes in the drawing system
- * @note
- * Deprecated - no longer does anything
- * @public
+ @note
+ Deprecated - no longer does anything
  */
 + (void)loadDefaults;
 

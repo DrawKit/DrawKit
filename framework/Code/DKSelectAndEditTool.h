@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKDrawingTool.h"
@@ -67,85 +67,75 @@ has a very low opacity should be used - the default style takes the system's hig
 }
 
 /** @brief Returns the default style to use for drawing the selection marquee
- * @note
- * Marquee styles should have a lot of transparency as they are drawn on top of all objects when
- * selecting them. The default style uses the system highlight colour as a starting point and
- * makes a low opacity version of it.
- * @return a style object
- * @public
+ @note
+ Marquee styles should have a lot of transparency as they are drawn on top of all objects when
+ selecting them. The default style uses the system highlight colour as a starting point and
+ makes a low opacity version of it.
+ @return a style object
  */
 + (DKStyle*)defaultMarqueeStyle;
 
 // modes of operation:
 
 /** @brief Sets the tool's operation mode
- * @note
- * This is typically called automatically by the mouseDown method according to the context of the
- * initial click.
- * @param op the mode to enter
- */
+ @note
+ This is typically called automatically by the mouseDown method according to the context of the
+ initial click.
+ @param op the mode to enter */
 - (void)setOperationMode:(DKEditToolOperation)op;
 
 /** @brief Returns the tool's current operation mode
- * @return the current operation mode
- */
+ @return the current operation mode */
 - (DKEditToolOperation)operationMode;
 
 // drawing the marquee (selection rect):
 
 /** @brief Draws the marquee (selection rect)
- * @note
- * This is called only if the mode is kDKEditToolSelectionMode. The actual drawing is performed by
- * the style
- * @param aView the view being drawn in
- */
+ @note
+ This is called only if the mode is kDKEditToolSelectionMode. The actual drawing is performed by
+ the style
+ @param aView the view being drawn in */
 - (void)drawMarqueeInView:(DKDrawingView*)aView;
 
 /** @brief Returns the current marquee (selection rect)
- * @return a rect
- */
+ @return a rect */
 - (NSRect)marqueeRect;
 
 /** @brief Sets the current marquee (selection rect)
- * @note
- * This updates the area that is different between the current marquee and the new one being set,
- * which results in much faster interactive selection of objects because far less drawing is going on.
- * @param marqueeRect a rect
- * @param alayer the current layer (used to mark the update for the marquee rect)
- * @return a rect
- */
+ @note
+ This updates the area that is different between the current marquee and the new one being set,
+ which results in much faster interactive selection of objects because far less drawing is going on.
+ @param marqueeRect a rect
+ @param alayer the current layer (used to mark the update for the marquee rect)
+ @return a rect */
 - (void)setMarqueeRect:(NSRect)marqueeRect inLayer:(DKLayer*)aLayer;
 
 /** @brief Set the drawing style for the marquee (selection rect)
- * @note
- * If you replace the default style, take care that the style is generally fairly transparent,
- * otherwise it will be hard to see what you are selecting!
- * @param aStyle a style object
- */
+ @note
+ If you replace the default style, take care that the style is generally fairly transparent,
+ otherwise it will be hard to see what you are selecting!
+ @param aStyle a style object */
 - (void)setMarqueeStyle:(DKStyle*)aStyle;
 
 /** @brief Set the drawing style for the marquee (selection rect)
- * @note
- * If you replace the default style, take care that the style is generally fairly transparent,
- * otherwise it will be hard to see what you are selecting!
- * @param aStyle a style object
- */
+ @note
+ If you replace the default style, take care that the style is generally fairly transparent,
+ otherwise it will be hard to see what you are selecting!
+ @param aStyle a style object */
 - (DKStyle*)marqueeStyle;
 
 // setting up optional behaviours:
 
 /** @brief Set whether the selection highlight of objects should be supressed during a drag
- * @note
- * The default is YES. Hiding the selection can make positioning objects by eye more precise.
- * @param hideSel YES to hide selections during a drag, NO to leave them visible
- */
+ @note
+ The default is YES. Hiding the selection can make positioning objects by eye more precise.
+ @param hideSel YES to hide selections during a drag, NO to leave them visible */
 - (void)setSelectionShouldHideDuringDrag:(BOOL)hideSel;
 
 /** @brief Should the selection highlight of objects should be supressed during a drag?
- * @note
- * The default is YES. Hiding the selection can make positioning objects by eye more precise.
- * @return YES to hide selections during a drag, NO to leave them visible
- */
+ @note
+ The default is YES. Hiding the selection can make positioning objects by eye more precise.
+ @return YES to hide selections during a drag, NO to leave them visible */
 - (BOOL)selectionShouldHideDuringDrag;
 - (void)setDragsAllObjectsInSelection:(BOOL)multi;
 - (BOOL)dragsAllObjectsInSelection;
@@ -153,58 +143,53 @@ has a very low opacity should be used - the default style takes the system's hig
 - (BOOL)allowsDirectDragCopying;
 
 /** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
- * @note
- * The default is NO
- * @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
- * @public
+ @note
+ The default is NO
+ @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
  */
 - (void)setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL)dragWithKnob;
 
 /** @brief Returns whether a hit on a knob in a multiple selection drags the objects or drags the knob
- * @note
- * The default is NO
- * @return YES to drag the selection, NO to change the selection and drag the knob
- * @public
+ @note
+ The default is NO
+ @return YES to drag the selection, NO to change the selection and drag the knob
  */
 - (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob;
 
 /** @brief Sets the number of selected objects at which a proxy drag is used rather than a live drag
- * @note
- * Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- * it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- * a temporary image of the objects being dragged. A value of 0 will disable proxy dragging. Note that
- * this gives a hugh performance gain for large numbers of objects - in fact it makes dragging of a lot
- * of objects actually feasible. The default threshold is 50 objects. Setting this to 1 effectively
- * makes proxy dragging operate at all times.
- * @param numberOfObjects the number above which a proxy drag is used 
- * @public
+ @note
+ Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
+ it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
+ a temporary image of the objects being dragged. A value of 0 will disable proxy dragging. Note that
+ this gives a hugh performance gain for large numbers of objects - in fact it makes dragging of a lot
+ of objects actually feasible. The default threshold is 50 objects. Setting this to 1 effectively
+ makes proxy dragging operate at all times.
+ @param numberOfObjects the number above which a proxy drag is used 
  */
 - (void)setProxyDragThreshold:(NSUInteger)numberOfObjects;
 
 /** @brief The number of selected objects at which a proxy drag is used rather than a live drag
- * @note
- * Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- * it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- * a temporary image of the objects being dragged. A value of 0 will disable proxy dragging.
- * @return the number above which a proxy drag is used
- * @public
+ @note
+ Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
+ it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
+ a temporary image of the objects being dragged. A value of 0 will disable proxy dragging.
+ @return the number above which a proxy drag is used
  */
 - (NSUInteger)proxyDragThreshold;
 
 // handling the selection
 
 /** @brief Implement selection changes for the current event (mouse down, typically)
- * @note
- * This method implements the 'standard' selection conventions for modifier keys as follows:
- * 1. no modifiers - <targ> is selected if not already selected
- * 2. + shift: <targ> is added to the existing selection
- * 3. + command: the selected state of <targ> is flipped
- * This method also sets the undo action name to indicate what change occurred - if selection
- * changes are not considered undoable by the layer, these are simply ignored.
- * @param targ the object that is being selected or deselected
- * @param layer the layer in which the object exists
- * @param event the event
- * @public
+ @note
+ This method implements the 'standard' selection conventions for modifier keys as follows:
+ 1. no modifiers - <targ> is selected if not already selected
+ 2. + shift: <targ> is added to the existing selection
+ 3. + command: the selected state of <targ> is flipped
+ This method also sets the undo action name to indicate what change occurred - if selection
+ changes are not considered undoable by the layer, these are simply ignored.
+ @param targ the object that is being selected or deselected
+ @param layer the layer in which the object exists
+ @param event the event
  */
 - (void)changeSelectionWithTarget:(DKDrawableObject*)targ inLayer:(DKObjectDrawingLayer*)layer event:(NSEvent*)event;
 
@@ -213,15 +198,14 @@ has a very low opacity should be used - the default style takes the system's hig
 - (void)dragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph;
 
 /** @brief Prepare the proxy drag image for the given objects
- * @note
- * The default method creates the image by asking the layer to make one using its standard imaging
- * methods. You can override this for different approaches. Typically the drag image has the bounds of
- * the selected objects - the caller will position the image based on that assumption. This is only
- * invoked if the proxy drag threshold was exceeded and not zero.
- * @param objectsToDrag the list of objects that will be dragged
- * @param layer the layer they are owned by
- * @return an image, representing the dragged objects.
- * @public
+ @note
+ The default method creates the image by asking the layer to make one using its standard imaging
+ methods. You can override this for different approaches. Typically the drag image has the bounds of
+ the selected objects - the caller will position the image based on that assumption. This is only
+ invoked if the proxy drag threshold was exceeded and not zero.
+ @param objectsToDrag the list of objects that will be dragged
+ @param layer the layer they are owned by
+ @return an image, representing the dragged objects.
  */
 - (NSImage*)prepareDragImage:(NSArray*)objectsToDrag inLayer:(DKObjectDrawingLayer*)layer;
 

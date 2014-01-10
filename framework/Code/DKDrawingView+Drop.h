@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKDrawingView.h"
@@ -24,10 +24,9 @@ correctly implement the protocol to its requirements, and not just "hope for the
 @interface DKDrawingView (DropHandling)
 
 /** @brief Returns the current active layer, by asking the controller for it
- * @note
- * DKDrawing maintains the active layer - look there for a method to set it
- * @return a layer, the one that is currently active
- * @public
+ @note
+ DKDrawing maintains the active layer - look there for a method to set it
+ @return a layer, the one that is currently active
  */
 - (DKLayer*)activeLayer;
 

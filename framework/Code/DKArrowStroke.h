@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKStroke.h"
@@ -53,10 +53,10 @@ typedef enum {
 
 /** @brief DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths.
 
-DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
-arrowhead using the same colour as the stroke, thus seamlessly blending the head into the path. Where multiple
-strokes are used, the resulting effect should be correct when angles are kept the same and lengths are calculated
-from the stroke width.
+ DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
+ arrowhead using the same colour as the stroke, thus seamlessly blending the head into the path. Where multiple
+ strokes are used, the resulting effect should be correct when angles are kept the same and lengths are calculated
+ from the stroke width.
 */
 @interface DKArrowStroke : DKStroke <NSCoding, NSCopying> {
 @private
@@ -133,9 +133,10 @@ from the stroke width.
 
 @end
 
-// informal protocol for requesting dimension information from an object. If it does not respond, the rasterizer infers the values from the path length and
-// its internal values.
+/** @brief informal protocol for requesting dimension information from an object.
 
+ If it does not respond, the rasterizer infers the values from the path length and its internal values.
+ */
 @interface NSObject (DKArrowSrokeDimensioning)
 
 - (NSDictionary*)dimensionValuesForArrowStroke:(DKArrowStroke*)arrowStroke;

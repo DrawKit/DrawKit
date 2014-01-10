@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import <Cocoa/Cocoa.h>
@@ -20,32 +20,28 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
 }
 
 /** @brief Return the shared tool registry
- * @note
- * Creates the registry if needed and installs the standard tools. For other tool collections
- * you can instantiate a DKToolRegistry and add tools to it.
- * @return a shared DKToolRegistry object
- * @public
+ @note
+ Creates the registry if needed and installs the standard tools. For other tool collections
+ you can instantiate a DKToolRegistry and add tools to it.
+ @return a shared DKToolRegistry object
  */
 + (DKToolRegistry*)sharedToolRegistry;
 
 /** @brief Return a named tool from the registry
- * @param name the name of the tool of interest
- * @return the tool if found, or nil if not
- * @public
+ @param name the name of the tool of interest
+ @return the tool if found, or nil if not
  */
 - (DKDrawingTool*)drawingToolWithName:(NSString*)name;
 
 /** @brief Add a tool to the registry
- * @param tool the tool to register
- * @param name the name of the tool of interest
- * @public
+ @param tool the tool to register
+ @param name the name of the tool of interest
  */
 - (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name;
 
 /** @brief Find the tool having a key equivalent matching the key event
- * @param keyEvent the key event to match
- * @return the tool if found, or nil
- * @public
+ @param keyEvent the key event to match
+ @return the tool if found, or nil
  */
 - (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
 

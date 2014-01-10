@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKDrawableObject.h"
@@ -56,20 +56,18 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark As a DKDrawableObject
 
 /** @brief Return whether an info floater is displayed when resizing an object
- * @note
- * Size info is width and height
- * @return YES to show the info, NO to not show it
- */
+ @note
+ Size info is width and height
+ @return YES to show the info, NO to not show it */
 + (BOOL)displaysSizeInfoWhenDragging
 {
     return ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDragFeedbackEnabledPreferencesKey];
 }
 
 /** @brief Set whether an info floater is displayed when resizing an object
- * @note
- * Size info is width and height
- * @param doesDisplay YES to show the info, NO to not show it
- */
+ @note
+ Size info is width and height
+ @param doesDisplay YES to show the info, NO to not show it */
 + (void)setDisplaysSizeInfoWhenDragging:(BOOL)doesDisplay
 {
     [[NSUserDefaults standardUserDefaults] setBool:!doesDisplay
@@ -77,12 +75,11 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the union of the bounds of the objects in the array
- * @note
- * Utility method as this is a very common task - throws exception if any object in the list is
- * not a DKDrawableObject or subclass thereof
- * @param array a list of DKDrawable objects
- * @return a rect, the union of the bounds of all objects
- */
+ @note
+ Utility method as this is a very common task - throws exception if any object in the list is
+ not a DKDrawableObject or subclass thereof
+ @param array a list of DKDrawable objects
+ @return a rect, the union of the bounds of all objects */
 + (NSRect)unionOfBoundsOfDrawablesInArray:(NSArray*)array
 {
     NSAssert(array != nil, @"array cannot be nil");
@@ -103,11 +100,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return pasteboard types that this object class can receive
- * @note
- * Default method does nothing - subclasses will override if they can receive a drag
- * @param op set of flags indicating what this operation the types relate to. Currently objects can only
- * @return an array of pasteboard types
- * @public
+ @note
+ Default method does nothing - subclasses will override if they can receive a drag
+ @param op set of flags indicating what this operation the types relate to. Currently objects can only
+ @return an array of pasteboard types
  */
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
@@ -116,11 +112,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return the partcode that should be used by tools when initially creating a new object
- * @note
- * Default method does nothing - subclasses must override this and supply the right partcode value
- * appropriate to the class. The client of this method is DKObjectCreationTool.
- * @return a partcode value
- * @public
+ @note
+ Default method does nothing - subclasses must override this and supply the right partcode value
+ appropriate to the class. The client of this method is DKObjectCreationTool.
+ @return a partcode value
  */
 + (NSInteger)initialPartcodeForObjectCreation
 {
@@ -128,10 +123,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return whether obejcts of this class can be grouped
- * @note
- * Default is YES. see also [DKShapeGroup objectsAvailableForGroupingFromArray];
- * @return YES if objects can be included in groups
- * @public
+ @note
+ Default is YES. see also [DKShapeGroup objectsAvailableForGroupingFromArray];
+ @return YES if objects can be included in groups
  */
 + (BOOL)isGroupable
 {
@@ -139,12 +133,11 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Unarchive a list of objects from the pasteboard, if possible
- * @note
- * This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
- * any valid types, nil is returned
- * @param pb the pasteboard to take objects from
- * @return a list of objects
- * @public
+ @note
+ This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
+ any valid types, nil is returned
+ @param pb the pasteboard to take objects from
+ @return a list of objects
  */
 + (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb
 {
@@ -158,12 +151,11 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return the number of native objects held by the pasteboard
- * @note
- * This efficiently queries the info object rather than dearchiving the objects themselves. A value
- * of 0 means no native objects on the pasteboard (naturally)
- * @param pb the pasteboard to read from
- * @return a count
- * @public
+ @note
+ This efficiently queries the info object rather than dearchiving the objects themselves. A value
+ of 0 means no native objects on the pasteboard (naturally)
+ @param pb the pasteboard to read from
+ @return a count
  */
 + (NSUInteger)countOfNativeObjectsOnPasteboard:(NSPasteboard*)pb
 {
@@ -172,10 +164,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Set the outline colour to use when drawing objects in their ghosted state
- * @note
- * The ghost colour is persistent, stored using the kDKGhostColourPreferencesKey key
- * @param ghostColour the colour to use
- * @public
+ @note
+ The ghost colour is persistent, stored using the kDKGhostColourPreferencesKey key
+ @param ghostColour the colour to use
  */
 + (void)setGhostColour:(NSColor*)ghostColour
 {
@@ -188,10 +179,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return the outline colour to use when drawing objects in their ghosted state
- * @note
- * The default is light gray
- * @return the colour to use
- * @public
+ @note
+ The default is light gray
+ @return the colour to use
  */
 + (NSColor*)ghostColour
 {
@@ -210,12 +200,11 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark -
 
 /** @brief Return the interconversion table
- * @note
- * The interconversion table is used when drawables are converted to another type. The table can be
- * customised to permit conversions to subclasses or other types of object. The default is nil,
- * which simply passes through the requested type unchanged.
- * @return the table (a dictionary)
- * @public
+ @note
+ The interconversion table is used when drawables are converted to another type. The table can be
+ customised to permit conversions to subclasses or other types of object. The default is nil,
+ which simply passes through the requested type unchanged.
+ @return the table (a dictionary)
  */
 + (NSDictionary*)interconversionTable
 {
@@ -223,13 +212,12 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return the interconversion table
- * @note
- * The interconversion table is used when drawables are converted to another type. The table can be
- * customised to permit conversions to subclasses of the requested class. The default is nil,
- * which simply passes through the requested type unchanged. The dictionary consists of the base class
- * as a string, and returns the class to use in place of that type.
- * @param icTable a dictionary containing mappings from standard base classes to custom classes
- * @public
+ @note
+ The interconversion table is used when drawables are converted to another type. The table can be
+ customised to permit conversions to subclasses of the requested class. The default is nil,
+ which simply passes through the requested type unchanged. The dictionary consists of the base class
+ as a string, and returns the class to use in place of that type.
+ @param icTable a dictionary containing mappings from standard base classes to custom classes
  */
 + (void)setInterconversionTable:(NSDictionary*)icTable
 {
@@ -239,12 +227,11 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return the class to use in place of the given class when performing a conversion
- * @note
- * The default passes through the input class unchanged. By customising the conversion table, other
- * classes can be substituted when performing a conversion.
- * @param aClass the base class which we are converting TO.
- * @return the actual object class to use for that conversion.
- * @public
+ @note
+ The default passes through the input class unchanged. By customising the conversion table, other
+ classes can be substituted when performing a conversion.
+ @param aClass the base class which we are converting TO.
+ @return the actual object class to use for that conversion.
  */
 + (Class)classForConversionRequestFor:(Class)aClass
 {
@@ -263,12 +250,11 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Sets the class to use in place of the a base class when performing a conversion
- * @note
- * This is only used when performing conversions, not when creating new objects in other circumstances.
- * <newClass> must be a subclass of <baseClass>
- * @param newClass the class which we are converting TO
- * @param baseClass the base class
- * @public
+ @note
+ This is only used when performing conversions, not when creating new objects in other circumstances.
+ <newClass> must be a subclass of <baseClass>
+ @param newClass the class which we are converting TO
+ @param baseClass the base class
  */
 + (void)substituteClass:(Class)newClass forClass:(Class)baseClass
 {
@@ -291,12 +277,11 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Initializes the drawable to have the style given
- * @note
- * You can use -init to initialize using the default style. Note that if creating many objects at
- * once, supplying the style when initializing is more efficient.
- * @param aStyle the initial style for the object
- * @return the object
- * @public
+ @note
+ You can use -init to initialize using the default style. Note that if creating many objects at
+ once, supplying the style when initializing is more efficient.
+ @param aStyle the initial style for the object
+ @return the object
  */
 - (id)initWithStyle:(DKStyle*)aStyle
 {
@@ -315,10 +300,9 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark - relationships
 
 /** @brief Returns the layer that this object ultimately belongs to
- * @note
- * This returns the layer even if container isn't the layer, by recursing up the tree as needed
- * @return the containing layer
- * @public
+ @note
+ This returns the layer even if container isn't the layer, by recursing up the tree as needed
+ @return the containing layer
  */
 - (DKObjectOwnerLayer*)layer
 {
@@ -326,8 +310,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the drawing that owns this object's layer
- * @return the drawing
- * @public
+ @return the drawing
  */
 - (DKDrawing*)drawing
 {
@@ -335,8 +318,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the undo manager used to handle undoable actions for this object
- * @return the undo manager in use
- * @public
+ @return the undo manager in use
  */
 - (NSUndoManager*)undoManager
 {
@@ -344,10 +326,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the immediate parent of this object
- * @note
- * A parent is usually a layer, same as owner - but can be a group if the object is grouped
- * @return the object's parent
- * @public
+ @note
+ A parent is usually a layer, same as owner - but can be a group if the object is grouped
+ @return the object's parent
  */
 - (id<DKDrawableContainer>)container
 {
@@ -355,13 +336,12 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Sets the immediate parent of this object (a DKObjectOwnerLayer layer, typically)
- * @note
- * The container itself is responsible for setting this - applications should not use this method. An
- * object's container is usually the layer, but can be a group. <aContainer> is not retained. Note that
- * a valid container is required for the object to locate an undo manager, so nothing is undoable
- * until this is set to a valid object that can supply one.
- * @param aContainer the immediate container of this object
- * @private
+ @note
+ The container itself is responsible for setting this - applications should not use this method. An
+ object's container is usually the layer, but can be a group. <aContainer> is not retained. Note that
+ a valid container is required for the object to locate an undo manager, so nothing is undoable
+ until this is set to a valid object that can supply one.
+ @param aContainer the immediate container of this object
  */
 - (void)setContainer:(id<DKDrawableContainer>)aContainer
 {
@@ -384,17 +364,15 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the index position of this object in its container layer
- * @note
- * This is intended for debugging and should generally be avoided by user code.
- * @return the index position
- * @public
+ @note
+ This is intended for debugging and should generally be avoided by user code.
+ @return the index position
  */
 
 /** @brief Where object storage stores the Z-index in the object itself, this returns it.
- * @note
- * See DKObjectStorageProtocol.h
- * @return the Z value for the object
- * @public
+ @note
+ See DKObjectStorageProtocol.h
+ @return the Z value for the object
  */
 - (NSUInteger)indexInContainer
 {
@@ -408,11 +386,10 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark - as part of the DKStorableObject protocol
 
 /** @brief Where object storage stores the Z-index in the object itself, this is used to set it.
- * @note
- * Note that this doesn't allow the Z-index to be changed, but merely recorded. This method should only
- * be used by storage methods internal to DK and not by external client code. See DKObjectStorageProtocol.h
- * @param zIndex the desired Z value for the object
- * @public
+ @note
+ Note that this doesn't allow the Z-index to be changed, but merely recorded. This method should only
+ be used by storage methods internal to DK and not by external client code. See DKObjectStorageProtocol.h
+ @param zIndex the desired Z value for the object
  */
 - (void)setIndex:(NSUInteger)zIndex
 {
@@ -425,10 +402,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the reference to the object's storage
- * @note
- * See DKObjectStorageProtocol.h
- * @return the object's storage
- * @public
+ @note
+ See DKObjectStorageProtocol.h
+ @return the object's storage
  */
 - (id<DKObjectStorage>)storage
 {
@@ -436,10 +412,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the reference to the object's storage
- * @note
- * See DKObjectStorageProtocol.h. Not for client code.
- * @param storage the object's storage
- * @public
+ @note
+ See DKObjectStorageProtocol.h. Not for client code.
+ @param storage the object's storage
  */
 - (void)setStorage:(id<DKObjectStorage>)storage
 {
@@ -447,10 +422,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Marks the object
- * @note
- * See DKObjectStorageProtocol.h. Not for client code.
- * @param markIt a flag
- * @public
+ @note
+ See DKObjectStorageProtocol.h. Not for client code.
+ @param markIt a flag
  */
 - (void)setMarked:(BOOL)markIt
 {
@@ -458,10 +432,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Marks the object
- * @note
- * See DKObjectStorageProtocol.h. Not for client code.
- * @return a flag
- * @public
+ @note
+ See DKObjectStorageProtocol.h. Not for client code.
+ @return a flag
  */
 - (BOOL)isMarked
 {
@@ -472,10 +445,9 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark - state
 
 /** @brief Sets whether the object is drawn (visible) or not
- * @note
- * The visible property is independent of the locked property, i.e. locked objects may be hidden & shown.
- * @param vis YES to show the object, NO to hide it
- * @public
+ @note
+ The visible property is independent of the locked property, i.e. locked objects may be hidden & shown.
+ @param vis YES to show the object, NO to hide it
  */
 - (void)setVisible:(BOOL)vis
 {
@@ -492,8 +464,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Is the object visible?
- * @return YES if visible, NO if not
- * @public
+ @return YES if visible, NO if not
  */
 - (BOOL)visible
 {
@@ -501,10 +472,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Sets whether the object is locked or not
- * @note
- * Locked objects are visible but can't be edited
- * @param locked YES to lock, NO to unlock
- * @public
+ @note
+ Locked objects are visible but can't be edited
+ @param locked YES to lock, NO to unlock
  */
 - (void)setLocked:(BOOL)locked
 {
@@ -518,8 +488,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Is the object locked?
- * @return YES if locked, NO if not
- * @public
+ @return YES if locked, NO if not
  */
 - (BOOL)locked
 {
@@ -527,10 +496,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Sets whether the object's location is locked or not
- * @note
- * Location may be locked independently of the general lock
- * @param lockLocation YES to lock location, NO to unlock
- * @public
+ @note
+ Location may be locked independently of the general lock
+ @param lockLocation YES to lock location, NO to unlock
  */
 - (void)setLocationLocked:(BOOL)lockLocation
 {
@@ -543,10 +511,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Whether the object's location is locked or not
- * @note
- * Location may be locked independently of the general lock
- * @return YES if locked location, NO to unlock
- * @public
+ @note
+ Location may be locked independently of the general lock
+ @return YES if locked location, NO to unlock
  */
 - (BOOL)locationLocked
 {
@@ -554,8 +521,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Enable mouse snapping
- * @param ems YES to enable snapping (default), NO to disable it
- * @public
+ @param ems YES to enable snapping (default), NO to disable it
  */
 - (void)setMouseSnappingEnabled:(BOOL)ems
 {
@@ -563,8 +529,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Is mouse snapping enabled?
- * @return YES if will snap on mouse actions, NO if not
- * @public
+ @return YES if will snap on mouse actions, NO if not
  */
 - (BOOL)mouseSnappingEnabled
 {
@@ -572,11 +537,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Set whether the object is ghosted rather than with its full style
- * @note
- * Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
- * a thin outline. See also: +setGhostingColour:
- * @param ghosted YES to ghost the object, NO to unghost it
- * @public
+ @note
+ Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
+ a thin outline. See also: +setGhostingColour:
+ @param ghosted YES to ghost the object, NO to unghost it
  */
 - (void)setGhosted:(BOOL)ghosted
 {
@@ -591,11 +555,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Retuirn whether the object is ghosted rather than with its full style
- * @note
- * Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
- * a thin outline. See also: +setGhostingColour:
- * @return YES if the object is ghosted, NO otherwise
- * @public
+ @note
+ Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
+ a thin outline. See also: +setGhostingColour:
+ @return YES if the object is ghosted, NO otherwise
  */
 - (BOOL)isGhosted
 {
@@ -635,10 +598,9 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark -
 
 /** @brief Returns whether the object is selected 
- * @note
- * Assumes that the owning layer is an object drawing layer (which is a reasonable assumption!)
- * @return YES if selected, NO otherwise
- * @public
+ @note
+ Assumes that the owning layer is an object drawing layer (which is a reasonable assumption!)
+ @return YES if selected, NO otherwise
  */
 - (BOOL)isSelected
 {
@@ -646,10 +608,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Get notified when the object is selected
- * @note
- * Subclasses can override to take action when they become selected (drawing the selection isn't
- * part of this - the layer will do that). Overrides should generally invoke super.
- * @public
+ @note
+ Subclasses can override to take action when they become selected (drawing the selection isn't
+ part of this - the layer will do that). Overrides should generally invoke super.
  */
 - (void)objectDidBecomeSelected
 {
@@ -658,9 +619,8 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Get notified when an object is deselected
- * @note
- * Subclasses can override to take action when they are deselected
- * @public
+ @note
+ Subclasses can override to take action when they are deselected
  */
 - (void)objectIsNoLongerSelected
 {
@@ -670,11 +630,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Is the object able to be selected?
- * @note
- * Subclasses can override to disallow selection. By default all objects are selectable, but for some
- * specialised use this might be useful.
- * @return YES if selectable, NO if not
- * @public
+ @note
+ Subclasses can override to disallow selection. By default all objects are selectable, but for some
+ specialised use this might be useful.
+ @return YES if selectable, NO if not
  */
 - (BOOL)objectMayBecomeSelected
 {
@@ -682,11 +641,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Is the object currently a pending object?
- * @note
- * Esoteric. An object is pending while it is being created and not otherwise. There are few reasons
- * to need to know, but one might be to implement a special selection highlight for this case.
- * @return YES if pending, NO if not
- * @public
+ @note
+ Esoteric. An object is pending while it is being created and not otherwise. There are few reasons
+ to need to know, but one might be to implement a special selection highlight for this case.
+ @return YES if pending, NO if not
  */
 - (BOOL)isPendingObject
 {
@@ -694,12 +652,11 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Is the object currently the layer's key object?
- * @note
- * DKObjectDrawingLayer maintains a 'key object' for the purposes of alignment operations. The drawable
- * could use this information to draw itself in a particular way for example. Note that DK doesn't
- * use this information except for object alignment operations.
- * @return YES if key, NO if not
- * @public
+ @note
+ DKObjectDrawingLayer maintains a 'key object' for the purposes of alignment operations. The drawable
+ could use this information to draw itself in a particular way for example. Note that DK doesn't
+ use this information except for object alignment operations.
+ @return YES if key, NO if not
  */
 - (BOOL)isKeyObject
 {
@@ -707,15 +664,14 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return the subselection of the object
- * @note
- * DK objects do not have subselections without subclassing, but this method provides a common method
- * for subselections to be passed back to a UI, etc. If there is no subselection, this should return
- * either the empty set, nil or a set containing self.
- * Subclasses will override and return whatever is appropriate. They are also responsible for the complete
- * implementation of the selection including hit-testing and highlighting. In addition, the notification
- * 'kDKDrawableSubselectionChangedNotification' should be sent when this changes.
- * @return a set containing the selection within the object. May be empty, nil or contain self.
- * @public
+ @note
+ DK objects do not have subselections without subclassing, but this method provides a common method
+ for subselections to be passed back to a UI, etc. If there is no subselection, this should return
+ either the empty set, nil or a set containing self.
+ Subclasses will override and return whatever is appropriate. They are also responsible for the complete
+ implementation of the selection including hit-testing and highlighting. In addition, the notification
+ 'kDKDrawableSubselectionChangedNotification' should be sent when this changes.
+ @return a set containing the selection within the object. May be empty, nil or contain self.
  */
 - (NSSet*)subSelection
 {
@@ -723,11 +679,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief The object was added to a layer
- * @note
- * Purely for information, should an object need to know. Override to make use of this. Subclasses
- * should call super.
- * @param aLayer the layer this was added to
- * @public
+ @note
+ Purely for information, should an object need to know. Override to make use of this. Subclasses
+ should call super.
+ @param aLayer the layer this was added to
  */
 - (void)objectWasAddedToLayer:(DKObjectOwnerLayer*)aLayer
 {
@@ -746,11 +701,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief The object was removed from the layer
- * @note
- * Purely for information, should an object need to know. Override to make use of this. Subclasses
- * should call super to maintain notifications.
- * @param aLayer the layer this was removed from
- * @public
+ @note
+ Purely for information, should an object need to know. Override to make use of this. Subclasses
+ should call super to maintain notifications.
+ @param aLayer the layer this was removed from
  */
 - (void)objectWasRemovedFromLayer:(DKObjectOwnerLayer*)aLayer
 {
@@ -765,17 +719,15 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark - drawing
 
 /** @brief Draw the object and its selection on demand
- * @note
- * The caller will have determined that the object needs drawing, so this will only be called when
- * necessary. The default method does nothing - subclasses must override this.
- * @param selected YES if the object is to draw itself in the selected state, NO otherwise
- * @public
+ @note
+ The caller will have determined that the object needs drawing, so this will only be called when
+ necessary. The default method does nothing - subclasses must override this.
+ @param selected YES if the object is to draw itself in the selected state, NO otherwise
  */
 
 /** @brief Draw the content of the object
- * @note
- * This just hands off to the style rendering by default, but subclasses may override it to do more.
- * @public
+ @note
+ This just hands off to the style rendering by default, but subclasses may override it to do more.
  */
 - (void)drawContentWithSelectedState:(BOOL)selected
 {
@@ -833,8 +785,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Draw the content of the object but using a specific style, which might not be the one attached
- * @param aStyle a valid style object, or nil to use the object's current style
- * @public
+ @param aStyle a valid style object, or nil to use the object's current style
  */
 - (void)drawContentWithStyle:(DKStyle*)aStyle
 {
@@ -873,11 +824,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Draw the ghosted content of the object
- * @note
- * The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
- * overridden for more complex appearances. Note that ghosting should deliberately keep the object
- * unobtrusive and simple.
- * @public
+ @note
+ The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
+ overridden for more complex appearances. Note that ghosting should deliberately keep the object
+ unobtrusive and simple.
  */
 - (void)drawGhostedContent
 {
@@ -888,10 +838,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Draw the selection highlight for the object
- * @note
- * The owning layer may call this independently of drawContent~ in some circumstances, so 
- * subclasses need to be ready to factor this code as required.
- * @public
+ @note
+ The owning layer may call this independently of drawContent~ in some circumstances, so 
+ subclasses need to be ready to factor this code as required.
  */
 - (void)drawSelectedState
 {
@@ -899,11 +848,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Stroke the given path using the selection highlight colour for the owning layer
- * @note
- * This is a convenient utility method your subclasses can use as needed to make selections consistent
- * among different objects and layers. A side effect is that the line width of the path may be changed.
- * @param path the selection highlight path
- * @public
+ @note
+ This is a convenient utility method your subclasses can use as needed to make selections consistent
+ among different objects and layers. A side effect is that the line width of the path may be changed.
+ @param path the selection highlight path
  */
 - (void)drawSelectionPath:(NSBezierPath*)path
 {
@@ -917,13 +865,12 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Request a redraw of this object
- * @note
- * Marks the object's bounds as needing updating. Most operations on an object that affect its
- * appearance to the user should call this before and after the operation is performed.
- * Subclasses that override this for optimisation purposes should make sure that the layer is
- * updated through the drawable:needsDisplayInRect: method and that the notification is sent, otherwise
- * there may be problems when layer contents are cached.
- * @public
+ @note
+ Marks the object's bounds as needing updating. Most operations on an object that affect its
+ appearance to the user should call this before and after the operation is performed.
+ Subclasses that override this for optimisation purposes should make sure that the layer is
+ updated through the drawable:needsDisplayInRect: method and that the notification is sent, otherwise
+ there may be problems when layer contents are cached.
  */
 - (void)notifyVisualChange
 {
@@ -933,9 +880,8 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Notify the drawing and its controllers that a non-visual status change occurred
- * @note
- * The drawing passes this back to any controllers it has
- * @public
+ @note
+ The drawing passes this back to any controllers it has
  */
 - (void)notifyStatusChange
 {
@@ -943,14 +889,13 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Notify that the geomnetry of the object has changed
- * @note
- * Subclasses can override this to make use of the change notification. This is intended to signal
- * purely geometric changes which for some objects could be used to invalidate cached information
- * that more general changes might not need to invalidate. This also informs the storage about the
- * bounds change so that if the storage uses bounds information to optimise storage, it can do
- * whatever it needs to to keep the storage correctly organised.
- * @param oldBounds the bounds of the object *before* it got changed by whatever is calling this
- * @public
+ @note
+ Subclasses can override this to make use of the change notification. This is intended to signal
+ purely geometric changes which for some objects could be used to invalidate cached information
+ that more general changes might not need to invalidate. This also informs the storage about the
+ bounds change so that if the storage uses bounds information to optimise storage, it can do
+ whatever it needs to to keep the storage correctly organised.
+ @param oldBounds the bounds of the object *before* it got changed by whatever is calling this
  */
 - (void)notifyGeometryChange:(NSRect)oldBounds
 {
@@ -963,11 +908,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Sets the ruler markers for all of the drawing's views to the logical bounds of this
- * @note
- * This is largely automatic, but if there is an operation that shoul dupdate the markers, you can
- * call this to perform it. Also, if a subclass has some special way to set the markers, it may
- * override this.
- * @public
+ @note
+ This is largely automatic, but if there is an operation that shoul dupdate the markers, you can
+ call this to perform it. Also, if a subclass has some special way to set the markers, it may
+ override this.
  */
 - (void)updateRulerMarkers
 {
@@ -975,10 +919,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Mark some part of the drawing as needing update
- * @note
- * Usually an object should mark only areas within its bounds using this, to be polite.
- * @param rect this area requires an update
- * @public
+ @note
+ Usually an object should mark only areas within its bounds using this, to be polite.
+ @param rect this area requires an update
  */
 - (void)setNeedsDisplayInRect:(NSRect)rect
 {
@@ -987,9 +930,8 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Mark multiple parts of the drawing as needing update
- * @note
- * The layer call with NSZeroRect is to ensure the layer's caches work
- * @public
+ @note
+ The layer call with NSZeroRect is to ensure the layer's caches work
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects
 {
@@ -999,10 +941,9 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Mark multiple parts of the drawing as needing update
- * <padding> some additional margin added to each rect before marking as needing update
- * @note
- * The layer call with NSZeroRect is to ensure the layer's caches work
- * @public
+ <padding> some additional margin added to each rect before marking as needing update
+ @note
+ The layer call with NSZeroRect is to ensure the layer's caches work
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding
 {
@@ -1016,12 +957,11 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark - specialised drawing methods
 
 /** @note
- * Useful for rendering the object into any context at any size. The object is scaled by the ratio
- * of srcRect to destRect. <destRect> can't be zero-sized.
- * @param destRect the destination rect in the current context
- * @param srcRect the srcRect in the same coordinate space as the current bounds, or NSZeroRect to mean the
- * @param aStyle currently unused - draws in the object's attached style
- * @public
+ Useful for rendering the object into any context at any size. The object is scaled by the ratio
+ of srcRect to destRect. <destRect> can't be zero-sized.
+ @param destRect the destination rect in the current context
+ @param srcRect the srcRect in the same coordinate space as the current bounds, or NSZeroRect to mean the
+ @param aStyle currently unused - draws in the object's attached style
  */
 - (void)drawContentInRect:(NSRect)destRect fromRect:(NSRect)srcRect withStyle:(DKStyle*)aStyle
 {
@@ -1052,11 +992,10 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Returns the single object rendered as a PDF image
- * @note
- * This allows the object to be extracted as a single PDF in isolation. It works by creating a
- * temporary view that draws just this object.
- * @return PDF data of the object
- * @public
+ @note
+ This allows the object to be extracted as a single PDF in isolation. It works by creating a
+ temporary view that draws just this object.
+ @return PDF data of the object
  */
 - (NSData*)pdf
 {
@@ -1077,11 +1016,10 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark - style
 
 /** @brief Attaches a style to the object
- * @note
- * It's important to call the inherited method if you override this, as objects generally need to
- * subscribe to a style's notifications, and a style needs to know when it is attached to objects.
- * @param aStyle the style to attach. The object will be drawn using this style from now on
- * @public
+ @note
+ It's important to call the inherited method if you override this, as objects generally need to
+ subscribe to a style's notifications, and a style needs to know when it is attached to objects.
+ @param aStyle the style to attach. The object will be drawn using this style from now on
  */
 - (void)setStyle:(DKStyle*)aStyle
 {
@@ -1158,8 +1096,7 @@ static NSDictionary* s_interconversionTable = nil;
 }
 
 /** @brief Return the attached style
- * @return the current style
- * @public
+ @return the current style
  */
 - (DKStyle*)style
 {
@@ -1169,7 +1106,6 @@ static NSDictionary* s_interconversionTable = nil;
 static NSRect s_oldBounds;
 
 /** @brief Called when the attached style is about to change
- * @private
  */
 - (void)styleWillChange:(NSNotification*)note
 {
@@ -1180,7 +1116,6 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Called just after the attached style has changed
- * @private
  */
 - (void)styleDidChange:(NSNotification*)note
 {
@@ -1191,13 +1126,12 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return all styles used by this object
- * @note
- * This is part of an informal protocol used, among other possible uses, for remerging styles after
- * a document load. Objects higher up the chain form the union of all such sets, which is why this
- * is returned as a set, even though it contains just one style. Subclasses might also use more than
- * one style.
- * @return a set, containing the object's style
- * @public
+ @note
+ This is part of an informal protocol used, among other possible uses, for remerging styles after
+ a document load. Objects higher up the chain form the union of all such sets, which is why this
+ is returned as a set, even though it contains just one style. Subclasses might also use more than
+ one style.
+ @return a set, containing the object's style
  */
 - (NSSet*)allStyles
 {
@@ -1208,17 +1142,16 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return all registered styles used by this object
- * @note
- * This is part of an informal protocol used for remerging styles after
- * a document load. Objects higher up the chain form the union of all such sets, which is why this
- * is returned as a set, even though it contains just one style. Subclasses might also use more than
- * one style. After a fresh load from an archive, this returns the style if the remerge flag is set,
- * but at all other times it returns the style if registered. The remerge flag is cleared by this
- * method, thus you need to make sure to call it just once after a reload if it's the remerge flagged
- * styles you want (in general this usage is automatic and is handled at a much higher level - see
- * DKDrawingDocument).
- * @return a set, containing the object's style if it is registerd or flagged for remerge
- * @public
+ @note
+ This is part of an informal protocol used for remerging styles after
+ a document load. Objects higher up the chain form the union of all such sets, which is why this
+ is returned as a set, even though it contains just one style. Subclasses might also use more than
+ one style. After a fresh load from an archive, this returns the style if the remerge flag is set,
+ but at all other times it returns the style if registered. The remerge flag is cleared by this
+ method, thus you need to make sure to call it just once after a reload if it's the remerge flagged
+ styles you want (in general this usage is automatic and is handled at a much higher level - see
+ DKDrawingDocument).
+ @return a set, containing the object's style if it is registerd or flagged for remerge
  */
 - (NSSet*)allRegisteredStyles
 {
@@ -1233,12 +1166,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Replace the object's style from any in th egiven set that have the same ID.
- * @note
- * This is part of an informal protocol used for remerging registered styles after
- * a document load. If <aSet> contains a style having the same ID as this object's current style,
- * the style is updated with the one from the set.
- * @param aSet a set of style objects
- * @public
+ @note
+ This is part of an informal protocol used for remerging registered styles after
+ a document load. If <aSet> contains a style having the same ID as this object's current style,
+ the style is updated with the one from the set.
+ @param aSet a set of style objects
  */
 - (void)replaceMatchingStylesFromSet:(NSSet*)aSet
 {
@@ -1260,10 +1192,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
- * @note
- * If the style is already non-sharable, this does nothing. The purpose of this is to detach this
- * from it style such that it has its own private copy. It does not change appearance.
- * @public
+ @note
+ If the style is already non-sharable, this does nothing. The purpose of this is to detach this
+ from it style such that it has its own private copy. It does not change appearance.
  */
 - (void)detachStyle
 {
@@ -1280,10 +1211,9 @@ static NSRect s_oldBounds;
 #pragma mark - geometry
 
 /** @brief Sets the object's size to the width and height passed
- * @note
- * Subclasses should override to set the object's size
- * @param size the new size
- * @public
+ @note
+ Subclasses should override to set the object's size
+ @param size the new size
  */
 - (void)setSize:(NSSize)size
 {
@@ -1291,10 +1221,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Returns the size of the object regardless of angle, etc.
- * @note
- * Subclasses should override and return something sensible
- * @return the object's size
- * @public
+ @note
+ Subclasses should override and return something sensible
+ @return the object's size
  */
 - (NSSize)size
 {
@@ -1304,11 +1233,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Resizes the object by scaling its width and height by thye given factors.
- * @note
- * Factors of 1.0 have no effect; factors must be postive and > 0.
- * @param xFactor the width scale
- * @param yFactor the height scale
- * @public
+ @note
+ Factors of 1.0 have no effect; factors must be postive and > 0.
+ @param xFactor the width scale
+ @param yFactor the height scale
  */
 - (void)resizeWidthBy:(CGFloat)xFactor heightBy:(CGFloat)yFactor
 {
@@ -1324,11 +1252,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Returns the visually apparent bounds
- * @note
- * This bounds is intended for use when aligning objects to each other or to guides, etc. By default
- * it is the same as the bounds, but subclasses may redefine it to be something else.
- * @return the apparent bounds rect
- * @public
+ @note
+ This bounds is intended for use when aligning objects to each other or to guides, etc. By default
+ it is the same as the bounds, but subclasses may redefine it to be something else.
+ @return the apparent bounds rect
  */
 - (NSRect)apparentBounds
 {
@@ -1336,12 +1263,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Returns the logical bounds
- * @note
- * The logical bounds is the object's bounds ignoring any stylistic effects. Unlike the other bounds,
- * it remains constant for a given paht even if styles change. By default it is the same as the bounds,
- * but subclasses will probably wish to redefine it.
- * @return the logical bounds
- * @public
+ @note
+ The logical bounds is the object's bounds ignoring any stylistic effects. Unlike the other bounds,
+ it remains constant for a given paht even if styles change. By default it is the same as the bounds,
+ but subclasses will probably wish to redefine it.
+ @return the logical bounds
  */
 - (NSRect)logicalBounds
 {
@@ -1351,13 +1277,12 @@ static NSRect s_oldBounds;
 #pragma mark -
 
 /** @brief Test whether the object intersects a given rectangle
- * @note
- * Used for selecting using a marquee, and other things. The default hit tests by rendering the object
- * into a special 1-byte bitmap and testing its alpha channel - this is fast and efficient and in most
- * simple cases doesn't need to be overridden.
- * @param rect the rect to test against
- * @return YES if the object intersects the rect, NO otherwise
- * @public
+ @note
+ Used for selecting using a marquee, and other things. The default hit tests by rendering the object
+ into a special 1-byte bitmap and testing its alpha channel - this is fast and efficient and in most
+ simple cases doesn't need to be overridden.
+ @param rect the rect to test against
+ @return YES if the object intersects the rect, NO otherwise
  */
 - (BOOL)intersectsRect:(NSRect)rect
 {
@@ -1377,12 +1302,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Set the location of the object to the given point
- * @note
- * The object can decide how it aligns itself about its own location in any way that is self-consistent.
- * the default is to align the origin of the bounds at the point, but most subclasses do something
- * more sophisticated
- * @param p the point to locate the object at
- * @public
+ @note
+ The object can decide how it aligns itself about its own location in any way that is self-consistent.
+ the default is to align the origin of the bounds at the point, but most subclasses do something
+ more sophisticated
+ @param p the point to locate the object at
  */
 - (void)setLocation:(NSPoint)p
 {
@@ -1392,9 +1316,8 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Offsets the object's position by the values passed
- * @param dx add this much to the x coordinate
- * @param dy add this much to the y coordinate
- * @public
+ @param dx add this much to the x coordinate
+ @param dy add this much to the y coordinate
  */
 - (void)offsetLocationByX:(CGFloat)dx byY:(CGFloat)dy
 {
@@ -1409,8 +1332,7 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the object's current location
- * @return the object's location
- * @public
+ @return the object's location
  */
 - (NSPoint)location
 {
@@ -1418,10 +1340,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the object's current angle, in radians
- * @note
- * Override if your subclass implements variable angles
- * @return the object's angle
- * @public
+ @note
+ Override if your subclass implements variable angles
+ @return the object's angle
  */
 - (CGFloat)angle
 {
@@ -1429,8 +1350,7 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Set the object's current angle in radians
- * @param angle the object's angle (radians)
- * @public
+ @param angle the object's angle (radians)
  */
 - (void)setAngle:(CGFloat)angle
 {
@@ -1438,11 +1358,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the shape's current rotation angle
- * @note
- * This method is primarily to supply the angle for display to the user, rather than for doing angular
- * calculations with. It converts negative values -180 to 0 to +180 to 360 degrees.
- * @return the shape's angle in degrees
- * @public
+ @note
+ This method is primarily to supply the angle for display to the user, rather than for doing angular
+ calculations with. It converts negative values -180 to 0 to +180 to 360 degrees.
+ @return the shape's angle in degrees
  */
 - (CGFloat)angleInDegrees
 {
@@ -1455,10 +1374,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Rotate the shape by adding a delta angle to the current angle
- * @note
- * Da is a value in radians
- * @param da add this much to the current angle
- * @public
+ @note
+ Da is a value in radians
+ @param da add this much to the current angle
  */
 - (void)rotateByAngle:(CGFloat)da
 {
@@ -1467,11 +1385,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Discard all cached rendering information
- * @note
- * The rendering cache is simply emptied. The contents of the cache are generally set by individual
- * renderers to speed up drawing, and are not known to this object. The cache is invalidated by any
- * change that alters the object's appearance - size, position, angle, style, etc.
- * @public
+ @note
+ The rendering cache is simply emptied. The contents of the cache are generally set by individual
+ renderers to speed up drawing, and are not known to this object. The cache is invalidated by any
+ change that alters the object's appearance - size, position, angle, style, etc.
  */
 - (void)invalidateRenderingCache
 {
@@ -1479,11 +1396,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Returns an image of the object representing its current appearance at 100% scale.
- * @note
- * This image is stored in the rendering cache. If the cache is empty the image is recreated. This
- * image can be used to speed up hit testing.
- * @return an image of the object
- * @public
+ @note
+ This image is stored in the rendering cache. If the cache is empty the image is recreated. This
+ image can be used to speed up hit testing.
+ @return an image of the object
  */
 - (NSImage*)cachedImage
 {
@@ -1501,10 +1417,9 @@ static NSRect s_oldBounds;
 #pragma mark -
 
 /** @brief Set the relative offset of the object's anchor point
- * @note
- * Subclasses must override if they support this concept
- * @param offs a width and height value relative to the object's bounds
- * @public
+ @note
+ Subclasses must override if they support this concept
+ @param offs a width and height value relative to the object's bounds
  */
 - (void)setOffset:(NSSize)offs
 {
@@ -1514,10 +1429,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the relative offset of the object's anchor point
- * @note
- * Subclasses must override if they support this concept
- * @return a width and height value relative to the object's bounds
- * @public
+ @note
+ Subclasses must override if they support this concept
+ @return a width and height value relative to the object's bounds
  */
 - (NSSize)offset
 {
@@ -1525,30 +1439,27 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Reset the relative offset of the object's anchor point to its original value
- * @note
- * Subclasses must override if they support this concept
- * @public
+ @note
+ Subclasses must override if they support this concept
  */
 - (void)resetOffset
 {
 }
 
 /** @brief Return a transform that maps the object's stored path to its true location in the drawing
- * @note
- * Override for real transforms - the default merely returns the identity matrix
- * @return a transform
- */
+ @note
+ Override for real transforms - the default merely returns the identity matrix
+ @return a transform */
 - (NSAffineTransform*)transform
 {
     return [NSAffineTransform transform];
 }
 
 /** @brief Apply the transform to the object
- * @note
- * The object's position, size and path are modified by the transform. This is called by the owning
- * layer's applyTransformToObjects method. This ignores locked objects.
- * @param transform a transform
- * @public
+ @note
+ The object's position, size and path are modified by the transform. This is called by the owning
+ layer's applyTransformToObjects method. This ignores locked objects.
+ @param transform a transform
  */
 - (void)applyTransform:(NSAffineTransform*)transform
 {
@@ -1565,11 +1476,10 @@ static NSRect s_oldBounds;
 #pragma mark - drawing tool information
 
 /** @brief Called by the creation tool when this object has just beeen created by the tool
- * @note
- * FYI - override to make use of this
- * @param tool the tool that created this
- * @param p the initial point that the tool will start dragging the object from
- */
+ @note
+ FYI - override to make use of this
+ @param tool the tool that created this
+ @param p the initial point that the tool will start dragging the object from */
 - (void)creationTool:(DKDrawingTool*)tool willBeginCreationAtPoint:(NSPoint)p
 {
 #pragma unused(tool)
@@ -1579,11 +1489,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Called by the creation tool when this object has finished being created by the tool
- * @note
- * FYI - override to make use of this
- * @param tool the tool that created this
- * @param p the point that the tool finished dragging the object to
- */
+ @note
+ FYI - override to make use of this
+ @param tool the tool that created this
+ @param p the point that the tool finished dragging the object to */
 - (void)creationTool:(DKDrawingTool*)tool willEndCreationAtPoint:(NSPoint)p
 {
 #pragma unused(tool)
@@ -1593,13 +1502,12 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return whether the object is valid in terms of having a visible, usable state
- * @note
- * Subclasses must override and implement this appropriately. It is called by the object creation tool
- * at the end of a creation operation to determine if what was created is in any way useful. Objects that
- * cannot be used will not be added to the drawing. The object type needs to decide what constitutes
- * validity - for example shapes with zero size or paths with zero length are likely not valid.
- * @return YES if valid, NO otherwise
- * @public
+ @note
+ Subclasses must override and implement this appropriately. It is called by the object creation tool
+ at the end of a creation operation to determine if what was created is in any way useful. Objects that
+ cannot be used will not be added to the drawing. The object type needs to decide what constitutes
+ validity - for example shapes with zero size or paths with zero length are likely not valid.
+ @return YES if valid, NO otherwise
  */
 - (BOOL)objectIsValid
 {
@@ -1610,11 +1518,10 @@ static NSRect s_oldBounds;
 #pragma mark - grouping and ungrouping support
 
 /** @brief This object is being added to a group
- * @note
- * Can be overridden if this event is of interest. Note that for grouping, the object doesn't need
- * to do anything special - the group takes care of it.
- * @param aGroup the group adding the object
- * @public
+ @note
+ Can be overridden if this event is of interest. Note that for grouping, the object doesn't need
+ to do anything special - the group takes care of it.
+ @param aGroup the group adding the object
  */
 - (void)groupWillAddObject:(DKShapeGroup*)aGroup
 {
@@ -1622,13 +1529,12 @@ static NSRect s_oldBounds;
 }
 
 /** @brief This object is being ungrouped from a group
- * @note
- * When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
- * itself appropriately. At the time this is called, the object has already has its container set to
- * the layer it will be added to but has not actually been added. Must be overridden.
- * @param aGroup the group containing the object
- * @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
- * @public
+ @note
+ When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
+ itself appropriately. At the time this is called, the object has already has its container set to
+ the layer it will be added to but has not actually been added. Must be overridden.
+ @param aGroup the group containing the object
+ @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
  */
 - (void)group:(DKShapeGroup*)aGroup willUngroupObjectWithTransform:(NSAffineTransform*)aTransform
 {
@@ -1639,23 +1545,21 @@ static NSRect s_oldBounds;
 }
 
 /** @brief This object was ungrouped from a group
- * @note
- * This is called when the ungrouping operation has finished entirely. The object will belong to its
- * original container and have its location, etc set as required. Override to make use of this notification.
- * @public
+ @note
+ This is called when the ungrouping operation has finished entirely. The object will belong to its
+ original container and have its location, etc set as required. Override to make use of this notification.
  */
 - (void)objectWasUngrouped
 {
 }
 
 /** @brief Some high-level operations substitute a new object in place of an existing one (or several). In
- * those cases this should be called to allow the object to do any special substitution work.
- * @note
- * Subclasses should override this to do additional work during a substitution. Note that user info
- * and style is handled for you, this does not need to deal with those properties.
- * @param obj the original object his is being substituted for
- * @param aLayer the layer this will be added to (but is not yet)
- * @public
+ those cases this should be called to allow the object to do any special substitution work.
+ @note
+ Subclasses should override this to do additional work during a substitution. Note that user info
+ and style is handled for you, this does not need to deal with those properties.
+ @param obj the original object his is being substituted for
+ @param aLayer the layer this will be added to (but is not yet)
  */
 - (void)willBeAddedAsSubstituteFor:(DKDrawableObject*)obj toLayer:(DKObjectOwnerLayer*)aLayer;
 {
@@ -1666,12 +1570,11 @@ static NSRect s_oldBounds;
 #pragma mark - snapping to guides, grid and other objects (utility methods)
 
 /** @brief Offset the point to cause snap to grid + guides accoding to the drawing's settings
- * @note
- * DKObjectOwnerLayer + DKDrawing implements the details of this method. The snapControl flag is
- * intended to come from a modifier flag - usually <ctrl>.
- * @param mp a point which is the proposed location of the shape
- * @return a new point which may be offset from the input enough to snap it to the guides and grid
- */
+ @note
+ DKObjectOwnerLayer + DKDrawing implements the details of this method. The snapControl flag is
+ intended to come from a modifier flag - usually <ctrl>.
+ @param mp a point which is the proposed location of the shape
+ @return a new point which may be offset from the input enough to snap it to the guides and grid */
 - (NSPoint)snappedMousePoint:(NSPoint)mp withControlFlag:(BOOL)snapControl
 {
     if ([self mouseSnappingEnabled] && [self layer])
@@ -1683,12 +1586,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Offset the point to cause snap to grid + guides according to the drawing's settings
- * @note
- * Given a proposed location, this modifies it by checking if any of the points returned by the
- * object's snappingPoints method will snap. The result can be passed to moveToPoint:
- * @param mp a point which is the proposed location of the shape
- * @return a new point which may be offset from the input enough to snap it to the guides and grid
- * @public
+ @note
+ Given a proposed location, this modifies it by checking if any of the points returned by the
+ object's snappingPoints method will snap. The result can be passed to moveToPoint:
+ @param mp a point which is the proposed location of the shape
+ @return a new point which may be offset from the input enough to snap it to the guides and grid
  */
 - (NSPoint)snappedMousePoint:(NSPoint)mp forSnappingPointsWithControlFlag:(BOOL)snapControl
 {
@@ -1715,8 +1617,7 @@ static NSRect s_oldBounds;
 #pragma mark -
 
 /** @brief Return an array of NSpoint values representing points that can be snapped to guides
- * @return a list of points (NSValues)
- * @public
+ @return a list of points (NSValues)
  */
 - (NSArray*)snappingPoints
 {
@@ -1724,11 +1625,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return an array of NSpoint values representing points that can be snapped to guides
- * @note
- * Snapping points are locations within an object that will snap to a guide. List can be empty.
- * @param offset an offset value that is added to each point
- * @return a list of points (NSValues)
- * @public
+ @note
+ Snapping points are locations within an object that will snap to a guide. List can be empty.
+ @param offset an offset value that is added to each point
+ @return a list of points (NSValues)
  */
 - (NSArray*)snappingPointsWithOffset:(NSSize)offset
 {
@@ -1741,10 +1641,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Returns the offset between the mouse point and the shape's location during a drag
- * @note
- * Result is undefined except during a dragging operation
- * @return mouse offset during a drag
- * @public
+ @note
+ Result is undefined except during a dragging operation
+ @return mouse offset during a drag
  */
 - (NSSize)mouseOffset
 {
@@ -1755,11 +1654,10 @@ static NSRect s_oldBounds;
 #pragma mark - getting dimensions in drawing coordinates
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
- * @note
- * This is a conveniece API to query the drawing's grid layer
- * @param len a distance in pixels
- * @return the distance in drawing units
- * @public
+ @note
+ This is a conveniece API to query the drawing's grid layer
+ @param len a distance in pixels
+ @return the distance in drawing units
  */
 - (CGFloat)convertLength:(CGFloat)len
 {
@@ -1767,11 +1665,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
- * @note
- * This is a conveniece API to query the drawing's grid layer
- * @param pt a point value
- * @return the equivalent point in drawing units
- * @public
+ @note
+ This is a conveniece API to query the drawing's grid layer
+ @param pt a point value
+ @return the equivalent point in drawing units
  */
 - (NSPoint)convertPointToDrawing:(NSPoint)pt
 {
@@ -1782,14 +1679,13 @@ static NSRect s_oldBounds;
 #pragma mark - hit testing
 
 /** @brief Hit test the object
- * @note
- * Part codes are private to the object class, except for 0 = nothing hit and -1 = entire object hit.
- * for other parts, the object is free to return any code it likes and attach any meaning it wishes.
- * the part code is passed back by the mouse event methods but apart from 0 and -1 is never interpreted
- * by any other object
- * @param pt the mouse location
- * @return a part code representing which part of the object got hit, if any
- * @public
+ @note
+ Part codes are private to the object class, except for 0 = nothing hit and -1 = entire object hit.
+ for other parts, the object is free to return any code it likes and attach any meaning it wishes.
+ the part code is passed back by the mouse event methods but apart from 0 and -1 is never interpreted
+ by any other object
+ @param pt the mouse location
+ @return a part code representing which part of the object got hit, if any
  */
 - (NSInteger)hitPart:(NSPoint)pt
 {
@@ -1806,14 +1702,13 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Hit test the object in the selected state
- * @note
- * This is a factoring of the general hitPart: method to allow parts that only come into play when
- * selected to be hit tested. It is also used when snapping to objects. Subclasses should override
- * for the partcodes they define such as control knobs that operate when selected.
- * @param pt the mouse location
- * @param snap is YES if called to detect snap, NO otherwise
- * @return a part code representing which part of the selected object got hit, if any
- */
+ @note
+ This is a factoring of the general hitPart: method to allow parts that only come into play when
+ selected to be hit tested. It is also used when snapping to objects. Subclasses should override
+ for the partcodes they define such as control knobs that operate when selected.
+ @param pt the mouse location
+ @param snap is YES if called to detect snap, NO otherwise
+ @return a part code representing which part of the selected object got hit, if any */
 - (NSInteger)hitSelectedPart:(NSPoint)pt forSnapDetection:(BOOL)snap
 {
 #pragma unused(pt)
@@ -1823,12 +1718,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the point associated with the part code
- * @note
- * If partcode is no object, returns {-1,-1}, if entire object, return location. Object classes
- * should override this to correctly implement it for partcodes they define
- * @param pc a valid partcode for this object
- * @return the current point associated with the partcode
- * @public
+ @note
+ If partcode is no object, returns {-1,-1}, if entire object, return location. Object classes
+ should override this to correctly implement it for partcodes they define
+ @param pc a valid partcode for this object
+ @return the current point associated with the partcode
  */
 - (NSPoint)pointForPartcode:(NSInteger)pc
 {
@@ -1839,12 +1733,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Provide a mapping between the object's partcode and a knob type draw for that part
- * @note
- * Knob types are defined by DKKnob, they describe the functional type of the knob, plus the locked
- * state. Concrete subclasses should override this unless the default suffices.
- * @param pc a valid partcode for this object
- * @return a valid knob type
- * @public
+ @note
+ Knob types are defined by DKKnob, they describe the functional type of the knob, plus the locked
+ state. Concrete subclasses should override this unless the default suffices.
+ @param pc a valid partcode for this object
+ @return a valid knob type
  */
 - (DKKnobType)knobTypeForPartCode:(NSInteger)pc
 {
@@ -1859,11 +1752,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Test if a rect encloses any of the shape's actual pixels
- * @note
- * Note this can be an expensive way to test this - eliminate all obvious trivial cases first.
- * @param r the rect to test
- * @return YES if at least one pixel enclosed by the rect, NO otherwise
- * @private
+ @note
+ Note this can be an expensive way to test this - eliminate all obvious trivial cases first.
+ @param r the rect to test
+ @return YES if at least one pixel enclosed by the rect, NO otherwise
  */
 - (BOOL)rectHitsPath:(NSRect)r
 {
@@ -1942,11 +1834,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Test a point against the offscreen bitmap representation of the shape
- * @note
- * Special case of the rectHitsPath call, which is now the fastest way to perform this test
- * @param p the point to test
- * @return YES if the point hit the shape's pixels, NO otherwise
- * @private
+ @note
+ Special case of the rectHitsPath call, which is now the fastest way to perform this test
+ @param p the point to test
+ @return YES if the point hit the shape's pixels, NO otherwise
  */
 - (BOOL)pointHitsPath:(NSPoint)p
 {
@@ -1958,11 +1849,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Is a hit-test in progress
- * @note
- * Drawing methods can check this to see if they can take shortcuts to save time when hit-testing.
- * This will only return YES during calls to -drawContent etc when invoked by the rectHitsPath method.
- * @return YES if hit-testing is taking place, otherwise NO
- * @private
+ @note
+ Drawing methods can check this to see if they can take shortcuts to save time when hit-testing.
+ This will only return YES during calls to -drawContent etc when invoked by the rectHitsPath method.
+ @return YES if hit-testing is taking place, otherwise NO
  */
 - (BOOL)isBeingHitTested
 {
@@ -1970,11 +1860,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Set whether a hit-test in progress
- * @note
- * Applicaitons should not generally use this. It allows certain container classes (e.g. groups) to
- * flag the *they* are being hit tested to provide easier hitting of thin objects in groups.
- * @param hitTesting YES if hit-testing, NO otherwise
- * @private
+ @note
+ Applicaitons should not generally use this. It allows certain container classes (e.g. groups) to
+ flag the *they* are being hit tested to provide easier hitting of thin objects in groups.
+ @param hitTesting YES if hit-testing, NO otherwise
  */
 - (void)setBeingHitTested:(BOOL)hitTesting
 {
@@ -1985,12 +1874,11 @@ static NSRect s_oldBounds;
 #pragma mark - basic event handling
 
 /** @brief The mouse went down in this object
- * @note
- * Default method records the mouse offset, but otherwise you will override to make use of this
- * @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
- * @param partcode the partcode that was returned by hitPart if non-zero.
- * @param evt the original event
- * @public
+ @note
+ Default method records the mouse offset, but otherwise you will override to make use of this
+ @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ @param partcode the partcode that was returned by hitPart if non-zero.
+ @param evt the original event
  */
 - (void)mouseDownAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
@@ -2003,13 +1891,12 @@ static NSRect s_oldBounds;
 }
 
 /** @brief The mouse is dragging within this object
- * @note
- * Default method moves the entire object, and snaps to grid and guides if enabled. Control key disables
- * snapping temporarily.
- * @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
- * @param partcode the partcode that was returned by hitPart if non-zero.
- * @param evt the original event
- * @public
+ @note
+ Default method moves the entire object, and snaps to grid and guides if enabled. Control key disables
+ snapping temporarily.
+ @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ @param partcode the partcode that was returned by hitPart if non-zero.
+ @param evt the original event
  */
 - (void)mouseDraggedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
@@ -2029,10 +1916,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief The mouse went up in this object
- * @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
- * @param partcode the partcode that was returned by hitPart if non-zero.
- * @param evt the original event
- * @public
+ @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ @param partcode the partcode that was returned by hitPart if non-zero.
+ @param evt the original event
  */
 - (void)mouseUpAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
@@ -2049,9 +1935,8 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Get the view currently drawing or passing events to this
- * @note
- * The view is only meaningful when called from within a drawing or event handling method.
- * @public
+ @note
+ The view is only meaningful when called from within a drawing or event handling method.
  */
 - (NSView*)currentView
 {
@@ -2059,13 +1944,12 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the cursor displayed when a given partcode is hit or entered
- * @note
- * The cursor may be displayed when the mouse hovers over or is clicked in the area indicated by the
- * partcode. The default is simply to return the standard arrow - override for others.
- * @param partcode the partcode
- * @param button YES if the mouse left button is pressed, NO otherwise
- * @return a cursor object
- * @public
+ @note
+ The cursor may be displayed when the mouse hovers over or is clicked in the area indicated by the
+ partcode. The default is simply to return the standard arrow - override for others.
+ @param partcode the partcode
+ @param button YES if the mouse left button is pressed, NO otherwise
+ @return a cursor object
  */
 - (NSCursor*)cursorForPartcode:(NSInteger)partcode mouseButtonDown:(BOOL)button
 {
@@ -2076,14 +1960,13 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Inform the object that it was double-clicked
- * @note
- * This is invoked by the select tool and any others that decide to implement it. The object can
- * respond however it likes - by default it simply broadcasts a notification. Override for
- * different behaviours.
- * @param mp the point where it was clicked
- * @param partcode the partcode
- * @param event the original mouse event
- * @public
+ @note
+ This is invoked by the select tool and any others that decide to implement it. The object can
+ respond however it likes - by default it simply broadcasts a notification. Override for
+ different behaviours.
+ @param mp the point where it was clicked
+ @param partcode the partcode
+ @param event the original mouse event
  */
 - (void)mouseDoubleClickedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
@@ -2107,13 +1990,12 @@ static NSRect s_oldBounds;
 #pragma mark - contextual menu
 
 /** @brief Reurn the menu to use as the object's contextual menu
- * @note
- * The menu is obtained via DKAuxiliaryMenus helper object which in turn loads the menu from a nib,
- * overridable by the app. This is the preferred method of supplying the menu. It doesn't need to
- * be overridden by subclasses generally speaking, since all menu customisation per class is done in
- * the nib.
- * @return the menu
- * @public
+ @note
+ The menu is obtained via DKAuxiliaryMenus helper object which in turn loads the menu from a nib,
+ overridable by the app. This is the preferred method of supplying the menu. It doesn't need to
+ be overridden by subclasses generally speaking, since all menu customisation per class is done in
+ the nib.
+ @return the menu
  */
 - (NSMenu*)menu
 {
@@ -2121,11 +2003,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
- * @note
- * The default method adds commands to copy and paste the style
- * @param theMenu a menu - add items and commands to it as required
- * @return YES if any items were added, NO otherwise.
- * @public
+ @note
+ The default method adds commands to copy and paste the style
+ @param theMenu a menu - add items and commands to it as required
+ @return YES if any items were added, NO otherwise.
  */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu
 {
@@ -2152,13 +2033,12 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
- * @note
- * The default method adds commands to copy and paste the style. This method allows the point to
- * be used by subclasses to refine the menu for special areas within the object.
- * @param theMenu a menu - add items and commands to it as required
- * @param localPoint the point in local (view) coordinates where the menu click went down
- * @return YES if any items were added, NO otherwise.
- * @public
+ @note
+ The default method adds commands to copy and paste the style. This method allows the point to
+ be used by subclasses to refine the menu for special areas within the object.
+ @param theMenu a menu - add items and commands to it as required
+ @param localPoint the point in local (view) coordinates where the menu click went down
+ @return YES if any items were added, NO otherwise.
  */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu atPoint:(NSPoint)localPoint
 {
@@ -2171,11 +2051,10 @@ static NSRect s_oldBounds;
 #pragma mark - swatch
 
 /** @brief Returns an image of this object rendered using its current style and path
- * @note
- * If size is NSZeroRect, uses the current bounds size
- * @param size desired size of the image - shape is scaled to fit in this size
- * @return the image
- * @public
+ @note
+ If size is NSZeroRect, uses the current bounds size
+ @param size desired size of the image - shape is scaled to fit in this size
+ @return the image
  */
 - (NSImage*)swatchImageWithSize:(NSSize)size
 {
@@ -2205,10 +2084,9 @@ static NSRect s_oldBounds;
 #pragma mark - user info
 
 /** @brief Attach a dictionary of metadata to the object
- * @note
- * The dictionary replaces the current user info. To merge with any existing user info, use addUserInfo:
- * @param info a dictionary containing anything you wish
- * @public
+ @note
+ The dictionary replaces the current user info. To merge with any existing user info, use addUserInfo:
+ @param info a dictionary containing anything you wish
  */
 - (void)setUserInfo:(NSDictionary*)info
 {
@@ -2220,10 +2098,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Add a dictionary of metadata to the object
- * @note
- * <info> is merged with the existin gcontent of the user info
- * @param info a dictionary containing anything you wish
- * @public
+ @note
+ <info> is merged with the existin gcontent of the user info
+ @param info a dictionary containing anything you wish
  */
 - (void)addUserInfo:(NSDictionary*)info
 {
@@ -2238,12 +2115,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the attached user info
- * @note
- * The user info is returned as a mutable dictionary (which it is), and can thus have its contents
- * mutated directly for certain uses. Doing this cannot cause any notification of the status of
- * the object however.
- * @return the user info
- * @public
+ @note
+ The user info is returned as a mutable dictionary (which it is), and can thus have its contents
+ mutated directly for certain uses. Doing this cannot cause any notification of the status of
+ the object however.
+ @return the user info
  */
 - (NSMutableDictionary*)userInfo
 {
@@ -2251,9 +2127,8 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return an item of user info
- * @param key the key to use to refer to the item
- * @return the user info item
- * @public
+ @param key the key to use to refer to the item
+ @return the user info item
  */
 - (id)userInfoObjectForKey:(NSString*)key
 {
@@ -2261,9 +2136,8 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Set an item of user info
- * @param obj the object to store
- * @param key the key to use to refer to the item
- * @public
+ @param obj the object to store
+ @param key the key to use to refer to the item
  */
 - (void)setUserInfoObject:(id)obj forKey:(NSString*)key
 {
@@ -2282,14 +2156,13 @@ static NSRect s_oldBounds;
 #pragma mark - pasteboard
 
 /** @brief Write additional data to the pasteboard specific to the object
- * @note
- * The owning layer generally handles the case of writing the selected objects to the pasteboard but
- * sometimes an object might wish to supplement that data. For example a text-bearing object might
- * add the text to the pasteboard. This is only invoked when the object is the only object selected.
- * The default method does nothing - override to make use of this. Also, your override must declare
- * the types it's writing using addTypes:owner:
- * @param pb the pasteboard to write to
- * @public
+ @note
+ The owning layer generally handles the case of writing the selected objects to the pasteboard but
+ sometimes an object might wish to supplement that data. For example a text-bearing object might
+ add the text to the pasteboard. This is only invoked when the object is the only object selected.
+ The default method does nothing - override to make use of this. Also, your override must declare
+ the types it's writing using addTypes:owner:
+ @param pb the pasteboard to write to
  */
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {
@@ -2298,13 +2171,12 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Read additional data from the pasteboard specific to the object
- * @note
- * This is invoked by the owning layer after an object has been pasted. Override to make use of. Note
- * that this is not necessarily symmetrical with -writeSupplementaryDataToPasteboard: depending on
- * what data types the other method actually wrote. For example standard text would not normally
- * need to be handled as a special case.
- * @param pb the pasteboard to read from
- * @public
+ @note
+ This is invoked by the owning layer after an object has been pasted. Override to make use of. Note
+ that this is not necessarily symmetrical with -writeSupplementaryDataToPasteboard: depending on
+ what data types the other method actually wrote. For example standard text would not normally
+ need to be handled as a special case.
+ @param pb the pasteboard to read from
  */
 - (void)readSupplementaryDataFromPasteboard:(NSPasteboard*)pb
 {
@@ -2316,8 +2188,7 @@ static NSRect s_oldBounds;
 #pragma mark - user level commands that can be responded to by this object (and its subclasses)
 
 /** @brief Copies the object's style to the general pasteboard
- * @param sender the action's sender
- * @public
+ @param sender the action's sender
  */
 - (IBAction)copyDrawingStyle:(id)sender
 {
@@ -2333,10 +2204,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Pastes a style from the general pasteboard onto the object
- * @note
- * Attempts to maintain shared styles by using the style's name initially.
- * @param sender the action's sender
- * @public
+ @note
+ Attempts to maintain shared styles by using the style's name initially.
+ @param sender the action's sender
  */
 - (IBAction)pasteDrawingStyle:(id)sender
 {
@@ -2644,13 +2514,12 @@ static NSRect s_oldBounds;
 #pragma mark - as an implementer of the DKRenderable protocol
 
 /** @brief Return the full extent of the object within the drawing, including any decoration, etc.
- * @note
- * The object must draw only within its declared bounds. If it draws outside of this, it will leave
- * trails and debris when moved, rotated or scaled. All style-based decoration must be contained within
- * bounds. The style has the method -extraSpaceNeeded to help you determine the correct bounds.
- * subclasses must override this and return a valid, sensible bounds rect
- * @return the full bounds of the object
- * @public
+ @note
+ The object must draw only within its declared bounds. If it draws outside of this, it will leave
+ trails and debris when moved, rotated or scaled. All style-based decoration must be contained within
+ bounds. The style has the method -extraSpaceNeeded to help you determine the correct bounds.
+ subclasses must override this and return a valid, sensible bounds rect
+ @return the full bounds of the object
  */
 - (NSRect)bounds
 {
@@ -2660,9 +2529,8 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
- * between the logical and reported bounds.
- * @return the extra space required
- * @public
+ between the logical and reported bounds.
+ @return the extra space required
  */
 - (NSSize)extraSpaceNeeded
 {
@@ -2673,11 +2541,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the container's transform
- * @note
- * The container transform must be taken into account for rendering this object, as it accounts for
- * groups and other possible containers.
- * @return a transform
- */
+ @note
+ The container transform must be taken into account for rendering this object, as it accounts for
+ groups and other possible containers.
+ @return a transform */
 - (NSAffineTransform*)containerTransform
 {
     NSAffineTransform* ct = [[self container] renderingTransform];
@@ -2689,12 +2556,11 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return the path that represents the final user-visible path of the drawn object
- * @note
- * The default method does nothing. Subclasses should override this and supply the appropriate path,
- * which is the one requested by a renderer when the object is actually drawn. See also the
- * DKRasterizerProtocol, which makes use of this.
- * @return the object's path
- * @public
+ @note
+ The default method does nothing. Subclasses should override this and supply the appropriate path,
+ which is the one requested by a renderer when the object is actually drawn. See also the
+ DKRasterizerProtocol, which makes use of this.
+ @return the object's path
  */
 - (NSBezierPath*)renderingPath
 {
@@ -2702,10 +2568,9 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return hint to rasterizers that low quality drawing should be used
- * @note
- * Part of the informal rendering protocol used by rasterizers
- * @return YES to use low quality drawing, no otherwise
- * @public
+ @note
+ Part of the informal rendering protocol used by rasterizers
+ @return YES to use low quality drawing, no otherwise
  */
 - (BOOL)useLowQualityDrawing
 {
@@ -2713,11 +2578,10 @@ static NSRect s_oldBounds;
 }
 
 /** @brief Return a number that changes when any aspect of the geometry changes. This can be used to detect
- * that a change has taken place since an earlier time.
- * @note
- * Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
- * @return a number
- * @public
+ that a change has taken place since an earlier time.
+ @note
+ Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
+ @return a number
  */
 - (NSUInteger)geometryChecksum
 {

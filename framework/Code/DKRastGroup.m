@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKRastGroup.h"
@@ -17,12 +17,11 @@
 #pragma mark As a DKRenderGroup
 
 /** @brief Set the contained objects to those in array
- * @note
- * This method no longer attempts to try and manage observing of the objects. The observer must
- * properly stop observing before this is called, or start observing after it is called when
- * initialising from an archive. 
- * @param list a list of renderer objects
- * @public
+ @note
+ This method no longer attempts to try and manage observing of the objects. The observer must
+ properly stop observing before this is called, or start observing after it is called when
+ initialising from an archive. 
+ @param list a list of renderer objects
  */
 - (void)setRenderList:(NSArray*)list
 {
@@ -44,8 +43,7 @@
 }
 
 /** @brief Get the list of contained renderers
- * @return an array containing the list of renderers
- * @public
+ @return an array containing the list of renderers
  */
 - (NSArray*)renderList
 {
@@ -55,10 +53,9 @@
 #pragma mark -
 
 /** @brief Returns the top-level group in any hierarchy, which in DrawKit is a style object
- * @note
- * Will return nil if the group isn't part of a complete tree
- * @return the top level group
- * @public
+ @note
+ Will return nil if the group isn't part of a complete tree
+ @return the top level group
  */
 - (DKRastGroup*)root
 {
@@ -66,10 +63,9 @@
 }
 
 /** @brief Notifies that an observable object was added to the group
- * @note
- * Overridden by the root object (style)
- * @param observable the object to start observing
- * @public
+ @note
+ Overridden by the root object (style)
+ @param observable the object to start observing
  */
 - (void)observableWasAdded:(GCObservableObject*)observable
 {
@@ -79,10 +75,9 @@
 }
 
 /** @brief Notifies that an observable object is about to be removed from the group
- * @note
- * Overridden by the root object (style)
- * @param observable the object to stop observing
- * @public
+ @note
+ Overridden by the root object (style)
+ @param observable the object to stop observing
  */
 - (void)observableWillBeRemoved:(GCObservableObject*)observable
 {
@@ -94,8 +89,7 @@
 #pragma mark -
 
 /** @brief Adds a renderer to the group
- * @param renderer a renderer object
- * @public
+ @param renderer a renderer object
  */
 - (void)addRenderer:(DKRasterizer*)renderer
 {
@@ -111,8 +105,7 @@
 }
 
 /** @brief Removes a renderer from the group
- * @param renderer the renderer object to remove
- * @public
+ @param renderer the renderer object to remove
  */
 - (void)removeRenderer:(DKRasterizer*)renderer
 {
@@ -126,9 +119,8 @@
 }
 
 /** @brief Relocates a renderer within the group (which affects drawing order)
- * @param src the index position of the renderer to move
- * @param dest the index where to move it
- * @public
+ @param src the index position of the renderer to move
+ @param dest the index where to move it
  */
 - (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
@@ -151,9 +143,8 @@
 }
 
 /** @brief Inserts a renderer into the group at the given index
- * @param renderer the renderer to insert
- * @param index the index where to insert it
- * @public
+ @param renderer the renderer to insert
+ @param index the index where to insert it
  */
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
@@ -169,8 +160,7 @@
 }
 
 /** @brief Removes the renderer at the given index
- * @param index the index to remove
- * @public
+ @param index the index to remove
  */
 - (void)removeRendererAtIndex:(NSUInteger)indx
 {
@@ -186,9 +176,8 @@
 }
 
 /** @brief Returns the index of the given renderer
- * @param renderer the renderer in question
- * @return the index position of the renderer, or NSNotFound
- * @public
+ @param renderer the renderer in question
+ @return the index position of the renderer, or NSNotFound
  */
 - (NSUInteger)indexOfRenderer:(DKRasterizer*)renderer
 {
@@ -198,9 +187,8 @@
 #pragma mark -
 
 /** @brief Returns the rendere at the given index position
- * @param index the index position of the renderer
- * @return the renderer at that position
- * @public
+ @param index the index position of the renderer
+ @return the renderer at that position
  */
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)indx
 {
@@ -208,9 +196,8 @@
 }
 
 /** @brief Returns the renderer matching the given name
- * @param name the name of the renderer
- * @return the renderer with that name, if any
- * @public
+ @param name the name of the renderer
+ @return the renderer with that name, if any
  */
 - (DKRasterizer*)rendererWithName:(NSString*)name
 {
@@ -228,10 +215,9 @@
 #pragma mark -
 
 /** @brief Returns the number of directly contained renderers
- * @note
- * Doesn't count renderers owned by nested groups within this one
- * @return the count of renderers
- * @public
+ @note
+ Doesn't count renderers owned by nested groups within this one
+ @return the count of renderers
  */
 - (NSUInteger)countOfRenderList
 {
@@ -239,12 +225,11 @@
 }
 
 /** @brief Queries whether a renderer of a given class exists somewhere in the render tree
- * @note
- * Usually called from the top level to get a broad idea of what the group will draw. A style
- * has some higher level methods that call this.
- * @param cl the class to look for
- * @return YES if there is at least one [enabled] renderer with the given class, NO otherwise
- * @public
+ @note
+ Usually called from the top level to get a broad idea of what the group will draw. A style
+ has some higher level methods that call this.
+ @param cl the class to look for
+ @return YES if there is at least one [enabled] renderer with the given class, NO otherwise
  */
 - (BOOL)containsRendererOfClass:(Class)cl
 {
@@ -267,9 +252,8 @@
 }
 
 /** @brief Returns a flattened list of renderers of a given class
- * @param cl the class to look for
- * @return an array containing the renderers matching <cl>, or nil.
- * @public
+ @param cl the class to look for
+ @return an array containing the renderers matching <cl>, or nil.
  */
 - (NSArray*)renderersOfClass:(Class)cl
 {
@@ -295,9 +279,8 @@
 }
 
 /** @brief Removes all renderers from this group except other groups
- * @note
- * Specialist use - not generally for application use
- * @public
+ @note
+ Specialist use - not generally for application use
  */
 - (void)removeAllRenderers
 {
@@ -311,12 +294,11 @@
 }
 
 /** @brief Removes all renderers of the given class, optionally traversing levels below this
- * @note
- * Renderers must be an exact match for <class> - subclasses are not considered a match. This is
- * intended for specialist use and should not generally be used by application code
- * @param cl the renderer class to remove
- * @return <subs> if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
- * @public
+ @note
+ Renderers must be an exact match for <class> - subclasses are not considered a match. This is
+ intended for specialist use and should not generally be used by application code
+ @param cl the renderer class to remove
+ @return <subs> if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
  */
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs
 {
@@ -357,8 +339,7 @@
 #pragma mark As a DKRasterizer
 
 /** @brief Determines whther the group will draw anything by finding if any contained renderer will draw anything
- * @return YES if at least one contained renderer will draw something
- * @public
+ @return YES if at least one contained renderer will draw something
  */
 - (BOOL)isValid
 {
@@ -384,8 +365,7 @@
 }
 
 /** @brief Returns a style csript representing the group
- * @return a string containg a complete script for the group and all contained objects
- * @public
+ @return a string containg a complete script for the group and all contained objects
  */
 - (NSString*)styleScript
 {
@@ -413,8 +393,7 @@
 #pragma mark As a GCObservableObject
 
 /** @brief Returns the keypaths of the properties that can be observed
- * @return an array listing the observable key paths
- * @public
+ @return an array listing the observable key paths
  */
 + (NSArray*)observableKeyPaths
 {
@@ -422,7 +401,6 @@
 }
 
 /** @brief Registers the action names for the observable properties published by the object
- * @public
  */
 - (void)registerActionNames
 {
@@ -437,11 +415,10 @@
 }
 
 /** @brief Sets up KVO for the given observer object
- * @note
- * Propagates the request down to all the components in the group, including other groups so the
- * entire tree is traversed
- * @param object the observer
- * @public
+ @note
+ Propagates the request down to all the components in the group, including other groups so the
+ entire tree is traversed
+ @param object the observer
  */
 - (BOOL)setUpKVOForObserver:(id)object
 {
@@ -451,11 +428,10 @@
 }
 
 /** @brief Tears down KVO for the given observer object
- * @note
- * Propagates the request down to all the components in the group, including other groups so the
- * entire tree is traversed
- * @param object the observer
- * @public
+ @note
+ Propagates the request down to all the components in the group, including other groups so the
+ entire tree is traversed
+ @param object the observer
  */
 - (BOOL)tearDownKVOForObserver:(id)object
 {
@@ -492,8 +468,7 @@
 #pragma mark As part of DKRasterizer Protocol
 
 /** @brief Determines the extra space needed to render by finding the most space needed by any contained renderer
- * @return the extra width and height needed over and above the object's (path) bounds
- * @public
+ @return the extra width and height needed over and above the object's (path) bounds
  */
 - (NSSize)extraSpaceNeeded
 {
@@ -518,8 +493,7 @@
 }
 
 /** @brief Renders the object by iterating over the contained renderers
- * @param object the object to render
- * @public
+ @param object the object to render
  */
 - (void)render:(id<DKRenderable>)object
 {
@@ -536,11 +510,10 @@
 }
 
 /** @brief Renders the object's path by iterating over the contained renderers
- * @note
- * Normally groups and styles should use render: but this provides correct behaviour if a top level
- * object elects to use the path (in general, don't do this)
- * @param path the path to render
- * @public
+ @note
+ Normally groups and styles should use render: but this provides correct behaviour if a top level
+ object elects to use the path (in general, don't do this)
+ @param path the path to render
  */
 - (void)renderPath:(NSBezierPath*)path
 {
@@ -553,10 +526,9 @@
 }
 
 /** @brief Queries whther the rasterizer implements a fill or not
- * @note
- * Returns YES if any contained rasterizer returns YES, NO otherwise
- * @return YES if the rasterizer is considered a fill type
- * @public
+ @note
+ Returns YES if any contained rasterizer returns YES, NO otherwise
+ @return YES if the rasterizer is considered a fill type
  */
 - (BOOL)isFill
 {
@@ -575,9 +547,8 @@
 #pragma mark As part of GraphicsAttributes Protocol
 
 /** @brief Installs renderers when built from a script
- * @param val a renderer object
- * @param pnum th eordinal position of the value in the original expression. Not used here.
- * @public
+ @param val a renderer object
+ @param pnum th eordinal position of the value in the original expression. Not used here.
  */
 - (void)setValue:(id)val forNumericParameter:(NSInteger)pnum
 {
@@ -630,11 +601,10 @@
 #pragma mark As part of NSKeyValueCoding Protocol
 
 /** @brief Returns a renderer class associated with the given key
- * @note
- * This is used to support simple UI's that bind to certain renderers based on generic keypaths
- * @param key a key for the renderer class
- * @return a renderer class matching the key, if any
- * @public
+ @note
+ This is used to support simple UI's that bind to certain renderers based on generic keypaths
+ @param key a key for the renderer class
+ @return a renderer class matching the key, if any
  */
 - (Class)renderClassForKey:(NSString*)key
 {
@@ -655,13 +625,12 @@
 #pragma mark -
 
 /** @brief Returns a renderer class associated with the given key
- * @note
- * This is used to support simple UI's that bind to certain renderers based on generic keypaths. Here,
- * the renderer is preferentially referred to by name, but if that fails, falls back on generic
- * lookup based on a simplified classname.
- * @param key a key for the renderer class
- * @return a renderer matching the key, if any
- * @public
+ @note
+ This is used to support simple UI's that bind to certain renderers based on generic keypaths. Here,
+ the renderer is preferentially referred to by name, but if that fails, falls back on generic
+ lookup based on a simplified classname.
+ @param key a key for the renderer class
+ @return a renderer matching the key, if any
  */
 - (id)valueForUndefinedKey:(NSString*)key
 {

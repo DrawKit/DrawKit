@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKArcPath.h"
@@ -19,19 +19,17 @@
 @interface DKArcPath (Private)
 
 /** @brief Sets the path based on the current arc parameters
- * @note
- * Calls setPath: which is recorded by undo
- * @private
+ @note
+ Calls setPath: which is recorded by undo
  */
 - (void)calculatePath;
 
 /** @brief Adjusts the arc parameters based on the mouse location passed and the partcode, etc.
- * @note
- * Called from mouseDragged: to implement interactive editing
- * @param pc the partcode being manipulated
- * @param mp the current point (from the mouse)
- * @param constrain YES to constrain angles to 15° increments
- * @private
+ @note
+ Called from mouseDragged: to implement interactive editing
+ @param pc the partcode being manipulated
+ @param mp the current point (from the mouse)
+ @param constrain YES to constrain angles to 15° increments
  */
 - (void)movePart:(NSInteger)pc toPoint:(NSPoint)mp constrainAngle:(BOOL)constrain;
 
@@ -44,8 +42,7 @@
 static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 /** @brief Sets the radius of the arc
- * @param rad the radius
- * @public
+ @param rad the radius
  */
 - (void)setRadius:(CGFloat)rad
 {
@@ -59,8 +56,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Returns the radius of the arc
- * @return the radius
- * @public
+ @return the radius
  */
 - (CGFloat)radius
 {
@@ -68,10 +64,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Sets the starting angle, which is the more anti-clockwise point on the arc
- * @note
- * Angle is passed in DEGREES
- * @param sa the angle in degrees anti-clockwise from the horizontal axis extending to the right
- * @public
+ @note
+ Angle is passed in DEGREES
+ @param sa the angle in degrees anti-clockwise from the horizontal axis extending to the right
  */
 - (void)setStartAngle:(CGFloat)sa
 {
@@ -85,8 +80,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Returns the starting angle, which is the more anti-clockwise point on the arc
- * @return the angle in degrees anti-clockwise from the horizontal axis extending to the right
- * @public
+ @return the angle in degrees anti-clockwise from the horizontal axis extending to the right
  */
 - (CGFloat)startAngle
 {
@@ -94,10 +88,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Sets the ending angle, which is the more clockwise point on the arc
- * @note
- * Angle is passed in DEGREES
- * @param ea the angle in degrees anti-clockwise from the horizontal axis extending to the right
- * @public
+ @note
+ Angle is passed in DEGREES
+ @param ea the angle in degrees anti-clockwise from the horizontal axis extending to the right
  */
 - (void)setEndAngle:(CGFloat)ea
 {
@@ -111,8 +104,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Returns the ending angle, which is the more clockwise point on the arc
- * @return the angle in degrees anti-clockwise from the horizontal axis extending to the right
- * @public
+ @return the angle in degrees anti-clockwise from the horizontal axis extending to the right
  */
 - (CGFloat)endAngle
 {
@@ -123,8 +115,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Sets the arc type, which affects the path geometry
- * @param arcType the required type
- * @public
+ @param arcType the required type
  */
 - (void)setArcType:(DKArcPathType)arcType
 {
@@ -138,8 +129,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Returns the arc type, which affects the path geometry
- * @return the current arc type
- * @public
+ @return the current arc type
  */
 - (DKArcPathType)arcType
 {
@@ -248,9 +238,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 #pragma mark - as a DKDrawablePath
 
 /** @brief Draws the selection knobs as required
- * @param path not used
- * @param knobs the knobs object to use for drawing
- * @public
+ @param path not used
+ @param knobs the knobs object to use for drawing
  */
 - (void)drawControlPointsOfPath:(NSBezierPath*)path usingKnobs:(DKKnob*)knobs
 {
@@ -301,8 +290,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Creates the arc path initially
- * @param initialPoint the starting point for the creation
- * @public
+ @param initialPoint the starting point for the creation
  */
 - (void)arcCreateLoop:(NSPoint)initialPoint
 {
@@ -430,11 +418,10 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 #pragma mark - as a DKDrawableObject
 
 /** @brief Return the partcode that should be used by tools when initially creating a new object
- * @note
- * The client of this method is DKObjectCreationTool. An arc is created by dragging its radius to
- * some initial value, so the inital partcode is the radius knob.
- * @return a partcode value
- * @public
+ @note
+ The client of this method is DKObjectCreationTool. An arc is created by dragging its radius to
+ some initial value, so the inital partcode is the radius knob.
+ @return a partcode value
  */
 + (NSInteger)initialPartcodeForObjectCreation
 {
@@ -442,10 +429,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Hit test the point against the knobs
- * @param pt the point to hit-test
- * @param snap YES if the test is being done for snap-detecting purposes, NO for normal mouse hits
- * @return the partcode hit by the point, if any
- * @public
+ @param pt the point to hit-test
+ @param snap YES if the test is being done for snap-detecting purposes, NO for normal mouse hits
+ @return the partcode hit by the point, if any
  */
 - (NSInteger)hitSelectedPart:(NSPoint)pt forSnapDetection:(BOOL)snap
 {
@@ -488,9 +474,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Return the current point for a given partcode value
- * @param pc the partcode
- * @return the partcode hit by the point, if any
- * @public
+ @param pc the partcode
+ @return the partcode hit by the point, if any
  */
 - (NSPoint)pointForPartcode:(NSInteger)pc
 {
@@ -533,13 +518,12 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Handles a mouse down in the object
- * @note
- * Starts edit or creation of object - the creation mode can be anything other then "edit existing"
- * for arc creation. Use the "simple mode" to create arcs in a one-stage drag.
- * @param mp the mouse point
- * @param partcode the partcode returned earlier by hitPart:
- * @param evt the event this came from
- */
+ @note
+ Starts edit or creation of object - the creation mode can be anything other then "edit existing"
+ for arc creation. Use the "simple mode" to create arcs in a one-stage drag.
+ @param mp the mouse point
+ @param partcode the partcode returned earlier by hitPart:
+ @param evt the event this came from */
 - (void)mouseDownAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
     [[self layer] setInfoWindowBackgroundColour:[[self class] infoWindowBackgroundColour]];
@@ -567,12 +551,11 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Handles a mouse drag in the object
- * @note
- * Used when editing an existing path, but not creating one
- * @param mp the mouse point
- * @param partcode the partcode returned earlier by hitPart:
- * @param evt the event this came from
- */
+ @note
+ Used when editing an existing path, but not creating one
+ @param mp the mouse point
+ @param partcode the partcode returned earlier by hitPart:
+ @param evt the event this came from */
 - (void)mouseDraggedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
     BOOL shift = (([evt modifierFlags] & NSShiftKeyMask) != 0);
@@ -635,7 +618,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Sets the path's bounds to be updated
- * @public
  */
 - (void)notifyVisualChange
 {
@@ -647,10 +629,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Return the object's location within the drawing
- * @note
- * Arc objects consider their centre origin as the datum of the location
- * @return the position of the object within the drawing
- * @public
+ @note
+ Arc objects consider their centre origin as the datum of the location
+ @return the position of the object within the drawing
  */
 - (NSPoint)location
 {
@@ -658,10 +639,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Move the object to a given location within the drawing
- * @note
- * Arc objects consider their centre origin as the datum of the location
- * @param p the point at which to place the object
- * @public
+ @note
+ Arc objects consider their centre origin as the datum of the location
+ @param p the point at which to place the object
  */
 - (void)setLocation:(NSPoint)p
 {
@@ -674,10 +654,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Return the total area the object is enclosed by
- * @note
- * Bounds includes the centre point, even if it's not visible
- * @return the bounds rect
- * @public
+ @note
+ Bounds includes the centre point, even if it's not visible
+ @return the bounds rect
  */
 - (NSRect)bounds
 {
@@ -704,8 +683,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Sets the overall angle of the object
- * @param angle the overall angle in radians
- * @public
+ @param angle the overall angle in radians
  */
 - (void)setAngle:(CGFloat)angle
 {
@@ -725,10 +703,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Returns the overall angle of the object
- * @note
- * The overall angle is considered to be halfway between the start and end points around the arc
- * @return the overall angle
- * @public
+ @note
+ The overall angle is considered to be halfway between the start and end points around the arc
+ @return the overall angle
  */
 - (CGFloat)angle
 {
@@ -748,13 +725,12 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief This object is being ungrouped from a group
- * @note
- * When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
- * itself appropriately. At the time this is called, the object has already has its container set to
- * the layer it will be added to but has not actually been added.
- * @param aGroup the group containing the object
- * @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
- * @public
+ @note
+ When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
+ itself appropriately. At the time this is called, the object has already has its container set to
+ the layer it will be added to but has not actually been added.
+ @param aGroup the group containing the object
+ @param aTransform the transform that the group is applying to the object to scale rotate and translate it.
  */
 - (void)group:(DKShapeGroup*)aGroup willUngroupObjectWithTransform:(NSAffineTransform*)aTransform
 {
@@ -774,11 +750,10 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Returns a list of potential snapping points used when the path is snapped to the grid or guides
- * @note
- * Part of the snapping protocol
- * @param offset add this offset to the points
- * @return an array of points as NSValue objects
- * @public
+ @note
+ Part of the snapping protocol
+ @param offset add this offset to the points
+ @return an array of points as NSValue objects
  */
 - (NSArray*)snappingPointsWithOffset:(NSSize)offset
 {
@@ -817,8 +792,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 #pragma mark - as a NSObject
 
 /** @brief Designated initialiser
- * @return the object
- * @public
+ @return the object
  */
 - (id)init
 {
@@ -833,11 +807,10 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Copies the object
- * @note
- * Implements <NSCopying>
- * @param zone the zone
- * @return the copy
- * @public
+ @note
+ Implements <NSCopying>
+ @param zone the zone
+ @return the copy
  */
 - (id)copyWithZone:(NSZone*)zone
 {
@@ -854,8 +827,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Encodes the object for archiving
- * @param coder the coder
- * @public
+ @param coder the coder
  */
 - (void)encodeWithCoder:(NSCoder*)coder
 {
@@ -873,9 +845,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Decodes the object for archiving
- * @param coder the coder
- * @return the object
- * @public
+ @param coder the coder
+ @return the object
  */
 - (id)initWithCoder:(NSCoder*)coder
 {

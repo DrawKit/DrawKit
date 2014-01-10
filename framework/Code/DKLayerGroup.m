@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKLayerGroup.h"
@@ -23,14 +23,13 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark As a DKLayerGroup
 
 /** @brief Convenience method for building a new layer group from an existing list of layers
- * @note
- * The group must be added to a drawing to be useful. If the layers are already part of a drawing,
- * or other group, they need to be removed first. It is an error to attach a layer in more than one
- * group (or drawing, which is a group) at a time.
- * Layers should be stacked with the top at index #0, the bottom at #(count -1)
- * @param layers a list of existing layers
- * @return a new layer group containing the passed layers
- * @public
+ @note
+ The group must be added to a drawing to be useful. If the layers are already part of a drawing,
+ or other group, they need to be removed first. It is an error to attach a layer in more than one
+ group (or drawing, which is a group) at a time.
+ Layers should be stacked with the top at index #0, the bottom at #(count -1)
+ @param layers a list of existing layers
+ @return a new layer group containing the passed layers
  */
 + (DKLayerGroup*)layerGroupWithLayers:(NSArray*)layers
 {
@@ -42,11 +41,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark -
 
 /** @brief Initialize a layer group
- * @note
- * A layer group must be added to another group or drawing before it can be used
- * @param layers a list of existing layers
- * @return a new layer group
- * @public
+ @note
+ A layer group must be added to another group or drawing before it can be used
+ @param layers a list of existing layers
+ @return a new layer group
  */
 - (id)initWithLayers:(NSArray*)layers
 {
@@ -72,11 +70,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark - layer list
 
 /** @brief Sets the drawing's layers to those in the array
- * @note
- * Layers are usually added one at a time through some user interface, but this allows them to
- * be set all at once, as when unarchiving. Not recorded for undo.
- * @param layers an array, consisting of any number of DKLayer objects or subclasses
- * @public
+ @note
+ Layers are usually added one at a time through some user interface, but this allows them to
+ be set all at once, as when unarchiving. Not recorded for undo.
+ @param layers an array, consisting of any number of DKLayer objects or subclasses
  */
 - (void)setLayers:(NSArray*)layers
 {
@@ -101,10 +98,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the current layers
- * @note
- * A drawing can have an unlimited number of layers
- * @return an array, a list of any number of DKLayer objects or subclasses
- * @public
+ @note
+ A drawing can have an unlimited number of layers
+ @return an array, a list of any number of DKLayer objects or subclasses
  */
 - (NSArray*)layers
 {
@@ -112,8 +108,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the number of layers
- * @return the number of layers
- * @public
+ @return the number of layers
  */
 - (NSUInteger)countOfLayers
 {
@@ -121,12 +116,11 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the layer index number of the highest layer that is fully opaque.
- * @note
- * Used for optimising drawing - layers below the highest opaque layer are not drawn (because they can't
- * be seen "through" the opaque layer). A layer decides itself if it's opaque by returning YES or NO for
- * isOpaque. If no layers are opaque, returns the index of the bottom layer.
- * @return an integer, the index number of the highest opaque layer
- * @public
+ @note
+ Used for optimising drawing - layers below the highest opaque layer are not drawn (because they can't
+ be seen "through" the opaque layer). A layer decides itself if it's opaque by returning YES or NO for
+ isOpaque. If no layers are opaque, returns the index of the bottom layer.
+ @return an integer, the index number of the highest opaque layer
  */
 - (NSUInteger)indexOfHighestOpaqueLayer
 {
@@ -143,10 +137,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns all of the layers in this group and all groups below it
- * @note
- * The returned list does not contain any layer groups
- * @return a list of layers
- * @public
+ @note
+ The returned list does not contain any layer groups
+ @return a list of layers
  */
 - (NSArray*)flattenedLayers
 {
@@ -154,9 +147,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns all of the layers in this group and all groups below it
- * @param includeGroups if YES, list includes the groups, NO only returns actual layers
- * @return a list of layers
- * @public
+ @param includeGroups if YES, list includes the groups, NO only returns actual layers
+ @return a list of layers
  */
 - (NSArray*)flattenedLayersIncludingGroups:(BOOL)includeGroups
 {
@@ -178,11 +170,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns all of the layers in this group and all groups below it having the given class
- * @note
- * Does not include groups unless the class is DKLayerGroup
- * @param layerClass a Class indicating the kind of layer of interest
- * @return a list of matching layers
- * @public
+ @note
+ Does not include groups unless the class is DKLayerGroup
+ @param layerClass a Class indicating the kind of layer of interest
+ @return a list of matching layers
  */
 - (NSArray*)flattenedLayersOfClass:(Class)layerClass
 {
@@ -191,10 +182,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns all of the layers in this group and all groups below it having the given class
- * @param layerClass a Class indicating the kind of layer of interest
- * @param includeGroups if YES, includes groups as well as the requested class
- * @return a list of matching layers
- * @public
+ @param layerClass a Class indicating the kind of layer of interest
+ @param includeGroups if YES, includes groups as well as the requested class
+ @return a list of matching layers
  */
 - (NSArray*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups
 {
@@ -220,11 +210,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark - adding and removing layers
 
 /** @brief Creates and adds a layer to the drawing
- * @note
- * LayerClass must be a valid subclass of DKLayer, otherwise does nothing and nil is returned
- * @param layerClass the class of some kind of layer
- * @return the layer created
- * @public
+ @note
+ LayerClass must be a valid subclass of DKLayer, otherwise does nothing and nil is returned
+ @param layerClass the class of some kind of layer
+ @return the layer created
  */
 - (DKLayer*)addNewLayerOfClass:(Class)layerClass
 {
@@ -240,10 +229,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Adds a layer to the group
- * @note
- * The added layer is placed above all other layers.
- * @param aLayer a DKLayer object, or subclass thereof
- * @public
+ @note
+ The added layer is placed above all other layers.
+ @param aLayer a DKLayer object, or subclass thereof
  */
 - (void)addLayer:(DKLayer*)aLayer
 {
@@ -254,11 +242,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Adds a layer above a specific index position in the stack
- * @note
- * Layer indexes run from 0 being the top layer to (count -1), being the bottom layer
- * @param aLayer a DKLayer object, or subclass thereof
- * @param layerIndex the index number of the layer the new layer should be placed in front of.
- * @public
+ @note
+ Layer indexes run from 0 being the top layer to (count -1), being the bottom layer
+ @param aLayer a DKLayer object, or subclass thereof
+ @param layerIndex the index number of the layer the new layer should be placed in front of.
  */
 - (void)addLayer:(DKLayer*)aLayer aboveLayerIndex:(NSUInteger)layerIndex
 {
@@ -275,12 +262,11 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Adds a layer at a specific index position in the stack
- * @note
- * All other addLayer methods call this, which permits the operation to be undone including restoring
- * layer indexes run from 0 being the top layer to (count -1), being the bottom layer
- * @param aLayer a DKLayer object, or subclass thereof
- * @param layerIndex the index number of the layer inserted
- * @public
+ @note
+ All other addLayer methods call this, which permits the operation to be undone including restoring
+ layer indexes run from 0 being the top layer to (count -1), being the bottom layer
+ @param aLayer a DKLayer object, or subclass thereof
+ @param layerIndex the index number of the layer inserted
  */
 - (void)insertObject:(DKLayer*)aLayer inLayersAtIndex:(NSUInteger)layerIndex
 {
@@ -308,10 +294,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Removes the layer from the drawing
- * @note
- * Disposes of the layer if there are no other references to it.
- * @param aLayer a DKLayer object, or subclass thereof, that already exists in the group
- * @public
+ @note
+ Disposes of the layer if there are no other references to it.
+ @param aLayer a DKLayer object, or subclass thereof, that already exists in the group
  */
 - (void)removeLayer:(DKLayer*)aLayer
 {
@@ -321,11 +306,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Remove the layer with a particular index number from the layer
- * @note
- * All other removeLayer methods call this, which permits the operation to be undone including restoring
- * layer indexes run from 0 being the top layer to (count -1), being the bottom layer
- * @param layerIndex the index number of the layer to remove
- * @public
+ @note
+ All other removeLayer methods call this, which permits the operation to be undone including restoring
+ layer indexes run from 0 being the top layer to (count -1), being the bottom layer
+ @param layerIndex the index number of the layer to remove
  */
 - (void)removeObjectFromLayersAtIndex:(NSUInteger)layerIndex
 {
@@ -349,10 +333,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Removes all of the group's layers
- * @note
- * This method is not undoable. To undoably remove a layer, remove them one at a time. KVO observers
- * will not be notified by this method.
- * @public
+ @note
+ This method is not undoable. To undoably remove a layer, remove them one at a time. KVO observers
+ will not be notified by this method.
  */
 - (void)removeAllLayers
 {
@@ -371,12 +354,11 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Disambiguates a layer's name by appending digits until there is no conflict
- * @note
- * It is not important that layer's have unique names, but a UI will usually want to do this, thus
- * when using the addLayer:andActivateIt: method, the name of the added layer is disambiguated.
- * @param aName a string containing the proposed name
- * @return a string, either the original string or a modified version of it
- * @public
+ @note
+ It is not important that layer's have unique names, but a UI will usually want to do this, thus
+ when using the addLayer:andActivateIt: method, the name of the added layer is disambiguated.
+ @param aName a string containing the proposed name
+ @return a string, either the original string or a modified version of it
  */
 - (NSString*)uniqueLayerNameForName:(NSString*)aName
 {
@@ -402,9 +384,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark - getting layers
 
 /** @brief Returns the layer object at the given index
- * @param layerIndex the index number of the layer of interest
- * @return a DKLayer object or subclass
- * @public
+ @param layerIndex the index number of the layer of interest
+ @return a DKLayer object or subclass
  */
 - (DKLayer*)objectInLayersAtIndex:(NSUInteger)layerIndex
 {
@@ -415,8 +396,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the topmost layer
- * @return the topmost DKLayer object or subclass
- * @public
+ @return the topmost DKLayer object or subclass
  */
 - (DKLayer*)topLayer
 {
@@ -427,10 +407,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the bottom layer
- * @note
- * Ignores opacity of layers in the stack - this is the one on the bottom, regardless
- * @return the bottom DKLayer object or subclass, or nil, if there are no layers
- * @public
+ @note
+ Ignores opacity of layers in the stack - this is the one on the bottom, regardless
+ @return the bottom DKLayer object or subclass, or nil, if there are no layers
  */
 - (DKLayer*)bottomLayer
 {
@@ -438,12 +417,11 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the stack position of a given layer
- * @note
- * Layer indexes run from 0 being the top layer to (count -1), being the bottom layer. If the group does
- * not contain the layer, returns NSNotFound. See also -containsLayer:
- * @param aLayer a DKLayer object, or subclass thereof, that already exists in the drawing
- * @return the stack index position of the layer
- * @public
+ @note
+ Layer indexes run from 0 being the top layer to (count -1), being the bottom layer. If the group does
+ not contain the layer, returns NSNotFound. See also -containsLayer:
+ @param aLayer a DKLayer object, or subclass thereof, that already exists in the drawing
+ @return the stack index position of the layer
  */
 - (NSUInteger)indexOfLayer:(DKLayer*)aLayer
 {
@@ -451,11 +429,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the uppermost layer matching class, if any
- * @note
- * Does not perform a deep search
- * @param cl the class of layer to seek
- * @return the uppermost layer of the given class, or nil
- * @public
+ @note
+ Does not perform a deep search
+ @param cl the class of layer to seek
+ @return the uppermost layer of the given class, or nil
  */
 - (DKLayer*)firstLayerOfClass:(Class)cl
 {
@@ -464,10 +441,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the uppermost layer matching class, if any
- * @param cl the class of layer to seek
- * @param deep if YES, searches all subgroups below this one
- * @return the uppermost layer of the given class, or nil
- * @public
+ @param cl the class of layer to seek
+ @param deep if YES, searches all subgroups below this one
+ @return the uppermost layer of the given class, or nil
  */
 - (DKLayer*)firstLayerOfClass:(Class)cl performDeepSearch:(BOOL)deep
 {
@@ -481,11 +457,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns a list of layers of the given class
- * @note
- * Does not perform a deep search
- * @param cl the class of layer to seek
- * @return a list of layers. May be empty.
- * @public
+ @note
+ Does not perform a deep search
+ @param cl the class of layer to seek
+ @return a list of layers. May be empty.
  */
 - (NSArray*)layersOfClass:(Class)cl
 {
@@ -494,10 +469,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns a list of layers of the given class
- * @param cl the class of layer to seek
- * @param deep if YES, will search all subgroups below this one. If NO, only this level is searched
- * @return a list of layers. May be empty.
- * @public
+ @param cl the class of layer to seek
+ @param deep if YES, will search all subgroups below this one. If NO, only this level is searched
+ @return a list of layers. May be empty.
  */
 - (NSArray*)layersOfClass:(Class)cl performDeepSearch:(BOOL)deep
 
@@ -519,11 +493,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns an enumerator that can be used to iterate over the layers in top to bottom order
- * @note
- * This is provided as a convenience so you don't have to worry about the implementation detail of
- * which way round layers are ordered to give the top to bottom visual stacking.
- * @return an NSEnumerator object
- * @public
+ @note
+ This is provided as a convenience so you don't have to worry about the implementation detail of
+ which way round layers are ordered to give the top to bottom visual stacking.
+ @return an NSEnumerator object
  */
 - (NSEnumerator*)layerTopToBottomEnumerator
 {
@@ -531,11 +504,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns an enumerator that can be used to iterate over the layers in bottom to top order
- * @note
- * This is provided as a convenience so you don't have to worry about the implementation detail of
- * which way round layers are ordered to give the top to bottom visual stacking.
- * @return an NSEnumerator object
- * @public
+ @note
+ This is provided as a convenience so you don't have to worry about the implementation detail of
+ which way round layers are ordered to give the top to bottom visual stacking.
+ @return an NSEnumerator object
  */
 - (NSEnumerator*)layerBottomToTopEnumerator
 {
@@ -543,12 +515,11 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Find the topmost layer in this group that is 'hit' by the given point
- * @note
- * A layer must implement hitLayer: sensibly for this to operate. This recurses down through any groups
- * contained within. See also -hitLayer:
- * @param p a point in drawing coordinates
- * @return a layer, or nil
- * @public
+ @note
+ A layer must implement hitLayer: sensibly for this to operate. This recurses down through any groups
+ contained within. See also -hitLayer:
+ @param p a point in drawing coordinates
+ @return a layer, or nil
  */
 - (DKLayer*)findLayerForPoint:(NSPoint)p
 {
@@ -570,12 +541,11 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns whether this group, or any subgroup within, contains the layer
- * @note
- * Unlike -indexOfLayer:, considers nested subgroups.  If the layer is the group, returns NO
- * (doesn't contain itself).
- * @param alayer a layer of interest
- * @return YES if the group contains the layer.
- * @public
+ @note
+ Unlike -indexOfLayer:, considers nested subgroups.  If the layer is the group, returns NO
+ (doesn't contain itself).
+ @param alayer a layer of interest
+ @return YES if the group contains the layer.
  */
 - (BOOL)containsLayer:(DKLayer*)aLayer
 {
@@ -600,11 +570,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns a layer or layer group having the given unique key
- * @note
- * Unique keys are assigned to layers for the lifetime of the app. They are not persistent and must only
- * @param key the layer's key
- * @return the layer if found, nil otherwise.
- * @public
+ @note
+ Unique keys are assigned to layers for the lifetime of the app. They are not persistent and must only
+ @param key the layer's key
+ @return the layer if found, nil otherwise.
  */
 - (DKLayer*)layerWithUniqueKey:(NSString*)key
 {
@@ -627,9 +596,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark -
 
 /** @brief Makes all layers in the group and in any subgroups visible
- * @note
- * Recurses when nested groups are found
- * @public
+ @note
+ Recurses when nested groups are found
  */
 - (void)showAll
 {
@@ -645,10 +613,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Makes all layers in the group and in any subgroups hidden except <aLayer>, which is made visible.
- * @note
- * ALayer may be nil in which case this performs a hideAll. Recurses on any subgroups.
- * @param aLayer a layer to leave visible
- * @public
+ @note
+ ALayer may be nil in which case this performs a hideAll. Recurses on any subgroups.
+ @param aLayer a layer to leave visible
  */
 - (void)hideAllExcept:(DKLayer*)aLayer
 {
@@ -671,10 +638,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns YES if the  receiver or any of its contained layers is hidden
- * @note
- * Recurses on any subgroups.
- * @return YES if there are hidden layers below this, or this is hidden itself
- * @public
+ @note
+ Recurses on any subgroups.
+ @return YES if there are hidden layers below this, or this is hidden itself
  */
 - (BOOL)hasHiddenLayers
 {
@@ -699,11 +665,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns YES if the  receiver or any of its contained layers is visible, ignoring the one passed
- * @note
- * Recurses on any subgroups. Typically <aLayer> is the active layer - may be nil.
- * @param aLayer a layer to exclude when testing this
- * @return YES if there are visible layers below this, or this is visible itself
- * @public
+ @note
+ Recurses on any subgroups. Typically <aLayer> is the active layer - may be nil.
+ @param aLayer a layer to exclude when testing this
+ @return YES if there are visible layers below this, or this is visible itself
  */
 - (BOOL)hasVisibleLayersOtherThan:(DKLayer*)aLayer
 {
@@ -732,10 +697,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark - layer stacking order
 
 /** @brief Moves the layer one place towards the top of the stack
- * @note
- * If already on top, does nothing
- * @param aLayer the layer to move up
- * @public
+ @note
+ If already on top, does nothing
+ @param aLayer the layer to move up
  */
 - (void)moveUpLayer:(DKLayer*)aLayer
 {
@@ -746,10 +710,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Moves the layer one place towards the bottom of the stack
- * @note
- * If already at the bottom, does nothing
- * @param aLayer the layer to move down
- * @public
+ @note
+ If already at the bottom, does nothing
+ @param aLayer the layer to move down
  */
 - (void)moveDownLayer:(DKLayer*)aLayer
 {
@@ -760,10 +723,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Moves the layer to the top of the stack
- * @note
- * If already on top, does nothing
- * @param aLayer the layer to move up
- * @public
+ @note
+ If already on top, does nothing
+ @param aLayer the layer to move up
  */
 - (void)moveLayerToTop:(DKLayer*)aLayer
 {
@@ -774,10 +736,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Moves the layer to the bottom of the stack
- * @note
- * If already at the bottom, does nothing
- * @param aLayer the layer to move down
- * @public
+ @note
+ If already at the bottom, does nothing
+ @param aLayer the layer to move down
  */
 - (void)moveLayerToBottom:(DKLayer*)aLayer
 {
@@ -788,9 +749,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Changes a layer's z-stacking order so it comes before (above) <otherLayer>
- * @param aLayer the layer to move - may not be nil
- * @param otherLayer move above this layer. May be nil, which moves the layer to the bottom
- * @public
+ @param aLayer the layer to move - may not be nil
+ @param otherLayer move above this layer. May be nil, which moves the layer to the bottom
  */
 - (void)moveLayer:(DKLayer*)aLayer aboveLayer:(DKLayer*)otherLayer
 {
@@ -804,9 +764,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Changes a layer's z-stacking order so it comes after (below) <otherLayer>
- * @param aLayer the layer to move - may not be nil
- * @param otherLayer move below this layer. May be nil, which moves the layer to the top
- * @public
+ @param aLayer the layer to move - may not be nil
+ @param otherLayer move below this layer. May be nil, which moves the layer to the top
  */
 - (void)moveLayer:(DKLayer*)aLayer belowLayer:(DKLayer*)otherLayer
 {
@@ -820,12 +779,11 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Moves a layer to the index position given. This is called by all if the other moveLayer... methods
- * @note
- * If the layer can't be moved, does nothing. The action is recorded for undo if there is an undoManager
- * attached.
- * @param aLayer the layer to move
- * @param i the index position to move it to.
- * @public
+ @note
+ If the layer can't be moved, does nothing. The action is recorded for undo if there is an undoManager
+ attached.
+ @param aLayer the layer to move
+ @param i the index position to move it to.
  */
 - (void)moveLayer:(DKLayer*)aLayer toIndex:(NSUInteger)i
 {
@@ -865,8 +823,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark As a DKLayer
 
 /** @brief Propagates the undo manager to all contained layers
- * @param um the drawing's undo manager
- * @public
+ @param um the drawing's undo manager
  */
 - (void)drawingHasNewUndoManager:(NSUndoManager*)um
 {
@@ -875,11 +832,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Draws the layers it contains
- * @note
- * Layers are not drawn if they lie below the highest opaque layer, or if we are printing and the layer
- * isn't printable. Otherwise they are drawn from bottom upwards.
- * @param rect the update area passed from the original view
- * @public
+ @note
+ Layers are not drawn if they lie below the highest opaque layer, or if we are printing and the layer
+ isn't printable. Otherwise they are drawn from bottom upwards.
+ @param rect the update area passed from the original view
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
 {
@@ -930,10 +886,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns whether the layer can become the active layer
- * @note
- * The default for groups is NO. Discrete layers should be activated, not groups.
- * @return YES if the layer can become active, NO to not become active
- * @public
+ @note
+ The default for groups is NO. Discrete layers should be activated, not groups.
+ @return YES if the layer can become active, NO to not become active
  */
 - (BOOL)layerMayBecomeActive
 {
@@ -941,8 +896,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Propagate the message to all contained layers
- * @param sizeVal the new size
- * @public
+ @param sizeVal the new size
  */
 - (void)drawingDidChangeToSize:(NSValue*)sizeVal
 {
@@ -951,8 +905,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Propagate the message to all contained layers
- * @param oldInterior the old interior rect of the drawing
- * @public
+ @param oldInterior the old interior rect of the drawing
  */
 - (void)drawingDidChangeMargins:(NSValue*)oldInterior
 {
@@ -961,9 +914,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief See if any enclosed layer is hit by the point
- * @param p the point to test
- * @return YES if any layer within this group was hit, otherwise NO
- * @public
+ @param p the point to test
+ @return YES if any layer within this group was hit, otherwise NO
  */
 - (BOOL)hitLayer:(NSPoint)p
 {
@@ -978,10 +930,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
- * @note
- * Propagates the message to all contained layers
- * @param aDrawing the drawing that added the layer
- * @public
+ @note
+ Propagates the message to all contained layers
+ @param aDrawing the drawing that added the layer
  */
 - (void)wasAddedToDrawing:(DKDrawing*)aDrawing
 {
@@ -990,10 +941,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is
- * @note
- * The root group returns 0, next level is 1 and so on. 
- * @return the group's level
- * @public
+ @note
+ The root group returns 0, next level is 1 and so on. 
+ @return the group's level
  */
 - (NSUInteger)level
 {
@@ -1007,8 +957,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark - style utilities
 
 /** @brief Return all of styles used by layers in this group
- * @return a set containing the union of sets returned by all similar methods of individual layers
- * @public
+ @return a set containing the union of sets returned by all similar methods of individual layers
  */
 - (NSSet*)allStyles
 {
@@ -1036,8 +985,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Return all of registered styles used by the layers in this group
- * @return a set containing the union of sets returned by all similar methods of individual layers
- * @public
+ @return a set containing the union of sets returned by all similar methods of individual layers
  */
 - (NSSet*)allRegisteredStyles
 {
@@ -1065,11 +1013,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 }
 
 /** @brief Substitute styles with those in the given set
- * @note
- * This is an important step in reconciling the styles loaded from a file with the existing
- * registry. Implemented by DKObjectOwnerLayer, etc. Groups propagate the change to all sublayers.
- * @param aSet a set of style objects
- * @public
+ @note
+ This is an important step in reconciling the styles loaded from a file with the existing
+ registry. Implemented by DKObjectOwnerLayer, etc. Groups propagate the change to all sublayers.
+ @param aSet a set of style objects
  */
 - (void)replaceMatchingStylesFromSet:(NSSet*)aSet
 {

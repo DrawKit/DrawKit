@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKToolController.h"
@@ -27,49 +27,44 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
 @interface DKToolController (Private)
 
 /** @brief Returns the drawing tool currently set for the given drawing
- * @note
- * This is used when the tool scope is per-document. In that case the tool is associated with the
- * drawing, not the individual view.
- * @param dwg a key for the drawing object
- * @return the current tool set for the drawing
- * @private
+ @note
+ This is used when the tool scope is per-document. In that case the tool is associated with the
+ drawing, not the individual view.
+ @param dwg a key for the drawing object
+ @return the current tool set for the drawing
  */
 + (DKDrawingTool*)drawingToolForDrawing:(NSString*)drawingKey;
 
 /** @brief Sets the drawing tool for the given drawing
- * @note
- * This is used when the tool scope is per-document. In that case the tool is associated with the
- * document, not the individual view.
- * @param tool the tool to set
- * @param dwg a key for the drawing object
- * @private
+ @note
+ This is used when the tool scope is per-document. In that case the tool is associated with the
+ document, not the individual view.
+ @param tool the tool to set
+ @param dwg a key for the drawing object
  */
 + (void)setDrawingTool:(DKDrawingTool*)tool forDrawing:(NSString*)drawingKey;
 
 /** @brief Get the tool for the entire application
- * @note
- * This is used when the tool scope is per-application.
- * @return the current tool set for the app
- * @private
+ @note
+ This is used when the tool scope is per-application.
+ @return the current tool set for the app
  */
 + (DKDrawingTool*)globalDrawingTool;
 
 /** @brief Get the tool for the entire application
- * @note
- * This is used when the tool scope is per-application.
- * @param tool the tool to set
- * @private
+ @note
+ This is used when the tool scope is per-application.
+ @param tool the tool to set
  */
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool;
 
 /** @brief Search for a layer usable with a given tool.
- * @note
- * This is used when tools are set to auto-activate layers and the current active layer can't be
- * used. It returns an alternative layer that can be activated for use with the tool. Called by
- * -setDrawingTool:
- * @param tool the tool in question
- * @return a usable layer, or nil
- * @private
+ @note
+ This is used when tools are set to auto-activate layers and the current active layer can't be
+ used. It returns an alternative layer that can be activated for use with the tool. Called by
+ -setDrawingTool:
+ @param tool the tool in question
+ @return a usable layer, or nil
  */
 - (DKLayer*)findEligibleLayerForTool:(DKDrawingTool*)tool;
 
@@ -127,13 +122,12 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As a DKToolController
 
 /** @brief Set the operating scope for tools for this application
- * @note
- * DK allows tools to be set per-view, per-document, or per-application. This is called the operating
- * scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
- * It is not expected that this will be called during the subsequent use of the app - though it is
- * harmless to do so it's very likely to confuse the user.
- * @param scope the operating scope for tools
- * @public
+ @note
+ DK allows tools to be set per-view, per-document, or per-application. This is called the operating
+ scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
+ It is not expected that this will be called during the subsequent use of the app - though it is
+ harmless to do so it's very likely to confuse the user.
+ @param scope the operating scope for tools
  */
 + (void)setDrawingToolOperatingScope:(DKDrawingToolScope)scope
 {
@@ -141,12 +135,11 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Return the operating scope for tools for this application
- * @note
- * DK allows tools to be set per-view, per-document, or per-application. This is called the operating
- * scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
- * The default is per-document scope.
- * @return the operating scope for tools
- * @public
+ @note
+ DK allows tools to be set per-view, per-document, or per-application. This is called the operating
+ scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
+ The default is per-document scope.
+ @return the operating scope for tools
  */
 + (DKDrawingToolScope)drawingToolOperatingScope
 {
@@ -154,12 +147,11 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Set whether setting a tool will auto-activate a layer appropriate to the tool
- * @note
- * Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
- * layers are searched top down until one is found that the tool validates, which is then made
- * active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
- * @param autoActivate YES to autoactivate, NO otherwise
- * @public
+ @note
+ Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
+ layers are searched top down until one is found that the tool validates, which is then made
+ active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
+ @param autoActivate YES to autoactivate, NO otherwise
  */
 + (void)setToolsAutoActivateValidLayer:(BOOL)autoActivate
 {
@@ -168,12 +160,11 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Return whether setting a tool will auto-activate a layer appropriate to the tool
- * @note
- * Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
- * layers are searched top down until one is found that the tool validates, which is then made
- * active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
- * @return YES if tools auto-activate appropriate layer, NO if not
- * @public
+ @note
+ Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
+ layers are searched top down until one is found that the tool validates, which is then made
+ active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
+ @return YES if tools auto-activate appropriate layer, NO if not
  */
 + (BOOL)toolsAutoActivateValidLayer
 {
@@ -183,10 +174,9 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark -
 
 /** @brief Sets the current drawing tool
- * @note
- * The tool is set locally, for the drawing or globally according to the current scope.
- * @param aTool the tool to set
- * @public
+ @note
+ The tool is set locally, for the drawing or globally according to the current scope.
+ @param aTool the tool to set
  */
 - (void)setDrawingTool:(DKDrawingTool*)aTool
 {
@@ -240,11 +230,10 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Select the tool using its registered name
- * @note
- * Tools must be registered in the DKDrawingTool registry with the given name before you can use this
- * method to set them, otherwise an exception is thrown.
- * @param name the registered name of the required tool
- * @public
+ @note
+ Tools must be registered in the DKDrawingTool registry with the given name before you can use this
+ method to set them, otherwise an exception is thrown.
+ @param name the registered name of the required tool
  */
 - (void)setDrawingToolWithName:(NSString*)name
 {
@@ -262,10 +251,9 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Return the current drawing tool
- * @note
- * The tool is set locally, for the drawing or globally according to the current scope.
- * @return the current tool
- * @public
+ @note
+ The tool is set locally, for the drawing or globally according to the current scope.
+ @return the current tool
  */
 - (DKDrawingTool*)drawingTool
 {
@@ -283,14 +271,13 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Check if the tool can be set for the current active layer
- * @note
- * Can be used to test whether a tool is able to be selected in the current context. There is no
- * requirement to use this - you can set the drawing tool anyway and if an attempt to use it in
- * an invalid layer is made, the tool controller will handle it anyway. A UI might want to use this
- * to prevent the selection of a tool before it gets to that point however.
- * @param aTool the propsed drawing tool
- * @return YES if the tool can be applied to the current active layer, NO if not
- * @public
+ @note
+ Can be used to test whether a tool is able to be selected in the current context. There is no
+ requirement to use this - you can set the drawing tool anyway and if an attempt to use it in
+ an invalid layer is made, the tool controller will handle it anyway. A UI might want to use this
+ to prevent the selection of a tool before it gets to that point however.
+ @param aTool the propsed drawing tool
+ @return YES if the tool can be applied to the current active layer, NO if not
  */
 - (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool
 {
@@ -300,10 +287,9 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Set whether the tool should automatically "spring back" to the selection tool after each application
- * @note
- * The default is YES
- * @param reverts YES to spring back, NO to leave the present tool active after each use
- * @public
+ @note
+ The default is YES
+ @param reverts YES to spring back, NO to leave the present tool active after each use
  */
 - (void)setAutomaticallyRevertsToSelectionTool:(BOOL)reverts
 {
@@ -317,10 +303,9 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Whether the tool should automatically "spring back" to the selection tool after each application
- * @note
- * The default is YES
- * @return YES to spring back, NO to leave the present tool active after each use
- * @public
+ @note
+ The default is YES
+ @return YES to spring back, NO to leave the present tool active after each use
  */
 - (BOOL)automaticallyRevertsToSelectionTool
 {
@@ -328,8 +313,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Draw any tool graphic content into the view
- * @param rect the update rect in the view
- * @public
+ @param rect the update rect in the view
  */
 - (void)drawRect:(NSRect)rect
 {
@@ -343,13 +327,12 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Select the tool using its registered name based on the title of a UI control, etc.
- * @note
- * This is a convenience for hooking up a UI for picking a tool. You can set the title of a button to
- * be the tool's name and target first responder using this action, and it will select the tool if it
- * has been registered using the name. This makes UI such as a palette of tools trivial to implement,
- * but doesn't preclude you from using any other UI as you see fit.
- * @param sender the sender of the action - it should implement -title (e.g. a button, menu item)
- * @public
+ @note
+ This is a convenience for hooking up a UI for picking a tool. You can set the title of a button to
+ be the tool's name and target first responder using this action, and it will select the tool if it
+ has been registered using the name. This makes UI such as a palette of tools trivial to implement,
+ but doesn't preclude you from using any other UI as you see fit.
+ @param sender the sender of the action - it should implement -title (e.g. a button, menu item)
  */
 - (IBAction)selectDrawingToolByName:(id)sender
 {
@@ -358,12 +341,11 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Select the tool using the represented object of a UI control, etc.
- * @note
- * This is a convenience for hooking up a UI for picking a tool. You can set the rep. object of a button to
- * be the tool and target first responder using this action, and it will set the tool to the button's
- * represented object.
- * @param sender the sender of the action - it should implement -representedObject (e.g. a button, menu item)
- * @public
+ @note
+ This is a convenience for hooking up a UI for picking a tool. You can set the rep. object of a button to
+ be the tool and target first responder using this action, and it will set the tool to the button's
+ represented object.
+ @param sender the sender of the action - it should implement -representedObject (e.g. a button, menu item)
  */
 - (IBAction)selectDrawingToolByRepresentedObject:(id)sender
 {
@@ -381,11 +363,10 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Toggle the state of the automatic tool "spring" behaviour.
- * @note
- * Flips the state of the auto-revert flag. A UI can make use of this to control the flag in order to
- * make a tool "sticky". Often this is done by double-clicking the tool button.
- * @param sender the sender of the action
- * @public
+ @note
+ Flips the state of the auto-revert flag. A UI can make use of this to control the flag in order to
+ make a tool "sticky". Often this is done by double-clicking the tool button.
+ @param sender the sender of the action
  */
 - (IBAction)toggleAutoRevertAction:(id)sender
 {
@@ -395,8 +376,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Return the undo manager
- * @return the drawing's undo manager
- * @public
+ @return the drawing's undo manager
  */
 - (id)undoManager
 {
@@ -404,7 +384,6 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Opens a new undo manager group if one has not already been opened
- * @public
  */
 - (void)openUndoGroup
 {
@@ -419,11 +398,10 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Closes the current undo manager group if one has been opened
- * @note
- * When the controller is set up to always open a group, this also deals with the bogus task bug in
- * NSUndoManager, where opening and closig a group creates an empty undo task. If that case is detected,
- * the erroneous task is removed from the stack by invoking undo while temporarily disabling the UM.
- * @public
+ @note
+ When the controller is set up to always open a group, this also deals with the bogus task bug in
+ NSUndoManager, where opening and closig a group creates an empty undo task. If that case is detected,
+ the erroneous task is removed from the stack by invoking undo while temporarily disabling the UM.
  */
 - (void)closeUndoGroup
 {
@@ -475,12 +453,11 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As a DKViewController
 
 /** @brief Initialize the controller.
- * @note
- * Does not set an initial tool because the objects needed for the document scope are not available.
- * The initial tool is set when the controller is added to a drawing (see setDrawing:)
- * @param aView the view associated with the controller
- * @return the controller object
- * @public
+ @note
+ Does not set an initial tool because the objects needed for the document scope are not available.
+ The initial tool is set when the controller is added to a drawing (see setDrawing:)
+ @param aView the view associated with the controller
+ @return the controller object
  */
 - (id)initWithView:(NSView*)aView
 {
@@ -495,12 +472,11 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief The controller is being added to a drawing
- * @note
- * If no tool is set, set it initially to the select & edit tool. Note that this method is invoked as
- * necessary when a controller is added to a drawing - you should not call it directly nor at any time
- * while a controller is owned by the drawing.
- * @param aDrawing the drawing to which the tool is being added
- * @public
+ @note
+ If no tool is set, set it initially to the select & edit tool. Note that this method is invoked as
+ necessary when a controller is added to a drawing - you should not call it directly nor at any time
+ while a controller is owned by the drawing.
+ @param aDrawing the drawing to which the tool is being added
  */
 - (void)setDrawing:(DKDrawing*)aDrawing
 {
@@ -522,11 +498,10 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse down event
- * @note
- * Calls the mouse down method of the current tool, if the layer is an object layer. Calls super to
- * ensure that autscrolling and targeting of other layer types works normally.
- * @param event the event
- * @public
+ @note
+ Calls the mouse down method of the current tool, if the layer is an object layer. Calls super to
+ ensure that autscrolling and targeting of other layer types works normally.
+ @param event the event
  */
 - (void)mouseDown:(NSEvent*)event
 {
@@ -600,11 +575,10 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse dragged event
- * @note
- * Calls the mouse dragged method of the current tool, if the layer is an object layer. Calls super to
- * ensure that other layer types work normally.
- * @param event the event
- * @public
+ @note
+ Calls the mouse dragged method of the current tool, if the layer is an object layer. Calls super to
+ ensure that other layer types work normally.
+ @param event the event
  */
 - (void)mouseDragged:(NSEvent*)event
 {
@@ -646,11 +620,10 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse up event
- * @note
- * Calls the mouse up method of the current tool, if the layer is an object layer. Calls super to
- * ensure that other layer types work normally.
- * @param event the event
- * @public
+ @note
+ Calls the mouse up method of the current tool, if the layer is an object layer. Calls super to
+ ensure that other layer types work normally.
+ @param event the event
  */
 - (void)mouseUp:(NSEvent*)event
 {
@@ -718,10 +691,9 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the flags changed up event
- * @note
- * Passes the event to the current tool
- * @param event the event
- * @public
+ @note
+ Passes the event to the current tool
+ @param event the event
  */
 - (void)flagsChanged:(NSEvent*)event
 {
@@ -733,10 +705,9 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse moved event
- * @note
- * Passes the event to the current tool or active layer, depending on which, if any, can respond.
- * @param event the event
- * @public
+ @note
+ Passes the event to the current tool or active layer, depending on which, if any, can respond.
+ @param event the event
  */
 - (void)mouseMoved:(NSEvent*)event
 {
@@ -753,8 +724,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Returns the current tool's cursor
- * @return a cursor
- * @public
+ @return a cursor
  */
 - (NSCursor*)cursor
 {
@@ -768,11 +738,10 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As an NSResponder
 
 /** @brief Responds to a keyDown event by selecting a tool having a matching key equivalent, if any
- * @note
- * If a tool exists that matches the key equivalent, select it. Otherwise just pass the event
- * to the layer.
- * @param event the key down event
- * @public
+ @note
+ If a tool exists that matches the key equivalent, select it. Otherwise just pass the event
+ to the layer.
+ @param event the key down event
  */
 - (void)keyDown:(NSEvent*)event
 {
@@ -796,12 +765,11 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Forward an invocation to the active layer if it implements it
- * @note
- * DK makes a lot of use of invocaiton forwarding - views forward to their controllers, which forward
- * to the active layer, which may forward to selected objects within the layer. This allows objects
- * to respond to action methods and so forth at their own level.
- * @param invocation the invocation to forward
- * @public
+ @note
+ DK makes a lot of use of invocaiton forwarding - views forward to their controllers, which forward
+ to the active layer, which may forward to selected objects within the layer. This allows objects
+ to respond to action methods and so forth at their own level.
+ @param invocation the invocation to forward
  */
 - (void)forwardInvocation:(NSInvocation*)invocation
 {
@@ -828,12 +796,11 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As part of the NSObject (DKToolDelegate) protocol
 
 /** @brief Opens an undo group to receive subsequent undo tasks
- * @note
- * This is needed to work around an NSUndoManager bug where empty groups create a bogus task on the stack.
- * A group is only opened when a real task is coming. This isn't really very elegant right now - a
- * better solution is sought, perhaps subclassing NSUndoManager itself.
- * @param aTool the tool making the request
- */
+ @note
+ This is needed to work around an NSUndoManager bug where empty groups create a bogus task on the stack.
+ A group is only opened when a real task is coming. This isn't really very elegant right now - a
+ better solution is sought, perhaps subclassing NSUndoManager itself.
+ @param aTool the tool making the request */
 - (void)toolWillPerformUndoableAction:(DKDrawingTool*)aTool
 {
 #pragma unused(aTool)
@@ -844,7 +811,6 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As an NSObject
 
 /** @brief Deallocate the controller
- * @public
  */
 - (void)dealloc
 {
@@ -856,9 +822,8 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark As part of NSMenuValidation protocol
 
 /** @brief Enable and set menu item state for actions implemented by the controller
- * @param item the menu item to validate
- * @return YES or NO
- * @public
+ @param item the menu item to validate
+ @return YES or NO
  */
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {

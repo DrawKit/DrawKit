@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import <Cocoa/Cocoa.h>
@@ -67,9 +67,8 @@ objects to the undo manager and vice versa, implementing undo for all keypaths d
 - (NSUndoManager*)undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
- * @param keypath the keypath of the action, relative to the object
- * @param object the real target of the invocation
- * @private
+ @param keypath the keypath of the action, relative to the object
+ @param object the real target of the invocation
  */
 - (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value;
 

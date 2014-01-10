@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKGeometryUtilities.h"
@@ -17,12 +17,11 @@
 const NSPoint NSNotFoundPoint = { -10000000.2, -999999.6 };
 
 /** @brief Forms a rectangle from any two corner points
- * @note
- * The rect is normalised, in that the relative positions of a and b do not affect the result - the
- * rect always extends in the positive x and y directions.
- * @param a, b a pair of points
- * @return the rectangle formed by a and b at the opposite corners
- */
+ @note
+ The rect is normalised, in that the relative positions of a and b do not affect the result - the
+ rect always extends in the positive x and y directions.
+ @param a, b a pair of points
+ @return the rectangle formed by a and b at the opposite corners */
 NSRect NSRectFromTwoPoints(const NSPoint a, const NSPoint b)
 {
     NSRect r;
@@ -37,10 +36,9 @@ NSRect NSRectFromTwoPoints(const NSPoint a, const NSPoint b)
 }
 
 /** @brief Forms a rectangle of the given size centred on p
- * @param p a point
- * @param size the rect size
- * @return the rectangle
- */
+ @param p a point
+ @param size the rect size
+ @return the rectangle */
 NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size)
 {
     NSRect r;
@@ -53,16 +51,15 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size)
 }
 
 /** @brief Returns the smallest rect that encloses both a and b
- * @note
- * Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
- * width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
- * returned, but in all other cases it correctly forms the union. While NSUnionRect might be
- * considered mathematically correct, since a rect of zero width or height cannot "contain" anything
- * in the set sense, what's more practically required for real geometry is to allow infinitely thin
- * lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
- * @param a, b a pair of rects
- * @return the rectangle that encloses a and b
- */
+ @note
+ Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
+ width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
+ returned, but in all other cases it correctly forms the union. While NSUnionRect might be
+ considered mathematically correct, since a rect of zero width or height cannot "contain" anything
+ in the set sense, what's more practically required for real geometry is to allow infinitely thin
+ lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
+ @param a, b a pair of rects
+ @return the rectangle that encloses a and b */
 NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
 {
     if (NSEqualRects(a, NSZeroRect))
@@ -82,9 +79,8 @@ NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
 }
 
 /** @brief Returns the smallest rect that encloses all rects in the set
- * @param aSet a set of NSValues containing rect values
- * @return the rectangle that encloses all rects
- */
+ @param aSet a set of NSValues containing rect values
+ @return the rectangle that encloses all rects */
 NSRect UnionOfRectsInSet(const NSSet* aSet)
 {
     NSEnumerator* iter = [aSet objectEnumerator];
@@ -98,14 +94,13 @@ NSRect UnionOfRectsInSet(const NSSet* aSet)
 }
 
 /** @brief Returns the area that is different between two input rects, as a list of rects
- * @note
- * This can be used to optimize upates. If a and b are "before and after" rects of a visual change,
- * the resulting list is the area to update assuming that nothing changed in the common area,
- * which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
- * the result contains a and b.
- * @param a, b a pair of rects
- * @return an array of rect NSValues
- */
+ @note
+ This can be used to optimize upates. If a and b are "before and after" rects of a visual change,
+ the resulting list is the area to update assuming that nothing changed in the common area,
+ which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
+ the result contains a and b.
+ @param a, b a pair of rects
+ @return an array of rect NSValues */
 NSSet* DifferenceOfTwoRects(const NSRect a, const NSRect b)
 {
     NSMutableSet* result = [NSMutableSet set];
@@ -192,8 +187,7 @@ BOOL AreSimilarRects(const NSRect a, const NSRect b, const CGFloat epsilon)
 
 #pragma mark -
 
-/** 
- */
+/**  */
 CGFloat PointFromLine(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 {
     NSPoint cp = NearestPointOnLine(inPoint, a, b);
@@ -201,8 +195,7 @@ CGFloat PointFromLine(const NSPoint inPoint, const NSPoint a, const NSPoint b)
     return hypotf((inPoint.x - cp.x), (inPoint.y - cp.y));
 }
 
-/** 
- */
+/**  */
 NSPoint NearestPointOnLine(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 {
     CGFloat mag = hypotf((b.x - a.x), (b.y - a.y));
@@ -240,8 +233,7 @@ NSInteger PointInLineSegment(const NSPoint inPoint, const NSPoint a, const NSPoi
         return -1;
 }
 
-/** 
- */
+/**  */
 CGFloat RelPoint(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 {
     CGFloat d1, d2;
@@ -257,8 +249,7 @@ CGFloat RelPoint(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 
 #pragma mark -
 
-/** 
- */
+/**  */
 NSPoint BisectLine(const NSPoint a, const NSPoint b)
 {
     NSPoint p;
@@ -268,8 +259,7 @@ NSPoint BisectLine(const NSPoint a, const NSPoint b)
     return p;
 }
 
-/** 
- */
+/**  */
 NSPoint Interpolate(const NSPoint a, const NSPoint b, const CGFloat proportion)
 {
     NSPoint p;
@@ -581,11 +571,10 @@ static double ComputeXIntercept(NSPoint* v, NSInteger degree);
 
 #pragma mark -
 /*
- *  ConvertToBezierForm :
+  ConvertToBezierForm :
  *		Given a point and a Bezier curve, generate a 5th-degree
  *		Bezier-format equation whose solution finds the point on the
- *      curve nearest the user-defined point.
- */
+      curve nearest the user-defined point. */
 static NSPoint* ConvertToBezierForm(const NSPoint inp, const NSPoint bez[4])
 {
     NSInteger i, j, k, m, n, ub, lb;
@@ -649,11 +638,10 @@ static NSPoint* ConvertToBezierForm(const NSPoint inp, const NSPoint bez[4])
 }
 
 /*
- *  FindRoots :
+  FindRoots :
  *	Given a 5th-degree equation in Bernstein-Bezier form, find
  *	all of the roots in the interval [0, 1].  Return the number
- *	of roots found.
- */
+ *	of roots found. */
 static NSInteger FindRoots(NSPoint* w, NSInteger degree, double* t, NSInteger depth)
 {
     NSInteger i;
@@ -705,11 +693,10 @@ static NSInteger FindRoots(NSPoint* w, NSInteger degree, double* t, NSInteger de
 }
 
 /*
- * CrossingCount :
+ CrossingCount :
  *	Count the number of times a Bezier control polygon 
  *	crosses the 0-axis. This number is >= the number of roots.
- *
- */
+ * */
 static NSInteger CrossingCount(NSPoint* v, NSInteger degree)
 {
     NSInteger i;
@@ -729,11 +716,10 @@ static NSInteger CrossingCount(NSPoint* v, NSInteger degree)
 }
 
 /*
- *  ControlPolygonFlatEnough :
+  ControlPolygonFlatEnough :
  *	Check if the control polygon of a Bezier curve is flat enough
  *	for recursive subdivision to bottom out.
- *
- */
+ * */
 static NSInteger ControlPolygonFlatEnough(NSPoint* v, NSInteger degree)
 {
     NSInteger i; // Index variable
@@ -828,11 +814,10 @@ static NSInteger ControlPolygonFlatEnough(NSPoint* v, NSInteger degree)
 }
 
 /*
- *  ComputeXIntercept :
+  ComputeXIntercept :
  *	Compute intersection of chord from first control point to last
- *  	with 0-axis.
- * 
- */
+  	with 0-axis.
+  */
 
 static double ComputeXIntercept(NSPoint* v, NSInteger degree)
 {
@@ -859,12 +844,11 @@ static double ComputeXIntercept(NSPoint* v, NSInteger degree)
 
 #pragma mark -
 /*
- *  NearestPointOnCurve :
- *  	Compute the parameter value of the point on a Bezier
+  NearestPointOnCurve :
+  	Compute the parameter value of the point on a Bezier
  *		curve segment closest to some arbtitrary, user-input point.
  *		Return the point on the curve at that parameter value.
- *
- */
+ * */
 
 NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[4], double* tValue)
 {
@@ -922,12 +906,11 @@ NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[4], double* tVa
 }
 
 /*
- *  Bezier : 
+  Bezier : 
  *	Evaluate a Bezier curve at a particular parameter value
- *      Fill in control points for resulting sub-curves if "Left" and
+      Fill in control points for resulting sub-curves if "Left" and
  *	"Right" are non-null.
- * 
- */
+  */
 NSPoint Bezier(const NSPoint* v, const NSInteger degree, const double t, NSPoint* Left, NSPoint* Right)
 {
     NSInteger i, j; /* Index variables	*/

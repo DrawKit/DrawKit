@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKDrawing.h"
@@ -78,8 +78,7 @@ static id sDearchivingHelper = nil;
 //!	A number formatted in 8-4-4 bit format representing the current version number
 
 /** @brief Return the current version number of the framework
- * @return a number formatted in 8-4-4 bit format representing the current version number
- * @public
+ @return a number formatted in 8-4-4 bit format representing the current version number
  */
 + (NSUInteger)drawkitVersion
 {
@@ -91,8 +90,7 @@ static id sDearchivingHelper = nil;
 //! A string, either "alpha", "beta", "release candidate" or nil (final)
 
 /** @brief Return the current release status of the framework
- * @return a string, either "alpha", "beta", "release candidate" or nil (final)
- * @public
+ @return a string, either "alpha", "beta", "release candidate" or nil (final)
  */
 + (NSString*)drawkitReleaseStatus
 {
@@ -100,10 +98,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return the current version number and release status as a preformatted string
- * @note
- * This is intended for occasional display, rather than testing for the framework version.
- * @return a string, e.g. "1.0.b6"
- * @public
+ @note
+ This is intended for occasional display, rather than testing for the framework version.
+ @return a string, e.g. "1.0.b6"
  */
 + (NSString*)drawkitVersionString
 {
@@ -132,15 +129,14 @@ static id sDearchivingHelper = nil;
 //!	drawing object within a document (say) and attach views to it.
 
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
- * @note
- * As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
- * you'll get a fully working, prebuilt drawing system behind that view. This can be very handy for all
- * sorts of uses. However, it is more usual to build the system the other way around - start with a
- * drawing object within a document (say) and attach views to it. This gives you the flexibility to
- * do it either way. For automatic construction, this method is called to supply the drawing.
- * @param aSize - the size of the drawing to create
- * @return a fully constructed default drawing system
- * @public
+ @note
+ As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
+ you'll get a fully working, prebuilt drawing system behind that view. This can be very handy for all
+ sorts of uses. However, it is more usual to build the system the other way around - start with a
+ drawing object within a document (say) and attach views to it. This gives you the flexibility to
+ do it either way. For automatic construction, this method is called to supply the drawing.
+ @param aSize - the size of the drawing to create
+ @return a fully constructed default drawing system
  */
 + (DKDrawing*)defaultDrawingWithSize:(NSSize)aSize
 {
@@ -181,9 +177,8 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Creates a drawing from a lump of data
- * @param drawingData data representing an archived drawing
- * @return the unarchived drawing
- * @public
+ @param drawingData data representing an archived drawing
+ @return the unarchived drawing
  */
 + (DKDrawing*)drawingWithData:(NSData*)drawingData
 {
@@ -214,12 +209,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return the default derachiving helper for deaerchiving a drawing
- * @note
- * This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
- * classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
- * replaced to provide the same functionality for application-specific classes.
- * @return the dearchiving helper
- * @public
+ @note
+ This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
+ classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
+ replaced to provide the same functionality for application-specific classes.
+ @return the dearchiving helper
  */
 + (id)dearchivingHelper
 {
@@ -230,12 +224,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Replace the default dearchiving helper for deaerchiving a drawing
- * @note
- * This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
- * classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
- * replaced to provide the same functionality for application-specific classes.
- * @param helper a suitable helper object
- * @public
+ @note
+ This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
+ classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
+ replaced to provide the same functionality for application-specific classes.
+ @param helper a suitable helper object
  */
 + (void)setDearchivingHelper:(id)helper
 {
@@ -247,8 +240,7 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief Returns a new drawing number by incrementing the current default seed value
- * @return a new drawing number
- * @public
+ @return a new drawing number
  */
 + (NSUInteger)newDrawingNumber
 {
@@ -260,12 +252,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns a dictionary containing some standard drawing info attributes
- * @note
- * This is usually called by the drawing object itself when built new. Usually you'll want to replace
- * its contents with your own info. A DKDrawingInfoLayer can interpret some of the standard values and
- * display them in its info box.
- * @return a mutable dictionary of standard drawing info
- * @public
+ @note
+ This is usually called by the drawing object itself when built new. Usually you'll want to replace
+ its contents with your own info. A DKDrawingInfoLayer can interpret some of the standard values and
+ display them in its info box.
+ @return a mutable dictionary of standard drawing info
  */
 + (NSMutableDictionary*)defaultDrawingInfo
 {
@@ -298,12 +289,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the abbreviation for the given drawing units string
- * @note
- * This allows special abbreviations to be set for units if desired. The setting writes to the user
- * defaults so is persistent.
- * @param abbrev the abbreviation for the unit
- * @param fullString the full name of the drawing units
- * @public
+ @note
+ This allows special abbreviations to be set for units if desired. The setting writes to the user
+ defaults so is persistent.
+ @param abbrev the abbreviation for the unit
+ @param fullString the full name of the drawing units
  */
 + (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(NSString*)fullString
 {
@@ -322,9 +312,8 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the abbreviation for the given drawing units string
- * @param fullString the full name of the drawing units
- * @return a string - the abbreviated form
- * @public
+ @param fullString the full name of the drawing units
+ @return a string - the abbreviated form
  */
 + (NSString*)abbreviationForDrawingUnits:(NSString*)fullString
 {
@@ -368,11 +357,10 @@ static id sDearchivingHelper = nil;
 //! \param filename a full path to the file
 
 /** @brief Creates a drawing from the named file
- * @note
- * Deprecated
- * @param filename full path to the file in question
- * @return the unarchived drawing
- * @public
+ @note
+ Deprecated
+ @param filename full path to the file in question
+ @return the unarchived drawing
  */
 + (DKDrawing*)drawingWithContentsOfFile:(NSString*)filename
 {
@@ -381,12 +369,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Creates a drawing from a lump of data, and also sets the drawing metadata to contain the original filename
- * @note
- * Deprecated - rarely of practical use
- * @param drawingData data representing an archived drawing
- * @param filepath the full path of the original file
- * @return the unarchived drawing
- * @public
+ @note
+ Deprecated - rarely of practical use
+ @param drawingData data representing an archived drawing
+ @param filepath the full path of the original file
+ @return the unarchived drawing
  */
 + (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath
 {
@@ -401,18 +388,16 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Saves the static class defaults for ALL classes in the drawing system
- * @note
- * Deprecated - no longer does anything
- * @public
+ @note
+ Deprecated - no longer does anything
  */
 + (void)saveDefaults
 {
 }
 
 /** @brief Loads the static user defaults for all classes in the drawing system
- * @note
- * Deprecated - no longer does anything
- * @public
+ @note
+ Deprecated - no longer does anything
  */
 + (void)loadDefaults
 {
@@ -422,11 +407,10 @@ static id sDearchivingHelper = nil;
 #pragma mark - designated initializer
 
 /** @brief Initialises a newly allocated drawing model object
- * @note
- * Sets up the drawing in its default state. No layers are added initially.
- * @param size the paper size for the drawing
- * @return the initialised drawing object
- * @public
+ @note
+ Sets up the drawing in its default state. No layers are added initially.
+ @param size the paper size for the drawing
+ @return the initialised drawing object
  */
 - (id)initWithSize:(NSSize)size
 {
@@ -469,10 +453,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the "owner" of this drawing.
- * @note
- * The owner is usually either a document, a window controller or a drawing view.
- * @return the owner
- * @public
+ @note
+ The owner is usually either a document, a window controller or a drawing view.
+ @return the owner
  */
 - (id)owner
 {
@@ -480,11 +463,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the "owner" of this drawing.
- * @note
- * The owner is usually either a document, a window controller or a drawing view. It is not required to
- * be set at all, though some higher-level conveniences may depend on it.
- * @param owner the owner for this object
- * @public
+ @note
+ The owner is usually either a document, a window controller or a drawing view. It is not required to
+ be set at all, though some higher-level conveniences may depend on it.
+ @param owner the owner for this object
  */
 - (void)setOwner:(id)owner
 {
@@ -495,10 +477,9 @@ static id sDearchivingHelper = nil;
 #pragma mark - basic drawing parameters
 
 /** @brief Sets the paper dimensions of the drawing.
- * @note
- * The paper size is the absolute limits of ths drawing dimensions. Usually margins are set within this.
- * @param aSize the paper size in Quartz units
- * @public
+ @note
+ The paper size is the absolute limits of ths drawing dimensions. Usually margins are set within this.
+ @param aSize the paper size in Quartz units
  */
 - (void)setDrawingSize:(NSSize)aSize
 {
@@ -529,8 +510,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the current paper size of the drawing
- * @return the drawing size
- * @public
+ @return the drawing size
  */
 - (NSSize)drawingSize
 {
@@ -538,10 +518,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the drawing's paper size and margins to be equal to the sizes stored in a NSPrintInfo object.
- * @note
- * Can be used to synchronise a drawing size to the settings for a printer
- * @param printInfo a NSPrintInfo object, obtained from the printing system
- * @public
+ @note
+ Can be used to synchronise a drawing size to the settings for a printer
+ @param printInfo a NSPrintInfo object, obtained from the printing system
  */
 - (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo
 {
@@ -554,10 +533,9 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief Sets the margins for the drawing
- * @note
- * The margins inset the drawing area within the papersize set
- * @param left,top, right,bottom the margin sizes in Quartz units
- * @public
+ @note
+ The margins inset the drawing area within the papersize set
+ @param left,top, right,bottom the margin sizes in Quartz units
  */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b
 {
@@ -590,10 +568,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the margins from the margin values stored in a NSPrintInfo object
- * @note
- * SetDrawingSizeFromPrintInfo: will also call this for you
- * @param printInfo a NSPrintInfo object, obtained from the printing system
- * @public
+ @note
+ SetDrawingSizeFromPrintInfo: will also call this for you
+ @param printInfo a NSPrintInfo object, obtained from the printing system
  */
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo
 {
@@ -604,7 +581,6 @@ static id sDearchivingHelper = nil;
 }
 
 /** @return the width of the left margin
- * @public
  */
 - (CGFloat)leftMargin
 {
@@ -612,7 +588,6 @@ static id sDearchivingHelper = nil;
 }
 
 /** @return the width of the right margin
- * @public
  */
 - (CGFloat)rightMargin
 {
@@ -620,7 +595,6 @@ static id sDearchivingHelper = nil;
 }
 
 /** @return the width of the top margin
- * @public
  */
 - (CGFloat)topMargin
 {
@@ -628,7 +602,6 @@ static id sDearchivingHelper = nil;
 }
 
 /** @return the width of the bottom margin
- * @public
  */
 - (CGFloat)bottomMargin
 {
@@ -636,8 +609,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the interior region of the drawing, within the margins
- * @return a rectangle, the interior area of the drawing (paper size less margins)
- * @public
+ @return a rectangle, the interior area of the drawing (paper size less margins)
  */
 - (NSRect)interior
 {
@@ -653,9 +625,8 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Constrains the point within the interior area of the drawing
- * @param p a point structure
- * @return a point, equal to p if p is within the interior, otherwise pinned to the nearest point within
- * @public
+ @param p a point structure
+ @return a point, equal to p if p is within the interior, otherwise pinned to the nearest point within
  */
 - (NSPoint)pinPointToInterior:(NSPoint)p
 {
@@ -669,12 +640,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets whether the Y axis of the drawing is flipped
- * @note
- * Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
- * DKDrawingView. WARNING: drawings with flip set to NO may have issues at present as some lower level
- * code is currently assuming a flipped view.
- * @param flipped YES to have increase Y going down, NO for increasing Y going up
- * @public
+ @note
+ Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
+ DKDrawingView. WARNING: drawings with flip set to NO may have issues at present as some lower level
+ code is currently assuming a flipped view.
+ @param flipped YES to have increase Y going down, NO for increasing Y going up
  */
 - (void)setFlipped:(BOOL)flipped
 {
@@ -685,11 +655,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Whether the Y axis of the drawing is flipped
- * @note
- * Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
- * DKDrawingView
- * @return YES to have increase Y going down, NO for increasing Y going up
- * @public
+ @note
+ Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
+ DKDrawingView
+ @return YES to have increase Y going down, NO for increasing Y going up
  */
 - (BOOL)isFlipped
 {
@@ -697,11 +666,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the destination colour space for the whole drawing
- * @note
- * Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- * nil will use whatever is set in the colours used by the styles.
- * @param cSpace the colour space 
- * @public
+ @note
+ Colours set by styles and so forth are converted to this colourspace when rendering. A value of
+ nil will use whatever is set in the colours used by the styles.
+ @param cSpace the colour space 
  */
 - (void)setColourSpace:(NSColorSpace*)cSpace
 {
@@ -711,11 +679,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the colour space for the whole drawing
- * @note
- * Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- * nil will use whatever is set in the colours used by the styles.
- * @return the colour space
- * @public
+ @note
+ Colours set by styles and so forth are converted to this colourspace when rendering. A value of
+ nil will use whatever is set in the colours used by the styles.
+ @return the colour space
  */
 - (NSColorSpace*)colourSpace
 {
@@ -726,9 +693,8 @@ static id sDearchivingHelper = nil;
 #pragma mark - setting the rulers to the grid
 
 /** @brief Sets the units and basic coordinate mapping factor
- * @param units a string which is the drawing units of the drawing, e.g. "millimetres"
- * @param conversionFactor how many Quartz points per basic unit?
- * @public
+ @param units a string which is the drawing units of the drawing, e.g. "millimetres"
+ @param conversionFactor how many Quartz points per basic unit?
  */
 - (void)setDrawingUnits:(NSString*)units unitToPointsConversionFactor:(CGFloat)conversionFactor
 {
@@ -753,8 +719,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the full name of the drawing's units
- * @return a string
- * @public
+ @return a string
  */
 - (NSString*)drawingUnits
 {
@@ -762,11 +727,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the abbreviation of the drawing's units
- * @note
- * For those it knows about, it does a lookup. For unknown units, it uses the first two characters
- * and makes them lower case. The delegate can also elect to supply this string if it prefers.
- * @return a string
- * @public
+ @note
+ For those it knows about, it does a lookup. For unknown units, it uses the first two characters
+ and makes them lower case. The delegate can also elect to supply this string if it prefers.
+ @return a string
  */
 - (NSString*)abbreviatedDrawingUnits
 {
@@ -784,8 +748,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the number of Quartz units per basic drawing unit
- * @return the conversion value
- * @public
+ @return the conversion value
  */
 - (CGFloat)unitToPointsConversionFactor
 {
@@ -793,13 +756,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the number of Quartz units per basic drawing unit, as optionally determined by the delegate
- * @note
- * This allows the delegate to return a different value for special requirements. If the delegate does
- * not respond, the normal conversion factor is returned. Note that DK currently doesn't use this
- * internally but app-level code may do if it further overlays a coordinate mapping on top of the
- * drawing's own.
- * @return the conversion value
- * @public
+ @note
+ This allows the delegate to return a different value for special requirements. If the delegate does
+ not respond, the normal conversion factor is returned. Note that DK currently doesn't use this
+ internally but app-level code may do if it further overlays a coordinate mapping on top of the
+ drawing's own.
+ @return the conversion value
  */
 - (CGFloat)effectiveUnitToPointsConversionFactor
 {
@@ -810,12 +772,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets up the rulers for all attached views to a previously registered ruler state
- * @note
- * DKGridLayer registers rulers to match its grid using the drawingUnits string returned by
- * this class as the registration key. If your drawing doesn't have a grid but does use the rulers,
- * you need to register the ruler setup yourself somewhere.
- * @param unitString the name of a previously registered ruler state
- * @public
+ @note
+ DKGridLayer registers rulers to match its grid using the drawingUnits string returned by
+ this class as the registration key. If your drawing doesn't have a grid but does use the rulers,
+ you need to register the ruler setup yourself somewhere.
+ @param unitString the name of a previously registered ruler state
  */
 - (void)synchronizeRulersWithUnits:(NSString*)unitString
 {
@@ -824,10 +785,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the delegate
- * @note
- * See header for possible delegate methods
- * @param aDelegate some delegate object
- * @public
+ @note
+ See header for possible delegate methods
+ @param aDelegate some delegate object
  */
 - (void)setDelegate:(id)aDelegate
 {
@@ -835,10 +795,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return the delegate
- * @note
- * See header for possible delegate methods
- * @return some delegate object
- * @public
+ @note
+ See header for possible delegate methods
+ @return some delegate object
  */
 - (id)delegate
 {
@@ -849,10 +808,9 @@ static id sDearchivingHelper = nil;
 #pragma mark - controllers attachment
 
 /** @brief Return the current controllers the drawing owns
- * @note
- * Controllers are in no particular order. The drawing object owns its controllers.
- * @return a set of the current controllers
- * @public
+ @note
+ Controllers are in no particular order. The drawing object owns its controllers.
+ @return a set of the current controllers
  */
 - (NSSet*)controllers
 {
@@ -860,13 +818,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Add a controller to the drawing
- * @note
- * A controller is associated with a view, but must be added to the drawing to forge the connection
- * between the drawing and its views. The drawing owns the controller. DKDrawingDocument and the
- * automatic back-end set-up handle all of this for you - you only need this if you are building
- * the DK system entirely by hand.
- * @param aController the controller to add
- * @public
+ @note
+ A controller is associated with a view, but must be added to the drawing to forge the connection
+ between the drawing and its views. The drawing owns the controller. DKDrawingDocument and the
+ automatic back-end set-up handle all of this for you - you only need this if you are building
+ the DK system entirely by hand.
+ @param aController the controller to add
  */
 - (void)addController:(DKViewController*)aController
 {
@@ -886,10 +843,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Removes a controller from the drawing
- * @note
- * Typically controllers are removed when necessary - there is little reason to call this yourself
- * @param aController the controller to remove
- * @public
+ @note
+ Typically controllers are removed when necessary - there is little reason to call this yourself
+ @param aController the controller to remove
  */
 - (void)removeController:(DKViewController*)aController
 {
@@ -902,9 +858,8 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Removes all controller from the drawing
- * @note
- * Typically controllers are removed when necessary - there is little reason to call this yourself
- * @public
+ @note
+ Typically controllers are removed when necessary - there is little reason to call this yourself
  */
 - (void)removeAllControllers
 {
@@ -916,8 +871,7 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief Causes all cursor rectangles for all attached views to be recalculated. This forces any cursors
- * that may be in use to be updated.
- * @public
+ that may be in use to be updated.
  */
 - (void)invalidateCursors
 {
@@ -925,12 +879,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Causes all attached views to scroll to show the rect, if necessary
- * @note
- * Called for things like scroll to selection - all attached views may scroll if necessary. Note that
- * it is OK to directly call the view's methods if scrolling a single view is required - the drawing
- * isn't aware of any view's scroll position.
- * @param rect the rect to reveal
- * @public
+ @note
+ Called for things like scroll to selection - all attached views may scroll if necessary. Note that
+ it is OK to directly call the view's methods if scrolling a single view is required - the drawing
+ isn't aware of any view's scroll position.
+ @param rect the rect to reveal
  */
 - (void)scrollToRect:(NSRect)rect
 {
@@ -939,10 +892,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Notifies all the controllers that an object within the drawing notified a status change
- * @note
- * Status changes are non-visual changes that a view controller might want to know about
- * @param object the original object that sent the notification
- * @public
+ @note
+ Status changes are non-visual changes that a view controller might want to know about
+ @param object the original object that sent the notification
  */
 - (void)objectDidNotifyStatusChange:(id)object
 {
@@ -954,10 +906,9 @@ static id sDearchivingHelper = nil;
 #pragma mark - dynamically adjusting the rendering quality
 
 /** @brief Set whether drawing quality modulation is enabled or not
- * @note
- * Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
- * the need for it. This flag allows that behaviour to be turned on or off.
- * @public
+ @note
+ Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
+ the need for it. This flag allows that behaviour to be turned on or off.
  */
 - (void)setDynamicQualityModulationEnabled:(BOOL)qmEnabled
 {
@@ -970,13 +921,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Advise whether drawing should be done in best quality or not
- * @note
- * Rasterizers in DK can query this flag to check if they can use a fast quick rendering method.
- * this is set while zooming, scrolling or other operations that require many rapid updates. Speed
- * under these conditions can be improved by using bitmap caches, etc rather than drawing at best
- * quality.
- * @param quickAndDirty YES to offer low quality faster rendering
- * @public
+ @note
+ Rasterizers in DK can query this flag to check if they can use a fast quick rendering method.
+ this is set while zooming, scrolling or other operations that require many rapid updates. Speed
+ under these conditions can be improved by using bitmap caches, etc rather than drawing at best
+ quality.
+ @param quickAndDirty YES to offer low quality faster rendering
  */
 - (void)setLowRenderingQuality:(BOOL)quickAndDirty
 {
@@ -988,13 +938,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Advise whether drawing should be done in best quality or not
- * @note
- * Renderers in drawkit can query this flag to check if they can use a fast quick rendering method.
- * this is set while zooming, scrolling or other operations that require many rapid updates. Speed
- * under these conditions can be inmproved by using bitmap caches, etc rather than drawing at best
- * quality.
- * @return YES if low quality is an option
- * @public
+ @note
+ Renderers in drawkit can query this flag to check if they can use a fast quick rendering method.
+ this is set while zooming, scrolling or other operations that require many rapid updates. Speed
+ under these conditions can be inmproved by using bitmap caches, etc rather than drawing at best
+ quality.
+ @return YES if low quality is an option
  */
 - (BOOL)lowRenderingQuality
 {
@@ -1002,11 +951,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Dynamically check if low or high quality should be used
- * @note
- * Called from the drawing method, this starts or extends a timer which will set high quality after
- * a delay. Thus if rapid updates are happening, it will switch to low quality, and switch to high
- * quality after a delay.
- * @private
+ @note
+ Called from the drawing method, this starts or extends a timer which will set high quality after
+ a delay. Thus if rapid updates are happening, it will switch to low quality, and switch to high
+ quality after a delay.
  */
 - (void)checkIfLowQualityRequired
 {
@@ -1072,12 +1020,11 @@ static id sDearchivingHelper = nil;
 #pragma mark - setting the undo manager
 
 /** @brief Sets the undoManager that will be used for all undo actions that occur in this drawing.
- * @note
- * The undoManager is retained. It is passed down to all levels that need undoable actions. The
- * default is nil, so nothing will be undoable unless you set it. In a document-based app, the
- * document's undoManager should be used. Otherwise, the view's or window's undoManager can be used.
- * @param um the undo manager to use
- * @public
+ @note
+ The undoManager is retained. It is passed down to all levels that need undoable actions. The
+ default is nil, so nothing will be undoable unless you set it. In a document-based app, the
+ document's undoManager should be used. Otherwise, the view's or window's undoManager can be used.
+ @param um the undo manager to use
  */
 - (void)setUndoManager:(id)um
 {
@@ -1096,8 +1043,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the undo manager for the drawing
- * @return the currently used undo manager
- * @public
+ @return the currently used undo manager
  */
 - (id)undoManager
 {
@@ -1108,12 +1054,11 @@ static id sDearchivingHelper = nil;
 #pragma mark - drawing meta-data
 
 /** @brief Sets the drawing info metadata for the drawing
- * @note
- * The drawing info contains whatever you want, but a number of standard fields are defined and can be
- * interpreted by a DKDrawingInfoLayer, if there is one. Note this inherits the storage from
- * DKLayer.
- * @param info the drawing info dictionary
- * @public
+ @note
+ The drawing info contains whatever you want, but a number of standard fields are defined and can be
+ interpreted by a DKDrawingInfoLayer, if there is one. Note this inherits the storage from
+ DKLayer.
+ @param info the drawing info dictionary
  */
 - (void)setDrawingInfo:(NSMutableDictionary*)info
 {
@@ -1122,8 +1067,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the current drawing info metadata
- * @return a dictionary, the drawing info
- * @public
+ @return a dictionary, the drawing info
  */
 - (NSMutableDictionary*)drawingInfo
 {
@@ -1133,10 +1077,9 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief Sets the background colour of the entire drawing
- * @note
- * Default is white
- * @param colour the colour to set for the drawing's background (paper) colour
- * @public
+ @note
+ Default is white
+ @param colour the colour to set for the drawing's background (paper) colour
  */
 - (void)setPaperColour:(NSColor*)colour
 {
@@ -1154,10 +1097,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief The curremt paper colour of the drawing
- * @note
- * Default is white
- * @return the current colour of the background (paper)
- * @public
+ @note
+ Default is white
+ @return the current colour of the background (paper)
  */
 - (NSColor*)paperColour
 {
@@ -1165,10 +1107,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Set whether the paper colour is printed or not
- * @note
- * Default is NO
- * @param printIt YES to include the paper colour when printing
- * @public
+ @note
+ Default is NO
+ @param printIt YES to include the paper colour when printing
  */
 - (void)setPaperColourIsPrinted:(BOOL)printIt
 {
@@ -1176,10 +1117,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Whether the paper colour is printed or not
- * @note
- * Default is NO
- * @return YES if the paper colour is included when printing
- * @public
+ @note
+ Default is NO
+ @return YES if the paper colour is included when printing
  */
 - (BOOL)paperColourIsPrinted
 {
@@ -1189,14 +1129,13 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief For the utility of contained objects, this ends any open text editing session without the object
- * needing to know which view is handling it.
- * @note
- * If any attached view has started a temporary text editing mode, this method can be called to end
- * that mode and perform all necessary cleanup. This is useful if the object that requested the mode
- * no longer knows which view it asked to do the editing (and thus saves it the need to record the
- * view in question). Note that normally only one such view could have entered this mode, but this
- * will also recover from a situation (bug!) where more than one has a text editing operation mode open.
- * @private
+ needing to know which view is handling it.
+ @note
+ If any attached view has started a temporary text editing mode, this method can be called to end
+ that mode and perform all necessary cleanup. This is useful if the object that requested the mode
+ no longer knows which view it asked to do the editing (and thus saves it the need to record the
+ view in question). Note that normally only one such view could have entered this mode, but this
+ will also recover from a situation (bug!) where more than one has a text editing operation mode open.
  */
 - (void)exitTemporaryTextEditingMode
 {
@@ -1207,12 +1146,11 @@ static id sDearchivingHelper = nil;
 #pragma mark - active layer
 
 /** @brief Sets which layer is currently active
- * @note
- * The active layer is automatically linked from the first responder so it can receive commands
- * active state changes.
- * @param aLayer the layer to make the active layer, or nil to make no layer active
- * @return YES if the active layer changed, NO if not
- * @public
+ @note
+ The active layer is automatically linked from the first responder so it can receive commands
+ active state changes.
+ @param aLayer the layer to make the active layer, or nil to make no layer active
+ @return YES if the active layer changed, NO if not
  */
 - (BOOL)setActiveLayer:(DKLayer*)aLayer
 {
@@ -1221,13 +1159,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets which layer is currently active, optionally making this change undoable
- * @note
- * Normally active layer changes are not undoable as the active layer is not considered part of the
- * state of the data model. However some actions such as adding and removing layers should include
- * the active layer state as part of the undo, so that the user experience is pleasant.
- * @param aLayer the layer to make the active layer, or nil to make no layer active
- * @return YES if the active layer changed, NO if not
- * @public
+ @note
+ Normally active layer changes are not undoable as the active layer is not considered part of the
+ state of the data model. However some actions such as adding and removing layers should include
+ the active layer state as part of the undo, so that the user experience is pleasant.
+ @param aLayer the layer to make the active layer, or nil to make no layer active
+ @return YES if the active layer changed, NO if not
  */
 - (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo
 {
@@ -1262,8 +1199,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the current active layer
- * @return a DKLayer object, or subclass, which is the current active layer
- * @public
+ @return a DKLayer object, or subclass, which is the current active layer
  */
 - (DKLayer*)activeLayer
 {
@@ -1271,9 +1207,8 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the active layer if it matches the requested class
- * @param aClass the class of layer sought
- * @return the active layer if it matches the requested class, otherwise nil
- * @public
+ @param aClass the class of layer sought
+ @return the active layer if it matches the requested class, otherwise nil
  */
 - (id)activeLayerOfClass:(Class)aClass
 {
@@ -1284,23 +1219,21 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Adds a layer to the drawing and optionally activates it
- * @note
- * This method has the advantage over separate add + activate calls that the active layer change is
- * recorded by the undo stack, so it's the better one to use when adding layers via a UI since an
- * undo of the action will restore the UI to its previous state with respect to the active layer.
- * Normally changes to the active layer are not undoable.
- * @param aLayer a layer object to be added
- * @param activateIt if YES, the added layer will be made the active layer, NO will not change it
- * @public
+ @note
+ This method has the advantage over separate add + activate calls that the active layer change is
+ recorded by the undo stack, so it's the better one to use when adding layers via a UI since an
+ undo of the action will restore the UI to its previous state with respect to the active layer.
+ Normally changes to the active layer are not undoable.
+ @param aLayer a layer object to be added
+ @param activateIt if YES, the added layer will be made the active layer, NO will not change it
  */
 
 /** @brief Adds a layer to the drawing
- * @note
- * The added layer is placed above all other layers. If it is the first layer to be added to the
- * drawing, or the current active layer isn't set, it is also made the active layer (if permitted).
- * For a UI-driven call, it is probably better to use addLayer:andActivateIt: which is smarter.
- * @param aLayer a DKLayer object, or subclass thereof
- * @public
+ @note
+ The added layer is placed above all other layers. If it is the first layer to be added to the
+ drawing, or the current active layer isn't set, it is also made the active layer (if permitted).
+ For a UI-driven call, it is probably better to use addLayer:andActivateIt: which is smarter.
+ @param aLayer a DKLayer object, or subclass thereof
  */
 - (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt
 {
@@ -1322,22 +1255,20 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Removes a layer from the drawing and optionally activates another one
- * @note
- * This method is the inverse of the one above, used to help make UIs more usable by also including
- * undo for the active layer change. It is an error for <anotherLayer> to be equal to <aLayer>. As a
- * further UI convenience, if <aLayer> is the current active layer, and <anotherLayer> is nil, this
- * finds the topmost layer of the same class as <aLayer> and makes that active.
- * @param aLayer a layer object to be removed
- * @param anotherLayer if not nil, this layer will be activated after removing the first one.
- * @public
+ @note
+ This method is the inverse of the one above, used to help make UIs more usable by also including
+ undo for the active layer change. It is an error for <anotherLayer> to be equal to <aLayer>. As a
+ further UI convenience, if <aLayer> is the current active layer, and <anotherLayer> is nil, this
+ finds the topmost layer of the same class as <aLayer> and makes that active.
+ @param aLayer a layer object to be removed
+ @param anotherLayer if not nil, this layer will be activated after removing the first one.
  */
 
 /** @brief Removes the layer from the drawing
- * @note
- * Disposes of the layer if there are no other references to it.
- * For a UI-driven call, it is probably better to use removeLayer:andActivateLayer: which is smarter.
- * @param aLayer a DKLayer object, or subclass thereof, that already exists in the drawing
- * @public
+ @note
+ Disposes of the layer if there are no other references to it.
+ For a UI-driven call, it is probably better to use removeLayer:andActivateLayer: which is smarter.
+ @param aLayer a DKLayer object, or subclass thereof, that already exists in the drawing
  */
 - (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(DKLayer*)anotherLayer
 {
@@ -1374,11 +1305,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Finds the first layer of the given class that can be activated.
- * @note
- * Looks through all subgroups
- * @param cl the class of layer to look for
- * @return the first such layer that returns yes to -layerMayBecomeActive
- * @public
+ @note
+ Looks through all subgroups
+ @param cl the class of layer to look for
+ @return the first such layer that returns yes to -layerMayBecomeActive
  */
 - (DKLayer*)firstActivateableLayerOfClass:(Class)cl
 {
@@ -1399,11 +1329,10 @@ static id sDearchivingHelper = nil;
 #pragma mark - snapping
 
 /** @brief Sets whether mouse actions within the drawing should snap to grid or not.
- * @note
- * Actually snapping requires that objects call the snapToGrid: method for points that they are
- * processing while dragging the mouse, etc.
- * @param snaps YES to turn on snap to grid, NO to turn it off
- * @public
+ @note
+ Actually snapping requires that objects call the snapToGrid: method for points that they are
+ processing while dragging the mouse, etc.
+ @param snaps YES to turn on snap to grid, NO to turn it off
  */
 - (void)setSnapsToGrid:(BOOL)snaps
 {
@@ -1413,8 +1342,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Whether snap to grid os on or off
- * @return YES if grid snap is on, NO if off
- * @public
+ @return YES if grid snap is on, NO if off
  */
 - (BOOL)snapsToGrid
 {
@@ -1422,11 +1350,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets whether mouse actions within the drawing should snap to guides or not.
- * @note
- * Actually snapping requires that objects call the snapToGuides: method for points and rects that they are
- * processing while dragging the mouse, etc.
- * @param snaps YES to turn on snap to guides, NO to turn it off
- * @public
+ @note
+ Actually snapping requires that objects call the snapToGuides: method for points and rects that they are
+ processing while dragging the mouse, etc.
+ @param snaps YES to turn on snap to guides, NO to turn it off
  */
 - (void)setSnapsToGuides:(BOOL)snaps
 {
@@ -1436,8 +1363,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Whether snap to grid os on or off
- * @return YES if grid snap is on, NO if off
- * @public
+ @return YES if grid snap is on, NO if off
  */
 - (BOOL)snapsToGuides
 {
@@ -1447,15 +1373,14 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief Moves a point to the nearest grid position if snapControl is different from current user setting,
- * otherwise returns it unchanged
- * @note
- * The grid layer actually performs the computation, if one exists. The <snapControl> parameter
- * usually comes from a modifer key such as ctrl - if snapping is on it disables it, if off it
- * enables it. This flag is passed up from whatever mouse event is actually being handled.
- * @param p a point value within the drawing
- * @param snapControl inverts the applied state of the grid snapping setting
- * @return a modified point located at the nearest grid intersection
- * @public
+ otherwise returns it unchanged
+ @note
+ The grid layer actually performs the computation, if one exists. The <snapControl> parameter
+ usually comes from a modifer key such as ctrl - if snapping is on it disables it, if off it
+ enables it. This flag is passed up from whatever mouse event is actually being handled.
+ @param p a point value within the drawing
+ @param snapControl inverts the applied state of the grid snapping setting
+ @return a modified point located at the nearest grid intersection
  */
 - (NSPoint)snapToGrid:(NSPoint)p withControlFlag:(BOOL)snapControl
 {
@@ -1472,14 +1397,13 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Moves a point to the nearest grid position if snap is turned ON, otherwise returns it unchanged
- * @note
- * The grid layer actually performs the computation, if one exists. If the control modifier key is down
- * grid snapping is temporarily disabled, so this modifier universally means don't snap for all drags.
- * Passing YES for <ignore> is intended for use by internal classes such as DKGuideLayer.
- * @param p a point value within the drawing
- * @param ignore if YES, the current state of [self snapsToGrid] is ignored
- * @return a modified point located at the nearest grid intersection
- * @public
+ @note
+ The grid layer actually performs the computation, if one exists. If the control modifier key is down
+ grid snapping is temporarily disabled, so this modifier universally means don't snap for all drags.
+ Passing YES for <ignore> is intended for use by internal classes such as DKGuideLayer.
+ @param p a point value within the drawing
+ @param ignore if YES, the current state of [self snapsToGrid] is ignored
+ @return a modified point located at the nearest grid intersection
  */
 - (NSPoint)snapToGrid:(NSPoint)p ignoringUserSetting:(BOOL)ignore
 {
@@ -1492,11 +1416,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Moves a point to a nearby guide position if snap is turned ON, otherwise returns it unchanged
- * @note
- * The guide layer actually performs the computation, if one exists.
- * @param p a point value within the drawing
- * @return a modified point located at a nearby guide
- * @public
+ @note
+ The guide layer actually performs the computation, if one exists.
+ @param p a point value within the drawing
+ @return a modified point located at a nearby guide
  */
 - (NSPoint)snapToGuides:(NSPoint)p
 {
@@ -1509,13 +1432,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Snaps any edge (and optionally the centre) of a rect to any nearby guide
- * @note
- * The guide layer itself implements the snapping calculations, if it exists.
- * @param r a proposed rectangle which might bethe bounds of some object for example
- * @param cent if YES, the centre point of the rect is also considered a candidadte for snapping, NO for
- * @return a rectangle, either the input rectangle or a rectangle of identical size offset to align with
- * one of the guides
- * @public
+ @note
+ The guide layer itself implements the snapping calculations, if it exists.
+ @param r a proposed rectangle which might bethe bounds of some object for example
+ @param cent if YES, the centre point of the rect is also considered a candidadte for snapping, NO for
+ @return a rectangle, either the input rectangle or a rectangle of identical size offset to align with
+ one of the guides
  */
 - (NSRect)snapRectToGuides:(NSRect)r includingCentres:(BOOL)cent
 {
@@ -1529,12 +1451,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Determines the snap offset for any of a list of points
- * @note
- * The guide layer itself implements the snapping calculations, if it exists.
- * @param points an array containing NSValue objects with NSPoint values
- * @return an offset amount which is the distance to move one ofthe points to make it snap. This value can
- * usually be simply added to the current mouse point that is dragging the object
- * @public
+ @note
+ The guide layer itself implements the snapping calculations, if it exists.
+ @param points an array containing NSValue objects with NSPoint values
+ @return an offset amount which is the distance to move one ofthe points to make it snap. This value can
+ usually be simply added to the current mouse point that is dragging the object
  */
 - (NSSize)snapPointsToGuide:(NSArray*)points
 {
@@ -1549,9 +1470,8 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief Returns the amount meant by a single press of any of the arrow keys
- * @return an x and y value representing how far each "nudge" should move an object. If there is a grid layer,
- * and snapping is on, this will be a grid interval. Otherwise it will be 1.
- * @public
+ @return an x and y value representing how far each "nudge" should move an object. If there is a grid layer,
+ and snapping is on, this will be a grid interval. Otherwise it will be 1.
  */
 - (NSPoint)nudgeOffset
 {
@@ -1573,12 +1493,11 @@ static id sDearchivingHelper = nil;
 #pragma mark - grids, guides and conversions
 
 /** @brief Returns the master grid layer, if there is one
- * @note
- * Usually there will only be one grid, but if there is more than one this only finds the uppermost.
- * This only returns a grid that returns YES to -isMasterGrid, so subclasses can return NO to
- * prevent themselves being considered for this role.
- * @return the grid layer, or nil
- * @public
+ @note
+ Usually there will only be one grid, but if there is more than one this only finds the uppermost.
+ This only returns a grid that returns YES to -isMasterGrid, so subclasses can return NO to
+ prevent themselves being considered for this role.
+ @return the grid layer, or nil
  */
 - (DKGridLayer*)gridLayer
 {
@@ -1597,10 +1516,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the guide layer, if there is one
- * @note
- * Usually there will only be one guide layer, but if there is more than one this only finds the uppermost.
- * @return the guide layer, or nil
- * @public
+ @note
+ Usually there will only be one guide layer, but if there is more than one this only finds the uppermost.
+ @return the guide layer, or nil
  */
 - (DKGuideLayer*)guideLayer
 {
@@ -1609,13 +1527,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
- * @note
- * This is a convenience API to query the drawing's grid layer. If there is a delegate and it implements
- * the optional conversionmethod, it is given the opportunity to further modify the result. This
- * permits a delegate to impose an additional coordinate system on the drawing for display purposes,
- * @param len a distance in base points (pixels)
- * @return the distance in drawing units
- * @public
+ @note
+ This is a convenience API to query the drawing's grid layer. If there is a delegate and it implements
+ the optional conversionmethod, it is given the opportunity to further modify the result. This
+ permits a delegate to impose an additional coordinate system on the drawing for display purposes,
+ @param len a distance in base points (pixels)
+ @return the distance in drawing units
  */
 - (CGFloat)convertLength:(CGFloat)len
 {
@@ -1630,12 +1547,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
- * @note
- * This is a convenience API to query the drawing's grid layer. The delegate is also given a shot
- * at further modifying the returned values.
- * @param pt a point in base points (pixels)
- * @return the position ofthe point in drawing units
- * @public
+ @note
+ This is a convenience API to query the drawing's grid layer. The delegate is also given a shot
+ at further modifying the returned values.
+ @param pt a point in base points (pixels)
+ @return the position ofthe point in drawing units
  */
 - (NSPoint)convertPoint:(NSPoint)pt
 {
@@ -1650,12 +1566,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
- * @note
- * This wraps up length conversion and formatting for display into one method, which also calls the
- * delegate if it implements the relevant method.
- * @param len a distance in base points (pixels)
- * @return a string containing a fully formatted distance plus the units abbreviation
- * @public
+ @note
+ This wraps up length conversion and formatting for display into one method, which also calls the
+ delegate if it implements the relevant method.
+ @param len a distance in base points (pixels)
+ @return a string containing a fully formatted distance plus the units abbreviation
  */
 - (NSString*)formattedConvertedLength:(CGFloat)len
 {
@@ -1671,13 +1586,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
- * @note
- * This wraps up length conversion and formatting for display into one method, which also calls the
- * delegate if it implements the relevant method. The result is an array with two strings - the first
- * is the x coordinate, the second is the y co-ordinate
- * @param pt a point in base points (pixels)
- * @return a pair of strings containing a fully formatted distance plus the units abbreviation
- * @public
+ @note
+ This wraps up length conversion and formatting for display into one method, which also calls the
+ delegate if it implements the relevant method. The result is an array with two strings - the first
+ is the x coordinate, the second is the y co-ordinate
+ @param pt a point in base points (pixels)
+ @return a pair of strings containing a fully formatted distance plus the units abbreviation
  */
 - (NSArray*)formattedConvertedPoint:(NSPoint)pt
 {
@@ -1706,11 +1620,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Convert a point in drawing coordinates to the underlying Quartz coordinates
- * @note
- * This is a convenience API to query the drawing's grid layer
- * @param pt a point in drawing units
- * @return the position of the point in Quartz units
- * @public
+ @note
+ This is a convenience API to query the drawing's grid layer
+ @param pt a point in drawing units
+ @return the position of the point in Quartz units
  */
 - (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt
 {
@@ -1718,11 +1631,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Convert a length in drawing coordinates to the underlying Quartz coordinates
- * @note
- * This is a convenience API to query the drawing's grid layer
- * @param len a distance in drawing units
- * @return the distance in Quartz units
- * @public
+ @note
+ This is a convenience API to query the drawing's grid layer
+ @param len a distance in drawing units
+ @return the distance in Quartz units
  */
 - (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len
 {
@@ -1733,9 +1645,8 @@ static id sDearchivingHelper = nil;
 #pragma mark - export
 
 /** @brief Called just prior to an operation that saves the drawing to a file, pasteboard or data.
- * @note
- * Can be overridden or you can make use of the notification
- * @public
+ @note
+ Can be overridden or you can make use of the notification
  */
 - (void)finalizePriorToSaving
 {
@@ -1776,12 +1687,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Saves the entire drawing to a file
- * @note
- * Implies the binary format
- * @param filename the full path of the file 
- * @param atom YES to save to a temporary file and swap (safest), NO to overwrite file
- * @return YES if succesfully written, NO otherwise
- * @public
+ @note
+ Implies the binary format
+ @param filename the full path of the file 
+ @param atom YES to save to a temporary file and swap (safest), NO to overwrite file
+ @return YES if succesfully written, NO otherwise
  */
 - (BOOL)writeToFile:(NSString*)filename atomically:(BOOL)atom
 {
@@ -1795,10 +1705,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the entire drawing's data in XML format, having the key "root"
- * @note
- * Specifies NSPropertyListXMLFormat_v1_0
- * @return an NSData object which is the entire drawing and all its contents
- * @public
+ @note
+ Specifies NSPropertyListXMLFormat_v1_0
+ @return an NSData object which is the entire drawing and all its contents
  */
 - (NSData*)drawingAsXMLDataAtRoot
 {
@@ -1806,11 +1715,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the entire drawing's data in XML format, having the key passed
- * @note
- * Specifies NSPropertyListXMLFormat_v1_0
- * @param key a key under which the data is archived
- * @return an NSData object which is the entire drawing and all its contents
- * @public
+ @note
+ Specifies NSPropertyListXMLFormat_v1_0
+ @param key a key under which the data is archived
+ @return an NSData object which is the entire drawing and all its contents
  */
 - (NSData*)drawingAsXMLDataForKey:(NSString*)key
 {
@@ -1836,10 +1744,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the entire drawing's data in binary format
- * @note
- * Specifies NSPropertyListBinaryFormat_v1_0
- * @return an NSData object which is the entire drawing and all its contents
- * @public
+ @note
+ Specifies NSPropertyListBinaryFormat_v1_0
+ @return an NSData object which is the entire drawing and all its contents
  */
 - (NSData*)drawingData
 {
@@ -1848,11 +1755,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief The entire drawing in PDF format
- * @note
- * When rendering a drawing for PDF, the drawing acts as if it were printing, therefore layers that
- * return NO to shouldDrawToPrinter: are not drawn. Selections are also not shown.
- * @return an NSData object, containing the PDF representation of the entire drawing
- * @public
+ @note
+ When rendering a drawing for PDF, the drawing acts as if it were printing, therefore layers that
+ return NO to shouldDrawToPrinter: are not drawn. Selections are also not shown.
+ @return an NSData object, containing the PDF representation of the entire drawing
  */
 - (NSData*)pdf
 {
@@ -1861,11 +1767,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns the image manager
- * @note
- * The image manager is an object that is used to improve archiving efficiency of images. Classes
- * that have images, such as DKImageShape, use this to cache image data.
- * @return the drawing's image manager
- * @public
+ @note
+ The image manager is an object that is used to improve archiving efficiency of images. Classes
+ that have images, such as DKImageShape, use this to cache image data.
+ @return the drawing's image manager
  */
 - (DKImageDataManager*)imageManager
 {
@@ -1900,7 +1805,6 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Removes all of the drawing's layers
- * @public
  */
 - (void)removeAllLayers
 {
@@ -1909,13 +1813,12 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Disambiguates a layer's name by appending digits until there is no conflict
- * @note
- * DKLayerGroup's implementation of this only considers layers in the local group. This considers
- * all layers in the drawing as a flattened set, so will disambiguate the layer name for the entire
- * hierarchy.
- * @param aName a string containing the proposed name
- * @return a string, either the original string or a modified version of it
- * @public
+ @note
+ DKLayerGroup's implementation of this only considers layers in the local group. This considers
+ all layers in the drawing as a flattened set, so will disambiguate the layer name for the entire
+ hierarchy.
+ @param aName a string containing the proposed name
+ @return a string, either the original string or a modified version of it
  */
 - (NSString*)uniqueLayerNameForName:(NSString*)aName
 {
@@ -1941,11 +1844,10 @@ static id sDearchivingHelper = nil;
 #pragma mark As a DKLayer
 
 /** @brief Returns the drawing
- * @note
- * Because layers locate the drawing by recursing back up through the layer tree, the root (this)
- * must return self.
- * @return the drawing, which is self of course
- * @public
+ @note
+ Because layers locate the drawing by recursing back up through the layer tree, the root (this)
+ must return self.
+ @return the drawing, which is self of course
  */
 - (DKDrawing*)drawing
 {
@@ -1953,11 +1855,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Renders the drawing in the view
- * @note
- * Called by a DKDrawingView's drawRect: method to update itself.
- * @param rect the update rect being drawn - graphics outside this rect can be skipped.
- * @param aView the view that is curremtly rendering the drawing.
- * @public
+ @note
+ Called by a DKDrawingView's drawRect: method to update itself.
+ @param rect the update rect being drawn - graphics outside this rect can be skipped.
+ @param aView the view that is curremtly rendering the drawing.
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
 {
@@ -2024,10 +1925,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Marks the entire drawing as needing updating (or not) for all attached views
- * @note
- * YES causes all attached views to re-render the drawing parts visible in each view
- * @param refresh YES to update the entire drawing, NO to stop any updates.
- * @public
+ @note
+ YES causes all attached views to re-render the drawing parts visible in each view
+ @param refresh YES to update the entire drawing, NO to stop any updates.
  */
 - (void)setNeedsDisplay:(BOOL)refresh
 {
@@ -2036,11 +1936,10 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Marks the rect as needing update in all attached views
- * @note
- * If <rect> is visible in any attached view, it will be re-rendered by each affected view. Normally
- * objects know when to refresh themselves and do so by indirectly calling this method.
- * @param rect the rectangle within the drawing to update
- * @public
+ @note
+ If <rect> is visible in any attached view, it will be re-rendered by each affected view. Normally
+ objects know when to refresh themselves and do so by indirectly calling this method.
+ @param rect the rectangle within the drawing to update
  */
 - (void)setNeedsDisplayInRect:(NSRect)rect
 {
@@ -2049,10 +1948,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Marks several areas for update at once
- * @note
- * Directly passes the value to the view controller, saving the unpacking and repacking
- * @param setOfRects a set containing NSValues with rect values
- * @public
+ @note
+ Directly passes the value to the view controller, saving the unpacking and repacking
+ @param setOfRects a set containing NSValues with rect values
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects
 {
@@ -2067,12 +1965,11 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Marks several areas for update at once
- * @note
- * Several update optimising methods return sets of rect values, this allows them to be processed
- * directly.
- * @param setOfRects a set containing NSValues with rect values
- * @param padding the width and height will be added to EACH rect before invalidating
- * @public
+ @note
+ Several update optimising methods return sets of rect values, this allows them to be processed
+ directly.
+ @param setOfRects a set containing NSValues with rect values
+ @param padding the width and height will be added to EACH rect before invalidating
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding
 {
@@ -2089,8 +1986,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return whether the layer can be deleted
- * @return NO - the root drawing can't be deleted
- * @public
+ @return NO - the root drawing can't be deleted
  */
 - (BOOL)layerMayBeDeleted
 {
@@ -2098,9 +1994,8 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Migrate user info to current schema
- * @note
- * See DKLayer+Metadata for more details. This migrates drawing info to the current schema.
- * @public
+ @note
+ See DKLayer+Metadata for more details. This migrates drawing info to the current schema.
  */
 - (void)updateMetadataKeys
 {
@@ -2118,10 +2013,9 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Updates the ruler markers for all attached views to indicate the rectangle
- * @note
- * Updates all ruler markers in all attached views, if those views have visible rulers
- * @param rect a rectangle within the drawing (usually the bounds of the selected object(s))
- * @public
+ @note
+ Updates all ruler markers in all attached views, if those views have visible rulers
+ @param rect a rectangle within the drawing (usually the bounds of the selected object(s))
  */
 - (void)updateRulerMarkersForRect:(NSRect)rect
 {
@@ -2130,9 +2024,8 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Hides the ruler markers in all attached views
- * @note
- * Ruler markers are generally hidden when there is no selection
- * @public
+ @note
+ Ruler markers are generally hidden when there is no selection
  */
 - (void)hideRulerMarkers
 {

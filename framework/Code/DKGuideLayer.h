@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKLayer.h"
@@ -38,206 +38,181 @@ the shift key down.
 // default snapping tolerance:
 
 /** @brief Sets the distance a point needs to be before it is snapped to a guide
- * @param tol the distance in points
- * @public
+ @param tol the distance in points
  */
 + (void)setDefaultSnapTolerance:(CGFloat)tol;
 
 /** @brief Returns the distance a point needs to be before it is snapped to a guide
- * @return the distance in points
- * @public
+ @return the distance in points
  */
 + (CGFloat)defaultSnapTolerance;
 
 // adding and removing guides:
 
 /** @brief Adds a guide to the layer
- * @note
- * Sets the guide's colour to the layer's guide colour initially - after adding the guide colour can
- * be set individually if desired.
- * @param guide an existing guide object
- * @public
+ @note
+ Sets the guide's colour to the layer's guide colour initially - after adding the guide colour can
+ be set individually if desired.
+ @param guide an existing guide object
  */
 - (void)addGuide:(DKGuide*)guide;
 
 /** @brief Removes a guide from the layer
- * @param guide an existing guide object
- * @public
+ @param guide an existing guide object
  */
 - (void)removeGuide:(DKGuide*)guide;
 
 /** @brief Removes all guides permanently from the layer
- * @public
  */
 - (void)removeAllGuides;
 
 /** @brief Creates a new vertical guide at the point p, adds it to the layer and returns it
- * @note
- * This is a convenient way to add a guide interactively, for example when dragging one "off" a
- * ruler. See DKViewController for an example client of this method. If the layer is locked this
- * does nothing and returns nil.
- * @param p a point local to the drawing
- * @return the guide created, or nil
- * @public
+ @note
+ This is a convenient way to add a guide interactively, for example when dragging one "off" a
+ ruler. See DKViewController for an example client of this method. If the layer is locked this
+ does nothing and returns nil.
+ @param p a point local to the drawing
+ @return the guide created, or nil
  */
 - (DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
 /** @brief Creates a new horizontal guide at the point p, adds it to the layer and returns it
- * @note
- * This is a convenient way to add a guide interactively, for example when dragging one "off" a
- * ruler. See DKViewController for an example client of this method. If the layer is locked this
- * does nothing and returns nil.
- * @param p a point local to the drawing
- * @return the guide created, or nil
- * @public
+ @note
+ This is a convenient way to add a guide interactively, for example when dragging one "off" a
+ ruler. See DKViewController for an example client of this method. If the layer is locked this
+ does nothing and returns nil.
+ @param p a point local to the drawing
+ @return the guide created, or nil
  */
 - (DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
 /** @brief Get all current guides
- * @return an array of guide objects
- * @public
+ @return an array of guide objects
  */
 - (NSArray*)guides;
 
 /** @brief Adds a set of guides to th elayer
- * @param guides an array of guide objects
- * @public
+ @param guides an array of guide objects
  */
 - (void)setGuides:(NSArray*)guides;
 
 // finding guides close to a given position
 
 /** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
- * @param pos a verical coordinate value, in points
- * @return the nearest guide to the given point that lies within the snap tolerance, or nil
- * @public
+ @param pos a verical coordinate value, in points
+ @return the nearest guide to the given point that lies within the snap tolerance, or nil
  */
 - (DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos;
 
 /** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
- * @param pos a horizontal coordinate value, in points
- * @return the nearest guide to the given point that lies within the snap tolerance, or nil
- * @public
+ @param pos a horizontal coordinate value, in points
+ @return the nearest guide to the given point that lies within the snap tolerance, or nil
  */
 - (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos;
 
 /** @brief Returns the list of vertical guides
- * @note
- * The guides returns are not in any particular order
- * @return an array of DKGuide objects
- * @public
+ @note
+ The guides returns are not in any particular order
+ @return an array of DKGuide objects
  */
 - (NSArray*)verticalGuides;
 
 /** @brief Returns the list of horizontal guides
- * @note
- * The guides returns are not in any particular order
- * @return an array of DKGuide objects
- * @public
+ @note
+ The guides returns are not in any particular order
+ @return an array of DKGuide objects
  */
 - (NSArray*)horizontalGuides;
 
 // setting a common colour for the guides:
 
 /** @brief Set the colour of all guides in this layer to a given colour
- * @note
- * The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
- * also each guide is able to have its own colour. This sets the colour for each guide to be the same
- * so you may prefer to obtain a particular guide and set it individually.
- * @param colour the colour to set
- * @public
+ @note
+ The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
+ also each guide is able to have its own colour. This sets the colour for each guide to be the same
+ so you may prefer to obtain a particular guide and set it individually.
+ @param colour the colour to set
  */
 
 /** @brief Sets the guide's colour
- * @note
- * Note that this doesn't mark the guide for update - DKGuideLayer has a method for doing that.
- * @param colour a colour 
- * @public
+ @note
+ Note that this doesn't mark the guide for update - DKGuideLayer has a method for doing that.
+ @param colour a colour 
  */
 - (void)setGuideColour:(NSColor*)colour;
 
 /** @brief Return the layer's guide colour
- * @note
- * The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
- * also each guide is able to have its own colour. This returns the selection colour, but if guides
- * have their own colours this says nothing about them.
- * @return a colour
- * @public
+ @note
+ The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
+ also each guide is able to have its own colour. This returns the selection colour, but if guides
+ have their own colours this says nothing about them.
+ @return a colour
  */
 
 /** @brief Returns the guide's colour
- * @return a colour
- * @public
+ @return a colour
  */
 - (NSColor*)guideColour;
 
 // set whether guides snap to grid or not
 
 /** @brief Set whether guids should snap to the grid by default or not
- * @note
- * The default is NO
- * @param gridsnap YES to always snap guides to the grid, NO otherwise
- * @public
+ @note
+ The default is NO
+ @param gridsnap YES to always snap guides to the grid, NO otherwise
  */
 - (void)setGuidesSnapToGrid:(BOOL)gridsnap;
 
 /** @brief Whether guids should snap to the grid by default or not
- * @note
- * The default is NO
- * @return YES to always snap guides to the grid, NO otherwise
- * @public
+ @note
+ The default is NO
+ @return YES to always snap guides to the grid, NO otherwise
  */
 - (BOOL)guidesSnapToGrid;
 
 // set the snapping tolerance for this layer
 
 /** @brief Sets the distance a point needs to be before it is snapped to a guide
- * @note
- * The default value is determind by the class method of the same name
- * @param tol the distance in points
- * @public
+ @note
+ The default value is determind by the class method of the same name
+ @param tol the distance in points
  */
 - (void)setSnapTolerance:(CGFloat)tol;
 
 /** @brief Resturns the distance a point needs to be before it is snapped to a guide
- * @note
- * The default value is determind by the class method of the same name
- * @return the distance in points
- * @public
+ @note
+ The default value is determind by the class method of the same name
+ @return the distance in points
  */
 - (CGFloat)snapTolerance;
 
 // set whether the info window is displayed or not
 
 /** @brief Set whether the info window should be displayed when dragging a guide
- * @note
- * Default is YES, display the window
- * @param showsIt YES to display the window, NO otherwise
- * @public
+ @note
+ Default is YES, display the window
+ @param showsIt YES to display the window, NO otherwise
  */
 - (void)setShowsDragInfoWindow:(BOOL)showsIt;
 
 /** @brief Return whether the info window should be displayed when dragging a guide
- * @note
- * Default is YES, display the window
- * @return YES to display the window, NO otherwise
- * @public
+ @note
+ Default is YES, display the window
+ @return YES to display the window, NO otherwise
  */
 - (BOOL)showsDragInfoWindow;
 
 /** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
- * @note
- * Default is the same as the drawing's interior
- * @param rect the rect
- * @public
+ @note
+ Default is the same as the drawing's interior
+ @param rect the rect
  */
 - (void)setGuideDeletionRect:(NSRect)rect;
 
 /** @brief The rect for which guides will be deleted if they are dragged outside of it
- * @note
- * Default is the same as the drawing's interior
- * @return the rect
- * @public
+ @note
+ Default is the same as the drawing's interior
+ @return the rect
  */
 - (NSRect)guideDeletionRect;
 
@@ -247,88 +222,80 @@ the shift key down.
 // snapping points and rects to the guides:
 
 /** @brief Snap a given point to any nearest guides within the snap tolerance
- * @note
- * X and y coordinates of the point are of course, individually snapped, so only one coordinate
- * might be modified, as well as none or both.
- * @param p a point in local drawing coordinates 
- * @return a point, either the same point passed in, or a modified one that has been snapped to the guides
- * @public
+ @note
+ X and y coordinates of the point are of course, individually snapped, so only one coordinate
+ might be modified, as well as none or both.
+ @param p a point in local drawing coordinates 
+ @return a point, either the same point passed in, or a modified one that has been snapped to the guides
  */
 - (NSPoint)snapPointToGuide:(NSPoint)p;
 
 /** @brief Snaps any corner of the given rect to any nearest guides within the snap tolerance
- * @note
- * The rect size is never changed by this method, but its origin may be. Does not snap the centres.
- * @param r a rect in local drawing coordinates 
- * @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
- * @public
+ @note
+ The rect size is never changed by this method, but its origin may be. Does not snap the centres.
+ @param r a rect in local drawing coordinates 
+ @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
  */
 - (NSRect)snapRectToGuide:(NSRect)r;
 
 /** @brief Snaps any corner or centre point of the given rect to any nearest guides within the snap tolerance
- * @note
- * The rect size is never changed by this method, but its origin may be.
- * @param r a rect in local drawing coordinates 
- * @param centre YES to also snap mid points of all sides, NO to just snap the corners
- * @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
- * @public
+ @note
+ The rect size is never changed by this method, but its origin may be.
+ @param r a rect in local drawing coordinates 
+ @param centre YES to also snap mid points of all sides, NO to just snap the corners
+ @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
  */
 - (NSRect)snapRectToGuide:(NSRect)r includingCentres:(BOOL)centre;
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
- * @note
- * This is intended as one step in the snapping of a complex object to the guides, where points are
- * arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
- * point in the list that actually snaps is used. The return value is intended to be used to offset
- * a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
- * Note that h and v offsets are independent, and may not refer to the same actual input point.
- * @param arrayOfPoints a list of NSValue object containing pointValues 
- * @return a size, being the offset between whichever point was snapped and its snapped position
- * @public
+ @note
+ This is intended as one step in the snapping of a complex object to the guides, where points are
+ arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
+ point in the list that actually snaps is used. The return value is intended to be used to offset
+ a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
+ Note that h and v offsets are independent, and may not refer to the same actual input point.
+ @param arrayOfPoints a list of NSValue object containing pointValues 
+ @return a size, being the offset between whichever point was snapped and its snapped position
  */
 - (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints;
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
- * @note
- * This is intended as one step in the snapping of a complex object to the guides, where points are
- * arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
- * point in the list that actually snaps is used. The return value is intended to be used to offset
- * a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
- * Note that h and v offsets are independent, and may not refer to the same actual input point.
- * @param arrayOfPoints a list of NSValue object containing pointValues 
- * @param gv if not NULL, receives the actual vertical guide snapped to
- * @param gh if not NULL, receives the actual horizontal guide snapped to
- * @return a size, being the offset between whichever point was snapped and its snapped position
- * @public
+ @note
+ This is intended as one step in the snapping of a complex object to the guides, where points are
+ arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
+ point in the list that actually snaps is used. The return value is intended to be used to offset
+ a mouse point or similar so that the whole object is shifted by that amount to effect the snap.
+ Note that h and v offsets are independent, and may not refer to the same actual input point.
+ @param arrayOfPoints a list of NSValue object containing pointValues 
+ @param gv if not NULL, receives the actual vertical guide snapped to
+ @param gh if not NULL, receives the actual horizontal guide snapped to
+ @return a size, being the offset between whichever point was snapped and its snapped position
  */
 - (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh;
 
 // redrawing the guides
 
 /** @brief Marks a partiuclar guide as needing to be readrawn
- * @param guide the guide to update
- * @public
+ @param guide the guide to update
  */
 - (void)refreshGuide:(DKGuide*)guide;
 
 /** @brief Returns the rect occupied by a given guide
- * @note
- * This allows a small amount either side of the guide, and runs the full dimension of the drawing
- * in the direction of the guide.
- * @param guide the guide whose rect we are interested in
- * @return a rect, in drawing coordinates
- * @public
+ @note
+ This allows a small amount either side of the guide, and runs the full dimension of the drawing
+ in the direction of the guide.
+ @param guide the guide whose rect we are interested in
+ @return a rect, in drawing coordinates
  */
 - (NSRect)guideRect:(DKGuide*)guide;
 
 // user actions:
 
 /** @brief High level action to remove all guides from the layer
- * @note
- * Can be hooked directly to a menu item for clearing the guides - will be available when the guide
- * layer is active. Does nothing if the layer is locked.
- * @param sender the action's sender
- * @public
+ @note
+ Can be hooked directly to a menu item for clearing the guides - will be available when the guide
+ layer is active. Does nothing if the layer is locked.
+ @param sender the action's sender
  */
 - (IBAction)clearGuides:(id)sender;
 
@@ -344,26 +311,22 @@ the shift key down.
 }
 
 /** @brief Sets the position of the guide
- * @param pos a position value in drawing coordinates
- * @public
+ @param pos a position value in drawing coordinates
  */
 - (void)setGuidePosition:(CGFloat)pos;
 
 /** @brief Returns the position of the guide
- * @return position value in drawing coordinates
- * @public
+ @return position value in drawing coordinates
  */
 - (CGFloat)guidePosition;
 
 /** @brief Sets whether the guide is vertically oriented or horizontal
- * @param vert YES for a vertical guide, NO for a horizontal guide
- * @public
+ @param vert YES for a vertical guide, NO for a horizontal guide
  */
 - (void)setIsVerticalGuide:(BOOL)vert;
 
 /** @brief Returns whether the guide is vertically oriented or horizontal
- * @return YES for a vertical guide, NO for a horizontal guide
- * @public
+ @return YES for a vertical guide, NO for a horizontal guide
  */
 - (BOOL)isVerticalGuide;
 
@@ -371,11 +334,10 @@ the shift key down.
 - (NSColor*)guideColour;
 
 /** @brief Draws the guide
- * @note
- * Is called by the guide layer only if the guide needs to be drawn
- * @param rect the update rect 
- * @param lw the line width to draw
- * @public
+ @note
+ Is called by the guide layer only if the guide needs to be drawn
+ @param rect the update rect 
+ @param lw the line width to draw
  */
 - (void)drawInRect:(NSRect)rect lineWidth:(CGFloat)lw;
 

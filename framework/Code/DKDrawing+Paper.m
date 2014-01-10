@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKDrawing+Paper.h"
@@ -11,11 +11,10 @@
 @implementation DKDrawing (Paper)
 
 /** @brief Returns the size (in Quartz drawing units) of an A0 piece of paper.
- * @note
- * Result may be passed directly to setDrawingSize:
- * @param portrait YES if in portrait orientation, NO for landscape.
- * @return the paper size
- * @public
+ @note
+ Result may be passed directly to setDrawingSize:
+ @param portrait YES if in portrait orientation, NO for landscape.
+ @return the paper size
  */
 + (NSSize)isoA0PaperSize:(BOOL)portrait
 {
@@ -35,11 +34,10 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A1 piece of paper.
- * @note
- * Result may be passed directly to setDrawingSize:
- * @param portrait YES if in portrait orientation, NO for landscape.
- * @return the paper size
- * @public
+ @note
+ Result may be passed directly to setDrawingSize:
+ @param portrait YES if in portrait orientation, NO for landscape.
+ @return the paper size
  */
 + (NSSize)isoA1PaperSize:(BOOL)portrait
 {
@@ -54,11 +52,10 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A2 piece of paper.
- * @note
- * Result may be passed directly to setDrawingSize:
- * @param portrait YES if in portrait orientation, NO for landscape.
- * @return the paper size
- * @public
+ @note
+ Result may be passed directly to setDrawingSize:
+ @param portrait YES if in portrait orientation, NO for landscape.
+ @return the paper size
  */
 + (NSSize)isoA2PaperSize:(BOOL)portrait
 {
@@ -73,11 +70,10 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A3 piece of paper.
- * @note
- * Result may be passed directly to setDrawingSize:
- * @param portrait YES if in portrait orientation, NO for landscape.
- * @return the paper size
- * @public
+ @note
+ Result may be passed directly to setDrawingSize:
+ @param portrait YES if in portrait orientation, NO for landscape.
+ @return the paper size
  */
 + (NSSize)isoA3PaperSize:(BOOL)portrait
 {
@@ -92,11 +88,10 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A4 piece of paper.
- * @note
- * Result may be passed directly to setDrawingSize:
- * @param portrait YES if in portrait orientation, NO for landscape.
- * @return the paper size
- * @public
+ @note
+ Result may be passed directly to setDrawingSize:
+ @param portrait YES if in portrait orientation, NO for landscape.
+ @return the paper size
  */
 + (NSSize)isoA4PaperSize:(BOOL)portrait
 {
@@ -111,11 +106,10 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A5 piece of paper.
- * @note
- * Result may be passed directly to setDrawingSize:
- * @param portrait YES if in portrait orientation, NO for landscape.
- * @return the paper size
- * @public
+ @note
+ Result may be passed directly to setDrawingSize:
+ @param portrait YES if in portrait orientation, NO for landscape.
+ @return the paper size
  */
 + (NSSize)isoA5PaperSize:(BOOL)portrait
 {

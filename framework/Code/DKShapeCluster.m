@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKShapeCluster.h"
@@ -12,12 +12,11 @@
 #pragma mark As a DKShapeCluster
 
 /** @brief Creates a new cluster from a set of objects
- * @note
- * The master object must be also one of the objects in the list of objects, and must be a shape.
- * @param objects the list of objects to be added to the cluster
- * @param master the master object
- * @return a new autoreleased cluster object, which should be added to a suitable drawing layer before use
- * @public
+ @note
+ The master object must be also one of the objects in the list of objects, and must be a shape.
+ @param objects the list of objects to be added to the cluster
+ @param master the master object
+ @return a new autoreleased cluster object, which should be added to a suitable drawing layer before use
  */
 + (DKShapeCluster*)clusterWithObjects:(NSArray*)objects masterObject:(DKDrawableShape*)master;
 {
@@ -31,10 +30,9 @@
 #pragma mark -
 
 /** @brief Sets the master object for the cluster
- * @note
- * The master object must already be one of the objects in the group, and it must be a shape
- * @param master the master object
- * @public
+ @note
+ The master object must already be one of the objects in the group, and it must be a shape
+ @param master the master object
  */
 - (void)setMasterObject:(DKDrawableShape*)master
 {
@@ -52,8 +50,7 @@
 }
 
 /** @brief What is the cluster's master object?
- * @return the master object for this cluster
- * @public
+ @return the master object for this cluster
  */
 - (DKDrawableShape*)masterObject
 {
@@ -64,10 +61,9 @@
 #pragma mark As a DKDrawableShape
 
 /** @param knobPartCode the knob partcode being moved
- * @param p the point to locate it at
- * @param rotate YES to allow rotation by any knob, NO otherwise
- * @param constrain YES to constrain aspect ratio
- * @private
+ @param p the point to locate it at
+ @param rotate YES to allow rotation by any knob, NO otherwise
+ @param constrain YES to constrain aspect ratio
  */
 - (void)moveKnob:(NSInteger)knobPartCode toPoint:(NSPoint)p allowRotate:(BOOL)rotate constrain:(BOOL)constrain
 {
@@ -96,10 +92,9 @@
 }
 
 /** @brief Sets the shape's offset to the location of the given knob partcode, after saving the current offset
- * @note
- * Part of the process of setting up the interactive dragging of a sizing knob
- * @param part a knob partcode
- * @private
+ @note
+ Part of the process of setting up the interactive dragging of a sizing knob
+ @param part a knob partcode
  */
 - (void)setDragAnchorToPart:(NSInteger)part
 {
@@ -122,8 +117,7 @@
 #pragma mark -
 #pragma mark As a DKDrawableObject
 
-/** @brief Draw the cluster in its selected state
- */
+/** @brief Draw the cluster in its selected state */
 - (void)drawSelectedState
 {
     /*
@@ -142,12 +136,11 @@
 }
 
 /** @brief Detects which part of the cluster was hit
- * @note
- * Master object supplies the partcode
- * @param mp the mouse point
- * @param snap YES if detecting a snap to object, NO otherwise
- * @return a number which is the partcode hit
- */
+ @note
+ Master object supplies the partcode
+ @param mp the mouse point
+ @param snap YES if detecting a snap to object, NO otherwise
+ @return a number which is the partcode hit */
 - (NSInteger)hitSelectedPart:(NSPoint)mp forSnapDetection:(BOOL)snap
 {
     return [[self masterObject] hitSelectedPart:mp
@@ -155,10 +148,9 @@
 }
 
 /** @brief Gets the location of the rotation knob
- * @note
- * Factored separately to allow override for special uses
- * @return a point, the position of the rotation knob
- * @private
+ @note
+ Factored separately to allow override for special uses
+ @return a point, the position of the rotation knob
  */
 - (NSPoint)rotationKnobPoint
 {
@@ -166,8 +158,7 @@
 }
 
 /** @brief When the cluster's style is set, the master object gets it
- * @param aStyle a style object
- * @public
+ @param aStyle a style object
  */
 - (void)setStyle:(DKStyle*)aStyle
 {
@@ -175,8 +166,7 @@
 }
 
 /** @brief Returns the master object's style
- * @return the current style
- * @public
+ @return the current style
  */
 - (DKStyle*)style
 {

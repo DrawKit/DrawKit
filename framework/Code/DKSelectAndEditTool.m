@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKSelectAndEditTool.h"
@@ -47,12 +47,11 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 #pragma mark - As a DKSelectAndEditTool
 
 /** @brief Returns the default style to use for drawing the selection marquee
- * @note
- * Marquee styles should have a lot of transparency as they are drawn on top of all objects when
- * selecting them. The default style uses the system highlight colour as a starting point and
- * makes a low opacity version of it.
- * @return a style object
- * @public
+ @note
+ Marquee styles should have a lot of transparency as they are drawn on top of all objects when
+ selecting them. The default style uses the system highlight colour as a starting point and
+ makes a low opacity version of it.
+ @return a style object
  */
 + (DKStyle*)defaultMarqueeStyle
 {
@@ -70,11 +69,10 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 #pragma mark - modes of operation:
 
 /** @brief Sets the tool's operation mode
- * @note
- * This is typically called automatically by the mouseDown method according to the context of the
- * initial click.
- * @param op the mode to enter
- */
+ @note
+ This is typically called automatically by the mouseDown method according to the context of the
+ initial click.
+ @param op the mode to enter */
 - (void)setOperationMode:(DKEditToolOperation)op
 {
     mOperationMode = op;
@@ -83,8 +81,7 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Returns the tool's current operation mode
- * @return the current operation mode
- */
+ @return the current operation mode */
 - (DKEditToolOperation)operationMode
 {
     return mOperationMode;
@@ -94,11 +91,10 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 #pragma mark - drawing the marquee (selection rect):
 
 /** @brief Draws the marquee (selection rect)
- * @note
- * This is called only if the mode is kDKEditToolSelectionMode. The actual drawing is performed by
- * the style
- * @param aView the view being drawn in
- */
+ @note
+ This is called only if the mode is kDKEditToolSelectionMode. The actual drawing is performed by
+ the style
+ @param aView the view being drawn in */
 - (void)drawMarqueeInView:(DKDrawingView*)aView
 {
     if ([aView needsToDrawRect:[self marqueeRect]]) {
@@ -108,21 +104,19 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Returns the current marquee (selection rect)
- * @return a rect
- */
+ @return a rect */
 - (NSRect)marqueeRect
 {
     return mMarqueeRect;
 }
 
 /** @brief Sets the current marquee (selection rect)
- * @note
- * This updates the area that is different between the current marquee and the new one being set,
- * which results in much faster interactive selection of objects because far less drawing is going on.
- * @param marqueeRect a rect
- * @param alayer the current layer (used to mark the update for the marquee rect)
- * @return a rect
- */
+ @note
+ This updates the area that is different between the current marquee and the new one being set,
+ which results in much faster interactive selection of objects because far less drawing is going on.
+ @param marqueeRect a rect
+ @param alayer the current layer (used to mark the update for the marquee rect)
+ @return a rect */
 - (void)setMarqueeRect:(NSRect)marqueeRect inLayer:(DKLayer*)aLayer
 {
     NSRect omr = [self marqueeRect];
@@ -141,11 +135,10 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Set the drawing style for the marquee (selection rect)
- * @note
- * If you replace the default style, take care that the style is generally fairly transparent,
- * otherwise it will be hard to see what you are selecting!
- * @param aStyle a style object
- */
+ @note
+ If you replace the default style, take care that the style is generally fairly transparent,
+ otherwise it will be hard to see what you are selecting!
+ @param aStyle a style object */
 - (void)setMarqueeStyle:(DKStyle*)aStyle
 {
     NSAssert(aStyle != nil, @"attempt to set a nil style for the selection marquee");
@@ -156,11 +149,10 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Set the drawing style for the marquee (selection rect)
- * @note
- * If you replace the default style, take care that the style is generally fairly transparent,
- * otherwise it will be hard to see what you are selecting!
- * @param aStyle a style object
- */
+ @note
+ If you replace the default style, take care that the style is generally fairly transparent,
+ otherwise it will be hard to see what you are selecting!
+ @param aStyle a style object */
 - (DKStyle*)marqueeStyle
 {
     return mMarqueeStyle;
@@ -170,30 +162,27 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 #pragma mark - setting options for the tool
 
 /** @brief Set whether the selection highlight of objects should be supressed during a drag
- * @note
- * The default is YES. Hiding the selection can make positioning objects by eye more precise.
- * @param hideSel YES to hide selections during a drag, NO to leave them visible
- */
+ @note
+ The default is YES. Hiding the selection can make positioning objects by eye more precise.
+ @param hideSel YES to hide selections during a drag, NO to leave them visible */
 - (void)setSelectionShouldHideDuringDrag:(BOOL)hideSel
 {
     mHideSelectionOnDrag = hideSel;
 }
 
 /** @brief Should the selection highlight of objects should be supressed during a drag?
- * @note
- * The default is YES. Hiding the selection can make positioning objects by eye more precise.
- * @return YES to hide selections during a drag, NO to leave them visible
- */
+ @note
+ The default is YES. Hiding the selection can make positioning objects by eye more precise.
+ @return YES to hide selections during a drag, NO to leave them visible */
 - (BOOL)selectionShouldHideDuringDrag
 {
     return mHideSelectionOnDrag;
 }
 
 /** @brief Sets whether dragging moves all objects in the selection as a group, or only the one under the mouse
- * @note
- * The default is YES.
- * @param multi YES to drag all selected objects as a group, NO to drag just the one hit
- * @public
+ @note
+ The default is YES.
+ @param multi YES to drag all selected objects as a group, NO to drag just the one hit
  */
 - (void)setDragsAllObjectsInSelection:(BOOL)multi
 {
@@ -201,10 +190,9 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Drags all objects as agroup?
- * @note
- * The default is YES
- * @return YES if all selected objects are dragged as a group, NO if only one is
- * @public
+ @note
+ The default is YES
+ @return YES if all selected objects are dragged as a group, NO if only one is
  */
 - (BOOL)dragsAllObjectsInSelection
 {
@@ -212,10 +200,9 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Sets whether option-drag copies the original object
- * @note
- * The default is YES
- * @param dragCopy YES to allow option-drag to copy the object
- * @public
+ @note
+ The default is YES
+ @param dragCopy YES to allow option-drag to copy the object
  */
 - (void)setAllowsDirectDragCopying:(BOOL)dragCopy
 {
@@ -223,10 +210,9 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Whether option-drag copies the original object
- * @note
- * The default is YES
- * @return YES if option-drag will copy the object
- * @public
+ @note
+ The default is YES
+ @return YES if option-drag will copy the object
  */
 - (BOOL)allowsDirectDragCopying
 {
@@ -234,10 +220,9 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
- * @note
- * The default is NO
- * @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
- * @public
+ @note
+ The default is NO
+ @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
  */
 - (void)setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL)dragWithKnob
 {
@@ -245,10 +230,9 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Returns whether a hit on a knob in a multiple selection drags the objects or drags the knob
- * @note
- * The default is NO
- * @return YES to drag the selection, NO to change the selection and drag the knob
- * @public
+ @note
+ The default is NO
+ @return YES to drag the selection, NO to change the selection and drag the knob
  */
 - (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob
 {
@@ -256,15 +240,14 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief Sets the number of selected objects at which a proxy drag is used rather than a live drag
- * @note
- * Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- * it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- * a temporary image of the objects being dragged. A value of 0 will disable proxy dragging. Note that
- * this gives a hugh performance gain for large numbers of objects - in fact it makes dragging of a lot
- * of objects actually feasible. The default threshold is 50 objects. Setting this to 1 effectively
- * makes proxy dragging operate at all times.
- * @param numberOfObjects the number above which a proxy drag is used 
- * @public
+ @note
+ Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
+ it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
+ a temporary image of the objects being dragged. A value of 0 will disable proxy dragging. Note that
+ this gives a hugh performance gain for large numbers of objects - in fact it makes dragging of a lot
+ of objects actually feasible. The default threshold is 50 objects. Setting this to 1 effectively
+ makes proxy dragging operate at all times.
+ @param numberOfObjects the number above which a proxy drag is used 
  */
 - (void)setProxyDragThreshold:(NSUInteger)numberOfObjects
 {
@@ -272,12 +255,11 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 /** @brief The number of selected objects at which a proxy drag is used rather than a live drag
- * @note
- * Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- * it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- * a temporary image of the objects being dragged. A value of 0 will disable proxy dragging.
- * @return the number above which a proxy drag is used
- * @public
+ @note
+ Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
+ it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
+ a temporary image of the objects being dragged. A value of 0 will disable proxy dragging.
+ @return the number above which a proxy drag is used
  */
 - (NSUInteger)proxyDragThreshold
 {
@@ -288,17 +270,16 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 #pragma mark - changing the selection and dragging
 
 /** @brief Implement selection changes for the current event (mouse down, typically)
- * @note
- * This method implements the 'standard' selection conventions for modifier keys as follows:
- * 1. no modifiers - <targ> is selected if not already selected
- * 2. + shift: <targ> is added to the existing selection
- * 3. + command: the selected state of <targ> is flipped
- * This method also sets the undo action name to indicate what change occurred - if selection
- * changes are not considered undoable by the layer, these are simply ignored.
- * @param targ the object that is being selected or deselected
- * @param layer the layer in which the object exists
- * @param event the event
- * @public
+ @note
+ This method implements the 'standard' selection conventions for modifier keys as follows:
+ 1. no modifiers - <targ> is selected if not already selected
+ 2. + shift: <targ> is added to the existing selection
+ 3. + command: the selected state of <targ> is flipped
+ This method also sets the undo action name to indicate what change occurred - if selection
+ changes are not considered undoable by the layer, these are simply ignored.
+ @param targ the object that is being selected or deselected
+ @param layer the layer in which the object exists
+ @param event the event
  */
 - (void)changeSelectionWithTarget:(DKDrawableObject*)targ inLayer:(DKObjectDrawingLayer*)layer event:(NSEvent*)event
 {
@@ -420,21 +401,20 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Handle the drag of objects, either singly or multiply
- * @note
- * This drags one or more objects to the point <p>. It also is where the current state of the options
- * for hiding the selection and allowing multiple drags is implemented. The method also deals with
- * snapping during the drag - what happens is slightly different when one object is dragged as opposed
- * to several objects - in the latter case the relative spatial positions of the objects is fixed
- * rather than allowing each one to snap individually to the grid which is poor from a usability POV.
- * This also tests the drag against the layer's current "exclusion rect". If the drag leaves this rect,
- * a Drag Manager drag is invoked to allow the objects to be dragged to another document, layer or
- * application.
- * @param objects a list of objects to drag (may have only one item)
- * @param layer the layer in which the objects exist
- * @param p the current local point where the drag is
- * @param event the event
- * @param ph the drag phase - mouse down, dragged or up.
- * @public
+ @note
+ This drags one or more objects to the point <p>. It also is where the current state of the options
+ for hiding the selection and allowing multiple drags is implemented. The method also deals with
+ snapping during the drag - what happens is slightly different when one object is dragged as opposed
+ to several objects - in the latter case the relative spatial positions of the objects is fixed
+ rather than allowing each one to snap individually to the grid which is poor from a usability POV.
+ This also tests the drag against the layer's current "exclusion rect". If the drag leaves this rect,
+ a Drag Manager drag is invoked to allow the objects to be dragged to another document, layer or
+ application.
+ @param objects a list of objects to drag (may have only one item)
+ @param layer the layer in which the objects exist
+ @param p the current local point where the drag is
+ @param event the event
+ @param ph the drag phase - mouse down, dragged or up.
  */
 - (void)dragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph
 {
@@ -629,11 +609,10 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Store a string representing an undoable action
- * @note
- * The string is simply stored until requested by the caller, it does not at this stage set the
- * undo manager's action name.
- * @param action a string
- * @public
+ @note
+ The string is simply stored until requested by the caller, it does not at this stage set the
+ undo manager's action name.
+ @param action a string
  */
 - (void)setUndoAction:(NSString*)action
 {
@@ -645,15 +624,14 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 #define SHOW_DRAG_PROXY_BOUNDARY 0
 
 /** @brief Prepare the proxy drag image for the given objects
- * @note
- * The default method creates the image by asking the layer to make one using its standard imaging
- * methods. You can override this for different approaches. Typically the drag image has the bounds of
- * the selected objects - the caller will position the image based on that assumption. This is only
- * invoked if the proxy drag threshold was exceeded and not zero.
- * @param objectsToDrag the list of objects that will be dragged
- * @param layer the layer they are owned by
- * @return an image, representing the dragged objects.
- * @public
+ @note
+ The default method creates the image by asking the layer to make one using its standard imaging
+ methods. You can override this for different approaches. Typically the drag image has the bounds of
+ the selected objects - the caller will position the image based on that assumption. This is only
+ invoked if the proxy drag threshold was exceeded and not zero.
+ @param objectsToDrag the list of objects that will be dragged
+ @param layer the layer they are owned by
+ @return an image, representing the dragged objects.
  */
 - (NSImage*)prepareDragImage:(NSArray*)objectsToDrag inLayer:(DKObjectDrawingLayer*)layer
 {
@@ -685,11 +663,10 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Perform the proxy drag image for the given objects
- * @note
- * Called internally when a proxy drag is detected. This will create the drag image on mouse down,
- * drag the image on a drag and clean up on mouse up. The point <p> is already pre-snapped for
- * a multi-object drag and the caller will take care of other normal housekeeping.
- * @private
+ @note
+ Called internally when a proxy drag is detected. This will create the drag image on mouse down,
+ drag the image on a drag and clean up on mouse up. The point <p> is already pre-snapped for
+ a multi-object drag and the caller will take care of other normal housekeeping.
  */
 - (void)proxyDragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph;
 {
@@ -881,10 +858,9 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 #pragma mark - As part of DKDrawingTool Protocol
 
 /** @brief Does the tool ever implement undoable actions?
- * @note
- * Returning YES means that the tool can POTENTIALLY do undoable things, not that it always will.
- * @return always returns YES
- * @public
+ @note
+ Returning YES means that the tool can POTENTIALLY do undoable things, not that it always will.
+ @return always returns YES
  */
 + (BOOL)toolPerformsUndoableAction
 {
@@ -892,8 +868,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Rerurn the current action name
- * @return a string, whatever was stored by setUndoAction:
- * @public
+ @return a string, whatever was stored by setUndoAction:
  */
 - (NSString*)actionName
 {
@@ -901,8 +876,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Return the tool's cursor
- * @return the arrow cursor
- * @public
+ @return the arrow cursor
  */
 - (NSCursor*)cursor
 {
@@ -910,16 +884,15 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Handle the initial mouse down
- * @note
- * This method determines the context of the tool based on whether the tool hit an object or not,
- * whether a partcode (knob) was hit, the layer kind, etc. The operation mode of the tool is set
- * @param p the local point where the mouse went down
- * @param obj the target object, if there is one
- * @param layer the layer in which the tool is being applied
- * @param event the original event
- * @param aDel an optional delegate
- * @return the partcode of the target that was hit, or 0 (no object)
- * @public
+ @note
+ This method determines the context of the tool based on whether the tool hit an object or not,
+ whether a partcode (knob) was hit, the layer kind, etc. The operation mode of the tool is set
+ @param p the local point where the mouse went down
+ @param obj the target object, if there is one
+ @param layer the layer in which the tool is being applied
+ @param event the original event
+ @param aDel an optional delegate
+ @return the partcode of the target that was hit, or 0 (no object)
  */
 - (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
@@ -1064,14 +1037,13 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Handle the mouse dragged event
- * @note
- * The delegate may be called to signal that an undoable task is about to be created at certain times.
- * @param p the local point where the mouse has been dragged to
- * @param partCode the partcode returned by the mouseDown method
- * @param layer the layer in which the tool is being applied
- * @param event the original event
- * @param aDel an optional delegate
- * @public
+ @note
+ The delegate may be called to signal that an undoable task is about to be created at certain times.
+ @param p the local point where the mouse has been dragged to
+ @param partCode the partcode returned by the mouseDown method
+ @param layer the layer in which the tool is being applied
+ @param event the original event
+ @param aDel an optional delegate
  */
 - (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
@@ -1143,15 +1115,14 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Handle the mouse up event
- * @note
- * The delegate may be called to signal that an undoable task is about to be created at certain times.
- * @param p the local point where the mouse went up
- * @param partCode the partcode returned by the mouseDown method
- * @param layer the layer in which the tool is being applied
- * @param event the original event
- * @param aDel an optional delegate
- * @return YES if the tool did something undoable, NO otherwise
- * @public
+ @note
+ The delegate may be called to signal that an undoable task is about to be created at certain times.
+ @param p the local point where the mouse went up
+ @param partCode the partcode returned by the mouseDown method
+ @param layer the layer in which the tool is being applied
+ @param event the original event
+ @param aDel an optional delegate
+ @return YES if the tool did something undoable, NO otherwise
  */
 - (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
@@ -1168,11 +1139,10 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 #define PROXY_DRAG_IMAGE_OPACITY 0.8
 
 /** @brief Handle the initial mouse down
- * @note
- * Draws the marquee (selection rect) in selection mode
- * @param aRect the rect being redrawn (not used)
- * @param aView the view that is doing the drawing
- * @public
+ @note
+ Draws the marquee (selection rect) in selection mode
+ @param aRect the rect being redrawn (not used)
+ @param aView the view that is doing the drawing
  */
 - (void)drawRect:(NSRect)aRect inView:(NSView*)aView
 {
@@ -1210,9 +1180,8 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief The state of the modifier keys changed
- * @param event the event
- * @param layer the current layer that the tool is being applied to
- * @public
+ @param event the event
+ @param layer the current layer that the tool is being applied to
  */
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer
 {
@@ -1221,9 +1190,8 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Verifies that the target layer can be used with the tool
- * @param aLayer the current layer that the tool is being applied to
- * @return YES if target layer can be operated on, NO otherwise
- * @public
+ @param aLayer the current layer that the tool is being applied to
+ @return YES if target layer can be operated on, NO otherwise
  */
 - (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
@@ -1234,11 +1202,10 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Return whether the tool is some sort of object selection tool
- * @note
- * This method is used to assist the tool controller in making sensible decisions about certain
- * automatic operations.
- * @return YES
- * @public
+ @note
+ This method is used to assist the tool controller in making sensible decisions about certain
+ automatic operations.
+ @return YES
  */
 - (BOOL)isSelectionTool
 {
@@ -1246,15 +1213,14 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Set a cursor if the given point is over something interesting
- * @note
- * Called by the tool controller when the mouse moves, this should determine whether a special cursor
- * needs to be set right now and set it. If no special cursor needs to be set, it should set the
- * current one for the tool.
- * @param mp the local mouse point
- * @param obj the target object under the mouse, if any
- * @param alayer the active layer
- * @param event the original event
- * @public
+ @note
+ Called by the tool controller when the mouse moves, this should determine whether a special cursor
+ needs to be set right now and set it. If no special cursor needs to be set, it should set the
+ current one for the tool.
+ @param mp the local mouse point
+ @param obj the target object under the mouse, if any
+ @param alayer the active layer
+ @param event the original event
  */
 - (void)setCursorForPoint:(NSPoint)mp targetObject:(DKDrawableObject*)obj inLayer:(DKLayer*)aLayer event:(NSEvent*)event
 {
@@ -1273,11 +1239,10 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Called when this tool is about to be unset by a tool controller
- * @note
- * Subclasses can make use of this message to prepare themselves when they are unset if necessary, for
- * example by finishing the work they were doing and cleaning up.
- * @param aController the controller that set this tool
- * @public
+ @note
+ Subclasses can make use of this message to prepare themselves when they are unset if necessary, for
+ example by finishing the work they were doing and cleaning up.
+ @param aController the controller that set this tool
  */
 - (void)toolControllerWillUnsetTool:(DKToolController*)aController
 {
@@ -1291,8 +1256,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 #pragma mark As part of the DKRenderable protocol
 
 /** @brief Return the marquee (selection rect) path to be rendered by the style
- * @return a bezier path - the current selection rect
- * @public
+ @return a bezier path - the current selection rect
  */
 - (NSBezierPath*)renderingPath
 {
@@ -1300,8 +1264,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Required for the complete protocol
- * @return zero - the selection doesn't have an angle
- * @public
+ @return zero - the selection doesn't have an angle
  */
 - (CGFloat)angle
 {
@@ -1309,8 +1272,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Required for the complete protocol
- * @return NO - selections never use low quality drawing
- * @public
+ @return NO - selections never use low quality drawing
  */
 - (BOOL)useLowQualityDrawing
 {
@@ -1353,8 +1315,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 #pragma mark As an NSObject
 
 /** @brief Initialize the tool (designated initializer)
- * @return the tool object
- * @public
+ @return the tool object
  */
 - (id)init
 {
@@ -1371,7 +1332,6 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 }
 
 /** @brief Deallocate the tool
- * @public
  */
 - (void)dealloc
 {

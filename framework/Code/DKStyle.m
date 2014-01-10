@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKStyle.h"
@@ -68,10 +68,9 @@ static BOOL sSubstitute = NO;
 #pragma mark As a DKStyle
 
 /** @brief Returns a very basic style object
- * @note
- * Style has a 1 pixel black stroke and a light gray fill. Style may be shared if sharing is YES.
- * @return a style object
- * @public
+ @note
+ Style has a 1 pixel black stroke and a light gray fill. Style may be shared if sharing is YES.
+ @return a style object
  */
 + (DKStyle*)defaultStyle
 {
@@ -95,10 +94,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns a basic style with a dual stroke, 5.6pt light grey over 8.0pt black
- * @note
- * Style may be shared if sharing is YES.
- * @return a style object
- * @public
+ @note
+ Style may be shared if sharing is YES.
+ @return a style object
  */
 + (DKStyle*)defaultTrackStyle
 {
@@ -129,14 +127,13 @@ static BOOL sSubstitute = NO;
 #pragma mark - easy construction of other simple styles
 
 /** @brief Creates a simple style with fill and strokes of the colours passed
- * @note
- * Stroke is drawn "on top" of fill, so rendered width appears true. You can pass nil for either
- * colour to not create the renderer for that attribute, but note that passing nil for BOTH parameters
- * is an error.
- * @param fc the colour for the solid fill
- * @param sc the colour for the 1.0 pixel wide stroke
- * @return a style object
- * @public
+ @note
+ Stroke is drawn "on top" of fill, so rendered width appears true. You can pass nil for either
+ colour to not create the renderer for that attribute, but note that passing nil for BOTH parameters
+ is an error.
+ @param fc the colour for the solid fill
+ @param sc the colour for the 1.0 pixel wide stroke
+ @return a style object
  */
 + (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc
 {
@@ -146,15 +143,14 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Creates a simple style with fill and strokes of the colours passed
- * @note
- * Stroke is drawn "on top" of fill, so rendered width appears true. You can pass nil for either
- * colour to not create the renderer for that attribute, but note that passing nil for BOTH parameters
- * is an error.
- * @param fc the colour for the solid fill
- * @param sc the colour for the stroke
- * @param sw the width of the stroke
- * @return a style object
- * @public
+ @note
+ Stroke is drawn "on top" of fill, so rendered width appears true. You can pass nil for either
+ colour to not create the renderer for that attribute, but note that passing nil for BOTH parameters
+ is an error.
+ @param fc the colour for the solid fill
+ @param sc the colour for the stroke
+ @param sw the width of the stroke
+ @return a style object
  */
 + (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc strokeWidth:(CGFloat)sw
 {
@@ -180,11 +176,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Creates a style from data on the pasteboard
- * @note
- * Preferentially tries to match the style name in order to preserve style sharing
- * @param pb a pasteboard
- * @return a style object
- * @public
+ @note
+ Preferentially tries to match the style name in order to preserve style sharing
+ @param pb a pasteboard
+ @return a style object
  */
 + (DKStyle*)styleFromPasteboard:(NSPasteboard*)pb
 {
@@ -204,8 +199,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Return a list of types supported by styles for pasteboard operations
- * @return an array listing the pasteboard types usable by DKStyle
- * @public
+ @return an array listing the pasteboard types usable by DKStyle
  */
 + (NSArray*)stylePasteboardTypes
 {
@@ -218,9 +212,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Determine if the pasteboard carries a style
- * @param pb a pasteboard
- * @return YES if a style can be made from the pastebaord
- * @public
+ @param pb a pasteboard
+ @return YES if a style can be made from the pastebaord
  */
 + (BOOL)canInitWithPasteboard:(NSPasteboard*)pb
 {
@@ -261,12 +254,11 @@ static BOOL sSubstitute = NO;
 #pragma mark - default sharing flag
 
 /** @brief Set whether styles are generally shared or not
- * @note
- * Sharing styles means that all object that share that style will change when a style property changes,
- * regardless of any other state information, such as selection, layer owner, etc. Styles are set
- * NOT to be shared by default.
- * @param share YES to share styles, NO to return unique copies.
- * @public
+ @note
+ Sharing styles means that all object that share that style will change when a style property changes,
+ regardless of any other state information, such as selection, layer owner, etc. Styles are set
+ NOT to be shared by default.
+ @param share YES to share styles, NO to return unique copies.
  */
 + (void)setStylesAreSharableByDefault:(BOOL)share
 {
@@ -274,10 +266,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Query whether styles are generally shared or not
- * @note
- * Styles are set NOT to be shared by default.
- * @return YES if styles are shared, NO if unique copies will be returned
- * @public
+ @note
+ Styles are set NOT to be shared by default.
+ @return YES if styles are shared, NO if unique copies will be returned
  */
 + (BOOL)stylesAreSharableByDefault
 {
@@ -288,10 +279,9 @@ static BOOL sSubstitute = NO;
 #pragma mark - convenient handy things
 
 /** @brief Returns a default NSShadow object
- * @note
- * Shadows are set as properties of certain renderers, such as DKFill and DKStroke
- * @return a shadow object
- * @public
+ @note
+ Shadows are set as properties of certain renderers, such as DKFill and DKStroke
+ @return a shadow object
  */
 + (NSShadow*)defaultShadow
 {
@@ -306,12 +296,11 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Set whether shadow attributes within a style should be drawn
- * @note
- * Drawing shadows is one of the main performance killers, so this provides a way to turn them off
- * in certain situations. Rasterizers that have a shadow property should check and honour this setting.
- * @param drawShadows YES to draw shadows, NO to suppress them
- * @return the previous state of this setting
- * @public
+ @note
+ Drawing shadows is one of the main performance killers, so this provides a way to turn them off
+ in certain situations. Rasterizers that have a shadow property should check and honour this setting.
+ @param drawShadows YES to draw shadows, NO to suppress them
+ @return the previous state of this setting
  */
 + (BOOL)setWillDrawShadows:(BOOL)drawShadows
 {
@@ -324,11 +313,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Set whether shadow attributes within a style should be drawn
- * @note
- * Drawing shadows is one of the main performance killers, so this provides a way to turn them off
- * in certain situations. Rasterizers that have a shadow property should check and honour this setting.
- * @return YES to draw shadows, NO to suppress them
- * @public
+ @note
+ Drawing shadows is one of the main performance killers, so this provides a way to turn them off
+ in certain situations. Rasterizers that have a shadow property should check and honour this setting.
+ @return YES to draw shadows, NO to suppress them
  */
 + (BOOL)willDrawShadows
 {
@@ -339,10 +327,9 @@ static BOOL sSubstitute = NO;
 #pragma mark - performance settings
 
 /** @brief Set whether drawing should be anti-aliased or not
- * @note
- * Default is YES. Turning off anti-aliasing can speed up drawing at the expense of quality.
- * @param aa YES to anti-alias, NO to turn anti-aliasing off
- * @public
+ @note
+ Default is YES. Turning off anti-aliasing can speed up drawing at the expense of quality.
+ @param aa YES to anti-alias, NO to turn anti-aliasing off
  */
 + (void)setShouldAntialias:(BOOL)aa
 {
@@ -352,10 +339,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Set whether drawing should be anti-aliased or not
- * @note
- * Default is YES. Turning off anti-aliasing can speed up drawing at the expense of quality.
- * @return YES to anti-alias, NO to turn anti-aliasing off
- * @public
+ @note
+ Default is YES. Turning off anti-aliasing can speed up drawing at the expense of quality.
+ @return YES to anti-alias, NO to turn anti-aliasing off
  */
 + (BOOL)shouldAntialias
 {
@@ -363,12 +349,11 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
- * render.
- * @note
- * Default is NO. Typically this method causes a style to render a single simple stroke in place of
- * its actual components. If the style has a simple stroke, it is used, otherwise a default one is used.
- * @param substitute YES to substitute a faster placeholder style for complex styles
- * @public
+ render.
+ @note
+ Default is NO. Typically this method causes a style to render a single simple stroke in place of
+ its actual components. If the style has a simple stroke, it is used, otherwise a default one is used.
+ @param substitute YES to substitute a faster placeholder style for complex styles
  */
 + (void)setShouldSubstitutePlaceholderStyle:(BOOL)substitute
 {
@@ -378,12 +363,11 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
- * render.
- * @note
- * Default is NO. Typically this method causes a style to render a single simple stroke in place of
- * its actual components. If the style has a simple stroke, it is used, otherwise a default one is used.
- * @return YES to substitute a faster placeholder style for complex styles
- * @public
+ render.
+ @note
+ Default is NO. Typically this method causes a style to render a single simple stroke in place of
+ its actual components. If the style has a simple stroke, it is used, otherwise a default one is used.
+ @return YES to substitute a faster placeholder style for complex styles
  */
 + (BOOL)shouldSubstitutePlaceholderStyle
 {
@@ -393,8 +377,7 @@ static BOOL sSubstitute = NO;
 #pragma mark -
 #pragma mark - updating & notifying clients
 
-/** @brief Informs clients that a property of the style is about to change
- */
+/** @brief Informs clients that a property of the style is about to change */
 - (void)notifyClientsBeforeChange
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWillChangeNotification
@@ -402,9 +385,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Informs clients that a property of the style has just changed
- * @note
- * This method is called in response to any observed change to any renderer the style contains
- */
+ @note
+ This method is called in response to any observed change to any renderer the style contains */
 - (void)notifyClientsAfterChange
 {
     // update the timestamp so that style registry can determine which of a pair of similar styles is the more recent
@@ -420,11 +402,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Called when a style is attached to an object
- * @note
- * The notification's object is the drawable, not the style - the style is passed in the user info
- * dictionary with the key 'style'.
- * @param toObject the object the style was attached to
- * @public
+ @note
+ The notification's object is the drawable, not the style - the style is passed in the user info
+ dictionary with the key 'style'.
+ @param toObject the object the style was attached to
  */
 - (void)styleWasAttached:(DKDrawableObject*)toObject
 {
@@ -445,12 +426,11 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Called when a style is about to be removed from an object
- * @note
- * The notification's object is the drawable, not the style - the style is passed in the user info
- * dictionary with the key 'style'. This permits this to be called by the dealloc method of the
- * drawable, which would not be the case if the drawable was retained by the dictionary.
- * @param toObject the object the style was attached to
- * @public
+ @note
+ The notification's object is the drawable, not the style - the style is passed in the user info
+ dictionary with the key 'style'. This permits this to be called by the dealloc method of the
+ drawable, which would not be the case if the drawable was retained by the dictionary.
+ @param toObject the object the style was attached to
  */
 - (void)styleWillBeRemoved:(DKDrawableObject*)fromObject
 {
@@ -468,10 +448,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the number of client objects using this style
- * @note
- * This is for information only - do not base critical code on this value
- * @return an unsigned integer, the number of clients using this style
- * @public
+ @note
+ This is for information only - do not base critical code on this value
+ @return an unsigned integer, the number of clients using this style
  */
 - (NSUInteger)countOfClients
 {
@@ -482,12 +461,11 @@ static BOOL sSubstitute = NO;
 #pragma mark - (text) attributes - basic support
 
 /** @brief Sets the text attributes dictionary
- * @note
- * Objects that display text can use a style's text attributes. This together with sharable styles
- * allows text (labels in particular) to have their styling changed for a whole drawing. See also
- * DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
- * @param attrs a dictionary of text attributes
- */
+ @note
+ Objects that display text can use a style's text attributes. This together with sharable styles
+ allows text (labels in particular) to have their styling changed for a whole drawing. See also
+ DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
+ @param attrs a dictionary of text attributes */
 - (void)setTextAttributes:(NSDictionary*)attrs
 {
     if (![self locked]) {
@@ -503,10 +481,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the attributes dictionary
- * @note
- * Renderers are not considered attributes in this sense
- * @return a dictionary of attributes
- * @public
+ @note
+ Renderers are not considered attributes in this sense
+ @return a dictionary of attributes
  */
 - (NSDictionary*)textAttributes
 {
@@ -514,8 +491,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Return wjether the style has any text attributes set
- * @return YES if there are any text attributes
- * @public
+ @return YES if there are any text attributes
  */
 - (BOOL)hasTextAttributes
 {
@@ -523,9 +499,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Remove all of the style's current text attributes
- * @note
- * Does nothing if the style is locked
- * @public
+ @note
+ Does nothing if the style is locked
  */
 - (void)removeTextAttributes
 {
@@ -536,12 +511,11 @@ static BOOL sSubstitute = NO;
 #pragma mark - shared and locked status
 
 /** @brief Sets whether the style can be shared among multiple objects, or whether unique copies should be
- * used.
- * @note
- * Default is copied from class setting +shareStyles. Changing this flag is not undoable and does
- * not inform clients. It does send a notification however.
- * @param share YES to share among several objects, NO to make unique copies.
- * @public
+ used.
+ @note
+ Default is copied from class setting +shareStyles. Changing this flag is not undoable and does
+ not inform clients. It does send a notification however.
+ @param share YES to share among several objects, NO to make unique copies.
  */
 - (void)setStyleSharable:(BOOL)share
 {
@@ -553,9 +527,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns whether the style can be shared among multiple objects, or whether unique copies should be
- * used.
- * @return YES to share among several objects, NO to make unique copies.
- * @public
+ used.
+ @return YES to share among several objects, NO to make unique copies.
  */
 - (BOOL)isStyleSharable
 {
@@ -563,14 +536,13 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Set whether style is locked (editable)
- * @note
- * Locked styles are intended not to be editable, though this cannot be entirely enforced by the
- * style itself - client code should honour the locked state. You cannot add or remove renderers from a
- * locked style. Styles are normally not locked, but styles that are put in the registry are locked
- * by that action. Changing the lock state doesn't inform clients, since in general this does not
- * cause a visual change.
- * @param lock YES to lock the style
- * @public
+ @note
+ Locked styles are intended not to be editable, though this cannot be entirely enforced by the
+ style itself - client code should honour the locked state. You cannot add or remove renderers from a
+ locked style. Styles are normally not locked, but styles that are put in the registry are locked
+ by that action. Changing the lock state doesn't inform clients, since in general this does not
+ cause a visual change.
+ @param lock YES to lock the style
  */
 - (void)setLocked:(BOOL)lock
 {
@@ -583,8 +555,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns whether the style is locked and cannot be edited
- * @return YES if locked (non-editable)
- * @public
+ @return YES if locked (non-editable)
  */
 - (BOOL)locked
 {
@@ -595,12 +566,11 @@ static BOOL sSubstitute = NO;
 #pragma mark - registry info
 
 /** @brief Returns whether the style is registered with the current style registry
- * @note
- * This method gives a definitive answer about
- * whether the style is registered. Along with locking, this should prevent accidental editing of
- * styles that an app might prefer to consider "read only".
- * @return YES if known to the registry
- * @public
+ @note
+ This method gives a definitive answer about
+ whether the style is registered. Along with locking, this should prevent accidental editing of
+ styles that an app might prefer to consider "read only".
+ @return YES if known to the registry
  */
 - (BOOL)isStyleRegistered
 {
@@ -608,12 +578,11 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the list of keys that the style is registered under (if any)
- * @note
- * The returned array may contain no keys if the style isn't registered, or >1 key if the style has
- * been registered multiple times with different keys (not recommended). The key is not intended for
- * display in a user interface and has no relationship to the style's name.
- * @return a list of keys (NSStrings)
- * @public
+ @note
+ The returned array may contain no keys if the style isn't registered, or >1 key if the style has
+ been registered multiple times with different keys (not recommended). The key is not intended for
+ display in a user interface and has no relationship to the style's name.
+ @return a list of keys (NSStrings)
  */
 - (NSArray*)registryKeys
 {
@@ -621,11 +590,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the unique key of the style
- * @note
- * The unique key is set once and for all time when the style is initialised, and is guaranteed unique
- * as it is a UUID. 
- * @return a string
- * @public
+ @note
+ The unique key is set once and for all time when the style is initialised, and is guaranteed unique
+ as it is a UUID. 
+ @return a string
  */
 - (NSString*)uniqueKey
 {
@@ -633,11 +601,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Sets the unique key of the style
- * @note
- * Called when the object is inited, this assigns a unique key. The key cannot be reassigned - its
- * purpose is to identify this style regardless of any mutations it otherwise undergoes, including its
- * ordinary name.
- * @private
+ @note
+ Called when the object is inited, this assigns a unique key. The key cannot be reassigned - its
+ purpose is to identify this style regardless of any mutations it otherwise undergoes, including its
+ ordinary name.
  */
 - (void)assignUniqueKey
 {
@@ -650,12 +617,11 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Query whether the style should be considered for a re-merge with the registry
- * @note
- * Re-merging is done when a document is opened. Any styles that were registered when it was saved will
- * set this flag when the style is inited from the archive. The document gathers these styles together
- * and remerges them according to the user's settings.
- * @return <YES> if the style should be a candidate for re-merging
- * @private
+ @note
+ Re-merging is done when a document is opened. Any styles that were registered when it was saved will
+ set this flag when the style is inited from the archive. The document gathers these styles together
+ and remerges them according to the user's settings.
+ @return <YES> if the style should be a candidate for re-merging
  */
 - (BOOL)requiresRemerge
 {
@@ -673,11 +639,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Is this style the same as <aStyle>?
- * @note
- * Styles are considered equal if they have the same unique ID and the same timestamp.
- * @param aStyle a style to compare this with
- * @return YES if the styles ar the same, NO otherwise
- * @public
+ @note
+ Styles are considered equal if they have the same unique ID and the same timestamp.
+ @param aStyle a style to compare this with
+ @return YES if the styles ar the same, NO otherwise
  */
 - (BOOL)isEqualToStyle:(DKStyle*)aStyle
 {
@@ -693,10 +658,9 @@ static BOOL sSubstitute = NO;
 #pragma mark - undo
 
 /** @brief Sets the undo manager that style changes will be recorded by
- * @note
- * The undo manager is not retained.
- * @param undomanager the manager to use
- * @public
+ @note
+ The undo manager is not retained.
+ @param undomanager the manager to use
  */
 - (void)setUndoManager:(NSUndoManager*)undomanager
 {
@@ -704,8 +668,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the undo manager that style changes will be recorded by
- * @return the style's current undo manager
- * @public
+ @return the style's current undo manager
  */
 - (NSUndoManager*)undoManager
 {
@@ -713,9 +676,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Vectors undo invocations back to the object from whence they came
- * @param keypath the keypath of the action, relative to the object
- * @param object the real target of the invocation
- * @private
+ @param keypath the keypath of the action, relative to the object
+ @param object the real target of the invocation
  */
 - (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value
 {
@@ -730,9 +692,8 @@ static BOOL sSubstitute = NO;
 #pragma mark - stroke utilities
 
 /** @brief Adjusts all contained stroke widths by the given scale value
- * @param scale the scale factor, e.g. 2.0 will double all stroke widths
- * @param quiet if YES, will ignore locked state and not inform clients. This is done when making hit
- * @public
+ @param scale the scale factor, e.g. 2.0 will double all stroke widths
+ @param quiet if YES, will ignore locked state and not inform clients. This is done when making hit
  */
 - (void)scaleStrokeWidthsBy:(CGFloat)scale withoutInformingClients:(BOOL)quiet
 {
@@ -752,8 +713,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the widest stroke width in the style
- * @return a number, the width of the widest contained stroke, or 0.0 if there are no strokes.
- * @public
+ @return a number, the width of the widest contained stroke, or 0.0 if there are no strokes.
  */
 - (CGFloat)maxStrokeWidth
 {
@@ -775,8 +735,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the difference between the widest and narrowest strokes
- * @return a number, can be 0.0 if there are no strokes or only one stroke
- * @public
+ @return a number, can be 0.0 if there are no strokes or only one stroke
  */
 - (CGFloat)maxStrokeWidthDifference
 {
@@ -804,13 +763,12 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Applies the cap, join, mitre limit, dash and line width attributes of the rear-most stroke to the path
- * @note
- * This can be used to set up a path for a Quartz operation such as outlining. The rearmost stroke
- * attribute is used if there is more than one on the basis that this forms the largest element of
- * the stroke. However, for the line width the max stroke is applied. If there are no strokes the
- * path is not changed.
- * @param path a bezier path to apply the attributes to
- * @public
+ @note
+ This can be used to set up a path for a Quartz operation such as outlining. The rearmost stroke
+ attribute is used if there is more than one on the basis that this forms the largest element of
+ the stroke. However, for the line width the max stroke is applied. If there are no strokes the
+ path is not changed.
+ @param path a bezier path to apply the attributes to
  */
 - (void)applyStrokeAttributesToPath:(NSBezierPath*)path
 {
@@ -826,10 +784,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the number of strokes
- * @note
- * Counts all strokes, including those in subgroups.
- * @return the number of stroke rasterizers
- * @public
+ @note
+ Counts all strokes, including those in subgroups.
+ @return the number of stroke rasterizers
  */
 - (NSUInteger)countOfStrokes
 {
@@ -840,11 +797,10 @@ static BOOL sSubstitute = NO;
 #pragma mark - clipboard
 
 /** @brief Copies the style to the pasteboard
- * @note
- * Puts both the archived style and its key (as a separate type) on the pasteboard. When pasting a
- * style, the key should be used in preference to allow a possible shared style to work as expected.
- * @param pb the pasteboard to copy to
- * @public
+ @note
+ Puts both the archived style and its key (as a separate type) on the pasteboard. When pasting a
+ style, the key should be used in preference to allow a possible shared style to work as expected.
+ @param pb the pasteboard to copy to
  */
 - (BOOL)copyToPasteboard:(NSPasteboard*)pb
 {
@@ -881,20 +837,19 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns a style based on the receiver plus any data on the clipboard we are able to use
- * @note
- * This method is used when dragging properties such as colours onto an object. The object's existing
- * style is used as a starting point, then any data on the pasteboard we can use such as colours,
- * images, etc, is used to add or change properties of the style. For example if the pb has a colour,
- * it will be set as the first fill colour, or add a fill if there isn't one. Images are converted
- * to image adornments, text to text adornments, etc.
- * Note that it's impossible for this method to anticipate what the user is really expecting - it does
- * what it sensibly can, but in some cases it won't be appropriate. It is up to the receiver of the
- * drag itself to make the most appropriate choice about what happens to an object's appearance.
- * If the style could not make use of any data on the clipboard, it returns itself, thus avoiding
- * an unnecessary copy of the style when its contents were not actually changed
- * @param pb the pasteboard to take additional data from
- * @return a new style
- * @public
+ @note
+ This method is used when dragging properties such as colours onto an object. The object's existing
+ style is used as a starting point, then any data on the pasteboard we can use such as colours,
+ images, etc, is used to add or change properties of the style. For example if the pb has a colour,
+ it will be set as the first fill colour, or add a fill if there isn't one. Images are converted
+ to image adornments, text to text adornments, etc.
+ Note that it's impossible for this method to anticipate what the user is really expecting - it does
+ what it sensibly can, but in some cases it won't be appropriate. It is up to the receiver of the
+ drag itself to make the most appropriate choice about what happens to an object's appearance.
+ If the style could not make use of any data on the clipboard, it returns itself, thus avoiding
+ an unnecessary copy of the style when its contents were not actually changed
+ @param pb the pasteboard to take additional data from
+ @return a new style
  */
 - (DKStyle*)derivedStyleWithPasteboard:(NSPasteboard*)pb
 {
@@ -903,14 +858,13 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns a style based on the receiver plus any data on the clipboard we are able to use
- * @note
- * See notes for derivedStyleWithPasteboard:
- * The options are used to set up renderers in more appropriate ways when the type of object that the
- * style will be attached to is known.
- * @param pb the pasteboard to take additional data from
- * @param options some hints that can influence the outcome of the operation
- * @return a new style
- * @public
+ @note
+ See notes for derivedStyleWithPasteboard:
+ The options are used to set up renderers in more appropriate ways when the type of object that the
+ style will be attached to is known.
+ @param pb the pasteboard to take additional data from
+ @param options some hints that can influence the outcome of the operation
+ @return a new style
  */
 - (DKStyle*)derivedStyleWithPasteboard:(NSPasteboard*)pb withOptions:(DKDerivedStyleOptions)options
 {
@@ -1028,8 +982,7 @@ static BOOL sSubstitute = NO;
 #pragma mark - query methods to quickly determine general characteristics
 
 /** @brief Queries whether the style has at least one stroke
- * @return YES if there are one or more strokes, NO otherwise
- * @public
+ @return YES if there are one or more strokes, NO otherwise
  */
 - (BOOL)hasStroke
 {
@@ -1037,10 +990,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Queries whether the style has at least one filling property
- * @note
- * This queries all rasterizers for the -isFill property
- * @return YES if there are one or more fill properties, NO otherwise
- * @public
+ @note
+ This queries all rasterizers for the -isFill property
+ @return YES if there are one or more fill properties, NO otherwise
  */
 - (BOOL)hasFill
 {
@@ -1048,10 +1000,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Queries whether the style has at least one hatch property
- * @note
- * Hatches are not always considered to be 'fills' in the normal sense, so hatches are counted separately
- * @return YES if there are one or more hatches, NO otherwise
- * @public
+ @note
+ Hatches are not always considered to be 'fills' in the normal sense, so hatches are counted separately
+ @return YES if there are one or more hatches, NO otherwise
  */
 - (BOOL)hasHatch
 {
@@ -1059,8 +1010,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Queries whether the style has at least one text adornment property
- * @return YES if there are one or more text adornments, NO otherwise
- * @public
+ @return YES if there are one or more text adornments, NO otherwise
  */
 - (BOOL)hasTextAdornment
 {
@@ -1068,8 +1018,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Queries whether the style has any components at all
- * @return YES if there are no components and no text attributes, NO if there is at least 1 or has text 
- * @public
+ @return YES if there are no components and no text attributes, NO if there is at least 1 or has text 
  */
 - (BOOL)isEmpty
 {
@@ -1080,10 +1029,9 @@ static BOOL sSubstitute = NO;
 #pragma mark - swatch images
 
 /** @brief Creates a thumbnail image of the style
- * @param size the desired size of the thumbnail
- * @param type the type of thumbnail - currently rect and path types are supported, or selected automatically
- * @return an image of a default path rendered using this style
- * @public
+ @param size the desired size of the thumbnail
+ @param type the type of thumbnail - currently rect and path types are supported, or selected automatically
+ @return an image of a default path rendered using this style
  */
 - (NSImage*)styleSwatchWithSize:(NSSize)size type:(DKStyleSwatchType)type
 {
@@ -1189,10 +1137,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Creates a thumbnail image of the style
- * @note
- * The swatch returned will have the curve path style if it has no fill, otherwise the rect style.
- * @return an image of a path rendered using this style in the default size
- * @public
+ @note
+ The swatch returned will have the curve path style if it has no fill, otherwise the rect style.
+ @return an image of a path rendered using this style in the default size
  */
 - (NSImage*)standardStyleSwatch
 {
@@ -1237,11 +1184,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Return a key for the swatch cache for the given size and type of swatch
- * @note
- * The key is a simple concatenation of the size and the type, but don't rely on this anywhere - just
- * ask for the swatch you want and if it's cached it will be returned.
- * @return a string that is used as the key to the swatches in the cache
- * @public
+ @note
+ The key is a simple concatenation of the size and the type, but don't rely on this anywhere - just
+ ask for the swatch you want and if it's cached it will be returned.
+ @return a string that is used as the key to the swatches in the cache
  */
 - (NSString*)swatchCacheKeyForSize:(NSSize)size type:(DKStyleSwatchType)type
 {
@@ -1250,10 +1196,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief As -extraSpaceNeeded but any mitre limit applied by renderes are ignored
- * @note
- * Used when drawing swatches as path is known to have non-acute angles where the mitre limit matters
- * @return the space needed for the style without mitre limit
- * @private
+ @note
+ Used when drawing swatches as path is known to have non-acute angles where the mitre limit matters
+ @return the space needed for the style without mitre limit
  */
 - (NSSize)extraSpaceNeededIgnoringMitreLimit
 {
@@ -1284,11 +1229,10 @@ static BOOL sSubstitute = NO;
 #pragma mark - currently rendering client
 
 /** @brief Returns the current object being rendered by this style
- * @note
- * This is only valid when called while rendering is in progress - mainly for the benefit of renderers
- * that are part of this style
- * @return the current rendering object
- * @public
+ @note
+ This is only valid when called while rendering is in progress - mainly for the benefit of renderers
+ that are part of this style
+ @return the current rendering object
  */
 - (id)currentRenderClient
 {
@@ -1296,13 +1240,12 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns a new style formed by copying the rasterizers from the receiver and the other style into one
- * object
- * @note
- * The receiver's rasterizers are copied first, then otherStyles are appended, so they draw after
- * (on top) of the receiver's.
- * @param otherStyle a style object
- * @return a new style object
- * @public
+ object
+ @note
+ The receiver's rasterizers are copied first, then otherStyles are appended, so they draw after
+ (on top) of the receiver's.
+ @param otherStyle a style object
+ @return a new style object
  */
 - (DKStyle*)styleByMergingFromStyle:(DKStyle*)otherStyle
 {
@@ -1322,9 +1265,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns a new style formed by copying the rasterizers from the receiver but not those of <aClass>
- * @param aClass the rasterizer class not to be copied
- * @return a new style object
- * @public
+ @param aClass the rasterizer class not to be copied
+ @return a new style object
  */
 - (DKStyle*)styleByRemovingRenderersOfClass:(Class)aClass
 {
@@ -1337,10 +1279,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns a copy of the style having a new unique ID
- * @note
- * Similar to -mutabelCopy except name is copied and the object is returned autoreleased
- * @return a new style object
- * @public
+ @note
+ Similar to -mutabelCopy except name is copied and the object is returned autoreleased
+ @return a new style object
  */
 - (id)clone
 {
@@ -1353,8 +1294,7 @@ static BOOL sSubstitute = NO;
 #pragma mark As a DKRastGroup
 
 /** @brief Adds a renderer to the style, ensuring internal KVO linkage is established
- * @param renderer the renderer to attach
- * @private
+ @param renderer the renderer to attach
  */
 - (void)addRenderer:(DKRasterizer*)renderer
 {
@@ -1367,9 +1307,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Inserts a renderer into the style, ensuring internal KVO linkage is established
- * @param renderer the renderer to insert
- * @param index the index where the renderer is inserted
- * @private
+ @param renderer the renderer to insert
+ @param index the index where the renderer is inserted
  */
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
@@ -1383,8 +1322,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Removes a renderer from the style, ensuring internal KVO linkage is removed
- * @param renderer the renderer to remove
- * @private
+ @param renderer the renderer to remove
  */
 - (void)removeRenderer:(DKRasterizer*)renderer
 {
@@ -1400,11 +1338,10 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Moves a renderer from one place in the list to another, setting up undo
- * @note
- * If src == dest, does nothing and no undo is created
- * @param src the index being moved
- * @param dest where it will move to
- * @private
+ @note
+ If src == dest, does nothing and no undo is created
+ @param src the index being moved
+ @param dest where it will move to
  */
 - (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
@@ -1421,8 +1358,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Returns the root of the group tree - which is always self
- * @return self
- * @private
+ @return self
  */
 - (DKRastGroup*)root
 {
@@ -1430,8 +1366,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Informs the style that a new component was added to the tree and needs observing
- * @param observable the object to start watching
- * @private
+ @param observable the object to start watching
  */
 - (void)observableWasAdded:(GCObservableObject*)observable
 {
@@ -1442,8 +1377,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Informs the style that a  component is about to be removed from the tree and should stop being observed
- * @param observable the object to stop watching
- * @private
+ @param observable the object to stop watching
  */
 - (void)observableWillBeRemoved:(GCObservableObject*)observable
 {
@@ -1457,9 +1391,8 @@ static BOOL sSubstitute = NO;
 #pragma mark As a DKRasterizer
 
 /** @brief Renders the object using this style
- * @note
- * Sets the value of the client for the duration of rendering
- */
+ @note
+ Sets the value of the client for the duration of rendering */
 - (void)render:(id<DKRenderable>)object
 {
     if (![object conformsToProtocol:@protocol(DKRenderable)])
@@ -1495,9 +1428,8 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Sets the style's name undoably
- * @note
- * Does not inform the client(s) as this is not typically a visual change, but does send a notification
- */
+ @note
+ Does not inform the client(s) as this is not typically a visual change, but does send a notification */
 - (void)setName:(NSString*)name
 {
     if (![self locked]) {
@@ -1512,10 +1444,9 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Set whether the style is enabled or not
- * @note
- * Disabled styles don't draw anything
- * @param enable YES to enable, NO to disable
- * @public
+ @note
+ Disabled styles don't draw anything
+ @param enable YES to enable, NO to disable
  */
 - (void)setEnabled:(BOOL)enable
 {
@@ -1686,9 +1617,8 @@ static BOOL sSubstitute = NO;
 #pragma mark As part of NSCopying Protocol
 
 /** @note
- * Styles should always be copied before use, in order that the shared flag is automatically
- * honoured. Drawable objects do this by default, so within drawkit this 'just works'.
- */
+ Styles should always be copied before use, in order that the shared flag is automatically
+ honoured. Drawable objects do this by default, so within drawkit this 'just works'. */
 - (id)copyWithZone:(NSZone*)zone
 {
     if ([self isStyleSharable])
@@ -1700,8 +1630,7 @@ static BOOL sSubstitute = NO;
 #pragma mark -
 #pragma mark As part of NSKeyValueObserving Protocol
 
-/** @brief Sets up undo invocations when the value of a contained property is changed
- */
+/** @brief Sets up undo invocations when the value of a contained property is changed */
 - (void)observeValueForKeyPath:(NSString*)keypath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
 {
 #pragma unused(context)
@@ -1750,8 +1679,7 @@ static BOOL sSubstitute = NO;
 #pragma mark As part of NSMutableCopying Protocol
 
 /** @note
- * The copy's initial name is deliberately not set
- */
+ The copy's initial name is deliberately not set */
 - (id)mutableCopyWithZone:(NSZone*)zone
 {
     DKStyle* copy = [super copyWithZone:zone];

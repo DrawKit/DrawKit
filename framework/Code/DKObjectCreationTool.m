@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKObjectCreationTool.h"
@@ -33,13 +33,12 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark As a DKObjectCreationTool
 
 /** @brief Create a tool for an existing object
- * @note
- * This method conveniently allows you to create tools for any object you already have. For example
- * if you create a complex shape from others, or make a group of objects, you can turn that object
- * into an interactive tool to make more of the same.
- * @param shape a drawable object that can be created by the tool - typically a DKDrawableShape
- * @param name the name of the tool to register this with
- * @public
+ @note
+ This method conveniently allows you to create tools for any object you already have. For example
+ if you create a complex shape from others, or make a group of objects, you can turn that object
+ into an interactive tool to make more of the same.
+ @param shape a drawable object that can be created by the tool - typically a DKDrawableShape
+ @param name the name of the tool to register this with
  */
 + (void)registerDrawingToolForObject:(id<NSCopying>)shape withName:(NSString*)name
 {
@@ -57,10 +56,9 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Set a style to be used for subsequently created objects
- * @note
- * If you set nil, the style set in the prototype object for the individual tool will be used instead.
- * @param aStyle a style object that will be applied to each new object as it is created
- * @public
+ @note
+ If you set nil, the style set in the prototype object for the individual tool will be used instead.
+ @param aStyle a style object that will be applied to each new object as it is created
  */
 + (void)setStyleForCreatedObjects:(DKStyle*)aStyle
 {
@@ -76,10 +74,9 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return a style to be used for subsequently created objects
- * @note
- * If you set nil, the style set in the prototype object for the individual tool will be used instead.
- * @return a style object that will be applied to each new object as it is created, or nil
- * @public
+ @note
+ If you set nil, the style set in the prototype object for the individual tool will be used instead.
+ @return a style object that will be applied to each new object as it is created, or nil
  */
 + (DKStyle*)styleForCreatedObjects
 {
@@ -89,9 +86,8 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark -
 
 /** @brief Initialize the tool
- * @param aPrototype an object that will be used as the tool's prototype - each new object created will
- * @return the tool object
- * @public
+ @param aPrototype an object that will be used as the tool's prototype - each new object created will
+ @return the tool object
  */
 - (id)initWithPrototypeObject:(id<NSObject>)aPrototype
 {
@@ -111,8 +107,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark -
 
 /** @brief Set the object to be copied when the tool created a new one
- * @param aPrototype an object that will be used as the tool's prototype - each new object created will
- * @public
+ @param aPrototype an object that will be used as the tool's prototype - each new object created will
  */
 - (void)setPrototype:(id<NSObject>)aPrototype
 {
@@ -124,8 +119,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return the object to be copied when the tool creates a new one
- * @return an object - each new object created will be a copy of this one.
- * @public
+ @return an object - each new object created will be a copy of this one.
  */
 - (id)prototype
 {
@@ -133,10 +127,9 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
- * @note
- * The returned object is autoreleased
- * @return a new object based on the prototype.
- * @public
+ @note
+ The returned object is autoreleased
+ @return a new object based on the prototype.
  */
 - (id)objectFromPrototype
 {
@@ -189,10 +182,9 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark -
 
 /** @brief Return an image showing what the tool creates
- * @note
- * The image may be used as an icon for this tool in a UI, for example
- * @return an image
- * @public
+ @note
+ The image may be used as an icon for this tool in a UI, for example
+ @return an image
  */
 - (NSImage*)image
 {
@@ -200,8 +192,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Complete the object creation cleanly
- * @return YES if undo task generated, NO otherwise
- * @private
+ @return YES if undo task generated, NO otherwise
  */
 - (BOOL)finishCreation:(DKToolController*)controller
 {
@@ -274,7 +265,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark As an NSObject
 
 /** @brief Deallocate the tool
- * @public
  */
 - (void)dealloc
 {
@@ -286,12 +276,11 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark - As a DKDrawingTool
 
 /** @brief The tool can return arbitrary persistent data that will be stored in the prefs and returned on
- * the next launch.
- * @note
- * If the tool has a set style, it is archived and returned so that it can be restored to the same
- * style next session.
- * @return data, or nil
- * @public
+ the next launch.
+ @note
+ If the tool has a set style, it is archived and returned so that it can be restored to the same
+ style next session.
+ @return data, or nil
  */
 - (NSData*)persistentData
 {
@@ -302,7 +291,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief On launch, the data that was saved by the previous session will be reloaded
- * @public
  */
 - (void)shouldLoadPersistentData:(NSData*)data
 {
@@ -340,8 +328,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Clean up when tool is switched out
- * @param aController the tool controller
- * @public
+ @param aController the tool controller
  */
 - (void)toolControllerWillUnsetTool:(DKToolController*)aController
 {
@@ -354,10 +341,9 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark - As part of DKDrawingTool Protocol
 
 /** @brief Does the tool ever implement undoable actions?
- * @note
- * Returning YES means that the tool can POTENTIALLY do undoable things, not that it always will.
- * @return always returns YES
- * @public
+ @note
+ Returning YES means that the tool can POTENTIALLY do undoable things, not that it always will.
+ @return always returns YES
  */
 + (BOOL)toolPerformsUndoableAction
 {
@@ -365,11 +351,10 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return a string representing what the tool did
- * @note
- * The registered name of the tool is assumed to be descriptive of the objects it creates, for example
- * "Rectangle", thus this returns "New Rectangle"
- * @return a string
- * @public
+ @note
+ The registered name of the tool is assumed to be descriptive of the objects it creates, for example
+ "Rectangle", thus this returns "New Rectangle"
+ @return a string
  */
 - (NSString*)actionName
 {
@@ -379,8 +364,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return the tool's cursor
- * @return the cross-hair cursor
- * @public
+ @return the cross-hair cursor
  */
 - (NSCursor*)cursor
 {
@@ -388,20 +372,19 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Handle the initial mouse down
- * @note
- * Starts the creation of an object by copying the prototype and adding it to the layer as a pending
- * object (pending objects are only committed if they are valid after being created). As a side-effect
- * this turns off undo registration temporarily as the initial sizing of the object has no benefit
- * being undone. Note that for some object types, like paths, the object will keep control in their
- * own loop for the entire creation process, finally posting a mouseUp in the original view so that
- * the finalising procedure is carried out.
- * @param p the local point where the mouse went down
- * @param obj the target object, if there is one
- * @param layer the layer in which the tool is being applied
- * @param event the original event
- * @param aDel an optional delegate
- * @return the partcode of object nominated by its class for creating instances of itself interactively
- * @public
+ @note
+ Starts the creation of an object by copying the prototype and adding it to the layer as a pending
+ object (pending objects are only committed if they are valid after being created). As a side-effect
+ this turns off undo registration temporarily as the initial sizing of the object has no benefit
+ being undone. Note that for some object types, like paths, the object will keep control in their
+ own loop for the entire creation process, finally posting a mouseUp in the original view so that
+ the finalising procedure is carried out.
+ @param p the local point where the mouse went down
+ @param obj the target object, if there is one
+ @param layer the layer in which the tool is being applied
+ @param event the original event
+ @param aDel an optional delegate
+ @return the partcode of object nominated by its class for creating instances of itself interactively
  */
 - (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
@@ -490,14 +473,13 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Handle the mouse dragged event
- * @note
- * Keep dragging out the object
- * @param p the local point where the mouse has been dragged to
- * @param partCode the partcode returned by the mouseDown method
- * @param layer the layer in which the tool is being applied
- * @param event the original event
- * @param aDel an optional delegate
- * @public
+ @note
+ Keep dragging out the object
+ @param p the local point where the mouse has been dragged to
+ @param partCode the partcode returned by the mouseDown method
+ @param layer the layer in which the tool is being applied
+ @param event the original event
+ @param aDel an optional delegate
  */
 - (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {
@@ -514,18 +496,17 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Handle the mouse up event
- * @note
- * This finalises he object creation by calling the -objectIsValid method. Valid means that the path
- * is not empty or zero-sized for example. If the object is valid it is committed to the layer after
- * re-enabling undo. Invalid objects are simply discarded. The delegate is called to signal an undoable
- * task is about to be made.
- * @param p the local point where the mouse went up
- * @param partCode the partcode returned by the mouseDown method
- * @param layer the layer in which the tool is being applied
- * @param event the original event
- * @param aDel an optional delegate
- * @return YES if the tool did something undoable, NO otherwise
- * @public
+ @note
+ This finalises he object creation by calling the -objectIsValid method. Valid means that the path
+ is not empty or zero-sized for example. If the object is valid it is committed to the layer after
+ re-enabling undo. Invalid objects are simply discarded. The delegate is called to signal an undoable
+ task is about to be made.
+ @param p the local point where the mouse went up
+ @param partCode the partcode returned by the mouseDown method
+ @param layer the layer in which the tool is being applied
+ @param event the original event
+ @param aDel an optional delegate
+ @return YES if the tool did something undoable, NO otherwise
  */
 - (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
 {

@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKFillPattern.h"
@@ -17,8 +17,7 @@
 @implementation DKFillPattern
 #pragma mark As a DKFillPattern
 
-/** 
- */
+/**  */
 + (DKFillPattern*)defaultPattern
 {
     // return the default pattern , which is based on some image - unlikely to be really useful so might be

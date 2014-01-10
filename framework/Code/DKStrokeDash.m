@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKStrokeDash.h"
@@ -25,8 +25,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 @implementation DKStrokeDash
 #pragma mark As a DKStrokeDash
 
-/** 
- */
+/**  */
 + (DKStrokeDash*)defaultDash
 {
     return [[[DKStrokeDash alloc] init] autorelease];

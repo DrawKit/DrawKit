@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import "DKStyle+Text.h"
@@ -17,8 +17,7 @@ static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D5
 #pragma mark As a DKStyle
 
 /** @brief Returns a basic text style with the default font and atrributes
- * @return a style having 18pt Helvetica centred text
- * @public
+ @return a style having 18pt Helvetica centred text
  */
 + (DKStyle*)defaultTextStyle
 {
@@ -49,11 +48,10 @@ static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D5
 }
 
 /** @brief Returns a basic text style with the given font
- * @note
- * The style's name is set based on the font. Initial text alignment is the natural alignment.
- * @param font a font
- * @return a style incorporating the given font in its text attributes
- * @public
+ @note
+ The style's name is set based on the font. Initial text alignment is the natural alignment.
+ @param font a font
+ @return a style incorporating the given font in its text attributes
  */
 + (DKStyle*)textStyleWithFont:(NSFont*)font
 {
@@ -68,9 +66,8 @@ static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D5
 }
 
 /** @brief Returns the name and size of the font in a form that can be used as a style name
- * @param font a font
- * @return a string, such as "Helvetica Bold 18pt"
- * @public
+ @param font a font
+ @return a string, such as "Helvetica Bold 18pt"
  */
 + (NSString*)styleNameForFont:(NSFont*)font
 {

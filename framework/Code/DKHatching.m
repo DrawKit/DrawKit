@@ -2,7 +2,7 @@
  @author Graham Cox, Apptree.net
  @author Graham Miln, miln.eu
  @author Contributions from the community
- @date 2005-2013
+ @date 2005-2014
  @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
@@ -26,7 +26,6 @@
  Be sure to copy the object if you intend to change its parameters.
  @return the default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
  apart with a width of 0.25 points.
- @public
  */
 + (DKHatching*)defaultHatching
 {
@@ -45,7 +44,6 @@
  @param spacing the line spacing
  @param angle the overall angle in radians
  @return a hatching instance
- @public
  */
 + (DKHatching*)hatchingWithLineWidth:(CGFloat)w spacing:(CGFloat)spacing angle:(CGFloat)angle
 {
@@ -66,7 +64,6 @@
  @param pitch the spacing between the dots
  @param diameter the dot diameter
  @return a hatching instance having the given dot pattern
- @public
  */
 + (DKHatching*)hatchingWithDotPitch:(CGFloat)pitch diameter:(CGFloat)diameter
 {
@@ -94,7 +91,6 @@
  touch (spacing = 2.0), 0.5 = dots have a spacing of 4.0, etc. A density of 0 is not allowed.
  @param density a density figure from 0 to 1
  @return a hatching instance having a dot pattern of the given density
- @public
  */
 + (DKHatching*)hatchingWithDotDensity:(CGFloat)density
 {
@@ -109,7 +105,6 @@
 
 /** @brief Apply the hatching to the path with an object angle of 0
  @param path the path to fill
- @public
  */
 - (void)hatchPath:(NSBezierPath*)path
 {
@@ -120,7 +115,6 @@
 /** @brief Apply the hatching to the path with a given object angle
  @param path the path to fill
  @param oa the additional angle to apply, in radians
- @public
  */
 - (void)hatchPath:(NSBezierPath*)path objectAngle:(CGFloat)oa
 {
@@ -214,7 +208,6 @@
 
 /** @brief Set the angle of the hatching
  @param radians the angle in radians
- @public
  */
 - (void)setAngle:(CGFloat)radians
 {
@@ -234,7 +227,6 @@
 
 /** @brief The angle of the hatching
  @return the angle in radians
- @public
  */
 - (CGFloat)angle
 {
@@ -243,7 +235,6 @@
 
 /** @brief Set the angle of the hatching in degrees
  @param degs the angle in degrees 
- @public
  */
 - (void)setAngleInDegrees:(CGFloat)degs
 {
@@ -252,7 +243,6 @@
 
 /** @brief The angle of the hatching in degrees
  @return the angle in degrees
- @public
  */
 - (CGFloat)angleInDegrees
 {

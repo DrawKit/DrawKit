@@ -1,9 +1,9 @@
 /**
- * @author Graham Cox, Apptree.net
- * @author Graham Miln, miln.eu
- * @author Contributions from the community
- * @date 2005-2013
- * @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
+ @author Graham Cox, Apptree.net
+ @author Graham Miln, miln.eu
+ @author Contributions from the community
+ @date 2005-2014
+ @copyright This software is released subject to licensing conditions as detailed in DRAWKIT-LICENSING.TXT, which must accompany this source file.
  */
 
 #import <Cocoa/Cocoa.h>
@@ -12,7 +12,7 @@
 @class DKBSPDirectTree;
 
 /**
-This uses a similar algorithm to DKBSPObjectStorage but instead of indexing the objects it stores them directly by retaining them in additional arrays
+ This uses a similar algorithm to DKBSPObjectStorage but instead of indexing the objects it stores them directly by retaining them in additional arrays
  within the BSP tree. This is likely to be faster than the indexing approach though profiling is needed to confirm this.
  
  To facilitate correct z-ordering, each object stores its own Z-position and the objects are sorted on this property when necessary. Objects need to be
