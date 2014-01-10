@@ -303,7 +303,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 #pragma mark -
 
 /** @brief Counts the number of elements of each type in the path
- @note
+
  Pass NULL for any values you are not interested in
  @param mtc, ltc, ctc, cpc pointers to integers that receive the counts for each element type */
 - (void)getPathMoveToCount:(NSInteger*)mtc lineToCount:(NSInteger*)ltc curveToCount:(NSInteger*)ctc closePathCount:(NSInteger*)cpc

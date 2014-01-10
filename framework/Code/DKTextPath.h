@@ -33,7 +33,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 + (Class)textAdornmentClass;
 
 /** @brief Return a list of types we can paste in priority order.
- @note
+
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
  @return a list of types
  */
@@ -60,7 +60,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 - (DKStyle*)styleWithTextAttributes;
 
 /** @brief Creates a style that is the current style + any text attributes
- @note
+
  A style which is the current style if it has text attributes, otherwise the current style with added text
  attributes. When cutting or copying the object's style, this is what should be used.
  @return a new style object

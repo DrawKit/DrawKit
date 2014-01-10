@@ -54,7 +54,7 @@ typedef enum {
 + (DKGradient*)defaultGradient;
 
 /** @brief Returns a linear gradient from Color c1 to c2
- @note
+
  Gradient is linear and draws left to right c1 --> c2
  @param c1 the starting Color
  @param c2 the ending Color
@@ -104,27 +104,27 @@ typedef enum {
 - (void)removeAllColors;
 
 /** @brief Sets the list of Color stops in the gradient
- @note
+
  A gradient needs a minimum of two Colors to be a gradient, but will function with one.
  @param stops an array of DKColorStop objects
  */
 - (void)setColorStops:(NSArray*)stops;
 
 /** @brief Returns the list of Color stops in the gradient
- @note
+
  A gradient needs a minimum of two Colors to be a gradient, but will function with one.
  @return the array of DKColorStop (color + position) objects in the gradient
  */
 - (NSArray*)colorStops;
 
 /** @brief Sorts the Color stops into position order
- @note
+
  Stops are sorted in place
  */
 - (void)sortColorStops;
 
 /** @brief Reverses the order of all the Color stops so "inverting" the gradient
- @note
+
  Stop positions are changed, but Colors are not touched
  */
 - (void)reverseColorStops;
@@ -132,14 +132,14 @@ typedef enum {
 // KVO compliant accessors:
 
 /** @brief Returns the number of Color stops in the gradient
- @note
+
  This also makes the stops array KVC compliant
  @return an integer, the number of Colors used to compute the gradient
  */
 - (NSUInteger)countOfColorStops;
 
 /** @brief Returns the the indexed Color stop
- @note
+
  This also makes the stops array KVC compliant
  @param ix index number of the stop
  @return a Color stop
@@ -153,7 +153,7 @@ typedef enum {
 - (void)fillRect:(NSRect)rect;
 
 /** @brief Fills the path using the gradient
- @note
+
  The fill will proceed as for a standard fill. A gradient that needs a starting point will assume
  the centre of the path's bounds as that point when using this method.
  @param path the bezier path to fill. 
@@ -176,7 +176,7 @@ typedef enum {
           endRadius:(CGFloat)er;
 
 /** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
- @note
+
  While intended for internal use, this function can be called at any time if you wish
  the private version here is called internally. It does fewer checks and returns raw component
  values for performance. do not use from external code.
@@ -215,7 +215,7 @@ typedef enum {
 // setting gradient type, blending and interpolation settings
 
 /** @brief Sets the gradient's basic type
- @note
+
  Valid types are: kDKGradientTypeLinear and kDKGradientTypeRadial
  @param gt the type
  */

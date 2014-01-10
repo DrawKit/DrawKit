@@ -77,7 +77,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 @implementation NSAttributedString (DKAdditions)
 
 /** @brief Lays out the receiver then draws it to the destination
- @note
+
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
  parameters (and the string's attributes themselves). 
@@ -87,7 +87,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
  */
 
 /** @brief Lays out the receiver then draws it to the destination
- @note
+
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
  parameters (and the string's attributes themselves). 
@@ -105,7 +105,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 }
 
 /** @brief Lays out the receiver then draws it to the destination
- @note
+
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
  parameters (and the string's attributes themselves). 

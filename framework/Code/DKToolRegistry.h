@@ -20,7 +20,7 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
 }
 
 /** @brief Return the shared tool registry
- @note
+
  Creates the registry if needed and installs the standard tools. For other tool collections
  you can instantiate a DKToolRegistry and add tools to it.
  @return a shared DKToolRegistry object

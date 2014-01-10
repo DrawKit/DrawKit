@@ -67,7 +67,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 }
 
 /** @brief Returns a linear gradient from Color c1 to c2
- @note
+
  Gradient is linear and draws left to right c1 --> c2
  @param c1 the starting Color
  @param c2 the ending Color
@@ -209,7 +209,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 }
 
 /** @brief Sets the list of Color stops in the gradient
- @note
+
  A gradient needs a minimum of two Colors to be a gradient, but will function with one.
  @param stops an array of DKColorStop objects
  */
@@ -232,7 +232,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 }
 
 /** @brief Returns the list of Color stops in the gradient
- @note
+
  A gradient needs a minimum of two Colors to be a gradient, but will function with one.
  @return the array of DKColorStop (color + position) objects in the gradient
  */
@@ -259,7 +259,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Sorts the Color stops into position order
- @note
+
  Stops are sorted in place
  */
 - (void)sortColorStops
@@ -269,7 +269,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Reverses the order of all the Color stops so "inverting" the gradient
- @note
+
  Stop positions are changed, but Colors are not touched
  */
 - (void)reverseColorStops
@@ -291,7 +291,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #pragma mark - KVO compliant accessors
 
 /** @brief Returns the number of Color stops in the gradient
- @note
+
  This also makes the stops array KVC compliant
  @return an integer, the number of Colors used to compute the gradient
  */
@@ -301,7 +301,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Returns the the indexed Color stop
- @note
+
  This also makes the stops array KVC compliant
  @param ix index number of the stop
  @return a Color stop
@@ -329,7 +329,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #pragma mark - a variety of ways to fill a path
 
 /** @brief Fills the rect using the gradient
- @note
+
  The fill will proceed as for a standard fill. A gradient that needs a starting point will assume
  the centre of the rect as that point when using this method.
  @param rect the rect to fill. 
@@ -340,7 +340,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Fills the path using the gradient
- @note
+
  The fill will proceed as for a standard fill. A gradient that needs a starting point will assume
  the centre of the path's bounds as that point when using this method.
  @param path the bezier path to fill. 
@@ -565,7 +565,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #define qLogPerformanceMetrics 0
 
 /** @brief Fills the path using the gradient between two given points
- @note
+
  Radii are ignored for linear gradients. Angle is ignored by this method, if you call it directly
  (angle is used to calculate start and endpoints in other methods that call this)
  @param path the bezier path to fill
@@ -613,7 +613,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #pragma mark -
 
 /** @brief Returns the Color space used when rendering gradients
- @note
+
  Normally this isn't of much interest to application programmers, but if you wanted to customise
  the Colorspace used for rendering gradients, you could override this.
  @return Colorspace used for gradients
@@ -633,7 +633,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Sets up the CGShader for doing a linear gradient fill
- @note
+
  Caller is responsible for releasing the returned ref
  @param sp the starting point of the fill
  @param ep the ending point of the fill */
@@ -643,7 +643,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Sets up the CGShader for doing a radial gradient fill
- @note
+
  Caller is responsible for releasing the returned ref
  @param sp the starting point of the fill
  @param sr the starting radius
@@ -687,7 +687,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #pragma mark -
 
 /** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
- @note
+
  While intended for internal use, this function can be called at any time if you wish
  the private version here is called internally. It does fewer checks and returns raw component
  values for performance. do not use from external code.
@@ -775,7 +775,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #pragma mark -
 
 /** @brief Sets the gradient's basic type
- @note
+
  Valid types are: kDKGradientTypeLinear and kDKGradientTypeRadial
  @param gt the type
  */
@@ -811,7 +811,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #pragma mark -
 
 /** @brief Sets the blending mode for the gradient
- @note
+
  Valid types are: kDKGradientRGBBlending and kDKGradientHSBBlending
  @param bt the blending mode
  */
@@ -884,7 +884,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Returns an image of the current gradient for use in a UI, etc.
- @note
+
  Swatch has standard size and a border
  @return an NSImage containing the current gradient
  */
@@ -1036,7 +1036,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 #pragma mark As part of GraphicsAttributes Protocol
 
 /** @brief Adds Color stops from anonymous script parameters
- @note
+
  Supports style scripting for the gradient object
  @param val a value object
  @param pnum the index of the parameter
@@ -1165,7 +1165,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Set the Color associated with this stop
- @note
+
  Colors are converted to calibrated RGB to permit shading calculations
  @param Color the Color to set
  */
@@ -1207,7 +1207,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 /** @brief Set the stop's relative position
- @note
+
  Value is constrained between 0.0 and 1.0
  @param pos a vlue between 0 and 1
  */

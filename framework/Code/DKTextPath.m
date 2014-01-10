@@ -62,7 +62,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 }
 
 /** @brief Return a list of types we can paste in priority order.
- @note
+
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
  @return a list of types
  */
@@ -214,7 +214,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 }
 
 /** @brief Creates a style that is the current style + any text attributes
- @note
+
  A style which is the current style if it has text attributes, otherwise the current style with added text
  attributes. When cutting or copying the object's style, this is what should be used.
  @return a new style object
@@ -1008,7 +1008,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 }
 
 /** @brief Write additional data to the pasteboard specific to the object
- @note
+
  Text objects add the text itself to the pasteboard
  @param pb the pasteboard to write to
  */

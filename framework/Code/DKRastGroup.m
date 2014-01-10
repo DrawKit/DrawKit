@@ -17,7 +17,7 @@
 #pragma mark As a DKRenderGroup
 
 /** @brief Set the contained objects to those in array
- @note
+
  This method no longer attempts to try and manage observing of the objects. The observer must
  properly stop observing before this is called, or start observing after it is called when
  initialising from an archive. 
@@ -53,7 +53,7 @@
 #pragma mark -
 
 /** @brief Returns the top-level group in any hierarchy, which in DrawKit is a style object
- @note
+
  Will return nil if the group isn't part of a complete tree
  @return the top level group
  */
@@ -63,7 +63,7 @@
 }
 
 /** @brief Notifies that an observable object was added to the group
- @note
+
  Overridden by the root object (style)
  @param observable the object to start observing
  */
@@ -75,7 +75,7 @@
 }
 
 /** @brief Notifies that an observable object is about to be removed from the group
- @note
+
  Overridden by the root object (style)
  @param observable the object to stop observing
  */
@@ -215,7 +215,7 @@
 #pragma mark -
 
 /** @brief Returns the number of directly contained renderers
- @note
+
  Doesn't count renderers owned by nested groups within this one
  @return the count of renderers
  */
@@ -225,7 +225,7 @@
 }
 
 /** @brief Queries whether a renderer of a given class exists somewhere in the render tree
- @note
+
  Usually called from the top level to get a broad idea of what the group will draw. A style
  has some higher level methods that call this.
  @param cl the class to look for
@@ -279,7 +279,7 @@
 }
 
 /** @brief Removes all renderers from this group except other groups
- @note
+
  Specialist use - not generally for application use
  */
 - (void)removeAllRenderers
@@ -294,7 +294,7 @@
 }
 
 /** @brief Removes all renderers of the given class, optionally traversing levels below this
- @note
+
  Renderers must be an exact match for <class> - subclasses are not considered a match. This is
  intended for specialist use and should not generally be used by application code
  @param cl the renderer class to remove
@@ -415,7 +415,7 @@
 }
 
 /** @brief Sets up KVO for the given observer object
- @note
+
  Propagates the request down to all the components in the group, including other groups so the
  entire tree is traversed
  @param object the observer
@@ -428,7 +428,7 @@
 }
 
 /** @brief Tears down KVO for the given observer object
- @note
+
  Propagates the request down to all the components in the group, including other groups so the
  entire tree is traversed
  @param object the observer
@@ -510,7 +510,7 @@
 }
 
 /** @brief Renders the object's path by iterating over the contained renderers
- @note
+
  Normally groups and styles should use render: but this provides correct behaviour if a top level
  object elects to use the path (in general, don't do this)
  @param path the path to render
@@ -526,7 +526,7 @@
 }
 
 /** @brief Queries whther the rasterizer implements a fill or not
- @note
+
  Returns YES if any contained rasterizer returns YES, NO otherwise
  @return YES if the rasterizer is considered a fill type
  */
@@ -601,7 +601,7 @@
 #pragma mark As part of NSKeyValueCoding Protocol
 
 /** @brief Returns a renderer class associated with the given key
- @note
+
  This is used to support simple UI's that bind to certain renderers based on generic keypaths
  @param key a key for the renderer class
  @return a renderer class matching the key, if any
@@ -625,7 +625,7 @@
 #pragma mark -
 
 /** @brief Returns a renderer class associated with the given key
- @note
+
  This is used to support simple UI's that bind to certain renderers based on generic keypaths. Here,
  the renderer is preferentially referred to by name, but if that fails, falls back on generic
  lookup based on a simplified classname.

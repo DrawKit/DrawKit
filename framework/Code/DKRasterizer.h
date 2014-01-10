@@ -39,7 +39,7 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 - (DKRastGroup*)container;
 
 /** @brief Sets the immediate container of this object
- @note
+
  This is a weak reference as the object is owned by its container. Generally this is called as
  required when the object is added to a group, so should not be used by app code
  @param container the objects's container - must be a group, or nil
@@ -65,7 +65,7 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 - (DKClippingOption)clipping;
 
 /** @brief Returns the path to render given the object doing the rendering
- @note
+
  This method is called internally by render: to obtain the path to be rendered. It is factored to
  allow a delegate to modify the path just before rendering, and to allow special subclasses to
  override it to modify the path for special effects. The normal behaviour is simply to ask the

@@ -27,7 +27,7 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
 @interface DKToolController (Private)
 
 /** @brief Returns the drawing tool currently set for the given drawing
- @note
+
  This is used when the tool scope is per-document. In that case the tool is associated with the
  drawing, not the individual view.
  @param dwg a key for the drawing object
@@ -36,7 +36,7 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
 + (DKDrawingTool*)drawingToolForDrawing:(NSString*)drawingKey;
 
 /** @brief Sets the drawing tool for the given drawing
- @note
+
  This is used when the tool scope is per-document. In that case the tool is associated with the
  document, not the individual view.
  @param tool the tool to set
@@ -45,21 +45,21 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
 + (void)setDrawingTool:(DKDrawingTool*)tool forDrawing:(NSString*)drawingKey;
 
 /** @brief Get the tool for the entire application
- @note
+
  This is used when the tool scope is per-application.
  @return the current tool set for the app
  */
 + (DKDrawingTool*)globalDrawingTool;
 
 /** @brief Get the tool for the entire application
- @note
+
  This is used when the tool scope is per-application.
  @param tool the tool to set
  */
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool;
 
 /** @brief Search for a layer usable with a given tool.
- @note
+
  This is used when tools are set to auto-activate layers and the current active layer can't be
  used. It returns an alternative layer that can be activated for use with the tool. Called by
  -setDrawingTool:
@@ -122,7 +122,7 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As a DKToolController
 
 /** @brief Set the operating scope for tools for this application
- @note
+
  DK allows tools to be set per-view, per-document, or per-application. This is called the operating
  scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
  It is not expected that this will be called during the subsequent use of the app - though it is
@@ -135,7 +135,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Return the operating scope for tools for this application
- @note
+
  DK allows tools to be set per-view, per-document, or per-application. This is called the operating
  scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
  The default is per-document scope.
@@ -147,7 +147,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Set whether setting a tool will auto-activate a layer appropriate to the tool
- @note
+
  Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
  layers are searched top down until one is found that the tool validates, which is then made
  active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
@@ -160,7 +160,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Return whether setting a tool will auto-activate a layer appropriate to the tool
- @note
+
  Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
  layers are searched top down until one is found that the tool validates, which is then made
  active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
@@ -174,7 +174,7 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark -
 
 /** @brief Sets the current drawing tool
- @note
+
  The tool is set locally, for the drawing or globally according to the current scope.
  @param aTool the tool to set
  */
@@ -230,7 +230,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Select the tool using its registered name
- @note
+
  Tools must be registered in the DKDrawingTool registry with the given name before you can use this
  method to set them, otherwise an exception is thrown.
  @param name the registered name of the required tool
@@ -251,7 +251,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Return the current drawing tool
- @note
+
  The tool is set locally, for the drawing or globally according to the current scope.
  @return the current tool
  */
@@ -271,7 +271,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Check if the tool can be set for the current active layer
- @note
+
  Can be used to test whether a tool is able to be selected in the current context. There is no
  requirement to use this - you can set the drawing tool anyway and if an attempt to use it in
  an invalid layer is made, the tool controller will handle it anyway. A UI might want to use this
@@ -287,7 +287,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Set whether the tool should automatically "spring back" to the selection tool after each application
- @note
+
  The default is YES
  @param reverts YES to spring back, NO to leave the present tool active after each use
  */
@@ -303,7 +303,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Whether the tool should automatically "spring back" to the selection tool after each application
- @note
+
  The default is YES
  @return YES to spring back, NO to leave the present tool active after each use
  */
@@ -327,7 +327,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Select the tool using its registered name based on the title of a UI control, etc.
- @note
+
  This is a convenience for hooking up a UI for picking a tool. You can set the title of a button to
  be the tool's name and target first responder using this action, and it will select the tool if it
  has been registered using the name. This makes UI such as a palette of tools trivial to implement,
@@ -341,7 +341,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Select the tool using the represented object of a UI control, etc.
- @note
+
  This is a convenience for hooking up a UI for picking a tool. You can set the rep. object of a button to
  be the tool and target first responder using this action, and it will set the tool to the button's
  represented object.
@@ -363,7 +363,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Toggle the state of the automatic tool "spring" behaviour.
- @note
+
  Flips the state of the auto-revert flag. A UI can make use of this to control the flag in order to
  make a tool "sticky". Often this is done by double-clicking the tool button.
  @param sender the sender of the action
@@ -398,7 +398,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Closes the current undo manager group if one has been opened
- @note
+
  When the controller is set up to always open a group, this also deals with the bogus task bug in
  NSUndoManager, where opening and closig a group creates an empty undo task. If that case is detected,
  the erroneous task is removed from the stack by invoking undo while temporarily disabling the UM.
@@ -453,7 +453,7 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As a DKViewController
 
 /** @brief Initialize the controller.
- @note
+
  Does not set an initial tool because the objects needed for the document scope are not available.
  The initial tool is set when the controller is added to a drawing (see setDrawing:)
  @param aView the view associated with the controller
@@ -472,7 +472,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief The controller is being added to a drawing
- @note
+
  If no tool is set, set it initially to the select & edit tool. Note that this method is invoked as
  necessary when a controller is added to a drawing - you should not call it directly nor at any time
  while a controller is owned by the drawing.
@@ -498,7 +498,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse down event
- @note
+
  Calls the mouse down method of the current tool, if the layer is an object layer. Calls super to
  ensure that autscrolling and targeting of other layer types works normally.
  @param event the event
@@ -575,7 +575,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse dragged event
- @note
+
  Calls the mouse dragged method of the current tool, if the layer is an object layer. Calls super to
  ensure that other layer types work normally.
  @param event the event
@@ -620,7 +620,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse up event
- @note
+
  Calls the mouse up method of the current tool, if the layer is an object layer. Calls super to
  ensure that other layer types work normally.
  @param event the event
@@ -691,7 +691,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the flags changed up event
- @note
+
  Passes the event to the current tool
  @param event the event
  */
@@ -705,7 +705,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Handle the mouse moved event
- @note
+
  Passes the event to the current tool or active layer, depending on which, if any, can respond.
  @param event the event
  */
@@ -738,7 +738,7 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As an NSResponder
 
 /** @brief Responds to a keyDown event by selecting a tool having a matching key equivalent, if any
- @note
+
  If a tool exists that matches the key equivalent, select it. Otherwise just pass the event
  to the layer.
  @param event the key down event
@@ -765,7 +765,7 @@ static DKDrawingTool* sGlobalTool = nil;
 }
 
 /** @brief Forward an invocation to the active layer if it implements it
- @note
+
  DK makes a lot of use of invocaiton forwarding - views forward to their controllers, which forward
  to the active layer, which may forward to selected objects within the layer. This allows objects
  to respond to action methods and so forth at their own level.
@@ -796,7 +796,7 @@ static DKDrawingTool* sGlobalTool = nil;
 #pragma mark - As part of the NSObject (DKToolDelegate) protocol
 
 /** @brief Opens an undo group to receive subsequent undo tasks
- @note
+
  This is needed to work around an NSUndoManager bug where empty groups create a bogus task on the stack.
  A group is only opened when a real task is coming. This isn't really very elegant right now - a
  better solution is sought, perhaps subclassing NSUndoManager itself.

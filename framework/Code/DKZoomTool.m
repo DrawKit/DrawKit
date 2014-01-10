@@ -159,7 +159,7 @@
 }
 
 /** @brief Return whether the target layer can be used by this tool
- @note
+
  Zoom tools can always work, even in hidden layers - so always returns YES
  @param aLayer a layer object
  @return YES if the tool can be used with the given layer, NO otherwise

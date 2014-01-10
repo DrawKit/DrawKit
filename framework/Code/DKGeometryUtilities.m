@@ -17,7 +17,7 @@
 const NSPoint NSNotFoundPoint = { -10000000.2, -999999.6 };
 
 /** @brief Forms a rectangle from any two corner points
- @note
+
  The rect is normalised, in that the relative positions of a and b do not affect the result - the
  rect always extends in the positive x and y directions.
  @param a, b a pair of points
@@ -51,7 +51,7 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size)
 }
 
 /** @brief Returns the smallest rect that encloses both a and b
- @note
+
  Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
  width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
  returned, but in all other cases it correctly forms the union. While NSUnionRect might be
@@ -94,7 +94,7 @@ NSRect UnionOfRectsInSet(const NSSet* aSet)
 }
 
 /** @brief Returns the area that is different between two input rects, as a list of rects
- @note
+
  This can be used to optimize upates. If a and b are "before and after" rects of a visual change,
  the resulting list is the area to update assuming that nothing changed in the common area,
  which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,

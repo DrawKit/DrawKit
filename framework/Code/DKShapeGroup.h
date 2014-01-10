@@ -50,7 +50,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 // creating new groups:
 
 /** @brief Creates a group of shapes or paths from a list of bezier paths
- @note
+
  This constructs a group from a list of bezier paths by wrapping a drawable around each path then
  grouping the result. While general purpose in nature, this is primarily to support the construction
  of a group containing text glyphs from a text shape object. The group's location is set to the
@@ -64,7 +64,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 + (DKShapeGroup*)groupWithBezierPaths:(NSArray*)paths objectType:(NSInteger)type style:(DKStyle*)style;
 
 /** @brief Creates a group from a list of existing objects
- @note
+
  Initial location is at the centre of the rectangle that bounds all of the contributing objects.
  the objects can be newly created or already existing as part of a drawing. Grouping the objects
  will change the parent of the object but not the owner until the group is placed. The group should
@@ -84,7 +84,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 // setting up the group:
 
 /** @brief Initialises a group from a list of existing objects
- @note
+
  Designated initialiser. initial location is at the centre of the rectangle that bounds all of
  the contributing objects.
  the objects can be newly created or already existing as part of a drawing. Grouping the objects
@@ -97,7 +97,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 - (id)initWithObjectsInArray:(NSArray*)objects;
 
 /** @brief Sets up the group state from the original set of objects
- @note
+
  This sets the initial size and location of the group, and adjusts the position of each object so
  it is relative to the group, not the original drawing. It also sets the parent member of each object
  to the group so that the group's transform is applied when the objects are drawn.
@@ -111,7 +111,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 - (NSArray*)groupObjects;
 
 /** @brief Computes the initial overall bounding rect of the constituent objects
- @note
+
  This sets the _bounds member to the union of the apparent bounds of the constituent objects. This
  rect represents the original size and position of the group, and does not change even if the group
  is moved or resized - transforms are calculated by comparing the original bounds to the instantaneous
@@ -126,7 +126,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 
 /** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
  between the logical and reported bounds.
- @note
+
  The result is the max of all the contained objects
  @return the extra space required
  */
@@ -138,14 +138,14 @@ For the normal case of grouping existing objects within a layer, this is not an 
 - (NSRect)groupBoundingRect;
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
- @note
+
  The scale ratio is the ratio between the group's original bounds and its current size.
  @return the scale ratios
  */
 - (NSSize)groupScaleRatios;
 
 /** @brief Sets the current list of objects to the given objects
- @note
+
  This is a low level method called by setGroupObjects: it implements the undoable part of building
  a group. It should not be directly called.
  @param objects the objects to be grouped */
@@ -154,13 +154,13 @@ For the normal case of grouping existing objects within a layer, this is not an 
 // drawing the group:
 
 /** @brief Returns a transform used to map the contained objects to the group's size, position and angle.
- @note
+
  This transform is used when drawing the group's contents
  @return a transform object */
 - (NSAffineTransform*)contentTransform;
 
 /** @brief Returns a transform which is the accumulation of all the parent objects above this one.
- @note
+
  Drawables will request and apply this transform when rendering. Either the identity matrix is
  returned if the group is visually transforming the result, or a combination of the parents above
  and the content transform. Either way contained objects are oblivious and do the right thing.
@@ -168,14 +168,14 @@ For the normal case of grouping existing objects within a layer, this is not an 
 - (NSAffineTransform*)renderingTransform;
 
 /** @brief Maps a point from the original container's coordinates to the equivalent group point
- @note
+
  The container will be usually a layer or another group.
  @param p a point
  @return a new point */
 - (NSPoint)convertPointFromContainer:(NSPoint)p;
 
 /** @brief Maps a point from the group's coordinates to the equivalent original container point
- @note
+
  The container will be usually a layer or another group.
  @param p a point
  @return a new point */
@@ -196,7 +196,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 // ungrouping:
 
 /** @brief Unpacks the group back into the nominated layer 
- @note
+
  Usually it's better to call the higher level ungroupObjects: action method which calls this. This
  method strives to preserve as much information about the objects as possible - e.g. their rotation
  angle and size. Nested groups can cause distortions which are visually preserved though the bounds
@@ -206,7 +206,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 - (void)ungroupToLayer:(DKObjectDrawingLayer*)layer;
 
 /** @brief High-level call to ungroup the group.
- @note
+
  Undoably ungroups this and replaces itself in its layer by its contents
  @param sender the sender of the action
  */

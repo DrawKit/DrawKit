@@ -55,7 +55,7 @@ selected state.
 // convenience constructor:
 
 /** @brief Convenience method creates an entire new layer containing the given objects
- @note
+
  The objects are not initially selected
  @param objects an array containing drawable objects which must not be already owned by another layer
  @return a new layer object containing the objects
@@ -65,7 +65,7 @@ selected state.
 // useful lists of objects:
 
 /** @brief Returns the objects that are not locked, visible and selected
- @note
+
  This also preserves the stacking order of the objects (unlike -selection), so is the most useful
  means of obtaining the set of objects that can be acted upon by a command or user interface control.
  Note that if the layer is locked as a whole, this always returns an empty list
@@ -74,14 +74,14 @@ selected state.
 - (NSArray*)selectedAvailableObjects; // KVC/KVO compliant (read only)
 
 /** @brief Returns the objects that are not locked, visible and selected and which have the given class
- @note
+
  See comments for selectedAvailableObjects
  @return an array, objects of the given class that can be acted upon by a command as a set
  */
 - (NSArray*)selectedAvailableObjectsOfClass:(Class)aClass;
 
 /** @brief Returns the objects that are visible and selected
- @note
+
  See comments for selectedAvailableObjects
  @return an array
  */
@@ -89,7 +89,7 @@ selected state.
 - (NSSet*)selectedObjectsReturning:(NSInteger)answer toSelector:(SEL)selector;
 
 /** @brief Returns objects that respond to the selector <selector>
- @note
+
  This is a more general kind of test for ensuring that selectors are only sent to those
  objects that can respond. Hidden or locked objects are also excluded.
  @param selector any selector
@@ -98,7 +98,7 @@ selected state.
 - (NSSet*)selectedObjectsRespondingToSelector:(SEL)selector;
 
 /** @brief Returns an array consisting of a copy of the selected objects
- @note
+
  The result maintains the stacking order of the original objects, but the objects do not belong to
  where objects are ultimately going to be pasted back in to this or another layer.
  @return an array of objects. 
@@ -106,7 +106,7 @@ selected state.
 - (NSArray*)duplicatedSelection;
 
 /** @brief Returns the selected objects in their original stacking order.
- @note
+
  Slower than -selection, as it needs to iterate over the objects. This ignores visible and locked
  states of the objects. See also -selectedAvailableObjects. If the layer itself is locked, returns
  an empty array.
@@ -115,7 +115,7 @@ selected state.
 - (NSArray*)selectedObjectsPreservingStackingOrder;
 
 /** @brief Returns the number of objects that are visible and not locked
- @note
+
  If the layer itself is locked, returns 0
  @return the count
  */
@@ -130,7 +130,7 @@ selected state.
 // doing stuff to each one:
 
 /** @brief Makes the selected available object perform a given selector.
- @note
+
  An easy way to apply a command to the set of selected available objects, provided that the
  selector requires no parameters
  @param selector the selector the objects should perform
@@ -149,7 +149,7 @@ selected state.
 - (void)setSelectedObjectsLocked:(BOOL)lock;
 
 /** @brief Hides or shows all of the objects in the selection
- @note
+
  Since hidden selected objects are not drawn, use with care, since usability may be severely
  compromised (for example, how are you going to be able to select hidden objects in order to show them?)
  @param visible YES to show the objects, NO to hide them
@@ -175,7 +175,7 @@ selected state.
 // the selection:
 
 /** @brief Sets the selection to a given set of objects
- @note
+
  For interactive selections, exchangeSelectionWithObjectsInArray: is more appropriate and efficient
  @param sel a set of objects to select
  */
@@ -183,7 +183,7 @@ selected state.
 - (NSSet*)selection;
 
 /** @brief If the selection consists of a single available object, return it. Otherwise nil.
- @note
+
  This is useful for easily handling the case where an operation can only operate on one object to be
  meaningful. It is also used by the automatic invocation forwarding mechanism.
  @return the selected object if it's the only one and it's available
@@ -191,7 +191,7 @@ selected state.
 - (DKDrawableObject*)singleSelection;
 
 /** @brief Return the number of items in the selection.
- @note
+
  KVC compliant; returns 0 if the layer is locked or hidden.
  @return an integer, the countof selected objects
  */
@@ -204,20 +204,20 @@ selected state.
 - (void)deselectAll;
 
 /** @brief Select all available objects
- @note
+
  This also adds hidden objects to the selection, even though they are not visible
  */
 - (void)selectAll;
 
 /** @brief Add a single object to the selection
- @note
+
  Any existing objects in the selection remain selected
  @param obj an object to select
  */
 - (void)addObjectToSelection:(DKDrawableObject*)obj;
 
 /** @brief Add a set of objects to the selection
- @note
+
  Existing objects in the selection remain selected
  @param objs an array of objects to select
  */
@@ -230,21 +230,21 @@ selected state.
 - (BOOL)replaceSelectionWithObject:(DKDrawableObject*)obj;
 
 /** @brief Remove a single object from the selection
- @note
+
  Other objects in the selection are unaffected
  @param obj the object to deselect
  */
 - (void)removeObjectFromSelection:(DKDrawableObject*)obj;
 
 /** @brief Remove a series of object from the selection
- @note
+
  Other objects in the selection are unaffected
  @param objs the list of objects to deselect
  */
 - (void)removeObjectsFromSelectionInArray:(NSArray*)objs;
 
 /** @brief Sets the selection to a given set of objects
- @note
+
  This is intended as a more efficient version of setSelection:, since it only changes the state of
  objects that differ between the current selection and the list passed. It is intended to be called
  when interactively making a selection such as during a marquee drag, when it's likely that the same
@@ -263,7 +263,7 @@ selected state.
 // style operations on multiple items:
 
 /** @brief Sets the selection to the set of objects that have the given style
- @note
+
  The style is compared by key, so clones of the style are not considered a match
  @param style the style to match
  @return YES if the selection changed, NO if it did not
@@ -304,7 +304,7 @@ selected state.
 // selection undo stuff:
 
 /** @brief Set whether selection changes should be recorded for undo.
- @note
+
  Different apps may want to treat selection changes as undoable state changes or not.
  @param undoable YES to record selection changes, NO to not bother.
  */
@@ -316,14 +316,14 @@ selected state.
 - (BOOL)selectionChangesAreUndoable;
 
 /** @brief Make a copy of the selection for a possible undo recording
- @note
+
  The selection is copied and stored in the ivar <_selectionUndo>. Usually called at the start of
  an operation that can potentially change the selection state, such as a mouse down.
  */
 - (void)recordSelectionForUndo;
 
 /** @brief Sends the recorded selection state to the undo manager and tags it with the given action name
- @note
+
  Usually called at the end of any operation than might have changed the selection. This also sets
  the action name even if the selection is unaffected, so callers can just call this with the
  desired action name and get the correct outcome, whether or not selection is undoable or changed.
@@ -346,7 +346,7 @@ selected state.
 
 /** @brief Draws only the selected objects, with the selection highlight given. This is used when
  imaging the selection to a PDF or other context.
- @note
+
  Usually there is no good reason to copy objects with the selection state set to YES, but this is
  provided for special needs when you do want that.
  @param selected YES to show the selection, NO to not show it
@@ -354,7 +354,7 @@ selected state.
 - (void)drawSelectedObjectsWithSelectionState:(BOOL)selected;
 
 /** @brief Creates an image of the selected objects
- @note
+
  Used to create an image representation of the selection when performing a cut or copy operation, to
  allow the selection to be exported to graphical apps that don't understand our internal object format.
  @return an image
@@ -362,7 +362,7 @@ selected state.
 - (NSImage*)imageOfSelectedObjects;
 
 /** @brief Creates a PDF representation of the selected objects
- @note
+
  Used to create a PDF representation of the selection when performing a cut or copy operation, to
  allow the selection to be exported to PDF apps that don't understand our internal object format.
  This requires the use of a temporary special view for recording the output as PDF.
@@ -373,7 +373,7 @@ selected state.
 // clipboard ops:
 
 /** @brief Copies the selection to the given pasteboard in a variety of formats
- @note
+
  Data is recorded as native data, PDF and TIFF. Note that locked objects can't be copied as
  native types, but images are still copied.
  @param pb the pasteboard to copy to
@@ -384,21 +384,21 @@ selected state.
 
 /** @brief Sets whether selection highlights should be drawn on top of all other objects, or if they should be
  drawn with the object at its current stacking position.
- @note
+
  Default is YES
  @param onTop YES to draw on top, NO to draw in situ
  */
 - (void)setDrawsSelectionHighlightsOnTop:(BOOL)onTop;
 
 /** @brief Draw selection highlights on top or in situ?
- @note
+
  Default is YES
  @return YES if drawn on top, NO in situ.
  */
 - (BOOL)drawsSelectionHighlightsOnTop;
 
 /** @brief Sets whether a drag into this layer will target individual objects or not.
- @note
+
  If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
  the object itself will be passed the drop information. Default is YES.
  @param allow allow individual objects to receive drags
@@ -406,7 +406,7 @@ selected state.
 - (void)setAllowsObjectsToBeTargetedByDrags:(BOOL)allow;
 
 /** @brief Returns whether a drag into this layer will target individual objects or not.
- @note
+
  If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
  the object itself will be passed the drop information. Default is YES.
  @return YES if objects can be targeted by drags
@@ -414,7 +414,7 @@ selected state.
 - (BOOL)allowsObjectsToBeTargetedByDrags;
 
 /** @brief Sets whether the selection is actually shown or not.
- @note
+
  Normally the selection should be visible, but some tools might want to hide it temporarily
  at certain well-defined times, such as when dragging objects.
  @param vis YES to show the selection, NO to hide it
@@ -422,14 +422,14 @@ selected state.
 - (void)setSelectionVisible:(BOOL)vis;
 
 /** @brief Whether the selection is actually shown or not.
- @note
+
  Normally the selection should be visible, but some tools might want to hide it temporarily
  at certain well-defined times, such as when dragging objects.
  @return YES if the selection is visible, NO if hidden
  */
 - (BOOL)selectionVisible;
 
-/** @note
+/**
  Default is NO for backward compatibility. This feature is useful to allow an action to be
  defined by an object but to have it invoked on all objects that are able to respond in the
  current selection without having to implement the action in the layer. Formerly such actions were
@@ -440,7 +440,7 @@ selected state.
 - (BOOL)multipleSelectionAutoForwarding;
 
 /** @brief Handle validation of menu items in a multiple selection when autoforwarding is enabled
- @note
+
  This also tries to intelligently set the state of the item. If some objects set the state one way
  and others to another state, this will automatically set the mixed state. While the menu item
  itself is enabled if any object enabled it, the mixed state indicates that the outcome of the
@@ -453,7 +453,7 @@ selected state.
 // drag + drop:
 
 /** @brief Sets the rect outside of which a mouse drag will drag the selection with the drag manager.
- @note
+
  By default the drag exclusion rect is set to the interior of the drawing. Dragging objects to the
  margins thus drags them "off" the drawing.
  @param aRect a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
@@ -466,7 +466,7 @@ selected state.
 - (NSRect)dragExclusionRect;
 
 /** @brief Initiates a drag of the selection to another document or app, or back to self.
- @note
+
  Keeps control until the drag completes. Swallows the mouseUp event. called from the mouseDragged
  method when the mouse leaves the drag exclusion rect.
  @param event the event that triggered the action - must be a mouseDown or mouseDragged
@@ -478,7 +478,7 @@ selected state.
 // grouping & ungrouping operations:
 
 /** @brief Layer is about to group a number of objects
- @note
+
  The default does nothing and returns YES - subclasses could override this to enhance or refuse
  grouping. This is invoked by the high level groupObjects: action method.
  @param objectsToBeGrouped the objects about to be grouped
@@ -488,14 +488,14 @@ selected state.
 - (BOOL)shouldGroupObjects:(NSArray*)objectsToBeGrouped intoGroup:(DKShapeGroup*)aGroup;
 
 /** @brief Layer did create the group and added it to the layer
- @note
+
  The default does nothing - subclasses could override this. This is invoked by the high level
  @param aGroup the group just added
  */
 - (void)didAddGroup:(DKShapeGroup*)aGroup;
 
 /** @brief A group object is about to be ungrouped
- @note
+
  The default does nothing - subclasses could override this. This is invoked by a group when it
  is about to ungroup - see [DKShapeGroup ungroupObjects:]
  @param aGroup the group about to be ungrouped
@@ -504,7 +504,7 @@ selected state.
 - (BOOL)shouldUngroup:(DKShapeGroup*)aGroup;
 
 /** @brief A group object was ungrouped and its contents added back into the layer
- @note
+
  The default does nothing - subclasses could override this. This is invoked by the group just after
  it has ungrouped - see [DKShapeGroup ungroupObjects:]
  @param ungroupedObjects the objects just ungrouped
@@ -514,21 +514,21 @@ selected state.
 // user actions:
 
 /** @brief Perform a cut
- @note
+
  Cuts the selection
  @param sender the action's sender
  */
 - (IBAction)cut:(id)sender;
 
 /** @brief Perform a copy
- @note
+
  Copies the selection to the general pasteboard
  @param sender the action's sender
  */
 - (IBAction)copy:(id)sender;
 
 /** @brief Perform a paste
- @note
+
  Pastes from the general pasteboard
  @param sender the action's sender
  */
@@ -539,7 +539,7 @@ selected state.
  */
 - (IBAction) delete:(id)sender;
 
-/** @note
+/**
  Calls delete: when backspace key is typed
  @param sender the action's sender
  */
@@ -601,21 +601,21 @@ selected state.
 - (IBAction)showObject:(id)sender;
 
 /** @brief Hides all selected objects, then deselects all
- @note
+
  Caution: hiding the selection has usability implications!!
  @param sender the action's sender
  */
 - (IBAction)hideObject:(id)sender;
 
 /** @brief Reveals any hidden objects, setting the selection to them
- @note
+
  Beeps if no objects were hidden
  @param sender the action's sender
  */
 - (IBAction)revealHiddenObjects:(id)sender;
 
 /** @brief Turns the selected objects into a group.
- @note
+
  The new group is placed on top of all objects even if the objects grouped were not on top. The group
  as a whole can be moved to any index - ungrouping replaces objects at that index.
  @param sender the action's sender
@@ -624,42 +624,42 @@ selected state.
 - (IBAction)clusterObjects:(id)sender;
 
 /** @brief Set the selected objects ghosted.
- @note
+
  Ghosted objects draw using an unobtrusive placeholder style
  @param sender the action's sender
  */
 - (IBAction)ghostObjects:(id)sender;
 
 /** @brief Set the selected objects unghosted.
- @note
+
  Ghosted objects draw using an unobtrusive placeholder style
  @param sender the action's sender
  */
 - (IBAction)unghostObjects:(id)sender;
 
 /** @brief Nudges the selected objects left by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
 - (IBAction)moveLeft:(id)sender;
 
 /** @brief Nudges the selected objects right by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
 - (IBAction)moveRight:(id)sender;
 
 /** @brief Nudges the selected objects up by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
 - (IBAction)moveUp:(id)sender;
 
 /** @brief Nudges the selected objects down by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
@@ -676,7 +676,7 @@ selected state.
 - (IBAction)joinPaths:(id)sender;
 
 /** @brief Applies a style to the objects in the selection
- @note
+
  The sender -representedObject must be a DKStyle. This is designed to match the menu items managed
  by DKStyleRegistry, but can be arranged to be any object that can have a represented object.
  @param sender the action's sender

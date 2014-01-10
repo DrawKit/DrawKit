@@ -48,7 +48,7 @@ typedef enum {
 }
 
 /** @brief Return the view currently drawing
- @note
+
  This is only valid during a drawRect: call - some internal parts of DK use this to obtain the
  view doing the drawing when they do not have a direct parameter to it.
  @return the current view that is drawing
@@ -96,7 +96,7 @@ typedef enum {
 // the view's controller
 
 /** @brief Creates a controller for this view that can be added to a drawing
- @note
+
  Normally you wouldn't call this yourself unless you are building the entire DK system by hand rather
  than using DKDrawDocument or automatic drawing creation. You can override it to create different
  kinds of controller however. Th edefault controller is DKToolController so that DK provides you
@@ -106,7 +106,7 @@ typedef enum {
 - (DKViewController*)makeViewController;
 
 /** @brief Set the view's controller
- @note
+
  Do not call this directly - the controller will call it to set up the relationship at the right
  time.
  @param aController the controller for this view
@@ -119,7 +119,7 @@ typedef enum {
 - (DKViewController*)controller;
 
 /** @brief Sea new controller for this view
- @note
+
  This is a convenience that allows a controller to be simply instantiated and passed in, replacing
  the existing controller. Note that -setController: does NOT achieve that. The drawing must
  already exist for this to work.
@@ -130,7 +130,7 @@ typedef enum {
 // automatic drawing info
 
 /** @brief Return the drawing that the view will draw
- @note
+
  The drawing is obtained via the controller, and may be nil if the controller hasn't been added
  to a drawing yet. Even when the view owns the drawing (for auto back-end) you should use this
  method to get a view's drawing.
@@ -139,7 +139,7 @@ typedef enum {
 - (DKDrawing*)drawing;
 
 /** @brief Create an entire "back end" for the view 
- @note
+
  Normally you create a drawing, and add layers to it. However, you can also let the view create the
  drawing back-end for you. This will occur when the view is asked to draw and there is no back end. This method
  does the building. This feature means you can simply drop a drawingView into a NIB and get a
@@ -150,7 +150,7 @@ typedef enum {
 // drawing page breaks & crop marks
 
 /** @brief Returns a path which represents all of the printed page rectangles
- @note
+
  Any extension may not end up visible when printed depending on the printer's margin settings, etc.
  The only supported option currently is kDKCornerOnly, which generates corner crop marks rather
  than the full rectangles.
@@ -160,7 +160,7 @@ typedef enum {
 - (NSBezierPath*)pageBreakPathWithExtension:(CGFloat)amount options:(DKCropMarkKind)options;
 
 /** @brief Sets whether the page breaks are shown or not
- @note
+
  Page breaks also need a valid printInfo object set
  @param pbVisible YES to show the page breaks, NO otherwise
  */
@@ -175,14 +175,14 @@ typedef enum {
 - (void)drawPageBreaks;
 
 /** @brief Set what kind of crop marks printed output includes
- @note
+
  Default is no crop marks
  @param kind the kind of crop mark (including none)
  */
 - (void)setPrintCropMarkKind:(DKCropMarkKind)kind;
 
 /** @brief What sort of crop mark sare applied to printed output
- @note
+
  Default is no crop marks
  @return the crop mark kind
  */
@@ -203,7 +203,7 @@ typedef enum {
 // editing text directly in the drawing:
 
 /** @brief Start editing text in a box within the view
- @note
+
  When an object in the drawing wishes to allow the user to edit some text, it can use this utility
  to set up the editor. This creates a subview for text editing with the nominated text and the
  bounds rect given within the drawing. The text is installed, selected and activated. User actions
@@ -217,7 +217,7 @@ typedef enum {
 - (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del;
 
 /** @brief Start editing text in a box within the view
- @note
+
  When an object in the drawing wishes to allow the user to edit some text, it can use this utility
  to set up the editor. This creates a subview for text editing with the nominated text and the
  bounds rect given within the drawing. The text is installed, selected and activated. User actions
@@ -236,7 +236,7 @@ typedef enum {
 - (void)endTextEditing;
 
 /** @brief Return the text from the temporary editing view
- @note
+
  This must be called prior to calling -endTextEditing, because the storage is made empty at that time
  @return the text
  */
@@ -248,7 +248,7 @@ typedef enum {
 - (NSTextView*)textEditingView;
 
 /** @brief Respond to frame size changes in the text editor view
- @note
+
  This tidies up the display when the editor frame changes size. The frame can change
  during editing depending on how the client has configured it, but to prevent bits from being
  left behind when the frame is made smaller, this simply invalidates the previous frame rect.
@@ -257,7 +257,7 @@ typedef enum {
 - (void)editorFrameChangedNotification:(NSNotification*)note;
 
 /** @brief Is the text editor visible and active?
- @note
+
  Clients should not generally start a text editing operation if there is already one in progress,
  though if they do the old one is immediately ended anyway.
  @return YES if text editing is in progress, NO otherwise
@@ -267,7 +267,7 @@ typedef enum {
 // ruler stuff
 
 /** @brief Set a ruler marker to a given position
- @note
+
  Generally called from the view's controller
  @param markerName the name of the marker to move
  @param loc a position value to move the ruler marker to
@@ -275,7 +275,7 @@ typedef enum {
 - (void)moveRulerMarkerNamed:(NSString*)markerName toLocation:(CGFloat)loc;
 
 /** @brief Set up the markers for the rulers.
- @note
+
  Done as part of the view's initialization - markers are initially created offscreen.
  */
 - (void)createRulerMarkers;
@@ -285,13 +285,13 @@ typedef enum {
 - (void)removeRulerMarkers;
 
 /** @brief Set up the client view for the rulers.
- @note
+
  Done as part of the view's initialization
  */
 - (void)resetRulerClientView;
 
 /** @brief Set the ruler lines to the current mouse point
- @note
+
  N.b. on 10.4 and earlier, there is a bug in NSRulerView that prevents both h and v ruler lines
  showing up correctly at the same time. No workaround is known. Fixed in 10.5+
  @param mouse the current mouse poin tin local coordinates */
@@ -308,7 +308,7 @@ typedef enum {
 // window activations
 
 /** @brief Invalidate the view when window active state changes.
- @note
+
  Drawings can change appearance when the active state changes, for example selections are drawn
  in inactive colour, etc. This makes sure that the drawing is refreshed when the state does change.
  @param note the notification

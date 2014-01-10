@@ -11,7 +11,7 @@
 @implementation DKDrawing (Paper)
 
 /** @brief Returns the size (in Quartz drawing units) of an A0 piece of paper.
- @note
+
  Result may be passed directly to setDrawingSize:
  @param portrait YES if in portrait orientation, NO for landscape.
  @return the paper size
@@ -34,7 +34,7 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A1 piece of paper.
- @note
+
  Result may be passed directly to setDrawingSize:
  @param portrait YES if in portrait orientation, NO for landscape.
  @return the paper size
@@ -52,7 +52,7 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A2 piece of paper.
- @note
+
  Result may be passed directly to setDrawingSize:
  @param portrait YES if in portrait orientation, NO for landscape.
  @return the paper size
@@ -70,7 +70,7 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A3 piece of paper.
- @note
+
  Result may be passed directly to setDrawingSize:
  @param portrait YES if in portrait orientation, NO for landscape.
  @return the paper size
@@ -88,7 +88,7 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A4 piece of paper.
- @note
+
  Result may be passed directly to setDrawingSize:
  @param portrait YES if in portrait orientation, NO for landscape.
  @return the paper size
@@ -106,7 +106,7 @@
 }
 
 /** @brief Returns the size (in Quartz drawing units) of an A5 piece of paper.
- @note
+
  Result may be passed directly to setDrawingSize:
  @param portrait YES if in portrait orientation, NO for landscape.
  @return the paper size

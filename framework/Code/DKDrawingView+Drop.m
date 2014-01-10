@@ -15,7 +15,7 @@ extern DKDrawingView* sCurDView;
 #pragma mark As a DKDrawingView
 
 /** @brief Returns the current active layer, by asking the controller for it
- @note
+
  DKDrawing maintains the active layer - look there for a method to set it
  @return a layer, the one that is currently active
  */
@@ -78,7 +78,7 @@ extern DKDrawingView* sCurDView;
 #pragma mark -
 
 /** @brief Queries whether the active layer wantes periodic drag updates
- @note
+
  A layer implementing the NSDraggingDestination protocol should return the desired flag
  @return YES if perodic update are wanted, NO otherwise */
 - (BOOL)wantsPeriodicDraggingUpdates

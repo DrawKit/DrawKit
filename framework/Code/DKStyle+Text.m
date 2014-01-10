@@ -48,7 +48,7 @@ static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D5
 }
 
 /** @brief Returns a basic text style with the given font
- @note
+
  The style's name is set based on the font. Initial text alignment is the natural alignment.
  @param font a font
  @return a style incorporating the given font in its text attributes

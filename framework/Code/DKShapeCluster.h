@@ -28,7 +28,7 @@ since the master object must be nominated when creating the cluster.
 }
 
 /** @brief Creates a new cluster from a set of objects
- @note
+
  The master object must be also one of the objects in the list of objects, and must be a shape.
  @param objects the list of objects to be added to the cluster
  @param master the master object
@@ -37,7 +37,7 @@ since the master object must be nominated when creating the cluster.
 + (DKShapeCluster*)clusterWithObjects:(NSArray*)objects masterObject:(DKDrawableShape*)master;
 
 /** @brief Sets the master object for the cluster
- @note
+
  The master object must already be one of the objects in the group, and it must be a shape
  @param master the master object
  */

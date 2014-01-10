@@ -64,7 +64,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 + (NSUInteger)drawkitVersion;
 
 /** @brief Return the current version number and release status as a preformatted string
- @note
+
  This is intended for occasional display, rather than testing for the framework version.
  @return a string, e.g. "1.0.b6"
  */
@@ -76,7 +76,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 + (NSString*)drawkitReleaseStatus;
 
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
- @note
+
  As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
  you'll get a fully working, prebuilt drawing system behind that view. This can be very handy for all
  sorts of uses. However, it is more usual to build the system the other way around - start with a
@@ -94,7 +94,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 + (DKDrawing*)drawingWithData:(NSData*)drawingData;
 
 /** @brief Return the default derachiving helper for deaerchiving a drawing
- @note
+
  This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
  classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
  replaced to provide the same functionality for application-specific classes.
@@ -103,7 +103,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 + (id)dearchivingHelper;
 
 /** @brief Replace the default dearchiving helper for deaerchiving a drawing
- @note
+
  This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
  classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
  replaced to provide the same functionality for application-specific classes.
@@ -117,7 +117,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 + (NSUInteger)newDrawingNumber;
 
 /** @brief Returns a dictionary containing some standard drawing info attributes
- @note
+
  This is usually called by the drawing object itself when built new. Usually you'll want to replace
  its contents with your own info. A DKDrawingInfoLayer can interpret some of the standard values and
  display them in its info box.
@@ -126,7 +126,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 + (NSMutableDictionary*)defaultDrawingInfo;
 
 /** @brief Sets the abbreviation for the given drawing units string
- @note
+
  This allows special abbreviations to be set for units if desired. The setting writes to the user
  defaults so is persistent.
  @param abbrev the abbreviation for the unit
@@ -146,14 +146,14 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 // owner (document or view)
 
 /** @brief Returns the "owner" of this drawing.
- @note
+
  The owner is usually either a document, a window controller or a drawing view.
  @return the owner
  */
 - (id)owner;
 
 /** @brief Sets the "owner" of this drawing.
- @note
+
  The owner is usually either a document, a window controller or a drawing view. It is not required to
  be set at all, though some higher-level conveniences may depend on it.
  @param owner the owner for this object
@@ -180,7 +180,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (BOOL)isFlipped;
 
 /** @brief Sets the destination colour space for the whole drawing
- @note
+
  Colours set by styles and so forth are converted to this colourspace when rendering. A value of
  nil will use whatever is set in the colours used by the styles.
  @param cSpace the colour space 
@@ -188,7 +188,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (void)setColourSpace:(NSColorSpace*)cSpace;
 
 /** @brief Returns the colour space for the whole drawing
- @note
+
  Colours set by styles and so forth are converted to this colourspace when rendering. A value of
  nil will use whatever is set in the colours used by the styles.
  @return the colour space
@@ -221,7 +221,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (void)removeController:(DKViewController*)aController;
 
 /** @brief Removes all controller from the drawing
- @note
+
  Typically controllers are removed when necessary - there is little reason to call this yourself
  */
 - (void)removeAllControllers;
@@ -241,7 +241,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @{ */
 
 /** @brief Set whether drawing quality modulation is enabled or not
- @note
+
  Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
  the need for it. This flag allows that behaviour to be turned on or off.
  */
@@ -318,7 +318,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len;
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
- @note
+
  This wraps up length conversion and formatting for display into one method, which also calls the
  delegate if it implements the relevant method.
  @param len a distance in base points (pixels)
@@ -327,7 +327,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSString*)formattedConvertedLength:(CGFloat)len;
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
- @note
+
  This wraps up length conversion and formatting for display into one method, which also calls the
  delegate if it implements the relevant method. The result is an array with two strings - the first
  is the x coordinate, the second is the y co-ordinate
@@ -352,7 +352,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @{ */
 
 /** @brief Returns the image manager
- @note
+
  The image manager is an object that is used to improve archiving efficiency of images. Classes
  that have images, such as DKImageShape, use this to cache image data.
  @return the drawing's image manager
@@ -434,13 +434,13 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 + (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath;
 
 /** @brief Saves the static class defaults for ALL classes in the drawing system
- @note
+
  Deprecated - no longer does anything
  */
 + (void)saveDefaults;
 
 /** @brief Loads the static user defaults for all classes in the drawing system
- @note
+
  Deprecated - no longer does anything
  */
 + (void)loadDefaults;

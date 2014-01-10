@@ -33,7 +33,7 @@ You can also set up a style to be applied to all new objects initially as an ind
 }
 
 /** @brief Create a tool for an existing object
- @note
+
  This method conveniently allows you to create tools for any object you already have. For example
  if you create a complex shape from others, or make a group of objects, you can turn that object
  into an interactive tool to make more of the same.
@@ -43,14 +43,14 @@ You can also set up a style to be applied to all new objects initially as an ind
 + (void)registerDrawingToolForObject:(id<NSCopying>)shape withName:(NSString*)name;
 
 /** @brief Set a style to be used for subsequently created objects
- @note
+
  If you set nil, the style set in the prototype object for the individual tool will be used instead.
  @param aStyle a style object that will be applied to each new object as it is created
  */
 + (void)setStyleForCreatedObjects:(DKStyle*)aStyle;
 
 /** @brief Return a style to be used for subsequently created objects
- @note
+
  If you set nil, the style set in the prototype object for the individual tool will be used instead.
  @return a style object that will be applied to each new object as it is created, or nil
  */
@@ -73,7 +73,7 @@ You can also set up a style to be applied to all new objects initially as an ind
 - (id)prototype;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
- @note
+
  The returned object is autoreleased
  @return a new object based on the prototype.
  */
@@ -86,7 +86,7 @@ You can also set up a style to be applied to all new objects initially as an ind
 - (BOOL)stylePickupEnabled;
 
 /** @brief Return an image showing what the tool creates
- @note
+
  The image may be used as an icon for this tool in a UI, for example
  @return an image
  */

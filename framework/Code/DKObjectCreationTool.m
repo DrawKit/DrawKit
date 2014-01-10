@@ -33,7 +33,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark As a DKObjectCreationTool
 
 /** @brief Create a tool for an existing object
- @note
+
  This method conveniently allows you to create tools for any object you already have. For example
  if you create a complex shape from others, or make a group of objects, you can turn that object
  into an interactive tool to make more of the same.
@@ -56,7 +56,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Set a style to be used for subsequently created objects
- @note
+
  If you set nil, the style set in the prototype object for the individual tool will be used instead.
  @param aStyle a style object that will be applied to each new object as it is created
  */
@@ -74,7 +74,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return a style to be used for subsequently created objects
- @note
+
  If you set nil, the style set in the prototype object for the individual tool will be used instead.
  @return a style object that will be applied to each new object as it is created, or nil
  */
@@ -127,7 +127,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
- @note
+
  The returned object is autoreleased
  @return a new object based on the prototype.
  */
@@ -182,7 +182,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark -
 
 /** @brief Return an image showing what the tool creates
- @note
+
  The image may be used as an icon for this tool in a UI, for example
  @return an image
  */
@@ -277,7 +277,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 /** @brief The tool can return arbitrary persistent data that will be stored in the prefs and returned on
  the next launch.
- @note
+
  If the tool has a set style, it is archived and returned so that it can be restored to the same
  style next session.
  @return data, or nil
@@ -341,7 +341,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #pragma mark - As part of DKDrawingTool Protocol
 
 /** @brief Does the tool ever implement undoable actions?
- @note
+
  Returning YES means that the tool can POTENTIALLY do undoable things, not that it always will.
  @return always returns YES
  */
@@ -351,7 +351,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Return a string representing what the tool did
- @note
+
  The registered name of the tool is assumed to be descriptive of the objects it creates, for example
  "Rectangle", thus this returns "New Rectangle"
  @return a string
@@ -372,7 +372,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Handle the initial mouse down
- @note
+
  Starts the creation of an object by copying the prototype and adding it to the layer as a pending
  object (pending objects are only committed if they are valid after being created). As a side-effect
  this turns off undo registration temporarily as the initial sizing of the object has no benefit
@@ -473,7 +473,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Handle the mouse dragged event
- @note
+
  Keep dragging out the object
  @param p the local point where the mouse has been dragged to
  @param partCode the partcode returned by the mouseDown method
@@ -496,7 +496,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 }
 
 /** @brief Handle the mouse up event
- @note
+
  This finalises he object creation by calling the -objectIsValid method. Valid means that the path
  is not empty or zero-sized for example. If the object is valid it is committed to the layer after
  re-enabling undo. Invalid objects are simply discarded. The delegate is called to signal an undoable

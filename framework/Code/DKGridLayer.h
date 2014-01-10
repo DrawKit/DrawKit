@@ -98,7 +98,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 // one-stop shop for setting grid, drawing and rulers in one hit:
 
 /** @brief High-level method to set up the grid in its entirety with one method
- @note
+
  This also sets the drawing's setDrawingUnits:unitToPointsConversionFactor: method, so should be
  attached views so that there is a general agreement between all these parts. If the layer is locked
  this does nothing.
@@ -146,7 +146,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (void)synchronizeRulers;
 
 /** @brief Adjust the drawing margins to encompass an integral number of grid spans
- @note
+
  This method alters the existing drawing margins such that a whole number of
  spans is spanned by the interior area of the drawing. The margins are only ever moved inwards (enlarged) by this
  method to ensure that the interior of a drawing always remains within the printable area of a
@@ -160,7 +160,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 // colours for grid display
 
 /** @brief Sets the colour used to draw the spans
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. see setGridThemeColour:
  @param colour a colour
@@ -169,7 +169,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (NSColor*)spanColour;
 
 /** @brief Sets the colour used to draw the divisions
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. see setGridThemeColour:
  @param colour a colour
@@ -178,7 +178,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (NSColor*)divisionColour;
 
 /** @brief Sets the colour used to draw the majors
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. see setGridThemeColour:
  @param colour a colour
@@ -187,7 +187,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (NSColor*)majorColour;
 
 /** @brief Sets the colours used to draw the grid as a whole
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. This sets the three separate colours based on lighter and
  darker variants of the passed colour. Note that it's usual to have some transparency (alpha) set
@@ -200,7 +200,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 // converting between the base (Quartz) coordinate system and the grid
 
 /** @brief Given a point in drawing coordinates, returns nearest grid intersection to that point
- @note
+
  The intersection of the nearest division is returned, which is smaller than the span. This is
  a fundamental operation when snapping a point to the grid.
  @param p a point in the drawing
@@ -210,7 +210,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
  number of divisions
- @note
+
  The returned size cannot be larger than the drawing's interior in either dimension.
  @param size a size value
  @return a size, the nearest whole number of divisions to the original size
@@ -219,7 +219,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
  number of spans
- @note
+
  The returned size cannot be larger than the drawing's interior in either dimension. As spans are
  a coarser measure than divisions, the adjusted size might differ substantially from the input.
  @param size a size value
@@ -228,7 +228,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (NSSize)nearestGridSpanIntegralToSize:(NSSize)size;
 
 /** @brief Given a point in drawing coordinates, returns the "real world" coordinate of the same point
- @note
+
  See also pointForGridLocation: which is the inverse operation
  @param pt a point local to the drawing
  @return a point giving the same position in terms of the grid's drawing units, etc.
@@ -236,7 +236,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (NSPoint)gridLocationForPoint:(NSPoint)pt;
 
 /** @brief Given a point in "real world" coordinates, returns the drawing coordinates of the same point
- @note
+
  See also gridLocationForPoint: which is the inverse operation
  @param pt a point in terms of the grid's drawing units
  @return a point giving the same position in the drawing.
@@ -244,7 +244,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (NSPoint)pointForGridLocation:(NSPoint)gpt;
 
 /** @brief Given a distance value in drawing coordinates, returns the grid's "real world" equivalent
- @note
+
  See also quartzDistanceForGridDistance: which is the inverse operation. Note that the h and v
  scales of a grid are assumed to be the same (in this implementtaion they always are).
  @param qd a distance given in drawing units (points)
@@ -253,7 +253,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (CGFloat)gridDistanceForQuartzDistance:(CGFloat)qd;
 
 /** @brief Given a distance value in the grid's "real world" coordinates, returns the quartz equivalent
- @note
+
  See also gridDistanceForQuartzDistance: which is the inverse operation
  @param gd a distance given in grid units
  @return the distance in quartz units
@@ -263,7 +263,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 // private:
 
 /** @brief When the scale crosses the span threshold, the cache is invalidated and the span cycle adjusted
- @note
+
  This permits dynamic display of the span grid based on the zoom factor. Currently only one
  threshold is used
  @param scale the view's current scale
@@ -276,7 +276,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 // user actions
 
 /** @brief Set the grid to one ofthe default grids
- @note
+
  [sender tag] is interpreted as a measurement system value; restores either the metric or imperial
  defaults. Not super-useful, but handy for quickly exploring alternative grids.
  @param sender the sender of the action

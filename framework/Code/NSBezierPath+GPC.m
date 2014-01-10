@@ -82,7 +82,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 #pragma mark -
 
 /** @brief Converts a bezier path to a gpc polygon format structure
- @note
+
  The caller is responsible for freeing the returned object (in contrast to usual cocoa rules)
  @return a newly allocated gpc polygon structure */
 - (gpc_polygon*)gpcPolygon
@@ -91,7 +91,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 }
 
 /** @brief Converts a bezier path to a gpc polygon format structure
- @note
+
  The caller is responsible for freeing the returned object (in contrast to usual cocoa rules)
  @param flatness the flatness value for converting curves to vector form
  @return a newly allocated gpc polygon structure */
@@ -237,7 +237,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 #pragma mark -
 
 /** @brief Tests whether this path intersects another
- @note
+
  This works by computing the intersection of the two paths and checking if it's empty. Because it
  does a full-blown intersection, it is not necessarily a trivial operation. It is accurate for
  curves, etc however. It is worth trying to eliminate all obvious non-intersecting cases prior to
@@ -260,7 +260,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 }
 
 /** @brief Creates a new path from a boolean operation between this path and another path
- @note
+
  This applies the current flattening policy set for the class. If the policy is auto, this looks
  at the makeup of the contributing paths to determine whether to unflatten or not. If both source
  paths consist solely of line elements (no bezier curves), then no unflattening is performed.
@@ -299,7 +299,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 }
 
 /** @brief Creates a new path from a boolean operation between this path and another path
- @note
+
  The unflattening flag is passed directly - the curve fitting policy of the class is ignored
  @param otherPath another path which is combined with this one's path
  @param op the operation to perform - constants defined in gpc.h
@@ -362,7 +362,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 #pragma mark -
 
 /** @brief Creates a new path which is the union of this path and another path
- @note
+
  Curve fitting policy for the class is applied to this method
  @param otherPath another path which is unioned with this one's path
  @return a new path */
@@ -389,7 +389,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 }
 
 /** @brief Creates a new path which is the intersection of this path and another path
- @note
+
  Curve fitting policy for the class is applied to this method. If the paths bounds do not intersect,
  returns nil
  @param otherPath another path which is intersected with this one's path
@@ -404,7 +404,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 }
 
 /** @brief Creates a new path which is the difference of this path and another path
- @note
+
  Curve fitting policy for the class is applied to this method. If the paths bounds do not
  intersect, returns self, on the basis that subtracting the other path doesn't change this one.
  @param otherPath another path which is subtracted from this one's path
@@ -419,7 +419,7 @@ NSString* kDKCurveFittingPolicyDefaultsKey = @"DKCurveFittingPolicy";
 }
 
 /** @brief Creates a new path which is the xor of this path and another path
- @note
+
  Curve fitting policy for the class is applied to this method
  @param otherPath another path which is xored with this one's path
  @return a new path (possibly empty) */

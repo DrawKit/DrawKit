@@ -28,7 +28,7 @@
 #pragma mark As a DKShapeGroup
 
 /** @brief Creates a group of shapes or paths from a list of bezier paths
- @note
+
  This constructs a group from a list of bezier paths by wrapping a drawable around each path then
  grouping the result. While general purpose in nature, this is primarily to support the construction
  of a group containing text glyphs from a text shape object. The group's location is set to the
@@ -66,7 +66,7 @@
 }
 
 /** @brief Creates a group from a list of existing objects
- @note
+
  Initial location is at the centre of the rectangle that bounds all of the contributing objects.
  the objects can be newly created or already existing as part of a drawing. Grouping the objects
  will change the parent of the object but not the owner until the group is placed. The group should
@@ -103,7 +103,7 @@
 #pragma mark -
 
 /** @brief Initialises a group from a list of existing objects
- @note
+
  Designated initialiser. initial location is at the centre of the rectangle that bounds all of
  the contributing objects.
  the objects can be newly created or already existing as part of a drawing. Grouping the objects
@@ -137,7 +137,7 @@
 #pragma mark - setting up the group
 
 /** @brief Sets up the group state from the original set of objects
- @note
+
  This sets the initial size and location of the group, and adjusts the position of each object so
  it is relative to the group, not the original drawing. It also sets the parent member of each object
  to the group so that the group's transform is applied when the objects are drawn.
@@ -182,7 +182,7 @@
 }
 
 /** @brief Sets the current list of objects to the given objects
- @note
+
  This is a low level method called by setGroupObjects: it implements the undoable part of building
  a group. It should not be directly called.
  @param objects the objects to be grouped */
@@ -205,7 +205,7 @@
 }
 
 /** @brief Computes the initial overall bounding rect of the constituent objects
- @note
+
  This sets the _bounds member to the union of the apparent bounds of the constituent objects. This
  rect represents the original size and position of the group, and does not change even if the group
  is moved or resized - transforms are calculated by comparing the original bounds to the instantaneous
@@ -233,7 +233,7 @@
 
 /** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
  between the logical and reported bounds.
- @note
+
  The result is the max of all the contained objects
  @return the extra space required
  */
@@ -265,7 +265,7 @@
 }
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
- @note
+
  The scale ratio is the ratio between the group's original bounds and its current size.
  @return the scale ratios
  */
@@ -283,7 +283,7 @@
 #pragma mark - transforms
 
 /** @brief Returns a transform used to map the contained objects to the group's size, position and angle.
- @note
+
  This transform is used when drawing the group's contents
  @return a transform object */
 - (NSAffineTransform*)contentTransform
@@ -309,7 +309,7 @@
 }
 
 /** @brief Maps a point from the original container's coordinates to the equivalent group point
- @note
+
  The container will be usually a layer or another group.
  @param p a point
  @return a new point */
@@ -323,7 +323,7 @@
 }
 
 /** @brief Maps a point from the group's coordinates to the equivalent original container point
- @note
+
  The container will be usually a layer or another group.
  @param p a point
  @return a new point */
@@ -446,7 +446,7 @@
 #pragma mark - ungrouping
 
 /** @brief Unpacks the group back into the nominated layer 
- @note
+
  Usually it's better to call the higher level ungroupObjects: action method which calls this. This
  method strives to preserve as much information about the objects as possible - e.g. their rotation
  angle and size. Nested groups can cause distortions which are visually preserved though the bounds
@@ -506,7 +506,7 @@
 }
 
 /** @brief High-level call to ungroup the group.
- @note
+
  Undoably ungroups this and replaces itself in its layer by its contents
  @param sender the sender of the action
  */
@@ -551,7 +551,7 @@
 }
 
 /** @brief Overrides this method to ensure it has no effect
- @note
+
  Distortion operations cannot be applied to a group
  @param mode ignored */
 - (void)setOperationMode:(NSInteger)mode
@@ -627,7 +627,7 @@
 }
 
 /** @brief Draws the objects within the group.
- @note
+
  Depending on how the group's transforms are set to work, this either sets up the graphics context
  and renders the objects directly, or else it relies on the objects calling back to get the
  parent transform and applying it correctly. */
@@ -646,7 +646,7 @@
 }
 
 /** @brief Draws the objects within the group but using the given style.
- @note
+
  Depending on how the group's transforms are set to work, this either sets up the graphics context
  and renders the objects directly, or else it relies on the objects calling back to get the
  parent transform and applying it correctly.
@@ -667,7 +667,7 @@
 }
 
 /** @brief Draws the group's selection highlight.
- @note
+
  If set to clip the contents, the clipping path is also highlighted */
 - (void)drawSelectedState
 {
@@ -700,7 +700,7 @@
 }
 
 /** @brief Propagates a style change to all objects in the group
- @note
+
  This is a convenience method - often groups will contain objects with different styles. If you do
  want to apply a style to a number of different objects you can group them and call this.
  @param style the style to apply
@@ -715,7 +715,7 @@
 }
 
 /** @brief Returns a style from the group
- @note
+
  In general, it makes little sense to ask a group for its style, since there are multiple
  objects contained which could have many styles. Instead, the -allStyles method will return a complete
  set of all styles referenced by the group. To emphasise this point, asking a group for its style
@@ -728,7 +728,7 @@
 }
 
 /** @brief This object is being ungrouped from a group
- @note
+
  When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
  itself appropriately. At the time this is called, the object has already has its container set to
  the layer it will be added to but has not actually been added.
@@ -761,7 +761,7 @@
 }
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
- @note
+
  If the style is already non-sharable, this does nothing. The purpose of this is to detach this
  from it style such that it has its own private copy. It does not change appearance.
  */
@@ -797,7 +797,7 @@
 }
 
 /** @brief The object was added to a layer
- @note
+
  Propagates this to the contained objects
  @param aLayer the layer this was added to
  */
@@ -809,7 +809,7 @@
 }
 
 /** @brief The object was removed from the layer
- @note
+
  Propagates this to the contained objects
  @param aLayer the layer this was removed from
  */
@@ -821,7 +821,7 @@
 }
 
 /** @brief The object's container changed
- @note
+
  Propagates this to the contained objects. This does not actually change their container (which is
  self) but if they are relying on other changes such as the parent layer to trigger other effects,
  this ensures that happens correctly when the groups container changes (such as on delete).
@@ -861,7 +861,7 @@
 #pragma mark As part of DKDrawableContainer Protocol
 
 /** @brief Returns a transform which is the accumulation of all the parent objects above this one.
- @note
+
  Drawables will request and apply this transform when rendering. Either the identity matrix is
  returned if the group is visually transforming the result, or a combination of the parents above
  and the content transform. Either way contained objects are oblivious and do the right thing.

@@ -40,7 +40,7 @@ doesn't change the cache.
 }
 
 /** @brief Return the default hatching
- @note
+
  Be sure to copy the object if you intend to change its parameters.
  @return the default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
  apart with a width of 0.25 points.
@@ -48,7 +48,7 @@ doesn't change the cache.
 + (DKHatching*)defaultHatching;
 
 /** @brief Return a hatching with e basic parameters given
- @note
+
  The colour is set to black
  @param w the line width of the lines
  @param spacing the line spacing
@@ -58,7 +58,7 @@ doesn't change the cache.
 + (DKHatching*)hatchingWithLineWidth:(CGFloat)w spacing:(CGFloat)spacing angle:(CGFloat)angle;
 
 /** @brief Return a hatching which implements a dot pattern
- @note
+
  The colour is set to black. The dot pattern is created using a dashed line at 45 degrees where
  the line and dash spacing is set to the dot pitch. The line width is the dot diameter and the
  rounded cap style is used. This is an efficient way to implement a dot pattern of a given density.
@@ -69,7 +69,7 @@ doesn't change the cache.
 + (DKHatching*)hatchingWithDotPitch:(CGFloat)pitch diameter:(CGFloat)diameter;
 
 /** @brief Return a hatching which implements a dot pattern of given density
- @note
+
  Dots have a diameter of 2.0 points, and are spaced according to density. If density = 1, dots
  touch (spacing = 2.0), 0.5 = dots have a spacing of 4.0, etc. A density of 0 is not allowed.
  @param density a density figure from 0 to 1

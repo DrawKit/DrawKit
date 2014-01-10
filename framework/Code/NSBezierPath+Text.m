@@ -17,7 +17,7 @@
 @interface NSBezierPath (TextOnPathPrivate)
 
 /** @brief Timer callback used by -moveObject:atSpeed:loop:userInfo
- @note
+
  The object must respond to the informal motion protocol.
  @param timer the timer
  */
@@ -34,7 +34,7 @@ static NSString* kDKTextOnPathTextFittedCacheKey = @"DKTextOnPathTextFitted";
 @implementation NSBezierPath (TextOnPath)
 
 /** @brief Returns a layout manager used for text on path layout.
- @note
+
  This shared layout manager is used by text on path drawing unless a specific manager is passed.
  @return a shared layout manager instance */
 + (NSLayoutManager*)textOnPathLayoutManager
@@ -58,7 +58,7 @@ static NSString* kDKTextOnPathTextFittedCacheKey = @"DKTextOnPathTextFitted";
 static NSDictionary* s_TOPTextAttributes = nil;
 
 /** @brief Returns the attributes used to draw strings on paths.
- @note
+
  The default is 12 point Helvetica Roman black text with the default paragraph style.
  @return a dictionary of string attributes */
 + (NSDictionary*)textOnPathDefaultAttributes
@@ -74,7 +74,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Sets the attributes used to draw strings on paths.
- @note
+
  Pass nil to set the default. The attributes are used by the drawStringOnPath: method.
  @param attrs a dictionary of text attributes */
 + (void)setTextOnPathDefaultAttributes:(NSDictionary*)attrs
@@ -88,7 +88,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - drawing text along a path (high level)
 
 /** @brief Renders a string on a path.
- @note
+
  Positive values of dy place the text's baseline above the path, negative below it, where 'above'
  and 'below' are in the expected sense relative to the orientation of the drawn glyphs. This is the
  highest-level attributed text on path drawing method, and uses the shared layout mamanger and no cache.
@@ -105,7 +105,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Renders a string on a path.
- @note
+
  Passing nil for the layout manager uses the shared layout manager. If the same cache is passed back
  each time by the client code, certain calculations are cached there which can speed up drawing. The
  client owns the cache and is responsible for invalidating it (setting it empty) when text content changes.
@@ -179,7 +179,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Renders a string on a path.
- @note
+
  Very high-level, draws the string on the path using the set class attributes.
  @param str the  string to render
  @return YES if the text was fully laid out, NO if some text could not be drawn (for example because it
@@ -191,7 +191,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Renders a string on a path.
- @note
+
  If attrs is nil, uses the current class attributes
  @param str the  string to render
  @param attrs the attributes to use to draw the string - may be nil
@@ -217,7 +217,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - obtaining the paths of the laid-out text
 
 /** @brief Returns a single path consisting of all of the laid out glyphs of the text.
- @note
+
  All glyph paths are added to the single bezier path. This preserves their original shapes but
  attribute information such as colour runs, etc are effectively lost.
  @param str the  string to render
@@ -239,7 +239,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Returns a list of paths each containing one glyph from the original text.
- @note
+
  Each glyph is returned as a separate path, allowing attributes to be applied if required.
  @param str the  string to render
  @param dy the baseline offset between the path and the text
@@ -262,7 +262,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Returns a single path consisting of all of the laid out glyphs of the text.
- @note
+
  The string is drawn using the class attributes.
  @param str the  string to render
  @return a list of bezier path objects. */
@@ -297,7 +297,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - low level glyph layout methods
 
 /** @brief Low level method performs all text on path layout.
- @note
+
  This method does all the actual work of glyph generation and positioning of the glyphs along the path.
  It is called by all other methods. The helper object does the appropriate thing, either adding the
  glyph outline to a list or actually drawing the glyph. Note that the glyph layout is handled by the
@@ -467,7 +467,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Low level method adjusts text to fit the path length.
- @note
+
  Modifies the text storage in place by setting NSKernAttribute to stretch or compress the text to
  fit the given length. Text is only compressed by a certain amount - beyond that characters are
  dropped from the end of the line when laid out.
@@ -526,7 +526,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Low level method adjusts justified text to fit the path length.
- @note
+
  This does two things - it sets up the text's container so that text will be laid out properly
  within the path's length, and secondly if the text is "justified" it kerns the text to fit the path.
  @param text text storage containing the text to lay out
@@ -575,7 +575,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - drawing underlines and strikethroughs
 
 /** @brief Low level method draws the underline attributes for the text if necessary.
- @note
+
  Underlining text on a path is very involved, as it needs to bypass NSLayoutManager's normal
  underline processing and handle it directly, in order to get smooth unbroken lines. While this
  sometimes results in underlining that differs from standard, it is very close and visually
@@ -607,7 +607,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Low level method draws the strikethrough attributes for the text if necessary.
- @note
+
  Strikethrough text on a path is involved, as it needs to bypass NSLayoutManager's normal
  processing and handle it directly, in order to get smooth unbroken lines. While this
  sometimes results in strikethrough that differs from standard, it is very close and visually
@@ -639,7 +639,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Low level method draws the undeline attributes for ranges of text.
- @note
+
  Here be dragons.
  @param lm the layout manager in use
  @param range the range of text to apply the underline attribute to
@@ -778,7 +778,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Low level method draws the strikethrough attributes for ranges of text.
- @note
+
  Here be more dragons.
  @param lm the layout manager in use
  @param range the range of text to apply the underline attribute to
@@ -869,7 +869,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Calculates the start and end locations of ranges of text on the path.
- @note
+
  Used to compute start positions and length of runs of attributes along the path, such as underlines and
  strikethroughs. Paragraph styles affect this, so the results tell you where to draw.
  @param start receives the starting position of the range of characters
@@ -898,7 +898,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Determines the positions of any descender breaks for drawing underlines.
- @note
+
  In order to correctly and accurately interrupt an underline where a glyph descender 'cuts' through
  it, the locations of the start and end of each break must be computed. This does that by finding
  the intersections of the glyph paths and a notional underline path. As such it is computationally
@@ -950,7 +950,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #define DESCENDER_BREAK_OFFSET -5
 
 /** @brief Converts all the information about an underline into a path that can be drawn.
- @note
+
  Where descender breaks are passed in, the gap on either side of the break is widened by a factor
  based on gt, which in turn is usually derived from the text size. This allows the breaks to size
  proportionally to give pleasing results. The result may differ from Apple's standard text block
@@ -1091,7 +1091,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - drawing/placing/moving anything along a path
 
 /** @brief Places objects at regular intervals along the path.
- @note
+
  The factory object creates an object at each position and it is added to the result array.
  @param interval the distance between each object placed
  @param object a factory object used to supply the paths placed
@@ -1139,7 +1139,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Places objects at regular intervals along the path.
- @note
+
  The factory object creates a path at each position and it is added to the resulting path
  @param interval the distance between each object placed
  @param object a factory object used to supply the paths placed
@@ -1173,7 +1173,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Places copies of a given path at regular intervals along the path.
- @note
+
  The origin of <path> is positioned on the receiver's path at the designated location. The caller
  should ensure that the origin is sensible - paths based on 0,0 work as expected.
  @param path a path to position at intervals on this path
@@ -1189,7 +1189,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Places copies of a given path at regular intervals along the path.
- @note
+
  The origin of <path> is positioned on the receiver's path at the designated location. The caller
  should ensure that the origin is sensible - paths based on 0,0 work as expected.
  @param path a path to position at intervals on this path
@@ -1253,7 +1253,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - placing "chain links" along a path
 
 /** @brief Places "links" along the path at equal intervals.
- @note
+
  See notes for placeLinksOnPathWithEvenLinkLength:oddLinkLength:factoryObject:userInfo:
  @param ll the interval and length of each "link"
  @param object a factory object used to generate the links themselves
@@ -1268,7 +1268,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 }
 
 /** @brief Places "links" along the path at alternating even and odd intervals.
- @note
+
  Similar to object placement, but treats the objects as "links" like in a chain, where a rigid link
  of a fixed length connects two points on the path. The factory object is called with the pair of
  points computed, and returns a path representing the link between those two points. Non-nil results are
@@ -1348,7 +1348,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - moving objects along a path
 
 /** @brief Moves an object along the path at a constant speed
- @note
+
  The object must respond to the informal motion protocol. This method starts a timer which runs
  until either the end of the path is reached when loop is NO, or until the object being moved
  itself returns NO. The timer runs at 30 fps and the distance moved is calculated accordingly - this
@@ -1485,7 +1485,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 }
 
 /** @brief Find the points where a line drawn horizontally across the path will intersect it.
- @note
+
  This works by approximating the curve as a series of straight lines and testing each one for
  intersection with the line at y. This is the primitive method used to determine line layout
  rectangles - a series of calls to this is needed for each line (incrementing y by the
@@ -1578,7 +1578,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 }
 
 /** @brief Find rectangles within which text can be laid out to place the text within the path.
- @note
+
  Given a lineheight value, this returns an array of rects (as NSValues) which are the ordered line
  layout rects from left to right and top to bottom within the shape to layout text in. This is
  computationally intensive, so the result should probably be cached until the shape is actually changed.
@@ -1679,7 +1679,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 }
 
 /** @brief Find a line fragement rectange for laying out text in this shape.
- @note
+
  See -lineFragmentRectForProposedRect:remainingRect:datumOffset:
  @param aRect the proposed rectangle
  @return the available rectangle for the text given the proposed rect */
@@ -1691,7 +1691,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 }
 
 /** @brief Find a line fragement rectange for laying out text in this shape.
- @note
+
  This offsets <proposedRect> to the right to the next even-numbered intersection point, setting its
  length to the difference between that point and the next. That part is the return value. If there
  are any further points, the remainder is set to the rest of the rect. This allows this method to

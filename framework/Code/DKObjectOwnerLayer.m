@@ -66,7 +66,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Sets the storag eobject for the layer
- @note
+
  This is an advanced feature that allows the object storage to be replaced independently. Alternative
  storage algorithms can enhance performance for very large data sets, for example. Note that the
  storage should not be swapped while a layer contains objects, since they will be discarded. The
@@ -136,7 +136,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible
- @note
+
  If the layer itself is locked, returns the empty list
  @return an array of available objects
  */
@@ -147,7 +147,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible and that
  intersect the rect
- @note
+
  If the layer itself is locked, returns the empty list
  @param aRect - objects must also intersect this rect
  @return an array of available objects
@@ -172,7 +172,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns objects that are available to the user of the given class
- @note
+
  If the layer itself is locked, returns the empty list
  @param aClass - class of the desired objects
  @return an array of available objects
@@ -194,7 +194,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns objects that are visible to the user, but may be locked
- @note
+
  If the layer itself is not visible, returns nil
  @return an array of visible objects
  */
@@ -204,7 +204,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns objects that are visible to the user, intersect the rect, but may be locked
- @note
+
  If the layer itself is not visible, returns nil
  @param aRect the objects returned intersect this rect
  @return an array of visible objects
@@ -230,7 +230,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns objects that share the given style
- @note
+
  The style is compared by unique key, so style clones are not considered a match. Unavailable objects are
  also included.
  @param style the style to compare
@@ -253,7 +253,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Returns objects that respond to the selector with the value <answer>
  <selector> a selector taking no parameters
- @note
+
  This is a very simple type of predicate test. Note - the method <selector> must not return
  anything larger than an int or it will be ignored and the result may be wrong.
  @return an array, objects that match the value of <answer>
@@ -324,7 +324,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns the stacking position of the given object
- @note
+
  Will return NSNotFound if the object is not presently owned by the layer
  @param obj the object
  @return the object's stacking order index
@@ -527,7 +527,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark - adding and removing objects (general)
 
 /** @brief Adds an object to the layer
- @note
+
  If layer locked, does nothing
  @param obj the object to add
  */
@@ -554,7 +554,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Adds a set of objects to the layer
- @note
+
  Take care that no objects are already owned by any layer - this doesn't check.
  @param objs an array of DKDrawableObjects, or subclasses.
  */
@@ -571,7 +571,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  a given point.
- @note
+
  Used for paste and other similar ops. The objects are placed such that their bounding rect's origin
  ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
  method will not return NO, as no object was placed outside the interior.
@@ -591,7 +591,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  a given point.
- @note
+
  Used for paste and other similar ops. The objects are placed such that their bounding rect's origin
  ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
  method will not return NO, as no object was placed outside the interior. Note that the <bounds> parameter
@@ -689,7 +689,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #ifdef DRAWKIT_DEPRECATED
 
 /** @brief Return an iterator that will enumerate the object in top to bottom order
- @note
+
  The idea is to insulate you from the implementation detail of how stacking order relates to the
  list order of objects internally. Because this enumerates a copy of the objects list, it is safe
  to modify the objects in the layer itself while iterating.
@@ -701,7 +701,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Return an iterator that will enumerate the object in bottom to top order
- @note
+
  The idea is to insulate you from the implementation detail of how stacking order relates to the
  list order of objects internally. Because this enumerates a copy of the objects list, it is safe
  to modify the objects in the layer itself while iterating.
@@ -715,7 +715,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #endif
 
 /** @brief Return an iterator that will enumerate the objects needing update
- @note
+
  The iterator returned iterates in bottom-to-top order and includes only those objects that are
  visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
  still used to determine inclusion.
@@ -731,7 +731,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Return an iterator that will enumerate the objects needing update
- @note
+
  The iterator returned iterates in bottom-to-top order and includes only those objects that are
  visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
  still used to determine inclusion.
@@ -748,7 +748,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Return the objects needing update
- @note
+
  If the view is nil <rect> is used to determine inclusion.
  @param rect the update rect as passed to a drawRect: method of a view
  @param aView the view being updated, if any (may be nil)
@@ -762,7 +762,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Return the objects needing update
- @note
+
  If the view is nil <rect> is used to determine inclusion.
  @param rect the update rect as passed to a drawRect: method of a view
  @param aView the view being updated, if any (may be nil)
@@ -780,7 +780,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark - updating and drawing
 
 /** @brief Flags part of a layer as needing redrawing
- @note
+
  Allows the object requesting the update to be identified - by default this just invalidates <rect>
  @param obj the drawable object requesting the update
  @param rect the area that needs to be redrawn
@@ -797,7 +797,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Draws all of the visible objects
- @note
+
  This is used when drawing the layer into special contexts, not for view rendering
  */
 - (void)drawVisibleObjects
@@ -825,7 +825,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Get an image of the current objects in the layer
- @note
+
  If there are no visible objects, returns nil.
  @return an NSImage
  */
@@ -856,7 +856,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Get a PDF of the current visible objects in the layer
- @note
+
  If there are no visible objects, returns nil.
  @return PDF data in an NSData object
  */
@@ -891,7 +891,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark - handling a pending object
 
 /** @brief Adds a new object to the layer pending successful interactive creation
- @note
+
  When interactively creating objects, it is preferable to create the object successfully before
  committing it to the layer - this gives the caller a chance to abort the creation without needing
  to be concerned about any undos, etc. The pending object is drawn on top of all others as normal
@@ -908,7 +908,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Removes a pending object in the situation that the creation was unsuccessful
- @note
+
  When interactively creating objects, if for any reason the creation failed, this should be called
  to remove the object from the layer without triggering any undo tasks, and to remove any the object
  itself made
@@ -923,7 +923,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Commits the pending object to the layer and sets up the undo task action name
- @note
+
  When interactively creating objects, if the creation succeeded, the pending object should be
  committed to the layer permanently. This does that by adding it using addObject. The undo task
  thus created is given the action name (note that other operations can also change this later).
@@ -939,7 +939,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Draws the pending object, if any, in the layer - called by drawRect:inView:
- @note
+
  Pending objects are drawn normally is if part of the current list, and on top of all others. Subclasses
  may need to override this if the selected state needs passing differently. Typically pending objects
  will be drawn selected, so the default is YES.
@@ -966,7 +966,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Return the union of all the visible objects in the layer. If there are no visible objects, returns
  NSZeroRect.
- @note
+
  Avoid using for refreshing objects. It is more efficient to use refreshAllObjects
  @return a rect, the union of all visible object's bounds in the layer
  */
@@ -998,7 +998,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns the layer's transform used when rendering objects within
- @note
+
  Returns the identity transform
  @return a transform
  */
@@ -1008,7 +1008,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Modifies the objects by applying the given transform to each of them.
- @note
+
  This modifies the geometry of each object by applying the transform to each one. The purpose of
  this is to permit gross changes to a drawing's layout if the
  client application requires it - for example scaling all objects to some new size.
@@ -1066,7 +1066,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Movesthe object to the given stacking position index
- @note
+
  Used to implement all the other moveTo.. ops
  @param obj the object to move
  @param i the index it should be moved to
@@ -1096,7 +1096,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Moves the objects indexed by the set to the given stacking position index
- @note
+
  Useful for restacking several objects
  @param set a set of indexes
  @param indx the index it should be moved to
@@ -1113,7 +1113,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Moves the objects in the array to the given stacking position index
- @note
+
  Useful for restacking several objects. Array passed can be the selection. The order of objects in
  the array is preserved relative to one another, after the operation the lowest indexed object
  will be at <indx> and the rest at consecutive indexes above it.
@@ -1140,7 +1140,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark - clipboard ops & predictive pasting support
 
 /** @brief Unarchive a list of objects from the pasteboard, if possible
- @note
+
  This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
  any valid types, nil is returned
  @param pb the pasteboard to take objects from
@@ -1214,7 +1214,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Establish the paste offset - a value used to position items when pasting and duplicating
- @note
+
  The values passed will be adjusted to the nearest grid interval if snap to grid is on.
  @param x>, <y the x and y values of the offset
  */
@@ -1232,7 +1232,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Detect whether the paste from the pasteboard is a new paste, or a repeat paste
- @note
+
  Since this is a one-shot method that changes the internal state of the layer, it should not be
  called except internally to manage the auto paste repeat. It may either increment or reset the
  paste count. It also sets the paste origin to the origin of the pasted objects' bounds.
@@ -1271,7 +1271,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Return the current number of repeated pastes since the last new paste
- @note
+
  The paste count is reset to 1 by a new paste, and incremented for each subsequent paste of the
  same objects. This is used when calculating appropriate positioning for repeated pasting.
  @return the current number of pastes since the last new paste
@@ -1282,7 +1282,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Return the current point where pasted object will be positioned relative to
- @note
+
  See paste: for how this is used
  @return the paste origin
  */
@@ -1292,7 +1292,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Sets the current point where pasted object will be positioned relative to
- @note
+
  See paste: for how this is used
  @param po the desired paste origin.
  */
@@ -1409,7 +1409,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Finds all objects touched by the given rect
- @note
+
  Test for inclusion by calling the object's intersectsRect method. Can be used to select objects in
  a given rect or for any other purpose. For selections, the results can be passed directly to
  exchangeSelection:
@@ -1434,7 +1434,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief An object owned by the layer was double-clicked
- @note
+
  Override to use
  @param obj the object hit
  @param mp the mouse point of the click
@@ -1448,7 +1448,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark - snapping
 
 /** @brief Snap a point to any existing object control point within tolerance
- @note
+
  If snap to object is not set for this layer, this simply returns the original point unmodified.
  currently uses hitPart to test for a hit, so tolerance is ignored and objects apply their internal
  hit testing tolerance.
@@ -1486,7 +1486,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Snap a (mouse) point to grid, guide or other object according to settings
- @note
+
  Usually called from snappedMousePoint: method in DKDrawableObject
  @param p a point
  @return the modified point, or the original point
@@ -1552,7 +1552,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Does the layer permit editing of its objects?
- @note
+
  Locking and hiding the layer also disables editing
  @return YES if editing will take place, NO if it is prevented
  */
@@ -1578,7 +1578,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
- @note
+
  Layers can cache their entire contents offscreen when they are inactive. This can boost
  drawing performance when there are many layers, or the layers have complex contents. When the
  layer is deactivated the cache is updated, on activation the "real" content is drawn.
@@ -1590,7 +1590,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Query whether the layer caches its content in an offscreen layer when not active
- @note
+
  Layers can cache their entire contents offscreen when they are inactive. This can boost
  drawing performance when there are many layers, or the layers have complex contents. When the
  layer is deactivated the cache is updated, on activation the "real" content is drawn.
@@ -1621,7 +1621,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Draws the highlighting to indicate the layer is a drag target
- @note
+
  Is only called when the drag highlight is YES. Override for different highlight effect.
  */
 - (void)drawHighlightingForDrag
@@ -1645,7 +1645,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Toggles whether the debugging path is overlaid afterdrawing the content.
- @note
+
  This is purely to assist with storage debugging and should not be invoked in production code.
  */
 - (IBAction)toggleShowStorageDebuggingPath:(id)sender
@@ -1659,7 +1659,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark - private
 
 /** @brief Builds the offscreen cache(s) for drawing the layer more quickly when it's inactive
- @note
+
  Application code shouldn't call this directly
  */
 - (void)updateCache
@@ -1668,7 +1668,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Discard the offscreen cache(s) used for drawing the layer more quickly when it's inactive
- @note
+
  Application code shouldn't call this directly
  */
 - (void)invalidateCache
@@ -1681,7 +1681,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
  to update their references
- @note
+
  Pushes out the new um to all object's styles (which cache the um)
  @param um the new undo manager
  */
@@ -1693,7 +1693,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Called when the drawing's size changed - this gives layers that need to know about this a
  direct notification
- @note
+
  The storage is informed so that if it is spatially based it can update itself
  @param sizeVal the new size of the drawing.
  */
@@ -1704,7 +1704,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Called when the drawing's margins changed - this gives layers that need to know about this a
  direct notification
- @note
+
  You can ask the drawing directly for its new interior rect
  @param oldInterior the old interior rect of the drawing - extract -rectValue.
  */
@@ -1723,7 +1723,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Draws the layer and its contents on demand
- @note
+
  Called by the drawing when necessary to update the views. This will draw from the cache if set
  to do so and the layer isn't active
  @param rect the area being updated
@@ -1769,7 +1769,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns a list of styles used by the current set of objects
- @note
+
  Being a set, the result is unordered
  @return the set of unique style objects
  */
@@ -1797,7 +1797,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Returns a list of styles used by the current set of objects that are also registered
- @note
+
  Being a set, the result is unordered
  @return the set of unique registered style objects used by objects in this layer
  */
@@ -1825,7 +1825,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Given a set of styles, replace those that have a matching key with the objects in the set
- @note
+
  Used when consolidating a document's saved styles with the application registry after a load
  @param aSet a set of style objects
  */
@@ -1869,7 +1869,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 /** @brief Invoked when the layer becomes the active layer
- @note
+
  Invalidates the layer cache - only inactive layers draw from their cache
  */
 - (void)layerDidBecomeActiveLayer
@@ -1929,7 +1929,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark As part of DKDrawableContainer Protocol
 
 /** @brief Returns the layer of a drawable's container - since this is that layer, returns self
- @note
+
  See DKDrawableObject which also implements this protocol
  @return self
  */

@@ -10,7 +10,7 @@
 
 /** @brief generic interface and simple quantizer which performs uniform quantization.
 
- @notes
+s
  Results with this quantizer are generally only barely acceptable - colours may be mapped
  to something grossly different from the original since this does not take any notice of
  the pixels actually used in the image, only the basic size of the RGB colour space it is given.

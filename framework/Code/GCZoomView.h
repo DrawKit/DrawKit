@@ -32,42 +32,42 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 }
 
 /** @brief Set whether scroll-wheel zooming is enabled
- @note
+
  Default is YES
  @param enable YES to enable, NO to disable
  */
 + (void)setScrollwheelZoomEnabled:(BOOL)enable;
 
 /** @brief Return whether scroll-wheel zooming is enabled
- @note
+
  Default is YES
  @return YES to enable, NO to disable
  */
 + (BOOL)scrollwheelZoomEnabled;
 
 /** @brief Set the modifier key(s) that will activate zooming using the scrollwheel
- @note
+
  Operating the given modifier keys along with the scroll wheel will zoom the view
  @param aMask a modifier key mask value
  */
 + (void)setScrollwheelModiferKeyMask:(NSUInteger)aMask;
 
 /** @brief Return the default zoom key mask used by new instances of this class
- @note
+
  Reads the value from the prefs. If not set or set to zero, defaults to option key.
  @return a modifier key mask value
  */
 + (NSUInteger)scrollwheelModifierKeyMask;
 
 /** @brief Set whether view zooms in or out for a given scrollwheel rotation direction
- @note
+
  Default sense is to zoom in when scrollwheel is rotated towards the user. Some apps (e.g. Google Earth)
  use the opposite convention, which feels less natural but may become a defacto "standard".
  */
 + (void)setScrollwheelInverted:(BOOL)inverted;
 
 /** @brief Return whether view zooms in or out for a given scrollwheel rotation direction
- @note
+
  Default sense is to zoom in when scrollwheel is rotated towards the user. Some apps (e.g. Google Earth)
  use the opposite convention, which feels less natural but may become a defacto "standard".
  @return whether scroll wheel inverted
@@ -102,7 +102,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 - (IBAction)zoomMin:(id)sender;
 
 /** @brief Zoom by the desired scaling factor
- @note
+
  A factor of 2.0 will double the zoom scale, from 100% to 200% say, a factor of 0.5 will zoom out.
  This also maintains the current visible centre point of the view so the zoom remains stable.
  @param factor - how much to change the current scale by
@@ -111,7 +111,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 - (void)zoomViewToAbsoluteScale:(CGFloat)scale;
 
 /** @brief Zooms so that the passed rect will fit in the view
- @note
+
  In general this should be used for a zoom OUT, such as a "fit to window" command, though it will
  zoom in if the view is smaller than the current frame.
  @param aRect - a rect
@@ -119,7 +119,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 - (void)zoomViewToFitRect:(NSRect)aRect;
 
 /** @brief Zooms so that the passed rect fills the view
- @note
+
  The centre of the rect is centred in the view. In general this should be used for a zoom IN to a
  specific smaller rectange. <aRect> is in current view coordinates. This is good for a dragged rect
  zoom tool.
@@ -143,7 +143,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 - (void)scrollPointToCentre:(NSPoint)aPoint;
 
 /** @brief Zooms the view to the given scale
- @note
+
  All zooms bottleneck through here. Scale passed is pinned within the min and max limits.
  @param sc - the desired scale
  */
@@ -155,7 +155,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 - (CGFloat)scale;
 
 /** @brief Returns whether the scale is being changed
- @note
+
  This property can be used to detect whether the user is rapidly changing the scale, for example using
  the scrollwheel. When a scrollwheel change starts, this is set to YES and a timer is run which is
  retriggered by further events. If it times out, this resets to NO. It can be used as one part of a

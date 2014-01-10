@@ -117,7 +117,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 // retrieving the registry and styles
 
 /** @brief Return the single global style registry object
- @note
+
  A style registry isn't a true singleton but in general there would probably be never any reason
  to create another instance. Other class methods implictly reference the registry returned by this.
  @return the style registry used for all general purpose registration of styles in DK
@@ -125,7 +125,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (DKStyleRegistry*)sharedStyleRegistry;
 
 /** @brief Return the style registerd with the given key
- @note
+
  Styles returned by this method are not added to the "recently used" items list
  @param styleID the unique key of the style. Styles return his value from - uniqueKey.
  @return the style if it exists in the registry, otherwise nil
@@ -133,7 +133,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (DKStyle*)styleForKey:(NSString*)styleID;
 
 /** @brief Return the style registerd with the given key
- @note
+
  Styles returned by this method are added to the "recently used" items list - usually you will use
  this method when applying a registered style to an object in a real app so that you can make use
  of the "recently used" list
@@ -145,7 +145,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 // registering a style
 
 /** @brief Register the style with the registry
- @note
+
  This method registers styles in the "All User Styles" category only. If the style is already registered
  this does nothing. Registering a style locks it as a side effect (safety feature). The styles is
  registered using the value returned by its -uniqueKey method, which is set once for all time when the
@@ -157,7 +157,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (void)registerStyle:(DKStyle*)aStyle;
 
 /** @brief Register the style with the registry
- @note
+
  See notes for registerStyle:
  if the categories do not exist they are created.
  @param aStyle the style to register
@@ -166,7 +166,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (void)registerStyle:(DKStyle*)aStyle inCategories:(NSArray*)styleCategories;
 
 /** @brief Register a list of styles with the registry
- @note
+
  See notes for registerStyle:
  if the categories do not exist they are created.
  @param styles an array of DKStyle objects to register
@@ -175,7 +175,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (void)registerStylesFromArray:(NSArray*)styles inCategories:(NSArray*)styleCategories;
 
 /** @brief Register a list of styles with the registry
- @note
+
  See notes for registerStyle:
  if the categories do not exist they are created. Note that the "recently added" list is temporarily
  disabled by this method, reflecting the intention that it is used for pre-registering a number of
@@ -187,7 +187,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (void)registerStylesFromArray:(NSArray*)styles inCategories:(NSArray*)styleCategories ignoringDuplicateNames:(BOOL)ignoreDupes;
 
 /** @brief Remove the style from the registry
- @note
+
  Removed styles are still retained by an objects using them, so they are not dealloced unless
  not in use by any clients at all.
  @param aStyle the style to remove
@@ -196,7 +196,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 
 /** @brief Send a notification that the contents of the registry has changed so any UI displaying it should
  be updated
- @note
+
  The notification's object is the shared style registry
  */
 + (void)setNeedsUIUpdate;
@@ -205,7 +205,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 // merging sets of styles read in with a document
 
 /** @brief Merge a set of styles with the registry
- @note
+
  This method is for merging sets of styles read in with a document or file. The document will have
  already sorted the loaded styles into those which were formerly registered and those which were not
  - <styles> is the set that was. The doc may elect to create a category with the doc's name, this
@@ -225,7 +225,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (NSSet*)mergeStyles:(NSSet*)styles inCategories:(NSArray*)styleCategories options:(DKStyleMergeOptions)options mergeDelegate:(id)aDel;
 
 /** @brief Preflight a set of styles against the registry for a possible future merge operation
- @note
+
  This is a way to test a set of styles against the registry prior to a merge operation (preflight).
  It compares each style in the set with the current registry, and returns a dictionary keyed off
  the style's unique key. The values in the dictionary are NSNumbers indicating whether the style
@@ -254,13 +254,13 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 + (void)saveDefaults;
 
 /** @brief Loads the registry from the current user defaults
- @note
+
  If used, this should be called early in the application launch sequence
  */
 + (void)loadDefaults;
 
 /** @brief Reset the registry back to a "first run" condition
- @note
+
  This removes ALL styles from the registry, thereby unregistering them. It then starts over with
  the DK defaults. This puts the registry into the same state that it was in on the very first run
  of the client app, when there are no saved defaults. This method should be used carefully - the
@@ -270,7 +270,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 
 /** @brief Creates a series of fill styles having the solid colours given by the named NSColorList, and
  adds them to the registry using the named category.
- @note
+
  The named color list must exist - see [NSColorList availableColorLists];
  @param name the name of a NSColorList
  @param catName the name of the registry category - if nil, use the colorList name
@@ -279,7 +279,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 
 /** @brief Creates a series of stroke styles having the solid colours given by the named NSColorList, and
  adds them to the registry using the named category.
- @note
+
  The named color list must exist - see [NSColorList availableColorLists];
  @param name the name of a NSColorList
  @param catName the name of the registry category - if nil, use the colorList name
@@ -288,7 +288,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 
 /** @brief Sets whether DK defaults category containing the default styles shoul dbe registered when the
  registry is built or reset
- @note
+
  See +resetRgistry
  @param noDKDefaults YES to turn OFF the defaults
  */
@@ -301,7 +301,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 // low-level instance methods
 
 /** @brief Return the style's name given its key
- @note
+
  The name can be used in a user interface, but the key should not. This gives you an easy way to
  get one from the other if you don't have the style object itself. If the key is unknown to the
  registry, nil is returned.
@@ -312,7 +312,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 - (DKStyle*)styleForKey:(NSString*)styleID;
 
 /** @brief Return the set of styles in the given categories
- @note
+
  Being a set, the result is unordered. The result may be the empty set if the categories are unknown
  or empty, and may contain NSNull objects if the style registry is in a state where objects have been
  removed and the category lists not updated (in normal use this should not occur).
@@ -322,7 +322,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 - (NSSet*)stylesInCategories:(NSArray*)cats;
 
 /** @brief Return a modified name to resolve a collision with names already in use
- @note
+
  Names of styles are changed when a style is registerd to avoid a collision with any already
  registered styles. Names are not keys and this doesn't guarantee uniqueness - it's merely a
  courtesy to the user.
@@ -350,7 +350,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 - (BOOL)writeToFile:(NSString*)path atomically:(BOOL)atom;
 
 /** @brief Merge the contents of a file into the registry
- @note
+
  Reads styles from the file at <path> into the registry. Styles are merged as indicated by the
  options, etc. The intention of this method is to load a file containing styles only - either to
  augment or replace the existing registry. It is not used when opening a drawing document.
@@ -365,7 +365,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 - (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id)aDel;
 
 /** @brief Set the registry empty
- @note
+
  Removes all styles from the registry, clears the "recently added" and "recently used" lists, and
  removes all categories except the default category.
  */
@@ -375,7 +375,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 - (void)styleDidChange:(NSNotification*)note;
 
 /** @brief Creates a new fully managed menu that lists all the styles, organised into categories.
- @note
+
  The returned menu is fully managed, that is, the Style Registry keeps it in synch with all changes
  to the registry and to the styles themselves. The menu can be assigned to UI controls such as a
  represented object is the style, and the item shows a swatch and the style's name. The menus

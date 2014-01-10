@@ -80,7 +80,7 @@ enum {
 }
 
 /** @brief Convenience method creates an entire new layer containing the given objects
- @note
+
  The objects are not initially selected
  @param objects an array containing drawable objects which must not be already owned by another layer
  @return a new layer object containing the objects
@@ -100,7 +100,7 @@ enum {
 #pragma mark - useful lists of objects
 
 /** @brief Returns the objects that are not locked, visible and selected
- @note
+
  This also preserves the stacking order of the objects (unlike -selection), so is the most useful
  means of obtaining the set of objects that can be acted upon by a command or user interface control.
  Note that if the layer is locked as a whole, this always returns an empty list
@@ -123,7 +123,7 @@ enum {
 }
 
 /** @brief Returns the objects that are not locked, visible and selected and which have the given class
- @note
+
  See comments for selectedAvailableObjects
  @return an array, objects of the given class that can be acted upon by a command as a set
  */
@@ -144,7 +144,7 @@ enum {
 }
 
 /** @brief Returns the objects that are visible and selected
- @note
+
  See comments for selectedAvailableObjects
  @return an array
  */
@@ -165,7 +165,7 @@ enum {
 }
 
 /** @brief Returns objects that respond to the selector with the value <answer>
- @note
+
  This is a very simple type of predicate test. Note - the method <selector> must not return
  anything larger than an int or it will be ignored and the result may be wrong.
  @param answer a value that should match the response ofthe selector
@@ -203,7 +203,7 @@ enum {
 }
 
 /** @brief Returns objects that respond to the selector <selector>
- @note
+
  This is a more general kind of test for ensuring that selectors are only sent to those
  objects that can respond. Hidden or locked objects are also excluded.
  @param selector any selector
@@ -226,7 +226,7 @@ enum {
 }
 
 /** @brief Returns an array consisting of a copy of the selected objects
- @note
+
  The result maintains the stacking order of the original objects, but the objects do not belong to
  where objects are ultimately going to be pasted back in to this or another layer.
  @return an array of objects. 
@@ -250,7 +250,7 @@ enum {
 }
 
 /** @brief Returns the selected objects in their original stacking order.
- @note
+
  Slower than -selection, as it needs to iterate over the objects. This ignores visible and locked
  states of the objects. See also -selectedAvailableObjects. If the layer itself is locked, returns
  an empty array.
@@ -274,7 +274,7 @@ enum {
 }
 
 /** @brief Returns the number of objects that are visible and not locked
- @note
+
  If the layer itself is locked, returns 0
  @return the count
  */
@@ -309,7 +309,7 @@ enum {
 #pragma mark - doing stuff to each item in the selection
 
 /** @brief Makes the selected available object perform a given selector.
- @note
+
  An easy way to apply a command to the set of selected available objects, provided that the
  selector requires no parameters
  @param selector the selector the objects should perform
@@ -342,7 +342,7 @@ enum {
 }
 
 /** @brief Hides or shows all of the objects in the selection
- @note
+
  Since hidden selected objects are not drawn, use with care, since usability may be severely
  compromised (for example, how are you going to be able to select hidden objects in order to show them?)
  @param visible YES to show the objects, NO to hide them
@@ -416,7 +416,7 @@ enum {
 #pragma mark - the selection
 
 /** @brief Sets the selection to a given set of objects
- @note
+
  For interactive selections, exchangeSelectionWithObjectsInArray: is more appropriate and efficient
  @param sel a set of objects to select
  */
@@ -450,7 +450,7 @@ enum {
 }
 
 /** @brief Returns the list of objects that are selected
- @note
+
  If stacking order of the items in the selection is important,
  a method such as selectedAvailableObjects or selectedObjectsPreservingStackingOrder should be used.
  if the layer itself is locked or hidden, always returns nil.
@@ -462,7 +462,7 @@ enum {
 }
 
 /** @brief If the selection consists of a single available object, return it. Otherwise nil.
- @note
+
  This is useful for easily handling the case where an operation can only operate on one object to be
  meaningful. It is also used by the automatic invocation forwarding mechanism.
  @return the selected object if it's the only one and it's available
@@ -478,7 +478,7 @@ enum {
 }
 
 /** @brief Return the number of items in the selection.
- @note
+
  KVC compliant; returns 0 if the layer is locked or hidden.
  @return an integer, the countof selected objects
  */
@@ -506,7 +506,7 @@ enum {
 }
 
 /** @brief Select all available objects
- @note
+
  This also adds hidden objects to the selection, even though they are not visible
  */
 - (void)selectAll
@@ -515,7 +515,7 @@ enum {
 }
 
 /** @brief Add a single object to the selection
- @note
+
  Any existing objects in the selection remain selected
  @param obj an object to select
  */
@@ -534,7 +534,7 @@ enum {
 }
 
 /** @brief Add a set of objects to the selection
- @note
+
  Existing objects in the selection remain selected
  @param objs an array of objects to select
  */
@@ -568,7 +568,7 @@ enum {
 }
 
 /** @brief Remove a single object from the selection
- @note
+
  Other objects in the selection are unaffected
  @param obj the object to deselect
  */
@@ -595,7 +595,7 @@ enum {
 }
 
 /** @brief Remove a series of object from the selection
- @note
+
  Other objects in the selection are unaffected
  @param objs the list of objects to deselect
  */
@@ -618,7 +618,7 @@ enum {
 }
 
 /** @brief Sets the selection to a given set of objects
- @note
+
  This is intended as a more efficient version of setSelection:, since it only changes the state of
  objects that differ between the current selection and the list passed. It is intended to be called
  when interactively making a selection such as during a marquee drag, when it's likely that the same
@@ -809,7 +809,7 @@ enum {
 #pragma mark - style operations on multiple items
 
 /** @brief Sets the selection to the set of objects that have the given style
- @note
+
  The style is compared by key, so clones of the style are not considered a match
  @param style the style to match
  @return YES if the selection changed, NO if it did not
@@ -820,7 +820,7 @@ enum {
 }
 
 /** @brief Replaces the style of all objects that have a reference to <style> with <newStyle>, optionally selecting them
- @note
+
  The style is compared by key, so clones of the style are not considered a match
  @param style the style to match
  @param newStyle the style to replace it with
@@ -925,7 +925,7 @@ enum {
 #pragma mark - selection undo stuff
 
 /** @brief Set whether selection changes should be recorded for undo.
- @note
+
  Different apps may want to treat selection changes as undoable state changes or not.
  @param undoable YES to record selection changes, NO to not bother.
  */
@@ -943,7 +943,7 @@ enum {
 }
 
 /** @brief Make a copy of the selection for a possible undo recording
- @note
+
  The selection is copied and stored in the ivar <_selectionUndo>. Usually called at the start of
  an operation that can potentially change the selection state, such as a mouse down.
  */
@@ -966,7 +966,7 @@ enum {
 }
 
 /** @brief Sends the recorded selection state to the undo manager and tags it with the given action name
- @note
+
  Usually called at the end of any operation than might have changed the selection. This also sets
  the action name even if the selection is unaffected, so callers can just call this with the
  desired action name and get the correct outcome, whether or not selection is undoable or changed.
@@ -1041,7 +1041,7 @@ enum {
 
 /** @brief Draws only the selected objects, with the selection highlight given. This is used when
  imaging the selection to a PDF or other context.
- @note
+
  Usually there is no good reason to copy objects with the selection state set to YES, but this is
  provided for special needs when you do want that.
  @param selected YES to show the selection, NO to not show it
@@ -1057,7 +1057,7 @@ enum {
 }
 
 /** @brief Creates an image of the selected objects
- @note
+
  Used to create an image representation of the selection when performing a cut or copy operation, to
  allow the selection to be exported to graphical apps that don't understand our internal object format.
  @return an image
@@ -1085,7 +1085,7 @@ enum {
 }
 
 /** @brief Creates a PDF representation of the selected objects
- @note
+
  Used to create a PDF representation of the selection when performing a cut or copy operation, to
  allow the selection to be exported to PDF apps that don't understand our internal object format.
  This requires the use of a temporary special view for recording the output as PDF.
@@ -1115,7 +1115,7 @@ enum {
 #pragma mark - clipboard ops
 
 /** @brief Copies the selection to the given pasteboard in a variety of formats
- @note
+
  Data is recorded as native data, PDF and TIFF. Note that locked objects can't be copied as
  native types, but images are still copied.
  @param pb the pasteboard to copy to
@@ -1176,7 +1176,7 @@ enum {
 
 /** @brief Sets whether selection highlights should be drawn on top of all other objects, or if they should be
  drawn with the object at its current stacking position.
- @note
+
  Default is YES
  @param onTop YES to draw on top, NO to draw in situ
  */
@@ -1186,7 +1186,7 @@ enum {
 }
 
 /** @brief Draw selection highlights on top or in situ?
- @note
+
  Default is YES
  @return YES if drawn on top, NO in situ.
  */
@@ -1196,7 +1196,7 @@ enum {
 }
 
 /** @brief Sets whether a drag into this layer will target individual objects or not.
- @note
+
  If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
  the object itself will be passed the drop information. Default is YES.
  @param allow allow individual objects to receive drags
@@ -1207,7 +1207,7 @@ enum {
 }
 
 /** @brief Returns whether a drag into this layer will target individual objects or not.
- @note
+
  If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
  the object itself will be passed the drop information. Default is YES.
  @return YES if objects can be targeted by drags
@@ -1218,7 +1218,7 @@ enum {
 }
 
 /** @brief Sets whether the selection is actually shown or not.
- @note
+
  Normally the selection should be visible, but some tools might want to hide it temporarily
  at certain well-defined times, such as when dragging objects.
  @param vis YES to show the selection, NO to hide it
@@ -1232,7 +1232,7 @@ enum {
 }
 
 /** @brief Whether the selection is actually shown or not.
- @note
+
  Normally the selection should be visible, but some tools might want to hide it temporarily
  at certain well-defined times, such as when dragging objects.
  @return YES if the selection is visible, NO if hidden
@@ -1242,7 +1242,7 @@ enum {
     return m_selectionVisible;
 }
 
-/** @note
+/**
  Default is NO for backward compatibility. This feature is useful to allow an action to be
  defined by an object but to have it invoked on all objects that are able to respond in the
  current selection without having to implement the action in the layer. Formerly such actions were
@@ -1260,7 +1260,7 @@ enum {
 }
 
 /** @brief Handle validation of menu items in a multiple selection when autoforwarding is enabled
- @note
+
  This also tries to intelligently set the state of the item. If some objects set the state one way
  and others to another state, this will automatically set the mixed state. While the menu item
  itself is enabled if any object enabled it, the mixed state indicates that the outcome of the
@@ -1298,7 +1298,7 @@ enum {
 #pragma mark - drag + drop
 
 /** @brief Sets the rect outside of which a mouse drag will drag the selection with the drag manager.
- @note
+
  By default the drag exclusion rect is set to the interior of the drawing. Dragging objects to the
  margins thus drags them "off" the drawing.
  @param aRect a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
@@ -1317,7 +1317,7 @@ enum {
 }
 
 /** @brief Initiates a drag of the selection to another document or app, or back to self.
- @note
+
  Keeps control until the drag completes. Swallows the mouseUp event. called from the mouseDragged
  method when the mouse leaves the drag exclusion rect.
  @param event the event that triggered the action - must be a mouseDown or mouseDragged
@@ -1375,7 +1375,7 @@ enum {
 #pragma mark - group operations
 
 /** @brief Layer is about to group a number of objects
- @note
+
  The default does nothing and returns YES - subclasses could override this to enhance or refuse
  grouping. This is invoked by the high level groupObjects: action method.
  @param objectsToBeGrouped the objects about to be grouped
@@ -1390,7 +1390,7 @@ enum {
 }
 
 /** @brief Layer did create the group and added it to the layer
- @note
+
  The default does nothing - subclasses could override this. This is invoked by the high level
  @param aGroup the group just added
  */
@@ -1400,7 +1400,7 @@ enum {
 }
 
 /** @brief A group object is about to be ungrouped
- @note
+
  The default does nothing - subclasses could override this. This is invoked by a group when it
  is about to ungroup - see [DKShapeGroup ungroupObjects:]
  @param aGroup the group about to be ungrouped
@@ -1413,7 +1413,7 @@ enum {
 }
 
 /** @brief A group object was ungrouped and its contents added back into the layer
- @note
+
  The default does nothing - subclasses could override this. This is invoked by the group just after
  it has ungrouped - see [DKShapeGroup ungroupObjects:]
  @param ungroupedObjects the objects just ungrouped
@@ -1427,7 +1427,7 @@ enum {
 #pragma mark - user actions
 
 /** @brief Perform a cut
- @note
+
  Cuts the selection
  @param sender the action's sender
  */
@@ -1439,7 +1439,7 @@ enum {
 }
 
 /** @brief Perform a copy
- @note
+
  Copies the selection to the general pasteboard
  @param sender the action's sender
  */
@@ -1452,7 +1452,7 @@ enum {
 }
 
 /** @brief Perform a paste
- @note
+
  Pastes from the general pasteboard
  @param sender the action's sender
  */
@@ -1599,7 +1599,7 @@ enum {
     }
 }
 
-/** @note
+/**
  Calls delete: when backspace key is typed
  @param sender the action's sender
  */
@@ -1797,7 +1797,7 @@ enum {
 }
 
 /** @brief Hides all selected objects, then deselects all
- @note
+
  Caution: hiding the selection has usability implications!!
  @param sender the action's sender
  */
@@ -1814,7 +1814,7 @@ enum {
 }
 
 /** @brief Reveals any hidden objects, setting the selection to them
- @note
+
  Beeps if no objects were hidden
  @param sender the action's sender
  */
@@ -1833,7 +1833,7 @@ enum {
 }
 
 /** @brief Turns the selected objects into a group.
- @note
+
  The new group is placed on top of all objects even if the objects grouped were not on top. The group
  as a whole can be moved to any index - ungrouping replaces objects at that index.
  @param sender the action's sender
@@ -1906,7 +1906,7 @@ enum {
 }
 
 /** @brief Set the selected objects ghosted.
- @note
+
  Ghosted objects draw using an unobtrusive placeholder style
  @param sender the action's sender
  */
@@ -1926,7 +1926,7 @@ enum {
 }
 
 /** @brief Set the selected objects unghosted.
- @note
+
  Ghosted objects draw using an unobtrusive placeholder style
  @param sender the action's sender
  */
@@ -1948,7 +1948,7 @@ enum {
 #pragma mark -
 
 /** @brief Nudges the selected objects left by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
@@ -1965,7 +1965,7 @@ enum {
 }
 
 /** @brief Nudges the selected objects right by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
@@ -1983,7 +1983,7 @@ enum {
 }
 
 /** @brief Nudges the selected objects up by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
@@ -2000,7 +2000,7 @@ enum {
 }
 
 /** @brief Nudges the selected objects down by one unit
- @note
+
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
@@ -2084,7 +2084,7 @@ enum {
 }
 
 /** @brief Applies a style to the objects in the selection
- @note
+
  The sender -representedObject must be a DKStyle. This is designed to match the menu items managed
  by DKStyleRegistry, but can be arranged to be any object that can have a represented object.
  @param sender the action's sender
@@ -2106,7 +2106,7 @@ enum {
 #pragma mark As a DKObjectOwnerLayer
 
 /** @brief Performs a hit test but also returns the hit part code
- @note
+
  See notes for hitTest:
  @param point the point to test
  @param part pointer to int, receives the partcode hit as a result of the test
@@ -2141,7 +2141,7 @@ enum {
 }
 
 /** @brief Removes an object from the layer
- @note
+
  If the object is selected, it is removed from the selection
  @param index the index at which the object should be removed
  */
@@ -2160,7 +2160,7 @@ enum {
 }
 
 /** @brief Replaces an object in the layer with another
- @note
+
  If index is selected, new object replaces the object in the selection
  @param index the index at which the object should be exchanged
  @param obj the object that will replace the item at index
@@ -2188,7 +2188,7 @@ enum {
 }
 
 /** @brief Removes objects from the indexes listed by the set
- @note
+
  If the indexes are present in the selection, they are removed
  @param set an index set
  */
@@ -2207,7 +2207,7 @@ enum {
 }
 
 /** @brief Add objects to the layer from the pasteboard
- @note
+
  Overrides the superclass so that the added objects are initially selected
  @param objects a list of objects already dearchived from the pasteboard
  @param pb the pasteboard (for information only)
@@ -2251,7 +2251,7 @@ static void drawFunction3(const void* value, void* context)
 }
 
 /** @brief Draws the layer and its contents on demand
- @note
+
  Called by the drawing when necessary to update the views. 
  @param rect the area being updated
  */
@@ -2335,7 +2335,7 @@ static void drawFunction3(const void* value, void* context)
     RESTORE_GRAPHICS_CONTEXT
 }
 
-/** @note
+/**
  Refreshes the selection when the layer becomes active
  */
 - (void)layerDidBecomeActiveLayer
@@ -2344,7 +2344,7 @@ static void drawFunction3(const void* value, void* context)
     [self refreshSelectedObjects];
 }
 
-/** @note
+/**
  Refreshes the selection when the layer resigns active state
  */
 - (void)layerDidResignActiveLayer
@@ -2354,7 +2354,7 @@ static void drawFunction3(const void* value, void* context)
 }
 
 /** @brief Builds a contextual menu for the layer
- @note
+
  This first gives any hit object a chance to populate the menu, then adds the layer level commands
  @param theEvent the event that triggered this call (right mouse click)
  @param view the view that received it
@@ -2450,7 +2450,7 @@ static void drawFunction3(const void* value, void* context)
 }
 
 /** @brief Locks or unlocks the layer
- @note
+
  Redraws the objects when the layer's lock state changes (selections are not shown for locked layers)
  @param locked YES to lock, NO to unlock
  */
@@ -2635,7 +2635,7 @@ static void drawFunction3(const void* value, void* context)
 }
 
 /** @brief Allows actions to be retargeted on single selected objects directly
- @note
+
  Commands can be implemented by a selected objects that wants to make use of them - this makes
  it happen by forwarding unrecognised method calls to those objects if possible. If multiple
  auto-forwarding is NO, commands are only forwarded to a single selected object if there is one.
@@ -2708,7 +2708,7 @@ static void drawFunction3(const void* value, void* context)
     return sig;
 }
 
-/** @note
+/**
  Locked objects are excluded here since the unlockObject: method is handled by the layer
  @return YES if the selector is recognised, NO if not
  */

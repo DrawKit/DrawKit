@@ -57,7 +57,7 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 + (void)signalSecondaryThreadShouldDrawInRect:(NSRect)rect withView:(DKDrawingView*)aView;
 
 /** @brief Broadcast the current mouse position in both native and drawing coordinates.
- @note
+
  A UI that displays the current mouse position could use this notification to keep itself updated.
  @param operation the name of the notification
  @param event the event associated with this
@@ -66,14 +66,14 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 + (void)pushCurrentViewAndSet:(DKDrawingView*)aView;
 
 /** @brief Store the local rule marker info.
- @note
+
  Private - an internal detail of how markers are handled
  @param dict a dictionary
  */
 - (void)setRulerMarkerInfo:(NSDictionary*)dict;
 
 /** @brief Store the local rule marker info.
- @note
+
  Private - an internal detail of how markers are handled
  @return a dictionary
  */
@@ -86,7 +86,7 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 #pragma mark As a DKDrawingView
 
 /** @brief Return the view currently drawing
- @note
+
  This is only valid during a drawRect: call - some internal parts of DK use this to obtain the
  view doing the drawing when they do not have a direct parameter to it.
  @return the current view that is drawing
@@ -202,7 +202,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark - the view's controller
 
 /** @brief Set the view's controller
- @note
+
  Do not call this directly - the controller will call it to set up the relationship at the right
  time.
  @param aController the controller for this view
@@ -221,7 +221,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Sea new controller for this view
- @note
+
  This is a convenience that allows a controller to be simply instantiated and passed in, replacing
  the existing controller. Note that -setController: does NOT achieve that. The drawing must
  already exist for this to work.
@@ -246,7 +246,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark - drawing info
 
 /** @brief Return the drawing that the view will draw
- @note
+
  The drawing is obtained via the controller, and may be nil if the controller hasn't been added
  to a drawing yet. Even when the view owns the drawing (for auto back-end) you should use this
  method to get a view's drawing.
@@ -258,7 +258,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Create an entire "back end" for the view 
- @note
+
  Normally you create a drawing, and add layers to it. However, you can also let the view create the
  drawing back-end for you. This will occur when the view is asked to draw and there is no back end. This method
  does the building. This feature means you can simply drop a drawingView into a NIB and get a
@@ -301,7 +301,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Creates a controller for this view that can be added to a drawing
- @note
+
  Normally you wouldn't call this yourself unless you are building the entire DK system by hand rather
  than using DKDrawDocument or automatic drawing creation. You can override it to create different
  kinds of controller however. Th edefault controller is DKToolController so that DK provides you
@@ -318,7 +318,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark - drawing page breaks and crop marks
 
 /** @brief Returns a path which represents all of the printed page rectangles
- @note
+
  Any extension may not end up visible when printed depending on the printer's margin settings, etc.
  The only supported option currently is kDKCornerOnly, which generates corner crop marks rather
  than the full rectangles.
@@ -425,7 +425,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Sets whether the page breaks are shown or not
- @note
+
  Page breaks also need a valid printInfo object set
  @param pbVisible YES to show the page breaks, NO otherwise
  */
@@ -455,7 +455,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Set what kind of crop marks printed output includes
- @note
+
  Default is no crop marks
  @param kind the kind of crop mark (including none)
  */
@@ -468,7 +468,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief What sort of crop mark sare applied to printed output
- @note
+
  Default is no crop marks
  @return the crop mark kind
  */
@@ -496,7 +496,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark - editing text directly in the drawing
 
 /** @brief Start editing text in a box within the view
- @note
+
  When an object in the drawing wishes to allow the user to edit some text, it can use this utility
  to set up the editor. This creates a subview for text editing with the nominated text and the
  bounds rect given within the drawing. The text is installed, selected and activated. User actions
@@ -518,7 +518,7 @@ static Class s_textEditorClass = Nil;
 #define USE_STORAGE_REPLACEMENT 1
 
 /** @brief Start editing text in a box within the view
- @note
+
  When an object in the drawing wishes to allow the user to edit some text, it can use this utility
  to set up the editor. This creates a subview for text editing with the nominated text and the
  bounds rect given within the drawing. The text is installed, selected and activated. User actions
@@ -658,7 +658,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Return the text from the temporary editing view
- @note
+
  This must be called prior to calling -endTextEditing, because the storage is made empty at that time
  @return the text
  */
@@ -676,7 +676,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Respond to frame size changes in the text editor view
- @note
+
  This tidies up the display when the editor frame changes size. The frame can change
  during editing depending on how the client has configured it, but to prevent bits from being
  left behind when the frame is made smaller, this simply invalidates the previous frame rect.
@@ -689,7 +689,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Is the text editor visible and active?
- @note
+
  Clients should not generally start a text editing operation if there is already one in progress,
  though if they do the old one is immediately ended anyway.
  @return YES if text editing is in progress, NO otherwise
@@ -703,7 +703,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark - ruler stuff
 
 /** @brief Set the ruler lines to the current mouse point
- @note
+
  N.b. on 10.4 and earlier, there is a bug in NSRulerView that prevents both h and v ruler lines
  showing up correctly at the same time. No workaround is known. Fixed in 10.5+
  @param mouse the current mouse poin tin local coordinates */
@@ -743,7 +743,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Set a ruler marker to a given position
- @note
+
  Generally called from the view's controller
  @param markerName the name of the marker to move
  @param loc a position value to move the ruler marker to
@@ -764,7 +764,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Set up the markers for the rulers.
- @note
+
  Done as part of the view's initialization - markers are initially created offscreen.
  */
 - (void)createRulerMarkers
@@ -873,7 +873,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Set up the client view for the rulers.
- @note
+
  Done as part of the view's initialization
  */
 - (void)resetRulerClientView
@@ -947,7 +947,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark window activations
 
 /** @brief Invalidate the view when window active state changes.
- @note
+
  Drawings can change appearance when the active state changes, for example selections are drawn
  in inactive colour, etc. This makes sure that the drawing is refreshed when the state does change.
  @param note the notification
@@ -978,7 +978,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark As an NSView
 
 /** @brief Draw the content of the drawing.
- @note
+
  Draws the entire drawing content, then any controller-based content, then finally the pagebreaks.
  If at this point there is no drawing, one is automatically created so that you can get a working
  DK system simply by dropping a DKDrawingView into a window in a nib, and away you go.
@@ -1033,7 +1033,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Invalidate the cursor rects and set up new ones
- @note
+
  The controller will supply a cursor and an active rect to apply it in
  */
 - (void)resetCursorRects
@@ -1049,7 +1049,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Create a menu that is used for a right-click in the view
- @note
+
  Initially defers to the controller, then to super
  @param event the event
  @return a menu, or nil
@@ -1135,7 +1135,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Handle the key down event
- @note
+
  Key down events are preprocessed in the usual way and end up getting forwarded down through
  the controller and active layer because of invocation forwarding. Thus you can respond to
  normal NSResponder methods at any level that makes sense within DK. The controller is however
@@ -1152,7 +1152,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Handle the mouse down event
- @note
+
  The view defers to its controller after broadcasting the mouse position info
  @param event the event
  */
@@ -1165,7 +1165,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Handle the mouse dragged event
- @note
+
  The view defers to its controller after broadcasting the mouse position info
  @param event the event
  */
@@ -1186,7 +1186,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Handle the mouse moved event
- @note
+
  The view defers to its controller after updating the ruler lines and broadcasting the mouse position info
  @param event the event
  */
@@ -1201,7 +1201,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Handle the mouse up event
- @note
+
  The view defers to its controller after broadcasting the mouse position info
  @param event the event
  */
@@ -1214,7 +1214,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Handle the flags changed event
- @note
+
  The view simply defers to its controller
  @param event the event
  */
@@ -1224,7 +1224,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Do the command requested
- @note
+
  This overrides the default implementation to send itself as the <sender> parameter. Because in
  fact the selector is actually forwarded down to some other objects deep inside DK, this is a very
  easy way for them to get passed the view from whence the event came. NSResponder methods such
@@ -1241,7 +1241,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Insert text
- @note
+
  This overrides the default implementation to forward insertText: to the active layer and beyond.
  @param aString the text to insert
  */
@@ -1302,7 +1302,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Forward an invocation to the active layer if it implements it
- @note
+
  DK makes a lot of use of invocation forwarding - views forward to their controllers, which forward
  to the active layer, which may forward to selected objects within the layer. This allows objects
  to respond to action methods and so forth at their own level.
@@ -1322,7 +1322,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Return a method's signature
- @note
+
  DK makes a lot of use of invocaiton forwarding - views forward to their controllers, which forward
  to the active layer, which may forward to selected objects within the layer. This allows objects
  to respond to action methods and so forth at their own level.
@@ -1342,7 +1342,7 @@ static Class s_textEditorClass = Nil;
 }
 
 /** @brief Return whether the selector can be responded to
- @note
+
  DK makes a lot of use of invocaiton forwarding - views forward to their controllers, which forward
  to the active layer, which may forward to selected objects within the layer. This allows objects
  to respond to action methods and so forth at their own level.
@@ -1391,7 +1391,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark As part of NSNibAwaking Protocol
 
 /** @brief Set up the rulers and other defaults when the view is first created
- @note
+
  Typically you should create your views from a NIB, it's just much easier that way. If you decide to
  do it the hard way you'll have to do this set up yourself.
  */

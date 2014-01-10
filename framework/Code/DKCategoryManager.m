@@ -45,7 +45,7 @@ NSString* kDKCategoryManagerDidDeleteCategory = @"kDKCategoryManagerDidDeleteCat
 static id sDearchivingHelper = nil;
 
 /** @brief Returns a new category manager object
- @note
+
  Convenience method. Initial categories only consist of "All Items"
  @return a category manager object
  */
@@ -55,7 +55,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Returns a new category manager object based on an existing dictionary
- @note
+
  Convenience method. Initial categories only consist of "All Items"
  @param dict an existign dictionary
  @return a category manager object
@@ -73,7 +73,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
- @note
+
  Subclasses will need to define this differently - used for merging.
  @param obj an object
  @return a key string */
@@ -105,7 +105,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - initialization
 
 /** @brief Initialized a category manager object from archive data
- @note
+
  Data is permitted also to be an archived dictionary
  @param data data containing a correctly archived category manager
  @return the category manager object
@@ -155,7 +155,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Initialized a category manager object from an existing dictionary
- @note
+
  No categories other than "All Items" are created by default. The recently added list is empty.
  @param dict dictionary containing a set of objects and keys
  @return the category manager object
@@ -192,7 +192,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - adding and retrieving objects
 
 /** @brief Add an object to the container, associating with a key and optionally a category.
- @note
+
  <obj> and <name> cannot be nil. All objects are added to the default category regardless of <catName>
  @param obj the object to add
  @param name the object's key
@@ -233,7 +233,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Add an object to the container, associating with a key and optionally a number of categories.
- @note
+
  <obj> and <name> cannot be nil. All objects are added to the default category regardless of <catNames>
  @param obj the object to add
  @param name the object's key
@@ -274,7 +274,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Remove an object from the container
- @note
+
  After this the key will not be found in any category or either list
  @param key the object's key
  */
@@ -301,7 +301,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Remove multiple objects from the container
- @note
+
  After this no keys will not be found in any category or either list
  @param keys a list of keys
  */
@@ -315,7 +315,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Removes all objects from the container
- @note
+
  Does not remove the categories, but leaves them all empty.
  */
 - (void)removeAllObjects
@@ -355,7 +355,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return the object for the given key, optionally remembering it in the "recently used" list
- @note
+
  Use this method when you wish this access of the object to result in it being added to "recently used"
  @param key the object's key
  @param add if YES, object's key is added to recently used items
@@ -377,7 +377,7 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 
 /** @brief Returns a list of all unique keys that refer to the given object
- @note
+
  The result may contain no keys if the object is unknown
  @param obj the object
  @return an array, listing all the unique keys that refer to the object.
@@ -484,7 +484,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Asks delegate to make decision about the merging of an object
- @note
+
  Subclasses must override this to make use of it. Returning nil means use existing object.
  @param obj the object to consider
  @param aDelegate the delegate to ask
@@ -518,7 +518,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - retrieving lists of objects by category
 
 /** @brief Return all of the objects belonging to a given category
- @note
+
  Returned objects are in no particular order, but do match the key order obtained by
  -allkeysInCategory. Should any key not exist (which should never normally occur), the entry will
  be represented by a NSNull object
@@ -539,7 +539,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return all of the objects belonging to the given categories
- @note
+
  Returned objects are in no particular order, but do match the key order obtained by
  -allKeysInCategories:. Should any key not exist (which should never normally occur), the entry will
  be represented by a NSNull object
@@ -560,7 +560,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return all of the keys in a given category
- @note
+
  Returned objects are in no particular order. This also treats the "recently used" and "recently added"
  items as pseudo-category names, returning these arrays if the catName matches.
  @param catName the category name
@@ -568,7 +568,7 @@ static id sDearchivingHelper = nil;
  */
 
 /** @brief Return all of the keys
- @note
+
  Returned objects are in no particular order. The keys are obtained by enumerating the categories
  because the master list contains case-modified keys that may not be matched with categories.
  @return an array, all keys (listed only once)
@@ -584,7 +584,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return all of the keys in all given categories
- @note
+
  Returned objects are in no particular order.
  @param catNames an array of category names
  @return an array, the union of keys in listed categories. May be empty.
@@ -627,7 +627,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return all of the keys in a given category, sorted into some useful order
- @note
+
  By default the keys are sorted alphabetically. The UI-building methods call this, so a subclass
  can override it and return keys sorted by some other criteria if required.
  @param catName the category name
@@ -639,7 +639,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return all of the names in a given category, sorted into some useful order
- @note
+
  For an ordinary DKCategoryManager, names == keys. However, subclasses may store keys in some other
  fashion (hint: they do) and so another method is needed to convert keys to names. Those subclasses
  must override this and do what's appropriate.
@@ -667,7 +667,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return the list of recently added items
- @note
+
  Returned objects are in order of addition, most recent first.
  @return an array, the list of keys recently added.
  */
@@ -677,7 +677,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return the list of recently used items
- @note
+
  Returned objects are in order of use, most recent first.
  @return an array, the list of keys recently used.
  */
@@ -690,7 +690,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - category management - creating, deleting and renaming categories
 
 /** @brief Add the default categories defined for this class or object
- @note
+
  Is called as part of the initialisation of the CM object
  */
 - (void)addDefaultCategories
@@ -707,7 +707,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Create a new category with the given name
- @note
+
  If the name is already a category name, this does nothing
  @param catName the name of the new category */
 - (void)addCategory:(NSString*)catName
@@ -747,7 +747,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Remove a category with the given name
- @note
+
  The objects listed in the category are not removed, as they may also be listed by other categories.
  If they are not, they can become orphaned however. To avoid this, never delete the "All Items"
  category.
@@ -776,7 +776,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Change a category's name
- @note
+
  If <newname> already exists, it will be replaced by the entries in <catname>
  @param catName the category's old name
  @param newname the category's new name
@@ -807,7 +807,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Removes all categories and objects from the CM.
- @note
+
  After this the CM is entirely empty.
  */
 - (void)removeAllCategories
@@ -931,7 +931,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Checks that all keys refer to real objects, removing any that do not
- @note
+
  Rarely needed, but can correct for corrupted registries where objects got removed but not all
  keys that refer to it did for some reason (such as an exception). */
 - (void)fixUpCategories
@@ -946,7 +946,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Renames an object's key throughout
- @note
+
  If <key> doesn't exist, or if <newkey> already exists, throws an exception. After this the same
  object that could be located using <key> can be located using <newKey> in the same categories as
  it appeared in originally.
@@ -996,7 +996,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - getting lists, etc. of the categories
 
 /** @brief Get a list of all categories
- @note
+
  The list is alphabetically sorted for the convenience of a user interface
  @return an array containg a list of all category names
  */
@@ -1014,7 +1014,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Get a list of all categories that contain a given key
- @note
+
  The list is alphabetically sorted for the convenience of a user interface
  @param key the key in question
  @return an array containing a list of categories which contain the key
@@ -1048,7 +1048,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Get a list of reserved categories - those that should not be deleted or renamed
- @note
+
  This list is advisory - a UI is responsible for honouring it, the cat manager itself ignores it.
  The default implementation returns the same as the default categories, thus reserving all
  default cats. Subclasses can change this as they wish.
@@ -1093,7 +1093,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - managing recent lists
 
 /** @brief Set whether the "recent;y added" list accepts new items or not
- @note
+
  This allows the recently added items to be temporarily disabled when bulk adding items to the
  manager. By default the recently added items list is enabled.
  @param enable YES to allow new items to be added, NO otherwise
@@ -1104,7 +1104,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Add a key to one of the 'recent' lists
- @note
+
  Acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
  @param key the key to add
  @param whichList an identifier for the list in question
@@ -1160,7 +1160,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Remove a key from one of the 'recent' lists
- @note
+
  Acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
  @param key the key to remove
  @param whichList an identifier for the list in question */
@@ -1190,7 +1190,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the maximum length of on eof the 'recent' lists
- @note
+
  Acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
  @param whichList an identifier for the list in question
  @param max the maximum length to which a list may grow */
@@ -1238,7 +1238,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Return the filetype (for saving, etc)
- @note
+
  Subclasses should override to change the filetype used for specific examples of this object
  */
 - (NSString*)fileType
@@ -1279,7 +1279,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Retain all existing content, and load additional content from the archive data passed
- @note
+
  Because at this level DKCategoryManager has no knowledge of the objects it is storing, it has no
  means to be smart about merging objects that are the same in some higher abstract way. Thus it's
  entirely possible to end up with multiple copies of the "same" object after this operation.
@@ -1305,7 +1305,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Retain all existing content, and load additional content from the cat manager passed
- @note
+
  Categories not present in the receiver but exist in <cm> are created, and objects present in <cm>
  are added to the receiver if not already present (as determined solely by address). This method
  disables the "recently added" list while it adds the items.
@@ -1357,7 +1357,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Removes the menu from the list of managed menus
- @note
+
  An object using a menu created by the category manager must remove it from management when it is
  no longer needed as a stale reference can cause a crash.
  @param menu a menu managed by this object
@@ -1368,7 +1368,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Synchronises the menus to reflect any change of the object referenced by <key>
- @note
+
  Any change to a stored object that affects the menus' appearance can be handled by calling this.
  this only changes the menu items that represent the object, and not the entire menu, so is an
  efficient way to keep menus up to date with changes.
@@ -1383,7 +1383,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - a menu with everything, organised hierarchically by category
 
 /** @brief Creates a complete menu of the entire contents of the receiver, arranged by category
- @note
+
  The menu returned lists the categories, each of which is a submenu containing the actual objects
  corresponding to the category contents. It also populates a recent items and added items submenu.
  the callback object needs to set up the menu item based on the object itself. The object is added
@@ -1437,7 +1437,7 @@ static id sDearchivingHelper = nil;
 #pragma mark - menus of just the categories
 
 /** @brief Creates a menu of categories, recent items and All Items
- @note
+
  Sel and target may be nil
  @param sel the selector which is set as the action for each added item
  @param target the target of category item actions
@@ -1451,7 +1451,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Creates a menu of categories, recent items and All Items
- @note
+
  Sel and target may be nil, options may be 0
  @param sel the selector which is set as the action for each category item
  @param target the target of category item actions
@@ -1474,7 +1474,7 @@ static id sDearchivingHelper = nil;
 }
 
 /** @brief Sets the checkmarks in a menu of category names to reflect the presence of <key> in those categories
- @note
+
  Assumes that item names will be the category names. For localized names, you should handle the
  localization external to this class so that both category names and menu items use the same strings.
  @param menu the menu to examine

@@ -21,7 +21,7 @@ NSRect NSRectFromTwoPoints(const NSPoint a, const NSPoint b);
 NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size);
 
 /** @brief Returns the smallest rect that encloses both a and b
- @note
+
  Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
  width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
  returned, but in all other cases it correctly forms the union. While NSUnionRect might be

@@ -103,7 +103,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Set the three class default colours based on a single theme colour
- @note
+
  The theme colour directly sets the span colour, the division colour is a lighter version and the
  major colour a darker version.
  @param colour a colour
@@ -121,7 +121,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark -
 
 /** @brief Return a grid layer with default metric settings
- @note
+
  The default metric grid has a 10mm span, 5 divisions per span (2mm) and 10 spans per major (100mm)
  and the drawing units are "Centimetres"
  @return a grid layer, autoreleased
@@ -144,7 +144,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Return a grid layer with default imperial PCB (printed circuit board) settings
- @note
+
  The default PCB grid has a 1 inch span, 10 divisions per span (0.1") and 2 spans per major (2")
  and the drawing units are "Inches". This grid is suitable for classic printed circuit layout
  based on a 0.1" grid pitch.
@@ -167,7 +167,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark - one-stop shop for setting grid, drawing and rulers in one hit
 
 /** @brief Sets the grid to the standard metric default settings
- @note
+
  The default metric grid has a 10mm span, 5 divisions per span (2mm) and 10 spans per major (100mm)
  and the drawing units are "Centimetres"
  */
@@ -196,7 +196,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Is this grid a master for the drawing?
- @note
+
  By default the grid is a master. Typically a drawing will only use one grid, but some specialised
  applications may wish to have other grids as well. To avoid confusion, those grids should arrange
  to return NO here so that they are not used by mistake for general purpose drawing.
@@ -208,7 +208,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief High-level method to set up the grid in its entirety with one method
- @note
+
  This also sets the drawing's setDrawingUnits:unitToPointsConversionFactor: method, so should be
  attached views so that there is a general agreement between all these parts. If the layer is locked
  this does nothing.
@@ -268,7 +268,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark -
 
 /** @brief Sets the location within the drawing where the grid considers zero to be (i.e. coordinate 0,0)
- @note
+
  By default this is set to the upper, left corner of the drawing's interior
  @param zero a point in the drawing where zero is
  */
@@ -284,7 +284,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Returns the location within the drawing where the grid considers zero to be (i.e. coordinate 0,0)
- @note
+
  By default this is set to the upper, left corner of the drawing's interior
  @return a point in the drawing where zero is
  */
@@ -297,7 +297,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark - getting grid info
 
 /** @brief Returns the actual distance of one span in points
- @note
+
  The result is the unit distance.
  @return a float value
  */
@@ -363,7 +363,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark -
 
 /** @brief Sets the ruler step-up cycle
- @note
+
  See NSRulerView for details about the ruler step-up cycle
  @param steps> an integer value that must be  1 
  */
@@ -376,7 +376,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Returns the ruler step-up cycle in use
- @note
+
  See NSRulerView for details about the ruler step-up cycle
  @return an integer value > 1
  */
@@ -386,7 +386,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Set up the rulers of all views that have them so that they agree with the current grid
- @note
+
  This method prepares the rulers to match to the current grid and drawing settings. It should be
  called once after changing the grid's parameters or the drawing units (which are set in the
  drawing object). This registers the current settings using the drawing units name as a key.
@@ -422,7 +422,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Adjust the drawing margins to encompass an integral number of grid spans
- @note
+
  This method alters the existing drawing margins such that a whole number of
  spans is spanned by the interior area of the drawing. The margins are only ever moved inwards (enlarged) by this
  method to ensure that the interior of a drawing always remains within the printable area of a
@@ -471,7 +471,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark - colours for grid display
 
 /** @brief Sets the colour used to draw the spans
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. see setGridThemeColour:
  @param colour a colour
@@ -487,7 +487,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief The colour used to draw the spans
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  @return a colour
@@ -498,7 +498,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Sets the colour used to draw the divisions
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. see setGridThemeColour:
  @param colour a colour
@@ -519,7 +519,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Sets the colour used to draw the majors
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. see setGridThemeColour:
  @param colour a colour
@@ -540,7 +540,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Sets the colours used to draw the grid as a whole
- @note
+
  Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you. This sets the three separate colours based on lighter and
  darker variants of the passed colour. Note that it's usual to have some transparency (alpha) set
@@ -565,7 +565,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark - converting between base (Quartz) and the grid
 
 /** @brief Given a point in drawing coordinates, returns nearest grid intersection to that point
- @note
+
  The intersection of the nearest division is returned, which is smaller than the span. This is
  a fundamental operation when snapping a point to the grid.
  @param p a point in the drawing
@@ -593,7 +593,7 @@ static NSColor* sMajorColour = nil;
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
  number of divisions
- @note
+
  The returned size cannot be larger than the drawing's interior in either dimension.
  @param size a size value
  @return a size, the nearest whole number of divisions to the original size
@@ -630,7 +630,7 @@ static NSColor* sMajorColour = nil;
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
  number of spans
- @note
+
  The returned size cannot be larger than the drawing's interior in either dimension. As spans are
  a coarser measure than divisions, the adjusted size might differ substantially from the input.
  @param size a size value
@@ -667,7 +667,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Given a point in drawing coordinates, returns the "real world" coordinate of the same point
- @note
+
  See also pointForGridLocation: which is the inverse operation
  @param pt a point local to the drawing
  @return a point giving the same position in terms of the grid's drawing units, etc.
@@ -685,7 +685,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Given a point in "real world" coordinates, returns the drawing coordinates of the same point
- @note
+
  See also gridLocationForPoint: which is the inverse operation
  @param pt a point in terms of the grid's drawing units
  @return a point giving the same position in the drawing.
@@ -703,7 +703,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Given a distance value in drawing coordinates, returns the grid's "real world" equivalent
- @note
+
  See also quartzDistanceForGridDistance: which is the inverse operation. Note that the h and v
  scales of a grid are assumed to be the same (in this implementtaion they always are).
  @param qd a distance given in drawing units (points)
@@ -717,7 +717,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Given a distance value in the grid's "real world" coordinates, returns the quartz equivalent
- @note
+
  See also gridDistanceForQuartzDistance: which is the inverse operation
  @param gd a distance given in grid units
  @return the distance in quartz units
@@ -730,7 +730,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark -
 
 /** @brief When the scale crosses the span threshold, the cache is invalidated and the span cycle adjusted
- @note
+
  This permits dynamic display of the span grid based on the zoom factor. Currently only one
  threshold is used
  @param scale the view's current scale
@@ -752,7 +752,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Removes the cached paths used to draw the grid when a grid parameter is changed
- @note
+
  The grid is cached to help speed up drawing, and is only recalculated when necessary.
  */
 - (void)invalidateCache
@@ -770,7 +770,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Recreates the cached paths used to draw the grid when required
- @note
+
  The grid is cached to help speed up drawing, and is only recalculated when necessary.
  @param r the rect in which the grid is defined (typically the drawing interior)
  */
@@ -896,7 +896,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark - user actions
 
 /** @brief Set the grid to one ofthe default grids
- @note
+
  [sender tag] is interpreted as a measurement system value; restores either the metric or imperial
  defaults. Not super-useful, but handy for quickly exploring alternative grids.
  @param sender the sender of the action
@@ -917,7 +917,7 @@ static NSColor* sMajorColour = nil;
 #pragma mark As a DKLayer
 
 /** @brief Draw the grid
- @note
+
  Draws the cached grid to the view
  @param rect the area of the view needing to be redrawn
  @param aView where it came from
@@ -988,7 +988,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Return the selection colour
- @note
+
  This layer type doesn't make use of this inherited colour, so always returns nil. A UI may use that
  as a cue to supress a widget for setting the layer's colour.
  @return nil
@@ -1019,7 +1019,7 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Return whether the layer can be deleted
- @note
+
  This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
  It does not prevent code from directly removing the layer.
  @return NO - typically grid layers shouldn't be deleted

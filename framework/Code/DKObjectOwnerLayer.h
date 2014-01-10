@@ -84,7 +84,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 // as a container for a DKDrawableObject:
 
 /** @brief Returns the layer of a drawable's container - since this is that layer, returns self
- @note
+
  See DKDrawableObject which also implements this protocol
  @return self
  */
@@ -103,7 +103,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSArray*)objects; // KVC/KVO compliant
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible
- @note
+
  If the layer itself is locked, returns the empty list
  @return an array of available objects
  */
@@ -111,7 +111,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible and that
  intersect the rect
- @note
+
  If the layer itself is locked, returns the empty list
  @param aRect - objects must also intersect this rect
  @return an array of available objects
@@ -119,7 +119,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSArray*)availableObjectsInRect:(NSRect)aRect;
 
 /** @brief Returns objects that are available to the user of the given class
- @note
+
  If the layer itself is locked, returns the empty list
  @param aClass - class of the desired objects
  @return an array of available objects
@@ -127,14 +127,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSArray*)availableObjectsOfClass:(Class)aClass;
 
 /** @brief Returns objects that are visible to the user, but may be locked
- @note
+
  If the layer itself is not visible, returns nil
  @return an array of visible objects
  */
 - (NSArray*)visibleObjects;
 
 /** @brief Returns objects that are visible to the user, intersect the rect, but may be locked
- @note
+
  If the layer itself is not visible, returns nil
  @param aRect the objects returned intersect this rect
  @return an array of visible objects
@@ -142,7 +142,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSArray*)visibleObjectsInRect:(NSRect)aRect;
 
 /** @brief Returns objects that share the given style
- @note
+
  The style is compared by unique key, so style clones are not considered a match. Unavailable objects are
  also included.
  @param style the style to compare
@@ -152,7 +152,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Returns objects that respond to the selector with the value <answer>
  <selector> a selector taking no parameters
- @note
+
  This is a very simple type of predicate test. Note - the method <selector> must not return
  anything larger than an int or it will be ignored and the result may be wrong.
  @return an array, objects that match the value of <answer>
@@ -179,7 +179,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (DKDrawableObject*)bottomObject;
 
 /** @brief Returns the stacking position of the given object
- @note
+
  Will return NSNotFound if the object is not presently owned by the layer
  @param obj the object
  @return the object's stacking order index
@@ -241,7 +241,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 // general purpose adding/removal (call through to KVC/KVO methods as necessary, but can't be observed directly)
 
 /** @brief Adds an object to the layer
- @note
+
  If layer locked, does nothing
  @param obj the object to add
  */
@@ -249,7 +249,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)addObject:(DKDrawableObject*)obj atIndex:(NSUInteger)index;
 
 /** @brief Adds a set of objects to the layer
- @note
+
  Take care that no objects are already owned by any layer - this doesn't check.
  @param objs an array of DKDrawableObjects, or subclasses.
  */
@@ -257,7 +257,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  a given point.
- @note
+
  Used for paste and other similar ops. The objects are placed such that their bounding rect's origin
  ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
  method will not return NO, as no object was placed outside the interior.
@@ -271,7 +271,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  a given point.
- @note
+
  Used for paste and other similar ops. The objects are placed such that their bounding rect's origin
  ends up at <origin>, regardless of the object's current location. Note that if pin is YES, the
  method will not return NO, as no object was placed outside the interior. Note that the <bounds> parameter
@@ -308,7 +308,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 // enumerating objects (typically for drawing)
 
 /** @brief Return an iterator that will enumerate the objects needing update
- @note
+
  The iterator returned iterates in bottom-to-top order and includes only those objects that are
  visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
  still used to determine inclusion.
@@ -319,7 +319,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView;
 
 /** @brief Return an iterator that will enumerate the objects needing update
- @note
+
  The iterator returned iterates in bottom-to-top order and includes only those objects that are
  visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
  still used to determine inclusion.
@@ -331,7 +331,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
 
 /** @brief Return the objects needing update
- @note
+
  If the view is nil <rect> is used to determine inclusion.
  @param rect the update rect as passed to a drawRect: method of a view
  @param aView the view being updated, if any (may be nil)
@@ -340,7 +340,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSArray*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView;
 
 /** @brief Return the objects needing update
- @note
+
  If the view is nil <rect> is used to determine inclusion.
  @param rect the update rect as passed to a drawRect: method of a view
  @param aView the view being updated, if any (may be nil)
@@ -359,7 +359,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 // pending object - used during interactive creation of new objects
 
 /** @brief Adds a new object to the layer pending successful interactive creation
- @note
+
  When interactively creating objects, it is preferable to create the object successfully before
  committing it to the layer - this gives the caller a chance to abort the creation without needing
  to be concerned about any undos, etc. The pending object is drawn on top of all others as normal
@@ -369,7 +369,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)addObjectPendingCreation:(DKDrawableObject*)pend;
 
 /** @brief Removes a pending object in the situation that the creation was unsuccessful
- @note
+
  When interactively creating objects, if for any reason the creation failed, this should be called
  to remove the object from the layer without triggering any undo tasks, and to remove any the object
  itself made
@@ -377,7 +377,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)removePendingObject;
 
 /** @brief Commits the pending object to the layer and sets up the undo task action name
- @note
+
  When interactively creating objects, if the creation succeeded, the pending object should be
  committed to the layer permanently. This does that by adding it using addObject. The undo task
  thus created is given the action name (note that other operations can also change this later).
@@ -386,7 +386,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)commitPendingObjectWithUndoActionName:(NSString*)actionName;
 
 /** @brief Draws the pending object, if any, in the layer - called by drawRect:inView:
- @note
+
  Pending objects are drawn normally is if part of the current list, and on top of all others. Subclasses
  may need to override this if the selected state needs passing differently. Typically pending objects
  will be drawn selected, so the default is YES.
@@ -403,7 +403,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Return the union of all the visible objects in the layer. If there are no visible objects, returns
  NSZeroRect.
- @note
+
  Avoid using for refreshing objects. It is more efficient to use refreshAllObjects
  @return a rect, the union of all visible object's bounds in the layer
  */
@@ -419,14 +419,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)refreshAllObjects;
 
 /** @brief Returns the layer's transform used when rendering objects within
- @note
+
  Returns the identity transform
  @return a transform
  */
 - (NSAffineTransform*)renderingTransform;
 
 /** @brief Modifies the objects by applying the given transform to each of them.
- @note
+
  This modifies the geometry of each object by applying the transform to each one. The purpose of
  this is to permit gross changes to a drawing's layout if the
  client application requires it - for example scaling all objects to some new size.
@@ -457,7 +457,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)moveObjectToBottom:(DKDrawableObject*)obj;
 
 /** @brief Movesthe object to the given stacking position index
- @note
+
  Used to implement all the other moveTo.. ops
  @param obj the object to move
  @param i the index it should be moved to
@@ -467,7 +467,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 // restacking multiple objects:
 
 /** @brief Moves the objects indexed by the set to the given stacking position index
- @note
+
  Useful for restacking several objects
  @param set a set of indexes
  @param indx the index it should be moved to
@@ -475,7 +475,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)moveObjectsAtIndexes:(NSIndexSet*)set toIndex:(NSUInteger)indx;
 
 /** @brief Moves the objects in the array to the given stacking position index
- @note
+
  Useful for restacking several objects. Array passed can be the selection. The order of objects in
  the array is preserved relative to one another, after the operation the lowest indexed object
  will be at <indx> and the rest at consecutive indexes above it.
@@ -500,7 +500,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)addObjects:(NSArray*)objects fromPasteboard:(NSPasteboard*)pb atDropLocation:(NSPoint)p;
 
 /** @brief Detect whether the paste from the pasteboard is a new paste, or a repeat paste
- @note
+
  Since this is a one-shot method that changes the internal state of the layer, it should not be
  called except internally to manage the auto paste repeat. It may either increment or reset the
  paste count. It also sets the paste origin to the origin of the pasted objects' bounds.
@@ -521,14 +521,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSInteger)pasteCount;
 
 /** @brief Return the current point where pasted object will be positioned relative to
- @note
+
  See paste: for how this is used
  @return the paste origin
  */
 - (NSPoint)pasteOrigin;
 
 /** @brief Sets the current point where pasted object will be positioned relative to
- @note
+
  See paste: for how this is used
  @param po the desired paste origin.
  */
@@ -545,7 +545,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)setPasteOffset:(NSSize)offset;
 
 /** @brief Establish the paste offset - a value used to position items when pasting and duplicating
- @note
+
  The values passed will be adjusted to the nearest grid interval if snap to grid is on.
  @param x>, <y the x and y values of the offset
  */
@@ -576,7 +576,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (DKDrawableObject*)hitTest:(NSPoint)point partCode:(NSInteger*)part;
 
 /** @brief Finds all objects touched by the given rect
- @note
+
  Test for inclusion by calling the object's intersectsRect method. Can be used to select objects in
  a given rect or for any other purpose. For selections, the results can be passed directly to
  exchangeSelection:
@@ -586,7 +586,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSArray*)objectsInRect:(NSRect)rect;
 
 /** @brief An object owned by the layer was double-clicked
- @note
+
  Override to use
  @param obj the object hit
  @param mp the mouse point of the click
@@ -596,7 +596,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 // snapping:
 
 /** @brief Snap a point to any existing object control point within tolerance
- @note
+
  If snap to object is not set for this layer, this simply returns the original point unmodified.
  currently uses hitPart to test for a hit, so tolerance is ignored and objects apply their internal
  hit testing tolerance.
@@ -608,7 +608,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSPoint)snapPoint:(NSPoint)p toAnyObjectExcept:(DKDrawableObject*)except snapTolerance:(CGFloat)tol;
 
 /** @brief Snap a (mouse) point to grid, guide or other object according to settings
- @note
+
  Usually called from snappedMousePoint: method in DKDrawableObject
  @param p a point
  @return the modified point, or the original point
@@ -623,7 +623,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)setAllowsEditing:(BOOL)editable;
 
 /** @brief Does the layer permit editing of its objects?
- @note
+
  Locking and hiding the layer also disables editing
  @return YES if editing will take place, NO if it is prevented
  */
@@ -640,7 +640,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (BOOL)allowsSnapToObjects;
 
 /** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
- @note
+
  Layers can cache their entire contents offscreen when they are inactive. This can boost
  drawing performance when there are many layers, or the layers have complex contents. When the
  layer is deactivated the cache is updated, on activation the "real" content is drawn.
@@ -649,7 +649,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)setLayerCacheOption:(DKLayerCacheOption)option;
 
 /** @brief Query whether the layer caches its content in an offscreen layer when not active
- @note
+
  Layers can cache their entire contents offscreen when they are inactive. This can boost
  drawing performance when there are many layers, or the layers have complex contents. When the
  layer is deactivated the cache is updated, on activation the "real" content is drawn.
@@ -668,7 +668,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)setHighlightedForDrag:(BOOL)highlight;
 
 /** @brief Draws the highlighting to indicate the layer is a drag target
- @note
+
  Is only called when the drag highlight is YES. Override for different highlight effect.
  */
 - (void)drawHighlightingForDrag;
@@ -680,7 +680,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (IBAction)toggleSnapToObjects:(id)sender;
 
 /** @brief Toggles whether the debugging path is overlaid afterdrawing the content.
- @note
+
  This is purely to assist with storage debugging and should not be invoked in production code.
  */
 - (IBAction)toggleShowStorageDebuggingPath:(id)sender;
@@ -694,7 +694,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 @interface DKObjectOwnerLayer (Deprecated)
 
 /** @brief Return an iterator that will enumerate the object in top to bottom order
- @note
+
  The idea is to insulate you from the implementation detail of how stacking order relates to the
  list order of objects internally. Because this enumerates a copy of the objects list, it is safe
  to modify the objects in the layer itself while iterating.
@@ -703,7 +703,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSEnumerator*)objectTopToBottomEnumerator;
 
 /** @brief Return an iterator that will enumerate the object in bottom to top order
- @note
+
  The idea is to insulate you from the implementation detail of how stacking order relates to the
  list order of objects internally. Because this enumerates a copy of the objects list, it is safe
  to modify the objects in the layer itself while iterating.
@@ -712,7 +712,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSEnumerator*)objectBottomToTopEnumerator;
 
 /** @brief Unarchive a list of objects from the pasteboard, if possible
- @note
+
  This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
  any valid types, nil is returned
  @param pb the pasteboard to take objects from

@@ -60,7 +60,7 @@ Text shapes are shapes that draw text.
 + (DKTextShape*)textShapeWithRTFData:(NSData*)rtfData inRect:(NSRect)bounds;
 
 /** @brief Create an instance of a DKTextShape with the given string, laid out on one line.
- @note
+
  The object is sized to fit the text string passed on a single line (up to a certain sensible
  maximum width). The returned object needs to be positioned where it is needed.
  @param str the string
@@ -71,21 +71,21 @@ Text shapes are shapes that draw text.
 // setting class defaults:
 
 /** @brief Set the initial text string for new text shape objects.
- @note
+
  The default is usually "Double-click to edit this text"
  @param str a string
  */
 + (void)setDefaultTextString:(NSString*)str;
 
 /** @brief Get the initial text string for new text shape objects.
- @note
+
  The default is usually "Double-click to edit this text"
  @return a string
  */
 + (NSString*)defaultTextString;
 
 /** @brief Return the class of object to create as the shape's text adornment.
- @note
+
  This provides an opportunity for subclasses to supply a different type of object, which must be
  a DKTextAdornment, a subclass of it, or one that implements its API.
  @return the object class
@@ -93,42 +93,42 @@ Text shapes are shapes that draw text.
 + (Class)textAdornmentClass;
 
 /** @brief Return a list of types we can paste in priority order.
- @note
+
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
  @return a list of types
  */
 + (NSArray*)pastableTextTypes;
 
 /** @brief Return a path used for indicating unlaid text in object
- @note
+
  The path consists of a plus sign within a square with origin at 0,0 and sides 1,1
  @return a path
  */
 + (NSBezierPath*)textOverflowIndicatorPath;
 
 /** @brief Set whether objects of this class should display an overflow symbol when text can't be fully laid
- @note
+
  Setting is persistent
  @param overflowShown YES to dislay, NO otherwise
  */
 + (void)setShowsTextOverflowIndicator:(BOOL)overflowShown;
 
 /** @brief Return whether objects of this class should display an overflow symbol when text can't be fully laid
- @note
+
  See also: -drawSelectedState
  @return YES to dislay, NO otherwise
  */
 + (BOOL)showsTextOverflowIndicator;
 
 /** @brief Set whether text editing permits inline images to be pasted
- @note
+
  This state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
  @param allowed YES to allow images, NO to disallow 
  */
 + (void)setAllowsInlineImages:(BOOL)allowed;
 
 /** @brief Whether text editing permits inline images to be pasted
- @note
+
  This state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
  @return YES to allow images, NO to disallow
  */
@@ -139,21 +139,21 @@ Text shapes are shapes that draw text.
 - (void)setText:(id)contents;
 
 /** @brief Get the text of the text shape
- @note
+
  The returned text has attributes applied wherever they come from - the style or local.
  @return the object's text
  */
 - (NSTextStorage*)text;
 
 /** @brief Get the string of the text shape
- @note
+
  This returns just the characters - no attributes
  @return the object's text string
  */
 - (NSString*)string;
 
 /** @brief Adjust the object's height to match the height of the current text
- @note
+
  Honours the minimum and maximum sizes set
  */
 - (void)sizeVerticallyToFitText;
@@ -161,7 +161,7 @@ Text shapes are shapes that draw text.
 // pasteboard ops:
 
 /** @brief Set the object's text from the pasteboard, optionally ignoring its formatting
- @note
+
  If the style is locked, even if fmt is NO it won't be updated.
  @param pb a pasteboard
  @param fmt YES to just paste the string and use the existing attributes, NO to update with the pasted
@@ -177,21 +177,21 @@ Text shapes are shapes that draw text.
 // text layout and drawing:
 
 /** @brief Return the minimum size of the text layout area
- @note
+
  Subclasses can specify something else
  @return a size, the smallest width and height text can be laid out in
  */
 - (NSSize)minSize;
 
 /** @brief Return the maximum size of the text layout area
- @note
+
  Subclasses can specify something else
  @return a size, the largest width and height of the text
  */
 - (NSSize)maxSize;
 
 /** @brief Return the ideal size of the text layout area
- @note
+
  Returns the size needed to accommodate the text, honouring min and max and whether the shape has
  already had its size set
  @return a size, the ideal text size
@@ -216,7 +216,7 @@ Text shapes are shapes that draw text.
 - (NSArray*)textPathGlyphsUsedSize:(NSSize*)textSize;
 
 /** @brief High level method turns the text into a drawable shape having the text as its path
- @note
+
  This tries to maintain as much fidelity as it can in terms of the text's appearance - attributes
  such as the colour and shadow are used to construct a style for the new object.
  @return a new shape object.
@@ -224,7 +224,7 @@ Text shapes are shapes that draw text.
 - (DKDrawableShape*)makeShapeWithText;
 
 /** @brief High level method turns the text into a drawable shape group having each glyph as a subobject
- @note
+
  Creates a group object containing individual path objects each with one letter of the text, but
  overall retaining the same spatial relationships as the original text in the shape. This allows you
  to convert text to a graphic in a way that allows you to get at each individual letter, as opposed
@@ -240,7 +240,7 @@ Text shapes are shapes that draw text.
 - (DKStyle*)styleWithTextAttributes;
 
 /** @brief Creates a style that is the current style + any text attributes
- @note
+
  A style which is the current style if it has text attributes, otherwise the current style with added text
  attributes. When cutting or copying the object's style, this is what should be used.
  @return a new style object
@@ -255,7 +255,7 @@ Text shapes are shapes that draw text.
 // setting text attributes for the entire text:
 
 /** @brief Sets the text's font, if permitted
- @note
+
  Updates the style if using it and it's not locked
  @param font a new font
  */
@@ -267,7 +267,7 @@ Text shapes are shapes that draw text.
 - (NSFont*)font;
 
 /** @brief Sets the text's font size, if permitted
- @note
+
  Updates the style if using it and it's not locked. Currently does nothing if using local attributes -
  use setFont: instead.
  @param size the point size of the font

@@ -19,7 +19,7 @@
 @interface DKGuideLayer (Private)
 
 /** @brief Moves a given guide to a new point
- @note
+
  Called by mouseDragged, allows undo of a move.
  @param guide the guide to move
  @param p where to move it to
@@ -60,7 +60,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief Adds a guide to the layer
- @note
+
  Sets the guide's colour to the layer's guide colour initially - after adding the guide colour can
  be set individually if desired.
  @param guide an existing guide object
@@ -165,7 +165,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Returns the list of vertical guides
- @note
+
  The guides returns are not in any particular order
  @return an array of DKGuide objects
  */
@@ -175,7 +175,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Returns the list of horizontal guides
- @note
+
  The guides returns are not in any particular order
  @return an array of DKGuide objects
  */
@@ -187,7 +187,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief Set whether guids should snap to the grid by default or not
- @note
+
  The default is NO
  @param gridsnap YES to always snap guides to the grid, NO otherwise
  */
@@ -197,7 +197,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Whether guids should snap to the grid by default or not
- @note
+
  The default is NO
  @return YES to always snap guides to the grid, NO otherwise
  */
@@ -209,7 +209,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief Snap a given point to any nearest guides within the snap tolerance
- @note
+
  X and y coordinates of the point are of course, individually snapped, so only one coordinate
  might be modified, as well as none or both.
  @param p a point in local drawing coordinates 
@@ -241,7 +241,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Snaps any corner of the given rect to any nearest guides within the snap tolerance
- @note
+
  The rect size is never changed by this method, but its origin may be. Does not snap the centres.
  @param r a rect in local drawing coordinates 
  @return a rect, either the same rect passed in, or a modified one that has been snapped to the guides
@@ -253,7 +253,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Snaps any corner or centre point of the given rect to any nearest guides within the snap tolerance
- @note
+
  The rect size is never changed by this method, but its origin may be.
  @param r a rect in local drawing coordinates 
  @param centre YES to also snap mid points of all sides, NO to just snap the corners
@@ -304,7 +304,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
- @note
+
  This is intended as one step in the snapping of a complex object to the guides, where points are
  arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
  point in the list that actually snaps is used. The return value is intended to be used to offset
@@ -321,7 +321,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
- @note
+
  This is intended as one step in the snapping of a complex object to the guides, where points are
  arbitrarily distributed (e.g. not in a rect). Any of the points can snap to the guide - the first
  point in the list that actually snaps is used. The return value is intended to be used to offset
@@ -375,7 +375,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief Sets the distance a point needs to be before it is snapped to a guide
- @note
+
  The default value is determind by the class method of the same name
  @param tol the distance in points
  */
@@ -385,7 +385,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Resturns the distance a point needs to be before it is snapped to a guide
- @note
+
  The default value is determind by the class method of the same name
  @return the distance in points
  */
@@ -407,7 +407,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Returns the rect occupied by a given guide
- @note
+
  This allows a small amount either side of the guide, and runs the full dimension of the drawing
  in the direction of the guide.
  @param guide the guide whose rect we are interested in
@@ -436,7 +436,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Creates a new vertical guide at the point p, adds it to the layer and returns it
- @note
+
  This is a convenient way to add a guide interactively, for example when dragging one "off" a
  ruler. See DKViewController for an example client of this method. If the layer is locked this
  does nothing and returns nil.
@@ -469,7 +469,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Creates a new horizontal guide at the point p, adds it to the layer and returns it
- @note
+
  This is a convenient way to add a guide interactively, for example when dragging one "off" a
  ruler. See DKViewController for an example client of this method. If the layer is locked this
  does nothing and returns nil.
@@ -599,7 +599,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief Set whether the info window should be displayed when dragging a guide
- @note
+
  Default is YES, display the window
  @param showsIt YES to display the window, NO otherwise
  */
@@ -609,7 +609,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Return whether the info window should be displayed when dragging a guide
- @note
+
  Default is YES, display the window
  @return YES to display the window, NO otherwise
  */
@@ -619,7 +619,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
- @note
+
  Default is the same as the drawing's interior
  @param rect the rect
  */
@@ -629,7 +629,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief The rect for which guides will be deleted if they are dragged outside of it
- @note
+
  Default is the same as the drawing's interior
  @return the rect
  */
@@ -652,7 +652,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief High level action to remove all guides from the layer
- @note
+
  Can be hooked directly to a menu item for clearing the guides - will be available when the guide
  layer is active. Does nothing if the layer is locked.
  @param sender the action's sender
@@ -670,7 +670,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 
 /** @brief Set the colour of all guides in this layer to a given colour
- @note
+
  The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
  also each guide is able to have its own colour. This sets the colour for each guide to be the same
  so you may prefer to obtain a particular guide and set it individually.
@@ -678,7 +678,7 @@ static BOOL sWasInside = NO;
  */
 
 /** @brief Sets the guide's colour
- @note
+
  Note that this doesn't mark the guide for update - DKGuideLayer has a method for doing that.
  @param colour a colour 
  */
@@ -699,7 +699,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Return the layer's guide colour
- @note
+
  The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
  also each guide is able to have its own colour. This returns the selection colour, but if guides
  have their own colours this says nothing about them.
@@ -795,7 +795,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Test whether the point "hits" the layer
- @note
+
  To be considered a "hit", the point needs to be within the snap tolerance of a guide.
  @param p a point in local (drawing) coordinates
  @return YES if any guide was hit, NO otherwise
@@ -819,7 +819,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Respond to a mouseDown event
- @note
+
  Begins the drag of a guide, if the layer isn't locked. Determines which guide will be dragged
  and sets m_dragGuideRef to it.
  @param event the mouseDown event
@@ -874,7 +874,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Respond to a mouseDragged event
- @note
+
  Continues the drag of a guide, if the layer isn't locked.
  @param event the mouseDragged event
  @param view where it came from
@@ -927,7 +927,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Respond to a mouseUp event
- @note
+
  Completes a guide drag. If the guide was dragged out of the interior of the drawing, it is deleted.
  @param event the mouseUp event
  @param view where it came from
@@ -969,7 +969,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Sets the "selection" colour of the layer
- @note
+
  This sets the guide colour, which is the same as the selection colour. This override allows a
  common colour-setting UI to be easily used for all layer types.
  @param aColour the colour to set
@@ -980,7 +980,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Returns the curor in use when this layer is active
- @note
+
  Closed hand when dragging a guide, open hand otherwise.
  */
 - (NSCursor*)cursor
@@ -999,7 +999,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Return a rect where the layer's cursor is shown when the mouse is within it
- @note
+
  Guide layer's cursor rect is the deletion rect.
  @return the cursor rect
  */
@@ -1009,7 +1009,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
- @note
+
  Sets the default deletion zone to equal the drawing's interior if it hasn't been set already
  @param aDrawing the drawing that added the layer
  */
@@ -1020,7 +1020,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Return whether the layer can be deleted
- @note
+
  This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
  It does not prevent code from directly removing the layer.
  @return NO - typically guide layers shouldn't be deleted
@@ -1072,7 +1072,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Initializes the guide layer
- @note
+
  Initially the layer has no guides
  @return the guide layer
  */
@@ -1152,7 +1152,7 @@ static BOOL sWasInside = NO;
 #pragma mark As part of NSMenuValidation Protocol
 
 /** @brief Enables the menu item if targeted at clearGuides
- @note
+
  Layer must be unlocked and have at least one guide to enable the menu.
  @param item a menu item
  @return YES if the item is enabled, NO otherwise
@@ -1216,7 +1216,7 @@ static BOOL sWasInside = NO;
 }
 
 /** @brief Draws the guide
- @note
+
  Is called by the guide layer only if the guide needs to be drawn
  @param rect the update rect 
  @param lw the line width to draw

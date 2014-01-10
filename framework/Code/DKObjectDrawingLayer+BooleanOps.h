@@ -54,14 +54,14 @@ since the code this calls operates purely at the abstract NSBezierPath level.
 @interface DKObjectDrawingLayer (BooleanOps)
 
 /** @brief Forms the union of the selected objects and replaces the selection with the result
- @note
+
  Result adopts the style of the topmost object contributing.
  @param sender the action's sender
  */
 - (IBAction)unionSelectedObjects:(id)sender;
 
 /** @brief Subtracts the topmost shape from the other.
- @note
+
  Requires exactly two contributing objects. If the shapes don't overlap, this does nothing. The
  'cutter' object is removed from the layer.
  @param sender the action's sender
@@ -69,7 +69,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
 - (IBAction)diffSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by their intersection.
- @note
+
  Requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
  adopts the style of the lower contributing object
  @param sender the action's sender
@@ -77,7 +77,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
 - (IBAction)intersectionSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by their exclusive-OR.
- @note
+
  Requires exactly two contributing objects. If the objects don't intersect, does nothing. The result
  adopts the syle of the topmost contributing object
  @param sender the action's sender
@@ -85,7 +85,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
 - (IBAction)xorSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by their divided replacements.
- @note
+
  Requires exactly two contributing objects. If the objects don't intersect, does nothing. A division
  splits two overlapping paths at their intersecting points into as many pieces as necessary. The
  original, objects are replaced by the pieces. Pieces derived from each path retain the styles of
@@ -95,7 +95,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
 - (IBAction)divideSelectedObjects:(id)sender;
 
 /** @brief Replaces a pair of objects by combining their paths.
- @note
+
  Requires two or more contributing objects. The result adopts the syle of the topmost
  contributing object. The result can act like a union, difference or xor depending on the relative
  disposition of the contributing paths.
@@ -104,7 +104,7 @@ since the code this calls operates purely at the abstract NSBezierPath level.
 - (IBAction)combineSelectedObjects:(id)sender;
 
 /** @brief Sets the unflattening (smoothing) policy for GPC-based operations.
- @note
+
  The sender's tag is interpreted as the policy value.
  @param sender the action's sender
  */

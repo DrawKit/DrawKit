@@ -22,7 +22,7 @@ The second method is similar except that text is flowed into the layoutPath.
 @interface NSAttributedString (DKAdditions)
 
 /** @brief Lays out the receiver then draws it to the destination
- @note
+
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
  parameters (and the string's attributes themselves). 
@@ -32,7 +32,7 @@ The second method is similar except that text is flowed into the layoutPath.
  */
 
 /** @brief Lays out the receiver then draws it to the destination
- @note
+
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
  parameters (and the string's attributes themselves). 
@@ -45,7 +45,7 @@ The second method is similar except that text is flowed into the layoutPath.
 - (void)drawInRect:(NSRect)destRect withLayoutSize:(NSSize)layoutSize atAngle:(CGFloat)radians;
 
 /** @brief Lays out the receiver then draws it to the destination
- @note
+
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
  parameters (and the string's attributes themselves). 

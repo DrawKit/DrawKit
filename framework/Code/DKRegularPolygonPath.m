@@ -427,7 +427,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 #pragma mark - as a DKDrawableObject
 
 /** @brief Return the partcode that should be used by tools when initially creating a new object
- @note
+
  The client of this method is DKObjectCreationTool. An arc is created by dragging its radius to
  some initial value, so the inital partcode is the radius knob.
  @return a partcode value
@@ -534,7 +534,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Handles a mouse down in the object
- @note
+
  Starts edit or creation of object - the creation mode can be anything other then "edit existing"
  for arc creation. Use the "simple mode" to create arcs in a one-stage drag.
  @param mp the mouse point
@@ -564,7 +564,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Handles a mouse drag in the object
- @note
+
  Used when editing an existing path, but not creating one
  @param mp the mouse point
  @param partcode the partcode returned earlier by hitPart:
@@ -614,7 +614,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Return the object's location within the drawing
- @note
+
  Arc objects consider their centre origin as the datum of the location
  @return the position of the object within the drawing
  */
@@ -624,7 +624,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Move the object to a given location within the drawing
- @note
+
  Arc objects consider their centre origin as the datum of the location
  @param p the point at which to place the object
  */
@@ -639,7 +639,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Return the total area the object is enclosed by
- @note
+
  Bounds includes the centre point, even if it's not visible
  @return the bounds rect
  */
@@ -656,7 +656,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Sets the overall angle of the object
- @note
+
  The angle is in radians
  @param angle the overall angle in radians
  */
@@ -677,7 +677,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Sets the object's size
- @note
+
  The larger of the width or height passed is used to set the size by adjusting the radius to half the value.
  @param aSize the object's size
  */
@@ -687,7 +687,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief This object is being ungrouped from a group
- @note
+
  When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
  itself appropriately. At the time this is called, the object has already has its container set to
  the layer it will be added to but has not actually been added.
@@ -708,7 +708,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Returns a list of potential snapping points used when the path is snapped to the grid or guides
- @note
+
  Part of the snapping protocol
  @param offset add this offset to the points
  @return an array of points as NSValue objects
@@ -790,7 +790,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 }
 
 /** @brief Copies the object
- @note
+
  Implements <NSCopying>
  @param zone the zone
  @return the copy

@@ -17,7 +17,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 @implementation DKDrawing (Export)
 
 /** @brief Creates the initial bitmap image that the various bitmap formats are created from.
- @note
+
  Returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
  paint the background in the paper colour if hasAlpha is NO.
  @param dpi the resolution of the image in dots per inch.
@@ -338,7 +338,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 #pragma mark - high-level easy use methods
 
 /** @brief Returns JPEG data for the drawing or nil if there was a problem
- @note
+
  This is a convenience wrapper around the dictionary-based methods above
  @param dpi the resolution in dots per inch
  @param quality a value 0..1 that indicates the amount of compression - 0 = max, 1 = none.
@@ -356,7 +356,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 }
 
 /** @brief Returns TIFF data for the drawing or nil if there was a problem
- @note
+
  This is a convenience wrapper around the dictionary-based methods above
  @param dpi the resolution in dots per inch
  @param compType a valid TIFF compression type (see NSBitMapImageRep.h)
@@ -372,7 +372,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 }
 
 /** @brief Returns PNG data for the drawing or nil if there was a problem
- @note
+
  This is a convenience wrapper around the dictionary-based methods above
  @param dpi the resolution in dots per inch
  @param gamma the gamma value 0..1
@@ -390,7 +390,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 }
 
 /** @brief Returns JPEG data for the drawing at 50% actual size, with 50% quality
- @note
+
  Useful for e.g. generating QuickLook thumbnails
  @return JPEG data
  */
@@ -406,7 +406,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 }
 
 /** @brief Returns an array of bitmaps (NSBitmapImageReps) one per layer
- @note
+
  The lowest index is the bottom layer. Hidden layers and non-printing layers are excluded.
  @param dpi the desired resolution in dots per inch.
  @return an array of bitmaps
@@ -429,7 +429,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 }
 
 /** @brief Returns TIFF data
- @note
+
  Each layer is written as a separate image. This is not the same as a layered TIFF however.
  @param dpi the desired resolution in dots per inch.
  @return TIFF data

@@ -11,7 +11,7 @@
 @implementation DKDrawableShape (Utilities)
 
 /** @brief Return a rectangular path with given size and origin
- @note
+
  Not affected by the object's current offset
  @param relRect a rectangle expressed relative to the unit square
  @return a rectangular path transformed to the current true size, position and angle of the shape
@@ -26,7 +26,7 @@
 }
 
 /** @brief Return a rectangular path with given relative origin but absolute final size
- @note
+
  Not affected by the object's current offset. By specifying a final size the resulting path can
  represent a fixed-sized region independent of the object's current size.
  @param relLoc a point expressed relative to the unit square
@@ -47,7 +47,7 @@
 }
 
 /** @brief Return a rectangular path offset from a given partcode
- @note
+
  The resulting path is positioned at a fixed offset and size relative to a partcode (a corner, say)
  in such a way that the object's size and angle set the positioning and orientation of the path
  but not its actual size. This is useful for adding an adornment to the shape that is unscaled
@@ -77,7 +77,7 @@
 }
 
 /** @brief Transforms a path to the final size and position relative to a partcode
- @note
+
  The resulting path is positioned at a fixed offset and size relative to a partcode (a corner, say)
  in such a way that the object's size and angle set the positioning and orientation of the path
  but not its actual size. This is useful for adding an adornment to the shape that is unscaled
@@ -125,7 +125,7 @@
 }
 
 /** @brief Convert a point from relative coordinates to absolute coordinates
- @note
+
  Not affected by the object's current offset
  @param relLoc a point expressed relative to the unit square
  @return the absolute point taking into account scale, position and angle

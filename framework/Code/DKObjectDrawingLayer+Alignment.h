@@ -46,7 +46,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 // setting the key object (used by alignment methods)
 
 /** @brief Nominates an object as the master to be used for alignment operations, etc
- @note
+
  The object is not retained as it should already be owned. A nil object can be set to mean that the
  topmost select object should be considered key.
  @param keyObject an object that is to be considered key for alignment ops
@@ -54,7 +54,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (void)setKeyObject:(DKDrawableObject*)keyObject;
 
 /** @brief Returns the object as the master to be used for alignment operations, etc
- @note
+
  If no specific object is set (nil), then the first object in the selection is returned. If there's
  no selection, returns nil. 
  @return an object that is to be considered key for alignment ops
@@ -62,7 +62,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (DKDrawableObject*)keyObject;
 
 /** @brief Aligns a set of objects
- @note
+
  Objects are aligned with the layer's nominated key object, by default the first object in the supplied list
  @param objects the objects to align
  @param align the alignment operation required
@@ -85,7 +85,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 
 /** @brief Aligns the objects to the grid, resizing and positioning as necessary so that all edges lie on
  the grid. The logical bounds is used for alignment, consistent with normal snapping behaviour.
- @note
+
  May minimally resize the objects.
  @param objects the objects to align
  @param grid the grid to use
@@ -93,7 +93,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (void)alignObjectEdges:(NSArray*)objects toGrid:(DKGridLayer*)grid;
 
 /** @brief Aligns a set of objects so their locations lie on a grid intersection
- @note
+
  Does not resize the objects
  @param objects the objects to align
  @param grid the grid to use
@@ -101,7 +101,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (void)alignObjectLocation:(NSArray*)objects toGrid:(DKGridLayer*)grid;
 
 /** @brief Computes the amount of space available for a vertical distribution operation
- @note
+
  The list of objects must be sorted into order of their vertical location.
  The space is the total distance between the top and bottom objects, minus the sum of the heights
  of the objects in between
@@ -111,7 +111,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (CGFloat)totalVerticalSpace:(NSArray*)objects;
 
 /** @brief Computes the amount of space available for a horizontal distribution operation
- @note
+
  The list of objects must be sorted into order of their horizontal location.
  The space is the total distance between the leftmost and rightmost objects, minus the sum of the widths
  of the objects in between
@@ -133,7 +133,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (NSArray*)objectsSortedByHorizontalPosition:(NSArray*)objects;
 
 /** @brief Distributes a set of objects
- @note
+
  Normally this is called by the higher level alignObjects: methods when a distribution alignment is
  detected
  @param objects the objects to distribute
@@ -143,7 +143,7 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (BOOL)distributeObjects:(NSArray*)objects withAlignment:(NSInteger)align;
 
 /** @brief Returns the minimum number of objects needed to enable the user interface item
- @note
+
  Call this from a generic validateMenuItem method for the layer as a whole
  @param item the user interface item to validate
  @return number of objects needed for validation. If the item isn't a known alignment command, returns 0

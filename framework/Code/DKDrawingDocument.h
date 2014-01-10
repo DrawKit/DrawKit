@@ -36,14 +36,14 @@ like this are one easy way to do it, but not the only way.
 }
 
 /** @brief Returns an undo manager that can be shared by multiple documents
- @note
+
  Some applications might be set up to use a global undo stack instead of havin gone per document.
  @return the shared instance of the undo manager
  */
 + (NSUndoManager*)sharedDrawkitUndoManager;
 
 /** @brief Establishes a mapping between a file type and a method that can import that file type
- @note
+
  The selector is used to build an invocation on the DKDrawing class to import the type. The app
  will generally provide the method as part of a category extending DKDrawing, and use this method
  to forge the binding between the two. This class will then invoke the category method as required
@@ -54,7 +54,7 @@ like this are one easy way to do it, but not the only way.
 + (void)bindFileImportType:(NSString*)fileType toSelector:(SEL)aSelector;
 
 /** @brief Establishes a mapping between a file type and a method that can export that file type
- @note
+
  The selector is used to build an invocation on the DKDrawing instance to export the type. The app
  will generally provide the method as part of a category extending DKDrawing, and use this method
  to forge the binding between the two. This class will then invoke the category method as required
@@ -70,28 +70,28 @@ like this are one easy way to do it, but not the only way.
 + (void)setDefaultLevelsOfUndo:(NSUInteger)levels;
 
 /** @brief Return the default levels of undo assigned to new documents
- @note
+
  If the value wasn't found in the defaults, DEFAULT_LEVELS_OF_UNDO is returned
  @return the number of undo levels
  */
 + (NSUInteger)defaultLevelsOfUndo;
 
 /** @brief Set the document's drawing object
- @note
+
  The document owns the drawing
  @param drwg a drawing object
  */
 - (void)setDrawing:(DKDrawing*)drwg;
 
 /** @brief Return the document's drawing object
- @note
+
  The document owns the drawing
  @return the document's drawing object
  */
 - (DKDrawing*)drawing;
 
 /** @brief Return the document's main view
- @note
+
  If the document has a main view, this returns it. Normally this is set up in the nib. A document
  isn't required to have an outlet to the main view but it makes setting everything up easier.
  @return the document's main view
@@ -99,7 +99,7 @@ like this are one easy way to do it, but not the only way.
 - (DKDrawingView*)mainView;
 
 /** @brief Create a controller object to connect the given view to the document's drawing
- @note
+
  Usually you won't call this yourself but you can override it to supply different types of controllers.
  The default supplies a general purpose drawing tool controller. Note that the relationship
  between the view and the controller is set up by this, but NOT the relationship between the drawing
@@ -111,14 +111,14 @@ like this are one easy way to do it, but not the only way.
 - (DKViewController*)makeControllerForView:(NSView*)aView;
 
 /** @brief Create a drawing object to be used when the document is not opened from a file on disk
- @note
+
  You can override to make a different initial drawing or modify the existing one
  @return a default drawing object
  */
 - (DKDrawing*)makeDefaultDrawing;
 
 /** @brief Return the class of the layer for New Layer and default drawing construction.
- @note
+
  Subclasses can override this to insert a different layer type without having to override each
  separate command. Note that the returned class is expected to be a subclass of DKObjectDrawingLayer
  by some methods, most notably the -newLayerWithSelection method.
@@ -127,7 +127,7 @@ like this are one easy way to do it, but not the only way.
 - (Class)classOfDefaultDrawingLayer;
 
 /** @brief Return whether an info layer should be added to the default drawing.
- @note
+
  Subclasses can override this to return NO if they don't want the info layer
  @return YES, by default
  */
@@ -139,7 +139,7 @@ like this are one easy way to do it, but not the only way.
 - (NSSet*)allStyles;
 
 /** @brief Returns all registered styles used by the document's drawing
- @note
+
  This method actually returns all styles flagged as formerly registered immediately after the
  document has been opened - all subsequent calls return the actual registered styles. Thus take
  care that this is only called once after loading a document if it's the flagged styles you require.
@@ -149,7 +149,7 @@ like this are one easy way to do it, but not the only way.
 
 /** @brief The first step in reconsolidating a newly opened document's registered styles with the current
  style registry.
- @note
+
  You should override this to handle style remerging in a different way if you need to. The default
  implementation allows the current registry to update the document and also adds the document's
  name as a category to the current registry.
@@ -160,7 +160,7 @@ like this are one easy way to do it, but not the only way.
 
 /** @brief The second step in reconsolidating a newly opened document's registered styles with the current
  style registry.
- @note
+
  This should only be called if the registry actually returned anything from the remerge operation
  @param aSetOfStyles the styles returned from the registry that should replace those in the document
  */
@@ -172,7 +172,7 @@ like this are one easy way to do it, but not the only way.
 - (NSString*)documentStyleCategoryName;
 
 /** @brief Sets the main view's drawing tool to the given tool
- @note
+
  This helps DKDrawingTool's -set method work even when a document window contains several views that
  can be first responder. First the -set method will act directly on first responder, or a responder
  further up the chain. If that fails to find a responder, it then looks for an active document that
@@ -182,7 +182,7 @@ like this are one easy way to do it, but not the only way.
 - (void)setDrawingTool:(DKDrawingTool*)aTool;
 
 /** @brief Returns the main view's current drawing tool
- @note
+
  This is a convenience for UI controllers to find the tool from the main view. If there are
  multiple drawing views you'll need another approach
  @return a drawing tool object, if any
@@ -190,14 +190,14 @@ like this are one easy way to do it, but not the only way.
 - (DKDrawingTool*)drawingTool;
 
 /** @brief High-level method to add a new drawing layer to the document
- @note
+
  The added layer is made the active layer
  @param sender the sender of the message
  */
 - (IBAction)newDrawingLayer:(id)sender;
 
 /** @brief High-level method to add a new drawing layer to the document and move the selected objects to it
- @note
+
  The added layer is made the active layer, the objects are added to the new layer and selected, and
  removed from their current layer.
  @param sender the sender of the message
@@ -205,14 +205,14 @@ like this are one easy way to do it, but not the only way.
 - (IBAction)newLayerWithSelection:(id)sender;
 
 /** @brief High-level method to delete the active layer from the drawing
- @note
+
  After this the active layer will be nil, and should be set to something before further use.
  @param sender the sender of the message
  */
 - (IBAction)deleteActiveLayer:(id)sender;
 
 /** @brief Creates a view used to handle printing.
- @note
+
  This may be overridden to customise the print view. Called by printShowingPrintPanel:
  @return a view suitable for printing the document's drawing
  */

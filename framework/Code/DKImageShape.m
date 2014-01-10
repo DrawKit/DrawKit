@@ -27,7 +27,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 @interface DKImageShape (Private)
 
 /** @brief Return a transform that can be used to position, size and rotate the image to the shape
- @note
+
  A separate transform is necessary because trying to use the normal shape transform and rendering the
  image into a unit square results in some very visible rounding errors. Instead the image is
  transformed independently from its orginal size directly to the final size, so the errors are
@@ -93,7 +93,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 #pragma mark -
 
 /** @brief Initializes the image shape from an image
- @note
+
  The object's metdata also record's the image's original size
  @param anImage a valid image object
  @return the object if it was successfully initialized, or nil
@@ -133,7 +133,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Initializes the image shape from image data
- @note
+
  This method is preferred where data is available as it allows the original data to be cached
  very efficiently by the document's image data manager. This maintains quality and keeps file
  sizes to a minimum.
@@ -161,7 +161,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Initializes the image shape from an image
- @note
+
  The original name of the image is recorded in the object's metadata
  @param imageName the name of an image
  @return the object if it was successfully initialized, or nil
@@ -176,7 +176,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Initializes the image shape from an image file given by the path
- @note
+
  The original name and path of the image is recorded in the object's metadata. This extracts the
  original data which allows the image to be efficiently stored.
  @param filepath the path to an image file on disk
@@ -207,7 +207,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 #pragma mark -
 
 /** @brief Sets the object's image
- @note
+
  The shape's path, size, angle, etc. are not changed by this method
  @param anImage an image to display in this shape.
  */
@@ -250,7 +250,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
- @note
+
  This also applies the path clipping, if any
  @return the image
  */
@@ -283,7 +283,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set the object's image from image data in the drawing's image data manager
- @note
+
  The object must usually have been added to a drawing before this is called, so that it can locate the
  image data manager to use. However, during dearchiving this isn't the case so the coder itself can
  return a reference to the image manager.
@@ -315,7 +315,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set the object's image key
- @note
+
  This is called by other methods as necessary. It currently simply retains the key.
  @param key the image's key
  */
@@ -335,7 +335,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Transfer the image key when the object is added to a new container
- @note
+
  Called as necessary by other methods
  @param container the new container 
  */
@@ -383,7 +383,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Sets the image from data
- @note
+
  This method liases with the image manager so that the image key is correctly recorded or assigned
  as needed.
  @param data data containing image data 
@@ -415,7 +415,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Returns the image original data
- @note
+
  This returns either the locally retained original data, or the data held by the image manager. In
  either case the data returned is the original data from which the image was created. If the image
  was set directly and not from data, and the key is unknown to the image manager, returns nil.
@@ -430,7 +430,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set the object's image from image data on the pasteboard
- @note
+
  This first tries to use the image data manager to handle the pasteboard, so that the image is
  efficiently cached. If that doesn't work, falls back to the original direct approach.
  @param pb the pasteboard
@@ -480,7 +480,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Place the object's image data on the pasteboard
- @note
+
  Adds the image data in a variety of forms to the pasteboard - raw data (as file content type)
  TIFF and PDF formats.
  @param pb the pasteboard
@@ -527,7 +527,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 #pragma mark -
 
 /** @brief Set the image's opacity
- @note
+
  The default is 1.0
  @param opacity an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
  */
@@ -541,7 +541,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Get the image's opacity
- @note
+
  Default is 1.0
  @return <opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
  */
@@ -551,7 +551,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set whether the image draws above or below the rendering done by the style
- @note
+
  Default is NO
  @param onTop YES to draw on top (after) the style, NO to draw below (before)
  */
@@ -565,7 +565,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Whether the image draws above or below the rendering done by the style
- @note
+
  Default is NO
  @return YES to draw on top (after) the style, NO to draw below (before)
  */
@@ -575,7 +575,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set the Quartz composition mode to use when compositing the image
- @note
+
  Default is NSCompositeSourceAtop
  @param op an NSCompositingOperation constant
  */
@@ -589,7 +589,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Get the Quartz composition mode to use when compositing the image
- @note
+
  Default is NSCompositeSourceAtop
  @return an NSCompositingOperation constant
  */
@@ -599,7 +599,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set the scale factor for the image
- @note
+
  This is not currently implemented - images scale to fit the bounds when in scale mode, and are
  drawn at their native size in crop mode.
  @param scale a scaling value, 1.0 = 100% 
@@ -615,7 +615,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Get the scale factor for the image
- @note
+
  This is not currently implemented - images scale to fit the bounds when in scale mode, and are
  drawn at their native size in crop mode.
  @return the scale
@@ -626,7 +626,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set the offset position for the image
- @note
+
  The default is 0,0. The value is the distance in points from the top, left corner of the shape's
  bounds to the top, left corner of the image
  @param imgoff the offset position 
@@ -642,7 +642,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Get the offset position for the image
- @note
+
  The default is 0,0. The value is the distance in points from the top, left corner of the shape's
  bounds to the top, left corner of the image
  @return the image offset
@@ -653,7 +653,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Set the display mode for the object - crop image or scale it
- @note
+
  The default is scale. 
  @param crop a mode value
  */
@@ -668,7 +668,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Get the display mode for the object - crop image or scale it
- @note
+
  The default is scale. 
  @return a mode value
  */
@@ -772,7 +772,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 #pragma mark -
 
 /** @brief Select whether the object displays using crop or scale modes
- @note
+
  This action method uses the sender's tag value as the cropping mode to set. It can be connected
  directly to a menu item with a suitable tag set for example.
  @param sender the message sender
@@ -805,7 +805,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Copy the image directly to the pasteboard.
- @note
+
  A normal "Copy" does place an image of the object on the pb, but that is the whole object with
  all style elements based on the bounds. For some work, such as uing images for pattern fills,
  that's not appropriate, so this action allows you to extract the internal image.
@@ -832,7 +832,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Resizes the shape to exactly fit the image at its original size.
- @note
+
  Cropped images remain in the same visual location that they are currently at, with the shape's
  frame moved to fit around it exactly. Scaled images are resized to the original size and the object's
  location remains the same. A side effect is to reset any offset, image offset, but not the angle.
@@ -1023,7 +1023,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 #pragma mark As part of NSDraggingDestination protocol
 
 /** @brief Receive a drag onto this object
- @note
+
  DK allows images to be simply dragged right into an existing image shape, replacing the current image
  @param sender the drag sender
  @return YES if the operation could be carried out, NO otherwise */

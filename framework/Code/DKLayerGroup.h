@@ -30,7 +30,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 }
 
 /** @brief Convenience method for building a new layer group from an existing list of layers
- @note
+
  The group must be added to a drawing to be useful. If the layers are already part of a drawing,
  or other group, they need to be removed first. It is an error to attach a layer in more than one
  group (or drawing, which is a group) at a time.
@@ -41,7 +41,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 + (DKLayerGroup*)layerGroupWithLayers:(NSArray*)layers;
 
 /** @brief Initialize a layer group
- @note
+
  A layer group must be added to another group or drawing before it can be used
  @param layers a list of existing layers
  @return a new layer group
@@ -61,7 +61,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 - (NSArray*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups;
 
 /** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is
- @note
+
  The root group returns 0, next level is 1 and so on. 
  @return the group's level
  */
@@ -95,7 +95,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 - (BOOL)containsLayer:(DKLayer*)aLayer;
 
 /** @brief Returns a layer or layer group having the given unique key
- @note
+
  Unique keys are assigned to layers for the lifetime of the app. They are not persistent and must only
  @param key the layer's key
  @return the layer if found, nil otherwise.
@@ -105,27 +105,27 @@ be upside-down. This class automatically reverses the stacking order in an archi
 // showing and hiding
 
 /** @brief Makes all layers in the group and in any subgroups visible
- @note
+
  Recurses when nested groups are found
  */
 - (void)showAll;
 
 /** @brief Makes all layers in the group and in any subgroups hidden except <aLayer>, which is made visible.
- @note
+
  ALayer may be nil in which case this performs a hideAll. Recurses on any subgroups.
  @param aLayer a layer to leave visible
  */
 - (void)hideAllExcept:(DKLayer*)aLayer;
 
 /** @brief Returns YES if the  receiver or any of its contained layers is hidden
- @note
+
  Recurses on any subgroups.
  @return YES if there are hidden layers below this, or this is hidden itself
  */
 - (BOOL)hasHiddenLayers;
 
 /** @brief Returns YES if the  receiver or any of its contained layers is visible, ignoring the one passed
- @note
+
  Recurses on any subgroups. Typically <aLayer> is the active layer - may be nil.
  @param aLayer a layer to exclude when testing this
  @return YES if there are visible layers below this, or this is visible itself

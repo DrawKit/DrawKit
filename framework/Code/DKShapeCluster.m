@@ -12,7 +12,7 @@
 #pragma mark As a DKShapeCluster
 
 /** @brief Creates a new cluster from a set of objects
- @note
+
  The master object must be also one of the objects in the list of objects, and must be a shape.
  @param objects the list of objects to be added to the cluster
  @param master the master object
@@ -30,7 +30,7 @@
 #pragma mark -
 
 /** @brief Sets the master object for the cluster
- @note
+
  The master object must already be one of the objects in the group, and it must be a shape
  @param master the master object
  */
@@ -92,7 +92,7 @@
 }
 
 /** @brief Sets the shape's offset to the location of the given knob partcode, after saving the current offset
- @note
+
  Part of the process of setting up the interactive dragging of a sizing knob
  @param part a knob partcode
  */
@@ -136,7 +136,7 @@
 }
 
 /** @brief Detects which part of the cluster was hit
- @note
+
  Master object supplies the partcode
  @param mp the mouse point
  @param snap YES if detecting a snap to object, NO otherwise
@@ -148,7 +148,7 @@
 }
 
 /** @brief Gets the location of the rotation knob
- @note
+
  Factored separately to allow override for special uses
  @return a point, the position of the rotation knob
  */

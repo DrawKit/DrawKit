@@ -64,7 +64,7 @@ tool's name and target first responder with this action.
 }
 
 /** @brief Set the operating scope for tools for this application
- @note
+
  DK allows tools to be set per-view, per-document, or per-application. This is called the operating
  scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
  It is not expected that this will be called during the subsequent use of the app - though it is
@@ -74,7 +74,7 @@ tool's name and target first responder with this action.
 + (void)setDrawingToolOperatingScope:(DKDrawingToolScope)scope;
 
 /** @brief Return the operating scope for tools for this application
- @note
+
  DK allows tools to be set per-view, per-document, or per-application. This is called the operating
  scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
  The default is per-document scope.
@@ -83,7 +83,7 @@ tool's name and target first responder with this action.
 + (DKDrawingToolScope)drawingToolOperatingScope;
 
 /** @brief Set whether setting a tool will auto-activate a layer appropriate to the tool
- @note
+
  Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
  layers are searched top down until one is found that the tool validates, which is then made
  active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
@@ -92,7 +92,7 @@ tool's name and target first responder with this action.
 + (void)setToolsAutoActivateValidLayer:(BOOL)autoActivate;
 
 /** @brief Return whether setting a tool will auto-activate a layer appropriate to the tool
- @note
+
  Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
  layers are searched top down until one is found that the tool validates, which is then made
  active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
@@ -101,14 +101,14 @@ tool's name and target first responder with this action.
 + (BOOL)toolsAutoActivateValidLayer;
 
 /** @brief Sets the current drawing tool
- @note
+
  The tool is set locally, for the drawing or globally according to the current scope.
  @param aTool the tool to set
  */
 - (void)setDrawingTool:(DKDrawingTool*)aTool;
 
 /** @brief Select the tool using its registered name
- @note
+
  Tools must be registered in the DKDrawingTool registry with the given name before you can use this
  method to set them, otherwise an exception is thrown.
  @param name the registered name of the required tool
@@ -116,14 +116,14 @@ tool's name and target first responder with this action.
 - (void)setDrawingToolWithName:(NSString*)name;
 
 /** @brief Return the current drawing tool
- @note
+
  The tool is set locally, for the drawing or globally according to the current scope.
  @return the current tool
  */
 - (DKDrawingTool*)drawingTool;
 
 /** @brief Check if the tool can be set for the current active layer
- @note
+
  Can be used to test whether a tool is able to be selected in the current context. There is no
  requirement to use this - you can set the drawing tool anyway and if an attempt to use it in
  an invalid layer is made, the tool controller will handle it anyway. A UI might want to use this
@@ -134,21 +134,21 @@ tool's name and target first responder with this action.
 - (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool;
 
 /** @brief Set whether the tool should automatically "spring back" to the selection tool after each application
- @note
+
  The default is YES
  @param reverts YES to spring back, NO to leave the present tool active after each use
  */
 - (void)setAutomaticallyRevertsToSelectionTool:(BOOL)reverts;
 
 /** @brief Whether the tool should automatically "spring back" to the selection tool after each application
- @note
+
  The default is YES
  @return YES to spring back, NO to leave the present tool active after each use
  */
 - (BOOL)automaticallyRevertsToSelectionTool;
 
 /** @brief Select the tool using its registered name based on the title of a UI control, etc.
- @note
+
  This is a convenience for hooking up a UI for picking a tool. You can set the title of a button to
  be the tool's name and target first responder using this action, and it will select the tool if it
  has been registered using the name. This makes UI such as a palette of tools trivial to implement,
@@ -158,7 +158,7 @@ tool's name and target first responder with this action.
 - (IBAction)selectDrawingToolByName:(id)sender;
 
 /** @brief Select the tool using the represented object of a UI control, etc.
- @note
+
  This is a convenience for hooking up a UI for picking a tool. You can set the rep. object of a button to
  be the tool and target first responder using this action, and it will set the tool to the button's
  represented object.
@@ -167,7 +167,7 @@ tool's name and target first responder with this action.
 - (IBAction)selectDrawingToolByRepresentedObject:(id)sender;
 
 /** @brief Toggle the state of the automatic tool "spring" behaviour.
- @note
+
  Flips the state of the auto-revert flag. A UI can make use of this to control the flag in order to
  make a tool "sticky". Often this is done by double-clicking the tool button.
  @param sender the sender of the action
@@ -181,7 +181,7 @@ tool's name and target first responder with this action.
 - (void)openUndoGroup;
 
 /** @brief Closes the current undo manager group if one has been opened
- @note
+
  When the controller is set up to always open a group, this also deals with the bogus task bug in
  NSUndoManager, where opening and closig a group creates an empty undo task. If that case is detected,
  the erroneous task is removed from the stack by invoking undo while temporarily disabling the UM.

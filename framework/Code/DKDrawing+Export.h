@@ -31,7 +31,7 @@ This uses Image I/O to perform the data encoding.
 // generate the master bitmap (from pdf data):
 
 /** @brief Creates the initial bitmap image that the various bitmap formats are created from.
- @note
+
  Returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
  paint the background in the paper colour if hasAlpha is NO.
  @param dpi the resolution of the image in dots per inch.
@@ -71,7 +71,7 @@ This uses Image I/O to perform the data encoding.
 // convenience methods that set up the property dictionaries for you:
 
 /** @brief Returns JPEG data for the drawing or nil if there was a problem
- @note
+
  This is a convenience wrapper around the dictionary-based methods above
  @param dpi the resolution in dots per inch
  @param quality a value 0..1 that indicates the amount of compression - 0 = max, 1 = none.
@@ -81,7 +81,7 @@ This uses Image I/O to perform the data encoding.
 - (NSData*)JPEGDataWithResolution:(NSInteger)dpi quality:(CGFloat)quality progressive:(BOOL)progressive;
 
 /** @brief Returns TIFF data for the drawing or nil if there was a problem
- @note
+
  This is a convenience wrapper around the dictionary-based methods above
  @param dpi the resolution in dots per inch
  @param compType a valid TIFF compression type (see NSBitMapImageRep.h)
@@ -91,7 +91,7 @@ This uses Image I/O to perform the data encoding.
 - (NSData*)PNGDataWithResolution:(NSInteger)dpi gamma:(CGFloat)gamma interlaced:(BOOL)interlaced;
 
 /** @brief Returns JPEG data for the drawing at 50% actual size, with 50% quality
- @note
+
  Useful for e.g. generating QuickLook thumbnails
  @return JPEG data
  */
@@ -100,7 +100,7 @@ This uses Image I/O to perform the data encoding.
 // another approach - get an array of bitmaps from each layer
 
 /** @brief Returns an array of bitmaps (NSBitmapImageReps) one per layer
- @note
+
  The lowest index is the bottom layer. Hidden layers and non-printing layers are excluded.
  @param dpi the desired resolution in dots per inch.
  @return an array of bitmaps
@@ -108,7 +108,7 @@ This uses Image I/O to perform the data encoding.
 - (NSArray*)layerBitmapsWithDPI:(NSUInteger)dpi;
 
 /** @brief Returns TIFF data
- @note
+
  Each layer is written as a separate image. This is not the same as a layered TIFF however.
  @param dpi the desired resolution in dots per inch.
  @return TIFF data

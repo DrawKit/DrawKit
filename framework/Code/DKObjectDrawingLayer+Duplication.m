@@ -15,7 +15,7 @@
 #pragma mark As a DKObjectDrawingLayer
 
 /** @brief Duplicates one or more objects radially around a common centre
- @note
+
  Objects in the result are obtained by copying the objects in the original list, and so will have the
  same types, styles, etc.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
@@ -71,7 +71,7 @@
 }
 
 /** @brief Duplicates one or more objects linearly
- @note
+
  Objects in the result are obtained by copying the objects in the original list, and so will have the
  same types, styles, etc.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
@@ -114,7 +114,7 @@
 }
 
 /** @brief Automatically polar duplicates object to fit a circle exactly
- @note
+
  This computes the increment angle and number of copies needed to fit the object exactly into
  a circle. The angle is that subtended by the object's logical bounds at the centre. The radius
  will be adjusted outwards as necessary so that an integral number of copies fit a complete circle.
@@ -163,7 +163,7 @@
 }
 
 /** @brief Duplicates one or more objects concentrically around a common centre
- @note
+
  Objects in the result are obtained by copying the objects in the original list, and so will have the
  same types, styles, etc. While this works with paths, it works best with shapes or groups, because
  paths don't implement setSize: and their location is at their top, left.

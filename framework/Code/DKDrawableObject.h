@@ -59,19 +59,19 @@ to attach arbitrary data to any drawable object.
 }
 
 /** @brief Return whether an info floater is displayed when resizing an object
- @note
+
  Size info is width and height
  @return YES to show the info, NO to not show it */
 + (BOOL)displaysSizeInfoWhenDragging;
 
 /** @brief Set whether an info floater is displayed when resizing an object
- @note
+
  Size info is width and height
  @param doesDisplay YES to show the info, NO to not show it */
 + (void)setDisplaysSizeInfoWhenDragging:(BOOL)doesDisplay;
 
 /** @brief Returns the union of the bounds of the objects in the array
- @note
+
  Utility method as this is a very common task - throws exception if any object in the list is
  not a DKDrawableObject or subclass thereof
  @param array a list of DKDrawable objects
@@ -80,7 +80,7 @@ to attach arbitrary data to any drawable object.
 + (NSInteger)initialPartcodeForObjectCreation;
 
 /** @brief Return whether obejcts of this class can be grouped
- @note
+
  Default is YES. see also [DKShapeGroup objectsAvailableForGroupingFromArray];
  @return YES if objects can be included in groups
  */
@@ -89,14 +89,14 @@ to attach arbitrary data to any drawable object.
 // ghosting settings:
 
 /** @brief Set the outline colour to use when drawing objects in their ghosted state
- @note
+
  The ghost colour is persistent, stored using the kDKGhostColourPreferencesKey key
  @param ghostColour the colour to use
  */
 + (void)setGhostColour:(NSColor*)ghostColour;
 
 /** @brief Return the outline colour to use when drawing objects in their ghosted state
- @note
+
  The default is light gray
  @return the colour to use
  */
@@ -108,7 +108,7 @@ to attach arbitrary data to any drawable object.
 + (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb;
 
 /** @brief Return the number of native objects held by the pasteboard
- @note
+
  This efficiently queries the info object rather than dearchiving the objects themselves. A value
  of 0 means no native objects on the pasteboard (naturally)
  @param pb the pasteboard to read from
@@ -119,7 +119,7 @@ to attach arbitrary data to any drawable object.
 // interconversion table used when changing one drawable into another - can be customised
 
 /** @brief Return the interconversion table
- @note
+
  The interconversion table is used when drawables are converted to another type. The table can be
  customised to permit conversions to subclasses or other types of object. The default is nil,
  which simply passes through the requested type unchanged.
@@ -128,7 +128,7 @@ to attach arbitrary data to any drawable object.
 + (NSDictionary*)interconversionTable;
 
 /** @brief Return the interconversion table
- @note
+
  The interconversion table is used when drawables are converted to another type. The table can be
  customised to permit conversions to subclasses of the requested class. The default is nil,
  which simply passes through the requested type unchanged. The dictionary consists of the base class
@@ -138,7 +138,7 @@ to attach arbitrary data to any drawable object.
 + (void)setInterconversionTable:(NSDictionary*)icTable;
 
 /** @brief Return the class to use in place of the given class when performing a conversion
- @note
+
  The default passes through the input class unchanged. By customising the conversion table, other
  classes can be substituted when performing a conversion.
  @param aClass the base class which we are converting TO.
@@ -147,7 +147,7 @@ to attach arbitrary data to any drawable object.
 + (Class)classForConversionRequestFor:(Class)aClass;
 
 /** @brief Sets the class to use in place of the a base class when performing a conversion
- @note
+
  This is only used when performing conversions, not when creating new objects in other circumstances.
  <newClass> must be a subclass of <baseClass>
  @param newClass the class which we are converting TO
@@ -158,7 +158,7 @@ to attach arbitrary data to any drawable object.
 // initializers:
 
 /** @brief Initializes the drawable to have the style given
- @note
+
  You can use -init to initialize using the default style. Note that if creating many objects at
  once, supplying the style when initializing is more efficient.
  @param aStyle the initial style for the object
@@ -169,7 +169,7 @@ to attach arbitrary data to any drawable object.
 // relationships:
 
 /** @brief Returns the layer that this object ultimately belongs to
- @note
+
  This returns the layer even if container isn't the layer, by recursing up the tree as needed
  @return the containing layer
  */
@@ -178,7 +178,7 @@ to attach arbitrary data to any drawable object.
 - (NSUndoManager*)undoManager;
 
 /** @brief Returns the immediate parent of this object
- @note
+
  A parent is usually a layer, same as owner - but can be a group if the object is grouped
  @return the object's parent
  */
@@ -186,13 +186,13 @@ to attach arbitrary data to any drawable object.
 - (void)setContainer:(id<DKDrawableContainer>)aContainer;
 
 /** @brief Returns the index position of this object in its container layer
- @note
+
  This is intended for debugging and should generally be avoided by user code.
  @return the index position
  */
 
 /** @brief Where object storage stores the Z-index in the object itself, this returns it.
- @note
+
  See DKObjectStorageProtocol.h
  @return the Z value for the object
  */
@@ -206,14 +206,14 @@ to attach arbitrary data to any drawable object.
 - (BOOL)locked;
 
 /** @brief Sets whether the object's location is locked or not
- @note
+
  Location may be locked independently of the general lock
  @param lockLocation YES to lock location, NO to unlock
  */
 - (void)setLocationLocked:(BOOL)lockLocation;
 
 /** @brief Whether the object's location is locked or not
- @note
+
  Location may be locked independently of the general lock
  @return YES if locked location, NO to unlock
  */
@@ -222,7 +222,7 @@ to attach arbitrary data to any drawable object.
 - (BOOL)mouseSnappingEnabled;
 
 /** @brief Set whether the object is ghosted rather than with its full style
- @note
+
  Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
  a thin outline. See also: +setGhostingColour:
  @param ghosted YES to ghost the object, NO to unghost it
@@ -230,7 +230,7 @@ to attach arbitrary data to any drawable object.
 - (void)setGhosted:(BOOL)ghosted;
 
 /** @brief Retuirn whether the object is ghosted rather than with its full style
- @note
+
  Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
  a thin outline. See also: +setGhostingColour:
  @return YES if the object is ghosted, NO otherwise
@@ -255,7 +255,7 @@ to attach arbitrary data to any drawable object.
 - (void)objectIsNoLongerSelected;
 
 /** @brief Is the object able to be selected?
- @note
+
  Subclasses can override to disallow selection. By default all objects are selectable, but for some
  specialised use this might be useful.
  @return YES if selectable, NO if not
@@ -263,7 +263,7 @@ to attach arbitrary data to any drawable object.
 - (BOOL)objectMayBecomeSelected;
 
 /** @brief Is the object currently a pending object?
- @note
+
  Esoteric. An object is pending while it is being created and not otherwise. There are few reasons
  to need to know, but one might be to implement a special selection highlight for this case.
  @return YES if pending, NO if not
@@ -271,7 +271,7 @@ to attach arbitrary data to any drawable object.
 - (BOOL)isPendingObject;
 
 /** @brief Is the object currently the layer's key object?
- @note
+
  DKObjectDrawingLayer maintains a 'key object' for the purposes of alignment operations. The drawable
  could use this information to draw itself in a particular way for example. Note that DK doesn't
  use this information except for object alignment operations.
@@ -280,7 +280,7 @@ to attach arbitrary data to any drawable object.
 - (BOOL)isKeyObject;
 
 /** @brief Return the subselection of the object
- @note
+
  DK objects do not have subselections without subclassing, but this method provides a common method
  for subselections to be passed back to a UI, etc. If there is no subselection, this should return
  either the empty set, nil or a set containing self.
@@ -294,7 +294,7 @@ to attach arbitrary data to any drawable object.
 // notification about being added and removed from a layer
 
 /** @brief The object was added to a layer
- @note
+
  Purely for information, should an object need to know. Override to make use of this. Subclasses
  should call super.
  @param aLayer the layer this was added to
@@ -302,7 +302,7 @@ to attach arbitrary data to any drawable object.
 - (void)objectWasAddedToLayer:(DKObjectOwnerLayer*)aLayer;
 
 /** @brief The object was removed from the layer
- @note
+
  Purely for information, should an object need to know. Override to make use of this. Subclasses
  should call super to maintain notifications.
  @param aLayer the layer this was removed from
@@ -342,7 +342,7 @@ to attach arbitrary data to any drawable object.
 - (void)drawContentInRect:(NSRect)destRect fromRect:(NSRect)srcRect withStyle:(DKStyle*)aStyle;
 
 /** @brief Returns the single object rendered as a PDF image
- @note
+
  This allows the object to be extracted as a single PDF in isolation. It works by creating a
  temporary view that draws just this object.
  @return PDF data of the object
@@ -360,7 +360,7 @@ to attach arbitrary data to any drawable object.
 - (void)replaceMatchingStylesFromSet:(NSSet*)aSet;
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
- @note
+
  If the style is already non-sharable, this does nothing. The purpose of this is to detach this
  from it style such that it has its own private copy. It does not change appearance.
  */
@@ -388,7 +388,7 @@ to attach arbitrary data to any drawable object.
 - (CGFloat)angle;
 
 /** @brief Return the shape's current rotation angle
- @note
+
  This method is primarily to supply the angle for display to the user, rather than for doing angular
  calculations with. It converts negative values -180 to 0 to +180 to 360 degrees.
  @return the shape's angle in degrees
@@ -396,7 +396,7 @@ to attach arbitrary data to any drawable object.
 - (CGFloat)angleInDegrees;
 
 /** @brief Rotate the shape by adding a delta angle to the current angle
- @note
+
  Da is a value in radians
  @param da add this much to the current angle
  */
@@ -411,20 +411,20 @@ to attach arbitrary data to any drawable object.
 // path transforms
 
 /** @brief Return a transform that maps the object's stored path to its true location in the drawing
- @note
+
  Override for real transforms - the default merely returns the identity matrix
  @return a transform */
 - (NSAffineTransform*)transform;
 
 /** @brief Return the container's transform
- @note
+
  The container transform must be taken into account for rendering this object, as it accounts for
  groups and other possible containers.
  @return a transform */
 - (NSAffineTransform*)containerTransform;
 
 /** @brief Apply the transform to the object
- @note
+
  The object's position, size and path are modified by the transform. This is called by the owning
  layer's applyTransformToObjects method. This ignores locked objects.
  @param transform a transform
@@ -447,7 +447,7 @@ to attach arbitrary data to any drawable object.
 // grouping/ungrouping protocol:
 
 /** @brief This object is being added to a group
- @note
+
  Can be overridden if this event is of interest. Note that for grouping, the object doesn't need
  to do anything special - the group takes care of it.
  @param aGroup the group adding the object
@@ -455,7 +455,7 @@ to attach arbitrary data to any drawable object.
 - (void)groupWillAddObject:(DKShapeGroup*)aGroup;
 
 /** @brief This object is being ungrouped from a group
- @note
+
  When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
  itself appropriately. At the time this is called, the object has already has its container set to
  the layer it will be added to but has not actually been added. Must be overridden.
@@ -465,7 +465,7 @@ to attach arbitrary data to any drawable object.
 - (void)group:(DKShapeGroup*)aGroup willUngroupObjectWithTransform:(NSAffineTransform*)aTransform;
 
 /** @brief This object was ungrouped from a group
- @note
+
  This is called when the ungrouping operation has finished entirely. The object will belong to its
  original container and have its location, etc set as required. Override to make use of this notification.
  */
@@ -475,7 +475,7 @@ to attach arbitrary data to any drawable object.
 
 /** @brief Some high-level operations substitute a new object in place of an existing one (or several). In
  those cases this should be called to allow the object to do any special substitution work.
- @note
+
  Subclasses should override this to do additional work during a substitution. Note that user info
  and style is handled for you, this does not need to deal with those properties.
  @param obj the original object his is being substituted for
@@ -486,7 +486,7 @@ to attach arbitrary data to any drawable object.
 // snapping to guides, grid and other objects (utility methods)
 
 /** @brief Offset the point to cause snap to grid + guides accoding to the drawing's settings
- @note
+
  DKObjectOwnerLayer + DKDrawing implements the details of this method. The snapControl flag is
  intended to come from a modifier flag - usually <ctrl>.
  @param mp a point which is the proposed location of the shape
@@ -512,7 +512,7 @@ to attach arbitrary data to any drawable object.
 - (DKKnobType)knobTypeForPartCode:(NSInteger)pc;
 
 /** @brief Test if a rect encloses any of the shape's actual pixels
- @note
+
  Note this can be an expensive way to test this - eliminate all obvious trivial cases first.
  @param r the rect to test
  @return YES if at least one pixel enclosed by the rect, NO otherwise
@@ -520,7 +520,7 @@ to attach arbitrary data to any drawable object.
 - (BOOL)rectHitsPath:(NSRect)r;
 
 /** @brief Test a point against the offscreen bitmap representation of the shape
- @note
+
  Special case of the rectHitsPath call, which is now the fastest way to perform this test
  @param p the point to test
  @return YES if the point hit the shape's pixels, NO otherwise
@@ -528,7 +528,7 @@ to attach arbitrary data to any drawable object.
 - (BOOL)pointHitsPath:(NSPoint)p;
 
 /** @brief Is a hit-test in progress
- @note
+
  Drawing methods can check this to see if they can take shortcuts to save time when hit-testing.
  This will only return YES during calls to -drawContent etc when invoked by the rectHitsPath method.
  @return YES if hit-testing is taking place, otherwise NO
@@ -536,7 +536,7 @@ to attach arbitrary data to any drawable object.
 - (BOOL)isBeingHitTested;
 
 /** @brief Set whether a hit-test in progress
- @note
+
  Applicaitons should not generally use this. It allows certain container classes (e.g. groups) to
  flag the *they* are being hit tested to provide easier hitting of thin objects in groups.
  @param hitTesting YES if hit-testing, NO otherwise
@@ -556,7 +556,7 @@ to attach arbitrary data to any drawable object.
 // contextual menu:
 
 /** @brief Reurn the menu to use as the object's contextual menu
- @note
+
  The menu is obtained via DKAuxiliaryMenus helper object which in turn loads the menu from a nib,
  overridable by the app. This is the preferred method of supplying the menu. It doesn't need to
  be overridden by subclasses generally speaking, since all menu customisation per class is done in
@@ -577,7 +577,7 @@ to attach arbitrary data to any drawable object.
 - (void)addUserInfo:(NSDictionary*)info;
 
 /** @brief Return the attached user info
- @note
+
  The user info is returned as a mutable dictionary (which it is), and can thus have its contents
  mutated directly for certain uses. Doing this cannot cause any notification of the status of
  the object however.
@@ -600,7 +600,7 @@ to attach arbitrary data to any drawable object.
 // cache management:
 
 /** @brief Discard all cached rendering information
- @note
+
  The rendering cache is simply emptied. The contents of the cache are generally set by individual
  renderers to speed up drawing, and are not known to this object. The cache is invalidated by any
  change that alters the object's appearance - size, position, angle, style, etc.
@@ -608,7 +608,7 @@ to attach arbitrary data to any drawable object.
 - (void)invalidateRenderingCache;
 
 /** @brief Returns an image of the object representing its current appearance at 100% scale.
- @note
+
  This image is stored in the rendering cache. If the cache is empty the image is recreated. This
  image can be used to speed up hit testing.
  @return an image of the object
@@ -618,7 +618,7 @@ to attach arbitrary data to any drawable object.
 // pasteboard:
 
 /** @brief Write additional data to the pasteboard specific to the object
- @note
+
  The owning layer generally handles the case of writing the selected objects to the pasteboard but
  sometimes an object might wish to supplement that data. For example a text-bearing object might
  add the text to the pasteboard. This is only invoked when the object is the only object selected.
@@ -629,7 +629,7 @@ to attach arbitrary data to any drawable object.
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb;
 
 /** @brief Read additional data from the pasteboard specific to the object
- @note
+
  This is invoked by the owning layer after an object has been pasted. Override to make use of. Note
  that this is not necessarily symmetrical with -writeSupplementaryDataToPasteboard: depending on
  what data types the other method actually wrote. For example standard text would not normally

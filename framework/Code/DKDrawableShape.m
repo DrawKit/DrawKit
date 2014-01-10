@@ -57,7 +57,7 @@ static NSSize sTempSavedOffset;
 #pragma mark As a DKDrawableShape
 
 /** @brief Return which particular knobs are used by instances of this class
- @note
+
  The default is to use all knobs, but subclasses may want to override this for particular uses
  @return bitmask indicating which knobs are used
  */
@@ -67,7 +67,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Set which particular knobs are used by instances of this class
- @note
+
  The default is to use all knobs, but you can use this to set a different mask to use for all
  instances of this class.
  @param knobMask bitmask indicating which knobs are to be used
@@ -78,7 +78,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Sets the constraint angle for rotations
- @note
+
  When constraining a rotation (shift-drag), angles snap to multiples of this value. The default
  @param radians the constraint angle in radians
  */
@@ -88,7 +88,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Return the unit rect centred at the origin
- @note
+
  This rect represents the bounds of all untransformed paths stored by a shape object
  @return the unit rect, centred at the origin
  */
@@ -98,7 +98,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Set the background colour for info windows displayed by this class when dragging, etc
- @note
+
  The info window itself is implemented in the owning layer, but the class can supply a custom
  colour if you wish.
  @param colour the colour of the window
@@ -111,7 +111,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Return a cursor for the given partcode
- @note
+
  Shapes have a fixed set of partcodes so the cursors can be set up by the class and cached for all
  instances. Called by the cursorForPartcode:mouseButtonDown: method
  @param pc a partcode
@@ -186,7 +186,7 @@ static NSSize sTempSavedOffset;
 #pragma mark Convenience methods
 
 /** @brief Create a shape object with the rect given
- @note
+
  The shape's location and size is set to the rect, angle is 0 and it has the default style.
  @param aRect a rectangle
  @return a new shape object, autoreleased
@@ -197,7 +197,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Create an oval shape object with the rect given
- @note
+
  The shape's location and size is set to the rect, angle is 0 and it has the default style. Its path
  is an oval inscribed within the rect.
  @param aRect a rectangle
@@ -209,7 +209,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Create a shape object with the canonical path given
- @note
+
  The path must be canonical, that is, having a bounds of {-0.5,-0.5},{1,1}. If it isn't, this
  asserts. The resulting shape must be moved, sized and rotated as required before use
  @param path the path for the shape
@@ -224,7 +224,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Create a shape object with the path given
- @note
+
  The path sets the size and location of the shape. Rotation angle is set to zero.
  @param path the path for the shape
  @return a new shape object, autoreleased
@@ -236,7 +236,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Create a shape object with the given path and initial angle
- @note
+
  The path sets the size and location of the shape
  @param path the path
  @param angle initial rotation angle
@@ -250,7 +250,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Create a shape object with the given path and style
- @note
+
  The path sets the size and location of the shape, the style sets its appearance
  @param path the path
  @param aStyle the shape's style
@@ -264,7 +264,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Create a shape object with the given path and initial angle and style
- @note
+
  The path sets the size and location of the shape, the style sets its appearance
  @param path the path
  @param angle initial rotation angle
@@ -283,7 +283,7 @@ static NSSize sTempSavedOffset;
 #pragma mark - initialise a shape
 
 /** @brief Initializes the shape to be the given rectangle
- @note
+
  The rect establishes the shape, size and location of the shape object
  @param aRect a rectangle
  @return the initialized object
@@ -295,7 +295,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Initializes the shape to be an oval inscribed within the given rect
- @note
+
  The rect establishes the size and location of the shape
  @param aRect the bounding rect for an oval
  @return the initialized object
@@ -307,7 +307,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Initializes the shape to have the given canonical path
- @note
+
  The resulting shape must be sized, moved and rotated as required before use. If the path passed
  is not canonical, an exception is thrown and no object is created.
  @param path the canonical path, that is, one having a bounds rect of size 1.0 centred at the origin
@@ -320,7 +320,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Initializes the shape to have the given path
- @note
+
  The resulting shape is located at the centre of the path and the size is set to the width and height
  of the path's bounds. The angle is zero.
  @param path a path
@@ -333,7 +333,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Initializes the shape to have the given path
- @note
+
  The resulting shape is located at the centre of the path and the size is set to the width and height
  of the path's bounds. 
  @param aPath a path
@@ -438,7 +438,7 @@ static NSSize sTempSavedOffset;
 #pragma mark - path operations
 
 /** @brief Sets the shape's path to be the given path
- @note
+
  Path must be bounded by the unit rect, centred at the origin. If you have some other, arbitrary path,
  the method adoptPath: will probably be what you want.
  @param path the path, bounded by a unit rect centred at the origin
@@ -501,7 +501,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Sets the shape's path given any path
- @note
+
  This computes the original unit path by using the inverse transform, and sets that. Important:
  the shape's overall location should be set before calling this, as it has an impact on the
  accurate transformation of the path to the origin in the rotated case. Typically this is the
@@ -573,13 +573,13 @@ static NSSize sTempSavedOffset;
 #pragma mark - geometry
 
 /** @brief Returns the transform representing the shape's parameters
- @note
+
  This transform is global - i.e. it factors in the parent's transform and all parents above it
  @return an autoreleased affine transform, which will convert the unit path to the final form
  */
 
 /** @brief Returns the transform representing the shape's parameters
- @note
+
  This transform is local - i.e. it does not factor in the parent's transform
  @return an autoreleased affine transform, which will convert the unit path to the final form
  */
@@ -595,7 +595,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Returns the inverse transform representing the shape's parameters
- @note
+
  By using this method instead of inverting the transform yourself, you are insulated from optimisations
  that might be employed. Note that if the shape has no size or width, this will throw an exception
  because there is no valid inverse transform.
@@ -622,7 +622,7 @@ static NSSize sTempSavedOffset;
 #pragma mark -
 
 /** @brief Interactively rotate the shape based on dragging a point.
- @note
+
  The angle of the shape is computed from the line drawn between rp and the shape's origin, allowing for
  the position of the rotation knob, and setting the shape's angle to it. <rp> is likely to be the mouse
  position while dragging the rotation knob, and the functioning of this method is based on that.
@@ -787,7 +787,7 @@ static NSSize sTempSavedOffset;
 #pragma mark -
 
 /** @brief Flip the shape horizontally
- @note
+
  A horizontal flip is done with respect to the orthogonal drawing coordinates, based on the current
  location of the object. In fact the width and angle are simply negated to effect this.
  */
@@ -802,7 +802,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Set whether the shape is flipped vertically or not
- @note
+
  A vertical flip is done with respect to the orthogonal drawing coordinates, based on the current
  location of the object. In fact the height and angle are simply negated to effect this
  */
@@ -819,7 +819,7 @@ static NSSize sTempSavedOffset;
 #pragma mark -
 
 /** @brief Resets the bounding box if the path's shape has changed
- @note
+
  Useful after a distortion operation, this re-adopt's the shape's own path so that the effects of
  the distortion etc are retained while losing the transform itself. Rotation angle is unchanged.
  */
@@ -835,7 +835,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Resets the bounding box and the rotation angle
- @note
+
  This doesn't change the shape's appearance but readopts its current path while resetting the
  angle to zero. After a series of complex shape transformations this can be useful to realign
  the bounding box to something the user can deal with.
@@ -852,7 +852,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Adjusts location and size so that the corners lie on grid intersections if possible
- @note
+
  This can be used to fit the object to a grid. The object's angle is not changed but its size and
  position may be. The bounding box will change but is not reset. It works by moving specific control
  points to the corners of the passed rect. Note that for rotated shapes, it's not possible to
@@ -879,7 +879,7 @@ static NSSize sTempSavedOffset;
 #pragma mark -
 
 /** @brief Sets whether a shape can be rotated by any knob, not just the designated rotation knob
- @note
+
  The default is NO, subclasses may have other ideas. Note that there are usability implications
  when returning YES, though the behaviour can definitely be quite useful.
  @return YES to allow rotation by other knobs, NO to disallow
@@ -890,7 +890,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Given a partcode for one of the control knobs, this returns a rect surrounding its current position
- @note
+
  The DKKnob class is used to compute the actual rect size, and it should also be called to perform
  the final hit-testing because it takes into account the actual path shape of the knob.
  @param knobPartCode the partcode for the knob, which is private to the shape class
@@ -922,7 +922,7 @@ static NSSize sTempSavedOffset;
 
 /** @brief Given a point in canonical coordinates (i.e. in the space {0.5,0.5,1,1}) this returns the real
  location of the point in the drawing, so applies the transforms to it, etc.
- @note
+
  This works when a distortion is being applied too, and when the shape is part of a group.
  @param rloc a point expressed in terms of the canonical rect
  @return the same point transformed to the actual drawing
@@ -998,7 +998,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Sets the shape's offset to the location of the given knob partcode, after saving the current offset
- @note
+
  Part of the process of setting up the interactive dragging of a sizing knob
  @param part a knob partcode
  */
@@ -1020,7 +1020,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Returns the angle of a given knob relative to the shape's offset
- @note
+
  Part of the process of setting up an interactive drag of a knob
  @param knobPartCode a knob part code
  @return the knob's angle relative to the origin
@@ -1042,7 +1042,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Draws a single knob, given its partcode
- @note
+
  Only knobs allowed by the class mask are drawn. The knob is drawn by the DKKnob class attached to
  the drawing.
  @param knobPartCode the partcode for the knob, which is private to the shape class
@@ -1082,7 +1082,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Given the partcode of a knob, this returns its corner of the canonical unit rect
- @note
+
  The result needs to be transformed to the final position
  @param knobPartCode the partcode for the knob, which is private to the shape class
  @return the associated knob's corner on the unit rect
@@ -1156,7 +1156,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Given the partcode of a knob, this returns its current position
- @note
+
  This is the transformed point at its true final position
  @param knobPartCode the partcode for the knob, which is private to the shape class
  @return the associated knob's current position
@@ -1204,7 +1204,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Given a partcode, this returns the knob type for it
- @note
+
  The knob type is used to tell DKKnob the function of a knob in broad terms, which in turn it
  maps to a specific kind of knob appearance. For convenience the locked flag is also passed as
  part of the knob type.
@@ -1232,7 +1232,7 @@ static NSSize sTempSavedOffset;
 
 /** @brief Given a partcode, this returns the undo action name which is the name of the action that manipulating
  that knob will cause.
- @note
+
  If your subclass uses hotspots for additional knobs, you need to override this and supply the
  appropriate string for the hotspot's action, calling super for the standard knobs.
  @param pc a knob part code
@@ -1404,7 +1404,7 @@ static NSSize sTempSavedOffset;
 #pragma mark -
 
 /** @brief Prepares for a rotation operation by setting up the info window and rotation state info
- @note
+
  Called internally from a mouse down event
  */
 - (void)prepareRotation
@@ -1420,7 +1420,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Gets the location of the rotation knob
- @note
+
  Factored separately to allow override for special uses
  @return a point, the position of the rotation knob
  */
@@ -1430,7 +1430,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Display the appropriate information in the info window when dragging during various operations
- @note
+
  The window is owned by the layer, this supplies its content. If turned off this is a no-op
  @param op what info to display
  @param mp where the mouse is currently
@@ -1473,7 +1473,7 @@ static NSSize sTempSavedOffset;
 #pragma mark - operation modes
 
 /** @brief Sets what kind of operation is performed by dragging the shape's control knobs
- @note
+
  Switches between normal location, scaling and rotation operations, and those involving the
  distortion transform (shearing, free distort, perpective).
  */
@@ -1508,7 +1508,7 @@ static NSSize sTempSavedOffset;
 #pragma mark - distortion ops
 
 /** @brief Sets the current distortion transform to the one passed.
- @note
+
  This can be used in two ways. Either pre-prepare a transform and set it, which will immediately have
  its effect on the shape. This is the hard way. The easy way is to set the distort mode which creates
  a transform as needed and allows it to be changed interactively.
@@ -1540,7 +1540,7 @@ static NSSize sTempSavedOffset;
 #pragma mark - convert to editable path
 
 /** @brief Return a path object having the same path and style as this object
- @note
+
  Part of the process of converting from shape to path. Both the path and the style are copied.
  @return a DKDrawablePath object with the same path and style as this
  */
@@ -1560,7 +1560,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Converts each subpath in the current path to a separate object
- @note
+
  A subpath is a path delineated by a moveTo opcode. Each one is made a separate new path. If there
  is only one subpath (common) then the result will have just one entry.
  @return an array of DKDrawablePath objects
@@ -1634,7 +1634,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Set the object's rotation angle from the sender's float value
- @note
+
  Intended to be hooked up to a control rather than a menu
  @param sender the action's sender
  */
@@ -1775,7 +1775,7 @@ static NSSize sTempSavedOffset;
 #pragma mark As a DKDrawableObject
 
 /** @brief Return the partcode that should be used by tools when initially creating a new object
- @note
+
  The client of this method is DKObjectCreationTool.
  */
 + (NSInteger)initialPartcodeForObjectCreation
@@ -1808,7 +1808,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Initializes the drawable to have the style given
- @note
+
  You can use -init to initialize using the default style. Note that if creating many objects at
  once, supplying the style when initializing is more efficient.
  @param aStyle the initial style for the object
@@ -1860,7 +1860,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Return the total bounds of the shape
- @note
+
  WARNING: bounds can be affected by the zoom factor of the current view, since knobs resize with
  zoom. Thus don't rely on bounds remaining unchanged when the zoom factor changes.
  @return a rect, the overall bounds of the shape
@@ -1887,7 +1887,7 @@ static NSSize sTempSavedOffset;
     return mBoundsCache;
 }
 
-/** @note
+/**
  For hit testing, uses thickened stroke if necessary to make hitting easier
  */
 - (void)drawContent
@@ -1909,7 +1909,7 @@ static NSSize sTempSavedOffset;
         [super drawContent];
 }
 
-/** @note
+/**
  Takes account of its internal state to draw the appropriate control knobs, etc
  */
 - (void)drawSelectedState
@@ -1992,7 +1992,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Hit test the point against the object's selection knobs
- @note
+
  Only called if object is selected and unlocked
  @param pt the point to test
  @param snap YES if this is for detecting snaps, NO otherwise
@@ -2148,7 +2148,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Handle a mouse drag in this object
- @note
+
  Calls necessary methods to interactively drag the hit part
  @param mp the mouse point
  @param partcode partcode being dragged
@@ -2236,7 +2236,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Complete a drag operation
- @note
+
  Cleans up after a drag operation completes
  @param mp the mouse point
  @param partcode the part that was hit
@@ -2324,7 +2324,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Return the path that will be actually drawn
- @note
+
  When drawing in LQ mode, the path is less smooth
  @return a path
  */
@@ -2387,7 +2387,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Returns the shape's current height and width
- @note
+
  Value returned is not reliable if the shape is grouped
  @return the shape's size
  */
@@ -2418,7 +2418,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Return the cursor displayed when a given partcode is hit or entered
- @note
+
  The cursor may be displayed when the mouse hovers over or is clicked in the area indicated by the
  partcode. This should not try to anticipate the action of the mouse if there is any ambiguity-
  that's the tool's job. The tool may modify the results of this method, so you can just go ahead
@@ -2435,7 +2435,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief This object is being ungrouped from a group
- @note
+
  When ungrouping, an object must help the group to the right thing by resizing, rotating and repositioning
  itself appropriately. At the time this is called, the object has already has its container set to
  the layer it will be added to but has not actually been added.
@@ -2488,7 +2488,7 @@ static NSSize sTempSavedOffset;
 #pragma mark -
 
 /** @brief Set the offset bewteen the shape's origin and its location point
- @note
+
  The offset is the distance between the origin and the rotation centre of the shape. When setting it,
  we don't want the shape to change position, so we must compensate the location for the offset.
  The offset is relative to the original unit path bounds, not to the rendered object. (In other words,
@@ -2521,7 +2521,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Return the current offset
- @note
+
  The default offset is zero
  @return the offset bewteen the shape's position and its origin
  */
@@ -2538,7 +2538,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Obtain a list of snapping points
- @note
+
  Snapping points are locations within an object that will snap to a guide. For a shape, this is
  the handle locations arounds its boundary.
  @param offset an offset value that is added to each point
@@ -2566,7 +2566,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Return whether the object was valid following creation
- @note
+
  See DKDrawableObject
  @return YES if usable and valid
  */
