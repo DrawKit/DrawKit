@@ -39,6 +39,22 @@ static NSColor* sInfoWindowColour = nil;
 
 #pragma mark -
 @implementation DKDrawablePath
+
++ (void)setAngularConstraintAngle:(CGFloat) radians
+{
+	sAngleConstraint = radians;
+}
+
++ (CGFloat)angularConstraintAngle
+{
+	return sAngleConstraint;
+}
+
+- (BOOL)constrainWithEvent:(NSEvent *)anEvent
+{
+	return (([anEvent modifierFlags] & NSShiftKeyMask) != 0 );
+}
+
 #pragma mark As a DKDrawablePath
 
 /** @brief Creates a drawable path object for an existing NSBezierPath
@@ -917,6 +933,7 @@ finish:
     BOOL loop = YES, constrain = NO;
     NSInteger element, partcode;
     NSPoint p, ip, nsp;
+	CGFloat angleConstraint = [self.class angularConstraintAngle];
 
     p = ip = [self snappedMousePoint:initialPoint
                      withControlFlag:NO];
@@ -943,17 +960,17 @@ finish:
         p = [self snappedMousePoint:p
                     withControlFlag:NO];
 
-        constrain = (([theEvent modifierFlags] & NSShiftKeyMask) != 0);
+        constrain = [self constrainWithEvent:theEvent];
 
         if (constrain) {
             // slope of line is forced to be on 15 degree intervals
 
             CGFloat angle = atan2f(p.y - ip.y, p.x - ip.x);
-            CGFloat rem = fmod(angle, sAngleConstraint);
+            CGFloat rem = fmod(angle, angleConstraint);
             CGFloat radius = hypotf(p.x - ip.x, p.y - ip.y);
 
-            if (rem > sAngleConstraint / 2.0)
-                angle += (sAngleConstraint - rem);
+            if (rem > angleConstraint / 2.0)
+                angle += (angleConstraint - rem);
             else
                 angle -= rem;
 
@@ -1620,7 +1637,6 @@ finish:
 
     BOOL option = (([evt modifierFlags] & NSAlternateKeyMask) != 0);
     BOOL cmd = (([evt modifierFlags] & NSCommandKeyMask) != 0);
-    BOOL shift = (([evt modifierFlags] & NSShiftKeyMask) != 0);
 
     // modifier keys change the editing of path control points thus:
 
@@ -1644,7 +1660,7 @@ finish:
                                   toPoint:mp
                                  colinear:!cmd
                                  coradial:option
-                           constrainAngle:shift];
+                           constrainAngle:[self constrainWithEvent:evt]];
     [self notifyGeometryChange:oldBounds];
     [self notifyVisualChange];
 }

@@ -119,6 +119,22 @@ maintain the concept of rotation or scale - it just is what it is.
  */
 - (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle;
 
+/** @brief Set the angle of constraint for new paths
+ 
+ @param radians the angle to constrain by; multiples of angle are used
+ */
++ (void)setAngularConstraintAngle:(CGFloat)radians;
+
+/** @brief Angle of constraint for new paths
+ */
++ (CGFloat)angularConstraintAngle;
+
+/** @brief Should the angle of the path be constrained?
+ 
+ Returns yes if the shift key is currently held down, otherwise no.
+ */
+- (BOOL)constrainWithEvent:(NSEvent*)anEvent;
+
 // setting the path & path info
 
 - (void)setPath:(NSBezierPath*)path;
