@@ -40,19 +40,19 @@ static NSColor* sInfoWindowColour = nil;
 #pragma mark -
 @implementation DKDrawablePath
 
-+ (void)setAngularConstraintAngle:(CGFloat) radians
++ (void)setAngularConstraintAngle:(CGFloat)radians
 {
-	sAngleConstraint = radians;
+    sAngleConstraint = radians;
 }
 
 + (CGFloat)angularConstraintAngle
 {
-	return sAngleConstraint;
+    return sAngleConstraint;
 }
 
-- (BOOL)constrainWithEvent:(NSEvent *)anEvent
+- (BOOL)constrainWithEvent:(NSEvent*)anEvent
 {
-	return (([anEvent modifierFlags] & NSShiftKeyMask) != 0 );
+    return (([anEvent modifierFlags] & NSShiftKeyMask) != 0);
 }
 
 #pragma mark As a DKDrawablePath
@@ -933,7 +933,7 @@ finish:
     BOOL loop = YES, constrain = NO;
     NSInteger element, partcode;
     NSPoint p, ip, nsp;
-	CGFloat angleConstraint = [self.class angularConstraintAngle];
+    CGFloat angleConstraint = [self.class angularConstraintAngle];
 
     p = ip = [self snappedMousePoint:initialPoint
                      withControlFlag:NO];
