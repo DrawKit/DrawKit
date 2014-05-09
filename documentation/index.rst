@@ -12,7 +12,7 @@ Welcome to DrawKit. DrawKit is an illustration framework for Mac OS X. With Draw
 
 DrawKit is comprehensive, powerful, and complete. The design is modular and can be extended to meet your application's needs.
 
-DrawKit is licensed under the BSD Licence and can be included in commercial applications.
+DrawKit is licensed under the Lesser General Public Licence (LGPL) and can be included in commercial applications as a framework.
 
 Download the latest DrawKit source code from `DrawKit/DrawKit`__ over on github.
 
