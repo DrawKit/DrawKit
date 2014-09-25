@@ -114,9 +114,6 @@ static id sDearchivingHelper = nil;
     else if ([status isEqualToString:@"alpha"])
         s = 'a';
 
-#warning 64BIT: Inspect use of long
-#warning 64BIT: Inspect use of long
-#warning 64BIT: Inspect use of long
     return [NSString stringWithFormat:@"%ld.%ld.%c%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)(v & 0x0F)];
 }
 
@@ -272,9 +269,6 @@ static id sDearchivingHelper = nil;
            forKey:[kDKDrawingInfoDrawingPrefix lowercaseString]];
     [di setObject:[NSNumber numberWithInteger:drawingNumber]
            forKey:[kDKDrawingInfoDrawingNumberUnformatted lowercaseString]];
-#warning 64BIT: Inspect use of long
-#warning 64BIT: Inspect use of long
-#warning 64BIT: Check formatting arguments
     [di setObject:[NSString stringWithFormat:@"%@-%06ld-%04ld", prefix, (long)drawingNumber, (long)revision]
            forKey:[kDKDrawingInfoDrawingNumber lowercaseString]];
 
@@ -1581,7 +1575,6 @@ static id sDearchivingHelper = nil;
         return [[self delegate] drawing:self
             willReturnFormattedCoordinateForDistance:length];
     else
-#warning 64BIT: Check formatting arguments
         return [NSString stringWithFormat:@"%.2f %@", length, [self abbreviatedDrawingUnits]];
 }
 
@@ -1608,10 +1601,8 @@ static id sDearchivingHelper = nil;
             willReturnFormattedCoordinateForDistance:cpt.y];
         [array addObject:fmt];
     } else {
-#warning 64BIT: Check formatting arguments
         fmt = [NSString stringWithFormat:@"%.2f %@", cpt.x, [self abbreviatedDrawingUnits]];
         [array addObject:fmt];
-#warning 64BIT: Check formatting arguments
         fmt = [NSString stringWithFormat:@"%.2f %@", cpt.y, [self abbreviatedDrawingUnits]];
         [array addObject:fmt];
     }
@@ -1676,10 +1667,8 @@ static id sDearchivingHelper = nil;
                            forKey:[kDKDrawingInfoDimensionsShortUnits lowercaseString]];
     [[self drawingInfo] setObject:[self drawingUnits]
                            forKey:[kDKDrawingInfoDimensionsUnits lowercaseString]];
-#warning 64BIT: Check formatting arguments
     [[self drawingInfo] setObject:[NSString stringWithFormat:@"%f", ds.width]
                            forKey:[[NSString stringWithFormat:@"%@.size_width", kDKDrawingInfoDrawingDimensions] lowercaseString]];
-#warning 64BIT: Check formatting arguments
     [[self drawingInfo] setObject:[NSString stringWithFormat:@"%f", ds.height]
                            forKey:[[NSString stringWithFormat:@"%@.size_height", kDKDrawingInfoDrawingDimensions] lowercaseString]];
 
@@ -1833,7 +1822,6 @@ static id sDearchivingHelper = nil;
         if (k == NSNotFound)
             found = NO;
         else
-#warning 64BIT: Inspect use of long
             temp = [NSString stringWithFormat:@"%@ %ld", aName, (long)++numeral];
     }
 
