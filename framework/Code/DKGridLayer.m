@@ -26,7 +26,6 @@ static NSColor* sSpanColour = nil;
 static NSColor* sDivisionColour = nil;
 static NSColor* sMajorColour = nil;
 
-#pragma mark -
 @implementation DKGridLayer
 #pragma mark As a DKGridLayer
 
@@ -163,7 +162,6 @@ static NSColor* sMajorColour = nil;
     return [gl autorelease];
 }
 
-#pragma mark -
 #pragma mark - one-stop shop for setting grid, drawing and rulers in one hit
 
 /** @brief Sets the grid to the standard metric default settings
@@ -293,7 +291,6 @@ static NSColor* sMajorColour = nil;
     return m_zeroDatum;
 }
 
-#pragma mark -
 #pragma mark - getting grid info
 
 /** @brief Returns the actual distance of one span in points
@@ -467,7 +464,6 @@ static NSColor* sMajorColour = nil;
     [self synchronizeRulers];
 }
 
-#pragma mark -
 #pragma mark - colours for grid display
 
 /** @brief Sets the colour used to draw the spans
@@ -561,7 +557,6 @@ static NSColor* sMajorColour = nil;
     return m_spanColour;
 }
 
-#pragma mark -
 #pragma mark - converting between base (Quartz) and the grid
 
 /** @brief Given a point in drawing coordinates, returns nearest grid intersection to that point
@@ -892,7 +887,6 @@ static NSColor* sMajorColour = nil;
     [NSBezierPath strokeRect:mr];
 }
 
-#pragma mark -
 #pragma mark - user actions
 
 /** @brief Set the grid to one ofthe default grids
@@ -913,8 +907,7 @@ static NSColor* sMajorColour = nil;
     }
 }
 
-#pragma mark -
-#pragma mark As a DKLayer
+#pragma mark - As a DKLayer
 
 /** @brief Draw the grid
 
@@ -1055,8 +1048,8 @@ static NSColor* sMajorColour = nil;
     return NO;
 }
 
-#pragma mark -
-#pragma mark As an NSObject
+#pragma mark - As an NSObject
+
 - (void)dealloc
 {
     [self invalidateCache]; // Releases cache
@@ -1103,8 +1096,8 @@ static NSColor* sMajorColour = nil;
     return self;
 }
 
-#pragma mark -
-#pragma mark As part of NSCoding Protocol
+#pragma mark - As part of NSCoding Protocol
+
 - (void)encodeWithCoder:(NSCoder*)coder
 {
     NSAssert(coder != nil, @"Expected valid coder");
@@ -1200,17 +1193,16 @@ static NSColor* sMajorColour = nil;
     return self;
 }
 
-#pragma mark -
-#pragma mark As part of NSMenuValidation protocol
+#pragma mark - As part of NSMenuValidation protocol
 
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
     SEL action = [item action];
 
     if (action == @selector(copy:)) {
-        NSString* title = NSLocalizedString(@"Copy %@", nil);
-#warning 64BIT: Check formatting arguments
-        [item setTitle:[NSString stringWithFormat:title, [self layerName]]];
+        NSString* titleFormat = NSLocalizedString(@"Copy [LAYERNAME]", nil);
+		NSString* copyTitle = [titleFormat stringByReplacingOccurrencesOfString:@"[LAYERNAME]" withString:[self layerName]];
+        [item setTitle:copyTitle];
         return YES;
     }
 
