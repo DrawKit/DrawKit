@@ -2122,14 +2122,14 @@ static id sDearchivingHelper = nil;
 
     // create an image manager - it is not necessary for this object to be archived
 
-    mImageManager = [[DKImageDataManager alloc] init];
+    DKImageDataManager* imageManager = [[DKImageDataManager alloc] init];
 
     // if the coder can respond to the -setImageManager: method, set it. This allows certain objects to dearchive images that
     // are held by the image manager even though the object doesn't have a valid reference to the drawing to get it. It can get it from the
     // dearchiver instead.
 
     if ([coder respondsToSelector:@selector(setImageManager:)])
-        [(DKKeyedUnarchiver*)coder setImageManager:mImageManager];
+        [(DKKeyedUnarchiver*)coder setImageManager:imageManager];
 
     // older files had a flat layer structure and the drawing didn't inherit from the layer group - this
     // flag detects that and decodes the archive accordingly
@@ -2142,6 +2142,8 @@ static id sDearchivingHelper = nil;
         self = [self init];
 
     if (self != nil) {
+        mImageManager = imageManager;
+
         if ([coder containsValueForKey:@"DKDrawing_isFlipped"])
             [self setFlipped:[coder decodeBoolForKey:@"DKDrawing_isFlipped"]];
         else
