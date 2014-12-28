@@ -42,7 +42,7 @@ Generally speaking, DrawKit provides the following:
 * Standard grid and guide layers supporting object snapping and any "real world" measurement system you need.
 * Built-in selection of objects and targeting of the selection for commands and user events.
 * Separation of an object's geometry from its appearance gives incredible flexibility for creating exciting graphics.
-* Attachment of unlimited arbirtrary user data to all objects.
+* Attachment of unlimited arbitrary user data to all objects.
 * Style objects can be optionally shared by multiple objects, and contain an entire tree of rasterizers for drawing. This goes way beyond the classic "one stroke and one fill per object" that many drawing applications adopt (though if this is what you want it's easy to implement).
 * Built-in gradients, vector pattern fills and hatches.
 * Interactively edit any bezier path.
