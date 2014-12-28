@@ -7,7 +7,7 @@ Full documentation is available at http://drawkit.github.io/
 
 DrawKit requires Mac OS X 10.7 or later. The project is developed on and builds with Xcode 5 or later.
 
-DrawKit is [LGPL licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENSE). This license means DrawKit can be used within open source and commercial software, including products distributed on the Mac App Store.
+DrawKit is [LGPL licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENSE). This licence means DrawKit can be used within open source and commercial software, including products distributed on the Mac App Store.
 
 [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit)
 
