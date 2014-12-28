@@ -1,20 +1,34 @@
 DrawKit
 =======
 
-Full documentation is available at http://drawkit.github.io/
-
 DrawKit is an illustration and vector artwork framework for Mac OS X.
 
-Mac OS X 10.7 or later; compiles with Xcode 4 or later.
+Full documentation is available at http://drawkit.github.io/
+
+DrawKit requires Mac OS X 10.7 or later. The project is developed on and builds with Xcode 5 or later.
+
+DrawKit is [LGPL licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENSE). This license means DrawKit can be used within open source and commercial software, including products distributed on the Mac App Store.
 
 [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit)
 
-Introduction
-============
+How We Work Together
+====================
+
+The DrawKit Community uses the [C4.1 (Collective Code Construction Contract)](http://rfc.zeromq.org/spec:22) process for its core projects: DrawKit and stable releases, as well as surrounding projects.
+
+Please do take the time to read the [C4.1 RFC](http://rfc.zeromq.org/spec:22).
+
+Submit a Patch
+==============
+
+We work with github pull requests. If your patch is accepted you will get credit in the contributors file. You are responsible for tracking your patch and convincing the maintainers to accept it.
+
+Overview
+========
 
 DrawKit is a software framework that enables the Mac OS X Cocoa developer to rapidly implement vector drawing and illustration features in a custom application. It is comprehensive, powerful and complete, but it is also highly modular so you can make use of only those parts that you need, or go the whole hog and drop it in as a complete vector drawing solution.
 
-![DrawKit sample capabilities](https://raw2.github.com/DrawKit/DrawKit/master/documentation/drawkit-sample-capabilities.png)
+![DrawKit sample capabilities](https://raw.githubusercontent.com/DrawKit/DrawKit/master/documentation/drawkit-sample-capabilities.png)
 
 Taking its cue from Cocoa's powerful text handling model, DrawKit provides a general purpose and complete drawing model that can be deployed with very little (or in the most general case, no) code at all. The defaults for most classes and created objects have been selected to give a working system out of the box with minimal set up. As you might expect, the more your requirements deviate from the defaults, the more customising you will need to do, but DrawKit has been designed to make this as straightforward as possible without compromising on the graphical power available. Many classes can be operated in a variety of modes for the most obvious of customisations, and can of course be subclassed when necessary to provide more divergent behaviour.
 
