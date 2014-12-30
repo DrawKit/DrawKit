@@ -214,7 +214,6 @@ void LogAppNameAndVersion(void)
 	NSDictionary* localInfoDict = [mainBundle localizedInfoDictionary];
 	NSDictionary* infoDictionary = [mainBundle infoDictionary];
 	
-	assert(localInfoDict != nil);
 	NSString* appName = [localInfoDict objectForKey:@"CFBundleName"];
 	if (appName == nil)
 	{
