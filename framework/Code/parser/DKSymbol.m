@@ -18,99 +18,99 @@ static NSInteger sSymCounter = 0;
 #pragma mark As a DKSymbol
 + (NSMutableDictionary*)symbolMap
 {
-    if (sSymbolMap == nil)
-        sSymbolMap = [[NSMutableDictionary alloc] init];
+	if (sSymbolMap == nil)
+		sSymbolMap = [[NSMutableDictionary alloc] init];
 
-    return sSymbolMap;
+	return sSymbolMap;
 }
 
 + (DKSymbol*)symbolForString:(NSString*)str
 {
-    DKSymbol* sym = [[DKSymbol symbolMap] valueForKey:str];
+	DKSymbol* sym = [[DKSymbol symbolMap] valueForKey:str];
 
-    if (sym == nil) {
-        sym = [[DKSymbol alloc] initWithString:str
-                                         index:(++sSymCounter)];
-        [[DKSymbol symbolMap] setValue:sym
-                                forKey:[sym string]];
-        [sym release];
-    }
+	if (sym == nil) {
+		sym = [[DKSymbol alloc] initWithString:str
+										 index:(++sSymCounter)];
+		[[DKSymbol symbolMap] setValue:sym
+								forKey:[sym string]];
+		[sym release];
+	}
 
-    return sym;
+	return sym;
 }
 
 + (DKSymbol*)symbolForCString:(const char*)cstr length:(NSInteger)len
 {
-    NSString* str = [[NSString alloc] initWithCString:cstr
-                                               length:len];
-    DKSymbol* sym = [DKSymbol symbolForString:str];
-    [str release];
-    return sym;
+	NSString* str = [[NSString alloc] initWithCString:cstr
+											   length:len];
+	DKSymbol* sym = [DKSymbol symbolForString:str];
+	[str release];
+	return sym;
 }
 
 #pragma mark -
 - (id)initWithString:(NSString*)str index:(NSInteger)ndx
 {
-    self = [super init];
-    if (self != nil) {
-        mString = [str retain];
-        mIndex = ndx;
+	self = [super init];
+	if (self != nil) {
+		mString = [str retain];
+		mIndex = ndx;
 
-        if (mString == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    return self;
+		if (mString == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	return self;
 }
 
 - (NSInteger)index
 {
-    return mIndex;
+	return mIndex;
 }
 
 #pragma mark -
 #pragma mark As an NSString
 - (unichar)characterAtIndex:(NSUInteger)ndx
 {
-    return [mString characterAtIndex:ndx];
+	return [mString characterAtIndex:ndx];
 }
 
 - (void)getCharacters:(unichar*)buffer range:(NSRange)aRange
 {
-    [mString getCharacters:buffer
-                     range:aRange];
+	[mString getCharacters:buffer
+					 range:aRange];
 }
 
 - (BOOL)isEqualToString:(NSString*)str
 {
-    return ((self == str) || [mString isEqualToString:str]);
+	return ((self == str) || [mString isEqualToString:str]);
 }
 
 - (NSUInteger)length
 {
-    return [mString length];
+	return [mString length];
 }
 
 - (NSString*)string
 {
-    return mString;
+	return mString;
 }
 
 #pragma mark -
 - (BOOL)isLiteralValue
 {
-    return NO;
+	return NO;
 }
 
 - (BOOL)isSmoothAtom
 {
-    return NO;
+	return NO;
 }
 
 - (BOOL)isSmoothIdentifier
 {
-    return YES;
+	return YES;
 }
 
 // NSString protocol
@@ -118,19 +118,19 @@ static NSInteger sSymCounter = 0;
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    [mString release];
+	[mString release];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 - (NSString*)description
 {
-    return mString;
+	return mString;
 }
 
 - (BOOL)isEqualTo:(id)anObject
 {
-    return ((self == anObject) || [mString isEqualToString:[anObject description]]);
+	return ((self == anObject) || [mString isEqualToString:[anObject description]]);
 }
 
 #pragma mark -
@@ -139,7 +139,7 @@ static NSInteger sSymCounter = 0;
 {
 #pragma unused(zone)
 
-    return [self retain];
+	return [self retain];
 }
 
 @end

@@ -16,16 +16,16 @@
 @class DKExpression;
 
 @interface DKParser : NSObject {
-    Scanner scanr;
-    NSMutableDictionary* mFactories;
-    NSMutableArray* mParseStack;
-    id mDelegate;
+	Scanner scanr;
+	NSMutableDictionary* mFactories;
+	NSMutableArray* mParseStack;
+	id mDelegate;
 
-    // Formatters
-    NSNumberFormatter* numberFormatter;
+	// Formatters
+	NSNumberFormatter* numberFormatter;
 
-    // Processing flags
-    BOOL throwErrorIfMissingFactory;
+	// Processing flags
+	BOOL throwErrorIfMissingFactory;
 }
 
 - (void)registerFactoryClass:(id)fClass forKey:(NSString*)key;

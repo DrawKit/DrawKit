@@ -10,8 +10,8 @@
 #import <Foundation/Foundation.h>
 
 @interface DKExpression : NSObject {
-    NSString* mType;
-    NSMutableArray* mValues;
+	NSString* mType;
+	NSMutableArray* mValues;
 }
 
 - (void)setType:(NSString*)aType;
@@ -46,8 +46,8 @@
 @end
 
 @interface DKExpressionPair : NSObject {
-    NSString* key;
-    id value;
+	NSString* key;
+	id value;
 }
 
 - (id)initWithKey:(NSString*)aKey value:(id)aValue;

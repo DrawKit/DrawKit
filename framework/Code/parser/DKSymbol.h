@@ -10,8 +10,8 @@
 #import <Cocoa/Cocoa.h>
 
 @interface DKSymbol : NSString <NSCopying> {
-    NSString* mString;
-    NSInteger mIndex;
+	NSString* mString;
+	NSInteger mIndex;
 }
 
 + (NSMutableDictionary*)symbolMap;

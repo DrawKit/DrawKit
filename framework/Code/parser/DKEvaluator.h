@@ -12,7 +12,7 @@
 @class DKExpression;
 
 @interface DKEvaluator : NSObject {
-    NSMutableDictionary* mSymbolTable;
+	NSMutableDictionary* mSymbolTable;
 }
 
 - (void)addValue:(id)value forSymbol:(NSString*)symbol;
