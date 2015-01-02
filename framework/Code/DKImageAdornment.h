@@ -13,9 +13,9 @@
 // fitting options:
 
 typedef enum {
-    kDKScaleToFitBounds = 0, // scale setting ignored - image will fill bounds
-    kDKScaleToFitPreservingAspectRatio = 1, // scale setting ignored - image will fit bounds with original aspect ratio preserved
-    kDKClipToBounds = 2 // scales according to setting, but clipped to object's path if size exceeds it
+	kDKScaleToFitBounds = 0, // scale setting ignored - image will fill bounds
+	kDKScaleToFitPreservingAspectRatio = 1, // scale setting ignored - image will fit bounds with original aspect ratio preserved
+	kDKClipToBounds = 2 // scales according to setting, but clipped to object's path if size exceeds it
 } DKImageFittingOption;
 
 /** @brief This class allows any image to be part of the rendering tree.
@@ -24,15 +24,15 @@ This class allows any image to be part of the rendering tree.
 */
 @interface DKImageAdornment : DKRasterizer <NSCoding, NSCopying> {
 @private
-    NSString* mImageKey;
-    NSImage* m_image;
-    CGFloat m_scale;
-    CGFloat m_opacity;
-    CGFloat m_angle;
-    NSPoint m_origin;
-    NSCompositingOperation m_op;
-    DKImageFittingOption m_fittingOption;
-    NSString* m_imageIdentifier;
+	NSString* mImageKey;
+	NSImage* m_image;
+	CGFloat m_scale;
+	CGFloat m_opacity;
+	CGFloat m_angle;
+	NSPoint m_origin;
+	NSCompositingOperation m_op;
+	DKImageFittingOption m_fittingOption;
+	NSString* m_imageIdentifier;
 }
 
 + (DKImageAdornment*)imageAdornmentWithImage:(NSImage*)image;

@@ -32,12 +32,12 @@ as found in numerour apps, including Apple's own.
 @end
 
 typedef struct
-    {
-    CGFloat color[4];
-    CGFloat caustic[4];
-    CGFloat expCoefficient;
-    CGFloat expScale;
-    CGFloat expOffset;
-    CGFloat initialWhite;
-    CGFloat finalWhite;
+	{
+	CGFloat color[4];
+	CGFloat caustic[4];
+	CGFloat expCoefficient;
+	CGFloat expScale;
+	CGFloat expOffset;
+	CGFloat initialWhite;
+	CGFloat finalWhite;
 } GlossParameters;

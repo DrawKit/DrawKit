@@ -18,7 +18,7 @@
 #include <tgmath.h>
 #endif
 
-#pragma mark Contants (Non-localized)
+#pragma mark Contants(Non - localized)
 NSString* kDKNotificationGradientWillAddColorStop = @"kDKNotificationGradientWillAddColorStop";
 NSString* kDKNotificationGradientDidAddColorStop = @"kDKNotificationGradientDidAddColorStop";
 NSString* kDKNotificationGradientWillRemoveColorStop = @"kDKNotificationGradientWillRemoveColorStop";
@@ -56,14 +56,14 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 + (DKGradient*)defaultGradient
 {
-    DKGradient* grad = [[DKGradient alloc] init];
+	DKGradient* grad = [[DKGradient alloc] init];
 
-    [grad addColor:[NSColor rgbBlack]
-                at:0.0];
-    [grad addColor:[NSColor rgbWhite]
-                at:1.0];
+	[grad addColor:[NSColor rgbBlack]
+				at:0.0];
+	[grad addColor:[NSColor rgbWhite]
+				at:1.0];
 
-    return [grad autorelease];
+	return [grad autorelease];
 }
 
 /** @brief Returns a linear gradient from Color c1 to c2
@@ -75,10 +75,10 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 + (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2
 {
-    return [self gradientWithStartingColor:c1
-                               endingColor:c2
-                                      type:kDKGradientTypeLinear
-                                     angle:0.0];
+	return [self gradientWithStartingColor:c1
+							   endingColor:c2
+									  type:kDKGradientTypeLinear
+									 angle:0.0];
 }
 
 /** @brief Returns a gradient from Color c1 to c2 with given type and angle
@@ -90,16 +90,16 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 + (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2 type:(NSInteger)gt angle:(CGFloat)degrees
 {
-    DKGradient* grad = [[DKGradient alloc] init];
+	DKGradient* grad = [[DKGradient alloc] init];
 
-    [grad addColor:c1
-                at:0.0];
-    [grad addColor:c2
-                at:1.0];
-    [grad setGradientType:gt];
-    [grad setAngleInDegrees:degrees];
+	[grad addColor:c1
+				at:0.0];
+	[grad addColor:c2
+				at:1.0];
+	[grad setGradientType:gt];
+	[grad setAngleInDegrees:degrees];
 
-    return [grad autorelease];
+	return [grad autorelease];
 }
 
 #pragma mark -
@@ -111,16 +111,16 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (DKGradient*)gradientByColorizingWithColor:(NSColor*)color
 {
-    DKGradient* copy = [self copy];
+	DKGradient* copy = [self copy];
 
-    NSColor* rgb = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-    NSEnumerator* iter = [[copy colorStops] objectEnumerator];
-    DKColorStop* stop;
+	NSColor* rgb = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	NSEnumerator* iter = [[copy colorStops] objectEnumerator];
+	DKColorStop* stop;
 
-    while ((stop = [iter nextObject]))
-        [stop setColor:[[stop color] colorWithHueAndSaturationFrom:rgb]];
+	while ((stop = [iter nextObject]))
+		[stop setColor:[[stop color] colorWithHueAndSaturationFrom:rgb]];
 
-    return [copy autorelease];
+	return [copy autorelease];
 }
 
 /** @brief Creates a copy of the gradient but sets the alpha vealue of all stop colours to <alpha>
@@ -129,15 +129,15 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (DKGradient*)gradientWithAlpha:(CGFloat)alpha
 {
-    DKGradient* copy = [self copy];
+	DKGradient* copy = [self copy];
 
-    NSEnumerator* iter = [[copy colorStops] objectEnumerator];
-    DKColorStop* stop;
+	NSEnumerator* iter = [[copy colorStops] objectEnumerator];
+	DKColorStop* stop;
 
-    while ((stop = [iter nextObject]))
-        [stop setAlpha:alpha];
+	while ((stop = [iter nextObject]))
+		[stop setAlpha:alpha];
 
-    return [copy autorelease];
+	return [copy autorelease];
 }
 
 #pragma mark -
@@ -150,11 +150,11 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (DKColorStop*)addColor:(NSColor*)Color at:(CGFloat)pos
 {
-    DKColorStop* stop = [[DKColorStop alloc] initWithColor:Color
-                                                        at:pos];
-    [self addColorStop:stop];
-    [stop release];
-    return stop;
+	DKColorStop* stop = [[DKColorStop alloc] initWithColor:Color
+														at:pos];
+	[self addColorStop:stop];
+	[stop release];
+	return stop;
 }
 
 /** @brief Add a Color stop to the list of gradient Colors
@@ -162,23 +162,23 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (void)addColorStop:(DKColorStop*)stop
 {
-    if (![[self colorStops] containsObject:stop]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillAddColorStop
-                                                            object:self];
-        [self insertObject:stop
-            inColorStopsAtIndex:[m_colorStops count]];
-        [stop setOwner:self];
-        [self sortColorStops];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidAddColorStop
-                                                            object:self];
-    }
+	if (![[self colorStops] containsObject:stop]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillAddColorStop
+															object:self];
+		[self insertObject:stop
+			inColorStopsAtIndex:[m_colorStops count]];
+		[stop setOwner:self];
+		[self sortColorStops];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidAddColorStop
+															object:self];
+	}
 }
 
 /** @brief Removes the last Color from he list of Colors
  */
 - (void)removeLastColor
 {
-    [self removeColorStop:[m_colorStops lastObject]];
+	[self removeColorStop:[m_colorStops lastObject]];
 }
 
 /** @brief Removes a Color stop from the list of Colors
@@ -186,26 +186,26 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (void)removeColorStop:(DKColorStop*)stop
 {
-    if ([[self colorStops] containsObject:stop]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillRemoveColorStop
-                                                            object:self];
-        NSUInteger indx = [m_colorStops indexOfObject:stop];
-        [self removeObjectFromColorStopsAtIndex:indx];
+	if ([[self colorStops] containsObject:stop]) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillRemoveColorStop
+															object:self];
+		NSUInteger indx = [m_colorStops indexOfObject:stop];
+		[self removeObjectFromColorStopsAtIndex:indx];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidRemoveColorStop
-                                                            object:self];
-    }
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidRemoveColorStop
+															object:self];
+	}
 }
 
 /** @brief Removes all Colors from the list of Colors
  */
 - (void)removeAllColors
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillRemoveColorStop
-                                                        object:self];
-    [m_colorStops removeAllObjects];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidRemoveColorStop
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillRemoveColorStop
+														object:self];
+	[m_colorStops removeAllObjects];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidRemoveColorStop
+														object:self];
 }
 
 /** @brief Sets the list of Color stops in the gradient
@@ -215,20 +215,20 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (void)setColorStops:(NSArray*)stops
 {
-    //	LogEvent_(kStateEvent, @"setting colour stops, new = %@", stops );
+	//	LogEvent_(kStateEvent, @"setting colour stops, new = %@", stops );
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillAddColorStop
-                                                        object:self];
-    [m_colorStops release];
-    m_colorStops = [stops mutableCopy];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillAddColorStop
+														object:self];
+	[m_colorStops release];
+	m_colorStops = [stops mutableCopy];
 
-    // set the owner ref - no longer needed for unarchiving gradients - compat with older files
+	// set the owner ref - no longer needed for unarchiving gradients - compat with older files
 
-    [m_colorStops makeObjectsPerformSelector:@selector(setOwner:)
-                                  withObject:self];
+	[m_colorStops makeObjectsPerformSelector:@selector(setOwner:)
+								  withObject:self];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidAddColorStop
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidAddColorStop
+														object:self];
 }
 
 /** @brief Returns the list of Color stops in the gradient
@@ -238,24 +238,24 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (NSArray*)colorStops
 {
-    return m_colorStops;
+	return m_colorStops;
 }
 
 static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 {
 #pragma unused(context)
 
-    CGFloat lp = [lh position];
-    CGFloat rp = [rh position];
+	CGFloat lp = [lh position];
+	CGFloat rp = [rh position];
 
-    //NSLog(@"positions: %f, %f", lp, rp );
+	//NSLog(@"positions: %f, %f", lp, rp );
 
-    if (lp < rp)
-        return NSOrderedAscending;
-    else if (lp > rp)
-        return NSOrderedDescending;
-    else
-        return NSOrderedSame;
+	if (lp < rp)
+		return NSOrderedAscending;
+	else if (lp > rp)
+		return NSOrderedDescending;
+	else
+		return NSOrderedSame;
 }
 
 /** @brief Sorts the Color stops into position order
@@ -264,8 +264,8 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)sortColorStops
 {
-    [m_colorStops sortUsingFunction:cmpColorStops
-                            context:NULL];
+	[m_colorStops sortUsingFunction:cmpColorStops
+							context:NULL];
 }
 
 /** @brief Reverses the order of all the Color stops so "inverting" the gradient
@@ -274,17 +274,17 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)reverseColorStops
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
-                                                        object:self];
-    NSEnumerator* iter = [[self colorStops] objectEnumerator];
-    DKColorStop* stop;
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
+														object:self];
+	NSEnumerator* iter = [[self colorStops] objectEnumerator];
+	DKColorStop* stop;
 
-    while ((stop = [iter nextObject]))
-        [stop setPosition:1.0 - [stop position]];
+	while ((stop = [iter nextObject]))
+		[stop setPosition:1.0 - [stop position]];
 
-    [self sortColorStops];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
-                                                        object:self];
+	[self sortColorStops];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
+														object:self];
 }
 
 #pragma mark -
@@ -297,7 +297,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (NSUInteger)countOfColorStops
 {
-    return [m_colorStops count];
+	return [m_colorStops count];
 }
 
 /** @brief Returns the the indexed Color stop
@@ -308,21 +308,21 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (DKColorStop*)objectInColorStopsAtIndex:(NSUInteger)ix
 {
-    return [m_colorStops objectAtIndex:ix];
+	return [m_colorStops objectAtIndex:ix];
 }
 
 - (void)insertObject:(DKColorStop*)stop inColorStopsAtIndex:(NSUInteger)ix
 {
-    if (ix >= [m_colorStops count])
-        [m_colorStops addObject:stop];
-    else
-        [m_colorStops insertObject:stop
-                           atIndex:ix];
+	if (ix >= [m_colorStops count])
+		[m_colorStops addObject:stop];
+	else
+		[m_colorStops insertObject:stop
+						   atIndex:ix];
 }
 
 - (void)removeObjectFromColorStopsAtIndex:(NSUInteger)ix
 {
-    [m_colorStops removeObjectAtIndex:ix];
+	[m_colorStops removeObjectAtIndex:ix];
 }
 
 #pragma mark -
@@ -336,7 +336,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)fillRect:(NSRect)rect
 {
-    [self fillPath:[NSBezierPath bezierPathWithRect:rect]];
+	[self fillPath:[NSBezierPath bezierPathWithRect:rect]];
 }
 
 /** @brief Fills the path using the gradient
@@ -347,13 +347,13 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)fillPath:(NSBezierPath*)path
 {
-    NSPoint cp;
+	NSPoint cp;
 
-    cp.x = NSMidX([path bounds]);
-    cp.y = NSMidY([path bounds]);
+	cp.x = NSMidX([path bounds]);
+	cp.y = NSMidY([path bounds]);
 
-    [self fillPath:path
-        centreOffset:NSZeroPoint];
+	[self fillPath:path
+		centreOffset:NSZeroPoint];
 }
 
 /** @brief Fills the path using the gradient
@@ -362,204 +362,204 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)fillPath:(NSBezierPath*)path centreOffset:(NSPoint)co
 {
-    NSRect pb = [path bounds];
+	NSRect pb = [path bounds];
 
-    // calculate endpoints to take into account the set angle
+	// calculate endpoints to take into account the set angle
 
-    NSPoint sp, ep;
-    CGFloat sr = 0.0;
-    CGFloat er = 0.0;
-    CGFloat r1, r2;
+	NSPoint sp, ep;
+	CGFloat sr = 0.0;
+	CGFloat er = 0.0;
+	CGFloat r1, r2;
 
-    ep.x = NSMidX(pb);
-    ep.y = NSMidY(pb);
+	ep.x = NSMidX(pb);
+	ep.y = NSMidY(pb);
 
-    //radius = hypotf( pb.size.width, pb.size.height ) / 3.0;
-    r1 = pb.size.width / 2.0;
-    r2 = pb.size.height / 2.0;
+	//radius = hypotf( pb.size.width, pb.size.height ) / 3.0;
+	r1 = pb.size.width / 2.0;
+	r2 = pb.size.height / 2.0;
 
-    if ([self gradientType] == kDKGradientTypeLinear) {
-        sp.x = ep.x - r1 * cosf([self angle]);
-        sp.y = ep.y - r2 * sinf([self angle]);
-        ep.x = ep.x + r1 * cosf([self angle]);
-        ep.y = ep.y + r2 * sinf([self angle]);
-    } else if ([self gradientType] == kDKGradientTypeRadial && m_extensionData != nil) {
-        // can try to get these points from extensions data
+	if ([self gradientType] == kDKGradientTypeLinear) {
+		sp.x = ep.x - r1 * cosf([self angle]);
+		sp.y = ep.y - r2 * sinf([self angle]);
+		ep.x = ep.x + r1 * cosf([self angle]);
+		ep.y = ep.y + r2 * sinf([self angle]);
+	} else if ([self gradientType] == kDKGradientTypeRadial && m_extensionData != nil) {
+		// can try to get these points from extensions data
 
-        sp = [self mapPoint:[self radialStartingPoint]
-                     toRect:pb];
-        ep = [self mapPoint:[self radialEndingPoint]
-                     toRect:pb];
-        sr = pb.size.width * [self radialStartingRadius];
-        er = pb.size.width * [self radialEndingRadius];
-    } else {
-        sp.x = ep.x + co.x;
-        sp.y = ep.y + co.y;
-        sr = 0.0;
-        er = hypotf(pb.size.width, pb.size.height) / 3.0;
-    }
+		sp = [self mapPoint:[self radialStartingPoint]
+					 toRect:pb];
+		ep = [self mapPoint:[self radialEndingPoint]
+					 toRect:pb];
+		sr = pb.size.width * [self radialStartingRadius];
+		er = pb.size.width * [self radialEndingRadius];
+	} else {
+		sp.x = ep.x + co.x;
+		sp.y = ep.y + co.y;
+		sr = 0.0;
+		er = hypotf(pb.size.width, pb.size.height) / 3.0;
+	}
 
-    [self fillPath:path
-        startingAtPoint:sp
-            startRadius:sr
-          endingAtPoint:ep
-              endRadius:er];
+	[self fillPath:path
+		startingAtPoint:sp
+			startRadius:sr
+		  endingAtPoint:ep
+			  endRadius:er];
 }
 
 - (void)private_colorAtValue:(CGFloat)val components:(CGFloat*)components randomAccess:(BOOL)ra
 {
-    // if <ra> is NO, this is optimised on the basis that it will be called from a loop with <val> going from 0 -> 1. In
-    // that case sequential access to the stops can be assumed and so no lookup loop is required. For random access, where
-    // <val> can be any value in or out of sequence, the lookup loop is required. If in doubt, pass YES.
+	// if <ra> is NO, this is optimised on the basis that it will be called from a loop with <val> going from 0 -> 1. In
+	// that case sequential access to the stops can be assumed and so no lookup loop is required. For random access, where
+	// <val> can be any value in or out of sequence, the lookup loop is required. If in doubt, pass YES.
 
-    NSInteger keys, k2;
-    static DKColorStop* key1 = nil;
-    static DKColorStop* key2 = nil;
-    static NSColor* kk1;
-    static NSColor* kk2;
-    static CGFloat k1pos, k2pos;
-    static NSInteger indx = 0;
+	NSInteger keys, k2;
+	static DKColorStop* key1 = nil;
+	static DKColorStop* key2 = nil;
+	static NSColor* kk1;
+	static NSColor* kk2;
+	static CGFloat k1pos, k2pos;
+	static NSInteger indx = 0;
 
-    keys = CFArrayGetCount((CFArrayRef)m_colorStops);
+	keys = CFArrayGetCount((CFArrayRef)m_colorStops);
 
-    if (keys < 2)
-        return;
+	if (keys < 2)
+		return;
 
-    if (ra) {
-        // random access - need to find the right stop pair to use
+	if (ra) {
+		// random access - need to find the right stop pair to use
 
-        key1 = [[self colorStops] objectAtIndex:0];
-        key2 = [[self colorStops] objectAtIndex:1];
-        k2 = 1;
+		key1 = [[self colorStops] objectAtIndex:0];
+		key2 = [[self colorStops] objectAtIndex:1];
+		k2 = 1;
 
-        while (k2 < (keys - 1) && [key2 position] < val) {
-            key1 = key2;
-            key2 = [[self colorStops] objectAtIndex:++k2];
-        }
+		while (k2 < (keys - 1) && [key2 position] < val) {
+			key1 = key2;
+			key2 = [[self colorStops] objectAtIndex:++k2];
+		}
 
-        kk1 = [key1 color];
-        kk2 = [key2 color];
-        k1pos = [key1 position];
-        k2pos = [key2 position];
-    } else {
-        // sequential access - can assume that the previous value of <val> already set up the right pair, so we just need
-        // to see if it's crossed to the next stop position
+		kk1 = [key1 color];
+		kk2 = [key2 color];
+		k1pos = [key1 position];
+		k2pos = [key2 position];
+	} else {
+		// sequential access - can assume that the previous value of <val> already set up the right pair, so we just need
+		// to see if it's crossed to the next stop position
 
-        // first check we have intialised the starting stops:
+		// first check we have intialised the starting stops:
 
-        if (key1 == nil || val <= 0.0) {
-            key1 = (DKColorStop*)CFArrayGetValueAtIndex((CFArrayRef)m_colorStops, 0); // [_colorStops objectAtIndex:0];
-            key2 = (DKColorStop*)CFArrayGetValueAtIndex((CFArrayRef)m_colorStops, 1); // [_colorStops objectAtIndex:1];
-            kk1 = [key1 color];
-            kk2 = [key2 color];
-            k1pos = [key1 position];
-            k2pos = [key2 position];
-            indx = 2;
-        }
+		if (key1 == nil || val <= 0.0) {
+			key1 = (DKColorStop*)CFArrayGetValueAtIndex((CFArrayRef)m_colorStops, 0); // [_colorStops objectAtIndex:0];
+			key2 = (DKColorStop*)CFArrayGetValueAtIndex((CFArrayRef)m_colorStops, 1); // [_colorStops objectAtIndex:1];
+			kk1 = [key1 color];
+			kk2 = [key2 color];
+			k1pos = [key1 position];
+			k2pos = [key2 position];
+			indx = 2;
+		}
 
-        // need to get next pair?
+		// need to get next pair?
 
-        if (val > k2pos && indx < keys) {
-            key1 = key2;
-            kk1 = kk2;
-            k1pos = k2pos;
-            key2 = (DKColorStop*)CFArrayGetValueAtIndex((CFArrayRef)m_colorStops, indx++); //[[self colorStops] objectAtIndex:index++];
-            kk2 = [key2 color];
-            k2pos = [key2 position];
-        }
-    }
+		if (val > k2pos && indx < keys) {
+			key1 = key2;
+			kk1 = kk2;
+			k1pos = k2pos;
+			key2 = (DKColorStop*)CFArrayGetValueAtIndex((CFArrayRef)m_colorStops, indx++); //[[self colorStops] objectAtIndex:index++];
+			kk2 = [key2 color];
+			k2pos = [key2 position];
+		}
+	}
 
-    if (val <= k1pos) {
-        [kk1 getRed:&components[0]
-              green:&components[1]
-               blue:&components[2]
-              alpha:&components[3]];
-    } else if (val >= k2pos) {
-        [kk2 getRed:&components[0]
-              green:&components[1]
-               blue:&components[2]
-              alpha:&components[3]];
+	if (val <= k1pos) {
+		[kk1 getRed:&components[0]
+			  green:&components[1]
+			   blue:&components[2]
+			  alpha:&components[3]];
+	} else if (val >= k2pos) {
+		[kk2 getRed:&components[0]
+			  green:&components[1]
+			   blue:&components[2]
+			  alpha:&components[3]];
 
-        if (!ra && val >= 1.0) {
-            // reached the end - reset for next sequential run
+		if (!ra && val >= 1.0) {
+			// reached the end - reset for next sequential run
 
-            key1 = key2 = nil;
-        }
-    } else {
-        CGFloat p = (val - k1pos) / (k2pos - k1pos);
+			key1 = key2 = nil;
+		}
+	} else {
+		CGFloat p = (val - k1pos) / (k2pos - k1pos);
 
-        switch (m_interp) {
-        default:
-        case kDKGradientInterpLinear:
-            break;
+		switch (m_interp) {
+		default:
+		case kDKGradientInterpLinear:
+			break;
 
-        case kDKGradientInterpQuadratic:
-            p = powerMap(p, 2);
-            break;
+		case kDKGradientInterpQuadratic:
+			p = powerMap(p, 2);
+			break;
 
-        case kDKGradientInterpCubic:
-            p = powerMap(p, 3);
-            break;
+		case kDKGradientInterpCubic:
+			p = powerMap(p, 3);
+			break;
 
-        case kDKGradientInterpSinus:
-            p = sineMap(p, 1);
-            break;
+		case kDKGradientInterpSinus:
+			p = sineMap(p, 1);
+			break;
 
-        case kDKGradientInterpSinus2:
-            p = sineMap(p, 2);
-            break;
-        }
+		case kDKGradientInterpSinus2:
+			p = sineMap(p, 2);
+			break;
+		}
 
-        if (m_blending == kDKGradientRGBBlending) {
-            // access the stop's precached components directly for best speed:
+		if (m_blending == kDKGradientRGBBlending) {
+			// access the stop's precached components directly for best speed:
 
-            CGFloat* ca;
-            CGFloat* cb;
+			CGFloat* ca;
+			CGFloat* cb;
 
-            ca = key1->components;
-            cb = key2->components;
+			ca = key1->components;
+			cb = key2->components;
 
-            components[0] = (cb[0] - ca[0]) * p + ca[0];
-            components[1] = (cb[1] - ca[1]) * p + ca[1];
-            components[2] = (cb[2] - ca[2]) * p + ca[2];
-            components[3] = (cb[3] - ca[3]) * p + ca[3];
-        } else if (m_blending == kDKGradientHSBBlending) {
-            // blend in HSV space - this method almost entirely lifted from Chad Weider (thanks!)
+			components[0] = (cb[0] - ca[0]) * p + ca[0];
+			components[1] = (cb[1] - ca[1]) * p + ca[1];
+			components[2] = (cb[2] - ca[2]) * p + ca[2];
+			components[3] = (cb[3] - ca[3]) * p + ca[3];
+		} else if (m_blending == kDKGradientHSBBlending) {
+			// blend in HSV space - this method almost entirely lifted from Chad Weider (thanks!)
 
-            CGFloat ca[4];
-            CGFloat cb[4];
-            [kk1 getRed:&ca[0]
-                  green:&ca[1]
-                   blue:&ca[2]
-                  alpha:&ca[3]];
-            [kk2 getRed:&cb[0]
-                  green:&cb[1]
-                   blue:&cb[2]
-                  alpha:&cb[3]];
+			CGFloat ca[4];
+			CGFloat cb[4];
+			[kk1 getRed:&ca[0]
+				  green:&ca[1]
+				   blue:&ca[2]
+				  alpha:&ca[3]];
+			[kk2 getRed:&cb[0]
+				  green:&cb[1]
+				   blue:&cb[2]
+				  alpha:&cb[3]];
 
-            transformRGB_HSV(ca);
-            transformRGB_HSV(cb);
-            resolveHSV(ca, cb);
+			transformRGB_HSV(ca);
+			transformRGB_HSV(cb);
+			resolveHSV(ca, cb);
 
-            if (ca[0] > cb[0]) //if color1's hue is higher than color2's hue then
-                cb[0] += 360; //	we need to move c2 one revolution around the wheel
+			if (ca[0] > cb[0]) //if color1's hue is higher than color2's hue then
+				cb[0] += 360; //	we need to move c2 one revolution around the wheel
 
-            components[0] = (cb[0] - ca[0]) * p + ca[0];
-            components[1] = (cb[1] - ca[1]) * p + ca[1];
-            components[2] = (cb[2] - ca[2]) * p + ca[2];
-            components[3] = (cb[3] - ca[3]) * p + ca[3];
+			components[0] = (cb[0] - ca[0]) * p + ca[0];
+			components[1] = (cb[1] - ca[1]) * p + ca[1];
+			components[2] = (cb[2] - ca[2]) * p + ca[2];
+			components[3] = (cb[3] - ca[3]) * p + ca[3];
 
-            transformHSV_RGB(components);
-        } else if (m_blending == kDKGradientAlphaBlending) {
-            CGFloat* ca;
-            CGFloat* cb;
+			transformHSV_RGB(components);
+		} else if (m_blending == kDKGradientAlphaBlending) {
+			CGFloat* ca;
+			CGFloat* cb;
 
-            ca = key1->components;
-            cb = key2->components;
+			ca = key1->components;
+			cb = key2->components;
 
-            components[3] = (cb[3] - ca[3]) * p + ca[3];
-        }
-    }
+			components[3] = (cb[3] - ca[3]) * p + ca[3];
+		}
+	}
 }
 
 #define qLogPerformanceMetrics 0
@@ -576,37 +576,37 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp startRadius:(CGFloat)sr endingAtPoint:(NSPoint)ep endRadius:(CGFloat)er
 {
-    if ([path isEmpty] || [path bounds].size.width <= 0.0 || [path bounds].size.height <= 0.0)
-        return;
+	if ([path isEmpty] || [path bounds].size.width <= 0.0 || [path bounds].size.height <= 0.0)
+		return;
 
 #if qLogPerformanceMetrics
-    static NSTimeInterval total = 0;
-    static NSInteger count = 0;
+	static NSTimeInterval total = 0;
+	static NSInteger count = 0;
 
-    NSTimeInterval average;
-    NSTimeInterval startTime;
+	NSTimeInterval average;
+	NSTimeInterval startTime;
 
-    startTime = [NSDate timeIntervalSinceReferenceDate];
-    ++count;
+	startTime = [NSDate timeIntervalSinceReferenceDate];
+	++count;
 #endif
 
-    SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-        [path addClip];
+	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+		[path addClip];
 
-    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-    [self fillContext:context
-        startingAtPoint:sp
-            startRadius:sr
-          endingAtPoint:ep
-              endRadius:er];
-    RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+	[self fillContext:context
+		startingAtPoint:sp
+			startRadius:sr
+		  endingAtPoint:ep
+			  endRadius:er];
+	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 
 #if qLogPerformanceMetrics
-        NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - startTime;
-    total += elapsed;
-    average = total / count;
+		NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - startTime;
+	total += elapsed;
+	average = total / count;
 
-    LogEvent_(kInfoEvent, @"metrics: elapsed = %f, average = %f, count = %d", elapsed, average, count);
+	LogEvent_(kInfoEvent, @"metrics: elapsed = %f, average = %f, count = %d", elapsed, average, count);
 #endif
 }
 
@@ -620,16 +620,16 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 + (CGColorSpaceRef)sharedGradientColorSpace
 {
-    static CGColorSpaceRef sGradientColorSpace = nil;
+	static CGColorSpaceRef sGradientColorSpace = nil;
 
-    if (sGradientColorSpace == nil)
+	if (sGradientColorSpace == nil)
 #if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_4
-        sGradientColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+		sGradientColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
 #else
-        sGradientColorSpace = CGColorSpaceCreateDeviceRGB();
+		sGradientColorSpace = CGColorSpaceCreateDeviceRGB();
 #endif
 
-    return sGradientColorSpace;
+	return sGradientColorSpace;
 }
 
 /** @brief Sets up the CGShader for doing a linear gradient fill
@@ -639,7 +639,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  @param ep the ending point of the fill */
 - (CGShadingRef)newLinearShaderForStartingPoint:(NSPoint)sp endPoint:(NSPoint)ep
 {
-    return CGShadingCreateAxial([DKGradient sharedGradientColorSpace], *(CGPoint*)&sp, *(CGPoint*)&ep, m_cbfunc, YES, YES);
+	return CGShadingCreateAxial([DKGradient sharedGradientColorSpace], *(CGPoint*)&sp, *(CGPoint*)&ep, m_cbfunc, YES, YES);
 }
 
 /** @brief Sets up the CGShader for doing a radial gradient fill
@@ -651,37 +651,37 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  @param er the ending radius */
 - (CGShadingRef)newRadialShaderForStartingPoint:(NSPoint)sp startRadius:(CGFloat)sr endPoint:(NSPoint)ep endRadius:(CGFloat)er
 {
-    return CGShadingCreateRadial([DKGradient sharedGradientColorSpace], *(CGPoint*)&sp, sr, *(CGPoint*)&ep, er, m_cbfunc, YES, YES);
+	return CGShadingCreateRadial([DKGradient sharedGradientColorSpace], *(CGPoint*)&sp, sr, *(CGPoint*)&ep, er, m_cbfunc, YES, YES);
 }
 
 #pragma mark -
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
-        startRadius:(CGFloat)sr
-      endingAtPoint:(NSPoint)ep
-          endRadius:(CGFloat)er
+		startRadius:(CGFloat)sr
+	  endingAtPoint:(NSPoint)ep
+		  endRadius:(CGFloat)er
 {
-    CGShadingRef shader;
+	CGShadingRef shader;
 
-    switch ([self gradientType]) {
-    case kDKGradientTypeLinear:
-        shader = [self newLinearShaderForStartingPoint:sp
-                                              endPoint:ep];
-        CGContextDrawShading(context, shader);
-        CGShadingRelease(shader);
-        break;
+	switch ([self gradientType]) {
+	case kDKGradientTypeLinear:
+		shader = [self newLinearShaderForStartingPoint:sp
+											  endPoint:ep];
+		CGContextDrawShading(context, shader);
+		CGShadingRelease(shader);
+		break;
 
-    case kDKGradientTypeRadial:
-        shader = [self newRadialShaderForStartingPoint:sp
-                                           startRadius:sr
-                                              endPoint:ep
-                                             endRadius:er];
-        CGContextDrawShading(context, shader);
-        CGShadingRelease(shader);
-        break;
+	case kDKGradientTypeRadial:
+		shader = [self newRadialShaderForStartingPoint:sp
+										   startRadius:sr
+											  endPoint:ep
+											 endRadius:er];
+		CGContextDrawShading(context, shader);
+		CGShadingRelease(shader);
+		break;
 
-    default:
-        break;
-    }
+	default:
+		break;
+	}
 }
 
 #pragma mark -
@@ -700,33 +700,33 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (NSColor*)colorAtValue:(CGFloat)val
 {
-    // public method to get colour at any point from 0->1 across the gradient. Note that this methiod allows arbitrary
-    // (unordered) values of <val> and so is slower than the shader callback. It also creates a calibrated NSColor object
-    // that also substantially reduces performance
+	// public method to get colour at any point from 0->1 across the gradient. Note that this methiod allows arbitrary
+	// (unordered) values of <val> and so is slower than the shader callback. It also creates a calibrated NSColor object
+	// that also substantially reduces performance
 
-    NSInteger keys = [self countOfColorStops];
+	NSInteger keys = [self countOfColorStops];
 
-    if (keys < 2) {
-        // deal with case where gradient hasn't really been set up properly (0 or 1 Color stops)
+	if (keys < 2) {
+		// deal with case where gradient hasn't really been set up properly (0 or 1 Color stops)
 
-        if (keys == 0)
-            return [NSColor rgbGrey:0.5];
-        else
-            return [[[self colorStops] objectAtIndex:0] color];
-    } else {
-        if (val < 1.0) {
-            CGFloat components[4];
+		if (keys == 0)
+			return [NSColor rgbGrey:0.5];
+		else
+			return [[[self colorStops] objectAtIndex:0] color];
+	} else {
+		if (val < 1.0) {
+			CGFloat components[4];
 
-            [self private_colorAtValue:val
-                            components:components
-                          randomAccess:YES];
-            return [NSColor colorWithCalibratedRed:components[0]
-                                             green:components[1]
-                                              blue:components[2]
-                                             alpha:components[3]];
-        } else
-            return [[[self colorStops] lastObject] color];
-    }
+			[self private_colorAtValue:val
+							components:components
+						  randomAccess:YES];
+			return [NSColor colorWithCalibratedRed:components[0]
+											 green:components[1]
+											  blue:components[2]
+											 alpha:components[3]];
+		} else
+			return [[[self colorStops] lastObject] color];
+	}
 }
 
 #pragma mark -
@@ -736,11 +736,11 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setAngle:(CGFloat)ang
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
-                                                        object:self];
-    m_gradAngle = ang;
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
+														object:self];
+	m_gradAngle = ang;
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
+														object:self];
 }
 
 /** @brief Returns the gradient's current angle in radians
@@ -748,7 +748,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (CGFloat)angle
 {
-    return m_gradAngle;
+	return m_gradAngle;
 }
 
 /** @brief Sets the angle of the gradient to the given angle
@@ -756,7 +756,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
-    [self setAngle:(degrees * pi) / 180.0f];
+	[self setAngle:(degrees * pi) / 180.0f];
 }
 
 /** @brief Returns the gradient's current angle in degrees
@@ -764,12 +764,12 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (CGFloat)angleInDegrees
 {
-    return fmod(([self angle] * 180.0f) / pi, 360.0);
+	return fmod(([self angle] * 180.0f) / pi, 360.0);
 }
 
 - (void)setAngleWithoutNotifying:(CGFloat)ang
 {
-    m_gradAngle = ang;
+	m_gradAngle = ang;
 }
 
 #pragma mark -
@@ -781,23 +781,23 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setGradientType:(DKGradientType)gt
 {
-    if (gt != m_gradType) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
-                                                            object:self];
-        m_gradType = gt;
+	if (gt != m_gradType) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
+															object:self];
+		m_gradType = gt;
 
-        // if setting to radial style, should set initial values of radius and starting points in the extended data
+		// if setting to radial style, should set initial values of radius and starting points in the extended data
 
-        if (gt == kDKGradientTypeRadial && ![self hasRadialSettings]) {
-            [self setRadialStartingPoint:NSMakePoint(0.5, 0.5)];
-            [self setRadialEndingPoint:NSMakePoint(0.5, 0.5)];
-            [self setRadialStartingRadius:0.0];
-            [self setRadialEndingRadius:0.5];
-        }
+		if (gt == kDKGradientTypeRadial && ![self hasRadialSettings]) {
+			[self setRadialStartingPoint:NSMakePoint(0.5, 0.5)];
+			[self setRadialEndingPoint:NSMakePoint(0.5, 0.5)];
+			[self setRadialStartingRadius:0.0];
+			[self setRadialEndingRadius:0.5];
+		}
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
-                                                            object:self];
-    }
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
+															object:self];
+	}
 }
 
 /** @brief Returns the gradient's basic type
@@ -805,7 +805,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (DKGradientType)gradientType
 {
-    return m_gradType;
+	return m_gradType;
 }
 
 #pragma mark -
@@ -817,13 +817,13 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setGradientBlending:(DKGradientBlending)bt
 {
-    if (bt != m_blending) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
-                                                            object:self];
-        m_blending = bt;
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
-                                                            object:self];
-    }
+	if (bt != m_blending) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
+															object:self];
+		m_blending = bt;
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
+															object:self];
+	}
 }
 
 /** @brief Gets the blending mode for the gradient
@@ -831,7 +831,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (DKGradientBlending)gradientBlending
 {
-    return m_blending;
+	return m_blending;
 }
 
 #pragma mark -
@@ -841,13 +841,13 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setGradientInterpolation:(DKGradientInterpolation)intrp
 {
-    if (intrp != m_interp) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
-                                                            object:self];
-        m_interp = intrp;
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
-                                                            object:self];
-    }
+	if (intrp != m_interp) {
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
+															object:self];
+		m_interp = intrp;
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
+															object:self];
+	}
 }
 
 /** @brief Returns the interpolation algorithm for the gradient
@@ -855,7 +855,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (DKGradientInterpolation)gradientInterpolation
 {
-    return m_interp;
+	return m_interp;
 }
 
 #pragma mark -
@@ -867,20 +867,20 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (NSImage*)swatchImageWithSize:(NSSize)size withBorder:(BOOL)showBorder
 {
-    NSImage* swatchImage = [[NSImage alloc] initWithSize:size];
-    [swatchImage setFlipped:YES];
-    NSRect box = NSMakeRect(0.0, 0.0, size.width, size.height);
+	NSImage* swatchImage = [[NSImage alloc] initWithSize:size];
+	[swatchImage setFlipped:YES];
+	NSRect box = NSMakeRect(0.0, 0.0, size.width, size.height);
 
-    [swatchImage lockFocus];
-    [self fillRect:box];
+	[swatchImage lockFocus];
+	[self fillRect:box];
 
-    if (showBorder) {
-        [[NSColor grayColor] set];
-        NSFrameRectWithWidth(box, 1.0);
-    }
-    [swatchImage unlockFocus];
+	if (showBorder) {
+		[[NSColor grayColor] set];
+		NSFrameRectWithWidth(box, 1.0);
+	}
+	[swatchImage unlockFocus];
 
-    return [swatchImage autorelease];
+	return [swatchImage autorelease];
 }
 
 /** @brief Returns an image of the current gradient for use in a UI, etc.
@@ -890,8 +890,8 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (NSImage*)standardSwatchImage
 {
-    return [self swatchImageWithSize:DKGradientSwatchSize
-                          withBorder:YES];
+	return [self swatchImageWithSize:DKGradientSwatchSize
+						  withBorder:YES];
 }
 
 #pragma mark -
@@ -904,7 +904,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 {
 #pragma unused(stop)
 
-    //	LogEvent_(kStateEvent, @"stop changed color (%@)", stop);
+	//	LogEvent_(kStateEvent, @"stop changed color (%@)", stop);
 }
 
 - (void)colorStopWillChangePosition:(DKColorStop*)stop
@@ -916,7 +916,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 {
 #pragma unused(stop)
 
-    //	LogEvent_(kStateEvent, @"stop changed position (%@)", stop);
+	//	LogEvent_(kStateEvent, @"stop changed position (%@)", stop);
 }
 
 #pragma mark -
@@ -927,51 +927,51 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (BOOL)setUpKVOForObserver:(id)object
 {
-    if ([super setUpKVOForObserver:object]) {
-        [self addObserver:object
-               forKeyPath:@"gradientType"
-                  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
-                  context:nil];
-        [self addObserver:object
-               forKeyPath:@"angle"
-                  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
-                  context:nil];
-        [self addObserver:object
-               forKeyPath:@"colorStops"
-                  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
-                  context:nil];
+	if ([super setUpKVOForObserver:object]) {
+		[self addObserver:object
+			   forKeyPath:@"gradientType"
+				  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
+				  context:nil];
+		[self addObserver:object
+			   forKeyPath:@"angle"
+				  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
+				  context:nil];
+		[self addObserver:object
+			   forKeyPath:@"colorStops"
+				  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
+				  context:nil];
 
-        [self setActionName:@"Change Gradient Type"
-                 forKeyPath:@"gradientType"];
-        [self setActionName:@"Change Gradient Angle"
-                 forKeyPath:@"angle"];
-        [self setActionName:@"#kind# Gradient Stop"
-                 forKeyPath:@"colorStops"];
+		[self setActionName:@"Change Gradient Type"
+				 forKeyPath:@"gradientType"];
+		[self setActionName:@"Change Gradient Angle"
+				 forKeyPath:@"angle"];
+		[self setActionName:@"#kind# Gradient Stop"
+				 forKeyPath:@"colorStops"];
 
-        // add the observer to any existing stops at this time.
+		// add the observer to any existing stops at this time.
 
-        NSIndexSet* ix = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfColorStops])];
+		NSIndexSet* ix = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfColorStops])];
 
-        [[self colorStops] addObserver:object
-                    toObjectsAtIndexes:ix
-                            forKeyPath:@"color"
-                               options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
-                               context:nil];
-        [[self colorStops] addObserver:object
-                    toObjectsAtIndexes:ix
-                            forKeyPath:@"position"
-                               options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
-                               context:nil];
+		[[self colorStops] addObserver:object
+					toObjectsAtIndexes:ix
+							forKeyPath:@"color"
+							   options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
+							   context:nil];
+		[[self colorStops] addObserver:object
+					toObjectsAtIndexes:ix
+							forKeyPath:@"position"
+							   options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
+							   context:nil];
 
-        [GCObservableObject registerActionName:@"Change Gradient Stop Colour"
-                                    forKeyPath:@"color"
-                                      objClass:[DKColorStop class]];
-        [GCObservableObject registerActionName:@"Move Gradient Stop Position"
-                                    forKeyPath:@"position"
-                                      objClass:[DKColorStop class]];
-        return YES;
-    } else
-        return NO;
+		[GCObservableObject registerActionName:@"Change Gradient Stop Colour"
+									forKeyPath:@"color"
+									  objClass:[DKColorStop class]];
+		[GCObservableObject registerActionName:@"Move Gradient Stop Position"
+									forKeyPath:@"position"
+									  objClass:[DKColorStop class]];
+		return YES;
+	} else
+		return NO;
 }
 
 /** @brief Tears down KVO for handling undo when this object is used as part of a renderer tree
@@ -979,26 +979,26 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (BOOL)tearDownKVOForObserver:(id)object
 {
-    if ([super tearDownKVOForObserver:object]) {
-        [self removeObserver:object
-                  forKeyPath:@"gradientType"];
-        [self removeObserver:object
-                  forKeyPath:@"angle"];
-        [self removeObserver:object
-                  forKeyPath:@"colorStops"];
+	if ([super tearDownKVOForObserver:object]) {
+		[self removeObserver:object
+				  forKeyPath:@"gradientType"];
+		[self removeObserver:object
+				  forKeyPath:@"angle"];
+		[self removeObserver:object
+				  forKeyPath:@"colorStops"];
 
-        NSIndexSet* ix = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfColorStops])];
+		NSIndexSet* ix = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfColorStops])];
 
-        [[self colorStops] removeObserver:object
-                     fromObjectsAtIndexes:ix
-                               forKeyPath:@"color"];
-        [[self colorStops] removeObserver:object
-                     fromObjectsAtIndexes:ix
-                               forKeyPath:@"position"];
+		[[self colorStops] removeObserver:object
+					 fromObjectsAtIndexes:ix
+							   forKeyPath:@"color"];
+		[[self colorStops] removeObserver:object
+					 fromObjectsAtIndexes:ix
+							   forKeyPath:@"position"];
 
-        return YES;
-    } else
-        return NO;
+		return YES;
+	} else
+		return NO;
 }
 
 #pragma mark -
@@ -1006,30 +1006,30 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 
 - (void)dealloc
 {
-    [self removeAllColors];
-    [m_colorStops release];
-    CGFunctionRelease(m_cbfunc);
-    [m_extensionData release];
-    [super dealloc];
+	[self removeAllColors];
+	[m_colorStops release];
+	CGFunctionRelease(m_cbfunc);
+	[m_extensionData release];
+	[super dealloc];
 }
 
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        m_colorStops = [[NSMutableArray alloc] init];
+	self = [super init];
+	if (self != nil) {
+		m_colorStops = [[NSMutableArray alloc] init];
 
-        // create the default shader stuff - the shader itself is made when
-        // the fill function is called
+		// create the default shader stuff - the shader itself is made when
+		// the fill function is called
 
-        m_cbfunc = makeShaderFunction(self);
+		m_cbfunc = makeShaderFunction(self);
 
-        if (m_colorStops == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    return self;
+		if (m_colorStops == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	return self;
 }
 
 #pragma mark -
@@ -1050,56 +1050,56 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 {
 #pragma unused(pnum)
 
-    // supports the parser by assigning each anonymous Color stop. <val> will be a DKColorStop
+	// supports the parser by assigning each anonymous Color stop. <val> will be a DKColorStop
 
-    if ([val isKindOfClass:[DKColorStop class]])
-        [self addColorStop:val];
+	if ([val isKindOfClass:[DKColorStop class]])
+		[self addColorStop:val];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [coder encodeObject:[self colorStops]
-                 forKey:@"gradientStops"];
-    [coder encodeObject:m_extensionData
-                 forKey:@"extension_data"];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[coder encodeObject:[self colorStops]
+				 forKey:@"gradientStops"];
+	[coder encodeObject:m_extensionData
+				 forKey:@"extension_data"];
 
-    [coder encodeDouble:m_gradAngle
-                 forKey:@"gradientAngle"];
-    [coder encodeInteger:m_gradType
-                  forKey:@"gradientType"];
-    [coder encodeInteger:[self gradientBlending]
-                  forKey:@"blending"];
-    [coder encodeInteger:[self gradientInterpolation]
-                  forKey:@"interpolation"];
+	[coder encodeDouble:m_gradAngle
+				 forKey:@"gradientAngle"];
+	[coder encodeInteger:m_gradType
+				  forKey:@"gradientType"];
+	[coder encodeInteger:[self gradientBlending]
+				  forKey:@"blending"];
+	[coder encodeInteger:[self gradientInterpolation]
+				  forKey:@"interpolation"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    self = [super init];
-    if (self != nil) {
-        [self setColorStops:[coder decodeObjectForKey:@"gradientStops"]];
-        m_extensionData = [[coder decodeObjectForKey:@"extension_data"] mutableCopy];
-        m_cbfunc = makeShaderFunction(self);
+	NSAssert(coder != nil, @"Expected valid coder");
+	self = [super init];
+	if (self != nil) {
+		[self setColorStops:[coder decodeObjectForKey:@"gradientStops"]];
+		m_extensionData = [[coder decodeObjectForKey:@"extension_data"] mutableCopy];
+		m_cbfunc = makeShaderFunction(self);
 
-        m_gradAngle = [coder decodeDoubleForKey:@"gradientAngle"];
-        m_gradType = [coder decodeIntegerForKey:@"gradientType"];
-        [self setGradientBlending:[coder decodeIntegerForKey:@"blending"]];
-        [self setGradientInterpolation:[coder decodeIntegerForKey:@"interpolation"]];
+		m_gradAngle = [coder decodeDoubleForKey:@"gradientAngle"];
+		m_gradType = [coder decodeIntegerForKey:@"gradientType"];
+		[self setGradientBlending:[coder decodeIntegerForKey:@"blending"]];
+		[self setGradientInterpolation:[coder decodeIntegerForKey:@"interpolation"]];
 
-        if (m_colorStops == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    if (self != nil) {
-        [self convertOldKeys];
-    }
+		if (m_colorStops == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	if (self != nil) {
+		[self convertOldKeys];
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
@@ -1108,26 +1108,26 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 {
 #pragma unused(zone)
 
-    DKGradient* grad = [[[self class] alloc] init];
-    grad->m_gradType = m_gradType;
-    grad->m_gradAngle = m_gradAngle;
-    grad->m_blending = m_blending;
-    grad->m_interp = m_interp;
+	DKGradient* grad = [[[self class] alloc] init];
+	grad->m_gradType = m_gradType;
+	grad->m_gradAngle = m_gradAngle;
+	grad->m_blending = m_blending;
+	grad->m_interp = m_interp;
 
-    [grad removeAllColors];
-    NSEnumerator* curs = [[self colorStops] objectEnumerator];
-    id stop;
-    id stopCopy;
+	[grad removeAllColors];
+	NSEnumerator* curs = [[self colorStops] objectEnumerator];
+	id stop;
+	id stopCopy;
 
-    while ((stop = [curs nextObject])) {
-        stopCopy = [stop copy];
-        [grad addColorStop:stopCopy];
-        [stopCopy release];
-    }
+	while ((stop = [curs nextObject])) {
+		stopCopy = [stop copy];
+		[grad addColorStop:stopCopy];
+		[stopCopy release];
+	}
 
-    grad->m_extensionData = [m_extensionData mutableCopy];
+	grad->m_extensionData = [m_extensionData mutableCopy];
 
-    return grad;
+	return grad;
 }
 
 @end
@@ -1143,25 +1143,25 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (id)initWithColor:(NSColor*)Color at:(CGFloat)pos
 {
-    self = [super init];
-    if (self != nil) {
-        [self setColor:Color];
-        [self setPosition:pos];
-        NSAssert(m_ownerRef == nil, @"Expected init to zero");
+	self = [super init];
+	if (self != nil) {
+		[self setColor:Color];
+		[self setPosition:pos];
+		NSAssert(m_ownerRef == nil, @"Expected init to zero");
 
-        if (mColor == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    return self;
+		if (mColor == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	return self;
 }
 
 #pragma mark -
 
 - (NSColor*)color
 {
-    return mColor;
+	return mColor;
 }
 
 /** @brief Set the Color associated with this stop
@@ -1171,21 +1171,21 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setColor:(NSColor*)Color
 {
-    [[self owner] colorStopWillChangeColor:self];
+	[[self owner] colorStopWillChangeColor:self];
 
-    NSColor* rgb = [Color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	NSColor* rgb = [Color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 
-    [rgb retain];
-    [mColor release];
-    mColor = rgb;
+	[rgb retain];
+	[mColor release];
+	mColor = rgb;
 
-    // cache the components so that they can be rapidly accessed when plotting the shading
+	// cache the components so that they can be rapidly accessed when plotting the shading
 
-    [rgb getRed:&components[0]
-          green:&components[1]
-           blue:&components[2]
-          alpha:&components[3]];
-    [[self owner] colorStopDidChangeColor:self];
+	[rgb getRed:&components[0]
+		  green:&components[1]
+		   blue:&components[2]
+		  alpha:&components[3]];
+	[[self owner] colorStopDidChangeColor:self];
 }
 
 /** @brief Set the alpha of the colour associated with this stop
@@ -1193,7 +1193,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setAlpha:(CGFloat)alpha
 {
-    [self setColor:[[self color] colorWithAlphaComponent:alpha]];
+	[self setColor:[[self color] colorWithAlphaComponent:alpha]];
 }
 
 #pragma mark -
@@ -1203,7 +1203,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (CGFloat)position
 {
-    return position;
+	return position;
 }
 
 /** @brief Set the stop's relative position
@@ -1213,28 +1213,28 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setPosition:(CGFloat)pos
 {
-    [[self owner] colorStopWillChangePosition:self];
-    position = LIMIT(pos, 0.0, 1.0);
-    [[self owner] colorStopDidChangePosition:self];
+	[[self owner] colorStopWillChangePosition:self];
+	position = LIMIT(pos, 0.0, 1.0);
+	[[self owner] colorStopDidChangePosition:self];
 }
 
 #pragma mark -
 - (DKGradient*)owner
 {
-    return m_ownerRef;
+	return m_ownerRef;
 }
 
 - (void)setOwner:(DKGradient*)owner
 {
-    m_ownerRef = owner;
+	m_ownerRef = owner;
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    [mColor release];
-    [super dealloc];
+	[mColor release];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -1242,50 +1242,50 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 
 - (void)setValue:(id)val forNumericParameter:(NSInteger)pnum
 {
-    // supports the parser by assigning param 0 -> position, param 1 -> Color
+	// supports the parser by assigning param 0 -> position, param 1 -> Color
 
-    if (pnum == 0)
-        [self setPosition:[val doubleValue]];
-    else if (pnum == 1)
-        [self setColor:val];
+	if (pnum == 0)
+		[self setPosition:[val doubleValue]];
+	else if (pnum == 1)
+		[self setColor:val];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [coder encodeObject:[self color]
-                 forKey:@"color"];
-    [coder encodeDouble:[self position]
-                 forKey:@"position"];
-    [coder encodeConditionalObject:[self owner]
-                            forKey:@"DKColorStop_owner"];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[coder encodeObject:[self color]
+				 forKey:@"color"];
+	[coder encodeDouble:[self position]
+				 forKey:@"position"];
+	[coder encodeConditionalObject:[self owner]
+							forKey:@"DKColorStop_owner"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    self = [super init];
-    if (self != nil) {
-        [self setColor:[coder decodeObjectForKey:@"color"]];
-        [self setPosition:[coder decodeDoubleForKey:@"position"]];
-        [self setOwner:[coder decodeObjectForKey:@"DKColorStop_owner"]];
+	NSAssert(coder != nil, @"Expected valid coder");
+	self = [super init];
+	if (self != nil) {
+		[self setColor:[coder decodeObjectForKey:@"color"]];
+		[self setPosition:[coder decodeDoubleForKey:@"position"]];
+		[self setOwner:[coder decodeObjectForKey:@"DKColorStop_owner"]];
 
-        if (mColor == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    return self;
+		if (mColor == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
-    return [[DKColorStop allocWithZone:zone] initWithColor:[self color]
-                                                        at:[self position]];
+	return [[DKColorStop allocWithZone:zone] initWithColor:[self color]
+														at:[self position]];
 }
 
 @end
@@ -1297,167 +1297,167 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 
 static void shaderCallback(void* info, const CGFloat* in, CGFloat* out)
 {
-    // callback function simply vectors the callback to the object, which handles the actual work.
+	// callback function simply vectors the callback to the object, which handles the actual work.
 
-    if (out == NULL || in == NULL)
-        return;
+	if (out == NULL || in == NULL)
+		return;
 
 #if qUseDirectComponents
 
 // here we use a number of optimisation tricks to extract maximum performance - caching the function pointer
 // and using raw rgb components and not NSColors
 #if qUseImpCaching
-    static void (*sfunc)(id, SEL, CGFloat, CGFloat*, BOOL) = nil;
-    static SEL ssel = nil;
+	static void (*sfunc)(id, SEL, CGFloat, CGFloat*, BOOL) = nil;
+	static SEL ssel = nil;
 
-    if (sfunc == nil) {
-        ssel = @selector(private_colorAtValue:
-                                   components:
-                                 randomAccess:);
-        sfunc = (void (*)(id, SEL, CGFloat, CGFloat*, BOOL))[DKGradient instanceMethodForSelector : ssel];
-    }
+	if (sfunc == nil) {
+		ssel = @selector(private_colorAtValue:
+								   components:
+								 randomAccess:);
+		sfunc = (void (*)(id, SEL, CGFloat, CGFloat*, BOOL))[DKGradient instanceMethodForSelector : ssel];
+	}
 
-    sfunc(info, ssel, *in, out, NO);
+	sfunc(info, ssel, *in, out, NO);
 #else
-    [(DKGradient*)info private_colorAtValue:*in
-                                 components:out
-                               randomAccess:NO];
+	[(DKGradient*)info private_colorAtValue:*in
+								 components:out
+							   randomAccess:NO];
 #endif
 #else
-    // ol' faithful - very slow but sure.
+	// ol' faithful - very slow but sure.
 
-    DKGradient* gradient = (DKGradient*)info;
+	DKGradient* gradient = (DKGradient*)info;
 
-    if (gradient != nil) {
-        CGFloat inValue = *in;
+	if (gradient != nil) {
+		CGFloat inValue = *in;
 
-        NSColor* Color = [gradient colorAtValue:inValue];
+		NSColor* Color = [gradient colorAtValue:inValue];
 
-        out[0] = [Color redComponent];
-        out[1] = [Color greenComponent];
-        out[2] = [Color blueComponent];
-        out[3] = [Color alphaComponent];
-    }
+		out[0] = [Color redComponent];
+		out[1] = [Color greenComponent];
+		out[2] = [Color blueComponent];
+		out[3] = [Color alphaComponent];
+	}
 #endif
 }
 
 static CGFunctionRef makeShaderFunction(DKGradient* object)
 {
-    static const CGFloat input_value_range[2] = { 0, 1 };
-    static const CGFloat output_value_ranges[8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
-    static const CGFunctionCallbacks callbacks = { 0, shaderCallback, NULL };
+	static const CGFloat input_value_range[2] = { 0, 1 };
+	static const CGFloat output_value_ranges[8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
+	static const CGFunctionCallbacks callbacks = { 0, shaderCallback, NULL };
 
-    return CGFunctionCreate((void*)object, 1, input_value_range, 4, output_value_ranges, &callbacks);
+	return CGFunctionCreate((void*)object, 1, input_value_range, 4, output_value_ranges, &callbacks);
 }
 
 static inline double powerMap(double x, double y)
 {
-    if (y == 0.0)
-        y = 1.0;
+	if (y == 0.0)
+		y = 1.0;
 
-    if (y < 0)
-        return 1.0 - pow(1.0 - x, -y);
-    else
-        return pow(x, y);
+	if (y < 0)
+		return 1.0 - pow(1.0 - x, -y);
+	else
+		return pow(x, y);
 }
 
 static inline double sineMap(double x, double y)
 {
-    if (y < 0)
-        return sin(x * pi / 2.0 + 3.0 * pi / 2.0) + 1.0;
-    else
-        return sin(x * pi / 2.0);
+	if (y < 0)
+		return sin(x * pi / 2.0 + 3.0 * pi / 2.0) + 1.0;
+	else
+		return sin(x * pi / 2.0);
 }
 
 static inline void transformHSV_RGB(CGFloat* components) //H,S,B -> R,G,B
 {
-    CGFloat R, G, B;
-    CGFloat H = fmod(components[0], 359), //map to [0,360)
-        S = components[1],
-            V = components[2];
+	CGFloat R, G, B;
+	CGFloat H = fmod(components[0], 359), //map to [0,360)
+		S = components[1],
+			V = components[2];
 
-    NSInteger Hi = (NSInteger)_CGFloatFloor(H / 60.) % 6;
-    CGFloat f = H / 60 - Hi,
-            p = V * (1 - S),
-            q = V * (1 - f * S),
-            t = V * (1 - (1 - f) * S);
+	NSInteger Hi = (NSInteger)_CGFloatFloor(H / 60.) % 6;
+	CGFloat f = H / 60 - Hi,
+			p = V * (1 - S),
+			q = V * (1 - f * S),
+			t = V * (1 - (1 - f) * S);
 
-    switch (Hi) {
-    default:
-    case 0:
-        R = V;
-        G = t;
-        B = p;
-        break;
-    case 1:
-        R = q;
-        G = V;
-        B = p;
-        break;
-    case 2:
-        R = p;
-        G = V;
-        B = t;
-        break;
-    case 3:
-        R = p;
-        G = q;
-        B = V;
-        break;
-    case 4:
-        R = t;
-        G = p;
-        B = V;
-        break;
-    case 5:
-        R = V;
-        G = p;
-        B = q;
-        break;
-    }
+	switch (Hi) {
+	default:
+	case 0:
+		R = V;
+		G = t;
+		B = p;
+		break;
+	case 1:
+		R = q;
+		G = V;
+		B = p;
+		break;
+	case 2:
+		R = p;
+		G = V;
+		B = t;
+		break;
+	case 3:
+		R = p;
+		G = q;
+		B = V;
+		break;
+	case 4:
+		R = t;
+		G = p;
+		B = V;
+		break;
+	case 5:
+		R = V;
+		G = p;
+		B = q;
+		break;
+	}
 
-    components[0] = R;
-    components[1] = G;
-    components[2] = B;
+	components[0] = R;
+	components[1] = G;
+	components[2] = B;
 }
 
 static inline void transformRGB_HSV(CGFloat* components) //H,S,B -> R,G,B
 {
-    CGFloat H = 0.0;
-    CGFloat S, V;
-    CGFloat R = components[0],
-            G = components[1],
-            B = components[2];
+	CGFloat H = 0.0;
+	CGFloat S, V;
+	CGFloat R = components[0],
+			G = components[1],
+			B = components[2];
 
-    CGFloat MAX = R > G ? (R > B ? R : B) : (G > B ? G : B),
-            MIN = R < G ? (R < B ? R : B) : (G < B ? G : B);
+	CGFloat MAX = R > G ? (R > B ? R : B) : (G > B ? G : B),
+			MIN = R < G ? (R < B ? R : B) : (G < B ? G : B);
 
-    if (MAX == MIN)
-        H = NAN;
-    else if (MAX == R)
-        if (G >= B)
-            H = 60 * (G - B) / (MAX - MIN) + 0;
-        else
-            H = 60 * (G - B) / (MAX - MIN) + 360;
-    else if (MAX == G)
-        H = 60 * (B - R) / (MAX - MIN) + 120;
-    else if (MAX == B)
-        H = 60 * (R - G) / (MAX - MIN) + 240;
+	if (MAX == MIN)
+		H = NAN;
+	else if (MAX == R)
+		if (G >= B)
+			H = 60 * (G - B) / (MAX - MIN) + 0;
+		else
+			H = 60 * (G - B) / (MAX - MIN) + 360;
+	else if (MAX == G)
+		H = 60 * (B - R) / (MAX - MIN) + 120;
+	else if (MAX == B)
+		H = 60 * (R - G) / (MAX - MIN) + 240;
 
-    S = MAX == 0 ? 0 : 1 - MIN / MAX;
-    V = MAX;
+	S = MAX == 0 ? 0 : 1 - MIN / MAX;
+	V = MAX;
 
-    components[0] = H;
-    components[1] = S;
-    components[2] = V;
+	components[0] = H;
+	components[1] = S;
+	components[2] = V;
 }
 
 static inline void resolveHSV(CGFloat* color1, CGFloat* color2)
 {
-    if (isnan(color1[0]) && isnan(color2[0]))
-        color1[0] = color2[0] = 0;
-    else if (isnan(color1[0]))
-        color1[0] = color2[0];
-    else if (isnan(color2[0]))
-        color2[0] = color1[0];
+	if (isnan(color1[0]) && isnan(color2[0]))
+		color1[0] = color2[0] = 0;
+	else if (isnan(color1[0]))
+		color1[0] = color2[0];
+	else if (isnan(color2[0]))
+		color2[0] = color1[0];
 }

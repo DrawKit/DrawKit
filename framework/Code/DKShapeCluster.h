@@ -24,7 +24,7 @@ since the master object must be nominated when creating the cluster.
 */
 @interface DKShapeCluster : DKShapeGroup {
 @private
-    DKDrawableShape* m_masterObjRef;
+	DKDrawableShape* m_masterObjRef;
 }
 
 /** @brief Creates a new cluster from a set of objects

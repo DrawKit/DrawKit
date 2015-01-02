@@ -10,8 +10,8 @@
 
 @interface GCThreadQueue : NSObject {
 @private
-    NSMutableArray* mQueue;
-    NSConditionLock* mLock;
+	NSMutableArray* mQueue;
+	NSConditionLock* mLock;
 }
 
 /**  */

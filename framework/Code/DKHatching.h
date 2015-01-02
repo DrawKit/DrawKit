@@ -23,20 +23,20 @@ doesn't change the cache.
 */
 @interface DKHatching : DKRasterizer <NSCoding, NSCopying> {
 @private
-    NSBezierPath* m_cache;
-    NSBezierPath* mRoughenedCache;
-    NSColor* m_hatchColour;
-    DKStrokeDash* m_hatchDash;
-    NSLineCapStyle m_cap;
-    NSLineJoinStyle m_join;
-    CGFloat m_leadIn;
-    CGFloat m_spacing;
-    CGFloat m_angle;
-    CGFloat m_lineWidth;
-    BOOL m_angleRelativeToObject;
-    BOOL mRoughenStrokes;
-    CGFloat mRoughness;
-    CGFloat mWobblyness;
+	NSBezierPath* m_cache;
+	NSBezierPath* mRoughenedCache;
+	NSColor* m_hatchColour;
+	DKStrokeDash* m_hatchDash;
+	NSLineCapStyle m_cap;
+	NSLineJoinStyle m_join;
+	CGFloat m_leadIn;
+	CGFloat m_spacing;
+	CGFloat m_angle;
+	CGFloat m_lineWidth;
+	BOOL m_angleRelativeToObject;
+	BOOL mRoughenStrokes;
+	CGFloat mRoughness;
+	CGFloat mWobblyness;
 }
 
 /** @brief Return the default hatching

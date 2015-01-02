@@ -20,7 +20,7 @@ This class works identically to NSKeyedUnarchiver in every way, except that it c
 */
 @interface DKKeyedUnarchiver : NSKeyedUnarchiver {
 @private
-    DKImageDataManager* mImageManagerRef;
+	DKImageDataManager* mImageManagerRef;
 }
 
 - (void)setImageManager:(DKImageDataManager*)imgMgr;

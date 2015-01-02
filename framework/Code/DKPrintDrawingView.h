@@ -9,7 +9,7 @@
 #import "DKDrawingView.h"
 
 @interface DKPrintDrawingView : DKDrawingView {
-    NSPrintInfo* m_printInfo;
+	NSPrintInfo* m_printInfo;
 }
 
 - (void)setPrintInfo:(NSPrintInfo*)ip;

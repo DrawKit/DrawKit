@@ -19,208 +19,208 @@
 #pragma mark As a DKImageAdornment
 + (DKImageAdornment*)imageAdornmentWithImage:(NSImage*)image
 {
-    DKImageAdornment* gir = [[self alloc] init];
+	DKImageAdornment* gir = [[self alloc] init];
 
-    [gir setImage:image];
+	[gir setImage:image];
 
-    return [gir autorelease];
+	return [gir autorelease];
 }
 
 + (DKImageAdornment*)imageAdornmentWithImageFromFile:(NSString*)path
 {
-    NSImage* image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
-    return [self imageAdornmentWithImage:image];
+	NSImage* image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+	return [self imageAdornmentWithImage:image];
 }
 
 #pragma mark -
 - (void)setImage:(NSImage*)image
 {
-    [image retain];
-    [m_image release];
-    m_image = image;
+	[image retain];
+	[m_image release];
+	m_image = image;
 
-    //[_image setFlipped:YES];
-    [m_image setScalesWhenResized:YES];
-    [m_image setCacheMode:NSImageCacheNever];
+	//[_image setFlipped:YES];
+	[m_image setScalesWhenResized:YES];
+	[m_image setCacheMode:NSImageCacheNever];
 }
 
 - (NSImage*)image
 {
-    return m_image;
+	return m_image;
 }
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing
 {
-    DKImageDataManager* dm = [drawing imageManager];
+	DKImageDataManager* dm = [drawing imageManager];
 
-    NSImage* image = [dm makeImageForKey:key];
-    [self setImage:image];
-    [self setImageKey:key];
+	NSImage* image = [dm makeImageForKey:key];
+	[self setImage:image];
+	[self setImageKey:key];
 }
 
 - (void)setImageKey:(NSString*)key
 {
-    [key retain];
-    [mImageKey release];
-    mImageKey = key;
+	[key retain];
+	[mImageKey release];
+	mImageKey = key;
 }
 
 - (NSString*)imageKey
 {
-    return mImageKey;
+	return mImageKey;
 }
 
 - (void)setImageIdentifier:(NSString*)imageID
 {
-    [imageID retain];
-    [m_imageIdentifier release];
-    m_imageIdentifier = imageID;
+	[imageID retain];
+	[m_imageIdentifier release];
+	m_imageIdentifier = imageID;
 }
 
 - (NSString*)imageIdentifier
 {
-    return m_imageIdentifier;
+	return m_imageIdentifier;
 }
 
 #pragma mark -
 - (void)setScale:(CGFloat)scale
 {
-    m_scale = LIMIT(scale, 0.2, 8.0);
+	m_scale = LIMIT(scale, 0.2, 8.0);
 }
 
 - (CGFloat)scale
 {
-    return m_scale;
+	return m_scale;
 }
 
 #pragma mark -
 - (void)setOpacity:(CGFloat)opacity
 {
-    m_opacity = LIMIT(opacity, 0.0, 1.0);
+	m_opacity = LIMIT(opacity, 0.0, 1.0);
 }
 
 - (CGFloat)opacity
 {
-    return m_opacity;
+	return m_opacity;
 }
 
 #pragma mark -
 - (void)setOrigin:(NSPoint)origin
 {
-    m_origin = origin;
+	m_origin = origin;
 }
 
 - (NSPoint)origin
 {
-    return m_origin;
+	return m_origin;
 }
 
 #pragma mark -
 - (void)setAngle:(CGFloat)angle
 {
-    m_angle = angle;
+	m_angle = angle;
 }
 
 - (CGFloat)angle
 {
-    return m_angle;
+	return m_angle;
 }
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
-    [self setAngle:DEGREES_TO_RADIANS(degrees)];
+	[self setAngle:DEGREES_TO_RADIANS(degrees)];
 }
 
 - (CGFloat)angleInDegrees
 {
-    CGFloat angle = RADIANS_TO_DEGREES([self angle]);
+	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
-    if (angle < 0)
-        angle += 360.0f;
+	if (angle < 0)
+		angle += 360.0f;
 
-    return angle;
+	return angle;
 }
 
 #pragma mark -
 - (void)setOperation:(NSCompositingOperation)op
 {
-    m_op = op;
+	m_op = op;
 }
 
 - (NSCompositingOperation)operation
 {
-    return m_op;
+	return m_op;
 }
 
 #pragma mark -
 - (void)setFittingOption:(DKImageFittingOption)fopt
 {
-    m_fittingOption = fopt;
+	m_fittingOption = fopt;
 }
 
 - (DKImageFittingOption)fittingOption
 {
-    return m_fittingOption;
+	return m_fittingOption;
 }
 
 #pragma mark -
 - (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject
 {
-    // to work around rounding error in image rendering, image needs to be transformed seperately from the clipping path - the
-    // transform here will allow the image to be rendered rotated and scaled to the final position.
+	// to work around rounding error in image rendering, image needs to be transformed seperately from the clipping path - the
+	// transform here will allow the image to be rendered rotated and scaled to the final position.
 
-    // This also applies the "fitting option" setting - the scale is ignored if the setting is fit to bounds or
-    // fit proportionally to bounds, and is calculated instead to fit exactly.
+	// This also applies the "fitting option" setting - the scale is ignored if the setting is fit to bounds or
+	// fit proportionally to bounds, and is calculated instead to fit exactly.
 
-    NSSize si = [[self image] size];
-    NSSize sc = [renderableObject size];
-    CGFloat sx, sy;
+	NSSize si = [[self image] size];
+	NSSize sc = [renderableObject size];
+	CGFloat sx, sy;
 
-    sx = sy = [self scale];
+	sx = sy = [self scale];
 
-    if ([self fittingOption] == kDKScaleToFitPreservingAspectRatio) {
-        NSRect imageDestRect = ScaledRectForSize(si, NSMakeRect(0, 0, sc.width, sc.height));
+	if ([self fittingOption] == kDKScaleToFitPreservingAspectRatio) {
+		NSRect imageDestRect = ScaledRectForSize(si, NSMakeRect(0, 0, sc.width, sc.height));
 
-        sx = imageDestRect.size.width / si.width;
-        sy = imageDestRect.size.height / si.height;
-    } else if ([self fittingOption] == kDKScaleToFitBounds) {
-        sx = sc.width / si.width;
-        sy = sc.height / si.height;
-    }
+		sx = imageDestRect.size.width / si.width;
+		sy = imageDestRect.size.height / si.height;
+	} else if ([self fittingOption] == kDKScaleToFitBounds) {
+		sx = sc.width / si.width;
+		sy = sc.height / si.height;
+	}
 
-    NSPoint locP;
+	NSPoint locP;
 
-    if ([renderableObject respondsToSelector:@selector(locationIgnoringOffset)])
-        locP = [(id)renderableObject locationIgnoringOffset];
-    else
-        locP = [renderableObject location];
+	if ([renderableObject respondsToSelector:@selector(locationIgnoringOffset)])
+		locP = [(id)renderableObject locationIgnoringOffset];
+	else
+		locP = [renderableObject location];
 
-    NSAffineTransform* xform = [NSAffineTransform transform];
-    [xform translateXBy:locP.x
-                    yBy:locP.y];
-    [xform rotateByRadians:[renderableObject angle] + [self angle]];
+	NSAffineTransform* xform = [NSAffineTransform transform];
+	[xform translateXBy:locP.x
+					yBy:locP.y];
+	[xform rotateByRadians:[renderableObject angle] + [self angle]];
 
-    if (sx != 0.0 && sy != 0.0)
-        [xform scaleXBy:sx
-                    yBy:sy];
-    [xform translateXBy:[self origin].x
-                    yBy:[self origin].y];
+	if (sx != 0.0 && sy != 0.0)
+		[xform scaleXBy:sx
+					yBy:sy];
+	[xform translateXBy:[self origin].x
+					yBy:[self origin].y];
 
-    // factor in the object's parent transform
+	// factor in the object's parent transform
 
-    NSAffineTransform* pt = [renderableObject containerTransform];
+	NSAffineTransform* pt = [renderableObject containerTransform];
 
-    if (pt != nil)
-        [xform appendTransform:pt];
+	if (pt != nil)
+		[xform appendTransform:pt];
 
-    return xform;
+	return xform;
 }
 
 #pragma mark -
 #pragma mark As a DKRasterizer
 - (BOOL)isValid
 {
-    return m_image != nil;
+	return m_image != nil;
 }
 
 #pragma mark -
@@ -228,50 +228,50 @@
 
 + (NSArray*)observableKeyPaths
 {
-    return [[super observableKeyPaths] arrayByAddingObjectsFromArray:
-                                           [NSArray arrayWithObjects:@"image", @"opacity", @"scale", @"fittingOption", @"angle", @"operation", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:
+										   [NSArray arrayWithObjects:@"image", @"opacity", @"scale", @"fittingOption", @"angle", @"operation", nil]];
 }
 
 - (void)registerActionNames
 {
-    [super registerActionNames];
+	[super registerActionNames];
 
-    [self setActionName:@"#kind# Image"
-             forKeyPath:@"image"];
-    [self setActionName:@"#kind# Image Opacity"
-             forKeyPath:@"opacity"];
-    [self setActionName:@"#kind# Image Scale"
-             forKeyPath:@"scale"];
-    [self setActionName:@"#kind# Image Fitting"
-             forKeyPath:@"fittingOption"];
-    [self setActionName:@"#kind# Image Angle"
-             forKeyPath:@"angle"];
-    [self setActionName:@"#kind# Compositing Operation"
-             forKeyPath:@"operation"];
+	[self setActionName:@"#kind# Image"
+			 forKeyPath:@"image"];
+	[self setActionName:@"#kind# Image Opacity"
+			 forKeyPath:@"opacity"];
+	[self setActionName:@"#kind# Image Scale"
+			 forKeyPath:@"scale"];
+	[self setActionName:@"#kind# Image Fitting"
+			 forKeyPath:@"fittingOption"];
+	[self setActionName:@"#kind# Image Angle"
+			 forKeyPath:@"angle"];
+	[self setActionName:@"#kind# Compositing Operation"
+			 forKeyPath:@"operation"];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    [m_imageIdentifier release];
-    [m_image release];
-    [mImageKey release];
+	[m_imageIdentifier release];
+	[m_image release];
+	[mImageKey release];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        m_scale = 1.0;
-        m_opacity = 1.0;
-        m_op = NSCompositeSourceOver;
-        m_fittingOption = kDKClipToBounds;
-        m_imageIdentifier = @"";
-    }
-    return self;
+	self = [super init];
+	if (self != nil) {
+		m_scale = 1.0;
+		m_opacity = 1.0;
+		m_op = NSCompositeSourceOver;
+		m_fittingOption = kDKClipToBounds;
+		m_imageIdentifier = @"";
+	}
+	return self;
 }
 
 #pragma mark -
@@ -279,126 +279,126 @@
 
 - (void)render:(id<DKRenderable>)object
 {
-    if (![object conformsToProtocol:@protocol(DKRenderable)])
-        return;
+	if (![object conformsToProtocol:@protocol(DKRenderable)])
+		return;
 
-    if ([self enabled]) {
-        NSImage* image = [self image];
+	if ([self enabled]) {
+		NSImage* image = [self image];
 
-        if (image == nil) {
-            // try obtaining the image from the object's metadata using the ID
+		if (image == nil) {
+			// try obtaining the image from the object's metadata using the ID
 
-            if ([self imageIdentifier] != nil && [[self imageIdentifier] length] > 0 && [object respondsToSelector:@selector(metadataObjectForKey:)]) {
-                image = [(DKDrawableObject*)object metadataObjectForKey:[self imageIdentifier]];
+			if ([self imageIdentifier] != nil && [[self imageIdentifier] length] > 0 && [object respondsToSelector:@selector(metadataObjectForKey:)]) {
+				image = [(DKDrawableObject*)object metadataObjectForKey:[self imageIdentifier]];
 
-                NSLog(@"metadata image = %@", image);
-            }
-        }
+				NSLog(@"metadata image = %@", image);
+			}
+		}
 
-        // if still no image, bail
+		// if still no image, bail
 
-        if (image == nil)
-            return;
+		if (image == nil)
+			return;
 
-        // OK, got an image - draw it according to settings with the object's path bounds
+		// OK, got an image - draw it according to settings with the object's path bounds
 
-        NSBezierPath* path = [self renderingPathForObject:object];
-        NSRect destRect;
+		NSBezierPath* path = [self renderingPathForObject:object];
+		NSRect destRect;
 
-        [[NSGraphicsContext currentContext] saveGraphicsState];
+		[[NSGraphicsContext currentContext] saveGraphicsState];
 
-        if ([self clipping] != kDKClippingNone)
-            [path addClip];
-        else
-            [NSBezierPath clipRect:[object bounds]];
+		if ([self clipping] != kDKClippingNone)
+			[path addClip];
+		else
+			[NSBezierPath clipRect:[object bounds]];
 
-        NSAffineTransform* tfm = [self imageTransformForObject:object];
-        [tfm concat];
+		NSAffineTransform* tfm = [self imageTransformForObject:object];
+		[tfm concat];
 
-        // assumes 'location' of object is its centre:
+		// assumes 'location' of object is its centre:
 
-        destRect.size = [[self image] size];
-        destRect.origin.x = [self origin].x - (destRect.size.width / 2.0);
-        destRect.origin.y = [self origin].y - (destRect.size.height / 2.0);
+		destRect.size = [[self image] size];
+		destRect.origin.x = [self origin].x - (destRect.size.width / 2.0);
+		destRect.origin.y = [self origin].y - (destRect.size.height / 2.0);
 
-        // draw the image
-        [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-        [image setFlipped:YES];
-        [image drawInRect:destRect
-                 fromRect:NSZeroRect
-                operation:[self operation]
-                 fraction:[self opacity]];
-        [image setFlipped:NO];
+		// draw the image
+		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+		[image setFlipped:YES];
+		[image drawInRect:destRect
+				 fromRect:NSZeroRect
+				operation:[self operation]
+				 fraction:[self opacity]];
+		[image setFlipped:NO];
 
-        // clean up
+		// clean up
 
-        [[NSGraphicsContext currentContext] restoreGraphicsState];
-    }
+		[[NSGraphicsContext currentContext] restoreGraphicsState];
+	}
 }
 
 - (BOOL)isFill
 {
-    return YES;
+	return YES;
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [super encodeWithCoder:coder];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[super encodeWithCoder:coder];
 
-    [coder encodeObject:[self imageKey]
-                 forKey:@"DKImageAdornment_imageKey"];
+	[coder encodeObject:[self imageKey]
+				 forKey:@"DKImageAdornment_imageKey"];
 
-    [coder encodeObject:[self image]
-                 forKey:@"image"];
-    [coder encodeDouble:[self scale]
-                 forKey:@"scale"];
-    [coder encodeDouble:[self opacity]
-                 forKey:@"opacity"];
-    [coder encodeDouble:[self angle]
-                 forKey:@"angle"];
+	[coder encodeObject:[self image]
+				 forKey:@"image"];
+	[coder encodeDouble:[self scale]
+				 forKey:@"scale"];
+	[coder encodeDouble:[self opacity]
+				 forKey:@"opacity"];
+	[coder encodeDouble:[self angle]
+				 forKey:@"angle"];
 
-    [coder encodeInteger:[self operation]
-                  forKey:@"operation"];
-    [coder encodeInteger:[self fittingOption]
-                  forKey:@"fitting"];
-    [coder encodeObject:[self imageIdentifier]
-                 forKey:@"ident"];
+	[coder encodeInteger:[self operation]
+				  forKey:@"operation"];
+	[coder encodeInteger:[self fittingOption]
+				  forKey:@"fitting"];
+	[coder encodeObject:[self imageIdentifier]
+				 forKey:@"ident"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    self = [super initWithCoder:coder];
-    if (self != nil) {
-        [self setImage:[coder decodeObjectForKey:@"image"]];
-        [self setScale:[coder decodeDoubleForKey:@"scale"]];
-        [self setOpacity:[coder decodeDoubleForKey:@"opacity"]];
-        [self setAngle:[coder decodeDoubleForKey:@"angle"]];
-        [self setOperation:[coder decodeIntegerForKey:@"operation"]];
-        [self setFittingOption:[coder decodeIntegerForKey:@"fitting"]];
-        [self setImageIdentifier:[coder decodeObjectForKey:@"ident"]];
-    }
-    return self;
+	NSAssert(coder != nil, @"Expected valid coder");
+	self = [super initWithCoder:coder];
+	if (self != nil) {
+		[self setImage:[coder decodeObjectForKey:@"image"]];
+		[self setScale:[coder decodeDoubleForKey:@"scale"]];
+		[self setOpacity:[coder decodeDoubleForKey:@"opacity"]];
+		[self setAngle:[coder decodeDoubleForKey:@"angle"]];
+		[self setOperation:[coder decodeIntegerForKey:@"operation"]];
+		[self setFittingOption:[coder decodeIntegerForKey:@"fitting"]];
+		[self setImageIdentifier:[coder decodeObjectForKey:@"ident"]];
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
-    DKImageAdornment* copy = [super copyWithZone:zone];
+	DKImageAdornment* copy = [super copyWithZone:zone];
 
-    [copy setImage:[self image]];
-    [copy setImageIdentifier:[self imageIdentifier]];
-    [copy setScale:[self scale]];
-    [copy setOpacity:[self opacity]];
-    [copy setAngle:[self angle]];
-    [copy setFittingOption:[self fittingOption]];
-    [copy setOperation:[self operation]];
+	[copy setImage:[self image]];
+	[copy setImageIdentifier:[self imageIdentifier]];
+	[copy setScale:[self scale]];
+	[copy setOpacity:[self opacity]];
+	[copy setAngle:[self angle]];
+	[copy setFittingOption:[self fittingOption]];
+	[copy setOperation:[self operation]];
 
-    return copy;
+	return copy;
 }
 
 @end

@@ -9,8 +9,8 @@
 #import "DKLayer.h"
 
 typedef enum {
-    kDKMetricDrawingGrid = 0,
-    kDKImperialDrawingGrid
+	kDKMetricDrawingGrid = 0,
+	kDKImperialDrawingGrid
 } DKGridMeasurementSystem;
 
 /** @brief This class is a layer that draws a grid like a piece of graph paper.
@@ -45,31 +45,31 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 */
 @interface DKGridLayer : DKLayer <NSCoding> {
 @private
-    NSColor* m_spanColour; // the colour of the spans grid
-    NSColor* m_divisionColour; // the colour of the divisions grid
-    NSColor* m_majorColour; // the colour of the majors grid
-    NSBezierPath* m_divsCache; // the path for the divisions grid
-    NSBezierPath* m_spanCache; // the path for the spans grid
-    NSBezierPath* m_majorsCache; // the path for the majors grid
-    NSPoint m_zeroDatum; // where "zero" is supposed to be
-    BOOL mDrawsDivisions; // YES to draw divisions
-    BOOL mDrawsSpans; // YES to draw spans
-    BOOL mDrawsMajors; // YES to draw majors
-    CGFloat m_spanLineWidth; // the line width to draw the spans
-    CGFloat m_divisionLineWidth; // the line width to draw the divisions
-    CGFloat m_majorLineWidth; // the line width to draw the majors
-    NSUInteger m_rulerStepUpCycle; // the ruler step-up cycle to use
-    BOOL m_cacheInLayer; // YES if the grid is cache dusing a CGLayer
-    CGLayerRef m_cgl; // the CGLayer when the grid is cached there
-    NSUInteger mSpanCycle; // span increment cycle (typically 1)
-    CGFloat mDivsSupressionScale; // scale below which divs are not drawn at all (default = 0.5)
-    CGFloat mSpanSupressionScale; // scale below which span is not drawn at all (default = 0.1)
-    CGFloat mSpanCycleChangeThreshold; // scale below which span cycle is incremented
-    CGFloat mCachedViewScale; // view scale cache currently set up for
+	NSColor* m_spanColour; // the colour of the spans grid
+	NSColor* m_divisionColour; // the colour of the divisions grid
+	NSColor* m_majorColour; // the colour of the majors grid
+	NSBezierPath* m_divsCache; // the path for the divisions grid
+	NSBezierPath* m_spanCache; // the path for the spans grid
+	NSBezierPath* m_majorsCache; // the path for the majors grid
+	NSPoint m_zeroDatum; // where "zero" is supposed to be
+	BOOL mDrawsDivisions; // YES to draw divisions
+	BOOL mDrawsSpans; // YES to draw spans
+	BOOL mDrawsMajors; // YES to draw majors
+	CGFloat m_spanLineWidth; // the line width to draw the spans
+	CGFloat m_divisionLineWidth; // the line width to draw the divisions
+	CGFloat m_majorLineWidth; // the line width to draw the majors
+	NSUInteger m_rulerStepUpCycle; // the ruler step-up cycle to use
+	BOOL m_cacheInLayer; // YES if the grid is cache dusing a CGLayer
+	CGLayerRef m_cgl; // the CGLayer when the grid is cached there
+	NSUInteger mSpanCycle; // span increment cycle (typically 1)
+	CGFloat mDivsSupressionScale; // scale below which divs are not drawn at all (default = 0.5)
+	CGFloat mSpanSupressionScale; // scale below which span is not drawn at all (default = 0.1)
+	CGFloat mSpanCycleChangeThreshold; // scale below which span cycle is incremented
+	CGFloat mCachedViewScale; // view scale cache currently set up for
 @protected
-    CGFloat mSpanMultiplier; // the span is unit distance x this (usually 1.0)
-    NSUInteger m_divisionsPerSpan; // the number of divisions per span
-    NSUInteger m_spansPerMajor; // the number of spans per major
+	CGFloat mSpanMultiplier; // the span is unit distance x this (usually 1.0)
+	NSUInteger m_divisionsPerSpan; // the number of divisions per span
+	NSUInteger m_spansPerMajor; // the number of spans per major
 }
 
 // setting class defaults:
@@ -110,11 +110,11 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @param steps> the ruler step-up cycle (see NSRulerView), must be  1
  */
 - (void)setDistanceForUnitSpan:(CGFloat)conversionFactor
-                  drawingUnits:(NSString*)units
-                          span:(CGFloat)span
-                     divisions:(NSUInteger)divs
-                        majors:(NSUInteger)majors
-                    rulerSteps:(NSUInteger)steps;
+				  drawingUnits:(NSString*)units
+						  span:(CGFloat)span
+					 divisions:(NSUInteger)divs
+						majors:(NSUInteger)majors
+					rulerSteps:(NSUInteger)steps;
 
 // other settings:
 

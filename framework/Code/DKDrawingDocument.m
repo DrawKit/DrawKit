@@ -20,7 +20,7 @@
 #import "LogEvent.h"
 
 @interface DKSelectorWrapper : NSObject {
-    SEL mSelector;
+	SEL mSelector;
 }
 
 + (DKSelectorWrapper*)wrapperWithSelector:(SEL)aSelector;
@@ -28,7 +28,7 @@
 
 @end
 
-#pragma mark Constants (Non-localized)
+#pragma mark Constants(Non - localized)
 
 NSString* kDKDrawingDocumentType = @"Drawing";
 NSString* kDKDrawingDocumentUTI = @"net.apptree.drawing";
@@ -53,12 +53,12 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 + (NSUndoManager*)sharedDrawkitUndoManager
 {
-    static DKUndoManager* s_um = nil;
+	static DKUndoManager* s_um = nil;
 
-    if (s_um == nil)
-        s_um = [[DKUndoManager alloc] init];
+	if (s_um == nil)
+		s_um = [[DKUndoManager alloc] init];
 
-    return (NSUndoManager*)s_um;
+	return (NSUndoManager*)s_um;
 }
 
 /** @brief Establishes a mapping between a file type and a method that can import that file type
@@ -72,17 +72,17 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 + (void)bindFileImportType:(NSString*)fileType toSelector:(SEL)aSelector
 {
-    NSAssert(fileType != nil, @"cannot bind a nil fileType");
+	NSAssert(fileType != nil, @"cannot bind a nil fileType");
 
-    if (sFileImportBindings == nil)
-        sFileImportBindings = [[NSMutableDictionary alloc] init];
+	if (sFileImportBindings == nil)
+		sFileImportBindings = [[NSMutableDictionary alloc] init];
 
-    if (aSelector != NULL) {
-        DKSelectorWrapper* sw = [DKSelectorWrapper wrapperWithSelector:aSelector];
-        [sFileImportBindings setObject:sw
-                                forKey:fileType];
-    } else
-        [sFileImportBindings removeObjectForKey:fileType];
+	if (aSelector != NULL) {
+		DKSelectorWrapper* sw = [DKSelectorWrapper wrapperWithSelector:aSelector];
+		[sFileImportBindings setObject:sw
+								forKey:fileType];
+	} else
+		[sFileImportBindings removeObjectForKey:fileType];
 }
 
 /** @brief Establishes a mapping between a file type and a method that can export that file type
@@ -96,17 +96,17 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 + (void)bindFileExportType:(NSString*)fileType toSelector:(SEL)aSelector
 {
-    NSAssert(fileType != nil, @"cannot bind a nil fileType");
+	NSAssert(fileType != nil, @"cannot bind a nil fileType");
 
-    if (sFileExportBindings == nil)
-        sFileExportBindings = [[NSMutableDictionary alloc] init];
+	if (sFileExportBindings == nil)
+		sFileExportBindings = [[NSMutableDictionary alloc] init];
 
-    if (aSelector != NULL) {
-        DKSelectorWrapper* sw = [DKSelectorWrapper wrapperWithSelector:aSelector];
-        [sFileExportBindings setObject:sw
-                                forKey:fileType];
-    } else
-        [sFileExportBindings removeObjectForKey:fileType];
+	if (aSelector != NULL) {
+		DKSelectorWrapper* sw = [DKSelectorWrapper wrapperWithSelector:aSelector];
+		[sFileExportBindings setObject:sw
+								forKey:fileType];
+	} else
+		[sFileExportBindings removeObjectForKey:fileType];
 }
 
 /** @brief Set the default levels of undo assigned to new documents
@@ -114,8 +114,8 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 + (void)setDefaultLevelsOfUndo:(NSUInteger)levels
 {
-    [[NSUserDefaults standardUserDefaults] setInteger:levels
-                                               forKey:kDKDocumentLevelsOfUndoDefaultsKey];
+	[[NSUserDefaults standardUserDefaults] setInteger:levels
+											   forKey:kDKDocumentLevelsOfUndoDefaultsKey];
 }
 
 /** @brief Return the default levels of undo assigned to new documents
@@ -125,14 +125,14 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 + (NSUInteger)defaultLevelsOfUndo
 {
-    NSUInteger levels = [[NSUserDefaults standardUserDefaults] integerForKey:kDKDocumentLevelsOfUndoDefaultsKey];
+	NSUInteger levels = [[NSUserDefaults standardUserDefaults] integerForKey:kDKDocumentLevelsOfUndoDefaultsKey];
 
-    if (levels == 0) {
-        levels = DEFAULT_LEVELS_OF_UNDO;
-        [self setDefaultLevelsOfUndo:levels];
-    }
+	if (levels == 0) {
+		levels = DEFAULT_LEVELS_OF_UNDO;
+		[self setDefaultLevelsOfUndo:levels];
+	}
 
-    return levels;
+	return levels;
 }
 
 /** @brief Set the document's drawing object
@@ -142,30 +142,30 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (void)setDrawing:(DKDrawing*)drwg
 {
-    // sets the drawing to <drwg>.
+	// sets the drawing to <drwg>.
 
-    [drwg retain];
-    [m_drawing release]; // also removes and releases all existing controllers
-    m_drawing = drwg;
-    [m_drawing setOwner:self];
+	[drwg retain];
+	[m_drawing release]; // also removes and releases all existing controllers
+	m_drawing = drwg;
+	[m_drawing setOwner:self];
 
-    // create a controller for the main view and add it to the drawing - often at this stage mainView is nil, so
-    // this step is for when the drawing is recreated sometime after initialisation - e.g. on revert. For the usual
-    // case of instantiation from a nib, the -windowControllerDidLoadNib method performs this step.
+	// create a controller for the main view and add it to the drawing - often at this stage mainView is nil, so
+	// this step is for when the drawing is recreated sometime after initialisation - e.g. on revert. For the usual
+	// case of instantiation from a nib, the -windowControllerDidLoadNib method performs this step.
 
-    if ([self mainView] != nil) {
-        DKViewController* mainViewController = [self makeControllerForView:[self mainView]];
-        [[self drawing] addController:mainViewController];
-    }
+	if ([self mainView] != nil) {
+		DKViewController* mainViewController = [self makeControllerForView:[self mainView]];
+		[[self drawing] addController:mainViewController];
+	}
 
 #if qGlobalUndoManager
-    [self setUndoManager:[[self class] sharedDrawkitUndoManager]];
+	[self setUndoManager:[[self class] sharedDrawkitUndoManager]];
 #endif
 
-    [[self drawing] setUndoManager:[self undoManager]];
-    [[self undoManager] setLevelsOfUndo:[[self class] defaultLevelsOfUndo]];
+	[[self drawing] setUndoManager:[self undoManager]];
+	[[self undoManager] setLevelsOfUndo:[[self class] defaultLevelsOfUndo]];
 
-    LogEvent_(kReactiveEvent, @"undo mgr = %@", [self undoManager]);
+	LogEvent_(kReactiveEvent, @"undo mgr = %@", [self undoManager]);
 }
 
 /** @brief Return the document's drawing object
@@ -175,7 +175,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (DKDrawing*)drawing
 {
-    return m_drawing;
+	return m_drawing;
 }
 
 #pragma mark -
@@ -188,7 +188,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (DKDrawingView*)mainView
 {
-    return mMainDrawingView;
+	return mMainDrawingView;
 }
 
 /** @brief Create a controller object to connect the given view to the document's drawing
@@ -203,14 +203,14 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (DKViewController*)makeControllerForView:(NSView*)aView
 {
-    NSAssert(aView != nil, @"attempt to make controller when view is nil");
+	NSAssert(aView != nil, @"attempt to make controller when view is nil");
 
-    if ([aView respondsToSelector:@selector(makeViewController)])
-        return [(id)aView makeViewController];
-    else {
-        DKViewController* aController = [[DKViewController alloc] initWithView:aView];
-        return [aController autorelease];
-    }
+	if ([aView respondsToSelector:@selector(makeViewController)])
+		return [(id)aView makeViewController];
+	else {
+		DKViewController* aController = [[DKViewController alloc] initWithView:aView];
+		return [aController autorelease];
+	}
 }
 
 /** @brief Create a drawing object to be used when the document is not opened from a file on disk
@@ -220,39 +220,39 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (DKDrawing*)makeDefaultDrawing
 {
-    // set up a default drawing - this is A2 in size, landscape orientation, has grid, guids and one drawing layer, which is made active
+	// set up a default drawing - this is A2 in size, landscape orientation, has grid, guids and one drawing layer, which is made active
 
-    DKDrawing* dr = [[DKDrawing alloc] initWithSize:[DKDrawing isoA2PaperSize:NO]];
+	DKDrawing* dr = [[DKDrawing alloc] initWithSize:[DKDrawing isoA2PaperSize:NO]];
 
-    // attach a grid layer
-    [DKGridLayer setDefaultGridThemeColour:[[NSColor brownColor] colorWithAlphaComponent:0.5]];
-    DKGridLayer* grid = [[DKGridLayer alloc] init];
-    [dr addLayer:grid];
-    [grid tweakDrawingMargins];
-    [grid release];
+	// attach a grid layer
+	[DKGridLayer setDefaultGridThemeColour:[[NSColor brownColor] colorWithAlphaComponent:0.5]];
+	DKGridLayer* grid = [[DKGridLayer alloc] init];
+	[dr addLayer:grid];
+	[grid tweakDrawingMargins];
+	[grid release];
 
-    // attach a drawing layer and make it the active layer
+	// attach a drawing layer and make it the active layer
 
-    DKObjectDrawingLayer* layer = [[[self classOfDefaultDrawingLayer] alloc] init];
-    [dr addLayer:layer];
-    [dr setActiveLayer:layer];
-    [layer release];
+	DKObjectDrawingLayer* layer = [[[self classOfDefaultDrawingLayer] alloc] init];
+	[dr addLayer:layer];
+	[dr setActiveLayer:layer];
+	[layer release];
 
-    // optional info layer
+	// optional info layer
 
-    if ([self wantsInfoLayer]) {
-        DKDrawingInfoLayer* infoLayer = [[DKDrawingInfoLayer alloc] init];
-        [dr addLayer:infoLayer];
-        [infoLayer setVisible:NO];
-        [infoLayer release];
-    }
+	if ([self wantsInfoLayer]) {
+		DKDrawingInfoLayer* infoLayer = [[DKDrawingInfoLayer alloc] init];
+		[dr addLayer:infoLayer];
+		[infoLayer setVisible:NO];
+		[infoLayer release];
+	}
 
-    // attach a guide layer
+	// attach a guide layer
 
-    DKGuideLayer* guides = [[DKGuideLayer alloc] init];
-    [dr addLayer:guides];
-    [guides release];
-    return [dr autorelease];
+	DKGuideLayer* guides = [[DKGuideLayer alloc] init];
+	[dr addLayer:guides];
+	[guides release];
+	return [dr autorelease];
 }
 
 /** @brief Return the class of the layer for New Layer and default drawing construction.
@@ -264,7 +264,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (Class)classOfDefaultDrawingLayer
 {
-    return [DKObjectDrawingLayer class];
+	return [DKObjectDrawingLayer class];
 }
 
 /** @brief Return whether an info layer should be added to the default drawing.
@@ -274,7 +274,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (BOOL)wantsInfoLayer
 {
-    return YES;
+	return YES;
 }
 
 #pragma mark -
@@ -289,16 +289,16 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 #pragma unused(sender)
 
-    // high level action to add a new drawing layer to the drawing and make it active
+	// high level action to add a new drawing layer to the drawing and make it active
 
-    DKDrawing* dr = [self drawing];
-    DKObjectDrawingLayer* layer = [[[self classOfDefaultDrawingLayer] alloc] init];
+	DKDrawing* dr = [self drawing];
+	DKObjectDrawingLayer* layer = [[[self classOfDefaultDrawingLayer] alloc] init];
 
-    [dr addLayer:layer
-        andActivateIt:YES];
-    [layer release];
+	[dr addLayer:layer
+		andActivateIt:YES];
+	[layer release];
 
-    [[self undoManager] setActionName:NSLocalizedString(@"New Layer", @"undo string for new layer")];
+	[[self undoManager] setActionName:NSLocalizedString(@"New Layer", @"undo string for new layer")];
 }
 
 /** @brief High-level method to add a new drawing layer to the document and move the selected objects to it
@@ -311,45 +311,45 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 #pragma unused(sender)
 
-    // high-level action adds a new drawing layer and moves the currently selected objects to it
-    // if the selection is empty or the current active layer is not an object layer, does nothing
+	// high-level action adds a new drawing layer and moves the currently selected objects to it
+	// if the selection is empty or the current active layer is not an object layer, does nothing
 
-    DKObjectDrawingLayer* cLayer = [[self drawing] activeLayerOfClass:[DKObjectDrawingLayer class]];
+	DKObjectDrawingLayer* cLayer = [[self drawing] activeLayerOfClass:[DKObjectDrawingLayer class]];
 
-    if (cLayer != nil) {
-        NSArray* selection = [cLayer selectedObjectsPreservingStackingOrder];
+	if (cLayer != nil) {
+		NSArray* selection = [cLayer selectedObjectsPreservingStackingOrder];
 
-        if ([selection count] > 0) {
-            // ok, something to do...
+		if ([selection count] > 0) {
+			// ok, something to do...
 
-            DKDrawing* dr = [self drawing];
-            DKObjectDrawingLayer* layer = [[[self classOfDefaultDrawingLayer] alloc] init];
+			DKDrawing* dr = [self drawing];
+			DKObjectDrawingLayer* layer = [[[self classOfDefaultDrawingLayer] alloc] init];
 
-            [dr addLayer:layer
-                andActivateIt:YES];
+			[dr addLayer:layer
+				andActivateIt:YES];
 
-            // move objects to it and select them
+			// move objects to it and select them
 
-            [selection retain];
-            [cLayer recordSelectionForUndo];
-            [cLayer removeObjectsInArray:selection];
-            [cLayer commitSelectionUndoWithActionName:@""];
+			[selection retain];
+			[cLayer recordSelectionForUndo];
+			[cLayer removeObjectsInArray:selection];
+			[cLayer commitSelectionUndoWithActionName:@""];
 
-            [layer recordSelectionForUndo];
-            [layer addObjectsFromArray:selection];
-            [layer addObjectsToSelectionFromArray:selection];
-            [layer commitSelectionUndoWithActionName:@""];
+			[layer recordSelectionForUndo];
+			[layer addObjectsFromArray:selection];
+			[layer addObjectsToSelectionFromArray:selection];
+			[layer commitSelectionUndoWithActionName:@""];
 
-            [selection release];
-            [layer release];
+			[selection release];
+			[layer release];
 
-            [[self undoManager] setActionName:NSLocalizedString(@"Move To New Layer", @"undo string for move to new layer")];
+			[[self undoManager] setActionName:NSLocalizedString(@"Move To New Layer", @"undo string for move to new layer")];
 
-            return;
-        }
-    }
+			return;
+		}
+	}
 
-    NSBeep();
+	NSBeep();
 }
 
 /** @brief High-level method to delete the active layer from the drawing
@@ -361,12 +361,12 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 #pragma unused(sender)
 
-    DKLayer* layer = [[self drawing] activeLayer];
+	DKLayer* layer = [[self drawing] activeLayer];
 
-    if ([layer layerMayBeDeleted]) {
-        [[self drawing] removeLayer:layer];
-        [[self undoManager] setActionName:NSLocalizedString(@"Delete Layer", @"undo string for delete layer")];
-    }
+	if ([layer layerMayBeDeleted]) {
+		[[self drawing] removeLayer:layer];
+		[[self undoManager] setActionName:NSLocalizedString(@"Delete Layer", @"undo string for delete layer")];
+	}
 }
 
 #pragma mark -
@@ -385,47 +385,47 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 #pragma unused(url)
 
-    NSAssert(stylesToMerge != nil, @"attempt to remerge a nil set");
+	NSAssert(stylesToMerge != nil, @"attempt to remerge a nil set");
 
-    LogEvent_(kInfoEvent, @"remerge of %d styles after loading...", [stylesToMerge count]);
+	LogEvent_(kInfoEvent, @"remerge of %d styles after loading...", [stylesToMerge count]);
 
-    // the styles in the given set are those that were originally registered when this document was last saved. At this point in time
-    // the styles exist as new copies of the registered styles, so they need to be reconciled with the current state of the registry, which
-    // may have changed dramatically since the file was saved. Several possibilities exist at this point for styles that exist both here and
-    // in the current registry:
+	// the styles in the given set are those that were originally registered when this document was last saved. At this point in time
+	// the styles exist as new copies of the registered styles, so they need to be reconciled with the current state of the registry, which
+	// may have changed dramatically since the file was saved. Several possibilities exist at this point for styles that exist both here and
+	// in the current registry:
 
-    // 1. these styles might replace those in the registry - this is safest for THIS document, but might adversely affect others open right now.
-    // 2. the registry styles might replace these styles. This could change the appearance of objects in this document but they will be up
-    // to date to the latest registry styles, and no other open documents will be affected.
-    // 3. these styles can be copied and stored as additional copies of the style in the registry, possibly given new names to disambiguate them.
-    // This is safest for all from the point of view of changing appearance, but can cause the registry to grow very large with many duplicate
-    // styles.
+	// 1. these styles might replace those in the registry - this is safest for THIS document, but might adversely affect others open right now.
+	// 2. the registry styles might replace these styles. This could change the appearance of objects in this document but they will be up
+	// to date to the latest registry styles, and no other open documents will be affected.
+	// 3. these styles can be copied and stored as additional copies of the style in the registry, possibly given new names to disambiguate them.
+	// This is safest for all from the point of view of changing appearance, but can cause the registry to grow very large with many duplicate
+	// styles.
 
-    // note that if any previously registered doc style is not currently registered, it is registered "as is" regardless of the settings you pass.
+	// note that if any previously registered doc style is not currently registered, it is registered "as is" regardless of the settings you pass.
 
-    // applications will want to override this and do what they think is the right thing, including possibly asking the user.
+	// applications will want to override this and do what they think is the right thing, including possibly asking the user.
 
-    // this default method takes option 2 as it's the simplest. It also creates a category using the document's name which will list
-    // all of these styles.
+	// this default method takes option 2 as it's the simplest. It also creates a category using the document's name which will list
+	// all of these styles.
 
-    // perform a preflight at this point if you wish - info returned can be used to help th euser make an informed choice, etc.
-    // By default this info isn't used, just logged
+	// perform a preflight at this point if you wish - info returned can be used to help th euser make an informed choice, etc.
+	// By default this info isn't used, just logged
 
-    NSDictionary* preflightInfo = [DKStyleRegistry compareStylesInSet:stylesToMerge];
+	NSDictionary* preflightInfo = [DKStyleRegistry compareStylesInSet:stylesToMerge];
 
-    LogEvent_(kInfoEvent, @"preflight info = %@", preflightInfo);
+	LogEvent_(kInfoEvent, @"preflight info = %@", preflightInfo);
 
-    NSArray* docNameCat = [NSArray arrayWithObject:[self documentStyleCategoryName]];
-    NSSet* changedStyles = [DKStyleRegistry mergeStyles:stylesToMerge
-                                           inCategories:docNameCat
-                                                options:kDKReturnExistingStyles
-                                          mergeDelegate:self];
+	NSArray* docNameCat = [NSArray arrayWithObject:[self documentStyleCategoryName]];
+	NSSet* changedStyles = [DKStyleRegistry mergeStyles:stylesToMerge
+										   inCategories:docNameCat
+												options:kDKReturnExistingStyles
+										  mergeDelegate:self];
 
-    // the returned set contains the objects from the registry that match those in the document. The document must now adopt these objects in
-    // place of the temporary ones that it created on being unarchived. If the set is empty or nil, we're done.
+	// the returned set contains the objects from the registry that match those in the document. The document must now adopt these objects in
+	// place of the temporary ones that it created on being unarchived. If the set is empty or nil, we're done.
 
-    if (changedStyles != nil && [changedStyles count] > 0)
-        [self replaceDocumentStylesWithMatchingStylesFromSet:changedStyles];
+	if (changedStyles != nil && [changedStyles count] > 0)
+		[self replaceDocumentStylesWithMatchingStylesFromSet:changedStyles];
 }
 
 /** @brief The second step in reconsolidating a newly opened document's registered styles with the current
@@ -436,23 +436,23 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (void)replaceDocumentStylesWithMatchingStylesFromSet:(NSSet*)aSetOfStyles
 {
-    // this method is an imperative - when called, styles in the passed set that have a matching key with those in this document MUST
-    // replace the doc's styles. This requires iterating over the drawing's entire contents and replacing such styles. This relinks the
-    // doc's styles with the registry's styles.
+	// this method is an imperative - when called, styles in the passed set that have a matching key with those in this document MUST
+	// replace the doc's styles. This requires iterating over the drawing's entire contents and replacing such styles. This relinks the
+	// doc's styles with the registry's styles.
 
-    NSAssert(aSetOfStyles != nil, @"can't replace styles from a nil set");
-    LogEvent_(kStateEvent, @"document will replace %d styles", [aSetOfStyles count]);
+	NSAssert(aSetOfStyles != nil, @"can't replace styles from a nil set");
+	LogEvent_(kStateEvent, @"document will replace %d styles", [aSetOfStyles count]);
 
-    [[self drawing] replaceMatchingStylesFromSet:aSetOfStyles];
+	[[self drawing] replaceMatchingStylesFromSet:aSetOfStyles];
 
-    // n.b. all undos arising from this operation are discarded - there's no good reason to undo stuff that is really part
-    // of the initialisation
+	// n.b. all undos arising from this operation are discarded - there's no good reason to undo stuff that is really part
+	// of the initialisation
 
-    [[self undoManager] removeAllActions];
+	[[self undoManager] removeAllActions];
 
-    /// should the document be dirtied anyway? NO for now.
+	/// should the document be dirtied anyway? NO for now.
 
-    //[self updateChangeCount:NSChangeDone];
+	//[self updateChangeCount:NSChangeDone];
 }
 
 /** @brief Returns a name that can be used for a style registry category for this document
@@ -460,9 +460,9 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (NSString*)documentStyleCategoryName
 {
-    // return the name of the category that this document creates in the style registry - by default it's just the name part of the URL.
+	// return the name of the category that this document creates in the style registry - by default it's just the name part of the URL.
 
-    return [[[[self fileURL] path] lastPathComponent] stringByDeletingPathExtension];
+	return [[[[self fileURL] path] lastPathComponent] stringByDeletingPathExtension];
 }
 
 /** @brief Returns all styles used by the document's drawing
@@ -470,7 +470,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (NSSet*)allStyles
 {
-    return [[self drawing] allStyles];
+	return [[self drawing] allStyles];
 }
 
 /** @brief Returns all registered styles used by the document's drawing
@@ -482,7 +482,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (NSSet*)allRegisteredStyles
 {
-    return [[self drawing] allRegisteredStyles];
+	return [[self drawing] allRegisteredStyles];
 }
 
 /** @brief Sets the main view's drawing tool to the given tool
@@ -495,7 +495,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (void)setDrawingTool:(DKDrawingTool*)aTool
 {
-    [(id)[self mainView] setDrawingTool:aTool];
+	[(id)[self mainView] setDrawingTool:aTool];
 }
 
 /** @brief Returns the main view's current drawing tool
@@ -506,7 +506,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (DKDrawingTool*)drawingTool
 {
-    return [(id)[self mainView] drawingTool];
+	return [(id)[self mainView] drawingTool];
 }
 
 /** @brief Creates a view used to handle printing.
@@ -516,12 +516,12 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (DKDrawingView*)makePrintDrawingView
 {
-    NSRect fr = NSZeroRect;
-    fr.size = [[self drawing] drawingSize];
+	NSRect fr = NSZeroRect;
+	fr.size = [[self drawing] drawingSize];
 
-    DKDrawingView* pdv = [[DKDrawingView alloc] initWithFrame:fr];
+	DKDrawingView* pdv = [[DKDrawingView alloc] initWithFrame:fr];
 
-    return [pdv autorelease];
+	return [pdv autorelease];
 }
 
 #pragma mark -
@@ -537,36 +537,36 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (NSData*)dataOfType:(NSString*)typeName error:(NSError**)outError
 {
-    NSData* theData = nil;
+	NSData* theData = nil;
 
-    [[[self drawing] drawingInfo] setObject:[self displayName]
-                                     forKey:kDKDrawingInfoTitle];
+	[[[self drawing] drawingInfo] setObject:[self displayName]
+									 forKey:kDKDrawingInfoTitle];
 
-    // if there is an export binding for the type, use it to create an invocation
+	// if there is an export binding for the type, use it to create an invocation
 
-    if (sFileExportBindings != nil) {
-        DKSelectorWrapper* wrapper = [sFileExportBindings objectForKey:typeName];
+	if (sFileExportBindings != nil) {
+		DKSelectorWrapper* wrapper = [sFileExportBindings objectForKey:typeName];
 
-        if (wrapper) {
-            SEL selector = [wrapper selector];
+		if (wrapper) {
+			SEL selector = [wrapper selector];
 
-            if ([[self drawing] respondsToSelector:selector])
-                theData = [[self drawing] performSelector:selector];
-        }
-    }
+			if ([[self drawing] respondsToSelector:selector])
+				theData = [[self drawing] performSelector:selector];
+		}
+	}
 
-    // throw an error if the data is nil
+	// throw an error if the data is nil
 
-    if (theData == nil) {
-        if (outError)
-            *outError = [NSError errorWithDomain:NSCocoaErrorDomain
-                                            code:NSFileWriteUnsupportedSchemeError
-                                        userInfo:nil];
+	if (theData == nil) {
+		if (outError)
+			*outError = [NSError errorWithDomain:NSCocoaErrorDomain
+											code:NSFileWriteUnsupportedSchemeError
+										userInfo:nil];
 
-        return nil;
-    }
+		return nil;
+	}
 
-    return theData;
+	return theData;
 }
 
 /** @brief Set up the document in its initial state for the "New" command.
@@ -578,18 +578,18 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (id)initWithType:(NSString*)typeName error:(NSError**)outError
 {
-    LogEvent_(kLifeEvent, @"initialising default drawing, type = '%@'", typeName);
+	LogEvent_(kLifeEvent, @"initialising default drawing, type = '%@'", typeName);
 
-    [super initWithType:typeName
-                  error:outError];
+	[super initWithType:typeName
+				  error:outError];
 
-    // create a default drawing. Note that the fileType is ignored. It creates the default drawing regardless of type - if
-    // your document needs to be sensitive to the type, override this.
+	// create a default drawing. Note that the fileType is ignored. It creates the default drawing regardless of type - if
+	// your document needs to be sensitive to the type, override this.
 
-    DKDrawing* dr = [self makeDefaultDrawing];
-    [self setDrawing:dr];
+	DKDrawing* dr = [self makeDefaultDrawing];
+	[self setDrawing:dr];
 
-    return self;
+	return self;
 }
 
 /** @brief Implements the print command.
@@ -597,26 +597,26 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (void)printShowingPrintPanel:(BOOL)flag
 {
-    DKDrawingView* pdv = [[self makePrintDrawingView] retain];
-    DKViewController* vc = [pdv makeViewController];
+	DKDrawingView* pdv = [[self makePrintDrawingView] retain];
+	DKViewController* vc = [pdv makeViewController];
 
-    [[self drawing] addController:vc];
+	[[self drawing] addController:vc];
 
-    NSPrintInfo* printInfo = [self printInfo];
+	NSPrintInfo* printInfo = [self printInfo];
 
-    [pdv setPrintInfo:printInfo];
-    [pdv setPrintCropMarkKind:[[self mainView] printCropMarkKind]];
+	[pdv setPrintInfo:printInfo];
+	[pdv setPrintCropMarkKind:[[self mainView] printCropMarkKind]];
 
-    NSPrintOperation* printOp = [NSPrintOperation printOperationWithView:pdv
-                                                               printInfo:[self printInfo]];
+	NSPrintOperation* printOp = [NSPrintOperation printOperationWithView:pdv
+															   printInfo:[self printInfo]];
 
-    [printOp setShowPanels:flag];
-    [self runModalPrintOperation:printOp
-                        delegate:nil
-                  didRunSelector:nil
-                     contextInfo:nil];
+	[printOp setShowPanels:flag];
+	[self runModalPrintOperation:printOp
+						delegate:nil
+				  didRunSelector:nil
+					 contextInfo:nil];
 
-    [pdv release];
+	[pdv release];
 }
 
 /** @brief Initialises the document from a file on disk when opened from the "Open" command.
@@ -629,41 +629,41 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (BOOL)readFromData:(NSData*)data ofType:(NSString*)typeName error:(NSError**)outError
 {
-    DKDrawing* theDrawing = nil;
+	DKDrawing* theDrawing = nil;
 
-    if (sFileImportBindings != nil) {
-        DKSelectorWrapper* wrapper = [sFileImportBindings objectForKey:typeName];
+	if (sFileImportBindings != nil) {
+		DKSelectorWrapper* wrapper = [sFileImportBindings objectForKey:typeName];
 
-        if (wrapper) {
-            SEL selector = [wrapper selector];
+		if (wrapper) {
+			SEL selector = [wrapper selector];
 
-            if ([DKDrawing respondsToSelector:selector])
-                theDrawing = [DKDrawing performSelector:selector
-                                             withObject:data];
-        }
-    }
+			if ([DKDrawing respondsToSelector:selector])
+				theDrawing = [DKDrawing performSelector:selector
+											 withObject:data];
+		}
+	}
 
-    if (theDrawing != nil) {
-        [self setDrawing:theDrawing];
+	if (theDrawing != nil) {
+		[self setDrawing:theDrawing];
 
-        // having loaded the drawing and fully dearchived it, we need to remerge styles in the document with the style registry.
-        // what happens here will depend on the application design and possibly the user's personal choice. So this is factored out to
-        // allow an easy override. The default method blindly remerges the styles from the document back into the registry.
+		// having loaded the drawing and fully dearchived it, we need to remerge styles in the document with the style registry.
+		// what happens here will depend on the application design and possibly the user's personal choice. So this is factored out to
+		// allow an easy override. The default method blindly remerges the styles from the document back into the registry.
 
-        NSSet* stylesToMerge = [[self drawing] allRegisteredStyles]; // after a file load, this method returns a special set THIS ONCE ONLY
+		NSSet* stylesToMerge = [[self drawing] allRegisteredStyles]; // after a file load, this method returns a special set THIS ONCE ONLY
 
-        if (stylesToMerge != nil && [stylesToMerge count] > 0)
-            [self remergeStyles:stylesToMerge
-                    readFromURL:nil];
+		if (stylesToMerge != nil && [stylesToMerge count] > 0)
+			[self remergeStyles:stylesToMerge
+					readFromURL:nil];
 
-        return YES;
-    } else {
-        if (outError)
-            *outError = [NSError errorWithDomain:NSCocoaErrorDomain
-                                            code:NSFileReadUnsupportedSchemeError
-                                        userInfo:nil];
-        return NO;
-    }
+		return YES;
+	} else {
+		if (outError)
+			*outError = [NSError errorWithDomain:NSCocoaErrorDomain
+											code:NSFileReadUnsupportedSchemeError
+										userInfo:nil];
+		return NO;
+	}
 }
 
 /** @brief Sets the printing info
@@ -673,8 +673,8 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (void)setPrintInfo:(NSPrintInfo*)printInfo
 {
-    [super setPrintInfo:printInfo];
-    [mMainDrawingView setPrintInfo:printInfo];
+	[super setPrintInfo:printInfo];
+	[mMainDrawingView setPrintInfo:printInfo];
 }
 
 //#define qTestAutoBackendCreation 1
@@ -688,9 +688,9 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 #pragma unused(windowController)
 
-    //Note - if you override this, be sure to call super's implementation to ensure the drawing/controller/view system is established
+	//Note - if you override this, be sure to call super's implementation to ensure the drawing/controller/view system is established
 
-    LogEvent_(kReactiveEvent, @"window controller did load nib; dwg = %@, view = %@", [self drawing], [self mainView]);
+	LogEvent_(kReactiveEvent, @"window controller did load nib; dwg = %@, view = %@", [self drawing], [self mainView]);
 
 // after instantiation from a nib, this hooks up the main view through a controller to the drawing. Note - to test
 // automatic back-end creation, this can be temporarily commented out - it leaves the view unconnected so that it will
@@ -698,17 +698,17 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 #ifndef qTestAutoBackendCreation
 
-    if (mMainDrawingView != nil && [self drawing] != nil) {
-        DKViewController* mainViewController = [self makeControllerForView:[self mainView]];
-        [[self drawing] addController:mainViewController];
-    }
+	if (mMainDrawingView != nil && [self drawing] != nil) {
+		DKViewController* mainViewController = [self makeControllerForView:[self mainView]];
+		[[self drawing] addController:mainViewController];
+	}
 
 #endif
 }
 
 - (NSString*)windowNibName
 {
-    return @"DKDrawingDocument";
+	return @"DKDrawingDocument";
 }
 
 #pragma mark -
@@ -718,67 +718,67 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
+	self = [super init];
+	if (self != nil) {
 #if USE_DK_UNDO_MANAGER
-        DKUndoManager* dkum = [[DKUndoManager alloc] init];
-        [dkum enableUndoTaskCoalescing:YES];
-        [self setUndoManager:(id)dkum];
-        [dkum release];
+		DKUndoManager* dkum = [[DKUndoManager alloc] init];
+		[dkum enableUndoTaskCoalescing:YES];
+		[self setUndoManager:(id)dkum];
+		[dkum release];
 #endif
-        // bind the standard drawing types to the usual methods
+		// bind the standard drawing types to the usual methods
 
-        [[self class] bindFileExportType:kDKDrawingDocumentType
-                              toSelector:@selector(drawingData)];
-        [[self class] bindFileExportType:kDKDrawingDocumentUTI
-                              toSelector:@selector(drawingData)];
-        [[self class] bindFileExportType:kDKDrawingDocumentXMLType
-                              toSelector:@selector(drawingAsXMLDataAtRoot)];
-        [[self class] bindFileExportType:kDKDrawingDocumentXMLUTI
-                              toSelector:@selector(drawingAsXMLDataAtRoot)];
+		[[self class] bindFileExportType:kDKDrawingDocumentType
+							  toSelector:@selector(drawingData)];
+		[[self class] bindFileExportType:kDKDrawingDocumentUTI
+							  toSelector:@selector(drawingData)];
+		[[self class] bindFileExportType:kDKDrawingDocumentXMLType
+							  toSelector:@selector(drawingAsXMLDataAtRoot)];
+		[[self class] bindFileExportType:kDKDrawingDocumentXMLUTI
+							  toSelector:@selector(drawingAsXMLDataAtRoot)];
 
-        [[self class] bindFileImportType:kDKDrawingDocumentType
-                              toSelector:@selector(drawingWithData:)];
-        [[self class] bindFileImportType:kDKDrawingDocumentUTI
-                              toSelector:@selector(drawingWithData:)];
-    }
-    return self;
+		[[self class] bindFileImportType:kDKDrawingDocumentType
+							  toSelector:@selector(drawingWithData:)];
+		[[self class] bindFileImportType:kDKDrawingDocumentUTI
+							  toSelector:@selector(drawingWithData:)];
+	}
+	return self;
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    // set drawing's undo manager to nil prior to document dealloc so that any other refs to the drawing don't cause
-    // a problem with a stale undo mgr ref when the drawing is dealloced
+	// set drawing's undo manager to nil prior to document dealloc so that any other refs to the drawing don't cause
+	// a problem with a stale undo mgr ref when the drawing is dealloced
 
-    [[self drawing] setUndoManager:nil];
-    [m_drawing setOwner:nil];
-    [m_drawing release];
-    [super dealloc];
+	[[self drawing] setUndoManager:nil];
+	[m_drawing setOwner:nil];
+	[m_drawing release];
+	[super dealloc];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    SEL action = [item action];
+	SEL action = [item action];
 
-    if (action == @selector(newDrawingLayer:))
-        return YES;
+	if (action == @selector(newDrawingLayer:))
+		return YES;
 
-    if (action == @selector(newLayerWithSelection:)) {
-        DKLayer* active = [[self drawing] activeLayer];
-        NSUInteger selCount = 0;
+	if (action == @selector(newLayerWithSelection:)) {
+		DKLayer* active = [[self drawing] activeLayer];
+		NSUInteger selCount = 0;
 
-        if ([active respondsToSelector:@selector(countOfSelectedAvailableObjects)])
-            selCount = [(DKObjectDrawingLayer*)active countOfSelectedAvailableObjects];
+		if ([active respondsToSelector:@selector(countOfSelectedAvailableObjects)])
+			selCount = [(DKObjectDrawingLayer*)active countOfSelectedAvailableObjects];
 
-        return selCount > 0;
-    }
+		return selCount > 0;
+	}
 
-    if (action == @selector(deleteActiveLayer:))
-        return [[[self drawing] activeLayer] layerMayBeDeleted];
+	if (action == @selector(deleteActiveLayer:))
+		return [[[self drawing] activeLayer] layerMayBeDeleted];
 
-    return [super validateMenuItem:item];
+	return [super validateMenuItem:item];
 }
 
 @end
@@ -790,16 +790,16 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 + (DKSelectorWrapper*)wrapperWithSelector:(SEL)aSelector
 {
-    NSAssert(aSelector != NULL, @"can't create selector wrapper for NULL");
+	NSAssert(aSelector != NULL, @"can't create selector wrapper for NULL");
 
-    DKSelectorWrapper* wrapper = [[DKSelectorWrapper alloc] init];
-    wrapper->mSelector = aSelector;
-    return [wrapper autorelease];
+	DKSelectorWrapper* wrapper = [[DKSelectorWrapper alloc] init];
+	wrapper->mSelector = aSelector;
+	return [wrapper autorelease];
 }
 
 - (SEL)selector
 {
-    return mSelector;
+	return mSelector;
 }
 
 @end

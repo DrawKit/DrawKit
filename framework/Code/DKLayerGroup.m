@@ -11,7 +11,7 @@
 #import "DKDrawKitMacros.h"
 #import "LogEvent.h"
 
-#pragma mark Constants (Non-localized)
+#pragma mark Constants(Non - localized)
 NSString* kDKLayerGroupDidAddLayer = @"kDKLayerGroupDidAddLayer";
 NSString* kDKLayerGroupDidRemoveLayer = @"kDKLayerGroupDidRemoveLayer";
 NSString* kDKLayerGroupNumberOfLayersDidChange = @"kDKLayerGroupNumberOfLayersDidChange";
@@ -33,9 +33,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 + (DKLayerGroup*)layerGroupWithLayers:(NSArray*)layers
 {
-    DKLayerGroup* lg = [[self alloc] initWithLayers:layers];
+	DKLayerGroup* lg = [[self alloc] initWithLayers:layers];
 
-    return [lg autorelease];
+	return [lg autorelease];
 }
 
 #pragma mark -
@@ -48,22 +48,22 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (id)initWithLayers:(NSArray*)layers
 {
-    self = [super init];
-    if (self != nil) {
-        m_layers = [[NSMutableArray arrayWithCapacity:4] retain];
+	self = [super init];
+	if (self != nil) {
+		m_layers = [[NSMutableArray arrayWithCapacity:4] retain];
 
-        if (m_layers == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    if (self != nil) {
-        if (layers != nil) {
-            [self setLayers:layers];
-        }
-        [self setSelectionColour:nil];
-    }
-    return self;
+		if (m_layers == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	if (self != nil) {
+		if (layers != nil) {
+			[self setLayers:layers];
+		}
+		[self setSelectionColour:nil];
+	}
+	return self;
 }
 
 #pragma mark -
@@ -77,24 +77,24 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)setLayers:(NSArray*)layers
 {
-    NSAssert(layers != nil, @"attempt to set layer groups layers to nil");
+	NSAssert(layers != nil, @"attempt to set layer groups layers to nil");
 
-    if (layers != [self layers]) {
-        LogEvent_(kReactiveEvent, @"setting layer group %@, layers = %@", self, layers);
+	if (layers != [self layers]) {
+		LogEvent_(kReactiveEvent, @"setting layer group %@, layers = %@", self, layers);
 
-        [m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
-                                  withObject:nil];
-        [m_layers release];
-        m_layers = [layers mutableCopy];
+		[m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
+								  withObject:nil];
+		[m_layers release];
+		m_layers = [layers mutableCopy];
 
-        // this is to ensure the group member is inited - older files didn't save the group ref so it will be nil
-        // newer files do, but doing this anyway has no harmful effect
+		// this is to ensure the group member is inited - older files didn't save the group ref so it will be nil
+		// newer files do, but doing this anyway has no harmful effect
 
-        [m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
-                                  withObject:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
-                                                            object:self];
-    }
+		[m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
+								  withObject:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
+															object:self];
+	}
 }
 
 /** @brief Returns the current layers
@@ -104,7 +104,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)layers
 {
-    return m_layers;
+	return m_layers;
 }
 
 /** @brief Returns the number of layers
@@ -112,7 +112,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSUInteger)countOfLayers
 {
-    return [m_layers count];
+	return [m_layers count];
 }
 
 /** @brief Returns the layer index number of the highest layer that is fully opaque.
@@ -124,16 +124,16 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSUInteger)indexOfHighestOpaqueLayer
 {
-    // returns the index of the topmost layer that returns YES for isOpaque.
+	// returns the index of the topmost layer that returns YES for isOpaque.
 
-    NSUInteger i = 0;
+	NSUInteger i = 0;
 
-    do {
-        if ([[self objectInLayersAtIndex:i] isOpaque])
-            return i;
-    } while (++i < [self countOfLayers]);
+	do {
+		if ([[self objectInLayersAtIndex:i] isOpaque])
+			return i;
+	} while (++i < [self countOfLayers]);
 
-    return [self countOfLayers] - 1; // the bottom layer is the last
+	return [self countOfLayers] - 1; // the bottom layer is the last
 }
 
 /** @brief Returns all of the layers in this group and all groups below it
@@ -143,7 +143,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)flattenedLayers
 {
-    return [self flattenedLayersIncludingGroups:NO];
+	return [self flattenedLayersIncludingGroups:NO];
 }
 
 /** @brief Returns all of the layers in this group and all groups below it
@@ -152,21 +152,21 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)flattenedLayersIncludingGroups:(BOOL)includeGroups
 {
-    NSEnumerator* iter = [[self layers] objectEnumerator];
-    DKLayer* layer;
-    NSMutableArray* fLayers = [NSMutableArray array];
+	NSEnumerator* iter = [[self layers] objectEnumerator];
+	DKLayer* layer;
+	NSMutableArray* fLayers = [NSMutableArray array];
 
-    if (includeGroups)
-        [fLayers addObject:self];
+	if (includeGroups)
+		[fLayers addObject:self];
 
-    while ((layer = [iter nextObject])) {
-        if ([layer respondsToSelector:_cmd])
-            [fLayers addObjectsFromArray:[(DKLayerGroup*)layer flattenedLayersIncludingGroups:includeGroups]];
-        else
-            [fLayers addObject:layer];
-    }
+	while ((layer = [iter nextObject])) {
+		if ([layer respondsToSelector:_cmd])
+			[fLayers addObjectsFromArray:[(DKLayerGroup*)layer flattenedLayersIncludingGroups:includeGroups]];
+		else
+			[fLayers addObject:layer];
+	}
 
-    return fLayers;
+	return fLayers;
 }
 
 /** @brief Returns all of the layers in this group and all groups below it having the given class
@@ -177,8 +177,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)flattenedLayersOfClass:(Class)layerClass
 {
-    return [self flattenedLayersOfClass:layerClass
-                          includeGroups:NO];
+	return [self flattenedLayersOfClass:layerClass
+						  includeGroups:NO];
 }
 
 /** @brief Returns all of the layers in this group and all groups below it having the given class
@@ -188,22 +188,22 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups
 {
-    NSEnumerator* iter = [[self layers] objectEnumerator];
-    DKLayer* layer;
-    NSMutableArray* fLayers = [NSMutableArray array];
+	NSEnumerator* iter = [[self layers] objectEnumerator];
+	DKLayer* layer;
+	NSMutableArray* fLayers = [NSMutableArray array];
 
-    if (includeGroups || [self isKindOfClass:layerClass])
-        [fLayers addObject:self];
+	if (includeGroups || [self isKindOfClass:layerClass])
+		[fLayers addObject:self];
 
-    while ((layer = [iter nextObject])) {
-        if ([layer respondsToSelector:_cmd])
-            [fLayers addObjectsFromArray:[(DKLayerGroup*)layer flattenedLayersOfClass:layerClass
-                                                                        includeGroups:includeGroups]];
-        else if ([layer isKindOfClass:layerClass])
-            [fLayers addObject:layer];
-    }
+	while ((layer = [iter nextObject])) {
+		if ([layer respondsToSelector:_cmd])
+			[fLayers addObjectsFromArray:[(DKLayerGroup*)layer flattenedLayersOfClass:layerClass
+																		includeGroups:includeGroups]];
+		else if ([layer isKindOfClass:layerClass])
+			[fLayers addObject:layer];
+	}
 
-    return fLayers;
+	return fLayers;
 }
 
 #pragma mark -
@@ -217,15 +217,15 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)addNewLayerOfClass:(Class)layerClass
 {
-    if ([layerClass isSubclassOfClass:[DKLayer class]]) {
-        DKLayer* layer = [[layerClass alloc] init];
+	if ([layerClass isSubclassOfClass:[DKLayer class]]) {
+		DKLayer* layer = [[layerClass alloc] init];
 
-        [self addLayer:layer];
-        [layer release]; // retained by self
+		[self addLayer:layer];
+		[layer release]; // retained by self
 
-        return layer;
-    } else
-        return nil;
+		return layer;
+	} else
+		return nil;
 }
 
 /** @brief Adds a layer to the group
@@ -235,10 +235,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)addLayer:(DKLayer*)aLayer
 {
-    NSAssert(aLayer != nil, @"can't add a nil layer");
+	NSAssert(aLayer != nil, @"can't add a nil layer");
 
-    [self insertObject:aLayer
-        inLayersAtIndex:0];
+	[self insertObject:aLayer
+		inLayersAtIndex:0];
 }
 
 /** @brief Adds a layer above a specific index position in the stack
@@ -249,16 +249,16 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)addLayer:(DKLayer*)aLayer aboveLayerIndex:(NSUInteger)layerIndex
 {
-    NSAssert(aLayer != nil, @"cannot add a nil layer");
+	NSAssert(aLayer != nil, @"cannot add a nil layer");
 
-    // adds a layer above the given index - if index is 0 or 1 puts the layer on top
+	// adds a layer above the given index - if index is 0 or 1 puts the layer on top
 
-    if (layerIndex <= 1)
-        [self insertObject:aLayer
-            inLayersAtIndex:0];
-    else
-        [self insertObject:aLayer
-            inLayersAtIndex:layerIndex];
+	if (layerIndex <= 1)
+		[self insertObject:aLayer
+			inLayersAtIndex:0];
+	else
+		[self insertObject:aLayer
+			inLayersAtIndex:layerIndex];
 }
 
 /** @brief Adds a layer at a specific index position in the stack
@@ -270,27 +270,27 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)insertObject:(DKLayer*)aLayer inLayersAtIndex:(NSUInteger)layerIndex
 {
-    NSAssert(aLayer != nil, @"cannot insert a nil layer");
+	NSAssert(aLayer != nil, @"cannot insert a nil layer");
 
-    // check that the layer being added isn't a DKDrawing instance - that is a bad thing to attempt.
+	// check that the layer being added isn't a DKDrawing instance - that is a bad thing to attempt.
 
-    if ([aLayer isKindOfClass:[DKDrawing class]])
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"Error - attempt to add a DKDrawing instance to a layer group"];
+	if ([aLayer isKindOfClass:[DKDrawing class]])
+		[NSException raise:NSInternalInconsistencyException
+					format:@"Error - attempt to add a DKDrawing instance to a layer group"];
 
-    if (![self locked] && ![m_layers containsObject:aLayer]) {
-        [[[self undoManager] prepareWithInvocationTarget:self] removeObjectFromLayersAtIndex:layerIndex];
+	if (![self locked] && ![m_layers containsObject:aLayer]) {
+		[[[self undoManager] prepareWithInvocationTarget:self] removeObjectFromLayersAtIndex:layerIndex];
 
-        [m_layers insertObject:aLayer
-                       atIndex:layerIndex];
-        [aLayer setLayerGroup:self];
-        [aLayer drawingDidChangeToSize:[NSValue valueWithSize:[[self drawing] drawingSize]]];
-        [self setNeedsDisplay:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidAddLayer
-                                                            object:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
-                                                            object:self];
-    }
+		[m_layers insertObject:aLayer
+					   atIndex:layerIndex];
+		[aLayer setLayerGroup:self];
+		[aLayer drawingDidChangeToSize:[NSValue valueWithSize:[[self drawing] drawingSize]]];
+		[self setNeedsDisplay:YES];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidAddLayer
+															object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
+															object:self];
+	}
 }
 
 /** @brief Removes the layer from the drawing
@@ -300,9 +300,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)removeLayer:(DKLayer*)aLayer
 {
-    NSAssert(aLayer != nil, @"cannot remove a nil layer");
+	NSAssert(aLayer != nil, @"cannot remove a nil layer");
 
-    [self removeObjectFromLayersAtIndex:[self indexOfLayer:aLayer]];
+	[self removeObjectFromLayersAtIndex:[self indexOfLayer:aLayer]];
 }
 
 /** @brief Remove the layer with a particular index number from the layer
@@ -313,23 +313,23 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)removeObjectFromLayersAtIndex:(NSUInteger)layerIndex
 {
-    NSAssert(layerIndex < [self countOfLayers], @"layer index out of range in removeLayerFromLayersAtIndex:");
+	NSAssert(layerIndex < [self countOfLayers], @"layer index out of range in removeLayerFromLayersAtIndex:");
 
-    if (![self locked]) {
-        DKLayer* aLayer = [self objectInLayersAtIndex:layerIndex];
+	if (![self locked]) {
+		DKLayer* aLayer = [self objectInLayersAtIndex:layerIndex];
 
-        if (aLayer) {
-            [[[self undoManager] prepareWithInvocationTarget:self] insertObject:aLayer
-                                                                inLayersAtIndex:layerIndex];
-            [aLayer setLayerGroup:nil];
-            [m_layers removeObjectAtIndex:layerIndex];
-            [self setNeedsDisplay:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidRemoveLayer
-                                                                object:self];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
-                                                                object:self];
-        }
-    }
+		if (aLayer) {
+			[[[self undoManager] prepareWithInvocationTarget:self] insertObject:aLayer
+																inLayersAtIndex:layerIndex];
+			[aLayer setLayerGroup:nil];
+			[m_layers removeObjectAtIndex:layerIndex];
+			[self setNeedsDisplay:YES];
+			[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidRemoveLayer
+																object:self];
+			[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
+																object:self];
+		}
+	}
 }
 
 /** @brief Removes all of the group's layers
@@ -339,18 +339,18 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)removeAllLayers
 {
-    if (![self locked]) {
-        [[self undoManager] removeAllActionsWithTarget:self];
+	if (![self locked]) {
+		[[self undoManager] removeAllActionsWithTarget:self];
 
-        [m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
-                                  withObject:nil];
-        [m_layers removeAllObjects];
-        [self setNeedsDisplay:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidRemoveLayer
-                                                            object:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
-                                                            object:self];
-    }
+		[m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
+								  withObject:nil];
+		[m_layers removeAllObjects];
+		[self setNeedsDisplay:YES];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidRemoveLayer
+															object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupNumberOfLayersDidChange
+															object:self];
+	}
 }
 
 /** @brief Disambiguates a layer's name by appending digits until there is no conflict
@@ -362,22 +362,22 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSString*)uniqueLayerNameForName:(NSString*)aName
 {
-    NSInteger numeral = 0;
-    BOOL found = YES;
-    NSString* temp = aName;
-    NSArray* keys = [[self layers] valueForKey:@"layerName"];
+	NSInteger numeral = 0;
+	BOOL found = YES;
+	NSString* temp = aName;
+	NSArray* keys = [[self layers] valueForKey:@"layerName"];
 
-    while (found) {
-        NSInteger k = [keys indexOfObject:temp];
+	while (found) {
+		NSInteger k = [keys indexOfObject:temp];
 
-        if (k == NSNotFound)
-            found = NO;
-        else
+		if (k == NSNotFound)
+			found = NO;
+		else
 #warning 64BIT: Inspect use of long
-            temp = [NSString stringWithFormat:@"%@ %ld", aName, (long)++numeral];
-    }
+			temp = [NSString stringWithFormat:@"%@ %ld", aName, (long)++numeral];
+	}
 
-    return temp;
+	return temp;
 }
 
 #pragma mark -
@@ -390,9 +390,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 - (DKLayer*)objectInLayersAtIndex:(NSUInteger)layerIndex
 {
 #warning 64BIT: Inspect use of long
-    NSAssert1(layerIndex < [self countOfLayers], @"bad layer index %ld (overrange)", (long)layerIndex);
+	NSAssert1(layerIndex < [self countOfLayers], @"bad layer index %ld (overrange)", (long)layerIndex);
 
-    return [[self layers] objectAtIndex:layerIndex];
+	return [[self layers] objectAtIndex:layerIndex];
 }
 
 /** @brief Returns the topmost layer
@@ -400,10 +400,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)topLayer
 {
-    if ([self countOfLayers] > 0)
-        return [self objectInLayersAtIndex:0];
-    else
-        return nil;
+	if ([self countOfLayers] > 0)
+		return [self objectInLayersAtIndex:0];
+	else
+		return nil;
 }
 
 /** @brief Returns the bottom layer
@@ -413,7 +413,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)bottomLayer
 {
-    return [[self layers] lastObject];
+	return [[self layers] lastObject];
 }
 
 /** @brief Returns the stack position of a given layer
@@ -425,7 +425,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSUInteger)indexOfLayer:(DKLayer*)aLayer
 {
-    return [[self layers] indexOfObjectIdenticalTo:aLayer];
+	return [[self layers] indexOfObjectIdenticalTo:aLayer];
 }
 
 /** @brief Returns the uppermost layer matching class, if any
@@ -436,8 +436,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)firstLayerOfClass:(Class)cl
 {
-    return [self firstLayerOfClass:cl
-                 performDeepSearch:NO];
+	return [self firstLayerOfClass:cl
+				 performDeepSearch:NO];
 }
 
 /** @brief Returns the uppermost layer matching class, if any
@@ -447,13 +447,13 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)firstLayerOfClass:(Class)cl performDeepSearch:(BOOL)deep
 {
-    NSArray* layers = [self layersOfClass:cl
-                        performDeepSearch:deep];
+	NSArray* layers = [self layersOfClass:cl
+						performDeepSearch:deep];
 
-    if (layers && [layers count] > 0)
-        return [layers objectAtIndex:0];
-    else
-        return nil;
+	if (layers && [layers count] > 0)
+		return [layers objectAtIndex:0];
+	else
+		return nil;
 }
 
 /** @brief Returns a list of layers of the given class
@@ -464,8 +464,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)layersOfClass:(Class)cl
 {
-    return [self layersOfClass:cl
-             performDeepSearch:NO];
+	return [self layersOfClass:cl
+			 performDeepSearch:NO];
 }
 
 /** @brief Returns a list of layers of the given class
@@ -476,20 +476,20 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 - (NSArray*)layersOfClass:(Class)cl performDeepSearch:(BOOL)deep
 
 {
-    NSEnumerator* iter = [self layerTopToBottomEnumerator];
-    DKLayer* lyr;
-    NSMutableArray* layers = [NSMutableArray array];
+	NSEnumerator* iter = [self layerTopToBottomEnumerator];
+	DKLayer* lyr;
+	NSMutableArray* layers = [NSMutableArray array];
 
-    while ((lyr = [iter nextObject])) {
-        if ([lyr isKindOfClass:cl])
-            [layers addObject:lyr];
+	while ((lyr = [iter nextObject])) {
+		if ([lyr isKindOfClass:cl])
+			[layers addObject:lyr];
 
-        if (deep && [lyr respondsToSelector:_cmd])
-            [layers addObjectsFromArray:[(DKLayerGroup*)lyr layersOfClass:cl
-                                                        performDeepSearch:YES]];
-    }
+		if (deep && [lyr respondsToSelector:_cmd])
+			[layers addObjectsFromArray:[(DKLayerGroup*)lyr layersOfClass:cl
+														performDeepSearch:YES]];
+	}
 
-    return layers;
+	return layers;
 }
 
 /** @brief Returns an enumerator that can be used to iterate over the layers in top to bottom order
@@ -500,7 +500,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSEnumerator*)layerTopToBottomEnumerator
 {
-    return [[self layers] objectEnumerator];
+	return [[self layers] objectEnumerator];
 }
 
 /** @brief Returns an enumerator that can be used to iterate over the layers in bottom to top order
@@ -511,7 +511,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSEnumerator*)layerBottomToTopEnumerator
 {
-    return [[self layers] reverseObjectEnumerator];
+	return [[self layers] reverseObjectEnumerator];
 }
 
 /** @brief Find the topmost layer in this group that is 'hit' by the given point
@@ -523,21 +523,21 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)findLayerForPoint:(NSPoint)p
 {
-    if ([self visible]) {
-        NSEnumerator* iter = [self layerTopToBottomEnumerator];
-        DKLayer* layer;
+	if ([self visible]) {
+		NSEnumerator* iter = [self layerTopToBottomEnumerator];
+		DKLayer* layer;
 
-        while ((layer = [iter nextObject])) {
-            if ([layer isKindOfClass:[DKLayerGroup class]]) {
-                layer = [(DKLayerGroup*)layer findLayerForPoint:p];
+		while ((layer = [iter nextObject])) {
+			if ([layer isKindOfClass:[DKLayerGroup class]]) {
+				layer = [(DKLayerGroup*)layer findLayerForPoint:p];
 
-                if (layer)
-                    return layer;
-            } else if ([layer visible] && [layer hitLayer:p])
-                return layer;
-        }
-    }
-    return nil;
+				if (layer)
+					return layer;
+			} else if ([layer visible] && [layer hitLayer:p])
+				return layer;
+		}
+	}
+	return nil;
 }
 
 /** @brief Returns whether this group, or any subgroup within, contains the layer
@@ -549,24 +549,24 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (BOOL)containsLayer:(DKLayer*)aLayer
 {
-    if (aLayer == self)
-        return NO;
-    else {
-        NSEnumerator* iter = [self layerTopToBottomEnumerator];
-        DKLayer* layer;
+	if (aLayer == self)
+		return NO;
+	else {
+		NSEnumerator* iter = [self layerTopToBottomEnumerator];
+		DKLayer* layer;
 
-        while ((layer = [iter nextObject])) {
-            if (aLayer == layer)
-                return YES;
+		while ((layer = [iter nextObject])) {
+			if (aLayer == layer)
+				return YES;
 
-            if ([layer isKindOfClass:[DKLayerGroup class]]) {
-                if ([(DKLayerGroup*)layer containsLayer:aLayer])
-                    return YES;
-            }
-        }
+			if ([layer isKindOfClass:[DKLayerGroup class]]) {
+				if ([(DKLayerGroup*)layer containsLayer:aLayer])
+					return YES;
+			}
+		}
 
-        return NO;
-    }
+		return NO;
+	}
 }
 
 /** @brief Returns a layer or layer group having the given unique key
@@ -577,20 +577,20 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)layerWithUniqueKey:(NSString*)key
 {
-    NSEnumerator* iter = [[self layers] objectEnumerator];
-    DKLayer* layer;
+	NSEnumerator* iter = [[self layers] objectEnumerator];
+	DKLayer* layer;
 
-    while ((layer = [iter nextObject])) {
-        if ([[layer uniqueKey] isEqualToString:key])
-            return layer;
-        else if ([layer isKindOfClass:[self class]]) {
-            layer = [(DKLayerGroup*)layer layerWithUniqueKey:key];
-            if (layer)
-                return layer;
-        }
-    }
+	while ((layer = [iter nextObject])) {
+		if ([[layer uniqueKey] isEqualToString:key])
+			return layer;
+		else if ([layer isKindOfClass:[self class]]) {
+			layer = [(DKLayerGroup*)layer layerWithUniqueKey:key];
+			if (layer)
+				return layer;
+		}
+	}
 
-    return nil;
+	return nil;
 }
 
 #pragma mark -
@@ -601,15 +601,15 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)showAll
 {
-    NSEnumerator* iter = [self layerTopToBottomEnumerator];
-    DKLayer* aLayer;
+	NSEnumerator* iter = [self layerTopToBottomEnumerator];
+	DKLayer* aLayer;
 
-    while ((aLayer = [iter nextObject])) {
-        [aLayer setVisible:YES];
+	while ((aLayer = [iter nextObject])) {
+		[aLayer setVisible:YES];
 
-        if ([aLayer isKindOfClass:[DKLayerGroup class]])
-            [(DKLayerGroup*)aLayer showAll];
-    }
+		if ([aLayer isKindOfClass:[DKLayerGroup class]])
+			[(DKLayerGroup*)aLayer showAll];
+	}
 }
 
 /** @brief Makes all layers in the group and in any subgroups hidden except <aLayer>, which is made visible.
@@ -619,22 +619,22 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)hideAllExcept:(DKLayer*)aLayer
 {
-    NSEnumerator* iter = [self layerTopToBottomEnumerator];
-    DKLayer* layer;
+	NSEnumerator* iter = [self layerTopToBottomEnumerator];
+	DKLayer* layer;
 
-    while ((layer = [iter nextObject])) {
-        if ([layer isKindOfClass:[DKLayerGroup class]]) {
-            [(DKLayerGroup*)layer hideAllExcept:aLayer];
+	while ((layer = [iter nextObject])) {
+		if ([layer isKindOfClass:[DKLayerGroup class]]) {
+			[(DKLayerGroup*)layer hideAllExcept:aLayer];
 
-            // this logic keeps groups that contain the excepted layer visible if necessary
+			// this logic keeps groups that contain the excepted layer visible if necessary
 
-            if (layer == aLayer || [(DKLayerGroup*)layer containsLayer:aLayer])
-                [layer setVisible:YES];
-            else
-                [layer setVisible:NO];
-        } else
-            [layer setVisible:layer == aLayer];
-    }
+			if (layer == aLayer || [(DKLayerGroup*)layer containsLayer:aLayer])
+				[layer setVisible:YES];
+			else
+				[layer setVisible:NO];
+		} else
+			[layer setVisible:layer == aLayer];
+	}
 }
 
 /** @brief Returns YES if the  receiver or any of its contained layers is hidden
@@ -644,24 +644,24 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (BOOL)hasHiddenLayers
 {
-    if (![self visible])
-        return YES;
-    else {
-        NSEnumerator* iter = [self layerTopToBottomEnumerator];
-        DKLayer* layer;
+	if (![self visible])
+		return YES;
+	else {
+		NSEnumerator* iter = [self layerTopToBottomEnumerator];
+		DKLayer* layer;
 
-        while ((layer = [iter nextObject])) {
-            if (![layer visible])
-                return YES;
+		while ((layer = [iter nextObject])) {
+			if (![layer visible])
+				return YES;
 
-            if ([layer isKindOfClass:[DKLayerGroup class]]) {
-                if ([(DKLayerGroup*)layer hasHiddenLayers])
-                    return YES;
-            }
-        }
+			if ([layer isKindOfClass:[DKLayerGroup class]]) {
+				if ([(DKLayerGroup*)layer hasHiddenLayers])
+					return YES;
+			}
+		}
 
-        return NO;
-    }
+		return NO;
+	}
 }
 
 /** @brief Returns YES if the  receiver or any of its contained layers is visible, ignoring the one passed
@@ -672,25 +672,25 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (BOOL)hasVisibleLayersOtherThan:(DKLayer*)aLayer
 {
-    if (![self visible] && self != aLayer)
-        return NO;
+	if (![self visible] && self != aLayer)
+		return NO;
 
-    NSEnumerator* iter = [self layerTopToBottomEnumerator];
-    DKLayer* layer;
+	NSEnumerator* iter = [self layerTopToBottomEnumerator];
+	DKLayer* layer;
 
-    while ((layer = [iter nextObject])) {
-        if (layer != aLayer) {
-            if ([layer visible])
-                return YES;
+	while ((layer = [iter nextObject])) {
+		if (layer != aLayer) {
+			if ([layer visible])
+				return YES;
 
-            if ([layer isKindOfClass:[DKLayerGroup class]]) {
-                if ([(DKLayerGroup*)layer hasVisibleLayersOtherThan:aLayer])
-                    return YES;
-            }
-        }
-    }
+			if ([layer isKindOfClass:[DKLayerGroup class]]) {
+				if ([(DKLayerGroup*)layer hasVisibleLayersOtherThan:aLayer])
+					return YES;
+			}
+		}
+	}
 
-    return NO;
+	return NO;
 }
 
 #pragma mark -
@@ -703,10 +703,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)moveUpLayer:(DKLayer*)aLayer
 {
-    NSAssert(aLayer != nil, @"cannot move a nil layer");
+	NSAssert(aLayer != nil, @"cannot move a nil layer");
 
-    [self moveLayer:aLayer
-            toIndex:[self indexOfLayer:aLayer] - 1];
+	[self moveLayer:aLayer
+			toIndex:[self indexOfLayer:aLayer] - 1];
 }
 
 /** @brief Moves the layer one place towards the bottom of the stack
@@ -716,10 +716,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)moveDownLayer:(DKLayer*)aLayer
 {
-    NSAssert(aLayer != nil, @"cannot move a nil layer");
+	NSAssert(aLayer != nil, @"cannot move a nil layer");
 
-    [self moveLayer:aLayer
-            toIndex:[self indexOfLayer:aLayer] + 1];
+	[self moveLayer:aLayer
+			toIndex:[self indexOfLayer:aLayer] + 1];
 }
 
 /** @brief Moves the layer to the top of the stack
@@ -729,10 +729,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)moveLayerToTop:(DKLayer*)aLayer
 {
-    NSAssert(aLayer != nil, @"cannot move a nil layer");
+	NSAssert(aLayer != nil, @"cannot move a nil layer");
 
-    [self moveLayer:aLayer
-            toIndex:0];
+	[self moveLayer:aLayer
+			toIndex:0];
 }
 
 /** @brief Moves the layer to the bottom of the stack
@@ -742,10 +742,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)moveLayerToBottom:(DKLayer*)aLayer
 {
-    NSAssert(aLayer != nil, @"cannot move a nil layer");
+	NSAssert(aLayer != nil, @"cannot move a nil layer");
 
-    [self moveLayer:aLayer
-            toIndex:[self countOfLayers] - 1];
+	[self moveLayer:aLayer
+			toIndex:[self countOfLayers] - 1];
 }
 
 /** @brief Changes a layer's z-stacking order so it comes before (above) <otherLayer>
@@ -754,13 +754,13 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)moveLayer:(DKLayer*)aLayer aboveLayer:(DKLayer*)otherLayer
 {
-    NSAssert(aLayer != nil, @"cannot move a nil layer");
+	NSAssert(aLayer != nil, @"cannot move a nil layer");
 
-    if (otherLayer == nil)
-        [self moveLayerToBottom:aLayer];
-    else
-        [self moveLayer:aLayer
-                toIndex:[self indexOfLayer:otherLayer]];
+	if (otherLayer == nil)
+		[self moveLayerToBottom:aLayer];
+	else
+		[self moveLayer:aLayer
+				toIndex:[self indexOfLayer:otherLayer]];
 }
 
 /** @brief Changes a layer's z-stacking order so it comes after (below) <otherLayer>
@@ -769,13 +769,13 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)moveLayer:(DKLayer*)aLayer belowLayer:(DKLayer*)otherLayer
 {
-    NSAssert(aLayer != nil, @"cannot move a nil layer");
+	NSAssert(aLayer != nil, @"cannot move a nil layer");
 
-    if (otherLayer == nil)
-        [self moveLayerToTop:aLayer];
-    else
-        [self moveLayer:aLayer
-                toIndex:[self indexOfLayer:otherLayer] + 1];
+	if (otherLayer == nil)
+		[self moveLayerToTop:aLayer];
+	else
+		[self moveLayer:aLayer
+				toIndex:[self indexOfLayer:otherLayer] + 1];
 }
 
 /** @brief Moves a layer to the index position given. This is called by all if the other moveLayer... methods
@@ -787,36 +787,36 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)moveLayer:(DKLayer*)aLayer toIndex:(NSUInteger)i
 {
-    // all other layer stacking methods call this one, which implements undo and notification
+	// all other layer stacking methods call this one, which implements undo and notification
 
-    NSAssert(aLayer != nil, @"trying to move nil layer");
-    NSAssert(![aLayer locked], @"trying to move a locked layer");
+	NSAssert(aLayer != nil, @"trying to move nil layer");
+	NSAssert(![aLayer locked], @"trying to move a locked layer");
 
-    if (![self locked]) {
-        NSUInteger k = [self indexOfLayer:aLayer];
+	if (![self locked]) {
+		NSUInteger k = [self indexOfLayer:aLayer];
 
-        if (k == NSNotFound)
-            return;
+		if (k == NSNotFound)
+			return;
 
-        i = MIN(i, [self countOfLayers] - 1);
+		i = MIN(i, [self countOfLayers] - 1);
 
-        if (k != i) {
-            [[[self undoManager] prepareWithInvocationTarget:self] moveLayer:aLayer
-                                                                     toIndex:k];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupWillReorderLayers
-                                                                object:self];
+		if (k != i) {
+			[[[self undoManager] prepareWithInvocationTarget:self] moveLayer:aLayer
+																	 toIndex:k];
+			[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupWillReorderLayers
+																object:self];
 
-            [aLayer retain];
-            [m_layers removeObject:aLayer];
-            [m_layers insertObject:aLayer
-                           atIndex:i];
-            [aLayer release];
+			[aLayer retain];
+			[m_layers removeObject:aLayer];
+			[m_layers insertObject:aLayer
+						   atIndex:i];
+			[aLayer release];
 
-            [self setNeedsDisplay:YES];
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidReorderLayers
-                                                                object:self];
-        }
-    }
+			[self setNeedsDisplay:YES];
+			[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidReorderLayers
+																object:self];
+		}
+	}
 }
 
 #pragma mark -
@@ -827,8 +827,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)drawingHasNewUndoManager:(NSUndoManager*)um
 {
-    [[self layers] makeObjectsPerformSelector:@selector(drawingHasNewUndoManager:)
-                                   withObject:um];
+	[[self layers] makeObjectsPerformSelector:@selector(drawingHasNewUndoManager:)
+								   withObject:um];
 }
 
 /** @brief Draws the layers it contains
@@ -839,50 +839,50 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
 {
-    if ([self countOfLayers] > 0) {
-        // if clipping to the interior, set up that clip now
+	if ([self countOfLayers] > 0) {
+		// if clipping to the interior, set up that clip now
 
-        SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-            if ([self clipsDrawingToInterior])
-                    [NSBezierPath clipRect : [[self drawing] interior]];
+		SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+			if ([self clipsDrawingToInterior])
+					[NSBezierPath clipRect : [[self drawing] interior]];
 
-        NSUInteger bottom;
-        NSInteger n;
-        BOOL printing = ![NSGraphicsContext currentContextDrawingToScreen];
-        DKLayer* layer;
+		NSUInteger bottom;
+		NSInteger n;
+		BOOL printing = ![NSGraphicsContext currentContextDrawingToScreen];
+		DKLayer* layer;
 
-        bottom = [self indexOfHighestOpaqueLayer];
+		bottom = [self indexOfHighestOpaqueLayer];
 
-        for (n = bottom; n >= 0; --n) {
-            layer = [self objectInLayersAtIndex:n];
+		for (n = bottom; n >= 0; --n) {
+			layer = [self objectInLayersAtIndex:n];
 
-            if ([layer visible] && !(printing && ![layer shouldDrawToPrinter])) {
-                @try
-                {
-                    [NSGraphicsContext saveGraphicsState];
+			if ([layer visible] && !(printing && ![layer shouldDrawToPrinter])) {
+				@try
+				{
+					[NSGraphicsContext saveGraphicsState];
 
-                    if ([layer clipsDrawingToInterior])
-                        [NSBezierPath clipRect:[[self drawing] interior]];
+					if ([layer clipsDrawingToInterior])
+						[NSBezierPath clipRect:[[self drawing] interior]];
 
-                    [layer beginDrawing];
-                    [layer drawRect:rect
-                             inView:aView];
-                    [layer endDrawing];
-                }
-                @catch (id exc)
-                {
+					[layer beginDrawing];
+					[layer drawRect:rect
+							 inView:aView];
+					[layer endDrawing];
+				}
+				@catch (id exc)
+				{
 #warning 64BIT: Inspect use of long
 #warning 64BIT: Inspect use of long
-                    NSLog(@"exception while drawing layer %@ [%ld of %ld in group %@](%@ - ignored)", layer, (long)n, (long)[self countOfLayers], self, exc);
-                }
-                @finally
-                {
-                    [NSGraphicsContext restoreGraphicsState];
-                }
-            }
-        }
-        RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
-    }
+					NSLog(@"exception while drawing layer %@ [%ld of %ld in group %@](%@ - ignored)", layer, (long)n, (long)[self countOfLayers], self, exc);
+				}
+				@finally
+				{
+					[NSGraphicsContext restoreGraphicsState];
+				}
+			}
+		}
+		RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	}
 }
 
 /** @brief Returns whether the layer can become the active layer
@@ -892,7 +892,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (BOOL)layerMayBecomeActive
 {
-    return NO;
+	return NO;
 }
 
 /** @brief Propagate the message to all contained layers
@@ -900,8 +900,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)drawingDidChangeToSize:(NSValue*)sizeVal
 {
-    [[self layers] makeObjectsPerformSelector:@selector(drawingDidChangeToSize:)
-                                   withObject:sizeVal];
+	[[self layers] makeObjectsPerformSelector:@selector(drawingDidChangeToSize:)
+								   withObject:sizeVal];
 }
 
 /** @brief Propagate the message to all contained layers
@@ -909,8 +909,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)drawingDidChangeMargins:(NSValue*)oldInterior
 {
-    [[self layers] makeObjectsPerformSelector:@selector(drawingDidChangeMargins:)
-                                   withObject:oldInterior];
+	[[self layers] makeObjectsPerformSelector:@selector(drawingDidChangeMargins:)
+								   withObject:oldInterior];
 }
 
 /** @brief See if any enclosed layer is hit by the point
@@ -919,14 +919,14 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (BOOL)hitLayer:(NSPoint)p
 {
-    NSEnumerator* iter = [self layerTopToBottomEnumerator];
-    DKLayer* layer;
+	NSEnumerator* iter = [self layerTopToBottomEnumerator];
+	DKLayer* layer;
 
-    while ((layer = [iter nextObject])) {
-        if ([layer hitLayer:p])
-            return YES;
-    }
-    return NO;
+	while ((layer = [iter nextObject])) {
+		if ([layer hitLayer:p])
+			return YES;
+	}
+	return NO;
 }
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
@@ -936,8 +936,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)wasAddedToDrawing:(DKDrawing*)aDrawing
 {
-    [[self layers] makeObjectsPerformSelector:_cmd
-                                   withObject:aDrawing];
+	[[self layers] makeObjectsPerformSelector:_cmd
+								   withObject:aDrawing];
 }
 
 /** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is
@@ -947,10 +947,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSUInteger)level
 {
-    if ([self layerGroup] == nil)
-        return 0;
-    else
-        return [[self layerGroup] level] + 1;
+	if ([self layerGroup] == nil)
+		return 0;
+	else
+		return [[self layerGroup] level] + 1;
 }
 
 #pragma mark -
@@ -961,27 +961,27 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSSet*)allStyles
 {
-    // returns the union of all sublayers that return something for this method
+	// returns the union of all sublayers that return something for this method
 
-    NSEnumerator* iter = [self layerTopToBottomEnumerator];
-    DKLayer* layer;
-    NSSet* styles;
-    NSMutableSet* unionOfAllStyles = nil;
+	NSEnumerator* iter = [self layerTopToBottomEnumerator];
+	DKLayer* layer;
+	NSSet* styles;
+	NSMutableSet* unionOfAllStyles = nil;
 
-    while ((layer = [iter nextObject])) {
-        styles = [layer allStyles];
+	while ((layer = [iter nextObject])) {
+		styles = [layer allStyles];
 
-        if (styles != nil) {
-            // we got one - make a set to union them with if necessary
+		if (styles != nil) {
+			// we got one - make a set to union them with if necessary
 
-            if (unionOfAllStyles == nil)
-                unionOfAllStyles = [styles mutableCopy];
-            else
-                [unionOfAllStyles unionSet:styles];
-        }
-    }
+			if (unionOfAllStyles == nil)
+				unionOfAllStyles = [styles mutableCopy];
+			else
+				[unionOfAllStyles unionSet:styles];
+		}
+	}
 
-    return [unionOfAllStyles autorelease];
+	return [unionOfAllStyles autorelease];
 }
 
 /** @brief Return all of registered styles used by the layers in this group
@@ -989,27 +989,27 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSSet*)allRegisteredStyles
 {
-    // returns the union of all sublayers that return something for this method
+	// returns the union of all sublayers that return something for this method
 
-    NSEnumerator* iter = [self layerTopToBottomEnumerator];
-    DKLayer* layer;
-    NSSet* styles;
-    NSMutableSet* unionOfAllStyles = nil;
+	NSEnumerator* iter = [self layerTopToBottomEnumerator];
+	DKLayer* layer;
+	NSSet* styles;
+	NSMutableSet* unionOfAllStyles = nil;
 
-    while ((layer = [iter nextObject])) {
-        styles = [layer allRegisteredStyles];
+	while ((layer = [iter nextObject])) {
+		styles = [layer allRegisteredStyles];
 
-        if (styles != nil) {
-            // we got one - make a set to union them with if necessary
+		if (styles != nil) {
+			// we got one - make a set to union them with if necessary
 
-            if (unionOfAllStyles == nil)
-                unionOfAllStyles = [styles mutableCopy];
-            else
-                [unionOfAllStyles unionSet:styles];
-        }
-    }
+			if (unionOfAllStyles == nil)
+				unionOfAllStyles = [styles mutableCopy];
+			else
+				[unionOfAllStyles unionSet:styles];
+		}
+	}
 
-    return [unionOfAllStyles autorelease];
+	return [unionOfAllStyles autorelease];
 }
 
 /** @brief Substitute styles with those in the given set
@@ -1020,86 +1020,86 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (void)replaceMatchingStylesFromSet:(NSSet*)aSet
 {
-    [[self layers] makeObjectsPerformSelector:@selector(replaceMatchingStylesFromSet:)
-                                   withObject:aSet];
+	[[self layers] makeObjectsPerformSelector:@selector(replaceMatchingStylesFromSet:)
+								   withObject:aSet];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    // set group ref to nil in case someone else is retaining any layer
+	// set group ref to nil in case someone else is retaining any layer
 
-    [m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
-                              withObject:nil];
-    [m_layers release];
-    [super dealloc];
+	[m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
+							  withObject:nil];
+	[m_layers release];
+	[super dealloc];
 }
 
 - (id)init
 {
-    return [self initWithLayers:nil];
+	return [self initWithLayers:nil];
 }
 
 #pragma mark -
 #pragma mark As part NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [super encodeWithCoder:coder];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[super encodeWithCoder:coder];
 
-    // store a flag to say that we now store layers the other way up - this triggers older files that lack this
-    // to have their layer order reversed when loaded
+	// store a flag to say that we now store layers the other way up - this triggers older files that lack this
+	// to have their layer order reversed when loaded
 
-    [coder encodeBool:YES
-               forKey:@"DKLayerGroup_invertedStack"];
-    [coder encodeObject:[self layers]
-                 forKey:@"DKLayerGroup_layers"];
+	[coder encodeBool:YES
+			   forKey:@"DKLayerGroup_invertedStack"];
+	[coder encodeObject:[self layers]
+				 forKey:@"DKLayerGroup_layers"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    LogEvent_(kFileEvent, @"decoding layer group %@", self);
+	NSAssert(coder != nil, @"Expected valid coder");
+	LogEvent_(kFileEvent, @"decoding layer group %@", self);
 
-    self = [super initWithCoder:coder];
-    if (self != nil) {
-        // prior to beta 3, layers were stored in the inverse order, so those files need to have their layers stacked
-        //  the other way up so they come up true in the current model.
+	self = [super initWithCoder:coder];
+	if (self != nil) {
+		// prior to beta 3, layers were stored in the inverse order, so those files need to have their layers stacked
+		//  the other way up so they come up true in the current model.
 
-        BOOL hasInvertedLayerStack = [coder decodeBoolForKey:@"DKLayerGroup_invertedStack"];
+		BOOL hasInvertedLayerStack = [coder decodeBoolForKey:@"DKLayerGroup_invertedStack"];
 
-        if (!hasInvertedLayerStack) {
-            NSArray* layerStack = [coder decodeObjectForKey:@"layers"];
+		if (!hasInvertedLayerStack) {
+			NSArray* layerStack = [coder decodeObjectForKey:@"layers"];
 
-            if ([layerStack count] > 1) {
-                NSMutableArray* temp = [NSMutableArray array];
-                NSEnumerator* iter = [layerStack objectEnumerator];
-                DKLayer* layer;
+			if ([layerStack count] > 1) {
+				NSMutableArray* temp = [NSMutableArray array];
+				NSEnumerator* iter = [layerStack objectEnumerator];
+				DKLayer* layer;
 
-                while ((layer = [iter nextObject]))
-                    [temp insertObject:layer
-                               atIndex:0];
+				while ((layer = [iter nextObject]))
+					[temp insertObject:layer
+							   atIndex:0];
 
-                [self setLayers:temp];
-            } else
-                [self setLayers:layerStack];
-        } else {
-            NSArray* layers = [coder decodeObjectForKey:@"DKLayerGroup_layers"];
+				[self setLayers:temp];
+			} else
+				[self setLayers:layerStack];
+		} else {
+			NSArray* layers = [coder decodeObjectForKey:@"DKLayerGroup_layers"];
 
-            if (layers == nil)
-                layers = [coder decodeObjectForKey:@"layers"];
+			if (layers == nil)
+				layers = [coder decodeObjectForKey:@"layers"];
 
-            LogEvent_(kFileEvent, @"decoding layers in group: %@", layers);
-            [self setLayers:layers];
-        }
+			LogEvent_(kFileEvent, @"decoding layers in group: %@", layers);
+			[self setLayers:layers];
+		}
 
-        if (m_layers == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    return self;
+		if (m_layers == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	return self;
 }
 
 @end

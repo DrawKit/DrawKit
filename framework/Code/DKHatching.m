@@ -29,12 +29,12 @@
  */
 + (DKHatching*)defaultHatching
 {
-    static DKHatching* sDefaulthatch = nil;
+	static DKHatching* sDefaulthatch = nil;
 
-    if (sDefaulthatch == nil)
-        sDefaulthatch = [[DKHatching alloc] init];
+	if (sDefaulthatch == nil)
+		sDefaulthatch = [[DKHatching alloc] init];
 
-    return sDefaulthatch;
+	return sDefaulthatch;
 }
 
 /** @brief Return a hatching with e basic parameters given
@@ -47,13 +47,13 @@
  */
 + (DKHatching*)hatchingWithLineWidth:(CGFloat)w spacing:(CGFloat)spacing angle:(CGFloat)angle
 {
-    DKHatching* hatch = [[self defaultHatching] copy];
+	DKHatching* hatch = [[self defaultHatching] copy];
 
-    [hatch setWidth:w];
-    [hatch setSpacing:spacing];
-    [hatch setAngle:angle];
+	[hatch setWidth:w];
+	[hatch setSpacing:spacing];
+	[hatch setAngle:angle];
 
-    return [hatch autorelease];
+	return [hatch autorelease];
 }
 
 /** @brief Return a hatching which implements a dot pattern
@@ -67,22 +67,22 @@
  */
 + (DKHatching*)hatchingWithDotPitch:(CGFloat)pitch diameter:(CGFloat)diameter
 {
-    DKHatching* hatch = [self hatchingWithLineWidth:diameter
-                                            spacing:pitch
-                                              angle:pi * 0.25];
+	DKHatching* hatch = [self hatchingWithLineWidth:diameter
+											spacing:pitch
+											  angle:pi * 0.25];
 
-    CGFloat dashPattern[2];
+	CGFloat dashPattern[2];
 
-    dashPattern[0] = 0.0;
-    dashPattern[1] = pitch;
+	dashPattern[0] = 0.0;
+	dashPattern[1] = pitch;
 
-    DKStrokeDash* dash = [DKStrokeDash dashWithPattern:dashPattern
-                                                 count:2];
-    [dash setScalesToLineWidth:NO];
-    [hatch setDash:dash];
-    [hatch setLineCapStyle:NSRoundLineCapStyle];
+	DKStrokeDash* dash = [DKStrokeDash dashWithPattern:dashPattern
+												 count:2];
+	[dash setScalesToLineWidth:NO];
+	[hatch setDash:dash];
+	[hatch setLineCapStyle:NSRoundLineCapStyle];
 
-    return hatch;
+	return hatch;
 }
 
 /** @brief Return a hatching which implements a dot pattern of given density
@@ -94,11 +94,11 @@
  */
 + (DKHatching*)hatchingWithDotDensity:(CGFloat)density
 {
-    if (density <= 0.0)
-        return nil;
+	if (density <= 0.0)
+		return nil;
 
-    return [self hatchingWithDotPitch:2.0 / density
-                             diameter:2.0];
+	return [self hatchingWithDotPitch:2.0 / density
+							 diameter:2.0];
 }
 
 #pragma mark -
@@ -108,8 +108,8 @@
  */
 - (void)hatchPath:(NSBezierPath*)path
 {
-    [self hatchPath:path
-        objectAngle:0.0];
+	[self hatchPath:path
+		objectAngle:0.0];
 }
 
 /** @brief Apply the hatching to the path with a given object angle
@@ -118,90 +118,90 @@
  */
 - (void)hatchPath:(NSBezierPath*)path objectAngle:(CGFloat)oa
 {
-    // if the bounds size of <path> is larger than the cached hatch, then we'll need to enlarge the cache, so invalidate
-    // it.
+	// if the bounds size of <path> is larger than the cached hatch, then we'll need to enlarge the cache, so invalidate
+	// it.
 
-    NSRect cr, br = [path bounds];
+	NSRect cr, br = [path bounds];
 
-    if (m_cache) {
-        cr = [m_cache bounds];
+	if (m_cache) {
+		cr = [m_cache bounds];
 
-        if ((br.size.width * 1.5f) > cr.size.width || (br.size.height * 1.5f) > cr.size.height)
-            [self invalidateCache];
-    }
+		if ((br.size.width * 1.5f) > cr.size.width || (br.size.height * 1.5f) > cr.size.height)
+			[self invalidateCache];
+	}
 
-    if (m_cache == nil)
-        [self calcHatchInRect:br];
+	if (m_cache == nil)
+		[self calcHatchInRect:br];
 
-    NSAssert(m_cache != nil, @"couldn't craete the hatch cache");
+	NSAssert(m_cache != nil, @"couldn't craete the hatch cache");
 
-    if (m_cache) {
-        cr = [m_cache bounds];
+	if (m_cache) {
+		cr = [m_cache bounds];
 
-        // now we have a hatch cached, set the clip to the path and draw the hatch. The hatch cache always has its
-        // path centred at the origin so we also need to transform the cache to the drawn position
+		// now we have a hatch cached, set the clip to the path and draw the hatch. The hatch cache always has its
+		// path centred at the origin so we also need to transform the cache to the drawn position
 
-        SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-            [path addClip];
+		SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+			[path addClip];
 
-        // enforce a minimum line width of 0.1 - sizees of zero do not print.
+		// enforce a minimum line width of 0.1 - sizees of zero do not print.
 
-        CGFloat actualLineWidth = [self width];
+		CGFloat actualLineWidth = [self width];
 
-        if (![NSGraphicsContext currentContextDrawingToScreen]) {
-            if (actualLineWidth <= 0.0)
-                actualLineWidth = 0.05; // hairline
-        }
+		if (![NSGraphicsContext currentContextDrawingToScreen]) {
+			if (actualLineWidth <= 0.0)
+				actualLineWidth = 0.05; // hairline
+		}
 
-        [m_cache setLineWidth:actualLineWidth];
+		[m_cache setLineWidth:actualLineWidth];
 
-        if ([self dash])
-            [[self dash] applyToPath:m_cache];
-        else
-            [m_cache setLineDash:nil
-                           count:0
-                           phase:0.0f];
+		if ([self dash])
+			[[self dash] applyToPath:m_cache];
+		else
+			[m_cache setLineDash:nil
+						   count:0
+						   phase:0.0f];
 
-        [m_cache setLineCapStyle:[self lineCapStyle]];
-        [m_cache setLineJoinStyle:[self lineJoinStyle]];
+		[m_cache setLineCapStyle:[self lineCapStyle]];
+		[m_cache setLineJoinStyle:[self lineJoinStyle]];
 
-        [[self colour] set];
+		[[self colour] set];
 
-        NSAffineTransform* xform;
+		NSAffineTransform* xform;
 
-        xform = [NSAffineTransform transform];
-        [xform translateXBy:NSMidX(br)
-                        yBy:NSMidY(br)];
-        [xform concat];
+		xform = [NSAffineTransform transform];
+		[xform translateXBy:NSMidX(br)
+						yBy:NSMidY(br)];
+		[xform concat];
 
-        NSBezierPath* hatch;
+		NSBezierPath* hatch;
 
-        // compensate for the object's angle by applying that rotation to the hatch path
+		// compensate for the object's angle by applying that rotation to the hatch path
 
-        if (oa != 0.0) {
-            xform = [NSAffineTransform transform];
-            [xform rotateByRadians:oa];
-            hatch = [xform transformBezierPath:m_cache];
-        } else
-            hatch = m_cache;
+		if (oa != 0.0) {
+			xform = [NSAffineTransform transform];
+			[xform rotateByRadians:oa];
+			hatch = [xform transformBezierPath:m_cache];
+		} else
+			hatch = m_cache;
 
-        if (mRoughenStrokes) {
-            NSBezierPath* roughHatch;
+		if (mRoughenStrokes) {
+			NSBezierPath* roughHatch;
 
-            if (mRoughenedCache == nil)
-                mRoughenedCache = [[m_cache bezierPathWithRoughenedStrokeOutline:[self roughness] * [self width]] retain];
+			if (mRoughenedCache == nil)
+				mRoughenedCache = [[m_cache bezierPathWithRoughenedStrokeOutline:[self roughness] * [self width]] retain];
 
-            if (oa != 0.0)
-                roughHatch = [xform transformBezierPath:mRoughenedCache];
-            else
-                roughHatch = mRoughenedCache;
+			if (oa != 0.0)
+				roughHatch = [xform transformBezierPath:mRoughenedCache];
+			else
+				roughHatch = mRoughenedCache;
 
-            [roughHatch fill];
-        } else
-            [hatch stroke];
+			[roughHatch fill];
+		} else
+			[hatch stroke];
 
-        RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
-    }
+		RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	}
 }
 
 #pragma mark -
@@ -211,18 +211,18 @@
  */
 - (void)setAngle:(CGFloat)radians
 {
-    if (radians != m_angle) {
-        // cache doesn't need rebuilding, just rotating to the new angle.
+	if (radians != m_angle) {
+		// cache doesn't need rebuilding, just rotating to the new angle.
 
-        if (m_cache) {
-            NSAffineTransform* xform = [NSAffineTransform transform];
-            [xform rotateByRadians:radians - m_angle];
-            [m_cache transformUsingAffineTransform:xform];
-            [mRoughenedCache transformUsingAffineTransform:xform];
-        }
+		if (m_cache) {
+			NSAffineTransform* xform = [NSAffineTransform transform];
+			[xform rotateByRadians:radians - m_angle];
+			[m_cache transformUsingAffineTransform:xform];
+			[mRoughenedCache transformUsingAffineTransform:xform];
+		}
 
-        m_angle = radians;
-    }
+		m_angle = radians;
+	}
 }
 
 /** @brief The angle of the hatching
@@ -230,7 +230,7 @@
  */
 - (CGFloat)angle
 {
-    return m_angle;
+	return m_angle;
 }
 
 /** @brief Set the angle of the hatching in degrees
@@ -238,7 +238,7 @@
  */
 - (void)setAngleInDegrees:(CGFloat)degs
 {
-    [self setAngle:DEGREES_TO_RADIANS(degs)];
+	[self setAngle:DEGREES_TO_RADIANS(degs)];
 }
 
 /** @brief The angle of the hatching in degrees
@@ -246,387 +246,387 @@
  */
 - (CGFloat)angleInDegrees
 {
-    CGFloat angle = RADIANS_TO_DEGREES([self angle]);
+	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
-    if (angle < 0)
-        angle += 360.0f;
+	if (angle < 0)
+		angle += 360.0f;
 
-    return angle;
+	return angle;
 }
 
 - (void)setAngleIsRelativeToObject:(BOOL)rel
 {
-    m_angleRelativeToObject = rel;
+	m_angleRelativeToObject = rel;
 }
 
 - (BOOL)angleIsRelativeToObject
 {
-    return m_angleRelativeToObject;
+	return m_angleRelativeToObject;
 }
 
 #pragma mark -
 - (void)setSpacing:(CGFloat)spacing
 {
-    NSAssert(spacing > 0, @"spacing value must be > 0");
+	NSAssert(spacing > 0, @"spacing value must be > 0");
 
-    if (spacing != m_spacing) {
-        m_spacing = MAX([self width], spacing);
-        [self invalidateCache];
-    }
+	if (spacing != m_spacing) {
+		m_spacing = MAX([self width], spacing);
+		[self invalidateCache];
+	}
 }
 
 - (CGFloat)spacing
 {
-    return m_spacing;
+	return m_spacing;
 }
 
 - (void)setLeadIn:(CGFloat)amount
 {
-    if (amount != m_leadIn) {
-        m_leadIn = amount;
-        [self invalidateCache];
-    }
+	if (amount != m_leadIn) {
+		m_leadIn = amount;
+		[self invalidateCache];
+	}
 }
 
 - (CGFloat)leadIn
 {
-    return m_leadIn;
+	return m_leadIn;
 }
 
 #pragma mark -
 - (void)setWidth:(CGFloat)width
 {
-    m_lineWidth = width;
-    [self invalidateRoughnessCache];
+	m_lineWidth = width;
+	[self invalidateRoughnessCache];
 }
 
 - (CGFloat)width
 {
-    return m_lineWidth;
+	return m_lineWidth;
 }
 
 - (void)setLineCapStyle:(NSLineCapStyle)lcs
 {
-    m_cap = lcs;
-    [self invalidateRoughnessCache];
+	m_cap = lcs;
+	[self invalidateRoughnessCache];
 }
 
 - (NSLineCapStyle)lineCapStyle
 {
-    return m_cap;
+	return m_cap;
 }
 
 - (void)setLineJoinStyle:(NSLineJoinStyle)ljs
 {
-    m_join = ljs;
-    [self invalidateRoughnessCache];
+	m_join = ljs;
+	[self invalidateRoughnessCache];
 }
 
 - (NSLineJoinStyle)lineJoinStyle
 {
-    return m_join;
+	return m_join;
 }
 
 #pragma mark -
 - (void)setColour:(NSColor*)colour
 {
-    [colour retain];
-    [m_hatchColour release];
-    m_hatchColour = colour;
+	[colour retain];
+	[m_hatchColour release];
+	m_hatchColour = colour;
 }
 
 - (NSColor*)colour
 {
-    return m_hatchColour;
+	return m_hatchColour;
 }
 
 #pragma mark -
 - (void)setDash:(DKStrokeDash*)dash
 {
-    [dash retain];
-    [m_hatchDash release];
-    m_hatchDash = dash;
-    [self invalidateRoughnessCache];
+	[dash retain];
+	[m_hatchDash release];
+	m_hatchDash = dash;
+	[self invalidateRoughnessCache];
 }
 
 - (DKStrokeDash*)dash
 {
-    return m_hatchDash;
+	return m_hatchDash;
 }
 
 - (void)setAutoDash
 {
-    // sets a simple on/off dash in proportion to the current width
+	// sets a simple on/off dash in proportion to the current width
 
-    DKStrokeDash* dash = [[DKStrokeDash alloc] init];
-    CGFloat dp[2];
+	DKStrokeDash* dash = [[DKStrokeDash alloc] init];
+	CGFloat dp[2];
 
-    dp[0] = dp[1] = [self width] * 3.0;
-    [dash setDashPattern:dp
-                   count:2];
+	dp[0] = dp[1] = [self width] * 3.0;
+	[dash setDashPattern:dp
+				   count:2];
 
-    [self setDash:dash];
-    [dash release];
+	[self setDash:dash];
+	[dash release];
 }
 
 - (void)setRoughness:(CGFloat)amount
 {
-    mRoughness = LIMIT(amount, 0, 1);
-    mRoughenStrokes = amount > 0.0;
-    [self invalidateRoughnessCache];
+	mRoughness = LIMIT(amount, 0, 1);
+	mRoughenStrokes = amount > 0.0;
+	[self invalidateRoughnessCache];
 }
 
 - (CGFloat)roughness
 {
-    return mRoughness;
+	return mRoughness;
 }
 
 - (void)setWobblyness:(CGFloat)wobble
 {
-    mWobblyness = LIMIT(wobble, 0, 2);
-    [self invalidateCache];
+	mWobblyness = LIMIT(wobble, 0, 2);
+	[self invalidateCache];
 }
 
 - (CGFloat)wobblyness
 {
-    return mWobblyness;
+	return mWobblyness;
 }
 
 #pragma mark -
 - (void)invalidateCache
 {
-    [m_cache release];
-    m_cache = nil;
-    [self invalidateRoughnessCache];
+	[m_cache release];
+	m_cache = nil;
+	[self invalidateRoughnessCache];
 }
 
 - (void)calcHatchInRect:(NSRect)rect
 {
-    // this does the actual work of calculating the hatch. Given the rect, we build a series of lines at the origin in a square
-    // based on the largest side of <rect> *~ sqrt(2). Then we transform the cache to the current angle. This is much simpler than
-    // calculating where to start and end each line.
+	// this does the actual work of calculating the hatch. Given the rect, we build a series of lines at the origin in a square
+	// based on the largest side of <rect> *~ sqrt(2). Then we transform the cache to the current angle. This is much simpler than
+	// calculating where to start and end each line.
 
-    if (m_cache == nil) {
-        m_cache = [[NSBezierPath bezierPath] retain];
+	if (m_cache == nil) {
+		m_cache = [[NSBezierPath bezierPath] retain];
 
-        NSRect cr;
+		NSRect cr;
 
-        cr.size.width = cr.size.height = (MAX(rect.size.width, rect.size.height) * 1.5f);
-        cr.origin.x = cr.origin.y = (cr.size.width * -0.5f);
+		cr.size.width = cr.size.height = (MAX(rect.size.width, rect.size.height) * 1.5f);
+		cr.origin.x = cr.origin.y = (cr.size.width * -0.5f);
 
-        //LogEvent_(kReactiveEvent,  @"hatch origin rect = {%f, %f},{%f, %f}", cr.origin.x, cr.origin.y, cr.size.width, cr.size.height );
+		//LogEvent_(kReactiveEvent,  @"hatch origin rect = {%f, %f},{%f, %f}", cr.origin.x, cr.origin.y, cr.size.width, cr.size.height );
 
-        NSInteger i, m;
+		NSInteger i, m;
 
-        m = _CGFloatLround(cr.size.width / [self spacing]) + 1;
-        NSPoint a, b;
+		m = _CGFloatLround(cr.size.width / [self spacing]) + 1;
+		NSPoint a, b;
 
-        a.y = NSMinY(cr);
-        b.y = NSMaxY(cr);
+		a.y = NSMinY(cr);
+		b.y = NSMaxY(cr);
 
-        // wobblyness is a randomising factor 0..1 which displaces the end points of the hatch by a random amount
-        // relative to the spacing. It is used to give a more naturalistic type of hatch (esp. in conjunction with roughness).
+		// wobblyness is a randomising factor 0..1 which displaces the end points of the hatch by a random amount
+		// relative to the spacing. It is used to give a more naturalistic type of hatch (esp. in conjunction with roughness).
 
-        CGFloat maxWobble = mWobblyness * [self spacing];
+		CGFloat maxWobble = mWobblyness * [self spacing];
 
-        for (i = 0; i < m; i++) {
-            a.x = cr.origin.x + m_leadIn + (i * [self spacing]) + ([DKRandom randomPositiveOrNegativeNumber] * maxWobble);
-            b.x = cr.origin.x + m_leadIn + (i * [self spacing]) + ([DKRandom randomPositiveOrNegativeNumber] * maxWobble);
+		for (i = 0; i < m; i++) {
+			a.x = cr.origin.x + m_leadIn + (i * [self spacing]) + ([DKRandom randomPositiveOrNegativeNumber] * maxWobble);
+			b.x = cr.origin.x + m_leadIn + (i * [self spacing]) + ([DKRandom randomPositiveOrNegativeNumber] * maxWobble);
 
-            [m_cache moveToPoint:a];
-            [m_cache lineToPoint:b];
-        }
+			[m_cache moveToPoint:a];
+			[m_cache lineToPoint:b];
+		}
 
-        // now rotate the cache to the current angle
+		// now rotate the cache to the current angle
 
-        NSAffineTransform* rot = [NSAffineTransform transform];
-        [rot rotateByRadians:[self angle]];
-        [m_cache transformUsingAffineTransform:rot];
-    }
+		NSAffineTransform* rot = [NSAffineTransform transform];
+		[rot rotateByRadians:[self angle]];
+		[m_cache transformUsingAffineTransform:rot];
+	}
 }
 
 - (void)invalidateRoughnessCache
 {
-    [mRoughenedCache release];
-    mRoughenedCache = nil;
+	[mRoughenedCache release];
+	mRoughenedCache = nil;
 }
 
 #pragma mark -
 #pragma mark As a DKRasterizer
 - (BOOL)isValid
 {
-    return YES;
+	return YES;
 }
 
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-    return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"angle", @"spacing",
-                                                                                               @"width", @"dash", @"leadIn",
-                                                                                               @"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"angle", @"spacing",
+																							   @"width", @"dash", @"leadIn",
+																							   @"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness", nil]];
 }
 
 - (void)registerActionNames
 {
-    [super registerActionNames];
-    [self setActionName:@"#kind# Hatch Colour"
-             forKeyPath:@"colour"];
-    [self setActionName:@"#kind# Hatch Angle"
-             forKeyPath:@"angle"];
-    [self setActionName:@"#kind# Hatch Spacing"
-             forKeyPath:@"spacing"];
-    [self setActionName:@"#kind# Hatch Line Width"
-             forKeyPath:@"width"];
-    [self setActionName:@"#kind# Hatch Dash"
-             forKeyPath:@"dash"];
-    [self setActionName:@"#kind# Hatch Lead-in"
-             forKeyPath:@"leadIn"];
-    [self setActionName:@"#kind# Hatch Line Cap Style"
-             forKeyPath:@"lineCapStyle"];
-    [self setActionName:@"#kind# Hatch Line Join Style"
-             forKeyPath:@"lineJoinStyle"];
-    [self setActionName:@"#kind# Hatch Is Relative"
-             forKeyPath:@"angleIsRelativeToObject"];
-    [self setActionName:@"#kind# Hatch Roughness"
-             forKeyPath:@"roughness"];
-    [self setActionName:@"#kind# Hatch Wobble"
-             forKeyPath:@"wobblyness"];
+	[super registerActionNames];
+	[self setActionName:@"#kind# Hatch Colour"
+			 forKeyPath:@"colour"];
+	[self setActionName:@"#kind# Hatch Angle"
+			 forKeyPath:@"angle"];
+	[self setActionName:@"#kind# Hatch Spacing"
+			 forKeyPath:@"spacing"];
+	[self setActionName:@"#kind# Hatch Line Width"
+			 forKeyPath:@"width"];
+	[self setActionName:@"#kind# Hatch Dash"
+			 forKeyPath:@"dash"];
+	[self setActionName:@"#kind# Hatch Lead-in"
+			 forKeyPath:@"leadIn"];
+	[self setActionName:@"#kind# Hatch Line Cap Style"
+			 forKeyPath:@"lineCapStyle"];
+	[self setActionName:@"#kind# Hatch Line Join Style"
+			 forKeyPath:@"lineJoinStyle"];
+	[self setActionName:@"#kind# Hatch Is Relative"
+			 forKeyPath:@"angleIsRelativeToObject"];
+	[self setActionName:@"#kind# Hatch Roughness"
+			 forKeyPath:@"roughness"];
+	[self setActionName:@"#kind# Hatch Wobble"
+			 forKeyPath:@"wobblyness"];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    [m_hatchDash release];
-    [m_hatchColour release];
-    [self invalidateCache];
+	[m_hatchDash release];
+	[m_hatchColour release];
+	[self invalidateCache];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        [self setColour:[NSColor blackColor]];
+	self = [super init];
+	if (self != nil) {
+		[self setColour:[NSColor blackColor]];
 
-        [self setLeadIn:0.0];
-        [self setSpacing:8.0];
-        [self setAngle:pi / 4.0]; //45 degrees
-        [self setWidth:0.25];
+		[self setLeadIn:0.0];
+		[self setSpacing:8.0];
+		[self setAngle:pi / 4.0]; //45 degrees
+		[self setWidth:0.25];
 
-        [self setLineCapStyle:NSButtLineCapStyle];
-        [self setLineJoinStyle:NSBevelLineJoinStyle];
-    }
-    return self;
+		[self setLineCapStyle:NSButtLineCapStyle];
+		[self setLineJoinStyle:NSBevelLineJoinStyle];
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of DKRasterizerProtocol
 - (void)render:(id<DKRenderable>)obj
 {
-    if (![obj conformsToProtocol:@protocol(DKRenderable)] || ![self enabled])
-        return;
+	if (![obj conformsToProtocol:@protocol(DKRenderable)] || ![self enabled])
+		return;
 
-    NSBezierPath* path = [obj renderingPath];
+	NSBezierPath* path = [obj renderingPath];
 
-    if (m_angleRelativeToObject)
-        [self hatchPath:path
-            objectAngle:[obj angle]];
-    else
-        [self hatchPath:path
-            objectAngle:0.0f];
+	if (m_angleRelativeToObject)
+		[self hatchPath:path
+			objectAngle:[obj angle]];
+	else
+		[self hatchPath:path
+			objectAngle:0.0f];
 }
 
 #pragma mark -
 #pragma mark As part of GraphicAttributtes Protocol
 - (void)setValue:(id)val forNumericParameter:(NSInteger)pnum
 {
-    // 0 -> width, 1 -> spacing, 2 -> angle (degrees), 3 -> colour, 4 -> dash
+	// 0 -> width, 1 -> spacing, 2 -> angle (degrees), 3 -> colour, 4 -> dash
 
-    switch (pnum) {
-    default:
-        break;
+	switch (pnum) {
+	default:
+		break;
 
-    case 0:
-        [self setWidth:[val doubleValue]];
-        break;
+	case 0:
+		[self setWidth:[val doubleValue]];
+		break;
 
-    case 1:
-        [self setSpacing:[val doubleValue]];
-        break;
+	case 1:
+		[self setSpacing:[val doubleValue]];
+		break;
 
-    case 2:
-        [self setAngleInDegrees:[val doubleValue]];
-        break;
+	case 2:
+		[self setAngleInDegrees:[val doubleValue]];
+		break;
 
-    case 3:
-        [self setColour:val];
-        break;
+	case 3:
+		[self setColour:val];
+		break;
 
-    case 4:
-        [self setDash:val];
-        break;
-    }
+	case 4:
+		[self setDash:val];
+		break;
+	}
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [super encodeWithCoder:coder];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[super encodeWithCoder:coder];
 
-    [coder encodeObject:[self colour]
-                 forKey:@"colour"];
-    [coder encodeObject:[self dash]
-                 forKey:@"dash"];
+	[coder encodeObject:[self colour]
+				 forKey:@"colour"];
+	[coder encodeObject:[self dash]
+				 forKey:@"dash"];
 
-    [coder encodeDouble:[self leadIn]
-                 forKey:@"lead-in"];
-    [coder encodeDouble:[self spacing]
-                 forKey:@"spacing"];
-    [coder encodeDouble:[self angle]
-                 forKey:@"angle"];
-    [coder encodeDouble:[self width]
-                 forKey:@"linewidth"];
+	[coder encodeDouble:[self leadIn]
+				 forKey:@"lead-in"];
+	[coder encodeDouble:[self spacing]
+				 forKey:@"spacing"];
+	[coder encodeDouble:[self angle]
+				 forKey:@"angle"];
+	[coder encodeDouble:[self width]
+				 forKey:@"linewidth"];
 
-    [coder encodeInteger:[self lineJoinStyle]
-                  forKey:@"DKHatching_lineJoinStyle"];
-    [coder encodeInteger:[self lineCapStyle]
-                  forKey:@"DKHatching_lineCapStyle"];
-    [coder encodeBool:m_angleRelativeToObject
-               forKey:@"DKHatching_relAngle"];
-    [coder encodeDouble:mRoughness
-                 forKey:@"DKHatching_roughness"];
-    [coder encodeDouble:mWobblyness
-                 forKey:@"DKHatching_wobble"];
+	[coder encodeInteger:[self lineJoinStyle]
+				  forKey:@"DKHatching_lineJoinStyle"];
+	[coder encodeInteger:[self lineCapStyle]
+				  forKey:@"DKHatching_lineCapStyle"];
+	[coder encodeBool:m_angleRelativeToObject
+			   forKey:@"DKHatching_relAngle"];
+	[coder encodeDouble:mRoughness
+				 forKey:@"DKHatching_roughness"];
+	[coder encodeDouble:mWobblyness
+				 forKey:@"DKHatching_wobble"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    self = [super initWithCoder:coder];
-    if (self != nil) {
-        NSAssert(m_cache == nil, @"Expected init to zero");
-        [self setColour:[coder decodeObjectForKey:@"colour"]];
-        [self setDash:[coder decodeObjectForKey:@"dash"]];
+	NSAssert(coder != nil, @"Expected valid coder");
+	self = [super initWithCoder:coder];
+	if (self != nil) {
+		NSAssert(m_cache == nil, @"Expected init to zero");
+		[self setColour:[coder decodeObjectForKey:@"colour"]];
+		[self setDash:[coder decodeObjectForKey:@"dash"]];
 
-        [self setLeadIn:[coder decodeDoubleForKey:@"lead-in"]];
-        [self setSpacing:[coder decodeDoubleForKey:@"spacing"]];
-        [self setAngle:[coder decodeDoubleForKey:@"angle"]];
-        [self setWidth:[coder decodeDoubleForKey:@"linewidth"]];
+		[self setLeadIn:[coder decodeDoubleForKey:@"lead-in"]];
+		[self setSpacing:[coder decodeDoubleForKey:@"spacing"]];
+		[self setAngle:[coder decodeDoubleForKey:@"angle"]];
+		[self setWidth:[coder decodeDoubleForKey:@"linewidth"]];
 
-        [self setLineCapStyle:[coder decodeIntegerForKey:@"DKHatching_lineCapStyle"]];
-        [self setLineJoinStyle:[coder decodeIntegerForKey:@"DKHatching_lineJoinStyle"]];
+		[self setLineCapStyle:[coder decodeIntegerForKey:@"DKHatching_lineCapStyle"]];
+		[self setLineJoinStyle:[coder decodeIntegerForKey:@"DKHatching_lineJoinStyle"]];
 
-        m_angleRelativeToObject = [coder decodeBoolForKey:@"DKHatching_relAngle"];
+		m_angleRelativeToObject = [coder decodeBoolForKey:@"DKHatching_relAngle"];
 
-        [self setRoughness:[coder decodeDoubleForKey:@"DKHatching_roughness"]];
-        mWobblyness = [coder decodeDoubleForKey:@"DKHatching_wobble"];
-    }
-    return self;
+		[self setRoughness:[coder decodeDoubleForKey:@"DKHatching_roughness"]];
+		mWobblyness = [coder decodeDoubleForKey:@"DKHatching_wobble"];
+	}
+	return self;
 }
 
 #pragma mark -
@@ -635,21 +635,21 @@
 {
 #pragma unused(zone)
 
-    DKHatching* copy = [super copyWithZone:zone];
+	DKHatching* copy = [super copyWithZone:zone];
 
-    [copy setSpacing:[self spacing]];
-    [copy setLeadIn:[self leadIn]];
-    [copy setAngle:[self angle]];
-    [copy setWidth:[self width]];
-    [copy setColour:[self colour]];
-    [copy setDash:[self dash]];
-    [copy setLineCapStyle:[self lineCapStyle]];
-    [copy setLineJoinStyle:[self lineJoinStyle]];
-    [copy setAngleIsRelativeToObject:[self angleIsRelativeToObject]];
-    [copy setRoughness:[self roughness]];
-    [copy setWobblyness:[self wobblyness]];
+	[copy setSpacing:[self spacing]];
+	[copy setLeadIn:[self leadIn]];
+	[copy setAngle:[self angle]];
+	[copy setWidth:[self width]];
+	[copy setColour:[self colour]];
+	[copy setDash:[self dash]];
+	[copy setLineCapStyle:[self lineCapStyle]];
+	[copy setLineJoinStyle:[self lineJoinStyle]];
+	[copy setAngleIsRelativeToObject:[self angleIsRelativeToObject]];
+	[copy setRoughness:[self roughness]];
+	[copy setWobblyness:[self wobblyness]];
 
-    return copy;
+	return copy;
 }
 
 @end

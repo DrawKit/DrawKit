@@ -32,9 +32,9 @@ be added to DKShapeFactory rather than having to make lots of individual subclas
 */
 @interface DKReshapableShape : DKDrawableShape <NSCoding, NSCopying> {
 @private
-    SEL m_shapeSelector;
-    id m_shapeProvider;
-    id m_optionalParam;
+	SEL m_shapeSelector;
+	id m_shapeProvider;
+	id m_optionalParam;
 }
 
 - (void)setShapeProvider:(id)provider selector:(SEL)selector;

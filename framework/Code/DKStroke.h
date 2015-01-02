@@ -20,16 +20,16 @@ DKStyle can contains a list of strokes without limit.
 */
 @interface DKStroke : DKRasterizer <NSCoding, NSCopying> {
 @private
-    NSColor* m_colour;
-    DKStrokeDash* m_dash;
-    NSShadow* m_shadow;
-    NSLineCapStyle m_cap;
-    NSLineJoinStyle m_join;
-    CGFloat m_mitreLimit;
-    CGFloat m_trimLength;
-    CGFloat mLateralOffset;
+	NSColor* m_colour;
+	DKStrokeDash* m_dash;
+	NSShadow* m_shadow;
+	NSLineCapStyle m_cap;
+	NSLineJoinStyle m_join;
+	CGFloat m_mitreLimit;
+	CGFloat m_trimLength;
+	CGFloat mLateralOffset;
 @protected
-    CGFloat m_width;
+	CGFloat m_width;
 }
 
 + (DKStroke*)defaultStroke;

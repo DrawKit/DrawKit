@@ -33,21 +33,21 @@ By definition the bounds of the layer is the same as the bounds of the drawing.
 */
 @interface DKLayer : NSObject <NSCoding, DKKnobOwner, NSUserInterfaceValidations> {
 @private
-    NSString* m_name; // layer name
-    NSColor* m_selectionColour; // colour preference for selection highlights in this layer
-    DKKnob* m_knobs; // knobs helper object if set - normally nil to defer to drawing
-    BOOL m_knobsAdjustToScale; // YES if knobs allow for the view scale
-    BOOL m_visible; // is the layer visible?
-    BOOL m_locked; // is the layer locked?
-    BOOL m_printed; // is the layer drawn when printing?
-    BOOL mRulerMarkersEnabled; // YES to pass ruler marker updates to enclosing group, NO to ignore
-    GCInfoFloater* m_infoWindow; // info window instance that can be used by client objects as they wish
-    DKLayerGroup* m_groupRef; // group we are contained by (or drawing)
-    BOOL m_clipToInterior; // YES to clip drawing to inside the interior region
-    NSMutableDictionary* mUserInfo; // metadata
-    NSUInteger mReserved[3]; // unused
-    NSString* mLayerUniqueKey; // unique ID for the layer
-    CGFloat mAlpha; // alpha value applied to layer as a whole
+	NSString* m_name; // layer name
+	NSColor* m_selectionColour; // colour preference for selection highlights in this layer
+	DKKnob* m_knobs; // knobs helper object if set - normally nil to defer to drawing
+	BOOL m_knobsAdjustToScale; // YES if knobs allow for the view scale
+	BOOL m_visible; // is the layer visible?
+	BOOL m_locked; // is the layer locked?
+	BOOL m_printed; // is the layer drawn when printing?
+	BOOL mRulerMarkersEnabled; // YES to pass ruler marker updates to enclosing group, NO to ignore
+	GCInfoFloater* m_infoWindow; // info window instance that can be used by client objects as they wish
+	DKLayerGroup* m_groupRef; // group we are contained by (or drawing)
+	BOOL m_clipToInterior; // YES to clip drawing to inside the interior region
+	NSMutableDictionary* mUserInfo; // metadata
+	NSUInteger mReserved[3]; // unused
+	NSString* mLayerUniqueKey; // unique ID for the layer
+	CGFloat mAlpha; // alpha value applied to layer as a whole
 }
 
 /** @brief Allows a list of colours to be set for supplying the selection colours

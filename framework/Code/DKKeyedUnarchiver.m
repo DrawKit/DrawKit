@@ -12,14 +12,14 @@
 
 - (void)setImageManager:(DKImageDataManager*)imgMgr
 {
-    // not retained because we know that it's retained by the drawing and the lifetime of the dearchiver is limited.
+	// not retained because we know that it's retained by the drawing and the lifetime of the dearchiver is limited.
 
-    mImageManagerRef = imgMgr;
+	mImageManagerRef = imgMgr;
 }
 
 - (DKImageDataManager*)imageManager
 {
-    return mImageManagerRef;
+	return mImageManagerRef;
 }
 
 @end

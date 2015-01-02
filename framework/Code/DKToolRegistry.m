@@ -60,12 +60,12 @@ static DKToolRegistry* s_toolRegistry = nil;
  */
 + (DKToolRegistry*)sharedToolRegistry
 {
-    if (s_toolRegistry == nil) {
-        s_toolRegistry = [[self alloc] init];
-        [s_toolRegistry registerStandardTools];
-    }
+	if (s_toolRegistry == nil) {
+		s_toolRegistry = [[self alloc] init];
+		[s_toolRegistry registerStandardTools];
+	}
 
-    return s_toolRegistry;
+	return s_toolRegistry;
 }
 
 /** @brief Return a named tool from the registry
@@ -74,9 +74,9 @@ static DKToolRegistry* s_toolRegistry = nil;
  */
 - (DKDrawingTool*)drawingToolWithName:(NSString*)name
 {
-    NSAssert(name != nil, @"cannot find a tool with a nil name");
+	NSAssert(name != nil, @"cannot find a tool with a nil name");
 
-    return [mToolsReg objectForKey:name];
+	return [mToolsReg objectForKey:name];
 }
 
 /** @brief Add a tool to the registry
@@ -85,17 +85,17 @@ static DKToolRegistry* s_toolRegistry = nil;
  */
 - (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name
 {
-    NSAssert(tool != nil, @"cannot register a nil tool");
-    NSAssert(name != nil, @"cannot register a tool with a nil name");
-    NSAssert([name length] > 0, @"cannot register a tool with an empty name");
+	NSAssert(tool != nil, @"cannot register a nil tool");
+	NSAssert(name != nil, @"cannot register a tool with a nil name");
+	NSAssert([name length] > 0, @"cannot register a tool with an empty name");
 
-    [mToolsReg setObject:tool
-                  forKey:name];
+	[mToolsReg setObject:tool
+				  forKey:name];
 
-    // for compatibility, notification object is the tool, not the registry
+	// for compatibility, notification object is the tool, not the registry
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWasRegisteredNotification
-                                                        object:tool];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWasRegisteredNotification
+														object:tool];
 }
 
 /** @brief Find the tool having a key equivalent matching the key event
@@ -104,284 +104,284 @@ static DKToolRegistry* s_toolRegistry = nil;
  */
 - (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent
 {
-    NSAssert(keyEvent != nil, @"event was nil");
+	NSAssert(keyEvent != nil, @"event was nil");
 
-    if ([keyEvent type] == NSKeyDown) {
-        NSEnumerator* iter = [[mToolsReg allKeys] objectEnumerator];
-        NSString* name;
-        NSString* keyEquivalent;
-        DKDrawingTool* tool;
-        NSUInteger flags;
+	if ([keyEvent type] == NSKeyDown) {
+		NSEnumerator* iter = [[mToolsReg allKeys] objectEnumerator];
+		NSString* name;
+		NSString* keyEquivalent;
+		DKDrawingTool* tool;
+		NSUInteger flags;
 
-        //NSLog(@"looking for tool with keyboard equivalent, string = '%@', modifers = %d", [keyEvent charactersIgnoringModifiers], [keyEvent modifierFlags]);
+		//NSLog(@"looking for tool with keyboard equivalent, string = '%@', modifers = %d", [keyEvent charactersIgnoringModifiers], [keyEvent modifierFlags]);
 
-        while ((name = [iter nextObject])) {
-            tool = [mToolsReg objectForKey:name];
+		while ((name = [iter nextObject])) {
+			tool = [mToolsReg objectForKey:name];
 
-            keyEquivalent = [tool keyboardEquivalent];
-            flags = [tool keyboardModifierFlags];
+			keyEquivalent = [tool keyboardEquivalent];
+			flags = [tool keyboardModifierFlags];
 
-            if ([keyEquivalent isEqualToString:[keyEvent charactersIgnoringModifiers]]) {
-                if ((NSDeviceIndependentModifierFlagsMask & [keyEvent modifierFlags]) == flags)
-                    return tool;
-            }
-        }
-    }
-    return nil;
+			if ([keyEquivalent isEqualToString:[keyEvent charactersIgnoringModifiers]]) {
+				if ((NSDeviceIndependentModifierFlagsMask & [keyEvent modifierFlags]) == flags)
+					return tool;
+			}
+		}
+	}
+	return nil;
 }
 
 - (void)registerStandardTools
 {
-    // ------ rect ------
+	// ------ rect ------
 
-    Class trueClass;
+	Class trueClass;
 
-    trueClass = [DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]];
+	trueClass = [DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]];
 
-    DKDrawableShape* shape = [[trueClass alloc] init];
-    [shape setPath:[DKShapeFactory rect]];
-    DKDrawingTool* dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:shape];
-    [shape release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardRectangleToolName];
-    [dt setKeyboardEquivalent:@"r"
-                modifierFlags:0];
-    [dt release];
+	DKDrawableShape* shape = [[trueClass alloc] init];
+	[shape setPath:[DKShapeFactory rect]];
+	DKDrawingTool* dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:shape];
+	[shape release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardRectangleToolName];
+	[dt setKeyboardEquivalent:@"r"
+				modifierFlags:0];
+	[dt release];
 
-    // -------- oval -------
+	// -------- oval -------
 
-    shape = [[trueClass alloc] init];
-    [shape setPath:[DKShapeFactory oval]];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:shape];
-    [shape release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardOvalToolName];
-    [dt setKeyboardEquivalent:@"o"
-                modifierFlags:0];
-    [dt release];
+	shape = [[trueClass alloc] init];
+	[shape setPath:[DKShapeFactory oval]];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:shape];
+	[shape release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardOvalToolName];
+	[dt setKeyboardEquivalent:@"o"
+				modifierFlags:0];
+	[dt release];
 
-    // -------- ring -------
+	// -------- ring -------
 
-    shape = [[trueClass alloc] init];
-    [shape setPath:[DKShapeFactory ring:0.67]];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:shape];
-    [shape release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardRingToolName];
-    [dt release];
+	shape = [[trueClass alloc] init];
+	[shape setPath:[DKShapeFactory ring:0.67]];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:shape];
+	[shape release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardRingToolName];
+	[dt release];
 
-    // ----- roundrect -----
+	// ----- roundrect -----
 
-    trueClass = [DKDrawableObject classForConversionRequestFor:[DKReshapableShape class]];
+	trueClass = [DKDrawableObject classForConversionRequestFor:[DKReshapableShape class]];
 
-    DKReshapableShape* rss = [[trueClass alloc] init];
-    [rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
-                 selector:@selector(roundRectInRect:
-                                           objParam:)];
-    [rss setOptionalParameter:[NSNumber numberWithDouble:16.0]];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
-    [rss release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardRoundRectangleToolName];
-    [dt release];
+	DKReshapableShape* rss = [[trueClass alloc] init];
+	[rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
+				 selector:@selector(roundRectInRect:
+										   objParam:)];
+	[rss setOptionalParameter:[NSNumber numberWithDouble:16.0]];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
+	[rss release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardRoundRectangleToolName];
+	[dt release];
 
-    // ----- roundendrect -----
+	// ----- roundendrect -----
 
-    rss = [[trueClass alloc] init];
-    [rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
-                 selector:@selector(roundEndedRect:
-                                          objParam:)];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
-    [rss release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardRoundEndedRectangleToolName];
-    [dt release];
+	rss = [[trueClass alloc] init];
+	[rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
+				 selector:@selector(roundEndedRect:
+										  objParam:)];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
+	[rss release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardRoundEndedRectangleToolName];
+	[dt release];
 
-    // ----- speech balloon ----
+	// ----- speech balloon ----
 
-    rss = [[trueClass alloc] init];
-    [rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
-                 selector:@selector(speechBalloonInRect:
-                                               objParam:)];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
-    [rss release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardSpeechBalloonToolName];
-    [dt release];
+	rss = [[trueClass alloc] init];
+	[rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
+				 selector:@selector(speechBalloonInRect:
+											   objParam:)];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
+	[rss release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardSpeechBalloonToolName];
+	[dt release];
 
-    // ------ text shape ------
+	// ------ text shape ------
 
-    trueClass = [DKDrawableObject classForConversionRequestFor:[DKTextShape class]];
+	trueClass = [DKDrawableObject classForConversionRequestFor:[DKTextShape class]];
 
-    DKTextShape* tshape = [[trueClass alloc] init];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:tshape];
-    [tshape release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardTextBoxToolName];
-    [dt setKeyboardEquivalent:@"t"
-                modifierFlags:0];
-    [dt release];
+	DKTextShape* tshape = [[trueClass alloc] init];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:tshape];
+	[tshape release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardTextBoxToolName];
+	[dt setKeyboardEquivalent:@"t"
+				modifierFlags:0];
+	[dt release];
 
-    // ------ text path -----
+	// ------ text path -----
 
-    trueClass = [DKDrawableObject classForConversionRequestFor:[DKTextPath class]];
+	trueClass = [DKDrawableObject classForConversionRequestFor:[DKTextPath class]];
 
-    DKTextPath* tPath = [[trueClass alloc] init];
-    [tPath setPathCreationMode:kDKPathCreateModeBezierCreate];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:tPath];
-    [tPath release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardTextPathToolName];
-    [dt setKeyboardEquivalent:@"e"
-                modifierFlags:0];
-    [dt release];
+	DKTextPath* tPath = [[trueClass alloc] init];
+	[tPath setPathCreationMode:kDKPathCreateModeBezierCreate];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:tPath];
+	[tPath release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardTextPathToolName];
+	[dt setKeyboardEquivalent:@"e"
+				modifierFlags:0];
+	[dt release];
 
-    // -------- bezier path -------
+	// -------- bezier path -------
 
-    trueClass = [DKDrawableObject classForConversionRequestFor:[DKDrawablePath class]];
+	trueClass = [DKDrawableObject classForConversionRequestFor:[DKDrawablePath class]];
 
-    DKDrawablePath* path = [[trueClass alloc] init];
-    [path setPathCreationMode:kDKPathCreateModeBezierCreate];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
-    [path release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardBezierPathToolName];
-    [dt setKeyboardEquivalent:@"b"
-                modifierFlags:0];
-    [dt release];
+	DKDrawablePath* path = [[trueClass alloc] init];
+	[path setPathCreationMode:kDKPathCreateModeBezierCreate];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
+	[path release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardBezierPathToolName];
+	[dt setKeyboardEquivalent:@"b"
+				modifierFlags:0];
+	[dt release];
 
-    //-------- line ---------
+	//-------- line ---------
 
-    path = [[trueClass alloc] init];
-    [path setPathCreationMode:kDKPathCreateModeLineCreate];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
-    [path release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardStraightLinePathToolName];
-    [dt setKeyboardEquivalent:@"l"
-                modifierFlags:0];
-    [dt release];
+	path = [[trueClass alloc] init];
+	[path setPathCreationMode:kDKPathCreateModeLineCreate];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
+	[path release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardStraightLinePathToolName];
+	[dt setKeyboardEquivalent:@"l"
+				modifierFlags:0];
+	[dt release];
 
-    //-------- polygon ---------
+	//-------- polygon ---------
 
-    path = [[trueClass alloc] init];
-    [path setPathCreationMode:kDKPathCreateModePolygonCreate];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
-    [path release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardIrregularPolygonPathToolName];
-    [dt setKeyboardEquivalent:@"p"
-                modifierFlags:0];
-    [dt release];
+	path = [[trueClass alloc] init];
+	[path setPathCreationMode:kDKPathCreateModePolygonCreate];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
+	[path release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardIrregularPolygonPathToolName];
+	[dt setKeyboardEquivalent:@"p"
+				modifierFlags:0];
+	[dt release];
 
-    //-------- freehand -------
+	//-------- freehand -------
 
-    path = [[trueClass alloc] init];
-    [path setPathCreationMode:kDKPathCreateModeFreehandCreate];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
-    [path release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardFreehandPathToolName];
-    [dt setKeyboardEquivalent:@"f"
-                modifierFlags:0];
-    [dt release];
+	path = [[trueClass alloc] init];
+	[path setPathCreationMode:kDKPathCreateModeFreehandCreate];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
+	[path release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardFreehandPathToolName];
+	[dt setKeyboardEquivalent:@"f"
+				modifierFlags:0];
+	[dt release];
 
-    //-------- regular polygon ---------
+	//-------- regular polygon ---------
 
-    trueClass = [DKDrawableObject classForConversionRequestFor:[DKRegularPolygonPath class]];
+	trueClass = [DKDrawableObject classForConversionRequestFor:[DKRegularPolygonPath class]];
 
-    path = [[trueClass alloc] init];
-    [path setPathCreationMode:kDKRegularPolyCreationMode];
-    [(DKRegularPolygonPath*)path setShowsSpreadControls:YES];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
-    [path release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardRegularPolygonPathToolName];
-    [dt setKeyboardEquivalent:@"g"
-                modifierFlags:0];
-    [dt release];
+	path = [[trueClass alloc] init];
+	[path setPathCreationMode:kDKRegularPolyCreationMode];
+	[(DKRegularPolygonPath*)path setShowsSpreadControls:YES];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:path];
+	[path release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardRegularPolygonPathToolName];
+	[dt setKeyboardEquivalent:@"g"
+				modifierFlags:0];
+	[dt release];
 
-    //-------- arc ---------
+	//-------- arc ---------
 
-    trueClass = [DKDrawableObject classForConversionRequestFor:[DKArcPath class]];
+	trueClass = [DKDrawableObject classForConversionRequestFor:[DKArcPath class]];
 
-    DKArcPath* arc = [[trueClass alloc] init];
-    [arc setArcType:kDKArcPathOpenArc];
-    [arc setStyle:[DKStyle defaultTrackStyle]];
-    [arc setPathCreationMode:kDKPathCreateModeArcSegment];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:arc];
-    [arc release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardArcToolName];
-    [dt setKeyboardEquivalent:@"a"
-                modifierFlags:0];
-    [dt release];
+	DKArcPath* arc = [[trueClass alloc] init];
+	[arc setArcType:kDKArcPathOpenArc];
+	[arc setStyle:[DKStyle defaultTrackStyle]];
+	[arc setPathCreationMode:kDKPathCreateModeArcSegment];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:arc];
+	[arc release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardArcToolName];
+	[dt setKeyboardEquivalent:@"a"
+				modifierFlags:0];
+	[dt release];
 
-    //-------- wedge ---------
+	//-------- wedge ---------
 
-    arc = [[trueClass alloc] init];
-    [arc setArcType:kDKArcPathWedge];
-    [arc setPathCreationMode:kDKArcSimpleCreationMode];
-    dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:arc];
-    [arc release];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardWedgeToolName];
-    [dt setKeyboardEquivalent:@"w"
-                modifierFlags:0];
-    [dt release];
+	arc = [[trueClass alloc] init];
+	[arc setArcType:kDKArcPathWedge];
+	[arc setPathCreationMode:kDKArcSimpleCreationMode];
+	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:arc];
+	[arc release];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardWedgeToolName];
+	[dt setKeyboardEquivalent:@"w"
+				modifierFlags:0];
+	[dt release];
 
-    // ----- path add/delete tools ----
+	// ----- path add/delete tools ----
 
-    dt = [DKPathInsertDeleteTool pathDeletionTool];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardDeletePathPointToolName];
+	dt = [DKPathInsertDeleteTool pathDeletionTool];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardDeletePathPointToolName];
 
-    dt = [DKPathInsertDeleteTool pathInsertionTool];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardAddPathPointToolName];
+	dt = [DKPathInsertDeleteTool pathInsertionTool];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardAddPathPointToolName];
 
-    dt = [DKPathInsertDeleteTool pathElementDeletionTool];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardDeletePathSegmentToolName];
-    [dt setKeyboardEquivalent:@"x"
-                modifierFlags:0];
+	dt = [DKPathInsertDeleteTool pathElementDeletionTool];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardDeletePathSegmentToolName];
+	[dt setKeyboardEquivalent:@"x"
+				modifierFlags:0];
 
-    // ----- zoom tool -----
+	// ----- zoom tool -----
 
-    dt = [[DKZoomTool alloc] init];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardZoomToolName];
-    [dt setKeyboardEquivalent:@"z"
-                modifierFlags:0];
-    [dt release];
+	dt = [[DKZoomTool alloc] init];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardZoomToolName];
+	[dt setKeyboardEquivalent:@"z"
+				modifierFlags:0];
+	[dt release];
 
-    // ----- select and edit tool -----
+	// ----- select and edit tool -----
 
-    dt = [[DKSelectAndEditTool alloc] init];
-    [self registerDrawingTool:dt
-                     withName:kDKStandardSelectionToolName];
-    [dt setKeyboardEquivalent:@" "
-                modifierFlags:0];
-    [dt release];
+	dt = [[DKSelectAndEditTool alloc] init];
+	[self registerDrawingTool:dt
+					 withName:kDKStandardSelectionToolName];
+	[dt setKeyboardEquivalent:@" "
+				modifierFlags:0];
+	[dt release];
 }
 
 - (NSArray*)toolNames
 {
-    NSMutableArray* tn = [[mToolsReg allKeys] mutableCopy];
-    [tn sortUsingSelector:@selector(compare:)];
+	NSMutableArray* tn = [[mToolsReg allKeys] mutableCopy];
+	[tn sortUsingSelector:@selector(compare:)];
 
-    return [tn autorelease];
+	return [tn autorelease];
 }
 
 - (NSArray*)allKeysForTool:(DKDrawingTool*)tool
 {
-    NSAssert(tool != nil, @"cannot find keys for a nil tool");
-    return [mToolsReg allKeysForObject:tool];
+	NSAssert(tool != nil, @"cannot find keys for a nil tool");
+	return [mToolsReg allKeysForObject:tool];
 }
 
 - (NSArray*)tools
 {
-    return [mToolsReg allValues];
+	return [mToolsReg allValues];
 }
 
 #pragma mark -
@@ -389,18 +389,18 @@ static DKToolRegistry* s_toolRegistry = nil;
 
 - (id)init
 {
-    self = [super init];
-    if (self) {
-        mToolsReg = [[NSMutableDictionary alloc] init];
-    }
+	self = [super init];
+	if (self) {
+		mToolsReg = [[NSMutableDictionary alloc] init];
+	}
 
-    return self;
+	return self;
 }
 
 - (void)dealloc
 {
-    [mToolsReg release];
-    [super dealloc];
+	[mToolsReg release];
+	[super dealloc];
 }
 
 @end

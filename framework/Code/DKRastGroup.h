@@ -33,7 +33,7 @@ as well.
 */
 @interface DKRastGroup : DKRasterizer <NSCoding, NSCopying> {
 @private
-    NSMutableArray* m_renderList;
+	NSMutableArray* m_renderList;
 }
 
 - (void)setRenderList:(NSArray*)list;

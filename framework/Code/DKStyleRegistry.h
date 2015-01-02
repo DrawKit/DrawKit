@@ -14,19 +14,19 @@
 // options flags - control behaviour when styles from a document are merged with the registry
 
 typedef enum {
-    kDKIgnoreUnsharedStyles = (1 << 0), // compatibility with old registry - styles with sharing off are ignored
-    kDKReplaceExistingStyles = (1 << 1), // styles passed in replace those with the same key (doc -> reg)
-    kDKReturnExistingStyles = (1 << 2), // styles in reg with the same keys are returned (reg -> doc)
-    kDKAddStylesAsNewVersions = (1 << 3) // styles with the same keys are copied and registered again (reg || doc)
+	kDKIgnoreUnsharedStyles = (1 << 0), // compatibility with old registry - styles with sharing off are ignored
+	kDKReplaceExistingStyles = (1 << 1), // styles passed in replace those with the same key (doc -> reg)
+	kDKReturnExistingStyles = (1 << 2), // styles in reg with the same keys are returned (reg -> doc)
+	kDKAddStylesAsNewVersions = (1 << 3) // styles with the same keys are copied and registered again (reg || doc)
 } DKStyleMergeOptions;
 
 // values you can test for in result of compareStylesInSet:
 
 enum {
-    kDKStyleNotRegistered = 0,
-    kDKStyleIsOlder = 1,
-    kDKStyleUnchanged = 2,
-    kDKStyleIsNewer = 3
+	kDKStyleNotRegistered = 0,
+	kDKStyleIsOlder = 1,
+	kDKStyleUnchanged = 2,
+	kDKStyleIsNewer = 3
 };
 
 // class:

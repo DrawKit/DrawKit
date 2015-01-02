@@ -15,25 +15,25 @@
 
 - (void)setZoomsOut:(BOOL)zoomOut
 {
-    mMode = zoomOut;
+	mMode = zoomOut;
 
-    if (zoomOut)
-        mModeModifierMask = 0;
+	if (zoomOut)
+		mModeModifierMask = 0;
 }
 
 - (BOOL)zoomsOut
 {
-    return mMode;
+	return mMode;
 }
 
 - (void)setModeModifierMask:(NSUInteger)msk
 {
-    mModeModifierMask = msk;
+	mModeModifierMask = msk;
 }
 
 - (NSUInteger)modeModifierMask
 {
-    return mModeModifierMask;
+	return mModeModifierMask;
 }
 
 #pragma mark - As a DKDrawingTool
@@ -52,12 +52,12 @@
 #pragma unused(layer)
 #pragma unused(aDel)
 
-    if ([self modeModifierMask] != 0)
-        mMode = (([event modifierFlags] & [self modeModifierMask]) != 0);
+	if ([self modeModifierMask] != 0)
+		mMode = (([event modifierFlags] & [self modeModifierMask]) != 0);
 
-    mAnchor = p;
-    mZoomRect = NSZeroRect;
-    return 0;
+	mAnchor = p;
+	mZoomRect = NSZeroRect;
+	return 0;
 }
 
 /** @brief Handle the mouse dragged event
@@ -73,11 +73,11 @@
 #pragma unused(event)
 #pragma unused(aDel)
 
-    if (!mMode) {
-        [layer setNeedsDisplayInRect:mZoomRect];
-        mZoomRect = NSRectFromTwoPoints(mAnchor, p);
-        [layer setNeedsDisplayInRect:mZoomRect];
-    }
+	if (!mMode) {
+		[layer setNeedsDisplayInRect:mZoomRect];
+		mZoomRect = NSRectFromTwoPoints(mAnchor, p);
+		[layer setNeedsDisplayInRect:mZoomRect];
+	}
 }
 
 /** @brief Handle the mouse up event
@@ -94,29 +94,29 @@
 #pragma unused(event)
 #pragma unused(aDel)
 
-    DKDrawingView* zv = (DKDrawingView*)[layer currentView];
+	DKDrawingView* zv = (DKDrawingView*)[layer currentView];
 
-    if (!mMode) {
-        NSRect temp = mZoomRect;
-        mZoomRect = NSZeroRect;
+	if (!mMode) {
+		NSRect temp = mZoomRect;
+		mZoomRect = NSZeroRect;
 
-        [layer setNeedsDisplayInRect:temp];
-        temp = NSRectFromTwoPoints(mAnchor, p);
-        [layer setNeedsDisplayInRect:temp];
+		[layer setNeedsDisplayInRect:temp];
+		temp = NSRectFromTwoPoints(mAnchor, p);
+		[layer setNeedsDisplayInRect:temp];
 
-        // if dragged area < 4 pixels, treat as click
+		// if dragged area < 4 pixels, treat as click
 
-        if (NSIsEmptyRect(NSInsetRect(temp, 2.0, 2.0)))
-            [zv zoomViewByFactor:2.0
-                  andCentrePoint:p];
-        else
-            [zv zoomViewToRect:temp];
-    } else
-        [zv zoomViewByFactor:0.5
-              andCentrePoint:p];
+		if (NSIsEmptyRect(NSInsetRect(temp, 2.0, 2.0)))
+			[zv zoomViewByFactor:2.0
+				  andCentrePoint:p];
+		else
+			[zv zoomViewToRect:temp];
+	} else
+		[zv zoomViewByFactor:0.5
+			  andCentrePoint:p];
 
-    mZoomRect = NSZeroRect;
-    return NO;
+	mZoomRect = NSZeroRect;
+	return NO;
 }
 
 /** @brief Draw the tool's graphic
@@ -127,18 +127,18 @@
 {
 #pragma unused(aRect)
 
-    if (!NSIsEmptyRect(mZoomRect) && [aView needsToDrawRect:mZoomRect]) {
-        CGFloat sc = 1.0 / [(DKDrawingView*)aView scale];
-        CGFloat dash[] = { 4.0 * sc, 3.0 * sc };
+	if (!NSIsEmptyRect(mZoomRect) && [aView needsToDrawRect:mZoomRect]) {
+		CGFloat sc = 1.0 / [(DKDrawingView*)aView scale];
+		CGFloat dash[] = { 4.0 * sc, 3.0 * sc };
 
-        NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect(mZoomRect, sc, sc)];
-        [zoomPath setLineWidth:sc];
-        [zoomPath setLineDash:dash
-                        count:2
-                        phase:0.0];
-        [[NSColor grayColor] set];
-        [zoomPath stroke];
-    }
+		NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect(mZoomRect, sc, sc)];
+		[zoomPath setLineWidth:sc];
+		[zoomPath setLineDash:dash
+						count:2
+						phase:0.0];
+		[[NSColor grayColor] set];
+		[zoomPath stroke];
+	}
 }
 
 /** @brief The state of the modifier keys changed
@@ -147,15 +147,15 @@
  */
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer
 {
-    if ([self modeModifierMask] != 0) {
-        mMode = (([event modifierFlags] & [self modeModifierMask]) != 0);
-        [[self cursor] set];
+	if ([self modeModifierMask] != 0) {
+		mMode = (([event modifierFlags] & [self modeModifierMask]) != 0);
+		[[self cursor] set];
 
-        if (mMode) {
-            [layer setNeedsDisplayInRect:mZoomRect];
-            mZoomRect = NSZeroRect;
-        }
-    }
+		if (mMode) {
+			[layer setNeedsDisplayInRect:mZoomRect];
+			mZoomRect = NSZeroRect;
+		}
+	}
 }
 
 /** @brief Return whether the target layer can be used by this tool
@@ -168,7 +168,7 @@
 {
 #pragma unused(aLayer)
 
-    return YES;
+	return YES;
 }
 
 /** @brief Return the tool's cursor
@@ -176,16 +176,16 @@
  */
 - (NSCursor*)cursor
 {
-    NSImage* img;
+	NSImage* img;
 
-    if (mMode)
-        img = [NSImage imageNamed:@"mag_minus"];
-    else
-        img = [NSImage imageNamed:@"mag_plus"];
+	if (mMode)
+		img = [NSImage imageNamed:@"mag_minus"];
+	else
+		img = [NSImage imageNamed:@"mag_plus"];
 
-    NSCursor* curs = [[NSCursor alloc] initWithImage:img
-                                             hotSpot:NSMakePoint(12, 12)];
-    return [curs autorelease];
+	NSCursor* curs = [[NSCursor alloc] initWithImage:img
+											 hotSpot:NSMakePoint(12, 12)];
+	return [curs autorelease];
 }
 
 #pragma mark -
@@ -193,12 +193,12 @@
 
 - (id)init
 {
-    self = [super init];
-    if (self) {
-        mModeModifierMask = NSAlternateKeyMask;
-    }
+	self = [super init];
+	if (self) {
+		mModeModifierMask = NSAlternateKeyMask;
+	}
 
-    return self;
+	return self;
 }
 
 @end

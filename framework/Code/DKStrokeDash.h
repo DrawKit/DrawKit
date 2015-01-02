@@ -10,11 +10,11 @@
 
 @interface DKStrokeDash : NSObject <NSCoding, NSCopying> {
 @private
-    CGFloat m_pattern[8];
-    CGFloat m_phase;
-    NSUInteger m_count;
-    BOOL m_scaleToLineWidth;
-    BOOL mEditing;
+	CGFloat m_pattern[8];
+	CGFloat m_phase;
+	NSUInteger m_count;
+	BOOL m_scaleToLineWidth;
+	BOOL mEditing;
 }
 
 /**  */

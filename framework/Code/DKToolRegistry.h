@@ -16,7 +16,7 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
  compatibility but are deprecated.
 */
 @interface DKToolRegistry : NSObject {
-    NSMutableDictionary* mToolsReg;
+	NSMutableDictionary* mToolsReg;
 }
 
 /** @brief Return the shared tool registry

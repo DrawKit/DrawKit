@@ -16,7 +16,7 @@
 #import "DKUndoManager.h"
 #import "LogEvent.h"
 
-#pragma mark Contants (Non-localized)
+#pragma mark Contants(Non - localized)
 
 NSString* kDKWillChangeToolNotification = @"kDKWillChangeToolNotification";
 NSString* kDKDidChangeToolNotification = @"kDKDidChangeToolNotification";
@@ -87,35 +87,35 @@ static DKDrawingTool* sGlobalTool = nil;
 
 + (DKDrawingTool*)drawingToolForDrawing:(NSString*)drawingKey
 {
-    NSAssert(drawingKey != nil, @"drawing was nil trying to get per-document tool");
+	NSAssert(drawingKey != nil, @"drawing was nil trying to get per-document tool");
 
-    if (sDrawingToolDict == nil)
-        return nil;
-    else
-        return [sDrawingToolDict objectForKey:drawingKey];
+	if (sDrawingToolDict == nil)
+		return nil;
+	else
+		return [sDrawingToolDict objectForKey:drawingKey];
 }
 
 + (void)setDrawingTool:(DKDrawingTool*)tool forDrawing:(NSString*)drawingKey
 {
-    NSAssert(drawingKey != nil, @"attempt to set tool per drawing, but drawing key is nil");
+	NSAssert(drawingKey != nil, @"attempt to set tool per drawing, but drawing key is nil");
 
-    if (sDrawingToolDict == nil)
-        sDrawingToolDict = [[NSMutableDictionary alloc] init];
+	if (sDrawingToolDict == nil)
+		sDrawingToolDict = [[NSMutableDictionary alloc] init];
 
-    [sDrawingToolDict setObject:tool
-                         forKey:drawingKey];
+	[sDrawingToolDict setObject:tool
+						 forKey:drawingKey];
 }
 
 + (DKDrawingTool*)globalDrawingTool
 {
-    return sGlobalTool;
+	return sGlobalTool;
 }
 
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool
 {
-    [tool retain];
-    [sGlobalTool release];
-    sGlobalTool = tool;
+	[tool retain];
+	[sGlobalTool release];
+	sGlobalTool = tool;
 }
 
 #pragma mark -
@@ -131,7 +131,7 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 + (void)setDrawingToolOperatingScope:(DKDrawingToolScope)scope
 {
-    sDrawingToolScope = scope;
+	sDrawingToolScope = scope;
 }
 
 /** @brief Return the operating scope for tools for this application
@@ -143,7 +143,7 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 + (DKDrawingToolScope)drawingToolOperatingScope
 {
-    return sDrawingToolScope;
+	return sDrawingToolScope;
 }
 
 /** @brief Set whether setting a tool will auto-activate a layer appropriate to the tool
@@ -155,8 +155,8 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 + (void)setToolsAutoActivateValidLayer:(BOOL)autoActivate
 {
-    [[NSUserDefaults standardUserDefaults] setBool:autoActivate
-                                            forKey:kDKDrawingToolAutoActivatesLayerDefaultsKey];
+	[[NSUserDefaults standardUserDefaults] setBool:autoActivate
+											forKey:kDKDrawingToolAutoActivatesLayerDefaultsKey];
 }
 
 /** @brief Return whether setting a tool will auto-activate a layer appropriate to the tool
@@ -168,7 +168,7 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 + (BOOL)toolsAutoActivateValidLayer
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingToolAutoActivatesLayerDefaultsKey];
+	return [[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingToolAutoActivatesLayerDefaultsKey];
 }
 
 #pragma mark -
@@ -180,53 +180,53 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)setDrawingTool:(DKDrawingTool*)aTool
 {
-    NSAssert(aTool != nil, @"attempt to set a nil tool");
+	NSAssert(aTool != nil, @"attempt to set a nil tool");
 
-    if (aTool != [self drawingTool]) {
-        DKDrawingTool* oldTool = [[self drawingTool] retain];
+	if (aTool != [self drawingTool]) {
+		DKDrawingTool* oldTool = [[self drawingTool] retain];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKWillChangeToolNotification
-                                                            object:self];
-        [oldTool toolControllerWillUnsetTool:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKWillChangeToolNotification
+															object:self];
+		[oldTool toolControllerWillUnsetTool:self];
 
-        switch ([[self class] drawingToolOperatingScope]) {
-        case kDKToolScopeLocalToView:
-            [aTool retain];
-            [mTool release];
-            mTool = aTool;
-            break;
+		switch ([[self class] drawingToolOperatingScope]) {
+		case kDKToolScopeLocalToView:
+			[aTool retain];
+			[mTool release];
+			mTool = aTool;
+			break;
 
-        default:
-        case kDKToolScopeLocalToDocument:
-            [[self class] setDrawingTool:aTool
-                              forDrawing:[[self drawing] uniqueKey]];
-            break;
+		default:
+		case kDKToolScopeLocalToDocument:
+			[[self class] setDrawingTool:aTool
+							  forDrawing:[[self drawing] uniqueKey]];
+			break;
 
-        case kDKToolScopeGlobal:
-            [[self class] setGlobalDrawingTool:aTool];
-            break;
-        }
+		case kDKToolScopeGlobal:
+			[[self class] setGlobalDrawingTool:aTool];
+			break;
+		}
 
-        [self invalidateCursors];
-        [oldTool toolControllerDidUnsetTool:self];
-        [aTool toolControllerDidSetTool:self];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDidChangeToolNotification
-                                                            object:self];
+		[self invalidateCursors];
+		[oldTool toolControllerDidUnsetTool:self];
+		[aTool toolControllerDidSetTool:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDidChangeToolNotification
+															object:self];
 
-        [oldTool release];
+		[oldTool release];
 
-        // check if the current layer is usable with the tool and the class enables auto-activation. If it does,
-        // find an alternative layer and make it active
+		// check if the current layer is usable with the tool and the class enables auto-activation. If it does,
+		// find an alternative layer and make it active
 
-        if ([[self class] toolsAutoActivateValidLayer]) {
-            if (![aTool isValidTargetLayer:[self activeLayer]]) {
-                DKLayer* alternative = [self findEligibleLayerForTool:aTool];
+		if ([[self class] toolsAutoActivateValidLayer]) {
+			if (![aTool isValidTargetLayer:[self activeLayer]]) {
+				DKLayer* alternative = [self findEligibleLayerForTool:aTool];
 
-                if (alternative)
-                    [[self drawing] setActiveLayer:alternative];
-            }
-        }
-    }
+				if (alternative)
+					[[self drawing] setActiveLayer:alternative];
+			}
+		}
+	}
 }
 
 /** @brief Select the tool using its registered name
@@ -237,17 +237,17 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)setDrawingToolWithName:(NSString*)name
 {
-    if (name != nil && [name length] > 0) {
-        DKDrawingTool* tool = [DKDrawingTool drawingToolWithName:name];
+	if (name != nil && [name length] > 0) {
+		DKDrawingTool* tool = [DKDrawingTool drawingToolWithName:name];
 
-        LogEvent_(kStateEvent, @"tool controller selecting tool with name '%@', tool = %@", name, tool);
+		LogEvent_(kStateEvent, @"tool controller selecting tool with name '%@', tool = %@", name, tool);
 
-        if (tool != nil)
-            [self setDrawingTool:tool];
-        else
-            [NSException raise:NSInternalInconsistencyException
-                        format:@"tool name '%@' could not be found", name];
-    }
+		if (tool != nil)
+			[self setDrawingTool:tool];
+		else
+			[NSException raise:NSInternalInconsistencyException
+						format:@"tool name '%@' could not be found", name];
+	}
 }
 
 /** @brief Return the current drawing tool
@@ -257,17 +257,17 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (DKDrawingTool*)drawingTool
 {
-    switch ([[self class] drawingToolOperatingScope]) {
-    case kDKToolScopeLocalToView:
-        return mTool;
+	switch ([[self class] drawingToolOperatingScope]) {
+	case kDKToolScopeLocalToView:
+		return mTool;
 
-    default:
-    case kDKToolScopeLocalToDocument:
-        return [[self class] drawingToolForDrawing:[[self drawing] uniqueKey]];
+	default:
+	case kDKToolScopeLocalToDocument:
+		return [[self class] drawingToolForDrawing:[[self drawing] uniqueKey]];
 
-    case kDKToolScopeGlobal:
-        return [[self class] globalDrawingTool];
-    }
+	case kDKToolScopeGlobal:
+		return [[self class] globalDrawingTool];
+	}
 }
 
 /** @brief Check if the tool can be set for the current active layer
@@ -281,9 +281,9 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool
 {
-    NSAssert(aTool != nil, @"tool is nil in -canSetDrawingTool:");
+	NSAssert(aTool != nil, @"tool is nil in -canSetDrawingTool:");
 
-    return [aTool isValidTargetLayer:[self activeLayer]];
+	return [aTool isValidTargetLayer:[self activeLayer]];
 }
 
 /** @brief Set whether the tool should automatically "spring back" to the selection tool after each application
@@ -293,13 +293,13 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)setAutomaticallyRevertsToSelectionTool:(BOOL)reverts
 {
-    if (reverts != mAutoRevert) {
-        mAutoRevert = reverts;
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDidChangeToolAutoRevertStateNotification
-                                                            object:self];
+	if (reverts != mAutoRevert) {
+		mAutoRevert = reverts;
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDidChangeToolAutoRevertStateNotification
+															object:self];
 
-        LogEvent_(kInfoEvent, @"tool controller setting sticky tools = %d", !mAutoRevert);
-    }
+		LogEvent_(kInfoEvent, @"tool controller setting sticky tools = %d", !mAutoRevert);
+	}
 }
 
 /** @brief Whether the tool should automatically "spring back" to the selection tool after each application
@@ -309,7 +309,7 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (BOOL)automaticallyRevertsToSelectionTool
 {
-    return mAutoRevert;
+	return mAutoRevert;
 }
 
 /** @brief Draw any tool graphic content into the view
@@ -317,13 +317,13 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)drawRect:(NSRect)rect
 {
-    DKDrawingTool* ct = [self drawingTool];
-    NSAssert(ct != nil, @"nil drawing tool for drawRect:");
+	DKDrawingTool* ct = [self drawingTool];
+	NSAssert(ct != nil, @"nil drawing tool for drawRect:");
 
-    if ([ct respondsToSelector:@selector(drawRect:
-                                           inView:)])
-        [ct drawRect:rect
-              inView:[self view]];
+	if ([ct respondsToSelector:@selector(drawRect:
+										   inView:)])
+		[ct drawRect:rect
+			  inView:[self view]];
 }
 
 /** @brief Select the tool using its registered name based on the title of a UI control, etc.
@@ -336,8 +336,8 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (IBAction)selectDrawingToolByName:(id)sender
 {
-    NSString* toolName = [sender title];
-    [self setDrawingToolWithName:toolName];
+	NSString* toolName = [sender title];
+	[self setDrawingToolWithName:toolName];
 }
 
 /** @brief Select the tool using the represented object of a UI control, etc.
@@ -349,17 +349,17 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (IBAction)selectDrawingToolByRepresentedObject:(id)sender
 {
-    if (sender != nil && [sender respondsToSelector:@selector(representedObject)]) {
-        DKDrawingTool* tool = [sender representedObject];
+	if (sender != nil && [sender respondsToSelector:@selector(representedObject)]) {
+		DKDrawingTool* tool = [sender representedObject];
 
-        if (tool != nil && [tool isKindOfClass:[DKDrawingTool class]]) {
-            LogEvent_(kStateEvent, @"tool controller selecting tool (represented object) = %@", tool);
+		if (tool != nil && [tool isKindOfClass:[DKDrawingTool class]]) {
+			LogEvent_(kStateEvent, @"tool controller selecting tool (represented object) = %@", tool);
 
-            [self setDrawingTool:tool];
-        } else
-            [NSException raise:NSInternalInconsistencyException
-                        format:@"represented object of sender %@ was not a valid DKDrawingTool", [sender description]];
-    }
+			[self setDrawingTool:tool];
+		} else
+			[NSException raise:NSInternalInconsistencyException
+						format:@"represented object of sender %@ was not a valid DKDrawingTool", [sender description]];
+	}
 }
 
 /** @brief Toggle the state of the automatic tool "spring" behaviour.
@@ -372,7 +372,7 @@ static DKDrawingTool* sGlobalTool = nil;
 {
 #pragma unused(sender)
 
-    [self setAutomaticallyRevertsToSelectionTool:![self automaticallyRevertsToSelectionTool]];
+	[self setAutomaticallyRevertsToSelectionTool:![self automaticallyRevertsToSelectionTool]];
 }
 
 /** @brief Return the undo manager
@@ -380,7 +380,7 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (id)undoManager
 {
-    return (id)[[self drawing] undoManager];
+	return (id)[[self drawing] undoManager];
 }
 
 /** @brief Opens a new undo manager group if one has not already been opened
@@ -388,12 +388,12 @@ static DKDrawingTool* sGlobalTool = nil;
 - (void)openUndoGroup
 {
 #if DK_ENABLE_UNDO_GROUPING
-    if (!mOpenedUndoGroup) {
-        LogEvent_(kReactiveEvent, @"tool controller will open undo group");
+	if (!mOpenedUndoGroup) {
+		LogEvent_(kReactiveEvent, @"tool controller will open undo group");
 
-        [[self undoManager] beginUndoGrouping];
-        mOpenedUndoGroup = YES;
-    }
+		[[self undoManager] beginUndoGrouping];
+		mOpenedUndoGroup = YES;
+	}
 #endif
 }
 
@@ -406,16 +406,16 @@ static DKDrawingTool* sGlobalTool = nil;
 - (void)closeUndoGroup
 {
 #if DK_ENABLE_UNDO_GROUPING
-    if (mOpenedUndoGroup) {
-        LogEvent_(kReactiveEvent, @"tool controller will close undo group");
+	if (mOpenedUndoGroup) {
+		LogEvent_(kReactiveEvent, @"tool controller will close undo group");
 
-        [[self undoManager] endUndoGrouping];
-        mOpenedUndoGroup = NO;
+		[[self undoManager] endUndoGrouping];
+		mOpenedUndoGroup = NO;
 
 #if DK_ALWAYS_OPEN_UNDO_GROUP
 
-        // clean up empty undo task if nothing was actually done (NSUndoManager bug workaround)
-        /*
+		// clean up empty undo task if nothing was actually done (NSUndoManager bug workaround)
+		/*
 		NSInteger	groupLevel = [[self undoManager] groupingLevel];
 		NSUInteger	taskCount = [[self undoManager] numberOfTasksInLastGroup];
 		
@@ -426,9 +426,9 @@ static DKDrawingTool* sGlobalTool = nil;
 			[[self undoManager] enableUndoRegistration];
 		}
 		*/
-        [[self undoManager] setGroupsByEvent:YES];
+		[[self undoManager] setGroupsByEvent:YES];
 #endif
-    }
+	}
 #endif
 }
 
@@ -436,17 +436,17 @@ static DKDrawingTool* sGlobalTool = nil;
 
 - (DKLayer*)findEligibleLayerForTool:(DKDrawingTool*)tool
 {
-    NSAssert(tool != nil, @"tool passed to findEligibleLayer was nil");
+	NSAssert(tool != nil, @"tool passed to findEligibleLayer was nil");
 
-    NSEnumerator* iter = [[[self drawing] flattenedLayers] objectEnumerator];
-    DKLayer* layer;
+	NSEnumerator* iter = [[[self drawing] flattenedLayers] objectEnumerator];
+	DKLayer* layer;
 
-    while ((layer = [iter nextObject])) {
-        if (![layer lockedOrHidden] && [layer layerMayBecomeActive] && [tool isValidTargetLayer:layer])
-            return layer;
-    }
+	while ((layer = [iter nextObject])) {
+		if (![layer lockedOrHidden] && [layer layerMayBecomeActive] && [tool isValidTargetLayer:layer])
+			return layer;
+	}
 
-    return nil;
+	return nil;
 }
 
 #pragma mark -
@@ -461,14 +461,14 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (id)initWithView:(NSView*)aView
 {
-    self = [super initWithView:aView];
-    if (self != nil) {
-        [self setAutomaticallyRevertsToSelectionTool:NO];
-    }
+	self = [super initWithView:aView];
+	if (self != nil) {
+		[self setAutomaticallyRevertsToSelectionTool:NO];
+	}
 
-    LogEvent_(kInfoEvent, @"created tool controller, current scope = %d", [[self class] drawingToolOperatingScope]);
+	LogEvent_(kInfoEvent, @"created tool controller, current scope = %d", [[self class] drawingToolOperatingScope]);
 
-    return self;
+	return self;
 }
 
 /** @brief The controller is being added to a drawing
@@ -480,21 +480,21 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)setDrawing:(DKDrawing*)aDrawing
 {
-    [super setDrawing:aDrawing];
+	[super setDrawing:aDrawing];
 
-    // set the default tool if there isn't yet one set. This is done at this point so that if the scope is per-document,
-    // the drawing is valid. This also works as it should for both local and global scope.
+	// set the default tool if there isn't yet one set. This is done at this point so that if the scope is per-document,
+	// the drawing is valid. This also works as it should for both local and global scope.
 
-    if (aDrawing != nil && [self drawingTool] == nil) {
-        DKDrawingTool* se;
+	if (aDrawing != nil && [self drawingTool] == nil) {
+		DKDrawingTool* se;
 
-        se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
+		se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
 
-        if (se == nil)
-            se = [[[DKSelectAndEditTool alloc] init] autorelease];
+		if (se == nil)
+			se = [[[DKSelectAndEditTool alloc] init] autorelease];
 
-        [self setDrawingTool:se];
-    }
+		[self setDrawingTool:se];
+	}
 }
 
 /** @brief Handle the mouse down event
@@ -505,73 +505,73 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)mouseDown:(NSEvent*)event
 {
-    LogEvent_(kInfoEvent, @"tool controller mouse down");
+	LogEvent_(kInfoEvent, @"tool controller mouse down");
 
-    mOpenedUndoGroup = NO;
-    mAbortiveMouseDown = NO;
+	mOpenedUndoGroup = NO;
+	mAbortiveMouseDown = NO;
 
-    DKDrawableObject* target = nil;
-    DKDrawingTool* ct = [self drawingTool];
-    NSPoint p = [[self view] convertPoint:[event locationInWindow]
-                                 fromView:nil];
+	DKDrawableObject* target = nil;
+	DKDrawingTool* ct = [self drawingTool];
+	NSPoint p = [[self view] convertPoint:[event locationInWindow]
+								 fromView:nil];
 
-    NSAssert(ct != nil, @"nil drawing tool for mouse down");
+	NSAssert(ct != nil, @"nil drawing tool for mouse down");
 
-    // should the layer be auto-activated? Only do this if the tool is some kind of selection tool, because
-    // otherwise drawing a shape on top of another in another layer can cause the layer to switch unexpectedly.
+	// should the layer be auto-activated? Only do this if the tool is some kind of selection tool, because
+	// otherwise drawing a shape on top of another in another layer can cause the layer to switch unexpectedly.
 
-    if ([ct isSelectionTool])
-        [self autoActivateLayerWithEvent:event];
+	if ([ct isSelectionTool])
+		[self autoActivateLayerWithEvent:event];
 
-    // can the tool be used in this layer anyway?
+	// can the tool be used in this layer anyway?
 
-    if ([ct isValidTargetLayer:[self activeLayer]]) {
-        [self startAutoscrolling];
+	if ([ct isValidTargetLayer:[self activeLayer]]) {
+		[self startAutoscrolling];
 
-        BOOL isObjectLayer = [[self activeLayer] isKindOfClass:[DKObjectDrawingLayer class]];
+		BOOL isObjectLayer = [[self activeLayer] isKindOfClass:[DKObjectDrawingLayer class]];
 
-        if (isObjectLayer) {
-            // the operation we are about to do may change the selection, so record its current state so it can be undone if needed.
+		if (isObjectLayer) {
+			// the operation we are about to do may change the selection, so record its current state so it can be undone if needed.
 
-            [(DKObjectDrawingLayer*)[self activeLayer] recordSelectionForUndo];
-        }
+			[(DKObjectDrawingLayer*)[self activeLayer] recordSelectionForUndo];
+		}
 
-        // see if there is a target object
+		// see if there is a target object
 
-        target = [(DKObjectDrawingLayer*)[self activeLayer] hitTest:p];
+		target = [(DKObjectDrawingLayer*)[self activeLayer] hitTest:p];
 
-        // start the tool:
+		// start the tool:
 
-        @try
-        {
+		@try
+		{
 #if DK_ALWAYS_OPEN_UNDO_GROUP
-            [[self undoManager] setGroupsByEvent:NO];
-            [self openUndoGroup];
+			[[self undoManager] setGroupsByEvent:NO];
+			[self openUndoGroup];
 #endif
-            mPartcode = [ct mouseDownAtPoint:p
-                                targetObject:target
-                                       layer:[self activeLayer]
-                                       event:event
-                                    delegate:self];
-        }
-        @catch (NSException* excp)
-        {
-            NSLog(@"caught exception on mouse down with tool - ignored (tool = %@, exception = %@)", ct, excp);
+			mPartcode = [ct mouseDownAtPoint:p
+								targetObject:target
+									   layer:[self activeLayer]
+									   event:event
+									delegate:self];
+		}
+		@catch (NSException* excp)
+		{
+			NSLog(@"caught exception on mouse down with tool - ignored (tool = %@, exception = %@)", ct, excp);
 
-            [self closeUndoGroup];
-            [self stopAutoscrolling];
+			[self closeUndoGroup];
+			[self stopAutoscrolling];
 
-            // set flag to reject drag and up events - cleared on new mouse down. This prevents an error condition from developing
-            // if the initial mouse down is mishandled.
+			// set flag to reject drag and up events - cleared on new mouse down. This prevents an error condition from developing
+			// if the initial mouse down is mishandled.
 
-            mAbortiveMouseDown = YES;
-        }
-    } else {
-        // tool not applicable to the active layer - defer to the view controller. Some layers (e.g. guides) will
-        // always cause this to occur as they work the same way regardless of the current tool. So don't beep here.
+			mAbortiveMouseDown = YES;
+		}
+	} else {
+		// tool not applicable to the active layer - defer to the view controller. Some layers (e.g. guides) will
+		// always cause this to occur as they work the same way regardless of the current tool. So don't beep here.
 
-        [super mouseDown:event];
-    }
+		[super mouseDown:event];
+	}
 }
 
 /** @brief Handle the mouse dragged event
@@ -582,41 +582,41 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)mouseDragged:(NSEvent*)event
 {
-    if (mAbortiveMouseDown)
-        return;
+	if (mAbortiveMouseDown)
+		return;
 
-    DKDrawingTool* ct = [self drawingTool];
+	DKDrawingTool* ct = [self drawingTool];
 
-    if (event != mDragEvent) {
-        [mDragEvent release];
-        mDragEvent = [event retain];
-    }
+	if (event != mDragEvent) {
+		[mDragEvent release];
+		mDragEvent = [event retain];
+	}
 
-    if ([event clickCount] <= 1) {
-        NSAssert(ct != nil, @"nil drawing tool for mouse drag");
+	if ([event clickCount] <= 1) {
+		NSAssert(ct != nil, @"nil drawing tool for mouse drag");
 
-        NSPoint p = [[self view] convertPoint:[event locationInWindow]
-                                     fromView:nil];
+		NSPoint p = [[self view] convertPoint:[event locationInWindow]
+									 fromView:nil];
 
-        @try
-        {
-            if ([ct isValidTargetLayer:[self activeLayer]])
-                [ct mouseDraggedToPoint:p
-                               partCode:mPartcode
-                                  layer:[self activeLayer]
-                                  event:event
-                               delegate:self];
-            else
-                [super mouseDragged:event];
-        }
-        @catch (NSException* excp)
-        {
-            NSLog(@"caught exception when dragging with tool - ignored (tool = %@, exception = %@)", ct, excp);
+		@try
+		{
+			if ([ct isValidTargetLayer:[self activeLayer]])
+				[ct mouseDraggedToPoint:p
+							   partCode:mPartcode
+								  layer:[self activeLayer]
+								  event:event
+							   delegate:self];
+			else
+				[super mouseDragged:event];
+		}
+		@catch (NSException* excp)
+		{
+			NSLog(@"caught exception when dragging with tool - ignored (tool = %@, exception = %@)", ct, excp);
 
-            [self closeUndoGroup];
-            [self stopAutoscrolling];
-        }
-    }
+			[self closeUndoGroup];
+			[self stopAutoscrolling];
+		}
+	}
 }
 
 /** @brief Handle the mouse up event
@@ -627,67 +627,67 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)mouseUp:(NSEvent*)event
 {
-    if (mAbortiveMouseDown)
-        return;
+	if (mAbortiveMouseDown)
+		return;
 
-    LogEvent_(kInfoEvent, @"tool controller mouse up");
+	LogEvent_(kInfoEvent, @"tool controller mouse up");
 
-    DKDrawingTool* ct = [self drawingTool];
-    NSPoint p = [[self view] convertPoint:[event locationInWindow]
-                                 fromView:nil];
+	DKDrawingTool* ct = [self drawingTool];
+	NSPoint p = [[self view] convertPoint:[event locationInWindow]
+								 fromView:nil];
 
-    NSAssert(ct != nil, @"nil drawing tool for mouse up");
+	NSAssert(ct != nil, @"nil drawing tool for mouse up");
 
-    if ([ct isValidTargetLayer:[self activeLayer]]) {
-        BOOL undo = NO;
+	if ([ct isValidTargetLayer:[self activeLayer]]) {
+		BOOL undo = NO;
 
-        @try
-        {
-            undo = [ct mouseUpAtPoint:p
-                             partCode:mPartcode
-                                layer:[self activeLayer]
-                                event:event
-                             delegate:self];
-        }
-        @catch (NSException* excp)
-        {
-            NSLog(@"caught exception on mouse up with tool - ignored (tool = %@, exception = %@)", ct, excp);
-            undo = NO;
-        }
+		@try
+		{
+			undo = [ct mouseUpAtPoint:p
+							 partCode:mPartcode
+								layer:[self activeLayer]
+								event:event
+							 delegate:self];
+		}
+		@catch (NSException* excp)
+		{
+			NSLog(@"caught exception on mouse up with tool - ignored (tool = %@, exception = %@)", ct, excp);
+			undo = NO;
+		}
 
-        BOOL isObjectLayer = [[self activeLayer] isKindOfClass:[DKObjectDrawingLayer class]];
+		BOOL isObjectLayer = [[self activeLayer] isKindOfClass:[DKObjectDrawingLayer class]];
 
-        if (isObjectLayer && undo) {
-            // if the tool did something undoable, get the undo action and commit it in the active layer. This also
-            // commits the recorded selection to the undo stack if the layer treats selection changes as undoable.
+		if (isObjectLayer && undo) {
+			// if the tool did something undoable, get the undo action and commit it in the active layer. This also
+			// commits the recorded selection to the undo stack if the layer treats selection changes as undoable.
 
-            NSString* action = [ct actionName];
-            [(DKObjectDrawingLayer*)[self activeLayer] commitSelectionUndoWithActionName:action];
-        }
-        // close the undo group if one was opened applying the tool
+			NSString* action = [ct actionName];
+			[(DKObjectDrawingLayer*)[self activeLayer] commitSelectionUndoWithActionName:action];
+		}
+		// close the undo group if one was opened applying the tool
 
-        [self closeUndoGroup];
-        [self stopAutoscrolling];
-    } else
-        [super mouseUp:event];
+		[self closeUndoGroup];
+		[self stopAutoscrolling];
+	} else
+		[super mouseUp:event];
 
-    // after handling mouse up, we may wish to spring back to the selection tool. This first attempts to
-    // select a registered tool with the name "Select" so if you have replaced it, that is the new default tool.
-    // Otherwise it creates an instance of the standard selection tool and sets that.
+	// after handling mouse up, we may wish to spring back to the selection tool. This first attempts to
+	// select a registered tool with the name "Select" so if you have replaced it, that is the new default tool.
+	// Otherwise it creates an instance of the standard selection tool and sets that.
 
-    if ([self automaticallyRevertsToSelectionTool] && ![ct isKindOfClass:[DKSelectAndEditTool class]]) {
-        DKDrawingTool* se;
+	if ([self automaticallyRevertsToSelectionTool] && ![ct isKindOfClass:[DKSelectAndEditTool class]]) {
+		DKDrawingTool* se;
 
-        se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
+		se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
 
-        if (se == nil)
-            se = [[[DKSelectAndEditTool alloc] init] autorelease];
+		if (se == nil)
+			se = [[[DKSelectAndEditTool alloc] init] autorelease];
 
-        [self setDrawingTool:se];
-    }
+		[self setDrawingTool:se];
+	}
 
-    [mDragEvent release];
-    mDragEvent = nil;
+	[mDragEvent release];
+	mDragEvent = nil;
 }
 
 /** @brief Handle the flags changed up event
@@ -697,11 +697,11 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)flagsChanged:(NSEvent*)event
 {
-    if ([self drawingTool] != nil && [[self drawingTool] isValidTargetLayer:[self activeLayer]])
-        [[self drawingTool] flagsChanged:event
-                                 inLayer:[self activeLayer]];
-    else
-        [super flagsChanged:event];
+	if ([self drawingTool] != nil && [[self drawingTool] isValidTargetLayer:[self activeLayer]])
+		[[self drawingTool] flagsChanged:event
+								 inLayer:[self activeLayer]];
+	else
+		[super flagsChanged:event];
 }
 
 /** @brief Handle the mouse moved event
@@ -711,16 +711,16 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)mouseMoved:(NSEvent*)event
 {
-    if ([[self drawingTool] respondsToSelector:@selector(mouseMoved:
-                                                             inView:)])
-        [(id)[self drawingTool] mouseMoved:event
-                                    inView:[self view]];
-    else {
-        if ([[self activeLayer] respondsToSelector:@selector(mouseMoved:
-                                                                 inView:)])
-            [[self activeLayer] mouseMoved:event
-                                    inView:[self view]];
-    }
+	if ([[self drawingTool] respondsToSelector:@selector(mouseMoved:
+															 inView:)])
+		[(id)[self drawingTool] mouseMoved:event
+									inView:[self view]];
+	else {
+		if ([[self activeLayer] respondsToSelector:@selector(mouseMoved:
+																 inView:)])
+			[[self activeLayer] mouseMoved:event
+									inView:[self view]];
+	}
 }
 
 /** @brief Returns the current tool's cursor
@@ -728,10 +728,10 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (NSCursor*)cursor
 {
-    if ([self drawingTool] != nil && [[self drawingTool] isValidTargetLayer:[self activeLayer]])
-        return [[self drawingTool] cursor];
-    else
-        return [super cursor];
+	if ([self drawingTool] != nil && [[self drawingTool] isValidTargetLayer:[self activeLayer]])
+		return [[self drawingTool] cursor];
+	else
+		return [super cursor];
 }
 
 #pragma mark -
@@ -745,23 +745,23 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)keyDown:(NSEvent*)event
 {
-    DKDrawingTool* tool = [DKDrawingTool drawingToolWithKeyboardEquivalent:event];
+	DKDrawingTool* tool = [DKDrawingTool drawingToolWithKeyboardEquivalent:event];
 
-    if (tool) {
-        [self setAutomaticallyRevertsToSelectionTool:NO];
-        [self setDrawingTool:tool];
-    } else {
-        @try
-        {
-            [[self view] interpretKeyEvents:[NSArray arrayWithObject:event]];
-        }
-        @catch (NSException* excp)
-        {
-            NSLog(@"caught exception from keyDown handler (ignored), event = %@, exception = %@", event, excp);
+	if (tool) {
+		[self setAutomaticallyRevertsToSelectionTool:NO];
+		[self setDrawingTool:tool];
+	} else {
+		@try
+		{
+			[[self view] interpretKeyEvents:[NSArray arrayWithObject:event]];
+		}
+		@catch (NSException* excp)
+		{
+			NSLog(@"caught exception from keyDown handler (ignored), event = %@, exception = %@", event, excp);
 
-            [self closeUndoGroup];
-        }
-    }
+			[self closeUndoGroup];
+		}
+	}
 }
 
 /** @brief Forward an invocation to the active layer if it implements it
@@ -773,27 +773,27 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)forwardInvocation:(NSInvocation*)invocation
 {
-    // commands can be implemented by the layer that wants to make use of them - this makes it happen by forwarding unrecognised
-    // method calls to the active layer if possible.
+	// commands can be implemented by the layer that wants to make use of them - this makes it happen by forwarding unrecognised
+	// method calls to the active layer if possible.
 
-    SEL aSelector = [invocation selector];
+	SEL aSelector = [invocation selector];
 
-    if ([[self activeLayer] respondsToSelector:aSelector]) {
-        @try
-        {
-            [invocation invokeWithTarget:[self activeLayer]];
-        }
-        @catch (NSException* excp)
-        {
-            NSLog(@"caught exception from forwarded invocation (ignored), inv = %@, exception = %@", invocation, excp);
-            [self closeUndoGroup];
-        }
-    } else
-        [self doesNotRecognizeSelector:aSelector];
+	if ([[self activeLayer] respondsToSelector:aSelector]) {
+		@try
+		{
+			[invocation invokeWithTarget:[self activeLayer]];
+		}
+		@catch (NSException* excp)
+		{
+			NSLog(@"caught exception from forwarded invocation (ignored), inv = %@, exception = %@", invocation, excp);
+			[self closeUndoGroup];
+		}
+	} else
+		[self doesNotRecognizeSelector:aSelector];
 }
 
 #pragma mark -
-#pragma mark - As part of the NSObject (DKToolDelegate) protocol
+#pragma mark - As part of the NSObject(DKToolDelegate) protocol
 
 /** @brief Opens an undo group to receive subsequent undo tasks
 
@@ -804,7 +804,7 @@ static DKDrawingTool* sGlobalTool = nil;
 - (void)toolWillPerformUndoableAction:(DKDrawingTool*)aTool
 {
 #pragma unused(aTool)
-    [self openUndoGroup];
+	[self openUndoGroup];
 }
 
 #pragma mark -
@@ -814,8 +814,8 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)dealloc
 {
-    [mTool release];
-    [super dealloc];
+	[mTool release];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -827,19 +827,19 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    if ([item action] == @selector(toggleAutoRevertAction:)) {
-        [item setState:[self automaticallyRevertsToSelectionTool] ? NSOffState : NSOnState];
-        return YES;
-    }
+	if ([item action] == @selector(toggleAutoRevertAction:)) {
+		[item setState:[self automaticallyRevertsToSelectionTool] ? NSOffState : NSOnState];
+		return YES;
+	}
 
-    if ([item action] == @selector(selectDrawingToolByName:)) {
-        return [[DKToolRegistry sharedToolRegistry] drawingToolWithName:[item title]] != nil;
-    }
+	if ([item action] == @selector(selectDrawingToolByName:)) {
+		return [[DKToolRegistry sharedToolRegistry] drawingToolWithName:[item title]] != nil;
+	}
 
-    if ([item action] == @selector(selectDrawingToolByRepresentedObject:))
-        return [[item representedObject] isKindOfClass:[DKDrawingTool class]];
+	if ([item action] == @selector(selectDrawingToolByRepresentedObject:))
+		return [[item representedObject] isKindOfClass:[DKDrawingTool class]];
 
-    return [super validateMenuItem:item];
+	return [super validateMenuItem:item];
 }
 
 @end

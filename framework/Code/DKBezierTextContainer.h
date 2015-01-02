@@ -14,7 +14,7 @@
  the text container, this caches the text layout rects and uses that info to return rects on demand to the layout manager.
 */
 @interface DKBezierTextContainer : NSTextContainer {
-    NSBezierPath* mPath;
+	NSBezierPath* mPath;
 }
 
 - (void)setBezierPath:(NSBezierPath*)aPath;

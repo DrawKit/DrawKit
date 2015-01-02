@@ -17,17 +17,17 @@
  normal. When overriding the nib in an app, you need to copy the entire nib and extend or modify any menus as you wish.
 */
 @interface DKAuxiliaryMenus : NSObject {
-    IBOutlet NSMenu* _DKDrawableObjectMenu;
-    IBOutlet NSMenu* _DKDrawableShapeMenu;
-    IBOutlet NSMenu* _DKDrawablePathMenu;
-    IBOutlet NSMenu* _DKShapeGroupMenu;
-    IBOutlet NSMenu* _DKImageShapeMenu;
-    IBOutlet NSMenu* _DKArcPathMenu;
-    IBOutlet NSMenu* _DKRegularPolygonPathMenu;
-    IBOutlet NSMenu* _DKTextShapeMenu;
-    IBOutlet NSMenu* _DKTextPathMenu;
+	IBOutlet NSMenu* _DKDrawableObjectMenu;
+	IBOutlet NSMenu* _DKDrawableShapeMenu;
+	IBOutlet NSMenu* _DKDrawablePathMenu;
+	IBOutlet NSMenu* _DKShapeGroupMenu;
+	IBOutlet NSMenu* _DKImageShapeMenu;
+	IBOutlet NSMenu* _DKArcPathMenu;
+	IBOutlet NSMenu* _DKRegularPolygonPathMenu;
+	IBOutlet NSMenu* _DKTextShapeMenu;
+	IBOutlet NSMenu* _DKTextPathMenu;
 
-    NSNib* mNib;
+	NSNib* mNib;
 }
 
 + (DKAuxiliaryMenus*)auxiliaryMenus;

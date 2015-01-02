@@ -29,7 +29,7 @@ objects to the undo manager and vice versa, implementing undo for all keypaths d
 */
 @interface GCObservableObject : NSObject {
 @private
-    NSMutableDictionary* m_oldArrayValues;
+	NSMutableDictionary* m_oldArrayValues;
 }
 
 + (void)registerActionName:(NSString*)na forKeyPath:(NSString*)kp objClass:(Class)cl;
@@ -60,7 +60,7 @@ objects to the undo manager and vice versa, implementing undo for all keypaths d
 // set up as an observer. It also implements the above protocol so that observees are easily able to hook up to it.
 
 @interface GCObserverUndoRelay : NSObject {
-    NSUndoManager* m_um;
+	NSUndoManager* m_um;
 }
 
 - (void)setUndoManager:(NSUndoManager*)um;

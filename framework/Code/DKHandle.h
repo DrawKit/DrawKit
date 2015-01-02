@@ -20,9 +20,9 @@ DKHandle is a base class for all handles, which are the knobs attached to shapes
 */
 @interface DKHandle : NSObject {
 @private
-    DKQuartzCache* mCache;
-    NSSize mSize;
-    NSColor* mColour;
+	DKQuartzCache* mCache;
+	NSSize mSize;
+	NSColor* mColour;
 }
 
 + (DKKnobType)type;

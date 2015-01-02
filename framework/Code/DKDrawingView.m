@@ -16,7 +16,7 @@
 #import "NSColor+DKAdditions.h"
 #include <tgmath.h>
 
-#pragma mark Constants (Non-localized)
+#pragma mark Constants(Non - localized)
 
 NSString* kDKDrawingViewDidBeginTextEditing = @"kDKDrawingViewDidBeginTextEditing";
 NSString* kDKDrawingViewTextEditingContentsDidChange = @"kDKDrawingViewTextEditingContentsDidChange";
@@ -93,27 +93,27 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (DKDrawingView*)currentlyDrawingView
 {
-    return [sDrawingViewStack lastObject];
+	return [sDrawingViewStack lastObject];
 }
 
 + (void)pushCurrentViewAndSet:(DKDrawingView*)aView
 {
-    if (sDrawingViewStack == nil)
-        sDrawingViewStack = [[NSMutableArray alloc] init];
+	if (sDrawingViewStack == nil)
+		sDrawingViewStack = [[NSMutableArray alloc] init];
 
-    //NSLog(@"pushing %@; setting %@", [self currentlyDrawingView], aView);
+	//NSLog(@"pushing %@; setting %@", [self currentlyDrawingView], aView);
 
-    [sDrawingViewStack addObject:aView];
+	[sDrawingViewStack addObject:aView];
 }
 
 + (void)pop
 {
-    NSUInteger stackSize = [sDrawingViewStack count];
+	NSUInteger stackSize = [sDrawingViewStack count];
 
-    if (stackSize > 0)
-        [sDrawingViewStack removeObjectAtIndex:stackSize - 1];
+	if (stackSize > 0)
+		[sDrawingViewStack removeObjectAtIndex:stackSize - 1];
 
-    //NSLog(@"popping %@", [self currentlyDrawingView]);
+	//NSLog(@"popping %@", [self currentlyDrawingView]);
 }
 
 /** @brief Set the colour used to draw the page breaks
@@ -121,9 +121,9 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (void)setPageBreakColour:(NSColor*)colour
 {
-    [colour retain];
-    [sPageBreakColour release];
-    sPageBreakColour = colour;
+	[colour retain];
+	[sPageBreakColour release];
+	sPageBreakColour = colour;
 }
 
 /** @brief Get the colour used to draw the page breaks
@@ -131,11 +131,11 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (NSColor*)pageBreakColour
 {
-    if (sPageBreakColour == nil) {
-        sPageBreakColour = [[[NSColor cyanColor] colorWithAlphaComponent:0.75] retain];
-    }
+	if (sPageBreakColour == nil) {
+		sPageBreakColour = [[[NSColor cyanColor] colorWithAlphaComponent:0.75] retain];
+	}
 
-    return sPageBreakColour;
+	return sPageBreakColour;
 }
 
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
@@ -143,10 +143,10 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (NSColor*)backgroundColour
 {
-    return [NSColor colorWithCalibratedRed:0.75
-                                     green:0.75
-                                      blue:0.8
-                                     alpha:1.0];
+	return [NSColor colorWithCalibratedRed:0.75
+									 green:0.75
+									  blue:0.8
+									 alpha:1.0];
 }
 
 /** @brief Get the point for the initial mouse down that last opened a contextual menu
@@ -154,7 +154,7 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (NSPoint)pointForLastContextualMenuEvent
 {
-    return sLastContextMenuClick;
+	return sLastContextMenuClick;
 }
 
 /** @brief Return an image resource from the framework bundle
@@ -163,9 +163,9 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (NSImage*)imageResourceNamed:(NSString*)name
 {
-    NSString* path = [[NSBundle bundleForClass:self] pathForImageResource:name];
-    NSImage* image = [[NSImage alloc] initByReferencingFile:path];
-    return [image autorelease];
+	NSString* path = [[NSBundle bundleForClass:self] pathForImageResource:name];
+	NSImage* image = [[NSImage alloc] initByReferencingFile:path];
+	return [image autorelease];
 }
 
 #pragma mark -
@@ -175,27 +175,27 @@ static Class s_textEditorClass = Nil;
 
 + (Class)classForTextEditor
 {
-    if (s_textEditorClass == nil)
-        s_textEditorClass = [NSTextView class];
+	if (s_textEditorClass == nil)
+		s_textEditorClass = [NSTextView class];
 
-    return s_textEditorClass;
+	return s_textEditorClass;
 }
 
 + (void)setClassForTextEditor:(Class)aClass
 {
-    if ([aClass isSubclassOfClass:[NSTextView class]])
-        s_textEditorClass = aClass;
+	if ([aClass isSubclassOfClass:[NSTextView class]])
+		s_textEditorClass = aClass;
 }
 
 + (void)setTextEditorAllowsTypingUndo:(BOOL)allowUndo
 {
-    [[NSUserDefaults standardUserDefaults] setBool:allowUndo
-                                            forKey:kDKTextEditorUndoesTypingPrefsKey];
+	[[NSUserDefaults standardUserDefaults] setBool:allowUndo
+											forKey:kDKTextEditorUndoesTypingPrefsKey];
 }
 
 + (BOOL)textEditorAllowsTypingUndo
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kDKTextEditorUndoesTypingPrefsKey];
+	return [[NSUserDefaults standardUserDefaults] boolForKey:kDKTextEditorUndoesTypingPrefsKey];
 }
 
 #pragma mark -
@@ -209,7 +209,7 @@ static Class s_textEditorClass = Nil;
  */
 - (void)setController:(DKViewController*)aController
 {
-    mControllerRef = aController;
+	mControllerRef = aController;
 }
 
 /** @brief Return the view's controller
@@ -217,7 +217,7 @@ static Class s_textEditorClass = Nil;
  */
 - (DKViewController*)controller
 {
-    return mControllerRef;
+	return mControllerRef;
 }
 
 /** @brief Sea new controller for this view
@@ -229,17 +229,17 @@ static Class s_textEditorClass = Nil;
  */
 - (void)replaceControllerWithController:(DKViewController*)newController
 {
-    NSAssert([self drawing] != nil, @"cannot replace the controller as there is no drawing yet");
-    NSAssert(newController != nil, @"cannot replace the controller with nil");
-    NSAssert([newController isKindOfClass:[DKViewController class]], @"new controller must be a DKViewController or subclass");
+	NSAssert([self drawing] != nil, @"cannot replace the controller as there is no drawing yet");
+	NSAssert(newController != nil, @"cannot replace the controller with nil");
+	NSAssert([newController isKindOfClass:[DKViewController class]], @"new controller must be a DKViewController or subclass");
 
-    if (newController != [self controller]) {
-        DKDrawing* dwg = [self drawing];
+	if (newController != [self controller]) {
+		DKDrawing* dwg = [self drawing];
 
-        [dwg removeController:[self controller]];
-        [newController setView:self];
-        [dwg addController:newController];
-    }
+		[dwg removeController:[self controller]];
+		[newController setView:self];
+		[dwg addController:newController];
+	}
 }
 
 #pragma mark -
@@ -254,7 +254,7 @@ static Class s_textEditorClass = Nil;
  */
 - (DKDrawing*)drawing
 {
-    return [[self controller] drawing];
+	return [[self controller] drawing];
 }
 
 /** @brief Create an entire "back end" for the view 
@@ -266,38 +266,38 @@ static Class s_textEditorClass = Nil;
  */
 - (void)createAutomaticDrawing
 {
-    NSSize viewSize = [self bounds].size;
+	NSSize viewSize = [self bounds].size;
 
-    LogEvent_(kReactiveEvent, @"View automatically instantiating a drawing (size = %@)", NSStringFromSize(viewSize));
+	LogEvent_(kReactiveEvent, @"View automatically instantiating a drawing (size = %@)", NSStringFromSize(viewSize));
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillCreateAutoDrawing
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillCreateAutoDrawing
+														object:self];
 
-    [DKDrawing loadDefaults];
-    mAutoDrawing = [[DKDrawing defaultDrawingWithSize:viewSize] retain];
-    m_didCreateDrawing = YES;
-    [mAutoDrawing setOwner:self];
+	[DKDrawing loadDefaults];
+	mAutoDrawing = [[DKDrawing defaultDrawingWithSize:viewSize] retain];
+	m_didCreateDrawing = YES;
+	[mAutoDrawing setOwner:self];
 
-    // create a suitable controller and add it to the drawing. Note that because the controller holds weak refs to both the view
-    // and the drawing (the drawing owns its controllers), there is no retain cycle here even though for auto drawings, the view
-    // owns the drawing.
+	// create a suitable controller and add it to the drawing. Note that because the controller holds weak refs to both the view
+	// and the drawing (the drawing owns its controllers), there is no retain cycle here even though for auto drawings, the view
+	// owns the drawing.
 
-    DKViewController* vc = [self makeViewController];
-    [mAutoDrawing addController:vc];
+	DKViewController* vc = [self makeViewController];
+	[mAutoDrawing addController:vc];
 
-    // set the undo manager for the drawing to be the view's undo manager. This is the right thing for drawings created by the view, but
-    // for hand-built drawings, the owning document's undo manager is more appropriate. This also sets the undo limit to 24 - which helps
-    // to prevent excessive memory use when editing a drawing, but you can adjust it to something else if you want; 0 = unlimited.
+	// set the undo manager for the drawing to be the view's undo manager. This is the right thing for drawings created by the view, but
+	// for hand-built drawings, the owning document's undo manager is more appropriate. This also sets the undo limit to 24 - which helps
+	// to prevent excessive memory use when editing a drawing, but you can adjust it to something else if you want; 0 = unlimited.
 
-    NSUndoManager* um = [self undoManager];
+	NSUndoManager* um = [self undoManager];
 
-    [mAutoDrawing setUndoManager:um];
-    [um setLevelsOfUndo:24];
+	[mAutoDrawing setUndoManager:um];
+	[um setLevelsOfUndo:24];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidCreateAutoDrawing
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidCreateAutoDrawing
+														object:self];
 
-    NSAssert([mAutoDrawing undoManager] != nil, @"note - automatic drawing was created before an undo manager was available. Check your code!");
+	NSAssert([mAutoDrawing undoManager] != nil, @"note - automatic drawing was created before an undo manager was available. Check your code!");
 }
 
 /** @brief Creates a controller for this view that can be added to a drawing
@@ -310,8 +310,8 @@ static Class s_textEditorClass = Nil;
  */
 - (DKViewController*)makeViewController
 {
-    DKToolController* aController = [[DKToolController alloc] initWithView:self];
-    return [aController autorelease];
+	DKToolController* aController = [[DKToolController alloc] initWithView:self];
+	return [aController autorelease];
 }
 
 #pragma mark -
@@ -327,81 +327,81 @@ static Class s_textEditorClass = Nil;
  @return a bezier path, may be stroked in various ways to show page breaks, crop marks, etc. */
 - (NSBezierPath*)pageBreakPathWithExtension:(CGFloat)amount options:(DKCropMarkKind)options
 {
-    NSRect pr, dr;
-    NSInteger pagesAcross, pagesDown;
-    NSSize ds = [[self drawing] drawingSize];
-    NSSize ps = [[self printInfo] paperSize];
+	NSRect pr, dr;
+	NSInteger pagesAcross, pagesDown;
+	NSSize ds = [[self drawing] drawingSize];
+	NSSize ps = [[self printInfo] paperSize];
 
-    dr.origin = NSZeroPoint;
-    dr.size = ds;
+	dr.origin = NSZeroPoint;
+	dr.size = ds;
 
-    if ([[self printInfo] horizontalPagination] != NSAutoPagination) {
-        pagesAcross = 1;
+	if ([[self printInfo] horizontalPagination] != NSAutoPagination) {
+		pagesAcross = 1;
 
-        if ([[self printInfo] horizontalPagination] == NSFitPagination)
-            ps.width = ds.width;
-    } else {
-        ps.width -= ([[self printInfo] leftMargin] + [[self printInfo] rightMargin]);
-        pagesAcross = MAX(1, _CGFloatFloor(ds.width / ps.width));
-        if (fmod(ds.width, ps.width) > 2.0)
-            ++pagesAcross;
-    }
+		if ([[self printInfo] horizontalPagination] == NSFitPagination)
+			ps.width = ds.width;
+	} else {
+		ps.width -= ([[self printInfo] leftMargin] + [[self printInfo] rightMargin]);
+		pagesAcross = MAX(1, _CGFloatFloor(ds.width / ps.width));
+		if (fmod(ds.width, ps.width) > 2.0)
+			++pagesAcross;
+	}
 
-    if ([[self printInfo] verticalPagination] != NSAutoPagination) {
-        pagesDown = 1;
+	if ([[self printInfo] verticalPagination] != NSAutoPagination) {
+		pagesDown = 1;
 
-        if ([[self printInfo] verticalPagination] == NSFitPagination)
-            ps.height = ds.height;
-    } else {
-        ps.height -= ([[self printInfo] topMargin] + [[self printInfo] bottomMargin]);
-        pagesDown = MAX(1, _CGFloatFloor(ds.height / ps.height));
-        if (fmod(ds.height, ps.height) > 2.0)
-            ++pagesDown;
-    }
+		if ([[self printInfo] verticalPagination] == NSFitPagination)
+			ps.height = ds.height;
+	} else {
+		ps.height -= ([[self printInfo] topMargin] + [[self printInfo] bottomMargin]);
+		pagesDown = MAX(1, _CGFloatFloor(ds.height / ps.height));
+		if (fmod(ds.height, ps.height) > 2.0)
+			++pagesDown;
+	}
 
-    pr.size = ps;
+	pr.size = ps;
 
-    NSInteger page;
+	NSInteger page;
 
-    NSBezierPath* pbPath = [NSBezierPath bezierPath];
+	NSBezierPath* pbPath = [NSBezierPath bezierPath];
 
-    for (page = 0; page < (pagesAcross * pagesDown); ++page) {
-        pr.origin.y = (page / pagesAcross) * ps.height;
-        pr.origin.x = (page % pagesAcross) * ps.width;
+	for (page = 0; page < (pagesAcross * pagesDown); ++page) {
+		pr.origin.y = (page / pagesAcross) * ps.height;
+		pr.origin.x = (page % pagesAcross) * ps.width;
 
-        NSRect ar = (options & DKCropMarksEdges) ? NSIntersectionRect(pr, dr) : pr;
+		NSRect ar = (options & DKCropMarksEdges) ? NSIntersectionRect(pr, dr) : pr;
 
-        if (amount <= 0.0 && ((options & DKCropMarksCorners) == 0))
-            [pbPath appendBezierPathWithRect:ar];
-        else {
-            // extending or doing corners only. This is somewhat more involved.
+		if (amount <= 0.0 && ((options & DKCropMarksCorners) == 0))
+			[pbPath appendBezierPathWithRect:ar];
+		else {
+			// extending or doing corners only. This is somewhat more involved.
 
-            if (options & DKCropMarksCorners)
-                [pbPath appendBezierPath:[NSBezierPath bezierPathWithCropMarksForRect:ar
-                                                                               length:30
-                                                                            extension:amount]];
-            else
-                [pbPath appendBezierPath:[NSBezierPath bezierPathWithCropMarksForRect:ar
-                                                                            extension:amount]];
-        }
-    }
+			if (options & DKCropMarksCorners)
+				[pbPath appendBezierPath:[NSBezierPath bezierPathWithCropMarksForRect:ar
+																			   length:30
+																			extension:amount]];
+			else
+				[pbPath appendBezierPath:[NSBezierPath bezierPathWithCropMarksForRect:ar
+																			extension:amount]];
+		}
+	}
 
-    return pbPath;
+	return pbPath;
 }
 
 /** @brief Draw page breaks based on the page break print info */
 - (void)drawPageBreaks
 {
-    NSBezierPath* pbPath = [self pageBreakPathWithExtension:0
-                                                    options:DKCropMarksNone];
+	NSBezierPath* pbPath = [self pageBreakPathWithExtension:0
+													options:DKCropMarksNone];
 
-    //float pbDashPattern[] = { 8.0, 8.0 };
+	//float pbDashPattern[] = { 8.0, 8.0 };
 
-    [pbPath setLineWidth:1];
-    //[pbPath setLineDash:pbDashPattern count:2 phase:0.0];
-    //[pbPath setLineCapStyle:NSButtLineCapStyle];
-    [[[self class] pageBreakColour] setStroke];
-    [pbPath stroke];
+	[pbPath setLineWidth:1];
+	//[pbPath setLineDash:pbDashPattern count:2 phase:0.0];
+	//[pbPath setLineCapStyle:NSButtLineCapStyle];
+	[[[self class] pageBreakColour] setStroke];
+	[pbPath stroke];
 }
 
 /** @brief Sets the print info to use for drawing the page breaks, paginating and general printing operations
@@ -409,11 +409,11 @@ static Class s_textEditorClass = Nil;
  */
 - (void)setPrintInfo:(NSPrintInfo*)pbpi
 {
-    [pbpi retain];
-    [mPrintInfo release];
-    mPrintInfo = pbpi;
+	[pbpi retain];
+	[mPrintInfo release];
+	mPrintInfo = pbpi;
 
-    [self setNeedsDisplay:YES];
+	[self setNeedsDisplay:YES];
 }
 
 /** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations
@@ -421,7 +421,7 @@ static Class s_textEditorClass = Nil;
  */
 - (NSPrintInfo*)printInfo
 {
-    return mPrintInfo;
+	return mPrintInfo;
 }
 
 /** @brief Sets whether the page breaks are shown or not
@@ -431,10 +431,10 @@ static Class s_textEditorClass = Nil;
  */
 - (void)setPageBreaksVisible:(BOOL)pbVisible
 {
-    if (pbVisible != [self pageBreaksVisible]) {
-        mPageBreaksVisible = pbVisible;
-        [self setNeedsDisplay:YES];
-    }
+	if (pbVisible != [self pageBreaksVisible]) {
+		mPageBreaksVisible = pbVisible;
+		[self setNeedsDisplay:YES];
+	}
 }
 
 /** @brief Are page breaks vissble?
@@ -442,7 +442,7 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)pageBreaksVisible
 {
-    return mPageBreaksVisible;
+	return mPageBreaksVisible;
 }
 
 /** @brief Show or hide the page breaks
@@ -451,7 +451,7 @@ static Class s_textEditorClass = Nil;
 - (IBAction)toggleShowPageBreaks:(id)sender
 {
 #pragma unused(sender)
-    [self setPageBreaksVisible:![self pageBreaksVisible]];
+	[self setPageBreaksVisible:![self pageBreaksVisible]];
 }
 
 /** @brief Set what kind of crop marks printed output includes
@@ -461,10 +461,10 @@ static Class s_textEditorClass = Nil;
  */
 - (void)setPrintCropMarkKind:(DKCropMarkKind)kind
 {
-    if (kind != mCropMarkKind) {
-        mCropMarkKind = kind;
-        [self setNeedsDisplay:YES];
-    }
+	if (kind != mCropMarkKind) {
+		mCropMarkKind = kind;
+		[self setNeedsDisplay:YES];
+	}
 }
 
 /** @brief What sort of crop mark sare applied to printed output
@@ -474,22 +474,22 @@ static Class s_textEditorClass = Nil;
  */
 - (DKCropMarkKind)printCropMarkKind
 {
-    return mCropMarkKind;
+	return mCropMarkKind;
 }
 
 /** @brief Draws the crop marks if set to do so and the view is being printed */
 - (void)drawCropMarks
 {
-    //NSLog(@"drawing crop marks");
+	//NSLog(@"drawing crop marks");
 
-    NSBezierPath* pbPath = [self pageBreakPathWithExtension:10
-                                                    options:[self printCropMarkKind]];
+	NSBezierPath* pbPath = [self pageBreakPathWithExtension:10
+													options:[self printCropMarkKind]];
 
-    [pbPath setLineWidth:0.1];
-    [pbPath setLineCapStyle:NSButtLineCapStyle];
-    [pbPath setLineJoinStyle:NSMiterLineJoinStyle];
-    [[NSColor blackColor] setStroke];
-    [pbPath stroke];
+	[pbPath setLineWidth:0.1];
+	[pbPath setLineCapStyle:NSButtLineCapStyle];
+	[pbPath setLineJoinStyle:NSMiterLineJoinStyle];
+	[[NSColor blackColor] setStroke];
+	[pbPath stroke];
 }
 
 #pragma mark -
@@ -509,10 +509,10 @@ static Class s_textEditorClass = Nil;
  */
 - (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del
 {
-    return [self editText:text
-                   inRect:rect
-                 delegate:del
-          drawsBackground:NO];
+	return [self editText:text
+				   inRect:rect
+				 delegate:del
+		  drawsBackground:NO];
 }
 
 #define USE_STORAGE_REPLACEMENT 1
@@ -532,129 +532,129 @@ static Class s_textEditorClass = Nil;
  */
 - (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del drawsBackground:(BOOL)drawBkGnd
 {
-    NSAssert(text != nil, @"text was nil when trying to start a text editing operation");
-    NSAssert(rect.size.width > 0, @"editing rect has 0 or -ve width");
-    NSAssert(rect.size.height > 0, @"editing rect has 0 or -ve height");
+	NSAssert(text != nil, @"text was nil when trying to start a text editing operation");
+	NSAssert(rect.size.width > 0, @"editing rect has 0 or -ve width");
+	NSAssert(rect.size.height > 0, @"editing rect has 0 or -ve height");
 
-    if ([self isTextBeingEdited])
-        [self endTextEditing];
+	if ([self isTextBeingEdited])
+		[self endTextEditing];
 
-    // editor's frame is expanded by five points to ensure all characters are visible when not using screen fonts
-    // container text inset is set to compensate for this.
+	// editor's frame is expanded by five points to ensure all characters are visible when not using screen fonts
+	// container text inset is set to compensate for this.
 
-    NSRect editorFrame = NSInsetRect(rect, -5, -5);
+	NSRect editorFrame = NSInsetRect(rect, -5, -5);
 
-    if (m_textEditViewRef == nil)
-        m_textEditViewRef = [[[[self class] classForTextEditor] alloc] initWithFrame:editorFrame];
-    else {
-        [m_textEditViewRef setDelegate:nil];
-        [m_textEditViewRef setFrame:editorFrame];
-        [m_textEditViewRef setSelectedRange:NSMakeRange(0, 0)];
-    }
+	if (m_textEditViewRef == nil)
+		m_textEditViewRef = [[[[self class] classForTextEditor] alloc] initWithFrame:editorFrame];
+	else {
+		[m_textEditViewRef setDelegate:nil];
+		[m_textEditViewRef setFrame:editorFrame];
+		[m_textEditViewRef setSelectedRange:NSMakeRange(0, 0)];
+	}
 
-    [m_textEditViewRef setAllowsUndo:NO];
+	[m_textEditViewRef setAllowsUndo:NO];
 
-    NSLayoutManager* lm = [m_textEditViewRef layoutManager];
+	NSLayoutManager* lm = [m_textEditViewRef layoutManager];
 
 #if USE_STORAGE_REPLACEMENT
-    NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
-    [lm replaceTextStorage:textStorage];
-    [textStorage release];
+	NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
+	[lm replaceTextStorage:textStorage];
+	[textStorage release];
 #else
-    NSRange textRange = NSMakeRange(0, [[m_textEditViewRef textStorage] length]);
+	NSRange textRange = NSMakeRange(0, [[m_textEditViewRef textStorage] length]);
 
-    if ([m_textEditViewRef shouldChangeTextInRange:textRange
-                                 replacementString:[text string]]) {
-        [[m_textEditViewRef textStorage] beginEditing];
-        [[m_textEditViewRef textStorage] replaceCharactersInRange:textRange
-                                             withAttributedString:text];
-        [[m_textEditViewRef textStorage] endEditing];
-        [m_textEditViewRef didChangeText];
-    } else
-        return nil;
+	if ([m_textEditViewRef shouldChangeTextInRange:textRange
+								 replacementString:[text string]]) {
+		[[m_textEditViewRef textStorage] beginEditing];
+		[[m_textEditViewRef textStorage] replaceCharactersInRange:textRange
+											 withAttributedString:text];
+		[[m_textEditViewRef textStorage] endEditing];
+		[m_textEditViewRef didChangeText];
+	} else
+		return nil;
 #endif
-    // not using screen fonts ensures precise WYSIWYG at small point sizes
+	// not using screen fonts ensures precise WYSIWYG at small point sizes
 
-    [lm setUsesScreenFonts:NO];
+	[lm setUsesScreenFonts:NO];
 
-    [m_textEditViewRef setDrawsBackground:drawBkGnd];
-    [m_textEditViewRef setFieldEditor:YES];
-    [m_textEditViewRef setSelectedRange:NSMakeRange(0, [text length])];
-    [m_textEditViewRef setDelegate:del];
-    [m_textEditViewRef setNextResponder:self];
-    [m_textEditViewRef setTextContainerInset:NSMakeSize(5, 5)];
+	[m_textEditViewRef setDrawsBackground:drawBkGnd];
+	[m_textEditViewRef setFieldEditor:YES];
+	[m_textEditViewRef setSelectedRange:NSMakeRange(0, [text length])];
+	[m_textEditViewRef setDelegate:del];
+	[m_textEditViewRef setNextResponder:self];
+	[m_textEditViewRef setTextContainerInset:NSMakeSize(5, 5)];
 
-    // if smart quotes is supported, set the editor to use the current preference. This feature requires 10.5 or later
+	// if smart quotes is supported, set the editor to use the current preference. This feature requires 10.5 or later
 
-    if ([m_textEditViewRef respondsToSelector:@selector(setAutomaticQuoteSubstitutionEnabled:)]) {
-        BOOL smartQuotes = [[NSUserDefaults standardUserDefaults] boolForKey:kDKTextEditorSmartQuotesPrefsKey];
-        [m_textEditViewRef setAutomaticQuoteSubstitutionEnabled:smartQuotes];
-    }
+	if ([m_textEditViewRef respondsToSelector:@selector(setAutomaticQuoteSubstitutionEnabled:)]) {
+		BOOL smartQuotes = [[NSUserDefaults standardUserDefaults] boolForKey:kDKTextEditorSmartQuotesPrefsKey];
+		[m_textEditViewRef setAutomaticQuoteSubstitutionEnabled:smartQuotes];
+	}
 
-    // register self as an observer of frame change notification, so that as the view expands and shrinks, it gets refreshed and doesn't leave bits of
-    // itself visible
+	// register self as an observer of frame change notification, so that as the view expands and shrinks, it gets refreshed and doesn't leave bits of
+	// itself visible
 
-    [m_textEditViewRef setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(editorFrameChangedNotification:)
-                                                 name:NSViewFrameDidChangeNotification
-                                               object:m_textEditViewRef];
-    mEditorFrame = [m_textEditViewRef frame];
+	[m_textEditViewRef setPostsFrameChangedNotifications:YES];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(editorFrameChangedNotification:)
+												 name:NSViewFrameDidChangeNotification
+											   object:m_textEditViewRef];
+	mEditorFrame = [m_textEditViewRef frame];
 
-    // add the subview and make it first responder
+	// add the subview and make it first responder
 
-    [self addSubview:m_textEditViewRef];
-    [[self window] makeFirstResponder:m_textEditViewRef];
+	[self addSubview:m_textEditViewRef];
+	[[self window] makeFirstResponder:m_textEditViewRef];
 
-    [m_textEditViewRef setNeedsDisplay:YES];
+	[m_textEditViewRef setNeedsDisplay:YES];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidBeginTextEditing
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidBeginTextEditing
+														object:self];
 
-    LogEvent_(kReactiveEvent, @"View began text editing, text editor = %@", m_textEditViewRef);
+	LogEvent_(kReactiveEvent, @"View began text editing, text editor = %@", m_textEditViewRef);
 
-    mTextEditViewInUse = YES;
+	mTextEditViewInUse = YES;
 
-    // undo is enabled by the class setting but clients are free to override this
+	// undo is enabled by the class setting but clients are free to override this
 
-    [m_textEditViewRef setAllowsUndo:[[self class] textEditorAllowsTypingUndo]];
+	[m_textEditViewRef setAllowsUndo:[[self class] textEditorAllowsTypingUndo]];
 
-    return m_textEditViewRef;
+	return m_textEditViewRef;
 }
 
 /** @brief Stop the temporary text editing and get rid of the editing view
  */
 - (void)endTextEditing
 {
-    if ([self isTextBeingEdited]) {
-        // track smart quotes setting in prefs. Smart Quotes requires 10.5 or later
+	if ([self isTextBeingEdited]) {
+		// track smart quotes setting in prefs. Smart Quotes requires 10.5 or later
 
-        if ([m_textEditViewRef respondsToSelector:@selector(isAutomaticQuoteSubstitutionEnabled)])
-            [[NSUserDefaults standardUserDefaults] setBool:[m_textEditViewRef isAutomaticQuoteSubstitutionEnabled]
-                                                    forKey:kDKTextEditorSmartQuotesPrefsKey];
+		if ([m_textEditViewRef respondsToSelector:@selector(isAutomaticQuoteSubstitutionEnabled)])
+			[[NSUserDefaults standardUserDefaults] setBool:[m_textEditViewRef isAutomaticQuoteSubstitutionEnabled]
+													forKey:kDKTextEditorSmartQuotesPrefsKey];
 
-        [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                        name:NSViewFrameDidChangeNotification
-                                                      object:m_textEditViewRef];
+		[[NSNotificationCenter defaultCenter] removeObserver:self
+														name:NSViewFrameDidChangeNotification
+													  object:m_textEditViewRef];
 
-        // once the edit session ends, undo tasks that applied to it would ideally be removed - the whole edit operation is still normally
-        // undoable as a single undo command. However, there's a bug in NSUndoManager that causes a EXC_BAD_ACCESS when you do this.
-        // So for now we leavethe annying "Undo Typing" tasks there. They will do nothong visible or useful. The aleternative is to
-        // disable undo for the editor but it means undoing *while* typing won't work.
+		// once the edit session ends, undo tasks that applied to it would ideally be removed - the whole edit operation is still normally
+		// undoable as a single undo command. However, there's a bug in NSUndoManager that causes a EXC_BAD_ACCESS when you do this.
+		// So for now we leavethe annying "Undo Typing" tasks there. They will do nothong visible or useful. The aleternative is to
+		// disable undo for the editor but it means undoing *while* typing won't work.
 
-        [m_textEditViewRef setAllowsUndo:NO];
-        [m_textEditViewRef setNeedsDisplay:YES];
-        [m_textEditViewRef removeFromSuperview];
-        [m_textEditViewRef setDelegate:nil];
+		[m_textEditViewRef setAllowsUndo:NO];
+		[m_textEditViewRef setNeedsDisplay:YES];
+		[m_textEditViewRef removeFromSuperview];
+		[m_textEditViewRef setDelegate:nil];
 
-        mTextEditViewInUse = NO;
+		mTextEditViewInUse = NO;
 
-        mEditorFrame = NSZeroRect;
-        [self resetRulerClientView];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidEndTextEditing
-                                                            object:self];
-        [[self window] makeFirstResponder:self];
-    }
+		mEditorFrame = NSZeroRect;
+		[self resetRulerClientView];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidEndTextEditing
+															object:self];
+		[[self window] makeFirstResponder:self];
+	}
 }
 
 /** @brief Return the text from the temporary editing view
@@ -664,7 +664,7 @@ static Class s_textEditorClass = Nil;
  */
 - (NSTextStorage*)editedText
 {
-    return [[m_textEditViewRef layoutManager] textStorage];
+	return [[m_textEditViewRef layoutManager] textStorage];
 }
 
 /** @brief Return the current temporary text editing view
@@ -672,7 +672,7 @@ static Class s_textEditorClass = Nil;
  */
 - (NSTextView*)textEditingView
 {
-    return m_textEditViewRef;
+	return m_textEditViewRef;
 }
 
 /** @brief Respond to frame size changes in the text editor view
@@ -684,8 +684,8 @@ static Class s_textEditorClass = Nil;
  */
 - (void)editorFrameChangedNotification:(NSNotification*)note
 {
-    [self setNeedsDisplayInRect:mEditorFrame];
-    mEditorFrame = [[note object] frame];
+	[self setNeedsDisplayInRect:mEditorFrame];
+	mEditorFrame = [[note object] frame];
 }
 
 /** @brief Is the text editor visible and active?
@@ -696,7 +696,7 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)isTextBeingEdited
 {
-    return mTextEditViewInUse;
+	return mTextEditViewInUse;
 }
 
 #pragma mark -
@@ -709,37 +709,37 @@ static Class s_textEditorClass = Nil;
  @param mouse the current mouse poin tin local coordinates */
 - (void)updateRulerMouseTracking:(NSPoint)mouse
 {
-    // updates the mouse tracking marks on the rulers, if they are visible. Note that the point parameter is the location in the view's window
-    // as obtained from an event - not the location in the drawing or view.
+	// updates the mouse tracking marks on the rulers, if they are visible. Note that the point parameter is the location in the view's window
+	// as obtained from an event - not the location in the drawing or view.
 
-    static CGFloat ox = -1.0;
-    static CGFloat oy = -1.0;
+	static CGFloat ox = -1.0;
+	static CGFloat oy = -1.0;
 
-    NSScrollView* sv = [self enclosingScrollView];
+	NSScrollView* sv = [self enclosingScrollView];
 
-    if (sv != nil) {
-        NSRulerView* rh;
-        NSRulerView* rv;
-        NSPoint rp;
+	if (sv != nil) {
+		NSRulerView* rh;
+		NSRulerView* rv;
+		NSPoint rp;
 
-        if ([sv rulersVisible]) {
-            rv = [sv verticalRulerView];
-            rp = [rv convertPoint:mouse
-                         fromView:nil];
+		if ([sv rulersVisible]) {
+			rv = [sv verticalRulerView];
+			rp = [rv convertPoint:mouse
+						 fromView:nil];
 
-            [rv moveRulerlineFromLocation:oy
-                               toLocation:rp.y];
-            oy = rp.y;
+			[rv moveRulerlineFromLocation:oy
+							   toLocation:rp.y];
+			oy = rp.y;
 
-            rh = [sv horizontalRulerView];
-            rp = [rh convertPoint:mouse
-                         fromView:nil];
+			rh = [sv horizontalRulerView];
+			rp = [rh convertPoint:mouse
+						 fromView:nil];
 
-            [rh moveRulerlineFromLocation:ox
-                               toLocation:rp.x];
-            ox = rp.x;
-        }
-    }
+			[rh moveRulerlineFromLocation:ox
+							   toLocation:rp.x];
+			ox = rp.x;
+		}
+	}
 }
 
 /** @brief Set a ruler marker to a given position
@@ -750,17 +750,17 @@ static Class s_textEditorClass = Nil;
  */
 - (void)moveRulerMarkerNamed:(NSString*)markerName toLocation:(CGFloat)loc
 {
-    NSScrollView* sv = [self enclosingScrollView];
+	NSScrollView* sv = [self enclosingScrollView];
 
-    if (sv && [sv rulersVisible]) {
-        NSRulerMarker* marker = [[self rulerMarkerInfo] objectForKey:markerName];
-        if (loc != [marker markerLocation]) {
-            NSRulerView* rv = [marker ruler];
-            [rv setNeedsDisplayInRect:[marker imageRectInRuler]];
-            [marker setMarkerLocation:loc];
-            [rv setNeedsDisplayInRect:[marker imageRectInRuler]];
-        }
-    }
+	if (sv && [sv rulersVisible]) {
+		NSRulerMarker* marker = [[self rulerMarkerInfo] objectForKey:markerName];
+		if (loc != [marker markerLocation]) {
+			NSRulerView* rv = [marker ruler];
+			[rv setNeedsDisplayInRect:[marker imageRectInRuler]];
+			[marker setMarkerLocation:loc];
+			[rv setNeedsDisplayInRect:[marker imageRectInRuler]];
+		}
+	}
 }
 
 /** @brief Set up the markers for the rulers.
@@ -769,107 +769,107 @@ static Class s_textEditorClass = Nil;
  */
 - (void)createRulerMarkers
 {
-    NSScrollView* sv = [self enclosingScrollView];
+	NSScrollView* sv = [self enclosingScrollView];
 
-    if (sv != nil) {
-        [self removeRulerMarkers];
+	if (sv != nil) {
+		[self removeRulerMarkers];
 
-        NSRulerView* rv;
-        NSRulerMarker* rm;
-        NSImage* markerImg;
-        NSMutableDictionary* markerInfo = [NSMutableDictionary dictionary];
+		NSRulerView* rv;
+		NSRulerMarker* rm;
+		NSImage* markerImg;
+		NSMutableDictionary* markerInfo = [NSMutableDictionary dictionary];
 
-        rv = [sv horizontalRulerView];
+		rv = [sv horizontalRulerView];
 
-        markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalLeftMarkerName];
-        if (markerImg) {
-            rm = [[NSRulerMarker alloc] initWithRulerView:rv
-                                           markerLocation:-10000.0
-                                                    image:markerImg
-                                              imageOrigin:NSMakePoint(4.0, 0.0)];
-            [rv addMarker:rm];
-            [markerInfo setObject:rm
-                           forKey:kDKDrawingViewHorizontalLeftMarkerName];
-            [rm release];
-        }
+		markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalLeftMarkerName];
+		if (markerImg) {
+			rm = [[NSRulerMarker alloc] initWithRulerView:rv
+										   markerLocation:-10000.0
+													image:markerImg
+											  imageOrigin:NSMakePoint(4.0, 0.0)];
+			[rv addMarker:rm];
+			[markerInfo setObject:rm
+						   forKey:kDKDrawingViewHorizontalLeftMarkerName];
+			[rm release];
+		}
 
-        markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalCentreMarkerName];
-        if (markerImg) {
-            rm = [[NSRulerMarker alloc] initWithRulerView:rv
-                                           markerLocation:-10000.0
-                                                    image:markerImg
-                                              imageOrigin:NSMakePoint(4.0, 0.0)];
-            [rv addMarker:rm];
-            [markerInfo setObject:rm
-                           forKey:kDKDrawingViewHorizontalCentreMarkerName];
-            [rm release];
-        }
+		markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalCentreMarkerName];
+		if (markerImg) {
+			rm = [[NSRulerMarker alloc] initWithRulerView:rv
+										   markerLocation:-10000.0
+													image:markerImg
+											  imageOrigin:NSMakePoint(4.0, 0.0)];
+			[rv addMarker:rm];
+			[markerInfo setObject:rm
+						   forKey:kDKDrawingViewHorizontalCentreMarkerName];
+			[rm release];
+		}
 
-        markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalRightMarkerName];
-        if (markerImg) {
-            rm = [[NSRulerMarker alloc] initWithRulerView:rv
-                                           markerLocation:-10000.0
-                                                    image:markerImg
-                                              imageOrigin:NSMakePoint(0.0, 0.0)];
-            [rv addMarker:rm];
-            [markerInfo setObject:rm
-                           forKey:kDKDrawingViewHorizontalRightMarkerName];
-            [rm release];
-        }
+		markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalRightMarkerName];
+		if (markerImg) {
+			rm = [[NSRulerMarker alloc] initWithRulerView:rv
+										   markerLocation:-10000.0
+													image:markerImg
+											  imageOrigin:NSMakePoint(0.0, 0.0)];
+			[rv addMarker:rm];
+			[markerInfo setObject:rm
+						   forKey:kDKDrawingViewHorizontalRightMarkerName];
+			[rm release];
+		}
 
-        rv = [sv verticalRulerView];
+		rv = [sv verticalRulerView];
 
-        markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalTopMarkerName];
-        if (markerImg) {
-            rm = [[NSRulerMarker alloc] initWithRulerView:rv
-                                           markerLocation:-10000.0
-                                                    image:markerImg
-                                              imageOrigin:NSMakePoint(8.0, 1.0)];
-            [rv addMarker:rm];
-            [markerInfo setObject:rm
-                           forKey:kDKDrawingViewVerticalTopMarkerName];
-            [rm release];
-        }
+		markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalTopMarkerName];
+		if (markerImg) {
+			rm = [[NSRulerMarker alloc] initWithRulerView:rv
+										   markerLocation:-10000.0
+													image:markerImg
+											  imageOrigin:NSMakePoint(8.0, 1.0)];
+			[rv addMarker:rm];
+			[markerInfo setObject:rm
+						   forKey:kDKDrawingViewVerticalTopMarkerName];
+			[rm release];
+		}
 
-        markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalCentreMarkerName];
-        if (markerImg) {
-            rm = [[NSRulerMarker alloc] initWithRulerView:rv
-                                           markerLocation:-10000.0
-                                                    image:markerImg
-                                              imageOrigin:NSMakePoint(5.0, 5.0)];
-            [rv addMarker:rm];
-            [markerInfo setObject:rm
-                           forKey:kDKDrawingViewVerticalCentreMarkerName];
-            [rm release];
-        }
+		markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalCentreMarkerName];
+		if (markerImg) {
+			rm = [[NSRulerMarker alloc] initWithRulerView:rv
+										   markerLocation:-10000.0
+													image:markerImg
+											  imageOrigin:NSMakePoint(5.0, 5.0)];
+			[rv addMarker:rm];
+			[markerInfo setObject:rm
+						   forKey:kDKDrawingViewVerticalCentreMarkerName];
+			[rm release];
+		}
 
-        markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalBottomMarkerName];
-        if (markerImg) {
-            rm = [[NSRulerMarker alloc] initWithRulerView:rv
-                                           markerLocation:-10000.0
-                                                    image:markerImg
-                                              imageOrigin:NSMakePoint(8.0, 8.0)];
-            [rv addMarker:rm];
-            [markerInfo setObject:rm
-                           forKey:kDKDrawingViewVerticalBottomMarkerName];
-            [rm release];
-        }
+		markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalBottomMarkerName];
+		if (markerImg) {
+			rm = [[NSRulerMarker alloc] initWithRulerView:rv
+										   markerLocation:-10000.0
+													image:markerImg
+											  imageOrigin:NSMakePoint(8.0, 8.0)];
+			[rv addMarker:rm];
+			[markerInfo setObject:rm
+						   forKey:kDKDrawingViewVerticalBottomMarkerName];
+			[rm release];
+		}
 
-        [self setRulerMarkerInfo:markerInfo];
-    }
+		[self setRulerMarkerInfo:markerInfo];
+	}
 }
 
 /** @brief Remove the markers from the rulers.
  */
 - (void)removeRulerMarkers
 {
-    NSRulerView* rv = [[self enclosingScrollView] horizontalRulerView];
-    [rv setMarkers:nil];
+	NSRulerView* rv = [[self enclosingScrollView] horizontalRulerView];
+	[rv setMarkers:nil];
 
-    rv = [[self enclosingScrollView] verticalRulerView];
-    [rv setMarkers:nil];
+	rv = [[self enclosingScrollView] verticalRulerView];
+	[rv setMarkers:nil];
 
-    [self setRulerMarkerInfo:nil];
+	[self setRulerMarkerInfo:nil];
 }
 
 /** @brief Set up the client view for the rulers.
@@ -878,21 +878,21 @@ static Class s_textEditorClass = Nil;
  */
 - (void)resetRulerClientView
 {
-    NSRulerView* ruler;
+	NSRulerView* ruler;
 
-    ruler = [[self enclosingScrollView] horizontalRulerView];
+	ruler = [[self enclosingScrollView] horizontalRulerView];
 
-    if (ruler != nil) {
-        [ruler setClientView:self];
-        [ruler setAccessoryView:nil];
-    }
+	if (ruler != nil) {
+		[ruler setClientView:self];
+		[ruler setAccessoryView:nil];
+	}
 
-    ruler = [[self enclosingScrollView] verticalRulerView];
+	ruler = [[self enclosingScrollView] verticalRulerView];
 
-    if (ruler != nil) {
-        [ruler setClientView:self];
-    }
-    [self createRulerMarkers];
+	if (ruler != nil) {
+		[ruler setClientView:self];
+	}
+	[self createRulerMarkers];
 }
 
 /** @brief Show or hide the ruler.
@@ -902,25 +902,25 @@ static Class s_textEditorClass = Nil;
 {
 #pragma unused(sender)
 
-    BOOL rvis = [[self enclosingScrollView] rulersVisible];
-    [[self enclosingScrollView] setRulersVisible:!rvis];
+	BOOL rvis = [[self enclosingScrollView] rulersVisible];
+	[[self enclosingScrollView] setRulersVisible:!rvis];
 
-    [[NSUserDefaults standardUserDefaults] setBool:!rvis
-                                            forKey:kDKDrawingRulersVisibleDefaultPrefsKey];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewRulersChanged
-                                                        object:self];
+	[[NSUserDefaults standardUserDefaults] setBool:!rvis
+											forKey:kDKDrawingRulersVisibleDefaultPrefsKey];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewRulersChanged
+														object:self];
 }
 
 - (void)setRulerMarkerInfo:(NSDictionary*)dict
 {
-    [dict retain];
-    [mRulerMarkersDict release];
-    mRulerMarkersDict = dict;
+	[dict retain];
+	[mRulerMarkersDict release];
+	mRulerMarkersDict = dict;
 }
 
 - (NSDictionary*)rulerMarkerInfo
 {
-    return mRulerMarkersDict;
+	return mRulerMarkersDict;
 }
 
 #pragma mark -
@@ -928,19 +928,19 @@ static Class s_textEditorClass = Nil;
 
 - (void)postMouseLocationInfo:(NSString*)operation event:(NSEvent*)event
 {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:2];
-    NSPoint p = [self convertPoint:[event locationInWindow]
-                          fromView:nil];
-    NSPoint cp = [[self drawing] convertPoint:p];
+	NSMutableDictionary* dict = [NSMutableDictionary dictionaryWithCapacity:2];
+	NSPoint p = [self convertPoint:[event locationInWindow]
+						  fromView:nil];
+	NSPoint cp = [[self drawing] convertPoint:p];
 
-    [dict setObject:[NSValue valueWithPoint:p]
-             forKey:kDKDrawingMouseLocationInView];
-    [dict setObject:[NSValue valueWithPoint:cp]
-             forKey:kDKDrawingMouseLocationInDrawingUnits];
+	[dict setObject:[NSValue valueWithPoint:p]
+			 forKey:kDKDrawingMouseLocationInView];
+	[dict setObject:[NSValue valueWithPoint:cp]
+			 forKey:kDKDrawingMouseLocationInDrawingUnits];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:operation
-                                                        object:self
-                                                      userInfo:dict];
+	[[NSNotificationCenter defaultCenter] postNotificationName:operation
+														object:self
+													  userInfo:dict];
 }
 
 #pragma mark -
@@ -956,22 +956,22 @@ static Class s_textEditorClass = Nil;
 {
 #pragma unused(note)
 
-    if ([[self window] isMainWindow])
-        [[self enclosingScrollView] setBackgroundColor:[[self class] backgroundColour]];
-    else
-        [[self enclosingScrollView] setBackgroundColor:[NSColor veryLightGrey]];
+	if ([[self window] isMainWindow])
+		[[self enclosingScrollView] setBackgroundColor:[[self class] backgroundColour]];
+	else
+		[[self enclosingScrollView] setBackgroundColor:[NSColor veryLightGrey]];
 
-    [self setNeedsDisplay:YES];
+	[self setNeedsDisplay:YES];
 }
 
 #pragma mark -
 
 - (void)set
 {
-    // sets this view as the currently drawing view, pushing the current one onto the stack. A +pop will put the original one back. This allows nested drawRect: calls to work
-    // across several views, which may occur in unusual circumstances, such as caching PDF data using a PDF view.
+	// sets this view as the currently drawing view, pushing the current one onto the stack. A +pop will put the original one back. This allows nested drawRect: calls to work
+	// across several views, which may occur in unusual circumstances, such as caching PDF data using a PDF view.
 
-    [[self class] pushCurrentViewAndSet:self];
+	[[self class] pushCurrentViewAndSet:self];
 }
 
 #pragma mark -
@@ -986,30 +986,30 @@ static Class s_textEditorClass = Nil;
  */
 - (void)drawRect:(NSRect)rect
 {
-    // draw the entire content of the drawing:
+	// draw the entire content of the drawing:
 
-    [self set];
-    [[self drawing] drawRect:rect
-                      inView:self];
+	[self set];
+	[[self drawing] drawRect:rect
+					  inView:self];
 
-    // if our controller implements a drawRect: method, call it - the default controller doesn't but subclasses can.
-    // any drawing done by a controller will be "on top" of any drawing content. Typically this is used by tools
-    // that draw something, such as a selection rect, etc.
+	// if our controller implements a drawRect: method, call it - the default controller doesn't but subclasses can.
+	// any drawing done by a controller will be "on top" of any drawing content. Typically this is used by tools
+	// that draw something, such as a selection rect, etc.
 
-    if ([[self controller] respondsToSelector:@selector(drawRect:)])
-        [(id)[self controller] drawRect:rect];
+	if ([[self controller] respondsToSelector:@selector(drawRect:)])
+		[(id)[self controller] drawRect:rect];
 
-    // draw page breaks on top of everything else if enabled
+	// draw page breaks on top of everything else if enabled
 
-    BOOL printing = ![NSGraphicsContext currentContextDrawingToScreen];
+	BOOL printing = ![NSGraphicsContext currentContextDrawingToScreen];
 
-    if (!printing && [self pageBreaksVisible] && [self printInfo])
-        [self drawPageBreaks];
+	if (!printing && [self pageBreaksVisible] && [self printInfo])
+		[self drawPageBreaks];
 
-    if (printing && [self printCropMarkKind] != DKCropMarksNone)
-        [self drawCropMarks];
+	if (printing && [self printCropMarkKind] != DKCropMarksNone)
+		[self drawCropMarks];
 
-    [[self class] pop];
+	[[self class] pop];
 }
 
 /** @brief Is the view flipped.
@@ -1018,10 +1018,10 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)isFlipped
 {
-    if ([self drawing] != nil)
-        return [[self drawing] isFlipped];
-    else
-        return YES;
+	if ([self drawing] != nil)
+		return [[self drawing] isFlipped];
+	else
+		return YES;
 }
 
 /** @brief Is the view opaque, yes.
@@ -1029,7 +1029,7 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)isOpaque
 {
-    return YES;
+	return YES;
 }
 
 /** @brief Invalidate the cursor rects and set up new ones
@@ -1038,14 +1038,14 @@ static Class s_textEditorClass = Nil;
  */
 - (void)resetCursorRects
 {
-    NSCursor* curs = [[self controller] cursor];
-    NSRect cr = [[self controller] activeCursorRect];
+	NSCursor* curs = [[self controller] cursor];
+	NSRect cr = [[self controller] activeCursorRect];
 
-    cr = NSIntersectionRect(cr, [self visibleRect]);
+	cr = NSIntersectionRect(cr, [self visibleRect]);
 
-    [self addCursorRect:cr
-                 cursor:curs];
-    [curs setOnMouseEntered:YES];
+	[self addCursorRect:cr
+				 cursor:curs];
+	[curs setOnMouseEntered:YES];
 }
 
 /** @brief Create a menu that is used for a right-click in the view
@@ -1056,21 +1056,21 @@ static Class s_textEditorClass = Nil;
  */
 - (NSMenu*)menuForEvent:(NSEvent*)event
 {
-    [self set];
-    NSMenu* menu = [[self controller] menuForEvent:event];
-    [[self class] pop];
+	[self set];
+	NSMenu* menu = [[self controller] menuForEvent:event];
+	[[self class] pop];
 
-    if (menu == nil)
-        menu = [super menuForEvent:event];
+	if (menu == nil)
+		menu = [super menuForEvent:event];
 
-    // if the menu was created, record the local mouse down point so that client code can get this point
-    // if needed when responding to a menu command in the menu.
+	// if the menu was created, record the local mouse down point so that client code can get this point
+	// if needed when responding to a menu command in the menu.
 
-    if (menu != nil)
-        sLastContextMenuClick = [self convertPoint:[event locationInWindow]
-                                          fromView:nil];
+	if (menu != nil)
+		sLastContextMenuClick = [self convertPoint:[event locationInWindow]
+										  fromView:nil];
 
-    return menu;
+	return menu;
 }
 
 /** @brief Accept whether the activating click is also handled as a mouse down
@@ -1081,7 +1081,7 @@ static Class s_textEditorClass = Nil;
 {
 #pragma unused(event)
 
-    return YES;
+	return YES;
 }
 
 /** @brief Tell drawing system that we preserve the content for live resize
@@ -1089,38 +1089,38 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)preservesContentDuringLiveResize
 {
-    return YES;
+	return YES;
 }
 
 /** @brief Invalidate areas not preserved during live resize
  */
 - (void)setFrameSize:(NSSize)newSize
 {
-    [super setFrameSize:newSize];
+	[super setFrameSize:newSize];
 
-    if ([self inLiveResize]) {
-        NSRect rects[4];
-        NSInteger count;
+	if ([self inLiveResize]) {
+		NSRect rects[4];
+		NSInteger count;
 
-        [self getRectsExposedDuringLiveResize:rects
-                                        count:&count];
+		[self getRectsExposedDuringLiveResize:rects
+										count:&count];
 
-        while (count-- > 0)
-            [self setNeedsDisplayInRect:rects[count]];
-    } else
-        [self setNeedsDisplay:YES];
+		while (count-- > 0)
+			[self setNeedsDisplayInRect:rects[count]];
+	} else
+		[self setNeedsDisplay:YES];
 }
 
 - (BOOL)lockFocusIfCanDraw
 {
-    // if at the point where the view is asked to draw something, there is no "back end", it creates one
-    // automatically on the basis of its current bounds. In this case, the view owns the drawing. This is done here rather than in -drawRect:
-    // though ideally it would go in -viewWillDraw, however that is >= 10.5 only.
+	// if at the point where the view is asked to draw something, there is no "back end", it creates one
+	// automatically on the basis of its current bounds. In this case, the view owns the drawing. This is done here rather than in -drawRect:
+	// though ideally it would go in -viewWillDraw, however that is >= 10.5 only.
 
-    if ([self drawing] == nil)
-        [self createAutomaticDrawing];
+	if ([self drawing] == nil)
+		[self createAutomaticDrawing];
 
-    return [super lockFocusIfCanDraw];
+	return [super lockFocusIfCanDraw];
 }
 
 #pragma mark -
@@ -1131,7 +1131,7 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)acceptsFirstResponder
 {
-    return YES;
+	return YES;
 }
 
 /** @brief Handle the key down event
@@ -1145,10 +1145,10 @@ static Class s_textEditorClass = Nil;
  */
 - (void)keyDown:(NSEvent*)event
 {
-    if ([[self controller] respondsToSelector:@selector(keyDown:)])
-        [(NSResponder*)[self controller] keyDown:event];
-    else
-        [self interpretKeyEvents:[NSArray arrayWithObject:event]];
+	if ([[self controller] respondsToSelector:@selector(keyDown:)])
+		[(NSResponder*)[self controller] keyDown:event];
+	else
+		[self interpretKeyEvents:[NSArray arrayWithObject:event]];
 }
 
 /** @brief Handle the mouse down event
@@ -1158,10 +1158,10 @@ static Class s_textEditorClass = Nil;
  */
 - (void)mouseDown:(NSEvent*)event
 {
-    [self postMouseLocationInfo:kDKDrawingMouseDownLocation
-                          event:event];
-    [self set];
-    [[self controller] mouseDown:event];
+	[self postMouseLocationInfo:kDKDrawingMouseDownLocation
+						  event:event];
+	[self set];
+	[[self controller] mouseDown:event];
 }
 
 /** @brief Handle the mouse dragged event
@@ -1171,18 +1171,18 @@ static Class s_textEditorClass = Nil;
  */
 - (void)mouseDragged:(NSEvent*)event
 {
-    // do not process drags at more than 40 fps...
+	// do not process drags at more than 40 fps...
 
-    NSTimeInterval t = [event timestamp];
+	NSTimeInterval t = [event timestamp];
 
-    if (t > mLastMouseDragTime + 0.025) {
-        mLastMouseDragTime = t;
+	if (t > mLastMouseDragTime + 0.025) {
+		mLastMouseDragTime = t;
 
-        [self updateRulerMouseTracking:[event locationInWindow]];
-        [self postMouseLocationInfo:kDKDrawingMouseDraggedLocation
-                              event:event];
-        [[self controller] mouseDragged:event];
-    }
+		[self updateRulerMouseTracking:[event locationInWindow]];
+		[self postMouseLocationInfo:kDKDrawingMouseDraggedLocation
+							  event:event];
+		[[self controller] mouseDragged:event];
+	}
 }
 
 /** @brief Handle the mouse moved event
@@ -1192,12 +1192,12 @@ static Class s_textEditorClass = Nil;
  */
 - (void)mouseMoved:(NSEvent*)event
 {
-    // update the ruler mouse tracking lines if the rulers are visible.
+	// update the ruler mouse tracking lines if the rulers are visible.
 
-    [self updateRulerMouseTracking:[event locationInWindow]];
-    [self postMouseLocationInfo:kDKDrawingMouseMovedLocation
-                          event:event];
-    [[self controller] mouseMoved:event];
+	[self updateRulerMouseTracking:[event locationInWindow]];
+	[self postMouseLocationInfo:kDKDrawingMouseMovedLocation
+						  event:event];
+	[[self controller] mouseMoved:event];
 }
 
 /** @brief Handle the mouse up event
@@ -1207,10 +1207,10 @@ static Class s_textEditorClass = Nil;
  */
 - (void)mouseUp:(NSEvent*)event
 {
-    [self postMouseLocationInfo:kDKDrawingMouseUpLocation
-                          event:event];
-    [[self controller] mouseUp:event];
-    [[self class] pop];
+	[self postMouseLocationInfo:kDKDrawingMouseUpLocation
+						  event:event];
+	[[self controller] mouseUp:event];
+	[[self class] pop];
 }
 
 /** @brief Handle the flags changed event
@@ -1220,7 +1220,7 @@ static Class s_textEditorClass = Nil;
  */
 - (void)flagsChanged:(NSEvent*)event
 {
-    [[self controller] flagsChanged:event];
+	[[self controller] flagsChanged:event];
 }
 
 /** @brief Do the command requested
@@ -1233,11 +1233,11 @@ static Class s_textEditorClass = Nil;
  */
 - (void)doCommandBySelector:(SEL)aSelector
 {
-    if ([self respondsToSelector:aSelector])
-        [self tryToPerform:aSelector
-                      with:self];
-    else
-        [super doCommandBySelector:aSelector];
+	if ([self respondsToSelector:aSelector])
+		[self tryToPerform:aSelector
+					  with:self];
+	else
+		[super doCommandBySelector:aSelector];
 }
 
 /** @brief Insert text
@@ -1247,29 +1247,29 @@ static Class s_textEditorClass = Nil;
  */
 - (void)insertText:(id)aString
 {
-    if ([[self controller] respondsToSelector:_cmd])
-        [(id)[self controller] insertText:aString];
+	if ([[self controller] respondsToSelector:_cmd])
+		[(id)[self controller] insertText:aString];
 }
 
 #pragma mark -
 
 - (void)changeAttributes:(id)sender
 {
-    // workaround 10.5 and earlier bug where target isn't applied to -changeAttributes: and ends up in the responder chain
-    // instead. This catches it and sends it to the true target before our forwarding mechanism gets to work on it.
+	// workaround 10.5 and earlier bug where target isn't applied to -changeAttributes: and ends up in the responder chain
+	// instead. This catches it and sends it to the true target before our forwarding mechanism gets to work on it.
 
-    if (sender == [NSFontManager sharedFontManager]) {
-        id target = [sender target];
+	if (sender == [NSFontManager sharedFontManager]) {
+		id target = [sender target];
 
-        if (target && [target respondsToSelector:_cmd]) {
-            //NSLog(@"redirecting -changeAttributes: to %@", target );
+		if (target && [target respondsToSelector:_cmd]) {
+			//NSLog(@"redirecting -changeAttributes: to %@", target );
 
-            [target changeAttributes:sender];
-            return;
-        }
-    }
+			[target changeAttributes:sender];
+			return;
+		}
+	}
 
-    [super changeAttributes:sender];
+	[super changeAttributes:sender];
 }
 
 #pragma mark -
@@ -1279,26 +1279,26 @@ static Class s_textEditorClass = Nil;
  */
 - (void)dealloc
 {
-    // going away - make sure our controller is removed from the drawing
+	// going away - make sure our controller is removed from the drawing
 
-    if ([self controller] != nil) {
-        [[self controller] setView:nil];
-        [[self drawing] removeController:[self controller]];
-        [self setController:nil];
-    }
+	if ([self controller] != nil) {
+		[[self controller] setView:nil];
+		[[self drawing] removeController:[self controller]];
+		[self setController:nil];
+	}
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [mPrintInfo release];
-    [mRulerMarkersDict release];
-    [m_textEditViewRef release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[mPrintInfo release];
+	[mRulerMarkersDict release];
+	[m_textEditViewRef release];
 
-    // if the view automatically created its own "back-end", release all of that now - the drawing owns the controllers so
-    // they are also disposed of.
+	// if the view automatically created its own "back-end", release all of that now - the drawing owns the controllers so
+	// they are also disposed of.
 
-    if (m_didCreateDrawing && mAutoDrawing != nil)
-        [mAutoDrawing release];
+	if (m_didCreateDrawing && mAutoDrawing != nil)
+		[mAutoDrawing release];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 /** @brief Forward an invocation to the active layer if it implements it
@@ -1310,15 +1310,15 @@ static Class s_textEditorClass = Nil;
  */
 - (void)forwardInvocation:(NSInvocation*)invocation
 {
-    // commands can be implemented by the layer that wants to make use of them - this makes it happen by forwarding unrecognised
-    // method calls to the active layer if possible.
+	// commands can be implemented by the layer that wants to make use of them - this makes it happen by forwarding unrecognised
+	// method calls to the active layer if possible.
 
-    SEL aSelector = [invocation selector];
+	SEL aSelector = [invocation selector];
 
-    if ([[self controller] respondsToSelector:aSelector]) {
-        [invocation invokeWithTarget:[self controller]];
-    } else
-        [self doesNotRecognizeSelector:aSelector];
+	if ([[self controller] respondsToSelector:aSelector]) {
+		[invocation invokeWithTarget:[self controller]];
+	} else
+		[self doesNotRecognizeSelector:aSelector];
 }
 
 /** @brief Return a method's signature
@@ -1331,14 +1331,14 @@ static Class s_textEditorClass = Nil;
  */
 - (NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector
 {
-    NSMethodSignature* sig;
+	NSMethodSignature* sig;
 
-    sig = [super methodSignatureForSelector:aSelector];
+	sig = [super methodSignatureForSelector:aSelector];
 
-    if (sig == nil)
-        sig = [[self controller] methodSignatureForSelector:aSelector];
+	if (sig == nil)
+		sig = [[self controller] methodSignatureForSelector:aSelector];
 
-    return sig;
+	return sig;
 }
 
 /** @brief Return whether the selector can be responded to
@@ -1351,12 +1351,12 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
-    BOOL responds = [super respondsToSelector:aSelector];
+	BOOL responds = [super respondsToSelector:aSelector];
 
-    if (!responds)
-        responds = [[self controller] respondsToSelector:aSelector];
+	if (!responds)
+		responds = [[self controller] respondsToSelector:aSelector];
 
-    return responds;
+	return responds;
 }
 
 #pragma mark -
@@ -1368,23 +1368,23 @@ static Class s_textEditorClass = Nil;
  */
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    SEL action = [item action];
+	SEL action = [item action];
 
-    if (action == @selector(toggleRuler:)) {
-        BOOL rvis = [[self enclosingScrollView] rulersVisible];
-        [item setTitle:NSLocalizedString(rvis ? @"Hide Rulers" : @"Show Rulers", @"")];
-        return YES;
-    }
+	if (action == @selector(toggleRuler:)) {
+		BOOL rvis = [[self enclosingScrollView] rulersVisible];
+		[item setTitle:NSLocalizedString(rvis ? @"Hide Rulers" : @"Show Rulers", @"")];
+		return YES;
+	}
 
-    if (action == @selector(toggleShowPageBreaks:)) {
-        [item setTitle:NSLocalizedString([self pageBreaksVisible] ? @"Hide Page Breaks" : @"Show Page Breaks", @"page break menu items")];
-        return YES;
-    }
+	if (action == @selector(toggleShowPageBreaks:)) {
+		[item setTitle:NSLocalizedString([self pageBreaksVisible] ? @"Hide Page Breaks" : @"Show Page Breaks", @"page break menu items")];
+		return YES;
+	}
 
-    BOOL e1 = [super validateMenuItem:item];
-    BOOL e2 = [[self controller] validateMenuItem:item];
+	BOOL e1 = [super validateMenuItem:item];
+	BOOL e2 = [[self controller] validateMenuItem:item];
 
-    return e1 || e2;
+	return e1 || e2;
 }
 
 #pragma mark -
@@ -1397,36 +1397,36 @@ static Class s_textEditorClass = Nil;
  */
 - (void)awakeFromNib
 {
-    NSScrollView* sv = [self enclosingScrollView];
+	NSScrollView* sv = [self enclosingScrollView];
 
-    if (sv) {
-        [sv setHasHorizontalRuler:YES];
-        [sv setHasVerticalRuler:YES];
+	if (sv) {
+		[sv setHasHorizontalRuler:YES];
+		[sv setHasVerticalRuler:YES];
 
-        BOOL rvis = [[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingRulersVisibleDefaultPrefsKey];
-        [sv setRulersVisible:rvis];
+		BOOL rvis = [[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingRulersVisibleDefaultPrefsKey];
+		[sv setRulersVisible:rvis];
 
-        [sv setDrawsBackground:YES];
-        [sv setBackgroundColor:[[self class] backgroundColour]];
+		[sv setDrawsBackground:YES];
+		[sv setBackgroundColor:[[self class] backgroundColour]];
 
-        [[sv horizontalRulerView] setClientView:self];
-        [[sv horizontalRulerView] setReservedThicknessForMarkers:6.0];
+		[[sv horizontalRulerView] setClientView:self];
+		[[sv horizontalRulerView] setReservedThicknessForMarkers:6.0];
 
-        [[sv verticalRulerView] setClientView:self];
-        [[sv verticalRulerView] setReservedThicknessForMarkers:6.0];
+		[[sv verticalRulerView] setClientView:self];
+		[[sv verticalRulerView] setReservedThicknessForMarkers:6.0];
 
-        [self resetRulerClientView];
-    }
-    [[self window] setAcceptsMouseMovedEvents:YES];
+		[self resetRulerClientView];
+	}
+	[[self window] setAcceptsMouseMovedEvents:YES];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(windowActiveStateChanged:)
-                                                 name:NSWindowDidResignMainNotification
-                                               object:[self window]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(windowActiveStateChanged:)
-                                                 name:NSWindowDidBecomeMainNotification
-                                               object:[self window]];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowActiveStateChanged:)
+												 name:NSWindowDidResignMainNotification
+											   object:[self window]];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(windowActiveStateChanged:)
+												 name:NSWindowDidBecomeMainNotification
+											   object:[self window]];
 }
 
 @end

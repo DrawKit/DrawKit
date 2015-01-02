@@ -11,23 +11,23 @@
 // data types storable by a DKMetadataItem
 
 typedef enum {
-    DKMetadataTypeUnknown = -2,
-    DKMetadataMultipleTypesMarker = -1,
-    DKMetadataTypeString = 0,
-    DKMetadataTypeInteger = 1,
-    DKMetadataTypeReal = 2,
-    DKMetadataTypeBoolean = 3,
-    DKMetadataTypeUnsignedInt = 4,
-    DKMetadataTypeAttributedString = 5,
-    DKMetadataTypeImage = 6,
-    DKMetadataTypeImageData = 7,
-    DKMetadataTypeURL = 8,
-    DKMetadataTypeDate = 9,
-    DKMetadataTypeColour = 10,
-    DKMetadataTypeData = 11,
-    DKMetadataTypeSize = 12,
-    DKMetadataTypePoint = 13,
-    DKMetadataTypeRect = 14
+	DKMetadataTypeUnknown = -2,
+	DKMetadataMultipleTypesMarker = -1,
+	DKMetadataTypeString = 0,
+	DKMetadataTypeInteger = 1,
+	DKMetadataTypeReal = 2,
+	DKMetadataTypeBoolean = 3,
+	DKMetadataTypeUnsignedInt = 4,
+	DKMetadataTypeAttributedString = 5,
+	DKMetadataTypeImage = 6,
+	DKMetadataTypeImageData = 7,
+	DKMetadataTypeURL = 8,
+	DKMetadataTypeDate = 9,
+	DKMetadataTypeColour = 10,
+	DKMetadataTypeData = 11,
+	DKMetadataTypeSize = 12,
+	DKMetadataTypePoint = 13,
+	DKMetadataTypeRect = 14
 } DKMetadataType;
 
 /**
@@ -61,8 +61,8 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 */
 @interface DKMetadataItem : NSObject <NSCoding, NSCopying> {
 @private
-    id mValue;
-    DKMetadataType mType;
+	id mValue;
+	DKMetadataType mType;
 }
 
 + (Class)classForType:(DKMetadataType)type;

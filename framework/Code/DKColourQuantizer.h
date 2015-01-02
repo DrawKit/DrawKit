@@ -17,10 +17,10 @@ s
  @see DKOctreeQuantizer
  */
 @interface DKColourQuantizer : NSObject {
-    NSUInteger m_maxColours;
-    NSUInteger m_nBits;
-    NSSize m_imageSize;
-    NSMutableArray* m_cTable;
+	NSUInteger m_maxColours;
+	NSUInteger m_nBits;
+	NSSize m_imageSize;
+	NSMutableArray* m_cTable;
 }
 
 - (id)initWithBitmapImageRep:(NSBitmapImageRep*)rep maxColours:(NSUInteger)maxColours colourBits:(NSUInteger)nBits;
@@ -39,29 +39,29 @@ s
 // this code is mostly a port of CQuantizer (c)  1996-1997 Jeff Prosise
 
 typedef struct _NODE {
-    BOOL bIsLeaf; // YES if node has no children
-    NSUInteger nPixelCount; // Number of pixels represented by this leaf
-    NSUInteger nRedSum; // Sum of red components
-    NSUInteger nGreenSum; // Sum of green components
-    NSUInteger nBlueSum; // Sum of blue components
-    NSUInteger nAlphaSum; // Sum of alpha components
-    struct _NODE* pChild[8]; // Pointers to child nodes
-    struct _NODE* pNext; // Pointer to next reducible node
-    NSInteger indexValue; // for looking up RGB->index
+	BOOL bIsLeaf; // YES if node has no children
+	NSUInteger nPixelCount; // Number of pixels represented by this leaf
+	NSUInteger nRedSum; // Sum of red components
+	NSUInteger nGreenSum; // Sum of green components
+	NSUInteger nBlueSum; // Sum of blue components
+	NSUInteger nAlphaSum; // Sum of alpha components
+	struct _NODE* pChild[8]; // Pointers to child nodes
+	struct _NODE* pNext; // Pointer to next reducible node
+	NSInteger indexValue; // for looking up RGB->index
 } NODE;
 
 typedef struct _rgb_triple {
-    CGFloat r;
-    CGFloat g;
-    CGFloat b;
+	CGFloat r;
+	CGFloat g;
+	CGFloat b;
 } rgb_triple;
 
 /** @brief octree quantizer which does a much better job than DKColourQuantizer */
 @interface DKOctreeQuantizer : DKColourQuantizer {
-    NODE* m_pTree;
-    NSUInteger m_nLeafCount;
-    NODE* m_pReducibleNodes[9];
-    NSUInteger m_nOutputMaxColors;
+	NODE* m_pTree;
+	NSUInteger m_nLeafCount;
+	NODE* m_pReducibleNodes[9];
+	NSUInteger m_nOutputMaxColors;
 }
 
 - (void)addNode:(NODE**)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes;

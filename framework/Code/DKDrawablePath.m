@@ -42,17 +42,17 @@ static NSColor* sInfoWindowColour = nil;
 
 + (void)setAngularConstraintAngle:(CGFloat)radians
 {
-    sAngleConstraint = radians;
+	sAngleConstraint = radians;
 }
 
 + (CGFloat)angularConstraintAngle
 {
-    return sAngleConstraint;
+	return sAngleConstraint;
 }
 
 - (BOOL)constrainWithEvent:(NSEvent*)anEvent
 {
-    return (([anEvent modifierFlags] & NSShiftKeyMask) != 0);
+	return (([anEvent modifierFlags] & NSShiftKeyMask) != 0);
 }
 
 #pragma mark As a DKDrawablePath
@@ -65,9 +65,9 @@ static NSColor* sInfoWindowColour = nil;
  */
 + (DKDrawablePath*)drawablePathWithBezierPath:(NSBezierPath*)path
 {
-    DKDrawablePath* dp = [[self alloc] initWithBezierPath:path];
+	DKDrawablePath* dp = [[self alloc] initWithBezierPath:path];
 
-    return [dp autorelease];
+	return [dp autorelease];
 }
 
 //*********************************************************************************************************************
@@ -81,9 +81,9 @@ static NSColor* sInfoWindowColour = nil;
  */
 + (DKDrawablePath*)drawablePathWithBezierPath:(NSBezierPath*)path withStyle:(DKStyle*)aStyle
 {
-    DKDrawablePath* dp = [[self alloc] initWithBezierPath:path
-                                                    style:aStyle];
-    return [dp autorelease];
+	DKDrawablePath* dp = [[self alloc] initWithBezierPath:path
+													style:aStyle];
+	return [dp autorelease];
 }
 
 //*********************************************************************************************************************
@@ -93,9 +93,9 @@ static NSColor* sInfoWindowColour = nil;
  */
 + (void)setInfoWindowBackgroundColour:(NSColor*)colour
 {
-    [colour retain];
-    [sInfoWindowColour release];
-    sInfoWindowColour = colour;
+	[colour retain];
+	[sInfoWindowColour release];
+	sInfoWindowColour = colour;
 }
 
 //*********************************************************************************************************************
@@ -105,7 +105,7 @@ static NSColor* sInfoWindowColour = nil;
  */
 + (NSColor*)infoWindowBackgroundColour
 {
-    return sInfoWindowColour;
+	return sInfoWindowColour;
 }
 
 //*********************************************************************************************************************
@@ -120,8 +120,8 @@ static NSColor* sInfoWindowColour = nil;
  */
 + (void)setDefaultOnPathHitDetectionPriority:(BOOL)priority
 {
-    [[NSUserDefaults standardUserDefaults] setBool:priority
-                                            forKey:kDKPathOnPathHitDetectionPriorityDefaultsKey];
+	[[NSUserDefaults standardUserDefaults] setBool:priority
+											forKey:kDKPathOnPathHitDetectionPriorityDefaultsKey];
 }
 
 //*********************************************************************************************************************
@@ -136,7 +136,7 @@ static NSColor* sInfoWindowColour = nil;
  */
 + (BOOL)defaultOnPathHitDetectionPriority
 {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:kDKPathOnPathHitDetectionPriorityDefaultsKey];
+	return [[NSUserDefaults standardUserDefaults] boolForKey:kDKPathOnPathHitDetectionPriorityDefaultsKey];
 }
 
 #pragma mark -
@@ -149,12 +149,12 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (id)initWithBezierPath:(NSBezierPath*)aPath
 {
-    self = [self init];
-    if (self != nil) {
-        [self setPath:aPath];
-    }
+	self = [self init];
+	if (self != nil) {
+		[self setPath:aPath];
+	}
 
-    return self;
+	return self;
 }
 
 /** @brief Initialises a drawable path object from an existing path with the given style
@@ -166,12 +166,12 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
 {
-    self = [self initWithStyle:aStyle];
-    if (self) {
-        [self setPath:aPath];
-    }
+	self = [self initWithStyle:aStyle];
+	if (self) {
+		[self setPath:aPath];
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
@@ -184,25 +184,25 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (void)setPath:(NSBezierPath*)path
 {
-    if (path != m_path) {
-        //	LogEvent_(kStateEvent, @"setting path: %@", path );
+	if (path != m_path) {
+		//	LogEvent_(kStateEvent, @"setting path: %@", path );
 
-        NSRect oldBounds = [self bounds];
+		NSRect oldBounds = [self bounds];
 
-        [self notifyVisualChange];
+		[self notifyVisualChange];
 
-        NSBezierPath* oldPath = [m_path copy];
-        [[self undoManager] registerUndoWithTarget:self
-                                          selector:@selector(setPath:)
-                                            object:oldPath];
-        [oldPath release];
+		NSBezierPath* oldPath = [m_path copy];
+		[[self undoManager] registerUndoWithTarget:self
+										  selector:@selector(setPath:)
+											object:oldPath];
+		[oldPath release];
 
-        [m_path release];
-        m_path = [path retain];
+		[m_path release];
+		m_path = [path retain];
 
-        [self notifyVisualChange];
-        [self notifyGeometryChange:oldBounds];
-    }
+		[self notifyVisualChange];
+		[self notifyGeometryChange:oldBounds];
+	}
 }
 
 /** @brief Returns the object's current path
@@ -210,7 +210,7 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (NSBezierPath*)path
 {
-    return m_path;
+	return m_path;
 }
 
 /** @brief Returns the actual path drawn when the object is rendered
@@ -220,138 +220,138 @@ static NSColor* sInfoWindowColour = nil;
  @param knobs the knobs object that draws the handles on the path */
 - (void)drawControlPointsOfPath:(NSBezierPath*)path usingKnobs:(DKKnob*)knobs
 {
-    // draws the control points of the entire path using the knobs supplied.
+	// draws the control points of the entire path using the knobs supplied.
 
-    NSBezierPathElement et;
-    NSPoint ap[3];
-    NSPoint lp;
-    DKKnobType knobType;
+	NSBezierPathElement et;
+	NSPoint ap[3];
+	NSPoint lp;
+	DKKnobType knobType;
 
-    NSInteger i, ec = [path elementCount];
-    lp = NSMakePoint(-1, -1);
+	NSInteger i, ec = [path elementCount];
+	lp = NSMakePoint(-1, -1);
 
-    for (i = 0; i < ec; ++i) {
-        et = [path elementAtIndex:i
-                 associatedPoints:ap];
+	for (i = 0; i < ec; ++i) {
+		et = [path elementAtIndex:i
+				 associatedPoints:ap];
 
-        if (et == NSCurveToBezierPathElement) {
-            // three points to draw, plus some bars. If the on-path point priority is set, draw on-path points on top,
-            // otherwise draw off-path points on top.
+		if (et == NSCurveToBezierPathElement) {
+			// three points to draw, plus some bars. If the on-path point priority is set, draw on-path points on top,
+			// otherwise draw off-path points on top.
 
-            // draw the bar - always behind the knobs whatever the priority
+			// draw the bar - always behind the knobs whatever the priority
 
-            if (![self locked])
-                [knobs drawControlBarFromPoint:ap[1]
-                                       toPoint:ap[2]];
+			if (![self locked])
+				[knobs drawControlBarFromPoint:ap[1]
+									   toPoint:ap[2]];
 
-            // draw on-path point behind
+			// draw on-path point behind
 
-            if (![[self class] defaultOnPathHitDetectionPriority]) {
-                knobType = kDKOnPathKnobType;
+			if (![[self class] defaultOnPathHitDetectionPriority]) {
+				knobType = kDKOnPathKnobType;
 
-                if (!NSEqualPoints(lp, NSMakePoint(-1, -1))) {
-                    if ([self locked])
-                        knobType |= kDKKnobIsDisabledFlag;
-                    else
-                        [knobs drawControlBarFromPoint:ap[0]
-                                               toPoint:lp];
+				if (!NSEqualPoints(lp, NSMakePoint(-1, -1))) {
+					if ([self locked])
+						knobType |= kDKKnobIsDisabledFlag;
+					else
+						[knobs drawControlBarFromPoint:ap[0]
+											   toPoint:lp];
 
-                    [knobs drawKnobAtPoint:lp
-                                    ofType:knobType
-                                  userInfo:nil];
+					[knobs drawKnobAtPoint:lp
+									ofType:knobType
+								  userInfo:nil];
 
-                    if (i == ec - 1)
-                        [knobs drawKnobAtPoint:ap[2]
-                                        ofType:knobType
-                                      userInfo:nil];
-                }
-            }
+					if (i == ec - 1)
+						[knobs drawKnobAtPoint:ap[2]
+										ofType:knobType
+									  userInfo:nil];
+				}
+			}
 
-            // draw off-path points for unlocked paths
+			// draw off-path points for unlocked paths
 
-            knobType = kDKControlPointKnobType;
+			knobType = kDKControlPointKnobType;
 
-            if (![self locked]) {
-                [knobs drawKnobAtPoint:ap[0]
-                                ofType:knobType
-                              userInfo:nil];
-                [knobs drawKnobAtPoint:ap[1]
-                                ofType:knobType
-                              userInfo:nil];
-            }
+			if (![self locked]) {
+				[knobs drawKnobAtPoint:ap[0]
+								ofType:knobType
+							  userInfo:nil];
+				[knobs drawKnobAtPoint:ap[1]
+								ofType:knobType
+							  userInfo:nil];
+			}
 
-            knobType = kDKOnPathKnobType;
-            if ([self locked])
-                knobType |= kDKKnobIsDisabledFlag;
+			knobType = kDKOnPathKnobType;
+			if ([self locked])
+				knobType |= kDKKnobIsDisabledFlag;
 
-            // draw on-path point in front
+			// draw on-path point in front
 
-            if ([[self class] defaultOnPathHitDetectionPriority]) {
-                if (!NSEqualPoints(lp, NSMakePoint(-1, -1))) {
-                    if (![self locked])
-                        [knobs drawControlBarFromPoint:ap[0]
-                                               toPoint:lp];
+			if ([[self class] defaultOnPathHitDetectionPriority]) {
+				if (!NSEqualPoints(lp, NSMakePoint(-1, -1))) {
+					if (![self locked])
+						[knobs drawControlBarFromPoint:ap[0]
+											   toPoint:lp];
 
-                    [knobs drawKnobAtPoint:lp
-                                    ofType:knobType
-                                  userInfo:nil];
-                }
+					[knobs drawKnobAtPoint:lp
+									ofType:knobType
+								  userInfo:nil];
+				}
 
-                if (i == ec - 1)
-                    [knobs drawKnobAtPoint:ap[2]
-                                    ofType:knobType
-                                  userInfo:nil];
-            }
+				if (i == ec - 1)
+					[knobs drawKnobAtPoint:ap[2]
+									ofType:knobType
+								  userInfo:nil];
+			}
 
-            lp = ap[2];
-
-#ifdef qIncludeGraphicDebugging
-            if (m_showPartcodes) {
-                NSInteger j, pc;
-
-                for (j = 0; j < 3; ++j) {
-                    pc = [self hitPart:ap[j]];
-                    [knobs drawPartcode:pc
-                                atPoint:ap[j]
-                               fontSize:10];
-                }
-            }
-#endif
-        } else {
-            // one point to draw. don't draw a moveto that is the last element
-
-            BOOL drawit;
-
-            drawit = !((et == NSMoveToBezierPathElement) && (i == (ec - 1)));
-
-            if (drawit) {
-                knobType = kDKOnPathKnobType;
-                if ([self locked])
-                    knobType |= kDKKnobIsDisabledFlag;
-
-                if (!NSEqualPoints(lp, NSMakePoint(-1, -1)))
-                    [knobs drawKnobAtPoint:lp
-                                    ofType:knobType
-                                  userInfo:nil];
-
-                [knobs drawKnobAtPoint:ap[0]
-                                ofType:knobType
-                              userInfo:nil];
-            }
-            lp = ap[0];
+			lp = ap[2];
 
 #ifdef qIncludeGraphicDebugging
-            if (m_showPartcodes) {
-                NSInteger pc;
+			if (m_showPartcodes) {
+				NSInteger j, pc;
 
-                pc = [self hitPart:ap[0]];
-                [knobs drawPartcode:pc
-                            atPoint:ap[0]
-                           fontSize:10];
-            }
+				for (j = 0; j < 3; ++j) {
+					pc = [self hitPart:ap[j]];
+					[knobs drawPartcode:pc
+								atPoint:ap[j]
+							   fontSize:10];
+				}
+			}
 #endif
-        }
-    }
+		} else {
+			// one point to draw. don't draw a moveto that is the last element
+
+			BOOL drawit;
+
+			drawit = !((et == NSMoveToBezierPathElement) && (i == (ec - 1)));
+
+			if (drawit) {
+				knobType = kDKOnPathKnobType;
+				if ([self locked])
+					knobType |= kDKKnobIsDisabledFlag;
+
+				if (!NSEqualPoints(lp, NSMakePoint(-1, -1)))
+					[knobs drawKnobAtPoint:lp
+									ofType:knobType
+								  userInfo:nil];
+
+				[knobs drawKnobAtPoint:ap[0]
+								ofType:knobType
+							  userInfo:nil];
+			}
+			lp = ap[0];
+
+#ifdef qIncludeGraphicDebugging
+			if (m_showPartcodes) {
+				NSInteger pc;
+
+				pc = [self hitPart:ap[0]];
+				[knobs drawPartcode:pc
+							atPoint:ap[0]
+						   fontSize:10];
+			}
+#endif
+		}
+	}
 }
 
 /** @brief Given a set of rects as NSValue objects, this invalidates them
@@ -363,20 +363,20 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (void)setNeedsDisplayForRects:(NSSet*)rects
 {
-    if ([[self style] hasFill] || [[self style] hasHatch]) {
-        [self setNeedsDisplayInRect:[self bounds]];
-    } else {
-        if (rects != nil) {
-            NSSize extra = [[self style] extraSpaceNeeded];
+	if ([[self style] hasFill] || [[self style] hasHatch]) {
+		[self setNeedsDisplayInRect:[self bounds]];
+	} else {
+		if (rects != nil) {
+			NSSize extra = [[self style] extraSpaceNeeded];
 
-            // add in control knob sizes
+			// add in control knob sizes
 
-            extra.width += 3;
-            extra.height += 3;
-            [[self layer] setNeedsDisplayInRects:rects
-                                withExtraPadding:extra];
-        }
-    }
+			extra.width += 3;
+			extra.height += 3;
+			[[self layer] setNeedsDisplayInRects:rects
+								withExtraPadding:extra];
+		}
+	}
 }
 
 /** @brief Return the length of the path
@@ -386,7 +386,7 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (CGFloat)length
 {
-    return [[self path] length];
+	return [[self path] length];
 }
 
 /** @brief Return the length along the path for a given point
@@ -398,8 +398,8 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (CGFloat)lengthForPoint:(NSPoint)mp
 {
-    return [self lengthForPoint:mp
-                      tolerance:MAX(1, [[self style] maxStrokeWidth]) * 4];
+	return [self lengthForPoint:mp
+					  tolerance:MAX(1, [[self style] maxStrokeWidth]) * 4];
 }
 
 /** @brief Return the length along the path for a given point
@@ -411,25 +411,25 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol
 {
-    return [[self path] distanceFromStartOfPathAtPoint:mp
-                                             tolerance:tol];
+	return [[self path] distanceFromStartOfPathAtPoint:mp
+											 tolerance:tol];
 }
 
 - (void)recordPathForUndo
 {
-    [m_undoPath release];
-    m_undoPath = [[self path] copy];
+	[m_undoPath release];
+	m_undoPath = [[self path] copy];
 }
 
 - (NSBezierPath*)undoPath
 {
-    return m_undoPath;
+	return m_undoPath;
 }
 
 - (void)clearUndoPath
 {
-    [m_undoPath release];
-    m_undoPath = nil;
+	[m_undoPath release];
+	m_undoPath = nil;
 }
 
 #pragma mark -
@@ -443,11 +443,11 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (void)combine:(DKDrawablePath*)anotherPath
 {
-    NSBezierPath* path = [[self path] copy];
+	NSBezierPath* path = [[self path] copy];
 
-    [path appendBezierPath:[anotherPath path]];
-    [self setPath:path];
-    [path release];
+	[path appendBezierPath:[anotherPath path]];
+	[self setPath:path];
+	[path release];
 }
 
 /** @brief Preflights a potential join to determine if the join would be made
@@ -459,54 +459,54 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (DKDrawablePathJoinResult)wouldJoin:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol
 {
-    NSBezierPath* ap = [anotherPath path];
-    DKDrawablePathJoinResult result = kDKPathNoJoin;
+	NSBezierPath* ap = [anotherPath path];
+	DKDrawablePathJoinResult result = kDKPathNoJoin;
 
-    if (anotherPath == nil || [ap isPathClosed] || [[self path] isPathClosed])
-        return kDKPathNoJoin;
+	if (anotherPath == nil || [ap isPathClosed] || [[self path] isPathClosed])
+		return kDKPathNoJoin;
 
-    // do the paths share an end point?
+	// do the paths share an end point?
 
-    CGFloat dist;
-    NSInteger j, k;
+	CGFloat dist;
+	NSInteger j, k;
 
-    NSPoint p1[2];
-    NSPoint p2[2];
+	NSPoint p1[2];
+	NSPoint p2[2];
 
-    p1[0] = [[self path] firstPoint]; // head 1
-    p1[1] = [[self path] lastPoint]; // tail 1
-    p2[0] = [ap firstPoint]; // head 2
-    p2[1] = [ap lastPoint]; // tail 2
+	p1[0] = [[self path] firstPoint]; // head 1
+	p1[1] = [[self path] lastPoint]; // tail 1
+	p2[0] = [ap firstPoint]; // head 2
+	p2[1] = [ap lastPoint]; // tail 2
 
-    for (j = 0; j < 2; ++j) {
-        for (k = 0; k < 2; ++k) {
-            dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+	for (j = 0; j < 2; ++j) {
+		for (k = 0; k < 2; ++k) {
+			dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
-            if (dist <= tol) {
-                // found points close enough to join. One path may need reversing to accomplish it.
-                // this would be when joining two heads or two tails.
+			if (dist <= tol) {
+				// found points close enough to join. One path may need reversing to accomplish it.
+				// this would be when joining two heads or two tails.
 
-                if (k == 0)
-                    result = kDKPathOtherPathWasPrepended;
-                else
-                    result = kDKPathOtherPathWasAppended;
+				if (k == 0)
+					result = kDKPathOtherPathWasPrepended;
+				else
+					result = kDKPathOtherPathWasAppended;
 
-                // test if both ends would be joined
+				// test if both ends would be joined
 
-                k = (k == 0) ? 1 : 0;
-                j = (j == 0) ? 1 : 0;
+				k = (k == 0) ? 1 : 0;
+				j = (j == 0) ? 1 : 0;
 
-                dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+				dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
-                if (dist <= tol)
-                    result = kDKPathBothEndsJoined;
+				if (dist <= tol)
+					result = kDKPathBothEndsJoined;
 
-                return result;
-            }
-        }
-    }
+				return result;
+			}
+		}
+	}
 
-    return result;
+	return result;
 }
 
 /** @brief Joins open paths together at their ends
@@ -520,126 +520,126 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (DKDrawablePathJoinResult)join:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol makeColinear:(BOOL)colin
 {
-    //	LogEvent_(kReactiveEvent, @"joining path, tolerance = %f", tol );
+	//	LogEvent_(kReactiveEvent, @"joining path, tolerance = %f", tol );
 
-    NSBezierPath* ap = [anotherPath path];
-    DKDrawablePathJoinResult result = kDKPathNoJoin;
+	NSBezierPath* ap = [anotherPath path];
+	DKDrawablePathJoinResult result = kDKPathNoJoin;
 
-    if ([ap isPathClosed] || [[self path] isPathClosed])
-        return kDKPathNoJoin;
+	if ([ap isPathClosed] || [[self path] isPathClosed])
+		return kDKPathNoJoin;
 
-    // do the paths share an end point?
+	// do the paths share an end point?
 
-    CGFloat dist;
-    NSInteger j, k;
+	CGFloat dist;
+	NSInteger j, k;
 
-    NSPoint p1[2];
-    NSPoint p2[2];
+	NSPoint p1[2];
+	NSPoint p2[2];
 
-    p1[0] = [[self path] firstPoint]; // head 1
-    p1[1] = [[self path] lastPoint]; // tail 1
-    p2[0] = [ap firstPoint]; // head 2
-    p2[1] = [ap lastPoint]; // tail 2
+	p1[0] = [[self path] firstPoint]; // head 1
+	p1[1] = [[self path] lastPoint]; // tail 1
+	p2[0] = [ap firstPoint]; // head 2
+	p2[1] = [ap lastPoint]; // tail 2
 
-    for (j = 0; j < 2; ++j) {
-        for (k = 0; k < 2; ++k) {
-            dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+	for (j = 0; j < 2; ++j) {
+		for (k = 0; k < 2; ++k) {
+			dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
-            if (dist <= tol) {
-                // found points close enough to join. One path may need reversing to accomplish it.
-                // this would be when joining two heads or two tails.
+			if (dist <= tol) {
+				// found points close enough to join. One path may need reversing to accomplish it.
+				// this would be when joining two heads or two tails.
 
-                if (k == j)
-                    ap = [ap bezierPathByReversingPath];
+				if (k == j)
+					ap = [ap bezierPathByReversingPath];
 
-                // join to whichever path has the tail aligned
+				// join to whichever path has the tail aligned
 
-                NSBezierPath* newPath;
-                NSInteger ec;
+				NSBezierPath* newPath;
+				NSInteger ec;
 
-                if (k == 0) {
-                    newPath = [ap copy];
-                    ec = [newPath elementCount] - 1;
-                    [newPath appendBezierPathRemovingInitialMoveToPoint:[self path]];
+				if (k == 0) {
+					newPath = [ap copy];
+					ec = [newPath elementCount] - 1;
+					[newPath appendBezierPathRemovingInitialMoveToPoint:[self path]];
 
-                    result = kDKPathOtherPathWasPrepended;
-                } else {
-                    // copy existing path rather than append directly - this ensures the operation is
-                    // undoable.
+					result = kDKPathOtherPathWasPrepended;
+				} else {
+					// copy existing path rather than append directly - this ensures the operation is
+					// undoable.
 
-                    newPath = [[self path] copy];
-                    ec = [newPath elementCount] - 1;
-                    [newPath appendBezierPathRemovingInitialMoveToPoint:ap];
+					newPath = [[self path] copy];
+					ec = [newPath elementCount] - 1;
+					[newPath appendBezierPathRemovingInitialMoveToPoint:ap];
 
-                    result = kDKPathOtherPathWasAppended;
-                }
+					result = kDKPathOtherPathWasAppended;
+				}
 
-                if (colin) {
-                    // colinearise the join if the segments joined are both curvetos
+				if (colin) {
+					// colinearise the join if the segments joined are both curvetos
 
-                    NSPoint elp[6];
-                    NSBezierPathElement el = [newPath elementAtIndex:ec
-                                                    associatedPoints:elp];
-                    NSBezierPathElement fl = [newPath elementAtIndex:ec + 1
-                                                    associatedPoints:&elp[3]];
+					NSPoint elp[6];
+					NSBezierPathElement el = [newPath elementAtIndex:ec
+													associatedPoints:elp];
+					NSBezierPathElement fl = [newPath elementAtIndex:ec + 1
+													associatedPoints:&elp[3]];
 
-                    if ((el == fl) && (el == NSCurveToBezierPathElement)) {
-                        [NSBezierPath colineariseVertex:&elp[1]
-                                                    cpA:&elp[1]
-                                                    cpB:&elp[3]];
+					if ((el == fl) && (el == NSCurveToBezierPathElement)) {
+						[NSBezierPath colineariseVertex:&elp[1]
+													cpA:&elp[1]
+													cpB:&elp[3]];
 
-                        [newPath setAssociatedPoints:elp
-                                             atIndex:ec];
-                        [newPath setAssociatedPoints:&elp[3]
-                                             atIndex:ec + 1];
-                    }
-                }
+						[newPath setAssociatedPoints:elp
+											 atIndex:ec];
+						[newPath setAssociatedPoints:&elp[3]
+											 atIndex:ec + 1];
+					}
+				}
 
-                // if the other ends are also aligned, close the path
+				// if the other ends are also aligned, close the path
 
-                k = (k == 0) ? 1 : 0;
-                j = (j == 0) ? 1 : 0;
+				k = (k == 0) ? 1 : 0;
+				j = (j == 0) ? 1 : 0;
 
-                dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+				dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
-                if (dist <= tol) {
-                    [newPath closePath];
+				if (dist <= tol) {
+					[newPath closePath];
 
-                    result = kDKPathBothEndsJoined;
+					result = kDKPathBothEndsJoined;
 
-                    if (colin) {
-                        // colinearise the join if the segments joined are both curvetos
+					if (colin) {
+						// colinearise the join if the segments joined are both curvetos
 
-                        ec = [newPath elementCount] - 3;
+						ec = [newPath elementCount] - 3;
 
-                        NSPoint elp[6];
-                        NSBezierPathElement el = [newPath elementAtIndex:ec
-                                                        associatedPoints:elp];
-                        NSBezierPathElement fl = [newPath elementAtIndex:1
-                                                        associatedPoints:&elp[3]];
+						NSPoint elp[6];
+						NSBezierPathElement el = [newPath elementAtIndex:ec
+														associatedPoints:elp];
+						NSBezierPathElement fl = [newPath elementAtIndex:1
+														associatedPoints:&elp[3]];
 
-                        if ((el == fl) && (el == NSCurveToBezierPathElement)) {
-                            [NSBezierPath colineariseVertex:&elp[1]
-                                                        cpA:&elp[1]
-                                                        cpB:&elp[3]];
+						if ((el == fl) && (el == NSCurveToBezierPathElement)) {
+							[NSBezierPath colineariseVertex:&elp[1]
+														cpA:&elp[1]
+														cpB:&elp[3]];
 
-                            [newPath setAssociatedPoints:elp
-                                                 atIndex:ec];
-                            [newPath setAssociatedPoints:&elp[3]
-                                                 atIndex:1];
-                        }
-                    }
-                }
+							[newPath setAssociatedPoints:elp
+												 atIndex:ec];
+							[newPath setAssociatedPoints:&elp[3]
+												 atIndex:1];
+						}
+					}
+				}
 
-                [self setPath:newPath];
-                [newPath release];
+				[self setPath:newPath];
+				[newPath release];
 
-                return result;
-            }
-        }
-    }
+				return result;
+			}
+		}
+	}
 
-    return kDKPathNoJoin;
+	return kDKPathNoJoin;
 }
 
 /** @brief Converts each subpath in the current path to a separate object
@@ -650,28 +650,28 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (NSArray*)breakApart
 {
-    // returns a list of path objects each containing one subpath from this object's path. If this path only has one subpath, this
-    // returns one object in the array which is equivalent to a copy.
+	// returns a list of path objects each containing one subpath from this object's path. If this path only has one subpath, this
+	// returns one object in the array which is equivalent to a copy.
 
-    NSArray* subpaths = [[self path] subPaths];
-    NSEnumerator* iter = [subpaths objectEnumerator];
-    NSBezierPath* pp;
-    NSMutableArray* newObjects;
-    DKDrawablePath* dp;
+	NSArray* subpaths = [[self path] subPaths];
+	NSEnumerator* iter = [subpaths objectEnumerator];
+	NSBezierPath* pp;
+	NSMutableArray* newObjects;
+	DKDrawablePath* dp;
 
-    newObjects = [[NSMutableArray alloc] init];
+	newObjects = [[NSMutableArray alloc] init];
 
-    while ((pp = [iter nextObject])) {
-        if (![pp isEmpty]) {
-            dp = [[self class] drawablePathWithBezierPath:pp];
+	while ((pp = [iter nextObject])) {
+		if (![pp isEmpty]) {
+			dp = [[self class] drawablePathWithBezierPath:pp];
 
-            [dp setStyle:[self style]];
-            [dp setUserInfo:[self userInfo]];
-            [newObjects addObject:dp];
-        }
-    }
+			[dp setStyle:[self style]];
+			[dp setUserInfo:[self userInfo]];
+			[newObjects addObject:dp];
+		}
+	}
 
-    return [newObjects autorelease];
+	return [newObjects autorelease];
 }
 
 /** @brief Splits a path into two paths at a specific point
@@ -683,30 +683,30 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (DKDrawablePath*)dividePathAtLength:(CGFloat)distance
 {
-    if (distance > 0) {
-        CGFloat length = [self length];
+	if (distance > 0) {
+		CGFloat length = [self length];
 
-        if (distance < length) {
-            NSBezierPath* remainingPath = [[self path] bezierPathByTrimmingFromLength:distance];
-            NSBezierPath* newPath = [[self path] bezierPathByTrimmingToLength:distance];
+		if (distance < length) {
+			NSBezierPath* remainingPath = [[self path] bezierPathByTrimmingFromLength:distance];
+			NSBezierPath* newPath = [[self path] bezierPathByTrimmingToLength:distance];
 
-            [self setPath:newPath];
+			[self setPath:newPath];
 
-            // create a new path object for the remainder path
+			// create a new path object for the remainder path
 
-            DKDrawablePath* path = [[[self class] alloc] initWithBezierPath:remainingPath];
+			DKDrawablePath* path = [[[self class] alloc] initWithBezierPath:remainingPath];
 
-            // copy over all the various gubbins we neeed to:
+			// copy over all the various gubbins we neeed to:
 
-            [path setStyle:[self style]];
-            [path addUserInfo:[self userInfo]];
-            [path setGhosted:[self isGhosted]];
+			[path setStyle:[self style]];
+			[path addUserInfo:[self userInfo]];
+			[path setGhosted:[self isGhosted]];
 
-            return [path autorelease];
-        }
-    }
+			return [path autorelease];
+		}
+	}
 
-    return nil;
+	return nil;
 }
 
 #pragma mark -
@@ -719,14 +719,14 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (void)setPathCreationMode:(DKDrawablePathCreationMode)editPathMode
 {
-    m_editPathMode = editPathMode;
+	m_editPathMode = editPathMode;
 }
 
 /** @brief Gets the "mode" of operation for creating new path objects
  */
 - (DKDrawablePathCreationMode)pathCreationMode
 {
-    return m_editPathMode;
+	return m_editPathMode;
 }
 
 #pragma mark -
@@ -738,183 +738,183 @@ static NSColor* sInfoWindowColour = nil;
  */
 - (void)pathCreateLoop:(NSPoint)initialPoint
 {
-    // when we create a path, we capture the mouse on the first mouse down and don't return until the path is complete. This is necessary because
-    // the layer isn't designed to handle this type of multi-click behaviour by itself.
+	// when we create a path, we capture the mouse on the first mouse down and don't return until the path is complete. This is necessary because
+	// the layer isn't designed to handle this type of multi-click behaviour by itself.
 
-    // on entry, the path shouldn't yet exist.
+	// on entry, the path shouldn't yet exist.
 
-    NSEvent* theEvent;
-    NSInteger mask = NSLeftMouseDownMask | NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask | NSKeyDownMask;
-    NSView* view = [[self layer] currentView];
-    BOOL loop = YES;
-    BOOL first = YES;
-    NSInteger element, partcode;
-    NSPoint p, ip, centre, opp, nsp;
+	NSEvent* theEvent;
+	NSInteger mask = NSLeftMouseDownMask | NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask | NSKeyDownMask;
+	NSView* view = [[self layer] currentView];
+	BOOL loop = YES;
+	BOOL first = YES;
+	NSInteger element, partcode;
+	NSPoint p, ip, centre, opp, nsp;
 
-    p = ip = [self snappedMousePoint:initialPoint
-                     withControlFlag:NO];
+	p = ip = [self snappedMousePoint:initialPoint
+					 withControlFlag:NO];
 
-    LogEvent_(kReactiveEvent, @"entering path create loop");
+	LogEvent_(kReactiveEvent, @"entering path create loop");
 
-    NSBezierPath* path = [NSBezierPath bezierPath];
+	NSBezierPath* path = [NSBezierPath bezierPath];
 
-    [path moveToPoint:p];
-    [path curveToPoint:p
-         controlPoint1:p
-         controlPoint2:p];
-    [self setPath:path];
+	[path moveToPoint:p];
+	[path curveToPoint:p
+		 controlPoint1:p
+		 controlPoint2:p];
+	[self setPath:path];
 
-    element = 1;
-    partcode = partcodeForElementControlPoint(element, 1);
+	element = 1;
+	partcode = partcodeForElementControlPoint(element, 1);
 
-    while (loop) {
-        theEvent = [NSApp nextEventMatchingMask:mask
-                                      untilDate:[NSDate distantFuture]
-                                         inMode:NSEventTrackingRunLoopMode
-                                        dequeue:YES];
+	while (loop) {
+		theEvent = [NSApp nextEventMatchingMask:mask
+									  untilDate:[NSDate distantFuture]
+										 inMode:NSEventTrackingRunLoopMode
+										dequeue:YES];
 
-        // look for any special key codes that we want to detect
+		// look for any special key codes that we want to detect
 
-        if ([theEvent type] == NSKeyDown) {
-            unsigned short code = [theEvent keyCode];
+		if ([theEvent type] == NSKeyDown) {
+			unsigned short code = [theEvent keyCode];
 
-            if (code == 0x33) // delete key
-            {
-                if (element > 1) {
-                    // back up to the previously placed point.
+			if (code == 0x33) // delete key
+			{
+				if (element > 1) {
+					// back up to the previously placed point.
 
-                    path = [path bezierPathByRemovingTrailingElements:1];
-                    partcode = partcodeForElementControlPoint(--element, 2);
-                    [path setControlPoint:p
-                              forPartcode:partcode];
-                    [self setPath:path];
-                }
-                continue;
-            }
-        }
+					path = [path bezierPathByRemovingTrailingElements:1];
+					partcode = partcodeForElementControlPoint(--element, 2);
+					[path setControlPoint:p
+							  forPartcode:partcode];
+					[self setPath:path];
+				}
+				continue;
+			}
+		}
 
-        p = nsp = [view convertPoint:[theEvent locationInWindow]
-                            fromView:nil];
-        p = [self snappedMousePoint:p
-                    withControlFlag:NO];
+		p = nsp = [view convertPoint:[theEvent locationInWindow]
+							fromView:nil];
+		p = [self snappedMousePoint:p
+					withControlFlag:NO];
 
-        if ([self shouldEndPathCreationWithEvent:theEvent]) {
-            // if the event isn't a mouse event, post a mouse up which the creation tool needs to complete the object creation
+		if ([self shouldEndPathCreationWithEvent:theEvent]) {
+			// if the event isn't a mouse event, post a mouse up which the creation tool needs to complete the object creation
 
-            if ([theEvent type] == NSKeyDown)
-                theEvent = [self postMouseUpAtPoint:p];
+			if ([theEvent type] == NSKeyDown)
+				theEvent = [self postMouseUpAtPoint:p];
 
-            NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
+			NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
 
-            if (NSPointInRect(p, tr)) {
-                loop = NO;
-                [path setControlPoint:p
-                          forPartcode:partcode];
+			if (NSPointInRect(p, tr)) {
+				loop = NO;
+				[path setControlPoint:p
+						  forPartcode:partcode];
 
-                // set cp2 to the colinear opposite of cp1 of element 1
+				// set cp2 to the colinear opposite of cp1 of element 1
 
-                centre = [path controlPointForPartcode:partcodeForElement(0)];
+				centre = [path controlPointForPartcode:partcodeForElement(0)];
 
-                opp = [NSBezierPath colinearPointForPoint:[path controlPointForPartcode:partcodeForElementControlPoint(1, 0)]
-                                              centrePoint:centre];
-                [path setControlPoint:opp
-                          forPartcode:partcodeForElementControlPoint(element, 1)];
-            }
+				opp = [NSBezierPath colinearPointForPoint:[path controlPointForPartcode:partcodeForElementControlPoint(1, 0)]
+											  centrePoint:centre];
+				[path setControlPoint:opp
+						  forPartcode:partcodeForElementControlPoint(element, 1)];
+			}
 
-            goto finish;
-        }
+			goto finish;
+		}
 
-        switch ([theEvent type]) {
-        case NSLeftMouseDown: {
-            // when the mouse goes down we start a new segment unless we hit the first point in which case we
-            // terminate the loop
+		switch ([theEvent type]) {
+		case NSLeftMouseDown: {
+			// when the mouse goes down we start a new segment unless we hit the first point in which case we
+			// terminate the loop
 
-            NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
+			NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
 
-            if (NSPointInRect(p, tr)) {
-                loop = NO;
-                [path setControlPoint:p
-                          forPartcode:partcode];
+			if (NSPointInRect(p, tr)) {
+				loop = NO;
+				[path setControlPoint:p
+						  forPartcode:partcode];
 
-                // set cp2 to the colinear opposite of cp1 of element 1
+				// set cp2 to the colinear opposite of cp1 of element 1
 
-                centre = [path controlPointForPartcode:partcodeForElement(0)];
+				centre = [path controlPointForPartcode:partcodeForElement(0)];
 
-                opp = [NSBezierPath colinearPointForPoint:[path controlPointForPartcode:partcodeForElementControlPoint(1, 0)]
-                                              centrePoint:centre];
-                [path setControlPoint:opp
-                          forPartcode:partcodeForElementControlPoint(element, 1)];
-            } else {
-                [path curveToPoint:p
-                     controlPoint1:p
-                     controlPoint2:p];
-                ++element;
-                partcode = partcodeForElementControlPoint(element, 2);
-                first = NO;
-            }
-        } break;
+				opp = [NSBezierPath colinearPointForPoint:[path controlPointForPartcode:partcodeForElementControlPoint(1, 0)]
+											  centrePoint:centre];
+				[path setControlPoint:opp
+						  forPartcode:partcodeForElementControlPoint(element, 1)];
+			} else {
+				[path curveToPoint:p
+					 controlPoint1:p
+					 controlPoint2:p];
+				++element;
+				partcode = partcodeForElementControlPoint(element, 2);
+				first = NO;
+			}
+		} break;
 
-        case NSLeftMouseDragged:
-            // a mouse drag pulls out a curve segment with all three points set to <p>. The partcode and element are
-            // already set
-            [self notifyVisualChange];
-            [view autoscroll:theEvent];
-            [path setControlPoint:p
-                      forPartcode:partcode];
-            [path setControlPoint:p
-                      forPartcode:partcodeForElementControlPoint(element, 1)];
-            [path setControlPoint:p
-                      forPartcode:partcodeForElementControlPoint(element, 0)];
+		case NSLeftMouseDragged:
+			// a mouse drag pulls out a curve segment with all three points set to <p>. The partcode and element are
+			// already set
+			[self notifyVisualChange];
+			[view autoscroll:theEvent];
+			[path setControlPoint:p
+					  forPartcode:partcode];
+			[path setControlPoint:p
+					  forPartcode:partcodeForElementControlPoint(element, 1)];
+			[path setControlPoint:p
+					  forPartcode:partcodeForElementControlPoint(element, 0)];
 
-            if (!first) {
-                // also affects the previous cp2 colinearly
+			if (!first) {
+				// also affects the previous cp2 colinearly
 
-                centre = [path controlPointForPartcode:partcodeForElementControlPoint(element - 1, 2)];
-                opp = [NSBezierPath colinearPointForPoint:p
-                                              centrePoint:centre];
+				centre = [path controlPointForPartcode:partcodeForElementControlPoint(element - 1, 2)];
+				opp = [NSBezierPath colinearPointForPoint:p
+											  centrePoint:centre];
 
-                [path setControlPoint:opp
-                          forPartcode:partcodeForElementControlPoint(element - 1, 1)];
-            }
+				[path setControlPoint:opp
+						  forPartcode:partcodeForElementControlPoint(element - 1, 1)];
+			}
 
-            [self showLengthInfo:[path length]
-                         atPoint:nsp];
-            break;
+			[self showLengthInfo:[path length]
+						 atPoint:nsp];
+			break;
 
-        case NSLeftMouseUp:
-            partcode = partcodeForElementControlPoint(element, 2);
-            break;
+		case NSLeftMouseUp:
+			partcode = partcodeForElementControlPoint(element, 2);
+			break;
 
-        case NSMouseMoved:
-            [self notifyVisualChange];
-            [view autoscroll:theEvent];
-            [path setControlPoint:p
-                      forPartcode:partcode];
-            [path setControlPoint:p
-                      forPartcode:partcodeForElementControlPoint(element, 1)];
-            [self showLengthInfo:[path length]
-                         atPoint:nsp];
-            break;
+		case NSMouseMoved:
+			[self notifyVisualChange];
+			[view autoscroll:theEvent];
+			[path setControlPoint:p
+					  forPartcode:partcode];
+			[path setControlPoint:p
+					  forPartcode:partcodeForElementControlPoint(element, 1)];
+			[self showLengthInfo:[path length]
+						 atPoint:nsp];
+			break;
 
-        case NSScrollWheel:
-            [view scrollWheel:theEvent];
-            break;
+		case NSScrollWheel:
+			[view scrollWheel:theEvent];
+			break;
 
-        default:
-            break;
-        }
+		default:
+			break;
+		}
 
-        [self notifyVisualChange];
-    }
+		[self notifyVisualChange];
+	}
 
 finish:
-    LogEvent_(kReactiveEvent, @"ending path create loop");
+	LogEvent_(kReactiveEvent, @"ending path create loop");
 
-    [NSApp discardEventsMatchingMask:NSAnyEventMask
-                         beforeEvent:theEvent];
+	[NSApp discardEventsMatchingMask:NSAnyEventMask
+						 beforeEvent:theEvent];
 
-    [self setPath:[path bezierPathByStrippingRedundantElements]];
-    [self setPathCreationMode:kDKPathCreateModeEditExisting];
+	[self setPath:[path bezierPathByStrippingRedundantElements]];
+	[self setPathCreationMode:kDKPathCreateModeEditExisting];
 }
 
 /** @brief Event loop for creating a single straight line
@@ -924,111 +924,111 @@ finish:
  */
 - (void)lineCreateLoop:(NSPoint)initialPoint
 {
-    // creates a single straight line path, with only one segment. There are two ways a user can make a line - click and release,
-    // move, then click. Or click-drag-release.
+	// creates a single straight line path, with only one segment. There are two ways a user can make a line - click and release,
+	// move, then click. Or click-drag-release.
 
-    NSEvent* theEvent;
-    NSInteger mask = NSLeftMouseDownMask | NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask;
-    NSView* view = [[self layer] currentView];
-    BOOL loop = YES, constrain = NO;
-    NSInteger element, partcode;
-    NSPoint p, ip, nsp;
-    CGFloat angleConstraint = [self.class angularConstraintAngle];
+	NSEvent* theEvent;
+	NSInteger mask = NSLeftMouseDownMask | NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask;
+	NSView* view = [[self layer] currentView];
+	BOOL loop = YES, constrain = NO;
+	NSInteger element, partcode;
+	NSPoint p, ip, nsp;
+	CGFloat angleConstraint = [self.class angularConstraintAngle];
 
-    p = ip = [self snappedMousePoint:initialPoint
-                     withControlFlag:NO];
+	p = ip = [self snappedMousePoint:initialPoint
+					 withControlFlag:NO];
 
-    LogEvent_(kReactiveEvent, @"entering line create loop");
+	LogEvent_(kReactiveEvent, @"entering line create loop");
 
-    NSBezierPath* path = [NSBezierPath bezierPath];
+	NSBezierPath* path = [NSBezierPath bezierPath];
 
-    [path moveToPoint:p];
-    [path lineToPoint:p];
-    [self setPath:path];
+	[path moveToPoint:p];
+	[path lineToPoint:p];
+	[self setPath:path];
 
-    element = 1;
-    partcode = partcodeForElement(element);
+	element = 1;
+	partcode = partcodeForElement(element);
 
-    while (loop) {
-        theEvent = [NSApp nextEventMatchingMask:mask
-                                      untilDate:[NSDate distantFuture]
-                                         inMode:NSEventTrackingRunLoopMode
-                                        dequeue:YES];
+	while (loop) {
+		theEvent = [NSApp nextEventMatchingMask:mask
+									  untilDate:[NSDate distantFuture]
+										 inMode:NSEventTrackingRunLoopMode
+										dequeue:YES];
 
-        p = nsp = [view convertPoint:[theEvent locationInWindow]
-                            fromView:nil];
-        p = [self snappedMousePoint:p
-                    withControlFlag:NO];
+		p = nsp = [view convertPoint:[theEvent locationInWindow]
+							fromView:nil];
+		p = [self snappedMousePoint:p
+					withControlFlag:NO];
 
-        constrain = [self constrainWithEvent:theEvent];
+		constrain = [self constrainWithEvent:theEvent];
 
-        if (constrain) {
-            // slope of line is forced to be on 15 degree intervals
+		if (constrain) {
+			// slope of line is forced to be on 15 degree intervals
 
-            CGFloat angle = atan2f(p.y - ip.y, p.x - ip.x);
-            CGFloat rem = fmod(angle, angleConstraint);
-            CGFloat radius = hypotf(p.x - ip.x, p.y - ip.y);
+			CGFloat angle = atan2f(p.y - ip.y, p.x - ip.x);
+			CGFloat rem = fmod(angle, angleConstraint);
+			CGFloat radius = hypotf(p.x - ip.x, p.y - ip.y);
 
-            if (rem > angleConstraint / 2.0)
-                angle += (angleConstraint - rem);
-            else
-                angle -= rem;
+			if (rem > angleConstraint / 2.0)
+				angle += (angleConstraint - rem);
+			else
+				angle -= rem;
 
-            p.x = ip.x + (radius * cosf(angle));
-            p.y = ip.y + (radius * sinf(angle));
-        }
+			p.x = ip.x + (radius * cosf(angle));
+			p.y = ip.y + (radius * sinf(angle));
+		}
 
-        switch ([theEvent type]) {
-        case NSLeftMouseDown:
-            loop = NO;
-            break;
+		switch ([theEvent type]) {
+		case NSLeftMouseDown:
+			loop = NO;
+			break;
 
-        case NSLeftMouseDragged:
-            [self notifyVisualChange];
-            [view autoscroll:theEvent];
-            [path setControlPoint:p
-                      forPartcode:partcode];
-            [self showLengthInfo:[path length]
-                         atPoint:nsp];
-            break;
+		case NSLeftMouseDragged:
+			[self notifyVisualChange];
+			[view autoscroll:theEvent];
+			[path setControlPoint:p
+					  forPartcode:partcode];
+			[self showLengthInfo:[path length]
+						 atPoint:nsp];
+			break;
 
-        case NSLeftMouseUp:
-            // if the final point is in the same place as the first point, do a click-drag-click creation. Otherwise
-            // we've already dragged so finish.
+		case NSLeftMouseUp:
+			// if the final point is in the same place as the first point, do a click-drag-click creation. Otherwise
+			// we've already dragged so finish.
 
-            if (!NSEqualPoints(p, ip)) {
-                loop = NO;
-            }
-            break;
+			if (!NSEqualPoints(p, ip)) {
+				loop = NO;
+			}
+			break;
 
-        case NSMouseMoved:
-            [self notifyVisualChange];
-            [view autoscroll:theEvent];
-            [path setControlPoint:p
-                      forPartcode:partcode];
-            [self showLengthInfo:[path length]
-                         atPoint:nsp];
-            break;
+		case NSMouseMoved:
+			[self notifyVisualChange];
+			[view autoscroll:theEvent];
+			[path setControlPoint:p
+					  forPartcode:partcode];
+			[self showLengthInfo:[path length]
+						 atPoint:nsp];
+			break;
 
-        case NSScrollWheel:
-            [view scrollWheel:theEvent];
-            break;
+		case NSScrollWheel:
+			[view scrollWheel:theEvent];
+			break;
 
-        default:
-            break;
-        }
+		default:
+			break;
+		}
 
-        [self notifyVisualChange];
-    }
+		[self notifyVisualChange];
+	}
 
-    LogEvent_(kReactiveEvent, @"ending line create loop");
+	LogEvent_(kReactiveEvent, @"ending line create loop");
 
-    [NSApp discardEventsMatchingMask:NSAnyEventMask
-                         beforeEvent:theEvent];
+	[NSApp discardEventsMatchingMask:NSAnyEventMask
+						 beforeEvent:theEvent];
 
-    [self setPathCreationMode:kDKPathCreateModeEditExisting];
-    [self notifyVisualChange];
-    [self postMouseUpAtPoint:p];
+	[self setPathCreationMode:kDKPathCreateModeEditExisting];
+	[self notifyVisualChange];
+	[self postMouseUpAtPoint:p];
 }
 
 /** @brief Event loop for creating a polygon consisting of straight line sections
@@ -1038,155 +1038,155 @@ finish:
  */
 - (void)polyCreateLoop:(NSPoint)initialPoint
 {
-    // creates a polygon or multi-segment line. Each click makes a new node, double-click or click in first point to finish.
+	// creates a polygon or multi-segment line. Each click makes a new node, double-click or click in first point to finish.
 
-    NSEvent* theEvent;
-    NSInteger mask = NSLeftMouseDownMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask | NSKeyDownMask;
-    NSView* view = [[self layer] currentView];
-    BOOL loop = YES, constrain = NO;
-    NSInteger element, partcode;
-    NSPoint p, ip, lp, nsp;
+	NSEvent* theEvent;
+	NSInteger mask = NSLeftMouseDownMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask | NSKeyDownMask;
+	NSView* view = [[self layer] currentView];
+	BOOL loop = YES, constrain = NO;
+	NSInteger element, partcode;
+	NSPoint p, ip, lp, nsp;
 
-    p = ip = [self snappedMousePoint:initialPoint
-                     withControlFlag:NO];
+	p = ip = [self snappedMousePoint:initialPoint
+					 withControlFlag:NO];
 
-    LogEvent_(kReactiveEvent, @"entering poly create loop");
+	LogEvent_(kReactiveEvent, @"entering poly create loop");
 
-    // if we are extending an existing path, start with that path and its open endpoint. Otherwise start from scratch
+	// if we are extending an existing path, start with that path and its open endpoint. Otherwise start from scratch
 
-    NSBezierPath* path;
+	NSBezierPath* path;
 
-    if (m_extending && ![self isPathClosed]) {
-        path = [self path];
-        element = [path elementCount];
-    } else {
-        path = [NSBezierPath bezierPath];
+	if (m_extending && ![self isPathClosed]) {
+		path = [self path];
+		element = [path elementCount];
+	} else {
+		path = [NSBezierPath bezierPath];
 
-        [path moveToPoint:p];
-        [path lineToPoint:p];
-        [self setPath:path];
+		[path moveToPoint:p];
+		[path lineToPoint:p];
+		[self setPath:path];
 
-        element = 1;
-    }
+		element = 1;
+	}
 
-    partcode = partcodeForElement(element);
-    lp = ip;
+	partcode = partcodeForElement(element);
+	lp = ip;
 
-    //[NSEvent startPeriodicEventsAfterDelay:0.5 withPeriod:0.1];
+	//[NSEvent startPeriodicEventsAfterDelay:0.5 withPeriod:0.1];
 
-    while (loop) {
-        theEvent = [NSApp nextEventMatchingMask:mask
-                                      untilDate:[NSDate distantFuture]
-                                         inMode:NSEventTrackingRunLoopMode
-                                        dequeue:YES];
+	while (loop) {
+		theEvent = [NSApp nextEventMatchingMask:mask
+									  untilDate:[NSDate distantFuture]
+										 inMode:NSEventTrackingRunLoopMode
+										dequeue:YES];
 
-        // look for any special key codes that we want to detect
+		// look for any special key codes that we want to detect
 
-        if ([theEvent type] == NSKeyDown) {
-            unsigned short code = [theEvent keyCode];
+		if ([theEvent type] == NSKeyDown) {
+			unsigned short code = [theEvent keyCode];
 
-            if (code == 0x33) // delete key
-            {
-                if (element > 1) {
-                    // back up to the previously placed point.
+			if (code == 0x33) // delete key
+			{
+				if (element > 1) {
+					// back up to the previously placed point.
 
-                    path = [path bezierPathByRemovingTrailingElements:1];
-                    partcode = partcodeForElement(--element);
-                    lp = [path controlPointForPartcode:partcodeForElement(element - 1)];
-                    [path setControlPoint:p
-                              forPartcode:partcode];
-                    [self setPath:path];
-                }
-                continue;
-            }
-        }
+					path = [path bezierPathByRemovingTrailingElements:1];
+					partcode = partcodeForElement(--element);
+					lp = [path controlPointForPartcode:partcodeForElement(element - 1)];
+					[path setControlPoint:p
+							  forPartcode:partcode];
+					[self setPath:path];
+				}
+				continue;
+			}
+		}
 
-        if ([self shouldEndPathCreationWithEvent:theEvent]) {
-            if ([theEvent type] == NSKeyDown)
-                theEvent = [self postMouseUpAtPoint:p];
-            else
-                path = [path bezierPathByRemovingTrailingElements:1];
+		if ([self shouldEndPathCreationWithEvent:theEvent]) {
+			if ([theEvent type] == NSKeyDown)
+				theEvent = [self postMouseUpAtPoint:p];
+			else
+				path = [path bezierPathByRemovingTrailingElements:1];
 
-            NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
+			NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
 
-            if (NSPointInRect(p, tr)) {
-                path = [path bezierPathByRemovingTrailingElements:1];
-                [path closePath];
-            }
-            goto finish;
-        }
+			if (NSPointInRect(p, tr)) {
+				path = [path bezierPathByRemovingTrailingElements:1];
+				[path closePath];
+			}
+			goto finish;
+		}
 
-        p = nsp = [view convertPoint:[theEvent locationInWindow]
-                            fromView:nil];
-        p = [self snappedMousePoint:p
-                    withControlFlag:NO];
+		p = nsp = [view convertPoint:[theEvent locationInWindow]
+							fromView:nil];
+		p = [self snappedMousePoint:p
+					withControlFlag:NO];
 
-        constrain = (([theEvent modifierFlags] & NSShiftKeyMask) != 0);
+		constrain = (([theEvent modifierFlags] & NSShiftKeyMask) != 0);
 
-        if (constrain) {
-            // slope of line is forced to be on 15 degree intervals
+		if (constrain) {
+			// slope of line is forced to be on 15 degree intervals
 
-            CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
-            CGFloat rem = fmod(angle, sAngleConstraint);
-            CGFloat radius = hypotf(p.x - lp.x, p.y - lp.y);
+			CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
+			CGFloat rem = fmod(angle, sAngleConstraint);
+			CGFloat radius = hypotf(p.x - lp.x, p.y - lp.y);
 
-            if (rem > sAngleConstraint / 2.0)
-                angle += (sAngleConstraint - rem);
-            else
-                angle -= rem;
+			if (rem > sAngleConstraint / 2.0)
+				angle += (sAngleConstraint - rem);
+			else
+				angle -= rem;
 
-            p.x = lp.x + (radius * cosf(angle));
-            p.y = lp.y + (radius * sinf(angle));
-        }
+			p.x = lp.x + (radius * cosf(angle));
+			p.y = lp.y + (radius * sinf(angle));
+		}
 
-        switch ([theEvent type]) {
-        case NSLeftMouseDown: {
-            NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
+		switch ([theEvent type]) {
+		case NSLeftMouseDown: {
+			NSRect tr = NSMakeRect(ip.x - 3.0, ip.y - 3.0, 6.0, 6.0);
 
-            if (NSPointInRect(p, tr)) {
-                loop = NO;
-                path = [path bezierPathByRemovingTrailingElements:1];
-                [path closePath];
-            } else {
-                lp = p;
+			if (NSPointInRect(p, tr)) {
+				loop = NO;
+				path = [path bezierPathByRemovingTrailingElements:1];
+				[path closePath];
+			} else {
+				lp = p;
 
-                [path lineToPoint:p];
-                partcode = partcodeForElement(++element);
-            }
-        } break;
+				[path lineToPoint:p];
+				partcode = partcodeForElement(++element);
+			}
+		} break;
 
-        case NSMouseMoved:
-            [view autoscroll:theEvent];
-            [self notifyVisualChange];
-            [path setControlPoint:p
-                      forPartcode:partcode];
-            [self showLengthInfo:[path length]
-                         atPoint:nsp];
-            break;
+		case NSMouseMoved:
+			[view autoscroll:theEvent];
+			[self notifyVisualChange];
+			[path setControlPoint:p
+					  forPartcode:partcode];
+			[self showLengthInfo:[path length]
+						 atPoint:nsp];
+			break;
 
-        case NSScrollWheel:
-            [view scrollWheel:theEvent];
-            break;
+		case NSScrollWheel:
+			[view scrollWheel:theEvent];
+			break;
 
-        default:
-            break;
-        }
+		default:
+			break;
+		}
 
-        [self notifyVisualChange];
-    }
+		[self notifyVisualChange];
+	}
 
 finish:
-    LogEvent_(kReactiveEvent, @"ending poly create loop");
+	LogEvent_(kReactiveEvent, @"ending poly create loop");
 
-    //[NSEvent stopPeriodicEvents];
+	//[NSEvent stopPeriodicEvents];
 
-    [NSApp discardEventsMatchingMask:NSAnyEventMask
-                         beforeEvent:theEvent];
+	[NSApp discardEventsMatchingMask:NSAnyEventMask
+						 beforeEvent:theEvent];
 
-    [self setPath:path];
+	[self setPath:path];
 
-    [self setPathCreationMode:kDKPathCreateModeEditExisting];
-    [self notifyVisualChange];
+	[self setPathCreationMode:kDKPathCreateModeEditExisting];
+	[self notifyVisualChange];
 }
 
 /** @brief Event loop for creating a curved path by fitting it to a series of sampled points
@@ -1196,80 +1196,80 @@ finish:
  */
 - (void)freehandCreateLoop:(NSPoint)initialPoint
 {
-    // this works by building a freehand vector path (line segments) then smoothing it using curve fitting at the end.
+	// this works by building a freehand vector path (line segments) then smoothing it using curve fitting at the end.
 
-    NSEvent* theEvent;
-    NSInteger mask = NSLeftMouseDownMask | NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSPeriodicMask | NSScrollWheelMask;
-    NSView* view = [[self layer] currentView];
-    BOOL loop = YES;
-    NSPoint p, lastPoint;
+	NSEvent* theEvent;
+	NSInteger mask = NSLeftMouseDownMask | NSLeftMouseUpMask | NSLeftMouseDraggedMask | NSPeriodicMask | NSScrollWheelMask;
+	NSView* view = [[self layer] currentView];
+	BOOL loop = YES;
+	NSPoint p, lastPoint;
 
-    p = lastPoint = initialPoint;
+	p = lastPoint = initialPoint;
 
-    LogEvent_(kReactiveEvent, @"entering freehand create loop");
+	LogEvent_(kReactiveEvent, @"entering freehand create loop");
 
-    NSBezierPath* path = [NSBezierPath bezierPath];
+	NSBezierPath* path = [NSBezierPath bezierPath];
 
-    [path moveToPoint:p];
-    [self setPath:path];
+	[path moveToPoint:p];
+	[self setPath:path];
 
-    while (loop) {
-        theEvent = [NSApp nextEventMatchingMask:mask
-                                      untilDate:[NSDate distantFuture]
-                                         inMode:NSEventTrackingRunLoopMode
-                                        dequeue:YES];
+	while (loop) {
+		theEvent = [NSApp nextEventMatchingMask:mask
+									  untilDate:[NSDate distantFuture]
+										 inMode:NSEventTrackingRunLoopMode
+										dequeue:YES];
 
-        p = [view convertPoint:[theEvent locationInWindow]
-                      fromView:nil];
+		p = [view convertPoint:[theEvent locationInWindow]
+					  fromView:nil];
 
-        BOOL shiftKey = ([theEvent modifierFlags] & NSShiftKeyMask) != 0;
+		BOOL shiftKey = ([theEvent modifierFlags] & NSShiftKeyMask) != 0;
 
-        p = [self snappedMousePoint:p
-                    withControlFlag:shiftKey];
+		p = [self snappedMousePoint:p
+					withControlFlag:shiftKey];
 
-        switch ([theEvent type]) {
-        case NSLeftMouseDown:
-            loop = NO;
-            break;
+		switch ([theEvent type]) {
+		case NSLeftMouseDown:
+			loop = NO;
+			break;
 
-        case NSLeftMouseDragged:
-            if (!NSEqualPoints(p, lastPoint)) {
-                [path lineToPoint:p];
+		case NSLeftMouseDragged:
+			if (!NSEqualPoints(p, lastPoint)) {
+				[path lineToPoint:p];
 #ifdef qUseCurveFit
-                [self setPath:curveFitPath(path, m_freehandEpsilon)];
+				[self setPath:curveFitPath(path, m_freehandEpsilon)];
 #else
-                [self invalidateCache];
-                [self notifyVisualChange];
+				[self invalidateCache];
+				[self notifyVisualChange];
 #endif
-                lastPoint = p;
-            }
-            [view autoscroll:theEvent];
-            break;
+				lastPoint = p;
+			}
+			[view autoscroll:theEvent];
+			break;
 
-        case NSLeftMouseUp:
-            loop = NO;
-            break;
+		case NSLeftMouseUp:
+			loop = NO;
+			break;
 
-        case NSScrollWheel:
-            [view scrollWheel:theEvent];
-            break;
+		case NSScrollWheel:
+			[view scrollWheel:theEvent];
+			break;
 
-        default:
-            break;
-        }
+		default:
+			break;
+		}
 
-        [self notifyVisualChange];
-    }
+		[self notifyVisualChange];
+	}
 
-    LogEvent_(kReactiveEvent, @"ending freehand create loop");
+	LogEvent_(kReactiveEvent, @"ending freehand create loop");
 
-    [NSApp discardEventsMatchingMask:NSAnyEventMask
-                         beforeEvent:theEvent];
+	[NSApp discardEventsMatchingMask:NSAnyEventMask
+						 beforeEvent:theEvent];
 
-    [self setPathCreationMode:kDKPathCreateModeEditExisting];
-    [self notifyVisualChange];
+	[self setPathCreationMode:kDKPathCreateModeEditExisting];
+	[self notifyVisualChange];
 
-    [view mouseUp:theEvent];
+	[view mouseUp:theEvent];
 }
 
 /** @brief Event loop for creating an arc or a wedge
@@ -1279,163 +1279,163 @@ finish:
  */
 - (void)arcCreateLoop:(NSPoint)initialPoint
 {
-    // creates a circle segment. First click sets the centre, second the first radius, third the second radius.
+	// creates a circle segment. First click sets the centre, second the first radius, third the second radius.
 
-    NSEvent* theEvent;
-    NSInteger mask = NSLeftMouseDownMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask;
-    NSView* view = [[self layer] currentView];
-    BOOL loop = YES, constrain = NO;
-    NSInteger element, partcode, phase;
-    NSPoint p, centre, lp, nsp;
-    CGFloat radius = 0.0;
-    CGFloat startAngle = 0.0;
-    CGFloat endAngle;
-    DKStyle* savedStyle = nil;
-    NSString* abbrUnits = [[self drawing] abbreviatedDrawingUnits];
+	NSEvent* theEvent;
+	NSInteger mask = NSLeftMouseDownMask | NSMouseMovedMask | NSPeriodicMask | NSScrollWheelMask;
+	NSView* view = [[self layer] currentView];
+	BOOL loop = YES, constrain = NO;
+	NSInteger element, partcode, phase;
+	NSPoint p, centre, lp, nsp;
+	CGFloat radius = 0.0;
+	CGFloat startAngle = 0.0;
+	CGFloat endAngle;
+	DKStyle* savedStyle = nil;
+	NSString* abbrUnits = [[self drawing] abbreviatedDrawingUnits];
 
-    savedStyle = [[self style] retain];
-    [self setStyle:[DKStyle styleWithFillColour:nil
-                                   strokeColour:[NSColor redColor]
-                                    strokeWidth:2.0]];
+	savedStyle = [[self style] retain];
+	[self setStyle:[DKStyle styleWithFillColour:nil
+								   strokeColour:[NSColor redColor]
+									strokeWidth:2.0]];
 
-    p = centre = [self snappedMousePoint:initialPoint
-                         withControlFlag:NO];
-    phase = 0; // set radius
+	p = centre = [self snappedMousePoint:initialPoint
+						 withControlFlag:NO];
+	phase = 0; // set radius
 
-    LogEvent_(kReactiveEvent, @"entering arc create loop");
+	LogEvent_(kReactiveEvent, @"entering arc create loop");
 
-    NSBezierPath* path = [NSBezierPath bezierPath];
+	NSBezierPath* path = [NSBezierPath bezierPath];
 
-    [path moveToPoint:p];
-    [path lineToPoint:p]; // begin rubber band of first line segment
-    [self setPath:path];
+	[path moveToPoint:p];
+	[path lineToPoint:p]; // begin rubber band of first line segment
+	[self setPath:path];
 
-    element = 1;
-    partcode = partcodeForElement(element);
-    lp = centre;
+	element = 1;
+	partcode = partcodeForElement(element);
+	lp = centre;
 
-    while (loop) {
-        theEvent = [NSApp nextEventMatchingMask:mask
-                                      untilDate:[NSDate distantFuture]
-                                         inMode:NSEventTrackingRunLoopMode
-                                        dequeue:YES];
+	while (loop) {
+		theEvent = [NSApp nextEventMatchingMask:mask
+									  untilDate:[NSDate distantFuture]
+										 inMode:NSEventTrackingRunLoopMode
+										dequeue:YES];
 
-        nsp = [view convertPoint:[theEvent locationInWindow]
-                        fromView:nil];
-        p = [self snappedMousePoint:nsp
-                    withControlFlag:NO];
+		nsp = [view convertPoint:[theEvent locationInWindow]
+						fromView:nil];
+		p = [self snappedMousePoint:nsp
+					withControlFlag:NO];
 
-        constrain = (([theEvent modifierFlags] & NSShiftKeyMask) != 0);
+		constrain = (([theEvent modifierFlags] & NSShiftKeyMask) != 0);
 
-        if (constrain) {
-            // slope of line is forced to be on 15¬¨¬®‚Äö√†√ª intervals
+		if (constrain) {
+			// slope of line is forced to be on 15¬¨¬®‚Äö√†√ª intervals
 
-            CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
-            CGFloat rem = fmod(angle, sAngleConstraint);
-            CGFloat rad = hypotf(p.x - lp.x, p.y - lp.y);
+			CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
+			CGFloat rem = fmod(angle, sAngleConstraint);
+			CGFloat rad = hypotf(p.x - lp.x, p.y - lp.y);
 
-            if (rem > sAngleConstraint / 2.0)
-                angle += (sAngleConstraint - rem);
-            else
-                angle -= rem;
+			if (rem > sAngleConstraint / 2.0)
+				angle += (sAngleConstraint - rem);
+			else
+				angle -= rem;
 
-            p.x = lp.x + (rad * cosf(angle));
-            p.y = lp.y + (rad * sinf(angle));
-        }
+			p.x = lp.x + (rad * cosf(angle));
+			p.y = lp.y + (rad * sinf(angle));
+		}
 
-        switch ([theEvent type]) {
-        case NSLeftMouseDown: {
-            if (phase == 0) {
-                // set radius as the distance from this click to the centre, and the
-                // start angle based on the slope of this line
+		switch ([theEvent type]) {
+		case NSLeftMouseDown: {
+			if (phase == 0) {
+				// set radius as the distance from this click to the centre, and the
+				// start angle based on the slope of this line
 
-                radius = hypotf(p.x - centre.x, p.y - centre.y);
-                startAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
-                ++phase; // now setting the arc
-            } else
-                loop = NO;
-        } break;
+				radius = hypotf(p.x - centre.x, p.y - centre.y);
+				startAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
+				++phase; // now setting the arc
+			} else
+				loop = NO;
+		} break;
 
-        case NSMouseMoved:
-            [self notifyVisualChange];
-            [view autoscroll:theEvent];
-            if (phase == 0) {
-                [path setControlPoint:p
-                          forPartcode:partcode];
-                radius = hypotf(p.x - centre.x, p.y - centre.y);
+		case NSMouseMoved:
+			[self notifyVisualChange];
+			[view autoscroll:theEvent];
+			if (phase == 0) {
+				[path setControlPoint:p
+						  forPartcode:partcode];
+				radius = hypotf(p.x - centre.x, p.y - centre.y);
 
-                if ([[self class] displaysSizeInfoWhenDragging]) {
-                    CGFloat rad = [[self drawing] convertLength:radius];
-                    p.x += 4;
-                    p.y -= 12;
-
-#warning 64BIT: Check formatting arguments
-                    [[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@", rad, abbrUnits]
-                                                   atPoint:nsp];
-                }
-            } else if (phase == 1) {
-                endAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
-
-                [self setStyle:savedStyle];
-                [path removeAllPoints];
-                if ([self pathCreationMode] == kDKPathCreateModeWedgeSegment)
-                    [path moveToPoint:centre];
-
-                [path appendBezierPathWithArcWithCenter:centre
-                                                 radius:radius
-                                             startAngle:startAngle
-                                               endAngle:endAngle];
-
-                if ([self pathCreationMode] == kDKPathCreateModeWedgeSegment)
-                    [path closePath];
-                [self setPath:path];
-
-                if ([[self class] displaysSizeInfoWhenDragging]) {
-                    CGFloat rad = [[self drawing] convertLength:radius];
-                    CGFloat angle = endAngle - startAngle;
-
-                    if (angle < 0)
-                        angle = 360.0 + angle;
-
-                    p.x += 4;
-                    p.y -= 12;
+				if ([[self class] displaysSizeInfoWhenDragging]) {
+					CGFloat rad = [[self drawing] convertLength:radius];
+					p.x += 4;
+					p.y -= 12;
 
 #warning 64BIT: Check formatting arguments
-                    [[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
-                                                   atPoint:nsp];
-                }
-            }
-            break;
+					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@", rad, abbrUnits]
+												   atPoint:nsp];
+				}
+			} else if (phase == 1) {
+				endAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
 
-        case NSScrollWheel:
-            [view scrollWheel:theEvent];
-            break;
+				[self setStyle:savedStyle];
+				[path removeAllPoints];
+				if ([self pathCreationMode] == kDKPathCreateModeWedgeSegment)
+					[path moveToPoint:centre];
 
-        default:
-            break;
-        }
+				[path appendBezierPathWithArcWithCenter:centre
+												 radius:radius
+											 startAngle:startAngle
+											   endAngle:endAngle];
 
-        [self notifyVisualChange];
-    }
+				if ([self pathCreationMode] == kDKPathCreateModeWedgeSegment)
+					[path closePath];
+				[self setPath:path];
 
-    LogEvent_(kReactiveEvent, @"ending arc create loop");
+				if ([[self class] displaysSizeInfoWhenDragging]) {
+					CGFloat rad = [[self drawing] convertLength:radius];
+					CGFloat angle = endAngle - startAngle;
 
-    [NSApp discardEventsMatchingMask:NSAnyEventMask
-                         beforeEvent:theEvent];
+					if (angle < 0)
+						angle = 360.0 + angle;
 
-    [self setPathCreationMode:kDKPathCreateModeEditExisting];
-    [self setStyle:savedStyle];
-    [savedStyle release];
-    [self notifyVisualChange];
+					p.x += 4;
+					p.y -= 12;
 
-    [view mouseUp:theEvent];
+#warning 64BIT: Check formatting arguments
+					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
+												   atPoint:nsp];
+				}
+			}
+			break;
+
+		case NSScrollWheel:
+			[view scrollWheel:theEvent];
+			break;
+
+		default:
+			break;
+		}
+
+		[self notifyVisualChange];
+	}
+
+	LogEvent_(kReactiveEvent, @"ending arc create loop");
+
+	[NSApp discardEventsMatchingMask:NSAnyEventMask
+						 beforeEvent:theEvent];
+
+	[self setPathCreationMode:kDKPathCreateModeEditExisting];
+	[self setStyle:savedStyle];
+	[savedStyle release];
+	[self notifyVisualChange];
+
+	[view mouseUp:theEvent];
 }
 
 /** @brief Overrideable hook at the end of path creation
  */
 - (void)pathCreationLoopDidEnd
 {
-    // override when you need to hook into the end of path creation
+	// override when you need to hook into the end of path creation
 }
 
 #pragma mark -
@@ -1448,35 +1448,35 @@ finish:
  */
 - (BOOL)shouldEndPathCreationWithEvent:(NSEvent*)event
 {
-    // determine if path creation loop should be terminated - can be overridden to terminate differently.
+	// determine if path creation loop should be terminated - can be overridden to terminate differently.
 
-    if ([event type] == NSLeftMouseDown)
-        return ([event clickCount] >= 2);
-    else if ([event type] == NSKeyDown)
-        return YES;
-    else
-        return NO;
+	if ([event type] == NSLeftMouseDown)
+		return ([event clickCount] >= 2);
+	else if ([event type] == NSKeyDown)
+		return YES;
+	else
+		return NO;
 }
 
 - (NSEvent*)postMouseUpAtPoint:(NSPoint)p
 {
-    NSView* view = [[self layer] currentView];
-    p = [view convertPoint:p
-                    toView:nil];
+	NSView* view = [[self layer] currentView];
+	p = [view convertPoint:p
+					toView:nil];
 
-    NSEvent* mouseUp = [NSEvent mouseEventWithType:NSLeftMouseUp
-                                          location:p
-                                     modifierFlags:0
-                                         timestamp:[NSDate timeIntervalSinceReferenceDate]
-                                      windowNumber:[[view window] windowNumber]
-                                           context:[NSGraphicsContext currentContext]
-                                       eventNumber:0
-                                        clickCount:0
-                                          pressure:0.0];
+	NSEvent* mouseUp = [NSEvent mouseEventWithType:NSLeftMouseUp
+										  location:p
+									 modifierFlags:0
+										 timestamp:[NSDate timeIntervalSinceReferenceDate]
+									  windowNumber:[[view window] windowNumber]
+										   context:[NSGraphicsContext currentContext]
+									   eventNumber:0
+										clickCount:0
+										  pressure:0.0];
 
-    [NSApp postEvent:mouseUp
-             atStart:NO];
-    return mouseUp;
+	[NSApp postEvent:mouseUp
+			 atStart:NO];
+	return mouseUp;
 }
 
 /** @brief Discover whether the path is open or closed
@@ -1486,7 +1486,7 @@ finish:
  */
 - (BOOL)isPathClosed
 {
-    return [[self path] isPathClosed];
+	return [[self path] isPathClosed];
 }
 
 /** @brief Discover whether the given partcode is an open end point of the path
@@ -1498,15 +1498,15 @@ finish:
  */
 - (BOOL)isOpenEndPoint:(NSInteger)partcode
 {
-    if (![self isPathClosed]) {
-        if (partcode == partcodeForElement(0))
-            return YES;
+	if (![self isPathClosed]) {
+		if (partcode == partcodeForElement(0))
+			return YES;
 
-        if (partcode == [[self path] partcodeForLastPoint])
-            return YES;
-    }
+		if (partcode == [[self path] partcodeForLastPoint])
+			return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Set whether the object should extend its path or start from scratch
@@ -1518,7 +1518,7 @@ finish:
  */
 - (void)setShouldExtendExistingPath:(BOOL)xtend
 {
-    m_extending = xtend;
+	m_extending = xtend;
 }
 
 /** @brief Conditionally display the length info feedback window
@@ -1530,11 +1530,11 @@ finish:
  */
 - (void)showLengthInfo:(CGFloat)dist atPoint:(NSPoint)p
 {
-    if ([[self class] displaysSizeInfoWhenDragging]) {
-        NSString* fmt = [[self drawing] formattedConvertedLength:dist];
-        [[self layer] showInfoWindowWithString:fmt
-                                       atPoint:p];
-    }
+	if ([[self class] displaysSizeInfoWhenDragging]) {
+		NSString* fmt = [[self drawing] formattedConvertedLength:dist];
+		[[self layer] showInfoWindowWithString:fmt
+									   atPoint:p];
+	}
 }
 
 #pragma mark -
@@ -1547,18 +1547,18 @@ finish:
  @return YES if the point could be deleted, NO if not */
 - (BOOL)pathDeletePointWithPartCode:(NSInteger)pc
 {
-    // delete the point with the given partcode
+	// delete the point with the given partcode
 
-    if (pc > kDKDrawingNoPart && [[self path] elementCount] > 2) {
-        NSBezierPath* np = [[self path] deleteControlPointForPartcode:pc];
+	if (pc > kDKDrawingNoPart && [[self path] elementCount] > 2) {
+		NSBezierPath* np = [[self path] deleteControlPointForPartcode:pc];
 
-        if (np != [self path]) {
-            [self setPath:np];
-            return YES;
-        }
-    }
+		if (np != [self path]) {
+			[self setPath:np];
+			return YES;
+		}
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Delete a segment from the path at the given index
@@ -1570,14 +1570,14 @@ finish:
  */
 - (BOOL)pathDeleteElementAtIndex:(NSInteger)indx
 {
-    NSBezierPath* np = [[self path] bezierPathByRemovingElementAtIndex:indx];
+	NSBezierPath* np = [[self path] bezierPathByRemovingElementAtIndex:indx];
 
-    if (np != [self path]) {
-        [self setPath:np];
-        return YES;
-    }
+	if (np != [self path]) {
+		[self setPath:np];
+		return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Delete a segment from the path at the given point
@@ -1588,15 +1588,15 @@ finish:
  */
 - (BOOL)pathDeleteElementAtPoint:(NSPoint)loc
 {
-    CGFloat tol = MAX(4.0, [[self style] maxStrokeWidth]);
-    NSInteger indx = [[self path] elementHitByPoint:loc
-                                          tolerance:tol
-                                             tValue:NULL];
+	CGFloat tol = MAX(4.0, [[self style] maxStrokeWidth]);
+	NSInteger indx = [[self path] elementHitByPoint:loc
+										  tolerance:tol
+											 tValue:NULL];
 
-    if (indx != -1)
-        return [self pathDeleteElementAtIndex:indx];
+	if (indx != -1)
+		return [self pathDeleteElementAtIndex:indx];
 
-    return NO;
+	return NO;
 }
 
 /** @brief Insert a new point into the path
@@ -1607,21 +1607,21 @@ finish:
  @return the inserted point's new partcode, or 0 if the location was too far off the path. */
 - (NSInteger)pathInsertPointAt:(NSPoint)loc ofType:(DKDrawablePathInsertType)pathPointType
 {
-    // insert a new point at the given location, returning the new point's partcode
+	// insert a new point at the given location, returning the new point's partcode
 
-    CGFloat tol = MAX(4.0, [[self style] maxStrokeWidth]);
+	CGFloat tol = MAX(4.0, [[self style] maxStrokeWidth]);
 
-    NSBezierPath* np = [[self path] insertControlPointAtPoint:loc
-                                                    tolerance:tol
-                                                         type:pathPointType];
+	NSBezierPath* np = [[self path] insertControlPointAtPoint:loc
+													tolerance:tol
+														 type:pathPointType];
 
-    if (np != nil) {
-        [self setPath:np];
-        return [np partcodeHitByPoint:loc
-                            tolerance:tol];
-    }
+	if (np != nil) {
+		[self setPath:np];
+		return [np partcodeHitByPoint:loc
+							tolerance:tol];
+	}
 
-    return kDKDrawingNoPart;
+	return kDKDrawingNoPart;
 }
 
 /** @brief Move a single control point to a new position
@@ -1632,37 +1632,37 @@ finish:
  @param evt the event (used to grab modifier flags) */
 - (void)movePathPartcode:(NSInteger)pc toPoint:(NSPoint)mp event:(NSEvent*)evt
 {
-    if (pc < 4)
-        return;
+	if (pc < 4)
+		return;
 
-    BOOL option = (([evt modifierFlags] & NSAlternateKeyMask) != 0);
-    BOOL cmd = (([evt modifierFlags] & NSCommandKeyMask) != 0);
+	BOOL option = (([evt modifierFlags] & NSAlternateKeyMask) != 0);
+	BOOL cmd = (([evt modifierFlags] & NSCommandKeyMask) != 0);
 
-    // modifier keys change the editing of path control points thus:
+	// modifier keys change the editing of path control points thus:
 
-    // +shift	- constrains curve control point angles to 15 degree intervals
-    // +option	- forces the control points either side of an on-path point to maintain the same radial distance
-    // +cmd		- allows control points to be moved fully independently
-    // +ctrl	- temporarily disables snap to grid
+	// +shift	- constrains curve control point angles to 15 degree intervals
+	// +option	- forces the control points either side of an on-path point to maintain the same radial distance
+	// +cmd		- allows control points to be moved fully independently
+	// +ctrl	- temporarily disables snap to grid
 
-    NSRect oldBounds = [self bounds];
+	NSRect oldBounds = [self bounds];
 
-    // if cmd + option is down, cmd takes priority of +defaultOnPathHitDetectionPriority is NO, option takes priority if
-    // it returns YES
+	// if cmd + option is down, cmd takes priority of +defaultOnPathHitDetectionPriority is NO, option takes priority if
+	// it returns YES
 
-    if (cmd && option) {
-        if ([[self class] defaultOnPathHitDetectionPriority])
-            cmd = NO;
-    }
+	if (cmd && option) {
+		if ([[self class] defaultOnPathHitDetectionPriority])
+			cmd = NO;
+	}
 
-    [self notifyVisualChange];
-    [[self path] moveControlPointPartcode:pc
-                                  toPoint:mp
-                                 colinear:!cmd
-                                 coradial:option
-                           constrainAngle:[self constrainWithEvent:evt]];
-    [self notifyGeometryChange:oldBounds];
-    [self notifyVisualChange];
+	[self notifyVisualChange];
+	[[self path] moveControlPointPartcode:pc
+								  toPoint:mp
+								 colinear:!cmd
+								 coradial:option
+						   constrainAngle:[self constrainWithEvent:evt]];
+	[self notifyGeometryChange:oldBounds];
+	[self notifyVisualChange];
 }
 
 #pragma mark -
@@ -1675,7 +1675,7 @@ finish:
  */
 - (void)setFreehandSmoothing:(CGFloat)fs
 {
-    m_freehandEpsilon = fs;
+	m_freehandEpsilon = fs;
 }
 
 /** @brief Get the smoothness valueof paths created in freehand mode
@@ -1683,7 +1683,7 @@ finish:
  */
 - (CGFloat)freehandSmoothing
 {
-    return m_freehandEpsilon;
+	return m_freehandEpsilon;
 }
 
 #pragma mark -
@@ -1696,20 +1696,20 @@ finish:
  */
 - (DKDrawableShape*)makeShape
 {
-    NSBezierPath* mp = [[[self path] copy] autorelease];
+	NSBezierPath* mp = [[[self path] copy] autorelease];
 
-    Class shapeClass = [DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]];
+	Class shapeClass = [DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]];
 
-    DKDrawableShape* so = [shapeClass drawableShapeWithBezierPath:mp
-                                                        withStyle:[self style]];
-    [so setUserInfo:[self userInfo]];
+	DKDrawableShape* so = [shapeClass drawableShapeWithBezierPath:mp
+														withStyle:[self style]];
+	[so setUserInfo:[self userInfo]];
 
-    return so;
+	return so;
 }
 
 - (BOOL)canConvertToTrack
 {
-    return NO;
+	return NO;
 }
 
 /** @brief Make a copy of the path but with a parallel offset
@@ -1719,18 +1719,18 @@ finish:
  */
 - (DKDrawablePath*)makeParallelWithOffset:(CGFloat)distance smooth:(BOOL)smooth
 {
-    DKDrawablePath* newPath = [self copy];
+	DKDrawablePath* newPath = [self copy];
 
-    if (distance != 0.0) {
-        NSBezierPath* np = [[self path] paralleloidPathWithOffset2:distance];
+	if (distance != 0.0) {
+		NSBezierPath* np = [[self path] paralleloidPathWithOffset2:distance];
 
-        if (smooth)
-            np = [np bezierPathByInterpolatingPath:1.0];
+		if (smooth)
+			np = [np bezierPathByInterpolatingPath:1.0];
 
-        [newPath setPath:np];
-    }
+		[newPath setPath:np];
+	}
 
-    return [newPath autorelease];
+	return [newPath autorelease];
 }
 
 #pragma mark -
@@ -1745,25 +1745,25 @@ finish:
 {
 #pragma unused(sender)
 
-    // replaces itself in the owning layer with a shape object with the same path.
+	// replaces itself in the owning layer with a shape object with the same path.
 
-    DKObjectDrawingLayer* layer = (DKObjectDrawingLayer*)[self layer];
-    NSInteger myIndex = [layer indexOfObject:self];
+	DKObjectDrawingLayer* layer = (DKObjectDrawingLayer*)[self layer];
+	NSInteger myIndex = [layer indexOfObject:self];
 
-    DKDrawableShape* so = [self makeShape];
+	DKDrawableShape* so = [self makeShape];
 
-    if (so) {
-        [so willBeAddedAsSubstituteFor:self
-                               toLayer:layer];
+	if (so) {
+		[so willBeAddedAsSubstituteFor:self
+							   toLayer:layer];
 
-        [layer recordSelectionForUndo];
-        [layer addObject:so
-                 atIndex:myIndex];
-        [layer replaceSelectionWithObject:so];
-        [layer removeObject:self];
-        [layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Shape", @"undo string for convert to shape")];
-    } else
-        NSBeep();
+		[layer recordSelectionForUndo];
+		[layer addObject:so
+				 atIndex:myIndex];
+		[layer replaceSelectionWithObject:so];
+		[layer removeObject:self];
+		[layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Shape", @"undo string for convert to shape")];
+	} else
+		NSBeep();
 }
 
 /** @brief Adds some random offset to every point on the path
@@ -1775,11 +1775,11 @@ finish:
 {
 #pragma unused(sender)
 
-    // just for fun,this adds a little random offset to every control point on the path. For some paths (such as text) this produces
-    // a fairly interesting effect.
+	// just for fun,this adds a little random offset to every control point on the path. For some paths (such as text) this produces
+	// a fairly interesting effect.
 
-    [self setPath:[[self path] bezierPathByRandomisingPoints:0.0f]];
-    [[self undoManager] setActionName:NSLocalizedString(@"Add Randomness", @"undo string for path add random")];
+	[self setPath:[[self path] bezierPathByRandomisingPoints:0.0f]];
+	[[self undoManager] setActionName:NSLocalizedString(@"Add Randomness", @"undo string for path add random")];
 }
 
 /** @brief Replaces the path with an outline of the path
@@ -1794,40 +1794,40 @@ finish:
 {
 #pragma unused(sender)
 
-    NSBezierPath* path = [self path];
+	NSBezierPath* path = [self path];
 
-    CGFloat sw = [[self style] maxStrokeWidthDifference] / 2.0;
-    [[self style] applyStrokeAttributesToPath:path];
+	CGFloat sw = [[self style] maxStrokeWidthDifference] / 2.0;
+	[[self style] applyStrokeAttributesToPath:path];
 
-    if (sw > 0.0)
-        [path setLineWidth:[path lineWidth] - sw];
+	if (sw > 0.0)
+		[path setLineWidth:[path lineWidth] - sw];
 
-    path = [path strokedPath];
-    [self setPath:path];
+	path = [path strokedPath];
+	[self setPath:path];
 
-    // try to keep the appearance similar by creating a fill style with the same colour as the original's stroke
+	// try to keep the appearance similar by creating a fill style with the same colour as the original's stroke
 
-    NSArray* rs = [[self style] renderersOfClass:[DKStroke class]];
-    if ([rs count] > 0) {
-        DKStroke* stroke = [rs lastObject];
-        DKStroke* firstStroke = [rs objectAtIndex:0];
-        NSColor* strokeColour = nil;
+	NSArray* rs = [[self style] renderersOfClass:[DKStroke class]];
+	if ([rs count] > 0) {
+		DKStroke* stroke = [rs lastObject];
+		DKStroke* firstStroke = [rs objectAtIndex:0];
+		NSColor* strokeColour = nil;
 
-        if (firstStroke != stroke)
-            strokeColour = [firstStroke colour];
+		if (firstStroke != stroke)
+			strokeColour = [firstStroke colour];
 
-        DKStyle* newStyle = [DKStyle styleWithFillColour:[stroke colour]
-                                            strokeColour:strokeColour];
+		DKStyle* newStyle = [DKStyle styleWithFillColour:[stroke colour]
+											strokeColour:strokeColour];
 
-        stroke = [[newStyle renderersOfClass:[DKStroke class]] lastObject];
+		stroke = [[newStyle renderersOfClass:[DKStroke class]] lastObject];
 
-        if (stroke)
-            [stroke setWidth:sw];
+		if (stroke)
+			[stroke setWidth:sw];
 
-        [self setStyle:newStyle];
-    }
+		[self setStyle:newStyle];
+	}
 
-    [[self undoManager] setActionName:NSLocalizedString(@"Convert To Outline", @"undo string for convert to outline")];
+	[[self undoManager] setActionName:NSLocalizedString(@"Convert To Outline", @"undo string for convert to outline")];
 }
 
 /** @brief Replaces the object with new objects, one for each subpath in the original
@@ -1837,66 +1837,66 @@ finish:
 {
 #pragma unused(sender)
 
-    NSArray* broken = [self breakApart];
+	NSArray* broken = [self breakApart];
 
-    DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
+	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
 
-    if (odl && [broken count] > 1) {
-        NSEnumerator* iter = [broken objectEnumerator];
-        DKDrawableObject* obj;
+	if (odl && [broken count] > 1) {
+		NSEnumerator* iter = [broken objectEnumerator];
+		DKDrawableObject* obj;
 
-        while ((obj = [iter nextObject]))
-            [obj willBeAddedAsSubstituteFor:self
-                                    toLayer:odl];
+		while ((obj = [iter nextObject]))
+			[obj willBeAddedAsSubstituteFor:self
+									toLayer:odl];
 
-        [odl recordSelectionForUndo];
-        [odl addObjectsFromArray:broken];
-        [odl removeObject:self];
-        [odl exchangeSelectionWithObjectsFromArray:broken];
-        [odl commitSelectionUndoWithActionName:NSLocalizedString(@"Break Apart", @"undo string for break apart")];
-    }
+		[odl recordSelectionForUndo];
+		[odl addObjectsFromArray:broken];
+		[odl removeObject:self];
+		[odl exchangeSelectionWithObjectsFromArray:broken];
+		[odl commitSelectionUndoWithActionName:NSLocalizedString(@"Break Apart", @"undo string for break apart")];
+	}
 }
 
 - (IBAction)roughenPath:(id)sender
 {
 #pragma unused(sender)
 
-    NSBezierPath* path = [self path];
+	NSBezierPath* path = [self path];
 
-    CGFloat sw = [[self style] maxStrokeWidthDifference] / 2.0;
-    [[self style] applyStrokeAttributesToPath:path];
+	CGFloat sw = [[self style] maxStrokeWidthDifference] / 2.0;
+	[[self style] applyStrokeAttributesToPath:path];
 
-    if (sw > 0.0)
-        [path setLineWidth:[path lineWidth] - sw];
+	if (sw > 0.0)
+		[path setLineWidth:[path lineWidth] - sw];
 
-    CGFloat roughness = [[self style] maxStrokeWidth] / 4.0;
+	CGFloat roughness = [[self style] maxStrokeWidth] / 4.0;
 
-    path = [path bezierPathWithRoughenedStrokeOutline:roughness];
-    [self setPath:path];
+	path = [path bezierPathWithRoughenedStrokeOutline:roughness];
+	[self setPath:path];
 
-    // try to keep the appearance similar by creating a fill style with the same colour as the original's stroke
+	// try to keep the appearance similar by creating a fill style with the same colour as the original's stroke
 
-    NSArray* rs = [[self style] renderersOfClass:[DKStroke class]];
-    if ([rs count] > 0) {
-        DKStroke* stroke = [rs lastObject];
-        DKStroke* firstStroke = [rs objectAtIndex:0];
-        NSColor* strokeColour = nil;
+	NSArray* rs = [[self style] renderersOfClass:[DKStroke class]];
+	if ([rs count] > 0) {
+		DKStroke* stroke = [rs lastObject];
+		DKStroke* firstStroke = [rs objectAtIndex:0];
+		NSColor* strokeColour = nil;
 
-        if (firstStroke != stroke)
-            strokeColour = [firstStroke colour];
+		if (firstStroke != stroke)
+			strokeColour = [firstStroke colour];
 
-        DKStyle* newStyle = [DKStyle styleWithFillColour:[stroke colour]
-                                            strokeColour:strokeColour];
+		DKStyle* newStyle = [DKStyle styleWithFillColour:[stroke colour]
+											strokeColour:strokeColour];
 
-        stroke = [[newStyle renderersOfClass:[DKStroke class]] lastObject];
+		stroke = [[newStyle renderersOfClass:[DKStroke class]] lastObject];
 
-        if (stroke)
-            [stroke setWidth:sw];
+		if (stroke)
+			[stroke setWidth:sw];
 
-        [self setStyle:newStyle];
-    }
+		[self setStyle:newStyle];
+	}
 
-    [[self undoManager] setActionName:NSLocalizedString(@"Roughen Path", @"undo string for roughen path")];
+	[[self undoManager] setActionName:NSLocalizedString(@"Roughen Path", @"undo string for roughen path")];
 }
 
 #ifdef qUseCurveFit
@@ -1911,8 +1911,8 @@ finish:
 {
 #pragma unused(sender)
 
-    [self setPath:[[self path] bezierPathByInterpolatingPath:1.0]];
-    [[self undoManager] setActionName:NSLocalizedString(@"Smooth Path", @"smooth path action name")];
+	[self setPath:[[self path] bezierPathByInterpolatingPath:1.0]];
+	[[self undoManager] setActionName:NSLocalizedString(@"Smooth Path", @"smooth path action name")];
 }
 
 /** @brief Tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
@@ -1925,8 +1925,8 @@ finish:
 {
 #pragma unused(sender)
 
-    [self setPath:smartCurveFitPath([self path], [self freehandSmoothing] * 4.0, 1.2)];
-    [[self undoManager] setActionName:NSLocalizedString(@"Smooth More", @"smooth more action name")];
+	[self setPath:smartCurveFitPath([self path], [self freehandSmoothing] * 4.0, 1.2)];
+	[[self undoManager] setActionName:NSLocalizedString(@"Smooth More", @"smooth more action name")];
 }
 #endif /* defined(qUseCurveFit) */
 
@@ -1939,17 +1939,17 @@ finish:
 {
 #pragma unused(sender)
 
-    DKDrawablePath* newPath = [self makeParallelWithOffset:30.0
-                                                    smooth:YES];
+	DKDrawablePath* newPath = [self makeParallelWithOffset:30.0
+													smooth:YES];
 
-    DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
+	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
 
-    if (odl) {
-        [odl recordSelectionForUndo];
-        [odl addObject:newPath];
-        [odl exchangeSelectionWithObjectsFromArray:[NSArray arrayWithObject:newPath]];
-        [odl commitSelectionUndoWithActionName:NSLocalizedString(@"Parallel Copy", @"undo string for parallel copy")];
-    }
+	if (odl) {
+		[odl recordSelectionForUndo];
+		[odl addObject:newPath];
+		[odl exchangeSelectionWithObjectsFromArray:[NSArray arrayWithObject:newPath]];
+		[odl commitSelectionUndoWithActionName:NSLocalizedString(@"Parallel Copy", @"undo string for parallel copy")];
+	}
 }
 
 /** @brief Attempts to curve-fit the object's path
@@ -1961,11 +1961,11 @@ finish:
 {
 #pragma unused(sender)
 
-    if (![self locked]) {
-        NSBezierPath* newPath = [[self path] bezierPathByUnflatteningPath];
-        [self setPath:newPath];
-        [[self undoManager] setActionName:NSLocalizedString(@"Curve Fit", @"undo action for Curve Fit")];
-    }
+	if (![self locked]) {
+		NSBezierPath* newPath = [[self path] bezierPathByUnflatteningPath];
+		[self setPath:newPath];
+		[[self undoManager] setActionName:NSLocalizedString(@"Curve Fit", @"undo action for Curve Fit")];
+	}
 }
 
 /** @brief Reverses the direction of the object's path
@@ -1978,11 +1978,11 @@ finish:
 {
 #pragma unused(sender)
 
-    if (![self locked]) {
-        NSBezierPath* newPath = [[self path] bezierPathByReversingPath];
-        [self setPath:newPath];
-        [[self undoManager] setActionName:NSLocalizedString(@"Reverse Path", @"undo action for Reverse Path")];
-    }
+	if (![self locked]) {
+		NSBezierPath* newPath = [[self path] bezierPathByReversingPath];
+		[self setPath:newPath];
+		[[self undoManager] setActionName:NSLocalizedString(@"Reverse Path", @"undo action for Reverse Path")];
+	}
 }
 
 /** @brief Flips the path horizontally
@@ -1994,17 +1994,17 @@ finish:
 {
 #pragma unused(sender)
 
-    NSPoint cp;
+	NSPoint cp;
 
-    cp.x = NSMidX([self bounds]);
-    cp.y = NSMidY([self bounds]);
+	cp.x = NSMidX([self bounds]);
+	cp.y = NSMidY([self bounds]);
 
-    NSBezierPath* np = [[self path] horizontallyFlippedPathAboutPoint:cp];
+	NSBezierPath* np = [[self path] horizontallyFlippedPathAboutPoint:cp];
 
-    NSAssert(np != nil, @"bad path when flipping");
+	NSAssert(np != nil, @"bad path when flipping");
 
-    [self setPath:np];
-    [[self undoManager] setActionName:NSLocalizedString(@"Flip Horizontally", @"h flip")];
+	[self setPath:np];
+	[[self undoManager] setActionName:NSLocalizedString(@"Flip Horizontally", @"h flip")];
 }
 
 /** @brief Flips the path vertically
@@ -2016,17 +2016,17 @@ finish:
 {
 #pragma unused(sender)
 
-    NSPoint cp;
+	NSPoint cp;
 
-    cp.x = NSMidX([self bounds]);
-    cp.y = NSMidY([self bounds]);
+	cp.x = NSMidX([self bounds]);
+	cp.y = NSMidY([self bounds]);
 
-    NSBezierPath* np = [[self path] verticallyFlippedPathAboutPoint:cp];
+	NSBezierPath* np = [[self path] verticallyFlippedPathAboutPoint:cp];
 
-    NSAssert(np != nil, @"bad path when flipping");
+	NSAssert(np != nil, @"bad path when flipping");
 
-    [self setPath:np];
-    [[self undoManager] setActionName:NSLocalizedString(@"Flip Vertically", @"v flip")];
+	[self setPath:np];
+	[[self undoManager] setActionName:NSLocalizedString(@"Flip Vertically", @"v flip")];
 }
 
 /** @brief Closes the path if not already closed
@@ -2038,13 +2038,13 @@ finish:
 {
 #pragma unused(sender)
 
-    if (![self isPathClosed] && ![self locked]) {
-        NSBezierPath* path = [[self path] copy];
-        [path closePath];
-        [self setPath:path];
-        [path release];
-        [[self undoManager] setActionName:NSLocalizedString(@"Close Path", nil)];
-    }
+	if (![self isPathClosed] && ![self locked]) {
+		NSBezierPath* path = [[self path] copy];
+		[path closePath];
+		[self setPath:path];
+		[path release];
+		[[self undoManager] setActionName:NSLocalizedString(@"Close Path", nil)];
+	}
 }
 
 #pragma mark -
@@ -2057,14 +2057,14 @@ finish:
  */
 + (NSInteger)initialPartcodeForObjectCreation
 {
-    return kDKDrawingNoPart;
+	return kDKDrawingNoPart;
 }
 
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-    return [NSArray arrayWithObjects:NSColorPboardType, NSStringPboardType, NSPDFPboardType, NSTIFFPboardType,
-                                     NSFilenamesPboardType, kDKStylePasteboardType, kDKStyleKeyPasteboardType, nil];
+	return [NSArray arrayWithObjects:NSColorPboardType, NSStringPboardType, NSPDFPboardType, NSTIFFPboardType,
+									 NSFilenamesPboardType, kDKStylePasteboardType, kDKStyleKeyPasteboardType, nil];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -2076,13 +2076,13 @@ finish:
  */
 - (id)initWithStyle:(DKStyle*)aStyle
 {
-    self = [super initWithStyle:aStyle];
-    if (self) {
-        m_freehandEpsilon = 2.0;
-        m_editPathMode = kDKPathCreateModeEditExisting;
-    }
+	self = [super initWithStyle:aStyle];
+	if (self) {
+		m_freehandEpsilon = 2.0;
+		m_editPathMode = kDKPathCreateModeEditExisting;
+	}
 
-    return self;
+	return self;
 }
 
 /** @brief Returns the apparent (visual) bounds of the object
@@ -2092,13 +2092,13 @@ finish:
  */
 - (NSRect)apparentBounds
 {
-    NSRect r = [[self renderingPath] bounds];
+	NSRect r = [[self renderingPath] bounds];
 
-    if ([self style]) {
-        NSSize allow = [[self style] extraSpaceNeeded];
-        r = NSInsetRect(r, -allow.width, -allow.height);
-    }
-    return r;
+	if ([self style]) {
+		NSSize allow = [[self style] extraSpaceNeeded];
+		r = NSInsetRect(r, -allow.width, -allow.height);
+	}
+	return r;
 }
 
 /** @brief Returns the bounds of the object
@@ -2108,32 +2108,32 @@ finish:
  */
 - (NSRect)bounds
 {
-    NSRect r;
+	NSRect r;
 
-    // get the true knob size so we can factor that in accurately
+	// get the true knob size so we can factor that in accurately
 
-    NSRect kr = [[[self layer] knobs] controlKnobRectAtPoint:NSZeroPoint
-                                                      ofType:kDKOnPathKnobType];
+	NSRect kr = [[[self layer] knobs] controlKnobRectAtPoint:NSZeroPoint
+													  ofType:kDKOnPathKnobType];
 
-    CGFloat kbs = kr.size.width * 0.5f;
-    r = NSInsetRect([[self renderingPath] controlPointBounds], -kbs, -kbs);
+	CGFloat kbs = kr.size.width * 0.5f;
+	r = NSInsetRect([[self renderingPath] controlPointBounds], -kbs, -kbs);
 
-    // factor in style allowance
+	// factor in style allowance
 
-    NSSize allow = [self extraSpaceNeeded];
-    r = NSInsetRect(r, -allow.width, -allow.height);
+	NSSize allow = [self extraSpaceNeeded];
+	r = NSInsetRect(r, -allow.width, -allow.height);
 
-    if (r.size.width < 1) {
-        r.size.width = 1;
-        r.origin.x = [self location].x - 0.5;
-    }
+	if (r.size.width < 1) {
+		r.size.width = 1;
+		r.origin.x = [self location].x - 0.5;
+	}
 
-    if (r.size.height < 1) {
-        r.size.height = 1;
-        r.origin.y = [self location].y - 0.5;
-    }
+	if (r.size.height < 1) {
+		r.size.height = 1;
+		r.origin.y = [self location].y - 0.5;
+	}
 
-    return r;
+	return r;
 }
 
 /** @brief Draws the object
@@ -2142,43 +2142,43 @@ finish:
  */
 - (void)drawContent
 {
-    if ([self isBeingHitTested]) {
-        // for easier hit-testing of very thin or offset paths, the path is stroked using a
-        // centre-aligned 4pt or greater stroke. This is substituted on the fly here and never visible to the user.
+	if ([self isBeingHitTested]) {
+		// for easier hit-testing of very thin or offset paths, the path is stroked using a
+		// centre-aligned 4pt or greater stroke. This is substituted on the fly here and never visible to the user.
 
-        CGFloat strokeWidth = MAX(4, [[self style] maxStrokeWidth]);
+		CGFloat strokeWidth = MAX(4, [[self style] maxStrokeWidth]);
 
-        BOOL hasFill = [[self style] hasFill] || [[self style] hasHatch];
+		BOOL hasFill = [[self style] hasFill] || [[self style] hasHatch];
 
-        DKStyle* temp = [DKStyle styleWithFillColour:hasFill ? [NSColor blackColor] : nil
-                                        strokeColour:[NSColor blackColor]
-                                         strokeWidth:strokeWidth];
-        [temp render:self];
-    } else
-        [super drawContent];
+		DKStyle* temp = [DKStyle styleWithFillColour:hasFill ? [NSColor blackColor] : nil
+										strokeColour:[NSColor blackColor]
+										 strokeWidth:strokeWidth];
+		[temp render:self];
+	} else
+		[super drawContent];
 }
 
 /** @brief Draws the seleciton highlight on the object when requested
  */
 - (void)drawSelectedState
 {
-    // stroke the path using the standard selection
+	// stroke the path using the standard selection
 
-    NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	NSAutoreleasePool* pool = [NSAutoreleasePool new];
 
-    NSBezierPath* path = [self renderingPath];
+	NSBezierPath* path = [self renderingPath];
 
-    [self drawSelectionPath:path];
-    [self drawControlPointsOfPath:path
-                       usingKnobs:[[self layer] knobs]];
+	[self drawSelectionPath:path];
+	[self drawControlPointsOfPath:path
+					   usingKnobs:[[self layer] knobs]];
 
 #ifdef qIncludeGraphicDebugging
-    if (m_showBBox)
-        [[self path] drawElementsBoundingBoxes];
+	if (m_showBBox)
+		[[self path] drawElementsBoundingBoxes];
 
 #endif
 
-    [pool drain];
+	[pool drain];
 }
 
 /** @brief Draw the ghosted content of the object
@@ -2189,16 +2189,16 @@ finish:
  */
 - (void)drawGhostedContent
 {
-    [[[self class] ghostColour] set];
-    NSBezierPath* rp = [self renderingPath];
+	[[[self class] ghostColour] set];
+	NSBezierPath* rp = [self renderingPath];
 
-    // if the path is usually drawn wider than 2, outline it
+	// if the path is usually drawn wider than 2, outline it
 
-    if ([[self style] maxStrokeWidth] > 2)
-        rp = [rp strokedPathWithStrokeWidth:[[self style] maxStrokeWidth]];
+	if ([[self style] maxStrokeWidth] > 2)
+		rp = [rp strokedPathWithStrokeWidth:[[self style] maxStrokeWidth]];
 
-    [rp setLineWidth:0];
-    [rp stroke];
+	[rp setLineWidth:0];
+	[rp stroke];
 }
 
 /** @brief Determines the partcode hit by a given point
@@ -2209,23 +2209,23 @@ finish:
  */
 - (NSInteger)hitPart:(NSPoint)pt
 {
-    NSInteger pc = [super hitPart:pt];
+	NSInteger pc = [super hitPart:pt];
 
-    if (pc == kDKDrawingEntireObjectPart) {
-        // hit in bounds, refine by testing against controls/bitmap
-        // if we have a fill, test for path contains as well:
+	if (pc == kDKDrawingEntireObjectPart) {
+		// hit in bounds, refine by testing against controls/bitmap
+		// if we have a fill, test for path contains as well:
 
-        if ([[self style] hasFill] || [[self style] hasHatch]) {
-            if ([[self path] containsPoint:pt])
-                return kDKDrawingEntireObjectPart;
-        }
+		if ([[self style] hasFill] || [[self style] hasHatch]) {
+			if ([[self path] containsPoint:pt])
+				return kDKDrawingEntireObjectPart;
+		}
 
-        if ([self pointHitsPath:pt])
-            pc = kDKDrawingEntireObjectPart;
-        else
-            pc = kDKDrawingNoPart;
-    }
-    return pc;
+		if ([self pointHitsPath:pt])
+			pc = kDKDrawingEntireObjectPart;
+		else
+			pc = kDKDrawingNoPart;
+	}
+	return pc;
 }
 
 /** @brief Determines the partcode hit by a given point
@@ -2236,41 +2236,41 @@ finish:
  @return an integer value, the partcode hit. */
 - (NSInteger)hitSelectedPart:(NSPoint)pt forSnapDetection:(BOOL)snap
 {
-    CGFloat tol = [[[self layer] knobs] controlKnobSize].width;
+	CGFloat tol = [[[self layer] knobs] controlKnobSize].width;
 
-    if (snap)
-        tol *= 2;
+	if (snap)
+		tol *= 2;
 
-    NSInteger pc;
-    BOOL commandKey = ([[NSApp currentEvent] modifierFlags] & NSCommandKeyMask) != 0;
-    ;
+	NSInteger pc;
+	BOOL commandKey = ([[NSApp currentEvent] modifierFlags] & NSCommandKeyMask) != 0;
+	;
 
-    if ([[self class] defaultOnPathHitDetectionPriority])
-        commandKey = !commandKey;
+	if ([[self class] defaultOnPathHitDetectionPriority])
+		commandKey = !commandKey;
 
-    pc = [[self path] partcodeHitByPoint:pt
-                               tolerance:tol
-                  prioritiseOnPathPoints:commandKey];
+	pc = [[self path] partcodeHitByPoint:pt
+							   tolerance:tol
+				  prioritiseOnPathPoints:commandKey];
 
-    // if snapping, ignore off-path points
+	// if snapping, ignore off-path points
 
-    if (snap && ![[self path] isOnPathPartcode:pc])
-        pc = 0;
+	if (snap && ![[self path] isOnPathPartcode:pc])
+		pc = 0;
 
-    if (pc == 0) {
-        pc = kDKDrawingEntireObjectPart;
+	if (pc == 0) {
+		pc = kDKDrawingEntireObjectPart;
 
-        if (snap) {
-            // for snapping to the nearest point on the path, return a special partcode value and cache the mouse point -
-            // when pointForPartcode is called with this special code, locate the nearest path point and return it.
+		if (snap) {
+			// for snapping to the nearest point on the path, return a special partcode value and cache the mouse point -
+			// when pointForPartcode is called with this special code, locate the nearest path point and return it.
 
-            if ([self pointHitsPath:pt]) {
-                gMouseForPathSnap = pt;
-                pc = kDKSnapToNearestPathPointPartcode;
-            }
-        }
-    }
-    return pc;
+			if ([self pointHitsPath:pt]) {
+				gMouseForPathSnap = pt;
+				pc = kDKSnapToNearestPathPointPartcode;
+			}
+		}
+	}
+	return pc;
 }
 
 /** @brief Returns the logical bounds of the object
@@ -2280,7 +2280,7 @@ finish:
  */
 - (NSRect)logicalBounds
 {
-    return [[self renderingPath] bounds];
+	return [[self renderingPath] bounds];
 }
 
 /** @brief Handles a mouse down in the object
@@ -2292,60 +2292,60 @@ finish:
  @param evt the event this came from */
 - (void)mouseDownAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
-    [[self layer] setInfoWindowBackgroundColour:[[self class] infoWindowBackgroundColour]];
+	[[self layer] setInfoWindowBackgroundColour:[[self class] infoWindowBackgroundColour]];
 
-    [self setTrackingMouse:YES];
-    NSInteger mode = [self pathCreationMode];
+	[self setTrackingMouse:YES];
+	NSInteger mode = [self pathCreationMode];
 
-    if ((partcode == kDKDrawingNoPart) && (mode != kDKPathCreateModeEditExisting)) {
-        // these loops keep control until their logic dictates otherwise, so the other
-        // mouse event handler methods won't be called
+	if ((partcode == kDKDrawingNoPart) && (mode != kDKPathCreateModeEditExisting)) {
+		// these loops keep control until their logic dictates otherwise, so the other
+		// mouse event handler methods won't be called
 
-        switch (mode) {
-        case kDKPathCreateModeLineCreate:
-            [self lineCreateLoop:mp];
-            break;
+		switch (mode) {
+		case kDKPathCreateModeLineCreate:
+			[self lineCreateLoop:mp];
+			break;
 
-        case kDKPathCreateModeBezierCreate:
-            [self pathCreateLoop:mp];
-            break;
+		case kDKPathCreateModeBezierCreate:
+			[self pathCreateLoop:mp];
+			break;
 
-        case kDKPathCreateModePolygonCreate:
-            [self polyCreateLoop:mp];
-            break;
+		case kDKPathCreateModePolygonCreate:
+			[self polyCreateLoop:mp];
+			break;
 #ifdef qUseCurveFit
-        case kDKPathCreateModeFreehandCreate: {
-            CGFloat savedFHE = [self freehandSmoothing];
+		case kDKPathCreateModeFreehandCreate: {
+			CGFloat savedFHE = [self freehandSmoothing];
 
-            BOOL option = ([evt modifierFlags] & NSAlternateKeyMask) != 0;
+			BOOL option = ([evt modifierFlags] & NSAlternateKeyMask) != 0;
 
-            if (option)
-                [self setFreehandSmoothing:10 * savedFHE];
+			if (option)
+				[self setFreehandSmoothing:10 * savedFHE];
 
-            [self freehandCreateLoop:mp];
-            [self setFreehandSmoothing:savedFHE];
-        } break;
+			[self freehandCreateLoop:mp];
+			[self setFreehandSmoothing:savedFHE];
+		} break;
 #endif
-        case kDKPathCreateModeWedgeSegment:
-        case kDKPathCreateModeArcSegment:
-            [self arcCreateLoop:mp];
-            break;
+		case kDKPathCreateModeWedgeSegment:
+		case kDKPathCreateModeArcSegment:
+			[self arcCreateLoop:mp];
+			break;
 
-        default:
-            break;
-        }
+		default:
+			break;
+		}
 
-        [self pathCreationLoopDidEnd];
-    } else {
-        if (partcode == kDKDrawingEntireObjectPart)
-            [super mouseDownAtPoint:mp
-                             inPart:partcode
-                              event:evt];
-        else {
-            [self recordPathForUndo];
-            [self setMouseHasMovedSinceStartOfTracking:NO];
-        }
-    }
+		[self pathCreationLoopDidEnd];
+	} else {
+		if (partcode == kDKDrawingEntireObjectPart)
+			[super mouseDownAtPoint:mp
+							 inPart:partcode
+							  event:evt];
+		else {
+			[self recordPathForUndo];
+			[self setMouseHasMovedSinceStartOfTracking:NO];
+		}
+	}
 }
 
 /** @brief Handles a mouse drag in the object
@@ -2356,31 +2356,31 @@ finish:
  @param evt the event this came from */
 - (void)mouseDraggedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
-    if (partcode == kDKDrawingEntireObjectPart) {
-        [super mouseDraggedAtPoint:mp
-                            inPart:partcode
-                             event:evt];
-    } else {
-        BOOL ctrl = (([evt modifierFlags] & NSControlKeyMask) != 0);
-        mp = [self snappedMousePoint:mp
-                     withControlFlag:ctrl];
-        [self movePathPartcode:partcode
-                       toPoint:mp
-                         event:evt];
+	if (partcode == kDKDrawingEntireObjectPart) {
+		[super mouseDraggedAtPoint:mp
+							inPart:partcode
+							 event:evt];
+	} else {
+		BOOL ctrl = (([evt modifierFlags] & NSControlKeyMask) != 0);
+		mp = [self snappedMousePoint:mp
+					 withControlFlag:ctrl];
+		[self movePathPartcode:partcode
+					   toPoint:mp
+						 event:evt];
 
-        // if the class is set to show size info when resizing, set up an info window now to do that.
+		// if the class is set to show size info when resizing, set up an info window now to do that.
 
-        if ([[self class] displaysSizeInfoWhenDragging]) {
-            NSPoint gridPt = [self convertPointToDrawing:mp];
-            NSString* abbrUnits = [[self drawing] abbreviatedDrawingUnits];
+		if ([[self class] displaysSizeInfoWhenDragging]) {
+			NSPoint gridPt = [self convertPointToDrawing:mp];
+			NSString* abbrUnits = [[self drawing] abbreviatedDrawingUnits];
 
 #warning 64BIT: Check formatting arguments
-            [[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"x: %.2f%@\ny: %.2f%@", gridPt.x, abbrUnits, gridPt.y, abbrUnits]
-                                           atPoint:mp];
-        }
+			[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"x: %.2f%@\ny: %.2f%@", gridPt.x, abbrUnits, gridPt.y, abbrUnits]
+										   atPoint:mp];
+		}
 
-        [self setMouseHasMovedSinceStartOfTracking:YES];
-    }
+		[self setMouseHasMovedSinceStartOfTracking:YES];
+	}
 }
 
 /** @brief Handles a mouseup in the object
@@ -2391,22 +2391,22 @@ finish:
  @param evt the event this came from */
 - (void)mouseUpAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
-    if (partcode == kDKDrawingEntireObjectPart)
-        [super mouseUpAtPoint:mp
-                       inPart:partcode
-                        event:evt];
-    else {
-        if ([self mouseHasMovedSinceStartOfTracking] && [self undoPath]) {
-            [[self undoManager] registerUndoWithTarget:self
-                                              selector:@selector(setPath:)
-                                                object:[self undoPath]];
-            [[self undoManager] setActionName:NSLocalizedString(@"Change Path", @"undo string for change path")];
-            [self clearUndoPath];
-        }
-    }
-    [[self layer] hideInfoWindow];
-    [self notifyVisualChange];
-    [self setTrackingMouse:NO];
+	if (partcode == kDKDrawingEntireObjectPart)
+		[super mouseUpAtPoint:mp
+					   inPart:partcode
+						event:evt];
+	else {
+		if ([self mouseHasMovedSinceStartOfTracking] && [self undoPath]) {
+			[[self undoManager] registerUndoWithTarget:self
+											  selector:@selector(setPath:)
+												object:[self undoPath]];
+			[[self undoManager] setActionName:NSLocalizedString(@"Change Path", @"undo string for change path")];
+			[self clearUndoPath];
+		}
+	}
+	[[self layer] hideInfoWindow];
+	[self notifyVisualChange];
+	[self setTrackingMouse:NO];
 }
 
 /** @brief Moves the object to a new location
@@ -2414,27 +2414,27 @@ finish:
  */
 - (void)setLocation:(NSPoint)p
 {
-    if (![self locationLocked]) {
-        CGFloat dx, dy;
+	if (![self locationLocked]) {
+		CGFloat dx, dy;
 
-        dx = p.x - [self location].x;
-        dy = p.y - [self location].y;
+		dx = p.x - [self location].x;
+		dy = p.y - [self location].y;
 
-        if (dx != 0.0 || dy != 0.0) {
-            NSRect oldBounds = [self bounds];
+		if (dx != 0.0 || dy != 0.0) {
+			NSRect oldBounds = [self bounds];
 
-            [self notifyVisualChange];
-            [[[self undoManager] prepareWithInvocationTarget:self] setLocation:[self location]];
+			[self notifyVisualChange];
+			[[[self undoManager] prepareWithInvocationTarget:self] setLocation:[self location]];
 
-            NSAffineTransform* tfm = [NSAffineTransform transform];
-            [tfm translateXBy:dx
-                          yBy:dy];
+			NSAffineTransform* tfm = [NSAffineTransform transform];
+			[tfm translateXBy:dx
+						  yBy:dy];
 
-            [[self path] transformUsingAffineTransform:tfm];
-            [self notifyVisualChange];
-            [self notifyGeometryChange:oldBounds];
-        }
-    }
+			[[self path] transformUsingAffineTransform:tfm];
+			[self notifyVisualChange];
+			[self notifyGeometryChange:oldBounds];
+		}
+	}
 }
 
 /** @brief Given a partcode, this returns the current value of the associated point
@@ -2444,16 +2444,16 @@ finish:
  @return a point - the location of the partcode. */
 - (NSPoint)pointForPartcode:(NSInteger)pc
 {
-    if (pc != kDKDrawingNoPart && pc != kDKDrawingEntireObjectPart) {
-        if (pc == kDKSnapToNearestPathPointPartcode) {
-            // snapping to the nearest path point
+	if (pc != kDKDrawingNoPart && pc != kDKDrawingEntireObjectPart) {
+		if (pc == kDKSnapToNearestPathPointPartcode) {
+			// snapping to the nearest path point
 
-            return [[self path] nearestPointToPoint:gMouseForPathSnap
-                                          tolerance:4];
-        } else
-            return [[self path] controlPointForPartcode:pc];
-    } else
-        return [super pointForPartcode:pc];
+			return [[self path] nearestPointToPoint:gMouseForPathSnap
+										  tolerance:4];
+		} else
+			return [[self path] controlPointForPartcode:pc];
+	} else
+		return [super pointForPartcode:pc];
 }
 
 /** @brief Populate the menu with commands pertaining to this object
@@ -2462,24 +2462,24 @@ finish:
  */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu
 {
-    // if the object supports any contextual menu commands, it should add them to the menu and return YES. If subclassing,
-    // you should call the inherited method first so that the menu is the union of all the ancestor's added methods.
+	// if the object supports any contextual menu commands, it should add them to the menu and return YES. If subclassing,
+	// you should call the inherited method first so that the menu is the union of all the ancestor's added methods.
 
-    NSMenu* convertMenu = [[theMenu itemWithTag:kDKConvertToSubmenuTag] submenu];
+	NSMenu* convertMenu = [[theMenu itemWithTag:kDKConvertToSubmenuTag] submenu];
 
-    if (convertMenu)
-        [[convertMenu addItemWithTitle:NSLocalizedString(@"Shape", @"submenu item for convert to shape")
-                                action:@selector(convertToShape:)
-                         keyEquivalent:@""] setTarget:self];
-    else
-        [[theMenu addItemWithTitle:NSLocalizedString(@"Convert To Shape", @"menu item for convert to shape")
-                            action:@selector(convertToShape:)
-                     keyEquivalent:@""] setTarget:self];
+	if (convertMenu)
+		[[convertMenu addItemWithTitle:NSLocalizedString(@"Shape", @"submenu item for convert to shape")
+								action:@selector(convertToShape:)
+						 keyEquivalent:@""] setTarget:self];
+	else
+		[[theMenu addItemWithTitle:NSLocalizedString(@"Convert To Shape", @"menu item for convert to shape")
+							action:@selector(convertToShape:)
+					 keyEquivalent:@""] setTarget:self];
 
-    [theMenu addItem:[NSMenuItem separatorItem]];
+	[theMenu addItem:[NSMenuItem separatorItem]];
 
-    [super populateContextualMenu:theMenu];
-    return YES;
+	[super populateContextualMenu:theMenu];
+	return YES;
 }
 
 /** @brief Returns the actual path drawn when the object is rendered
@@ -2490,20 +2490,20 @@ finish:
  */
 - (NSBezierPath*)renderingPath
 {
-    NSBezierPath* rPath = [[[self path] copy] autorelease];
-    NSAffineTransform* parentTransform = [self containerTransform];
+	NSBezierPath* rPath = [[[self path] copy] autorelease];
+	NSAffineTransform* parentTransform = [self containerTransform];
 
-    if (parentTransform)
-        rPath = [parentTransform transformBezierPath:rPath];
+	if (parentTransform)
+		rPath = [parentTransform transformBezierPath:rPath];
 
-    // if drawing is in low quality mode, set a coarse flatness value:
+	// if drawing is in low quality mode, set a coarse flatness value:
 
-    if ([[self drawing] lowRenderingQuality])
-        [rPath setFlatness:2.0];
-    else
-        [rPath setFlatness:0.5];
+	if ([[self drawing] lowRenderingQuality])
+		[rPath setFlatness:2.0];
+	else
+		[rPath setFlatness:0.5];
 
-    return rPath;
+	return rPath;
 }
 
 /** @brief Rotates the path to the given angle
@@ -2515,8 +2515,8 @@ finish:
  */
 - (void)setAngle:(CGFloat)angle
 {
-    [self setPath:[[self path] rotatedPath:angle
-                                aboutPoint:[self location]]];
+	[self setPath:[[self path] rotatedPath:angle
+								aboutPoint:[self location]]];
 }
 
 /** @brief Returns a list of potential snapping points used when the path is snapped to the grid or guides
@@ -2527,32 +2527,32 @@ finish:
  */
 - (NSArray*)snappingPointsWithOffset:(NSSize)offset
 {
-    // utility method mainly for the purpose of snapping to guides - returns an array of the on-path points as values
-    // with the offset added to them. This can subsequently be tested for guide snaps and used to return a mouse offset.
+	// utility method mainly for the purpose of snapping to guides - returns an array of the on-path points as values
+	// with the offset added to them. This can subsequently be tested for guide snaps and used to return a mouse offset.
 
-    NSMutableArray* pts;
-    NSPoint a[3];
-    NSInteger i, el = [[self path] elementCount];
-    NSBezierPathElement elem;
+	NSMutableArray* pts;
+	NSPoint a[3];
+	NSInteger i, el = [[self path] elementCount];
+	NSBezierPathElement elem;
 
-    pts = [[NSMutableArray alloc] init];
+	pts = [[NSMutableArray alloc] init];
 
-    for (i = 0; i < el; ++i) {
-        elem = [[self path] elementAtIndex:i
-                          associatedPoints:a];
+	for (i = 0; i < el; ++i) {
+		elem = [[self path] elementAtIndex:i
+						  associatedPoints:a];
 
-        if (elem == NSCurveToBezierPathElement) {
-            a[2].x += offset.width;
-            a[2].y += offset.height;
-            [pts addObject:[NSValue valueWithPoint:a[2]]];
-        } else {
-            a[0].x += offset.width;
-            a[0].y += offset.height;
-            [pts addObject:[NSValue valueWithPoint:a[0]]];
-        }
-    }
+		if (elem == NSCurveToBezierPathElement) {
+			a[2].x += offset.width;
+			a[2].y += offset.height;
+			[pts addObject:[NSValue valueWithPoint:a[2]]];
+		} else {
+			a[0].x += offset.width;
+			a[0].y += offset.height;
+			[pts addObject:[NSValue valueWithPoint:a[0]]];
+		}
+	}
 
-    return [pts autorelease];
+	return [pts autorelease];
 }
 
 /** @brief Sets the path's bounds to be updated
@@ -2577,13 +2577,13 @@ finish:
  */
 - (BOOL)objectIsValid
 {
-    // paths are invalid if their length is zero or there is no path or the path is empty.
+	// paths are invalid if their length is zero or there is no path or the path is empty.
 
-    BOOL valid;
+	BOOL valid;
 
-    valid = ([self path] != nil && ![[self path] isEmpty] && [[self path] length] > 0.0);
+	valid = ([self path] != nil && ![[self path] isEmpty] && [[self path] length] > 0.0);
 
-    return valid;
+	return valid;
 }
 
 /** @brief Return the object's size
@@ -2591,7 +2591,7 @@ finish:
  */
 - (NSSize)size
 {
-    return [[self path] bounds].size;
+	return [[self path] bounds].size;
 }
 
 /** @brief This object is being ungrouped from a group
@@ -2606,12 +2606,12 @@ finish:
 {
 #pragma unused(aGroup)
 
-    NSAssert(aTransform != nil, @"expected valid transform");
+	NSAssert(aTransform != nil, @"expected valid transform");
 
-    NSBezierPath* path = [[self path] copy];
-    [path transformUsingAffineTransform:aTransform];
-    [self setPath:path];
-    [path release];
+	NSBezierPath* path = [[self path] copy];
+	[path transformUsingAffineTransform:aTransform];
+	[self setPath:path];
+	[path release];
 }
 
 /** @brief Apply the transform to the object
@@ -2619,62 +2619,62 @@ finish:
  */
 - (void)applyTransform:(NSAffineTransform*)transform
 {
-    [self notifyVisualChange];
-    [[self path] transformUsingAffineTransform:transform];
-    [self notifyVisualChange];
+	[self notifyVisualChange];
+	[[self path] transformUsingAffineTransform:transform];
+	[self notifyVisualChange];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    [m_path release];
-    [m_undoPath release];
-    [super dealloc];
+	[m_path release];
+	[m_undoPath release];
+	[super dealloc];
 }
 
 - (id)init
 {
-    return [self initWithStyle:[DKStyle styleWithFillColour:nil
-                                               strokeColour:[NSColor blackColor]
-                                                strokeWidth:1.0]];
+	return [self initWithStyle:[DKStyle styleWithFillColour:nil
+											   strokeColour:[NSColor blackColor]
+												strokeWidth:1.0]];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    [super encodeWithCoder:coder];
+	[super encodeWithCoder:coder];
 
-    [coder encodeObject:[self path]
-                 forKey:@"path"];
-    [coder encodeDouble:m_freehandEpsilon
-                 forKey:@"freehand_smoothing"];
+	[coder encodeObject:[self path]
+				 forKey:@"path"];
+	[coder encodeDouble:m_freehandEpsilon
+				 forKey:@"freehand_smoothing"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    self = [super initWithCoder:coder];
-    if (self != nil) {
-        [self setPath:[coder decodeObjectForKey:@"path"]];
-        m_freehandEpsilon = [coder decodeDoubleForKey:@"freehand_smoothing"];
-    }
-    return self;
+	self = [super initWithCoder:coder];
+	if (self != nil) {
+		[self setPath:[coder decodeObjectForKey:@"path"]];
+		m_freehandEpsilon = [coder decodeDoubleForKey:@"freehand_smoothing"];
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
-    DKDrawablePath* copy = [super copyWithZone:zone];
-    NSBezierPath* pc = [[self path] copyWithZone:zone];
+	DKDrawablePath* copy = [super copyWithZone:zone];
+	NSBezierPath* pc = [[self path] copyWithZone:zone];
 
-    [copy setPath:pc];
-    [pc release];
+	[copy setPath:pc];
+	[pc release];
 
-    [copy setPathCreationMode:[self pathCreationMode]];
+	[copy setPathCreationMode:[self pathCreationMode]];
 
-    return copy;
+	return copy;
 }
 
 #pragma mark -
@@ -2682,53 +2682,53 @@ finish:
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    // this is called when the owning layer permits it, and the drag pasteboard contains a type that matches the class's
-    // pasteboardTypesForOperation result. Generally at this point the object should simply handle the drop.
+	// this is called when the owning layer permits it, and the drag pasteboard contains a type that matches the class's
+	// pasteboardTypesForOperation result. Generally at this point the object should simply handle the drop.
 
-    // default behaviour is to derive a style from the current style.
+	// default behaviour is to derive a style from the current style.
 
-    DKStyle* newStyle = nil;
+	DKStyle* newStyle = nil;
 
-    // first see if we have dropped a complete style
+	// first see if we have dropped a complete style
 
-    newStyle = [DKStyle styleFromPasteboard:[sender draggingPasteboard]];
+	newStyle = [DKStyle styleFromPasteboard:[sender draggingPasteboard]];
 
-    if (newStyle == nil)
-        newStyle = [[self style] derivedStyleWithPasteboard:[sender draggingPasteboard]
-                                                withOptions:kDKDerivedStyleForPathHint];
+	if (newStyle == nil)
+		newStyle = [[self style] derivedStyleWithPasteboard:[sender draggingPasteboard]
+												withOptions:kDKDerivedStyleForPathHint];
 
-    if (newStyle != nil && newStyle != [self style]) {
-        [self setStyle:newStyle];
-        [[self undoManager] setActionName:NSLocalizedString(@"Drop Property", @"undo string for drop colour onto shape")];
+	if (newStyle != nil && newStyle != [self style]) {
+		[self setStyle:newStyle];
+		[[self undoManager] setActionName:NSLocalizedString(@"Drop Property", @"undo string for drop colour onto shape")];
 
-        return YES;
-    }
+		return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    SEL action = [item action];
+	SEL action = [item action];
 
-    if (action == @selector(convertToOutline:) || action == @selector(roughenPath:))
-        return ![self locked] && [[self style] hasStroke];
+	if (action == @selector(convertToOutline:) || action == @selector(roughenPath:))
+		return ![self locked] && [[self style] hasStroke];
 
-    if (action == @selector(breakApart:))
-        return ![self locked] && [[self path] countSubPaths] > 1;
+	if (action == @selector(breakApart:))
+		return ![self locked] && [[self path] countSubPaths] > 1;
 
-    if (action == @selector(convertToShape:) || action == @selector(addRandomNoise:) || action == @selector(smoothPath:) || action == @selector(parallelCopy:) || action == @selector(smoothPathMore:) || action == @selector(toggleHorizontalFlip:) || action == @selector(toggleVerticalFlip:) || action == @selector(curveFit:) || action == @selector(reversePath:))
-        return ![self locked];
+	if (action == @selector(convertToShape:) || action == @selector(addRandomNoise:) || action == @selector(smoothPath:) || action == @selector(parallelCopy:) || action == @selector(smoothPathMore:) || action == @selector(toggleHorizontalFlip:) || action == @selector(toggleVerticalFlip:) || action == @selector(curveFit:) || action == @selector(reversePath:))
+		return ![self locked];
 
-    if (action == @selector(convertToTrack:))
-        return ![self locked] && [self canConvertToTrack] && [self respondsToSelector:action];
+	if (action == @selector(convertToTrack:))
+		return ![self locked] && [self canConvertToTrack] && [self respondsToSelector:action];
 
-    if (action == @selector(closePath:))
-        return ![self locked] && ![self isPathClosed];
+	if (action == @selector(closePath:))
+		return ![self locked] && ![self isPathClosed];
 
-    return [super validateMenuItem:item];
+	return [super validateMenuItem:item];
 }
 
 @end

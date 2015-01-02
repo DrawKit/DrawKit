@@ -14,10 +14,10 @@ Higher-level wrapper for CGLayer, used to cache graphics in numerous places in D
 */
 @interface DKQuartzCache : NSObject {
 @private
-    CGLayerRef mCGLayer;
-    BOOL mFocusLocked;
-    BOOL mFlipped;
-    NSPoint mOrigin;
+	CGLayerRef mCGLayer;
+	BOOL mFocusLocked;
+	BOOL mFlipped;
+	NSPoint mOrigin;
 }
 
 + (DKQuartzCache*)cacheForCurrentContextWithSize:(NSSize)size;

@@ -11,10 +11,10 @@
 @protocol DKObjectStorage;
 
 typedef enum {
-    kDKReverseOrder = (1 << 0), // return objects in top to bottom order if set
-    kDKIncludeInvisible = (1 << 1), // includes invisible objects
-    kDKIgnoreUpdateRect = (1 << 2), // includes objects regardless of whether they are within the update region or not
-    kDKZOrderMayBeRelaxed = (1 << 3) // if set, the strict Z-ordering of objects may be relaxed if there is a performance benefit
+	kDKReverseOrder = (1 << 0), // return objects in top to bottom order if set
+	kDKIncludeInvisible = (1 << 1), // includes invisible objects
+	kDKIgnoreUpdateRect = (1 << 2), // includes objects regardless of whether they are within the update region or not
+	kDKZOrderMayBeRelaxed = (1 << 3) // if set, the strict Z-ordering of objects may be relaxed if there is a performance benefit
 } DKObjectStorageOptions;
 
 @protocol DKStorableObject <NSObject, NSCoding, NSCopying>

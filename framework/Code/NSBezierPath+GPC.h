@@ -14,9 +14,9 @@
 // path simplifying constants - auto will not simplify when both source paths consist only of line segments
 
 typedef enum {
-    kDKPathUnflattenNever = 0,
-    kDKPathUnflattenAlways = 1,
-    kDKPathUnflattenAuto = 2
+	kDKPathUnflattenNever = 0,
+	kDKPathUnflattenAlways = 1,
+	kDKPathUnflattenAuto = 2
 } DKPathUnflatteningPolicy;
 
 @interface NSBezierPath (GPC)

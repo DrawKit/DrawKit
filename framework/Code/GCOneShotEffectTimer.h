@@ -30,10 +30,10 @@ This class wraps up a very simple piece of timer functionality. It sets up a tim
 */
 @interface GCOneShotEffectTimer : NSObject {
 @private
-    NSTimer* mTimer;
-    NSTimeInterval mStart;
-    NSTimeInterval mTotal;
-    id mDelegate;
+	NSTimer* mTimer;
+	NSTimeInterval mStart;
+	NSTimeInterval mTotal;
+	id mDelegate;
 }
 
 + (id)oneShotWithStandardFadeTimeForDelegate:(id)del;

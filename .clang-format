@@ -3,6 +3,11 @@
 # See http://www.webkit.org/coding/coding-style.html
 BasedOnStyle: WebKit
 
+# Use tabs
+TabWidth: 4
+IndentWidth: 4
+UseTab: Always
+
 # Do not wrap columns
 ColumnLimit: 0
 

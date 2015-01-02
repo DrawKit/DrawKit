@@ -14,7 +14,7 @@
  It can be used where a normal NSLayoutManager would be used to return the text as a path.
 */
 @interface DKBezierLayoutManager : NSLayoutManager {
-    NSBezierPath* mPath;
+	NSBezierPath* mPath;
 }
 
 - (NSBezierPath*)textPath;

@@ -23,12 +23,12 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 */
 @interface GCZoomView : NSView {
 @private
-    CGFloat m_scale; // the zoom scale of the view (1.0 = 100%)
-    CGFloat mMinScale;
-    CGFloat mMaxScale;
-    NSUInteger mScrollwheelModifierMask;
-    BOOL mIsChangingScale;
-    DKRetriggerableTimer* mRT;
+	CGFloat m_scale; // the zoom scale of the view (1.0 = 100%)
+	CGFloat mMinScale;
+	CGFloat mMaxScale;
+	NSUInteger mScrollwheelModifierMask;
+	BOOL mIsChangingScale;
+	DKRetriggerableTimer* mRT;
 }
 
 /** @brief Set whether scroll-wheel zooming is enabled

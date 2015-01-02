@@ -30,9 +30,9 @@
 #pragma unused(aDel)
 #pragma unused(event)
 
-    mAnchor = p;
-    mZoomRect = NSZeroRect;
-    return 0;
+	mAnchor = p;
+	mZoomRect = NSZeroRect;
+	return 0;
 }
 
 /** @brief Handle the mouse dragged event
@@ -48,9 +48,9 @@
 #pragma unused(event)
 #pragma unused(aDel)
 
-    [layer setNeedsDisplayInRect:mZoomRect];
-    mZoomRect = NSRectFromTwoPoints(mAnchor, p);
-    [layer setNeedsDisplayInRect:mZoomRect];
+	[layer setNeedsDisplayInRect:mZoomRect];
+	mZoomRect = NSRectFromTwoPoints(mAnchor, p);
+	[layer setNeedsDisplayInRect:mZoomRect];
 }
 
 /** @brief Handle the mouse up event
@@ -67,15 +67,15 @@
 #pragma unused(event)
 #pragma unused(aDel)
 
-    mZoomRect = NSRectFromTwoPoints(mAnchor, p);
-    [layer setNeedsDisplayInRect:mZoomRect];
+	mZoomRect = NSRectFromTwoPoints(mAnchor, p);
+	[layer setNeedsDisplayInRect:mZoomRect];
 
-    DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)layer;
+	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)layer;
 
-    [odl cropToRect:mZoomRect];
+	[odl cropToRect:mZoomRect];
 
-    mZoomRect = NSZeroRect;
-    return NO;
+	mZoomRect = NSZeroRect;
+	return NO;
 }
 
 /** @brief Draw the tool's graphic
@@ -86,14 +86,14 @@
 {
 #pragma unused(aRect)
 
-    if ([aView needsToDrawRect:mZoomRect]) {
-        CGFloat sc = 1.0;
+	if ([aView needsToDrawRect:mZoomRect]) {
+		CGFloat sc = 1.0;
 
-        NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect(mZoomRect, sc, sc)];
-        [zoomPath setLineWidth:sc];
-        [[NSColor redColor] set];
-        [zoomPath stroke];
-    }
+		NSBezierPath* zoomPath = [NSBezierPath bezierPathWithRect:NSInsetRect(mZoomRect, sc, sc)];
+		[zoomPath setLineWidth:sc];
+		[[NSColor redColor] set];
+		[zoomPath stroke];
+	}
 }
 
 /** @brief Return whether the target layer can be used by this tool
@@ -102,7 +102,7 @@
  */
 - (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
-    return [aLayer isKindOfClass:[DKObjectDrawingLayer class]];
+	return [aLayer isKindOfClass:[DKObjectDrawingLayer class]];
 }
 
 @end

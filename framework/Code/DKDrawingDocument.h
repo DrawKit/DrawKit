@@ -31,8 +31,8 @@ like this are one easy way to do it, but not the only way.
 */
 @interface DKDrawingDocument : NSDocument {
 @private
-    IBOutlet DKDrawingView* mMainDrawingView;
-    DKDrawing* m_drawing;
+	IBOutlet DKDrawingView* mMainDrawingView;
+	DKDrawing* m_drawing;
 }
 
 /** @brief Returns an undo manager that can be shared by multiple documents

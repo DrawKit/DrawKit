@@ -26,48 +26,48 @@
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)polarDuplicate:(NSArray*)objectsToDuplicate
-                    centre:(NSPoint)centre
-            numberOfCopies:(NSInteger)nCopies
-            incrementAngle:(CGFloat)incRadians
-              rotateCopies:(BOOL)rotCopies
+					centre:(NSPoint)centre
+			numberOfCopies:(NSInteger)nCopies
+			incrementAngle:(CGFloat)incRadians
+			  rotateCopies:(BOOL)rotCopies
 {
-    if (objectsToDuplicate == nil || [objectsToDuplicate count] < 1 || nCopies < 1)
-        return nil; // nothing to copy
+	if (objectsToDuplicate == nil || [objectsToDuplicate count] < 1 || nCopies < 1)
+		return nil; // nothing to copy
 
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    NSInteger i;
+	NSMutableArray* result = [[NSMutableArray alloc] init];
+	NSInteger i;
 
-    for (i = 0; i < nCopies; ++i) {
-        // copy each object
+	for (i = 0; i < nCopies; ++i) {
+		// copy each object
 
-        NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
-        DKDrawableObject* o;
-        DKDrawableObject* copy;
-        CGFloat radius, angle, relAngle;
-        NSPoint location;
+		NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
+		DKDrawableObject* o;
+		DKDrawableObject* copy;
+		CGFloat radius, angle, relAngle;
+		NSPoint location;
 
-        while ((o = [iter nextObject])) {
-            copy = [o copy];
-            location = [copy location];
+		while ((o = [iter nextObject])) {
+			copy = [o copy];
+			location = [copy location];
 
-            relAngle = incRadians * (i + 1);
-            radius = hypotf(location.x - centre.x, location.y - centre.y);
-            angle = atan2f(location.y - centre.y, location.x - centre.x) + relAngle;
+			relAngle = incRadians * (i + 1);
+			radius = hypotf(location.x - centre.x, location.y - centre.y);
+			angle = atan2f(location.y - centre.y, location.x - centre.x) + relAngle;
 
-            location.x = centre.x + cosf(angle) * radius;
-            location.y = centre.y + sinf(angle) * radius;
+			location.x = centre.x + cosf(angle) * radius;
+			location.y = centre.y + sinf(angle) * radius;
 
-            [copy setLocation:location];
+			[copy setLocation:location];
 
-            if (rotCopies)
-                [copy setAngle:[o angle] + relAngle];
+			if (rotCopies)
+				[copy setAngle:[o angle] + relAngle];
 
-            [result addObject:copy];
-            [copy release];
-        }
-    }
+			[result addObject:copy];
+			[copy release];
+		}
+	}
 
-    return [result autorelease];
+	return [result autorelease];
 }
 
 /** @brief Duplicates one or more objects linearly
@@ -80,37 +80,37 @@
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)linearDuplicate:(NSArray*)objectsToDuplicate
-                     offset:(NSSize)offset
-             numberOfCopies:(NSInteger)nCopies
+					 offset:(NSSize)offset
+			 numberOfCopies:(NSInteger)nCopies
 {
-    if (objectsToDuplicate == nil || [objectsToDuplicate count] < 1 || nCopies < 1)
-        return nil; // nothing to copy
+	if (objectsToDuplicate == nil || [objectsToDuplicate count] < 1 || nCopies < 1)
+		return nil; // nothing to copy
 
-    NSMutableArray* result = [[NSMutableArray alloc] init];
-    NSInteger i;
+	NSMutableArray* result = [[NSMutableArray alloc] init];
+	NSInteger i;
 
-    for (i = 0; i < nCopies; ++i) {
-        // copy each object
+	for (i = 0; i < nCopies; ++i) {
+		// copy each object
 
-        NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
-        DKDrawableObject* o;
-        DKDrawableObject* copy;
-        NSPoint location;
+		NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
+		DKDrawableObject* o;
+		DKDrawableObject* copy;
+		NSPoint location;
 
-        while ((o = [iter nextObject])) {
-            copy = [o copy];
-            location = [copy location];
+		while ((o = [iter nextObject])) {
+			copy = [o copy];
+			location = [copy location];
 
-            location.x += offset.width * (i + 1);
-            location.y += offset.height * (i + 1);
-            [copy setLocation:location];
+			location.x += offset.width * (i + 1);
+			location.y += offset.height * (i + 1);
+			[copy setLocation:location];
 
-            [result addObject:copy];
-            [copy release];
-        }
-    }
+			[result addObject:copy];
+			[copy release];
+		}
+	}
 
-    return [result autorelease];
+	return [result autorelease];
 }
 
 /** @brief Automatically polar duplicates object to fit a circle exactly
@@ -123,43 +123,43 @@
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)autoPolarDuplicate:(DKDrawableObject*)object
-                        centre:(NSPoint)centre
+						centre:(NSPoint)centre
 {
-    NSRect lb = [object logicalBounds];
-    NSPoint ocp = [object location]; //NSMakePoint( NSMidX( lb ), NSMidY( lb ));
-    CGFloat objAngle = atan2f([object location].y - centre.y, [object location].x - centre.x);
-    CGFloat r, radius, incAngle;
+	NSRect lb = [object logicalBounds];
+	NSPoint ocp = [object location]; //NSMakePoint( NSMidX( lb ), NSMidY( lb ));
+	CGFloat objAngle = atan2f([object location].y - centre.y, [object location].x - centre.x);
+	CGFloat r, radius, incAngle;
 
-    // r is radius of a circle that encloses the object
+	// r is radius of a circle that encloses the object
 
-    r = hypotf(lb.size.width, lb.size.height) / 2.0;
+	r = hypotf(lb.size.width, lb.size.height) / 2.0;
 
-    radius = hypotf(ocp.x - centre.x, ocp.y - centre.y);
-    incAngle = atanf(r / radius) * 2.0;
+	radius = hypotf(ocp.x - centre.x, ocp.y - centre.y);
+	incAngle = atanf(r / radius) * 2.0;
 
-    // how many fit in a circle?
+	// how many fit in a circle?
 
-    NSInteger number = (NSInteger)((2 * pi) / incAngle) + 1;
+	NSInteger number = (NSInteger)((2 * pi) / incAngle) + 1;
 
-    // to fit this many exactly will require a small increase in radius
+	// to fit this many exactly will require a small increase in radius
 
-    incAngle = (2 * pi) / (CGFloat)number;
-    radius = r / tanf(incAngle * 0.5f);
+	incAngle = (2 * pi) / (CGFloat)number;
+	radius = r / tanf(incAngle * 0.5f);
 
-    // set the duplication master at this radius from centre
+	// set the duplication master at this radius from centre
 
-    ocp.x = centre.x + radius * cosf(objAngle);
-    ocp.y = centre.y + radius * sinf(objAngle);
+	ocp.x = centre.x + radius * cosf(objAngle);
+	ocp.y = centre.y + radius * sinf(objAngle);
 
-    [object setLocation:ocp];
+	[object setLocation:ocp];
 
-    LogEvent_(kReactiveEvent, @"auto polar, copies = %d, inc = %f", number, incAngle);
+	LogEvent_(kReactiveEvent, @"auto polar, copies = %d, inc = %f", number, incAngle);
 
-    return [self polarDuplicate:[NSArray arrayWithObject:object]
-                         centre:centre
-                 numberOfCopies:number - 1
-                 incrementAngle:incAngle
-                   rotateCopies:YES];
+	return [self polarDuplicate:[NSArray arrayWithObject:object]
+						 centre:centre
+				 numberOfCopies:number - 1
+				 incrementAngle:incAngle
+				   rotateCopies:YES];
 }
 
 /** @brief Duplicates one or more objects concentrically around a common centre
@@ -174,50 +174,50 @@
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)concentricDuplicate:(NSArray*)objectsToDuplicate
-                         centre:(NSPoint)centre
-                 numberOfCopies:(NSInteger)nCopies
-                        insetBy:(CGFloat)inset
+						 centre:(NSPoint)centre
+				 numberOfCopies:(NSInteger)nCopies
+						insetBy:(CGFloat)inset
 {
-    if (objectsToDuplicate == nil || [objectsToDuplicate count] < 1 || nCopies < 1)
-        return nil; // nothing to copy
+	if (objectsToDuplicate == nil || [objectsToDuplicate count] < 1 || nCopies < 1)
+		return nil; // nothing to copy
 
-    NSMutableArray* result = [NSMutableArray array];
-    NSInteger i;
+	NSMutableArray* result = [NSMutableArray array];
+	NSInteger i;
 
-    for (i = 0; i < nCopies; ++i) {
-        NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
-        DKDrawableObject* o;
-        DKDrawableObject* copy;
-        CGFloat radius, angle, di, scale;
-        NSPoint location;
-        NSSize size;
+	for (i = 0; i < nCopies; ++i) {
+		NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
+		DKDrawableObject* o;
+		DKDrawableObject* copy;
+		CGFloat radius, angle, di, scale;
+		NSPoint location;
+		NSSize size;
 
-        di = -inset * (i + 1) * 2.0;
+		di = -inset * (i + 1) * 2.0;
 
-        while ((o = [iter nextObject])) {
-            copy = [o copy];
-            location = [copy location];
-            size = [copy size];
+		while ((o = [iter nextObject])) {
+			copy = [o copy];
+			location = [copy location];
+			size = [copy size];
 
-            radius = hypotf(location.x - centre.x, location.y - centre.y);
-            angle = atan2f(location.y - centre.y, location.x - centre.x);
-            size.width += di;
-            size.height += di;
+			radius = hypotf(location.x - centre.x, location.y - centre.y);
+			angle = atan2f(location.y - centre.y, location.x - centre.x);
+			size.width += di;
+			size.height += di;
 
-            scale = (size.width / [copy size].width);
+			scale = (size.width / [copy size].width);
 
-            location.x = centre.x + cosf(angle) * radius * scale;
-            location.y = centre.y + sinf(angle) * radius * scale;
+			location.x = centre.x + cosf(angle) * radius * scale;
+			location.y = centre.y + sinf(angle) * radius * scale;
 
-            [copy setSize:size];
-            [copy setLocation:location];
+			[copy setSize:size];
+			[copy setLocation:location];
 
-            [result addObject:copy];
-            [copy release];
-        }
-    }
+			[result addObject:copy];
+			[copy release];
+		}
+	}
 
-    return result;
+	return result;
 }
 
 @end

@@ -10,25 +10,25 @@
 
 typedef union {
 #warning 64BIT: Inspect use of unsigned long
-    unsigned long pixel;
-    struct
-        {
-        unsigned char a;
-        unsigned char r;
-        unsigned char g;
-        unsigned char b;
-    } c;
+	unsigned long pixel;
+	struct
+		{
+		unsigned char a;
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
+	} c;
 } pix_int;
 
 @interface DKSweptAngleGradient : DKGradient {
-    CGImageRef m_sa_image;
-    CGContextRef m_sa_bitmap;
-    pix_int* m_sa_colours;
-    NSInteger m_sa_segments;
-    NSPoint m_sa_centre;
-    CGFloat m_sa_startAngle;
-    NSInteger m_sa_img_width;
-    BOOL m_ditherColours;
+	CGImageRef m_sa_image;
+	CGContextRef m_sa_bitmap;
+	pix_int* m_sa_colours;
+	NSInteger m_sa_segments;
+	NSPoint m_sa_centre;
+	CGFloat m_sa_startAngle;
+	NSInteger m_sa_img_width;
+	BOOL m_ditherColours;
 }
 
 + (DKGradient*)sweptAngleGradient;

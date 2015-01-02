@@ -14,29 +14,29 @@
 // editing modes:
 
 typedef enum {
-    kDKPathCreateModeEditExisting = 0, // normal operation - just move points on the existing path
-    kDKPathCreateModeLineCreate = 1, // create a straight line between two points
-    kDKPathCreateModeBezierCreate = 2, // create a curved path point by point
-    kDKPathCreateModePolygonCreate = 3, // create an irreglar polygon pont by point (multiple lines)
-    kDKPathCreateModeFreehandCreate = 4, // create a curve path by dragging freehand
-    kDKPathCreateModeArcSegment = 5, // create an arc section
-    kDKPathCreateModeWedgeSegment = 6 // create a wedge section
+	kDKPathCreateModeEditExisting = 0, // normal operation - just move points on the existing path
+	kDKPathCreateModeLineCreate = 1, // create a straight line between two points
+	kDKPathCreateModeBezierCreate = 2, // create a curved path point by point
+	kDKPathCreateModePolygonCreate = 3, // create an irreglar polygon pont by point (multiple lines)
+	kDKPathCreateModeFreehandCreate = 4, // create a curve path by dragging freehand
+	kDKPathCreateModeArcSegment = 5, // create an arc section
+	kDKPathCreateModeWedgeSegment = 6 // create a wedge section
 } DKDrawablePathCreationMode;
 
 typedef enum {
-    kDKPathNoJoin = 0,
-    kDKPathOtherPathWasAppended = 1,
-    kDKPathOtherPathWasPrepended = 2,
-    kDKPathBothEndsJoined = 3
+	kDKPathNoJoin = 0,
+	kDKPathOtherPathWasAppended = 1,
+	kDKPathOtherPathWasPrepended = 2,
+	kDKPathBothEndsJoined = 3
 } DKDrawablePathJoinResult;
 
 // path point types that can be passed to pathInsertPointAt:ofType:
 
 typedef enum {
-    kDKPathPointTypeAuto = 0, // insert whatever the hit element is already using
-    kDKPathPointTypeLine = 1, // insert a line segment
-    kDKPathPointTypeCurve = 2, // insert a curve segment
-    kDKPathPointTypeInverseAuto = 3, // insert the opposite of whatever hit element is already using
+	kDKPathPointTypeAuto = 0, // insert whatever the hit element is already using
+	kDKPathPointTypeLine = 1, // insert a line segment
+	kDKPathPointTypeCurve = 2, // insert a curve segment
+	kDKPathPointTypeInverseAuto = 3, // insert the opposite of whatever hit element is already using
 } DKDrawablePathInsertType;
 
 // the class:
@@ -50,11 +50,11 @@ maintain the concept of rotation or scale - it just is what it is.
 */
 @interface DKDrawablePath : DKDrawableObject <NSCoding, NSCopying> {
 @private
-    NSBezierPath* m_path;
-    NSBezierPath* m_undoPath;
-    NSInteger m_editPathMode;
-    CGFloat m_freehandEpsilon;
-    BOOL m_extending;
+	NSBezierPath* m_path;
+	NSBezierPath* m_undoPath;
+	NSInteger m_editPathMode;
+	CGFloat m_freehandEpsilon;
+	BOOL m_extending;
 }
 
 // convenience constructors:
@@ -441,7 +441,7 @@ maintain the concept of rotation or scale - it just is what it is.
 // special partcode value used to mean snap to the nearest point on the path itself:
 
 enum {
-    kDKSnapToNearestPathPointPartcode = -99
+	kDKSnapToNearestPathPointPartcode = -99
 };
 
 extern NSPoint gMouseForPathSnap;

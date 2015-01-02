@@ -19,9 +19,9 @@ The purpose of this class is to allow images to be archived much more efficientl
 */
 @interface DKImageDataManager : NSObject <NSCoding> {
 @private
-    NSMutableDictionary* mRepository;
-    NSMutableDictionary* mHashList;
-    NSMutableDictionary* mKeyUsage;
+	NSMutableDictionary* mRepository;
+	NSMutableDictionary* mHashList;
+	NSMutableDictionary* mKeyUsage;
 }
 
 - (NSData*)imageDataForKey:(NSString*)key;

@@ -46,7 +46,7 @@ static BOOL sWasInside = NO;
  */
 + (void)setDefaultSnapTolerance:(CGFloat)tol
 {
-    sSnapTolerance = tol;
+	sSnapTolerance = tol;
 }
 
 /** @brief Returns the distance a point needs to be before it is snapped to a guide
@@ -54,7 +54,7 @@ static BOOL sWasInside = NO;
  */
 + (CGFloat)defaultSnapTolerance
 {
-    return sSnapTolerance;
+	return sSnapTolerance;
 }
 
 #pragma mark -
@@ -67,20 +67,20 @@ static BOOL sWasInside = NO;
  */
 - (void)addGuide:(DKGuide*)guide
 {
-    NSAssert(guide != nil, @"attempt to add a nil guide to a guide layer");
+	NSAssert(guide != nil, @"attempt to add a nil guide to a guide layer");
 
-    [[[self undoManager] prepareWithInvocationTarget:self] removeGuide:guide];
+	[[[self undoManager] prepareWithInvocationTarget:self] removeGuide:guide];
 
-    if ([guide isVerticalGuide])
-        [m_vGuides addObject:guide];
-    else
-        [m_hGuides addObject:guide];
+	if ([guide isVerticalGuide])
+		[m_vGuides addObject:guide];
+	else
+		[m_hGuides addObject:guide];
 
-    [guide setGuideColour:[self guideColour]];
-    [self refreshGuide:guide];
+	[guide setGuideColour:[self guideColour]];
+	[self refreshGuide:guide];
 
-    if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-        [[self undoManager] setActionName:NSLocalizedString(@"Add Guide", @"undo action for Add Guide")];
+	if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+		[[self undoManager] setActionName:NSLocalizedString(@"Add Guide", @"undo action for Add Guide")];
 }
 
 /** @brief Removes a guide from the layer
@@ -88,32 +88,32 @@ static BOOL sWasInside = NO;
  */
 - (void)removeGuide:(DKGuide*)guide
 {
-    NSAssert(guide != nil, @"attempt to remove a nil guide from a guide layer");
+	NSAssert(guide != nil, @"attempt to remove a nil guide from a guide layer");
 
-    [[[self undoManager] prepareWithInvocationTarget:self] addGuide:guide];
+	[[[self undoManager] prepareWithInvocationTarget:self] addGuide:guide];
 
-    [self refreshGuide:guide];
+	[self refreshGuide:guide];
 
-    if ([guide isVerticalGuide])
-        [m_vGuides removeObject:guide];
-    else
-        [m_hGuides removeObject:guide];
+	if ([guide isVerticalGuide])
+		[m_vGuides removeObject:guide];
+	else
+		[m_hGuides removeObject:guide];
 
-    if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-        [[self undoManager] setActionName:NSLocalizedString(@"Delete Guide", @"undo action for Remove Guide")];
+	if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+		[[self undoManager] setActionName:NSLocalizedString(@"Delete Guide", @"undo action for Remove Guide")];
 }
 
 /** @brief Removes all guides permanently from the layer
  */
 - (void)removeAllGuides
 {
-    if (![self locked]) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setGuides:[self guides]];
+	if (![self locked]) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setGuides:[self guides]];
 
-        [m_vGuides removeAllObjects];
-        [m_hGuides removeAllObjects];
-        [self setNeedsDisplay:YES];
-    }
+		[m_vGuides removeAllObjects];
+		[m_hGuides removeAllObjects];
+		[self setNeedsDisplay:YES];
+	}
 }
 
 #pragma mark -
@@ -124,21 +124,21 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos
 {
-    NSEnumerator* iter = [[self verticalGuides] objectEnumerator];
-    DKGuide* guide;
-    DKGuide* nearestGuide = nil;
-    CGFloat nearestDistance = 10000, distance;
+	NSEnumerator* iter = [[self verticalGuides] objectEnumerator];
+	DKGuide* guide;
+	DKGuide* nearestGuide = nil;
+	CGFloat nearestDistance = 10000, distance;
 
-    while ((guide = [iter nextObject])) {
-        distance = _CGFloatFabs(pos - [guide guidePosition]);
+	while ((guide = [iter nextObject])) {
+		distance = _CGFloatFabs(pos - [guide guidePosition]);
 
-        if (distance < [self snapTolerance] && distance < nearestDistance) {
-            nearestDistance = distance;
-            nearestGuide = guide;
-        }
-    }
+		if (distance < [self snapTolerance] && distance < nearestDistance) {
+			nearestDistance = distance;
+			nearestGuide = guide;
+		}
+	}
 
-    return nearestGuide;
+	return nearestGuide;
 }
 
 /** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
@@ -147,21 +147,21 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos
 {
-    NSEnumerator* iter = [[self horizontalGuides] objectEnumerator];
-    DKGuide* guide;
-    DKGuide* nearestGuide = nil;
-    CGFloat nearestDistance = 10000, distance;
+	NSEnumerator* iter = [[self horizontalGuides] objectEnumerator];
+	DKGuide* guide;
+	DKGuide* nearestGuide = nil;
+	CGFloat nearestDistance = 10000, distance;
 
-    while ((guide = [iter nextObject])) {
-        distance = _CGFloatFabs(pos - [guide guidePosition]);
+	while ((guide = [iter nextObject])) {
+		distance = _CGFloatFabs(pos - [guide guidePosition]);
 
-        if (distance < [self snapTolerance] && distance < nearestDistance) {
-            nearestDistance = distance;
-            nearestGuide = guide;
-        }
-    }
+		if (distance < [self snapTolerance] && distance < nearestDistance) {
+			nearestDistance = distance;
+			nearestGuide = guide;
+		}
+	}
 
-    return nearestGuide;
+	return nearestGuide;
 }
 
 /** @brief Returns the list of vertical guides
@@ -171,7 +171,7 @@ static BOOL sWasInside = NO;
  */
 - (NSArray*)verticalGuides
 {
-    return m_vGuides;
+	return m_vGuides;
 }
 
 /** @brief Returns the list of horizontal guides
@@ -181,7 +181,7 @@ static BOOL sWasInside = NO;
  */
 - (NSArray*)horizontalGuides
 {
-    return m_hGuides;
+	return m_hGuides;
 }
 
 #pragma mark -
@@ -193,7 +193,7 @@ static BOOL sWasInside = NO;
  */
 - (void)setGuidesSnapToGrid:(BOOL)gridsnap
 {
-    m_snapToGrid = gridsnap;
+	m_snapToGrid = gridsnap;
 }
 
 /** @brief Whether guids should snap to the grid by default or not
@@ -203,7 +203,7 @@ static BOOL sWasInside = NO;
  */
 - (BOOL)guidesSnapToGrid
 {
-    return m_snapToGrid;
+	return m_snapToGrid;
 }
 
 #pragma mark -
@@ -217,27 +217,27 @@ static BOOL sWasInside = NO;
  */
 - (NSPoint)snapPointToGuide:(NSPoint)p
 {
-    // if the point <p> is within the snap tolerance of any guide, the returned point is snapped to that guide. Otherwise the
-    // returned point is the same as p.
+	// if the point <p> is within the snap tolerance of any guide, the returned point is snapped to that guide. Otherwise the
+	// returned point is the same as p.
 
-    DKGuide* vg;
-    DKGuide* hg;
-    NSPoint ps;
+	DKGuide* vg;
+	DKGuide* hg;
+	NSPoint ps;
 
-    vg = [self nearestVerticalGuideToPosition:p.x];
-    hg = [self nearestHorizontalGuideToPosition:p.y];
+	vg = [self nearestVerticalGuideToPosition:p.x];
+	hg = [self nearestHorizontalGuideToPosition:p.y];
 
-    if (vg)
-        ps.x = [vg guidePosition];
-    else
-        ps.x = p.x;
+	if (vg)
+		ps.x = [vg guidePosition];
+	else
+		ps.x = p.x;
 
-    if (hg)
-        ps.y = [hg guidePosition];
-    else
-        ps.y = p.y;
+	if (hg)
+		ps.y = [hg guidePosition];
+	else
+		ps.y = p.y;
 
-    return ps;
+	return ps;
 }
 
 /** @brief Snaps any corner of the given rect to any nearest guides within the snap tolerance
@@ -248,8 +248,8 @@ static BOOL sWasInside = NO;
  */
 - (NSRect)snapRectToGuide:(NSRect)r
 {
-    return [self snapRectToGuide:r
-                includingCentres:NO];
+	return [self snapRectToGuide:r
+				includingCentres:NO];
 }
 
 /** @brief Snaps any corner or centre point of the given rect to any nearest guides within the snap tolerance
@@ -261,44 +261,44 @@ static BOOL sWasInside = NO;
  */
 - (NSRect)snapRectToGuide:(NSRect)r includingCentres:(BOOL)centre
 {
-    NSRect sr;
-    DKGuide* guide;
+	NSRect sr;
+	DKGuide* guide;
 
-    sr = r;
+	sr = r;
 
-    // look for vertical snaps first
+	// look for vertical snaps first
 
-    guide = [self nearestVerticalGuideToPosition:NSMinX(r)];
-    if (guide)
-        sr.origin.x = [guide guidePosition];
-    else {
-        guide = [self nearestVerticalGuideToPosition:NSMaxX(r)];
-        if (guide)
-            sr.origin.x = [guide guidePosition] - sr.size.width;
-        else if (centre) {
-            guide = [self nearestVerticalGuideToPosition:NSMidX(r)];
-            if (guide)
-                sr.origin.x = [guide guidePosition] - (sr.size.width / 2.0);
-        }
-    }
+	guide = [self nearestVerticalGuideToPosition:NSMinX(r)];
+	if (guide)
+		sr.origin.x = [guide guidePosition];
+	else {
+		guide = [self nearestVerticalGuideToPosition:NSMaxX(r)];
+		if (guide)
+			sr.origin.x = [guide guidePosition] - sr.size.width;
+		else if (centre) {
+			guide = [self nearestVerticalGuideToPosition:NSMidX(r)];
+			if (guide)
+				sr.origin.x = [guide guidePosition] - (sr.size.width / 2.0);
+		}
+	}
 
-    // horizontal snaps
+	// horizontal snaps
 
-    guide = [self nearestHorizontalGuideToPosition:NSMinY(r)];
-    if (guide)
-        sr.origin.y = [guide guidePosition];
-    else {
-        guide = [self nearestHorizontalGuideToPosition:NSMaxY(r)];
-        if (guide)
-            sr.origin.y = [guide guidePosition] - sr.size.height;
-        else if (centre) {
-            guide = [self nearestHorizontalGuideToPosition:NSMidY(r)];
-            if (guide)
-                sr.origin.y = [guide guidePosition] - (sr.size.height / 2.0);
-        }
-    }
+	guide = [self nearestHorizontalGuideToPosition:NSMinY(r)];
+	if (guide)
+		sr.origin.y = [guide guidePosition];
+	else {
+		guide = [self nearestHorizontalGuideToPosition:NSMaxY(r)];
+		if (guide)
+			sr.origin.y = [guide guidePosition] - sr.size.height;
+		else if (centre) {
+			guide = [self nearestHorizontalGuideToPosition:NSMidY(r)];
+			if (guide)
+				sr.origin.y = [guide guidePosition] - (sr.size.height / 2.0);
+		}
+	}
 
-    return sr;
+	return sr;
 }
 
 #pragma mark -
@@ -315,9 +315,9 @@ static BOOL sWasInside = NO;
  */
 - (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints
 {
-    return [self snapPointsToGuide:arrayOfPoints
-                     verticalGuide:NULL
-                   horizontalGuide:NULL];
+	return [self snapPointsToGuide:arrayOfPoints
+					 verticalGuide:NULL
+				   horizontalGuide:NULL];
 }
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
@@ -334,42 +334,42 @@ static BOOL sWasInside = NO;
  */
 - (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh
 {
-    NSEnumerator* iter = [arrayOfPoints objectEnumerator];
-    NSValue* v;
-    NSPoint p;
-    NSSize result = NSZeroSize;
-    DKGuide* guide;
+	NSEnumerator* iter = [arrayOfPoints objectEnumerator];
+	NSValue* v;
+	NSPoint p;
+	NSSize result = NSZeroSize;
+	DKGuide* guide;
 
-    while ((v = [iter nextObject])) {
-        p = [v pointValue];
+	while ((v = [iter nextObject])) {
+		p = [v pointValue];
 
-        if (result.height == 0) {
-            guide = [self nearestHorizontalGuideToPosition:p.y];
+		if (result.height == 0) {
+			guide = [self nearestHorizontalGuideToPosition:p.y];
 
-            if (guide) {
-                result.height = [guide guidePosition] - p.y;
+			if (guide) {
+				result.height = [guide guidePosition] - p.y;
 
-                if (gh)
-                    *gh = guide;
-            }
-        }
+				if (gh)
+					*gh = guide;
+			}
+		}
 
-        if (result.width == 0) {
-            guide = [self nearestVerticalGuideToPosition:p.x];
+		if (result.width == 0) {
+			guide = [self nearestVerticalGuideToPosition:p.x];
 
-            if (guide) {
-                result.width = [guide guidePosition] - p.x;
+			if (guide) {
+				result.width = [guide guidePosition] - p.x;
 
-                if (gv)
-                    *gv = guide;
-            }
-        }
+				if (gv)
+					*gv = guide;
+			}
+		}
 
-        if (result.width != 0 && result.height != 0)
-            break;
-    }
+		if (result.width != 0 && result.height != 0)
+			break;
+	}
 
-    return result;
+	return result;
 }
 
 #pragma mark -
@@ -381,7 +381,7 @@ static BOOL sWasInside = NO;
  */
 - (void)setSnapTolerance:(CGFloat)tol
 {
-    m_snapTolerance = tol;
+	m_snapTolerance = tol;
 }
 
 /** @brief Resturns the distance a point needs to be before it is snapped to a guide
@@ -391,7 +391,7 @@ static BOOL sWasInside = NO;
  */
 - (CGFloat)snapTolerance
 {
-    return m_snapTolerance;
+	return m_snapTolerance;
 }
 
 #pragma mark -
@@ -401,9 +401,9 @@ static BOOL sWasInside = NO;
  */
 - (void)refreshGuide:(DKGuide*)guide
 {
-    NSAssert(guide != nil, @"guide was nil in refreshGuide");
+	NSAssert(guide != nil, @"guide was nil in refreshGuide");
 
-    [self setNeedsDisplayInRect:[self guideRect:guide]];
+	[self setNeedsDisplayInRect:[self guideRect:guide]];
 }
 
 /** @brief Returns the rect occupied by a given guide
@@ -415,24 +415,24 @@ static BOOL sWasInside = NO;
  */
 - (NSRect)guideRect:(DKGuide*)guide
 {
-    NSAssert(guide != nil, @"guide was nil in guideRect:");
+	NSAssert(guide != nil, @"guide was nil in guideRect:");
 
-    NSRect r;
-    NSSize ds = [[self drawing] drawingSize];
+	NSRect r;
+	NSSize ds = [[self drawing] drawingSize];
 
-    if ([guide isVerticalGuide]) {
-        r.origin.x = [guide guidePosition] - 1.0;
-        r.origin.y = 0.0;
-        r.size.width = 2.0;
-        r.size.height = ds.height;
-    } else {
-        r.origin.y = [guide guidePosition] - 1.0;
-        r.origin.x = 0.0;
-        r.size.height = 2.0;
-        r.size.width = ds.width;
-    }
+	if ([guide isVerticalGuide]) {
+		r.origin.x = [guide guidePosition] - 1.0;
+		r.origin.y = 0.0;
+		r.size.width = 2.0;
+		r.size.height = ds.height;
+	} else {
+		r.origin.y = [guide guidePosition] - 1.0;
+		r.origin.x = 0.0;
+		r.size.height = 2.0;
+		r.size.width = ds.width;
+	}
 
-    return r;
+	return r;
 }
 
 /** @brief Creates a new vertical guide at the point p, adds it to the layer and returns it
@@ -445,27 +445,27 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p
 {
-    DKGuide* guide = nil;
+	DKGuide* guide = nil;
 
-    if (![self locked]) {
-        guide = [[DKGuide alloc] init];
+	if (![self locked]) {
+		guide = [[DKGuide alloc] init];
 
-        [guide setGuidePosition:p.x];
-        [guide setIsVerticalGuide:YES];
-        [self addGuide:guide];
-        [guide release];
+		[guide setGuidePosition:p.x];
+		[guide setIsVerticalGuide:YES];
+		[self addGuide:guide];
+		[guide release];
 
-        // the layer is made active & visible so that the user gets the layer's cursor feedback and can reposition the guide if
-        // it ends up not quite where they intended.
+		// the layer is made active & visible so that the user gets the layer's cursor feedback and can reposition the guide if
+		// it ends up not quite where they intended.
 
-        [self setVisible:YES];
-        [[self drawing] setActiveLayer:self];
+		[self setVisible:YES];
+		[[self drawing] setActiveLayer:self];
 
-        m_dragGuideRef = guide;
-        sWasInside = NO;
-    }
+		m_dragGuideRef = guide;
+		sWasInside = NO;
+	}
 
-    return guide;
+	return guide;
 }
 
 /** @brief Creates a new horizontal guide at the point p, adds it to the layer and returns it
@@ -478,27 +478,27 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p
 {
-    DKGuide* guide = nil;
+	DKGuide* guide = nil;
 
-    if (![self locked]) {
-        guide = [[DKGuide alloc] init];
+	if (![self locked]) {
+		guide = [[DKGuide alloc] init];
 
-        [guide setGuidePosition:p.y];
-        [guide setIsVerticalGuide:NO];
-        [self addGuide:guide];
-        [guide release];
+		[guide setGuidePosition:p.y];
+		[guide setIsVerticalGuide:NO];
+		[self addGuide:guide];
+		[guide release];
 
-        // the layer is made active and visible so that the user gets the layer's cursor feedback and can reposition the guide if
-        // it ends up not quite where they intended.
+		// the layer is made active and visible so that the user gets the layer's cursor feedback and can reposition the guide if
+		// it ends up not quite where they intended.
 
-        [self setVisible:YES];
-        [[self drawing] setActiveLayer:self];
+		[self setVisible:YES];
+		[[self drawing] setActiveLayer:self];
 
-        m_dragGuideRef = guide;
-        sWasInside = NO;
-    }
+		m_dragGuideRef = guide;
+		sWasInside = NO;
+	}
 
-    return guide;
+	return guide;
 }
 
 /** @brief Get all current guides
@@ -506,9 +506,9 @@ static BOOL sWasInside = NO;
  */
 - (NSArray*)guides
 {
-    NSMutableArray* ga = [[self horizontalGuides] mutableCopy];
-    [ga addObjectsFromArray:[self verticalGuides]];
-    return [ga autorelease];
+	NSMutableArray* ga = [[self horizontalGuides] mutableCopy];
+	[ga addObjectsFromArray:[self verticalGuides]];
+	return [ga autorelease];
 }
 
 /** @brief Adds a set of guides to th elayer
@@ -516,84 +516,84 @@ static BOOL sWasInside = NO;
  */
 - (void)setGuides:(NSArray*)guides
 {
-    NSAssert(guides != nil, @"can't set guides from nil array");
+	NSAssert(guides != nil, @"can't set guides from nil array");
 
-    NSEnumerator* iter = [guides objectEnumerator];
-    DKGuide* guide;
+	NSEnumerator* iter = [guides objectEnumerator];
+	DKGuide* guide;
 
-    while ((guide = [iter nextObject])) {
-        if ([guide isKindOfClass:[DKGuide class]])
-            [self addGuide:guide];
-    }
+	while ((guide = [iter nextObject])) {
+		if ([guide isKindOfClass:[DKGuide class]])
+			[self addGuide:guide];
+	}
 }
 
 - (void)repositionGuide:(DKGuide*)guide atPoint:(NSPoint)p inView:(NSView*)aView
 {
-    NSPoint oldPoint = p;
-    CGFloat newPos;
+	NSPoint oldPoint = p;
+	CGFloat newPos;
 
-    if ([guide isVerticalGuide]) {
-        oldPoint.x = [guide guidePosition];
-        newPos = p.x;
-    } else {
-        oldPoint.y = [guide guidePosition];
-        newPos = p.y;
-    }
+	if ([guide isVerticalGuide]) {
+		oldPoint.x = [guide guidePosition];
+		newPos = p.x;
+	} else {
+		oldPoint.y = [guide guidePosition];
+		newPos = p.y;
+	}
 
-    if (!NSEqualPoints(oldPoint, p)) {
-        [[[self undoManager] prepareWithInvocationTarget:self] repositionGuide:guide
-                                                                       atPoint:oldPoint
-                                                                        inView:aView];
+	if (!NSEqualPoints(oldPoint, p)) {
+		[[[self undoManager] prepareWithInvocationTarget:self] repositionGuide:guide
+																	   atPoint:oldPoint
+																		inView:aView];
 
 #if DK_DRAW_GUIDES_IN_CLIP_VIEW
-        NSRect gr = [self guideRectOfGuide:guide
-                forEnclosingClipViewOfView:aView];
-        NSClipView* clipView = [[aView enclosingScrollView] contentView];
+		NSRect gr = [self guideRectOfGuide:guide
+				forEnclosingClipViewOfView:aView];
+		NSClipView* clipView = [[aView enclosingScrollView] contentView];
 
-        if (clipView)
-            [clipView setNeedsDisplayInRect:gr];
-        else
+		if (clipView)
+			[clipView setNeedsDisplayInRect:gr];
+		else
 #endif
-            [self refreshGuide:guide];
-        [guide setGuidePosition:newPos];
+			[self refreshGuide:guide];
+		[guide setGuidePosition:newPos];
 #if DK_DRAW_GUIDES_IN_CLIP_VIEW
-        gr = [self guideRectOfGuide:guide
-            forEnclosingClipViewOfView:aView];
-        if (clipView)
-            [clipView setNeedsDisplayInRect:gr];
-        else
+		gr = [self guideRectOfGuide:guide
+			forEnclosingClipViewOfView:aView];
+		if (clipView)
+			[clipView setNeedsDisplayInRect:gr];
+		else
 #endif
-            [self refreshGuide:guide];
-    }
+			[self refreshGuide:guide];
+	}
 }
 
 - (NSRect)guideRectOfGuide:(DKGuide*)guide forEnclosingClipViewOfView:(NSView*)aView
 {
-    NSClipView* clipView = [[aView enclosingScrollView] contentView];
+	NSClipView* clipView = [[aView enclosingScrollView] contentView];
 
-    if (clipView) {
-        NSRect br = [clipView bounds];
-        NSRect gr = [self guideRect:guide];
-        NSRect rr;
+	if (clipView) {
+		NSRect br = [clipView bounds];
+		NSRect gr = [self guideRect:guide];
+		NSRect rr;
 
-        NSPoint topLeft = [clipView convertPoint:gr.origin
-                                        fromView:aView];
+		NSPoint topLeft = [clipView convertPoint:gr.origin
+										fromView:aView];
 
-        if ([guide isVerticalGuide]) {
-            rr.origin.x = topLeft.x;
-            rr.origin.y = NSMinY(br);
-            rr.size.height = NSHeight(br);
-            rr.size.width = NSWidth(gr);
-        } else {
-            rr.origin.x = NSMinX(br);
-            rr.origin.y = topLeft.y;
-            rr.size.width = NSWidth(br);
-            rr.size.height = NSHeight(gr);
-        }
+		if ([guide isVerticalGuide]) {
+			rr.origin.x = topLeft.x;
+			rr.origin.y = NSMinY(br);
+			rr.size.height = NSHeight(br);
+			rr.size.width = NSWidth(gr);
+		} else {
+			rr.origin.x = NSMinX(br);
+			rr.origin.y = topLeft.y;
+			rr.size.width = NSWidth(br);
+			rr.size.height = NSHeight(gr);
+		}
 
-        return rr;
-    } else
-        return NSZeroRect; // no clip view
+		return rr;
+	} else
+		return NSZeroRect; // no clip view
 }
 
 #pragma mark -
@@ -605,7 +605,7 @@ static BOOL sWasInside = NO;
  */
 - (void)setShowsDragInfoWindow:(BOOL)showsIt
 {
-    m_showDragInfo = showsIt;
+	m_showDragInfo = showsIt;
 }
 
 /** @brief Return whether the info window should be displayed when dragging a guide
@@ -615,7 +615,7 @@ static BOOL sWasInside = NO;
  */
 - (BOOL)showsDragInfoWindow
 {
-    return m_showDragInfo;
+	return m_showDragInfo;
 }
 
 /** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
@@ -625,7 +625,7 @@ static BOOL sWasInside = NO;
  */
 - (void)setGuideDeletionRect:(NSRect)rect
 {
-    mGuideDeletionZone = rect;
+	mGuideDeletionZone = rect;
 }
 
 /** @brief The rect for which guides will be deleted if they are dragged outside of it
@@ -635,18 +635,18 @@ static BOOL sWasInside = NO;
  */
 - (NSRect)guideDeletionRect
 {
-    return mGuideDeletionZone;
+	return mGuideDeletionZone;
 }
 
 - (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside
 {
-    mDrawGuidesInClipView = drawOutside;
-    [self setNeedsDisplay:YES];
+	mDrawGuidesInClipView = drawOutside;
+	[self setNeedsDisplay:YES];
 }
 
 - (BOOL)guidesDrawnInEnclosingScrollview
 {
-    return mDrawGuidesInClipView;
+	return mDrawGuidesInClipView;
 }
 
 #pragma mark -
@@ -661,10 +661,10 @@ static BOOL sWasInside = NO;
 {
 #pragma unused(sender)
 
-    if (![self locked]) {
-        [self removeAllGuides];
-        [[self undoManager] setActionName:NSLocalizedString(@"Clear Guides", @"undo string for clear guides")];
-    }
+	if (![self locked]) {
+		[self removeAllGuides];
+		[[self undoManager] setActionName:NSLocalizedString(@"Clear Guides", @"undo string for clear guides")];
+	}
 }
 
 #pragma mark -
@@ -684,18 +684,18 @@ static BOOL sWasInside = NO;
  */
 - (void)setGuideColour:(NSColor*)colour
 {
-    if (![self locked] && colour != [self guideColour]) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setGuideColour:[self guideColour]];
+	if (![self locked] && colour != [self guideColour]) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setGuideColour:[self guideColour]];
 
-        [[self verticalGuides] makeObjectsPerformSelector:@selector(setGuideColour:)
-                                               withObject:colour];
-        [[self horizontalGuides] makeObjectsPerformSelector:@selector(setGuideColour:)
-                                                 withObject:colour];
-        [super setSelectionColour:colour];
+		[[self verticalGuides] makeObjectsPerformSelector:@selector(setGuideColour:)
+											   withObject:colour];
+		[[self horizontalGuides] makeObjectsPerformSelector:@selector(setGuideColour:)
+												 withObject:colour];
+		[super setSelectionColour:colour];
 
-        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-            [[self undoManager] setActionName:NSLocalizedString(@"Change Guide Colour", @"undo action for Guide colour")];
-    }
+		if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+			[[self undoManager] setActionName:NSLocalizedString(@"Change Guide Colour", @"undo action for Guide colour")];
+	}
 }
 
 /** @brief Return the layer's guide colour
@@ -711,7 +711,7 @@ static BOOL sWasInside = NO;
  */
 - (NSColor*)guideColour
 {
-    return [self selectionColour];
+	return [self selectionColour];
 }
 
 #pragma mark -
@@ -723,75 +723,75 @@ static BOOL sWasInside = NO;
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
 {
-    NSEnumerator* iter;
-    DKGuide* guide;
-    CGFloat savedLineWidth, lineWidth = ([aView scale] < 1.0) ? 1.0 : (2.0 / [aView scale]);
+	NSEnumerator* iter;
+	DKGuide* guide;
+	CGFloat savedLineWidth, lineWidth = ([aView scale] < 1.0) ? 1.0 : (2.0 / [aView scale]);
 
-    savedLineWidth = [NSBezierPath defaultLineWidth];
-    iter = [[self guides] objectEnumerator];
+	savedLineWidth = [NSBezierPath defaultLineWidth];
+	iter = [[self guides] objectEnumerator];
 
 #if DK_DRAW_GUIDES_IN_CLIP_VIEW
-    NSClipView* clipView = [[aView enclosingScrollView] contentView];
+	NSClipView* clipView = [[aView enclosingScrollView] contentView];
 
-    if (clipView && aView) {
-        [NSBezierPath setDefaultLineWidth:1.0];
+	if (clipView && aView) {
+		[NSBezierPath setDefaultLineWidth:1.0];
 
-        SAVE_GRAPHICS_CONTEXT
+		SAVE_GRAPHICS_CONTEXT
 
-        [clipView lockFocus];
+		[clipView lockFocus];
 
-        NSRect br = [clipView bounds];
-        [NSBezierPath clipRect:br];
+		NSRect br = [clipView bounds];
+		[NSBezierPath clipRect:br];
 
-        while ((guide = [iter nextObject])) {
-            NSRect gr = [self guideRectOfGuide:guide
-                    forEnclosingClipViewOfView:aView];
+		while ((guide = [iter nextObject])) {
+			NSRect gr = [self guideRectOfGuide:guide
+					forEnclosingClipViewOfView:aView];
 
-            if ([clipView needsToDrawRect:gr]) {
-                CGFloat pos = [guide guidePosition];
-                BOOL vert = [guide isVerticalGuide];
-                NSPoint a, b;
+			if ([clipView needsToDrawRect:gr]) {
+				CGFloat pos = [guide guidePosition];
+				BOOL vert = [guide isVerticalGuide];
+				NSPoint a, b;
 
-                if (vert)
-                    a.x = b.x = pos;
-                else
-                    a.y = b.y = pos;
+				if (vert)
+					a.x = b.x = pos;
+				else
+					a.y = b.y = pos;
 
-                a = [clipView convertPoint:a
-                                  fromView:aView];
-                b = [clipView convertPoint:b
-                                  fromView:aView];
+				a = [clipView convertPoint:a
+								  fromView:aView];
+				b = [clipView convertPoint:b
+								  fromView:aView];
 
-                if (vert) {
-                    a.y = NSMinX(br);
-                    b.y = NSMaxY(br);
-                } else {
-                    a.x = NSMinX(br);
-                    b.x = NSMaxX(br);
-                }
+				if (vert) {
+					a.y = NSMinX(br);
+					b.y = NSMaxY(br);
+				} else {
+					a.x = NSMinX(br);
+					b.x = NSMaxX(br);
+				}
 
-                [[guide guideColour] set];
-                [NSBezierPath strokeLineFromPoint:a
-                                          toPoint:b];
-            }
-        }
+				[[guide guideColour] set];
+				[NSBezierPath strokeLineFromPoint:a
+										  toPoint:b];
+			}
+		}
 
-        [clipView unlockFocus];
+		[clipView unlockFocus];
 
-        RESTORE_GRAPHICS_CONTEXT
-    } else
+		RESTORE_GRAPHICS_CONTEXT
+	} else
 #endif
-    {
-        [NSBezierPath setDefaultLineWidth:lineWidth];
+	{
+		[NSBezierPath setDefaultLineWidth:lineWidth];
 
-        while ((guide = [iter nextObject])) {
-            if (aView == nil || [aView needsToDrawRect:[self guideRect:guide]])
-                [guide drawInRect:rect
-                        lineWidth:lineWidth];
-        }
-    }
+		while ((guide = [iter nextObject])) {
+			if (aView == nil || [aView needsToDrawRect:[self guideRect:guide]])
+				[guide drawInRect:rect
+						lineWidth:lineWidth];
+		}
+	}
 
-    [NSBezierPath setDefaultLineWidth:savedLineWidth];
+	[NSBezierPath setDefaultLineWidth:savedLineWidth];
 }
 
 /** @brief Test whether the point "hits" the layer
@@ -802,20 +802,20 @@ static BOOL sWasInside = NO;
  */
 - (BOOL)hitLayer:(NSPoint)p
 {
-    DKGuide* dg;
+	DKGuide* dg;
 
-    dg = [self nearestHorizontalGuideToPosition:p.y];
+	dg = [self nearestHorizontalGuideToPosition:p.y];
 
-    if (dg)
-        return YES;
-    else {
-        dg = [self nearestVerticalGuideToPosition:p.x];
+	if (dg)
+		return YES;
+	else {
+		dg = [self nearestVerticalGuideToPosition:p.x];
 
-        if (dg)
-            return YES;
-    }
+		if (dg)
+			return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Respond to a mouseDown event
@@ -827,50 +827,50 @@ static BOOL sWasInside = NO;
  */
 - (void)mouseDown:(NSEvent*)event inView:(NSView*)view
 {
-    if (![self locked]) {
-        NSPoint p = [view convertPoint:[event locationInWindow]
-                              fromView:nil];
-        BOOL isNewGuide = NO;
+	if (![self locked]) {
+		NSPoint p = [view convertPoint:[event locationInWindow]
+							  fromView:nil];
+		BOOL isNewGuide = NO;
 
-        if (m_dragGuideRef == nil) {
-            DKGuide* dg = [self nearestHorizontalGuideToPosition:p.y];
-            if (dg)
-                m_dragGuideRef = dg;
-            else {
-                dg = [self nearestVerticalGuideToPosition:p.x];
+		if (m_dragGuideRef == nil) {
+			DKGuide* dg = [self nearestHorizontalGuideToPosition:p.y];
+			if (dg)
+				m_dragGuideRef = dg;
+			else {
+				dg = [self nearestVerticalGuideToPosition:p.x];
 
-                if (dg)
-                    m_dragGuideRef = dg;
-            }
-        } else
-            isNewGuide = YES;
+				if (dg)
+					m_dragGuideRef = dg;
+			}
+		} else
+			isNewGuide = YES;
 
-        if (m_dragGuideRef && [self showsDragInfoWindow]) {
-            [[self undoManager] beginUndoGrouping];
+		if (m_dragGuideRef && [self showsDragInfoWindow]) {
+			[[self undoManager] beginUndoGrouping];
 
-            if (!isNewGuide)
-                [[self undoManager] setActionName:NSLocalizedString(@"Move Guide", @"undo action for move guide")];
-            [[self drawing] invalidateCursors];
+			if (!isNewGuide)
+				[[self undoManager] setActionName:NSLocalizedString(@"Move Guide", @"undo action for move guide")];
+			[[self drawing] invalidateCursors];
 
-            NSPoint gg = p;
+			NSPoint gg = p;
 
-            if ([m_dragGuideRef isVerticalGuide])
-                gg.x = [m_dragGuideRef guidePosition];
-            else
-                gg.y = [m_dragGuideRef guidePosition];
+			if ([m_dragGuideRef isVerticalGuide])
+				gg.x = [m_dragGuideRef guidePosition];
+			else
+				gg.y = [m_dragGuideRef guidePosition];
 
-            NSPoint gp = [[[self drawing] gridLayer] gridLocationForPoint:gg];
+			NSPoint gp = [[[self drawing] gridLayer] gridLocationForPoint:gg];
 
-            if ([m_dragGuideRef isVerticalGuide])
+			if ([m_dragGuideRef isVerticalGuide])
 #warning 64BIT: Check formatting arguments
-                [self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x]
-                                       atPoint:p];
-            else
+				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x]
+									   atPoint:p];
+			else
 #warning 64BIT: Check formatting arguments
-                [self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y]
-                                       atPoint:p];
-        }
-    }
+				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y]
+									   atPoint:p];
+		}
+	}
 }
 
 /** @brief Respond to a mouseDragged event
@@ -881,49 +881,49 @@ static BOOL sWasInside = NO;
  */
 - (void)mouseDragged:(NSEvent*)event inView:(NSView*)view
 {
-    if (![self locked] && m_dragGuideRef != nil) {
-        NSPoint p = [view convertPoint:[event locationInWindow]
-                              fromView:nil];
-        BOOL shift = (([event modifierFlags] & NSShiftKeyMask) != 0);
+	if (![self locked] && m_dragGuideRef != nil) {
+		NSPoint p = [view convertPoint:[event locationInWindow]
+							  fromView:nil];
+		BOOL shift = (([event modifierFlags] & NSShiftKeyMask) != 0);
 
-        if ([self guidesSnapToGrid] || shift)
-            p = [[self drawing] snapToGrid:p
-                       ignoringUserSetting:YES];
+		if ([self guidesSnapToGrid] || shift)
+			p = [[self drawing] snapToGrid:p
+					   ignoringUserSetting:YES];
 
-        // change cursor if crossed from the interior to the margin or vice versa
+		// change cursor if crossed from the interior to the margin or vice versa
 
-        NSRect ir = [self guideDeletionRect];
-        NSRect gr = [self guideRect:m_dragGuideRef];
-        BOOL isIn = NSIntersectsRect(gr, ir);
+		NSRect ir = [self guideDeletionRect];
+		NSRect gr = [self guideRect:m_dragGuideRef];
+		BOOL isIn = NSIntersectsRect(gr, ir);
 
-        if (isIn != sWasInside) {
-            sWasInside = isIn;
+		if (isIn != sWasInside) {
+			sWasInside = isIn;
 
-            if (!isIn)
-                [[NSCursor disappearingItemCursor] set];
-            else
-                [[self cursor] set];
-        }
+			if (!isIn)
+				[[NSCursor disappearingItemCursor] set];
+			else
+				[[self cursor] set];
+		}
 
-        // get the grid conversion for the guide's location:
+		// get the grid conversion for the guide's location:
 
-        NSPoint gp = [[[self drawing] gridLayer] gridLocationForPoint:p];
-        [self repositionGuide:m_dragGuideRef
-                      atPoint:p
-                       inView:view];
+		NSPoint gp = [[[self drawing] gridLayer] gridLocationForPoint:p];
+		[self repositionGuide:m_dragGuideRef
+					  atPoint:p
+					   inView:view];
 
-        if ([m_dragGuideRef isVerticalGuide]) {
-            if ([self showsDragInfoWindow])
+		if ([m_dragGuideRef isVerticalGuide]) {
+			if ([self showsDragInfoWindow])
 #warning 64BIT: Check formatting arguments
-                [self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x]
-                                       atPoint:p];
-        } else {
-            if ([self showsDragInfoWindow])
+				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x]
+									   atPoint:p];
+		} else {
+			if ([self showsDragInfoWindow])
 #warning 64BIT: Check formatting arguments
-                [self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y]
-                                       atPoint:p];
-        }
-    }
+				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y]
+									   atPoint:p];
+		}
+	}
 }
 
 /** @brief Respond to a mouseUp event
@@ -936,25 +936,25 @@ static BOOL sWasInside = NO;
 {
 #pragma unused(event)
 #pragma unused(view)
-    // if the guide has been dragged outside of the interior area of the drawing, delete it.
+	// if the guide has been dragged outside of the interior area of the drawing, delete it.
 
-    if (m_dragGuideRef != nil) {
-        [[self drawing] invalidateCursors];
+	if (m_dragGuideRef != nil) {
+		[[self drawing] invalidateCursors];
 
-        NSRect ir = [self guideDeletionRect];
-        NSRect gr = [self guideRect:m_dragGuideRef];
+		NSRect ir = [self guideDeletionRect];
+		NSRect gr = [self guideRect:m_dragGuideRef];
 
-        if (!NSIntersectsRect(gr, ir)) {
-            [self removeGuide:m_dragGuideRef];
+		if (!NSIntersectsRect(gr, ir)) {
+			[self removeGuide:m_dragGuideRef];
 
-            NSPoint animLoc = [[event window] convertBaseToScreen:[event locationInWindow]];
-            NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, animLoc, NSZeroSize, nil, nil, NULL);
-        }
+			NSPoint animLoc = [[event window] convertBaseToScreen:[event locationInWindow]];
+			NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, animLoc, NSZeroSize, nil, nil, NULL);
+		}
 
-        m_dragGuideRef = nil;
-        [self hideInfoWindow];
-        [[self undoManager] endUndoGrouping];
-    }
+		m_dragGuideRef = nil;
+		[self hideInfoWindow];
+		[[self undoManager] endUndoGrouping];
+	}
 }
 
 /** @brief Query whether the layer can be automatically activated by the given event
@@ -965,7 +965,7 @@ static BOOL sWasInside = NO;
 {
 #pragma unused(event)
 
-    return NO;
+	return NO;
 }
 
 /** @brief Sets the "selection" colour of the layer
@@ -976,7 +976,7 @@ static BOOL sWasInside = NO;
  */
 - (void)setSelectionColour:(NSColor*)aColour
 {
-    [self setGuideColour:aColour];
+	[self setGuideColour:aColour];
 }
 
 /** @brief Returns the curor in use when this layer is active
@@ -985,17 +985,17 @@ static BOOL sWasInside = NO;
  */
 - (NSCursor*)cursor
 {
-    if ([self locked])
-        return [NSCursor arrowCursor];
-    else {
-        if (m_dragGuideRef) {
-            if ([m_dragGuideRef isVerticalGuide])
-                return [NSCursor resizeLeftRightCursor];
-            else
-                return [NSCursor resizeUpDownCursor];
-        } else
-            return [NSCursor openHandCursor];
-    }
+	if ([self locked])
+		return [NSCursor arrowCursor];
+	else {
+		if (m_dragGuideRef) {
+			if ([m_dragGuideRef isVerticalGuide])
+				return [NSCursor resizeLeftRightCursor];
+			else
+				return [NSCursor resizeUpDownCursor];
+		} else
+			return [NSCursor openHandCursor];
+	}
 }
 
 /** @brief Return a rect where the layer's cursor is shown when the mouse is within it
@@ -1005,7 +1005,7 @@ static BOOL sWasInside = NO;
  */
 - (NSRect)activeCursorRect
 {
-    return [self guideDeletionRect];
+	return [self guideDeletionRect];
 }
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
@@ -1015,8 +1015,8 @@ static BOOL sWasInside = NO;
  */
 - (void)wasAddedToDrawing:(DKDrawing*)aDrawing
 {
-    if (NSIsEmptyRect(mGuideDeletionZone))
-        [self setGuideDeletionRect:[aDrawing interior]];
+	if (NSIsEmptyRect(mGuideDeletionZone))
+		[self setGuideDeletionRect:[aDrawing interior]];
 }
 
 /** @brief Return whether the layer can be deleted
@@ -1027,7 +1027,7 @@ static BOOL sWasInside = NO;
  */
 - (BOOL)layerMayBeDeleted
 {
-    return NO;
+	return NO;
 }
 
 /** @brief Allows a contextual menu to be built for the layer or its contents
@@ -1037,25 +1037,25 @@ static BOOL sWasInside = NO;
  */
 - (NSMenu*)menuForEvent:(NSEvent*)theEvent inView:(NSView*)view
 {
-    NSMenu* menu = [super menuForEvent:theEvent
-                                inView:view];
+	NSMenu* menu = [super menuForEvent:theEvent
+								inView:view];
 
-    if (![self locked]) {
-        if (menu == nil)
-            menu = [[[NSMenu alloc] initWithTitle:@"DK_GuideLayerContextualMenu"] autorelease]; // title never seen
+	if (![self locked]) {
+		if (menu == nil)
+			menu = [[[NSMenu alloc] initWithTitle:@"DK_GuideLayerContextualMenu"] autorelease]; // title never seen
 
-        NSMenuItem* item = [menu addItemWithTitle:NSLocalizedString(@"Clear Guides", nil)
-                                           action:@selector(clearGuides:)
-                                    keyEquivalent:@""];
-        [item setTarget:self];
-    }
+		NSMenuItem* item = [menu addItemWithTitle:NSLocalizedString(@"Clear Guides", nil)
+										   action:@selector(clearGuides:)
+									keyEquivalent:@""];
+		[item setTarget:self];
+	}
 
-    return menu;
+	return menu;
 }
 
 - (BOOL)supportsMetadata
 {
-    return NO;
+	return NO;
 }
 
 #pragma mark -
@@ -1065,10 +1065,10 @@ static BOOL sWasInside = NO;
  */
 - (void)dealloc
 {
-    [m_hGuides release];
-    [m_vGuides release];
+	[m_hGuides release];
+	[m_vGuides release];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 /** @brief Initializes the guide layer
@@ -1082,70 +1082,70 @@ static BOOL sWasInside = NO;
  */
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        m_hGuides = [[NSMutableArray alloc] init];
-        m_vGuides = [[NSMutableArray alloc] init];
-        m_showDragInfo = YES;
-        m_snapTolerance = [[self class] defaultSnapTolerance];
-        [self setShouldDrawToPrinter:NO];
-        [self setSelectionColour:[NSColor orangeColor]];
+	self = [super init];
+	if (self != nil) {
+		m_hGuides = [[NSMutableArray alloc] init];
+		m_vGuides = [[NSMutableArray alloc] init];
+		m_showDragInfo = YES;
+		m_snapTolerance = [[self class] defaultSnapTolerance];
+		[self setShouldDrawToPrinter:NO];
+		[self setSelectionColour:[NSColor orangeColor]];
 
-        if (m_hGuides == nil || m_vGuides == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    if (self != nil) {
-        [self setLayerName:NSLocalizedString(@"Guides", @"default name for guide layer")];
-    }
-    return self;
+		if (m_hGuides == nil || m_vGuides == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	if (self != nil) {
+		[self setLayerName:NSLocalizedString(@"Guides", @"default name for guide layer")];
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [super encodeWithCoder:coder];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[super encodeWithCoder:coder];
 
-    [coder encodeObject:m_hGuides
-                 forKey:@"horizontalguides"];
-    [coder encodeObject:m_vGuides
-                 forKey:@"verticalguides"];
+	[coder encodeObject:m_hGuides
+				 forKey:@"horizontalguides"];
+	[coder encodeObject:m_vGuides
+				 forKey:@"verticalguides"];
 
-    [coder encodeBool:m_snapToGrid
-               forKey:@"snapstogrid"];
-    [coder encodeBool:m_showDragInfo
-               forKey:@"showdraginfo"];
-    [coder encodeDouble:m_snapTolerance
-                 forKey:@"snaptolerance"];
-    [coder encodeRect:[self guideDeletionRect]
-               forKey:@"DKGuideLayer_deletionRect"];
+	[coder encodeBool:m_snapToGrid
+			   forKey:@"snapstogrid"];
+	[coder encodeBool:m_showDragInfo
+			   forKey:@"showdraginfo"];
+	[coder encodeDouble:m_snapTolerance
+				 forKey:@"snaptolerance"];
+	[coder encodeRect:[self guideDeletionRect]
+			   forKey:@"DKGuideLayer_deletionRect"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    self = [super initWithCoder:coder];
-    if (self != nil) {
-        m_hGuides = [[coder decodeObjectForKey:@"horizontalguides"] mutableCopy];
-        m_vGuides = [[coder decodeObjectForKey:@"verticalguides"] mutableCopy];
+	NSAssert(coder != nil, @"Expected valid coder");
+	self = [super initWithCoder:coder];
+	if (self != nil) {
+		m_hGuides = [[coder decodeObjectForKey:@"horizontalguides"] mutableCopy];
+		m_vGuides = [[coder decodeObjectForKey:@"verticalguides"] mutableCopy];
 
-        m_snapToGrid = [coder decodeBoolForKey:@"snapstogrid"];
-        m_showDragInfo = [coder decodeBoolForKey:@"showdraginfo"];
-        NSAssert(m_dragGuideRef == nil, @"Expected init to zero");
-        m_snapTolerance = [coder decodeDoubleForKey:@"snaptolerance"];
+		m_snapToGrid = [coder decodeBoolForKey:@"snapstogrid"];
+		m_showDragInfo = [coder decodeBoolForKey:@"showdraginfo"];
+		NSAssert(m_dragGuideRef == nil, @"Expected init to zero");
+		m_snapTolerance = [coder decodeDoubleForKey:@"snaptolerance"];
 
-        NSRect dr = [coder decodeRectForKey:@"DKGuideLayer_deletionRect"];
-        [self setGuideDeletionRect:dr];
+		NSRect dr = [coder decodeRectForKey:@"DKGuideLayer_deletionRect"];
+		[self setGuideDeletionRect:dr];
 
-        if (m_hGuides == nil || m_vGuides == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    return self;
+		if (m_hGuides == nil || m_vGuides == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	return self;
 }
 
 #pragma mark -
@@ -1159,10 +1159,10 @@ static BOOL sWasInside = NO;
  */
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    if ([item action] == @selector(clearGuides:))
-        return ![self locked] && ([[self verticalGuides] count] > 0 || [[self horizontalGuides] count] > 0);
+	if ([item action] == @selector(clearGuides:))
+		return ![self locked] && ([[self verticalGuides] count] > 0 || [[self horizontalGuides] count] > 0);
 
-    return [super validateMenuItem:item];
+	return [super validateMenuItem:item];
 }
 
 @end
@@ -1176,7 +1176,7 @@ static BOOL sWasInside = NO;
  */
 - (void)setGuidePosition:(CGFloat)pos
 {
-    m_position = pos;
+	m_position = pos;
 }
 
 /** @brief Returns the position of the guide
@@ -1184,7 +1184,7 @@ static BOOL sWasInside = NO;
  */
 - (CGFloat)guidePosition
 {
-    return m_position;
+	return m_position;
 }
 
 /** @brief Sets whether the guide is vertically oriented or horizontal
@@ -1192,7 +1192,7 @@ static BOOL sWasInside = NO;
  */
 - (void)setIsVerticalGuide:(BOOL)vert
 {
-    m_isVertical = vert;
+	m_isVertical = vert;
 }
 
 /** @brief Returns whether the guide is vertically oriented or horizontal
@@ -1200,19 +1200,19 @@ static BOOL sWasInside = NO;
  */
 - (BOOL)isVerticalGuide
 {
-    return m_isVertical;
+	return m_isVertical;
 }
 
 - (void)setGuideColour:(NSColor*)colour
 {
-    [colour retain];
-    [m_colour release];
-    m_colour = colour;
+	[colour retain];
+	[m_colour release];
+	m_colour = colour;
 }
 
 - (NSColor*)guideColour
 {
-    return m_colour;
+	return m_colour;
 }
 
 /** @brief Draws the guide
@@ -1223,22 +1223,22 @@ static BOOL sWasInside = NO;
  */
 - (void)drawInRect:(NSRect)rect lineWidth:(CGFloat)lw
 {
-    NSPoint a, b;
+	NSPoint a, b;
 
-    if ([self isVerticalGuide]) {
-        a.y = NSMinY(rect);
-        b.y = NSMaxY(rect);
-        a.x = b.x = [self guidePosition];
-    } else {
-        a.x = NSMinX(rect);
-        b.x = NSMaxX(rect);
-        a.y = b.y = [self guidePosition];
-    }
+	if ([self isVerticalGuide]) {
+		a.y = NSMinY(rect);
+		b.y = NSMaxY(rect);
+		a.x = b.x = [self guidePosition];
+	} else {
+		a.x = NSMinX(rect);
+		b.x = NSMaxX(rect);
+		a.y = b.y = [self guidePosition];
+	}
 
-    [[self guideColour] set];
-    [NSBezierPath setDefaultLineWidth:lw];
-    [NSBezierPath strokeLineFromPoint:a
-                              toPoint:b];
+	[[self guideColour] set];
+	[NSBezierPath setDefaultLineWidth:lw];
+	[NSBezierPath strokeLineFromPoint:a
+							  toPoint:b];
 }
 
 #pragma mark -
@@ -1246,45 +1246,45 @@ static BOOL sWasInside = NO;
 
 - (id)init
 {
-    if ((self = [super init]) != nil) {
-        m_position = 0.0;
-        m_isVertical = NO;
-        [self setGuideColour:[NSColor cyanColor]];
-        if (m_colour == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    return self;
+	if ((self = [super init]) != nil) {
+		m_position = 0.0;
+		m_isVertical = NO;
+		[self setGuideColour:[NSColor cyanColor]];
+		if (m_colour == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    [coder encodeDouble:[self guidePosition]
-                 forKey:@"position"];
-    [coder encodeBool:[self isVerticalGuide]
-               forKey:@"vertical"];
-    [coder encodeObject:[self guideColour]
-                 forKey:@"guide_colour"];
+	[coder encodeDouble:[self guidePosition]
+				 forKey:@"position"];
+	[coder encodeBool:[self isVerticalGuide]
+			   forKey:@"vertical"];
+	[coder encodeObject:[self guideColour]
+				 forKey:@"guide_colour"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    if ((self = [super init]) != nil) {
-        m_position = [coder decodeDoubleForKey:@"position"];
-        m_isVertical = [coder decodeBoolForKey:@"vertical"];
+	NSAssert(coder != nil, @"Expected valid coder");
+	if ((self = [super init]) != nil) {
+		m_position = [coder decodeDoubleForKey:@"position"];
+		m_isVertical = [coder decodeBoolForKey:@"vertical"];
 
-        // guard against older files that didn't save this ivar
+		// guard against older files that didn't save this ivar
 
-        NSColor* clr = [coder decodeObjectForKey:@"guide_colour"];
+		NSColor* clr = [coder decodeObjectForKey:@"guide_colour"];
 
-        if (clr)
-            [self setGuideColour:clr];
-    }
-    return self;
+		if (clr)
+			[self setGuideColour:clr];
+	}
+	return self;
 }
 
 @end

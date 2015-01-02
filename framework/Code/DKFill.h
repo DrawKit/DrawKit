@@ -22,10 +22,10 @@ areas the solid fill will show through.
 */
 @interface DKFill : DKRasterizer <NSCoding, NSCopying> {
 @private
-    NSColor* m_fillColour;
-    NSShadow* m_shadow;
-    DKGradient* m_gradient;
-    BOOL m_angleTracksObject; // set if gradient angle remains relative to the object being filled
+	NSColor* m_fillColour;
+	NSShadow* m_shadow;
+	DKGradient* m_gradient;
+	BOOL m_angleTracksObject; // set if gradient angle remains relative to the object being filled
 }
 
 + (DKFill*)fillWithColour:(NSColor*)colour;

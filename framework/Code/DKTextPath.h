@@ -17,9 +17,9 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 */
 @interface DKTextPath : DKDrawablePath <NSCopying, NSCoding> {
 @private
-    DKTextAdornment* mTextAdornment;
-    NSTextView* mEditorRef;
-    BOOL mIsSettingStyle;
+	DKTextAdornment* mTextAdornment;
+	NSTextView* mEditorRef;
+	BOOL mIsSettingStyle;
 }
 
 // convenience constructors:

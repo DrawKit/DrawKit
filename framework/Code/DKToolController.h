@@ -13,9 +13,9 @@
 // this type is used to set the scope of tools within a DK application:
 
 typedef enum {
-    kDKToolScopeLocalToView = 0, // tools can be individually set per view
-    kDKToolScopeLocalToDocument = 1, // tools are set individually for the document, the same tool in all views of that document (default)
-    kDKToolScopeGlobal = 2 // tools are set globally for the whole application
+	kDKToolScopeLocalToView = 0, // tools can be individually set per view
+	kDKToolScopeLocalToDocument = 1, // tools are set individually for the document, the same tool in all views of that document (default)
+	kDKToolScopeGlobal = 2 // tools are set globally for the whole application
 } DKDrawingToolScope;
 
 // controller class:
@@ -56,11 +56,11 @@ tool's name and target first responder with this action.
 */
 @interface DKToolController : DKViewController {
 @private
-    DKDrawingTool* mTool; // the current tool if stored locally
-    BOOL mAutoRevert; // YES to "spring" tool back to selection after each one completes
-    NSInteger mPartcode; // partcode to pass back during mouse ops
-    BOOL mOpenedUndoGroup; // YES if an undo group was requested by the tool at some point
-    BOOL mAbortiveMouseDown; // YES flagged after exception during mouse down - rejects drag and up events
+	DKDrawingTool* mTool; // the current tool if stored locally
+	BOOL mAutoRevert; // YES to "spring" tool back to selection after each one completes
+	NSInteger mPartcode; // partcode to pass back during mouse ops
+	BOOL mOpenedUndoGroup; // YES if an undo group was requested by the tool at some point
+	BOOL mAbortiveMouseDown; // YES flagged after exception during mouse down - rejects drag and up events
 }
 
 /** @brief Set the operating scope for tools for this application

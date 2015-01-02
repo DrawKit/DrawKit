@@ -30,19 +30,19 @@ selected state.
 */
 @interface DKObjectDrawingLayer : DKObjectOwnerLayer <NSCoding> {
 @private
-    NSMutableSet* m_selection; // list of selected objects
-    NSSet* m_selectionUndo; // old selection when setting up undo
-    NSRect m_dragExcludeRect; // drags will become "real" once this rect is left
-    BOOL m_selectionIsUndoable; // YES if selection changes tracked by undo
-    BOOL m_drawSelectionOnTop; // YES if selection highlights are drawn in a pseudo-layer on top of all objects
-    BOOL m_selectionVisible; // YES if selection is actually drawn
-    BOOL m_allowDragTargeting; // YES if the layer can target individual objects when receiving a drag/drop
-    BOOL mMultipleAutoForwarding; // YES to automatically forward actions to all objects in the selection that can respond
-    BOOL mBufferSelectionChanges; // YES to buffer a series of selection changes during a multiple forwarding invocation
-    NSUInteger mUndoCount; // records undo count when the selection state is recorded
-    NSArray* m_objectsPendingDrag; // temporary list of objects being dragged from the layer
-    DKDrawableObject* mKeyAlignmentObject; // the master object to which others can be aligned
-    NSRect mSelBoundsCached; // cached value of the selection bounds
+	NSMutableSet* m_selection; // list of selected objects
+	NSSet* m_selectionUndo; // old selection when setting up undo
+	NSRect m_dragExcludeRect; // drags will become "real" once this rect is left
+	BOOL m_selectionIsUndoable; // YES if selection changes tracked by undo
+	BOOL m_drawSelectionOnTop; // YES if selection highlights are drawn in a pseudo-layer on top of all objects
+	BOOL m_selectionVisible; // YES if selection is actually drawn
+	BOOL m_allowDragTargeting; // YES if the layer can target individual objects when receiving a drag/drop
+	BOOL mMultipleAutoForwarding; // YES to automatically forward actions to all objects in the selection that can respond
+	BOOL mBufferSelectionChanges; // YES to buffer a series of selection changes during a multiple forwarding invocation
+	NSUInteger mUndoCount; // records undo count when the selection state is recorded
+	NSArray* m_objectsPendingDrag; // temporary list of objects being dragged from the layer
+	DKDrawableObject* mKeyAlignmentObject; // the master object to which others can be aligned
+	NSRect mSelBoundsCached; // cached value of the selection bounds
 }
 
 // default settings:
@@ -688,8 +688,8 @@ selected state.
 // magic numbers:
 
 enum {
-    kDKMakeColinearJoinTag = 200, // set this tag value in "Join Paths" menu item to make the join colinear
-    kDKPasteCommandContextualMenuTag = 201 // used for contextual 'paste' menu to use mouse position when positioning pasted items
+	kDKMakeColinearJoinTag = 200, // set this tag value in "Join Paths" menu item to make the join colinear
+	kDKPasteCommandContextualMenuTag = 201 // used for contextual 'paste' menu to use mouse position when positioning pasted items
 };
 
 extern NSString* kDKLayerSelectionDidChange;

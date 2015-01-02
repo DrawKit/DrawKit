@@ -28,13 +28,15 @@
 // exception safe save/restore of the current graphics context
 
 #define SAVE_GRAPHICS_CONTEXT \
-    @try                      \
-    {                         \
-        [NSGraphicsContext saveGraphicsState];
-#define RESTORE_GRAPHICS_CONTEXT \
-    }                            \
-    @finally {                   \
-        [NSGraphicsContext restoreGraphicsState]; }
+	@try                      \
+	{                         \
+		[NSGraphicsContext saveGraphicsState];
+#define RESTORE_GRAPHICS_CONTEXT                  \
+	}                                             \
+	@finally                                      \
+	{                                             \
+		[NSGraphicsContext restoreGraphicsState]; \
+	}
 
 // 64-bit float macros
 

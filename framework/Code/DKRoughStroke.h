@@ -21,9 +21,9 @@ Paths are cached up to the maximum number set by the constant, after which least
 */
 @interface DKRoughStroke : DKStroke <NSCoding, NSCopying> {
 @private
-    CGFloat mRoughness;
-    NSMutableDictionary* mPathCache;
-    NSMutableArray* mCacheList;
+	CGFloat mRoughness;
+	NSMutableDictionary* mPathCache;
+	NSMutableArray* mCacheList;
 }
 
 /**  */

@@ -22,14 +22,14 @@ You can also set up a style to be applied to all new objects initially as an ind
 */
 @interface DKObjectCreationTool : DKDrawingTool {
 @private
-    id m_prototypeObject;
-    BOOL mEnableStylePickup;
-    BOOL mDidPickup;
-    NSPoint mLastPoint;
-    NSInteger mPartcode;
+	id m_prototypeObject;
+	BOOL mEnableStylePickup;
+	BOOL mDidPickup;
+	NSPoint mLastPoint;
+	NSInteger mPartcode;
 
 @protected
-    id m_protoObject;
+	id m_protoObject;
 }
 
 /** @brief Create a tool for an existing object

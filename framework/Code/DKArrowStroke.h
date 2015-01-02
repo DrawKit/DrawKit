@@ -11,42 +11,42 @@
 // arrow head kinds - each end can be specified independently:
 
 typedef enum {
-    kDKArrowHeadNone = 0,
-    kDKArrowHeadStandard = 1,
-    kDKArrowHeadInflected = 2,
-    kDKArrowHeadRound = 3,
-    kDKArrowHeadSingleFeather = 4,
-    kDKArrowHeadDoubleFeather = 5,
-    kDKArrowHeadTripleFeather = 6,
-    kDKArrowHeadDimensionLine = 7,
-    kDKArrowHeadDimensionLineAndBar = 8,
-    kDKArrowHeadSquare = 9,
-    kDKArrowHeadDiamond = 10
+	kDKArrowHeadNone = 0,
+	kDKArrowHeadStandard = 1,
+	kDKArrowHeadInflected = 2,
+	kDKArrowHeadRound = 3,
+	kDKArrowHeadSingleFeather = 4,
+	kDKArrowHeadDoubleFeather = 5,
+	kDKArrowHeadTripleFeather = 6,
+	kDKArrowHeadDimensionLine = 7,
+	kDKArrowHeadDimensionLineAndBar = 8,
+	kDKArrowHeadSquare = 9,
+	kDKArrowHeadDiamond = 10
 } DKArrowHeadKind;
 
 // positioning of dimension label, or none:
 
 typedef enum {
-    kDKDimensionNone = 0,
-    kDKDimensionPlaceAboveLine = 1,
-    kDKDimensionPlaceInLine = 2,
-    kDKDimensionPlaceBelowLine = 3
+	kDKDimensionNone = 0,
+	kDKDimensionPlaceAboveLine = 1,
+	kDKDimensionPlaceInLine = 2,
+	kDKDimensionPlaceBelowLine = 3
 } DKDimensioningLineOptions;
 
 // dimension kind - sets additional embellishments on the dimension text:
 
 typedef enum {
-    kDKDimensionLinear = 0,
-    kDKDimensionDiameter = 1,
-    kDKDimensionRadius = 2,
-    kDKDimensionAngle = 3
+	kDKDimensionLinear = 0,
+	kDKDimensionDiameter = 1,
+	kDKDimensionRadius = 2,
+	kDKDimensionAngle = 3
 } DKDimensionTextKind;
 
 // tolerance options:
 
 typedef enum {
-    kDKDimensionToleranceNotShown = 0,
-    kDKDimensionToleranceShown = 1
+	kDKDimensionToleranceNotShown = 0,
+	kDKDimensionToleranceShown = 1
 } DKDimensionToleranceOption;
 
 // the class:
@@ -60,16 +60,16 @@ typedef enum {
 */
 @interface DKArrowStroke : DKStroke <NSCoding, NSCopying> {
 @private
-    DKArrowHeadKind mArrowHeadAtStart;
-    DKArrowHeadKind mArrowHeadAtEnd;
-    CGFloat m_arrowLength;
-    CGFloat m_arrowWidth;
-    DKDimensioningLineOptions mDimensionOptions;
-    NSNumberFormatter* m_dims_formatter;
-    NSColor* m_outlineColour;
-    CGFloat m_outlineWidth;
-    DKDimensionTextKind mDimTextKind;
-    DKDimensionToleranceOption mDimToleranceOptions;
+	DKArrowHeadKind mArrowHeadAtStart;
+	DKArrowHeadKind mArrowHeadAtEnd;
+	CGFloat m_arrowLength;
+	CGFloat m_arrowWidth;
+	DKDimensioningLineOptions mDimensionOptions;
+	NSNumberFormatter* m_dims_formatter;
+	NSColor* m_outlineColour;
+	CGFloat m_outlineWidth;
+	DKDimensionTextKind mDimTextKind;
+	DKDimensionToleranceOption mDimToleranceOptions;
 }
 
 + (void)setDimensioningLineTextAttributes:(NSDictionary*)attrs;

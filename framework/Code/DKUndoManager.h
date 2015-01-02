@@ -39,16 +39,16 @@ and close the group at mouse up without creating bogus stack states.
 
 @interface DKUndoManager : NSUndoManager {
 @private
-    BOOL mCoalescingEnabled;
-    BOOL mEmulate105Behaviour;
-    id mSkipTargetRef;
-    id mLastTargetRef;
-    NSUInteger mChangeCount;
-    NSUInteger mChangePerGroupCount;
-    BOOL mInPrivateMethod;
-    BOOL mSkipTask;
-    SEL mLastSelector;
-    id mTarget;
+	BOOL mCoalescingEnabled;
+	BOOL mEmulate105Behaviour;
+	id mSkipTargetRef;
+	id mLastTargetRef;
+	NSUInteger mChangeCount;
+	NSUInteger mChangePerGroupCount;
+	BOOL mInPrivateMethod;
+	BOOL mSkipTask;
+	SEL mLastSelector;
+	id mTarget;
 }
 
 - (BOOL)enableUndoTaskCoalescing:(BOOL)enable;

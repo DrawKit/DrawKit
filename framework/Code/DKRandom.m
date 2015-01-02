@@ -16,21 +16,21 @@
 // returns a random value between 0 and 1.
 
 #warning 64BIT: Inspect use of unsigned long
-    static unsigned long seed = 0;
+	static unsigned long seed = 0;
 
-    if (seed == 0) {
-        srandom([[NSDate date] timeIntervalSince1970]);
-        seed = 1;
-    }
-    CGFloat randomNum = (CGFloat)random();
-    randomNum /= (randomNum < 0) ? -2147483647.0f : 2147483647.0f;
+	if (seed == 0) {
+		srandom([[NSDate date] timeIntervalSince1970]);
+		seed = 1;
+	}
+	CGFloat randomNum = (CGFloat)random();
+	randomNum /= (randomNum < 0) ? -2147483647.0f : 2147483647.0f;
 
-    return randomNum;
+	return randomNum;
 }
 
 + (CGFloat)randomPositiveOrNegativeNumber
 {
-    return [self randomNumber] - 0.5;
+	return [self randomNumber] - 0.5;
 }
 
 @end

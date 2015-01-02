@@ -18,19 +18,19 @@
 {
 #pragma unused(rect)
 
-    //[[NSColor clearColor] set];
-    //NSRectFill([self bounds]);
+	//[[NSColor clearColor] set];
+	//NSRectFill([self bounds]);
 
-    NSUInteger mask = (NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask);
-    BOOL drawSelected = (([[NSApp currentEvent] modifierFlags] & mask) == mask);
+	NSUInteger mask = (NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask);
+	BOOL drawSelected = (([[NSApp currentEvent] modifierFlags] & mask) == mask);
 
-    DKObjectDrawingLayer* layer = (DKObjectDrawingLayer*)[[self controller] activeLayer];
+	DKObjectDrawingLayer* layer = (DKObjectDrawingLayer*)[[self controller] activeLayer];
 
-    if ([layer isKindOfClass:[DKObjectDrawingLayer class]]) {
-        [self set];
-        [layer drawSelectedObjectsWithSelectionState:drawSelected];
-        [[self class] pop];
-    }
+	if ([layer isKindOfClass:[DKObjectDrawingLayer class]]) {
+		[self set];
+		[layer drawSelectedObjectsWithSelectionState:drawSelected];
+		[[self class] pop];
+	}
 }
 
 @end
@@ -40,36 +40,36 @@
 
 - (id)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer
 {
-    self = [super initWithFrame:frame];
-    if (self != nil) {
-        mLayerRef = aLayer;
-    }
+	self = [super initWithFrame:frame];
+	if (self != nil) {
+		mLayerRef = aLayer;
+	}
 
-    return self;
+	return self;
 }
 
 - (BOOL)isFlipped
 {
-    return YES;
+	return YES;
 }
 
 - (void)drawRect:(NSRect)rect
 {
 #pragma unused(rect)
 
-    //[[NSColor clearColor] set];
-    //NSRectFill([self bounds]);
+	//[[NSColor clearColor] set];
+	//NSRectFill([self bounds]);
 
-    if (mLayerRef != nil) {
-        [self set];
+	if (mLayerRef != nil) {
+		[self set];
 
-        [mLayerRef beginDrawing];
-        [mLayerRef drawRect:[self bounds]
-                     inView:self];
-        [mLayerRef endDrawing];
+		[mLayerRef beginDrawing];
+		[mLayerRef drawRect:[self bounds]
+					 inView:self];
+		[mLayerRef endDrawing];
 
-        [[self class] pop];
-    }
+		[[self class] pop];
+	}
 }
 
 @end
@@ -80,28 +80,28 @@
 
 - (id)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj
 {
-    self = [super initWithFrame:frame];
-    if (self != nil) {
-        mObjectRef = obj;
-    }
+	self = [super initWithFrame:frame];
+	if (self != nil) {
+		mObjectRef = obj;
+	}
 
-    return self;
+	return self;
 }
 
 - (BOOL)isFlipped
 {
-    return YES;
+	return YES;
 }
 
 - (void)drawRect:(NSRect)rect
 {
 #pragma unused(rect)
 
-    [[NSColor clearColor] set];
-    NSRectFill([self bounds]);
+	[[NSColor clearColor] set];
+	NSRectFill([self bounds]);
 
-    if (mObjectRef)
-        [mObjectRef drawContentWithSelectedState:NO];
+	if (mObjectRef)
+		[mObjectRef drawContentWithSelectedState:NO];
 }
 
 @end

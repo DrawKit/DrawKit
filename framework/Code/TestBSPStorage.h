@@ -40,10 +40,10 @@ Unit Test for the BSP storage sub-system. This works by populating a storage ins
 @end
 
 @interface testStorableObject : NSObject <DKStorableObject> {
-    NSRect _bounds;
-    NSUInteger _index;
-    BOOL _marked;
-    id<DKObjectStorage> _storage;
+	NSRect _bounds;
+	NSUInteger _index;
+	BOOL _marked;
+	id<DKObjectStorage> _storage;
 }
 
 - (void)setBounds:(NSRect)newBounds;

@@ -11,17 +11,17 @@
 // menu creation options:
 
 typedef enum {
-    kDKIncludeRecentlyAddedItems = (1 << 0),
-    kDKIncludeRecentlyUsedItems = (1 << 1),
-    kDKIncludeAllItems = (1 << 2),
-    kDKDontAddDividingLine = (1 << 3),
-    kDKMenuIsPopUpMenu = (1 << 4)
+	kDKIncludeRecentlyAddedItems = (1 << 0),
+	kDKIncludeRecentlyUsedItems = (1 << 1),
+	kDKIncludeAllItems = (1 << 2),
+	kDKDontAddDividingLine = (1 << 3),
+	kDKMenuIsPopUpMenu = (1 << 4)
 } DKCategoryMenuOptions;
 
 typedef enum {
-    kDKReplaceExisting = (1 << 1), // objects passed in replace those with the same key (doc -> reg)
-    kDKReturnExisting = (1 << 2), // objects in reg with the same keys are returned (reg -> doc)
-    kDKAddAsNewVersions = (1 << 3) // objects with the same keys are copied and registered again (reg || doc)
+	kDKReplaceExisting = (1 << 1), // objects passed in replace those with the same key (doc -> reg)
+	kDKReturnExisting = (1 << 2), // objects in reg with the same keys are returned (reg -> doc)
+	kDKAddAsNewVersions = (1 << 3) // objects with the same keys are copied and registered again (reg || doc)
 } DKCatManagerMergeOptions;
 
 // the class
@@ -36,14 +36,14 @@ typedef enum {
 */
 @interface DKCategoryManager : NSObject <NSCoding, NSCopying> {
 @private
-    NSMutableDictionary* m_masterList;
-    NSMutableDictionary* m_categories;
-    NSMutableArray* m_recentlyAdded;
-    NSMutableArray* m_recentlyUsed;
-    NSUInteger m_maxRecentlyAddedItems;
-    NSUInteger m_maxRecentlyUsedItems;
-    NSMutableArray* mMenusList;
-    BOOL mRecentlyAddedEnabled;
+	NSMutableDictionary* m_masterList;
+	NSMutableDictionary* m_categories;
+	NSMutableArray* m_recentlyAdded;
+	NSMutableArray* m_recentlyUsed;
+	NSUInteger m_maxRecentlyAddedItems;
+	NSUInteger m_maxRecentlyUsedItems;
+	NSMutableArray* mMenusList;
+	BOOL mRecentlyAddedEnabled;
 }
 
 /** @brief Returns a new category manager object
@@ -569,9 +569,9 @@ typedef enum {
 // various constants:
 
 enum {
-    kDKDefaultMaxRecentArraySize = 20,
-    kDKListRecentlyAdded = 0,
-    kDKListRecentlyUsed = 1
+	kDKDefaultMaxRecentArraySize = 20,
+	kDKListRecentlyAdded = 0,
+	kDKListRecentlyUsed = 1
 };
 
 // standard name for "All items" category:
@@ -629,15 +629,15 @@ that the object is a member of. This facilitates category-oriented lookups of ob
  */
 @interface DKCategoryManagerMenuInfo : NSObject {
 @private
-    DKCategoryManager* mCatManagerRef; // the category manager that owns this
-    NSMenu* mTheMenu; // the menu being managed
-    id mTargetRef; // initial target for new menu items
-    id mCallbackTargetRef; // delegate for menu items
-    SEL mSelector; // initial action for new menu items
-    DKCategoryMenuOptions mOptions; // option flags
-    BOOL mCategoriesOnly; // YES if the menu just lists the categories and not the category contents
-    NSMenuItem* mRecentlyUsedMenuItemRef; // the menu item for "recently used"
-    NSMenuItem* mRecentlyAddedMenuItemRef; // the menu item for "recently added"
+	DKCategoryManager* mCatManagerRef; // the category manager that owns this
+	NSMenu* mTheMenu; // the menu being managed
+	id mTargetRef; // initial target for new menu items
+	id mCallbackTargetRef; // delegate for menu items
+	SEL mSelector; // initial action for new menu items
+	DKCategoryMenuOptions mOptions; // option flags
+	BOOL mCategoriesOnly; // YES if the menu just lists the categories and not the category contents
+	NSMenuItem* mRecentlyUsedMenuItemRef; // the menu item for "recently used"
+	NSMenuItem* mRecentlyAddedMenuItemRef; // the menu item for "recently added"
 }
 
 - (id)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options;
@@ -663,6 +663,6 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 // so this tag identifies items that we can freely discard or modify. Any others are left alone, allowing clients to add other items to the menus that won't get disturbed.
 
 enum {
-    kDKCategoryManagerManagedMenuItemTag = -42,
-    kDKCategoryManagerRecentMenuItemTag = -43
+	kDKCategoryManagerManagedMenuItemTag = -42,
+	kDKCategoryManagerRecentMenuItemTag = -43
 };

@@ -46,12 +46,12 @@ completed except for page breaks. Tool controllers for example can draw selectio
 */
 @interface DKViewController : NSObject {
 @private
-    NSView* mViewRef; // weak ref to the view that is associated with this
-    DKDrawing* mDrawingRef; // weak ref to the drawing that owns this
-    BOOL m_autoLayerSelect; // YES to allow mouse to activate layers automatically
-    BOOL mEnableDKMenus; // YES to enable all standard contextual menus provided by DK.
+	NSView* mViewRef; // weak ref to the view that is associated with this
+	DKDrawing* mDrawingRef; // weak ref to the drawing that owns this
+	BOOL m_autoLayerSelect; // YES to allow mouse to activate layers automatically
+	BOOL mEnableDKMenus; // YES to enable all standard contextual menus provided by DK.
 @protected
-    NSEvent* mDragEvent; // cached drag event for autoscroll to use
+	NSEvent* mDragEvent; // cached drag event for autoscroll to use
 }
 
 // designated initializer

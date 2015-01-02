@@ -26,7 +26,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 */
 @interface DKLayerGroup : DKLayer <NSCoding> {
 @private
-    NSMutableArray* m_layers;
+	NSMutableArray* m_layers;
 }
 
 /** @brief Convenience method for building a new layer group from an existing list of layers

@@ -17,23 +17,23 @@
 - (NSDictionary*)deepCopy
 {
 #if DO_IT_THE_EASY_WAY
-    return [[NSDictionary alloc] initWithDictionary:self
-                                          copyItems:YES];
+	return [[NSDictionary alloc] initWithDictionary:self
+										  copyItems:YES];
 #else
-    NSMutableDictionary* copy;
-    NSEnumerator* iter = [self keyEnumerator];
-    id key, cobj;
+	NSMutableDictionary* copy;
+	NSEnumerator* iter = [self keyEnumerator];
+	id key, cobj;
 
-    copy = [[NSMutableDictionary alloc] init];
+	copy = [[NSMutableDictionary alloc] init];
 
-    while ((key = [iter nextObject])) {
-        cobj = [[self objectForKey:key] deepCopy];
-        [copy setObject:cobj
-                 forKey:key];
-        [cobj release];
-    }
+	while ((key = [iter nextObject])) {
+		cobj = [[self objectForKey:key] deepCopy];
+		[copy setObject:cobj
+				 forKey:key];
+		[cobj release];
+	}
 
-    return copy;
+	return copy;
 #endif
 }
 
@@ -45,22 +45,22 @@
 - (NSArray*)deepCopy
 {
 #if DO_IT_THE_EASY_WAY
-    return [[NSArray alloc] initWithArray:self
-                                copyItems:YES];
+	return [[NSArray alloc] initWithArray:self
+								copyItems:YES];
 #else
-    NSMutableArray* copy;
-    NSEnumerator* iter = [self objectEnumerator];
-    id obj, cobj;
+	NSMutableArray* copy;
+	NSEnumerator* iter = [self objectEnumerator];
+	id obj, cobj;
 
-    copy = [[NSMutableArray alloc] init];
+	copy = [[NSMutableArray alloc] init];
 
-    while ((obj = [iter nextObject])) {
-        cobj = [obj deepCopy];
-        [copy addObject:cobj];
-        [cobj release];
-    }
+	while ((obj = [iter nextObject])) {
+		cobj = [obj deepCopy];
+		[copy addObject:cobj];
+		[cobj release];
+	}
 
-    return copy;
+	return copy;
 #endif
 }
 
@@ -71,7 +71,7 @@
 
 - (id)deepCopy
 {
-    return [self copy];
+	return [self copy];
 }
 
 @end
@@ -82,22 +82,22 @@
 - (NSMutableArray*)deepCopy
 {
 #if DO_IT_THE_EASY_WAY
-    return [[NSMutableArray alloc] initWithArray:self
-                                       copyItems:YES];
+	return [[NSMutableArray alloc] initWithArray:self
+									   copyItems:YES];
 #else
-    NSMutableArray* copy;
-    NSEnumerator* iter = [self objectEnumerator];
-    id obj, cobj;
+	NSMutableArray* copy;
+	NSEnumerator* iter = [self objectEnumerator];
+	id obj, cobj;
 
-    copy = [[NSMutableArray alloc] init];
+	copy = [[NSMutableArray alloc] init];
 
-    while ((obj = [iter nextObject])) {
-        cobj = [obj deepCopy];
-        [copy addObject:cobj];
-        [cobj release];
-    }
+	while ((obj = [iter nextObject])) {
+		cobj = [obj deepCopy];
+		[copy addObject:cobj];
+		[cobj release];
+	}
 
-    return copy;
+	return copy;
 #endif
 }
 

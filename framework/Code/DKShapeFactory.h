@@ -74,16 +74,16 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 // params for speech balloon shapes:
 
 enum {
-    kDKSpeechBalloonPointsLeft = 0,
-    kDKSpeechBalloonPointsRight = 1,
-    kDKSpeechBalloonPointsDown = 0,
-    kDKSpeechBalloonPointsUp = 1,
-    kDKSpeechBalloonLeftEdge = 2,
-    kDKSpeechBalloonRightEdge = 4,
-    kDKSpeechBalloonTopEdge = 6,
-    kDKSpeechBalloonBottomEdge = 8,
-    kDKStandardSpeechBalloon = kDKSpeechBalloonTopEdge | kDKSpeechBalloonPointsLeft,
-    kDKSpeechBalloonEdgeMask = 0x0E
+	kDKSpeechBalloonPointsLeft = 0,
+	kDKSpeechBalloonPointsRight = 1,
+	kDKSpeechBalloonPointsDown = 0,
+	kDKSpeechBalloonPointsUp = 1,
+	kDKSpeechBalloonLeftEdge = 2,
+	kDKSpeechBalloonRightEdge = 4,
+	kDKSpeechBalloonTopEdge = 6,
+	kDKSpeechBalloonBottomEdge = 8,
+	kDKStandardSpeechBalloon = kDKSpeechBalloonTopEdge | kDKSpeechBalloonPointsLeft,
+	kDKSpeechBalloonEdgeMask = 0x0E
 };
 
 // param keys for dictionary passed to provider methods:

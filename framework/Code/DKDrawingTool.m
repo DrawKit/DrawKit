@@ -40,9 +40,9 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (NSDictionary*)sharedToolRegistry
 {
-    NSLog(@"+[DKDrawingTool sharedToolRegistry] is deprecated and is a no-op");
+	NSLog(@"+[DKDrawingTool sharedToolRegistry] is deprecated and is a no-op");
 
-    return nil;
+	return nil;
 }
 
 /** @brief Retrieve a tool from the registry with the given name
@@ -53,7 +53,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (DKDrawingTool*)drawingToolWithName:(NSString*)name
 {
-    return [[DKToolRegistry sharedToolRegistry] drawingToolWithName:name];
+	return [[DKToolRegistry sharedToolRegistry] drawingToolWithName:name];
 }
 
 /** @brief Retrieve a tool from the registry matching the key equivalent indicated by the key event passed
@@ -64,7 +64,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent
 {
-    return [[DKToolRegistry sharedToolRegistry] drawingToolWithKeyboardEquivalent:keyEvent];
+	return [[DKToolRegistry sharedToolRegistry] drawingToolWithKeyboardEquivalent:keyEvent];
 }
 
 /** @brief Register a tool in th eregistry with the given name
@@ -75,8 +75,8 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name
 {
-    [[DKToolRegistry sharedToolRegistry] registerDrawingTool:tool
-                                                    withName:name];
+	[[DKToolRegistry sharedToolRegistry] registerDrawingTool:tool
+													withName:name];
 }
 
 /** @brief Set a "standard" set of tools in the registry
@@ -89,8 +89,8 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (void)registerStandardTools
 {
-    // no longer needs to do anything - the shared tool registry registers standard tools by default the first time it is
-    // referenced.
+	// no longer needs to do anything - the shared tool registry registers standard tools by default the first time it is
+	// referenced.
 }
 
 /** @brief Return a list of registered tools' names, sorted alphabetically
@@ -100,7 +100,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (NSArray*)toolNames
 {
-    return [[DKToolRegistry sharedToolRegistry] toolNames];
+	return [[DKToolRegistry sharedToolRegistry] toolNames];
 }
 
 /** @brief Load tool defaults from the user defaults
@@ -111,23 +111,23 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (void)loadDefaults
 {
-    LogEvent_(kInfoEvent, @"restoring tools persistent data");
+	LogEvent_(kInfoEvent, @"restoring tools persistent data");
 
-    NSDictionary* toolInfo = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingToolUserDefaultsKey];
+	NSDictionary* toolInfo = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingToolUserDefaultsKey];
 
-    if (toolInfo) {
-        NSEnumerator* iter = [toolInfo keyEnumerator];
-        NSString* key;
+	if (toolInfo) {
+		NSEnumerator* iter = [toolInfo keyEnumerator];
+		NSString* key;
 
-        while ((key = [iter nextObject])) {
-            NSData* data = [toolInfo objectForKey:key];
+		while ((key = [iter nextObject])) {
+			NSData* data = [toolInfo objectForKey:key];
 
-            if (data) {
-                DKDrawingTool* tool = [self drawingToolWithName:key];
-                [tool shouldLoadPersistentData:data];
-            }
-        }
-    }
+			if (data) {
+				DKDrawingTool* tool = [self drawingToolWithName:key];
+				[tool shouldLoadPersistentData:data];
+			}
+		}
+	}
 }
 
 /** @brief Save tool defaults to the user defaults
@@ -137,24 +137,24 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (void)saveDefaults
 {
-    NSMutableDictionary* toolInfo = [NSMutableDictionary dictionary];
-    NSEnumerator* iter = [[self toolNames] objectEnumerator];
-    NSString* key;
+	NSMutableDictionary* toolInfo = [NSMutableDictionary dictionary];
+	NSEnumerator* iter = [[self toolNames] objectEnumerator];
+	NSString* key;
 
-    while ((key = [iter nextObject])) {
-        DKDrawingTool* tool = [self drawingToolWithName:key];
-        NSData* pd = [tool persistentData];
+	while ((key = [iter nextObject])) {
+		DKDrawingTool* tool = [self drawingToolWithName:key];
+		NSData* pd = [tool persistentData];
 
-        if (pd)
-            [toolInfo setObject:pd
-                         forKey:key];
-    }
+		if (pd)
+			[toolInfo setObject:pd
+						 forKey:key];
+	}
 
-    if ([toolInfo count] > 0)
-        [[NSUserDefaults standardUserDefaults] setObject:toolInfo
-                                                  forKey:kDKDrawingToolUserDefaultsKey];
-    else
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kDKDrawingToolUserDefaultsKey];
+	if ([toolInfo count] > 0)
+		[[NSUserDefaults standardUserDefaults] setObject:toolInfo
+												  forKey:kDKDrawingToolUserDefaultsKey];
+	else
+		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kDKDrawingToolUserDefaultsKey];
 }
 
 /** @brief Return the first responder in the current responder chain able to respond to -setDrawingTool:
@@ -165,25 +165,25 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (id)firstResponderAbleToSetTool
 {
-    NSResponder* firstResponder = [[NSApp mainWindow] firstResponder];
+	NSResponder* firstResponder = [[NSApp mainWindow] firstResponder];
 
-    // follow responder chain until we find one that can respond, or we hit the end of the chain
+	// follow responder chain until we find one that can respond, or we hit the end of the chain
 
-    while (firstResponder && ![firstResponder respondsToSelector:@selector(setDrawingTool:)])
-        firstResponder = [firstResponder nextResponder];
+	while (firstResponder && ![firstResponder respondsToSelector:@selector(setDrawingTool:)])
+		firstResponder = [firstResponder nextResponder];
 
-    if (firstResponder)
-        return firstResponder;
-    else {
-        // before giving up, check if the active document implements -setDrawingTool: - subclasses of DKDrawingDocument do
+	if (firstResponder)
+		return firstResponder;
+	else {
+		// before giving up, check if the active document implements -setDrawingTool: - subclasses of DKDrawingDocument do
 
-        NSDocument* curDoc = [[NSDocumentController sharedDocumentController] currentDocument];
+		NSDocument* curDoc = [[NSDocumentController sharedDocumentController] currentDocument];
 
-        if ([curDoc respondsToSelector:@selector(setDrawingTool:)])
-            return curDoc;
-    }
+		if ([curDoc respondsToSelector:@selector(setDrawingTool:)])
+			return curDoc;
+	}
 
-    return nil;
+	return nil;
 }
 
 /** @brief Does the tool ever implement undoable actions?
@@ -194,7 +194,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 + (BOOL)toolPerformsUndoableAction
 {
-    return NO;
+	return NO;
 }
 
 #pragma mark -
@@ -206,12 +206,12 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (NSString*)registeredName
 {
-    NSArray* keys = [[DKToolRegistry sharedToolRegistry] allKeysForTool:self];
+	NSArray* keys = [[DKToolRegistry sharedToolRegistry] allKeysForTool:self];
 
-    if ([keys count] > 0)
-        return [keys lastObject];
+	if ([keys count] > 0)
+		return [keys lastObject];
 
-    return nil;
+	return nil;
 }
 
 /** @brief Sets the tool as the current tool for the key view in the main window, if possible
@@ -222,15 +222,15 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (void)set
 {
-    LogEvent_(kReactiveEvent, @"drawing tool %@ received the 'set' message - will attempt to set this tool", [self description]);
+	LogEvent_(kReactiveEvent, @"drawing tool %@ received the 'set' message - will attempt to set this tool", [self description]);
 
-    id fr = [[self class] firstResponderAbleToSetTool];
+	id fr = [[self class] firstResponderAbleToSetTool];
 
-    if (fr)
-        [fr setDrawingTool:self];
-    else
-        [NSException raise:NSDestinationInvalidException
-                    format:@"The tool could not be set because first responder doesn't respond to -setDrawingTool:"];
+	if (fr)
+		[fr setDrawingTool:self];
+	else
+		[NSException raise:NSDestinationInvalidException
+					format:@"The tool could not be set because first responder doesn't respond to -setDrawingTool:"];
 }
 
 /** @brief Called when this tool is set by a tool controller
@@ -242,9 +242,9 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 {
 #pragma unused(aController)
 
-    // override to make use of this notification
+	// override to make use of this notification
 
-    LogEvent_(kReactiveEvent, @"tool set: %@ by controller: %@", self, aController);
+	LogEvent_(kReactiveEvent, @"tool set: %@ by controller: %@", self, aController);
 }
 
 /** @brief Called when this tool is about to be unset by a tool controller
@@ -257,7 +257,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 {
 #pragma unused(aController)
 
-    // override to make use of this notification
+	// override to make use of this notification
 }
 
 /** @brief Called when this tool is unset by a tool controller
@@ -269,9 +269,9 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 {
 #pragma unused(aController)
 
-    // override to make use of this notification
+	// override to make use of this notification
 
-    LogEvent_(kReactiveEvent, @"tool unset: %@ by controller: %@", self, aController);
+	LogEvent_(kReactiveEvent, @"tool unset: %@ by controller: %@", self, aController);
 }
 
 #pragma mark -
@@ -284,7 +284,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (NSString*)actionName
 {
-    return nil;
+	return nil;
 }
 
 /** @brief Return the tool's cursor
@@ -294,7 +294,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (NSCursor*)cursor
 {
-    return [NSCursor arrowCursor];
+	return [NSCursor arrowCursor];
 }
 
 /** @brief Handle the initial mouse down
@@ -315,7 +315,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 #pragma unused(event)
 #pragma unused(aDel)
 
-    return kDKDrawingNoPart;
+	return kDKDrawingNoPart;
 }
 
 /** @brief Handle the mouse dragged event
@@ -355,7 +355,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 #pragma unused(event)
 #pragma unused(aDel)
 
-    return NO;
+	return NO;
 }
 
 /** @brief Handle the initial mouse down
@@ -392,7 +392,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
-    return ![aLayer lockedOrHidden];
+	return ![aLayer lockedOrHidden];
 }
 
 /** @brief Return whether the tool is some sort of object selection tool
@@ -403,7 +403,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (BOOL)isSelectionTool
 {
-    return NO;
+	return NO;
 }
 
 /** @brief Set a cursor if the given point is over something interesting
@@ -423,7 +423,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 #pragma unused(aLayer)
 #pragma unused(event)
 
-    [[self cursor] set];
+	[[self cursor] set];
 }
 
 #pragma mark -
@@ -437,13 +437,13 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSUInteger)flags
 {
-    NSAssert(str != nil, @"attempt to set keyboard equivalent to nil string - string can be empty but not nil");
+	NSAssert(str != nil, @"attempt to set keyboard equivalent to nil string - string can be empty but not nil");
 
-    [str retain];
-    [mKeyboardEquivalent release];
-    mKeyboardEquivalent = str;
+	[str retain];
+	[mKeyboardEquivalent release];
+	mKeyboardEquivalent = str;
 
-    mKeyboardModifiers = flags;
+	mKeyboardModifiers = flags;
 }
 
 /** @brief Return the keyboard equivalent character can be used to select this tool
@@ -454,10 +454,10 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (NSString*)keyboardEquivalent
 {
-    if ([mKeyboardEquivalent length] > 0)
-        return [mKeyboardEquivalent substringWithRange:NSMakeRange(0, 1)];
-    else
-        return nil;
+	if ([mKeyboardEquivalent length] > 0)
+		return [mKeyboardEquivalent substringWithRange:NSMakeRange(0, 1)];
+	else
+		return nil;
 }
 
 /** @brief Return the keyboard modifier flags that need to be down to select this tool using the keyboard modifier
@@ -468,7 +468,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (NSUInteger)keyboardModifierFlags
 {
-    return mKeyboardModifiers;
+	return mKeyboardModifiers;
 }
 
 #pragma mark -
@@ -479,7 +479,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  */
 - (NSData*)persistentData
 {
-    return nil;
+	return nil;
 }
 
 /** @brief On launch, the data that was saved by the previous session will be reloaded

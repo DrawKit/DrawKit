@@ -12,8 +12,8 @@
 @interface NSView (DKGradientExtensions)
 
 - (void)dragGradient:(DKGradient*)gradient swatchSize:(NSSize)size
-           slideBack:(BOOL)slideBack
-               event:(NSEvent*)event;
+		   slideBack:(BOOL)slideBack
+			   event:(NSEvent*)event;
 
 /**  */
 - (void)dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent*)event;

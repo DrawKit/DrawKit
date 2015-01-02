@@ -25,21 +25,21 @@
  */
 - (void)setRenderList:(NSArray*)list
 {
-    if (list != [self renderList]) {
-        NSMutableArray* rl = [list mutableCopy];
-        [m_renderList release];
-        m_renderList = rl;
+	if (list != [self renderList]) {
+		NSMutableArray* rl = [list mutableCopy];
+		[m_renderList release];
+		m_renderList = rl;
 
-        // set the container ref for each item in the list - when unarchiving newer files this is already done but
-        // for older files may not be. It's a weak ref so doing it anyway here is harmless. The added objects are not
-        // yet notified to the root for observation as we don't want them getting observed twice. When the style
-        // completes unarchiving it will start observing the whole tree itself. When individual rasterizers are added and
-        // removed their observation is managed individually (inclusing the adding/removal of groups, which deals with
-        // all the subordinate objects).
+		// set the container ref for each item in the list - when unarchiving newer files this is already done but
+		// for older files may not be. It's a weak ref so doing it anyway here is harmless. The added objects are not
+		// yet notified to the root for observation as we don't want them getting observed twice. When the style
+		// completes unarchiving it will start observing the whole tree itself. When individual rasterizers are added and
+		// removed their observation is managed individually (inclusing the adding/removal of groups, which deals with
+		// all the subordinate objects).
 
-        [[self renderList] makeObjectsPerformSelector:@selector(setContainer:)
-                                           withObject:self];
-    }
+		[[self renderList] makeObjectsPerformSelector:@selector(setContainer:)
+										   withObject:self];
+	}
 }
 
 /** @brief Get the list of contained renderers
@@ -47,7 +47,7 @@
  */
 - (NSArray*)renderList
 {
-    return m_renderList; //[[m_renderList copy] autorelease];
+	return m_renderList; //[[m_renderList copy] autorelease];
 }
 
 #pragma mark -
@@ -59,7 +59,7 @@
  */
 - (DKRastGroup*)root
 {
-    return [[self container] root];
+	return [[self container] root];
 }
 
 /** @brief Notifies that an observable object was added to the group
@@ -71,7 +71,7 @@
 {
 #pragma unused(observable)
 
-    // placeholder
+	// placeholder
 }
 
 /** @brief Notifies that an observable object is about to be removed from the group
@@ -83,7 +83,7 @@
 {
 #pragma unused(observable)
 
-    // placeholder
+	// placeholder
 }
 
 #pragma mark -
@@ -93,15 +93,15 @@
  */
 - (void)addRenderer:(DKRasterizer*)renderer
 {
-    if (![m_renderList containsObject:renderer]) {
-        [renderer setContainer:self];
-        [self insertObject:renderer
-            inRenderListAtIndex:[self countOfRenderList]];
+	if (![m_renderList containsObject:renderer]) {
+		[renderer setContainer:self];
+		[self insertObject:renderer
+			inRenderListAtIndex:[self countOfRenderList]];
 
-        // let the root object know so it can start observing the added renderer
+		// let the root object know so it can start observing the added renderer
 
-        [[self root] observableWasAdded:renderer];
-    }
+		[[self root] observableWasAdded:renderer];
+	}
 }
 
 /** @brief Removes a renderer from the group
@@ -109,13 +109,13 @@
  */
 - (void)removeRenderer:(DKRasterizer*)renderer
 {
-    if ([m_renderList containsObject:renderer]) {
-        // let the root object know so it can stop observing the renderer that is about to vanish
+	if ([m_renderList containsObject:renderer]) {
+		// let the root object know so it can stop observing the renderer that is about to vanish
 
-        [[self root] observableWillBeRemoved:renderer];
-        [renderer setContainer:nil];
-        [self removeObjectFromRenderListAtIndex:[self indexOfRenderer:renderer]];
-    }
+		[[self root] observableWillBeRemoved:renderer];
+		[renderer setContainer:nil];
+		[self removeObjectFromRenderListAtIndex:[self indexOfRenderer:renderer]];
+	}
 }
 
 /** @brief Relocates a renderer within the group (which affects drawing order)
@@ -124,22 +124,22 @@
  */
 - (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
-    if (src == dest)
-        return;
+	if (src == dest)
+		return;
 
-    if (src >= [m_renderList count])
-        src = [m_renderList count] - 1;
+	if (src >= [m_renderList count])
+		src = [m_renderList count] - 1;
 
-    DKRasterizer* moving = [[m_renderList objectAtIndex:src] retain];
+	DKRasterizer* moving = [[m_renderList objectAtIndex:src] retain];
 
-    [self removeObjectFromRenderListAtIndex:src];
+	[self removeObjectFromRenderListAtIndex:src];
 
-    if (src < dest)
-        --dest;
+	if (src < dest)
+		--dest;
 
-    [self insertObject:moving
-        inRenderListAtIndex:dest];
-    [moving release];
+	[self insertObject:moving
+		inRenderListAtIndex:dest];
+	[moving release];
 }
 
 /** @brief Inserts a renderer into the group at the given index
@@ -148,15 +148,15 @@
  */
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
-    if (![m_renderList containsObject:renderer]) {
-        [renderer setContainer:self];
-        [self insertObject:renderer
-            inRenderListAtIndex:indx];
+	if (![m_renderList containsObject:renderer]) {
+		[renderer setContainer:self];
+		[self insertObject:renderer
+			inRenderListAtIndex:indx];
 
-        // let the root object know so it can start observing
+		// let the root object know so it can start observing
 
-        [[self root] observableWasAdded:renderer];
-    }
+		[[self root] observableWasAdded:renderer];
+	}
 }
 
 /** @brief Removes the renderer at the given index
@@ -164,15 +164,15 @@
  */
 - (void)removeRendererAtIndex:(NSUInteger)indx
 {
-    DKRasterizer* renderer = [self rendererAtIndex:indx];
+	DKRasterizer* renderer = [self rendererAtIndex:indx];
 
-    if ([m_renderList containsObject:renderer]) {
-        // let the root object know so it can stop observing:
+	if ([m_renderList containsObject:renderer]) {
+		// let the root object know so it can stop observing:
 
-        [[self root] observableWillBeRemoved:renderer];
-        [renderer setContainer:nil];
-        [self removeObjectFromRenderListAtIndex:indx];
-    }
+		[[self root] observableWillBeRemoved:renderer];
+		[renderer setContainer:nil];
+		[self removeObjectFromRenderListAtIndex:indx];
+	}
 }
 
 /** @brief Returns the index of the given renderer
@@ -181,7 +181,7 @@
  */
 - (NSUInteger)indexOfRenderer:(DKRasterizer*)renderer
 {
-    return [[self renderList] indexOfObject:renderer];
+	return [[self renderList] indexOfObject:renderer];
 }
 
 #pragma mark -
@@ -192,7 +192,7 @@
  */
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)indx
 {
-    return (DKRasterizer*)[self objectInRenderListAtIndex:indx]; //[[self renderList] objectAtIndex:indx];
+	return (DKRasterizer*)[self objectInRenderListAtIndex:indx]; //[[self renderList] objectAtIndex:indx];
 }
 
 /** @brief Returns the renderer matching the given name
@@ -201,15 +201,15 @@
  */
 - (DKRasterizer*)rendererWithName:(NSString*)name
 {
-    NSEnumerator* iter = [[self renderList] objectEnumerator];
-    DKRasterizer* rend;
+	NSEnumerator* iter = [[self renderList] objectEnumerator];
+	DKRasterizer* rend;
 
-    while ((rend = [iter nextObject])) {
-        if ([[rend name] isEqualToString:name])
-            return rend;
-    }
+	while ((rend = [iter nextObject])) {
+		if ([[rend name] isEqualToString:name])
+			return rend;
+	}
 
-    return nil;
+	return nil;
 }
 
 #pragma mark -
@@ -221,7 +221,7 @@
  */
 - (NSUInteger)countOfRenderList
 {
-    return [[self renderList] count];
+	return [[self renderList] count];
 }
 
 /** @brief Queries whether a renderer of a given class exists somewhere in the render tree
@@ -233,22 +233,22 @@
  */
 - (BOOL)containsRendererOfClass:(Class)cl
 {
-    if ([self countOfRenderList] > 0) {
-        NSEnumerator* iter = [[self renderList] objectEnumerator];
-        id rend;
+	if ([self countOfRenderList] > 0) {
+		NSEnumerator* iter = [[self renderList] objectEnumerator];
+		id rend;
 
-        while ((rend = [iter nextObject])) {
-            if ([rend isKindOfClass:cl]) // && [rend enabled]  // (should we skip disabled ones? causes some problems with KVO)
-                return YES;
+		while ((rend = [iter nextObject])) {
+			if ([rend isKindOfClass:cl]) // && [rend enabled]  // (should we skip disabled ones? causes some problems with KVO)
+				return YES;
 
-            if ([rend isKindOfClass:[DKRastGroup class]]) {
-                if ([rend containsRendererOfClass:cl])
-                    return YES;
-            }
-        }
-    }
+			if ([rend isKindOfClass:[DKRastGroup class]]) {
+				if ([rend containsRendererOfClass:cl])
+					return YES;
+			}
+		}
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Returns a flattened list of renderers of a given class
@@ -257,25 +257,25 @@
  */
 - (NSArray*)renderersOfClass:(Class)cl
 {
-    if ([self containsRendererOfClass:cl]) {
-        NSMutableArray* rl = [[NSMutableArray alloc] init];
-        NSEnumerator* iter = [[self renderList] objectEnumerator];
-        id rend;
+	if ([self containsRendererOfClass:cl]) {
+		NSMutableArray* rl = [[NSMutableArray alloc] init];
+		NSEnumerator* iter = [[self renderList] objectEnumerator];
+		id rend;
 
-        while ((rend = [iter nextObject])) {
-            if ([rend isKindOfClass:cl])
-                [rl addObject:rend];
+		while ((rend = [iter nextObject])) {
+			if ([rend isKindOfClass:cl])
+				[rl addObject:rend];
 
-            if ([rend isKindOfClass:[self class]]) {
-                NSArray* temp = [rend renderersOfClass:cl];
-                [rl addObjectsFromArray:temp];
-            }
-        }
+			if ([rend isKindOfClass:[self class]]) {
+				NSArray* temp = [rend renderersOfClass:cl];
+				[rl addObjectsFromArray:temp];
+			}
+		}
 
-        return [rl autorelease];
-    }
+		return [rl autorelease];
+	}
 
-    return nil;
+	return nil;
 }
 
 /** @brief Removes all renderers from this group except other groups
@@ -284,13 +284,13 @@
  */
 - (void)removeAllRenderers
 {
-    NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
-    DKRasterizer* rast;
+	NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
+	DKRasterizer* rast;
 
-    while ((rast = [iter nextObject])) {
-        if (![rast isKindOfClass:[self class]])
-            [self removeRenderer:rast];
-    }
+	while ((rast = [iter nextObject])) {
+		if (![rast isKindOfClass:[self class]])
+			[self removeRenderer:rast];
+	}
 }
 
 /** @brief Removes all renderers of the given class, optionally traversing levels below this
@@ -302,37 +302,37 @@
  */
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs
 {
-    // removes any renderers of the given *exact* class from the group. If <subs> is YES, recurses down to any subgroups below.
+	// removes any renderers of the given *exact* class from the group. If <subs> is YES, recurses down to any subgroups below.
 
-    NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
-    DKRasterizer* rast;
+	NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
+	DKRasterizer* rast;
 
-    while ((rast = [iter nextObject])) {
-        if ([rast isMemberOfClass:cl])
-            [self removeRenderer:rast];
-        else if (subs && [rast isKindOfClass:[self class]])
-            [(DKRastGroup*)rast removeRenderersOfClass:cl
-                                           inSubgroups:subs];
-    }
+	while ((rast = [iter nextObject])) {
+		if ([rast isMemberOfClass:cl])
+			[self removeRenderer:rast];
+		else if (subs && [rast isKindOfClass:[self class]])
+			[(DKRastGroup*)rast removeRenderersOfClass:cl
+										   inSubgroups:subs];
+	}
 }
 
 #pragma mark -
-#pragma mark KVO-compliant accessor methods for "renderList"
+#pragma mark KVO - compliant accessor methods for "renderList"
 
 - (id)objectInRenderListAtIndex:(NSUInteger)indx
 {
-    return [[self renderList] objectAtIndex:indx];
+	return [[self renderList] objectAtIndex:indx];
 }
 
 - (void)insertObject:(id)obj inRenderListAtIndex:(NSUInteger)indx
 {
-    [m_renderList insertObject:obj
-                       atIndex:indx];
+	[m_renderList insertObject:obj
+					   atIndex:indx];
 }
 
 - (void)removeObjectFromRenderListAtIndex:(NSUInteger)indx
 {
-    [m_renderList removeObjectAtIndex:indx];
+	[m_renderList removeObjectAtIndex:indx];
 }
 
 #pragma mark -
@@ -343,25 +343,25 @@
  */
 - (BOOL)isValid
 {
-    // returns YES if the group will result in something being actually drawn, NO if not. A group
-    // needs to contain at least one stroke, fill, hatch, gradient, etc that will actually set pixels
-    // otherwise it will do nothing. In general invalid renderers should be avoided because they may
-    // result in invisible graphic objects that can't be seen or selected.
+	// returns YES if the group will result in something being actually drawn, NO if not. A group
+	// needs to contain at least one stroke, fill, hatch, gradient, etc that will actually set pixels
+	// otherwise it will do nothing. In general invalid renderers should be avoided because they may
+	// result in invisible graphic objects that can't be seen or selected.
 
-    if ([self countOfRenderList] < 1)
-        return NO;
+	if ([self countOfRenderList] < 1)
+		return NO;
 
-    NSEnumerator* iter = [[self renderList] objectEnumerator];
-    DKRasterizer* rend;
+	NSEnumerator* iter = [[self renderList] objectEnumerator];
+	DKRasterizer* rend;
 
-    while ((rend = [iter nextObject])) {
-        if ([rend enabled] && [rend isValid])
-            return YES;
-    }
+	while ((rend = [iter nextObject])) {
+		if ([rend enabled] && [rend isValid])
+			return YES;
+	}
 
-    // went through list and nothing was valid, so group isn't valid.
+	// went through list and nothing was valid, so group isn't valid.
 
-    return NO;
+	return NO;
 }
 
 /** @brief Returns a style csript representing the group
@@ -369,24 +369,24 @@
  */
 - (NSString*)styleScript
 {
-    // returns the spec string of this group. The spec string consists of the concatenation of the spec strings for all renderers, formatted
-    // with the correct syntax to indicate the full hierarchy and oredr ofthe renderers. The spec string can be used to construct a
-    // render group having the same properties.
+	// returns the spec string of this group. The spec string consists of the concatenation of the spec strings for all renderers, formatted
+	// with the correct syntax to indicate the full hierarchy and oredr ofthe renderers. The spec string can be used to construct a
+	// render group having the same properties.
 
-    NSEnumerator* iter = [[self renderList] objectEnumerator];
-    DKRasterizer* rend;
-    NSMutableString* str;
+	NSEnumerator* iter = [[self renderList] objectEnumerator];
+	DKRasterizer* rend;
+	NSMutableString* str;
 
-    str = [[NSMutableString alloc] init];
+	str = [[NSMutableString alloc] init];
 
-    [str setString:@"{"];
+	[str setString:@"{"];
 
-    while ((rend = [iter nextObject]))
-        [str appendString:[rend styleScript]];
+	while ((rend = [iter nextObject]))
+		[str appendString:[rend styleScript]];
 
-    [str appendString:@"}"];
+	[str appendString:@"}"];
 
-    return [str autorelease];
+	return [str autorelease];
 }
 
 #pragma mark -
@@ -397,21 +397,21 @@
  */
 + (NSArray*)observableKeyPaths
 {
-    return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"renderList", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"renderList", nil]];
 }
 
 /** @brief Registers the action names for the observable properties published by the object
  */
 - (void)registerActionNames
 {
-    [super registerActionNames];
+	[super registerActionNames];
 
-    // note that all operations on the group's contents invoke the same keypath via KVO, so the action name is
-    // not very fine-grained. TO DO - find a better way. (n.b. for DKStyle, undo is handled differently
-    // and overrides the KVO mechanism, avoiding this issue - only sub-groups are affected)
+	// note that all operations on the group's contents invoke the same keypath via KVO, so the action name is
+	// not very fine-grained. TO DO - find a better way. (n.b. for DKStyle, undo is handled differently
+	// and overrides the KVO mechanism, avoiding this issue - only sub-groups are affected)
 
-    [self setActionName:@"#kind# Component Group"
-             forKeyPath:@"renderList"];
+	[self setActionName:@"#kind# Component Group"
+			 forKeyPath:@"renderList"];
 }
 
 /** @brief Sets up KVO for the given observer object
@@ -422,9 +422,9 @@
  */
 - (BOOL)setUpKVOForObserver:(id)object
 {
-    [[self renderList] makeObjectsPerformSelector:@selector(setUpKVOForObserver:)
-                                       withObject:object];
-    return [super setUpKVOForObserver:object];
+	[[self renderList] makeObjectsPerformSelector:@selector(setUpKVOForObserver:)
+									   withObject:object];
+	return [super setUpKVOForObserver:object];
 }
 
 /** @brief Tears down KVO for the given observer object
@@ -435,9 +435,9 @@
  */
 - (BOOL)tearDownKVOForObserver:(id)object
 {
-    [[self renderList] makeObjectsPerformSelector:@selector(tearDownKVOForObserver:)
-                                       withObject:object];
-    return [super tearDownKVOForObserver:object];
+	[[self renderList] makeObjectsPerformSelector:@selector(tearDownKVOForObserver:)
+									   withObject:object];
+	return [super tearDownKVOForObserver:object];
 }
 
 #pragma mark -
@@ -445,23 +445,23 @@
 
 - (void)dealloc
 {
-    [m_renderList release];
-    [super dealloc];
+	[m_renderList release];
+	[super dealloc];
 }
 
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        m_renderList = [[NSMutableArray alloc] init];
+	self = [super init];
+	if (self != nil) {
+		m_renderList = [[NSMutableArray alloc] init];
 
-        if (m_renderList == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
+		if (m_renderList == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
@@ -472,24 +472,24 @@
  */
 - (NSSize)extraSpaceNeeded
 {
-    NSSize rs, accSize = NSZeroSize;
+	NSSize rs, accSize = NSZeroSize;
 
-    if ([self enabled]) {
-        NSEnumerator* iter = [[self renderList] objectEnumerator];
-        DKRasterizer* rend;
+	if ([self enabled]) {
+		NSEnumerator* iter = [[self renderList] objectEnumerator];
+		DKRasterizer* rend;
 
-        while ((rend = [iter nextObject])) {
-            rs = [rend extraSpaceNeeded];
+		while ((rend = [iter nextObject])) {
+			rs = [rend extraSpaceNeeded];
 
-            if (rs.width > accSize.width)
-                accSize.width = rs.width;
+			if (rs.width > accSize.width)
+				accSize.width = rs.width;
 
-            if (rs.height > accSize.height)
-                accSize.height = rs.height;
-        }
-    }
+			if (rs.height > accSize.height)
+				accSize.height = rs.height;
+		}
+	}
 
-    return accSize;
+	return accSize;
 }
 
 /** @brief Renders the object by iterating over the contained renderers
@@ -497,16 +497,16 @@
  */
 - (void)render:(id<DKRenderable>)object
 {
-    if (![self enabled])
-        return;
+	if (![self enabled])
+		return;
 
-    if (![object conformsToProtocol:@protocol(DKRenderable)])
-        return;
+	if (![object conformsToProtocol:@protocol(DKRenderable)])
+		return;
 
-    SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-        [[self renderList] makeObjectsPerformSelector : _cmd withObject : object];
+	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+		[[self renderList] makeObjectsPerformSelector : _cmd withObject : object];
 
-    RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
 
 /** @brief Renders the object's path by iterating over the contained renderers
@@ -517,12 +517,12 @@
  */
 - (void)renderPath:(NSBezierPath*)path
 {
-    if (![self enabled])
-        return;
+	if (![self enabled])
+		return;
 
-    SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-        [[self renderList] makeObjectsPerformSelector : _cmd withObject : path];
-    RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+		[[self renderList] makeObjectsPerformSelector : _cmd withObject : path];
+	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
 
 /** @brief Queries whther the rasterizer implements a fill or not
@@ -532,15 +532,15 @@
  */
 - (BOOL)isFill
 {
-    NSEnumerator* iter = [[self renderList] objectEnumerator];
-    DKRasterizer* rast;
+	NSEnumerator* iter = [[self renderList] objectEnumerator];
+	DKRasterizer* rast;
 
-    while ((rast = [iter nextObject])) {
-        if ([rast isFill])
-            return YES;
-    }
+	while ((rast = [iter nextObject])) {
+		if ([rast isFill])
+			return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 #pragma mark -
@@ -552,49 +552,49 @@
  */
 - (void)setValue:(id)val forNumericParameter:(NSInteger)pnum
 {
-    LogEvent_(kReactiveEvent, @"anonymous parameter #%d, value = %@", pnum, val);
+	LogEvent_(kReactiveEvent, @"anonymous parameter #%d, value = %@", pnum, val);
 
-    // if <val> conforms to the DKRasterizer protocol, we add it
+	// if <val> conforms to the DKRasterizer protocol, we add it
 
-    if ([val conformsToProtocol:@protocol(DKRasterizer)])
-        [self addRenderer:val];
+	if ([val conformsToProtocol:@protocol(DKRasterizer)])
+		[self addRenderer:val];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [super encodeWithCoder:coder];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[super encodeWithCoder:coder];
 
-    [coder encodeConditionalObject:[self container]
-                            forKey:@"DKRastGroup_container"];
-    [coder encodeObject:[self renderList]
-                 forKey:@"renderlist"];
+	[coder encodeConditionalObject:[self container]
+							forKey:@"DKRastGroup_container"];
+	[coder encodeObject:[self renderList]
+				 forKey:@"renderlist"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    self = [super initWithCoder:coder];
-    if (self != nil) {
-        [self setContainer:[coder decodeObjectForKey:@"DKRastGroup_container"]];
-        [self setRenderList:[coder decodeObjectForKey:@"renderlist"]];
-    }
-    return self;
+	NSAssert(coder != nil, @"Expected valid coder");
+	self = [super initWithCoder:coder];
+	if (self != nil) {
+		[self setContainer:[coder decodeObjectForKey:@"DKRastGroup_container"]];
+		[self setRenderList:[coder decodeObjectForKey:@"renderlist"]];
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
-    DKRastGroup* copy = [super copyWithZone:zone];
+	DKRastGroup* copy = [super copyWithZone:zone];
 
-    NSArray* rl = [[self renderList] deepCopy];
-    [copy setRenderList:rl];
-    [rl release];
+	NSArray* rl = [[self renderList] deepCopy];
+	[copy setRenderList:rl];
+	[rl release];
 
-    return copy;
+	return copy;
 }
 
 #pragma mark -
@@ -608,18 +608,18 @@
  */
 - (Class)renderClassForKey:(NSString*)key
 {
-    // TO DO: make this a much smarter and more general lookup
+	// TO DO: make this a much smarter and more general lookup
 
-    if ([@"fill" isEqualToString:key])
-        return [DKFill class];
+	if ([@"fill" isEqualToString:key])
+		return [DKFill class];
 
-    else if ([@"stroke" isEqualToString:key])
-        return [DKStroke class];
+	else if ([@"stroke" isEqualToString:key])
+		return [DKStroke class];
 
-    else if ([@"gradient" isEqualToString:key])
-        return [DKGradient class];
-    else
-        return Nil;
+	else if ([@"gradient" isEqualToString:key])
+		return [DKGradient class];
+	else
+		return Nil;
 }
 
 #pragma mark -
@@ -634,15 +634,15 @@
  */
 - (id)valueForUndefinedKey:(NSString*)key
 {
-    NSEnumerator* iter = [[self renderList] objectEnumerator];
-    DKRasterizer* rend;
-    Class classForKey = [self renderClassForKey:key];
+	NSEnumerator* iter = [[self renderList] objectEnumerator];
+	DKRasterizer* rend;
+	Class classForKey = [self renderClassForKey:key];
 
-    while ((rend = [iter nextObject])) {
-        if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey]))
-            return rend;
-    }
-    return nil;
+	while ((rend = [iter nextObject])) {
+		if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey]))
+			return rend;
+	}
+	return nil;
 }
 
 @end

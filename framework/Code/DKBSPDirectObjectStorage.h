@@ -22,10 +22,10 @@
 */
 @interface DKBSPDirectObjectStorage : DKLinearObjectStorage {
 @private
-    DKBSPDirectTree* mTree;
-    NSUInteger mTreeDepth;
-    NSUInteger mLastItemCount;
-    BOOL mAutoRebuild;
+	DKBSPDirectTree* mTree;
+	NSUInteger mTreeDepth;
+	NSUInteger mLastItemCount;
+	BOOL mAutoRebuild;
 }
 
 - (void)setTreeDepth:(NSUInteger)aDepth;
@@ -40,11 +40,11 @@
 
 @interface DKBSPDirectTree : DKBSPIndexTree {
 @public
-    id<DKStorableObject> mObj;
-    NSMutableArray* mFoundObjects;
-    NSUInteger mObjectCount;
-    NSView* mViewRef;
-    NSRect mRect;
+	id<DKStorableObject> mObj;
+	NSMutableArray* mFoundObjects;
+	NSUInteger mObjectCount;
+	NSView* mViewRef;
+	NSRect mRect;
 }
 
 - (void)insertItem:(id<DKStorableObject>)obj withRect:(NSRect)rect;

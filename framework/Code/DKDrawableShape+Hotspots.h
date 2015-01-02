@@ -11,9 +11,9 @@
 @class DKHotspot;
 
 typedef enum {
-    kDKHotspotStateOff = 0,
-    kDKHotspotStateOn = 1,
-    kDKHotspotStateDisabled = 2
+	kDKHotspotStateOff = 0,
+	kDKHotspotStateOn = 1,
+	kDKHotspotStateDisabled = 2
 } DKHotspotState;
 
 /** @brief A HOTSPOT is an object attached to a shape to provide a direct user-interface for implementing custom actions, etc.
@@ -46,16 +46,16 @@ The appearance of a hotspot is drawn by default by a method of DKKnob.
 @end
 
 enum {
-    kDKHotspotBasePartcode = 32768
+	kDKHotspotBasePartcode = 32768
 };
 
 #pragma mark -
 
 @interface DKHotspot : NSObject <NSCoding, NSCopying> {
-    DKDrawableShape* m_owner;
-    NSInteger m_partcode;
-    NSPoint m_relLoc;
-    id m_delegate;
+	DKDrawableShape* m_owner;
+	NSInteger m_partcode;
+	NSPoint m_relLoc;
+	id m_delegate;
 }
 
 - (id)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate;

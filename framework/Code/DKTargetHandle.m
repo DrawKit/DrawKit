@@ -14,53 +14,53 @@
 
 + (DKKnobType)type
 {
-    return kDKCentreTargetKnobType;
+	return kDKCentreTargetKnobType;
 }
 
 + (NSBezierPath*)pathWithSize:(NSSize)size
 {
-    NSBezierPath* path = nil;
+	NSBezierPath* path = nil;
 
-    path = [NSBezierPath bezierPath];
-    NSSize half;
-    NSPoint p = NSZeroPoint;
+	path = [NSBezierPath bezierPath];
+	NSSize half;
+	NSPoint p = NSZeroPoint;
 
-    half.width = size.width * 0.5;
-    half.height = size.height * 0.5;
+	half.width = size.width * 0.5;
+	half.height = size.height * 0.5;
 
-    p.y += half.height;
-    [path moveToPoint:p];
-    p.x += size.width;
-    [path lineToPoint:p];
+	p.y += half.height;
+	[path moveToPoint:p];
+	p.x += size.width;
+	[path lineToPoint:p];
 
-    p.y = 0;
-    p.x = half.width;
-    [path moveToPoint:p];
-    p.y += size.height;
-    [path lineToPoint:p];
+	p.y = 0;
+	p.x = half.width;
+	[path moveToPoint:p];
+	p.y += size.height;
+	[path lineToPoint:p];
 
-    NSRect tr = ScaleRect(NSMakeRect(0, 0, size.width, size.height), 0.5);
-    [path appendBezierPathWithOvalInRect:tr];
+	NSRect tr = ScaleRect(NSMakeRect(0, 0, size.width, size.height), 0.5);
+	[path appendBezierPathWithOvalInRect:tr];
 
-    return path;
+	return path;
 }
 
 + (NSColor*)fillColour
 {
-    return nil;
+	return nil;
 }
 
 + (NSColor*)strokeColour
 {
-    return [NSColor colorWithDeviceRed:0.5
-                                 green:0.9
-                                  blue:1.0
-                                 alpha:1.0];
+	return [NSColor colorWithDeviceRed:0.5
+								 green:0.9
+								  blue:1.0
+								 alpha:1.0];
 }
 
 + (CGFloat)scaleFactor
 {
-    return 2.5;
+	return 2.5;
 }
 
 @end
@@ -71,19 +71,19 @@
 
 + (DKKnobType)type
 {
-    return kDKCentreTargetKnobType | kDKKnobIsDisabledFlag;
+	return kDKCentreTargetKnobType | kDKKnobIsDisabledFlag;
 }
 
 - (void)drawAtPoint:(NSPoint)point
 {
 #pragma unused(point)
-    return;
+	return;
 }
 
 - (BOOL)hitTestPoint:(NSPoint)point inHandleAtPoint:(NSPoint)hp
 {
 #pragma unused(point, hp)
-    return NO;
+	return NO;
 }
 
 @end

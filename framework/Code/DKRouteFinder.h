@@ -9,16 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 typedef enum {
-    kDKUseSimulatedAnnealing = 1,
-    kDKUseNearestNeighbour = 2
+	kDKUseSimulatedAnnealing = 1,
+	kDKUseNearestNeighbour = 2
 } DKRouteAlgorithmType;
 
 typedef enum {
-    kDirectionEast = 0,
-    kDirectionSouth = 1,
-    kDirectionWest = 2,
-    kDirectionNorth = 3,
-    kDirectionAny = -1
+	kDirectionEast = 0,
+	kDirectionSouth = 1,
+	kDirectionWest = 2,
+	kDirectionNorth = 3,
+	kDirectionAny = -1
 } DKDirection;
 
 /** @brief This object implements an heuristic solution to the travelling salesman problem.
@@ -38,19 +38,19 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 */
 @interface DKRouteFinder : NSObject {
 @private
-    NSArray* mInput; // input list of NSPoint values
-    DKRouteAlgorithmType mAlgorithm; // which algorithm to use
-    NSInteger* mOrder; // final sort order (1-based)
-    BOOL mCalculationDone; // flag whether the sort was run
-    id mProgressDelegate; // a progress delegate, if any
-    // for SA
-    CGFloat* mX; // for SA, list of input x coordinates
-    CGFloat* mY; // for SA, list of input y coordinates
-    NSInteger mAnnealingSteps; // for SA, the number of steps in the outer loop
-    CGFloat mPathLength; // the path length
-    // for NN
-    NSMutableArray* mVisited; // for NN, the list of visited points in visit order
-    DKDirection mDirection; // limit search for NN to this direction
+	NSArray* mInput; // input list of NSPoint values
+	DKRouteAlgorithmType mAlgorithm; // which algorithm to use
+	NSInteger* mOrder; // final sort order (1-based)
+	BOOL mCalculationDone; // flag whether the sort was run
+	id mProgressDelegate; // a progress delegate, if any
+	// for SA
+	CGFloat* mX; // for SA, list of input x coordinates
+	CGFloat* mY; // for SA, list of input y coordinates
+	NSInteger mAnnealingSteps; // for SA, the number of steps in the outer loop
+	CGFloat mPathLength; // the path length
+	// for NN
+	NSMutableArray* mVisited; // for NN, the list of visited points in visit order
+	DKDirection mDirection; // limit search for NN to this direction
 }
 
 + (DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray*)arrayOfPoints;

@@ -13,11 +13,11 @@
 /**  */
 + (NSString*)uniqueKey
 {
-    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-    CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-    CFRelease(uuid);
+	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+	CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, uuid);
+	CFRelease(uuid);
 
-    return [(NSString*)str autorelease];
+	return [(NSString*)str autorelease];
 }
 
 @end

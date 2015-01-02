@@ -9,10 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 typedef enum {
-    kDKBooleanOpUnion = 0,
-    kDKBooleanOpIntersection = 1,
-    kDKBooleanOpDifference = 2,
-    kDKBooleanOpExclusiveOR = 3
+	kDKBooleanOpUnion = 0,
+	kDKBooleanOpIntersection = 1,
+	kDKBooleanOpDifference = 2,
+	kDKBooleanOpExclusiveOR = 3
 } DKBooleanOperation;
 
 /**

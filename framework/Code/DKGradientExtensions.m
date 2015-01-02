@@ -16,76 +16,76 @@
 /**  */
 - (void)dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent*)event
 {
-    NSSize size;
-    size.width = 28;
-    size.height = 28;
-    [self dragGradient:gradient
-            swatchSize:size
-             slideBack:slideBack
-                 event:event];
+	NSSize size;
+	size.width = 28;
+	size.height = 28;
+	[self dragGradient:gradient
+			swatchSize:size
+			 slideBack:slideBack
+				 event:event];
 }
 
 - (void)dragGradient:(DKGradient*)gradient swatchSize:(NSSize)size slideBack:(BOOL)slideBack event:(NSEvent*)event
 {
-    if (gradient == nil)
-        return;
+	if (gradient == nil)
+		return;
 
-    NSPoint pt = [event locationInWindow];
-    pt = [self convertPoint:pt
-                   fromView:nil];
+	NSPoint pt = [event locationInWindow];
+	pt = [self convertPoint:pt
+				   fromView:nil];
 
-    NSImage* swatchImage = [gradient swatchImageWithSize:size
-                                              withBorder:YES];
-    NSPasteboard* pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+	NSImage* swatchImage = [gradient swatchImageWithSize:size
+											  withBorder:YES];
+	NSPasteboard* pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
 
-    // this method must not write data to the pasteboard. That must have been done prior to calling it.	That's because
-    // the gradient object does not have a single pasteboard representation - it depends on the context of the drag.
+	// this method must not write data to the pasteboard. That must have been done prior to calling it.	That's because
+	// the gradient object does not have a single pasteboard representation - it depends on the context of the drag.
 
-    //	[gradient writeToPasteboard:pboard];
-    //	[gradient writeFileToPasteboard:pboard];
+	//	[gradient writeToPasteboard:pboard];
+	//	[gradient writeFileToPasteboard:pboard];
 
-    pt.x -= size.width / 2;
-    pt.y += size.height / 2;
+	pt.x -= size.width / 2;
+	pt.y += size.height / 2;
 
-    [swatchImage setFlipped:NO];
+	[swatchImage setFlipped:NO];
 
-    [[NSCursor currentCursor] push];
-    [[NSCursor closedHandCursor] set];
+	[[NSCursor currentCursor] push];
+	[[NSCursor closedHandCursor] set];
 
-    [self dragImage:swatchImage
-                 at:pt
-             offset:size
-              event:event
-         pasteboard:pboard
-             source:self
-          slideBack:slideBack];
+	[self dragImage:swatchImage
+				 at:pt
+			 offset:size
+			  event:event
+		 pasteboard:pboard
+			 source:self
+		  slideBack:slideBack];
 
-    [NSCursor pop];
+	[NSCursor pop];
 }
 
 - (void)dragColor:(NSColor*)color swatchSize:(NSSize)size slideBack:(BOOL)slideBack event:(NSEvent*)event
 {
-    NSPoint pt = [event locationInWindow];
-    pt = [self convertPoint:pt
-                   fromView:nil];
-    NSImage* swatchImage = [color swatchImageWithSize:size
-                                           withBorder:YES];
+	NSPoint pt = [event locationInWindow];
+	pt = [self convertPoint:pt
+				   fromView:nil];
+	NSImage* swatchImage = [color swatchImageWithSize:size
+										   withBorder:YES];
 
-    NSPasteboard* pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-    [pboard declareTypes:[NSArray arrayWithObject:NSColorPboardType]
-                   owner:self];
-    [color writeToPasteboard:pboard];
+	NSPasteboard* pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+	[pboard declareTypes:[NSArray arrayWithObject:NSColorPboardType]
+				   owner:self];
+	[color writeToPasteboard:pboard];
 
-    pt.x -= size.width / 2;
-    pt.y -= size.height / 2;
+	pt.x -= size.width / 2;
+	pt.y -= size.height / 2;
 
-    [self dragImage:swatchImage
-                 at:pt
-             offset:size
-              event:event
-         pasteboard:pboard
-             source:self
-          slideBack:slideBack];
+	[self dragImage:swatchImage
+				 at:pt
+			 offset:size
+			  event:event
+		 pasteboard:pboard
+			 source:self
+		  slideBack:slideBack];
 }
 
 @end
@@ -95,21 +95,21 @@
 
 - (NSImage*)swatchImageWithSize:(NSSize)size withBorder:(BOOL)showBorder
 {
-    NSImage* swatchImage = [[NSImage alloc] initWithSize:size];
-    NSRect box = NSMakeRect(0.0, 0.0, size.width, size.height);
+	NSImage* swatchImage = [[NSImage alloc] initWithSize:size];
+	NSRect box = NSMakeRect(0.0, 0.0, size.width, size.height);
 
-    [[NSGraphicsContext currentContext] saveGraphicsState];
-    [swatchImage lockFocus];
-    [self drawSwatchInRect:box];
+	[[NSGraphicsContext currentContext] saveGraphicsState];
+	[swatchImage lockFocus];
+	[self drawSwatchInRect:box];
 
-    if (showBorder) {
-        [[NSColor grayColor] set];
-        NSFrameRectWithWidth(box, 1.0);
-    }
-    [swatchImage unlockFocus];
-    [[NSGraphicsContext currentContext] restoreGraphicsState];
+	if (showBorder) {
+		[[NSColor grayColor] set];
+		NSFrameRectWithWidth(box, 1.0);
+	}
+	[swatchImage unlockFocus];
+	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
-    return [swatchImage autorelease];
+	return [swatchImage autorelease];
 }
 
 @end
@@ -117,20 +117,28 @@
 #pragma mark -
 @implementation DKGradient (DKGradientPlistTransformations)
 
-+ (BOOL)supportsSimpleDictionaryKeyValueCoding {
-    return YES; }
-- (BOOL)supportsSimpleDictionaryKeyValueCoding {
-    return YES; }
++ (BOOL)supportsSimpleDictionaryKeyValueCoding
+{
+	return YES;
+}
+- (BOOL)supportsSimpleDictionaryKeyValueCoding
+{
+	return YES;
+}
 
 @end
 
 #pragma mark -
 @implementation DKColorStop (DKGradientPlistTransformations)
 
-+ (BOOL)supportsSimpleDictionaryKeyValueCoding {
-    return YES; }
-- (BOOL)supportsSimpleDictionaryKeyValueCoding {
-    return YES; }
++ (BOOL)supportsSimpleDictionaryKeyValueCoding
+{
+	return YES;
+}
+- (BOOL)supportsSimpleDictionaryKeyValueCoding
+{
+	return YES;
+}
 
 @end
 
@@ -139,122 +147,122 @@
 
 - (void)setUpExtensionData
 {
-    if (m_extensionData == nil) {
-        m_extensionData = [[NSMutableDictionary alloc] init];
-    }
+	if (m_extensionData == nil) {
+		m_extensionData = [[NSMutableDictionary alloc] init];
+	}
 }
 
 #pragma mark -
 - (void)setRadialStartingPoint:(NSPoint)p
 {
-    [self setUpExtensionData];
-    [m_extensionData setPoint:p
-                       forKey:@"radialstartingpoint"];
+	[self setUpExtensionData];
+	[m_extensionData setPoint:p
+					   forKey:@"radialstartingpoint"];
 }
 
 - (void)setRadialEndingPoint:(NSPoint)p
 {
-    [self setUpExtensionData];
-    [m_extensionData setPoint:p
-                       forKey:@"radialendingpoint"];
+	[self setUpExtensionData];
+	[m_extensionData setPoint:p
+					   forKey:@"radialendingpoint"];
 }
 
 - (void)setRadialStartingRadius:(CGFloat)rad
 {
-    [self setUpExtensionData];
-    [m_extensionData setFloat:rad
-                       forKey:@"radialstartingradius"];
+	[self setUpExtensionData];
+	[m_extensionData setFloat:rad
+					   forKey:@"radialstartingradius"];
 }
 
 - (void)setRadialEndingRadius:(CGFloat)rad
 {
-    [self setUpExtensionData];
-    [m_extensionData setFloat:rad
-                       forKey:@"radialendingradius"];
+	[self setUpExtensionData];
+	[m_extensionData setFloat:rad
+					   forKey:@"radialendingradius"];
 }
 
 #pragma mark -
 - (NSPoint)radialStartingPoint
 {
-    return [m_extensionData pointForKey:@"radialstartingpoint"];
+	return [m_extensionData pointForKey:@"radialstartingpoint"];
 }
 
 - (NSPoint)radialEndingPoint
 {
-    return [m_extensionData pointForKey:@"radialendingpoint"];
+	return [m_extensionData pointForKey:@"radialendingpoint"];
 }
 
 - (CGFloat)radialStartingRadius
 {
-    return [m_extensionData floatForKey:@"radialstartingradius"];
+	return [m_extensionData floatForKey:@"radialstartingradius"];
 }
 
 - (CGFloat)radialEndingRadius
 {
-    return [m_extensionData floatForKey:@"radialendingradius"];
+	return [m_extensionData floatForKey:@"radialendingradius"];
 }
 
 #pragma mark -
 - (BOOL)hasRadialSettings
 {
-    // return YES if there are valid radial settings.
+	// return YES if there are valid radial settings.
 
-    if (m_extensionData)
-        return ([m_extensionData valueForKey:@"radialstartingpoint.x"] != nil && [m_extensionData valueForKey:@"radialendingpoint.x"] != nil);
+	if (m_extensionData)
+		return ([m_extensionData valueForKey:@"radialstartingpoint.x"] != nil && [m_extensionData valueForKey:@"radialendingpoint.x"] != nil);
 
-    return NO;
+	return NO;
 }
 
 #pragma mark -
 - (NSPoint)mapPoint:(NSPoint)p fromRect:(NSRect)rect
 {
-    // given a point <p> within <rect> this returns it mapped to a 0..1 interval
+	// given a point <p> within <rect> this returns it mapped to a 0..1 interval
 
-    p.x = (p.x - rect.origin.x) / rect.size.width;
-    p.y = (p.y - rect.origin.y) / rect.size.height;
+	p.x = (p.x - rect.origin.x) / rect.size.width;
+	p.y = (p.y - rect.origin.y) / rect.size.height;
 
-    return p;
+	return p;
 }
 
 - (NSPoint)mapPoint:(NSPoint)p toRect:(NSRect)rect
 {
-    // given a point <p> in 0..1 space, maps it to <rect>
+	// given a point <p> in 0..1 space, maps it to <rect>
 
-    p.x = (p.x * rect.size.width) + rect.origin.x;
-    p.y = (p.y * rect.size.height) + rect.origin.y;
+	p.x = (p.x * rect.size.width) + rect.origin.x;
+	p.y = (p.y * rect.size.height) + rect.origin.y;
 
-    return p;
+	return p;
 }
 
 #pragma mark -
 - (void)convertOldKey:(NSString*)key
 {
-    // given a key to an old NSPoint based struct, this converts it to the new archiver-compatible storage
-    //	LogEvent_(kReactiveEvent, @"converting old key: %@ in %@", key, self );
+	// given a key to an old NSPoint based struct, this converts it to the new archiver-compatible storage
+	//	LogEvent_(kReactiveEvent, @"converting old key: %@ in %@", key, self );
 
-    NSPoint p = [[m_extensionData valueForKey:key] pointValue];
-    [m_extensionData removeObjectForKey:key];
-    [m_extensionData setPoint:p
-                       forKey:key];
+	NSPoint p = [[m_extensionData valueForKey:key] pointValue];
+	[m_extensionData removeObjectForKey:key];
+	[m_extensionData setPoint:p
+					   forKey:key];
 }
 
 - (void)convertOldKeys
 {
-    NSEnumerator* iter = [[m_extensionData allKeys] objectEnumerator];
-    NSString* key;
-    id value;
-    const char* ctyp;
+	NSEnumerator* iter = [[m_extensionData allKeys] objectEnumerator];
+	NSString* key;
+	id value;
+	const char* ctyp;
 
-    while ((key = [iter nextObject])) {
-        value = [m_extensionData valueForKey:key];
+	while ((key = [iter nextObject])) {
+		value = [m_extensionData valueForKey:key];
 
-        if ([value isKindOfClass:[NSValue class]]) {
-            ctyp = [value objCType];
+		if ([value isKindOfClass:[NSValue class]]) {
+			ctyp = [value objCType];
 
-            if (strcmp(ctyp, @encode(NSPoint)) == 0)
-                [self convertOldKey:key];
-        }
-    }
+			if (strcmp(ctyp, @encode(NSPoint)) == 0)
+				[self convertOldKey:key];
+		}
+	}
 }
 
 @end
@@ -264,31 +272,31 @@
 
 - (void)setPoint:(NSPoint)p forKey:(id)key
 {
-    [self setFloat:p.x
-            forKey:[key stringByAppendingString:@".x"]];
-    [self setFloat:p.y
-            forKey:[key stringByAppendingString:@".y"]];
+	[self setFloat:p.x
+			forKey:[key stringByAppendingString:@".x"]];
+	[self setFloat:p.y
+			forKey:[key stringByAppendingString:@".y"]];
 }
 
 - (NSPoint)pointForKey:(id)key
 {
-    NSPoint p;
+	NSPoint p;
 
-    p.x = [self floatForKey:[key stringByAppendingString:@".x"]];
-    p.y = [self floatForKey:[key stringByAppendingString:@".y"]];
-    return p;
+	p.x = [self floatForKey:[key stringByAppendingString:@".x"]];
+	p.y = [self floatForKey:[key stringByAppendingString:@".y"]];
+	return p;
 }
 
 #pragma mark -
 - (void)setFloat:(float)f forKey:(id)key
 {
-    [self setValue:[NSNumber numberWithDouble:f]
-            forKey:key];
+	[self setValue:[NSNumber numberWithDouble:f]
+			forKey:key];
 }
 
 - (float)floatForKey:(id)key
 {
-    return [[self valueForKey:key] doubleValue];
+	return [[self valueForKey:key] doubleValue];
 }
 
 @end

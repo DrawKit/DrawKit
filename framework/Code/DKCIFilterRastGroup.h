@@ -15,9 +15,9 @@
  allows us to leverage all sorts of imaging code to extend the range of available styles and effects.
 */
 @interface DKCIFilterRastGroup : DKRastGroup <NSCoding, NSCopying> {
-    NSString* m_filter;
-    NSDictionary* m_arguments;
-    NSImage* m_cache;
+	NSString* m_filter;
+	NSDictionary* m_arguments;
+	NSImage* m_cache;
 }
 
 + (DKCIFilterRastGroup*)effectGroupWithFilter:(NSString*)filter;

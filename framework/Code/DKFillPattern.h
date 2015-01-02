@@ -17,16 +17,16 @@ just sets up the path clipping and calls the rendering method for each location 
 */
 @interface DKFillPattern : DKPathDecorator <NSCoding, NSCopying> {
 @private
-    CGFloat m_altYOffset;
-    CGFloat m_altXOffset;
-    CGFloat m_angle;
-    CGFloat m_objectAngle;
-    CGFloat m_motifAngle;
-    CGFloat mMotifAngleRandomness;
-    BOOL m_angleRelativeToObject;
-    BOOL m_motifAngleRelativeToPattern;
-    BOOL m_noClippedElements;
-    NSMutableArray* mMotifAngleRandCache;
+	CGFloat m_altYOffset;
+	CGFloat m_altXOffset;
+	CGFloat m_angle;
+	CGFloat m_objectAngle;
+	CGFloat m_motifAngle;
+	CGFloat mMotifAngleRandomness;
+	BOOL m_angleRelativeToObject;
+	BOOL m_motifAngleRelativeToPattern;
+	BOOL m_noClippedElements;
+	NSMutableArray* mMotifAngleRandCache;
 }
 
 /**  */

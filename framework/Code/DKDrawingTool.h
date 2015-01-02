@@ -30,8 +30,8 @@ siderations are outside the scope of DK itself.
 */
 @interface DKDrawingTool : NSObject <DKDrawingTool> {
 @private
-    NSString* mKeyboardEquivalent;
-    NSUInteger mKeyboardModifiers;
+	NSString* mKeyboardEquivalent;
+	NSUInteger mKeyboardModifiers;
 }
 
 /** @brief Does the tool ever implement undoable actions?

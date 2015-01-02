@@ -41,28 +41,28 @@
  */
 + (DKShapeGroup*)groupWithBezierPaths:(NSArray*)paths objectType:(NSInteger)type style:(DKStyle*)style
 {
-    NSMutableArray* objects = [NSMutableArray array];
-    NSEnumerator* iter = [paths objectEnumerator];
-    NSBezierPath* path;
-    DKDrawableObject* od;
+	NSMutableArray* objects = [NSMutableArray array];
+	NSEnumerator* iter = [paths objectEnumerator];
+	NSBezierPath* path;
+	DKDrawableObject* od;
 
-    while ((path = [iter nextObject])) {
-        if (![path isEmpty] && !NSEqualSizes([path bounds].size, NSZeroSize)) {
-            if (type == kDKCreateGroupWithShapes)
-                od = [DKDrawableShape drawableShapeWithBezierPath:path];
-            else if (type == kDKCreateGroupWithPaths)
-                od = [DKDrawablePath drawablePathWithBezierPath:path];
-            else
-                return nil; // illegal
+	while ((path = [iter nextObject])) {
+		if (![path isEmpty] && !NSEqualSizes([path bounds].size, NSZeroSize)) {
+			if (type == kDKCreateGroupWithShapes)
+				od = [DKDrawableShape drawableShapeWithBezierPath:path];
+			else if (type == kDKCreateGroupWithPaths)
+				od = [DKDrawablePath drawablePathWithBezierPath:path];
+			else
+				return nil; // illegal
 
-            if (style)
-                [od setStyle:style];
+			if (style)
+				[od setStyle:style];
 
-            [objects addObject:od];
-        }
-    }
+			[objects addObject:od];
+		}
+	}
 
-    return [self groupWithObjects:objects];
+	return [self groupWithObjects:objects];
 }
 
 /** @brief Creates a group from a list of existing objects
@@ -77,9 +77,9 @@
  */
 + (DKShapeGroup*)groupWithObjects:(NSArray*)objects
 {
-    DKShapeGroup* group = [[DKShapeGroup alloc] initWithObjectsInArray:objects];
+	DKShapeGroup* group = [[DKShapeGroup alloc] initWithObjectsInArray:objects];
 
-    return [group autorelease];
+	return [group autorelease];
 }
 
 /** @brief Filters array to remove objects whose class returns NO to isGroupable.
@@ -88,16 +88,16 @@
  */
 + (NSArray*)objectsAvailableForGroupingFromArray:(NSArray*)array
 {
-    NSMutableArray* groupables = [NSMutableArray array];
-    NSEnumerator* iter = [array objectEnumerator];
-    DKDrawableObject* od;
+	NSMutableArray* groupables = [NSMutableArray array];
+	NSEnumerator* iter = [array objectEnumerator];
+	DKDrawableObject* od;
 
-    while ((od = [iter nextObject])) {
-        if ([[od class] isGroupable])
-            [groupables addObject:od];
-    }
+	while ((od = [iter nextObject])) {
+		if ([[od class] isGroupable])
+			[groupables addObject:od];
+	}
 
-    return groupables;
+	return groupables;
 }
 
 #pragma mark -
@@ -115,22 +115,22 @@
  */
 - (id)initWithObjectsInArray:(NSArray*)objects
 {
-    self = [super init];
-    if (self != nil) {
-        [self setGroupObjects:objects];
+	self = [super init];
+	if (self != nil) {
+		[self setGroupObjects:objects];
 
-        if (m_objects == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    if (self != nil) {
-        NSBezierPath* path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
-        [self setPath:path];
+		if (m_objects == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	if (self != nil) {
+		NSBezierPath* path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
+		[self setPath:path];
 
-        //[self setCacheOptions:kDKGroupCacheUsingCGLayer];
-    }
-    return self;
+		//[self setCacheOptions:kDKGroupCacheUsingCGLayer];
+	}
+	return self;
 }
 
 #pragma mark -
@@ -145,32 +145,32 @@
  */
 - (void)setGroupObjects:(NSArray*)objects
 {
-    NSArray* groupObjects = [[self class] objectsAvailableForGroupingFromArray:objects];
+	NSArray* groupObjects = [[self class] objectsAvailableForGroupingFromArray:objects];
 
-    if ([groupObjects count] < 2)
-        return;
+	if ([groupObjects count] < 2)
+		return;
 
-    // set the group's geometry:
+	// set the group's geometry:
 
-    [self calcBoundingRectOfObjects:groupObjects];
-    [self setSize:mBounds.size];
-    [self setLocation:NSMakePoint(NSMidX(mBounds), NSMidY(mBounds))];
+	[self calcBoundingRectOfObjects:groupObjects];
+	[self setSize:mBounds.size];
+	[self setLocation:NSMakePoint(NSMidX(mBounds), NSMidY(mBounds))];
 
-    // become the owner of these objects - sets object's container to self (undoably):
+	// become the owner of these objects - sets object's container to self (undoably):
 
-    [self setObjects:groupObjects];
+	[self setObjects:groupObjects];
 
-    // set the initial coordinates for the objects so they are relative to the group location
+	// set the initial coordinates for the objects so they are relative to the group location
 
-    NSPoint loc;
+	NSPoint loc;
 
-    NSEnumerator* iter = [m_objects objectEnumerator];
-    DKDrawableObject* obj;
+	NSEnumerator* iter = [m_objects objectEnumerator];
+	DKDrawableObject* obj;
 
-    while ((obj = [iter nextObject])) {
-        loc = [self convertPointFromContainer:[obj location]];
-        [obj setLocation:loc];
-    }
+	while ((obj = [iter nextObject])) {
+		loc = [self convertPointFromContainer:[obj location]];
+		[obj setLocation:loc];
+	}
 }
 
 /** @brief Gets the list of objects contained by the group
@@ -178,7 +178,7 @@
  */
 - (NSArray*)groupObjects
 {
-    return m_objects;
+	return m_objects;
 }
 
 /** @brief Sets the current list of objects to the given objects
@@ -188,20 +188,20 @@
  @param objects the objects to be grouped */
 - (void)setObjects:(NSArray*)objects
 {
-    if (objects != [self groupObjects]) {
-        [[self undoManager] registerUndoWithTarget:self
-                                          selector:@selector(setObjects:)
-                                            object:m_objects];
+	if (objects != [self groupObjects]) {
+		[[self undoManager] registerUndoWithTarget:self
+										  selector:@selector(setObjects:)
+											object:m_objects];
 
-        [objects retain];
-        [m_objects release];
-        m_objects = objects;
+		[objects retain];
+		[m_objects release];
+		m_objects = objects;
 
-        [m_objects makeObjectsPerformSelector:@selector(groupWillAddObject:)
-                                   withObject:self];
-        [m_objects makeObjectsPerformSelector:@selector(setContainer:)
-                                   withObject:self];
-    }
+		[m_objects makeObjectsPerformSelector:@selector(groupWillAddObject:)
+								   withObject:self];
+		[m_objects makeObjectsPerformSelector:@selector(setContainer:)
+								   withObject:self];
+	}
 }
 
 /** @brief Computes the initial overall bounding rect of the constituent objects
@@ -213,17 +213,17 @@
  @param objects the objects to be grouped */
 - (void)calcBoundingRectOfObjects:(NSArray*)objects
 {
-    NSRect bounds = NSZeroRect;
-    NSEnumerator* iter = [objects objectEnumerator];
-    DKDrawableObject* obj;
+	NSRect bounds = NSZeroRect;
+	NSEnumerator* iter = [objects objectEnumerator];
+	DKDrawableObject* obj;
 
-    // WARNING!! Do NOT use NSUnionRect here - it doesn't work when bounds height or width is 0 as is the case with
-    // paths consisting of straight lines at orthogonal angles
+	// WARNING!! Do NOT use NSUnionRect here - it doesn't work when bounds height or width is 0 as is the case with
+	// paths consisting of straight lines at orthogonal angles
 
-    while ((obj = [iter nextObject]))
-        bounds = UnionOfTwoRects(bounds, NormalizedRect([obj logicalBounds]));
+	while ((obj = [iter nextObject]))
+		bounds = UnionOfTwoRects(bounds, NormalizedRect([obj logicalBounds]));
 
-    mBounds = bounds;
+	mBounds = bounds;
 }
 
 /** @brief Computes the extra space needed for the objects
@@ -239,21 +239,21 @@
  */
 - (NSSize)extraSpaceNeededByObjects:(NSArray*)objects
 {
-    NSEnumerator* iter = [objects objectEnumerator];
-    DKDrawableObject* obj;
-    NSSize extra, ms = NSMakeSize(0, 0);
+	NSEnumerator* iter = [objects objectEnumerator];
+	DKDrawableObject* obj;
+	NSSize extra, ms = NSMakeSize(0, 0);
 
-    while ((obj = [iter nextObject])) {
-        extra = [obj extraSpaceNeeded];
+	while ((obj = [iter nextObject])) {
+		extra = [obj extraSpaceNeeded];
 
-        if (extra.width > ms.width)
-            ms.width = extra.width;
+		if (extra.width > ms.width)
+			ms.width = extra.width;
 
-        if (extra.height > ms.height)
-            ms.height = extra.height;
-    }
+		if (extra.height > ms.height)
+			ms.height = extra.height;
+	}
 
-    return ms;
+	return ms;
 }
 
 /** @brief Returns the original untransformed bounds of the grouped objects
@@ -261,7 +261,7 @@
  */
 - (NSRect)groupBoundingRect
 {
-    return mBounds;
+	return mBounds;
 }
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
@@ -271,12 +271,12 @@
  */
 - (NSSize)groupScaleRatios
 {
-    NSSize sr;
+	NSSize sr;
 
-    sr.width = [self size].width / mBounds.size.width;
-    sr.height = [self size].height / mBounds.size.height;
+	sr.width = [self size].width / mBounds.size.width;
+	sr.height = [self size].height / mBounds.size.height;
 
-    return sr;
+	return sr;
 }
 
 #pragma mark -
@@ -288,24 +288,24 @@
  @return a transform object */
 - (NSAffineTransform*)contentTransform
 {
-    CGFloat sx, sy;
+	CGFloat sx, sy;
 
-    sx = [self size].width / mBounds.size.width;
-    sy = [self size].height / mBounds.size.height;
+	sx = [self size].width / mBounds.size.width;
+	sy = [self size].height / mBounds.size.height;
 
-    NSPoint p = NSZeroPoint;
-    p = [[self transform] transformPoint:p];
+	NSPoint p = NSZeroPoint;
+	p = [[self transform] transformPoint:p];
 
-    NSAffineTransform* xform = [NSAffineTransform transform];
-    [xform translateXBy:p.x
-                    yBy:p.y];
-    [xform rotateByRadians:[self angle]];
+	NSAffineTransform* xform = [NSAffineTransform transform];
+	[xform translateXBy:p.x
+					yBy:p.y];
+	[xform rotateByRadians:[self angle]];
 
-    if (sx != 0.0 && sy != 0.0)
-        [xform scaleXBy:sx
-                    yBy:sy];
+	if (sx != 0.0 && sy != 0.0)
+		[xform scaleXBy:sx
+					yBy:sy];
 
-    return xform;
+	return xform;
 }
 
 /** @brief Maps a point from the original container's coordinates to the equivalent group point
@@ -315,11 +315,11 @@
  @return a new point */
 - (NSPoint)convertPointFromContainer:(NSPoint)p
 {
-    // given a point <p> in the container's coordinates, returns the same point relative to this group
+	// given a point <p> in the container's coordinates, returns the same point relative to this group
 
-    NSAffineTransform* ct = [self contentTransform];
-    [ct invert];
-    return [ct transformPoint:p];
+	NSAffineTransform* ct = [self contentTransform];
+	[ct invert];
+	return [ct transformPoint:p];
 }
 
 /** @brief Maps a point from the group's coordinates to the equivalent original container point
@@ -329,30 +329,30 @@
  @return a new point */
 - (NSPoint)convertPointToContainer:(NSPoint)p
 {
-    return [[self contentTransform] transformPoint:p];
+	return [[self contentTransform] transformPoint:p];
 }
 
 - (void)drawGroupContent
 {
-    NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-    DKDrawableShape* od;
+	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
+	DKDrawableShape* od;
 
-    if (m_transformVisually) {
-        [NSGraphicsContext saveGraphicsState];
-        NSAffineTransform* tfm = [self contentTransform];
-        [tfm concat];
-    }
+	if (m_transformVisually) {
+		[NSGraphicsContext saveGraphicsState];
+		NSAffineTransform* tfm = [self contentTransform];
+		[tfm concat];
+	}
 
-    while ((od = [iter nextObject])) {
-        if ([od visible]) {
-            [od setBeingHitTested:[self isBeingHitTested]];
-            [od drawContentWithSelectedState:NO];
-            [od setBeingHitTested:NO];
-        }
-    }
+	while ((od = [iter nextObject])) {
+		if ([od visible]) {
+			[od setBeingHitTested:[self isBeingHitTested]];
+			[od drawContentWithSelectedState:NO];
+			[od setBeingHitTested:NO];
+		}
+	}
 
-    if (m_transformVisually)
-        [NSGraphicsContext restoreGraphicsState];
+	if (m_transformVisually)
+		[NSGraphicsContext restoreGraphicsState];
 }
 
 /*
@@ -381,29 +381,29 @@
 
 - (void)setClipContentToPath:(BOOL)clip
 {
-    if (clip != mClipContentToPath) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setClipContentToPath:mClipContentToPath];
-        mClipContentToPath = clip;
-        [self notifyVisualChange];
-    }
+	if (clip != mClipContentToPath) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setClipContentToPath:mClipContentToPath];
+		mClipContentToPath = clip;
+		[self notifyVisualChange];
+	}
 }
 
 - (BOOL)clipContentToPath
 {
-    return mClipContentToPath;
+	return mClipContentToPath;
 }
 
 - (void)setTransformsVisually:(BOOL)tv
 {
-    if (tv != m_transformVisually) {
-        m_transformVisually = tv;
-        [self notifyVisualChange];
-    }
+	if (tv != m_transformVisually) {
+		m_transformVisually = tv;
+		[self notifyVisualChange];
+	}
 }
 
 - (BOOL)transformsVisually
 {
-    return m_transformVisually;
+	return m_transformVisually;
 }
 
 #pragma mark -
@@ -411,35 +411,35 @@
 
 - (void)setCacheOptions:(DKGroupCacheOption)cacheOption
 {
-    if (cacheOption != mCacheOption) {
-        mCacheOption = cacheOption;
-        [self invalidateCache];
-    }
+	if (cacheOption != mCacheOption) {
+		mCacheOption = cacheOption;
+		[self invalidateCache];
+	}
 }
 
 - (DKGroupCacheOption)cacheOptions
 {
-    return mCacheOption;
+	return mCacheOption;
 }
 
 - (void)updateCache
 {
-    // currently no-op
+	// currently no-op
 }
 
 - (void)invalidateCache
 {
-    // currently no-op
+	// currently no-op
 }
 
 - (void)drawUntransformedContent
 {
-    // draws the group content without applying any transforms - this is used to capture the original state of the
-    // contents into a cached context.
+	// draws the group content without applying any transforms - this is used to capture the original state of the
+	// contents into a cached context.
 
-    mIsWritingToCache = YES;
-    [self drawGroupContent];
-    mIsWritingToCache = NO;
+	mIsWritingToCache = YES;
+	[self drawGroupContent];
+	mIsWritingToCache = NO;
 }
 
 #pragma mark -
@@ -455,54 +455,54 @@
  @param layer the layer into which the objects are unpacked */
 - (void)ungroupToLayer:(DKObjectDrawingLayer*)layer
 {
-    [[self undoManager] registerUndoWithTarget:self
-                                      selector:@selector(setObjects:)
-                                        object:m_objects];
+	[[self undoManager] registerUndoWithTarget:self
+									  selector:@selector(setObjects:)
+										object:m_objects];
 
-    // discover our own Z-position - ungrouped objects will be inserted at this position
+	// discover our own Z-position - ungrouped objects will be inserted at this position
 
-    NSInteger groupIndex = [layer indexOfObject:self];
+	NSInteger groupIndex = [layer indexOfObject:self];
 
-    LogEvent_(kReactiveEvent, @"will ungroup %d objects, inserting at %d", [m_objects count], groupIndex);
+	LogEvent_(kReactiveEvent, @"will ungroup %d objects, inserting at %d", [m_objects count], groupIndex);
 
-    NSEnumerator* iter = [m_objects objectEnumerator];
-    DKDrawableObject* obj;
-    NSAffineTransform* tfm;
-    NSInteger insertIndex = groupIndex;
+	NSEnumerator* iter = [m_objects objectEnumerator];
+	DKDrawableObject* obj;
+	NSAffineTransform* tfm;
+	NSInteger insertIndex = groupIndex;
 
-    if (m_transformVisually)
-        tfm = [self contentTransform];
-    else
-        tfm = [self renderingTransform];
+	if (m_transformVisually)
+		tfm = [self contentTransform];
+	else
+		tfm = [self renderingTransform];
 
-    while ((obj = [iter nextObject])) {
-        // set the object's container to the layer it will become part of, so its transform is not influenced
-        // by the group for the next step.
+	while ((obj = [iter nextObject])) {
+		// set the object's container to the layer it will become part of, so its transform is not influenced
+		// by the group for the next step.
 
-        [obj setContainer:layer];
+		[obj setContainer:layer];
 
-        // groups, paths and shapes all have slightly different needs here. Thus each kind needs to implement
-        // group:willUngroupObjectWithTransform: in order to do the right thing to ungroup itself correctly.
+		// groups, paths and shapes all have slightly different needs here. Thus each kind needs to implement
+		// group:willUngroupObjectWithTransform: in order to do the right thing to ungroup itself correctly.
 
-        [obj group:self
-            willUngroupObjectWithTransform:tfm];
+		[obj group:self
+			willUngroupObjectWithTransform:tfm];
 
-        // if resulting object is still valid, use it, otherwise it is skipped and will be discarded
+		// if resulting object is still valid, use it, otherwise it is skipped and will be discarded
 
-        if ([obj objectIsValid]) {
-            [layer insertObject:obj
-                inObjectsAtIndex:insertIndex++];
-        }
-    }
+		if ([obj objectIsValid]) {
+			[layer insertObject:obj
+				inObjectsAtIndex:insertIndex++];
+		}
+	}
 
-    [layer exchangeSelectionWithObjectsFromArray:m_objects];
+	[layer exchangeSelectionWithObjectsFromArray:m_objects];
 
-    [m_objects makeObjectsPerformSelector:@selector(objectWasUngrouped)];
+	[m_objects makeObjectsPerformSelector:@selector(objectWasUngrouped)];
 
-    [layer didUngroupObjects:m_objects];
+	[layer didUngroupObjects:m_objects];
 
-    [m_objects release];
-    m_objects = nil;
+	[m_objects release];
+	m_objects = nil;
 }
 
 /** @brief High-level call to ungroup the group.
@@ -514,16 +514,16 @@
 {
 #pragma unused(sender)
 
-    // note to self - consider what to do if ungrouping could place objects offscreen
+	// note to self - consider what to do if ungrouping could place objects offscreen
 
-    DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
+	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
 
-    if ([odl shouldUngroup:self]) {
-        [odl recordSelectionForUndo];
-        [self ungroupToLayer:odl];
-        [odl removeObject:self];
-        [odl commitSelectionUndoWithActionName:NSLocalizedString(@"Ungroup", @"undo string for ungroup")];
-    }
+	if ([odl shouldUngroup:self]) {
+		[odl recordSelectionForUndo];
+		[self ungroupToLayer:odl];
+		[odl removeObject:self];
+		[odl commitSelectionUndoWithActionName:NSLocalizedString(@"Ungroup", @"undo string for ungroup")];
+	}
 }
 
 /** @brief High-level call to toggle path clipping.
@@ -533,8 +533,8 @@
 {
 #pragma unused(sender)
 
-    [self setClipContentToPath:![self clipContentToPath]];
-    [[self undoManager] setActionName:NSLocalizedString(@"Toggle Clipping", @"undo action for toggle clipping (group)")];
+	[self setClipContentToPath:![self clipContentToPath]];
+	[[self undoManager] setActionName:NSLocalizedString(@"Toggle Clipping", @"undo action for toggle clipping (group)")];
 }
 
 #pragma mark -
@@ -564,66 +564,66 @@
 
 - (NSRect)bounds
 {
-    mBoundsCache = NSZeroRect;
-    return [super bounds];
+	mBoundsCache = NSZeroRect;
+	return [super bounds];
 }
 
 - (NSSet*)allStyles
 {
-    // return the union of all the contained objects' styles
+	// return the union of all the contained objects' styles
 
-    NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-    NSSet* styles;
-    NSMutableSet* unionOfAllStyles = nil;
-    DKDrawableObject* dko;
+	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
+	NSSet* styles;
+	NSMutableSet* unionOfAllStyles = nil;
+	DKDrawableObject* dko;
 
-    while ((dko = [iter nextObject])) {
-        styles = [dko allStyles];
+	while ((dko = [iter nextObject])) {
+		styles = [dko allStyles];
 
-        if (styles != nil) {
-            // we got one - make a set to union them with if necessary
+		if (styles != nil) {
+			// we got one - make a set to union them with if necessary
 
-            if (unionOfAllStyles == nil)
-                unionOfAllStyles = [styles mutableCopy];
-            else
-                [unionOfAllStyles unionSet:styles];
-        }
-    }
+			if (unionOfAllStyles == nil)
+				unionOfAllStyles = [styles mutableCopy];
+			else
+				[unionOfAllStyles unionSet:styles];
+		}
+	}
 
-    return [unionOfAllStyles autorelease];
+	return [unionOfAllStyles autorelease];
 }
 
 - (NSSet*)allRegisteredStyles
 {
-    // return the union of all the contained objects' registered styles
+	// return the union of all the contained objects' registered styles
 
-    NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-    NSSet* styles;
-    NSMutableSet* unionOfAllStyles = nil;
-    DKDrawableObject* dko;
+	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
+	NSSet* styles;
+	NSMutableSet* unionOfAllStyles = nil;
+	DKDrawableObject* dko;
 
-    while ((dko = [iter nextObject])) {
-        styles = [dko allRegisteredStyles];
+	while ((dko = [iter nextObject])) {
+		styles = [dko allRegisteredStyles];
 
-        if (styles != nil) {
-            // we got one - make a set to union them with if necessary
+		if (styles != nil) {
+			// we got one - make a set to union them with if necessary
 
-            if (unionOfAllStyles == nil)
-                unionOfAllStyles = [styles mutableCopy];
-            else
-                [unionOfAllStyles unionSet:styles];
-        }
-    }
+			if (unionOfAllStyles == nil)
+				unionOfAllStyles = [styles mutableCopy];
+			else
+				[unionOfAllStyles unionSet:styles];
+		}
+	}
 
-    return [unionOfAllStyles autorelease];
+	return [unionOfAllStyles autorelease];
 }
 
 - (void)replaceMatchingStylesFromSet:(NSSet*)aSet
 {
-    // propagate this to all objects in the group:
+	// propagate this to all objects in the group:
 
-    [[self groupObjects] makeObjectsPerformSelector:@selector(replaceMatchingStylesFromSet:)
-                                         withObject:aSet];
+	[[self groupObjects] makeObjectsPerformSelector:@selector(replaceMatchingStylesFromSet:)
+										 withObject:aSet];
 }
 
 /** @brief Draws the objects within the group.
@@ -633,16 +633,16 @@
  parent transform and applying it correctly. */
 - (void)drawContent
 {
-    SAVE_GRAPHICS_CONTEXT
+	SAVE_GRAPHICS_CONTEXT
 
-    // apply any path as a clipping path
+	// apply any path as a clipping path
 
-    if ([self clipContentToPath])
-        [[self renderingPath] addClip];
+	if ([self clipContentToPath])
+		[[self renderingPath] addClip];
 
-    [self drawGroupContent];
+	[self drawGroupContent];
 
-    RESTORE_GRAPHICS_CONTEXT
+	RESTORE_GRAPHICS_CONTEXT
 }
 
 /** @brief Draws the objects within the group but using the given style.
@@ -653,17 +653,17 @@
  @param aStyle some style object */
 - (void)drawContentWithStyle:(DKStyle*)aStyle
 {
-    if (m_transformVisually) {
-        [NSGraphicsContext saveGraphicsState];
-        NSAffineTransform* tfm = [self contentTransform];
-        [tfm concat];
-    }
+	if (m_transformVisually) {
+		[NSGraphicsContext saveGraphicsState];
+		NSAffineTransform* tfm = [self contentTransform];
+		[tfm concat];
+	}
 
-    [[self groupObjects] makeObjectsPerformSelector:@selector(drawContentWithStyle:)
-                                         withObject:aStyle];
+	[[self groupObjects] makeObjectsPerformSelector:@selector(drawContentWithStyle:)
+										 withObject:aStyle];
 
-    if (m_transformVisually)
-        [NSGraphicsContext restoreGraphicsState];
+	if (m_transformVisually)
+		[NSGraphicsContext restoreGraphicsState];
 }
 
 /** @brief Draws the group's selection highlight.
@@ -671,15 +671,15 @@
  If set to clip the contents, the clipping path is also highlighted */
 - (void)drawSelectedState
 {
-    if ([self clipContentToPath])
-        [self drawSelectionPath:[self renderingPath]];
+	if ([self clipContentToPath])
+		[self drawSelectionPath:[self renderingPath]];
 
-    [super drawSelectedState];
+	[super drawSelectedState];
 }
 
 - (NSSize)extraSpaceNeeded
 {
-    return [self extraSpaceNeededByObjects:[self groupObjects]];
+	return [self extraSpaceNeededByObjects:[self groupObjects]];
 }
 
 /** @brief Adds group commands to the contextual menu
@@ -687,16 +687,16 @@
  @return YES */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu
 {
-    [[theMenu addItemWithTitle:NSLocalizedString(@"Ungroup", @"menu item for ungroup")
-                        action:@selector(ungroupObjects:)
-                 keyEquivalent:@""] setTarget:self];
-    [[theMenu addItemWithTitle:NSLocalizedString(@"Paste Style", @"menu item for paste style")
-                        action:@selector(pasteDrawingStyle:)
-                 keyEquivalent:@""] setTarget:self];
-    [[theMenu addItemWithTitle:NSLocalizedString(@"Clip Contents", @"menu item for toggle clipping")
-                        action:@selector(toggleClipToPath:)
-                 keyEquivalent:@""] setTarget:self];
-    return YES;
+	[[theMenu addItemWithTitle:NSLocalizedString(@"Ungroup", @"menu item for ungroup")
+						action:@selector(ungroupObjects:)
+				 keyEquivalent:@""] setTarget:self];
+	[[theMenu addItemWithTitle:NSLocalizedString(@"Paste Style", @"menu item for paste style")
+						action:@selector(pasteDrawingStyle:)
+				 keyEquivalent:@""] setTarget:self];
+	[[theMenu addItemWithTitle:NSLocalizedString(@"Clip Contents", @"menu item for toggle clipping")
+						action:@selector(toggleClipToPath:)
+				 keyEquivalent:@""] setTarget:self];
+	return YES;
 }
 
 /** @brief Propagates a style change to all objects in the group
@@ -707,11 +707,11 @@
  */
 - (void)setStyle:(DKStyle*)style
 {
-    // copies the style to all objects in the group, as a convenient way to set styles for several objects at once
+	// copies the style to all objects in the group, as a convenient way to set styles for several objects at once
 
-    [[self groupObjects] makeObjectsPerformSelector:@selector(setStyle:)
-                                         withObject:style];
-    [self notifyVisualChange];
+	[[self groupObjects] makeObjectsPerformSelector:@selector(setStyle:)
+										 withObject:style];
+	[self notifyVisualChange];
 }
 
 /** @brief Returns a style from the group
@@ -724,7 +724,7 @@
  */
 - (DKStyle*)style
 {
-    return nil;
+	return nil;
 }
 
 /** @brief This object is being ungrouped from a group
@@ -737,27 +737,27 @@
  */
 - (void)group:(DKShapeGroup*)aGroup willUngroupObjectWithTransform:(NSAffineTransform*)aTransform
 {
-    // groups within groups can be tricky, as multiple transforms apply and they are hard.
-    // currently, this implementation is unable to preserve combined rotated and scaled groups exactly because
-    // the resulting paths should be skewed but after ungrouping they will not be.
+	// groups within groups can be tricky, as multiple transforms apply and they are hard.
+	// currently, this implementation is unable to preserve combined rotated and scaled groups exactly because
+	// the resulting paths should be skewed but after ungrouping they will not be.
 
-    NSPoint p = [self location];
-    NSSize gs = [self size];
+	NSPoint p = [self location];
+	NSSize gs = [self size];
 
-    CGFloat sx, sy;
+	CGFloat sx, sy;
 
-    sx = [aGroup size].width / [aGroup groupBoundingRect].size.width;
-    sy = [aGroup size].height / [aGroup groupBoundingRect].size.height;
+	sx = [aGroup size].width / [aGroup groupBoundingRect].size.width;
+	sy = [aGroup size].height / [aGroup groupBoundingRect].size.height;
 
-    gs.width *= sx;
-    gs.height *= sy;
+	gs.width *= sx;
+	gs.height *= sy;
 
-    if (gs.width != 0.0 && gs.height != 0.0) {
-        [self rotateByAngle:[aGroup angle]]; // preserve rotated bounds
-        [self setSize:gs];
-        [self setLocation:[aTransform transformPoint:p]];
-    } else
-        [self setSize:NSZeroSize]; // force object to become invalid
+	if (gs.width != 0.0 && gs.height != 0.0) {
+		[self rotateByAngle:[aGroup angle]]; // preserve rotated bounds
+		[self setSize:gs];
+		[self setLocation:[aTransform transformPoint:p]];
+	} else
+		[self setSize:NSZeroSize]; // force object to become invalid
 }
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
@@ -767,33 +767,33 @@
  */
 - (void)detachStyle
 {
-    // detaches the styles of all of its contained objects
+	// detaches the styles of all of its contained objects
 
-    [[self groupObjects] makeObjectsPerformSelector:_cmd];
+	[[self groupObjects] makeObjectsPerformSelector:_cmd];
 }
 
 - (void)setGhosted:(BOOL)ghosted
 {
-    NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-    DKDrawableObject* obj;
+	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
+	DKDrawableObject* obj;
 
-    while ((obj = [iter nextObject]))
-        [obj setGhosted:ghosted];
+	while ((obj = [iter nextObject]))
+		[obj setGhosted:ghosted];
 
-    [self notifyVisualChange];
+	[self notifyVisualChange];
 }
 
 - (BOOL)isGhosted
 {
-    NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-    DKDrawableObject* obj;
+	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
+	DKDrawableObject* obj;
 
-    while ((obj = [iter nextObject])) {
-        if ([obj isGhosted])
-            return YES;
-    }
+	while ((obj = [iter nextObject])) {
+		if ([obj isGhosted])
+			return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief The object was added to a layer
@@ -803,9 +803,9 @@
  */
 - (void)objectWasAddedToLayer:(DKObjectOwnerLayer*)aLayer
 {
-    [super objectWasAddedToLayer:aLayer];
-    [[self groupObjects] makeObjectsPerformSelector:_cmd
-                                         withObject:aLayer];
+	[super objectWasAddedToLayer:aLayer];
+	[[self groupObjects] makeObjectsPerformSelector:_cmd
+										 withObject:aLayer];
 }
 
 /** @brief The object was removed from the layer
@@ -815,9 +815,9 @@
  */
 - (void)objectWasRemovedFromLayer:(DKObjectOwnerLayer*)aLayer
 {
-    [super objectWasRemovedFromLayer:aLayer];
-    [[self groupObjects] makeObjectsPerformSelector:_cmd
-                                         withObject:aLayer];
+	[super objectWasRemovedFromLayer:aLayer];
+	[[self groupObjects] makeObjectsPerformSelector:_cmd
+										 withObject:aLayer];
 }
 
 /** @brief The object's container changed
@@ -829,9 +829,9 @@
  */
 - (void)setContainer:(id<DKDrawableContainer>)aContainer
 {
-    [super setContainer:aContainer];
-    [[self groupObjects] makeObjectsPerformSelector:_cmd
-                                         withObject:self];
+	[super setContainer:aContainer];
+	[[self groupObjects] makeObjectsPerformSelector:_cmd
+										 withObject:self];
 }
 
 #pragma mark -
@@ -839,22 +839,22 @@
 
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        NSBezierPath* path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
-        [self setPath:path];
-        //[self setCacheOptions:kDKGroupCacheUsingCGLayer];
-    }
-    return self;
+	self = [super init];
+	if (self != nil) {
+		NSBezierPath* path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
+		[self setPath:path];
+		//[self setCacheOptions:kDKGroupCacheUsingCGLayer];
+	}
+	return self;
 }
 
 - (void)dealloc
 {
-    [self invalidateCache];
-    [m_objects makeObjectsPerformSelector:@selector(setContainer:)
-                               withObject:nil];
-    [m_objects release];
-    [super dealloc];
+	[self invalidateCache];
+	[m_objects makeObjectsPerformSelector:@selector(setContainer:)
+							   withObject:nil];
+	[m_objects release];
+	[super dealloc];
 }
 
 #pragma mark -
@@ -868,130 +868,130 @@
  @return a transform object */
 - (NSAffineTransform*)renderingTransform
 {
-    // returns the concatenation of all groups and layers transforms containing this one
+	// returns the concatenation of all groups and layers transforms containing this one
 
-    if (mIsWritingToCache) {
-        NSAffineTransform* stf = [NSAffineTransform transform];
-        //[stf translateXBy:m_bounds.origin.x yBy:m_bounds.origin.y];
-        return stf;
-    } else {
-        NSAffineTransform* tfm = [self containerTransform];
+	if (mIsWritingToCache) {
+		NSAffineTransform* stf = [NSAffineTransform transform];
+		//[stf translateXBy:m_bounds.origin.x yBy:m_bounds.origin.y];
+		return stf;
+	} else {
+		NSAffineTransform* tfm = [self containerTransform];
 
-        if (m_transformVisually)
-            return tfm;
-        else {
-            NSAffineTransform* ct = [self contentTransform];
+		if (m_transformVisually)
+			return tfm;
+		else {
+			NSAffineTransform* ct = [self contentTransform];
 
-            if (tfm) {
-                [tfm prependTransform:ct];
-                return tfm;
-            } else
-                return ct;
-        }
-    }
+			if (tfm) {
+				[tfm prependTransform:ct];
+				return tfm;
+			} else
+				return ct;
+		}
+	}
 }
 
 - (NSUInteger)indexOfObject:(DKDrawableObject*)obj
 {
-    return [[self groupObjects] indexOfObject:obj];
+	return [[self groupObjects] indexOfObject:obj];
 }
 
 - (DKImageDataManager*)imageManager
 {
-    return [[self drawing] imageManager];
+	return [[self drawing] imageManager];
 }
 
 - (id)metadataObjectForKey:(NSString*)key
 {
-    return [super metadataObjectForKey:key];
+	return [super metadataObjectForKey:key];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [super encodeWithCoder:coder];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[super encodeWithCoder:coder];
 
-    [coder encodeRect:mBounds
-               forKey:@"group_bounds"];
-    [coder encodeObject:[self groupObjects]
-                 forKey:@"groupedobjects"];
-    [coder encodeBool:[self clipContentToPath]
-               forKey:@"DKShapeGroup_clipContent"];
+	[coder encodeRect:mBounds
+			   forKey:@"group_bounds"];
+	[coder encodeObject:[self groupObjects]
+				 forKey:@"groupedobjects"];
+	[coder encodeBool:[self clipContentToPath]
+			   forKey:@"DKShapeGroup_clipContent"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    self = [super initWithCoder:coder];
-    if (self != nil) {
-        [self setObjects:[coder decodeObjectForKey:@"groupedobjects"]];
+	NSAssert(coder != nil, @"Expected valid coder");
+	self = [super initWithCoder:coder];
+	if (self != nil) {
+		[self setObjects:[coder decodeObjectForKey:@"groupedobjects"]];
 
-        if (m_objects == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    if (self != nil) {
-        [[self path] appendBezierPathWithRect:[[self class] unitRectAtOrigin]];
-        mBounds = [coder decodeRectForKey:@"group_bounds"];
+		if (m_objects == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	if (self != nil) {
+		[[self path] appendBezierPathWithRect:[[self class] unitRectAtOrigin]];
+		mBounds = [coder decodeRectForKey:@"group_bounds"];
 
-        mClipContentToPath = [coder decodeBoolForKey:@"DKShapeGroup_clipContent"];
-    }
+		mClipContentToPath = [coder decodeBoolForKey:@"DKShapeGroup_clipContent"];
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
-    DKShapeGroup* copy = [super copyWithZone:zone];
+	DKShapeGroup* copy = [super copyWithZone:zone];
 
-    NSMutableArray* objectsCopy = [[NSMutableArray alloc] init];
-    NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-    DKDrawableShape* obj;
-    DKDrawableShape* copyOfObj;
+	NSMutableArray* objectsCopy = [[NSMutableArray alloc] init];
+	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
+	DKDrawableShape* obj;
+	DKDrawableShape* copyOfObj;
 
-    // make a deep copy of the group's objects
+	// make a deep copy of the group's objects
 
-    while ((obj = [iter nextObject])) {
-        copyOfObj = [obj copyWithZone:zone];
+	while ((obj = [iter nextObject])) {
+		copyOfObj = [obj copyWithZone:zone];
 
-        [objectsCopy addObject:copyOfObj];
-        [copyOfObj setContainer:copy];
-        [copyOfObj release];
-    }
+		[objectsCopy addObject:copyOfObj];
+		[copyOfObj setContainer:copy];
+		[copyOfObj release];
+	}
 
-    copy->m_objects = objectsCopy;
-    copy->mBounds = mBounds;
-    copy->mClipContentToPath = mClipContentToPath;
+	copy->m_objects = objectsCopy;
+	copy->mBounds = mBounds;
+	copy->mClipContentToPath = mClipContentToPath;
 
-    [copy setCacheOptions:[self cacheOptions]];
-    [copy updateCache];
+	[copy setCacheOptions:[self cacheOptions]];
+	[copy updateCache];
 
-    return copy;
+	return copy;
 }
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    SEL action = [item action];
+	SEL action = [item action];
 
-    if (action == @selector(setDistortMode:) || action == @selector(resetBoundingBox:) || action == @selector(convertToPath:))
-        return NO;
+	if (action == @selector(setDistortMode:) || action == @selector(resetBoundingBox:) || action == @selector(convertToPath:))
+		return NO;
 
-    if (action == @selector(toggleClipToPath:)) {
-        [item setState:[self clipContentToPath] ? NSOnState : NSOffState];
-        return YES;
-    }
+	if (action == @selector(toggleClipToPath:)) {
+		[item setState:[self clipContentToPath] ? NSOnState : NSOffState];
+		return YES;
+	}
 
-    if (action == @selector(ungroupObjects:))
-        return ![self locked];
+	if (action == @selector(ungroupObjects:))
+		return ![self locked];
 
-    return [super validateMenuItem:item];
+	return [super validateMenuItem:item];
 }
 
 @end

@@ -17,8 +17,8 @@ user interaction.
 */
 @interface GCInfoFloater : NSWindow {
 @private
-    NSControl* m_infoViewRef;
-    NSSize m_wOffset;
+	NSControl* m_infoViewRef;
+	NSSize m_wOffset;
 }
 
 /**  */

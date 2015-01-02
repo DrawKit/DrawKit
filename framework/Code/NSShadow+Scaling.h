@@ -9,8 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 typedef enum {
-    kDKShadowDrawFill = (1 << 0),
-    kDKShadowDrawStroke = (1 << 1)
+	kDKShadowDrawFill = (1 << 0),
+	kDKShadowDrawStroke = (1 << 1)
 } DKShadowDrawingOperation;
 
 /**

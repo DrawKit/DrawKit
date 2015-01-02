@@ -16,8 +16,8 @@ This layout manager subclass draws greeking rectangles instead of glyphs, either
  Greeking can be faster for certain operations such as hit-testing where exact glyph rendition is not needed.
 */
 @interface DKGreekingLayoutManager : NSLayoutManager {
-    DKGreeking mGreeking;
-    NSColor* mGreekingColour;
+	DKGreeking mGreeking;
+	NSColor* mGreekingColour;
 }
 
 - (void)setGreeking:(DKGreeking)greeking;

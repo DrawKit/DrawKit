@@ -14,8 +14,8 @@ Implements a very simple type of crop tool. You drag out a rect, and on mouse up
 tool might be preferred - this is to test the crop function.
 */
 @interface DKCropTool : DKDrawingTool {
-    NSPoint mAnchor; // initial click pt
-    NSRect mZoomRect; // zoom rect when dragged
+	NSPoint mAnchor; // initial click pt
+	NSRect mZoomRect; // zoom rect when dragged
 }
 
 @end

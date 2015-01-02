@@ -10,9 +10,9 @@
 
 @interface DKZigZagFill : DKFill <NSCoding, NSCopying> {
 @private
-    CGFloat mWavelength;
-    CGFloat mAmplitude;
-    CGFloat mSpread;
+	CGFloat mWavelength;
+	CGFloat mAmplitude;
+	CGFloat mSpread;
 }
 
 /**  */

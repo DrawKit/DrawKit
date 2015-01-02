@@ -14,8 +14,8 @@
 @class DKShapeGroup;
 
 typedef enum {
-    kDKVectorizeGrayscale = 0,
-    kDKVectorizeColour = 1
+	kDKVectorizeGrayscale = 0,
+	kDKVectorizeColour = 1
 } DKVectorizingMethod;
 
 // this category implements very high-level vectorizing operations on an image shape. At its simplest,

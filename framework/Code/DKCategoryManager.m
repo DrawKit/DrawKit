@@ -13,7 +13,7 @@
 #import "NSString+DKAdditions.h"
 #import "DKUnarchivingHelper.h"
 
-#pragma mark Contants (Non-localized)
+#pragma mark Contants(Non - localized)
 NSString* kDKDefaultCategoryName = @"All Items";
 NSString* kDKRecentlyAddedUserString = @"Recently Added";
 NSString* kDKRecentlyUsedUserString = @"Recently Used";
@@ -51,7 +51,7 @@ static id sDearchivingHelper = nil;
  */
 + (DKCategoryManager*)categoryManager
 {
-    return [[[DKCategoryManager alloc] init] autorelease];
+	return [[[DKCategoryManager alloc] init] autorelease];
 }
 
 /** @brief Returns a new category manager object based on an existing dictionary
@@ -62,14 +62,14 @@ static id sDearchivingHelper = nil;
  */
 + (DKCategoryManager*)categoryManagerWithDictionary:(NSDictionary*)dict
 {
-    return [[[DKCategoryManager alloc] initWithDictionary:dict] autorelease];
+	return [[[DKCategoryManager alloc] initWithDictionary:dict] autorelease];
 }
 
 /** @brief Return the default categories defined for this class
  @return an array of categories */
 + (NSArray*)defaultCategories
 {
-    return [NSArray arrayWithObject:kDKDefaultCategoryName];
+	return [NSArray arrayWithObject:kDKDefaultCategoryName];
 }
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
@@ -81,24 +81,24 @@ static id sDearchivingHelper = nil;
 {
 #pragma unused(obj)
 
-    NSLog(@"warning - subclasses of DKCategoryManager must override +categoryManagerKeyForObject: to correctly implement merging");
+	NSLog(@"warning - subclasses of DKCategoryManager must override +categoryManagerKeyForObject: to correctly implement merging");
 
-    return nil;
+	return nil;
 }
 
 + (id)dearchivingHelper
 {
-    if (sDearchivingHelper == nil)
-        sDearchivingHelper = [[DKUnarchivingHelper alloc] init];
+	if (sDearchivingHelper == nil)
+		sDearchivingHelper = [[DKUnarchivingHelper alloc] init];
 
-    return sDearchivingHelper;
+	return sDearchivingHelper;
 }
 
 + (void)setDearchivingHelper:(id)helper
 {
-    [helper retain];
-    [sDearchivingHelper release];
-    sDearchivingHelper = helper;
+	[helper retain];
+	[sDearchivingHelper release];
+	sDearchivingHelper = helper;
 }
 
 #pragma mark -
@@ -112,46 +112,46 @@ static id sDearchivingHelper = nil;
  */
 - (id)initWithData:(NSData*)data
 {
-    NSAssert(data != nil, @"Expected valid data");
+	NSAssert(data != nil, @"Expected valid data");
 
-    NSKeyedUnarchiver* unarch = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+	NSKeyedUnarchiver* unarch = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
 
-    // in order to translate older files with classes named 'GC' instead of 'DK', need a delegate that can handle the
-    // translation. Apps can also swap out this helper, or become listeners of its notifications for progress indication
+	// in order to translate older files with classes named 'GC' instead of 'DK', need a delegate that can handle the
+	// translation. Apps can also swap out this helper, or become listeners of its notifications for progress indication
 
-    id dearchivingHelper = [[self class] dearchivingHelper];
-    if ([dearchivingHelper respondsToSelector:@selector(reset)])
-        [dearchivingHelper reset];
+	id dearchivingHelper = [[self class] dearchivingHelper];
+	if ([dearchivingHelper respondsToSelector:@selector(reset)])
+		[dearchivingHelper reset];
 
-    [unarch setDelegate:dearchivingHelper];
-    id obj = [unarch decodeObjectForKey:@"root"];
+	[unarch setDelegate:dearchivingHelper];
+	id obj = [unarch decodeObjectForKey:@"root"];
 
-    [unarch finishDecoding];
-    [unarch autorelease];
+	[unarch finishDecoding];
+	[unarch autorelease];
 
-    NSAssert(obj != nil, @"Expected valid obj");
+	NSAssert(obj != nil, @"Expected valid obj");
 
-    if ([obj isKindOfClass:[DKCategoryManager class]]) // not [self class] as cat mgr is sometimes subclassed
-    {
-        DKCategoryManager* cm = (DKCategoryManager*)obj;
+	if ([obj isKindOfClass:[DKCategoryManager class]]) // not [self class] as cat mgr is sometimes subclassed
+	{
+		DKCategoryManager* cm = (DKCategoryManager*)obj;
 
-        self = [self init];
-        if (self) {
-            [m_masterList setDictionary:cm->m_masterList];
-            [m_categories setDictionary:cm->m_categories];
-            [m_recentlyAdded setArray:cm->m_recentlyAdded];
-            [m_recentlyUsed setArray:cm->m_recentlyUsed];
+		self = [self init];
+		if (self) {
+			[m_masterList setDictionary:cm->m_masterList];
+			[m_categories setDictionary:cm->m_categories];
+			[m_recentlyAdded setArray:cm->m_recentlyAdded];
+			[m_recentlyUsed setArray:cm->m_recentlyUsed];
 
-            m_maxRecentlyUsedItems = cm->m_maxRecentlyUsedItems;
-            m_maxRecentlyAddedItems = cm->m_maxRecentlyAddedItems;
-        }
-    } else if ([obj isKindOfClass:[NSDictionary class]]) {
-        self = [self initWithDictionary:obj];
-    } else {
-        self = [self init];
-        NSLog(@"%@ ! data was not a valid archive for -initWithData:", self);
-    }
-    return self;
+			m_maxRecentlyUsedItems = cm->m_maxRecentlyUsedItems;
+			m_maxRecentlyAddedItems = cm->m_maxRecentlyAddedItems;
+		}
+	} else if ([obj isKindOfClass:[NSDictionary class]]) {
+		self = [self initWithDictionary:obj];
+	} else {
+		self = [self init];
+		NSLog(@"%@ ! data was not a valid archive for -initWithData:", self);
+	}
+	return self;
 }
 
 /** @brief Initialized a category manager object from an existing dictionary
@@ -162,30 +162,30 @@ static id sDearchivingHelper = nil;
  */
 - (id)initWithDictionary:(NSDictionary*)dict
 {
-    NSAssert(dict != nil, @"Expected valid dict");
-    self = [self init];
-    if (self != nil) {
-        // dictionary keys need to be all lowercase to allow "case insensitivity" in the master list
+	NSAssert(dict != nil, @"Expected valid dict");
+	self = [self init];
+	if (self != nil) {
+		// dictionary keys need to be all lowercase to allow "case insensitivity" in the master list
 
-        NSEnumerator* iter = [[dict allKeys] objectEnumerator];
-        NSString* s;
+		NSEnumerator* iter = [[dict allKeys] objectEnumerator];
+		NSString* s;
 
-        while ((s = [iter nextObject])) {
-            id obj = [dict objectForKey:s];
-            [m_masterList setObject:obj
-                             forKey:[s lowercaseString]];
-        }
+		while ((s = [iter nextObject])) {
+			id obj = [dict objectForKey:s];
+			[m_masterList setObject:obj
+							 forKey:[s lowercaseString]];
+		}
 
-        // add to "All Items":
+		// add to "All Items":
 
-        NSMutableArray* aicat = [m_categories objectForKey:kDKDefaultCategoryName];
+		NSMutableArray* aicat = [m_categories objectForKey:kDKDefaultCategoryName];
 
-        if (aicat) {
-            [aicat addObjectsFromArray:[dict allKeys]];
-        }
-    }
+		if (aicat) {
+			[aicat addObjectsFromArray:[dict allKeys]];
+		}
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
@@ -201,35 +201,35 @@ static id sDearchivingHelper = nil;
  */
 - (void)addObject:(id)obj forKey:(NSString*)name toCategory:(NSString*)catName createCategory:(BOOL)cg
 {
-    //	LogEvent_(kStateEvent, @"category manager adding object:%@ name:%@ to category:%@", obj, name, catName );
+	//	LogEvent_(kStateEvent, @"category manager adding object:%@ name:%@ to category:%@", obj, name, catName );
 
-    NSAssert(obj != nil, @"object cannot be nil");
-    NSAssert(name != nil, @"name cannot be nil");
-    NSAssert([name length] > 0, @"name cannot be empty");
+	NSAssert(obj != nil, @"object cannot be nil");
+	NSAssert(name != nil, @"name cannot be nil");
+	NSAssert([name length] > 0, @"name cannot be empty");
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillAddObject
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillAddObject
+														object:self];
 
-    // add the object to the master list
+	// add the object to the master list
 
-    [m_masterList setObject:obj
-                     forKey:[name lowercaseString]];
-    [self addKey:name
-        toRecentList:kDKListRecentlyAdded];
+	[m_masterList setObject:obj
+					 forKey:[name lowercaseString]];
+	[self addKey:name
+		toRecentList:kDKListRecentlyAdded];
 
-    // add to single category specified if any
+	// add to single category specified if any
 
-    if (catName != nil)
-        [self addKey:name
-                toCategory:catName
-            createCategory:cg];
+	if (catName != nil)
+		[self addKey:name
+				toCategory:catName
+			createCategory:cg];
 
-    [self addKey:name
-            toCategory:kDKDefaultCategoryName
-        createCategory:NO];
+	[self addKey:name
+			toCategory:kDKDefaultCategoryName
+		createCategory:NO];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddObject
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddObject
+														object:self];
 }
 
 /** @brief Add an object to the container, associating with a key and optionally a number of categories.
@@ -242,35 +242,35 @@ static id sDearchivingHelper = nil;
  */
 - (void)addObject:(id)obj forKey:(NSString*)name toCategories:(NSArray*)catNames createCategories:(BOOL)cg
 {
-    //	LogEvent_(kStateEvent, @"category manager adding object:%@ name:%@ to categories:%@", obj, name, catNames );
+	//	LogEvent_(kStateEvent, @"category manager adding object:%@ name:%@ to categories:%@", obj, name, catNames );
 
-    NSAssert(obj != nil, @"object cannot be nil");
-    NSAssert(name != nil, @"name cannot be nil");
-    NSAssert([name length] > 0, @"name cannot be empty");
+	NSAssert(obj != nil, @"object cannot be nil");
+	NSAssert(name != nil, @"name cannot be nil");
+	NSAssert([name length] > 0, @"name cannot be empty");
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillAddObject
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillAddObject
+														object:self];
 
-    // add the object to the master list
+	// add the object to the master list
 
-    [m_masterList setObject:obj
-                     forKey:[name lowercaseString]];
-    [self addKey:name
-        toRecentList:kDKListRecentlyAdded];
+	[m_masterList setObject:obj
+					 forKey:[name lowercaseString]];
+	[self addKey:name
+		toRecentList:kDKListRecentlyAdded];
 
-    // add to multiple categories specified
+	// add to multiple categories specified
 
-    if (catNames != nil && [catNames count] > 0)
-        [self addKey:name
-                toCategories:catNames
-            createCategories:cg];
+	if (catNames != nil && [catNames count] > 0)
+		[self addKey:name
+				toCategories:catNames
+			createCategories:cg];
 
-    [self addKey:name
-            toCategory:kDKDefaultCategoryName
-        createCategory:NO];
+	[self addKey:name
+			toCategory:kDKDefaultCategoryName
+		createCategory:NO];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddObject
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddObject
+														object:self];
 }
 
 /** @brief Remove an object from the container
@@ -280,24 +280,24 @@ static id sDearchivingHelper = nil;
  */
 - (void)removeObjectForKey:(NSString*)key
 {
-    // remove this key from any/all categories and lists
+	// remove this key from any/all categories and lists
 
-    NSAssert(key != nil, @"attempt to remove nil key");
+	NSAssert(key != nil, @"attempt to remove nil key");
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillRemoveObject
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillRemoveObject
+														object:self];
 
-    [self removeKeyFromAllCategories:key];
-    [self removeKey:key
-        fromRecentList:kDKListRecentlyAdded];
-    [self removeKey:key
-        fromRecentList:kDKListRecentlyUsed];
+	[self removeKeyFromAllCategories:key];
+	[self removeKey:key
+		fromRecentList:kDKListRecentlyAdded];
+	[self removeKey:key
+		fromRecentList:kDKListRecentlyUsed];
 
-    // remove from master dictionary
+	// remove from master dictionary
 
-    [m_masterList removeObjectForKey:[key lowercaseString]];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidRemoveObject
-                                                        object:self];
+	[m_masterList removeObjectForKey:[key lowercaseString]];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidRemoveObject
+														object:self];
 }
 
 /** @brief Remove multiple objects from the container
@@ -307,11 +307,11 @@ static id sDearchivingHelper = nil;
  */
 - (void)removeObjectsForKeys:(NSArray*)keys
 {
-    NSEnumerator* iter = [keys objectEnumerator];
-    NSString* key;
+	NSEnumerator* iter = [keys objectEnumerator];
+	NSString* key;
 
-    while ((key = [iter nextObject]))
-        [self removeObjectForKey:key];
+	while ((key = [iter nextObject]))
+		[self removeObjectForKey:key];
 }
 
 /** @brief Removes all objects from the container
@@ -320,8 +320,8 @@ static id sDearchivingHelper = nil;
  */
 - (void)removeAllObjects
 {
-    NSArray* keys = [self allKeys];
-    [self removeObjectsForKeys:keys];
+	NSArray* keys = [self allKeys];
+	[self removeObjectsForKeys:keys];
 }
 
 #pragma mark -
@@ -332,7 +332,7 @@ static id sDearchivingHelper = nil;
  */
 - (BOOL)containsKey:(NSString*)key
 {
-    return [[m_masterList allKeys] containsObject:[key lowercaseString]];
+	return [[m_masterList allKeys] containsObject:[key lowercaseString]];
 }
 
 /** @brief Return total number of stored objects in container
@@ -340,7 +340,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSUInteger)count
 {
-    return [m_masterList count];
+	return [m_masterList count];
 }
 
 #pragma mark -
@@ -351,7 +351,7 @@ static id sDearchivingHelper = nil;
  */
 - (id)objectForKey:(NSString*)key
 {
-    return [m_masterList objectForKey:[key lowercaseString]];
+	return [m_masterList objectForKey:[key lowercaseString]];
 }
 
 /** @brief Return the object for the given key, optionally remembering it in the "recently used" list
@@ -363,15 +363,15 @@ static id sDearchivingHelper = nil;
  */
 - (id)objectForKey:(NSString*)key addToRecentlyUsedItems:(BOOL)add
 {
-    // returns the object, but optionally adds it to the "recently used" list
+	// returns the object, but optionally adds it to the "recently used" list
 
-    id obj = [self objectForKey:key];
+	id obj = [self objectForKey:key];
 
-    if (add)
-        [self addKey:key
-            toRecentList:kDKListRecentlyUsed];
+	if (add)
+		[self addKey:key
+			toRecentList:kDKListRecentlyUsed];
 
-    return obj;
+	return obj;
 }
 
 #pragma mark -
@@ -384,18 +384,18 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)keysForObject:(id)obj
 {
-    //return [[self dictionary] allKeysForObject:obj];  // doesn't work because master dict uses lowercase keys
+	//return [[self dictionary] allKeysForObject:obj];  // doesn't work because master dict uses lowercase keys
 
-    NSMutableArray* keys = [[NSMutableArray alloc] init];
-    NSEnumerator* iter = [[self allKeys] objectEnumerator];
-    NSString* key;
+	NSMutableArray* keys = [[NSMutableArray alloc] init];
+	NSEnumerator* iter = [[self allKeys] objectEnumerator];
+	NSString* key;
 
-    while ((key = [iter nextObject])) {
-        if ([[self objectForKey:key] isEqual:obj])
-            [keys addObject:key];
-    }
+	while ((key = [iter nextObject])) {
+		if ([[self objectForKey:key] isEqual:obj])
+			[keys addObject:key];
+	}
 
-    return [keys autorelease];
+	return [keys autorelease];
 }
 
 /** @brief Return a copy of the master dictionary
@@ -403,7 +403,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSDictionary*)dictionary
 {
-    return [[m_masterList copy] autorelease];
+	return [[m_masterList copy] autorelease];
 }
 
 /** @brief Smartly merges objects into the category manager
@@ -416,71 +416,71 @@ static id sDearchivingHelper = nil;
  */
 - (NSSet*)mergeObjectsFromSet:(NSSet*)aSet inCategories:(NSArray*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id)aDelegate
 {
-    NSAssert(aSet != nil, @"cannot merge - set was nil");
+	NSAssert(aSet != nil, @"cannot merge - set was nil");
 
-    NSEnumerator* iter = [aSet objectEnumerator];
-    id obj, existingObj;
-    NSMutableSet* changedStyles = nil;
-    NSString* key;
+	NSEnumerator* iter = [aSet objectEnumerator];
+	id obj, existingObj;
+	NSMutableSet* changedStyles = nil;
+	NSString* key;
 
-    while ((obj = [iter nextObject])) {
-        // if the style is unknown to the registry, simply register it - in this case there's no need to do any complex merging or
-        // further analysis.
+	while ((obj = [iter nextObject])) {
+		// if the style is unknown to the registry, simply register it - in this case there's no need to do any complex merging or
+		// further analysis.
 
-        key = [[self class] categoryManagerKeyForObject:obj];
-        existingObj = [self objectForKey:key];
+		key = [[self class] categoryManagerKeyForObject:obj];
+		existingObj = [self objectForKey:key];
 
-        if (existingObj == nil)
-            [self addObject:obj
-                          forKey:key
-                    toCategories:categories
-                createCategories:YES];
-        else {
-            if ((options & kDKReplaceExisting) != 0) {
-                // style is known to us, so a merge is required, overwriting the registered object with the new one. Any clients of the
-                // modified style will be updated automatically.
+		if (existingObj == nil)
+			[self addObject:obj
+						  forKey:key
+					toCategories:categories
+				createCategories:YES];
+		else {
+			if ((options & kDKReplaceExisting) != 0) {
+				// style is known to us, so a merge is required, overwriting the registered object with the new one. Any clients of the
+				// modified style will be updated automatically.
 
-                existingObj = [self mergeObject:obj
-                                  mergeDelegate:aDelegate];
+				existingObj = [self mergeObject:obj
+								  mergeDelegate:aDelegate];
 
-                if (existingObj != nil) {
-                    if (changedStyles == nil)
-                        changedStyles = [NSMutableSet set];
+				if (existingObj != nil) {
+					if (changedStyles == nil)
+						changedStyles = [NSMutableSet set];
 
-                    [changedStyles addObject:existingObj];
+					[changedStyles addObject:existingObj];
 
-                    // add to the requested categories if needed
+					// add to the requested categories if needed
 
-                    [self addKey:key
-                            toCategories:categories
-                        createCategories:YES];
-                }
-            } else if ((options & kDKReturnExisting) != 0) {
-                // here the options request that the registered styles have priority, so the existing style is added to the return set
+					[self addKey:key
+							toCategories:categories
+						createCategories:YES];
+				}
+			} else if ((options & kDKReturnExisting) != 0) {
+				// here the options request that the registered styles have priority, so the existing style is added to the return set
 
-                if (changedStyles == nil)
-                    changedStyles = [NSMutableSet set];
+				if (changedStyles == nil)
+					changedStyles = [NSMutableSet set];
 
-                [changedStyles addObject:existingObj];
+				[changedStyles addObject:existingObj];
 
-                // add to the requested categories if needed
+				// add to the requested categories if needed
 
-                [self addKey:key
-                        toCategories:categories
-                    createCategories:YES];
-            } else if ((options & kDKAddAsNewVersions) != 0) {
-                // here the options request that the document styles are to be re-registered as new styles. This leaves both document and
-                // existing registered styles unaffected but can massively multiply the registry with many duplicates. In general this
-                // options should be used sparingly, if at all.
+				[self addKey:key
+						toCategories:categories
+					createCategories:YES];
+			} else if ((options & kDKAddAsNewVersions) != 0) {
+				// here the options request that the document styles are to be re-registered as new styles. This leaves both document and
+				// existing registered styles unaffected but can massively multiply the registry with many duplicates. In general this
+				// options should be used sparingly, if at all.
 
-                // TO DO
+				// TO DO
 
-                // there's nothing to return in this case
-            }
-        }
-    }
+				// there's nothing to return in this case
+			}
+		}
+	}
 
-    return changedStyles;
+	return changedStyles;
 }
 
 /** @brief Asks delegate to make decision about the merging of an object
@@ -492,26 +492,26 @@ static id sDearchivingHelper = nil;
  */
 - (id)mergeObject:(id)obj mergeDelegate:(id)aDelegate
 {
-    NSAssert(obj != nil, @"cannot merge - object was nil");
+	NSAssert(obj != nil, @"cannot merge - object was nil");
 
-    id newObj = nil;
+	id newObj = nil;
 
-    if (aDelegate && [aDelegate respondsToSelector:@selector(categoryManager:
-                                                         shouldReplaceObject:
-                                                                  withObject:)]) {
-        id existingObject = [self objectForKey:[[self class] categoryManagerKeyForObject:obj]];
+	if (aDelegate && [aDelegate respondsToSelector:@selector(categoryManager:
+														 shouldReplaceObject:
+																  withObject:)]) {
+		id existingObject = [self objectForKey:[[self class] categoryManagerKeyForObject:obj]];
 
-        if (existingObject == nil || existingObject == obj)
-            return nil; // this is really an error - the object is already registered, or is unregistered
+		if (existingObject == nil || existingObject == obj)
+			return nil; // this is really an error - the object is already registered, or is unregistered
 
-        // ask the delegate:
+		// ask the delegate:
 
-        newObj = [aDelegate categoryManager:self
-                        shouldReplaceObject:existingObject
-                                 withObject:obj];
-    }
+		newObj = [aDelegate categoryManager:self
+						shouldReplaceObject:existingObject
+								 withObject:obj];
+	}
 
-    return newObj;
+	return newObj;
 }
 
 #pragma mark -
@@ -527,15 +527,15 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)objectsInCategory:(NSString*)catName
 {
-    NSMutableArray* keys = [[[NSMutableArray alloc] init] autorelease];
-    NSEnumerator* iter = [[self allKeysInCategory:catName] objectEnumerator];
-    NSString* s;
+	NSMutableArray* keys = [[[NSMutableArray alloc] init] autorelease];
+	NSEnumerator* iter = [[self allKeysInCategory:catName] objectEnumerator];
+	NSString* s;
 
-    while ((s = [iter nextObject]))
-        [keys addObject:[s lowercaseString]];
+	while ((s = [iter nextObject]))
+		[keys addObject:[s lowercaseString]];
 
-    return [m_masterList objectsForKeys:keys
-                         notFoundMarker:[NSNull null]];
+	return [m_masterList objectsForKeys:keys
+						 notFoundMarker:[NSNull null]];
 }
 
 /** @brief Return all of the objects belonging to the given categories
@@ -548,15 +548,15 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)objectsInCategories:(NSArray*)catNames
 {
-    NSMutableArray* keys = [[[NSMutableArray alloc] init] autorelease];
-    NSEnumerator* iter = [[self allKeysInCategories:catNames] objectEnumerator];
-    NSString* s;
+	NSMutableArray* keys = [[[NSMutableArray alloc] init] autorelease];
+	NSEnumerator* iter = [[self allKeysInCategories:catNames] objectEnumerator];
+	NSString* s;
 
-    while ((s = [iter nextObject]))
-        [keys addObject:[s lowercaseString]];
+	while ((s = [iter nextObject]))
+		[keys addObject:[s lowercaseString]];
 
-    return [m_masterList objectsForKeys:keys
-                         notFoundMarker:[NSNull null]];
+	return [m_masterList objectsForKeys:keys
+						 notFoundMarker:[NSNull null]];
 }
 
 /** @brief Return all of the keys in a given category
@@ -575,12 +575,12 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)allKeysInCategory:(NSString*)catName
 {
-    if ([catName isEqualToString:kDKRecentlyAddedUserString])
-        return [self recentlyAddedItems];
-    else if ([catName isEqualToString:kDKRecentlyUsedUserString])
-        return [self recentlyUsedItems];
-    else
-        return [m_categories objectForKey:catName];
+	if ([catName isEqualToString:kDKRecentlyAddedUserString])
+		return [self recentlyAddedItems];
+	else if ([catName isEqualToString:kDKRecentlyUsedUserString])
+		return [self recentlyUsedItems];
+	else
+		return [m_categories objectForKey:catName];
 }
 
 /** @brief Return all of the keys in all given categories
@@ -591,31 +591,31 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)allKeysInCategories:(NSArray*)catNames
 {
-    if ([catNames count] == 1)
-        return [self allKeysInCategory:[catNames lastObject]];
-    else {
-        NSMutableArray* temp = [[NSMutableArray alloc] init];
-        NSEnumerator* iter = [catNames objectEnumerator];
-        NSString* catname;
-        NSArray* keys;
+	if ([catNames count] == 1)
+		return [self allKeysInCategory:[catNames lastObject]];
+	else {
+		NSMutableArray* temp = [[NSMutableArray alloc] init];
+		NSEnumerator* iter = [catNames objectEnumerator];
+		NSString* catname;
+		NSArray* keys;
 
-        while ((catname = [iter nextObject])) {
-            keys = [self allKeysInCategory:catname];
+		while ((catname = [iter nextObject])) {
+			keys = [self allKeysInCategory:catname];
 
-            // add keys not already in <temp> to temp
+			// add keys not already in <temp> to temp
 
-            [temp addUniqueObjectsFromArray:keys];
-        }
+			[temp addUniqueObjectsFromArray:keys];
+		}
 
-        return [temp autorelease];
-    }
+		return [temp autorelease];
+	}
 }
 
 - (NSArray*)allKeys
 {
-    //return [[self dictionary] allKeys];		// doesn't work because keys are lowercase
+	//return [[self dictionary] allKeys];		// doesn't work because keys are lowercase
 
-    return [self allKeysInCategories:[self allCategories]];
+	return [self allKeysInCategories:[self allCategories]];
 }
 
 /** @brief Return all of the objects
@@ -623,7 +623,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)allObjects
 {
-    return [m_masterList allValues];
+	return [m_masterList allValues];
 }
 
 /** @brief Return all of the keys in a given category, sorted into some useful order
@@ -635,7 +635,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)allSortedKeysInCategory:(NSString*)catName
 {
-    return [[self allKeysInCategory:catName] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+	return [[self allKeysInCategory:catName] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
 /** @brief Return all of the names in a given category, sorted into some useful order
@@ -648,7 +648,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)allSortedNamesInCategory:(NSString*)catName
 {
-    return [self allSortedKeysInCategory:catName];
+	return [self allSortedKeysInCategory:catName];
 }
 
 #pragma mark -
@@ -658,12 +658,12 @@ static id sDearchivingHelper = nil;
  */
 - (void)setRecentlyAddedItems:(NSArray*)array
 {
-    [m_recentlyAdded removeAllObjects];
+	[m_recentlyAdded removeAllObjects];
 
-    NSUInteger i;
+	NSUInteger i;
 
-    for (i = 0; i < MIN([array count], m_maxRecentlyAddedItems); ++i)
-        [m_recentlyAdded addObject:[array objectAtIndex:i]];
+	for (i = 0; i < MIN([array count], m_maxRecentlyAddedItems); ++i)
+		[m_recentlyAdded addObject:[array objectAtIndex:i]];
 }
 
 /** @brief Return the list of recently added items
@@ -673,7 +673,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)recentlyAddedItems
 {
-    return m_recentlyAdded;
+	return m_recentlyAdded;
 }
 
 /** @brief Return the list of recently used items
@@ -683,7 +683,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)recentlyUsedItems
 {
-    return m_recentlyUsed;
+	return m_recentlyUsed;
 }
 
 #pragma mark -
@@ -695,7 +695,7 @@ static id sDearchivingHelper = nil;
  */
 - (void)addDefaultCategories
 {
-    [self addCategories:[self defaultCategories]];
+	[self addCategories:[self defaultCategories]];
 }
 
 /** @brief Return the default categories defined for this class or object
@@ -703,7 +703,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)defaultCategories
 {
-    return [[self class] defaultCategories];
+	return [[self class] defaultCategories];
 }
 
 /** @brief Create a new category with the given name
@@ -712,38 +712,38 @@ static id sDearchivingHelper = nil;
  @param catName the name of the new category */
 - (void)addCategory:(NSString*)catName
 {
-    if ([m_categories objectForKey:catName] == nil) {
-        //	LogEvent_(kStateEvent,  @"adding new category '%@'", catName );
+	if ([m_categories objectForKey:catName] == nil) {
+		//	LogEvent_(kStateEvent,  @"adding new category '%@'", catName );
 
-        NSMutableArray* cat = [[NSMutableArray alloc] init];
-        NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"category_name", nil];
+		NSMutableArray* cat = [[NSMutableArray alloc] init];
+		NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"category_name", nil];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillCreateNewCategory
-                                                            object:self
-                                                          userInfo:info];
-        [m_categories setObject:cat
-                         forKey:catName];
-        [cat release];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillCreateNewCategory
+															object:self
+														  userInfo:info];
+		[m_categories setObject:cat
+						 forKey:catName];
+		[cat release];
 
-        // inform any menus of the new category
+		// inform any menus of the new category
 
-        [mMenusList makeObjectsPerformSelector:@selector(addCategory:)
-                                    withObject:catName];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidCreateNewCategory
-                                                            object:self
-                                                          userInfo:info];
-    }
+		[mMenusList makeObjectsPerformSelector:@selector(addCategory:)
+									withObject:catName];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidCreateNewCategory
+															object:self
+														  userInfo:info];
+	}
 }
 
 /** @brief Create a new categories with the given names
  @param catNames a list of the names of the new categories */
 - (void)addCategories:(NSArray*)catNames
 {
-    NSEnumerator* iter = [catNames objectEnumerator];
-    NSString* catName;
+	NSEnumerator* iter = [catNames objectEnumerator];
+	NSString* catName;
 
-    while ((catName = [iter nextObject]))
-        [self addCategory:catName];
+	while ((catName = [iter nextObject]))
+		[self addCategory:catName];
 }
 
 /** @brief Remove a category with the given name
@@ -755,24 +755,24 @@ static id sDearchivingHelper = nil;
  */
 - (void)removeCategory:(NSString*)catName
 {
-    //	LogEvent_(kStateEvent, @"removing category '%@'", catName );
+	//	LogEvent_(kStateEvent, @"removing category '%@'", catName );
 
-    if ([m_categories objectForKey:catName]) {
-        NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"category_name", nil];
+	if ([m_categories objectForKey:catName]) {
+		NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"category_name", nil];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillDeleteCategory
-                                                            object:self
-                                                          userInfo:info];
-        [m_categories removeObjectForKey:catName];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillDeleteCategory
+															object:self
+														  userInfo:info];
+		[m_categories removeObjectForKey:catName];
 
-        // inform menus that category has gone
+		// inform menus that category has gone
 
-        [mMenusList makeObjectsPerformSelector:@selector(removeCategory:)
-                                    withObject:catName];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidDeleteCategory
-                                                            object:self
-                                                          userInfo:info];
-    }
+		[mMenusList makeObjectsPerformSelector:@selector(removeCategory:)
+									withObject:catName];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidDeleteCategory
+															object:self
+														  userInfo:info];
+	}
 }
 
 /** @brief Change a category's name
@@ -783,27 +783,27 @@ static id sDearchivingHelper = nil;
  */
 - (void)renameCategory:(NSString*)catName to:(NSString*)newname
 {
-    LogEvent_(kStateEvent, @"renaming the category '%@' to' %@'", catName, newname);
+	LogEvent_(kStateEvent, @"renaming the category '%@' to' %@'", catName, newname);
 
-    NSMutableArray* gs = [m_categories objectForKey:catName];
+	NSMutableArray* gs = [m_categories objectForKey:catName];
 
-    if (gs) {
-        [gs retain];
-        [m_categories removeObjectForKey:catName];
+	if (gs) {
+		[gs retain];
+		[m_categories removeObjectForKey:catName];
 
-        [m_categories setObject:gs
-                         forKey:newname];
-        [gs release];
+		[m_categories setObject:gs
+						 forKey:newname];
+		[gs release];
 
-        // update menu item title:
+		// update menu item title:
 
-        NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"old_name", newname, @"new_name", nil];
-        [mMenusList makeObjectsPerformSelector:@selector(renameCategoryWithInfo:)
-                                    withObject:info];
+		NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"old_name", newname, @"new_name", nil];
+		[mMenusList makeObjectsPerformSelector:@selector(renameCategoryWithInfo:)
+									withObject:info];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidRenameCategory
-                                                            object:self];
-    }
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidRenameCategory
+															object:self];
+	}
 }
 
 /** @brief Removes all categories and objects from the CM.
@@ -812,12 +812,12 @@ static id sDearchivingHelper = nil;
  */
 - (void)removeAllCategories
 {
-    [m_masterList removeAllObjects];
-    [m_categories removeAllObjects];
-    [m_recentlyUsed removeAllObjects];
-    [m_recentlyAdded removeAllObjects];
+	[m_masterList removeAllObjects];
+	[m_categories removeAllObjects];
+	[m_recentlyUsed removeAllObjects];
+	[m_recentlyAdded removeAllObjects];
 
-    [mMenusList makeObjectsPerformSelector:@selector(removeAll)];
+	[mMenusList makeObjectsPerformSelector:@selector(removeAll)];
 }
 
 #pragma mark -
@@ -828,40 +828,40 @@ static id sDearchivingHelper = nil;
  @param cg YES to create the category if it doesn't exist, NO otherwise */
 - (void)addKey:(NSString*)key toCategory:(NSString*)catName createCategory:(BOOL)cg
 {
-    // add a key to an existing group, or to a new group if it doesn't yet exist and the flag is set
+	// add a key to an existing group, or to a new group if it doesn't yet exist and the flag is set
 
-    NSAssert(key != nil, @"key can't be nil");
+	NSAssert(key != nil, @"key can't be nil");
 
-    if (catName == nil)
-        return;
+	if (catName == nil)
+		return;
 
-    LogEvent_(kStateEvent, @"category manager adding key '%@' to category '%@'", key, catName);
+	LogEvent_(kStateEvent, @"category manager adding key '%@' to category '%@'", key, catName);
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillAddKeyToCategory
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillAddKeyToCategory
+														object:self];
 
-    NSMutableArray* ga = [m_categories objectForKey:catName];
+	NSMutableArray* ga = [m_categories objectForKey:catName];
 
-    if (ga == nil && cg) {
-        // doesn't exist - create it
+	if (ga == nil && cg) {
+		// doesn't exist - create it
 
-        [self addCategory:catName];
-        ga = [m_categories objectForKey:catName];
-    }
+		[self addCategory:catName];
+		ga = [m_categories objectForKey:catName];
+	}
 
-    // add the key to this group's list if not already known
+	// add the key to this group's list if not already known
 
-    if (![ga containsObject:key]) {
-        [ga addObject:key];
+	if (![ga containsObject:key]) {
+		[ga addObject:key];
 
-        // update menus
+		// update menus
 
-        [mMenusList makeObjectsPerformSelector:@selector(addKey:)
-                                    withObject:key];
-    }
+		[mMenusList makeObjectsPerformSelector:@selector(addKey:)
+									withObject:key];
+	}
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddKeyToCategory
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidAddKeyToCategory
+														object:self];
 }
 
 /** @brief Adds a new key to several categories, optionally creating any if necessary
@@ -870,16 +870,16 @@ static id sDearchivingHelper = nil;
  @param cg YES to create the category if it doesn't exist, NO otherwise */
 - (void)addKey:(NSString*)key toCategories:(NSArray*)catNames createCategories:(BOOL)cg
 {
-    if (catNames == nil)
-        return;
+	if (catNames == nil)
+		return;
 
-    NSEnumerator* iter = [catNames objectEnumerator];
-    NSString* cat;
+	NSEnumerator* iter = [catNames objectEnumerator];
+	NSString* cat;
 
-    while ((cat = [iter nextObject]))
-        [self addKey:key
-                toCategory:cat
-            createCategory:cg];
+	while ((cat = [iter nextObject]))
+		[self addKey:key
+				toCategory:cat
+			createCategory:cg];
 }
 
 /** @brief Removes a key from a category
@@ -887,23 +887,23 @@ static id sDearchivingHelper = nil;
  @param catName the category to remove it from */
 - (void)removeKey:(NSString*)key fromCategory:(NSString*)catName
 {
-    //	LogEvent_(kStateEvent, @"removing key '%@' from category '%@'", key, catName );
+	//	LogEvent_(kStateEvent, @"removing key '%@' from category '%@'", key, catName );
 
-    NSMutableArray* ga = [m_categories objectForKey:catName];
+	NSMutableArray* ga = [m_categories objectForKey:catName];
 
-    if (ga) {
-        // remove from menus - do this first so that the menus are still able to look up category membership
-        // of the object
+	if (ga) {
+		// remove from menus - do this first so that the menus are still able to look up category membership
+		// of the object
 
-        [mMenusList makeObjectsPerformSelector:@selector(removeKey:)
-                                    withObject:key];
+		[mMenusList makeObjectsPerformSelector:@selector(removeKey:)
+									withObject:key];
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillRemoveKeyFromCategory
-                                                            object:self];
-        [ga removeObject:key];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidRemoveKeyFromCategory
-                                                            object:self];
-    }
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillRemoveKeyFromCategory
+															object:self];
+		[ga removeObject:key];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerDidRemoveKeyFromCategory
+															object:self];
+	}
 }
 
 /** @brief Removes a key from a number of categories
@@ -911,23 +911,23 @@ static id sDearchivingHelper = nil;
  @param catNames the list of categories to remove it from */
 - (void)removeKey:(NSString*)key fromCategories:(NSArray*)catNames
 {
-    if (catNames == nil)
-        return;
+	if (catNames == nil)
+		return;
 
-    NSEnumerator* iter = [catNames objectEnumerator];
-    NSString* cat;
+	NSEnumerator* iter = [catNames objectEnumerator];
+	NSString* cat;
 
-    while ((cat = [iter nextObject]))
-        [self removeKey:key
-            fromCategory:cat];
+	while ((cat = [iter nextObject]))
+		[self removeKey:key
+			fromCategory:cat];
 }
 
 /** @brief Removes a key from all categories
  @param key the key to remove */
 - (void)removeKeyFromAllCategories:(NSString*)key
 {
-    [self removeKey:key
-        fromCategories:[self allCategories]];
+	[self removeKey:key
+		fromCategories:[self allCategories]];
 }
 
 /** @brief Checks that all keys refer to real objects, removing any that do not
@@ -936,13 +936,13 @@ static id sDearchivingHelper = nil;
  keys that refer to it did for some reason (such as an exception). */
 - (void)fixUpCategories
 {
-    NSEnumerator* iter = [[self allKeys] objectEnumerator];
-    NSString* key;
+	NSEnumerator* iter = [[self allKeys] objectEnumerator];
+	NSString* key;
 
-    while ((key = [iter nextObject])) {
-        if ([self objectForKey:key] == nil)
-            [self removeKeyFromAllCategories:key];
-    }
+	while ((key = [iter nextObject])) {
+		if ([self objectForKey:key] == nil)
+			[self removeKeyFromAllCategories:key];
+	}
 }
 
 /** @brief Renames an object's key throughout
@@ -955,45 +955,45 @@ static id sDearchivingHelper = nil;
  */
 - (void)renameKey:(NSString*)key to:(NSString*)newKey
 {
-    NSAssert(key != nil, @"expected non-nil key");
-    NSAssert(newKey != nil, @"expected non-nil new key");
+	NSAssert(key != nil, @"expected non-nil key");
+	NSAssert(newKey != nil, @"expected non-nil new key");
 
-    // if the keys are the same, do nothing
+	// if the keys are the same, do nothing
 
-    if ([key isEqualToString:newKey])
-        return;
+	if ([key isEqualToString:newKey])
+		return;
 
-    // first check that <key> exists:
+	// first check that <key> exists:
 
-    if (![self containsKey:key])
-        [NSException raise:NSInvalidArgumentException
-                    format:@"The key '%@' can't be renamed because it doesn't exist", key];
+	if (![self containsKey:key])
+		[NSException raise:NSInvalidArgumentException
+					format:@"The key '%@' can't be renamed because it doesn't exist", key];
 
-    // check that the new key isn't in use:
+	// check that the new key isn't in use:
 
-    if ([self containsKey:newKey])
-        [NSException raise:NSInvalidArgumentException
-                    format:@"Cannot rename key to '%@' because that key is already in use", newKey];
+	if ([self containsKey:newKey])
+		[NSException raise:NSInvalidArgumentException
+					format:@"Cannot rename key to '%@' because that key is already in use", newKey];
 
-    LogEvent_(kStateEvent, @"changing key '%@' to '%@'", key, newKey);
+	LogEvent_(kStateEvent, @"changing key '%@' to '%@'", key, newKey);
 
-    // what categories are going to be touched?
+	// what categories are going to be touched?
 
-    NSArray* cats = [self categoriesContainingKey:key];
+	NSArray* cats = [self categoriesContainingKey:key];
 
-    // retain the object while we move it around:
+	// retain the object while we move it around:
 
-    id object = [[self objectForKey:key] retain];
-    [self removeObjectForKey:key];
-    [self addObject:object
-                  forKey:newKey
-            toCategories:cats
-        createCategories:NO];
-    [object release];
+	id object = [[self objectForKey:key] retain];
+	[self removeObjectForKey:key];
+	[self addObject:object
+				  forKey:newKey
+			toCategories:cats
+		createCategories:NO];
+	[object release];
 }
 
 #pragma mark -
-#pragma mark - getting lists, etc. of the categories
+#pragma mark - getting lists, etc.of the categories
 
 /** @brief Get a list of all categories
 
@@ -1002,7 +1002,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)allCategories
 {
-    return [[m_categories allKeys] sortedArrayUsingSelector:@selector(localisedCaseInsensitiveNumericCompare:)];
+	return [[m_categories allKeys] sortedArrayUsingSelector:@selector(localisedCaseInsensitiveNumericCompare:)];
 }
 
 /** @brief Get the count of all categories
@@ -1010,7 +1010,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSUInteger)countOfCategories
 {
-    return [m_categories count];
+	return [m_categories count];
 }
 
 /** @brief Get a list of all categories that contain a given key
@@ -1021,30 +1021,30 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)categoriesContainingKey:(NSString*)key
 {
-    return [self categoriesContainingKey:key
-                             withSorting:YES];
+	return [self categoriesContainingKey:key
+							 withSorting:YES];
 }
 
 - (NSArray*)categoriesContainingKey:(NSString*)key withSorting:(BOOL)sortIt
 {
-    NSEnumerator* iter = [[m_categories allKeys] objectEnumerator];
-    NSString* catName;
-    NSArray* cat;
-    NSMutableArray* catList;
+	NSEnumerator* iter = [[m_categories allKeys] objectEnumerator];
+	NSString* catName;
+	NSArray* cat;
+	NSMutableArray* catList;
 
-    catList = [[NSMutableArray alloc] init];
+	catList = [[NSMutableArray alloc] init];
 
-    while ((catName = [iter nextObject])) {
-        cat = [self allKeysInCategory:catName];
+	while ((catName = [iter nextObject])) {
+		cat = [self allKeysInCategory:catName];
 
-        if ([cat containsObject:key])
-            [catList addObject:catName];
-    }
+		if ([cat containsObject:key])
+			[catList addObject:catName];
+	}
 
-    if (sortIt)
-        [catList sortUsingSelector:@selector(caseInsensitiveCompare:)];
+	if (sortIt)
+		[catList sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
-    return [catList autorelease];
+	return [catList autorelease];
 }
 
 /** @brief Get a list of reserved categories - those that should not be deleted or renamed
@@ -1056,7 +1056,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSArray*)reservedCategories
 {
-    return [self defaultCategories];
+	return [self defaultCategories];
 }
 
 #pragma mark -
@@ -1067,7 +1067,7 @@ static id sDearchivingHelper = nil;
  */
 - (BOOL)categoryExists:(NSString*)catName
 {
-    return [m_categories objectForKey:catName] != nil;
+	return [m_categories objectForKey:catName] != nil;
 }
 
 /** @brief Count how many objects in the category of the given name
@@ -1076,7 +1076,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSUInteger)countOfObjectsInCategory:(NSString*)catName
 {
-    return [[m_categories objectForKey:catName] count];
+	return [[m_categories objectForKey:catName] count];
 }
 
 /** @brief Query whether a given key is present in a particular category
@@ -1086,7 +1086,7 @@ static id sDearchivingHelper = nil;
  */
 - (BOOL)key:(NSString*)key existsInCategory:(NSString*)catName
 {
-    return [[m_categories objectForKey:catName] containsObject:key];
+	return [[m_categories objectForKey:catName] containsObject:key];
 }
 
 #pragma mark -
@@ -1100,7 +1100,7 @@ static id sDearchivingHelper = nil;
  */
 - (void)setRecentlyAddedListEnabled:(BOOL)enable
 {
-    mRecentlyAddedEnabled = enable;
+	mRecentlyAddedEnabled = enable;
 }
 
 /** @brief Add a key to one of the 'recent' lists
@@ -1111,52 +1111,52 @@ static id sDearchivingHelper = nil;
  @return return YES if the key was added, otherwise NO (i.e. if list already contains item) */
 - (BOOL)addKey:(NSString*)key toRecentList:(NSInteger)whichList
 {
-    NSUInteger max;
-    NSMutableArray* rl;
-    BOOL movedOnly = NO;
+	NSUInteger max;
+	NSMutableArray* rl;
+	BOOL movedOnly = NO;
 
-    switch (whichList) {
-    case kDKListRecentlyAdded:
-        rl = m_recentlyAdded;
-        max = m_maxRecentlyAddedItems;
+	switch (whichList) {
+	case kDKListRecentlyAdded:
+		rl = m_recentlyAdded;
+		max = m_maxRecentlyAddedItems;
 
-        if (!mRecentlyAddedEnabled)
-            return NO;
+		if (!mRecentlyAddedEnabled)
+			return NO;
 
-        break;
+		break;
 
-    case kDKListRecentlyUsed:
-        rl = m_recentlyUsed;
-        max = m_maxRecentlyUsedItems;
-        if ([rl containsObject:key]) {
-            [rl removeObject:key]; // forces reinsertion of the key at the head of the list
-            movedOnly = YES;
-        }
-        break;
+	case kDKListRecentlyUsed:
+		rl = m_recentlyUsed;
+		max = m_maxRecentlyUsedItems;
+		if ([rl containsObject:key]) {
+			[rl removeObject:key]; // forces reinsertion of the key at the head of the list
+			movedOnly = YES;
+		}
+		break;
 
-    default:
-        return NO;
-    }
+	default:
+		return NO;
+	}
 
-    if (![rl containsObject:key]) {
-        [rl insertObject:key
-                 atIndex:0];
-        while ([rl count] > max)
-            [rl removeLastObject];
+	if (![rl containsObject:key]) {
+		[rl insertObject:key
+				 atIndex:0];
+		while ([rl count] > max)
+			[rl removeLastObject];
 
-        // manage the menus as required (will remove and add items to keep menu in synch. with array)
+		// manage the menus as required (will remove and add items to keep menu in synch. with array)
 
-        if (!movedOnly)
-            [mMenusList makeObjectsPerformSelector:@selector(addRecentlyAddedOrUsedKey:)
-                                        withObject:key];
-        else
-            [mMenusList makeObjectsPerformSelector:@selector(syncRecentlyUsedMenuForKey:)
-                                        withObject:key];
+		if (!movedOnly)
+			[mMenusList makeObjectsPerformSelector:@selector(addRecentlyAddedOrUsedKey:)
+										withObject:key];
+		else
+			[mMenusList makeObjectsPerformSelector:@selector(syncRecentlyUsedMenuForKey:)
+										withObject:key];
 
-        return YES;
-    }
+		return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Remove a key from one of the 'recent' lists
@@ -1166,27 +1166,27 @@ static id sDearchivingHelper = nil;
  @param whichList an identifier for the list in question */
 - (void)removeKey:(NSString*)key fromRecentList:(NSInteger)whichList
 {
-    NSMutableArray* rl;
+	NSMutableArray* rl;
 
-    switch (whichList) {
-    case kDKListRecentlyAdded:
-        rl = m_recentlyAdded;
-        break;
+	switch (whichList) {
+	case kDKListRecentlyAdded:
+		rl = m_recentlyAdded;
+		break;
 
-    case kDKListRecentlyUsed:
-        rl = m_recentlyUsed;
-        break;
+	case kDKListRecentlyUsed:
+		rl = m_recentlyUsed;
+		break;
 
-    default:
-        return;
-    }
+	default:
+		return;
+	}
 
-    [rl removeObject:key];
+	[rl removeObject:key];
 
-    // remove items(s) from managed menus also
+	// remove items(s) from managed menus also
 
-    [mMenusList makeObjectsPerformSelector:@selector(addRecentlyAddedOrUsedKey:)
-                                withObject:nil];
+	[mMenusList makeObjectsPerformSelector:@selector(addRecentlyAddedOrUsedKey:)
+								withObject:nil];
 }
 
 /** @brief Sets the maximum length of on eof the 'recent' lists
@@ -1196,18 +1196,18 @@ static id sDearchivingHelper = nil;
  @param max the maximum length to which a list may grow */
 - (void)setRecentList:(NSInteger)whichList maxItems:(NSUInteger)max
 {
-    switch (whichList) {
-    case kDKListRecentlyAdded:
-        m_maxRecentlyAddedItems = max;
-        break;
+	switch (whichList) {
+	case kDKListRecentlyAdded:
+		m_maxRecentlyAddedItems = max;
+		break;
 
-    case kDKListRecentlyUsed:
-        m_maxRecentlyUsedItems = max;
-        break;
+	case kDKListRecentlyUsed:
+		m_maxRecentlyUsedItems = max;
+		break;
 
-    default:
-        return;
-    }
+	default:
+		return;
+	}
 }
 
 #pragma mark -
@@ -1218,23 +1218,23 @@ static id sDearchivingHelper = nil;
  */
 - (NSData*)data
 {
-    return [self dataWithFormat:NSPropertyListXMLFormat_v1_0];
+	return [self dataWithFormat:NSPropertyListXMLFormat_v1_0];
 }
 
 - (NSData*)dataWithFormat:(NSPropertyListFormat)format
 {
-    NSMutableData* d = [NSMutableData dataWithCapacity:100];
-    NSKeyedArchiver* arch = [[NSKeyedArchiver alloc] initForWritingWithMutableData:d];
+	NSMutableData* d = [NSMutableData dataWithCapacity:100];
+	NSKeyedArchiver* arch = [[NSKeyedArchiver alloc] initForWritingWithMutableData:d];
 
-    [arch setOutputFormat:format];
+	[arch setOutputFormat:format];
 
-    [self fixUpCategories]; // avoid archiving a badly formed object
-    [arch encodeObject:self
-                forKey:@"root"];
-    [arch finishEncoding];
-    [arch release];
+	[self fixUpCategories]; // avoid archiving a badly formed object
+	[arch encodeObject:self
+				forKey:@"root"];
+	[arch finishEncoding];
+	[arch release];
 
-    return d;
+	return d;
 }
 
 /** @brief Return the filetype (for saving, etc)
@@ -1243,7 +1243,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSString*)fileType
 {
-    return @"dkcatmgr";
+	return @"dkcatmgr";
 }
 
 /** @brief Discard all existing content, then reload from the archive data passed
@@ -1252,30 +1252,30 @@ static id sDearchivingHelper = nil;
  */
 - (BOOL)replaceContentsWithData:(NSData*)data
 {
-    NSAssert(data != nil, @"cannot replace from nil data");
+	NSAssert(data != nil, @"cannot replace from nil data");
 
-    DKCategoryManager* newCM = [[[self class] alloc] initWithData:data];
+	DKCategoryManager* newCM = [[[self class] alloc] initWithData:data];
 
-    if (newCM) {
-        // since we are completely replacing, we can just transfer the master containers straight over without iterating over
-        // all the individual items. This should be a lot faster.
+	if (newCM) {
+		// since we are completely replacing, we can just transfer the master containers straight over without iterating over
+		// all the individual items. This should be a lot faster.
 
-        //NSLog(@"%@ replacing CM content from %@", self, newCM );
+		//NSLog(@"%@ replacing CM content from %@", self, newCM );
 
-        [m_masterList setDictionary:newCM->m_masterList];
-        [m_categories setDictionary:newCM->m_categories];
-        [m_recentlyUsed setArray:newCM->m_recentlyUsed];
-        [m_recentlyAdded setArray:newCM->m_recentlyAdded];
+		[m_masterList setDictionary:newCM->m_masterList];
+		[m_categories setDictionary:newCM->m_categories];
+		[m_recentlyUsed setArray:newCM->m_recentlyUsed];
+		[m_recentlyAdded setArray:newCM->m_recentlyAdded];
 
-        // TODO: deal with menus
+		// TODO: deal with menus
 
-        [newCM release];
-        [self setRecentlyAddedListEnabled:YES];
+		[newCM release];
+		[self setRecentlyAddedListEnabled:YES];
 
-        return YES;
-    }
+		return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Retain all existing content, and load additional content from the archive data passed
@@ -1290,18 +1290,18 @@ static id sDearchivingHelper = nil;
  */
 - (BOOL)appendContentsWithData:(NSData*)data
 {
-    NSAssert(data != nil, @"cannot append from nil data");
+	NSAssert(data != nil, @"cannot append from nil data");
 
-    DKCategoryManager* newCM = [[[self class] alloc] initWithData:data];
+	DKCategoryManager* newCM = [[[self class] alloc] initWithData:data];
 
-    if (newCM) {
-        [self copyItemsFromCategoryManager:newCM];
-        [newCM release];
+	if (newCM) {
+		[self copyItemsFromCategoryManager:newCM];
+		[newCM release];
 
-        return YES;
-    }
+		return YES;
+	}
 
-    return NO;
+	return NO;
 }
 
 /** @brief Retain all existing content, and load additional content from the cat manager passed
@@ -1313,29 +1313,29 @@ static id sDearchivingHelper = nil;
  */
 - (void)copyItemsFromCategoryManager:(DKCategoryManager*)cm
 {
-    NSAssert(cm != nil, @"cannot copy items from nil");
+	NSAssert(cm != nil, @"cannot copy items from nil");
 
-    NSArray* newCategories;
-    NSArray* newObjects = [cm allKeys];
+	NSArray* newCategories;
+	NSArray* newObjects = [cm allKeys];
 
-    NSEnumerator* iter = [newObjects objectEnumerator];
-    NSString* key;
-    id obj;
+	NSEnumerator* iter = [newObjects objectEnumerator];
+	NSString* key;
+	id obj;
 
-    [self setRecentlyAddedListEnabled:NO];
+	[self setRecentlyAddedListEnabled:NO];
 
-    while ((key = [iter nextObject])) {
-        obj = [cm objectForKey:key];
-        newCategories = [cm categoriesContainingKey:key
-                                        withSorting:NO];
-        [self addObject:obj
-                      forKey:key
-                toCategories:newCategories
-            createCategories:YES];
-    }
+	while ((key = [iter nextObject])) {
+		obj = [cm objectForKey:key];
+		newCategories = [cm categoriesContainingKey:key
+										withSorting:NO];
+		[self addObject:obj
+					  forKey:key
+				toCategories:newCategories
+			createCategories:YES];
+	}
 
-    [self setRecentlyAddedListEnabled:YES];
-    [self setRecentlyAddedItems:[cm recentlyAddedItems]];
+	[self setRecentlyAddedListEnabled:YES];
+	[self setRecentlyAddedItems:[cm recentlyAddedItems]];
 }
 
 #pragma mark -
@@ -1343,17 +1343,17 @@ static id sDearchivingHelper = nil;
 
 - (DKCategoryManagerMenuInfo*)findInfoForMenu:(NSMenu*)aMenu
 {
-    // private method - returns the management object for the given menu
+	// private method - returns the management object for the given menu
 
-    NSEnumerator* iter = [mMenusList objectEnumerator];
-    DKCategoryManagerMenuInfo* menuInfo;
+	NSEnumerator* iter = [mMenusList objectEnumerator];
+	DKCategoryManagerMenuInfo* menuInfo;
 
-    while ((menuInfo = [iter nextObject])) {
-        if ([menuInfo menu] == aMenu)
-            return menuInfo;
-    }
+	while ((menuInfo = [iter nextObject])) {
+		if ([menuInfo menu] == aMenu)
+			return menuInfo;
+	}
 
-    return nil;
+	return nil;
 }
 
 /** @brief Removes the menu from the list of managed menus
@@ -1364,7 +1364,7 @@ static id sDearchivingHelper = nil;
  */
 - (void)removeMenu:(NSMenu*)menu
 {
-    [mMenusList removeObject:[self findInfoForMenu:menu]];
+	[mMenusList removeObject:[self findInfoForMenu:menu]];
 }
 
 /** @brief Synchronises the menus to reflect any change of the object referenced by <key>
@@ -1376,8 +1376,8 @@ static id sDearchivingHelper = nil;
  */
 - (void)updateMenusForKey:(NSString*)key
 {
-    [mMenusList makeObjectsPerformSelector:@selector(updateForKey:)
-                                withObject:key];
+	[mMenusList makeObjectsPerformSelector:@selector(updateForKey:)
+								withObject:key];
 }
 
 #pragma mark - a menu with everything, organised hierarchically by category
@@ -1401,37 +1401,37 @@ static id sDearchivingHelper = nil;
  */
 - (NSMenu*)createMenuWithItemDelegate:(id)del isPopUpMenu:(BOOL)isPopUp
 {
-    NSInteger options = kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems;
+	NSInteger options = kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems;
 
-    if (isPopUp)
-        options |= kDKMenuIsPopUpMenu;
+	if (isPopUp)
+		options |= kDKMenuIsPopUpMenu;
 
-    return [self createMenuWithItemDelegate:del
-                                    options:options];
+	return [self createMenuWithItemDelegate:del
+									options:options];
 }
 
 - (NSMenu*)createMenuWithItemDelegate:(id)del options:(DKCategoryMenuOptions)options
 {
-    return [self createMenuWithItemDelegate:del
-                                 itemTarget:nil
-                                 itemAction:NULL
-                                    options:options];
+	return [self createMenuWithItemDelegate:del
+								 itemTarget:nil
+								 itemAction:NULL
+									options:options];
 }
 
 - (NSMenu*)createMenuWithItemDelegate:(id)del itemTarget:(id)target itemAction:(SEL)action options:(DKCategoryMenuOptions)options
 {
-    DKCategoryManagerMenuInfo* menuInfo;
+	DKCategoryManagerMenuInfo* menuInfo;
 
-    menuInfo = [[DKCategoryManagerMenuInfo alloc] initWithCategoryManager:self
-                                                             itemDelegate:del
-                                                               itemTarget:target
-                                                               itemAction:action
-                                                                  options:options];
+	menuInfo = [[DKCategoryManagerMenuInfo alloc] initWithCategoryManager:self
+															 itemDelegate:del
+															   itemTarget:target
+															   itemAction:action
+																  options:options];
 
-    [mMenusList addObject:menuInfo];
-    [menuInfo autorelease];
+	[mMenusList addObject:menuInfo];
+	[menuInfo autorelease];
 
-    return [menuInfo menu];
+	return [menuInfo menu];
 }
 
 #pragma mark - menus of just the categories
@@ -1445,9 +1445,9 @@ static id sDearchivingHelper = nil;
  */
 - (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target
 {
-    return [self categoriesMenuWithSelector:sel
-                                     target:target
-                                    options:kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems | kDKIncludeAllItems];
+	return [self categoriesMenuWithSelector:sel
+									 target:target
+									options:kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems | kDKIncludeAllItems];
 }
 
 /** @brief Creates a menu of categories, recent items and All Items
@@ -1460,17 +1460,17 @@ static id sDearchivingHelper = nil;
  */
 - (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target options:(NSInteger)options
 {
-    // create and populate a menu with the category names plus optionally the recent items lists
+	// create and populate a menu with the category names plus optionally the recent items lists
 
-    DKCategoryManagerMenuInfo* menuInfo = [[DKCategoryManagerMenuInfo alloc] initWithCategoryManager:self
-                                                                                          itemTarget:target
-                                                                                          itemAction:sel
-                                                                                             options:options];
+	DKCategoryManagerMenuInfo* menuInfo = [[DKCategoryManagerMenuInfo alloc] initWithCategoryManager:self
+																						  itemTarget:target
+																						  itemAction:sel
+																							 options:options];
 
-    [mMenusList addObject:menuInfo];
-    [menuInfo release];
+	[mMenusList addObject:menuInfo];
+	[menuInfo release];
 
-    return [menuInfo menu];
+	return [menuInfo menu];
 }
 
 /** @brief Sets the checkmarks in a menu of category names to reflect the presence of <key> in those categories
@@ -1482,95 +1482,95 @@ static id sDearchivingHelper = nil;
  */
 - (void)checkItemsInMenu:(NSMenu*)menu forCategoriesContainingKey:(NSString*)key
 {
-    DKCategoryManagerMenuInfo* menuInfo = [self findInfoForMenu:menu];
+	DKCategoryManagerMenuInfo* menuInfo = [self findInfoForMenu:menu];
 
-    if (menuInfo)
-        [menuInfo checkItemsForKey:key];
+	if (menuInfo)
+		[menuInfo checkItemsForKey:key];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    [m_recentlyUsed release];
-    [m_recentlyAdded release];
-    [m_categories release];
-    [m_masterList release];
-    [mMenusList release];
+	[m_recentlyUsed release];
+	[m_recentlyAdded release];
+	[m_categories release];
+	[m_masterList release];
+	[mMenusList release];
 
-    [super dealloc];
+	[super dealloc];
 }
 
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        m_masterList = [[NSMutableDictionary alloc] init];
-        m_categories = [[NSMutableDictionary alloc] init];
-        m_recentlyAdded = [[NSMutableArray alloc] init];
-        m_recentlyUsed = [[NSMutableArray alloc] init];
-        mMenusList = [[NSMutableArray alloc] init];
-        mRecentlyAddedEnabled = YES;
-        m_maxRecentlyAddedItems = kDKDefaultMaxRecentArraySize;
-        m_maxRecentlyUsedItems = kDKDefaultMaxRecentArraySize;
+	self = [super init];
+	if (self != nil) {
+		m_masterList = [[NSMutableDictionary alloc] init];
+		m_categories = [[NSMutableDictionary alloc] init];
+		m_recentlyAdded = [[NSMutableArray alloc] init];
+		m_recentlyUsed = [[NSMutableArray alloc] init];
+		mMenusList = [[NSMutableArray alloc] init];
+		mRecentlyAddedEnabled = YES;
+		m_maxRecentlyAddedItems = kDKDefaultMaxRecentArraySize;
+		m_maxRecentlyUsedItems = kDKDefaultMaxRecentArraySize;
 
-        if (m_masterList == nil
-            || m_categories == nil
-            || m_recentlyAdded == nil
-            || m_recentlyUsed == nil) {
-            [self autorelease];
-            self = nil;
-        }
-    }
-    if (self != nil) {
-        // add the default categories
+		if (m_masterList == nil
+			|| m_categories == nil
+			|| m_recentlyAdded == nil
+			|| m_recentlyUsed == nil) {
+			[self autorelease];
+			self = nil;
+		}
+	}
+	if (self != nil) {
+		// add the default categories
 
-        [self addDefaultCategories];
-    }
-    return self;
+		[self addDefaultCategories];
+	}
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    [coder encodeObject:m_masterList
-                 forKey:@"master"];
-    [coder encodeObject:m_categories
-                 forKey:@"categories"];
-    [coder encodeObject:m_recentlyAdded
-                 forKey:@"recent_add"];
-    [coder encodeObject:m_recentlyUsed
-                 forKey:@"recent_use"];
+	[coder encodeObject:m_masterList
+				 forKey:@"master"];
+	[coder encodeObject:m_categories
+				 forKey:@"categories"];
+	[coder encodeObject:m_recentlyAdded
+				 forKey:@"recent_add"];
+	[coder encodeObject:m_recentlyUsed
+				 forKey:@"recent_use"];
 
-    [coder encodeInteger:m_maxRecentlyAddedItems
-                  forKey:@"maxadd"];
-    [coder encodeInteger:m_maxRecentlyUsedItems
-                  forKey:@"maxuse"];
+	[coder encodeInteger:m_maxRecentlyAddedItems
+				  forKey:@"maxadd"];
+	[coder encodeInteger:m_maxRecentlyUsedItems
+				  forKey:@"maxuse"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    m_masterList = [[coder decodeObjectForKey:@"master"] retain];
-    m_categories = [[coder decodeObjectForKey:@"categories"] retain];
-    m_recentlyAdded = [[coder decodeObjectForKey:@"recent_add"] retain];
-    m_recentlyUsed = [[coder decodeObjectForKey:@"recent_use"] retain];
+	m_masterList = [[coder decodeObjectForKey:@"master"] retain];
+	m_categories = [[coder decodeObjectForKey:@"categories"] retain];
+	m_recentlyAdded = [[coder decodeObjectForKey:@"recent_add"] retain];
+	m_recentlyUsed = [[coder decodeObjectForKey:@"recent_use"] retain];
 
-    m_maxRecentlyAddedItems = [coder decodeIntegerForKey:@"maxadd"];
-    m_maxRecentlyUsedItems = [coder decodeIntegerForKey:@"maxuse"];
-    mRecentlyAddedEnabled = YES;
+	m_maxRecentlyAddedItems = [coder decodeIntegerForKey:@"maxadd"];
+	m_maxRecentlyUsedItems = [coder decodeIntegerForKey:@"maxuse"];
+	mRecentlyAddedEnabled = YES;
 
-    mMenusList = [[NSMutableArray alloc] init];
+	mMenusList = [[NSMutableArray alloc] init];
 
-    if (m_masterList == nil
-        || m_categories == nil
-        || m_recentlyAdded == nil
-        || m_recentlyUsed == nil) {
-        [self autorelease];
-        self = nil;
-    }
+	if (m_masterList == nil
+		|| m_categories == nil
+		|| m_recentlyAdded == nil
+		|| m_recentlyUsed == nil) {
+		[self autorelease];
+		self = nil;
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
@@ -1578,19 +1578,19 @@ static id sDearchivingHelper = nil;
 
 - (id)copyWithZone:(NSZone*)zone
 {
-    // a copy of the category manager has the same objects, a deep copy of the categories, but empty recent lists.
-    // it also doesn't copy the menu management data across. Thus the copy has the same data structure as this, but lacks the
-    // dynamic information that pertains to current usage and UI. The copy can be used as a "fork" of this CM.
+	// a copy of the category manager has the same objects, a deep copy of the categories, but empty recent lists.
+	// it also doesn't copy the menu management data across. Thus the copy has the same data structure as this, but lacks the
+	// dynamic information that pertains to current usage and UI. The copy can be used as a "fork" of this CM.
 
-    DKCategoryManager* copy = [[[self class] allocWithZone:zone] init];
+	DKCategoryManager* copy = [[[self class] allocWithZone:zone] init];
 
-    [copy->m_masterList setDictionary:m_masterList];
+	[copy->m_masterList setDictionary:m_masterList];
 
-    NSDictionary* cats = [m_categories deepCopy];
-    [copy->m_categories setDictionary:cats];
-    [cats release];
+	NSDictionary* cats = [m_categories deepCopy];
+	[copy->m_categories setDictionary:cats];
+	[cats release];
 
-    return copy;
+	return copy;
 }
 
 @end
@@ -1611,729 +1611,729 @@ static id sDearchivingHelper = nil;
 
 - (id)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
 {
-    self = [super init];
-    if (self != nil) {
-        mCatManagerRef = mgr;
-        mTargetRef = target;
-        mSelector = selector;
-        mOptions = options;
-        mCategoriesOnly = YES;
-        [self createCategoriesMenu];
-    }
+	self = [super init];
+	if (self != nil) {
+		mCatManagerRef = mgr;
+		mTargetRef = target;
+		mSelector = selector;
+		mOptions = options;
+		mCategoriesOnly = YES;
+		[self createCategoriesMenu];
+	}
 
-    return self;
+	return self;
 }
 
 - (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate options:(DKCategoryMenuOptions)options
 {
-    NSAssert(delegate != nil, @"no delegate for menu item callback");
+	NSAssert(delegate != nil, @"no delegate for menu item callback");
 
-    self = [super init];
-    if (self != nil) {
-        mCatManagerRef = mgr;
-        mCallbackTargetRef = delegate;
-        mOptions = options;
-        mCategoriesOnly = NO;
-        [self createMenu];
-    }
+	self = [super init];
+	if (self != nil) {
+		mCatManagerRef = mgr;
+		mCallbackTargetRef = delegate;
+		mOptions = options;
+		mCategoriesOnly = NO;
+		[self createMenu];
+	}
 
-    return self;
+	return self;
 }
 
 - (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
 {
-    NSAssert(delegate != nil, @"no delegate for menu item callback");
+	NSAssert(delegate != nil, @"no delegate for menu item callback");
 
-    self = [super init];
-    if (self != nil) {
-        mCatManagerRef = mgr;
-        mCallbackTargetRef = delegate;
-        mTargetRef = target;
-        mSelector = selector;
-        mOptions = options;
-        mCategoriesOnly = NO;
-        [self createMenu];
-    }
+	self = [super init];
+	if (self != nil) {
+		mCatManagerRef = mgr;
+		mCallbackTargetRef = delegate;
+		mTargetRef = target;
+		mSelector = selector;
+		mOptions = options;
+		mCategoriesOnly = NO;
+		[self createMenu];
+	}
 
-    return self;
+	return self;
 }
 
 - (NSMenu*)menu
 {
-    return mTheMenu;
+	return mTheMenu;
 }
 
 - (void)addCategory:(NSString*)newCategory
 {
-    LogEvent_(kInfoEvent, @"adding category '%@' to menu %@", newCategory, self);
+	LogEvent_(kInfoEvent, @"adding category '%@' to menu %@", newCategory, self);
 
-    // adds a new parent item to the main menu with the given category name and creates an empty submenu. The item is inserted into the menu
-    // at the appropriate position to maintain alphabetical order. If the category already exists as a menu item, this does nothing.
+	// adds a new parent item to the main menu with the given category name and creates an empty submenu. The item is inserted into the menu
+	// at the appropriate position to maintain alphabetical order. If the category already exists as a menu item, this does nothing.
 
-    // known?
+	// known?
 
-    NSInteger indx = [mTheMenu indexOfItemWithTitle:[newCategory capitalizedString]];
+	NSInteger indx = [mTheMenu indexOfItemWithTitle:[newCategory capitalizedString]];
 
-    if (indx == -1) {
-        // prepare the new menu
+	if (indx == -1) {
+		// prepare the new menu
 
-        NSMenuItem* newItem = [[NSMenuItem alloc] initWithTitle:[newCategory capitalizedString]
-                                                         action:mSelector
-                                                  keyEquivalent:@""];
+		NSMenuItem* newItem = [[NSMenuItem alloc] initWithTitle:[newCategory capitalizedString]
+														 action:mSelector
+												  keyEquivalent:@""];
 
-        // disable the item if it has a submenu but no items
+		// disable the item if it has a submenu but no items
 
-        [newItem setEnabled:mCategoriesOnly];
-        [newItem setTarget:mTargetRef];
-        [newItem setAction:mSelector];
-        [newItem setTag:kDKCategoryManagerManagedMenuItemTag];
+		[newItem setEnabled:mCategoriesOnly];
+		[newItem setTarget:mTargetRef];
+		[newItem setAction:mSelector];
+		[newItem setTag:kDKCategoryManagerManagedMenuItemTag];
 
-        // find where to insert it and do so. The categories already contains this item, so we can just sort then find it.
+		// find where to insert it and do so. The categories already contains this item, so we can just sort then find it.
 
-        NSArray* temp = [mCatManagerRef allCategories];
-        indx = [temp indexOfObject:newCategory];
+		NSArray* temp = [mCatManagerRef allCategories];
+		indx = [temp indexOfObject:newCategory];
 
-        if (indx == NSNotFound)
-            indx = 0;
+		if (indx == NSNotFound)
+			indx = 0;
 
-        if (mOptions & kDKIncludeAllItems)
-            ++indx; // +1 allows for hidden title item unless we skipped "All Items"
+		if (mOptions & kDKIncludeAllItems)
+			++indx; // +1 allows for hidden title item unless we skipped "All Items"
 
-        if (mCategoriesOnly) {
-            --indx; // we're off by 1 somewhere
+		if (mCategoriesOnly) {
+			--indx; // we're off by 1 somewhere
 
-            if (mOptions & kDKIncludeRecentlyUsedItems)
-                ++indx;
+			if (mOptions & kDKIncludeRecentlyUsedItems)
+				++indx;
 
-            if (mOptions & kDKIncludeRecentlyAddedItems)
-                ++indx;
+			if (mOptions & kDKIncludeRecentlyAddedItems)
+				++indx;
 
-            if ((mOptions & kDKDontAddDividingLine) == 0)
-                ++indx;
-        }
-        if (indx > [mTheMenu numberOfItems])
-            indx = [mTheMenu numberOfItems];
+			if ((mOptions & kDKDontAddDividingLine) == 0)
+				++indx;
+		}
+		if (indx > [mTheMenu numberOfItems])
+			indx = [mTheMenu numberOfItems];
 
-        [mTheMenu insertItem:newItem
-                     atIndex:indx];
-        [newItem release];
-    }
+		[mTheMenu insertItem:newItem
+					 atIndex:indx];
+		[newItem release];
+	}
 }
 
 - (void)removeCategory:(NSString*)oldCategory
 {
-    LogEvent_(kInfoEvent, @"removing category '%@' from menu %@", oldCategory, self);
+	LogEvent_(kInfoEvent, @"removing category '%@' from menu %@", oldCategory, self);
 
-    NSMenuItem* item = [mTheMenu itemWithTitle:[oldCategory capitalizedString]];
+	NSMenuItem* item = [mTheMenu itemWithTitle:[oldCategory capitalizedString]];
 
-    if (item != nil)
-        [mTheMenu removeItem:item];
+	if (item != nil)
+		[mTheMenu removeItem:item];
 }
 
 - (void)renameCategoryWithInfo:(NSDictionary*)info
 {
-    NSString* oldCategory = [info objectForKey:@"old_name"];
-    NSString* newName = [info objectForKey:@"new_name"];
+	NSString* oldCategory = [info objectForKey:@"old_name"];
+	NSString* newName = [info objectForKey:@"new_name"];
 
-    NSMenuItem* item = [mTheMenu itemWithTitle:[oldCategory capitalizedString]];
+	NSMenuItem* item = [mTheMenu itemWithTitle:[oldCategory capitalizedString]];
 
-    if (item != nil) {
-        [item retain];
-        [mTheMenu removeItem:item];
-        [item setTitle:[newName capitalizedString]];
+	if (item != nil) {
+		[item retain];
+		[mTheMenu removeItem:item];
+		[item setTitle:[newName capitalizedString]];
 
-        // where should it be reinserted to maintain sorting?
+		// where should it be reinserted to maintain sorting?
 
-        NSArray* temp = [mCatManagerRef allCategories];
-        NSInteger indx = [temp indexOfObject:newName];
+		NSArray* temp = [mCatManagerRef allCategories];
+		NSInteger indx = [temp indexOfObject:newName];
 
-        if (mOptions & kDKIncludeAllItems)
-            ++indx; // +1 allows for hidden title item unless we skipped "All Items"
+		if (mOptions & kDKIncludeAllItems)
+			++indx; // +1 allows for hidden title item unless we skipped "All Items"
 
-        if (mCategoriesOnly) {
-            --indx; // we're off by 1 somewhere
+		if (mCategoriesOnly) {
+			--indx; // we're off by 1 somewhere
 
-            if (mOptions & kDKIncludeRecentlyUsedItems)
-                ++indx;
+			if (mOptions & kDKIncludeRecentlyUsedItems)
+				++indx;
 
-            if (mOptions & kDKIncludeRecentlyAddedItems)
-                ++indx;
+			if (mOptions & kDKIncludeRecentlyAddedItems)
+				++indx;
 
-            if ((mOptions & kDKDontAddDividingLine) == 0)
-                ++indx;
-        }
-        if (indx > [mTheMenu numberOfItems])
-            indx = [mTheMenu numberOfItems];
+			if ((mOptions & kDKDontAddDividingLine) == 0)
+				++indx;
+		}
+		if (indx > [mTheMenu numberOfItems])
+			indx = [mTheMenu numberOfItems];
 
-        [mTheMenu insertItem:item
-                     atIndex:indx];
-        [item release];
-    }
+		[mTheMenu insertItem:item
+					 atIndex:indx];
+		[item release];
+	}
 }
 
 - (void)addKey:(NSString*)aKey
 {
-    if (mCategoriesOnly)
-        return;
+	if (mCategoriesOnly)
+		return;
 
-    LogEvent_(kInfoEvent, @"adding item key '%@' to menu %@", aKey, self);
+	LogEvent_(kInfoEvent, @"adding item key '%@' to menu %@", aKey, self);
 
-    // the key may be being added to several categories, so first get a list of the categories that it belongs to
+	// the key may be being added to several categories, so first get a list of the categories that it belongs to
 
-    NSArray* cats = [mCatManagerRef categoriesContainingKey:aKey];
-    NSEnumerator* iter = [cats objectEnumerator];
-    NSString* cat;
-    id repObject = [mCatManagerRef objectForKey:aKey];
+	NSArray* cats = [mCatManagerRef categoriesContainingKey:aKey];
+	NSEnumerator* iter = [cats objectEnumerator];
+	NSString* cat;
+	id repObject = [mCatManagerRef objectForKey:aKey];
 
-    // iterate over the categories and find the menu responsible for it
+	// iterate over the categories and find the menu responsible for it
 
-    while ((cat = [iter nextObject])) {
-        NSMenuItem* catItem = [mTheMenu itemWithTitle:[cat capitalizedString]];
+	while ((cat = [iter nextObject])) {
+		NSMenuItem* catItem = [mTheMenu itemWithTitle:[cat capitalizedString]];
 
-        if (catItem != nil) {
-            NSMenu* subMenu = [catItem submenu];
+		if (catItem != nil) {
+			NSMenu* subMenu = [catItem submenu];
 
-            if (subMenu == nil) {
-                // make a submenu to list the actual items
+			if (subMenu == nil) {
+				// make a submenu to list the actual items
 
-                subMenu = [self createSubmenuWithTitle:[cat capitalizedString]
-                                              forArray:[NSArray arrayWithObject:aKey]];
-                [catItem setSubmenu:subMenu];
-                [catItem setEnabled:YES];
-            } else {
-                // check it's not present already - use the rep object
+				subMenu = [self createSubmenuWithTitle:[cat capitalizedString]
+											  forArray:[NSArray arrayWithObject:aKey]];
+				[catItem setSubmenu:subMenu];
+				[catItem setEnabled:YES];
+			} else {
+				// check it's not present already - use the rep object
 
-                NSInteger indx = [subMenu indexOfItemWithRepresentedObject:repObject];
+				NSInteger indx = [subMenu indexOfItemWithRepresentedObject:repObject];
 
-                if (indx == -1) {
-                    // this menu needs to contain the item, so create an item to add to it. The title is initially set to the key
-                    // but the client may decide to change it.
+				if (indx == -1) {
+					// this menu needs to contain the item, so create an item to add to it. The title is initially set to the key
+					// but the client may decide to change it.
 
-                    NSMenuItem* childItem = [[NSMenuItem alloc] initWithTitle:[aKey capitalizedString]
-                                                                       action:mSelector
-                                                                keyEquivalent:@""];
+					NSMenuItem* childItem = [[NSMenuItem alloc] initWithTitle:[aKey capitalizedString]
+																	   action:mSelector
+																keyEquivalent:@""];
 
-                    // call the callback to make this item into what its client needs
+					// call the callback to make this item into what its client needs
 
-                    [childItem setTarget:mTargetRef];
-                    [childItem setRepresentedObject:repObject];
+					[childItem setTarget:mTargetRef];
+					[childItem setRepresentedObject:repObject];
 
-                    if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-                                                                                         wasAddedForObject:
-                                                                                                inCategory:)])
-                        [mCallbackTargetRef menuItem:childItem
-                                   wasAddedForObject:repObject
-                                          inCategory:cat];
+					if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
+																						 wasAddedForObject:
+																								inCategory:)])
+						[mCallbackTargetRef menuItem:childItem
+								   wasAddedForObject:repObject
+										  inCategory:cat];
 
-                    [childItem setTag:kDKCategoryManagerManagedMenuItemTag];
+					[childItem setTag:kDKCategoryManagerManagedMenuItemTag];
 
-                    // the client should have set its title to something readable, so use that to determine where it should be inserted
+					// the client should have set its title to something readable, so use that to determine where it should be inserted
 
-                    NSString* title = [childItem title];
-                    NSArray* temp = [mCatManagerRef allSortedNamesInCategory:cat];
-                    NSInteger insertIndex = [temp indexOfObject:title];
+					NSString* title = [childItem title];
+					NSArray* temp = [mCatManagerRef allSortedNamesInCategory:cat];
+					NSInteger insertIndex = [temp indexOfObject:title];
 
-                    // not found here would be an error, but not a serious one...
+					// not found here would be an error, but not a serious one...
 
-                    if (insertIndex == NSNotFound)
-                        insertIndex = 0;
+					if (insertIndex == NSNotFound)
+						insertIndex = 0;
 
-                    //NSLog(@"insertion index = %d in array: %@", insertIndex, temp );
+					//NSLog(@"insertion index = %d in array: %@", insertIndex, temp );
 
-                    [subMenu insertItem:childItem
-                                atIndex:insertIndex];
-                    [childItem release];
-                }
-            }
-        }
-    }
+					[subMenu insertItem:childItem
+								atIndex:insertIndex];
+					[childItem release];
+				}
+			}
+		}
+	}
 }
 
 - (void)addRecentlyAddedOrUsedKey:(NSString*)aKey
 {
-    // manages the menu for recently added and recently used items. When the key is added, it is added to the menu and any keys no longer
-    // in the arrays are removed from the menu. If <aKey> is nil the menu will drop any items not in the original array.
+	// manages the menu for recently added and recently used items. When the key is added, it is added to the menu and any keys no longer
+	// in the arrays are removed from the menu. If <aKey> is nil the menu will drop any items not in the original array.
 
-    LogEvent_(kInfoEvent, @"synching recent menus for key '%@' for menu %@", aKey, self);
+	LogEvent_(kInfoEvent, @"synching recent menus for key '%@' for menu %@", aKey, self);
 
-    NSInteger k;
+	NSInteger k;
 
-    for (k = 0; k < 2; ++k) {
-        NSArray* array;
-        NSMenu* raSub;
-        id repObject;
+	for (k = 0; k < 2; ++k) {
+		NSArray* array;
+		NSMenu* raSub;
+		id repObject;
 
-        if (k == 0) {
-            array = [mCatManagerRef recentlyAddedItems];
-            raSub = [mRecentlyAddedMenuItemRef submenu];
+		if (k == 0) {
+			array = [mCatManagerRef recentlyAddedItems];
+			raSub = [mRecentlyAddedMenuItemRef submenu];
 
-            [mRecentlyAddedMenuItemRef setEnabled:[array count] > 0];
-        } else {
-            array = [mCatManagerRef recentlyUsedItems];
-            raSub = [mRecentlyUsedMenuItemRef submenu];
+			[mRecentlyAddedMenuItemRef setEnabled:[array count] > 0];
+		} else {
+			array = [mCatManagerRef recentlyUsedItems];
+			raSub = [mRecentlyUsedMenuItemRef submenu];
 
-            [mRecentlyUsedMenuItemRef setEnabled:[array count] > 0];
-        }
+			[mRecentlyUsedMenuItemRef setEnabled:[array count] > 0];
+		}
 
-        if (!mCategoriesOnly && raSub != nil) {
-            // remove any menu items that are not present in the array
+		if (!mCategoriesOnly && raSub != nil) {
+			// remove any menu items that are not present in the array
 
-            NSArray* items = [[raSub itemArray] copy];
-            NSEnumerator* iter = [items objectEnumerator];
-            NSMenuItem* item;
-            NSArray* allKeys;
+			NSArray* items = [[raSub itemArray] copy];
+			NSEnumerator* iter = [items objectEnumerator];
+			NSMenuItem* item;
+			NSArray* allKeys;
 
-            while ((item = [iter nextObject])) {
-                allKeys = [mCatManagerRef keysForObject:[item representedObject]];
+			while ((item = [iter nextObject])) {
+				allKeys = [mCatManagerRef keysForObject:[item representedObject]];
 
-                // if there are no keys, the object can't be known to the cat mgr, so delete it from the menu now
+				// if there are no keys, the object can't be known to the cat mgr, so delete it from the menu now
 
-                if ([allKeys count] < 1)
-                    [raSub removeItem:item];
-                else {
-                    // still known, but may not be listed in the array
+				if ([allKeys count] < 1)
+					[raSub removeItem:item];
+				else {
+					// still known, but may not be listed in the array
 
-                    NSString* kk = [allKeys lastObject];
+					NSString* kk = [allKeys lastObject];
 
-                    if (kk != nil && ![array containsObject:kk])
-                        [raSub removeItem:item];
-                }
-            }
+					if (kk != nil && ![array containsObject:kk])
+						[raSub removeItem:item];
+				}
+			}
 
-            [items release];
+			[items release];
 
-            // add a new item for the newly added key if it's unknown in the menu
+			// add a new item for the newly added key if it's unknown in the menu
 
-            if (aKey != nil && [array containsObject:aKey]) {
-                repObject = [mCatManagerRef objectForKey:aKey];
-                NSInteger indx = [raSub indexOfItemWithRepresentedObject:repObject];
+			if (aKey != nil && [array containsObject:aKey]) {
+				repObject = [mCatManagerRef objectForKey:aKey];
+				NSInteger indx = [raSub indexOfItemWithRepresentedObject:repObject];
 
-                if (indx == -1) {
-                    NSMenuItem* childItem = [[NSMenuItem alloc] initWithTitle:[aKey capitalizedString]
-                                                                       action:mSelector
-                                                                keyEquivalent:@""];
+				if (indx == -1) {
+					NSMenuItem* childItem = [[NSMenuItem alloc] initWithTitle:[aKey capitalizedString]
+																	   action:mSelector
+																keyEquivalent:@""];
 
-                    [childItem setRepresentedObject:repObject];
-                    [childItem setTarget:mTargetRef];
+					[childItem setRepresentedObject:repObject];
+					[childItem setTarget:mTargetRef];
 
-                    if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-                                                                                         wasAddedForObject:
-                                                                                                inCategory:)])
-                        [mCallbackTargetRef menuItem:childItem
-                                   wasAddedForObject:repObject
-                                          inCategory:nil];
+					if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
+																						 wasAddedForObject:
+																								inCategory:)])
+						[mCallbackTargetRef menuItem:childItem
+								   wasAddedForObject:repObject
+										  inCategory:nil];
 
-                    // just added, so will always be first item in the list
+					// just added, so will always be first item in the list
 
-                    [childItem setTag:kDKCategoryManagerManagedMenuItemTag];
-                    [raSub insertItem:childItem
-                              atIndex:0];
-                    [childItem release];
-                }
-            }
-        }
-    }
+					[childItem setTag:kDKCategoryManagerManagedMenuItemTag];
+					[raSub insertItem:childItem
+							  atIndex:0];
+					[childItem release];
+				}
+			}
+		}
+	}
 }
 
 - (void)syncRecentlyUsedMenuForKey:(NSString*)aKey
 {
-    // the keyed item has moved to the front of the list - do the same for the associated menu item. This is the only
-    // menu that requires this because all others can only have one object added or removed at a time, not moved within the same list.
+	// the keyed item has moved to the front of the list - do the same for the associated menu item. This is the only
+	// menu that requires this because all others can only have one object added or removed at a time, not moved within the same list.
 
-    if (mCategoriesOnly)
-        return;
+	if (mCategoriesOnly)
+		return;
 
-    NSMenu* recentItemsMenu = [mRecentlyUsedMenuItemRef submenu];
+	NSMenu* recentItemsMenu = [mRecentlyUsedMenuItemRef submenu];
 
-    if (recentItemsMenu != nil) {
-        id repObject = [mCatManagerRef objectForKey:aKey];
-        NSInteger indx = [recentItemsMenu indexOfItemWithRepresentedObject:repObject];
+	if (recentItemsMenu != nil) {
+		id repObject = [mCatManagerRef objectForKey:aKey];
+		NSInteger indx = [recentItemsMenu indexOfItemWithRepresentedObject:repObject];
 
-        if (indx != -1) {
-            NSMenuItem* item = [[recentItemsMenu itemAtIndex:indx] retain];
-            [recentItemsMenu removeItem:item];
-            [recentItemsMenu insertItem:item
-                                atIndex:0];
-            [item release];
-        }
-    }
+		if (indx != -1) {
+			NSMenuItem* item = [[recentItemsMenu itemAtIndex:indx] retain];
+			[recentItemsMenu removeItem:item];
+			[recentItemsMenu insertItem:item
+								atIndex:0];
+			[item release];
+		}
+	}
 }
 
 - (void)removeKey:(NSString*)aKey
 {
-    //NSLog(@"removing item key '%@' from menu %@", aKey, self );
+	//NSLog(@"removing item key '%@' from menu %@", aKey, self );
 
-    if (mCategoriesOnly)
-        return;
+	if (mCategoriesOnly)
+		return;
 
-    NSArray* cats = [mCatManagerRef categoriesContainingKey:aKey];
-    NSEnumerator* iter = [cats objectEnumerator];
-    NSString* cat;
-    id repObject = [mCatManagerRef objectForKey:aKey];
+	NSArray* cats = [mCatManagerRef categoriesContainingKey:aKey];
+	NSEnumerator* iter = [cats objectEnumerator];
+	NSString* cat;
+	id repObject = [mCatManagerRef objectForKey:aKey];
 
-    // iterate over the categories and find the menu responsible for it
+	// iterate over the categories and find the menu responsible for it
 
-    while ((cat = [iter nextObject])) {
-        NSMenuItem* catItem = [mTheMenu itemWithTitle:[cat capitalizedString]];
+	while ((cat = [iter nextObject])) {
+		NSMenuItem* catItem = [mTheMenu itemWithTitle:[cat capitalizedString]];
 
-        if (catItem != nil) {
-            NSMenu* subMenu = [catItem submenu];
+		if (catItem != nil) {
+			NSMenu* subMenu = [catItem submenu];
 
-            if (subMenu != nil) {
-                // this submenu contains the item, so delete the menu item that contains it. Because the item's
-                // title may have been changed by the client, we use the represented object to discover the correct item.
+			if (subMenu != nil) {
+				// this submenu contains the item, so delete the menu item that contains it. Because the item's
+				// title may have been changed by the client, we use the represented object to discover the correct item.
 
-                NSInteger indx = [subMenu indexOfItemWithRepresentedObject:repObject];
+				NSInteger indx = [subMenu indexOfItemWithRepresentedObject:repObject];
 
-                if (indx != -1) {
-                    [subMenu removeItemAtIndex:indx];
+				if (indx != -1) {
+					[subMenu removeItemAtIndex:indx];
 
-                    // if this leaves an entirely empty menu, delete it and disable the parent item
+					// if this leaves an entirely empty menu, delete it and disable the parent item
 
-                    if ([subMenu numberOfItems] == 0) {
-                        [catItem setSubmenu:nil];
-                        [catItem setEnabled:NO];
-                    }
-                }
-            }
-        }
-    }
+					if ([subMenu numberOfItems] == 0) {
+						[catItem setSubmenu:nil];
+						[catItem setEnabled:NO];
+					}
+				}
+			}
+		}
+	}
 }
 
 - (void)checkItemsForKey:(NSString*)key
 {
-    // puts a checkmark against any category names in the menu that contain <key>.
+	// puts a checkmark against any category names in the menu that contain <key>.
 
-    if (mCategoriesOnly)
-        return;
+	if (mCategoriesOnly)
+		return;
 
-    NSArray* categories = [mCatManagerRef categoriesContainingKey:key];
+	NSArray* categories = [mCatManagerRef categoriesContainingKey:key];
 
-    // check whether there's really anything to do here:
+	// check whether there's really anything to do here:
 
-    if ([categories count] > 1) {
-        NSEnumerator* iter = [[mTheMenu itemArray] objectEnumerator];
-        NSMenuItem* item;
-        NSString* ti;
+	if ([categories count] > 1) {
+		NSEnumerator* iter = [[mTheMenu itemArray] objectEnumerator];
+		NSMenuItem* item;
+		NSString* ti;
 
-        while ((item = [iter nextObject])) {
-            ti = [item title];
+		while ((item = [iter nextObject])) {
+			ti = [item title];
 
-            if ([categories containsObject:ti])
-                [item setState:NSOnState];
-            else
-                [item setState:NSOffState];
-        }
-    }
+			if ([categories containsObject:ti])
+				[item setState:NSOnState];
+			else
+				[item setState:NSOffState];
+		}
+	}
 }
 
 - (void)updateForKey:(NSString*)key
 {
-    // the object keyed by <key> has changed, so menu items pertaining to it need to be updated. The items involved are
-    // not recreated or moved, they are simply passed to the client so that their titles, icons or whatever can be set
-    // just as if the item was freshly created.
+	// the object keyed by <key> has changed, so menu items pertaining to it need to be updated. The items involved are
+	// not recreated or moved, they are simply passed to the client so that their titles, icons or whatever can be set
+	// just as if the item was freshly created.
 
-    if (mCategoriesOnly)
-        return;
+	if (mCategoriesOnly)
+		return;
 
-    NSAssert(key != nil, @"can't update - key was nil");
-    LogEvent_(kInfoEvent, @"updating menu %@ for key '%@'", self, key);
+	NSAssert(key != nil, @"can't update - key was nil");
+	LogEvent_(kInfoEvent, @"updating menu %@ for key '%@'", self, key);
 
-    NSMutableArray* categories = [[mCatManagerRef categoriesContainingKey:key] mutableCopy];
+	NSMutableArray* categories = [[mCatManagerRef categoriesContainingKey:key] mutableCopy];
 
-    // add the recent items/added menus as if they were categories
+	// add the recent items/added menus as if they were categories
 
-    [categories addObject:NSLocalizedString(kDKRecentlyUsedUserString, @"")];
-    [categories addObject:NSLocalizedString(kDKRecentlyAddedUserString, @"")];
+	[categories addObject:NSLocalizedString(kDKRecentlyUsedUserString, @"")];
+	[categories addObject:NSLocalizedString(kDKRecentlyAddedUserString, @"")];
 
-    // check whether there's really anything to do here:
+	// check whether there's really anything to do here:
 
-    id repObject = [mCatManagerRef objectForKey:key];
-    NSEnumerator* iter = [categories objectEnumerator];
-    NSString* catName;
+	id repObject = [mCatManagerRef objectForKey:key];
+	NSEnumerator* iter = [categories objectEnumerator];
+	NSString* catName;
 
-    while ((catName = [iter nextObject])) {
-        NSMenu* subMenu = [[mTheMenu itemWithTitle:[catName capitalizedString]] submenu];
+	while ((catName = [iter nextObject])) {
+		NSMenu* subMenu = [[mTheMenu itemWithTitle:[catName capitalizedString]] submenu];
 
-        if (subMenu != nil) {
-            NSInteger indx = [subMenu indexOfItemWithRepresentedObject:repObject];
+		if (subMenu != nil) {
+			NSInteger indx = [subMenu indexOfItemWithRepresentedObject:repObject];
 
-            if (indx != -1) {
-                NSMenuItem* item = [subMenu itemAtIndex:indx];
+			if (indx != -1) {
+				NSMenuItem* item = [subMenu itemAtIndex:indx];
 
-                // keep track of the title so that if it changes we can resort the menu
+				// keep track of the title so that if it changes we can resort the menu
 
-                NSString* oldTitle = [[item title] retain];
+				NSString* oldTitle = [[item title] retain];
 
-                if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-                                                                                     wasAddedForObject:
-                                                                                            inCategory:)])
-                    [mCallbackTargetRef menuItem:item
-                               wasAddedForObject:repObject
-                                      inCategory:catName];
+				if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
+																					 wasAddedForObject:
+																							inCategory:)])
+					[mCallbackTargetRef menuItem:item
+							   wasAddedForObject:repObject
+									  inCategory:catName];
 
-                // if title changed, reposition the item
+				// if title changed, reposition the item
 
-                if (![oldTitle isEqualToString:[item title]]) {
-                    // where to insert?
+				if (![oldTitle isEqualToString:[item title]]) {
+					// where to insert?
 
-                    NSArray* names = [mCatManagerRef allSortedNamesInCategory:catName];
-                    indx = [names indexOfObject:[item title]];
+					NSArray* names = [mCatManagerRef allSortedNamesInCategory:catName];
+					indx = [names indexOfObject:[item title]];
 
-                    if (indx != NSNotFound) {
-                        [item retain];
-                        [subMenu removeItem:item];
-                        [subMenu insertItem:item
-                                    atIndex:indx];
-                        [item release];
-                    }
-                }
-                [oldTitle release];
-            }
-        }
-    }
+					if (indx != NSNotFound) {
+						[item retain];
+						[subMenu removeItem:item];
+						[subMenu insertItem:item
+									atIndex:indx];
+						[item release];
+					}
+				}
+				[oldTitle release];
+			}
+		}
+	}
 
-    [categories release];
+	[categories release];
 }
 
 - (void)removeAll
 {
-    // removes all managed items and submenus from the menu excluding the recent items
+	// removes all managed items and submenus from the menu excluding the recent items
 
-    [self removeItemsInMenu:mTheMenu
-                    withTag:kDKCategoryManagerManagedMenuItemTag
-             excludingItem0:(mOptions & kDKMenuIsPopUpMenu) != 0];
+	[self removeItemsInMenu:mTheMenu
+					withTag:kDKCategoryManagerManagedMenuItemTag
+			 excludingItem0:(mOptions & kDKMenuIsPopUpMenu) != 0];
 
-    // empty the recent items menus also
-    if (mRecentlyUsedMenuItemRef != nil) {
-        [self removeItemsInMenu:[mRecentlyUsedMenuItemRef submenu]
-                        withTag:kDKCategoryManagerManagedMenuItemTag
-                 excludingItem0:NO];
-        [mRecentlyUsedMenuItemRef setEnabled:NO];
-    }
+	// empty the recent items menus also
+	if (mRecentlyUsedMenuItemRef != nil) {
+		[self removeItemsInMenu:[mRecentlyUsedMenuItemRef submenu]
+						withTag:kDKCategoryManagerManagedMenuItemTag
+				 excludingItem0:NO];
+		[mRecentlyUsedMenuItemRef setEnabled:NO];
+	}
 
-    if (mRecentlyAddedMenuItemRef != nil) {
-        [self removeItemsInMenu:[mRecentlyAddedMenuItemRef submenu]
-                        withTag:kDKCategoryManagerManagedMenuItemTag
-                 excludingItem0:NO];
-        [mRecentlyAddedMenuItemRef setEnabled:NO];
-    }
+	if (mRecentlyAddedMenuItemRef != nil) {
+		[self removeItemsInMenu:[mRecentlyAddedMenuItemRef submenu]
+						withTag:kDKCategoryManagerManagedMenuItemTag
+				 excludingItem0:NO];
+		[mRecentlyAddedMenuItemRef setEnabled:NO];
+	}
 }
 
 - (void)createMenu
 {
-    mTheMenu = [[NSMenu alloc] initWithTitle:@"Category Manager"];
+	mTheMenu = [[NSMenu alloc] initWithTitle:@"Category Manager"];
 
-    NSEnumerator* iter = [[mCatManagerRef allCategories] objectEnumerator];
-    NSString* cat;
-    NSArray* catObjects;
-    NSMenuItem* parentItem;
+	NSEnumerator* iter = [[mCatManagerRef allCategories] objectEnumerator];
+	NSString* cat;
+	NSArray* catObjects;
+	NSMenuItem* parentItem;
 
-    // don't use the menu item validation protocol - always enabled
+	// don't use the menu item validation protocol - always enabled
 
-    [mTheMenu setAutoenablesItems:NO];
+	[mTheMenu setAutoenablesItems:NO];
 
-    if ((mOptions & kDKMenuIsPopUpMenu) != 0) {
-        // callback can check object == this to set the title of the popup (generally not needed - whoever called the CM
-        // to make the menu in the first place is likely to be able to just set the menu or pop-up button's title afterwards).
+	if ((mOptions & kDKMenuIsPopUpMenu) != 0) {
+		// callback can check object == this to set the title of the popup (generally not needed - whoever called the CM
+		// to make the menu in the first place is likely to be able to just set the menu or pop-up button's title afterwards).
 
-        parentItem = [mTheMenu addItemWithTitle:@"Category Manager"
-                                         action:0
-                                  keyEquivalent:@""];
+		parentItem = [mTheMenu addItemWithTitle:@"Category Manager"
+										 action:0
+								  keyEquivalent:@""];
 
-        if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-                                                                             wasAddedForObject:
-                                                                                    inCategory:)])
-            [mCallbackTargetRef menuItem:parentItem
-                       wasAddedForObject:self
-                              inCategory:nil];
-    }
+		if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
+																			 wasAddedForObject:
+																					inCategory:)])
+			[mCallbackTargetRef menuItem:parentItem
+					   wasAddedForObject:self
+							  inCategory:nil];
+	}
 
-    while ((cat = [iter nextObject])) {
-        // if flagged to exclude "all items" then skip it
+	while ((cat = [iter nextObject])) {
+		// if flagged to exclude "all items" then skip it
 
-        if (((mOptions & kDKIncludeAllItems) == 0) && [cat isEqualToString:kDKDefaultCategoryName])
-            continue;
+		if (((mOptions & kDKIncludeAllItems) == 0) && [cat isEqualToString:kDKDefaultCategoryName])
+			continue;
 
-        // always add a parent item for the category even if it turns out to be empty - this ensures that the menu UI
-        // is consistent with other UI that may be just listing available categories.
+		// always add a parent item for the category even if it turns out to be empty - this ensures that the menu UI
+		// is consistent with other UI that may be just listing available categories.
 
-        parentItem = [mTheMenu addItemWithTitle:[cat capitalizedString]
-                                         action:0
-                                  keyEquivalent:@""];
-        [parentItem setTag:kDKCategoryManagerManagedMenuItemTag];
+		parentItem = [mTheMenu addItemWithTitle:[cat capitalizedString]
+										 action:0
+								  keyEquivalent:@""];
+		[parentItem setTag:kDKCategoryManagerManagedMenuItemTag];
 
-        // get the sorted list of items in the category
+		// get the sorted list of items in the category
 
-        catObjects = [mCatManagerRef allSortedKeysInCategory:cat];
+		catObjects = [mCatManagerRef allSortedKeysInCategory:cat];
 
-        if ([catObjects count] > 0) {
-            // make a submenu to list the actual items
+		if ([catObjects count] > 0) {
+			// make a submenu to list the actual items
 
-            NSMenu* catMenu = [self createSubmenuWithTitle:[cat capitalizedString]
-                                                  forArray:catObjects];
-            [parentItem setSubmenu:catMenu];
-            [parentItem setEnabled:YES];
-        } else
-            [parentItem setEnabled:NO];
-    }
+			NSMenu* catMenu = [self createSubmenuWithTitle:[cat capitalizedString]
+												  forArray:catObjects];
+			[parentItem setSubmenu:catMenu];
+			[parentItem setEnabled:YES];
+		} else
+			[parentItem setEnabled:NO];
+	}
 
-    // conditionally add "recently used" and "recently added" items
+	// conditionally add "recently used" and "recently added" items
 
-    if ((mOptions & (kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems)) != 0)
-        [mTheMenu addItem:[NSMenuItem separatorItem]];
+	if ((mOptions & (kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems)) != 0)
+		[mTheMenu addItem:[NSMenuItem separatorItem]];
 
-    NSString* title;
-    NSMenu* subMenu;
+	NSString* title;
+	NSMenu* subMenu;
 
-    if ((mOptions & kDKIncludeRecentlyUsedItems) != 0) {
-        title = NSLocalizedString(kDKRecentlyUsedUserString, @"");
-        parentItem = [mTheMenu addItemWithTitle:title
-                                         action:0
-                                  keyEquivalent:@""];
-        subMenu = [self createSubmenuWithTitle:title
-                                      forArray:[mCatManagerRef recentlyUsedItems]];
+	if ((mOptions & kDKIncludeRecentlyUsedItems) != 0) {
+		title = NSLocalizedString(kDKRecentlyUsedUserString, @"");
+		parentItem = [mTheMenu addItemWithTitle:title
+										 action:0
+								  keyEquivalent:@""];
+		subMenu = [self createSubmenuWithTitle:title
+									  forArray:[mCatManagerRef recentlyUsedItems]];
 
-        [parentItem setTag:kDKCategoryManagerRecentMenuItemTag];
-        [parentItem setSubmenu:subMenu];
-        mRecentlyUsedMenuItemRef = parentItem;
+		[parentItem setTag:kDKCategoryManagerRecentMenuItemTag];
+		[parentItem setSubmenu:subMenu];
+		mRecentlyUsedMenuItemRef = parentItem;
 
-        [mRecentlyUsedMenuItemRef setEnabled:[[mCatManagerRef recentlyUsedItems] count] > 0];
-    }
+		[mRecentlyUsedMenuItemRef setEnabled:[[mCatManagerRef recentlyUsedItems] count] > 0];
+	}
 
-    if ((mOptions & kDKIncludeRecentlyAddedItems) != 0) {
-        title = NSLocalizedString(kDKRecentlyAddedUserString, @"");
-        parentItem = [mTheMenu addItemWithTitle:title
-                                         action:0
-                                  keyEquivalent:@""];
-        subMenu = [self createSubmenuWithTitle:title
-                                      forArray:[mCatManagerRef recentlyAddedItems]];
+	if ((mOptions & kDKIncludeRecentlyAddedItems) != 0) {
+		title = NSLocalizedString(kDKRecentlyAddedUserString, @"");
+		parentItem = [mTheMenu addItemWithTitle:title
+										 action:0
+								  keyEquivalent:@""];
+		subMenu = [self createSubmenuWithTitle:title
+									  forArray:[mCatManagerRef recentlyAddedItems]];
 
-        [parentItem setTag:kDKCategoryManagerRecentMenuItemTag];
-        [parentItem setSubmenu:subMenu];
-        mRecentlyAddedMenuItemRef = parentItem;
+		[parentItem setTag:kDKCategoryManagerRecentMenuItemTag];
+		[parentItem setSubmenu:subMenu];
+		mRecentlyAddedMenuItemRef = parentItem;
 
-        [mRecentlyAddedMenuItemRef setEnabled:[[mCatManagerRef recentlyAddedItems] count] > 0];
-    }
+		[mRecentlyAddedMenuItemRef setEnabled:[[mCatManagerRef recentlyAddedItems] count] > 0];
+	}
 }
 
 - (void)createCategoriesMenu
 {
-    mTheMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Categories", @"default name for categories menu")];
-    NSMenuItem* ti = nil;
+	mTheMenu = [[NSMenu alloc] initWithTitle:NSLocalizedString(@"Categories", @"default name for categories menu")];
+	NSMenuItem* ti = nil;
 
-    // add standard items according to options
+	// add standard items according to options
 
-    if (mOptions & kDKIncludeAllItems) {
-        ti = [mTheMenu addItemWithTitle:kDKDefaultCategoryName
-                                 action:mSelector
-                          keyEquivalent:@""];
-        [ti setTarget:mTargetRef];
-        [ti setTag:kDKCategoryManagerManagedMenuItemTag];
-    }
+	if (mOptions & kDKIncludeAllItems) {
+		ti = [mTheMenu addItemWithTitle:kDKDefaultCategoryName
+								 action:mSelector
+						  keyEquivalent:@""];
+		[ti setTarget:mTargetRef];
+		[ti setTag:kDKCategoryManagerManagedMenuItemTag];
+	}
 
-    if (mOptions & kDKIncludeRecentlyAddedItems) {
-        mRecentlyAddedMenuItemRef = [mTheMenu addItemWithTitle:kDKRecentlyAddedUserString
-                                                        action:mSelector
-                                                 keyEquivalent:@""];
-        [mRecentlyAddedMenuItemRef setTarget:mTargetRef];
-        [mRecentlyAddedMenuItemRef setTag:kDKCategoryManagerRecentMenuItemTag];
-    }
+	if (mOptions & kDKIncludeRecentlyAddedItems) {
+		mRecentlyAddedMenuItemRef = [mTheMenu addItemWithTitle:kDKRecentlyAddedUserString
+														action:mSelector
+												 keyEquivalent:@""];
+		[mRecentlyAddedMenuItemRef setTarget:mTargetRef];
+		[mRecentlyAddedMenuItemRef setTag:kDKCategoryManagerRecentMenuItemTag];
+	}
 
-    if (mOptions & kDKIncludeRecentlyUsedItems) {
-        mRecentlyUsedMenuItemRef = [mTheMenu addItemWithTitle:kDKRecentlyUsedUserString
-                                                       action:mSelector
-                                                keyEquivalent:@""];
-        [mRecentlyUsedMenuItemRef setTarget:mTargetRef];
-        [mRecentlyUsedMenuItemRef setTag:kDKCategoryManagerRecentMenuItemTag];
-    }
+	if (mOptions & kDKIncludeRecentlyUsedItems) {
+		mRecentlyUsedMenuItemRef = [mTheMenu addItemWithTitle:kDKRecentlyUsedUserString
+													   action:mSelector
+												keyEquivalent:@""];
+		[mRecentlyUsedMenuItemRef setTarget:mTargetRef];
+		[mRecentlyUsedMenuItemRef setTag:kDKCategoryManagerRecentMenuItemTag];
+	}
 
-    if ((mOptions & kDKDontAddDividingLine) == 0)
-        [mTheMenu addItem:[NSMenuItem separatorItem]];
+	if ((mOptions & kDKDontAddDividingLine) == 0)
+		[mTheMenu addItem:[NSMenuItem separatorItem]];
 
-    // now just list the categories
+	// now just list the categories
 
-    NSEnumerator* iter = [[mCatManagerRef allCategories] objectEnumerator]; // already sorted alphabetically
-    NSString* cat;
+	NSEnumerator* iter = [[mCatManagerRef allCategories] objectEnumerator]; // already sorted alphabetically
+	NSString* cat;
 
-    while ((cat = [iter nextObject])) {
-        if (![cat isEqualToString:kDKDefaultCategoryName]) {
-            ti = [mTheMenu addItemWithTitle:cat
-                                     action:mSelector
-                              keyEquivalent:@""];
-            [ti setTarget:mTargetRef];
-            [ti setTag:kDKCategoryManagerManagedMenuItemTag];
-            [ti setEnabled:YES];
-        }
-    }
+	while ((cat = [iter nextObject])) {
+		if (![cat isEqualToString:kDKDefaultCategoryName]) {
+			ti = [mTheMenu addItemWithTitle:cat
+									 action:mSelector
+							  keyEquivalent:@""];
+			[ti setTarget:mTargetRef];
+			[ti setTag:kDKCategoryManagerManagedMenuItemTag];
+			[ti setEnabled:YES];
+		}
+	}
 }
 
 - (NSMenu*)createSubmenuWithTitle:(NSString*)title forArray:(NSArray*)items
 {
-    // given an array of keys, this creates a menu listing the items. The delegate is called if present to finalise each item. The intended use for this
-    // is to set up the "recently used" and "recently added" menus initially. If the array is empty returns an empty menu.
+	// given an array of keys, this creates a menu listing the items. The delegate is called if present to finalise each item. The intended use for this
+	// is to set up the "recently used" and "recently added" menus initially. If the array is empty returns an empty menu.
 
-    NSAssert(items != nil, @"can't create menu for nil array");
+	NSAssert(items != nil, @"can't create menu for nil array");
 
-    NSMenu* theMenu;
-    NSEnumerator* iter;
-    NSString* key;
+	NSMenu* theMenu;
+	NSEnumerator* iter;
+	NSString* key;
 
-    iter = [items objectEnumerator];
+	iter = [items objectEnumerator];
 
-    theMenu = [[NSMenu alloc] initWithTitle:title];
+	theMenu = [[NSMenu alloc] initWithTitle:title];
 
-    id repObject;
+	id repObject;
 
-    while ((key = [iter nextObject])) {
-        NSMenuItem* childItem = [theMenu addItemWithTitle:[key capitalizedString]
-                                                   action:mSelector
-                                            keyEquivalent:@""];
-        [childItem setTarget:mTargetRef];
-        repObject = [mCatManagerRef objectForKey:key];
-        [childItem setRepresentedObject:repObject];
+	while ((key = [iter nextObject])) {
+		NSMenuItem* childItem = [theMenu addItemWithTitle:[key capitalizedString]
+												   action:mSelector
+											keyEquivalent:@""];
+		[childItem setTarget:mTargetRef];
+		repObject = [mCatManagerRef objectForKey:key];
+		[childItem setRepresentedObject:repObject];
 
-        if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-                                                                             wasAddedForObject:
-                                                                                    inCategory:)])
-            [mCallbackTargetRef menuItem:childItem
-                       wasAddedForObject:repObject
-                              inCategory:nil];
+		if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
+																			 wasAddedForObject:
+																					inCategory:)])
+			[mCallbackTargetRef menuItem:childItem
+					   wasAddedForObject:repObject
+							  inCategory:nil];
 
-        [childItem setTag:kDKCategoryManagerManagedMenuItemTag];
-    }
+		[childItem setTag:kDKCategoryManagerManagedMenuItemTag];
+	}
 
-    return [theMenu autorelease];
+	return [theMenu autorelease];
 }
 
 - (void)dealloc
 {
-    [mTheMenu release];
-    [super dealloc];
+	[mTheMenu release];
+	[super dealloc];
 }
 
 #pragma mark -
 
 - (void)removeItemsInMenu:(NSMenu*)aMenu withTag:(NSInteger)tag excludingItem0:(BOOL)title
 {
-    NSMutableArray* items = [[aMenu itemArray] mutableCopy];
-    NSMenuItem* item;
+	NSMutableArray* items = [[aMenu itemArray] mutableCopy];
+	NSMenuItem* item;
 
-    NSLog(@"menu items = %@", items);
+	NSLog(@"menu items = %@", items);
 
-    // if a pop-up menu, don't remove the title item
+	// if a pop-up menu, don't remove the title item
 
-    if (title)
-        [items removeObjectAtIndex:0];
+	if (title)
+		[items removeObjectAtIndex:0];
 
-    NSEnumerator* iter = [items reverseObjectEnumerator];
+	NSEnumerator* iter = [items reverseObjectEnumerator];
 
-    while ((item = [iter nextObject])) {
-        if ([item tag] == tag)
-            [aMenu removeItem:item];
-    }
+	while ((item = [iter nextObject])) {
+		if ([item tag] == tag)
+			[aMenu removeItem:item];
+	}
 
-    [items release];
+	[items release];
 }
 
 @end

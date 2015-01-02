@@ -13,9 +13,9 @@ Simple render group subclass that applies the set blend mode to the context for 
 yielding a wide range of available effects.
 */
 @interface DKQuartzBlendRastGroup : DKRastGroup <NSCoding, NSCopying> {
-    CGBlendMode m_blendMode;
-    CGFloat m_alpha;
-    NSImage* m_maskImage;
+	CGBlendMode m_blendMode;
+	CGFloat m_alpha;
+	NSImage* m_maskImage;
 }
 
 - (void)setBlendMode:(CGBlendMode)mode;

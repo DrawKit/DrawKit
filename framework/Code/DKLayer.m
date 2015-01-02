@@ -18,7 +18,7 @@
 #import "DKUniqueID.h"
 #import "NSDictionary+DeepCopy.h"
 
-#pragma mark Constants (Non-localized)
+#pragma mark Constants(Non - localized)
 
 NSString* kDKLayerLockStateDidChange = @"kDKLayerLockStateDidChange";
 NSString* kDKLayerVisibleStateDidChange = @"kDKLayerVisibleStateDidChange";
@@ -41,9 +41,9 @@ static NSArray* s_selectionColours = nil;
  */
 + (void)setSelectionColours:(NSArray*)listOfColours
 {
-    [listOfColours retain];
-    [s_selectionColours release];
-    s_selectionColours = listOfColours;
+	[listOfColours retain];
+	[s_selectionColours release];
+	s_selectionColours = listOfColours;
 }
 
 /** @brief Returns the list of colours used for supplying the selection colours
@@ -54,30 +54,30 @@ static NSArray* s_selectionColours = nil;
  */
 + (NSArray*)selectionColours
 {
-    if (s_selectionColours == nil) {
-        NSMutableArray* list = [NSMutableArray array];
+	if (s_selectionColours == nil) {
+		NSMutableArray* list = [NSMutableArray array];
 
-        static CGFloat colours[][3] = { { 0.5, 0.9, 1 }, // light blue
-                                        { 1, 0, 0 }, // red
-                                        { 0, 1, 0 }, // green
-                                        { 0, 0.7, 0.7 }, // cyanish
-                                        { 1, 0, 1 }, // magenta
-                                        { 1, 0.5, 0 } }; // orange
+		static CGFloat colours[][3] = { { 0.5, 0.9, 1 }, // light blue
+										{ 1, 0, 0 }, // red
+										{ 0, 1, 0 }, // green
+										{ 0, 0.7, 0.7 }, // cyanish
+										{ 1, 0, 1 }, // magenta
+										{ 1, 0.5, 0 } }; // orange
 
-        NSInteger i;
+		NSInteger i;
 
-        for (i = 0; i < 6; i++) {
-            NSColor* colour = [NSColor colorWithDeviceRed:colours[i][0]
-                                                    green:colours[i][1]
-                                                     blue:colours[i][2]
-                                                    alpha:1.0];
-            [list addObject:colour];
-        }
+		for (i = 0; i < 6; i++) {
+			NSColor* colour = [NSColor colorWithDeviceRed:colours[i][0]
+													green:colours[i][1]
+													 blue:colours[i][2]
+													alpha:1.0];
+			[list addObject:colour];
+		}
 
-        [self setSelectionColours:list];
-    }
+		[self setSelectionColours:list];
+	}
 
-    return s_selectionColours;
+	return s_selectionColours;
 }
 
 /** @brief Returns a colour that can be used as the selection colour for a layer
@@ -90,13 +90,13 @@ static NSArray* s_selectionColours = nil;
  */
 + (NSColor*)selectionColourForIndex:(NSUInteger)indx
 {
-    NSArray* selColours = [self selectionColours];
+	NSArray* selColours = [self selectionColours];
 
-    if (selColours && [selColours count] > 0) {
-        indx = indx % [selColours count];
-        return [selColours objectAtIndex:indx];
-    } else
-        return nil;
+	if (selColours && [selColours count] > 0) {
+		indx = indx % [selColours count];
+		return [selColours objectAtIndex:indx];
+	} else
+		return nil;
 }
 
 #pragma mark -
@@ -110,7 +110,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (DKDrawing*)drawing
 {
-    return [[self layerGroup] drawing];
+	return [[self layerGroup] drawing];
 }
 
 /** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
@@ -151,9 +151,9 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSUndoManager*)undoManager
 {
-    // return the nominated undo manager
+	// return the nominated undo manager
 
-    return [[self drawing] undoManager];
+	return [[self drawing] undoManager];
 }
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
@@ -176,7 +176,7 @@ static NSArray* s_selectionColours = nil;
  @param group the group we belong to */
 - (void)setLayerGroup:(DKLayerGroup*)group
 {
-    m_groupRef = group;
+	m_groupRef = group;
 }
 
 /** @brief Gets the group that the layer is contained in
@@ -185,7 +185,7 @@ static NSArray* s_selectionColours = nil;
  @return the layer's group */
 - (DKLayerGroup*)layerGroup
 {
-    return m_groupRef;
+	return m_groupRef;
 }
 
 /** @brief Gets the layer's index within the group that the layer is contained in
@@ -195,7 +195,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSUInteger)indexInGroup
 {
-    return [[self layerGroup] indexOfLayer:self];
+	return [[self layerGroup] indexOfLayer:self];
 }
 
 /** @brief Determine whether a given group is the parent of this layer, or anywhere above it in the hierarchy
@@ -206,12 +206,12 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)isChildOfGroup:(DKLayerGroup*)aGroup
 {
-    if ([self layerGroup] == aGroup)
-        return YES;
-    else if ([self layerGroup] == nil)
-        return NO;
-    else
-        return [[self layerGroup] isChildOfGroup:aGroup];
+	if ([self layerGroup] == aGroup)
+		return YES;
+	else if ([self layerGroup] == nil)
+		return NO;
+	else
+		return [[self layerGroup] isChildOfGroup:aGroup];
 }
 
 /** @brief Returns the hierarchical level of this layer, i.e. how deeply nested it is
@@ -221,7 +221,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSUInteger)level
 {
-    return [[self layerGroup] level] + 1;
+	return [[self layerGroup] level] + 1;
 }
 
 #pragma mark -
@@ -240,7 +240,7 @@ static NSArray* s_selectionColours = nil;
 #pragma unused(rect)
 #pragma unused(aView)
 
-    NSLog(@"you should override [DKLayer drawRect:inView];");
+	NSLog(@"you should override [DKLayer drawRect:inView];");
 }
 
 /** @brief Is the layer opaque or transparent?
@@ -252,7 +252,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)isOpaque
 {
-    return NO;
+	return NO;
 }
 
 /** @brief Flags the whole layer as needing redrawing
@@ -263,7 +263,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setNeedsDisplay:(BOOL)update
 {
-    [[self drawing] setNeedsDisplay:update];
+	[[self drawing] setNeedsDisplay:update];
 }
 
 /** @brief Flags part of a layer as needing redrawing
@@ -274,7 +274,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setNeedsDisplayInRect:(NSRect)rect
 {
-    [[self drawing] setNeedsDisplayInRect:rect];
+	[[self drawing] setNeedsDisplayInRect:rect];
 }
 
 /** @brief Marks several areas for update at once
@@ -285,7 +285,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects
 {
-    [[self drawing] setNeedsDisplayInRects:setOfRects];
+	[[self drawing] setNeedsDisplayInRects:setOfRects];
 }
 
 /** @brief Marks several areas for update at once
@@ -297,8 +297,8 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding
 {
-    [[self drawing] setNeedsDisplayInRects:setOfRects
-                          withExtraPadding:padding];
+	[[self drawing] setNeedsDisplayInRects:setOfRects
+						  withExtraPadding:padding];
 }
 
 /** @brief Called before the layer starts drawing its content
@@ -307,7 +307,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)beginDrawing
 {
-    // override to make something useful of this
+	// override to make something useful of this
 }
 
 /** @brief Called after the layer has finished drawing its content
@@ -316,7 +316,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)endDrawing
 {
-    // override to make something useful of this
+	// override to make something useful of this
 }
 
 #pragma mark -
@@ -330,27 +330,27 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setSelectionColour:(NSColor*)colour
 {
-    if (![self locked] && ![colour isEqual:[self selectionColour]]) {
-        LogEvent_(kReactiveEvent, @"<%@ 0x%x> setting selection colour: %@", NSStringFromClass([self class]), self, colour);
+	if (![self locked] && ![colour isEqual:[self selectionColour]]) {
+		LogEvent_(kReactiveEvent, @"<%@ 0x%x> setting selection colour: %@", NSStringFromClass([self class]), self, colour);
 
-        [[[self undoManager] prepareWithInvocationTarget:self] setSelectionColour:[self selectionColour]];
+		[[[self undoManager] prepareWithInvocationTarget:self] setSelectionColour:[self selectionColour]];
 
-        [colour retain];
-        [m_selectionColour release];
-        m_selectionColour = colour;
-        [self setNeedsDisplay:YES];
+		[colour retain];
+		[m_selectionColour release];
+		m_selectionColour = colour;
+		[self setNeedsDisplay:YES];
 
-        // also set the info window's background to the same colour if it exists
+		// also set the info window's background to the same colour if it exists
 
-        if (m_infoWindow != nil)
-            [m_infoWindow setBackgroundColor:colour];
+		if (m_infoWindow != nil)
+			[m_infoWindow setBackgroundColor:colour];
 
-        // tell anyone who's interested:
+		// tell anyone who's interested:
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerSelectionHighlightColourDidChange
-                                                            object:self];
-        [[self undoManager] setActionName:NSLocalizedString(@"Selection Colour", nil)];
-    }
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerSelectionHighlightColourDidChange
+															object:self];
+		[[self undoManager] setActionName:NSLocalizedString(@"Selection Colour", nil)];
+	}
 }
 
 /** @brief Returns the currently preferred selection colour for this layer
@@ -358,7 +358,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSColor*)selectionColour
 {
-    return m_selectionColour;
+	return m_selectionColour;
 }
 
 #pragma mark -
@@ -375,51 +375,51 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSImage*)thumbnailImageWithSize:(NSSize)size
 {
-    NSSize drsize = [[self drawing] drawingSize];
+	NSSize drsize = [[self drawing] drawingSize];
 
-    if (NSEqualSizes(size, NSZeroSize)) {
-        size.width = drsize.width / 8.0;
-        size.height = drsize.height / 8.0;
-    }
+	if (NSEqualSizes(size, NSZeroSize)) {
+		size.width = drsize.width / 8.0;
+		size.height = drsize.height / 8.0;
+	}
 
-    //LogEvent_(kReactiveEvent,  @"creating layer thumbnail size: {%f, %f}", size.width, size.height );
+	//LogEvent_(kReactiveEvent,  @"creating layer thumbnail size: {%f, %f}", size.width, size.height );
 
-    NSImage* thumb = [[NSImage alloc] initWithSize:size];
-    NSRect tr, dr, dest;
+	NSImage* thumb = [[NSImage alloc] initWithSize:size];
+	NSRect tr, dr, dest;
 
-    [thumb setFlipped:[[self drawing] isFlipped]];
+	[thumb setFlipped:[[self drawing] isFlipped]];
 
-    tr = NSMakeRect(0, 0, size.width, size.height);
-    dr = NSMakeRect(0, 0, drsize.width, drsize.height);
+	tr = NSMakeRect(0, 0, size.width, size.height);
+	dr = NSMakeRect(0, 0, drsize.width, drsize.height);
 
-    dest = ScaledRectForSize(drsize, tr);
+	dest = ScaledRectForSize(drsize, tr);
 
-    // build a transform to scale the drawing to the destination rect size
+	// build a transform to scale the drawing to the destination rect size
 
-    CGFloat scale = dest.size.width / drsize.width;
-    NSAffineTransform* tfm = [NSAffineTransform transform];
-    [tfm scaleBy:scale];
+	CGFloat scale = dest.size.width / drsize.width;
+	NSAffineTransform* tfm = [NSAffineTransform transform];
+	[tfm scaleBy:scale];
 
-    [thumb lockFocus];
-    [[NSColor clearColor] set];
-    NSRectFill(tr);
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
+	[thumb lockFocus];
+	[[NSColor clearColor] set];
+	NSRectFill(tr);
+	[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
 
-    [tfm concat];
-    [self drawRect:dr
-            inView:nil];
+	[tfm concat];
+	[self drawRect:dr
+			inView:nil];
 
-    [[NSColor blackColor] set];
-    NSFrameRectWithWidth(dr, 2.0);
+	[[NSColor blackColor] set];
+	NSFrameRectWithWidth(dr, 2.0);
 
-    [thumb unlockFocus];
+	[thumb unlockFocus];
 
-    return [thumb autorelease];
+	return [thumb autorelease];
 }
 
 - (NSImage*)thumbnail
 {
-    return [self thumbnailImageWithSize:NSZeroSize];
+	return [self thumbnailImageWithSize:NSZeroSize];
 }
 
 /** @brief Returns the content of the layer as a pdf
@@ -429,19 +429,19 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSData*)pdf
 {
-    NSRect frame = NSZeroRect;
-    frame.size = [[self drawing] drawingSize];
+	NSRect frame = NSZeroRect;
+	frame.size = [[self drawing] drawingSize];
 
-    DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
-                                                          withLayer:self];
-    DKViewController* vc = [pdfView makeViewController];
+	DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
+														  withLayer:self];
+	DKViewController* vc = [pdfView makeViewController];
 
-    [[self drawing] addController:vc];
+	[[self drawing] addController:vc];
 
-    NSData* pdfData = [pdfView dataWithPDFInsideRect:frame];
-    [pdfView release]; // removes the controller
+	NSData* pdfData = [pdfView dataWithPDFInsideRect:frame];
+	[pdfView release]; // removes the controller
 
-    return pdfData;
+	return pdfData;
 }
 
 /** @brief Writes the content of the layer as a pdf to a nominated pasteboard
@@ -452,12 +452,12 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)writePDFDataToPasteboard:(NSPasteboard*)pb
 {
-    NSAssert(pb != nil, @"Cannot write to a nil pasteboard");
+	NSAssert(pb != nil, @"Cannot write to a nil pasteboard");
 
-    [pb declareTypes:[NSArray arrayWithObject:NSPDFPboardType]
-               owner:self];
-    return [pb setData:[self pdf]
-               forType:NSPDFPboardType];
+	[pb declareTypes:[NSArray arrayWithObject:NSPDFPboardType]
+			   owner:self];
+	return [pb setData:[self pdf]
+			   forType:NSPDFPboardType];
 }
 
 /** @brief Returns the layer's content as a transparent bitmap having the given DPI.
@@ -469,57 +469,57 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSBitmapImageRep*)bitmapRepresentationWithDPI:(NSUInteger)dpi
 {
-    if (dpi == 0)
-        dpi = 72;
+	if (dpi == 0)
+		dpi = 72;
 
-    NSSize imageSize = [[self drawing] drawingSize];
-    NSUInteger pixelsAcross, pixelsDown;
+	NSSize imageSize = [[self drawing] drawingSize];
+	NSUInteger pixelsAcross, pixelsDown;
 
-    pixelsAcross = ceil(imageSize.width * dpi / 72.0);
-    pixelsDown = ceil(imageSize.height * dpi / 72.0);
+	pixelsAcross = ceil(imageSize.width * dpi / 72.0);
+	pixelsDown = ceil(imageSize.height * dpi / 72.0);
 
-    NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                                                    pixelsWide:pixelsAcross
-                                                                    pixelsHigh:pixelsDown
-                                                                 bitsPerSample:8
-                                                               samplesPerPixel:4
-                                                                      hasAlpha:YES
-                                                                      isPlanar:NO
-                                                                colorSpaceName:NSCalibratedRGBColorSpace
-                                                                   bytesPerRow:0
-                                                                  bitsPerPixel:0];
+	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+																	pixelsWide:pixelsAcross
+																	pixelsHigh:pixelsDown
+																 bitsPerSample:8
+															   samplesPerPixel:4
+																	  hasAlpha:YES
+																	  isPlanar:NO
+																colorSpaceName:NSCalibratedRGBColorSpace
+																   bytesPerRow:0
+																  bitsPerPixel:0];
 
-    NSAssert(rep != nil, @"bitmap rep could not be created");
+	NSAssert(rep != nil, @"bitmap rep could not be created");
 
-    NSData* pdf = [self pdf];
+	NSData* pdf = [self pdf];
 
-    NSAssert(pdf != nil, @"unable to get pdf data");
+	NSAssert(pdf != nil, @"unable to get pdf data");
 
-    // create a second rep from the pdf data
+	// create a second rep from the pdf data
 
-    NSPDFImageRep* pdfRep = [NSPDFImageRep imageRepWithData:pdf];
+	NSPDFImageRep* pdfRep = [NSPDFImageRep imageRepWithData:pdf];
 
-    NSAssert(pdfRep != nil, @"unable to create pdf representation");
+	NSAssert(pdfRep != nil, @"unable to create pdf representation");
 
-    // set up a graphics context
+	// set up a graphics context
 
-    NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithBitmapImageRep:rep];
-    [context setImageInterpolation:NSImageInterpolationHigh];
-    [context setShouldAntialias:YES];
+	NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithBitmapImageRep:rep];
+	[context setImageInterpolation:NSImageInterpolationHigh];
+	[context setShouldAntialias:YES];
 
-    SAVE_GRAPHICS_CONTEXT
+	SAVE_GRAPHICS_CONTEXT
 
-    [NSGraphicsContext setCurrentContext:context];
+	[NSGraphicsContext setCurrentContext:context];
 
-    // focus on the image and draw the content
+	// focus on the image and draw the content
 
-    NSRect layerRect = NSMakeRect(0, 0, pixelsAcross, pixelsDown);
+	NSRect layerRect = NSMakeRect(0, 0, pixelsAcross, pixelsDown);
 
-    [pdfRep drawInRect:layerRect];
+	[pdfRep drawInRect:layerRect];
 
-    RESTORE_GRAPHICS_CONTEXT
+	RESTORE_GRAPHICS_CONTEXT
 
-    return [rep autorelease];
+	return [rep autorelease];
 }
 
 /** @brief Sets whether drawing is limited to the interior area or not
@@ -529,16 +529,16 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setClipsDrawingToInterior:(BOOL)clip
 {
-    if (clip != [self clipsDrawingToInterior]) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setClipsDrawingToInterior:m_clipToInterior];
-        m_clipToInterior = clip;
-        [self setNeedsDisplay:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerLockStateDidChange
-                                                            object:self];
+	if (clip != [self clipsDrawingToInterior]) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setClipsDrawingToInterior:m_clipToInterior];
+		m_clipToInterior = clip;
+		[self setNeedsDisplay:YES];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerLockStateDidChange
+															object:self];
 
-        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-            [[self undoManager] setActionName:NSLocalizedString(@"Clip To Margin", @"undo for layer clipping")];
-    }
+		if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+			[[self undoManager] setActionName:NSLocalizedString(@"Clip To Margin", @"undo for layer clipping")];
+	}
 }
 
 /** @brief Whether the drawing will be clipped to the interior or not
@@ -548,7 +548,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)clipsDrawingToInterior
 {
-    return m_clipToInterior;
+	return m_clipToInterior;
 }
 
 /** @brief Sets the alpha level for the layer
@@ -561,12 +561,12 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setAlpha:(CGFloat)alpha
 {
-    if (![self locked] && alpha != mAlpha) {
-        [(DKLayer*)[[self undoManager] prepareWithInvocationTarget:self] setAlpha:mAlpha];
+	if (![self locked] && alpha != mAlpha) {
+		[(DKLayer*)[[self undoManager] prepareWithInvocationTarget:self] setAlpha:mAlpha];
 
-        mAlpha = LIMIT(alpha, 0.0, 1.0);
-        [self setNeedsDisplay:YES];
-    }
+		mAlpha = LIMIT(alpha, 0.0, 1.0);
+		[self setNeedsDisplay:YES];
+	}
 }
 
 /** @brief Returns the alpha level for the layer as a whole
@@ -576,29 +576,29 @@ static NSArray* s_selectionColours = nil;
  */
 - (CGFloat)alpha
 {
-    return mAlpha;
+	return mAlpha;
 }
 
 - (void)updateRulerMarkersForRect:(NSRect)rect
 {
-    if ([self rulerMarkerUpdatesEnabled])
-        [[self layerGroup] updateRulerMarkersForRect:rect];
+	if ([self rulerMarkerUpdatesEnabled])
+		[[self layerGroup] updateRulerMarkersForRect:rect];
 }
 
 - (void)hideRulerMarkers
 {
-    if ([self rulerMarkerUpdatesEnabled])
-        [[self layerGroup] hideRulerMarkers];
+	if ([self rulerMarkerUpdatesEnabled])
+		[[self layerGroup] hideRulerMarkers];
 }
 
 - (void)setRulerMarkerUpdatesEnabled:(BOOL)enable
 {
-    mRulerMarkersEnabled = enable;
+	mRulerMarkersEnabled = enable;
 }
 
 - (BOOL)rulerMarkerUpdatesEnabled
 {
-    return mRulerMarkersEnabled;
+	return mRulerMarkersEnabled;
 }
 
 #pragma mark -
@@ -612,17 +612,17 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setLocked:(BOOL)locked
 {
-    if (locked != m_locked) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setLocked:m_locked];
-        m_locked = locked;
-        [self setNeedsDisplay:YES];
-        [[self drawing] invalidateCursors];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerLockStateDidChange
-                                                            object:self];
+	if (locked != m_locked) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setLocked:m_locked];
+		m_locked = locked;
+		[self setNeedsDisplay:YES];
+		[[self drawing] invalidateCursors];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerLockStateDidChange
+															object:self];
 
-        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-            [[self undoManager] setActionName:locked ? NSLocalizedString(@"Lock Layer", @"undo for lock layer") : NSLocalizedString(@"Unlock Layer", @"undo for Unlock Layer")];
-    }
+		if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+			[[self undoManager] setActionName:locked ? NSLocalizedString(@"Lock Layer", @"undo for lock layer") : NSLocalizedString(@"Unlock Layer", @"undo for Unlock Layer")];
+	}
 }
 
 /** @brief Returns whether the layer is locked or not
@@ -632,7 +632,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)locked
 {
-    return m_locked || [[self layerGroup] locked];
+	return m_locked || [[self layerGroup] locked];
 }
 
 /** @brief Sets whether the layer is visible or not
@@ -642,16 +642,16 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setVisible:(BOOL)visible
 {
-    if (visible != m_visible) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setVisible:[self visible]];
-        m_visible = visible;
-        [self setNeedsDisplay:YES];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerVisibleStateDidChange
-                                                            object:self];
+	if (visible != m_visible) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setVisible:[self visible]];
+		m_visible = visible;
+		[self setNeedsDisplay:YES];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerVisibleStateDidChange
+															object:self];
 
-        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-            [[self undoManager] setActionName:visible ? NSLocalizedString(@"Show Layer", @"undo for show layer") : NSLocalizedString(@"Hide Layer", @"undo for hide Layer")];
-    }
+		if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+			[[self undoManager] setActionName:visible ? NSLocalizedString(@"Show Layer", @"undo for show layer") : NSLocalizedString(@"Hide Layer", @"undo for hide Layer")];
+	}
 }
 
 /** @brief Is the layer visible?
@@ -661,7 +661,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)visible
 {
-    return m_visible && ([self layerGroup] == nil || [[self layerGroup] visible]);
+	return m_visible && ([self layerGroup] == nil || [[self layerGroup] visible]);
 }
 
 /** @brief Is the layer the active layer?
@@ -669,7 +669,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)isActive
 {
-    return ([[self drawing] activeLayer] == self);
+	return ([[self drawing] activeLayer] == self);
 }
 
 /** @brief Returns whether the layer is locked or hidden
@@ -679,7 +679,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)lockedOrHidden
 {
-    return [self locked] || ![self visible];
+	return [self locked] || ![self visible];
 }
 
 /** @brief Returns the layer's unique key
@@ -687,7 +687,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSString*)uniqueKey
 {
-    return mLayerUniqueKey;
+	return mLayerUniqueKey;
 }
 
 #pragma mark -
@@ -700,22 +700,22 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setLayerName:(NSString*)name
 {
-    if (![name isEqualToString:[self layerName]]) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setLayerName:[self layerName]];
+	if (![name isEqualToString:[self layerName]]) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setLayerName:[self layerName]];
 
-        NSString* nameCopy = [name copy];
+		NSString* nameCopy = [name copy];
 
-        [m_name release];
-        m_name = nameCopy;
+		[m_name release];
+		m_name = nameCopy;
 
-        LogEvent_(kStateEvent, @"layer's name was set to '%@'", m_name);
+		LogEvent_(kStateEvent, @"layer's name was set to '%@'", m_name);
 
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerNameDidChange
-                                                            object:self];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerNameDidChange
+															object:self];
 
-        if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
-            [[self undoManager] setActionName:NSLocalizedString(@"Change Layer Name", @"undo action for change layer name")];
-    }
+		if (!([[self undoManager] isUndoing] || [[self undoManager] isRedoing]))
+			[[self undoManager] setActionName:NSLocalizedString(@"Change Layer Name", @"undo action for change layer name")];
+	}
 }
 
 /** @brief Returns the layer's name
@@ -723,7 +723,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSString*)layerName
 {
-    return m_name;
+	return m_name;
 }
 
 #pragma mark -
@@ -738,9 +738,9 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setUserInfo:(NSMutableDictionary*)info
 {
-    [info retain];
-    [mUserInfo release];
-    mUserInfo = info;
+	[info retain];
+	[mUserInfo release];
+	mUserInfo = info;
 }
 
 /** @brief Add a dictionary of metadata to the object
@@ -750,13 +750,13 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)addUserInfo:(NSDictionary*)info
 {
-    if (mUserInfo == nil)
-        mUserInfo = [[NSMutableDictionary alloc] init];
+	if (mUserInfo == nil)
+		mUserInfo = [[NSMutableDictionary alloc] init];
 
-    NSDictionary* deepCopy = [info deepCopy];
+	NSDictionary* deepCopy = [info deepCopy];
 
-    [mUserInfo addEntriesFromDictionary:deepCopy];
-    [deepCopy release];
+	[mUserInfo addEntriesFromDictionary:deepCopy];
+	[deepCopy release];
 }
 
 /** @brief Return the attached user info
@@ -768,7 +768,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSMutableDictionary*)userInfo
 {
-    return mUserInfo;
+	return mUserInfo;
 }
 
 /** @brief Return an item of user info
@@ -777,7 +777,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (id)userInfoObjectForKey:(NSString*)key
 {
-    return [[self userInfo] objectForKey:key];
+	return [[self userInfo] objectForKey:key];
 }
 
 /** @brief Set an item of user info
@@ -786,18 +786,18 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setUserInfoObject:(id)obj forKey:(NSString*)key
 {
-    NSAssert(obj != nil, @"cannot add nil to the user info");
-    NSAssert(key != nil, @"user info key can't be nil");
+	NSAssert(obj != nil, @"cannot add nil to the user info");
+	NSAssert(key != nil, @"user info key can't be nil");
 
-    if (mUserInfo == nil)
-        mUserInfo = [[NSMutableDictionary alloc] init];
+	if (mUserInfo == nil)
+		mUserInfo = [[NSMutableDictionary alloc] init];
 
-    [[self userInfo] setObject:obj
-                        forKey:key];
+	[[self userInfo] setObject:obj
+						forKey:key];
 }
 
 #pragma mark -
-#pragma mark - print this layer?
+#pragma mark - print this layer ?
 
 /** @brief Set whether this layer should be included in printed output
 
@@ -806,7 +806,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setShouldDrawToPrinter:(BOOL)printIt
 {
-    m_printed = printIt;
+	m_printed = printIt;
 }
 
 /** @brief Return whether the layer should be part of the printed output or not
@@ -817,11 +817,11 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)shouldDrawToPrinter
 {
-    return m_printed;
+	return m_printed;
 }
 
 #pragma mark -
-#pragma mark - becoming/resigning active
+#pragma mark - becoming / resigning active
 
 /** @brief Returns whether the layer can become the active layer
 
@@ -830,7 +830,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)layerMayBecomeActive
 {
-    return YES;
+	return YES;
 }
 
 /** @brief The layer was made the active layer by the owning drawing
@@ -839,9 +839,9 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)layerDidBecomeActiveLayer
 {
-    // override to make use of this message
+	// override to make use of this message
 
-    LogEvent_(kReactiveEvent, @"layer %@ became active", self);
+	LogEvent_(kReactiveEvent, @"layer %@ became active", self);
 }
 
 /** @brief The layer is no longer the active layer
@@ -850,9 +850,9 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)layerDidResignActiveLayer
 {
-    // override to make use of this message
+	// override to make use of this message
 
-    LogEvent_(kReactiveEvent, @"layer %@ resigned active", self);
+	LogEvent_(kReactiveEvent, @"layer %@ resigned active", self);
 }
 
 /** @brief Return whether the layer can be deleted
@@ -863,7 +863,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)layerMayBeDeleted
 {
-    return ![self locked];
+	return ![self locked];
 }
 
 #pragma mark -
@@ -880,7 +880,7 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(event)
 
-    return ![self locked];
+	return ![self locked];
 }
 
 /** @brief Detect whether the layer was "hit" by a point.
@@ -895,7 +895,7 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(p)
 
-    return NO;
+	return NO;
 }
 
 /** @brief Detect what object was hit by a point.
@@ -910,7 +910,7 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(p)
 
-    return nil;
+	return nil;
 }
 
 #pragma mark -
@@ -959,7 +959,7 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(event)
 
-    // override to do something useful
+	// override to do something useful
 }
 
 #pragma mark -
@@ -974,7 +974,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSView*)currentView
 {
-    return [DKDrawingView currentlyDrawingView];
+	return [DKDrawingView currentlyDrawingView];
 }
 
 /** @brief Returns the cursor to display while the mouse is over this layer while it's active
@@ -985,7 +985,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSCursor*)cursor
 {
-    return [NSCursor arrowCursor];
+	return [NSCursor arrowCursor];
 }
 
 /** @brief Return a rect where the layer's cursor is shown when the mouse is within it
@@ -995,7 +995,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSRect)activeCursorRect
 {
-    return [[self drawing] interior];
+	return [[self drawing] interior];
 }
 
 #pragma mark -
@@ -1013,11 +1013,11 @@ static NSArray* s_selectionColours = nil;
 #pragma unused(theEvent)
 #pragma unused(view)
 
-    return nil;
+	return nil;
 }
 
 #pragma mark -
-#pragma mark supporting per-layer knob handling
+#pragma mark supporting per - layer knob handling
 
 /** @brief Sets the selection knob helper object used for this drawing and any objects within it
 
@@ -1028,11 +1028,11 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setKnobs:(DKKnob*)knobs
 {
-    [knobs retain];
-    [m_knobs release];
-    m_knobs = knobs;
+	[knobs retain];
+	[m_knobs release];
+	m_knobs = knobs;
 
-    [m_knobs setOwner:self];
+	[m_knobs setOwner:self];
 }
 
 /** @brief Returns the attached selection knobs helper object
@@ -1043,10 +1043,10 @@ static NSArray* s_selectionColours = nil;
  */
 - (DKKnob*)knobs
 {
-    if (m_knobs != nil)
-        return m_knobs;
-    else
-        return [[self layerGroup] knobs];
+	if (m_knobs != nil)
+		return m_knobs;
+	else
+		return [[self layerGroup] knobs];
 }
 
 /** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
@@ -1057,7 +1057,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setKnobsShouldAdustToViewScale:(BOOL)ka
 {
-    m_knobsAdjustToScale = ka;
+	m_knobsAdjustToScale = ka;
 }
 
 /** @brief Return whether the drawing will scale its selection knobs to the view or not
@@ -1067,14 +1067,14 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)knobsShouldAdjustToViewScale
 {
-    if (m_knobs != nil)
-        return m_knobsAdjustToScale;
-    else
-        return NO;
+	if (m_knobs != nil)
+		return m_knobsAdjustToScale;
+	else
+		return NO;
 }
 
 #pragma mark -
-#pragma mark - pasteboard/drag and drop support
+#pragma mark - pasteboard / drag and drop support
 
 /** @brief Return the pasteboard types this layer is able to receive in a given operation (drop or paste)
  @param op the kind of operation we need pasteboard types for
@@ -1086,7 +1086,7 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(op)
 
-    return nil;
+	return nil;
 }
 
 /** @brief Tests whether the pasteboard has any of the types the layer is interested in receiving for the given
@@ -1097,17 +1097,17 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)pasteboard:(NSPasteboard*)pb hasAvailableTypeForOperation:(DKPasteboardOperationType)op
 {
-    // return whether the given pasteboard has an available data type for the given operation on this object
+	// return whether the given pasteboard has an available data type for the given operation on this object
 
-    NSAssert(pb != nil, @"pasteboard is nil");
+	NSAssert(pb != nil, @"pasteboard is nil");
 
-    NSArray* types = [self pasteboardTypesForOperation:op];
+	NSArray* types = [self pasteboardTypesForOperation:op];
 
-    if (types != nil) {
-        NSString* type = [pb availableTypeFromArray:types];
-        return (type != nil);
-    } else
-        return NO;
+	if (types != nil) {
+		NSString* type = [pb availableTypeFromArray:types];
+		return (type != nil);
+	} else
+		return NO;
 }
 
 #pragma mark -
@@ -1120,7 +1120,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSSet*)allStyles
 {
-    return nil; // generic layers have no styles
+	return nil; // generic layers have no styles
 }
 
 /** @brief Return all of registered styles used by the layer
@@ -1130,7 +1130,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (NSSet*)allRegisteredStyles
 {
-    return nil; // generic layers have no registered styles
+	return nil; // generic layers have no registered styles
 }
 
 /** @brief Substitute styles with those in the given set
@@ -1158,17 +1158,17 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)showInfoWindowWithString:(NSString*)str atPoint:(NSPoint)p
 {
-    if (m_infoWindow == nil) {
-        m_infoWindow = [[GCInfoFloater infoFloater] retain];
-        [m_infoWindow setFormat:nil];
-        [m_infoWindow setBackgroundColor:[self selectionColour]];
-        [m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
-    }
+	if (m_infoWindow == nil) {
+		m_infoWindow = [[GCInfoFloater infoFloater] retain];
+		[m_infoWindow setFormat:nil];
+		[m_infoWindow setBackgroundColor:[self selectionColour]];
+		[m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
+	}
 
-    [m_infoWindow setStringValue:str];
-    [m_infoWindow positionNearPoint:p
-                             inView:[self currentView]];
-    [m_infoWindow show];
+	[m_infoWindow setStringValue:str];
+	[m_infoWindow positionNearPoint:p
+							 inView:[self currentView]];
+	[m_infoWindow show];
 }
 
 /** @brief Sets the background colour of the small floating info window
@@ -1176,22 +1176,22 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setInfoWindowBackgroundColour:(NSColor*)colour
 {
-    if (m_infoWindow == nil) {
-        m_infoWindow = [[GCInfoFloater infoFloater] retain];
-        [m_infoWindow setFormat:nil];
-        [m_infoWindow setBackgroundColor:[self selectionColour]];
-        [m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
-    }
+	if (m_infoWindow == nil) {
+		m_infoWindow = [[GCInfoFloater infoFloater] retain];
+		[m_infoWindow setFormat:nil];
+		[m_infoWindow setBackgroundColor:[self selectionColour]];
+		[m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
+	}
 
-    if (colour != nil)
-        [m_infoWindow setBackgroundColor:colour];
+	if (colour != nil)
+		[m_infoWindow setBackgroundColor:colour];
 }
 
 /** @brief Hides the info window if it's visible
  */
 - (void)hideInfoWindow
 {
-    [m_infoWindow hide];
+	[m_infoWindow hide];
 }
 
 #pragma mark -
@@ -1205,8 +1205,8 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(sender)
 
-    [self setLocked:YES];
-    [[self undoManager] setActionName:NSLocalizedString(@"Lock Layer", @"undo string for lock layer")];
+	[self setLocked:YES];
+	[[self undoManager] setActionName:NSLocalizedString(@"Lock Layer", @"undo string for lock layer")];
 }
 
 /**
@@ -1217,8 +1217,8 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(sender)
 
-    [self setLocked:NO];
-    [[self undoManager] setActionName:NSLocalizedString(@"Unlock Layer", @"undo string for unlock layer")];
+	[self setLocked:NO];
+	[[self undoManager] setActionName:NSLocalizedString(@"Unlock Layer", @"undo string for unlock layer")];
 }
 
 /**
@@ -1227,10 +1227,10 @@ static NSArray* s_selectionColours = nil;
  */
 - (IBAction)toggleLayerLock:(id)sender
 {
-    if ([self locked])
-        [self unlockLayer:sender];
-    else
-        [self lockLayer:sender];
+	if ([self locked])
+		[self unlockLayer:sender];
+	else
+		[self lockLayer:sender];
 }
 
 #pragma mark -
@@ -1243,8 +1243,8 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(sender)
 
-    [self setVisible:YES];
-    [[self undoManager] setActionName:NSLocalizedString(@"Show Layer", @"undo string for show layer")];
+	[self setVisible:YES];
+	[[self undoManager] setActionName:NSLocalizedString(@"Show Layer", @"undo string for show layer")];
 }
 
 /**
@@ -1255,8 +1255,8 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(sender)
 
-    [self setVisible:NO];
-    [[self undoManager] setActionName:NSLocalizedString(@"Hide Layer", @"undo string for hide layer")];
+	[self setVisible:NO];
+	[[self undoManager] setActionName:NSLocalizedString(@"Hide Layer", @"undo string for hide layer")];
 }
 
 /**
@@ -1265,10 +1265,10 @@ static NSArray* s_selectionColours = nil;
  */
 - (IBAction)toggleLayerVisible:(id)sender
 {
-    if ([self visible])
-        [self hideLayer:sender];
-    else
-        [self showLayer:sender];
+	if ([self visible])
+		[self hideLayer:sender];
+	else
+		[self showLayer:sender];
 }
 
 /**
@@ -1278,7 +1278,7 @@ static NSArray* s_selectionColours = nil;
 - (IBAction)logDescription:(id)sender
 {
 #pragma unused(sender)
-    NSLog(@"%@", self);
+	NSLog(@"%@", self);
 }
 
 /** @brief Places the layer on the clipboard as a PDF
@@ -1288,27 +1288,27 @@ static NSArray* s_selectionColours = nil;
 {
 #pragma unused(sender)
 
-    // export the layer's content as a PDF
+	// export the layer's content as a PDF
 
-    [self writePDFDataToPasteboard:[NSPasteboard generalPasteboard]];
+	[self writePDFDataToPasteboard:[NSPasteboard generalPasteboard]];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    LogEvent_(kLifeEvent, @"deallocating DKLayer %p", self);
+	LogEvent_(kLifeEvent, @"deallocating DKLayer %p", self);
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[self undoManager] removeAllActionsWithTarget:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[self undoManager] removeAllActionsWithTarget:self];
 
-    [m_infoWindow release];
-    [m_knobs release];
-    [m_selectionColour release];
-    [m_name release];
-    [mUserInfo release];
-    [mLayerUniqueKey release];
-    [super dealloc];
+	[m_infoWindow release];
+	[m_knobs release];
+	[m_selectionColour release];
+	[m_name release];
+	[mUserInfo release];
+	[mLayerUniqueKey release];
+	[super dealloc];
 }
 
 /** @brief Designated initializer for base class of all layers
@@ -1316,106 +1316,106 @@ static NSArray* s_selectionColours = nil;
  A layer must be added to a group (and ultimately a drawing, which is a group) before it can be used */
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        [self setVisible:YES];
-        [self setLocked:NO];
-        [self setKnobsShouldAdustToViewScale:YES];
-        [self setShouldDrawToPrinter:YES];
-        [self setSelectionColour:[[self class] selectionColourForIndex:sLayerIndexSeed++]];
-        mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
-        mRulerMarkersEnabled = YES;
-        mAlpha = 1.0;
-    }
-    return self;
+	self = [super init];
+	if (self != nil) {
+		[self setVisible:YES];
+		[self setLocked:NO];
+		[self setKnobsShouldAdustToViewScale:YES];
+		[self setShouldDrawToPrinter:YES];
+		[self setSelectionColour:[[self class] selectionColourForIndex:sLayerIndexSeed++]];
+		mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
+		mRulerMarkersEnabled = YES;
+		mAlpha = 1.0;
+	}
+	return self;
 }
 
 - (NSString*)description
 {
-    return [NSString stringWithFormat:@"%@; name = '%@',\nuser info = %@,\ngroup = %@", [super description], [self layerName], [self userInfo], [self layerGroup]];
+	return [NSString stringWithFormat:@"%@; name = '%@',\nuser info = %@,\ngroup = %@", [super description], [self layerName], [self userInfo], [self layerGroup]];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    [coder encodeConditionalObject:[self layerGroup]
-                            forKey:@"group"];
-    [coder encodeObject:[self layerName]
-                 forKey:@"name"];
-    [coder encodeObject:[self selectionColour]
-                 forKey:@"selcolour"];
-    [coder encodeObject:[self knobs]
-                 forKey:@"DKLayer_knobs"];
+	NSAssert(coder != nil, @"Expected valid coder");
+	[coder encodeConditionalObject:[self layerGroup]
+							forKey:@"group"];
+	[coder encodeObject:[self layerName]
+				 forKey:@"name"];
+	[coder encodeObject:[self selectionColour]
+				 forKey:@"selcolour"];
+	[coder encodeObject:[self knobs]
+				 forKey:@"DKLayer_knobs"];
 
-    [coder encodeBool:[self visible]
-               forKey:@"visible"];
-    [coder encodeBool:[self locked]
-               forKey:@"locked"];
-    [coder encodeBool:YES
-               forKey:@"hasPrintFlag"];
-    [coder encodeBool:m_printed
-               forKey:@"printed"];
-    [coder encodeBool:m_clipToInterior
-               forKey:@"DKLayer_clipToInterior"];
-    [coder encodeObject:[self userInfo]
-                 forKey:@"DKLayer_userInfo"];
-    [coder encodeDouble:[self alpha]
-                 forKey:@"DKLayer_alpha"];
+	[coder encodeBool:[self visible]
+			   forKey:@"visible"];
+	[coder encodeBool:[self locked]
+			   forKey:@"locked"];
+	[coder encodeBool:YES
+			   forKey:@"hasPrintFlag"];
+	[coder encodeBool:m_printed
+			   forKey:@"printed"];
+	[coder encodeBool:m_clipToInterior
+			   forKey:@"DKLayer_clipToInterior"];
+	[coder encodeObject:[self userInfo]
+				 forKey:@"DKLayer_userInfo"];
+	[coder encodeDouble:[self alpha]
+				 forKey:@"DKLayer_alpha"];
 
-    [coder encodeBool:![self rulerMarkerUpdatesEnabled]
-               forKey:@"DKLayer_disableRulerMarkerUpdates"];
+	[coder encodeBool:![self rulerMarkerUpdatesEnabled]
+			   forKey:@"DKLayer_disableRulerMarkerUpdates"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    LogEvent_(kFileEvent, @"decoding layer %@", self);
+	NSAssert(coder != nil, @"Expected valid coder");
+	LogEvent_(kFileEvent, @"decoding layer %@", self);
 
-    self = [self init];
-    if (self) {
-        [self setLayerGroup:[coder decodeObjectForKey:@"group"]];
-        [self setLayerName:[coder decodeObjectForKey:@"name"]];
+	self = [self init];
+	if (self) {
+		[self setLayerGroup:[coder decodeObjectForKey:@"group"]];
+		[self setLayerName:[coder decodeObjectForKey:@"name"]];
 
-        NSColor* selColour = [coder decodeObjectForKey:@"selcolour"];
+		NSColor* selColour = [coder decodeObjectForKey:@"selcolour"];
 
-        if (selColour)
-            [self setSelectionColour:selColour];
+		if (selColour)
+			[self setSelectionColour:selColour];
 
-        [self setKnobs:[coder decodeObjectForKey:@"DKLayer_knobs"]];
-        [self setKnobsShouldAdustToViewScale:YES];
+		[self setKnobs:[coder decodeObjectForKey:@"DKLayer_knobs"]];
+		[self setKnobsShouldAdustToViewScale:YES];
 
-        [self setVisible:[coder decodeBoolForKey:@"visible"]];
-        // Check older files for presence of flag - if not there, assume YES
-        BOOL hasPrintFlag = [coder decodeBoolForKey:@"hasPrintFlag"];
-        if (hasPrintFlag)
-            [self setShouldDrawToPrinter:[coder decodeBoolForKey:@"printed"]];
-        else
-            [self setShouldDrawToPrinter:YES];
+		[self setVisible:[coder decodeBoolForKey:@"visible"]];
+		// Check older files for presence of flag - if not there, assume YES
+		BOOL hasPrintFlag = [coder decodeBoolForKey:@"hasPrintFlag"];
+		if (hasPrintFlag)
+			[self setShouldDrawToPrinter:[coder decodeBoolForKey:@"printed"]];
+		else
+			[self setShouldDrawToPrinter:YES];
 
-        [self setClipsDrawingToInterior:[coder decodeBoolForKey:@"DKLayer_clipToInterior"]];
-        [self setUserInfo:[coder decodeObjectForKey:@"DKLayer_userInfo"]];
+		[self setClipsDrawingToInterior:[coder decodeBoolForKey:@"DKLayer_clipToInterior"]];
+		[self setUserInfo:[coder decodeObjectForKey:@"DKLayer_userInfo"]];
 
-        mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
+		mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
 
-        // alpha was added in 1.0.7 - if not present, default to 1.0
+		// alpha was added in 1.0.7 - if not present, default to 1.0
 
-        if ([coder containsValueForKey:@"DKLayer_alpha"])
-            mAlpha = [coder decodeDoubleForKey:@"DKLayer_alpha"];
-        else
-            mAlpha = 1.0;
+		if ([coder containsValueForKey:@"DKLayer_alpha"])
+			mAlpha = [coder decodeDoubleForKey:@"DKLayer_alpha"];
+		else
+			mAlpha = 1.0;
 
-        [self setRulerMarkerUpdatesEnabled:![coder decodeBoolForKey:@"DKLayer_disableRulerMarkerUpdates"]];
-    }
-    return self;
+		[self setRulerMarkerUpdatesEnabled:![coder decodeBoolForKey:@"DKLayer_disableRulerMarkerUpdates"]];
+	}
+	return self;
 }
 
 - (id)awakeAfterUsingCoder:(NSCoder*)coder
 {
-    [self setLocked:[coder decodeBoolForKey:@"locked"]];
-    [self updateMetadataKeys];
-    return self;
+	[self setLocked:[coder decodeBoolForKey:@"locked"]];
+	[self updateMetadataKeys];
+	return self;
 }
 
 #pragma mark -
@@ -1428,44 +1428,44 @@ static NSArray* s_selectionColours = nil;
  */
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    SEL action = [item action];
+	SEL action = [item action];
 
-    if (action == @selector(lockLayer:))
-        return ![self locked];
+	if (action == @selector(lockLayer:))
+		return ![self locked];
 
-    if (action == @selector(unlockLayer:))
-        return [self locked];
+	if (action == @selector(unlockLayer:))
+		return [self locked];
 
-    if (action == @selector(showLayer:))
-        return ![self visible];
+	if (action == @selector(showLayer:))
+		return ![self visible];
 
-    if (action == @selector(hideLayer:))
-        return [self visible];
+	if (action == @selector(hideLayer:))
+		return [self visible];
 
-    if (action == @selector(toggleLayerLock:) || action == @selector(toggleLayerVisible:))
-        return YES;
+	if (action == @selector(toggleLayerLock:) || action == @selector(toggleLayerVisible:))
+		return YES;
 
-    if (action == @selector(logDescription:))
-        return YES;
+	if (action == @selector(logDescription:))
+		return YES;
 
-    return NO;
+	return NO;
 }
 
 - (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
 {
-    if ([(id)anItem isKindOfClass:[NSMenuItem class]])
-        return [self validateMenuItem:(NSMenuItem*)anItem];
+	if ([(id)anItem isKindOfClass:[NSMenuItem class]])
+		return [self validateMenuItem:(NSMenuItem*)anItem];
 
-    // Temporary hack: find out what the old menu validation would return for the same action and
-    // use that result.
+	// Temporary hack: find out what the old menu validation would return for the same action and
+	// use that result.
 
-    NSMenuItem* temp = [[NSMenuItem alloc] initWithTitle:@"NEVER_SEEN"
-                                                  action:[anItem action]
-                                           keyEquivalent:@""];
-    BOOL oldResult = [self validateMenuItem:temp];
-    [temp release];
+	NSMenuItem* temp = [[NSMenuItem alloc] initWithTitle:@"NEVER_SEEN"
+												  action:[anItem action]
+										   keyEquivalent:@""];
+	BOOL oldResult = [self validateMenuItem:temp];
+	[temp release];
 
-    return oldResult;
+	return oldResult;
 }
 
 #pragma mark -
@@ -1473,23 +1473,23 @@ static NSArray* s_selectionColours = nil;
 
 - (CGFloat)knobsWantDrawingScale
 {
-    // query the currently rendering view's scale and pass it back to the knobs
+	// query the currently rendering view's scale and pass it back to the knobs
 
-    if ([self knobsShouldAdjustToViewScale])
-        return [(DKDrawingView*)[[self drawing] currentView] scale];
-    else
-        return 1.0;
+	if ([self knobsShouldAdjustToViewScale])
+		return [(DKDrawingView*)[[self drawing] currentView] scale];
+	else
+		return 1.0;
 }
 
 - (BOOL)knobsWantDrawingActiveState
 {
-    // query the currently rendering view's active state and pass it back to the knobs
+	// query the currently rendering view's active state and pass it back to the knobs
 
-    NSWindow* window = [[[self drawing] currentView] window];
+	NSWindow* window = [[[self drawing] currentView] window];
 
-    // if there is no window (e.g. for a print or PDF view) assume active
+	// if there is no window (e.g. for a print or PDF view) assume active
 
-    return (window == nil) || [window isMainWindow];
+	return (window == nil) || [window isMainWindow];
 }
 
 @end

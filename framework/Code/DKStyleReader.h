@@ -12,7 +12,7 @@
 @class DKParser;
 
 @interface DKStyleReader : DKEvaluator {
-    DKParser* mParser;
+	DKParser* mParser;
 }
 
 - (id)evaluateScript:(NSString*)script;

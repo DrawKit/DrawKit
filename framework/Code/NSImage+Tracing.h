@@ -14,11 +14,11 @@
 // possible values for the quantization method (not all implemented)
 
 typedef enum {
-    kDKColourQuantizeUniform = 0, // implemented, very basic results but fast
-    kDKColourQuantizePopular555 = 1,
-    kDKColourQuantizePopular444 = 2,
-    kDKColourQuantizeOctree = 3, // implemented, fairly good results and fast
-    kDKColourQuantizeMedianCut = 4
+	kDKColourQuantizeUniform = 0, // implemented, very basic results but fast
+	kDKColourQuantizePopular555 = 1,
+	kDKColourQuantizePopular444 = 2,
+	kDKColourQuantizeOctree = 3, // implemented, fairly good results and fast
+	kDKColourQuantizeMedianCut = 4
 } DKColourQuantizationMethod;
 
 // category on NSImage returns lists of 'vector rep' objects (see below)
@@ -37,12 +37,12 @@ typedef enum {
 // using potrace when the vector data is requested (lazy vectorization).
 
 @interface DKImageVectorRep : NSObject {
-    potrace_bitmap_t* mBits;
-    NSUInteger mLevels;
-    NSUInteger mPixelValue;
-    potrace_param_t* mTraceParams;
-    NSBezierPath* mVectorData;
-    NSColor* mColour;
+	potrace_bitmap_t* mBits;
+	NSUInteger mLevels;
+	NSUInteger mPixelValue;
+	potrace_param_t* mTraceParams;
+	NSBezierPath* mVectorData;
+	NSColor* mColour;
 }
 
 - (id)initWithImageSize:(NSSize)isize pixelValue:(NSUInteger)pixv levels:(NSUInteger)lev;

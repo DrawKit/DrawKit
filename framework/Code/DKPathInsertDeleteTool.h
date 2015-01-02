@@ -13,9 +13,9 @@
 // modes of operation for this tool:
 
 typedef enum {
-    kDKPathDeletePointMode = 0,
-    kDKPathInsertPointMode = 1,
-    kDKPathDeleteElementMode = 2
+	kDKPathDeletePointMode = 0,
+	kDKPathInsertPointMode = 1,
+	kDKPathDeleteElementMode = 2
 } DKPathToolMode;
 
 /** @brief This tool is able to insert or delete on-path points from a path.
@@ -24,9 +24,9 @@ This tool is able to insert or delete on-path points from a path. If applied to 
 */
 @interface DKPathInsertDeleteTool : DKDrawingTool {
 @private
-    DKPathToolMode m_mode;
-    BOOL m_performedAction;
-    DKDrawablePath* mTargetRef;
+	DKPathToolMode m_mode;
+	BOOL m_performedAction;
+	DKDrawablePath* mTargetRef;
 }
 
 + (DKDrawingTool*)pathDeletionTool;

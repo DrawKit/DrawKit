@@ -20,9 +20,9 @@ This objects abstracts the text substitution task used by text adornments, et. a
  are the digits 0-9 which extract the nth word from the original data, and the flags U, L and C which convert the data to upper, lower and capitalized strings respectively.
 */
 @interface DKTextSubstitutor : NSObject <NSCoding> {
-    NSAttributedString* mMasterString;
-    NSMutableArray* mKeys;
-    BOOL mNeedsToEvaluate;
+	NSAttributedString* mMasterString;
+	NSMutableArray* mKeys;
+	BOOL mNeedsToEvaluate;
 }
 
 + (NSString*)delimiterString;
@@ -55,11 +55,11 @@ extern NSString* kDKTextSubstitutorNewStringNotification;
 #define PADDING_DELIMITER '#'
 
 @interface DKTextSubstitutionKey : NSObject {
-    NSString* mKey;
-    NSRange mRange;
-    NSArray* mSubKeys;
-    NSUInteger mPadLength;
-    NSString* mPadCharacter;
+	NSString* mKey;
+	NSRange mRange;
+	NSArray* mSubKeys;
+	NSUInteger mPadLength;
+	NSString* mPadCharacter;
 }
 
 + (NSCharacterSet*)validSubkeysCharacterSet;

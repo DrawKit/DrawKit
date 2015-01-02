@@ -14,7 +14,7 @@
 #import "LogEvent.h"
 #import "NSString+DKAdditions.h"
 
-#pragma mark constants (non-localized)
+#pragma mark constants(non - localized)
 
 NSString* kDKStyleLibraryStylesCategory = @"All User Styles";
 NSString* kDKStyleTemporaryDocumentCategory = @"Temporary Document";
@@ -31,14 +31,14 @@ NSString* kDKStyleWasEditedWhileRegisteredNotification = @"kDKStyleWasEditedWhil
 
 static NSInteger SortKeysByReferredName(id a, id b, void* contextInfo)
 {
-    DKStyleRegistry* reg = (DKStyleRegistry*)contextInfo;
+	DKStyleRegistry* reg = (DKStyleRegistry*)contextInfo;
 
-    // a and b are keys in the registry - order them by the name of the styles they reference
+	// a and b are keys in the registry - order them by the name of the styles they reference
 
-    NSString* nameA = [reg styleNameForKey:a];
-    NSString* nameB = [reg styleNameForKey:b];
+	NSString* nameA = [reg styleNameForKey:a];
+	NSString* nameB = [reg styleNameForKey:b];
 
-    return [nameA localisedCaseInsensitiveNumericCompare:nameB];
+	return [nameA localisedCaseInsensitiveNumericCompare:nameB];
 }
 
 #pragma mark -
@@ -77,22 +77,22 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (DKStyleRegistry*)sharedStyleRegistry
 {
-    if (s_styleRegistry == nil) {
-        // first ask the application's delegate if it will return a specific class here. This allows the app's delegate
-        // to substitute a subclass (esoteric)
+	if (s_styleRegistry == nil) {
+		// first ask the application's delegate if it will return a specific class here. This allows the app's delegate
+		// to substitute a subclass (esoteric)
 
-        id appDelegate = [NSApp delegate];
+		id appDelegate = [NSApp delegate];
 
-        if (appDelegate && [appDelegate respondsToSelector:@selector(applicationWillReturnStyleRegistry)])
-            s_styleRegistry = [[appDelegate applicationWillReturnStyleRegistry] retain];
+		if (appDelegate && [appDelegate respondsToSelector:@selector(applicationWillReturnStyleRegistry)])
+			s_styleRegistry = [[appDelegate applicationWillReturnStyleRegistry] retain];
 
-        // if still nil, make a default one
+		// if still nil, make a default one
 
-        if (s_styleRegistry == nil)
-            s_styleRegistry = [[self alloc] init];
-    }
+		if (s_styleRegistry == nil)
+			s_styleRegistry = [[self alloc] init];
+	}
 
-    return s_styleRegistry;
+	return s_styleRegistry;
 }
 
 /** @brief Return the style registerd with the given key
@@ -103,7 +103,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (DKStyle*)styleForKey:(NSString*)styleID
 {
-    return [[self sharedStyleRegistry] styleForKey:styleID];
+	return [[self sharedStyleRegistry] styleForKey:styleID];
 }
 
 /** @brief Return the style registerd with the given key
@@ -116,18 +116,18 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (DKStyle*)styleForKeyAddingToRecentlyUsed:(NSString*)styleID
 {
-    // returns the style and also adds it to the "recently used" items list
+	// returns the style and also adds it to the "recently used" items list
 
-    DKStyle* rs = [self styleForKey:styleID];
+	DKStyle* rs = [self styleForKey:styleID];
 
-    if (rs != nil) {
-        BOOL update = [[self sharedStyleRegistry] addKey:styleID
-                                            toRecentList:kDKListRecentlyUsed];
+	if (rs != nil) {
+		BOOL update = [[self sharedStyleRegistry] addKey:styleID
+											toRecentList:kDKListRecentlyUsed];
 
-        if (update)
-            [self setNeedsUIUpdate];
-    }
-    return rs;
+		if (update)
+			[self setNeedsUIUpdate];
+	}
+	return rs;
 }
 
 /** @brief Register the style with the registry
@@ -142,8 +142,8 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)registerStyle:(DKStyle*)aStyle
 {
-    [self registerStyle:aStyle
-           inCategories:[NSArray arrayWithObject:kDKStyleLibraryStylesCategory]];
+	[self registerStyle:aStyle
+		   inCategories:[NSArray arrayWithObject:kDKStyleLibraryStylesCategory]];
 }
 
 /** @brief Register the style with the registry
@@ -155,53 +155,53 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)registerStyle:(DKStyle*)aStyle inCategories:(NSArray*)styleCategories
 {
-    // this is the master method for registering a style - all other registration methods call this one
+	// this is the master method for registering a style - all other registration methods call this one
 
-    NSAssert(aStyle != nil, @"attempt to register a nil style");
+	NSAssert(aStyle != nil, @"attempt to register a nil style");
 
-    NSString* styleID = [aStyle uniqueKey];
-    if ([self styleForKey:styleID] != nil)
-        return; // already registered, do nothing
+	NSString* styleID = [aStyle uniqueKey];
+	if ([self styleForKey:styleID] != nil)
+		return; // already registered, do nothing
 
-    // the style needs to be unlocked in case we need to mutate its name - after registering it will be
-    // locked.
+	// the style needs to be unlocked in case we need to mutate its name - after registering it will be
+	// locked.
 
-    [aStyle setLocked:NO];
+	[aStyle setLocked:NO];
 
-    // resolve any name conflicts, including not having a name, etc.
+	// resolve any name conflicts, including not having a name, etc.
 
-    DKStyleRegistry* reg = [self sharedStyleRegistry];
-    NSAssert(reg != nil, @"cannot continue - registry could not be initialised");
+	DKStyleRegistry* reg = [self sharedStyleRegistry];
+	NSAssert(reg != nil, @"cannot continue - registry could not be initialised");
 
-    NSString* name = [aStyle name];
+	NSString* name = [aStyle name];
 
-    // if name not set or empty, give it a default name
+	// if name not set or empty, give it a default name
 
-    if (name == nil || [name isEqualToString:@""])
-        name = NSLocalizedString(@"untitled style", @"untitled style name");
+	if (name == nil || [name isEqualToString:@""])
+		name = NSLocalizedString(@"untitled style", @"untitled style name");
 
-    // then make sure it's unique in the registry by appending digits
+	// then make sure it's unique in the registry by appending digits
 
-    name = [reg uniqueNameForName:name];
-    [aStyle setName:name];
+	name = [reg uniqueNameForName:name];
+	[aStyle setName:name];
 
-    // add the style to the registry
+	// add the style to the registry
 
-    [reg addObject:aStyle
-                  forKey:styleID
-            toCategories:styleCategories
-        createCategories:YES];
+	[reg addObject:aStyle
+				  forKey:styleID
+			toCategories:styleCategories
+		createCategories:YES];
 
-    LogEvent_(kStateEvent, @"registered new style %@; key = %@ '%@'", aStyle, [aStyle uniqueKey], [aStyle name]);
+	LogEvent_(kStateEvent, @"registered new style %@; key = %@ '%@'", aStyle, [aStyle uniqueKey], [aStyle name]);
 
-    // finally lock the style to prevent accidental edits to registered styles. (Edits are still possible if the style is unlocked first
-    // but this makes sure that has to be a very deliberate act).
+	// finally lock the style to prevent accidental edits to registered styles. (Edits are still possible if the style is unlocked first
+	// but this makes sure that has to be a very deliberate act).
 
-    [aStyle setLocked:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasRegisteredNotification
-                                                        object:[self sharedStyleRegistry]];
+	[aStyle setLocked:YES];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasRegisteredNotification
+														object:[self sharedStyleRegistry]];
 
-    [self setNeedsUIUpdate];
+	[self setNeedsUIUpdate];
 }
 
 /** @brief Register a list of styles with the registry
@@ -213,9 +213,9 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)registerStylesFromArray:(NSArray*)styles inCategories:(NSArray*)styleCategories
 {
-    [self registerStylesFromArray:styles
-                     inCategories:styleCategories
-           ignoringDuplicateNames:NO];
+	[self registerStylesFromArray:styles
+					 inCategories:styleCategories
+		   ignoringDuplicateNames:NO];
 }
 
 /** @brief Register a list of styles with the registry
@@ -230,28 +230,28 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)registerStylesFromArray:(NSArray*)styles inCategories:(NSArray*)styleCategories ignoringDuplicateNames:(BOOL)ignoreDupes
 {
-    NSAssert(styles != nil, @"array of styles was nil - can't register");
+	NSAssert(styles != nil, @"array of styles was nil - can't register");
 
-    NSEnumerator* iter = [styles objectEnumerator];
-    DKStyle* style;
-    NSArray* stNames = nil;
+	NSEnumerator* iter = [styles objectEnumerator];
+	DKStyle* style;
+	NSArray* stNames = nil;
 
-    [[self sharedStyleRegistry] setRecentlyAddedListEnabled:NO];
+	[[self sharedStyleRegistry] setRecentlyAddedListEnabled:NO];
 
-    while ((style = [iter nextObject])) {
-        if (ignoreDupes) {
-            if (stNames == nil)
-                stNames = [[self sharedStyleRegistry] styleNames];
+	while ((style = [iter nextObject])) {
+		if (ignoreDupes) {
+			if (stNames == nil)
+				stNames = [[self sharedStyleRegistry] styleNames];
 
-            if ([stNames containsObject:[style name]])
-                continue;
-        }
+			if ([stNames containsObject:[style name]])
+				continue;
+		}
 
-        [self registerStyle:style
-               inCategories:styleCategories];
-    }
+		[self registerStyle:style
+			   inCategories:styleCategories];
+	}
 
-    [[self sharedStyleRegistry] setRecentlyAddedListEnabled:YES];
+	[[self sharedStyleRegistry] setRecentlyAddedListEnabled:YES];
 }
 
 /** @brief Remove the style from the registry
@@ -262,8 +262,8 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)unregisterStyle:(DKStyle*)aStyle
 {
-    [[self sharedStyleRegistry] removeObjectForKey:[aStyle uniqueKey]];
-    [self setNeedsUIUpdate];
+	[[self sharedStyleRegistry] removeObjectForKey:[aStyle uniqueKey]];
+	[self setNeedsUIUpdate];
 }
 
 /** @brief Send a notification that the contents of the registry has changed so any UI displaying it should
@@ -273,13 +273,13 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)setNeedsUIUpdate
 {
-    [[self sharedStyleRegistry] setNeedsUIUpdate];
+	[[self sharedStyleRegistry] setNeedsUIUpdate];
 }
 
 + (NSMenu*)managedStylesMenuWithItemTarget:(id)target itemAction:(SEL)selector
 {
-    return [[self sharedStyleRegistry] managedStylesMenuWithItemTarget:target
-                                                            itemAction:selector];
+	return [[self sharedStyleRegistry] managedStylesMenuWithItemTarget:target
+															itemAction:selector];
 }
 
 #pragma mark -
@@ -304,81 +304,81 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (NSSet*)mergeStyles:(NSSet*)styles inCategories:(NSArray*)styleCategories options:(DKStyleMergeOptions)options mergeDelegate:(id)aDel
 {
-    NSAssert(styles != nil, @"cannot merge a nil set of styles");
+	NSAssert(styles != nil, @"cannot merge a nil set of styles");
 
-    NSEnumerator* iter = [styles objectEnumerator];
-    DKStyle* style;
-    DKStyle* regStyle;
-    NSMutableSet* changedStyles = nil;
+	NSEnumerator* iter = [styles objectEnumerator];
+	DKStyle* style;
+	DKStyle* regStyle;
+	NSMutableSet* changedStyles = nil;
 
-    while ((style = [iter nextObject])) {
-        // this option relates to the old registry's behaviour, and is mostly inappropriate for this one. Whether a style is sharable or not
-        // generally has no connection to how it is registered in the current model.
+	while ((style = [iter nextObject])) {
+		// this option relates to the old registry's behaviour, and is mostly inappropriate for this one. Whether a style is sharable or not
+		// generally has no connection to how it is registered in the current model.
 
-        if ((options & kDKIgnoreUnsharedStyles) != 0 && ![style isStyleSharable])
-            continue;
+		if ((options & kDKIgnoreUnsharedStyles) != 0 && ![style isStyleSharable])
+			continue;
 
-        // if the style is unknown to the registry, simply register it - in this case there's no need to do any complex merging or
-        // further analysis.
+		// if the style is unknown to the registry, simply register it - in this case there's no need to do any complex merging or
+		// further analysis.
 
-        regStyle = [self styleForKey:[style uniqueKey]];
+		regStyle = [self styleForKey:[style uniqueKey]];
 
-        if (regStyle == nil)
-            [self registerStyle:style
-                   inCategories:styleCategories];
-        else {
-            if ((options & kDKReplaceExistingStyles) != 0) {
-                // style is known to us, so a merge is required, overwriting the registered style with the new one. Any clients of the
-                // modified style will be updated automatically.
+		if (regStyle == nil)
+			[self registerStyle:style
+				   inCategories:styleCategories];
+		else {
+			if ((options & kDKReplaceExistingStyles) != 0) {
+				// style is known to us, so a merge is required, overwriting the registered style with the new one. Any clients of the
+				// modified style will be updated automatically.
 
-                regStyle = [[self sharedStyleRegistry] mergeFromStyle:style
-                                                        mergeDelegate:aDel];
+				regStyle = [[self sharedStyleRegistry] mergeFromStyle:style
+														mergeDelegate:aDel];
 
-                if (regStyle != nil) {
-                    if (changedStyles == nil)
-                        changedStyles = [NSMutableSet set];
+				if (regStyle != nil) {
+					if (changedStyles == nil)
+						changedStyles = [NSMutableSet set];
 
-                    [changedStyles addObject:regStyle];
+					[changedStyles addObject:regStyle];
 
-                    // add to the requested categories if needed
+					// add to the requested categories if needed
 
-                    [[self sharedStyleRegistry] addKey:[regStyle uniqueKey]
-                                          toCategories:styleCategories
-                                      createCategories:YES];
-                }
-            } else if ((options & kDKReturnExistingStyles) != 0) {
-                // here the options request that the registered styles have priority, so the existing style is added to the return set
+					[[self sharedStyleRegistry] addKey:[regStyle uniqueKey]
+										  toCategories:styleCategories
+									  createCategories:YES];
+				}
+			} else if ((options & kDKReturnExistingStyles) != 0) {
+				// here the options request that the registered styles have priority, so the existing style is added to the return set
 
-                if (changedStyles == nil)
-                    changedStyles = [NSMutableSet set];
+				if (changedStyles == nil)
+					changedStyles = [NSMutableSet set];
 
-                [changedStyles addObject:regStyle];
+				[changedStyles addObject:regStyle];
 
-                // add to the requested categories if needed
+				// add to the requested categories if needed
 
-                [[self sharedStyleRegistry] addKey:[regStyle uniqueKey]
-                                      toCategories:styleCategories
-                                  createCategories:YES];
-            } else if ((options & kDKAddStylesAsNewVersions) != 0) {
-                // here the options request that the document styles are to be re-registered as new styles. This leaves both document and
-                // existing registered styles unaffected but can massively multiply the registry with many duplicates. In general this
-                // options should be used sparingly, if at all.
+				[[self sharedStyleRegistry] addKey:[regStyle uniqueKey]
+									  toCategories:styleCategories
+								  createCategories:YES];
+			} else if ((options & kDKAddStylesAsNewVersions) != 0) {
+				// here the options request that the document styles are to be re-registered as new styles. This leaves both document and
+				// existing registered styles unaffected but can massively multiply the registry with many duplicates. In general this
+				// options should be used sparingly, if at all.
 
-                // to make these look like new styles, the unique key must be reassigned. Normally this is disallowed, but the style registry
-                // has special privileges (and a special private method) to make it possible:
+				// to make these look like new styles, the unique key must be reassigned. Normally this is disallowed, but the style registry
+				// has special privileges (and a special private method) to make it possible:
 
-                [style reassignUniqueKey];
-                [self registerStyle:style
-                       inCategories:styleCategories];
+				[style reassignUniqueKey];
+				[self registerStyle:style
+					   inCategories:styleCategories];
 
-                // there's nothing to return in this case
-            }
-        }
-    }
+				// there's nothing to return in this case
+			}
+		}
+	}
 
-    [self setNeedsUIUpdate];
+	[self setNeedsUIUpdate];
 
-    return changedStyles;
+	return changedStyles;
 }
 
 /** @brief Preflight a set of styles against the registry for a possible future merge operation
@@ -394,46 +394,46 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (NSDictionary*)compareStylesInSet:(NSSet*)styles
 {
-    NSAssert(styles != nil, @"can't preflight a nil set");
+	NSAssert(styles != nil, @"can't preflight a nil set");
 
-    NSMutableDictionary* info = [NSMutableDictionary dictionary];
-    NSEnumerator* iter = [styles objectEnumerator];
-    DKStyle* style;
-    DKStyle* regStyle;
-    NSString* key;
-    NSNumber* infoValue;
+	NSMutableDictionary* info = [NSMutableDictionary dictionary];
+	NSEnumerator* iter = [styles objectEnumerator];
+	DKStyle* style;
+	DKStyle* regStyle;
+	NSString* key;
+	NSNumber* infoValue;
 
-    while ((style = [iter nextObject])) {
-        key = [style uniqueKey];
-        regStyle = [self styleForKey:key];
+	while ((style = [iter nextObject])) {
+		key = [style uniqueKey];
+		regStyle = [self styleForKey:key];
 
-        if (regStyle == nil) {
-            // unknown style
+		if (regStyle == nil) {
+			// unknown style
 
-            infoValue = [NSNumber numberWithInteger:kDKStyleNotRegistered];
-        } else {
-            // known - compare timestamps. Note that for timestamp comparison to work,
-            // it is essential that the styles being tested have not in any way been touched
-            // such that their timestamps have been bumped.
+			infoValue = [NSNumber numberWithInteger:kDKStyleNotRegistered];
+		} else {
+			// known - compare timestamps. Note that for timestamp comparison to work,
+			// it is essential that the styles being tested have not in any way been touched
+			// such that their timestamps have been bumped.
 
-            NSTimeInterval a, b;
+			NSTimeInterval a, b;
 
-            a = [style lastModificationTimestamp];
-            b = [regStyle lastModificationTimestamp];
+			a = [style lastModificationTimestamp];
+			b = [regStyle lastModificationTimestamp];
 
-            if (a > b)
-                infoValue = [NSNumber numberWithInteger:kDKStyleIsNewer];
-            else if (a < b)
-                infoValue = [NSNumber numberWithInteger:kDKStyleIsOlder];
-            else
-                infoValue = [NSNumber numberWithInteger:kDKStyleUnchanged];
-        }
+			if (a > b)
+				infoValue = [NSNumber numberWithInteger:kDKStyleIsNewer];
+			else if (a < b)
+				infoValue = [NSNumber numberWithInteger:kDKStyleIsOlder];
+			else
+				infoValue = [NSNumber numberWithInteger:kDKStyleUnchanged];
+		}
 
-        [info setObject:infoValue
-                 forKey:key];
-    }
+		[info setObject:infoValue
+				 forKey:key];
+	}
 
-    return info;
+	return info;
 }
 
 /** @brief Return the entire list of keys of the styles in the registry
@@ -441,7 +441,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (NSArray*)registeredStyleKeys
 {
-    return [[self sharedStyleRegistry] allKeysInCategory:kDKDefaultCategoryName];
+	return [[self sharedStyleRegistry] allKeysInCategory:kDKDefaultCategoryName];
 }
 
 /** @brief Return data that can be saved to a file, etc. representing the registry
@@ -449,15 +449,15 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (NSData*)registeredStylesData
 {
-    return [[self sharedStyleRegistry] data];
+	return [[self sharedStyleRegistry] data];
 }
 
 /** @brief Saves the registry to the current user defaults
  */
 + (void)saveDefaults
 {
-    [[NSUserDefaults standardUserDefaults] setObject:[self registeredStylesData]
-                                              forKey:@"DKStyleRegistry_stylesLibrary"];
+	[[NSUserDefaults standardUserDefaults] setObject:[self registeredStylesData]
+											  forKey:@"DKStyleRegistry_stylesLibrary"];
 }
 
 /** @brief Loads the registry from the current user defaults
@@ -466,10 +466,10 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)loadDefaults
 {
-    NSData* lib = [[NSUserDefaults standardUserDefaults] objectForKey:@"DKStyleRegistry_stylesLibrary"];
+	NSData* lib = [[NSUserDefaults standardUserDefaults] objectForKey:@"DKStyleRegistry_stylesLibrary"];
 
-    if (lib)
-        [[self sharedStyleRegistry] appendContentsWithData:lib];
+	if (lib)
+		[[self sharedStyleRegistry] appendContentsWithData:lib];
 }
 
 /** @brief Reset the registry back to a "first run" condition
@@ -481,37 +481,37 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)resetRegistry
 {
-    [[self sharedStyleRegistry] removeAllStyles];
+	[[self sharedStyleRegistry] removeAllStyles];
 
-    // reinsert the framework defaults
+	// reinsert the framework defaults
 
-    if (!s_NoDKDefaults) {
-        NSArray* defaultCategories = [NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory];
-        DKStyle* style;
+	if (!s_NoDKDefaults) {
+		NSArray* defaultCategories = [NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory];
+		DKStyle* style;
 
-        style = [DKStyle defaultStyle];
-        if (style != nil) {
-            [style setLocked:NO];
-            [self registerStyle:style
-                   inCategories:defaultCategories];
-        }
+		style = [DKStyle defaultStyle];
+		if (style != nil) {
+			[style setLocked:NO];
+			[self registerStyle:style
+				   inCategories:defaultCategories];
+		}
 
-        style = [DKStyle defaultTrackStyle];
-        if (style != nil) {
-            [style setLocked:NO];
-            [self registerStyle:style
-                   inCategories:defaultCategories];
-        }
+		style = [DKStyle defaultTrackStyle];
+		if (style != nil) {
+			[style setLocked:NO];
+			[self registerStyle:style
+				   inCategories:defaultCategories];
+		}
 
-        style = [DKStyle defaultTextStyle];
-        if (style != nil) {
-            [style setLocked:NO];
-            [self registerStyle:style
-                   inCategories:defaultCategories];
-        }
-    }
+		style = [DKStyle defaultTextStyle];
+		if (style != nil) {
+			[style setLocked:NO];
+			[self registerStyle:style
+				   inCategories:defaultCategories];
+		}
+	}
 
-    [self setNeedsUIUpdate];
+	[self setNeedsUIUpdate];
 }
 
 /** @brief Creates a series of fill styles having the solid colours given by the named NSColorList, and
@@ -523,41 +523,41 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)registerSolidColourFillsFromListNamed:(NSString*)name asCategory:(NSString*)catName
 {
-    NSAssert(name != nil, @"colour list name was nil");
+	NSAssert(name != nil, @"colour list name was nil");
 
-    //NSLog(@"loading colours from '%@'", name );
+	//NSLog(@"loading colours from '%@'", name );
 
-    NSColorList* list = [NSColorList colorListNamed:name];
+	NSColorList* list = [NSColorList colorListNamed:name];
 
-    if (catName == nil)
-        catName = name;
+	if (catName == nil)
+		catName = name;
 
-    if (list != nil) {
-        NSEnumerator* iter = [[list allKeys] objectEnumerator];
-        NSColor* colour;
-        NSString* key;
-        DKStyle* style;
-        NSArray* cats;
-        NSMutableArray* styles = [NSMutableArray array];
+	if (list != nil) {
+		NSEnumerator* iter = [[list allKeys] objectEnumerator];
+		NSColor* colour;
+		NSString* key;
+		DKStyle* style;
+		NSArray* cats;
+		NSMutableArray* styles = [NSMutableArray array];
 
-        cats = [NSArray arrayWithObject:catName];
+		cats = [NSArray arrayWithObject:catName];
 
-        while ((key = [iter nextObject])) {
-            colour = [list colorWithKey:key];
+		while ((key = [iter nextObject])) {
+			colour = [list colorWithKey:key];
 
-            style = [DKStyle styleWithFillColour:colour
-                                    strokeColour:nil];
+			style = [DKStyle styleWithFillColour:colour
+									strokeColour:nil];
 
-            if (style != nil) {
-                [style setName:[NSString stringWithFormat:@"%@ - fill", key]];
-                [styles addObject:style];
-            }
-        }
+			if (style != nil) {
+				[style setName:[NSString stringWithFormat:@"%@ - fill", key]];
+				[styles addObject:style];
+			}
+		}
 
-        [self registerStylesFromArray:styles
-                         inCategories:cats
-               ignoringDuplicateNames:YES];
-    }
+		[self registerStylesFromArray:styles
+						 inCategories:cats
+			   ignoringDuplicateNames:YES];
+	}
 }
 
 /** @brief Creates a series of stroke styles having the solid colours given by the named NSColorList, and
@@ -569,38 +569,38 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)registerSolidColourStrokesFromListNamed:(NSString*)name asCategory:(NSString*)catName
 {
-    NSAssert(name != nil, @"colour list name was nil");
+	NSAssert(name != nil, @"colour list name was nil");
 
-    NSColorList* list = [NSColorList colorListNamed:name];
+	NSColorList* list = [NSColorList colorListNamed:name];
 
-    if (catName == nil)
-        catName = name;
+	if (catName == nil)
+		catName = name;
 
-    if (list != nil) {
-        NSEnumerator* iter = [[list allKeys] objectEnumerator];
-        NSColor* colour;
-        NSString* key;
-        DKStyle* style;
-        NSArray* cats;
-        NSMutableArray* styles = [NSMutableArray array];
+	if (list != nil) {
+		NSEnumerator* iter = [[list allKeys] objectEnumerator];
+		NSColor* colour;
+		NSString* key;
+		DKStyle* style;
+		NSArray* cats;
+		NSMutableArray* styles = [NSMutableArray array];
 
-        cats = [NSArray arrayWithObject:catName];
+		cats = [NSArray arrayWithObject:catName];
 
-        while ((key = [iter nextObject])) {
-            colour = [list colorWithKey:key];
+		while ((key = [iter nextObject])) {
+			colour = [list colorWithKey:key];
 
-            style = [DKStyle styleWithFillColour:nil
-                                    strokeColour:colour];
+			style = [DKStyle styleWithFillColour:nil
+									strokeColour:colour];
 
-            if (style != nil) {
-                [style setName:[NSString stringWithFormat:@"%@ - stroke", key]];
-                [styles addObject:style];
-            }
-        }
-        [self registerStylesFromArray:styles
-                         inCategories:cats
-               ignoringDuplicateNames:YES];
-    }
+			if (style != nil) {
+				[style setName:[NSString stringWithFormat:@"%@ - stroke", key]];
+				[styles addObject:style];
+			}
+		}
+		[self registerStylesFromArray:styles
+						 inCategories:cats
+			   ignoringDuplicateNames:YES];
+	}
 }
 
 /** @brief Sets whether DK defaults category containing the default styles shoul dbe registered when the
@@ -611,7 +611,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (void)setShouldNotAddDKDefaultCategory:(BOOL)noDKDefaults
 {
-    s_NoDKDefaults = noDKDefaults;
+	s_NoDKDefaults = noDKDefaults;
 }
 
 #pragma mark -
@@ -626,7 +626,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSString*)styleNameForKey:(NSString*)styleID
 {
-    return [[self styleForKey:styleID] name];
+	return [[self styleForKey:styleID] name];
 }
 
 /** @brief Return the style given its key
@@ -635,7 +635,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (DKStyle*)styleForKey:(NSString*)styleID
 {
-    return [self objectForKey:styleID];
+	return [self objectForKey:styleID];
 }
 
 /** @brief Return the set of styles in the given categories
@@ -648,7 +648,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSSet*)stylesInCategories:(NSArray*)cats
 {
-    return [NSSet setWithArray:[self objectsInCategories:cats]];
+	return [NSSet setWithArray:[self objectsInCategories:cats]];
 }
 
 /** @brief Return a modified name to resolve a collision with names already in use
@@ -661,24 +661,24 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSString*)uniqueNameForName:(NSString*)name
 {
-    // if <name> already exists among the registerd styles, append a number to it until it is not found.
+	// if <name> already exists among the registerd styles, append a number to it until it is not found.
 
-    NSInteger numeral = 0;
-    BOOL found = YES;
-    NSString* temp = name;
-    NSArray* keys = [self styleNames];
+	NSInteger numeral = 0;
+	BOOL found = YES;
+	NSString* temp = name;
+	NSArray* keys = [self styleNames];
 
-    while (found) {
-        NSInteger k = [keys indexOfObject:temp];
+	while (found) {
+		NSInteger k = [keys indexOfObject:temp];
 
-        if (k == NSNotFound)
-            found = NO;
-        else
+		if (k == NSNotFound)
+			found = NO;
+		else
 #warning 64BIT: Inspect use of long
-            temp = [NSString stringWithFormat:@"%@ %ld", name, (long)++numeral];
-    }
+			temp = [NSString stringWithFormat:@"%@ %ld", name, (long)++numeral];
+	}
 
-    return temp;
+	return temp;
 }
 
 /** @brief Return a list of all the registered styles' names, in alphabetical order
@@ -686,16 +686,16 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSArray*)styleNames
 {
-    NSEnumerator* iter = [[self allObjects] objectEnumerator];
-    DKStyle* style;
-    NSMutableArray* names = [NSMutableArray array];
+	NSEnumerator* iter = [[self allObjects] objectEnumerator];
+	DKStyle* style;
+	NSMutableArray* names = [NSMutableArray array];
 
-    while ((style = [iter nextObject]))
-        [names addObject:[style name]];
+	while ((style = [iter nextObject]))
+		[names addObject:[style name]];
 
-    [names sortUsingSelector:@selector(caseInsensitiveCompare:)];
+	[names sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
-    return names;
+	return names;
 }
 
 /** @brief Return a list of the registered styles' names in the category, in alphabetical order
@@ -704,18 +704,18 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSArray*)styleNamesInCategory:(NSString*)catName
 {
-    // returns an alphabetical list of the styles' names in the given category
+	// returns an alphabetical list of the styles' names in the given category
 
-    NSEnumerator* iter = [[self allKeysInCategory:catName] objectEnumerator];
-    NSMutableArray* names = [NSMutableArray array];
-    NSString* key;
+	NSEnumerator* iter = [[self allKeysInCategory:catName] objectEnumerator];
+	NSMutableArray* names = [NSMutableArray array];
+	NSString* key;
 
-    while ((key = [iter nextObject]))
-        [names addObject:[self styleNameForKey:key]];
+	while ((key = [iter nextObject]))
+		[names addObject:[self styleNameForKey:key]];
 
-    [names sortUsingSelector:@selector(localisedCaseInsensitiveNumericCompare:)];
+	[names sortUsingSelector:@selector(localisedCaseInsensitiveNumericCompare:)];
 
-    return names;
+	return names;
 }
 
 /** @brief Write the registry to a file
@@ -725,16 +725,16 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (BOOL)writeToFile:(NSString*)path atomically:(BOOL)atom
 {
-    NSAssert(path != nil, @"path can't be nil");
+	NSAssert(path != nil, @"path can't be nil");
 
-    BOOL result = NO;
+	BOOL result = NO;
 
-    NSData* data = [self data];
-    if (data != nil)
-        result = [data writeToFile:path
-                        atomically:atom];
+	NSData* data = [self data];
+	if (data != nil)
+		result = [data writeToFile:path
+						atomically:atom];
 
-    return result;
+	return result;
 }
 
 /** @brief Merge the contents of a file into the registry
@@ -750,39 +750,39 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel
 {
-    NSAssert(path != nil, @"cannot read file - path is nil");
+	NSAssert(path != nil, @"cannot read file - path is nil");
 
-    BOOL readOK = NO;
-    NSData* styleData = [NSData dataWithContentsOfFile:path];
+	BOOL readOK = NO;
+	NSData* styleData = [NSData dataWithContentsOfFile:path];
 
-    if (styleData != nil && [styleData length] > 0) {
-        // because we are merging the file, a temporary registry object is created and that is used to populate the "real" one.
+	if (styleData != nil && [styleData length] > 0) {
+		// because we are merging the file, a temporary registry object is created and that is used to populate the "real" one.
 
-        DKStyleRegistry* regTemp = [[DKStyleRegistry alloc] initWithData:styleData];
+		DKStyleRegistry* regTemp = [[DKStyleRegistry alloc] initWithData:styleData];
 
-        if (regTemp != nil) {
-            NSEnumerator* iter = [[regTemp allObjects] objectEnumerator];
-            DKStyle* style;
-            NSSet* styles;
-            NSArray* cats;
+		if (regTemp != nil) {
+			NSEnumerator* iter = [[regTemp allObjects] objectEnumerator];
+			DKStyle* style;
+			NSSet* styles;
+			NSArray* cats;
 
-            while ((style = [iter nextObject])) {
-                cats = [regTemp categoriesContainingKey:[style uniqueKey]];
-                styles = [NSSet setWithObject:style];
+			while ((style = [iter nextObject])) {
+				cats = [regTemp categoriesContainingKey:[style uniqueKey]];
+				styles = [NSSet setWithObject:style];
 
-                [[self class] mergeStyles:styles
-                             inCategories:cats
-                                  options:options
-                            mergeDelegate:aDel];
+				[[self class] mergeStyles:styles
+							 inCategories:cats
+								  options:options
+							mergeDelegate:aDel];
 
-                readOK = YES;
-            }
+				readOK = YES;
+			}
 
-            [regTemp release];
-        }
-    }
+			[regTemp release];
+		}
+	}
 
-    return readOK;
+	return readOK;
 }
 
 /** @brief Attempt to merge a style into the registry
@@ -800,64 +800,64 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id)aDel
 {
-    NSAssert(aStyle != nil, @"attempting to merge nil style");
+	NSAssert(aStyle != nil, @"attempting to merge nil style");
 
-    DKStyle* existingStyle = [self styleForKey:[aStyle uniqueKey]];
+	DKStyle* existingStyle = [self styleForKey:[aStyle uniqueKey]];
 
-    if (existingStyle == nil || existingStyle == aStyle)
-        return nil; // this is really an error - the style is already registered, or is unregistered
+	if (existingStyle == nil || existingStyle == aStyle)
+		return nil; // this is really an error - the style is already registered, or is unregistered
 
-    // if the timestamps of the styles are the same, there's nothing to do as no modification has been done to the style -
-    // so only replace the internals of the style if really needed
+	// if the timestamps of the styles are the same, there's nothing to do as no modification has been done to the style -
+	// so only replace the internals of the style if really needed
 
-    if ([aStyle lastModificationTimestamp] != [existingStyle lastModificationTimestamp]) {
-        // before we commit to this, ask the delegate. The delegate can compare the timestamps and go with newer or older as desired.
+	if ([aStyle lastModificationTimestamp] != [existingStyle lastModificationTimestamp]) {
+		// before we commit to this, ask the delegate. The delegate can compare the timestamps and go with newer or older as desired.
 
-        DKStyle* repStyle = aStyle;
+		DKStyle* repStyle = aStyle;
 
-        if (aDel != nil && [aDel respondsToSelector:@selector(registry:
-                                                        shouldReplaceStyle:
-                                                                 withStyle:)])
-            repStyle = [aDel registry:self
-                   shouldReplaceStyle:existingStyle
-                            withStyle:aStyle];
+		if (aDel != nil && [aDel respondsToSelector:@selector(registry:
+														shouldReplaceStyle:
+																 withStyle:)])
+			repStyle = [aDel registry:self
+				   shouldReplaceStyle:existingStyle
+							withStyle:aStyle];
 
-        // if the delegate returned the existing style, there's nothing to do except return it
+		// if the delegate returned the existing style, there's nothing to do except return it
 
-        if (repStyle != existingStyle) {
-            LogEvent_(kReactiveEvent, @"will swap guts of %@ with %@; key = %@ '%@'", existingStyle, repStyle, [repStyle uniqueKey], [existingStyle name]);
+		if (repStyle != existingStyle) {
+			LogEvent_(kReactiveEvent, @"will swap guts of %@ with %@; key = %@ '%@'", existingStyle, repStyle, [repStyle uniqueKey], [existingStyle name]);
 
-            // about to swap out the guts of the style - notify any clients
+			// about to swap out the guts of the style - notify any clients
 
-            [existingStyle notifyClientsBeforeChange];
-            NSArray* guts = [repStyle renderList];
+			[existingStyle notifyClientsBeforeChange];
+			NSArray* guts = [repStyle renderList];
 
-            // avoid propagating a damaged style - better to go with what we have in that case
+			// avoid propagating a damaged style - better to go with what we have in that case
 
-            if (guts != nil)
-                [existingStyle setRenderList:guts];
+			if (guts != nil)
+				[existingStyle setRenderList:guts];
 
-            // set the contents of the style being merged to nil so that they cannot be accidentally mutated
+			// set the contents of the style being merged to nil so that they cannot be accidentally mutated
 
-            [aStyle setRenderList:nil];
+			[aStyle setRenderList:nil];
 
-            // also replace any text attributes
+			// also replace any text attributes
 
-            NSDictionary* textAttrs = [repStyle textAttributes];
-            [existingStyle setTextAttributes:textAttrs];
-            [aStyle setTextAttributes:nil];
+			NSDictionary* textAttrs = [repStyle textAttributes];
+			[existingStyle setTextAttributes:textAttrs];
+			[aStyle setTextAttributes:nil];
 
-            // the existing style retains the same name and other status flags
+			// the existing style retains the same name and other status flags
 
-            [existingStyle notifyClientsAfterChange];
+			[existingStyle notifyClientsAfterChange];
 
-            // drawing *should* now replace the temporary styles with the existing ones as returned, but to help prompt the programmer/user
-            // that things haven't gone to plan if this doesn't take place, set the name of the old style to something different
+			// drawing *should* now replace the temporary styles with the existing ones as returned, but to help prompt the programmer/user
+			// that things haven't gone to plan if this doesn't take place, set the name of the old style to something different
 
-            [aStyle setName:@"Temp style - if you can read this the programmer forgot something!"];
-        }
-    }
-    return existingStyle;
+			[aStyle setName:@"Temp style - if you can read this the programmer forgot something!"];
+		}
+	}
+	return existingStyle;
 }
 
 /** @brief Set the registry empty
@@ -867,58 +867,58 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (void)removeAllStyles
 {
-    // called from the +resetRegistry method - simply discards everything then reinserts the defaults. For efficiency does not iterate over the objects.
+	// called from the +resetRegistry method - simply discards everything then reinserts the defaults. For efficiency does not iterate over the objects.
 
-    [self removeAllCategories];
-    [self addDefaultCategories];
+	[self removeAllCategories];
+	[self addDefaultCategories];
 }
 
 - (void)setNeedsUIUpdate
 {
-    // UI clients can listen for this notification and update any UI that relies on the registry. Note that this is not required if you are using managed menus
-    // sincethey are automaticaly kept up to date as the registry changes. This notification is only needed for other UIs that display the registry.
+	// UI clients can listen for this notification and update any UI that relies on the registry. Note that this is not required if you are using managed menus
+	// sincethey are automaticaly kept up to date as the registry changes. This notification is only needed for other UIs that display the registry.
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleRegistryDidFlagPossibleUIChange
-                                                        object:self];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleRegistryDidFlagPossibleUIChange
+														object:self];
 }
 
 + (void)setStyleNotificationsEnabled:(BOOL)enable
 {
-    // typically the style registry will need to observe style changes but in many cases this isn't needed and adds an overhead that you might
-    // prefer to do without. Thus this must be explicitly enabled as needed. Default is OFF, which differs from b5 and earlier.
+	// typically the style registry will need to observe style changes but in many cases this isn't needed and adds an overhead that you might
+	// prefer to do without. Thus this must be explicitly enabled as needed. Default is OFF, which differs from b5 and earlier.
 
-    if (enable) {
-        [[NSNotificationCenter defaultCenter] addObserver:[self sharedStyleRegistry]
-                                                 selector:@selector(styleDidChange:)
-                                                     name:kDKStyleDidChangeNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:[self sharedStyleRegistry]
-                                                 selector:@selector(styleDidChange:)
-                                                     name:kDKStyleNameChangedNotification
-                                                   object:nil];
-    } else
-        [[NSNotificationCenter defaultCenter] removeObserver:[self sharedStyleRegistry]];
+	if (enable) {
+		[[NSNotificationCenter defaultCenter] addObserver:[self sharedStyleRegistry]
+												 selector:@selector(styleDidChange:)
+													 name:kDKStyleDidChangeNotification
+												   object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:[self sharedStyleRegistry]
+												 selector:@selector(styleDidChange:)
+													 name:kDKStyleNameChangedNotification
+												   object:nil];
+	} else
+		[[NSNotificationCenter defaultCenter] removeObserver:[self sharedStyleRegistry]];
 }
 
 - (void)styleDidChange:(NSNotification*)note
 {
-    // when any style changes, this is notified. If the style is in the registry, use its key to update any managed menus directly.
-    // doing this is significantly more efficient than just rebuilding the entire menu, as only the individual menu items affected
-    // are touched. In fact if your registry UI is only a cat manager menu, there is no longer any external management required
-    // apart from implementing the callback protocol.
+	// when any style changes, this is notified. If the style is in the registry, use its key to update any managed menus directly.
+	// doing this is significantly more efficient than just rebuilding the entire menu, as only the individual menu items affected
+	// are touched. In fact if your registry UI is only a cat manager menu, there is no longer any external management required
+	// apart from implementing the callback protocol.
 
-    DKStyle* style = [note object];
-    NSString* key = [style uniqueKey];
+	DKStyle* style = [note object];
+	NSString* key = [style uniqueKey];
 
-    if ([self styleForKey:key] == style) {
-        [self updateMenusForKey:key];
+	if ([self styleForKey:key] == style) {
+		[self updateMenusForKey:key];
 
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:style
-                                                             forKey:@"style"];
-        [[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasEditedWhileRegisteredNotification
-                                                            object:self
-                                                          userInfo:userInfo];
-    }
+		NSDictionary* userInfo = [NSDictionary dictionaryWithObject:style
+															 forKey:@"style"];
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasEditedWhileRegisteredNotification
+															object:self
+														  userInfo:userInfo];
+	}
 }
 
 /** @brief Creates a new fully managed menu that lists all the styles, organised into categories.
@@ -936,12 +936,12 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSMenu*)managedStylesMenuWithItemTarget:(id)target itemAction:(SEL)selector
 {
-    DKCategoryMenuOptions options = kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems | kDKMenuIsPopUpMenu;
+	DKCategoryMenuOptions options = kDKIncludeRecentlyAddedItems | kDKIncludeRecentlyUsedItems | kDKMenuIsPopUpMenu;
 
-    return [self createMenuWithItemDelegate:self
-                                 itemTarget:target
-                                 itemAction:selector
-                                    options:options];
+	return [self createMenuWithItemDelegate:self
+								 itemTarget:target
+								 itemAction:selector
+									options:options];
 }
 
 #pragma mark -
@@ -953,11 +953,11 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSArray*)allSortedKeysInCategory:(NSString*)catName
 {
-    NSAssert(catName != nil, @"cannot have a nil category name");
+	NSAssert(catName != nil, @"cannot have a nil category name");
 
-    NSArray* keys = [self allKeysInCategory:catName];
-    return [keys sortedArrayUsingFunction:SortKeysByReferredName
-                                  context:self];
+	NSArray* keys = [self allKeysInCategory:catName];
+	return [keys sortedArrayUsingFunction:SortKeysByReferredName
+								  context:self];
 }
 
 /** @brief Return all of the names in a given category, sorted into some useful order
@@ -968,7 +968,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSArray*)allSortedNamesInCategory:(NSString*)catName
 {
-    return [self styleNamesInCategory:catName];
+	return [self styleNamesInCategory:catName];
 }
 
 /** @brief Return the filetype (for saving, etc)
@@ -977,7 +977,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSString*)fileType
 {
-    return @"stylelib";
+	return @"stylelib";
 }
 
 /** @param obj an object being added
@@ -985,7 +985,7 @@ static BOOL s_NoDKDefaults = NO;
  */
 + (NSString*)categoryManagerKeyForObject:(id)obj
 {
-    return [obj uniqueKey];
+	return [obj uniqueKey];
 }
 
 #pragma mark -
@@ -995,32 +995,32 @@ static BOOL s_NoDKDefaults = NO;
 {
 #pragma unused(category)
 
-    if (object == self) {
-        [item setTitle:NSLocalizedString(@"Style", @"")];
-    } else {
-        // fetch swatch at a large size and scale down to menu icon size - this gives a better impression of most styles
-        // than trying to render the icon at 1:1 size using the style
+	if (object == self) {
+		[item setTitle:NSLocalizedString(@"Style", @"")];
+	} else {
+		// fetch swatch at a large size and scale down to menu icon size - this gives a better impression of most styles
+		// than trying to render the icon at 1:1 size using the style
 
-        if (object != nil && [object isKindOfClass:[DKStyle class]]) {
-            NSImage* swatch = [[object styleSwatchWithSize:NSMakeSize(112, 112)
-                                                      type:kDKStyleSwatchAutomatic] copy];
+		if (object != nil && [object isKindOfClass:[DKStyle class]]) {
+			NSImage* swatch = [[object styleSwatchWithSize:NSMakeSize(112, 112)
+													  type:kDKStyleSwatchAutomatic] copy];
 
-            if (swatch != nil) {
-                [swatch setScalesWhenResized:YES];
-                [swatch setSize:NSMakeSize(28, 28)];
-                [swatch lockFocus];
-                [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationLow];
-                [swatch unlockFocus];
-                [item setImage:swatch];
-                [swatch release];
-            }
+			if (swatch != nil) {
+				[swatch setScalesWhenResized:YES];
+				[swatch setSize:NSMakeSize(28, 28)];
+				[swatch lockFocus];
+				[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationLow];
+				[swatch unlockFocus];
+				[item setImage:swatch];
+				[swatch release];
+			}
 
-            // set the menu item to the object's name
+			// set the menu item to the object's name
 
-            if ([object name] != nil)
-                [item setTitle:[object name]];
-        }
-    }
+			if ([object name] != nil)
+				[item setTitle:[object name]];
+		}
+	}
 }
 
 #pragma mark -
@@ -1028,8 +1028,8 @@ static BOOL s_NoDKDefaults = NO;
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super dealloc];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[super dealloc];
 }
 
 @end
@@ -1040,8 +1040,8 @@ static BOOL s_NoDKDefaults = NO;
 
 - (void)reassignUniqueKey
 {
-    [m_uniqueKey release];
-    m_uniqueKey = [[DKUniqueID uniqueKey] retain];
+	[m_uniqueKey release];
+	m_uniqueKey = [[DKUniqueID uniqueKey] retain];
 }
 
 @end
@@ -1067,7 +1067,7 @@ static BOOL s_NoDKDefaults = NO;
 #pragma unused(reg)
 #pragma unused(regStyle)
 
-    return docStyle;
+	return docStyle;
 }
 
 @end

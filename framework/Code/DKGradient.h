@@ -13,37 +13,37 @@
 // gradient type:
 
 typedef enum {
-    kDKGradientTypeLinear = 0,
-    kDKGradientTypeRadial = 1,
-    kDKGradientSweptAngle = 3
+	kDKGradientTypeLinear = 0,
+	kDKGradientTypeRadial = 1,
+	kDKGradientSweptAngle = 3
 } DKGradientType;
 
 // gradient blending mode:
 
 typedef enum {
-    kDKGradientRGBBlending = 0,
-    kDKGradientHSBBlending = 1,
-    kDKGradientAlphaBlending = 64
+	kDKGradientRGBBlending = 0,
+	kDKGradientHSBBlending = 1,
+	kDKGradientAlphaBlending = 64
 } DKGradientBlending;
 
 typedef enum {
-    kDKGradientInterpLinear = 0,
-    kDKGradientInterpQuadratic = 2,
-    kDKGradientInterpCubic = 3,
-    kDKGradientInterpSinus = 4,
-    kDKGradientInterpSinus2 = 5
+	kDKGradientInterpLinear = 0,
+	kDKGradientInterpQuadratic = 2,
+	kDKGradientInterpCubic = 3,
+	kDKGradientInterpSinus = 4,
+	kDKGradientInterpSinus2 = 5
 } DKGradientInterpolation;
 
 /** @brief A DKGradient encapsulates gradient/shading drawing.
 */
 @interface DKGradient : GCObservableObject <NSCoding, NSCopying> {
-    NSMutableArray* m_colorStops; // color stops
-    id m_extensionData; // additional supplementary data
-    CGFloat m_gradAngle; // linear angle in radians
-    DKGradientType m_gradType; // type
-    DKGradientBlending m_blending; // method to blend colours
-    DKGradientInterpolation m_interp; // interpolation function
-    CGFunctionRef m_cbfunc; // callback function
+	NSMutableArray* m_colorStops; // color stops
+	id m_extensionData; // additional supplementary data
+	CGFloat m_gradAngle; // linear angle in radians
+	DKGradientType m_gradType; // type
+	DKGradientBlending m_blending; // method to blend colours
+	DKGradientInterpolation m_interp; // interpolation function
+	CGFunctionRef m_cbfunc; // callback function
 }
 
 // simple gradient convenience methods
@@ -166,14 +166,14 @@ typedef enum {
  */
 - (void)fillPath:(NSBezierPath*)path centreOffset:(NSPoint)co;
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp
-        startRadius:(CGFloat)sr
-      endingAtPoint:(NSPoint)ep
-          endRadius:(CGFloat)er;
+		startRadius:(CGFloat)sr
+	  endingAtPoint:(NSPoint)ep
+		  endRadius:(CGFloat)er;
 
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
-        startRadius:(CGFloat)sr
-      endingAtPoint:(NSPoint)ep
-          endRadius:(CGFloat)er;
+		startRadius:(CGFloat)sr
+	  endingAtPoint:(NSPoint)ep
+		  endRadius:(CGFloat)er;
 
 /** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
 
@@ -251,11 +251,11 @@ typedef enum {
 /** @brief small object that links a Color with its relative position
 */
 @interface DKColorStop : NSObject <NSCoding, NSCopying> {
-    NSColor* mColor;
-    CGFloat position;
-    DKGradient* m_ownerRef;
+	NSColor* mColor;
+	CGFloat position;
+	DKGradient* m_ownerRef;
 @public
-    CGFloat components[4]; // cached rgba values
+	CGFloat components[4]; // cached rgba values
 }
 
 - (id)initWithColor:(NSColor*)aColor at:(CGFloat)pos;

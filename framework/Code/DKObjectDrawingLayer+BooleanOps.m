@@ -27,56 +27,56 @@
 {
 #pragma unused(sender)
 
-    NSArray* sel = [self selectedAvailableObjects];
-    NSEnumerator* iter = [sel objectEnumerator];
-    DKDrawableShape* obj, *firstObj;
-    DKDrawableShape* result;
-    NSBezierPath* rp = nil;
+	NSArray* sel = [self selectedAvailableObjects];
+	NSEnumerator* iter = [sel objectEnumerator];
+	DKDrawableShape* obj, *firstObj;
+	DKDrawableShape* result;
+	NSBezierPath* rp = nil;
 
-    // at least 2 objects required:
+	// at least 2 objects required:
 
-    if ([sel count] < 2)
-        return;
+	if ([sel count] < 2)
+		return;
 
-    firstObj = [sel lastObject];
+	firstObj = [sel lastObject];
 
-    while ((obj = [iter nextObject])) {
-        // if result path is nil, this is the first object which is the one we'll keep unioning.
+	while ((obj = [iter nextObject])) {
+		// if result path is nil, this is the first object which is the one we'll keep unioning.
 
-        if (rp == nil)
-            rp = [obj renderingPath];
-        else
-            rp = [rp pathFromUnionWithPath:[obj renderingPath]];
-    }
+		if (rp == nil)
+			rp = [obj renderingPath];
+		else
+			rp = [rp pathFromUnionWithPath:[obj renderingPath]];
+	}
 
-    // make a new shape from the result path, inheriting style & user data of the topmost object
+	// make a new shape from the result path, inheriting style & user data of the topmost object
 
-    [self recordSelectionForUndo];
+	[self recordSelectionForUndo];
 
-    if ([firstObj respondsToSelector:@selector(adoptPath:)]) {
-        [firstObj adoptPath:rp];
-        result = firstObj;
+	if ([firstObj respondsToSelector:@selector(adoptPath:)]) {
+		[firstObj adoptPath:rp];
+		result = firstObj;
 
-        NSMutableArray* modSel = [sel mutableCopy];
-        [modSel removeObject:result];
-        [self removeObjectsInArray:modSel];
-        [modSel release];
-    } else {
-        result = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
-                                                                                                            withStyle:[firstObj style]];
-        [result setUserInfo:[firstObj userInfo]];
-        [result willBeAddedAsSubstituteFor:firstObj
-                                   toLayer:self];
+		NSMutableArray* modSel = [sel mutableCopy];
+		[modSel removeObject:result];
+		[self removeObjectsInArray:modSel];
+		[modSel release];
+	} else {
+		result = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
+																											withStyle:[firstObj style]];
+		[result setUserInfo:[firstObj userInfo]];
+		[result willBeAddedAsSubstituteFor:firstObj
+								   toLayer:self];
 
-        NSInteger xi = [self indexOfObject:firstObj];
+		NSInteger xi = [self indexOfObject:firstObj];
 
-        [self addObject:result
-                atIndex:xi];
-        [self removeObjectsInArray:sel];
-    }
+		[self addObject:result
+				atIndex:xi];
+		[self removeObjectsInArray:sel];
+	}
 
-    [self replaceSelectionWithObject:result];
-    [self commitSelectionUndoWithActionName:NSLocalizedString(@"Union", @"undo string for union op")];
+	[self replaceSelectionWithObject:result];
+	[self commitSelectionUndoWithActionName:NSLocalizedString(@"Union", @"undo string for union op")];
 }
 
 /** @brief Subtracts the topmost shape from the other.
@@ -89,61 +89,61 @@
 {
 #pragma unused(sender)
 
-    NSArray* sel = [self selectedAvailableObjects];
+	NSArray* sel = [self selectedAvailableObjects];
 
-    if ([sel count] == 2) {
-        DKDrawableShape* a, *b;
-        NSBezierPath* rp;
+	if ([sel count] == 2) {
+		DKDrawableShape* a, *b;
+		NSBezierPath* rp;
 
-        // get the objects in shape form
+		// get the objects in shape form
 
-        a = [sel objectAtIndex:0]; // lower
-        b = [sel objectAtIndex:1]; // upper
+		a = [sel objectAtIndex:0]; // lower
+		b = [sel objectAtIndex:1]; // upper
 
-        // do they intersect at all? If not, nothing to do.
+		// do they intersect at all? If not, nothing to do.
 
-        if (!NSIntersectsRect([a bounds], [b bounds])) {
-            NSBeep();
-            return;
-        }
+		if (!NSIntersectsRect([a bounds], [b bounds])) {
+			NSBeep();
+			return;
+		}
 
-        // form the result
+		// form the result
 
-        rp = [[a renderingPath] pathFromDifferenceWithPath:[b renderingPath]];
+		rp = [[a renderingPath] pathFromDifferenceWithPath:[b renderingPath]];
 
-        // if the result is not empty, turn it into a new shape
+		// if the result is not empty, turn it into a new shape
 
-        if (![rp isEmpty]) {
-            [self recordSelectionForUndo];
+		if (![rp isEmpty]) {
+			[self recordSelectionForUndo];
 
-            // if the target object can be modified in place, do so. This allows images to be used as well as shapes.
+			// if the target object can be modified in place, do so. This allows images to be used as well as shapes.
 
-            if ([a respondsToSelector:@selector(adoptPath:)])
-                [a adoptPath:rp];
-            else {
-                // convert to a shape. This copes with the case where one of the source objects is a path subclass
-                // that will not work when simply setting its path (e.g. DKRegularPolygon)
+			if ([a respondsToSelector:@selector(adoptPath:)])
+				[a adoptPath:rp];
+			else {
+				// convert to a shape. This copes with the case where one of the source objects is a path subclass
+				// that will not work when simply setting its path (e.g. DKRegularPolygon)
 
-                DKDrawableShape* newShape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
-                                                                                                                                       withStyle:[a style]];
-                [newShape setUserInfo:[a userInfo]];
-                [newShape willBeAddedAsSubstituteFor:a
-                                             toLayer:self];
+				DKDrawableShape* newShape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
+																																	   withStyle:[a style]];
+				[newShape setUserInfo:[a userInfo]];
+				[newShape willBeAddedAsSubstituteFor:a
+											 toLayer:self];
 
-                NSInteger xi = [self indexOfObject:a];
+				NSInteger xi = [self indexOfObject:a];
 
-                [self removeObject:a];
-                [self addObject:newShape
-                        atIndex:xi];
+				[self removeObject:a];
+				[self addObject:newShape
+						atIndex:xi];
 
-                a = newShape;
-            }
+				a = newShape;
+			}
 
-            [self removeObject:b]; // if you wish to leave the "cutter" in the layer, remove this line
-            [self replaceSelectionWithObject:a];
-            [self commitSelectionUndoWithActionName:NSLocalizedString(@"Difference", @"undo string for diff op")];
-        }
-    }
+			[self removeObject:b]; // if you wish to leave the "cutter" in the layer, remove this line
+			[self replaceSelectionWithObject:a];
+			[self commitSelectionUndoWithActionName:NSLocalizedString(@"Difference", @"undo string for diff op")];
+		}
+	}
 }
 
 /** @brief Replaces a pair of objects by their intersection.
@@ -156,59 +156,59 @@
 {
 #pragma unused(sender)
 
-    NSArray* sel = [self selectedAvailableObjects];
+	NSArray* sel = [self selectedAvailableObjects];
 
-    if ([sel count] == 2) {
-        DKDrawableShape* a, *b;
-        NSBezierPath* rp;
+	if ([sel count] == 2) {
+		DKDrawableShape* a, *b;
+		NSBezierPath* rp;
 
-        // get the objects in shape form
+		// get the objects in shape form
 
-        a = [sel objectAtIndex:0]; // lower
-        b = [sel objectAtIndex:1]; // upper
+		a = [sel objectAtIndex:0]; // lower
+		b = [sel objectAtIndex:1]; // upper
 
-        // are they likely to intersect?
+		// are they likely to intersect?
 
-        if (!NSIntersectsRect([a bounds], [b bounds])) {
-            NSBeep();
-            return;
-        }
+		if (!NSIntersectsRect([a bounds], [b bounds])) {
+			NSBeep();
+			return;
+		}
 
-        // form the result
+		// form the result
 
-        NSBezierPath* pa, *pb;
+		NSBezierPath* pa, *pb;
 
-        pa = [a renderingPath];
-        pb = [b renderingPath];
+		pa = [a renderingPath];
+		pb = [b renderingPath];
 
-        rp = [pa pathFromIntersectionWithPath:pb];
+		rp = [pa pathFromIntersectionWithPath:pb];
 
-        // if the result is not empty, turn it into a new shape or modify the lower one in place
+		// if the result is not empty, turn it into a new shape or modify the lower one in place
 
-        if (![rp isEmpty]) {
-            [self recordSelectionForUndo];
-            if ([a respondsToSelector:@selector(adoptPath:)]) {
-                [a adoptPath:rp];
-                [self removeObject:b];
-                [self replaceSelectionWithObject:a];
-            } else {
-                DKDrawableShape* shape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
-                                                                                                                                    withStyle:[a style]];
+		if (![rp isEmpty]) {
+			[self recordSelectionForUndo];
+			if ([a respondsToSelector:@selector(adoptPath:)]) {
+				[a adoptPath:rp];
+				[self removeObject:b];
+				[self replaceSelectionWithObject:a];
+			} else {
+				DKDrawableShape* shape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
+																																	withStyle:[a style]];
 
-                [shape setUserInfo:[a userInfo]];
-                [shape willBeAddedAsSubstituteFor:a
-                                          toLayer:self];
+				[shape setUserInfo:[a userInfo]];
+				[shape willBeAddedAsSubstituteFor:a
+										  toLayer:self];
 
-                NSInteger xi = [self indexOfObject:a];
+				NSInteger xi = [self indexOfObject:a];
 
-                [self addObject:shape
-                        atIndex:xi];
-                [self removeObjectsInArray:sel];
-                [self replaceSelectionWithObject:shape];
-            }
-            [self commitSelectionUndoWithActionName:NSLocalizedString(@"Intersection", @"undo string for sect op")];
-        }
-    }
+				[self addObject:shape
+						atIndex:xi];
+				[self removeObjectsInArray:sel];
+				[self replaceSelectionWithObject:shape];
+			}
+			[self commitSelectionUndoWithActionName:NSLocalizedString(@"Intersection", @"undo string for sect op")];
+		}
+	}
 }
 
 /** @brief Replaces a pair of objects by their exclusive-OR.
@@ -219,8 +219,8 @@
  */
 - (IBAction)xorSelectedObjects:(id)sender
 {
-    [self combineSelectedObjects:sender];
-    [[self undoManager] setActionName:NSLocalizedString(@"Exclusive Or", @"undo string for xor op")];
+	[self combineSelectedObjects:sender];
+	[[self undoManager] setActionName:NSLocalizedString(@"Exclusive Or", @"undo string for xor op")];
 }
 
 /** @brief Replaces a pair of objects by their divided replacements.
@@ -235,62 +235,62 @@
 {
 #pragma unused(sender)
 
-    NSArray* sel = [self selectedAvailableObjects];
+	NSArray* sel = [self selectedAvailableObjects];
 
-    if ([sel count] == 2) {
-        DKDrawableShape* a, *b;
-        NSBezierPath* rp;
+	if ([sel count] == 2) {
+		DKDrawableShape* a, *b;
+		NSBezierPath* rp;
 
-        // get the objects in shape form
+		// get the objects in shape form
 
-        a = [sel objectAtIndex:0]; // lower
-        b = [sel objectAtIndex:1]; // upper
+		a = [sel objectAtIndex:0]; // lower
+		b = [sel objectAtIndex:1]; // upper
 
-        // are they likely to intersect?
+		// are they likely to intersect?
 
-        if (!NSIntersectsRect([a bounds], [b bounds])) {
-            NSBeep();
-            return;
-        }
+		if (!NSIntersectsRect([a bounds], [b bounds])) {
+			NSBeep();
+			return;
+		}
 
-        // perform the division
+		// perform the division
 
-        NSArray* parts = [[a renderingPath] dividePathWithPath:[b renderingPath]];
+		NSArray* parts = [[a renderingPath] dividePathWithPath:[b renderingPath]];
 
-        // turn the parts into a set of new objects. Parts consists of two sub-arrays each listing the parts from
-        // each source path.
+		// turn the parts into a set of new objects. Parts consists of two sub-arrays each listing the parts from
+		// each source path.
 
-        NSUInteger i;
-        NSMutableArray* newShapes = [NSMutableArray array];
+		NSUInteger i;
+		NSMutableArray* newShapes = [NSMutableArray array];
 
-        for (i = 0; i < [parts count]; ++i) {
-            NSArray* pieces = [parts objectAtIndex:i];
-            NSEnumerator* iter = [pieces objectEnumerator];
+		for (i = 0; i < [parts count]; ++i) {
+			NSArray* pieces = [parts objectAtIndex:i];
+			NSEnumerator* iter = [pieces objectEnumerator];
 
-            while ((rp = [iter nextObject])) {
-                if (![rp isEmpty]) {
-                    DKDrawableShape* shape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp];
+			while ((rp = [iter nextObject])) {
+				if (![rp isEmpty]) {
+					DKDrawableShape* shape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp];
 
-                    if (shape != nil) {
-                        if (i == 0)
-                            [shape setStyle:[a style]];
-                        else
-                            [shape setStyle:[b style]];
+					if (shape != nil) {
+						if (i == 0)
+							[shape setStyle:[a style]];
+						else
+							[shape setStyle:[b style]];
 
-                        [newShapes addObject:shape];
-                    }
-                }
-            }
-        }
+						[newShapes addObject:shape];
+					}
+				}
+			}
+		}
 
-        // add all the new shapes, replacing the old ones
+		// add all the new shapes, replacing the old ones
 
-        [self recordSelectionForUndo];
-        [self addObjectsFromArray:newShapes];
-        [self removeObjectsInArray:sel];
-        [self exchangeSelectionWithObjectsFromArray:newShapes];
-        [self commitSelectionUndoWithActionName:NSLocalizedString(@"Divide", @"undo string for divide op")];
-    }
+		[self recordSelectionForUndo];
+		[self addObjectsFromArray:newShapes];
+		[self removeObjectsInArray:sel];
+		[self exchangeSelectionWithObjectsFromArray:newShapes];
+		[self commitSelectionUndoWithActionName:NSLocalizedString(@"Divide", @"undo string for divide op")];
+	}
 }
 
 /** @brief Replaces a pair of objects by combining their paths.
@@ -304,57 +304,57 @@
 {
 #pragma unused(sender)
 
-    NSArray* sel = [self selectedAvailableObjects];
+	NSArray* sel = [self selectedAvailableObjects];
 
-    if ([sel count] > 1) {
-        DKDrawableObject* o, *firstObj, *shape;
-        NSBezierPath* rp;
+	if ([sel count] > 1) {
+		DKDrawableObject* o, *firstObj, *shape;
+		NSBezierPath* rp;
 
-        rp = [NSBezierPath bezierPath];
-        NSEnumerator* iter = [sel objectEnumerator];
+		rp = [NSBezierPath bezierPath];
+		NSEnumerator* iter = [sel objectEnumerator];
 
-        firstObj = [sel lastObject];
+		firstObj = [sel lastObject];
 
-        while ((o = [iter nextObject]))
-            [rp appendBezierPath:[o renderingPath]];
+		while ((o = [iter nextObject]))
+			[rp appendBezierPath:[o renderingPath]];
 
-        // form the result
+		// form the result
 
-        [rp setWindingRule:NSEvenOddWindingRule];
+		[rp setWindingRule:NSEvenOddWindingRule];
 
-        // if the result is not empty, turn it into a new shape
+		// if the result is not empty, turn it into a new shape
 
-        if (![rp isEmpty]) {
-            [self recordSelectionForUndo];
+		if (![rp isEmpty]) {
+			[self recordSelectionForUndo];
 
-            if ([firstObj respondsToSelector:@selector(adoptPath:)]) {
-                [(DKDrawableShape*)firstObj adoptPath:rp];
+			if ([firstObj respondsToSelector:@selector(adoptPath:)]) {
+				[(DKDrawableShape*)firstObj adoptPath:rp];
 
-                NSMutableArray* modSel = [sel mutableCopy];
-                [modSel removeObject:firstObj];
-                [self removeObjectsInArray:modSel];
-                [modSel release];
+				NSMutableArray* modSel = [sel mutableCopy];
+				[modSel removeObject:firstObj];
+				[self removeObjectsInArray:modSel];
+				[modSel release];
 
-                shape = firstObj;
-            } else {
-                shape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
-                                                                                                                   withStyle:[firstObj style]];
+				shape = firstObj;
+			} else {
+				shape = [[DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]] drawableShapeWithBezierPath:rp
+																												   withStyle:[firstObj style]];
 
-                [shape setUserInfo:[firstObj userInfo]];
-                [shape willBeAddedAsSubstituteFor:firstObj
-                                          toLayer:self];
+				[shape setUserInfo:[firstObj userInfo]];
+				[shape willBeAddedAsSubstituteFor:firstObj
+										  toLayer:self];
 
-                NSInteger xi = [self indexOfObject:firstObj];
+				NSInteger xi = [self indexOfObject:firstObj];
 
-                [self addObject:shape
-                        atIndex:xi];
-                [self removeObjectsInArray:sel];
-            }
+				[self addObject:shape
+						atIndex:xi];
+				[self removeObjectsInArray:sel];
+			}
 
-            [self replaceSelectionWithObject:shape];
-            [self commitSelectionUndoWithActionName:NSLocalizedString(@"Append", @"undo string for combine op")];
-        }
-    }
+			[self replaceSelectionWithObject:shape];
+			[self commitSelectionUndoWithActionName:NSLocalizedString(@"Append", @"undo string for combine op")];
+		}
+	}
 }
 
 /** @brief Sets the unflattening (smoothing) policy for GPC-based operations.
@@ -364,7 +364,7 @@
  */
 - (IBAction)setBooleanOpsFittingPolicy:(id)sender
 {
-    [NSBezierPath setPathUnflatteningPolicy:[sender tag]];
+	[NSBezierPath setPathUnflatteningPolicy:[sender tag]];
 }
 
 /** @brief Crops (intersects) all objects in this layer with the given path.
@@ -378,79 +378,79 @@
  */
 - (NSArray*)cropToPath:(NSBezierPath*)croppingPath
 {
-    // first gather the subset of objects that could be affected. Any others are deleted.
+	// first gather the subset of objects that could be affected. Any others are deleted.
 
-    NSAssert(croppingPath != nil, @"cannot crop to a nil path");
-    NSAssert(![croppingPath isEmpty], @"cannot crop to an empty path");
-    NSAssert(!NSIsEmptyRect([croppingPath bounds]), @"cannot crop to an empty path (empty bounds)");
+	NSAssert(croppingPath != nil, @"cannot crop to a nil path");
+	NSAssert(![croppingPath isEmpty], @"cannot crop to an empty path");
+	NSAssert(!NSIsEmptyRect([croppingPath bounds]), @"cannot crop to an empty path (empty bounds)");
 
-    NSArray* cropCandidates = [self objectsInRect:[croppingPath bounds]];
+	NSArray* cropCandidates = [self objectsInRect:[croppingPath bounds]];
 
-    if ([cropCandidates count] > 0) {
-        // remove any selection:
+	if ([cropCandidates count] > 0) {
+		// remove any selection:
 
-        [self deselectAll];
+		[self deselectAll];
 
-        // find the remainder to be deleted
+		// find the remainder to be deleted
 
-        NSMutableSet* remaining = [NSMutableSet setWithArray:[self objects]];
-        [remaining minusSet:[NSSet setWithArray:cropCandidates]];
+		NSMutableSet* remaining = [NSMutableSet setWithArray:[self objects]];
+		[remaining minusSet:[NSSet setWithArray:cropCandidates]];
 
-        // initially do not unflatten at all - later we can selectively unflatten paths
-        // that were actually cropped depending on the original policy.
+		// initially do not unflatten at all - later we can selectively unflatten paths
+		// that were actually cropped depending on the original policy.
 
-        DKPathUnflatteningPolicy ufp = [NSBezierPath pathUnflatteningPolicy];
-        [NSBezierPath setPathUnflatteningPolicy:kDKPathUnflattenNever];
+		DKPathUnflatteningPolicy ufp = [NSBezierPath pathUnflatteningPolicy];
+		[NSBezierPath setPathUnflatteningPolicy:kDKPathUnflattenNever];
 
-        NSEnumerator* iter = [cropCandidates objectEnumerator];
-        DKDrawableObject* od;
-        NSBezierPath* path;
-        NSBezierPath* cPath;
+		NSEnumerator* iter = [cropCandidates objectEnumerator];
+		DKDrawableObject* od;
+		NSBezierPath* path;
+		NSBezierPath* cPath;
 
-        while ((od = [iter nextObject])) {
-            if ([od isKindOfClass:[DKDrawablePath class]])
-                path = [(DKDrawablePath*)od path];
-            else
-                path = [(DKDrawableShape*)od transformedPath];
+		while ((od = [iter nextObject])) {
+			if ([od isKindOfClass:[DKDrawablePath class]])
+				path = [(DKDrawablePath*)od path];
+			else
+				path = [(DKDrawableShape*)od transformedPath];
 
-            cPath = [path pathFromIntersectionWithPath:croppingPath];
+			cPath = [path pathFromIntersectionWithPath:croppingPath];
 
-            // if cPath is empty, it means that the object is cropped out, so add it to the list of "to be deleted"
+			// if cPath is empty, it means that the object is cropped out, so add it to the list of "to be deleted"
 
-            if ([cPath isEmpty])
-                [remaining addObject:od];
-            else {
-                // if the intersected path has the same bounds as the original, it is fully enclosed, so can be ignored.
+			if ([cPath isEmpty])
+				[remaining addObject:od];
+			else {
+				// if the intersected path has the same bounds as the original, it is fully enclosed, so can be ignored.
 
-                if (!AreSimilarRects([cPath bounds], [path bounds], 0.001)) {
-                    // the object was cropped, so modify its path "in place". At this point, we might unflatten
-                    // if that was the original policy.
+				if (!AreSimilarRects([cPath bounds], [path bounds], 0.001)) {
+					// the object was cropped, so modify its path "in place". At this point, we might unflatten
+					// if that was the original policy.
 
-                    if (ufp != kDKPathUnflattenNever)
-                        cPath = [cPath bezierPathByUnflatteningPath];
+					if (ufp != kDKPathUnflattenNever)
+						cPath = [cPath bezierPathByUnflatteningPath];
 
-                    if ([od isKindOfClass:[DKDrawablePath class]])
-                        [(DKDrawablePath*)od setPath:cPath];
-                    else
-                        [(DKDrawableShape*)od adoptPath:cPath];
-                }
-            }
-        }
+					if ([od isKindOfClass:[DKDrawablePath class]])
+						[(DKDrawablePath*)od setPath:cPath];
+					else
+						[(DKDrawableShape*)od adoptPath:cPath];
+				}
+			}
+		}
 
-        // restore the original policy:
+		// restore the original policy:
 
-        [NSBezierPath setPathUnflatteningPolicy:ufp];
+		[NSBezierPath setPathUnflatteningPolicy:ufp];
 
-        // delete the objects excluded:
+		// delete the objects excluded:
 
-        [self removeObjectsInArray:[remaining allObjects]];
+		[self removeObjectsInArray:[remaining allObjects]];
 
-        // let undo manager know what we did:
+		// let undo manager know what we did:
 
-        [[self undoManager] setActionName:NSLocalizedString(@"Crop", @"undo string for Crop")];
-    }
+		[[self undoManager] setActionName:NSLocalizedString(@"Crop", @"undo string for Crop")];
+	}
 
-    return [self objects];
+	return [self objects];
 }
 
 /** @brief Crops (intersects) all objects in the layer with the given rect.
@@ -461,10 +461,10 @@
  */
 - (NSArray*)cropToRect:(NSRect)croppingRect
 {
-    if (!NSIsEmptyRect(croppingRect))
-        return [self cropToPath:[NSBezierPath bezierPathWithRect:croppingRect]];
-    else
-        return nil;
+	if (!NSIsEmptyRect(croppingRect))
+		return [self cropToPath:[NSBezierPath bezierPathWithRect:croppingRect]];
+	else
+		return nil;
 }
 
 /** @brief Tests the bounds of the objects in the array against each other for intersection. Returns NO if
@@ -477,43 +477,43 @@
  */
 - (BOOL)intersectingDrawablesinArray:(NSArray*)array
 {
-    NSAssert(array != nil, @"can't test nil array");
+	NSAssert(array != nil, @"can't test nil array");
 
-    // if list is 0 or 1 items, no intersection because there are not multiple objects
+	// if list is 0 or 1 items, no intersection because there are not multiple objects
 
-    if ([array count] < 2)
-        return NO;
+	if ([array count] < 2)
+		return NO;
 
-    NSRect a, b;
+	NSRect a, b;
 
-    // special faster case - if array contains 2 objects, just test them directly without iterating
+	// special faster case - if array contains 2 objects, just test them directly without iterating
 
-    if ([array count] == 2) {
-        a = [[array objectAtIndex:0] bounds];
-        b = [[array objectAtIndex:1] bounds];
+	if ([array count] == 2) {
+		a = [[array objectAtIndex:0] bounds];
+		b = [[array objectAtIndex:1] bounds];
 
-        return NSIntersectsRect(a, b);
-    } else {
-        NSEnumerator* outer = [array objectEnumerator];
-        DKDrawableObject* oa;
-        DKDrawableObject* ob;
+		return NSIntersectsRect(a, b);
+	} else {
+		NSEnumerator* outer = [array objectEnumerator];
+		DKDrawableObject* oa;
+		DKDrawableObject* ob;
 
-        while ((oa = [outer nextObject])) {
-            a = [oa bounds];
-            NSEnumerator* inner = [array objectEnumerator];
+		while ((oa = [outer nextObject])) {
+			a = [oa bounds];
+			NSEnumerator* inner = [array objectEnumerator];
 
-            while ((ob = [inner nextObject])) {
-                if (oa != ob) {
-                    b = [ob bounds];
+			while ((ob = [inner nextObject])) {
+				if (oa != ob) {
+					b = [ob bounds];
 
-                    if (NSIntersectsRect(a, b))
-                        return YES;
-                }
-            }
-        }
-    }
+					if (NSIntersectsRect(a, b))
+						return YES;
+				}
+			}
+		}
+	}
 
-    return NO;
+	return NO;
 }
 
 @end

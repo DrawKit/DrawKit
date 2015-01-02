@@ -28,6 +28,6 @@
 // abbreviation flags
 
 enum {
-    kDKAbbreviationOptionAddPeriods = (1 << 0),
-    kDKAbbreviationOptionAmpersand = (1 << 1)
+	kDKAbbreviationOptionAddPeriods = (1 << 0),
+	kDKAbbreviationOptionAmpersand = (1 << 1)
 };

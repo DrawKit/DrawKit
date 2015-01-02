@@ -18,8 +18,8 @@ This is a non-affine transformation which is why it's not a subclass of NSAffine
 can be used in a similar way.
 */
 @interface DKDistortionTransform : NSObject <NSCoding, NSCopying> {
-    NSPoint m_q[4];
-    BOOL m_inverted;
+	NSPoint m_q[4];
+	BOOL m_inverted;
 }
 
 + (DKDistortionTransform*)transformWithInitialRect:(NSRect)rect;

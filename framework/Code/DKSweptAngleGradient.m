@@ -22,150 +22,150 @@
 
 + (DKGradient*)sweptAngleGradient
 {
-    return [self sweptAngleGradientWithStartingColor:[NSColor whiteColor]
-                                         endingColor:[NSColor blackColor]];
+	return [self sweptAngleGradientWithStartingColor:[NSColor whiteColor]
+										 endingColor:[NSColor blackColor]];
 }
 
 + (DKGradient*)sweptAngleGradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2
 {
-    DKSweptAngleGradient* sa = [[DKSweptAngleGradient alloc] init];
+	DKSweptAngleGradient* sa = [[DKSweptAngleGradient alloc] init];
 
-    [sa addColor:c1
-              at:0];
-    [sa addColor:c2
-              at:1];
+	[sa addColor:c1
+			  at:0];
+	[sa addColor:c2
+			  at:1];
 
-    return [sa autorelease];
+	return [sa autorelease];
 }
 
 #pragma mark -
 
 - (void)setNumberOfAngularSegments:(NSInteger)ns
 {
-    m_sa_segments = ns;
+	m_sa_segments = ns;
 }
 
 - (NSInteger)numberOfAngularSegments
 {
-    return m_sa_segments;
+	return m_sa_segments;
 }
 
 - (void)preloadColours
 {
-    // creates a cache of colours representing the complete gradient preformatted in the pixel format of the image. This cache
-    // is then used to look up the colour value for a pixel when building the image much faster than computing it directly.
+	// creates a cache of colours representing the complete gradient preformatted in the pixel format of the image. This cache
+	// is then used to look up the colour value for a pixel when building the image much faster than computing it directly.
 
-    NSInteger i;
+	NSInteger i;
 
-    if (m_sa_colours)
-        free(m_sa_colours);
+	if (m_sa_colours)
+		free(m_sa_colours);
 
 #warning 64BIT: Inspect use of sizeof
-    m_sa_colours = malloc(sizeof(pix_int) * m_sa_segments);
+	m_sa_colours = malloc(sizeof(pix_int) * m_sa_segments);
 
-    if (m_sa_colours) {
-        CGFloat components[4];
-        CGFloat v;
+	if (m_sa_colours) {
+		CGFloat components[4];
+		CGFloat v;
 
-        for (i = 0; i < m_sa_segments; ++i) {
-            v = (CGFloat)i / (CGFloat)(m_sa_segments - 1);
+		for (i = 0; i < m_sa_segments; ++i) {
+			v = (CGFloat)i / (CGFloat)(m_sa_segments - 1);
 
-            [self private_colorAtValue:v
-                            components:components
-                          randomAccess:NO];
+			[self private_colorAtValue:v
+							components:components
+						  randomAccess:NO];
 
-            m_sa_colours[i].c.a = components[3] * 255;
+			m_sa_colours[i].c.a = components[3] * 255;
 
-            // colours in image are premultiplied by alpha, so do that
+			// colours in image are premultiplied by alpha, so do that
 
-            m_sa_colours[i].c.r = components[0] * components[3] * 255;
-            m_sa_colours[i].c.g = components[1] * components[3] * 255;
-            m_sa_colours[i].c.b = components[2] * components[3] * 255;
-        }
-    }
+			m_sa_colours[i].c.r = components[0] * components[3] * 255;
+			m_sa_colours[i].c.g = components[1] * components[3] * 255;
+			m_sa_colours[i].c.b = components[2] * components[3] * 255;
+		}
+	}
 }
 
 - (void)createGradientImageWithRect:(NSRect)rect
 {
-    CGColorSpaceRef cSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-    NSUInteger width, height;
+	CGColorSpaceRef cSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+	NSUInteger width, height;
 
-    // directly create a bitmap context of the desired size then convert it to an image - this is much easier than messing about with data
-    // providers, etc
+	// directly create a bitmap context of the desired size then convert it to an image - this is much easier than messing about with data
+	// providers, etc
 
-    width = MAX(1, (NSInteger)(rect.size.width * 1.5f));
-    height = MAX(1, (NSInteger)(rect.size.height * 1.5f));
+	width = MAX(1, (NSInteger)(rect.size.width * 1.5f));
+	height = MAX(1, (NSInteger)(rect.size.height * 1.5f));
 
-    NSUInteger bufferSize = 4 * width * (height + 1);
-    unsigned char* buffer;
+	NSUInteger bufferSize = 4 * width * (height + 1);
+	unsigned char* buffer;
 
-    buffer = (unsigned char*)malloc(bufferSize);
+	buffer = (unsigned char*)malloc(bufferSize);
 
-    if (buffer) {
-        m_sa_bitmap = CGBitmapContextCreate(buffer, width, height, 8, 4 * width, cSpace, kCGImageAlphaPremultipliedFirst);
+	if (buffer) {
+		m_sa_bitmap = CGBitmapContextCreate(buffer, width, height, 8, 4 * width, cSpace, kCGImageAlphaPremultipliedFirst);
 
-        LogEvent_(kInfoEvent, @"bitmap = %@", m_sa_bitmap);
+		LogEvent_(kInfoEvent, @"bitmap = %@", m_sa_bitmap);
 
-        // scan through the buffer and set all the pixels
+		// scan through the buffer and set all the pixels
 
-        NSPoint cp = m_sa_centre;
+		NSPoint cp = m_sa_centre;
 
-        cp.x -= rect.origin.x;
-        cp.y -= rect.origin.y;
+		cp.x -= rect.origin.x;
+		cp.y -= rect.origin.y;
 
-        pix_int* colours = m_sa_colours;
-        NSUInteger nColours = m_sa_segments;
-        CGFloat angle, twopi;
-        NSUInteger x, y, colour;
+		pix_int* colours = m_sa_colours;
+		NSUInteger nColours = m_sa_segments;
+		CGFloat angle, twopi;
+		NSUInteger x, y, colour;
 
-        // offset cp to account for 50% extra size of the image
+		// offset cp to account for 50% extra size of the image
 
-        cp.x *= 1.5;
-        cp.y *= 1.5;
-        twopi = 2 * pi;
+		cp.x *= 1.5;
+		cp.y *= 1.5;
+		twopi = 2 * pi;
 
 #warning 64BIT: Inspect use of unsigned long
 #warning 64BIT: Inspect use of unsigned long
-        unsigned long* p = (unsigned long*)buffer;
+		unsigned long* p = (unsigned long*)buffer;
 
-        for (y = 0; y < height; ++y) {
-            for (x = 0; x < width; ++x) {
-                // need to know angle of x,y relative to centre point which gives us an index into the colour table
+		for (y = 0; y < height; ++y) {
+			for (x = 0; x < width; ++x) {
+				// need to know angle of x,y relative to centre point which gives us an index into the colour table
 
-                angle = atan2f((CGFloat)y - cp.y, (CGFloat)x - cp.x) + pi;
-                colour = (NSUInteger)((angle * (CGFloat)nColours) / twopi);
+				angle = atan2f((CGFloat)y - cp.y, (CGFloat)x - cp.x) + pi;
+				colour = (NSUInteger)((angle * (CGFloat)nColours) / twopi);
 
-                // add a bit of random dither to the colour
+				// add a bit of random dither to the colour
 
-                if (m_ditherColours)
-                    colour = (NSInteger)(colour + [DKRandom randomPositiveOrNegativeNumber] * 2.0) % nColours;
+				if (m_ditherColours)
+					colour = (NSInteger)(colour + [DKRandom randomPositiveOrNegativeNumber] * 2.0) % nColours;
 
-                // write the colour to the image in one fell swoop
+				// write the colour to the image in one fell swoop
 
-                *p++ = colours[colour].pixel;
-            }
-        }
+				*p++ = colours[colour].pixel;
+			}
+		}
 
-        // convert to an image.
+		// convert to an image.
 
-        m_sa_image = CGBitmapContextCreateImage(m_sa_bitmap);
-    }
+		m_sa_image = CGBitmapContextCreateImage(m_sa_bitmap);
+	}
 
-    CGColorSpaceRelease(cSpace);
+	CGColorSpaceRelease(cSpace);
 }
 
 - (void)invalidateCache
 {
-    unsigned char* buffer;
+	unsigned char* buffer;
 
-    if (m_sa_image) {
-        CGImageRelease(m_sa_image);
-        m_sa_image = NULL;
-        buffer = CGBitmapContextGetData(m_sa_bitmap);
-        free(buffer);
-        CGContextRelease(m_sa_bitmap);
-        m_sa_bitmap = NULL;
-    }
+	if (m_sa_image) {
+		CGImageRelease(m_sa_image);
+		m_sa_image = NULL;
+		buffer = CGBitmapContextGetData(m_sa_bitmap);
+		free(buffer);
+		CGContextRelease(m_sa_bitmap);
+		m_sa_bitmap = NULL;
+	}
 }
 
 #pragma mark -
@@ -176,78 +176,78 @@
 #pragma unused(ep)
 #pragma unused(er)
 
-    NSInteger segments = [self numberOfAngularSegments];
-    NSRect rect = [path bounds];
-    CGFloat sa = [self angle];
-    BOOL inval = NO;
+	NSInteger segments = [self numberOfAngularSegments];
+	NSRect rect = [path bounds];
+	CGFloat sa = [self angle];
+	BOOL inval = NO;
 
-    if (segments == 0)
-        segments = 512;
+	if (segments == 0)
+		segments = 512;
 
-    if (segments != m_sa_segments) {
-        m_sa_segments = MAX(segments, 2);
-        inval = YES;
-    }
+	if (segments != m_sa_segments) {
+		m_sa_segments = MAX(segments, 2);
+		inval = YES;
+	}
 
-    if (m_sa_image != NULL && (rect.size.width > CGImageGetWidth(m_sa_image) || rect.size.height > CGImageGetHeight(m_sa_image)))
-        inval = YES;
+	if (m_sa_image != NULL && (rect.size.width > CGImageGetWidth(m_sa_image) || rect.size.height > CGImageGetHeight(m_sa_image)))
+		inval = YES;
 
-    if (m_sa_image == NULL)
-        inval = YES;
+	if (m_sa_image == NULL)
+		inval = YES;
 
-    if (inval) {
-        m_sa_centre = p;
-        [self invalidateCache];
-        [self preloadColours];
-        [self createGradientImageWithRect:rect];
-    }
+	if (inval) {
+		m_sa_centre = p;
+		[self invalidateCache];
+		[self preloadColours];
+		[self createGradientImageWithRect:rect];
+	}
 
-    // centre the image rect on <rect>, rotated to <sa>
+	// centre the image rect on <rect>, rotated to <sa>
 
-    NSPoint rcp = NSMakePoint(NSMidX(rect), NSMidY(rect));
-    NSRect imgRect = NSMakeRect(0, 0, CGImageGetWidth(m_sa_image), CGImageGetHeight(m_sa_image));
+	NSPoint rcp = NSMakePoint(NSMidX(rect), NSMidY(rect));
+	NSRect imgRect = NSMakeRect(0, 0, CGImageGetWidth(m_sa_image), CGImageGetHeight(m_sa_image));
 
-    rect.origin.x = -rect.size.width / 2;
-    rect.origin.y = -rect.size.height / 2;
+	rect.origin.x = -rect.size.width / 2;
+	rect.origin.y = -rect.size.height / 2;
 
-    NSRect ir = CentreRectInRect(imgRect, rect);
+	NSRect ir = CentreRectInRect(imgRect, rect);
 
-    SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-        [path addClip];
+	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+		[path addClip];
 
-    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 
-    CGContextTranslateCTM(context, rcp.x, rcp.y);
-    CGContextRotateCTM(context, sa);
+	CGContextTranslateCTM(context, rcp.x, rcp.y);
+	CGContextRotateCTM(context, sa);
 
-    CGContextDrawImage(context, *(CGRect*)&ir, m_sa_image);
-    RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	CGContextDrawImage(context, *(CGRect*)&ir, m_sa_image);
+	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
 
 #pragma mark -
 #pragma mark As an NSObject
 - (id)init
 {
-    self = [super init];
-    if (self != nil) {
-        NSAssert(m_sa_image == nil, @"Expected init to zero");
-        NSAssert(m_sa_bitmap == nil, @"Expected init to zero");
-        NSAssert(m_sa_colours == nil, @"Expected init to zero");
-        NSAssert(m_sa_segments == 0, @"Expected init to zero");
-        NSAssert(NSEqualPoints(m_sa_centre, NSZeroPoint), @"Expected init to zero");
-        NSAssert(m_sa_startAngle == 0, @"Expected init to zero");
-        NSAssert(m_sa_img_width == 0, @"Expected init to zero");
-        NSAssert(!m_ditherColours, @"Expected init to NO");
+	self = [super init];
+	if (self != nil) {
+		NSAssert(m_sa_image == nil, @"Expected init to zero");
+		NSAssert(m_sa_bitmap == nil, @"Expected init to zero");
+		NSAssert(m_sa_colours == nil, @"Expected init to zero");
+		NSAssert(m_sa_segments == 0, @"Expected init to zero");
+		NSAssert(NSEqualPoints(m_sa_centre, NSZeroPoint), @"Expected init to zero");
+		NSAssert(m_sa_startAngle == 0, @"Expected init to zero");
+		NSAssert(m_sa_img_width == 0, @"Expected init to zero");
+		NSAssert(!m_ditherColours, @"Expected init to NO");
 
-        [self setGradientType:kDKGradientSweptAngle];
-    }
-    return self;
+		[self setGradientType:kDKGradientSweptAngle];
+	}
+	return self;
 }
 
 - (void)dealloc
 {
-    [self invalidateCache];
-    [super dealloc];
+	[self invalidateCache];
+	[super dealloc];
 }
 
 @end

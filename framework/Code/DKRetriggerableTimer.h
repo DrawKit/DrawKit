@@ -18,10 +18,10 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
 */
 @interface DKRetriggerableTimer : NSObject {
 @private
-    NSTimer* mTimer;
-    NSTimeInterval mPeriod;
-    SEL mAction;
-    id mTarget;
+	NSTimer* mTimer;
+	NSTimeInterval mPeriod;
+	SEL mAction;
+	id mTarget;
 }
 
 + (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(id)target selector:(SEL)action;

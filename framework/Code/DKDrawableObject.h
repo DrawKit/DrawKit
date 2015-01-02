@@ -34,28 +34,28 @@ to attach arbitrary data to any drawable object.
 */
 @interface DKDrawableObject : NSObject <DKStorableObject, DKRenderable, NSCoding, NSCopying> {
 @private
-    id<DKDrawableContainer> mContainerRef; // the immediate container of this object (layer, group or another drawable)
-    DKStyle* m_style; // the drawing style attached
-    id<DKObjectStorage> mStorageRef; // ref to the object's storage (DKStorableObject protocol)
-    NSMutableDictionary* mUserInfo; // user info including metadata is stored in this dictionary
-    NSSize m_mouseOffset; // used to track where mouse was relative to bounds
-    NSUInteger mZIndex; // used by the DKStorableObject protocol
-    BOOL m_visible; // YES if visible
-    BOOL m_locked; // YES if locked
-    BOOL mLocationLocked; // YES if location is locked (independently of general lock)
-    BOOL m_snapEnable; // YES if mouse actions snap to grid/guides
-    BOOL m_inMouseOp; // YES while a mouse operation (drag) is in progress
-    BOOL m_mouseEverMoved; // used to set up undo for mouse operations
-    BOOL mMarked; // used by DKStorableObject protocol implementation
-    BOOL mGhosted; // YES if object is drawn ghosted
-    BOOL mIsHitTesting; // YES when drawContent is called for the purposes of hit-testing
-    NSMutableDictionary* mRenderingCache; // a dictionary to support general caching by renderers
+	id<DKDrawableContainer> mContainerRef; // the immediate container of this object (layer, group or another drawable)
+	DKStyle* m_style; // the drawing style attached
+	id<DKObjectStorage> mStorageRef; // ref to the object's storage (DKStorableObject protocol)
+	NSMutableDictionary* mUserInfo; // user info including metadata is stored in this dictionary
+	NSSize m_mouseOffset; // used to track where mouse was relative to bounds
+	NSUInteger mZIndex; // used by the DKStorableObject protocol
+	BOOL m_visible; // YES if visible
+	BOOL m_locked; // YES if locked
+	BOOL mLocationLocked; // YES if location is locked (independently of general lock)
+	BOOL m_snapEnable; // YES if mouse actions snap to grid/guides
+	BOOL m_inMouseOp; // YES while a mouse operation (drag) is in progress
+	BOOL m_mouseEverMoved; // used to set up undo for mouse operations
+	BOOL mMarked; // used by DKStorableObject protocol implementation
+	BOOL mGhosted; // YES if object is drawn ghosted
+	BOOL mIsHitTesting; // YES when drawContent is called for the purposes of hit-testing
+	NSMutableDictionary* mRenderingCache; // a dictionary to support general caching by renderers
 @protected
-    BOOL m_showBBox : 1; // debugging - display the object's bounding box
-    BOOL m_clipToBBox : 1; // debugging - force clip region to the bbox
-    BOOL m_showPartcodes : 1; // debugging - display the partcodes for each control/knob/handle
-    BOOL m_showTargets : 1; // debugging - show the bbox for each control/knob/handle
-    BOOL m_unused_padding : 4; // not used - reserved
+	BOOL m_showBBox : 1; // debugging - display the object's bounding box
+	BOOL m_clipToBBox : 1; // debugging - force clip region to the bbox
+	BOOL m_showPartcodes : 1; // debugging - display the partcodes for each control/knob/handle
+	BOOL m_showTargets : 1; // debugging - show the bbox for each control/knob/handle
+	BOOL m_unused_padding : 4; // not used - reserved
 }
 
 /** @brief Return whether an info floater is displayed when resizing an object
@@ -663,14 +663,14 @@ to attach arbitrary data to any drawable object.
 // partcodes that are known to the layer - most are private to the drawable object class, but these are public:
 
 enum {
-    kDKDrawingNoPart = 0,
-    kDKDrawingEntireObjectPart = -1
+	kDKDrawingNoPart = 0,
+	kDKDrawingEntireObjectPart = -1
 };
 
 // used to identify a possible "Convert To" submenu in an object's contextual menu
 
 enum {
-    kDKConvertToSubmenuTag = -55
+	kDKConvertToSubmenuTag = -55
 };
 
 // constant strings:

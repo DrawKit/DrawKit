@@ -30,7 +30,7 @@
 #include <tgmath.h>
 #endif
 
-#pragma mark Contants (Non-localized)
+#pragma mark Contants(Non - localized)
 NSString* kDKDrawableDidChangeNotification = @"kDKDrawableDidChangeNotification";
 NSString* kDKDrawableStyleWillBeDetachedNotification = @"kDKDrawableStyleWillBeDetachedNotification";
 NSString* kDKDrawableStyleWasAttachedNotification = @"kDKDrawableStyleWasAttachedNotification";
@@ -61,7 +61,7 @@ static NSDictionary* s_interconversionTable = nil;
  @return YES to show the info, NO to not show it */
 + (BOOL)displaysSizeInfoWhenDragging
 {
-    return ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDragFeedbackEnabledPreferencesKey];
+	return ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDragFeedbackEnabledPreferencesKey];
 }
 
 /** @brief Set whether an info floater is displayed when resizing an object
@@ -70,8 +70,8 @@ static NSDictionary* s_interconversionTable = nil;
  @param doesDisplay YES to show the info, NO to not show it */
 + (void)setDisplaysSizeInfoWhenDragging:(BOOL)doesDisplay
 {
-    [[NSUserDefaults standardUserDefaults] setBool:!doesDisplay
-                                            forKey:kDKDragFeedbackEnabledPreferencesKey];
+	[[NSUserDefaults standardUserDefaults] setBool:!doesDisplay
+											forKey:kDKDragFeedbackEnabledPreferencesKey];
 }
 
 /** @brief Returns the union of the bounds of the objects in the array
@@ -82,21 +82,21 @@ static NSDictionary* s_interconversionTable = nil;
  @return a rect, the union of the bounds of all objects */
 + (NSRect)unionOfBoundsOfDrawablesInArray:(NSArray*)array
 {
-    NSAssert(array != nil, @"array cannot be nil");
+	NSAssert(array != nil, @"array cannot be nil");
 
-    NSRect u = NSZeroRect;
-    NSEnumerator* iter = [array objectEnumerator];
-    id dko;
+	NSRect u = NSZeroRect;
+	NSEnumerator* iter = [array objectEnumerator];
+	id dko;
 
-    while ((dko = [iter nextObject])) {
-        if (![dko isKindOfClass:[DKDrawableObject class]])
-            [NSException raise:NSInternalInconsistencyException
-                        format:@"objects must all derive from DKDrawableObject"];
+	while ((dko = [iter nextObject])) {
+		if (![dko isKindOfClass:[DKDrawableObject class]])
+			[NSException raise:NSInternalInconsistencyException
+						format:@"objects must all derive from DKDrawableObject"];
 
-        u = UnionOfTwoRects(u, [dko bounds]);
-    }
+		u = UnionOfTwoRects(u, [dko bounds]);
+	}
 
-    return u;
+	return u;
 }
 
 /** @brief Return pasteboard types that this object class can receive
@@ -108,7 +108,7 @@ static NSDictionary* s_interconversionTable = nil;
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-    return nil;
+	return nil;
 }
 
 /** @brief Return the partcode that should be used by tools when initially creating a new object
@@ -119,7 +119,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (NSInteger)initialPartcodeForObjectCreation
 {
-    return kDKDrawingNoPart;
+	return kDKDrawingNoPart;
 }
 
 /** @brief Return whether obejcts of this class can be grouped
@@ -129,7 +129,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (BOOL)isGroupable
 {
-    return YES;
+	return YES;
 }
 
 /** @brief Unarchive a list of objects from the pasteboard, if possible
@@ -141,13 +141,13 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb
 {
-    NSData* pbdata = [pb dataForType:kDKDrawableObjectPasteboardType];
-    NSArray* objects = nil;
+	NSData* pbdata = [pb dataForType:kDKDrawableObjectPasteboardType];
+	NSArray* objects = nil;
 
-    if (pbdata != nil)
-        objects = [NSKeyedUnarchiver unarchiveObjectWithData:pbdata];
+	if (pbdata != nil)
+		objects = [NSKeyedUnarchiver unarchiveObjectWithData:pbdata];
 
-    return objects;
+	return objects;
 }
 
 /** @brief Return the number of native objects held by the pasteboard
@@ -159,8 +159,8 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (NSUInteger)countOfNativeObjectsOnPasteboard:(NSPasteboard*)pb
 {
-    DKPasteboardInfo* info = [DKPasteboardInfo pasteboardInfoWithPasteboard:pb];
-    return [info count];
+	DKPasteboardInfo* info = [DKPasteboardInfo pasteboardInfoWithPasteboard:pb];
+	return [info count];
 }
 
 /** @brief Set the outline colour to use when drawing objects in their ghosted state
@@ -170,12 +170,12 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (void)setGhostColour:(NSColor*)ghostColour
 {
-    [ghostColour retain];
-    [s_ghostColour release];
-    s_ghostColour = ghostColour;
+	[ghostColour retain];
+	[s_ghostColour release];
+	s_ghostColour = ghostColour;
 
-    [[NSUserDefaults standardUserDefaults] setObject:[ghostColour hexString]
-                                              forKey:kDKGhostColourPreferencesKey];
+	[[NSUserDefaults standardUserDefaults] setObject:[ghostColour hexString]
+											  forKey:kDKGhostColourPreferencesKey];
 }
 
 /** @brief Return the outline colour to use when drawing objects in their ghosted state
@@ -185,16 +185,16 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (NSColor*)ghostColour
 {
-    if (s_ghostColour == nil) {
-        NSColor* ghost = [NSColor colorWithHexString:[[NSUserDefaults standardUserDefaults] stringForKey:kDKGhostColourPreferencesKey]];
+	if (s_ghostColour == nil) {
+		NSColor* ghost = [NSColor colorWithHexString:[[NSUserDefaults standardUserDefaults] stringForKey:kDKGhostColourPreferencesKey]];
 
-        if (ghost == nil)
-            ghost = [NSColor lightGrayColor];
+		if (ghost == nil)
+			ghost = [NSColor lightGrayColor];
 
-        [self setGhostColour:ghost];
-    }
+		[self setGhostColour:ghost];
+	}
 
-    return s_ghostColour;
+	return s_ghostColour;
 }
 
 #pragma mark -
@@ -208,7 +208,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (NSDictionary*)interconversionTable
 {
-    return s_interconversionTable;
+	return s_interconversionTable;
 }
 
 /** @brief Return the interconversion table
@@ -221,9 +221,9 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (void)setInterconversionTable:(NSDictionary*)icTable
 {
-    [icTable retain];
-    [s_interconversionTable release];
-    s_interconversionTable = icTable;
+	[icTable retain];
+	[s_interconversionTable release];
+	s_interconversionTable = icTable;
 }
 
 /** @brief Return the class to use in place of the given class when performing a conversion
@@ -235,18 +235,18 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (Class)classForConversionRequestFor:(Class)aClass
 {
-    NSAssert(aClass != Nil, @"class was Nil when requesting a conversion class");
+	NSAssert(aClass != Nil, @"class was Nil when requesting a conversion class");
 
-    Class icClass = [[self interconversionTable] objectForKey:NSStringFromClass(aClass)];
+	Class icClass = [[self interconversionTable] objectForKey:NSStringFromClass(aClass)];
 
-    // if not found, return input unchanged
+	// if not found, return input unchanged
 
-    if (icClass == nil)
-        return aClass;
-    else {
-        NSAssert2([icClass isSubclassOfClass:aClass], @"conversion failed - %@ must be a subclass of %@", icClass, aClass);
-        return icClass;
-    }
+	if (icClass == nil)
+		return aClass;
+	else {
+		NSAssert2([icClass isSubclassOfClass:aClass], @"conversion failed - %@ must be a subclass of %@", icClass, aClass);
+		return icClass;
+	}
 }
 
 /** @brief Sets the class to use in place of the a base class when performing a conversion
@@ -258,22 +258,22 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (void)substituteClass:(Class)newClass forClass:(Class)baseClass
 {
-    NSAssert(newClass != Nil, @"class was Nil");
-    NSAssert(baseClass != Nil, @"base class was Nil");
+	NSAssert(newClass != Nil, @"class was Nil");
+	NSAssert(baseClass != Nil, @"base class was Nil");
 
-    if ([newClass isSubclassOfClass:baseClass]) {
-        NSMutableDictionary* dict = [[self interconversionTable] mutableCopy];
+	if ([newClass isSubclassOfClass:baseClass]) {
+		NSMutableDictionary* dict = [[self interconversionTable] mutableCopy];
 
-        if (dict == nil)
-            dict = [[NSMutableDictionary alloc] init];
+		if (dict == nil)
+			dict = [[NSMutableDictionary alloc] init];
 
-        [dict setObject:newClass
-                 forKey:NSStringFromClass(baseClass)];
-        [self setInterconversionTable:dict];
-        [dict release];
-    } else
-        [NSException raise:NSInternalInconsistencyException
-                    format:@"you must only substitute a subclass for the base class"];
+		[dict setObject:newClass
+				 forKey:NSStringFromClass(baseClass)];
+		[self setInterconversionTable:dict];
+		[dict release];
+	} else
+		[NSException raise:NSInternalInconsistencyException
+					format:@"you must only substitute a subclass for the base class"];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -285,15 +285,15 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (id)initWithStyle:(DKStyle*)aStyle
 {
-    self = [super init];
-    if (self) {
-        m_visible = YES;
-        m_snapEnable = YES;
+	self = [super init];
+	if (self) {
+		m_visible = YES;
+		m_snapEnable = YES;
 
-        [self setStyle:aStyle];
-    }
+		[self setStyle:aStyle];
+	}
 
-    return self;
+	return self;
 }
 
 #pragma mark -
@@ -306,7 +306,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (DKObjectOwnerLayer*)layer
 {
-    return (DKObjectOwnerLayer*)[[self container] layer];
+	return (DKObjectOwnerLayer*)[[self container] layer];
 }
 
 /** @brief Returns the drawing that owns this object's layer
@@ -314,7 +314,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (DKDrawing*)drawing
 {
-    return [[self container] drawing];
+	return [[self container] drawing];
 }
 
 /** @brief Returns the undo manager used to handle undoable actions for this object
@@ -322,7 +322,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (NSUndoManager*)undoManager
 {
-    return [[self drawing] undoManager];
+	return [[self drawing] undoManager];
 }
 
 /** @brief Returns the immediate parent of this object
@@ -332,7 +332,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (id<DKDrawableContainer>)container
 {
-    return mContainerRef;
+	return mContainerRef;
 }
 
 /** @brief Sets the immediate parent of this object (a DKObjectOwnerLayer layer, typically)
@@ -345,22 +345,22 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setContainer:(id<DKDrawableContainer>)aContainer
 {
-    if (aContainer != mContainerRef) {
-        // nil is permitted, but if not nil, must conform to container protocol
+	if (aContainer != mContainerRef) {
+		// nil is permitted, but if not nil, must conform to container protocol
 
-        if (aContainer) {
-            NSAssert1([aContainer conformsToProtocol:@protocol(DKDrawableContainer)], @"object passed (%@) does not conform to the DKDrawableContainer protocol", aContainer);
-        }
+		if (aContainer) {
+			NSAssert1([aContainer conformsToProtocol:@protocol(DKDrawableContainer)], @"object passed (%@) does not conform to the DKDrawableContainer protocol", aContainer);
+		}
 
-        mContainerRef = aContainer;
+		mContainerRef = aContainer;
 
-        // make sure any attached style is aware of the undo manager used by the drawing/layers
+		// make sure any attached style is aware of the undo manager used by the drawing/layers
 
-        if (aContainer)
-            [[self style] setUndoManager:[self undoManager]];
-        else
-            [[self style] setUndoManager:nil];
-    }
+		if (aContainer)
+			[[self style] setUndoManager:[self undoManager]];
+		else
+			[[self style] setUndoManager:nil];
+	}
 }
 
 /** @brief Returns the index position of this object in its container layer
@@ -376,10 +376,10 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (NSUInteger)indexInContainer
 {
-    if ([[self container] respondsToSelector:@selector(indexOfObject:)])
-        return [[self container] indexOfObject:self];
-    else
-        return NSNotFound;
+	if ([[self container] respondsToSelector:@selector(indexOfObject:)])
+		return [[self container] indexOfObject:self];
+	else
+		return NSNotFound;
 }
 
 #pragma mark -
@@ -393,12 +393,12 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setIndex:(NSUInteger)zIndex
 {
-    mZIndex = zIndex;
+	mZIndex = zIndex;
 }
 
 - (NSUInteger)index
 {
-    return mZIndex;
+	return mZIndex;
 }
 
 /** @brief Returns the reference to the object's storage
@@ -408,7 +408,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (id<DKObjectStorage>)storage
 {
-    return mStorageRef;
+	return mStorageRef;
 }
 
 /** @brief Returns the reference to the object's storage
@@ -418,7 +418,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setStorage:(id<DKObjectStorage>)storage
 {
-    mStorageRef = storage;
+	mStorageRef = storage;
 }
 
 /** @brief Marks the object
@@ -428,7 +428,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setMarked:(BOOL)markIt
 {
-    mMarked = markIt;
+	mMarked = markIt;
 }
 
 /** @brief Marks the object
@@ -438,7 +438,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)isMarked
 {
-    return mMarked;
+	return mMarked;
 }
 
 #pragma mark -
@@ -451,16 +451,16 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setVisible:(BOOL)vis
 {
-    if (m_visible != vis) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setVisible:m_visible];
-        m_visible = vis;
-        [self notifyVisualChange];
-        [self notifyStatusChange];
+	if (m_visible != vis) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setVisible:m_visible];
+		m_visible = vis;
+		[self notifyVisualChange];
+		[self notifyStatusChange];
 
-        [[self storage] objectDidChangeVisibility:self];
+		[[self storage] objectDidChangeVisibility:self];
 
-        [[self undoManager] setActionName:vis ? NSLocalizedString(@"Show", @"undo action for single object show") : NSLocalizedString(@"Hide", @"undo action for single object hide")];
-    }
+		[[self undoManager] setActionName:vis ? NSLocalizedString(@"Show", @"undo action for single object show") : NSLocalizedString(@"Hide", @"undo action for single object hide")];
+	}
 }
 
 /** @brief Is the object visible?
@@ -468,7 +468,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)visible
 {
-    return m_visible;
+	return m_visible;
 }
 
 /** @brief Sets whether the object is locked or not
@@ -478,13 +478,13 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setLocked:(BOOL)locked
 {
-    if (m_locked != locked) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setLocked:m_locked];
-        m_locked = locked;
-        [self notifyVisualChange]; // on the assumption that the locked state is shown differently
-        [self notifyStatusChange];
-        [[self undoManager] setActionName:locked ? NSLocalizedString(@"Lock", @"undo action for single object lock") : NSLocalizedString(@"Unlock", @"undo action for single object unlock")];
-    }
+	if (m_locked != locked) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setLocked:m_locked];
+		m_locked = locked;
+		[self notifyVisualChange]; // on the assumption that the locked state is shown differently
+		[self notifyStatusChange];
+		[[self undoManager] setActionName:locked ? NSLocalizedString(@"Lock", @"undo action for single object lock") : NSLocalizedString(@"Unlock", @"undo action for single object unlock")];
+	}
 }
 
 /** @brief Is the object locked?
@@ -492,7 +492,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)locked
 {
-    return m_locked;
+	return m_locked;
 }
 
 /** @brief Sets whether the object's location is locked or not
@@ -502,12 +502,12 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setLocationLocked:(BOOL)lockLocation
 {
-    if (mLocationLocked != lockLocation) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setLocationLocked:mLocationLocked];
-        mLocationLocked = lockLocation;
-        [self notifyVisualChange]; // on the assumption that the state is shown differently
-        [self notifyStatusChange];
-    }
+	if (mLocationLocked != lockLocation) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setLocationLocked:mLocationLocked];
+		mLocationLocked = lockLocation;
+		[self notifyVisualChange]; // on the assumption that the state is shown differently
+		[self notifyStatusChange];
+	}
 }
 
 /** @brief Whether the object's location is locked or not
@@ -517,7 +517,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)locationLocked
 {
-    return mLocationLocked;
+	return mLocationLocked;
 }
 
 /** @brief Enable mouse snapping
@@ -525,7 +525,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setMouseSnappingEnabled:(BOOL)ems
 {
-    m_snapEnable = ems;
+	m_snapEnable = ems;
 }
 
 /** @brief Is mouse snapping enabled?
@@ -533,7 +533,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)mouseSnappingEnabled
 {
-    return m_snapEnable;
+	return m_snapEnable;
 }
 
 /** @brief Set whether the object is ghosted rather than with its full style
@@ -544,14 +544,14 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setGhosted:(BOOL)ghosted
 {
-    if (mGhosted != ghosted && ![self locked]) {
-        [[[self undoManager] prepareWithInvocationTarget:self] setGhosted:mGhosted];
-        mGhosted = ghosted;
-        [self notifyVisualChange];
-        [self notifyStatusChange];
+	if (mGhosted != ghosted && ![self locked]) {
+		[[[self undoManager] prepareWithInvocationTarget:self] setGhosted:mGhosted];
+		mGhosted = ghosted;
+		[self notifyVisualChange];
+		[self notifyStatusChange];
 
-        [[self undoManager] setActionName:ghosted ? NSLocalizedString(@"Ghost", @"undo action for single object ghost") : NSLocalizedString(@"Unghost", @"undo action for single object unghost")];
-    }
+		[[self undoManager] setActionName:ghosted ? NSLocalizedString(@"Ghost", @"undo action for single object ghost") : NSLocalizedString(@"Unghost", @"undo action for single object unghost")];
+	}
 }
 
 /** @brief Retuirn whether the object is ghosted rather than with its full style
@@ -562,37 +562,37 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)isGhosted
 {
-    return mGhosted;
+	return mGhosted;
 }
 
 - (BOOL)isTrackingMouse
 {
-    return m_inMouseOp;
+	return m_inMouseOp;
 }
 
 - (void)setTrackingMouse:(BOOL)tracking
 {
-    m_inMouseOp = tracking;
+	m_inMouseOp = tracking;
 }
 
 - (NSSize)mouseDragOffset
 {
-    return m_mouseOffset;
+	return m_mouseOffset;
 }
 
 - (void)setMouseDragOffset:(NSSize)offset
 {
-    m_mouseOffset = offset;
+	m_mouseOffset = offset;
 }
 
 - (BOOL)mouseHasMovedSinceStartOfTracking
 {
-    return m_mouseEverMoved;
+	return m_mouseEverMoved;
 }
 
 - (void)setMouseHasMovedSinceStartOfTracking:(BOOL)moved
 {
-    m_mouseEverMoved = moved;
+	m_mouseEverMoved = moved;
 }
 
 #pragma mark -
@@ -604,7 +604,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)isSelected
 {
-    return [(DKObjectDrawingLayer*)[self layer] isSelectedObject:self];
+	return [(DKObjectDrawingLayer*)[self layer] isSelectedObject:self];
 }
 
 /** @brief Get notified when the object is selected
@@ -614,8 +614,8 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)objectDidBecomeSelected
 {
-    [self notifyStatusChange];
-    [self updateRulerMarkers];
+	[self notifyStatusChange];
+	[self updateRulerMarkers];
 }
 
 /** @brief Get notified when an object is deselected
@@ -624,9 +624,9 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)objectIsNoLongerSelected
 {
-    [self notifyStatusChange];
+	[self notifyStatusChange];
 
-    // override to make use of this notification
+	// override to make use of this notification
 }
 
 /** @brief Is the object able to be selected?
@@ -637,7 +637,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)objectMayBecomeSelected
 {
-    return YES;
+	return YES;
 }
 
 /** @brief Is the object currently a pending object?
@@ -648,7 +648,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)isPendingObject
 {
-    return [[self layer] pendingObject] == self;
+	return [[self layer] pendingObject] == self;
 }
 
 /** @brief Is the object currently the layer's key object?
@@ -660,7 +660,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (BOOL)isKeyObject
 {
-    return [(DKObjectDrawingLayer*)[self layer] keyObject] == self;
+	return [(DKObjectDrawingLayer*)[self layer] keyObject] == self;
 }
 
 /** @brief Return the subselection of the object
@@ -675,7 +675,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (NSSet*)subSelection
 {
-    return [NSSet setWithObject:self];
+	return [NSSet setWithObject:self];
 }
 
 /** @brief The object was added to a layer
@@ -688,16 +688,16 @@ static NSDictionary* s_interconversionTable = nil;
 {
 #pragma unused(aLayer)
 
-    // begin observing style changes
+	// begin observing style changes
 
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(styleWillChange:)
-                                                 name:kDKStyleWillChangeNotification
-                                               object:[self style]];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(styleDidChange:)
-                                                 name:kDKStyleDidChangeNotification
-                                               object:[self style]];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(styleWillChange:)
+												 name:kDKStyleWillChangeNotification
+											   object:[self style]];
+	[[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(styleDidChange:)
+												 name:kDKStyleDidChangeNotification
+											   object:[self style]];
 }
 
 /** @brief The object was removed from the layer
@@ -710,9 +710,9 @@ static NSDictionary* s_interconversionTable = nil;
 {
 #pragma unused(aLayer)
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:nil
-                                                  object:[self style]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self
+													name:nil
+												  object:[self style]];
 }
 
 #pragma mark -
@@ -731,57 +731,57 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)drawContentWithSelectedState:(BOOL)selected
 {
-    NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	NSAutoreleasePool* pool = [NSAutoreleasePool new];
 
 #ifdef qIncludeGraphicDebugging
-    [NSGraphicsContext saveGraphicsState];
+	[NSGraphicsContext saveGraphicsState];
 
-    if (m_clipToBBox) {
-        NSBezierPath* clipPath = [NSBezierPath bezierPathWithRect:[self bounds]];
-        [clipPath addClip];
-    }
+	if (m_clipToBBox) {
+		NSBezierPath* clipPath = [NSBezierPath bezierPathWithRect:[self bounds]];
+		[clipPath addClip];
+	}
 #endif
-    // draw the object's actual content
+	// draw the object's actual content
 
-    mIsHitTesting = NO;
-    [self drawContent];
+	mIsHitTesting = NO;
+	[self drawContent];
 
-    // draw the selection highlight - other code should have already checked -objectMayBecomeSelected and refused to
-    // select the object but if for some reason this wasn't done, this at least supresses the highlight
+	// draw the selection highlight - other code should have already checked -objectMayBecomeSelected and refused to
+	// select the object but if for some reason this wasn't done, this at least supresses the highlight
 
-    if (selected && [self objectMayBecomeSelected])
-        [self drawSelectedState];
+	if (selected && [self objectMayBecomeSelected])
+		[self drawSelectedState];
 
 #ifdef qIncludeGraphicDebugging
 
-    [NSGraphicsContext restoreGraphicsState];
+	[NSGraphicsContext restoreGraphicsState];
 
-    if (m_showBBox) {
-        CGFloat sc = 0.5f / [(DKDrawingView*)[self currentView] scale];
+	if (m_showBBox) {
+		CGFloat sc = 0.5f / [(DKDrawingView*)[self currentView] scale];
 
-        [[NSColor redColor] set];
+		[[NSColor redColor] set];
 
-        NSRect bb = [self bounds];
-        bb = NSInsetRect(bb, sc, sc);
-        NSBezierPath* bbox = [NSBezierPath bezierPathWithRect:bb];
+		NSRect bb = [self bounds];
+		bb = NSInsetRect(bb, sc, sc);
+		NSBezierPath* bbox = [NSBezierPath bezierPathWithRect:bb];
 
-        [bbox moveToPoint:bb.origin];
-        [bbox lineToPoint:NSMakePoint(NSMaxX(bb), NSMaxY(bb))];
-        [bbox moveToPoint:NSMakePoint(NSMaxX(bb), NSMinY(bb))];
-        [bbox lineToPoint:NSMakePoint(NSMinX(bb), NSMaxY(bb))];
+		[bbox moveToPoint:bb.origin];
+		[bbox lineToPoint:NSMakePoint(NSMaxX(bb), NSMaxY(bb))];
+		[bbox moveToPoint:NSMakePoint(NSMaxX(bb), NSMinY(bb))];
+		[bbox lineToPoint:NSMakePoint(NSMinX(bb), NSMaxY(bb))];
 
-        [bbox setLineWidth:0.0];
-        [bbox stroke];
-    }
+		[bbox setLineWidth:0.0];
+		[bbox stroke];
+	}
 
 #endif
 
-    [pool drain];
+	[pool drain];
 }
 
 - (void)drawContent
 {
-    [self drawContentWithStyle:[self style]];
+	[self drawContentWithStyle:[self style]];
 }
 
 /** @brief Draw the content of the object but using a specific style, which might not be the one attached
@@ -789,38 +789,38 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)drawContentWithStyle:(DKStyle*)aStyle
 {
-    if ([self isGhosted])
-        [self drawGhostedContent];
-    else if (aStyle && ([aStyle countOfRenderList] > 0 || [aStyle hasTextAttributes])) {
-        @try
-        {
-            [aStyle render:self];
-        }
-        @catch (id exc)
-        {
-            // exceptions arising within style renderings can cause havoc with the drawing state. To try and gracefully exit,
-            // the rogue object is hidden after logging the problem. This is meant as a last resort to keep the document working -
-            // styles may need to handle exceptions more gracefully internally. Any such logs must be investigated.
+	if ([self isGhosted])
+		[self drawGhostedContent];
+	else if (aStyle && ([aStyle countOfRenderList] > 0 || [aStyle hasTextAttributes])) {
+		@try
+		{
+			[aStyle render:self];
+		}
+		@catch (id exc)
+		{
+			// exceptions arising within style renderings can cause havoc with the drawing state. To try and gracefully exit,
+			// the rogue object is hidden after logging the problem. This is meant as a last resort to keep the document working -
+			// styles may need to handle exceptions more gracefully internally. Any such logs must be investigated.
 
-            NSLog(@"object %@ (style = %@) encountered an exception while rendering", self, [self style]);
-            //[self setVisible:NO];
+			NSLog(@"object %@ (style = %@) encountered an exception while rendering", self, [self style]);
+			//[self setVisible:NO];
 
-            @throw;
-        }
-    } else {
-        // if there's no style, the shape will be invisible. This makes it hard to select for deletion, etc. Thus if
-        // drawing to the screen, a visible but feint fill is drawn so that it can be seen and selected. This is not drawn
-        // to the printer so the drawing remains correct for printed output.
+			@throw;
+		}
+	} else {
+		// if there's no style, the shape will be invisible. This makes it hard to select for deletion, etc. Thus if
+		// drawing to the screen, a visible but feint fill is drawn so that it can be seen and selected. This is not drawn
+		// to the printer so the drawing remains correct for printed output.
 
-        if ([NSGraphicsContext currentContextDrawingToScreen]) {
-            [[NSColor rgbGrey:0.95
-                    withAlpha:0.5] set];
+		if ([NSGraphicsContext currentContextDrawingToScreen]) {
+			[[NSColor rgbGrey:0.95
+					withAlpha:0.5] set];
 
-            NSBezierPath* rpc = [[self renderingPath] copy];
-            [rpc fill];
-            [rpc release];
-        }
-    }
+			NSBezierPath* rpc = [[self renderingPath] copy];
+			[rpc fill];
+			[rpc release];
+		}
+	}
 }
 
 /** @brief Draw the ghosted content of the object
@@ -831,10 +831,10 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)drawGhostedContent
 {
-    [[[self class] ghostColour] set];
-    NSBezierPath* rp = [self renderingPath];
-    [rp setLineWidth:0];
-    [rp stroke];
+	[[[self class] ghostColour] set];
+	NSBezierPath* rp = [self renderingPath];
+	[rp setLineWidth:0];
+	[rp stroke];
 }
 
 /** @brief Draw the selection highlight for the object
@@ -844,7 +844,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)drawSelectedState
 {
-    // placeholder - override to implement this
+	// placeholder - override to implement this
 }
 
 /** @brief Stroke the given path using the selection highlight colour for the owning layer
@@ -855,13 +855,13 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)drawSelectionPath:(NSBezierPath*)path
 {
-    if ([self locked])
-        [[NSColor lightGrayColor] set];
-    else
-        [[[self layer] selectionColour] set];
+	if ([self locked])
+		[[NSColor lightGrayColor] set];
+	else
+		[[[self layer] selectionColour] set];
 
-    [path setLineWidth:0.0];
-    [path stroke];
+	[path setLineWidth:0.0];
+	[path stroke];
 }
 
 /** @brief Request a redraw of this object
@@ -874,9 +874,9 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)notifyVisualChange
 {
-    if ([self layer])
-        [[self layer] drawable:self
-            needsDisplayInRect:[self bounds]];
+	if ([self layer])
+		[[self layer] drawable:self
+			needsDisplayInRect:[self bounds]];
 }
 
 /** @brief Notify the drawing and its controllers that a non-visual status change occurred
@@ -885,7 +885,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)notifyStatusChange
 {
-    [[self drawing] objectDidNotifyStatusChange:self];
+	[[self drawing] objectDidNotifyStatusChange:self];
 }
 
 /** @brief Notify that the geomnetry of the object has changed
@@ -899,12 +899,12 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)notifyGeometryChange:(NSRect)oldBounds
 {
-    if (!NSEqualRects(oldBounds, [self bounds])) {
-        [self invalidateRenderingCache];
-        [[self storage] object:self
-            didChangeBoundsFrom:oldBounds];
-        [self updateRulerMarkers];
-    }
+	if (!NSEqualRects(oldBounds, [self bounds])) {
+		[self invalidateRenderingCache];
+		[[self storage] object:self
+			didChangeBoundsFrom:oldBounds];
+		[self updateRulerMarkers];
+	}
 }
 
 /** @brief Sets the ruler markers for all of the drawing's views to the logical bounds of this
@@ -915,7 +915,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)updateRulerMarkers
 {
-    [[self layer] updateRulerMarkersForRect:[self logicalBounds]];
+	[[self layer] updateRulerMarkersForRect:[self logicalBounds]];
 }
 
 /** @brief Mark some part of the drawing as needing update
@@ -925,8 +925,8 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setNeedsDisplayInRect:(NSRect)rect
 {
-    [[self layer] drawable:self
-        needsDisplayInRect:rect];
+	[[self layer] drawable:self
+		needsDisplayInRect:rect];
 }
 
 /** @brief Mark multiple parts of the drawing as needing update
@@ -935,9 +935,9 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects
 {
-    [[self layer] drawable:self
-        needsDisplayInRect:NSZeroRect];
-    [[self layer] setNeedsDisplayInRects:setOfRects];
+	[[self layer] drawable:self
+		needsDisplayInRect:NSZeroRect];
+	[[self layer] setNeedsDisplayInRects:setOfRects];
 }
 
 /** @brief Mark multiple parts of the drawing as needing update
@@ -947,10 +947,10 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding
 {
-    [[self layer] drawable:self
-        needsDisplayInRect:NSZeroRect];
-    [[self layer] setNeedsDisplayInRects:setOfRects
-                        withExtraPadding:padding];
+	[[self layer] drawable:self
+		needsDisplayInRect:NSZeroRect];
+	[[self layer] setNeedsDisplayInRects:setOfRects
+						withExtraPadding:padding];
 }
 
 #pragma mark -
@@ -967,28 +967,28 @@ static NSDictionary* s_interconversionTable = nil;
 {
 #pragma unused(aStyle)
 
-    NSAssert(destRect.size.width > 0.0 && destRect.size.height > 0.0, @"destination rect has zero size");
+	NSAssert(destRect.size.width > 0.0 && destRect.size.height > 0.0, @"destination rect has zero size");
 
-    if (NSEqualRects(srcRect, NSZeroRect))
-        srcRect = [self bounds];
-    else
-        srcRect = NSIntersectionRect(srcRect, [self bounds]);
+	if (NSEqualRects(srcRect, NSZeroRect))
+		srcRect = [self bounds];
+	else
+		srcRect = NSIntersectionRect(srcRect, [self bounds]);
 
-    if (NSEqualRects(srcRect, NSZeroRect))
-        return;
+	if (NSEqualRects(srcRect, NSZeroRect))
+		return;
 
-    SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-        [NSBezierPath clipRect : destRect];
+	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+		[NSBezierPath clipRect : destRect];
 
-    // compute the necessary transform to perform the scaling and translation from srcRect to destRect.
+	// compute the necessary transform to perform the scaling and translation from srcRect to destRect.
 
-    NSAffineTransform* tfm = [NSAffineTransform transform];
-    [tfm mapFrom:srcRect
-              to:destRect];
-    [tfm concat];
+	NSAffineTransform* tfm = [NSAffineTransform transform];
+	[tfm mapFrom:srcRect
+			  to:destRect];
+	[tfm concat];
 
-    [self drawContent];
-    RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	[self drawContent];
+	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
 
 /** @brief Returns the single object rendered as a PDF image
@@ -999,17 +999,17 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (NSData*)pdf
 {
-    NSRect frame = NSZeroRect;
-    frame.size = [[self drawing] drawingSize];
+	NSRect frame = NSZeroRect;
+	frame.size = [[self drawing] drawingSize];
 
-    DKDrawablePDFView* pdfView = [[DKDrawablePDFView alloc] initWithFrame:frame
-                                                                   object:self];
+	DKDrawablePDFView* pdfView = [[DKDrawablePDFView alloc] initWithFrame:frame
+																   object:self];
 
-    NSData* pdfData = [pdfView dataWithPDFInsideRect:[self bounds]];
+	NSData* pdfData = [pdfView dataWithPDFInsideRect:[self bounds]];
 
-    [pdfView release];
+	[pdfView release];
 
-    return pdfData;
+	return pdfData;
 }
 
 #pragma mark -
@@ -1023,76 +1023,76 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)setStyle:(DKStyle*)aStyle
 {
-    // do not allow in any old object
+	// do not allow in any old object
 
-    if (aStyle && ![aStyle isKindOfClass:[DKStyle class]])
-        return;
+	if (aStyle && ![aStyle isKindOfClass:[DKStyle class]])
+		return;
 
-    // important rule: always make a 'copy' of the style to honour its sharable flag:
+	// important rule: always make a 'copy' of the style to honour its sharable flag:
 
-    DKStyle* newStyle = [aStyle copy];
+	DKStyle* newStyle = [aStyle copy];
 
-    if (newStyle != [self style]) {
-        [[self undoManager] registerUndoWithTarget:self
-                                          selector:@selector(setStyle:)
-                                            object:[self style]];
-        [self notifyVisualChange];
+	if (newStyle != [self style]) {
+		[[self undoManager] registerUndoWithTarget:self
+										  selector:@selector(setStyle:)
+											object:[self style]];
+		[self notifyVisualChange];
 
-        NSRect oldBounds = [self bounds];
+		NSRect oldBounds = [self bounds];
 
-        // subscribe to change notifications from the style so we can refresh and undo changes
+		// subscribe to change notifications from the style so we can refresh and undo changes
 
-        if (m_style)
-            [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                            name:nil
-                                                          object:m_style];
+		if (m_style)
+			[[NSNotificationCenter defaultCenter] removeObserver:self
+															name:nil
+														  object:m_style];
 
-        // adding observers is slow, noticeable when creating many objects at a time (for example when reading a file). To help, the observer
-        // is not added straight away unless we are already part of a layer. The observation will be established when the object is added to the layer.
+		// adding observers is slow, noticeable when creating many objects at a time (for example when reading a file). To help, the observer
+		// is not added straight away unless we are already part of a layer. The observation will be established when the object is added to the layer.
 
-        if (newStyle && [self layer]) {
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(styleWillChange:)
-                                                         name:kDKStyleWillChangeNotification
-                                                       object:newStyle];
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(styleDidChange:)
-                                                         name:kDKStyleDidChangeNotification
-                                                       object:newStyle];
-        }
+		if (newStyle && [self layer]) {
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(styleWillChange:)
+														 name:kDKStyleWillChangeNotification
+													   object:newStyle];
+			[[NSNotificationCenter defaultCenter] addObserver:self
+													 selector:@selector(styleDidChange:)
+														 name:kDKStyleDidChangeNotification
+													   object:newStyle];
+		}
 
-        // set up the user info. If newStyle is nil, this will terminate the list after the old style
+		// set up the user info. If newStyle is nil, this will terminate the list after the old style
 
-        NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[self style], kDKDrawableOldStyleKey, newStyle, kDKDrawableNewStyleKey, nil];
+		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[self style], kDKDrawableOldStyleKey, newStyle, kDKDrawableNewStyleKey, nil];
 
-        if ([self layer])
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableStyleWillBeDetachedNotification
-                                                                object:self
-                                                              userInfo:userInfo];
+		if ([self layer])
+			[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableStyleWillBeDetachedNotification
+																object:self
+															  userInfo:userInfo];
 
-        [m_style styleWillBeRemoved:self];
-        [m_style release];
-        m_style = [newStyle retain];
+		[m_style styleWillBeRemoved:self];
+		[m_style release];
+		m_style = [newStyle retain];
 
-        // set the style's undo manager to ours if it's actually set
+		// set the style's undo manager to ours if it's actually set
 
-        if ([self undoManager] != nil)
-            [m_style setUndoManager:[self undoManager]];
+		if ([self undoManager] != nil)
+			[m_style setUndoManager:[self undoManager]];
 
-        [m_style styleWasAttached:self];
-        [self notifyStatusChange];
-        [self notifyVisualChange];
-        [self notifyGeometryChange:oldBounds]; // in case the style change affects the bounds
+		[m_style styleWasAttached:self];
+		[self notifyStatusChange];
+		[self notifyVisualChange];
+		[self notifyGeometryChange:oldBounds]; // in case the style change affects the bounds
 
-        // notify if we are part of a layer, otherwise don't bother
+		// notify if we are part of a layer, otherwise don't bother
 
-        if ([self layer])
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableStyleWasAttachedNotification
-                                                                object:self
-                                                              userInfo:userInfo];
-    }
+		if ([self layer])
+			[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableStyleWasAttachedNotification
+																object:self
+															  userInfo:userInfo];
+	}
 
-    [newStyle release];
+	[newStyle release];
 }
 
 /** @brief Return the attached style
@@ -1100,7 +1100,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (DKStyle*)style
 {
-    return m_style;
+	return m_style;
 }
 
 static NSRect s_oldBounds;
@@ -1109,20 +1109,20 @@ static NSRect s_oldBounds;
  */
 - (void)styleWillChange:(NSNotification*)note
 {
-    if ([note object] == [self style]) {
-        s_oldBounds = [self bounds];
-        [self notifyVisualChange];
-    }
+	if ([note object] == [self style]) {
+		s_oldBounds = [self bounds];
+		[self notifyVisualChange];
+	}
 }
 
 /** @brief Called just after the attached style has changed
  */
 - (void)styleDidChange:(NSNotification*)note
 {
-    if ([note object] == [self style]) {
-        [self notifyVisualChange];
-        [self notifyGeometryChange:s_oldBounds];
-    }
+	if ([note object] == [self style]) {
+		[self notifyVisualChange];
+		[self notifyGeometryChange:s_oldBounds];
+	}
 }
 
 /** @brief Return all styles used by this object
@@ -1135,10 +1135,10 @@ static NSRect s_oldBounds;
  */
 - (NSSet*)allStyles
 {
-    if ([self style] != nil)
-        return [NSSet setWithObject:[self style]];
-    else
-        return nil;
+	if ([self style] != nil)
+		return [NSSet setWithObject:[self style]];
+	else
+		return nil;
 }
 
 /** @brief Return all registered styles used by this object
@@ -1155,14 +1155,14 @@ static NSRect s_oldBounds;
  */
 - (NSSet*)allRegisteredStyles
 {
-    if ([self style] != nil) {
-        if ([[self style] requiresRemerge] || [[self style] isStyleRegistered]) {
-            [[self style] clearRemergeFlag];
-            return [NSSet setWithObject:[self style]];
-        }
-    }
+	if ([self style] != nil) {
+		if ([[self style] requiresRemerge] || [[self style] isStyleRegistered]) {
+			[[self style] clearRemergeFlag];
+			return [NSSet setWithObject:[self style]];
+		}
+	}
 
-    return nil;
+	return nil;
 }
 
 /** @brief Replace the object's style from any in th egiven set that have the same ID.
@@ -1174,21 +1174,21 @@ static NSRect s_oldBounds;
  */
 - (void)replaceMatchingStylesFromSet:(NSSet*)aSet
 {
-    NSAssert(aSet != nil, @"style set was nil");
+	NSAssert(aSet != nil, @"style set was nil");
 
-    if ([self style] != nil) {
-        NSEnumerator* iter = [aSet objectEnumerator];
-        DKStyle* st;
+	if ([self style] != nil) {
+		NSEnumerator* iter = [aSet objectEnumerator];
+		DKStyle* st;
 
-        while ((st = [iter nextObject])) {
-            if ([[st uniqueKey] isEqualToString:[[self style] uniqueKey]]) {
-                LogEvent_(kStateEvent, @"replacing style with %@ '%@'", st, [st name]);
+		while ((st = [iter nextObject])) {
+			if ([[st uniqueKey] isEqualToString:[[self style] uniqueKey]]) {
+				LogEvent_(kStateEvent, @"replacing style with %@ '%@'", st, [st name]);
 
-                [self setStyle:st];
-                break;
-            }
-        }
-    }
+				[self setStyle:st];
+				break;
+			}
+		}
+	}
 }
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
@@ -1198,13 +1198,13 @@ static NSRect s_oldBounds;
  */
 - (void)detachStyle
 {
-    if ([[self style] isStyleSharable]) {
-        DKStyle* detachedStyle = [[self style] mutableCopy];
+	if ([[self style] isStyleSharable]) {
+		DKStyle* detachedStyle = [[self style] mutableCopy];
 
-        [detachedStyle setStyleSharable:NO];
-        [self setStyle:detachedStyle];
-        [detachedStyle release];
-    }
+		[detachedStyle setStyleSharable:NO];
+		[self setStyle:detachedStyle];
+		[detachedStyle release];
+	}
 }
 
 #pragma mark -
@@ -1227,9 +1227,9 @@ static NSRect s_oldBounds;
  */
 - (NSSize)size
 {
-    NSLog(@"!!! 'size' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
+	NSLog(@"!!! 'size' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
 
-    return NSZeroSize;
+	return NSZeroSize;
 }
 
 /** @brief Resizes the object by scaling its width and height by thye given factors.
@@ -1240,15 +1240,15 @@ static NSRect s_oldBounds;
  */
 - (void)resizeWidthBy:(CGFloat)xFactor heightBy:(CGFloat)yFactor
 {
-    NSAssert(xFactor > 0.0, @"x scale must be greater than 0");
-    NSAssert(yFactor > 0.0, @"y scale must be greater than 0");
+	NSAssert(xFactor > 0.0, @"x scale must be greater than 0");
+	NSAssert(yFactor > 0.0, @"y scale must be greater than 0");
 
-    NSSize newSize = [self size];
+	NSSize newSize = [self size];
 
-    newSize.width *= xFactor;
-    newSize.height *= yFactor;
+	newSize.width *= xFactor;
+	newSize.height *= yFactor;
 
-    [self setSize:newSize];
+	[self setSize:newSize];
 }
 
 /** @brief Returns the visually apparent bounds
@@ -1259,7 +1259,7 @@ static NSRect s_oldBounds;
  */
 - (NSRect)apparentBounds
 {
-    return [self bounds];
+	return [self bounds];
 }
 
 /** @brief Returns the logical bounds
@@ -1271,7 +1271,7 @@ static NSRect s_oldBounds;
  */
 - (NSRect)logicalBounds
 {
-    return [self bounds];
+	return [self bounds];
 }
 
 #pragma mark -
@@ -1286,19 +1286,19 @@ static NSRect s_oldBounds;
  */
 - (BOOL)intersectsRect:(NSRect)rect
 {
-    NSRect ir, br = [self bounds];
+	NSRect ir, br = [self bounds];
 
-    if ([self visible] && NSIntersectsRect(br, rect)) {
-        // if <rect> fully encloses the bounds, no further tests are needed and we can return YES immediately
+	if ([self visible] && NSIntersectsRect(br, rect)) {
+		// if <rect> fully encloses the bounds, no further tests are needed and we can return YES immediately
 
-        ir = NSIntersectionRect(rect, br);
+		ir = NSIntersectionRect(rect, br);
 
-        if (NSEqualRects(ir, br))
-            return YES;
-        else
-            return [self rectHitsPath:rect];
-    } else
-        return NO; // invisible objects don't intersect anything
+		if (NSEqualRects(ir, br))
+			return YES;
+		else
+			return [self rectHitsPath:rect];
+	} else
+		return NO; // invisible objects don't intersect anything
 }
 
 /** @brief Set the location of the object to the given point
@@ -1312,7 +1312,7 @@ static NSRect s_oldBounds;
 {
 #pragma unused(p)
 
-    NSLog(@"**** You must override -setLocation: for the object %@ ****", self);
+	NSLog(@"**** You must override -setLocation: for the object %@ ****", self);
 }
 
 /** @brief Offsets the object's position by the values passed
@@ -1321,14 +1321,14 @@ static NSRect s_oldBounds;
  */
 - (void)offsetLocationByX:(CGFloat)dx byY:(CGFloat)dy
 {
-    if (dx != 0 || dy != 0) {
-        NSPoint loc = [self location];
+	if (dx != 0 || dy != 0) {
+		NSPoint loc = [self location];
 
-        loc.x += dx;
-        loc.y += dy;
+		loc.x += dx;
+		loc.y += dy;
 
-        [self setLocation:loc];
-    }
+		[self setLocation:loc];
+	}
 }
 
 /** @brief Return the object's current location
@@ -1336,7 +1336,7 @@ static NSRect s_oldBounds;
  */
 - (NSPoint)location
 {
-    return [self logicalBounds].origin;
+	return [self logicalBounds].origin;
 }
 
 /** @brief Return the object's current angle, in radians
@@ -1346,7 +1346,7 @@ static NSRect s_oldBounds;
  */
 - (CGFloat)angle
 {
-    return 0.0f;
+	return 0.0f;
 }
 
 /** @brief Set the object's current angle in radians
@@ -1365,12 +1365,12 @@ static NSRect s_oldBounds;
  */
 - (CGFloat)angleInDegrees
 {
-    CGFloat angle = RADIANS_TO_DEGREES([self angle]);
+	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
-    if (angle < 0)
-        angle += 360.0f;
+	if (angle < 0)
+		angle += 360.0f;
 
-    return fmod(angle, 360.0f);
+	return fmod(angle, 360.0f);
 }
 
 /** @brief Rotate the shape by adding a delta angle to the current angle
@@ -1380,8 +1380,8 @@ static NSRect s_oldBounds;
  */
 - (void)rotateByAngle:(CGFloat)da
 {
-    if (da != 0)
-        [self setAngle:[self angle] + da];
+	if (da != 0)
+		[self setAngle:[self angle] + da];
 }
 
 /** @brief Discard all cached rendering information
@@ -1392,7 +1392,7 @@ static NSRect s_oldBounds;
  */
 - (void)invalidateRenderingCache
 {
-    [mRenderingCache removeAllObjects];
+	[mRenderingCache removeAllObjects];
 }
 
 /** @brief Returns an image of the object representing its current appearance at 100% scale.
@@ -1403,15 +1403,15 @@ static NSRect s_oldBounds;
  */
 - (NSImage*)cachedImage
 {
-    NSImage* img = [mRenderingCache objectForKey:kDKDrawableCachedImageKey];
+	NSImage* img = [mRenderingCache objectForKey:kDKDrawableCachedImageKey];
 
-    if (img == nil) {
-        img = [self swatchImageWithSize:NSZeroSize];
-        [mRenderingCache setObject:img
-                            forKey:kDKDrawableCachedImageKey];
-    }
+	if (img == nil) {
+		img = [self swatchImageWithSize:NSZeroSize];
+		[mRenderingCache setObject:img
+							forKey:kDKDrawableCachedImageKey];
+	}
 
-    return img;
+	return img;
 }
 
 #pragma mark -
@@ -1425,7 +1425,7 @@ static NSRect s_oldBounds;
 {
 #pragma unused(offs)
 
-    // placeholder
+	// placeholder
 }
 
 /** @brief Return the relative offset of the object's anchor point
@@ -1435,7 +1435,7 @@ static NSRect s_oldBounds;
  */
 - (NSSize)offset
 {
-    return NSZeroSize;
+	return NSZeroSize;
 }
 
 /** @brief Reset the relative offset of the object's anchor point to its original value
@@ -1452,7 +1452,7 @@ static NSRect s_oldBounds;
  @return a transform */
 - (NSAffineTransform*)transform
 {
-    return [NSAffineTransform transform];
+	return [NSAffineTransform transform];
 }
 
 /** @brief Apply the transform to the object
@@ -1463,13 +1463,13 @@ static NSRect s_oldBounds;
  */
 - (void)applyTransform:(NSAffineTransform*)transform
 {
-    NSAssert(transform != nil, @"nil transform in [DKDrawableObject applyTransform:]");
+	NSAssert(transform != nil, @"nil transform in [DKDrawableObject applyTransform:]");
 
-    NSPoint p = [transform transformPoint:[self location]];
-    [self setLocation:p];
+	NSPoint p = [transform transformPoint:[self location]];
+	[self setLocation:p];
 
-    NSSize size = [transform transformSize:[self size]];
-    [self setSize:size];
+	NSSize size = [transform transformSize:[self size]];
+	[self setSize:size];
 }
 
 #pragma mark -
@@ -1485,7 +1485,7 @@ static NSRect s_oldBounds;
 #pragma unused(tool)
 #pragma unused(p)
 
-    // override to make use of this event
+	// override to make use of this event
 }
 
 /** @brief Called by the creation tool when this object has finished being created by the tool
@@ -1498,7 +1498,7 @@ static NSRect s_oldBounds;
 #pragma unused(tool)
 #pragma unused(p)
 
-    // override to make use of this event
+	// override to make use of this event
 }
 
 /** @brief Return whether the object is valid in terms of having a visible, usable state
@@ -1511,7 +1511,7 @@ static NSRect s_oldBounds;
  */
 - (BOOL)objectIsValid
 {
-    return NO;
+	return NO;
 }
 
 #pragma mark -
@@ -1541,7 +1541,7 @@ static NSRect s_oldBounds;
 #pragma unused(aGroup)
 #pragma unused(aTransform)
 
-    NSLog(@"*** you should override -group:willUngroupObjectWithTransform: to correctly ungroup '%@' ***", NSStringFromClass([self class]));
+	NSLog(@"*** you should override -group:willUngroupObjectWithTransform: to correctly ungroup '%@' ***", NSStringFromClass([self class]));
 }
 
 /** @brief This object was ungrouped from a group
@@ -1567,7 +1567,7 @@ static NSRect s_oldBounds;
 }
 
 #pragma mark -
-#pragma mark - snapping to guides, grid and other objects (utility methods)
+#pragma mark - snapping to guides, grid and other objects(utility methods)
 
 /** @brief Offset the point to cause snap to grid + guides accoding to the drawing's settings
 
@@ -1577,12 +1577,12 @@ static NSRect s_oldBounds;
  @return a new point which may be offset from the input enough to snap it to the guides and grid */
 - (NSPoint)snappedMousePoint:(NSPoint)mp withControlFlag:(BOOL)snapControl
 {
-    if ([self mouseSnappingEnabled] && [self layer])
-        mp = [(DKObjectOwnerLayer*)[self layer] snappedMousePoint:mp
-                                                        forObject:self
-                                                  withControlFlag:snapControl];
+	if ([self mouseSnappingEnabled] && [self layer])
+		mp = [(DKObjectOwnerLayer*)[self layer] snappedMousePoint:mp
+														forObject:self
+												  withControlFlag:snapControl];
 
-    return mp;
+	return mp;
 }
 
 /** @brief Offset the point to cause snap to grid + guides according to the drawing's settings
@@ -1594,24 +1594,24 @@ static NSRect s_oldBounds;
  */
 - (NSPoint)snappedMousePoint:(NSPoint)mp forSnappingPointsWithControlFlag:(BOOL)snapControl
 {
-    if ([self mouseSnappingEnabled] && [self drawing]) {
-        // factor in snap to grid + guides
+	if ([self mouseSnappingEnabled] && [self drawing]) {
+		// factor in snap to grid + guides
 
-        mp = [[self drawing] snapToGrid:mp
-                        withControlFlag:snapControl];
+		mp = [[self drawing] snapToGrid:mp
+						withControlFlag:snapControl];
 
-        NSSize offs;
+		NSSize offs;
 
-        offs.width = mp.x - [self location].x;
-        offs.height = mp.y - [self location].y;
+		offs.width = mp.x - [self location].x;
+		offs.height = mp.y - [self location].y;
 
-        NSSize snapOff = [[self drawing] snapPointsToGuide:[self snappingPointsWithOffset:offs]];
+		NSSize snapOff = [[self drawing] snapPointsToGuide:[self snappingPointsWithOffset:offs]];
 
-        mp.x += snapOff.width;
-        mp.y += snapOff.height;
-    }
+		mp.x += snapOff.width;
+		mp.y += snapOff.height;
+	}
 
-    return mp;
+	return mp;
 }
 
 #pragma mark -
@@ -1621,7 +1621,7 @@ static NSRect s_oldBounds;
  */
 - (NSArray*)snappingPoints
 {
-    return [self snappingPointsWithOffset:NSZeroSize];
+	return [self snappingPointsWithOffset:NSZeroSize];
 }
 
 /** @brief Return an array of NSpoint values representing points that can be snapped to guides
@@ -1632,12 +1632,12 @@ static NSRect s_oldBounds;
  */
 - (NSArray*)snappingPointsWithOffset:(NSSize)offset
 {
-    NSPoint p = [self location];
+	NSPoint p = [self location];
 
-    p.x += offset.width;
-    p.y += offset.height;
+	p.x += offset.width;
+	p.y += offset.height;
 
-    return [NSArray arrayWithObject:[NSValue valueWithPoint:p]];
+	return [NSArray arrayWithObject:[NSValue valueWithPoint:p]];
 }
 
 /** @brief Returns the offset between the mouse point and the shape's location during a drag
@@ -1647,7 +1647,7 @@ static NSRect s_oldBounds;
  */
 - (NSSize)mouseOffset
 {
-    return m_mouseOffset;
+	return m_mouseOffset;
 }
 
 #pragma mark -
@@ -1661,7 +1661,7 @@ static NSRect s_oldBounds;
  */
 - (CGFloat)convertLength:(CGFloat)len
 {
-    return [[self drawing] convertLength:len];
+	return [[self drawing] convertLength:len];
 }
 
 /** @brief Convert a point in quartz coordinates to the units established by the drawing grid
@@ -1672,7 +1672,7 @@ static NSRect s_oldBounds;
  */
 - (NSPoint)convertPointToDrawing:(NSPoint)pt
 {
-    return [[self drawing] convertPoint:pt];
+	return [[self drawing] convertPoint:pt];
 }
 
 #pragma mark -
@@ -1689,16 +1689,16 @@ static NSRect s_oldBounds;
  */
 - (NSInteger)hitPart:(NSPoint)pt
 {
-    if ([self visible]) {
-        NSInteger pc = (NSMouseInRect(pt, [self bounds], [[self drawing] isFlipped]) ? kDKDrawingEntireObjectPart : kDKDrawingNoPart);
+	if ([self visible]) {
+		NSInteger pc = (NSMouseInRect(pt, [self bounds], [[self drawing] isFlipped]) ? kDKDrawingEntireObjectPart : kDKDrawingNoPart);
 
-        if ((pc == kDKDrawingEntireObjectPart) && [self isSelected] && ![self locked])
-            pc = [self hitSelectedPart:pt
-                      forSnapDetection:NO];
+		if ((pc == kDKDrawingEntireObjectPart) && [self isSelected] && ![self locked])
+			pc = [self hitSelectedPart:pt
+					  forSnapDetection:NO];
 
-        return pc;
-    } else
-        return kDKDrawingNoPart; // can never hit invisible objects
+		return pc;
+	} else
+		return kDKDrawingNoPart; // can never hit invisible objects
 }
 
 /** @brief Hit test the object in the selected state
@@ -1714,7 +1714,7 @@ static NSRect s_oldBounds;
 #pragma unused(pt)
 #pragma unused(snap)
 
-    return kDKDrawingEntireObjectPart;
+	return kDKDrawingEntireObjectPart;
 }
 
 /** @brief Return the point associated with the part code
@@ -1726,10 +1726,10 @@ static NSRect s_oldBounds;
  */
 - (NSPoint)pointForPartcode:(NSInteger)pc
 {
-    if (pc == kDKDrawingEntireObjectPart)
-        return [self location];
-    else
-        return NSMakePoint(-1, -1);
+	if (pc == kDKDrawingEntireObjectPart)
+		return [self location];
+	else
+		return NSMakePoint(-1, -1);
 }
 
 /** @brief Provide a mapping between the object's partcode and a knob type draw for that part
@@ -1743,12 +1743,12 @@ static NSRect s_oldBounds;
 {
 #pragma unused(pc)
 
-    DKKnobType result = kDKControlPointKnobType;
+	DKKnobType result = kDKControlPointKnobType;
 
-    if ([self locked])
-        result |= kDKKnobIsDisabledFlag;
+	if ([self locked])
+		result |= kDKKnobIsDisabledFlag;
 
-    return result;
+	return result;
 }
 
 /** @brief Test if a rect encloses any of the shape's actual pixels
@@ -1759,49 +1759,49 @@ static NSRect s_oldBounds;
  */
 - (BOOL)rectHitsPath:(NSRect)r
 {
-    NSRect ir = NSIntersectionRect(r, [self bounds]);
-    BOOL hit = NO;
+	NSRect ir = NSIntersectionRect(r, [self bounds]);
+	BOOL hit = NO;
 
-    if (ir.size.width > 0.0 && ir.size.height > 0.0) {
-        // if ir is equal to our bounds, we know that <r> fully encloses this, so there's no need
-        // to perform the expensive bitmap test - just return YES. This assumes that the shape draws *something*
-        // somewhere within its bounds, which is not unreasonable.
+	if (ir.size.width > 0.0 && ir.size.height > 0.0) {
+		// if ir is equal to our bounds, we know that <r> fully encloses this, so there's no need
+		// to perform the expensive bitmap test - just return YES. This assumes that the shape draws *something*
+		// somewhere within its bounds, which is not unreasonable.
 
-        if (NSEqualRects(ir, [self bounds]))
-            return YES;
-        else {
-            // this method scales the whole hit rect directly down into a 1x1 bitmap context - if it ends up opaque, it's hit. If transparent, it's not.
-            // this method suggested by Ken Ferry (Apple), as it avoids the need for writable access to NSBimapImageRep and so should
-            // perform best on most graphics architectures. This also doesn't require any style substitution.
+		if (NSEqualRects(ir, [self bounds]))
+			return YES;
+		else {
+			// this method scales the whole hit rect directly down into a 1x1 bitmap context - if it ends up opaque, it's hit. If transparent, it's not.
+			// this method suggested by Ken Ferry (Apple), as it avoids the need for writable access to NSBimapImageRep and so should
+			// perform best on most graphics architectures. This also doesn't require any style substitution.
 
-            // since the context is always the same, it's also created as a static var, so only one is ever needed. This removes the overhead of
-            // creating it for every test - instead we can simply clear the byte each time.
+			// since the context is always the same, it's also created as a static var, so only one is ever needed. This removes the overhead of
+			// creating it for every test - instead we can simply clear the byte each time.
 
-            static CGContextRef bm = NULL;
-            static NSGraphicsContext* bitmapContext = nil;
-            static uint8_t byte[8]; // includes some unused padding
-            static NSRect srcRect = { { 0, 0 }, { 1, 1 } };
+			static CGContextRef bm = NULL;
+			static NSGraphicsContext* bitmapContext = nil;
+			static uint8_t byte[8]; // includes some unused padding
+			static NSRect srcRect = { { 0, 0 }, { 1, 1 } };
 
-            if (bm == NULL) {
-                bm = CGBitmapContextCreate(byte, 1, 1, 8, 1, NULL, kCGImageAlphaOnly);
-                CGContextSetInterpolationQuality(bm, kCGInterpolationNone);
-                CGContextSetShouldAntialias(bm, NO);
-                CGContextSetShouldSmoothFonts(bm, NO);
-                bitmapContext = [[NSGraphicsContext graphicsContextWithGraphicsPort:bm
-                                                                            flipped:YES] retain];
-                [bitmapContext setShouldAntialias:NO];
-            }
+			if (bm == NULL) {
+				bm = CGBitmapContextCreate(byte, 1, 1, 8, 1, NULL, kCGImageAlphaOnly);
+				CGContextSetInterpolationQuality(bm, kCGInterpolationNone);
+				CGContextSetShouldAntialias(bm, NO);
+				CGContextSetShouldSmoothFonts(bm, NO);
+				bitmapContext = [[NSGraphicsContext graphicsContextWithGraphicsPort:bm
+																			flipped:YES] retain];
+				[bitmapContext setShouldAntialias:NO];
+			}
 
-            SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-                [NSGraphicsContext setCurrentContext : bitmapContext];
-            byte[0] = 0;
+			SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
+				[NSGraphicsContext setCurrentContext : bitmapContext];
+			byte[0] = 0;
 
-            // flag that hit-testing is taking place - drawing methods may use quick-and-dirty rendering for better performance.
+			// flag that hit-testing is taking place - drawing methods may use quick-and-dirty rendering for better performance.
 
-            mIsHitTesting = YES;
+			mIsHitTesting = YES;
 
-            // try using a cached copy of the object's image:
-            /*
+			// try using a cached copy of the object's image:
+			/*
 			NSImage* cachedImage = [self cachedImage];
 			
 			if( cachedImage )
@@ -1813,24 +1813,24 @@ static NSRect s_oldBounds;
 			}
 			else
 			 */
-            {
-                // draw the object but without any shadows - this both speeds up the hit testing which doesn't care about shadows
-                // and avoids a nasty crashing bug in Quartz.
+			{
+				// draw the object but without any shadows - this both speeds up the hit testing which doesn't care about shadows
+				// and avoids a nasty crashing bug in Quartz.
 
-                BOOL drawShadows = [DKStyle setWillDrawShadows:NO];
-                [self drawContentInRect:srcRect
-                               fromRect:ir
-                              withStyle:nil];
-                [DKStyle setWillDrawShadows:drawShadows];
-            }
-            mIsHitTesting = NO;
+				BOOL drawShadows = [DKStyle setWillDrawShadows:NO];
+				[self drawContentInRect:srcRect
+							   fromRect:ir
+							  withStyle:nil];
+				[DKStyle setWillDrawShadows:drawShadows];
+			}
+			mIsHitTesting = NO;
 
-            RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
-                hit = (byte[0] != 0);
-        }
-    }
+			RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+				hit = (byte[0] != 0);
+		}
+	}
 
-    return hit;
+	return hit;
 }
 
 /** @brief Test a point against the offscreen bitmap representation of the shape
@@ -1841,11 +1841,11 @@ static NSRect s_oldBounds;
  */
 - (BOOL)pointHitsPath:(NSPoint)p
 {
-    if (NSPointInRect(p, [self bounds])) {
-        NSRect pr = NSRectCentredOnPoint(p, NSMakeSize(1e-3, 1e-3));
-        return [self rectHitsPath:pr];
-    } else
-        return NO;
+	if (NSPointInRect(p, [self bounds])) {
+		NSRect pr = NSRectCentredOnPoint(p, NSMakeSize(1e-3, 1e-3));
+		return [self rectHitsPath:pr];
+	} else
+		return NO;
 }
 
 /** @brief Is a hit-test in progress
@@ -1856,7 +1856,7 @@ static NSRect s_oldBounds;
  */
 - (BOOL)isBeingHitTested
 {
-    return mIsHitTesting;
+	return mIsHitTesting;
 }
 
 /** @brief Set whether a hit-test in progress
@@ -1867,7 +1867,7 @@ static NSRect s_oldBounds;
  */
 - (void)setBeingHitTested:(BOOL)hitTesting
 {
-    mIsHitTesting = hitTesting;
+	mIsHitTesting = hitTesting;
 }
 
 #pragma mark -
@@ -1884,10 +1884,10 @@ static NSRect s_oldBounds;
 {
 #pragma unused(evt, partcode)
 
-    m_mouseOffset.width = mp.x - [self location].x;
-    m_mouseOffset.height = mp.y - [self location].y;
-    [self setMouseHasMovedSinceStartOfTracking:NO];
-    [self setTrackingMouse:YES];
+	m_mouseOffset.width = mp.x - [self location].x;
+	m_mouseOffset.height = mp.y - [self location].y;
+	[self setMouseHasMovedSinceStartOfTracking:NO];
+	[self setTrackingMouse:YES];
 }
 
 /** @brief The mouse is dragging within this object
@@ -1902,17 +1902,17 @@ static NSRect s_oldBounds;
 {
 #pragma unused(partcode)
 
-    if (![self locationLocked]) {
-        mp.x -= [self mouseDragOffset].width;
-        mp.y -= [self mouseDragOffset].height;
+	if (![self locationLocked]) {
+		mp.x -= [self mouseDragOffset].width;
+		mp.y -= [self mouseDragOffset].height;
 
-        BOOL controlKey = (([evt modifierFlags] & NSControlKeyMask) != 0);
-        mp = [self snappedMousePoint:mp
-            forSnappingPointsWithControlFlag:controlKey];
+		BOOL controlKey = (([evt modifierFlags] & NSControlKeyMask) != 0);
+		mp = [self snappedMousePoint:mp
+			forSnappingPointsWithControlFlag:controlKey];
 
-        [self setLocation:mp];
-        [self setMouseHasMovedSinceStartOfTracking:YES];
-    }
+		[self setLocation:mp];
+		[self setMouseHasMovedSinceStartOfTracking:YES];
+	}
 }
 
 /** @brief The mouse went up in this object
@@ -1926,12 +1926,12 @@ static NSRect s_oldBounds;
 #pragma unused(partcode)
 #pragma unused(evt)
 
-    if ([self mouseHasMovedSinceStartOfTracking]) {
-        [[self undoManager] setActionName:NSLocalizedString(@"Move", @"undo string for move object")];
-        [self setMouseHasMovedSinceStartOfTracking:NO];
-    }
+	if ([self mouseHasMovedSinceStartOfTracking]) {
+		[[self undoManager] setActionName:NSLocalizedString(@"Move", @"undo string for move object")];
+		[self setMouseHasMovedSinceStartOfTracking:NO];
+	}
 
-    [self setTrackingMouse:NO];
+	[self setTrackingMouse:NO];
 }
 
 /** @brief Get the view currently drawing or passing events to this
@@ -1940,7 +1940,7 @@ static NSRect s_oldBounds;
  */
 - (NSView*)currentView
 {
-    return [[self layer] currentView];
+	return [[self layer] currentView];
 }
 
 /** @brief Return the cursor displayed when a given partcode is hit or entered
@@ -1956,7 +1956,7 @@ static NSRect s_oldBounds;
 #pragma unused(partcode)
 #pragma unused(button)
 
-    return [NSCursor arrowCursor];
+	return [NSCursor arrowCursor];
 }
 
 /** @brief Inform the object that it was double-clicked
@@ -1972,18 +1972,18 @@ static NSRect s_oldBounds;
 {
 #pragma unused(partcode, evt)
 
-    NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
-    [userInfo setObject:[NSValue valueWithPoint:mp]
-                 forKey:kDKDrawableClickedPointKey];
+	NSMutableDictionary* userInfo = [NSMutableDictionary dictionary];
+	[userInfo setObject:[NSValue valueWithPoint:mp]
+				 forKey:kDKDrawableClickedPointKey];
 
-    [[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableDoubleClickNotification
-                                                        object:self
-                                                      userInfo:userInfo];
+	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableDoubleClickNotification
+														object:self
+													  userInfo:userInfo];
 
-    // notify the layer directly
+	// notify the layer directly
 
-    [[self layer] drawable:self
-        wasDoubleClickedAtPoint:mp];
+	[[self layer] drawable:self
+		wasDoubleClickedAtPoint:mp];
 }
 
 #pragma mark -
@@ -1999,7 +1999,7 @@ static NSRect s_oldBounds;
  */
 - (NSMenu*)menu
 {
-    return [[[DKAuxiliaryMenus auxiliaryMenus] copyMenuForClass:[self class]] autorelease];
+	return [[[DKAuxiliaryMenus auxiliaryMenus] copyMenuForClass:[self class]] autorelease];
 }
 
 /** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
@@ -2010,26 +2010,26 @@ static NSRect s_oldBounds;
  */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu
 {
-    // if the object supports any contextual menu commands, it should add them to the menu and return YES. If subclassing,
-    // you would usually call the inherited method first so that the menu is the union of all the ancestor's added methods.
+	// if the object supports any contextual menu commands, it should add them to the menu and return YES. If subclassing,
+	// you would usually call the inherited method first so that the menu is the union of all the ancestor's added methods.
 
-    [[theMenu addItemWithTitle:NSLocalizedString(@"Copy Style", @"menu item for copy style")
-                        action:@selector(copyDrawingStyle:)
-                 keyEquivalent:@""] setTarget:self];
-    [[theMenu addItemWithTitle:NSLocalizedString(@"Paste Style", @"menu item for paste style")
-                        action:@selector(pasteDrawingStyle:)
-                 keyEquivalent:@""] setTarget:self];
+	[[theMenu addItemWithTitle:NSLocalizedString(@"Copy Style", @"menu item for copy style")
+						action:@selector(copyDrawingStyle:)
+				 keyEquivalent:@""] setTarget:self];
+	[[theMenu addItemWithTitle:NSLocalizedString(@"Paste Style", @"menu item for paste style")
+						action:@selector(pasteDrawingStyle:)
+				 keyEquivalent:@""] setTarget:self];
 
-    if ([self locked])
-        [[theMenu addItemWithTitle:NSLocalizedString(@"Unlock", @"menu item for unlock")
-                            action:@selector(unlock:)
-                     keyEquivalent:@""] setTarget:self];
-    else
-        [[theMenu addItemWithTitle:NSLocalizedString(@"Lock", @"menu item for lock")
-                            action:@selector(lock:)
-                     keyEquivalent:@""] setTarget:self];
+	if ([self locked])
+		[[theMenu addItemWithTitle:NSLocalizedString(@"Unlock", @"menu item for unlock")
+							action:@selector(unlock:)
+					 keyEquivalent:@""] setTarget:self];
+	else
+		[[theMenu addItemWithTitle:NSLocalizedString(@"Lock", @"menu item for lock")
+							action:@selector(lock:)
+					 keyEquivalent:@""] setTarget:self];
 
-    return YES;
+	return YES;
 }
 
 /** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
@@ -2044,7 +2044,7 @@ static NSRect s_oldBounds;
 {
 #pragma unused(localPoint)
 
-    return [self populateContextualMenu:theMenu];
+	return [self populateContextualMenu:theMenu];
 }
 
 #pragma mark -
@@ -2058,26 +2058,26 @@ static NSRect s_oldBounds;
  */
 - (NSImage*)swatchImageWithSize:(NSSize)size
 {
-    if (NSEqualSizes(size, NSZeroSize))
-        size = [self bounds].size;
+	if (NSEqualSizes(size, NSZeroSize))
+		size = [self bounds].size;
 
-    if (!NSEqualSizes(size, NSZeroSize)) {
-        NSImage* image = [[NSImage alloc] initWithSize:size];
-        [image setFlipped:YES];
-        [image lockFocus];
+	if (!NSEqualSizes(size, NSZeroSize)) {
+		NSImage* image = [[NSImage alloc] initWithSize:size];
+		[image setFlipped:YES];
+		[image lockFocus];
 
-        [[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeSourceOver];
-        NSRect destRect = NSMakeRect(0, 0, size.width, size.height);
+		[[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeSourceOver];
+		NSRect destRect = NSMakeRect(0, 0, size.width, size.height);
 
-        [self drawContentInRect:destRect
-                       fromRect:NSZeroRect
-                      withStyle:nil];
-        [image unlockFocus];
-        [image setFlipped:NO];
+		[self drawContentInRect:destRect
+					   fromRect:NSZeroRect
+					  withStyle:nil];
+		[image unlockFocus];
+		[image setFlipped:NO];
 
-        return [image autorelease];
-    } else
-        return nil;
+		return [image autorelease];
+	} else
+		return nil;
 }
 
 #pragma mark -
@@ -2090,11 +2090,11 @@ static NSRect s_oldBounds;
  */
 - (void)setUserInfo:(NSDictionary*)info
 {
-    if (mUserInfo == nil)
-        mUserInfo = [[NSMutableDictionary alloc] init];
+	if (mUserInfo == nil)
+		mUserInfo = [[NSMutableDictionary alloc] init];
 
-    [mUserInfo setDictionary:info];
-    [self notifyStatusChange];
+	[mUserInfo setDictionary:info];
+	[self notifyStatusChange];
 }
 
 /** @brief Add a dictionary of metadata to the object
@@ -2104,14 +2104,14 @@ static NSRect s_oldBounds;
  */
 - (void)addUserInfo:(NSDictionary*)info
 {
-    if (mUserInfo == nil)
-        mUserInfo = [[NSMutableDictionary alloc] init];
+	if (mUserInfo == nil)
+		mUserInfo = [[NSMutableDictionary alloc] init];
 
-    NSDictionary* deepCopy = [info deepCopy];
+	NSDictionary* deepCopy = [info deepCopy];
 
-    [mUserInfo addEntriesFromDictionary:deepCopy];
-    [deepCopy release];
-    [self notifyStatusChange];
+	[mUserInfo addEntriesFromDictionary:deepCopy];
+	[deepCopy release];
+	[self notifyStatusChange];
 }
 
 /** @brief Return the attached user info
@@ -2123,7 +2123,7 @@ static NSRect s_oldBounds;
  */
 - (NSMutableDictionary*)userInfo
 {
-    return mUserInfo;
+	return mUserInfo;
 }
 
 /** @brief Return an item of user info
@@ -2132,7 +2132,7 @@ static NSRect s_oldBounds;
  */
 - (id)userInfoObjectForKey:(NSString*)key
 {
-    return [[self userInfo] objectForKey:key];
+	return [[self userInfo] objectForKey:key];
 }
 
 /** @brief Set an item of user info
@@ -2141,15 +2141,15 @@ static NSRect s_oldBounds;
  */
 - (void)setUserInfoObject:(id)obj forKey:(NSString*)key
 {
-    NSAssert(obj != nil, @"cannot add nil to the user info");
-    NSAssert(key != nil, @"user info key can't be nil");
+	NSAssert(obj != nil, @"cannot add nil to the user info");
+	NSAssert(key != nil, @"user info key can't be nil");
 
-    if (mUserInfo == nil)
-        mUserInfo = [[NSMutableDictionary alloc] init];
+	if (mUserInfo == nil)
+		mUserInfo = [[NSMutableDictionary alloc] init];
 
-    [mUserInfo setObject:obj
-                  forKey:key];
-    [self notifyStatusChange];
+	[mUserInfo setObject:obj
+				  forKey:key];
+	[self notifyStatusChange];
 }
 
 #pragma mark -
@@ -2167,7 +2167,7 @@ static NSRect s_oldBounds;
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {
 #pragma unused(pb)
-    // override to make use of
+	// override to make use of
 }
 
 /** @brief Read additional data from the pasteboard specific to the object
@@ -2181,11 +2181,11 @@ static NSRect s_oldBounds;
 - (void)readSupplementaryDataFromPasteboard:(NSPasteboard*)pb
 {
 #pragma unused(pb)
-    // override to make use of
+	// override to make use of
 }
 
 #pragma mark -
-#pragma mark - user level commands that can be responded to by this object (and its subclasses)
+#pragma mark - user level commands that can be responded to by this object(and its subclasses)
 
 /** @brief Copies the object's style to the general pasteboard
  @param sender the action's sender
@@ -2194,13 +2194,13 @@ static NSRect s_oldBounds;
 {
 #pragma unused(sender)
 
-    // allows the attached style to be copied to the clipboard.
+	// allows the attached style to be copied to the clipboard.
 
-    if ([self style] != nil) {
-        [[NSPasteboard generalPasteboard] declareTypes:[NSArray array]
-                                                 owner:self];
-        [[self style] copyToPasteboard:[NSPasteboard generalPasteboard]];
-    }
+	if ([self style] != nil) {
+		[[NSPasteboard generalPasteboard] declareTypes:[NSArray array]
+												 owner:self];
+		[[self style] copyToPasteboard:[NSPasteboard generalPasteboard]];
+	}
 }
 
 /** @brief Pastes a style from the general pasteboard onto the object
@@ -2212,48 +2212,48 @@ static NSRect s_oldBounds;
 {
 #pragma unused(sender)
 
-    if (![self locked]) {
-        DKStyle* style = [DKStyle styleFromPasteboard:[NSPasteboard generalPasteboard]];
+	if (![self locked]) {
+		DKStyle* style = [DKStyle styleFromPasteboard:[NSPasteboard generalPasteboard]];
 
-        if (style != nil) {
-            [self setStyle:style];
-            [[self undoManager] setActionName:NSLocalizedString(@"Paste Style", "undo string for object paste style")];
-        }
-    }
+		if (style != nil) {
+			[self setStyle:style];
+			[[self undoManager] setActionName:NSLocalizedString(@"Paste Style", "undo string for object paste style")];
+		}
+	}
 }
 
 - (IBAction)lock:(id)sender
 {
 #pragma unused(sender)
-    if (![self locked]) {
-        [self setLocked:YES];
-    }
+	if (![self locked]) {
+		[self setLocked:YES];
+	}
 }
 
 - (IBAction)unlock:(id)sender
 {
 #pragma unused(sender)
-    if ([self locked]) {
-        [self setLocked:NO];
-    }
+	if ([self locked]) {
+		[self setLocked:NO];
+	}
 }
 
 - (IBAction)lockLocation:(id)sender
 {
 #pragma unused(sender)
-    if (![self locationLocked]) {
-        [self setLocationLocked:YES];
-        [[self undoManager] setActionName:NSLocalizedString(@"Lock Location", @"undo action for single object lock location")];
-    }
+	if (![self locationLocked]) {
+		[self setLocationLocked:YES];
+		[[self undoManager] setActionName:NSLocalizedString(@"Lock Location", @"undo action for single object lock location")];
+	}
 }
 
 - (IBAction)unlockLocation:(id)sender
 {
 #pragma unused(sender)
-    if ([self locationLocked]) {
-        [self setLocationLocked:NO];
-        [[self undoManager] setActionName:NSLocalizedString(@"Unlock Location", @"undo action for single object unlock location")];
-    }
+	if ([self locationLocked]) {
+		[self setLocationLocked:NO];
+		[[self undoManager] setActionName:NSLocalizedString(@"Unlock Location", @"undo action for single object unlock location")];
+	}
 }
 
 #ifdef qIncludeGraphicDebugging
@@ -2264,38 +2264,38 @@ static NSRect s_oldBounds;
 {
 #pragma unused(sender)
 
-    m_showBBox = !m_showBBox;
-    [self notifyVisualChange];
+	m_showBBox = !m_showBBox;
+	[self notifyVisualChange];
 }
 
 - (IBAction)toggleClipToBBox:(id)sender
 {
 #pragma unused(sender)
 
-    m_clipToBBox = !m_clipToBBox;
-    [self notifyVisualChange];
+	m_clipToBBox = !m_clipToBBox;
+	[self notifyVisualChange];
 }
 
 - (IBAction)toggleShowPartcodes:(id)sender
 {
 #pragma unused(sender)
 
-    m_showPartcodes = !m_showPartcodes;
-    [self notifyVisualChange];
+	m_showPartcodes = !m_showPartcodes;
+	[self notifyVisualChange];
 }
 
 - (IBAction)toggleShowTargets:(id)sender
 {
 #pragma unused(sender)
 
-    m_showTargets = !m_showTargets;
-    [self notifyVisualChange];
+	m_showTargets = !m_showTargets;
+	[self notifyVisualChange];
 }
 
 - (IBAction)logDescription:(id)sender
 {
 #pragma unused(sender)
-    NSLog(@"%@", self);
+	NSLog(@"%@", self);
 }
 
 #endif
@@ -2304,210 +2304,210 @@ static NSRect s_oldBounds;
 #pragma mark As an NSObject
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    if (m_style != nil) {
-        [m_style styleWillBeRemoved:self];
-        [m_style release];
-    }
-    [mUserInfo release];
-    [mRenderingCache release];
-    [super dealloc];
+	if (m_style != nil) {
+		[m_style styleWillBeRemoved:self];
+		[m_style release];
+	}
+	[mUserInfo release];
+	[mRenderingCache release];
+	[super dealloc];
 }
 
 - (id)init
 {
-    return [self initWithStyle:[DKStyle defaultStyle]];
+	return [self initWithStyle:[DKStyle defaultStyle]];
 }
 
 - (NSString*)description
 {
 #warning 64BIT: Check formatting arguments
-    return [NSString stringWithFormat:@"%@ size: %@, loc: %@, angle: %.4f, offset: %@, locked: %@, style: %@, container: %x, storage: %@, user info:%@",
-                                      [super description],
-                                      NSStringFromSize([self size]),
-                                      NSStringFromPoint([self location]),
-                                      [self angle],
-                                      NSStringFromSize([self offset]),
-                                      [self locked] ? @"YES" : @"NO",
-                                      [self style],
-                                      [self container],
-                                      [self storage],
-                                      [self userInfo]];
+	return [NSString stringWithFormat:@"%@ size: %@, loc: %@, angle: %.4f, offset: %@, locked: %@, style: %@, container: %x, storage: %@, user info:%@",
+									  [super description],
+									  NSStringFromSize([self size]),
+									  NSStringFromPoint([self location]),
+									  [self angle],
+									  NSStringFromSize([self offset]),
+									  [self locked] ? @"YES" : @"NO",
+									  [self style],
+									  [self container],
+									  [self storage],
+									  [self userInfo]];
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
+	NSAssert(coder != nil, @"Expected valid coder");
 
-    [coder encodeConditionalObject:[self container]
-                            forKey:@"container"];
-    [coder encodeObject:[self style]
-                 forKey:@"style"];
-    [coder encodeObject:[self userInfo]
-                 forKey:@"userinfo"];
+	[coder encodeConditionalObject:[self container]
+							forKey:@"container"];
+	[coder encodeObject:[self style]
+				 forKey:@"style"];
+	[coder encodeObject:[self userInfo]
+				 forKey:@"userinfo"];
 
-    [coder encodeBool:[self visible]
-               forKey:@"visible"];
-    [coder encodeBool:[self locked]
-               forKey:@"locked"];
-    [coder encodeInteger:mZIndex
-                  forKey:@"DKDrawableObject_zIndex"];
-    [coder encodeBool:[self isGhosted]
-               forKey:@"DKDrawable_ghosted"];
-    [coder encodeBool:[self locationLocked]
-               forKey:@"DKDrawable_locationLocked"];
+	[coder encodeBool:[self visible]
+			   forKey:@"visible"];
+	[coder encodeBool:[self locked]
+			   forKey:@"locked"];
+	[coder encodeInteger:mZIndex
+				  forKey:@"DKDrawableObject_zIndex"];
+	[coder encodeBool:[self isGhosted]
+			   forKey:@"DKDrawable_ghosted"];
+	[coder encodeBool:[self locationLocked]
+			   forKey:@"DKDrawable_locationLocked"];
 }
 
 - (id)initWithCoder:(NSCoder*)coder
 {
-    NSAssert(coder != nil, @"Expected valid coder");
-    //	LogEvent_(kFileEvent, @"decoding drawable object %@", self);
+	NSAssert(coder != nil, @"Expected valid coder");
+	//	LogEvent_(kFileEvent, @"decoding drawable object %@", self);
 
-    self = [self initWithStyle:nil];
-    if (self != nil) {
-        [self setContainer:[coder decodeObjectForKey:@"container"]];
+	self = [self initWithStyle:nil];
+	if (self != nil) {
+		[self setContainer:[coder decodeObjectForKey:@"container"]];
 
-        // if container is nil, as it could be for very old test files, set it to the same value as the owner.
-        // for groups this is incorrect and the file won't open correctly.
+		// if container is nil, as it could be for very old test files, set it to the same value as the owner.
+		// for groups this is incorrect and the file won't open correctly.
 
-        if ([self container] == nil) {
-            // more recent older files wrote this key as "parent" - try that
+		if ([self container] == nil) {
+			// more recent older files wrote this key as "parent" - try that
 
-            [self setContainer:[coder decodeObjectForKey:@"parent"]];
-        }
-        [self setStyle:[coder decodeObjectForKey:@"style"]];
-        [self setUserInfo:[coder decodeObjectForKey:@"userinfo"]];
-        [self updateMetadataKeys];
+			[self setContainer:[coder decodeObjectForKey:@"parent"]];
+		}
+		[self setStyle:[coder decodeObjectForKey:@"style"]];
+		[self setUserInfo:[coder decodeObjectForKey:@"userinfo"]];
+		[self updateMetadataKeys];
 
-        [self setVisible:[coder decodeBoolForKey:@"visible"]];
-        mZIndex = [coder decodeIntegerForKey:@"DKDrawableObject_zIndex"];
-        m_snapEnable = YES;
+		[self setVisible:[coder decodeBoolForKey:@"visible"]];
+		mZIndex = [coder decodeIntegerForKey:@"DKDrawableObject_zIndex"];
+		m_snapEnable = YES;
 
-        [self setGhosted:[coder decodeBoolForKey:@"DKDrawable_ghosted"]];
+		[self setGhosted:[coder decodeBoolForKey:@"DKDrawable_ghosted"]];
 
-        // lock and location lock is not set here, as it prevents subclasses from setting other properties when dearchiving
-        // see -awakeAfterUsingCoder:
-    }
-    return self;
+		// lock and location lock is not set here, as it prevents subclasses from setting other properties when dearchiving
+		// see -awakeAfterUsingCoder:
+	}
+	return self;
 }
 
 - (id)awakeAfterUsingCoder:(NSCoder*)coder
 {
-    [self setLocationLocked:[coder decodeBoolForKey:@"DKDrawable_locationLocked"]];
-    [self setLocked:[coder decodeBoolForKey:@"locked"]];
+	[self setLocationLocked:[coder decodeBoolForKey:@"DKDrawable_locationLocked"]];
+	[self setLocked:[coder decodeBoolForKey:@"locked"]];
 
-    return self;
+	return self;
 }
 
 #pragma mark -
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
-    DKDrawableObject* copy = [[[self class] allocWithZone:zone] init];
+	DKDrawableObject* copy = [[[self class] allocWithZone:zone] init];
 
-    [copy setContainer:nil]; // we don't know who will own the copy
+	[copy setContainer:nil]; // we don't know who will own the copy
 
-    DKStyle* styleCopy = [[self style] copy];
-    [copy setStyle:styleCopy]; // style will be shared if set to be shared, otherwise copied
-    [styleCopy release];
+	DKStyle* styleCopy = [[self style] copy];
+	[copy setStyle:styleCopy]; // style will be shared if set to be shared, otherwise copied
+	[styleCopy release];
 
-    // ghost setting is copied but lock states are not
+	// ghost setting is copied but lock states are not
 
-    [copy setGhosted:[self isGhosted]];
+	[copy setGhosted:[self isGhosted]];
 
-    // gets a deep copy of the user info
+	// gets a deep copy of the user info
 
-    if ([self userInfo] != nil) {
-        NSDictionary* ucopy = [[self userInfo] deepCopy];
-        [copy setUserInfo:ucopy];
-        [ucopy release];
-    }
+	if ([self userInfo] != nil) {
+		NSDictionary* ucopy = [[self userInfo] deepCopy];
+		[copy setUserInfo:ucopy];
+		[ucopy release];
+	}
 
-    return copy;
+	return copy;
 }
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation Protocol
 - (BOOL)validateMenuItem:(NSMenuItem*)item
 {
-    SEL action = [item action];
+	SEL action = [item action];
 
-    if (![self locked]) {
-        if (action == @selector(pasteDrawingStyle:)) {
-            BOOL canPaste = [DKStyle canInitWithPasteboard:[NSPasteboard generalPasteboard]];
-            NSString* itemTitle = NSLocalizedString(@"Paste Style", nil);
+	if (![self locked]) {
+		if (action == @selector(pasteDrawingStyle:)) {
+			BOOL canPaste = [DKStyle canInitWithPasteboard:[NSPasteboard generalPasteboard]];
+			NSString* itemTitle = NSLocalizedString(@"Paste Style", nil);
 
-            if (canPaste) {
-                DKStyle* theStyle = [DKStyle styleFromPasteboard:[NSPasteboard generalPasteboard]];
-                NSString* name = [theStyle name];
+			if (canPaste) {
+				DKStyle* theStyle = [DKStyle styleFromPasteboard:[NSPasteboard generalPasteboard]];
+				NSString* name = [theStyle name];
 
-                if (name && [name length] > 0)
+				if (name && [name length] > 0)
 #warning 64BIT: Check formatting arguments
-                    itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Paste Style '%@'", nil), name];
+					itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Paste Style '%@'", nil), name];
 
-                // don't bother pasting the same style we already have
+				// don't bother pasting the same style we already have
 
-                if ([theStyle isEqualToStyle:[self style]])
-                    canPaste = NO;
-            }
-            [item setTitle:itemTitle];
-            return canPaste;
-        }
-    }
+				if ([theStyle isEqualToStyle:[self style]])
+					canPaste = NO;
+			}
+			[item setTitle:itemTitle];
+			return canPaste;
+		}
+	}
 
-    // even locked objects can have their style copied
+	// even locked objects can have their style copied
 
-    if (action == @selector(copyDrawingStyle:)) {
-        DKStyle* theStyle = [self style];
-        NSString* itemTitle = NSLocalizedString(@"Copy Style", nil);
+	if (action == @selector(copyDrawingStyle:)) {
+		DKStyle* theStyle = [self style];
+		NSString* itemTitle = NSLocalizedString(@"Copy Style", nil);
 
-        if (theStyle) {
-            NSString* name = [theStyle name];
-            if (name && [name length] > 0)
+		if (theStyle) {
+			NSString* name = [theStyle name];
+			if (name && [name length] > 0)
 #warning 64BIT: Check formatting arguments
-                itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Copy Style '%@'", nil), name];
-        }
-        [item setTitle:itemTitle];
-        return (theStyle != nil);
-    }
+				itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Copy Style '%@'", nil), name];
+		}
+		[item setTitle:itemTitle];
+		return (theStyle != nil);
+	}
 
-    if (action == @selector(lock:))
-        return ![self locked];
+	if (action == @selector(lock:))
+		return ![self locked];
 
-    if (action == @selector(unlock:))
-        return [self locked];
+	if (action == @selector(unlock:))
+		return [self locked];
 
-    if (action == @selector(lockLocation:))
-        return ![self locationLocked] && ![self locked];
+	if (action == @selector(lockLocation:))
+		return ![self locationLocked] && ![self locked];
 
-    if (action == @selector(unlockLocation:))
-        return [self locationLocked] && ![self locked];
+	if (action == @selector(unlockLocation:))
+		return [self locationLocked] && ![self locked];
 
 #ifdef qIncludeGraphicDebugging
-    if (action == @selector(toggleShowBBox:) || action == @selector(toggleClipToBBox:) || action == @selector(toggleShowTargets:) || action == @selector(toggleShowPartcodes:)) {
-        // set a checkmark next to those that are turned on
+	if (action == @selector(toggleShowBBox:) || action == @selector(toggleClipToBBox:) || action == @selector(toggleShowTargets:) || action == @selector(toggleShowPartcodes:)) {
+		// set a checkmark next to those that are turned on
 
-        if (action == @selector(toggleShowBBox:))
-            [item setState:m_showBBox ? NSOnState : NSOffState];
-        else if (action == @selector(toggleClipToBBox:))
-            [item setState:m_clipToBBox ? NSOnState : NSOffState];
-        else if (action == @selector(toggleShowTargets:))
-            [item setState:m_showTargets ? NSOnState : NSOffState];
-        else if (action == @selector(toggleShowPartcodes:))
-            [item setState:m_showPartcodes ? NSOnState : NSOffState];
+		if (action == @selector(toggleShowBBox:))
+			[item setState:m_showBBox ? NSOnState : NSOffState];
+		else if (action == @selector(toggleClipToBBox:))
+			[item setState:m_clipToBBox ? NSOnState : NSOffState];
+		else if (action == @selector(toggleShowTargets:))
+			[item setState:m_showTargets ? NSOnState : NSOffState];
+		else if (action == @selector(toggleShowPartcodes:))
+			[item setState:m_showPartcodes ? NSOnState : NSOffState];
 
-        return YES;
-    }
+		return YES;
+	}
 
-    if (action == @selector(logDescription:))
-        return YES;
+	if (action == @selector(logDescription:))
+		return YES;
 
 #endif
 
-    return NO;
+	return NO;
 }
 
 #pragma mark -
@@ -2523,9 +2523,9 @@ static NSRect s_oldBounds;
  */
 - (NSRect)bounds
 {
-    NSLog(@"!!! 'bounds' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
+	NSLog(@"!!! 'bounds' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
 
-    return NSZeroRect;
+	return NSZeroRect;
 }
 
 /** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
@@ -2534,10 +2534,10 @@ static NSRect s_oldBounds;
  */
 - (NSSize)extraSpaceNeeded
 {
-    if ([self style])
-        return [[self style] extraSpaceNeeded];
-    else
-        return NSMakeSize(0, 0);
+	if ([self style])
+		return [[self style] extraSpaceNeeded];
+	else
+		return NSMakeSize(0, 0);
 }
 
 /** @brief Return the container's transform
@@ -2547,12 +2547,12 @@ static NSRect s_oldBounds;
  @return a transform */
 - (NSAffineTransform*)containerTransform
 {
-    NSAffineTransform* ct = [[self container] renderingTransform];
+	NSAffineTransform* ct = [[self container] renderingTransform];
 
-    if (ct == nil)
-        return [NSAffineTransform transform];
-    else
-        return ct;
+	if (ct == nil)
+		return [NSAffineTransform transform];
+	else
+		return ct;
 }
 
 /** @brief Return the path that represents the final user-visible path of the drawn object
@@ -2564,7 +2564,7 @@ static NSRect s_oldBounds;
  */
 - (NSBezierPath*)renderingPath
 {
-    return nil;
+	return nil;
 }
 
 /** @brief Return hint to rasterizers that low quality drawing should be used
@@ -2574,7 +2574,7 @@ static NSRect s_oldBounds;
  */
 - (BOOL)useLowQualityDrawing
 {
-    return [[self drawing] lowRenderingQuality];
+	return [[self drawing] lowRenderingQuality];
 }
 
 /** @brief Return a number that changes when any aspect of the geometry changes. This can be used to detect
@@ -2585,25 +2585,25 @@ static NSRect s_oldBounds;
  */
 - (NSUInteger)geometryChecksum
 {
-    NSUInteger cd = 282735623; // arbitrary
-    NSPoint loc;
-    NSSize size;
-    CGFloat angle;
-    NSSize offset;
+	NSUInteger cd = 282735623; // arbitrary
+	NSPoint loc;
+	NSSize size;
+	CGFloat angle;
+	NSSize offset;
 
-    loc = [self location];
-    size = [self size];
-    angle = [self angleInDegrees] * 10;
-    offset = [self offset];
+	loc = [self location];
+	size = [self size];
+	angle = [self angleInDegrees] * 10;
+	offset = [self offset];
 
-    cd ^= roundtol(loc.x) ^ roundtol(loc.y) ^ roundtol(size.width) ^ roundtol(size.height) ^ roundtol(angle) ^ roundtol(offset.width) ^ roundtol(offset.height);
+	cd ^= roundtol(loc.x) ^ roundtol(loc.y) ^ roundtol(size.width) ^ roundtol(size.height) ^ roundtol(angle) ^ roundtol(offset.width) ^ roundtol(offset.height);
 
-    return cd;
+	return cd;
 }
 
 - (NSMutableDictionary*)renderingCache
 {
-    return mRenderingCache;
+	return mRenderingCache;
 }
 
 @end

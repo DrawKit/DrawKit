@@ -12,8 +12,8 @@
 // visual flags, used internally
 
 typedef enum {
-    kDKKnobDrawsStroke = (1 << 0),
-    kDKKnobDrawsFill = (1 << 1)
+	kDKKnobDrawsStroke = (1 << 0),
+	kDKKnobDrawsFill = (1 << 1)
 } DKKnobDrawingFlags;
 
 @class DKHandle;
@@ -34,16 +34,16 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 */
 @interface DKKnob : NSObject <NSCoding, NSCopying> {
 @private
-    id m_ownerRef; // the object that owns (and hence retains) this - typically a DKLayer
-    NSSize m_knobSize; // the currently cached knob size
-    CGFloat mScaleRatio; // ratio to zoom factor used to scale knob size (default = 0.3)
-    NSColor* mControlKnobColour; // colour of square knobs
-    NSColor* mRotationKnobColour; // colour of rotation knobs
-    NSColor* mControlOnPathPointColour; // colour of on-path control points
-    NSColor* mControlOffPathPointColour; // colour of off-path control points
-    NSColor* mControlBarColour; // colour of control bars
-    NSSize mControlKnobSize; // control knob size
-    CGFloat mControlBarWidth; // control bar width
+	id m_ownerRef; // the object that owns (and hence retains) this - typically a DKLayer
+	NSSize m_knobSize; // the currently cached knob size
+	CGFloat mScaleRatio; // ratio to zoom factor used to scale knob size (default = 0.3)
+	NSColor* mControlKnobColour; // colour of square knobs
+	NSColor* mRotationKnobColour; // colour of rotation knobs
+	NSColor* mControlOnPathPointColour; // colour of on-path control points
+	NSColor* mControlOffPathPointColour; // colour of off-path control points
+	NSColor* mControlBarColour; // colour of control bars
+	NSSize mControlKnobSize; // control knob size
+	CGFloat mControlBarWidth; // control bar width
 }
 
 /**  */

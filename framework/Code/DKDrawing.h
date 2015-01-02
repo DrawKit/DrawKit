@@ -30,32 +30,32 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 */
 @interface DKDrawing : DKLayerGroup <NSCoding, NSCopying> {
 @private
-    NSString* m_units; /**< user readable drawing units string, e.g. "millimetres" */
-    DKLayer* m_activeLayerRef; /**< which one is active for editing, etc */
-    NSColor* m_paperColour; /**< underlying colour of the "paper" */
-    DKUndoManager* m_undoManager; /**< undo manager to use for data changes */
-    NSColorSpace* mColourSpace; /**< the colour space of the drawing as a whole (nil means use default) */
-    NSSize m_size; /**< dimensions of the drawing */
-    CGFloat m_leftMargin; /**< margins */
-    CGFloat m_rightMargin;
-    CGFloat m_topMargin;
-    CGFloat m_bottomMargin;
-    CGFloat m_unitConversionFactor; /**< how many pixels does 1 unit cover? */
-    BOOL mFlipped; /**< YES if Y coordinates increase downwards, NO if they increase upwards */
-    BOOL m_snapsToGrid; /**< YES if grid snapping enabled */
-    BOOL m_snapsToGuides; /**< YES if guide snapping enabled */
-    BOOL m_useQandDRendering; /**< if YES, renderers have the option to use a fast but low quality drawing method */
-    BOOL m_isForcedHQUpdate; /**< YES while refreshing to HQ after a LQ series */
-    BOOL m_qualityModEnabled; /**< YES if the quality modulation is enabled */
-    BOOL mPaperColourIsPrinted; /**< YES if paper colour should be printed (default is NO) */
-    NSTimer* m_renderQualityTimer; /**< a timer used to set up high or low quality rendering dynamically */
-    NSTimeInterval m_lastRenderTime; /**< time the last render operation occurred */
-    NSTimeInterval mTriggerPeriod; /**< the time interval to use to trigger low quality rendering */
-    NSRect m_lastRectUpdated; /**< for refresh in HQ mode */
-    NSMutableSet* mControllers; /**< the set of current controllers */
-    DKImageDataManager* mImageManager; /**< internal object used to substantially improve efficiency of image archiving */
-    id mDelegateRef; /**< delegate, if any */
-    id mOwnerRef; /**< back pointer to document or view that owns this */
+	NSString* m_units; /**< user readable drawing units string, e.g. "millimetres" */
+	DKLayer* m_activeLayerRef; /**< which one is active for editing, etc */
+	NSColor* m_paperColour; /**< underlying colour of the "paper" */
+	DKUndoManager* m_undoManager; /**< undo manager to use for data changes */
+	NSColorSpace* mColourSpace; /**< the colour space of the drawing as a whole (nil means use default) */
+	NSSize m_size; /**< dimensions of the drawing */
+	CGFloat m_leftMargin; /**< margins */
+	CGFloat m_rightMargin;
+	CGFloat m_topMargin;
+	CGFloat m_bottomMargin;
+	CGFloat m_unitConversionFactor; /**< how many pixels does 1 unit cover? */
+	BOOL mFlipped; /**< YES if Y coordinates increase downwards, NO if they increase upwards */
+	BOOL m_snapsToGrid; /**< YES if grid snapping enabled */
+	BOOL m_snapsToGuides; /**< YES if guide snapping enabled */
+	BOOL m_useQandDRendering; /**< if YES, renderers have the option to use a fast but low quality drawing method */
+	BOOL m_isForcedHQUpdate; /**< YES while refreshing to HQ after a LQ series */
+	BOOL m_qualityModEnabled; /**< YES if the quality modulation is enabled */
+	BOOL mPaperColourIsPrinted; /**< YES if paper colour should be printed (default is NO) */
+	NSTimer* m_renderQualityTimer; /**< a timer used to set up high or low quality rendering dynamically */
+	NSTimeInterval m_lastRenderTime; /**< time the last render operation occurred */
+	NSTimeInterval mTriggerPeriod; /**< the time interval to use to trigger low quality rendering */
+	NSRect m_lastRectUpdated; /**< for refresh in HQ mode */
+	NSMutableSet* mControllers; /**< the set of current controllers */
+	DKImageDataManager* mImageManager; /**< internal object used to substantially improve efficiency of image archiving */
+	id mDelegateRef; /**< delegate, if any */
+	id mOwnerRef; /**< back pointer to document or view that owns this */
 }
 
 /** @brief Return the current version number of the framework

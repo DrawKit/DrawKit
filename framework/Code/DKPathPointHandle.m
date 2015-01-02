@@ -12,27 +12,27 @@
 
 + (DKKnobType)type
 {
-    return kDKOnPathKnobType;
+	return kDKOnPathKnobType;
 }
 
 + (NSBezierPath*)pathWithSize:(NSSize)size
 {
-    return [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(0, 0, size.width, size.height)];
+	return [NSBezierPath bezierPathWithOvalInRect:NSMakeRect(0, 0, size.width, size.height)];
 }
 
 + (NSColor*)fillColour
 {
-    return [NSColor orangeColor];
+	return [NSColor orangeColor];
 }
 
 + (NSColor*)strokeColour
 {
-    return nil;
+	return nil;
 }
 
 + (CGFloat)scaleFactor
 {
-    return 0.85;
+	return 0.85;
 }
 
 @end
@@ -43,17 +43,17 @@
 
 + (DKKnobType)type
 {
-    return kDKOnPathKnobType | kDKKnobIsDisabledFlag;
+	return kDKOnPathKnobType | kDKKnobIsDisabledFlag;
 }
 
 + (NSColor*)fillColour
 {
-    return [NSColor whiteColor];
+	return [NSColor whiteColor];
 }
 
 + (NSColor*)strokeColour
 {
-    return [NSColor grayColor];
+	return [NSColor grayColor];
 }
 
 @end
@@ -64,17 +64,17 @@
 
 + (DKKnobType)type
 {
-    return kDKOnPathKnobType | kDKKnobIsInactiveFlag;
+	return kDKOnPathKnobType | kDKKnobIsInactiveFlag;
 }
 
 + (NSColor*)fillColour
 {
-    return [NSColor lightGrayColor];
+	return [NSColor lightGrayColor];
 }
 
 + (NSColor*)strokeColour
 {
-    return [NSColor grayColor];
+	return [NSColor grayColor];
 }
 
 @end
@@ -85,12 +85,12 @@
 
 + (DKKnobType)type
 {
-    return kDKControlPointKnobType;
+	return kDKControlPointKnobType;
 }
 
 + (NSColor*)fillColour
 {
-    return [NSColor cyanColor];
+	return [NSColor cyanColor];
 }
 
 @end
@@ -101,12 +101,12 @@
 
 + (DKKnobType)type
 {
-    return kDKControlPointKnobType | kDKKnobIsDisabledFlag;
+	return kDKControlPointKnobType | kDKKnobIsDisabledFlag;
 }
 
 + (NSColor*)fillColour
 {
-    return [NSColor lightGrayColor];
+	return [NSColor lightGrayColor];
 }
 
 @end
@@ -117,17 +117,17 @@
 
 + (DKKnobType)type
 {
-    return kDKControlPointKnobType | kDKKnobIsInactiveFlag;
+	return kDKControlPointKnobType | kDKKnobIsInactiveFlag;
 }
 
 + (NSColor*)fillColour
 {
-    return [NSColor lightGrayColor];
+	return [NSColor lightGrayColor];
 }
 
 + (NSColor*)strokeColour
 {
-    return [NSColor grayColor];
+	return [NSColor grayColor];
 }
 
 @end

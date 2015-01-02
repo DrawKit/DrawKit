@@ -29,26 +29,26 @@ other fixed content. See that class for details.
 */
 @interface DKTextAdornment : DKRasterizer <NSCoding, NSCopying> {
 @private
-    DKTextSubstitutor* mSubstitutor; // stores master string & performs substitutions on specially formatted strings
-    NSString* mPlaceholder; // placeholder string
-    NSRect m_textRect; // layout rect
-    CGFloat m_angle; // independent text angle
-    DKVerticalTextAlignment m_vertAlign; // vertical text alignment
-    DKTextLayoutMode m_layoutMode; // layout modes - wrap in box, shape or along path
-    DKTextCapitalization mCapitalization; // capitalization mode
-    DKGreeking mGreeking; // greeking mode
-    BOOL m_wrapLines; // YES to wrap into the text rect, NO for single line
-    BOOL m_applyObjectAngle; // YES to add the object's angle to the text angle
-    CGFloat mFlowedTextPathInset; // inset the layout path by this much before laying out the text
-    BOOL mAllowIndefiniteWidth; // YES to allow unwrapped text to extend as much as it needs to horizontally
-    BOOL mLastLayoutFittedAllText; // flags whether most recent rendering drew all the text
-    CGFloat mVerticalPosition; // for proportional vertical text placement, this is the proportion 0..1 of the height
-    CGFloat mTextKnockoutDistance; // distance to extend path when drawing knockout; 0 = no knockout.
-    CGFloat mTextKnockoutStrokeWidth; // stroke width for text knockout, if any (0 = none)
-    NSColor* mTextKnockoutColour; // colour for text knockout, default = white
-    NSColor* mTextKnockoutStrokeColour; // colour for stroking the text knockout, default = black
-    NSMutableDictionary* mTACache; // private cache used for various text layout caching
-    NSDictionary* mDefaultAttributes; // saves default attributes for when text is deleted altogether
+	DKTextSubstitutor* mSubstitutor; // stores master string & performs substitutions on specially formatted strings
+	NSString* mPlaceholder; // placeholder string
+	NSRect m_textRect; // layout rect
+	CGFloat m_angle; // independent text angle
+	DKVerticalTextAlignment m_vertAlign; // vertical text alignment
+	DKTextLayoutMode m_layoutMode; // layout modes - wrap in box, shape or along path
+	DKTextCapitalization mCapitalization; // capitalization mode
+	DKGreeking mGreeking; // greeking mode
+	BOOL m_wrapLines; // YES to wrap into the text rect, NO for single line
+	BOOL m_applyObjectAngle; // YES to add the object's angle to the text angle
+	CGFloat mFlowedTextPathInset; // inset the layout path by this much before laying out the text
+	BOOL mAllowIndefiniteWidth; // YES to allow unwrapped text to extend as much as it needs to horizontally
+	BOOL mLastLayoutFittedAllText; // flags whether most recent rendering drew all the text
+	CGFloat mVerticalPosition; // for proportional vertical text placement, this is the proportion 0..1 of the height
+	CGFloat mTextKnockoutDistance; // distance to extend path when drawing knockout; 0 = no knockout.
+	CGFloat mTextKnockoutStrokeWidth; // stroke width for text knockout, if any (0 = none)
+	NSColor* mTextKnockoutColour; // colour for text knockout, default = white
+	NSColor* mTextKnockoutStrokeColour; // colour for stroking the text knockout, default = black
+	NSMutableDictionary* mTACache; // private cache used for various text layout caching
+	NSDictionary* mDefaultAttributes; // saves default attributes for when text is deleted altogether
 }
 
 // convenience constructor:

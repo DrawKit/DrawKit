@@ -21,7 +21,7 @@ extern DKDrawingView* sCurDView;
  */
 - (DKLayer*)activeLayer
 {
-    return [[self controller] activeLayer];
+	return [[self controller] activeLayer];
 }
 
 #pragma mark -
@@ -32,19 +32,19 @@ extern DKDrawingView* sCurDView;
  @return a drag operation constant */
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
 {
-    NSDragOperation result = NSDragOperationNone;
+	NSDragOperation result = NSDragOperationNone;
 
-    if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingEntered:)]) {
-        [[self window] performSelector:@selector(makeKeyAndOrderFront:)
-                            withObject:[self window]
-                            afterDelay:0.0];
+	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingEntered:)]) {
+		[[self window] performSelector:@selector(makeKeyAndOrderFront:)
+							withObject:[self window]
+							afterDelay:0.0];
 
-        [self set];
-        result = [[self activeLayer] draggingEntered:sender];
-        [[self class] pop];
-    }
+		[self set];
+		result = [[self activeLayer] draggingEntered:sender];
+		[[self class] pop];
+	}
 
-    return result;
+	return result;
 }
 
 /** @brief A drag moved in the view
@@ -52,15 +52,15 @@ extern DKDrawingView* sCurDView;
  @return a drag operation constant */
 - (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
-    NSDragOperation result = NSDragOperationNone;
+	NSDragOperation result = NSDragOperationNone;
 
-    if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingUpdated:)]) {
-        [self set];
-        result = [[self activeLayer] draggingUpdated:sender];
-        [[self class] pop];
-    }
+	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingUpdated:)]) {
+		[self set];
+		result = [[self activeLayer] draggingUpdated:sender];
+		[[self class] pop];
+	}
 
-    return result;
+	return result;
 }
 
 /** @brief A drag left the view
@@ -68,11 +68,11 @@ extern DKDrawingView* sCurDView;
  @return a drag operation constant */
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
-    if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingExited:)]) {
-        [self set];
-        [[self activeLayer] draggingExited:sender];
-        [[self class] pop];
-    }
+	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingExited:)]) {
+		[self set];
+		[[self activeLayer] draggingExited:sender];
+		[[self class] pop];
+	}
 }
 
 #pragma mark -
@@ -83,15 +83,15 @@ extern DKDrawingView* sCurDView;
  @return YES if perodic update are wanted, NO otherwise */
 - (BOOL)wantsPeriodicDraggingUpdates
 {
-    BOOL result = NO;
+	BOOL result = NO;
 
-    if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(wantsPeriodicDraggingUpdates)]) {
-        [self set];
-        result = [[self activeLayer] wantsPeriodicDraggingUpdates];
-        [[self class] pop];
-    }
+	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(wantsPeriodicDraggingUpdates)]) {
+		[self set];
+		result = [[self activeLayer] wantsPeriodicDraggingUpdates];
+		[[self class] pop];
+	}
 
-    return result;
+	return result;
 }
 
 #pragma mark -
@@ -101,15 +101,15 @@ extern DKDrawingView* sCurDView;
  @return YES if the drop was handled, NO otherwise */
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    BOOL result = NO;
+	BOOL result = NO;
 
-    if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(performDragOperation:)]) {
-        [self set];
-        result = [[self activeLayer] performDragOperation:sender];
-        [[self class] pop];
-    }
+	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(performDragOperation:)]) {
+		[self set];
+		result = [[self activeLayer] performDragOperation:sender];
+		[[self class] pop];
+	}
 
-    return result;
+	return result;
 }
 
 /** @brief A drop is about to be performed, so get ready
@@ -117,26 +117,26 @@ extern DKDrawingView* sCurDView;
  @return YES if the drop will be handled, NO otherwise */
 - (BOOL)prepareForDragOperation:(id<NSDraggingInfo>)sender
 {
-    BOOL result = NO;
+	BOOL result = NO;
 
-    if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(prepareForDragOperation:)]) {
-        [self set];
-        result = [[self activeLayer] prepareForDragOperation:sender];
-        [[self class] pop];
-    }
+	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(prepareForDragOperation:)]) {
+		[self set];
+		result = [[self activeLayer] prepareForDragOperation:sender];
+		[[self class] pop];
+	}
 
-    return result;
+	return result;
 }
 
 /** @brief A drop was performed, so perform any final clean-up
  @param sender the sender of the drag */
 - (void)concludeDragOperation:(id<NSDraggingInfo>)sender
 {
-    if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(concludeDragOperation:)]) {
-        [self set];
-        [[self activeLayer] concludeDragOperation:sender];
-        [[self class] pop];
-    }
+	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(concludeDragOperation:)]) {
+		[self set];
+		[[self activeLayer] concludeDragOperation:sender];
+		[[self class] pop];
+	}
 }
 
 @end

@@ -14,9 +14,9 @@
 // caching options
 
 typedef enum {
-    kDKGroupCacheNone = 0,
-    kDKGroupCacheUsingPDF = (1 << 0),
-    kDKGroupCacheUsingCGLayer = (1 << 1)
+	kDKGroupCacheNone = 0,
+	kDKGroupCacheUsingPDF = (1 << 0),
+	kDKGroupCacheUsingCGLayer = (1 << 1)
 } DKGroupCacheOption;
 
 /** @brief This is a group objects that can group any number of shapes or paths.
@@ -37,14 +37,14 @@ For the normal case of grouping existing objects within a layer, this is not an 
 */
 @interface DKShapeGroup : DKDrawableShape <NSCoding, NSCopying, DKDrawableContainer> {
 @private
-    NSArray* m_objects; // objects in the group
-    NSRect mBounds; // overall bounding rect of the group
-    BOOL m_transformVisually; // if YES, group transform is visual only (like SVG) otherwise it's genuine
-    CGLayerRef mContentCache; // used to cache content
-    NSPDFImageRep* mPDFContentCache; // used to cache content at higher quality
-    DKGroupCacheOption mCacheOption; // caching options
-    BOOL mIsWritingToCache; // YES when building cache - modifies transforms
-    BOOL mClipContentToPath; // YES to clip group content to the group's path
+	NSArray* m_objects; // objects in the group
+	NSRect mBounds; // overall bounding rect of the group
+	BOOL m_transformVisually; // if YES, group transform is visual only (like SVG) otherwise it's genuine
+	CGLayerRef mContentCache; // used to cache content
+	NSPDFImageRep* mPDFContentCache; // used to cache content at higher quality
+	DKGroupCacheOption mCacheOption; // caching options
+	BOOL mIsWritingToCache; // YES when building cache - modifies transforms
+	BOOL mClipContentToPath; // YES to clip group content to the group's path
 }
 
 // creating new groups:
@@ -222,6 +222,6 @@ For the normal case of grouping existing objects within a layer, this is not an 
 // constant that can be passed as <objectType> to groupWithBezierPaths:objectType:style:
 
 enum {
-    kDKCreateGroupWithShapes = 0,
-    kDKCreateGroupWithPaths = 1
+	kDKCreateGroupWithShapes = 0,
+	kDKCreateGroupWithPaths = 1
 };

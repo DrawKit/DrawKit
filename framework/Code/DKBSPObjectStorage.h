@@ -14,17 +14,17 @@
 /// node types
 
 typedef enum {
-    kNodeHorizontal,
-    kNodeVertical,
-    kNodeLeaf
+	kNodeHorizontal,
+	kNodeVertical,
+	kNodeLeaf
 } DKLeafType;
 
 /// tree operations
 
 typedef enum {
-    kDKOperationInsert,
-    kDKOperationDelete,
-    kDKOperationAccumulate
+	kDKOperationInsert,
+	kDKOperationDelete,
+	kDKOperationAccumulate
 } DKBSPOperation;
 
 /** @brief The actual storage object.
@@ -35,9 +35,9 @@ typedef enum {
 */
 @interface DKBSPObjectStorage : DKLinearObjectStorage {
 @private
-    DKBSPIndexTree* mTree;
-    NSUInteger mTreeDepth;
-    NSUInteger mLastItemCount;
+	DKBSPIndexTree* mTree;
+	NSUInteger mTreeDepth;
+	NSUInteger mLastItemCount;
 }
 
 - (void)setTreeDepth:(NSUInteger)aDepth;
@@ -59,13 +59,13 @@ typedef enum {
 */
 @interface DKBSPIndexTree : NSObject {
 @protected
-    NSMutableArray* mLeaves;
-    NSMutableArray* mNodes;
-    NSMutableIndexSet* mResults;
-    NSSize mCanvasSize;
-    DKBSPOperation mOp;
-    NSUInteger mOpIndex;
-    NSBezierPath* mDebugPath;
+	NSMutableArray* mLeaves;
+	NSMutableArray* mNodes;
+	NSMutableIndexSet* mResults;
+	NSSize mCanvasSize;
+	DKBSPOperation mOp;
+	NSUInteger mOpIndex;
+	NSBezierPath* mDebugPath;
 }
 
 + (Class)leafClass;

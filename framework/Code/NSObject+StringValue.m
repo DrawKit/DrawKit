@@ -14,13 +14,13 @@
 /**  */
 - (NSString*)stringValue
 {
-    return NSStringFromClass([self class]);
+	return NSStringFromClass([self class]);
 }
 
 - (NSString*)address
 {
 #warning 64BIT: Check formatting arguments
-    return [NSString stringWithFormat:@"0x%X", self];
+	return [NSString stringWithFormat:@"0x%X", self];
 }
 
 @end
@@ -29,30 +29,30 @@
 
 - (NSString*)stringValue
 {
-    const char* objcType = [self objCType];
-    NSInteger m = -1;
+	const char* objcType = [self objCType];
+	NSInteger m = -1;
 
-    m = strncmp(objcType, @encode(NSRect), strlen(objcType));
+	m = strncmp(objcType, @encode(NSRect), strlen(objcType));
 
-    if (m == 0)
-        return NSStringFromRect([self rectValue]);
+	if (m == 0)
+		return NSStringFromRect([self rectValue]);
 
-    m = strncmp(objcType, @encode(NSPoint), strlen(objcType));
+	m = strncmp(objcType, @encode(NSPoint), strlen(objcType));
 
-    if (m == 0)
-        return NSStringFromPoint([self pointValue]);
+	if (m == 0)
+		return NSStringFromPoint([self pointValue]);
 
-    m = strncmp(objcType, @encode(NSSize), strlen(objcType));
+	m = strncmp(objcType, @encode(NSSize), strlen(objcType));
 
-    if (m == 0)
-        return NSStringFromSize([self sizeValue]);
+	if (m == 0)
+		return NSStringFromSize([self sizeValue]);
 
-    m = strncmp(objcType, @encode(NSRange), strlen(objcType));
+	m = strncmp(objcType, @encode(NSRange), strlen(objcType));
 
-    if (m == 0)
-        return NSStringFromRange([self rangeValue]);
+	if (m == 0)
+		return NSStringFromRange([self rangeValue]);
 
-    return nil;
+	return nil;
 }
 
 @end
@@ -61,7 +61,7 @@
 
 - (NSString*)stringValue
 {
-    return [self hexString];
+	return [self hexString];
 }
 
 @end
@@ -70,20 +70,20 @@
 
 - (NSString*)stringValue
 {
-    NSMutableString* sv = [[NSMutableString alloc] init];
-    NSUInteger i;
-    id object;
+	NSMutableString* sv = [[NSMutableString alloc] init];
+	NSUInteger i;
+	id object;
 
-    for (i = 0; i < [self count]; ++i) {
-        object = [self objectAtIndex:i];
+	for (i = 0; i < [self count]; ++i) {
+		object = [self objectAtIndex:i];
 #warning 64BIT: Inspect use of long
-        [sv appendString:[NSString stringWithFormat:@"%ld: %@\n", (long)i, [object stringValue]]];
-    }
+		[sv appendString:[NSString stringWithFormat:@"%ld: %@\n", (long)i, [object stringValue]]];
+	}
 
-    if ([sv length] > 0)
-        [sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+	if ([sv length] > 0)
+		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
 
-    return [sv autorelease];
+	return [sv autorelease];
 }
 
 @end
@@ -92,20 +92,20 @@
 
 - (NSString*)stringValue
 {
-    NSMutableString* sv = [[NSMutableString alloc] init];
-    id object;
-    id key;
-    NSEnumerator* iter = [[self allKeys] objectEnumerator];
+	NSMutableString* sv = [[NSMutableString alloc] init];
+	id object;
+	id key;
+	NSEnumerator* iter = [[self allKeys] objectEnumerator];
 
-    while ((key = [iter nextObject])) {
-        object = [self objectForKey:key];
-        [sv appendString:[NSString stringWithFormat:@"%@: %@\n", key, [object stringValue]]];
-    }
+	while ((key = [iter nextObject])) {
+		object = [self objectForKey:key];
+		[sv appendString:[NSString stringWithFormat:@"%@: %@\n", key, [object stringValue]]];
+	}
 
-    if ([sv length] > 0)
-        [sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+	if ([sv length] > 0)
+		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
 
-    return [sv autorelease];
+	return [sv autorelease];
 }
 
 @end
@@ -114,18 +114,18 @@
 
 - (NSString*)stringValue
 {
-    NSMutableString* sv = [[NSMutableString alloc] init];
-    id object;
-    NSEnumerator* iter = [self objectEnumerator];
+	NSMutableString* sv = [[NSMutableString alloc] init];
+	id object;
+	NSEnumerator* iter = [self objectEnumerator];
 
-    while ((object = [iter nextObject])) {
-        [sv appendString:[NSString stringWithFormat:@"%@\n", [object stringValue]]];
-    }
+	while ((object = [iter nextObject])) {
+		[sv appendString:[NSString stringWithFormat:@"%@\n", [object stringValue]]];
+	}
 
-    if ([sv length] > 0)
-        [sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
+	if ([sv length] > 0)
+		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
 
-    return [sv autorelease];
+	return [sv autorelease];
 }
 
 @end
@@ -134,7 +134,7 @@
 
 - (NSString*)stringValue
 {
-    return self;
+	return self;
 }
 
 @end
@@ -143,7 +143,7 @@
 
 - (NSString*)stringValue
 {
-    return [self description];
+	return [self description];
 }
 
 @end
