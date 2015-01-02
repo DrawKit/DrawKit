@@ -1,30 +1,36 @@
-DrawKit
-=======
+# DrawKit
 
 DrawKit is an illustration and vector artwork framework for Mac OS X.
 
-Full documentation is available at http://drawkit.github.io/
+See http://drawkit.github.io for full documentation and a getting started guide.
 
-DrawKit requires Mac OS X 10.7 or later. The project is developed on and builds with Xcode 5 or later.
+[![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit) 
+![podspec Version](https://cocoapod-badges.herokuapp.com/v/DrawKit/badge.png)
+![podspec Platform](https://cocoapod-badges.herokuapp.com/p/DrawKit/badge.png)
+![podspec License](https://cocoapod-badges.herokuapp.com/l/DrawKit/badge.png)
 
-DrawKit is [LGPL licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENSE). This licence means DrawKit can be used within open source and commercial software, including products distributed on the Mac App Store.
+### Installation with CocoaPods
 
-[![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit)
+[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like [DrawKit](http://drawkit.github.io/) in your projects.
 
-How We Work Together
-====================
+#### Podfile
+
+```ruby
+platform :osx, '10.7'
+pod "DrawKit"
+```
+
+## How We Work Together
 
 The DrawKit Community uses the [C4.1 (Collective Code Construction Contract)](http://rfc.zeromq.org/spec:22) process for its core projects: DrawKit and stable releases, as well as surrounding projects.
 
 Please do take the time to read the [C4.1 RFC](http://rfc.zeromq.org/spec:22).
 
-Submit a Patch
-==============
+## Submit a Patch
 
 We work with github pull requests. If your patch is accepted you will get credit in the contributors file. You are responsible for tracking your patch and convincing the maintainers to accept it.
 
-Overview
-========
+# Overview
 
 DrawKit is a software framework that enables the Mac OS X Cocoa developer to rapidly implement vector drawing and illustration features in a custom application. It is comprehensive, powerful and complete, but it is also highly modular so you can make use of only those parts that you need, or go the whole hog and drop it in as a complete vector drawing solution.
 
@@ -62,7 +68,15 @@ DrawKit does NOT provide a user interface except that of direct manipulation of 
 
 As its name suggests, DrawKit is a kit - some assembly is required. However getting a "bare bones" system up and running should be very easy, which is intended to give the programmer confidence in the default operation of the framework, providing an excellent starting point for customising and extending DrawKit to suit your own applications' needs.
 
-History
-=======
+## History
 
 Originally based on, and forked from, [DrawKit 1.0b7 (2010/05/01) source code](http://www.apptree.net/drawkitmain.htm) by [Graham Cox](http://apptree.net/about.htm).
+
+## Maintainers
+
+ - [Graham Miln](http://github.com/grahammiln) ([@grahammiln](https://twitter.com/grahammiln)) / [miln.eu](http://miln.eu)
+
+## License
+
+DrawKit is [LGPL licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENSE). This licence means DrawKit can be used within open source and commercial software, including products distributed on the Mac App Store.
+
