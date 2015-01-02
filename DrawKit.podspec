@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   s.social_media_url   = "http://twitter.com/grahammiln"
 
   s.public_header_files = "DrawKit-#{ s.version }/DKDrawKit.framework/Headers/*.h"
-  s.preserve_paths = "DrawKit-#{ s.version }/DKDrawKit.framework"
+  s.preserve_paths = "DrawKit-#{ s.version }/DKDrawKit.framework/*"
   s.vendored_frameworks = "DrawKit-#{ s.version }/DKDrawKit.framework"
   
   s.frameworks = "Cocoa", "QuartzCore"
