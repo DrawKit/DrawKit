@@ -26,11 +26,18 @@ Pod::Spec.new do |s|
 
   s.public_header_files = "DKDrawKit.framework/Headers/*.h"
   s.preserve_paths = "DKDrawKit.framework"
+  
   s.vendored_frameworks = "DKDrawKit.framework"
+  s.resource = "DKDrawKit.framework"
+  
   s.resource = "DKDrawKit.framework"
   
   s.frameworks = "Cocoa", "QuartzCore"
   s.requires_arc = false
-  s.xcconfig = { "FRAMEWORK_SEARCH_PATHS" => "$\"(PODS_ROOT)/DrawKit/**\"", "LD_RUNPATH_SEARCH_PATHS" => "@loader_path/../Frameworks" }
+  s.xcconfig = {
+  	"FRAMEWORK_SEARCH_PATHS" => "$(inherited) $\"(PODS_ROOT)/DrawKit/**\"",
+  	"LD_RUNPATH_SEARCH_PATHS" => "$(inherited) @loader_path/../Frameworks",
+  	"OTHER_CODE_SIGN_FLAGS" => "$(inherited) --deep"
+  }
 
 end
