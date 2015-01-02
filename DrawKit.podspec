@@ -35,9 +35,9 @@ Pod::Spec.new do |s|
   s.frameworks = "Cocoa", "QuartzCore"
   s.requires_arc = false
   s.xcconfig = {
-  	"FRAMEWORK_SEARCH_PATHS" => "$(inherited) $\"(PODS_ROOT)/DrawKit/**\"",
-  	"LD_RUNPATH_SEARCH_PATHS" => "$(inherited) @loader_path/../Frameworks",
-  	"OTHER_CODE_SIGN_FLAGS" => "$(inherited) --deep"
+  	"FRAMEWORK_SEARCH_PATHS" => "$\"(PODS_ROOT)/DrawKit/**\"",
+  	"LD_RUNPATH_SEARCH_PATHS" => "@loader_path/../Frameworks",
+  	"OTHER_CODE_SIGN_FLAGS" => "--deep"
   }
 
 end
