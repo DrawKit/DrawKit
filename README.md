@@ -1,19 +1,21 @@
 # DrawKit
 
-DrawKit is an illustration and vector artwork framework for Mac OS X.
-
-See http://drawkit.github.io for full documentation and a getting started guide.
+DrawKit is an illustration and vector artwork framework for Mac OS X. See http://drawkit.github.io for full documentation and a getting started guide.
 
 [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit) 
 ![podspec Version](https://cocoapod-badges.herokuapp.com/v/DrawKit/badge.png)
 ![podspec Platform](https://cocoapod-badges.herokuapp.com/p/DrawKit/badge.png)
 ![podspec License](https://cocoapod-badges.herokuapp.com/l/DrawKit/badge.png)
 
-### Installation with CocoaPods
+## DrawKit Demo App
+
+Download and try the [demonstration application](https://github.com/DrawKit/legacy-DrawKit-demo/releases/download/1.0b7/DrawDemo_app_b7.zip) to see what DrawKit can do. The full demonstration source is available https://github.com/DrawKit/legacy-DrawKit-demo
+
+## Installation with CocoaPods
 
 [CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like [DrawKit](http://drawkit.github.io/) in your projects.
 
-#### Podfile
+### Podfile
 
 ```ruby
 platform :osx, '10.7'
