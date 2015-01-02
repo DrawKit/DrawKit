@@ -452,6 +452,24 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)coder
+{
+	if ((self = [super initWithCoder:coder])) {
+		if ([self respondsToSelector:@selector(setTranslatesAutoresizingMaskIntoConstraints:)]) {
+			[self setTranslatesAutoresizingMaskIntoConstraints:YES];
+		}
+	
+		m_scale = 1.0;
+		mMinScale = 0.025;
+		mMaxScale = 250.0;
+		
+		mRT = [[DKRetriggerableTimer retriggerableTimerWithPeriod:kDKZoomingRetriggerPeriod
+														   target:self
+														 selector:@selector(stopScaleChange)] retain];
+	}
+	return self;
+}
+
 - (void)dealloc
 {
     [mRT release];
