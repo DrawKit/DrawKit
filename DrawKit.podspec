@@ -1,5 +1,5 @@
 #
-#  Be sure to run `pod spec lint DrawKit.podspec' to ensure this is a
+#  Be sure to run `pod spec lint --verbose DrawKit.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
 #
 #  To learn more about Podspec attributes see http://docs.cocoapods.org/specification.html
@@ -16,17 +16,17 @@ Pod::Spec.new do |s|
   s.documentation_url = 'http://drawkit.github.io'
   s.screenshot  = "https://raw.githubusercontent.com/DrawKit/DrawKit/master/documentation/drawkit-sample-capabilities.png"
   
-  s.license      = { :type => "LGPL3", :file => "DrawKit-#{ s.version }/DKDrawKit.framework/Resources/LICENSE-LGPL3.txt" }
+  s.license      = { :type => "LGPL3", :file => "DKDrawKit.framework/Resources/LICENSE-LGPL3.txt" }
 
   s.platform     = :osx, "10.7"
-  s.source       = { "http" => "https://github.com/DrawKit/DrawKit/releases/download/v#{ s.version }/DrawKit-#{ s.version }.zip" }
+  s.source       = { :git => "https://github.com/DrawKit/DrawKit-podspec.git", :tag => "#{ s.version }" }
 
   s.author   = { 'Graham Miln' => 'graham.miln@miln.eu' } # Maintainer
   s.social_media_url   = "http://twitter.com/grahammiln"
 
-  s.public_header_files = "DrawKit-#{ s.version }/DKDrawKit.framework/Headers/*.h"
-  s.preserve_paths = "*"
-  s.vendored_frameworks = "DrawKit-#{ s.version }/DKDrawKit.framework"
+  s.public_header_files = "DKDrawKit.framework/Headers/*.h"
+  s.preserve_paths = "DKDrawKit.framework"
+  s.vendored_frameworks = "DKDrawKit.framework"
   
   s.frameworks = "Cocoa", "QuartzCore"
   s.requires_arc = false
