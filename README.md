@@ -2,9 +2,11 @@
 
 DrawKit is an illustration and vector artwork framework for Mac OS X. See http://drawkit.github.io for full documentation and a getting started guide.
 
-## DrawKit Demo App
+## DrawKit Demos
 
-Download and try the [demonstration application](https://github.com/DrawKit/legacy-DrawKit-demo/releases/download/1.0b7/DrawDemo_app_b7.zip) to see what DrawKit can do. The full demonstration source is available https://github.com/DrawKit/legacy-DrawKit-demo
+[DKMiniDemo](https://github.com/DrawKit/legacy-DrawKit-mini-demo/releases/download/v1.5/DKMiniDemo-1.5.zip) and [source code](https://github.com/DrawKit/legacy-DrawKit-mini-demo)  are great for learning about DrawKit.
+
+For a full demonstration of DrawKit, try the [DrawDemo](https://github.com/DrawKit/legacy-DrawKit-demo/releases/download/1.0b7/DrawDemo_app_b7.zip) application. Complete with [source code](https://github.com/DrawKit/legacy-DrawKit-demo) this application highlights what is possible with DrawKit.
 
 ## Installation with CocoaPods
 
