@@ -1,5 +1,5 @@
 /**
- @author Contributions from the community; see CONTRIBUTORS
+ @author Contributions from the community; see CONTRIBUTORS.md; see CONTRIBUTORS
  @date 2005-2015
  @copyright This software is released subject to licensing conditions as detailed in LICENSE, which must accompany this source file.
  */
