@@ -27,7 +27,6 @@
 #import "DKObjectOwnerLayer.h"
 #import "DKObjectDrawingLayer.h"
 #import "DKObjectDrawingLayer+Alignment.h"
-#import "DKObjectDrawingLayer+BooleanOps.h"
 #import "DKObjectDrawingLayer+Duplication.h"
 
 #import "DKGridLayer.h"
@@ -41,7 +40,6 @@
 #import "DKReshapableShape.h"
 #import "DKDrawableShape+Hotspots.h"
 #import "DKImageShape.h"
-#import "DKImageShape+Vectorization.h"
 #import "DKShapeGroup.h"
 #import "DKDrawablePath.h"
 #import "DKTextShape.h"
@@ -103,7 +101,6 @@
 #import "GCZoomView.h"
 #import "DKUndoManager.h"
 #import "NSBezierPath+Editing.h"
-#import "NSBezierPath+GPC.h"
 #import "NSBezierPath+Geometry.h"
 #import "NSBezierPath+Text.h"
 #import "NSDictionary+DeepCopy.h"

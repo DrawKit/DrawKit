@@ -8,7 +8,6 @@
 
 #import "DKRoughStroke.h"
 #import "NSBezierPath+Geometry.h"
-//#import "NSBezierPath+GPC.h"
 
 @implementation DKRoughStroke
 #pragma mark As a DKRoughStroke

@@ -7,7 +7,6 @@
  */
 
 #import "DKImageShape.h"
-#import "DKImageShape+Vectorization.h"
 #import "DKObjectOwnerLayer.h"
 #import "DKDrawableObject+Metadata.h"
 #import "DKStyle.h"

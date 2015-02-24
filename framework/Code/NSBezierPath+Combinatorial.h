@@ -20,7 +20,7 @@ typedef enum {
 
 implements union, intersection, diff and xor between pairs of paths.
 
-unlike GPC, this maintains paths in their original form as much as possible.
+this maintains paths in their original form as much as possible.
 
 restrictions: both operand paths must be closed.
 

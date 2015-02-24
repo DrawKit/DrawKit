@@ -12,7 +12,6 @@
 #import "DKRandom.h"
 #import "LogEvent.h"
 #import "NSBezierPath+Editing.h"
-#import "NSBezierPath+GPC.h"
 
 // define this to use Omni methods for finding points on paths, etc. Note - I have discovered that these methods, though probably faster, are quite innaccurate
 // and the innaccuracy worsens with longer paths (accumulative rounding error). So if your paths are likely to exceed 1000 points in length, it's better to use
@@ -825,18 +824,11 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 - (NSBezierPath*)offsetPathWithStartingOffset2:(CGFloat)delta1 endingOffset:(CGFloat)delta2
 {
-	// When GPC is disabled, works exactly as above.
+	// Works exactly as above.
 	NSBezierPath* temp = self;
-#ifndef qUseGPC
 #pragma unused(delta1, delta2)
-#else
-	temp = [temp bezierPathByFlatteningPath];
-#endif
 	temp = [temp offsetPathWithStartingOffset:delta1
 								 endingOffset:delta2];
-#ifdef qUseGPC
-	temp = [temp bezierPathByUnflatteningPath];
-#endif
 	return temp;
 }
 
