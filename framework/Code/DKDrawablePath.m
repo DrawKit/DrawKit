@@ -15,7 +15,6 @@
 #import "DKStroke.h"
 #import "NSBezierPath+Editing.h"
 #import "NSBezierPath+Geometry.h"
-#import "NSBezierPath+GPC.h"
 #import "GCInfoFloater.h"
 #import "CurveFit.h"
 #import "LogEvent.h"
