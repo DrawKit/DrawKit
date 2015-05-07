@@ -86,6 +86,7 @@
 #import "DKDistortionTransform.h"
 #import "DKCategoryManager.h"
 #import "DKCommonTypes.h"
+#import "DKHandle.h"
 #import "DKKnob.h"
 #import "DKRouteFinder.h"
 
