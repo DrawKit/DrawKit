@@ -412,6 +412,12 @@ static NSColor* sInfoWindowColour = nil;
 											 tolerance:tol];
 }
 
+- (CGFloat)infoLengthForPath:(NSBezierPath*)path
+{
+	NSParameterAssert(path);
+	return [path length];
+}
+
 - (void)recordPathForUndo
 {
 	[m_undoPath release];
@@ -874,7 +880,7 @@ static NSColor* sInfoWindowColour = nil;
 						  forPartcode:partcodeForElementControlPoint(element - 1, 1)];
 			}
 
-			[self showLengthInfo:[path length]
+			[self showLengthInfo:[self infoLengthForPath:path]
 						 atPoint:nsp];
 			break;
 
@@ -889,7 +895,7 @@ static NSColor* sInfoWindowColour = nil;
 					  forPartcode:partcode];
 			[path setControlPoint:p
 					  forPartcode:partcodeForElementControlPoint(element, 1)];
-			[self showLengthInfo:[path length]
+			[self showLengthInfo:[self infoLengthForPath:path]
 						 atPoint:nsp];
 			break;
 
@@ -985,7 +991,7 @@ finish:
 			[view autoscroll:theEvent];
 			[path setControlPoint:p
 					  forPartcode:partcode];
-			[self showLengthInfo:[path length]
+			[self showLengthInfo:[self infoLengthForPath:path]
 						 atPoint:nsp];
 			break;
 
@@ -1003,7 +1009,7 @@ finish:
 			[view autoscroll:theEvent];
 			[path setControlPoint:p
 					  forPartcode:partcode];
-			[self showLengthInfo:[path length]
+			[self showLengthInfo:[self infoLengthForPath:path]
 						 atPoint:nsp];
 			break;
 
@@ -1157,7 +1163,7 @@ finish:
 			[self notifyVisualChange];
 			[path setControlPoint:p
 					  forPartcode:partcode];
-			[self showLengthInfo:[path length]
+			[self showLengthInfo:[self infoLengthForPath:path]
 						 atPoint:nsp];
 			break;
 
