@@ -2554,7 +2554,7 @@ static void drawFunction3(const void* value, void* context)
 	DKDrawableObject* target = [self singleSelection];
 	BOOL wasHandled = NO;
 
-	if (target != nil && [self allowsObjectsToBeTargetedByDrags] && [target respondsToSelector:@selector(performDragOperation:)] && ![target locked] && [target visible]) {
+	if (target != nil && [self allowsObjectsToBeTargetedByDrags] && [target conformsToProtocol:@protocol(NSDraggingDestination)] && ![target locked] && [target visible]) {
 		// can the target handle the drag?
 
 		NSArray* types = [[target class] pasteboardTypesForOperation:kDKReadableTypesForDrag];
@@ -2565,7 +2565,7 @@ static void drawFunction3(const void* value, void* context)
 			// yes, so pass the drag info to the target and let it get on with it
 			//	LogEvent_(kReactiveEvent, @"passing drop to target = %@, availableType = %@", target, availableType );
 
-			wasHandled = [target performDragOperation:sender];
+			wasHandled = [(id<NSDraggingDestination>)target performDragOperation:sender];
 		}
 	}
 

@@ -28,8 +28,11 @@ features. However, locked layers will never receive mouse event calls so general
 As layers are retained by the drawing, this does not retain the drawing.
 
 By definition the bounds of the layer is the same as the bounds of the drawing.
+ 
+DKLayer does not implement a dragging destination but some subclasses do. NSDraggingDestination is declared to
+indicate likely handling of drag and drop operations by a layer instance.
 */
-@interface DKLayer : NSObject <NSCoding, DKKnobOwner, NSUserInterfaceValidations> {
+@interface DKLayer : NSObject <NSCoding, NSDraggingDestination, NSUserInterfaceValidations, DKKnobOwner> {
 @private
 	NSString* m_name; // layer name
 	NSColor* m_selectionColour; // colour preference for selection highlights in this layer

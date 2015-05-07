@@ -1253,6 +1253,8 @@ static Class s_textEditorClass = Nil;
 
 - (void)changeAttributes:(id)sender
 {
+	// TODO: ensure this method is no longer called, and remove
+	
 	// workaround 10.5 and earlier bug where target isn't applied to -changeAttributes: and ends up in the responder chain
 	// instead. This catches it and sends it to the true target before our forwarding mechanism gets to work on it.
 
@@ -1266,8 +1268,6 @@ static Class s_textEditorClass = Nil;
 			return;
 		}
 	}
-
-	[super changeAttributes:sender];
 }
 
 #pragma mark -

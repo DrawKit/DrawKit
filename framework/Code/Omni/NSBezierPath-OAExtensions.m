@@ -1193,7 +1193,7 @@ static double subpathElementLength( subpathWalkingState *iter, double errorBudge
     return cursor.currentElt;
 }
 
-static NSInteger compareFloat(const void *a_, const void *b_)
+static int compareFloat(const void *a_, const void *b_)
 {
     CGFloat a = *(const CGFloat *)a_;
     CGFloat b = *(const CGFloat *)b_;

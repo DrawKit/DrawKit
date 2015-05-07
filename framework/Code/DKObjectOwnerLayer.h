@@ -46,7 +46,7 @@ The cache is only used for screen drawing.
 NOTE: PDF caching has been shown to be actually slower when there are many objects, espcially with advanced storage in use. This is
 because it's an all-or-nothing rendering proposition which direct drawing of a layer's objects is not.
 */
-@interface DKObjectOwnerLayer : DKLayer <NSCoding, DKDrawableContainer> {
+@interface DKObjectOwnerLayer : DKLayer <NSCoding, NSDraggingDestination, DKDrawableContainer> {
 @private
 	id<DKObjectStorage> mStorage; // the object storage
 	NSPoint m_pasteAnchor; // used when recording the paste/duplication offset
