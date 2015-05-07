@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKHandle.h"
@@ -75,11 +75,9 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 	NSString* key;
 
 	if (colour)
-#warning 64BIT: Check formatting arguments
-		key = [NSString stringWithFormat:@"%@_%@_%dx%d", classKey, [colour hexString], (NSInteger)ceil(size.width), (NSInteger)ceil(size.height)];
+		key = [NSString stringWithFormat:@"%@_%@_%ldx%ld", classKey, [colour hexString], (long)ceil(size.width), (long)ceil(size.height)];
 	else
-#warning 64BIT: Check formatting arguments
-		key = [NSString stringWithFormat:@"%@_%dx%d", classKey, (NSInteger)ceil(size.width), (NSInteger)ceil(size.height)];
+		key = [NSString stringWithFormat:@"%@_%ldx%ld", classKey, (long)ceil(size.width), (long)ceil(size.height)];
 
 	DKHandle* inst = nil;
 
@@ -266,7 +264,6 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 
 + (NSString*)keyForKnobType:(DKKnobType)type
 {
-#warning 64BIT: Check formatting arguments
 	return [NSString stringWithFormat:@"hnd_type_%d", type];
 }
 

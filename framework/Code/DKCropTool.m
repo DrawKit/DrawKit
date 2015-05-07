@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKCropTool.h"
@@ -66,10 +66,6 @@
 
 	mZoomRect = NSRectFromTwoPoints(mAnchor, p);
 	[layer setNeedsDisplayInRect:mZoomRect];
-
-	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)layer;
-
-	[odl cropToRect:mZoomRect];
 
 	mZoomRect = NSZeroRect;
 	return NO;

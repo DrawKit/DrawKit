@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKPathDecorator.h"
@@ -62,8 +62,6 @@
 	m_image = image;
 
 	if (m_image != nil) {
-		[m_image setScalesWhenResized:YES];
-
 		// get any PDF image rep and retain it for later quick access
 
 		NSArray* reps = [m_image representations];

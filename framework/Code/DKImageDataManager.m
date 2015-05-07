@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKImageDataManager.h"
@@ -307,7 +307,6 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 - (NSString*)checksumString
 {
-#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"%ld", (long)[self checksum]];
 }
 

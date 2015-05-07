@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKSelectAndEditTool.h"
@@ -1049,67 +1049,66 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)layer;
 	NSArray* sel;
 	DKDrawableObject* obj;
-	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 
-	// the mouse has actually been dragged, so flag that
+		// the mouse has actually been dragged, so flag that
 
-	mMouseMoved = YES;
-	mLastPoint = p;
+		mMouseMoved = YES;
+		mLastPoint = p;
 
-	// depending on the mode, carry out the operation for a mousedragged event
-	@try
-	{
-		switch ([self operationMode]) {
-		case kDKEditToolInvalidMode:
-		default:
-			break;
+		// depending on the mode, carry out the operation for a mousedragged event
+		@try
+		{
+			switch ([self operationMode]) {
+			case kDKEditToolInvalidMode:
+			default:
+				break;
 
-		case kDKEditToolSelectionMode:
-			[self setMarqueeRect:NSRectFromTwoPoints(mAnchorPoint, p)
-						 inLayer:odl];
+			case kDKEditToolSelectionMode:
+				[self setMarqueeRect:NSRectFromTwoPoints(mAnchorPoint, p)
+							 inLayer:odl];
 
-			sel = [odl objectsInRect:[self marqueeRect]];
+				sel = [odl objectsInRect:[self marqueeRect]];
 
-			if (extended)
-				[odl addObjectsToSelectionFromArray:sel];
-			else
-				[odl exchangeSelectionWithObjectsFromArray:sel];
+				if (extended)
+					[odl addObjectsToSelectionFromArray:sel];
+				else
+					[odl exchangeSelectionWithObjectsFromArray:sel];
 
-			break;
+				break;
 
-		case kDKEditToolMoveObjectsMode:
-			sel = [self draggedObjects];
+			case kDKEditToolMoveObjectsMode:
+				sel = [self draggedObjects];
 
-			if ([sel count] > 0) {
-				[aDel toolWillPerformUndoableAction:self];
-				[self dragObjectsAsGroup:sel
-								 inLayer:odl
-								 toPoint:p
-								   event:event
-							   dragPhase:kDKDragMouseDragged];
-				mPerformedUndoableTask = YES;
+				if ([sel count] > 0) {
+					[aDel toolWillPerformUndoableAction:self];
+					[self dragObjectsAsGroup:sel
+									 inLayer:odl
+									 toPoint:p
+									   event:event
+								   dragPhase:kDKDragMouseDragged];
+					mPerformedUndoableTask = YES;
+				}
+				break;
+
+			case kDKEditToolEditObjectMode:
+				obj = [odl singleSelection];
+				if (obj != nil) {
+					[aDel toolWillPerformUndoableAction:self];
+					[obj mouseDraggedAtPoint:p
+									  inPart:pc
+									   event:event];
+					mPerformedUndoableTask = YES;
+				}
+				break;
 			}
-			break;
-
-		case kDKEditToolEditObjectMode:
-			obj = [odl singleSelection];
-			if (obj != nil) {
-				[aDel toolWillPerformUndoableAction:self];
-				[obj mouseDraggedAtPoint:p
-								  inPart:pc
-								   event:event];
-				mPerformedUndoableTask = YES;
-			}
-			break;
 		}
-	}
-	@catch (NSException* exception)
-	{
-#warning 64BIT: Inspect use of long
-		NSLog(@"#### exception while dragging with selection tool: mode = %ld, exc = (%@) - ignored ####", (long)[self operationMode], exception);
-	}
+		@catch (NSException* exception)
+		{
+			NSLog(@"#### exception while dragging with selection tool: mode = %ld, exc = (%@) - ignored ####", (long)[self operationMode], exception);
+		}
 
-	[pool drain];
+	}
 }
 
 /** @brief Handle the mouse up event

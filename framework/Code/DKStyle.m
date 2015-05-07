@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKStyle.h"
@@ -1189,7 +1189,6 @@ static BOOL sSubstitute = NO;
  */
 - (NSString*)swatchCacheKeyForSize:(NSSize)size type:(DKStyleSwatchType)type
 {
-#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"%@_%ld", NSStringFromSize(size), (long)type];
 }
 
@@ -1397,31 +1396,31 @@ static BOOL sSubstitute = NO;
 		return;
 
 	if ([self enabled]) {
-		NSAutoreleasePool* pool = [NSAutoreleasePool new];
+		@autoreleasepool {
 
-		if (![[self class] shouldAntialias] && [NSGraphicsContext currentContextDrawingToScreen]) {
-			[[NSGraphicsContext currentContext] setShouldAntialias:NO];
-			[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+			if (![[self class] shouldAntialias] && [NSGraphicsContext currentContextDrawingToScreen]) {
+				[[NSGraphicsContext currentContext] setShouldAntialias:NO];
+				[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationNone];
+			}
+
+			m_renderClientRef = object;
+
+			@try
+			{
+				[super render:object];
+			}
+			@catch (NSException* exception)
+			{
+				// exceptions thrown during drawing can cause a lot of problems that multiply a minor bug into a major one.
+				// Each renderer should ideally take steps to catch an yexceptions and deal with them appropriately - if it does not
+				// this catch will log the problem, but NOT rethrown, so higher level drawing code doesn't see the exception. If you
+				// see this log, the problem should be investigated.
+
+				NSLog(@"An exception occurred while rendering the style - PLEASE FIX - %@. Exception = %@", self, exception);
+			}
+			m_renderClientRef = nil;
+
 		}
-
-		m_renderClientRef = object;
-
-		@try
-		{
-			[super render:object];
-		}
-		@catch (NSException* exception)
-		{
-			// exceptions thrown during drawing can cause a lot of problems that multiply a minor bug into a major one.
-			// Each renderer should ideally take steps to catch an yexceptions and deal with them appropriately - if it does not
-			// this catch will log the problem, but NOT rethrown, so higher level drawing code doesn't see the exception. If you
-			// see this log, the problem should be investigated.
-
-			NSLog(@"An exception occurred while rendering the style - PLEASE FIX - %@. Exception = %@", self, exception);
-		}
-		m_renderClientRef = nil;
-
-		[pool drain];
 	}
 }
 
@@ -1524,8 +1523,7 @@ static BOOL sSubstitute = NO;
 
 - (NSString*)description
 {
-#warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"%@ <0x%x> '%@' [%@]", NSStringFromClass([self class]), self, [self name], [self uniqueKey]];
+	return [NSString stringWithFormat:@"%@ <0x%p> '%@' [%@]", NSStringFromClass([self class]), self, [self name], [self uniqueKey]];
 }
 
 // n.b. isEqual: defines equality more loosely than isEqualToStyle: which also considers the timestamp

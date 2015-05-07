@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKDistortionTransform.h"
@@ -39,8 +39,6 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 
 	NSPoint p;
 
-#warning 64BIT: Inspect pointer casting
-#warning 64BIT: Inspect pointer casting
 	VP((CGFloat*)&p.x, (CGFloat*)&p.y,
 	   (CGFloat)((sourceSize.height - inPoint.y) * quad[0].x + (inPoint.y) * quad[3].x) / sourceSize.height, (CGFloat)((sourceSize.height - inPoint.y) * quad[0].y + inPoint.y * quad[3].y) / sourceSize.height,
 	   (CGFloat)((sourceSize.height - inPoint.y) * quad[1].x + (inPoint.y) * quad[2].x) / sourceSize.height, (CGFloat)((sourceSize.height - inPoint.y) * quad[1].y + inPoint.y * quad[2].y) / sourceSize.height,

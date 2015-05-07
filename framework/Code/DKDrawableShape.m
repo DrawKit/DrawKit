@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKDrawableShape.h"
@@ -1454,7 +1454,6 @@ static NSSize sTempSavedOffset;
 			break;
 
 		case kDKShapeOperationRotate:
-#warning 64BIT: Check formatting arguments
 			infoStr = [NSString stringWithFormat:@"%.1f%C", [self angleInDegrees], 0xB0]; // UTF-8 for degree symbol is 0xB0
 			break;
 		}
@@ -1912,56 +1911,56 @@ static NSSize sTempSavedOffset;
  */
 - (void)drawSelectedState
 {
-	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 
-	if (m_inRotateOp) {
-		[[[self layer] knobs] drawRotationBarWithKnobsFromCentre:[self knobPoint:kDKDrawableShapeOriginTarget]
-														 toPoint:sTempRotationPt];
+		if (m_inRotateOp) {
+			[[[self layer] knobs] drawRotationBarWithKnobsFromCentre:[self knobPoint:kDKDrawableShapeOriginTarget]
+															 toPoint:sTempRotationPt];
 
-	} else {
-		if ([self operationMode] != kDKShapeTransformStandard)
-			[self drawDistortionEnvelope];
-		else {
-			// draw the bounding box:
+		} else {
+			if ([self operationMode] != kDKShapeTransformStandard)
+				[self drawDistortionEnvelope];
+			else {
+				// draw the bounding box:
 
-			NSBezierPath* pp = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
+				NSBezierPath* pp = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
 
-			if ([self distortionTransform] != nil)
-				pp = [[self distortionTransform] transformBezierPath:pp];
+				if ([self distortionTransform] != nil)
+					pp = [[self distortionTransform] transformBezierPath:pp];
 
-			[pp transformUsingAffineTransform:[self transformIncludingParent]];
-			[self drawSelectionPath:pp];
+				[pp transformUsingAffineTransform:[self transformIncludingParent]];
+				[self drawSelectionPath:pp];
 
-			// draw the knobs:
-			// n.b. drawKnob is a no-op for knobs not included by +knobMask
+				// draw the knobs:
+				// n.b. drawKnob is a no-op for knobs not included by +knobMask
 
-			[self drawKnob:kDKDrawableShapeLeftHandle];
-			[self drawKnob:kDKDrawableShapeTopHandle];
-			[self drawKnob:kDKDrawableShapeRightHandle];
-			[self drawKnob:kDKDrawableShapeBottomHandle];
-			[self drawKnob:kDKDrawableShapeTopLeftHandle];
-			[self drawKnob:kDKDrawableShapeTopRightHandle];
-			[self drawKnob:kDKDrawableShapeBottomLeftHandle];
-			[self drawKnob:kDKDrawableShapeBottomRightHandle];
+				[self drawKnob:kDKDrawableShapeLeftHandle];
+				[self drawKnob:kDKDrawableShapeTopHandle];
+				[self drawKnob:kDKDrawableShapeRightHandle];
+				[self drawKnob:kDKDrawableShapeBottomHandle];
+				[self drawKnob:kDKDrawableShapeTopLeftHandle];
+				[self drawKnob:kDKDrawableShapeTopRightHandle];
+				[self drawKnob:kDKDrawableShapeBottomLeftHandle];
+				[self drawKnob:kDKDrawableShapeBottomRightHandle];
 
-			// the other knobs and any hotspots are not drawn when in a locked state
+				// the other knobs and any hotspots are not drawn when in a locked state
 
-			if (![self locked]) {
-				[self drawKnob:kDKDrawableShapeRotationHandle];
+				if (![self locked]) {
+					[self drawKnob:kDKDrawableShapeRotationHandle];
 
-				// draw the shape's origin target
+					// draw the shape's origin target
 
-				if (!m_hideOriginTarget)
-					[self drawKnob:kDKDrawableShapeOriginTarget];
+					if (!m_hideOriginTarget)
+						[self drawKnob:kDKDrawableShapeOriginTarget];
 
-				// draw the hotspots
+					// draw the hotspots
 
-				[self drawHotspotsInState:kDKHotspotStateOn];
+					[self drawHotspotsInState:kDKHotspotStateOn];
+				}
 			}
 		}
-	}
 
-	[pool drain];
+	}
 }
 
 /** @brief Hit test the point against the object

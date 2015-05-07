@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKBSPDirectObjectStorage.h"
@@ -17,10 +17,10 @@ static inline NSUInteger depthForObjectCount(NSUInteger n)
 	return (n > 0 ? MAX((NSUInteger)_CGFloatCeil(_CGFloatLog((CGFloat)n)) / _CGFloatLog(2.0f), kDKMinimumDepth) : 0);
 }
 
-static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
-{
-	return (nodeIndex << 1) + 1;
-}
+//static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
+//{
+//	return (nodeIndex << 1) + 1;
+//}
 
 @interface DKBSPDirectObjectStorage (Private)
 
@@ -667,7 +667,6 @@ static void addValueToFoundObjects(const void* value, void* context)
 
 - (NSString*)description
 {
-#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"<%@ %p>, %ld leaves = %@", NSStringFromClass([self class]), self, (long)[self countOfLeaves], mLeaves];
 }
 

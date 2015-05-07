@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKDrawableObject+Metadata.h"
@@ -233,12 +233,10 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 					const char* dataType = [oldValue objCType];
 					NSNumber* newValue;
 
-#warning 64BIT: Inspect use of @encode
 					if (strcmp(dataType, @encode(CGFloat)) == 0)
 						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
 					else if (strcmp(dataType, @encode(double)) == 0)
 						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
-#warning 64BIT: Inspect use of @encode
 					else if (strcmp(dataType, @encode(NSInteger)) == 0)
 						newValue = [NSNumber numberWithInteger:[obj integerValue]];
 					else if (strcmp(dataType, @encode(BOOL)) == 0)

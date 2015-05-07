@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKObjectDrawingLayer.h"
@@ -184,8 +184,7 @@ enum {
 			[inv setSelector:selector];
 			[inv invokeWithTarget:o];
 
-#warning 64BIT: Inspect use of sizeof
-			if ([[inv methodSignature] methodReturnLength] <= sizeof(NSInteger))
+			if ([[inv methodSignature] methodReturnLength] <= (NSUInteger)(sizeof(NSInteger)))
 				[inv getReturnValue:&rval];
 
 			if (rval == answer)
@@ -2259,55 +2258,55 @@ static void drawFunction3(const void* value, void* context)
 		// anything to draw?
 
 		if ([self countOfObjects] > 0) {
-			NSAutoreleasePool* pool = [NSAutoreleasePool new];
+			@autoreleasepool {
 
 #if !FAST_DRAWING_ITERATION
-			NSEnumerator* iter;
-			DKDrawableObject* obj;
+				NSEnumerator* iter;
+				DKDrawableObject* obj;
 #endif
-			BOOL screen = [NSGraphicsContext currentContextDrawingToScreen];
-			BOOL drawSelected = [self selectionVisible] && screen && ([self isActive] || [[self class] selectionIsShownWhenInactive]) && ![self locked];
-			NSArray* objectsToDraw = [self objectsForUpdateRect:rect
-														 inView:aView];
+				BOOL screen = [NSGraphicsContext currentContextDrawingToScreen];
+				BOOL drawSelected = [self selectionVisible] && screen && ([self isActive] || [[self class] selectionIsShownWhenInactive]) && ![self locked];
+				NSArray* objectsToDraw = [self objectsForUpdateRect:rect
+															 inView:aView];
 
-			// draw the objects
+				// draw the objects
 
-			if (!drawSelected || [self drawsSelectionHighlightsOnTop]) {
+				if (!drawSelected || [self drawsSelectionHighlightsOnTop]) {
 #if FAST_DRAWING_ITERATION
-				CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction1, aView);
+					CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction1, aView);
 #else
-				iter = [objectsToDraw objectEnumerator];
+					iter = [objectsToDraw objectEnumerator];
 
-				while ((obj = [iter nextObject]))
-					[obj drawContentWithSelectedState:NO];
+					while ((obj = [iter nextObject]))
+						[obj drawContentWithSelectedState:NO];
 #endif
-			} else {
+				} else {
 #if FAST_DRAWING_ITERATION
-				CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction3, self);
+					CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction3, self);
 #else
-				iter = [objectsToDraw objectEnumerator];
+					iter = [objectsToDraw objectEnumerator];
 
-				while ((obj = [iter nextObject]))
-					[obj drawContentWithSelectedState:[self isSelectedObject:obj]];
+					while ((obj = [iter nextObject]))
+						[obj drawContentWithSelectedState:[self isSelectedObject:obj]];
 #endif
-			}
-
-			// draw the selection on top if set to do so
-
-			if ([self drawsSelectionHighlightsOnTop] && drawSelected) {
-#if FAST_DRAWING_ITERATION
-				CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction2, self);
-#else
-				iter = [objectsToDraw objectEnumerator];
-
-				while ((obj = [iter nextObject])) {
-					if ([self isSelectedObject:obj])
-						[obj drawSelectedState];
 				}
-#endif
-			}
 
-			[pool drain];
+				// draw the selection on top if set to do so
+
+				if ([self drawsSelectionHighlightsOnTop] && drawSelected) {
+#if FAST_DRAWING_ITERATION
+					CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction2, self);
+#else
+					iter = [objectsToDraw objectEnumerator];
+
+					while ((obj = [iter nextObject])) {
+						if ([self isSelectedObject:obj])
+							[obj drawSelectedState];
+					}
+#endif
+				}
+
+			}
 		}
 
 		// draw any pending object
@@ -2832,11 +2831,6 @@ static void drawFunction3(const void* value, void* context)
 
 	if (action == @selector(unionSelectedObjects:) || action == @selector(combineSelectedObjects:)) {
 		return ([self countOfSelectedAvailableObjects] > 1);
-	}
-
-	if (action == @selector(setBooleanOpsFittingPolicy:)) {
-		[item setState:((NSUInteger)[item tag] == [NSBezierPath pathUnflatteningPolicy]) ? NSOnState : NSOffState];
-		return [self respondsToSelector:action];
 	}
 
 	if (action == @selector(objectBringForward:) || action == @selector(objectBringToFront:)) {

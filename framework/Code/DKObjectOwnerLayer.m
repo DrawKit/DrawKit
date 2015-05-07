@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKObjectOwnerLayer.h"
@@ -272,7 +272,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 			[inv setSelector:selector];
 			[inv invokeWithTarget:o];
 
-#warning 64BIT: Inspect use of sizeof
 			if ([[inv methodSignature] methodReturnLength] <= sizeof(NSInteger))
 				[inv getReturnValue:&rval];
 

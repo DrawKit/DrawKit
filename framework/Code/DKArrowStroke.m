@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKArrowStroke.h"
@@ -632,7 +632,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			dimText = [[self formatter] attributedStringForObjectValue:[NSNumber numberWithDouble:lengthOfPath]
 												 withDefaultAttributes:[[self class] dimensioningLineTextAttributes]];
 		} else {
-#warning 64BIT: Check formatting arguments
 			dimstr = [NSString stringWithFormat:@"%.2f", lengthOfPath];
 			dimText = [[NSAttributedString alloc] initWithString:dimstr
 													  attributes:[[self class] dimensioningLineTextAttributes]];
@@ -675,10 +674,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 		}
 
 		if (plusTol == minusTol)
-#warning 64BIT: Check formatting arguments
 			return [NSString stringWithFormat:@" ±%.2f", plusTol];
 		else
-#warning 64BIT: Check formatting arguments
 			return [NSString stringWithFormat:@" +%.2f, -%.2f", plusTol, minusTol];
 	}
 }

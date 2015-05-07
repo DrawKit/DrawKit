@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKMetadataItem.h"
@@ -223,13 +223,10 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 		const char* eType = [value objCType];
 
-#warning 64BIT: Inspect use of @encode
 		if (strcmp(eType, @encode(NSInteger)) == 0)
 			return [self metadataItemWithInteger:[value integerValue]];
-#warning 64BIT: Inspect use of @encode
 		else if (strcmp(eType, @encode(double)) == 0 || strcmp(eType, @encode(CGFloat)) == 0)
 			return [self metadataItemWithReal:[value doubleValue]];
-#warning 64BIT: Inspect use of @encode
 		else if (strcmp(eType, @encode(NSUInteger)) == 0)
 			return [self metadataItemWithUnsigned:[value unsignedIntegerValue]];
 		else if (strcmp(eType, @encode(BOOL)) == 0)
@@ -642,7 +639,21 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 					  wasLossy:NULL] integerValue];
 }
 
+- (NSInteger)integerValue
+{
+	return [[self convertValue:[self value]
+						toType:DKMetadataTypeInteger
+					  wasLossy:NULL] integerValue];
+}
+
 - (CGFloat)floatValue
+{
+	return [[self convertValue:[self value]
+						toType:DKMetadataTypeReal
+					  wasLossy:NULL] doubleValue];
+}
+
+- (double)doubleValue
 {
 	return [[self convertValue:[self value]
 						toType:DKMetadataTypeReal
@@ -946,7 +957,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		}
 
 	default:
-#warning 64BIT: Check formatting arguments
 		NSLog(@"an unknown type (%d) was passed to DKMetadataItem <%@> for conversion, value = %@", type, self, inValue);
 		break;
 	}

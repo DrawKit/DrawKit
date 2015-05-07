@@ -103,7 +103,6 @@ static struct pointInfo getLinePoint(const NSPoint *a, CGFloat position) {
         if (element == NSMoveToBezierPathElement)
             return points[0];
         else
-#warning 64BIT: Inspect use of long
             [NSException raise:NSInternalInconsistencyException format:@"Segment %ld has no currentpoint", (long)i];
     }
     
@@ -116,7 +115,6 @@ static struct pointInfo getLinePoint(const NSPoint *a, CGFloat position) {
         case NSLineToBezierPathElement:
             return points[0];
         default:
-#warning 64BIT: Inspect use of long
             [NSException raise:NSInternalInconsistencyException format:@"Segment %ld has no currentpoint", (long)i];
     }
     
@@ -402,16 +400,15 @@ static BOOL subsequent(struct OABezierPathIntersectionHalf *one, struct OABezier
 
 - (struct OABezierPathIntersectionList)allIntersectionsWithPath:(NSBezierPath *)other
 {
-    NSUInteger intersectionCount, listSize;
+	NSUInteger intersectionCount = 0;
+	NSUInteger listSize = 16;
     OABezierPathIntersection *intersections;
 	subpathWalkingState selfIter;
     
     if (!initializeSubpathWalkingState(&selfIter, self, 0, NO))
         return (struct OABezierPathIntersectionList){ 0, NULL };
-    
-    intersectionCount = 0;
-#warning 64BIT: Inspect use of sizeof
-    intersections = malloc(sizeof(*intersections) * (listSize = 16));
+	
+    intersections = malloc(sizeof(*intersections) * listSize);
     
     while(nextSubpathElement(&selfIter)) {
         subpathWalkingState otherIter;
@@ -498,14 +495,12 @@ static BOOL subsequent(struct OABezierPathIntersectionHalf *one, struct OABezier
                     if (i.leftParameterDistance < EPSILON &&
                         i.leftParameter <= (WEPSILON) &&
                         i.rightParameter >= (1 - WEPSILON)) {
-#warning 64BIT: Inspect use of sizeof
                         memmove(segmentIntersections+1, segmentIntersections, sizeof(*segmentIntersections)*(--intersectionsFound));
                     }
                 }
             }
                     
             if (intersectionsFound + intersectionCount > listSize) {
-#warning 64BIT: Inspect use of sizeof
                 intersections = realloc(intersections, sizeof(*intersections) * (listSize += (listSize >> 1)));
             }
             
@@ -523,7 +518,6 @@ static BOOL subsequent(struct OABezierPathIntersectionHalf *one, struct OABezier
                 
                 // Make room, if necessary
                 if (insertionPoint < intersectionCount)
-#warning 64BIT: Inspect use of sizeof
                     memmove(&(intersections[insertionPoint+1]), &(intersections[insertionPoint]), sizeof(*intersections)*(intersectionCount-insertionPoint));
                 if (insertionPoint < earliestInsertionPoint)
                     earliestInsertionPoint = insertionPoint;
@@ -541,7 +535,6 @@ static BOOL subsequent(struct OABezierPathIntersectionHalf *one, struct OABezier
     }
     
     if (listSize - intersectionCount > 8)
-#warning 64BIT: Inspect use of sizeof
         intersections = realloc(intersections, sizeof(*intersections) * (listSize = intersectionCount));
 
     return (struct OABezierPathIntersectionList){ intersectionCount, intersections };
@@ -920,7 +913,6 @@ void splitBezierCurveTo(const NSPoint *c, CGFloat t, NSPoint *l, NSPoint *r)
                     break;
             }
             if (element != NSMoveToBezierPathElement)
-#warning 64BIT: Inspect use of long
                 [NSException raise:NSInternalInconsistencyException format:@"Segment %ld has no preceding moveto", (long)pos.segment];
             /* FALL THROUGH to lineto cxase */
         }
@@ -938,8 +930,6 @@ void splitBezierCurveTo(const NSPoint *c, CGFloat t, NSPoint *l, NSPoint *r)
 				break;
    }
     
-#warning 64BIT: Inspect use of long
-#warning 64BIT: Inspect use of long
     [NSException raise:NSInternalInconsistencyException format:@"Segment %ld has unexpected element type %ld", (long)pos.segment, (long)element];
     return (NSPoint){ nanf(""), nanf("") };
 }
@@ -1142,8 +1132,7 @@ static double subpathElementLength( subpathWalkingState *iter, double errorBudge
         double *lengths;
         double totalLength;
         NSInteger filledLengths, curLength;
-        
-#warning 64BIT: Inspect use of sizeof
+		
         lengths = malloc((cursor.elementCount+1) * sizeof(lengths));
         filledLengths = 0;
         totalLength = 0;
@@ -1229,7 +1218,6 @@ static NSInteger compareFloat(const void *a_, const void *b_)
     /* We can have problems if the "probe" line we use is collinear with a path segment, or a couple of other similar cases. To avoid those, we choose a y-value for our horizontal probe line that goes midway between the largest gap between any points' y-coordinates. */
     
     /* Make a list o all elts' y-coordinates, sort it, and run through the list looking for the widest gap */
-#warning 64BIT: Inspect use of sizeof
     CGFloat *yCoordinates = malloc(sizeof(*yCoordinates) * elementCount);
     coordinateCount = 0;
     for(elementIndex = 0; elementIndex < elementCount; elementIndex ++) {
@@ -1243,7 +1231,6 @@ static NSInteger compareFloat(const void *a_, const void *b_)
     }
     if (coordinateCount < 2)
         return YES;  // degenerate path
-#warning 64BIT: Inspect use of sizeof
     qsort(yCoordinates, coordinateCount, sizeof(*yCoordinates), compareFloat);
     
     CGFloat bestGapSize, bestGapMidpoint;
@@ -1412,7 +1399,6 @@ static NSInteger compareFloat(const void *a_, const void *b_)
 
 static inline NSUInteger _spinLeft(NSUInteger number, NSUInteger spinLeftBitCount)
 {
-#warning 64BIT: Inspect use of sizeof
     const NSUInteger bitsPerUnsignedInt = sizeof(NSUInteger) * 8;
     NSUInteger leftmostBits = number >> (bitsPerUnsignedInt - spinLeftBitCount);
     return (number << spinLeftBitCount) | leftmostBits;
@@ -1498,13 +1484,13 @@ static inline BOOL pdrangeCoversPDrange(double rstart, double rlength, double r2
     return (rstart <= r2start) && (rlength - r2length >= r2start - rstart);
 }
 
-static inline BOOL drangeCoversDrange(double rstart, double rlength, double r2start, double r2length)
-{
-    if (r2length < 0)
-        return drangeCoversPDrange(rstart, rlength, r2start + r2length, - r2length);
-    else
-        return drangeCoversPDrange(rstart, rlength, r2start, r2length);
-}
+//static inline BOOL drangeCoversDrange(double rstart, double rlength, double r2start, double r2length)
+//{
+//    if (r2length < 0)
+//        return drangeCoversPDrange(rstart, rlength, r2start + r2length, - r2length);
+//    else
+//        return drangeCoversPDrange(rstart, rlength, r2start, r2length);
+//}
 
 static BOOL drangeIntersectsDrange(double r1start, double r1length, double r2start, double r2length)
 {
@@ -1530,32 +1516,31 @@ static inline void combinePDranges(double *r, double *len, double r1, double r1l
     *len = MAX(newDL, newDR);
 }
 
-static inline void combineNDranges(double *r, double *len, double r1, double r1len, double r2, double r2len)
-{
-    double newP, newDL, newDR;
-    
-    if (r1 >= r2)
-        newP = r1, newDL = r1len, newDR = r2len + (r2 - newP);
-    else
-        newP = r2, newDL = r2len, newDR = r1len + (r1 - newP);
-    
-    *r = newP;
-    *len = MIN(newDL, newDR);
-}
+//static inline void combineNDranges(double *r, double *len, double r1, double r1len, double r2, double r2len)
+//{
+//    double newP, newDL, newDR;
+//    
+//    if (r1 >= r2)
+//        newP = r1, newDL = r1len, newDR = r2len + (r2 - newP);
+//    else
+//        newP = r2, newDL = r2len, newDR = r1len + (r1 - newP);
+//    
+//    *r = newP;
+//    *len = MIN(newDL, newDR);
+//}
 
-static inline void combineDranges(double *r, double *len, double r1, double r1len, double r2, double r2len)
-{
-    if(r1len >= 0)
-        combinePDranges(r, len, r1, r1len, r2, r2len);
-    else
-        combineNDranges(r, len, r1, r1len, r2, r2len);
-}
+//static inline void combineDranges(double *r, double *len, double r1, double r1len, double r2, double r2len)
+//{
+//    if(r1len >= 0)
+//        combinePDranges(r, len, r1, r1len, r2, r2len);
+//    else
+//        combineNDranges(r, len, r1, r1len, r2, r2len);
+//}
 
 #define CLAMP(x, low, high) do{ if((x)<low) (x)=low; else if((x)>high) (x)=high; }while(0)
 
 NSString *_roundedStringForPoint(NSPoint point)
 {
-#warning 64BIT: Check formatting arguments
     return [NSString stringWithFormat:@"{%.5f,%.5f}", point.x, point.y];
 }
 
@@ -1637,7 +1622,6 @@ static inline BOOL looseCubicExceedsBounds(const double *c,
     if (p3 < yMin || p3 > yMax)
         return YES;
 
-#warning 64BIT: Check formatting arguments
     CDB(NSLog(@"Loose bounds(%g %g) --> %g %g %g %g", tMin, tMax, p0, p1, p2, p3);)
     
     return NO;
@@ -1819,13 +1803,13 @@ static inline double evaluateCubicSecondDerivative(const double *c, double x)
     return  6 * c[3] * x + 2 * c[2] ;
 }
 
-static inline OAdPoint evaluateCubicPt(const OAdPoint *c, double t)
-{
-    return (OAdPoint){
-        (( c[3].x * t + c[2].x ) * t + c[1].x ) * t + c[0].x,
-        (( c[3].y * t + c[2].y ) * t + c[1].y ) * t + c[0].y
-    };
-}
+//static inline OAdPoint evaluateCubicPt(const OAdPoint *c, double t)
+//{
+//    return (OAdPoint){
+//        (( c[3].x * t + c[2].x ) * t + c[1].x ) * t + c[0].x,
+//        (( c[3].y * t + c[2].y ) * t + c[1].y ) * t + c[0].y
+//    };
+//}
 
 static inline OAdPoint evaluateCubicDerivativePt(const NSPoint *c, double t)
 {
@@ -2116,15 +2100,12 @@ static inline enum OAIntersectionAspect lineAspect(OAdPoint tangent, double offs
 {
     double cross = tangent.x * offsetY - tangent.y * offsetX;
     if (cross > 0) {
-#warning 64BIT: Check formatting arguments
         CDB(printf(" right aspect from dx=%g dy=%g\n", offsetX, offsetY);)
         return intersectionEntryRight;
     } else if (cross < 0) {
-#warning 64BIT: Check formatting arguments
         CDB(printf(" left  aspect from dx=%g dy=%g\n", offsetX, offsetY);)
         return intersectionEntryLeft;
     } else {
-#warning 64BIT: Check formatting arguments
         CDB(printf(" along aspect from dx=%g dy=%g\n", offsetX, offsetY);)
         return intersectionEntryAt;
     }
@@ -2304,7 +2285,6 @@ static NSInteger mergeSortIntersectionInfo(struct intersectionInfo *buf, NSInteg
             // NSLog(@"Dup %g %g %g %g", (buf[0].leftParameter - buf[count1].leftParameter), (buf[0].rightParameter - buf[count1].rightParameter), (buf[0].leftParameterDistance - buf[count1].leftParameterDistance), (buf[0].rightParameterDistance - buf[count1].rightParameterDistance));
             // Simply drop the element at buf[count1].
             // TODO: Merge the ranges if the distances are nonzero?
-#warning 64BIT: Inspect use of sizeof
             memmove(&(buf[count1]), &(buf[count1+1]), sizeof(*buf)*(count1-1));
             count2 --;
         } else if (buf[0].leftParameter <= buf[count1].leftParameter) {
@@ -2315,7 +2295,6 @@ static NSInteger mergeSortIntersectionInfo(struct intersectionInfo *buf, NSInteg
         } else {
             // Copy the element at buf[count1] into the output buffer (must move the rest of the left-side entries up one, to make room)
             struct intersectionInfo tmp = buf[count1];
-#warning 64BIT: Inspect use of sizeof
             memmove(&(buf[1]), &(buf[0]), sizeof(*buf) * count1);
             buf[0] = tmp;
             count2 --;
@@ -2459,7 +2438,6 @@ static BOOL extendGrazingIntersection(const NSPoint *c1coeff, const NSPoint *c2c
     
     newStart = TsharedMin * leftRate + i->rightParameter;
     newEnd = TsharedMax * leftRate + i->rightParameter;
-#warning 64BIT: Check formatting arguments
     CDB(NSLog(@"T'(%g %g) --> t_right(%g %g) or 1+(%g %g)", TsharedMin, TsharedMax, newStart, newEnd, newStart-1, newEnd-1);)
     OBASSERT(newStart >= 0-EPSILON);
     OBASSERT(newStart <= 1+EPSILON);
@@ -2478,7 +2456,6 @@ static BOOL extendGrazingIntersection(const NSPoint *c1coeff, const NSPoint *c2c
         i->leftExitAspect = - entryAspect;
     }
 
-#warning 64BIT: Check formatting arguments
     CDB(NSLog(@"Grazing extension: t'=(%g ... %g) --> left=%g%+g  right=%g%+g  (was left=%g right=%g) aspects %s-%s",
               TsharedMin, TsharedMax,
               i->leftParameter, i->leftParameterDistance, i->rightParameter, i->rightParameterDistance,
@@ -2571,8 +2548,7 @@ static NSInteger intersectionsBetweenCurveAndCurveMonotonic(const NSPoint *c1coe
     
     error_bound_left = ( vecmag(left[2].x+left[3].x, left[2].y+left[3].y) + vecmag(left[3].x, left[3].y) ) / 4;
     error_bound_right = ( vecmag(right[2].x+right[3].x, right[2].y+right[3].y) + vecmag(right[3].x, right[3].y) ) / 4;
-    
-#warning 64BIT: Check formatting arguments
+	
     CDB(printf("errbs=(%g,%g)", error_bound_left, error_bound_right);)
     
     if (error_bound_left < FLATNESS || error_bound_right < FLATNESS) {
@@ -2587,7 +2563,6 @@ static NSInteger intersectionsBetweenCurveAndCurveMonotonic(const NSPoint *c1coe
             l2[1].x = right[1].x + right[2].x + right[3].x;
             l2[1].y = right[1].y + right[2].y + right[3].y;
             found = intersectionsBetweenCurveAndLine(left, l2, results);
-#warning 64BIT: Check formatting arguments
             CDB(printf(" found %d via right linearization", found);)
         } else {
             // Same as above, but the left-hand curve was flatter.
@@ -2597,13 +2572,11 @@ static NSInteger intersectionsBetweenCurveAndCurveMonotonic(const NSPoint *c1coe
             found = intersectionsBetweenCurveAndLine(right, l2, results);
             for(fixup = 0; fixup < found; fixup++)
                 reverseSenseOfIntersection(&(results[fixup]));
-#warning 64BIT: Check formatting arguments
             CDB(printf(" found %d via left  linearization", found);)
         }
     
         // TODO: We could probably do a newton-raphson step here to get a few more digits of accuracy?
 
-#warning 64BIT: Check formatting arguments
         CDB(printf(": (%g%+g, %g%+g)\n", l2[0].x, l2[1].x, l2[0].y, l2[1].y);)
         
         
@@ -2646,8 +2619,6 @@ static NSInteger intersectionsBetweenCurveAndCurveMonotonic(const NSPoint *c1coe
     
     for(qq = 0; qq < indent; qq++)
         putchar(' ');
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
     printf("found %d %d %d %d -> %d %d -> %d\n", f0, fh0, foundLow, foundHigh, foundFirstHalf, foundSecondHalf, foundTotal);
 #endif
     
@@ -2701,11 +2672,7 @@ static NSInteger computeCurveSegments(const NSPoint *coeff, struct curveSegment 
         NSInteger q;
         NSMutableString *s = [NSMutableString string];
         for(q = 0; q < segcount; q++)
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
             [s appendFormat:@"  %g%+g", segments[q].start, segments[q].size];
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
         NSLog(@"Curve segments(%d): %@", segcount, s);
     }
 #endif
@@ -2726,8 +2693,6 @@ static NSInteger coalesceExtendedIntersections(struct intersectionInfo *results,
                 drangeIntersectsDrange(results[i].rightParameter, results[i].rightParameterDistance, results[j].rightParameter, results[j].rightParameterDistance) &&
                 signbit(results[i].rightParameterDistance) == signbit(results[j].rightParameterDistance)) {
                 
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
                 CDB(printf("combining %d:[%g%+g %g%+g] %s-%s and %d:[%g%+g %g%+g] %s-%s ",
                            i, results[i].leftParameter, results[i].leftParameterDistance, results[i].rightParameter, results[i].rightParameterDistance,
                            straspect(results[i].leftEntryAspect), straspect(results[i].leftExitAspect),
@@ -2770,11 +2735,8 @@ static NSInteger coalesceExtendedIntersections(struct intersectionInfo *results,
                 results[i].rightParameter = newStart;
                 results[i].rightParameterDistance = newEnd - newStart;
                 
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
                 CDB(printf("into [%g%+g %g%+g] %s-%s\n", results[i].leftParameter, results[i].leftParameterDistance, results[i].rightParameter, results[i].rightParameterDistance, straspect(results[i].leftEntryAspect), straspect(results[i].leftExitAspect));)
                     
-#warning 64BIT: Inspect use of sizeof
                 memmove(&(results[j]), &(results[j+1]), sizeof(*results) * (found - (j+1)));
                 found --;
                 j --;

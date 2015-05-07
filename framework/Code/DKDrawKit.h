@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE @licence LGPL3
+ @copyright GNU LGPL3; see LICENSE @licence LGPL3
  */
 
 #import "DKDrawingView.h"

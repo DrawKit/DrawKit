@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKKnob.h"
@@ -330,12 +330,10 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	if (fontSize < 2.0)
 		fontSize = 2.0;
 
-	NSFont* font = [NSFont fontWithName:@"Monaco"
-								   size:fontSize];
+	NSFont* font = [NSFont userFixedPitchFontOfSize:fontSize];
 	[attrs setObject:font
 			  forKey:NSFontAttributeName];
 
-#warning 64BIT: Inspect use of long
 	NSString* s = [NSString stringWithFormat:@"%ld", (long)code];
 	NSRect box;
 

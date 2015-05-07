@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKImageAdornment.h"
@@ -38,7 +38,6 @@
 	m_image = image;
 
 	//[_image setFlipped:YES];
-	[m_image setScalesWhenResized:YES];
 	[m_image setCacheMode:NSImageCacheNever];
 }
 

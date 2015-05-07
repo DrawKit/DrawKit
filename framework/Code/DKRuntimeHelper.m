@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKRuntimeHelper.h"
@@ -45,7 +45,6 @@
 	NSInteger i, numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
-#warning 64BIT: Inspect use of sizeof
 		buffer = malloc(sizeof(Class) * numClasses);
 
 		NSAssert(buffer != nil, @"couldn't allocate the buffer");
@@ -98,7 +97,6 @@
 	NSInteger i, numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
-#warning 64BIT: Inspect use of sizeof
 		buffer = malloc(sizeof(Class) * numClasses);
 
 		NSAssert(buffer != nil, @"couldn't allocate the buffer");
@@ -156,12 +154,11 @@ BOOL classIsSubclassOfClass(const Class aClass, const Class subclass)
 
 BOOL classIsImmediateSubclassOfClass(const Class aClass, const Class subclass)
 {
-	/*
-	Class	superClass = subclass->super_class;
+	
+	Class	superClass = class_getSuperclass(subclass);
 	
 	if( superClass != Nil )
-		return ( 0 == strcmp( aClass->name, superClass->name ));
+		return [NSStringFromClass(aClass) isEqualToString:NSStringFromClass(superClass)];
 	else
-*/
-	return NO;
+		return NO;
 }

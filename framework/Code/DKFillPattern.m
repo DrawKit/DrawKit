@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKFillPattern.h"
@@ -125,92 +125,92 @@
 	motifBounds.size.width = mb.width * [self scale];
 	motifBounds.size.height = mb.height * [self scale];
 
-	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 
-	// set up a transform that will transform each motif point to allow for the object's
-	// origin and angle, so the pattern can be rotated as a pattern rather than as individual images
+		// set up a transform that will transform each motif point to allow for the object's
+		// origin and angle, so the pattern can be rotated as a pattern rather than as individual images
 
-	NSAffineTransform* tfm = RotationTransform(angle, cp);
-	NSPoint wobblePoint = NSZeroPoint;
-	CGFloat tempAngle = mangle;
+		NSAffineTransform* tfm = RotationTransform(angle, cp);
+		NSPoint wobblePoint = NSZeroPoint;
+		CGFloat tempAngle = mangle;
 
-	// ok, draw 'em...
+		// ok, draw 'em...
 
-	for (y = -rows; y < rows; ++y) {
-		for (x = -cols; x < cols; ++x) {
-			if (y & 1)
-				mp.x = dx * (x + m_altXOffset) + cp.x;
-			else
-				mp.x = (x * dx) + cp.x;
+		for (y = -rows; y < rows; ++y) {
+			for (x = -cols; x < cols; ++x) {
+				if (y & 1)
+					mp.x = dx * (x + m_altXOffset) + cp.x;
+				else
+					mp.x = (x * dx) + cp.x;
 
-			if (x & 1)
-				mp.y = dy * (y + m_altYOffset) + cp.y;
-			else
-				mp.y = (y * dy) + cp.y;
+				if (x & 1)
+					mp.y = dy * (y + m_altYOffset) + cp.y;
+				else
+					mp.y = (y * dy) + cp.y;
 
-			if ([self wobblyness] > 0.0) {
-				// wobblyness is a randomising positioning factor from 0..1. Cached to avoid recalculation on every redraw.
+				if ([self wobblyness] > 0.0) {
+					// wobblyness is a randomising positioning factor from 0..1. Cached to avoid recalculation on every redraw.
 
-				if (mPlacementCount < [mWobbleCache count])
-					wobblePoint = [[mWobbleCache objectAtIndex:mPlacementCount] pointValue];
-				else {
-					wobblePoint.x = [DKRandom randomPositiveOrNegativeNumber] * dx * [self wobblyness];
-					wobblePoint.y = [DKRandom randomPositiveOrNegativeNumber] * dy * [self wobblyness];
-					[mWobbleCache addObject:[NSValue valueWithPoint:wobblePoint]];
+					if (mPlacementCount < [mWobbleCache count])
+						wobblePoint = [[mWobbleCache objectAtIndex:mPlacementCount] pointValue];
+					else {
+						wobblePoint.x = [DKRandom randomPositiveOrNegativeNumber] * dx * [self wobblyness];
+						wobblePoint.y = [DKRandom randomPositiveOrNegativeNumber] * dy * [self wobblyness];
+						[mWobbleCache addObject:[NSValue valueWithPoint:wobblePoint]];
+					}
+
+					mp.x += wobblePoint.x;
+					mp.y += wobblePoint.y;
 				}
 
-				mp.x += wobblePoint.x;
-				mp.y += wobblePoint.y;
-			}
+				if ([self motifAngleRandomness] > 0.0) {
+					CGFloat ra = 0.0;
 
-			if ([self motifAngleRandomness] > 0.0) {
-				CGFloat ra = 0.0;
-
-				if (mPlacementCount < [mMotifAngleRandCache count])
-					ra = [[mMotifAngleRandCache objectAtIndex:mPlacementCount] doubleValue];
-				else {
-					ra = [DKRandom randomPositiveOrNegativeNumber] * 2.0 * pi * [self motifAngleRandomness];
-					[mMotifAngleRandCache addObject:[NSNumber numberWithDouble:ra]];
+					if (mPlacementCount < [mMotifAngleRandCache count])
+						ra = [[mMotifAngleRandCache objectAtIndex:mPlacementCount] doubleValue];
+					else {
+						ra = [DKRandom randomPositiveOrNegativeNumber] * 2.0 * pi * [self motifAngleRandomness];
+						[mMotifAngleRandCache addObject:[NSNumber numberWithDouble:ra]];
+					}
+					tempAngle = mangle;
+					tempAngle += ra;
 				}
-				tempAngle = mangle;
-				tempAngle += ra;
+
+				tp = [tfm transformPoint:mp];
+				++mPlacementCount;
+
+				if (m_noClippedElements) {
+					// if this option is set, we don't draw pattern images that intersect the path. To detect whether that happens, the bounding rect
+					// of the element is calculated in position and intersected with the path. The text for intersection can be potentially intensive,
+					// so this option may incur a significant performance hit depending on pattern density, as every placed element needs to be checked.
+
+					// first, if <tp> is outside the path, we already know it's clipped or intersecting, so we can trivially discard that case
+
+					if (![aPath containsPoint:tp])
+						continue;
+
+					// tp is inside the path but not all of the image's bounds may be, so need to do full intersection test
+
+					motifBounds.origin.x = tp.x - motifBounds.size.width * 0.5f;
+					motifBounds.origin.y = tp.y - motifBounds.size.height * 0.5f;
+
+					// uses Omni's code to perform the detection - returns as soon as it has an answer
+
+					if ([aPath intersectsRect:motifBounds])
+						continue;
+				}
+
+				// defer to superclass's placement method to actually draw the elements which applies further transformations, etc.
+
+				[self placeObjectAtPoint:tp
+								  onPath:nil
+								position:0
+								   slope:tempAngle
+								userInfo:NULL];
 			}
-
-			tp = [tfm transformPoint:mp];
-			++mPlacementCount;
-
-			if (m_noClippedElements) {
-				// if this option is set, we don't draw pattern images that intersect the path. To detect whether that happens, the bounding rect
-				// of the element is calculated in position and intersected with the path. The text for intersection can be potentially intensive,
-				// so this option may incur a significant performance hit depending on pattern density, as every placed element needs to be checked.
-
-				// first, if <tp> is outside the path, we already know it's clipped or intersecting, so we can trivially discard that case
-
-				if (![aPath containsPoint:tp])
-					continue;
-
-				// tp is inside the path but not all of the image's bounds may be, so need to do full intersection test
-
-				motifBounds.origin.x = tp.x - motifBounds.size.width * 0.5f;
-				motifBounds.origin.y = tp.y - motifBounds.size.height * 0.5f;
-
-				// uses Omni's code to perform the detection - returns as soon as it has an answer
-
-				if ([aPath intersectsRect:motifBounds])
-					continue;
-			}
-
-			// defer to superclass's placement method to actually draw the elements which applies further transformations, etc.
-
-			[self placeObjectAtPoint:tp
-							  onPath:nil
-							position:0
-							   slope:tempAngle
-							userInfo:NULL];
 		}
-	}
 
-	[pool drain];
+	}
 }
 
 #pragma mark -

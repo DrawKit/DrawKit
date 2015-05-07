@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKDrawkitInspectorBase.h"
@@ -79,8 +79,7 @@
 {
 #pragma unused(subsel, object)
 
-#warning 64BIT: Check formatting arguments
-	NSLog(@"subselection of <%@ 0x%x> changed: %@", NSStringFromClass([object class]), object, subsel);
+	NSLog(@"subselection of <%@ 0x%p> changed: %@", NSStringFromClass([object class]), object, subsel);
 
 	// override to do something useful
 }

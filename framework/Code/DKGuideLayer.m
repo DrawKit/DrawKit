@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKGuideLayer.h"
@@ -860,11 +860,9 @@ static BOOL sWasInside = NO;
 			NSPoint gp = [[[self drawing] gridLayer] gridLocationForPoint:gg];
 
 			if ([m_dragGuideRef isVerticalGuide])
-#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x]
 									   atPoint:p];
 			else
-#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y]
 									   atPoint:p];
 		}
@@ -912,12 +910,10 @@ static BOOL sWasInside = NO;
 
 		if ([m_dragGuideRef isVerticalGuide]) {
 			if ([self showsDragInfoWindow])
-#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.x]
 									   atPoint:p];
 		} else {
 			if ([self showsDragInfoWindow])
-#warning 64BIT: Check formatting arguments
 				[self showInfoWindowWithString:[NSString stringWithFormat:@"%.2f", gp.y]
 									   atPoint:p];
 		}

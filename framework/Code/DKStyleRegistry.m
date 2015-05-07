@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKStyleRegistry.h"
@@ -672,7 +672,6 @@ static BOOL s_NoDKDefaults = NO;
 		if (k == NSNotFound)
 			found = NO;
 		else
-#warning 64BIT: Inspect use of long
 			temp = [NSString stringWithFormat:@"%@ %ld", name, (long)++numeral];
 	}
 
@@ -1004,7 +1003,6 @@ static BOOL s_NoDKDefaults = NO;
 													  type:kDKStyleSwatchAutomatic] copy];
 
 			if (swatch != nil) {
-				[swatch setScalesWhenResized:YES];
 				[swatch setSize:NSMakeSize(28, 28)];
 				[swatch lockFocus];
 				[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationLow];

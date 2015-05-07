@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKBSPObjectStorage.h"
@@ -783,8 +783,6 @@ static NSUInteger sLeafCount = 0;
 - (NSString*)description
 {
 // warning: description string can be very large, as it enumerates the leaves
-
-#warning 64BIT: Inspect use of long
 	return [NSString stringWithFormat:@"<%@ %p>, %ld leaves = %@", NSStringFromClass([self class]), self, (long)[self countOfLeaves], mLeaves];
 }
 
