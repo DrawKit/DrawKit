@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "GCObservableObject.h"
@@ -22,12 +22,13 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	if (sActionNameRegistry == nil)
 		sActionNameRegistry = [[NSMutableDictionary alloc] init];
 
-	NSMutableDictionary* sd = [sActionNameRegistry objectForKey:cl];
+	NSString* className = NSStringFromClass(cl);
+	NSMutableDictionary* sd = [sActionNameRegistry objectForKey:className];
 
 	if (sd == nil) {
 		sd = [[NSMutableDictionary alloc] init];
 		[sActionNameRegistry setObject:sd
-								forKey:cl];
+								forKey:className];
 		[sd release];
 	}
 
@@ -37,7 +38,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 + (NSString*)actionNameForKeyPath:(NSString*)kp objClass:(Class)cl
 {
-	NSDictionary* sd = [sActionNameRegistry objectForKey:cl];
+	NSDictionary* sd = [sActionNameRegistry objectForKey:NSStringFromClass(cl)];
 	NSString* an = [sd objectForKey:kp];
 
 	if (an)

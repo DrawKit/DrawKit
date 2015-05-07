@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "NSColor+DKAdditions.h"
@@ -477,8 +477,7 @@
 	hg = (NSInteger)floor(g * 255.0f);
 	hb = (NSInteger)floor(b * 255.0f);
 
-#warning 64BIT: Check formatting arguments
-	NSString* s = [NSString stringWithFormat:@"#%02X%02X%02X", hr, hg, hb];
+	NSString* s = [NSString stringWithFormat:@"#%02lX%02lX%02lX", (long)hr, (long)hg, (long)hb];
 
 	return s;
 }

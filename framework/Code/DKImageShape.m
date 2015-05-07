@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKImageShape.h"
@@ -223,7 +223,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		[m_image setCacheMode:NSImageCacheNever];
 		[m_image recache];
-		[m_image setScalesWhenResized:YES];
 		[self notifyVisualChange];
 
 		// setting the image nils the key. Callers that know there is a key should use setImageWithKey:coder: instead.
@@ -445,7 +444,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 												 key:&newKey];
 
 		if (image) {
-			[image setScalesWhenResized:YES];
 			[image setCacheMode:NSImageCacheNever];
 
 			// keep a local reference to the data if possible

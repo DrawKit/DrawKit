@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "NSBezierPath+Text.h"
@@ -370,74 +370,74 @@ static NSDictionary* s_TOPTextAttributes = nil;
 		// lay down the glyphs along the path
 
 		for (glyphIndex = glyphRange.location; glyphIndex < NSMaxRange(glyphRange); ++glyphIndex) {
-			NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+			@autoreleasepool {
 
-			NSRect lineFragmentRect = [lm lineFragmentRectForGlyphAtIndex:glyphIndex
-														   effectiveRange:NULL];
-			NSPoint viewLocation, layoutLocation = [lm locationForGlyphAtIndex:glyphIndex];
+				NSRect lineFragmentRect = [lm lineFragmentRectForGlyphAtIndex:glyphIndex
+															   effectiveRange:NULL];
+				NSPoint viewLocation, layoutLocation = [lm locationForGlyphAtIndex:glyphIndex];
 
-			// if this represents anything other than the first line, ignore it
+				// if this represents anything other than the first line, ignore it
 
-			if (lineFragmentRect.origin.y > 0.0) {
-				result = NO;
-				break;
-			}
-
-			gbr = [lm boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
-								inTextContainer:tc];
-			CGFloat half = NSWidth(gbr) * 0.5f;
-
-			// if the character width is zero or -ve, skip it - some control glyphs appear to need suppressing in this way.
-			// Note that this prevents some kinds of accents from getting drawn - need to work out a fix for that.
-
-			if (half > 0) {
-				// get a shortened path that starts at the character location
-
-				temp = [self bezierPathByTrimmingFromLength:NSMinX(lineFragmentRect) + layoutLocation.x + half];
-
-				// if no more room on path, stop laying glyphs
-
-				if ([temp length] < half) {
+				if (lineFragmentRect.origin.y > 0.0) {
 					result = NO;
 					break;
 				}
 
-				[temp elementAtIndex:0
-					associatedPoints:&viewLocation];
-				CGFloat angle = [temp slopeStartingPath];
+				gbr = [lm boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
+									inTextContainer:tc];
+				CGFloat half = NSWidth(gbr) * 0.5f;
 
-				// view location needs to be offset vertically normal to the path to account for the baseline
+				// if the character width is zero or -ve, skip it - some control glyphs appear to need suppressing in this way.
+				// Note that this prevents some kinds of accents from getting drawn - need to work out a fix for that.
 
-				baseline = NSHeight(gbr) - [[lm typesetter] baselineOffsetInLayoutManager:lm
-																			   glyphIndex:glyphIndex];
+				if (half > 0) {
+					// get a shortened path that starts at the character location
 
-				viewLocation.x -= baseline * cosf(angle + NINETY_DEGREES);
-				viewLocation.y -= baseline * sinf(angle + NINETY_DEGREES);
+					temp = [self bezierPathByTrimmingFromLength:NSMinX(lineFragmentRect) + layoutLocation.x + half];
 
-				// view location needs to be projected back along the baseline tangent by half the character width to align
-				// the character based on the middle of the glyph instead of the left edge
+					// if no more room on path, stop laying glyphs
 
-				viewLocation.x -= half * cosf(angle);
-				viewLocation.y -= half * sinf(angle);
+					if ([temp length] < half) {
+						result = NO;
+						break;
+					}
 
-				// cache the glyph positioning information to avoid recalculation next time round
+					[temp elementAtIndex:0
+						associatedPoints:&viewLocation];
+					CGFloat angle = [temp slopeStartingPath];
 
-				posInfo = [[DKPathGlyphInfo alloc] initWithGlyphIndex:glyphIndex
-															 position:viewLocation
-																slope:angle];
-				[newGlyphCache addObject:posInfo];
-				[posInfo release];
+					// view location needs to be offset vertically normal to the path to account for the baseline
 
-				// call the helper object to finish off what we intend to do with this glyph
+					baseline = NSHeight(gbr) - [[lm typesetter] baselineOffsetInLayoutManager:lm
+																				   glyphIndex:glyphIndex];
 
-				[helperObject layoutManager:lm
-					  willPlaceGlyphAtIndex:glyphIndex
-								 atLocation:viewLocation
-								  pathAngle:angle
-									yOffset:dy];
+					viewLocation.x -= baseline * cosf(angle + NINETY_DEGREES);
+					viewLocation.y -= baseline * sinf(angle + NINETY_DEGREES);
+
+					// view location needs to be projected back along the baseline tangent by half the character width to align
+					// the character based on the middle of the glyph instead of the left edge
+
+					viewLocation.x -= half * cosf(angle);
+					viewLocation.y -= half * sinf(angle);
+
+					// cache the glyph positioning information to avoid recalculation next time round
+
+					posInfo = [[DKPathGlyphInfo alloc] initWithGlyphIndex:glyphIndex
+																 position:viewLocation
+																	slope:angle];
+					[newGlyphCache addObject:posInfo];
+					[posInfo release];
+
+					// call the helper object to finish off what we intend to do with this glyph
+
+					[helperObject layoutManager:lm
+						  willPlaceGlyphAtIndex:glyphIndex
+									 atLocation:viewLocation
+									  pathAngle:angle
+										yOffset:dy];
+				}
+
 			}
-
-			[pool drain];
 		}
 
 		[cache setObject:newGlyphCache
@@ -661,7 +661,6 @@ static NSDictionary* s_TOPTextAttributes = nil;
 // see if the path we need is cached, in which case we can avoid recomputing it. Because there could be several different paths that apply to ranges,
 // the cache key is generated from the various parameters
 
-#warning 64BIT: Check formatting arguments
 	NSString* pathKey = [NSString stringWithFormat:@"DKUnderlinePath_%@_%.2f", NSStringFromRange(range), dy];
 	ulp = [cache objectForKey:pathKey];
 
@@ -701,7 +700,6 @@ static NSDictionary* s_TOPTextAttributes = nil;
 		// be possible.
 
 		NSArray* descenderBreaks;
-#warning 64BIT: Check formatting arguments
 		NSString* breaksKey = [NSString stringWithFormat:@"DKUnderlineBreaks_%@_%.2f", NSStringFromRange(range), ulOffset];
 		descenderBreaks = [cache objectForKey:breaksKey];
 
@@ -800,7 +798,6 @@ static NSDictionary* s_TOPTextAttributes = nil;
 
 // see if we can reuse a previously cached path here
 
-#warning 64BIT: Check formatting arguments
 	NSString* pathKey = [NSString stringWithFormat:@"DKStrikethroughPath_%@_%.2f", NSStringFromRange(range), dy];
 	ulp = [cache objectForKey:pathKey];
 
@@ -1599,78 +1596,78 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 	NSInteger lineCount = (floor(NSHeight(br) / lineHeight)) + 1;
 
 	if (lineCount > 0) {
-		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-		NSArray* previousLine = nil;
-		NSArray* currentLine;
-		NSInteger i;
-		CGFloat linePosition = NSMinY(br);
-		NSRect lineRect;
+		@autoreleasepool {
+			NSArray* previousLine = nil;
+			NSArray* currentLine;
+			NSInteger i;
+			CGFloat linePosition = NSMinY(br);
+			NSRect lineRect;
 
-		lineRect.size.height = lineHeight;
+			lineRect.size.height = lineHeight;
 
-		for (i = 0; i < lineCount; ++i) {
-			lineRect.origin.y = linePosition;
+			for (i = 0; i < lineCount; ++i) {
+				lineRect.origin.y = linePosition;
 
-			if (i == 0)
-				previousLine = [self intersectingPointsWithHorizontalLineAtY:linePosition + 1];
-			else {
-				linePosition = NSMinY(br) + (i * lineHeight);
-				currentLine = [self intersectingPointsWithHorizontalLineAtY:linePosition];
+				if (i == 0)
+					previousLine = [self intersectingPointsWithHorizontalLineAtY:linePosition + 1];
+				else {
+					linePosition = NSMinY(br) + (i * lineHeight);
+					currentLine = [self intersectingPointsWithHorizontalLineAtY:linePosition];
 
-				if (currentLine != nil) {
-					// go through the points of the previous line and this one, forming rects
-					// by taking the inner points
+					if (currentLine != nil) {
+						// go through the points of the previous line and this one, forming rects
+						// by taking the inner points
 
-					NSUInteger j, ur, lr, rectsOnLine;
+						NSUInteger j, ur, lr, rectsOnLine;
 
-					ur = [previousLine count];
-					lr = [currentLine count];
+						ur = [previousLine count];
+						lr = [currentLine count];
 
-					rectsOnLine = MAX(ur, lr);
+						rectsOnLine = MAX(ur, lr);
 
-					for (j = 0; j < rectsOnLine; ++j) {
-						NSPoint upper, lower;
+						for (j = 0; j < rectsOnLine; ++j) {
+							NSPoint upper, lower;
 
-						upper = [[previousLine objectAtIndex:j % ur] pointValue];
-						lower = [[currentLine objectAtIndex:j % lr] pointValue];
+							upper = [[previousLine objectAtIndex:j % ur] pointValue];
+							lower = [[currentLine objectAtIndex:j % lr] pointValue];
 
-						// even values of j are left edges, odd values are right edges
+							// even values of j are left edges, odd values are right edges
 
-						if ((j & 1) == 0)
-							lineRect.origin.x = MAX(upper.x, lower.x);
-						else {
-							lineRect.size.width = MIN(upper.x, lower.x) - lineRect.origin.x;
-							lineRect = NormalizedRect(lineRect);
+							if ((j & 1) == 0)
+								lineRect.origin.x = MAX(upper.x, lower.x);
+							else {
+								lineRect.size.width = MIN(upper.x, lower.x) - lineRect.origin.x;
+								lineRect = NormalizedRect(lineRect);
 
-							// if any corner of the rect is outside the path, chuck it
+								// if any corner of the rect is outside the path, chuck it
 
-							NSRect tr = NSInsetRect(lineRect, 1, 1);
-							NSPoint tp = NSMakePoint(NSMinX(tr), NSMinY(tr));
+								NSRect tr = NSInsetRect(lineRect, 1, 1);
+								NSPoint tp = NSMakePoint(NSMinX(tr), NSMinY(tr));
 
-							if (![self containsPoint:tp])
-								continue;
+								if (![self containsPoint:tp])
+									continue;
 
-							tp = NSMakePoint(NSMaxX(tr), NSMinY(tr));
-							if (![self containsPoint:tp])
-								continue;
+								tp = NSMakePoint(NSMaxX(tr), NSMinY(tr));
+								if (![self containsPoint:tp])
+									continue;
 
-							tp = NSMakePoint(NSMaxX(tr), NSMaxY(tr));
-							if (![self containsPoint:tp])
-								continue;
+								tp = NSMakePoint(NSMaxX(tr), NSMaxY(tr));
+								if (![self containsPoint:tp])
+									continue;
 
-							tp = NSMakePoint(NSMinX(tr), NSMaxY(tr));
-							if (![self containsPoint:tp])
-								continue;
+								tp = NSMakePoint(NSMinX(tr), NSMaxY(tr));
+								if (![self containsPoint:tp])
+									continue;
 
-							[result addObject:[NSValue valueWithRect:lineRect]];
+								[result addObject:[NSValue valueWithRect:lineRect]];
+							}
 						}
-					}
 
-					previousLine = currentLine;
+						previousLine = currentLine;
+					}
 				}
 			}
 		}
-		[pool release];
 	}
 
 	return result;

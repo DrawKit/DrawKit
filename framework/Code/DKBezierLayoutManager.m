@@ -39,46 +39,46 @@
 		while (glyphIndex < glyphRange.length) {
 			// look at the formatting applied to individual glyphs so that the path applies that formatting as necessary.
 
-			NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+			@autoreleasepool {
 
-			NSUInteger g;
-			NSPoint gloc, ploc;
-			NSFont* font;
+				NSUInteger g;
+				NSPoint gloc, ploc;
+				NSFont* font;
 
-			fragRect = [self lineFragmentRectForGlyphAtIndex:glyphIndex
-											  effectiveRange:&grange];
+				fragRect = [self lineFragmentRectForGlyphAtIndex:glyphIndex
+												  effectiveRange:&grange];
 
-			for (g = grange.location; g < grange.location + grange.length; ++g) {
-				temp = [NSBezierPath bezierPath];
-				ploc = gloc = [self locationForGlyphAtIndex:g];
+				for (g = grange.location; g < grange.location + grange.length; ++g) {
+					temp = [NSBezierPath bezierPath];
+					ploc = gloc = [self locationForGlyphAtIndex:g];
 
-				ploc.x -= fragRect.origin.x;
-				ploc.y = fragRect.origin.y;
+					ploc.x -= fragRect.origin.x;
+					ploc.y = fragRect.origin.y;
 
-				font = [[[self textStorage] attributesAtIndex:g
-											   effectiveRange:NULL] objectForKey:NSFontAttributeName];
+					font = [[[self textStorage] attributesAtIndex:g
+												   effectiveRange:NULL] objectForKey:NSFontAttributeName];
 
-				[temp moveToPoint:ploc];
-				[temp appendBezierPathWithGlyph:[self glyphAtIndex:g]
-										 inFont:font];
+					[temp moveToPoint:ploc];
+					[temp appendBezierPathWithGlyph:[self glyphAtIndex:g]
+											 inFont:font];
 
-				// need to vertically flip and offset each glyph as it is created. The glyph is flipped around its given location to
-				// ensure that any unusual baseline requirements are taken into consideration.
+					// need to vertically flip and offset each glyph as it is created. The glyph is flipped around its given location to
+					// ensure that any unusual baseline requirements are taken into consideration.
 
-				NSAffineTransform* xform = [NSAffineTransform transform];
-				[xform translateXBy:ploc.x
-								yBy:ploc.y];
-				[xform scaleXBy:1.0
-							yBy:-1.0];
-				[xform translateXBy:-ploc.x
-								yBy:-ploc.y];
-				[temp transformUsingAffineTransform:xform];
+					NSAffineTransform* xform = [NSAffineTransform transform];
+					[xform translateXBy:ploc.x
+									yBy:ploc.y];
+					[xform scaleXBy:1.0
+								yBy:-1.0];
+					[xform translateXBy:-ploc.x
+									yBy:-ploc.y];
+					[temp transformUsingAffineTransform:xform];
 
-				[array addObject:temp];
+					[array addObject:temp];
+				}
+				// next line:
+				glyphIndex += grange.length;
 			}
-			// next line:
-			glyphIndex += grange.length;
-			[pool drain];
 		}
 	}
 

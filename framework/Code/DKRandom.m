@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKRandom.h"
@@ -13,7 +13,6 @@
 {
 // returns a random value between 0 and 1.
 
-#warning 64BIT: Inspect use of unsigned long
 	static unsigned long seed = 0;
 
 	if (seed == 0) {

@@ -3,6 +3,7 @@
 #include "coord.h"
 #include "isnan.h" //temporary fix for isnan()
 #include "matrix.h"
+#include "float.h" // for DBL_MAX
 
 namespace Geom {
 
@@ -19,7 +20,7 @@ void Point::normalize() {
 	double len = hypot(_pt[0], _pt[1]);
 	if(len == 0) return;
 	if(isNaN(len)) return;
-	static double const inf = 1e400;
+	static double const inf = DBL_MAX;
 	if(len != inf) {
 		*this /= len;
 	} else {

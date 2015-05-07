@@ -1,14 +1,14 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "NSBezierPath+Shapes.h"
 #import "NSBezierPath+Geometry.h"
 
-#pragma mark Contants(Non - localized)
-static const CGFloat deg60 = 1.0471975512;
+#pragma mark Constants(Non - localized)
+//static const CGFloat deg60 = 1.0471975512;
 static const CGFloat sin60 = 0.8660254038;
 
 @implementation NSBezierPath (Shapes)

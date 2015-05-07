@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "TestBSPStorage.h"
@@ -401,67 +401,67 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	NSRect retrievalRect;
 
 	for (i = 0; i < NUMBER_OF_RETRIEVAL_TESTS; ++i) {
-		NSAutoreleasePool* pool = [NSAutoreleasePool new];
+		@autoreleasepool {
 
-		l = randomFloat(0, canvasSize.width);
-		t = randomFloat(0, canvasSize.height);
-		w = randomFloat(0, canvasSize.width / 2);
-		h = randomFloat(0, canvasSize.height / 2);
-		retrievalRect = NSMakeRect(l, t, w, h);
+			l = randomFloat(0, canvasSize.width);
+			t = randomFloat(0, canvasSize.height);
+			w = randomFloat(0, canvasSize.width / 2);
+			h = randomFloat(0, canvasSize.height / 2);
+			retrievalRect = NSMakeRect(l, t, w, h);
 
-		// ensure the retrieval rect stays within the bounds of the canvas
+			// ensure the retrieval rect stays within the bounds of the canvas
 
-		retrievalRect = NSIntersectionRect(retrievalRect, NSMakeRect(0, 0, canvasSize.width, canvasSize.height));
+			retrievalRect = NSIntersectionRect(retrievalRect, NSMakeRect(0, 0, canvasSize.width, canvasSize.height));
 
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-		NSLog(@"retrieval test %d, rect = %@", i, NSStringFromRect(retrievalRect));
+	#warning 64BIT: Check formatting arguments
+	#warning 64BIT: Check formatting arguments
+			NSLog(@"retrieval test %d, rect = %@", i, NSStringFromRect(retrievalRect));
 
-		// move some of the objects to random new locations for some of the tests
+			// move some of the objects to random new locations for some of the tests
 
-		if ((i % MOVE_OBJECTS_FOR_TEST_MOD) == 0 && i > 0) {
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-			NSLog(@"repositioning objects for test #%d", i);
-			[self repositioningTest:storage
-						 canvasSize:canvasSize];
+			if ((i % MOVE_OBJECTS_FOR_TEST_MOD) == 0 && i > 0) {
+	#warning 64BIT: Check formatting arguments
+	#warning 64BIT: Check formatting arguments
+				NSLog(@"repositioning objects for test #%d", i);
+				[self repositioningTest:storage
+							 canvasSize:canvasSize];
+			}
+
+			[bruteForceSearchResults removeAllObjects];
+
+			// do the brute force search first. These should be in the right z-order.
+
+			NSEnumerator* iter = [objects objectEnumerator];
+			while ((tso = [iter nextObject])) {
+				if (NSIntersectsRect(retrievalRect, [tso bounds]))
+					[bruteForceSearchResults addObject:tso];
+			}
+
+			// retrieve what should be the same objects the clever way:
+
+			bspResults = [storage objectsIntersectingRect:retrievalRect
+												   inView:nil
+												  options:0];
+
+			// now check they are what they should be:
+
+			STAssertEquals([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %d, bsp = %d", [bruteForceSearchResults count], [bspResults count]);
+
+			// check each object is the same
+
+			NSUInteger j, k = [bspResults count];
+
+			for (j = 0; j < k; ++j) {
+				id<DKStorableObject> bruteObject;
+
+				bruteObject = [bruteForceSearchResults objectAtIndex:j];
+				tso = [bspResults objectAtIndex:j];
+
+				STAssertEqualObjects(bruteObject, tso, @"objects at index %d do not match - bf = %@, bsp = %@", j, bruteObject, tso);
+				STAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %d", j);
+			}
+
 		}
-
-		[bruteForceSearchResults removeAllObjects];
-
-		// do the brute force search first. These should be in the right z-order.
-
-		NSEnumerator* iter = [objects objectEnumerator];
-		while ((tso = [iter nextObject])) {
-			if (NSIntersectsRect(retrievalRect, [tso bounds]))
-				[bruteForceSearchResults addObject:tso];
-		}
-
-		// retrieve what should be the same objects the clever way:
-
-		bspResults = [storage objectsIntersectingRect:retrievalRect
-											   inView:nil
-											  options:0];
-
-		// now check they are what they should be:
-
-		STAssertEquals([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %d, bsp = %d", [bruteForceSearchResults count], [bspResults count]);
-
-		// check each object is the same
-
-		NSUInteger j, k = [bspResults count];
-
-		for (j = 0; j < k; ++j) {
-			id<DKStorableObject> bruteObject;
-
-			bruteObject = [bruteForceSearchResults objectAtIndex:j];
-			tso = [bspResults objectAtIndex:j];
-
-			STAssertEqualObjects(bruteObject, tso, @"objects at index %d do not match - bf = %@, bsp = %@", j, bruteObject, tso);
-			STAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %d", j);
-		}
-
-		[pool drain];
 	}
 
 	// a final retrieval test - if the retrieval rect is the whole canvas, number returned should equal entire object count
@@ -485,59 +485,59 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	CGFloat t, l;
 
 	for (i = 0; i < NUMBER_OF_RETRIEVAL_TESTS; ++i) {
-		NSAutoreleasePool* pool = [NSAutoreleasePool new];
+		@autoreleasepool {
 
-		l = randomFloat(0, canvasSize.width);
-		t = randomFloat(0, canvasSize.height);
-		NSPoint retrievalPoint = NSMakePoint(l, t);
+			l = randomFloat(0, canvasSize.width);
+			t = randomFloat(0, canvasSize.height);
+			NSPoint retrievalPoint = NSMakePoint(l, t);
 
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-		NSLog(@"point retrieval test %d, pt = %@", i, NSStringFromPoint(retrievalPoint));
+	#warning 64BIT: Check formatting arguments
+	#warning 64BIT: Check formatting arguments
+			NSLog(@"point retrieval test %d, pt = %@", i, NSStringFromPoint(retrievalPoint));
 
-		// move some of the objects to random new locations for some of the tests
+			// move some of the objects to random new locations for some of the tests
 
-		if ((i % MOVE_OBJECTS_FOR_TEST_MOD) == 0 && i > 0) {
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-			NSLog(@"repositioning objects for test #%d", i);
-			[self repositioningTest:storage
-						 canvasSize:canvasSize];
+			if ((i % MOVE_OBJECTS_FOR_TEST_MOD) == 0 && i > 0) {
+	#warning 64BIT: Check formatting arguments
+	#warning 64BIT: Check formatting arguments
+				NSLog(@"repositioning objects for test #%d", i);
+				[self repositioningTest:storage
+							 canvasSize:canvasSize];
+			}
+
+			[bruteForceSearchResults removeAllObjects];
+
+			// do the brute force search first. These should be in the right z-order.
+
+			NSEnumerator* iter = [objects objectEnumerator];
+			while ((tso = [iter nextObject])) {
+				if (NSPointInRect(retrievalPoint, [tso bounds]))
+					[bruteForceSearchResults addObject:tso];
+			}
+
+			// retrieve what should be the same objects the clever way:
+
+			NSArray* bspResults = [storage objectsContainingPoint:retrievalPoint];
+
+			// now check they are what they should be:
+
+			STAssertEquals([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %d, bsp = %d", [bruteForceSearchResults count], [bspResults count]);
+
+			// check each object is the same
+
+			NSUInteger j, k = [bspResults count];
+
+			for (j = 0; j < k; ++j) {
+				id<DKStorableObject> bruteObject;
+
+				bruteObject = [bruteForceSearchResults objectAtIndex:j];
+				tso = [bspResults objectAtIndex:j];
+
+				STAssertEqualObjects(bruteObject, tso, @"objects at index %d do not match - bf = %@, bsp = %@", j, bruteObject, tso);
+				STAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %d", j);
+			}
+
 		}
-
-		[bruteForceSearchResults removeAllObjects];
-
-		// do the brute force search first. These should be in the right z-order.
-
-		NSEnumerator* iter = [objects objectEnumerator];
-		while ((tso = [iter nextObject])) {
-			if (NSPointInRect(retrievalPoint, [tso bounds]))
-				[bruteForceSearchResults addObject:tso];
-		}
-
-		// retrieve what should be the same objects the clever way:
-
-		NSArray* bspResults = [storage objectsContainingPoint:retrievalPoint];
-
-		// now check they are what they should be:
-
-		STAssertEquals([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %d, bsp = %d", [bruteForceSearchResults count], [bspResults count]);
-
-		// check each object is the same
-
-		NSUInteger j, k = [bspResults count];
-
-		for (j = 0; j < k; ++j) {
-			id<DKStorableObject> bruteObject;
-
-			bruteObject = [bruteForceSearchResults objectAtIndex:j];
-			tso = [bspResults objectAtIndex:j];
-
-			STAssertEqualObjects(bruteObject, tso, @"objects at index %d do not match - bf = %@, bsp = %@", j, bruteObject, tso);
-			STAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %d", j);
-		}
-
-		[pool drain];
 	}
 
 	[bruteForceSearchResults release];
@@ -653,19 +653,19 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	NSUInteger foundCount = 0;
 
 	while ((tso = [iter nextObject])) {
-		NSAutoreleasePool* pool = [NSAutoreleasePool new];
-		NSEnumerator* leafEnum = [leaves objectEnumerator];
+		@autoreleasepool {
+			NSEnumerator* leafEnum = [leaves objectEnumerator];
 
-		while ((leafArray = [leafEnum nextObject])) {
-			if ([leafArray containsObject:tso]) {
-				foundCount++;
-				break;
+			while ((leafArray = [leafEnum nextObject])) {
+				if ([leafArray containsObject:tso]) {
+					foundCount++;
+					break;
+				}
 			}
-		}
-		STAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
-		STAssertEqualObjects([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage (%@)", tso);
+			STAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
+			STAssertEqualObjects([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage (%@)", tso);
 
-		[pool drain];
+		}
 	}
 
 	STAssertEquals(foundCount, [storage countOfObjects], @"number of objects in tree is not equal to number in linear storage, expected %d, got %d", [storage countOfObjects], foundCount);
@@ -677,23 +677,21 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 		NSUInteger linIndex = 0;
 
 		while ((tso = [iter nextObject])) {
-			NSAutoreleasePool* pool = [NSAutoreleasePool new];
+			@autoreleasepool {
 
-			NSEnumerator* leafEnum = [leaves objectEnumerator];
-			BOOL found = NO;
+				NSEnumerator* leafEnum = [leaves objectEnumerator];
+				BOOL found = NO;
 
-			while ((leafArray = [leafEnum nextObject])) {
-				if ([leafArray containsObject:tso]) {
-					found = YES;
-					break;
+				while ((leafArray = [leafEnum nextObject])) {
+					if ([leafArray containsObject:tso]) {
+						found = YES;
+						break;
+					}
 				}
+
 			}
 
-			[pool drain];
-
 			if (!found) {
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
 				NSLog(@"first object not found in tree is: %@ (index = %d, bounds = %@, array index = %d)", tso, [tso index], NSStringFromRect([tso bounds]), linIndex);
 				break;
 			}
@@ -708,17 +706,17 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	iter = [leaves objectEnumerator];
 	while ((leafArray = [iter nextObject])) {
-		NSAutoreleasePool* pool = [NSAutoreleasePool new];
+		@autoreleasepool {
 
-		NSEnumerator* leafIter = [leafArray objectEnumerator];
-		while ((tso = [leafIter nextObject])) {
-			STAssertTrue([[storage objects] containsObject:tso], @"an object was present in the tree but not in the linear array: %@ (leaf index = %d)", tso, foundCount);
-			STAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
-			STAssertEquals([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage");
+			NSEnumerator* leafIter = [leafArray objectEnumerator];
+			while ((tso = [leafIter nextObject])) {
+				STAssertTrue([[storage objects] containsObject:tso], @"an object was present in the tree but not in the linear array: %@ (leaf index = %d)", tso, foundCount);
+				STAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
+				STAssertEquals([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage");
+			}
+			++foundCount;
+
 		}
-		++foundCount;
-
-		[pool drain];
 	}
 }
 

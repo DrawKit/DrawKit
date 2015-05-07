@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKDrawableObject.h"
@@ -729,52 +729,52 @@ static NSDictionary* s_interconversionTable = nil;
  */
 - (void)drawContentWithSelectedState:(BOOL)selected
 {
-	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 
 #ifdef qIncludeGraphicDebugging
-	[NSGraphicsContext saveGraphicsState];
+		[NSGraphicsContext saveGraphicsState];
 
-	if (m_clipToBBox) {
-		NSBezierPath* clipPath = [NSBezierPath bezierPathWithRect:[self bounds]];
-		[clipPath addClip];
-	}
+		if (m_clipToBBox) {
+			NSBezierPath* clipPath = [NSBezierPath bezierPathWithRect:[self bounds]];
+			[clipPath addClip];
+		}
 #endif
-	// draw the object's actual content
+		// draw the object's actual content
 
-	mIsHitTesting = NO;
-	[self drawContent];
+		mIsHitTesting = NO;
+		[self drawContent];
 
-	// draw the selection highlight - other code should have already checked -objectMayBecomeSelected and refused to
-	// select the object but if for some reason this wasn't done, this at least supresses the highlight
+		// draw the selection highlight - other code should have already checked -objectMayBecomeSelected and refused to
+		// select the object but if for some reason this wasn't done, this at least supresses the highlight
 
-	if (selected && [self objectMayBecomeSelected])
-		[self drawSelectedState];
+		if (selected && [self objectMayBecomeSelected])
+			[self drawSelectedState];
 
 #ifdef qIncludeGraphicDebugging
 
-	[NSGraphicsContext restoreGraphicsState];
+		[NSGraphicsContext restoreGraphicsState];
 
-	if (m_showBBox) {
-		CGFloat sc = 0.5f / [(DKDrawingView*)[self currentView] scale];
+		if (m_showBBox) {
+			CGFloat sc = 0.5f / [(DKDrawingView*)[self currentView] scale];
 
-		[[NSColor redColor] set];
+			[[NSColor redColor] set];
 
-		NSRect bb = [self bounds];
-		bb = NSInsetRect(bb, sc, sc);
-		NSBezierPath* bbox = [NSBezierPath bezierPathWithRect:bb];
+			NSRect bb = [self bounds];
+			bb = NSInsetRect(bb, sc, sc);
+			NSBezierPath* bbox = [NSBezierPath bezierPathWithRect:bb];
 
-		[bbox moveToPoint:bb.origin];
-		[bbox lineToPoint:NSMakePoint(NSMaxX(bb), NSMaxY(bb))];
-		[bbox moveToPoint:NSMakePoint(NSMaxX(bb), NSMinY(bb))];
-		[bbox lineToPoint:NSMakePoint(NSMinX(bb), NSMaxY(bb))];
+			[bbox moveToPoint:bb.origin];
+			[bbox lineToPoint:NSMakePoint(NSMaxX(bb), NSMaxY(bb))];
+			[bbox moveToPoint:NSMakePoint(NSMaxX(bb), NSMinY(bb))];
+			[bbox lineToPoint:NSMakePoint(NSMinX(bb), NSMaxY(bb))];
 
-		[bbox setLineWidth:0.0];
-		[bbox stroke];
-	}
+			[bbox setLineWidth:0.0];
+			[bbox stroke];
+		}
 
 #endif
 
-	[pool drain];
+	}
 }
 
 - (void)drawContent
@@ -2320,8 +2320,7 @@ static NSRect s_oldBounds;
 
 - (NSString*)description
 {
-#warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"%@ size: %@, loc: %@, angle: %.4f, offset: %@, locked: %@, style: %@, container: %x, storage: %@, user info:%@",
+	return [NSString stringWithFormat:@"%@ size: %@, loc: %@, angle: %.4f, offset: %@, locked: %@, style: %@, container: %p, storage: %@, user info:%@",
 									  [super description],
 									  NSStringFromSize([self size]),
 									  NSStringFromPoint([self location]),
@@ -2443,7 +2442,6 @@ static NSRect s_oldBounds;
 				NSString* name = [theStyle name];
 
 				if (name && [name length] > 0)
-#warning 64BIT: Check formatting arguments
 					itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Paste Style '%@'", nil), name];
 
 				// don't bother pasting the same style we already have
@@ -2465,7 +2463,6 @@ static NSRect s_oldBounds;
 		if (theStyle) {
 			NSString* name = [theStyle name];
 			if (name && [name length] > 0)
-#warning 64BIT: Check formatting arguments
 				itemTitle = [NSString stringWithFormat:NSLocalizedString(@"Copy Style '%@'", nil), name];
 		}
 		[item setTitle:itemTitle];

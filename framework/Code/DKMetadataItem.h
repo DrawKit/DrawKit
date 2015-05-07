@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import <Cocoa/Cocoa.h>
@@ -137,7 +137,9 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 - (NSString*)stringValue;
 - (NSAttributedString*)attributedStringValue;
 - (NSInteger)intValue;
+- (NSInteger)integerValue;
 - (CGFloat)floatValue;
+- (double)doubleValue;
 - (BOOL)boolValue;
 - (NSColor*)colourValue;
 - (NSSize)sizeValue;

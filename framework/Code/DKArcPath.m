@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKArcPath.h"
@@ -370,7 +370,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 					if (angle < 0)
 						angle += 360.0f;
 
-#warning 64BIT: Check formatting arguments
 					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
 												   atPoint:nsp];
 				}
@@ -385,7 +384,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 					if (angle < 0)
 						angle = 360.0 + angle;
 
-#warning 64BIT: Check formatting arguments
 					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f%C", rad, abbrUnits, angle, 0xB0]
 												   atPoint:nsp];
 				}
@@ -589,13 +587,11 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 		case kDKDrawingEntireObjectPart:
 		case kDKArcPathCentrePointPart:
 			gridPt = [self convertPointToDrawing:[self location]];
-#warning 64BIT: Check formatting arguments
 			infoStr = [NSString stringWithFormat:@"centre x: %.2f%@\ncentre y: %.2f%@", gridPt.x, abbrUnits, gridPt.y, abbrUnits];
 			break;
 
 		case kDKArcPathRotationKnobPart:
 			angle = [self angleInDegrees];
-#warning 64BIT: Check formatting arguments
 			infoStr = [NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0];
 			break;
 
@@ -603,7 +599,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 			angle = RADIANS_TO_DEGREES(mEndAngle - mStartAngle);
 			if (angle < 0)
 				angle += 360.0f;
-#warning 64BIT: Check formatting arguments
 			infoStr = [NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f%C", rad, abbrUnits, angle, 0xB0];
 			break;
 		}

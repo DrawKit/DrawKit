@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKColourQuantizer.h"
@@ -224,7 +224,6 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 
 - (NODE*)createNodeAtLevel:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
 {
-#warning 64BIT: Inspect use of sizeof
 	NODE* pnode = (NODE*)calloc(1, sizeof(NODE));
 
 	if (pnode == NULL)
@@ -380,7 +379,6 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 		NSUInteger i, indx = 0;
 		NSColor* colour;
 
-#warning 64BIT: Inspect use of sizeof
 		rgb = (rgb_triple*)malloc(m_nLeafCount * sizeof(rgb_triple));
 		[self paletteColour:m_pTree
 					  index:&indx

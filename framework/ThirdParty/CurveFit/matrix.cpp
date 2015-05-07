@@ -18,7 +18,11 @@
 #include "transforms.h"
 
 namespace Geom {
-
+	
+// Prototypes
+bool Translate_equalp(Matrix const &m0, Matrix const &m1, Geom::Coord const epsilon);
+Translate to_Translate(Matrix const &m);
+	
 /** Multiplies a Matrix with another.*/
 Matrix &Matrix::operator*=(Matrix const &o)
 {

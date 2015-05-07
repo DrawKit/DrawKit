@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKCIFilterRastGroup.h"
@@ -282,24 +282,23 @@
 
 - (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments
 {
-	NSAutoreleasePool* pool;
 	NSBitmapImageRep* rep;
 
-	pool = [[NSAutoreleasePool alloc] init];
+	@autoreleasepool {
 
-	if (filterName) {
-		rep = [self bitmapImageRepresentation];
-		[rep drawAtPoint:point
-				   fromRect:fromRect
-			coreImageFilter:filterName
-				  arguments:arguments];
-	} else
-		[self drawAtPoint:point
-				 fromRect:fromRect
-				operation:NSCompositeSourceOver
-				 fraction:1.0f];
+		if (filterName) {
+			rep = [self bitmapImageRepresentation];
+			[rep drawAtPoint:point
+					   fromRect:fromRect
+				coreImageFilter:filterName
+					  arguments:arguments];
+		} else
+			[self drawAtPoint:point
+					 fromRect:fromRect
+					operation:NSCompositeSourceOver
+					 fraction:1.0f];
 
-	[pool release];
+	}
 }
 
 @end
@@ -309,58 +308,57 @@
 #pragma mark As an NSBitmapImageRep
 - (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments
 {
-	NSAutoreleasePool* pool;
 	CIFilter* filter;
 	CIImage* before;
 	CIImage* after;
 	CIContext* ciContext;
 
-	pool = [[NSAutoreleasePool alloc] init];
-	before = nil;
+	@autoreleasepool {
+		before = nil;
 
-	@try
-	{
-		before = [[CIImage alloc] initWithBitmapImageRep:self];
-		if (before) {
-			filter = [CIFilter filterWithName:filterName];
-			[filter setDefaults];
-			if (arguments)
-				[filter setValuesForKeysWithDictionary:arguments];
-			[filter setValue:before
-					  forKey:@"inputImage"];
-		} else
-			filter = nil;
+		@try
+		{
+			before = [[CIImage alloc] initWithBitmapImageRep:self];
+			if (before) {
+				filter = [CIFilter filterWithName:filterName];
+				[filter setDefaults];
+				if (arguments)
+					[filter setValuesForKeysWithDictionary:arguments];
+				[filter setValue:before
+						  forKey:@"inputImage"];
+			} else
+				filter = nil;
 
-		after = [filter valueForKey:@"outputImage"];
-		if (after) {
-			if (![[arguments objectForKey:@"gt_noRenderPadding"] boolValue]) {
-				/* Add a wide berth to the bounds -- the padding can be turned
-				   off by passing an NSNumber with a YES value in the argument
-				   "gt_noRenderPadding" in the argument dictionary. */
-				fromRect.origin.x -= CIIMAGE_PADDING;
-				fromRect.origin.y -= CIIMAGE_PADDING;
-				fromRect.size.width += CIIMAGE_PADDING * 2.0f;
-				fromRect.size.height += CIIMAGE_PADDING * 2.0f;
-				point.x -= CIIMAGE_PADDING;
-				point.y -= CIIMAGE_PADDING;
+			after = [filter valueForKey:@"outputImage"];
+			if (after) {
+				if (![[arguments objectForKey:@"gt_noRenderPadding"] boolValue]) {
+					/* Add a wide berth to the bounds -- the padding can be turned
+					   off by passing an NSNumber with a YES value in the argument
+					   "gt_noRenderPadding" in the argument dictionary. */
+					fromRect.origin.x -= CIIMAGE_PADDING;
+					fromRect.origin.y -= CIIMAGE_PADDING;
+					fromRect.size.width += CIIMAGE_PADDING * 2.0f;
+					fromRect.size.height += CIIMAGE_PADDING * 2.0f;
+					point.x -= CIIMAGE_PADDING;
+					point.y -= CIIMAGE_PADDING;
+				}
+
+				ciContext = [[NSGraphicsContext currentContext] CIContext];
+				[ciContext drawImage:after
+							 atPoint:*(CGPoint*)(&point)
+							fromRect:*(CGRect*)(&fromRect)];
 			}
-
-			ciContext = [[NSGraphicsContext currentContext] CIContext];
-			[ciContext drawImage:after
-						 atPoint:*(CGPoint*)(&point)
-						fromRect:*(CGRect*)(&fromRect)];
 		}
-	}
-	@catch (NSException* e)
-	{
-		LogEvent_(kWheneverEvent, @"exception encountered during core image filtering: %@", e);
-	}
-	@finally
-	{
-		[before release];
-	}
+		@catch (NSException* e)
+		{
+			LogEvent_(kWheneverEvent, @"exception encountered during core image filtering: %@", e);
+		}
+		@finally
+		{
+			[before release];
+		}
 
-	[pool release];
+	}
 }
 
 @end

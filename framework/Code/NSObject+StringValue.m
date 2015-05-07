@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "NSObject+StringValue.h"
@@ -17,8 +17,7 @@
 
 - (NSString*)address
 {
-#warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"0x%X", self];
+	return [NSString stringWithFormat:@"%p", self];
 }
 
 @end
@@ -74,7 +73,6 @@
 
 	for (i = 0; i < [self count]; ++i) {
 		object = [self objectAtIndex:i];
-#warning 64BIT: Inspect use of long
 		[sv appendString:[NSString stringWithFormat:@"%ld: %@\n", (long)i, [object stringValue]]];
 	}
 

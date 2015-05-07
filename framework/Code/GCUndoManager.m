@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "GCUndoManager.h"
@@ -851,8 +851,7 @@
 			else
 				selString = @"<subgroup>";
 
-#warning 64BIT: Check formatting arguments
-			[newTaskGroup setActionName:[NSString stringWithFormat:@"%@ (%d: %@)", [topGroup actionName], ++suffix, selString]];
+			[newTaskGroup setActionName:[NSString stringWithFormat:@"%@ (%lu: %@)", [topGroup actionName], (unsigned long)++suffix, selString]];
 			[self pushGroupOntoUndoStack:newTaskGroup];
 			[newTaskGroup release];
 		}
@@ -915,8 +914,7 @@
 
 - (NSString*)description
 {
-#warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"%@ g-level = %d, u-stack: %@, r-stack: %@", [super description], [self groupingLevel], [self undoStack], [self redoStack]];
+	return [NSString stringWithFormat:@"%@ g-level = %lu, u-stack: %@, r-stack: %@", [super description], (unsigned long)[self groupingLevel], [self undoStack], [self redoStack]];
 }
 
 @end
@@ -958,7 +956,7 @@
 
 - (GCUndoTask*)taskAtIndex:(NSUInteger)indx
 {
-	THROW_IF_FALSE2(indx < [[self tasks] count], @"invalid task index (%d) in group %@", indx, self);
+	THROW_IF_FALSE2(indx < [[self tasks] count], @"invalid task index (%ld) in group %@", (long)indx, self);
 
 	return [[self tasks] objectAtIndex:indx];
 }
@@ -1104,8 +1102,7 @@
 
 - (NSString*)description
 {
-#warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"%@ '%@' %d tasks: %@", [super description], [self actionName], [mTasks count], mTasks];
+	return [NSString stringWithFormat:@"%@ '%@' %lu tasks: %@", [super description], [self actionName], (unsigned long)[mTasks count], mTasks];
 }
 
 @end
@@ -1223,8 +1220,7 @@
 
 - (NSString*)description
 {
-#warning 64BIT: Check formatting arguments
-	return [NSString stringWithFormat:@"%@ target = <%@ 0x%x>, selector: %@", [super description], NSStringFromClass([[self target] class]), [self target], NSStringFromSelector([mInvocation selector])];
+	return [NSString stringWithFormat:@"%@ target = <%@ %p>, selector: %@", [super description], NSStringFromClass([[self target] class]), [self target], NSStringFromSelector([mInvocation selector])];
 }
 
 @end

@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU GPL3; see LICENSE
+ @copyright GNU LGPL3; see LICENSE
 */
 
 #import "DKDrawablePath.h"
@@ -1372,7 +1372,6 @@ finish:
 					p.x += 4;
 					p.y -= 12;
 
-#warning 64BIT: Check formatting arguments
 					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@", rad, abbrUnits]
 												   atPoint:nsp];
 				}
@@ -1403,7 +1402,6 @@ finish:
 					p.x += 4;
 					p.y -= 12;
 
-#warning 64BIT: Check formatting arguments
 					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
 												   atPoint:nsp];
 				}
@@ -1960,14 +1958,21 @@ finish:
  The path might not change, depending on how it is made up
  @param sender the action's sender
  */
-- (IBAction)curveFit:(id)sender
+- (IBAction)curveFit:(id) __unused sender
 {
-#pragma unused(sender)
-
 	if (![self locked]) {
-		NSBezierPath* newPath = [[self path] bezierPathByUnflatteningPath];
-		[self setPath:newPath];
-		[[self undoManager] setActionName:NSLocalizedString(@"Curve Fit", @"undo action for Curve Fit")];
+		
+		// Extracted from NSBezierPath+GPC in 1.5b of DrawKit
+		NSBezierPath* originalPath = [self path];
+		if ([originalPath isEmpty])
+			return;
+		NSSize ps = [originalPath bounds].size;
+		CGFloat epsilon = MIN( ps.width, ps.height ) / 1000.0;
+		NSBezierPath* newPath = smartCurveFitPath( originalPath, epsilon, kDKDefaultCornerThreshold );
+		if (newPath != nil) {
+			[self setPath:newPath];
+			[[self undoManager] setActionName:NSLocalizedString(@"Curve Fit", @"undo action for Curve Fit")];
+		}
 	}
 }
 
@@ -2167,21 +2172,21 @@ finish:
 {
 	// stroke the path using the standard selection
 
-	NSAutoreleasePool* pool = [NSAutoreleasePool new];
+	@autoreleasepool {
 
-	NSBezierPath* path = [self renderingPath];
+		NSBezierPath* path = [self renderingPath];
 
-	[self drawSelectionPath:path];
-	[self drawControlPointsOfPath:path
-					   usingKnobs:[[self layer] knobs]];
+		[self drawSelectionPath:path];
+		[self drawControlPointsOfPath:path
+						   usingKnobs:[[self layer] knobs]];
 
 #ifdef qIncludeGraphicDebugging
-	if (m_showBBox)
-		[[self path] drawElementsBoundingBoxes];
+		if (m_showBBox)
+			[[self path] drawElementsBoundingBoxes];
 
 #endif
 
-	[pool drain];
+	}
 }
 
 /** @brief Draw the ghosted content of the object
@@ -2377,7 +2382,6 @@ finish:
 			NSPoint gridPt = [self convertPointToDrawing:mp];
 			NSString* abbrUnits = [[self drawing] abbreviatedDrawingUnits];
 
-#warning 64BIT: Check formatting arguments
 			[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"x: %.2f%@\ny: %.2f%@", gridPt.x, abbrUnits, gridPt.y, abbrUnits]
 										   atPoint:mp];
 		}

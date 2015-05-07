@@ -168,7 +168,7 @@ void		_parameterizeCurve(NSPoint *coefficients, NSPoint startPoint, NSPoint endP
 - (BOOL)	_curvedIntersection:(CGFloat *) length time:(CGFloat *)time curve:(NSPoint *)c line:(NSPoint *)a;
 
 - (BOOL)	_curvedLineHit:(NSPoint) point startPoint:(NSPoint)startPoint endPoint:(NSPoint)endPoint controlPoint1:(NSPoint)controlPoint1 controlPoint2:(NSPoint)controlPoint2 position:(CGFloat *)position padding:(CGFloat)padding;
-- (BOOL)	_straightLineIntersection:(CGFloat *) length time:(CGFloat *)time segment:(NSPoint *)s line:(NSPoint *)l;
+- (BOOL)	_straightLineIntersection:(CGFloat *) length time:(CGFloat *)time segment:(NSPoint *)s line:(const NSPoint *)l;
 - (BOOL)	_straightLineHit:(NSPoint) startPoint :(NSPoint)endPoint :(NSPoint)point  :(CGFloat *)position padding:(CGFloat)padding;
 - (NSInteger)		_segmentHitByPoint:(NSPoint) point position:(CGFloat *)position padding:(CGFloat)padding;
 - (NSPoint)	_endPointForSegment:(NSInteger) i;
