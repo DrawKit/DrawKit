@@ -148,6 +148,14 @@ maintain the concept of rotation or scale - it just is what it is.
 - (CGFloat)lengthForPoint:(NSPoint)mp;
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol;
 
+/** @brief Return the length to display to the user of a path
+ 
+ By default returns the same value as length. Override where the last path segment
+ length should be shown instead of the total path length.
+ @return the path's display length in points
+ */
+- (CGFloat)infoLengthForPath:(NSBezierPath*)path;
+
 /** @brief Discover whether the path is open or closed
 
  A path is closed if it has a closePath element or its first and last points are coincident.
