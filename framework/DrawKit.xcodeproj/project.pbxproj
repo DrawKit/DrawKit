@@ -131,7 +131,7 @@
 		BF33FD231050A8EA00BC6B90 /* DKQuartzCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33FD211050A8EA00BC6B90 /* DKQuartzCache.m */; };
 		BF33FD851050D0A100BC6B90 /* DKRetriggerableTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = BF33FD831050D0A100BC6B90 /* DKRetriggerableTimer.h */; };
 		BF33FD861050D0A100BC6B90 /* DKRetriggerableTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33FD841050D0A100BC6B90 /* DKRetriggerableTimer.m */; };
-		BF33FD9E1050DFE500BC6B90 /* DKHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = BF33FD9C1050DFE500BC6B90 /* DKHandle.h */; };
+		BF33FD9E1050DFE500BC6B90 /* DKHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = BF33FD9C1050DFE500BC6B90 /* DKHandle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF33FD9F1050DFE500BC6B90 /* DKHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33FD9D1050DFE500BC6B90 /* DKHandle.m */; };
 		BF33FDA41050E6BC00BC6B90 /* DKBoundingRectHandle.h in Headers */ = {isa = PBXBuildFile; fileRef = BF33FDA21050E6BC00BC6B90 /* DKBoundingRectHandle.h */; };
 		BF33FDA51050E6BC00BC6B90 /* DKBoundingRectHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33FDA31050E6BC00BC6B90 /* DKBoundingRectHandle.m */; };
