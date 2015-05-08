@@ -1,0 +1,514 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		76FC0AA01AFD090D005277C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC0A9F1AFD090D005277C4 /* AppDelegate.m */; };
+		76FC0AA21AFD090D005277C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC0AA11AFD090D005277C4 /* main.m */; };
+		76FC0AA51AFD090D005277C4 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC0AA41AFD090D005277C4 /* Document.m */; };
+		76FC0AA81AFD090D005277C4 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76FC0AA61AFD090D005277C4 /* Document.xib */; };
+		76FC0AAA1AFD090D005277C4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76FC0AA91AFD090D005277C4 /* Images.xcassets */; };
+		76FC0AAD1AFD090D005277C4 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 76FC0AAB1AFD090D005277C4 /* MainMenu.xib */; };
+		76FC0AB91AFD090E005277C4 /* drawkit_document_persistenceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC0AB81AFD090E005277C4 /* drawkit_document_persistenceTests.m */; };
+		76FC0ACD1AFD0932005277C4 /* DKDrawKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76FC0AC81AFD0925005277C4 /* DKDrawKit.framework */; };
+		76FC0ACF1AFD093D005277C4 /* DKDrawKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76FC0AC81AFD0925005277C4 /* DKDrawKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		76FC0AB31AFD090E005277C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76FC0A911AFD090D005277C4 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 76FC0A981AFD090D005277C4;
+			remoteInfo = "drawkit-document-persistence";
+		};
+		76FC0AC71AFD0925005277C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76FC0AC21AFD0923005277C4 /* DrawKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 9660E6100BEF442B00B6A38C;
+			remoteInfo = DrawKit;
+		};
+		76FC0AC91AFD0925005277C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76FC0AC21AFD0923005277C4 /* DrawKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BF2EE49B0F66011D00B8CFFD;
+			remoteInfo = DKUnitTests;
+		};
+		76FC0ACB1AFD092C005277C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76FC0AC21AFD0923005277C4 /* DrawKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = DrawKit;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		76FC0ACE1AFD0936005277C4 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				76FC0ACF1AFD093D005277C4 /* DKDrawKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		76FC0A991AFD090D005277C4 /* drawkit-document-persistence.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "drawkit-document-persistence.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		76FC0A9D1AFD090D005277C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76FC0A9E1AFD090D005277C4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		76FC0A9F1AFD090D005277C4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		76FC0AA11AFD090D005277C4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		76FC0AA31AFD090D005277C4 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		76FC0AA41AFD090D005277C4 /* Document.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		76FC0AA71AFD090D005277C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		76FC0AA91AFD090D005277C4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		76FC0AAC1AFD090D005277C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		76FC0AB21AFD090E005277C4 /* drawkit-document-persistenceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "drawkit-document-persistenceTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		76FC0AB71AFD090E005277C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		76FC0AB81AFD090E005277C4 /* drawkit_document_persistenceTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = drawkit_document_persistenceTests.m; sourceTree = "<group>"; };
+		76FC0AC21AFD0923005277C4 /* DrawKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DrawKit.xcodeproj; path = ../../framework/DrawKit.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		76FC0A961AFD090D005277C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FC0ACD1AFD0932005277C4 /* DKDrawKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76FC0AAF1AFD090E005277C4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		76FC0A901AFD090D005277C4 = {
+			isa = PBXGroup;
+			children = (
+				76FC0A9B1AFD090D005277C4 /* drawkit-document-persistence */,
+				76FC0AB51AFD090E005277C4 /* drawkit-document-persistenceTests */,
+				76FC0A9A1AFD090D005277C4 /* Products */,
+				76FC0AC21AFD0923005277C4 /* DrawKit.xcodeproj */,
+			);
+			sourceTree = "<group>";
+		};
+		76FC0A9A1AFD090D005277C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				76FC0A991AFD090D005277C4 /* drawkit-document-persistence.app */,
+				76FC0AB21AFD090E005277C4 /* drawkit-document-persistenceTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		76FC0A9B1AFD090D005277C4 /* drawkit-document-persistence */ = {
+			isa = PBXGroup;
+			children = (
+				76FC0A9E1AFD090D005277C4 /* AppDelegate.h */,
+				76FC0A9F1AFD090D005277C4 /* AppDelegate.m */,
+				76FC0AA31AFD090D005277C4 /* Document.h */,
+				76FC0AA41AFD090D005277C4 /* Document.m */,
+				76FC0AA61AFD090D005277C4 /* Document.xib */,
+				76FC0AA91AFD090D005277C4 /* Images.xcassets */,
+				76FC0AAB1AFD090D005277C4 /* MainMenu.xib */,
+				76FC0A9C1AFD090D005277C4 /* Supporting Files */,
+			);
+			path = "drawkit-document-persistence";
+			sourceTree = "<group>";
+		};
+		76FC0A9C1AFD090D005277C4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				76FC0A9D1AFD090D005277C4 /* Info.plist */,
+				76FC0AA11AFD090D005277C4 /* main.m */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		76FC0AB51AFD090E005277C4 /* drawkit-document-persistenceTests */ = {
+			isa = PBXGroup;
+			children = (
+				76FC0AB81AFD090E005277C4 /* drawkit_document_persistenceTests.m */,
+				76FC0AB61AFD090E005277C4 /* Supporting Files */,
+			);
+			path = "drawkit-document-persistenceTests";
+			sourceTree = "<group>";
+		};
+		76FC0AB61AFD090E005277C4 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				76FC0AB71AFD090E005277C4 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		76FC0AC31AFD0923005277C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				76FC0AC81AFD0925005277C4 /* DKDrawKit.framework */,
+				76FC0ACA1AFD0925005277C4 /* DKUnitTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		76FC0A981AFD090D005277C4 /* drawkit-document-persistence */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76FC0ABC1AFD090E005277C4 /* Build configuration list for PBXNativeTarget "drawkit-document-persistence" */;
+			buildPhases = (
+				76FC0A951AFD090D005277C4 /* Sources */,
+				76FC0A961AFD090D005277C4 /* Frameworks */,
+				76FC0A971AFD090D005277C4 /* Resources */,
+				76FC0ACE1AFD0936005277C4 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76FC0ACC1AFD092C005277C4 /* PBXTargetDependency */,
+			);
+			name = "drawkit-document-persistence";
+			productName = "drawkit-document-persistence";
+			productReference = 76FC0A991AFD090D005277C4 /* drawkit-document-persistence.app */;
+			productType = "com.apple.product-type.application";
+		};
+		76FC0AB11AFD090E005277C4 /* drawkit-document-persistenceTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 76FC0ABF1AFD090E005277C4 /* Build configuration list for PBXNativeTarget "drawkit-document-persistenceTests" */;
+			buildPhases = (
+				76FC0AAE1AFD090E005277C4 /* Sources */,
+				76FC0AAF1AFD090E005277C4 /* Frameworks */,
+				76FC0AB01AFD090E005277C4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				76FC0AB41AFD090E005277C4 /* PBXTargetDependency */,
+			);
+			name = "drawkit-document-persistenceTests";
+			productName = "drawkit-document-persistenceTests";
+			productReference = 76FC0AB21AFD090E005277C4 /* drawkit-document-persistenceTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		76FC0A911AFD090D005277C4 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0630;
+				ORGANIZATIONNAME = Miln;
+				TargetAttributes = {
+					76FC0A981AFD090D005277C4 = {
+						CreatedOnToolsVersion = 6.3.1;
+					};
+					76FC0AB11AFD090E005277C4 = {
+						CreatedOnToolsVersion = 6.3.1;
+						TestTargetID = 76FC0A981AFD090D005277C4;
+					};
+				};
+			};
+			buildConfigurationList = 76FC0A941AFD090D005277C4 /* Build configuration list for PBXProject "drawkit-document-persistence" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 76FC0A901AFD090D005277C4;
+			productRefGroup = 76FC0A9A1AFD090D005277C4 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 76FC0AC31AFD0923005277C4 /* Products */;
+					ProjectRef = 76FC0AC21AFD0923005277C4 /* DrawKit.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				76FC0A981AFD090D005277C4 /* drawkit-document-persistence */,
+				76FC0AB11AFD090E005277C4 /* drawkit-document-persistenceTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		76FC0AC81AFD0925005277C4 /* DKDrawKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DKDrawKit.framework;
+			remoteRef = 76FC0AC71AFD0925005277C4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		76FC0ACA1AFD0925005277C4 /* DKUnitTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DKUnitTests.octest;
+			remoteRef = 76FC0AC91AFD0925005277C4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		76FC0A971AFD090D005277C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FC0AA81AFD090D005277C4 /* Document.xib in Resources */,
+				76FC0AAA1AFD090D005277C4 /* Images.xcassets in Resources */,
+				76FC0AAD1AFD090D005277C4 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76FC0AB01AFD090E005277C4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		76FC0A951AFD090D005277C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FC0AA51AFD090D005277C4 /* Document.m in Sources */,
+				76FC0AA21AFD090D005277C4 /* main.m in Sources */,
+				76FC0AA01AFD090D005277C4 /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		76FC0AAE1AFD090E005277C4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				76FC0AB91AFD090E005277C4 /* drawkit_document_persistenceTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		76FC0AB41AFD090E005277C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 76FC0A981AFD090D005277C4 /* drawkit-document-persistence */;
+			targetProxy = 76FC0AB31AFD090E005277C4 /* PBXContainerItemProxy */;
+		};
+		76FC0ACC1AFD092C005277C4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = DrawKit;
+			targetProxy = 76FC0ACB1AFD092C005277C4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		76FC0AA61AFD090D005277C4 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76FC0AA71AFD090D005277C4 /* Base */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		76FC0AAB1AFD090D005277C4 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				76FC0AAC1AFD090D005277C4 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		76FC0ABA1AFD090E005277C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		76FC0ABB1AFD090E005277C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		76FC0ABD1AFD090E005277C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "drawkit-document-persistence/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		76FC0ABE1AFD090E005277C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = "drawkit-document-persistence/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		76FC0AC01AFD090E005277C4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "drawkit-document-persistenceTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drawkit-document-persistence.app/Contents/MacOS/drawkit-document-persistence";
+			};
+			name = Debug;
+		};
+		76FC0AC11AFD090E005277C4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "drawkit-document-persistenceTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/drawkit-document-persistence.app/Contents/MacOS/drawkit-document-persistence";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		76FC0A941AFD090D005277C4 /* Build configuration list for PBXProject "drawkit-document-persistence" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76FC0ABA1AFD090E005277C4 /* Debug */,
+				76FC0ABB1AFD090E005277C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76FC0ABC1AFD090E005277C4 /* Build configuration list for PBXNativeTarget "drawkit-document-persistence" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76FC0ABD1AFD090E005277C4 /* Debug */,
+				76FC0ABE1AFD090E005277C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		76FC0ABF1AFD090E005277C4 /* Build configuration list for PBXNativeTarget "drawkit-document-persistenceTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76FC0AC01AFD090E005277C4 /* Debug */,
+				76FC0AC11AFD090E005277C4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 76FC0A911AFD090D005277C4 /* Project object */;
+}
