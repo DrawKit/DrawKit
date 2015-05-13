@@ -2224,27 +2224,6 @@ enum {
 #pragma mark -
 #pragma mark As a DKLayer
 
-// if this is set to 1, CFArrayApplyFunction is used instead of an enumerator to draw the objects
-
-#define FAST_DRAWING_ITERATION 1
-
-static void drawFunction1(const void* value, void* context)
-{
-#pragma unused(context)
-	[(DKDrawableObject*)value drawContentWithSelectedState:NO];
-}
-
-static void drawFunction2(const void* value, void* context)
-{
-	if ([(DKObjectDrawingLayer*)context isSelectedObject:(DKDrawableObject*)value])
-		[(DKDrawableObject*)value drawSelectedState];
-}
-
-static void drawFunction3(const void* value, void* context)
-{
-	[(DKDrawableObject*)value drawContentWithSelectedState:[(DKObjectDrawingLayer*)context isSelectedObject:(DKDrawableObject*)value]];
-}
-
 /** @brief Draws the layer and its contents on demand
 
  Called by the drawing when necessary to update the views. 
@@ -2260,10 +2239,6 @@ static void drawFunction3(const void* value, void* context)
 		if ([self countOfObjects] > 0) {
 			@autoreleasepool {
 
-#if !FAST_DRAWING_ITERATION
-				NSEnumerator* iter;
-				DKDrawableObject* obj;
-#endif
 				BOOL screen = [NSGraphicsContext currentContextDrawingToScreen];
 				BOOL drawSelected = [self selectionVisible] && screen && ([self isActive] || [[self class] selectionIsShownWhenInactive]) && ![self locked];
 				NSArray* objectsToDraw = [self objectsForUpdateRect:rect
@@ -2272,40 +2247,29 @@ static void drawFunction3(const void* value, void* context)
 				// draw the objects
 
 				if (!drawSelected || [self drawsSelectionHighlightsOnTop]) {
-#if FAST_DRAWING_ITERATION
-					CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction1, aView);
-#else
-					iter = [objectsToDraw objectEnumerator];
-
-					while ((obj = [iter nextObject]))
+					
+					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
 						[obj drawContentWithSelectedState:NO];
-#endif
+					}];
+					
 				} else {
-#if FAST_DRAWING_ITERATION
-					CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction3, self);
-#else
-					iter = [objectsToDraw objectEnumerator];
 
-					while ((obj = [iter nextObject]))
+					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
 						[obj drawContentWithSelectedState:[self isSelectedObject:obj]];
-#endif
+					}];
+
 				}
 
 				// draw the selection on top if set to do so
 
 				if ([self drawsSelectionHighlightsOnTop] && drawSelected) {
-#if FAST_DRAWING_ITERATION
-					CFArrayApplyFunction((CFArrayRef)objectsToDraw, CFRangeMake(0, [objectsToDraw count]), drawFunction2, self);
-#else
-					iter = [objectsToDraw objectEnumerator];
-
-					while ((obj = [iter nextObject])) {
+					
+					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
 						if ([self isSelectedObject:obj])
 							[obj drawSelectedState];
-					}
-#endif
+					}];
+					
 				}
-
 			}
 		}
 
