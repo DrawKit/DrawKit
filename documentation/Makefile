@@ -15,6 +15,8 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 # the i18n builder cannot share the environment and doctrees with the others
 I18NSPHINXOPTS  = $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) .
 
+DOCSETDIR = $(BUILDDIR)/html/api/io.github.drawkit.docset
+
 .PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest gettext
 
 help:
@@ -157,6 +159,23 @@ doctest:
 doxygen:
 	mkdir -p $(BUILDDIR)/html/api
 	doxygen $(DOXYGENCONF)
+
+	make -C $(BUILDDIR)/html/api	
+	plutil -replace DocSetFallbackURL -string 'https://drawkit.github.io' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace DocSetFeedName -string 'DrawKit Documentation' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace DocSetFeedURL -string 'https://drawkit.github.io/drawkit.atom' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace DocSetMinimumXcodeVersion -string '3.0' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace DocSetPlatformFamily -string 'macosx' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace DashDocSetFamily -string 'doxygen' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace DocSetPublisherIdentifier -string 'io.github.drawkit.documentation' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace DocSetPublisherName -string 'DrawKit' $(DOCSETDIR)/Contents/Info.plist
+	plutil -replace NSHumanReadableCopyright -string 'Copyright © DrawKit. All rights reserved.' $(DOCSETDIR)/Contents/Info.plist
+	xcrun docsetutil package -output $(BUILDDIR)/drawkit.xar -atom $(BUILDDIR)/drawkit.atom -download-url https://drawkit.github.io/drawkit.atom $(DOCSETDIR)
+
+	mv $(DOCSETDIR) $(BUILDDIR)
+	make -C $(BUILDDIR)/html/api clean
+	rm $(BUILDDIR)/html/api/Makefile
+		
 	@echo
 	@echo "doxygen build finished."	
 	
