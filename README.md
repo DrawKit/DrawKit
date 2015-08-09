@@ -67,6 +67,10 @@ DrawKit does NOT provide a user interface except that of direct manipulation of 
 
 As its name suggests, DrawKit is a kit - some assembly is required. However getting a "bare bones" system up and running should be very easy, which is intended to give the programmer confidence in the default operation of the framework, providing an excellent starting point for customising and extending DrawKit to suit your own applications' needs.
 
+## License
+
+DrawKit is [MPL2 licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENCE.txt). This licence means **DrawKit can be used within open source and commercial software**, including products distributed on the Mac App Store.
+
 ## History
 
 Originally based on, and forked from, [DrawKit 1.0b7 (2010/05/01) source code](http://www.apptree.net/drawkitmain.htm) by [Graham Cox](http://apptree.net/about.htm).
@@ -74,8 +78,3 @@ Originally based on, and forked from, [DrawKit 1.0b7 (2010/05/01) source code](h
 ## Maintainers
 
  - [Graham Miln](http://github.com/grahammiln) ([@grahammiln](https://twitter.com/grahammiln)) / [miln.eu](http://miln.eu)
-
-## License
-
-DrawKit is [LGPL licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENSE). This licence means DrawKit can be used within open source and commercial software, including products distributed on the Mac App Store.
-
