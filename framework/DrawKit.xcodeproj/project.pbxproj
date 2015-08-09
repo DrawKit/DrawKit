@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		76BAEF2F191D0F7C00C2FF3F /* DRAWKIT_LICENSING.TXT in Resources */ = {isa = PBXBuildFile; fileRef = 76BAEF2D191D0F7C00C2FF3F /* DRAWKIT_LICENSING.TXT */; };
-		76BAEF30191D0F7C00C2FF3F /* LICENSE-LGPL3.txt in Resources */ = {isa = PBXBuildFile; fileRef = 76BAEF2E191D0F7C00C2FF3F /* LICENSE-LGPL3.txt */; };
+		7633D31F1B7743570093DB40 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7633D31E1B7743570093DB40 /* LICENSE.txt */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
 		96F5165D0B89DBBE0047BA96 /* DKDrawing.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F515FA0B89DBBC0047BA96 /* DKDrawing.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -299,8 +298,7 @@
 		089C1667FE841158C02AAC07 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = InfoPlist.strings; path = Resources/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF5E0370ADEE00C91783 /* DKDrawKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKDrawKit_Prefix.pch; path = Code/DKDrawKit_Prefix.pch; sourceTree = "<group>"; };
-		76BAEF2D191D0F7C00C2FF3F /* DRAWKIT_LICENSING.TXT */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = DRAWKIT_LICENSING.TXT; path = Resources/DRAWKIT_LICENSING.TXT; sourceTree = "<group>"; };
-		76BAEF2E191D0F7C00C2FF3F /* LICENSE-LGPL3.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "LICENSE-LGPL3.txt"; path = "Resources/LICENSE-LGPL3.txt"; sourceTree = "<group>"; };
+		7633D31E1B7743570093DB40 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = Resources/LICENSE.txt; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DrawKitInfo.plist; sourceTree = "<group>"; };
 		9660E6100BEF442B00B6A38C /* DKDrawKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DKDrawKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96F515FA0B89DBBC0047BA96 /* DKDrawing.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DKDrawing.h; path = Code/DKDrawing.h; sourceTree = "<group>"; };
@@ -643,8 +641,7 @@
 				089C1666FE841158C02AAC07 /* InfoPlist.strings */,
 				8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */,
 				BF2EE49C0F66011D00B8CFFD /* DKUnitTests-Info.plist */,
-				76BAEF2D191D0F7C00C2FF3F /* DRAWKIT_LICENSING.TXT */,
-				76BAEF2E191D0F7C00C2FF3F /* LICENSE-LGPL3.txt */,
+				7633D31E1B7743570093DB40 /* LICENSE.txt */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1409,10 +1406,9 @@
 				96F516D90B89DC050047BA96 /* marker_h_left.tif in Resources */,
 				96F516DA0B89DC050047BA96 /* marker_v_top.tif in Resources */,
 				96F516DB0B89DC050047BA96 /* marker_h_right.tif in Resources */,
+				7633D31F1B7743570093DB40 /* LICENSE.txt in Resources */,
 				96F516DC0B89DC050047BA96 /* marker_v_centre.tif in Resources */,
 				96F516DD0B89DC050047BA96 /* marker_h_centre.tif in Resources */,
-				76BAEF30191D0F7C00C2FF3F /* LICENSE-LGPL3.txt in Resources */,
-				76BAEF2F191D0F7C00C2FF3F /* DRAWKIT_LICENSING.TXT in Resources */,
 				AA89A3970D7DE9DA0092F050 /* Rect.png in Resources */,
 				AA91597C0D9DFECA00905699 /* Logging.xib in Resources */,
 				BF2EE3D20F6557C900B8CFFD /* DK_Auxiliary_Menus.xib in Resources */,

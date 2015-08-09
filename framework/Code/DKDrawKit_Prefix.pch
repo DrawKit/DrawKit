@@ -1,7 +1,7 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
  @date 2005-2015
- @copyright GNU LGPL3; see LICENSE Prefix header for all source files of the 'DrawKit' target in the 'DrawKit' project. */
+ @copyright MPL2; see LICENSE.txt Prefix header for all source files of the 'DrawKit' target in the 'DrawKit' project. */
 
 #ifndef qDebug
 #define NS_BLOCK_ASSERTIONS
