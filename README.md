@@ -1,4 +1,4 @@
-# DrawKit [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit) ![podspec Version](https://cocoapod-badges.herokuapp.com/v/DrawKit/badge.png) ![podspec Platform](https://cocoapod-badges.herokuapp.com/p/DrawKit/badge.png) ![podspec License](https://cocoapod-badges.herokuapp.com/l/DrawKit/badge.png)
+# DrawKit [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit) ![podspec Version](https://cocoapod-badges.herokuapp.com/v/DrawKit/badge.png) ![podspec Platform](https://cocoapod-badges.herokuapp.com/p/DrawKit/badge.png)
 
 DrawKit is an illustration and vector artwork framework for Mac OS X. See http://drawkit.github.io for full documentation and a getting started guide.
 
@@ -69,7 +69,7 @@ As its name suggests, DrawKit is a kit - some assembly is required. However gett
 
 ## License
 
-DrawKit is [MPL2 licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENCE.txt). This licence means **DrawKit can be used within open source and commercial software**, including products distributed on the Mac App Store.
+DrawKit is [MPL2 licensed](https://github.com/DrawKit/DrawKit/blob/master/LICENSE.txt). This licence means **DrawKit can be used within open source and commercial software**, including products distributed on the Mac App Store.
 
 ## History
 
