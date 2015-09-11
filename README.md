@@ -19,13 +19,16 @@ platform :osx, '10.7'
 pod "DrawKit"
 ```
 
-## How We Work Together
+## How We Work Together / Contributing
 
 The DrawKit Community uses the [C4.1 (Collective Code Construction Contract)](http://rfc.zeromq.org/spec:22) process for its core projects: DrawKit and stable releases, as well as surrounding projects.
 
 Please do take the time to read the [C4.1 RFC](http://rfc.zeromq.org/spec:22).
 
-## Submit a Patch
+1. Find an issue or limitation that bugs you / open a new one.
+2. Discuss.
+3. Branch off, commit, and test.
+4. Make a pull request / attach the commits to the issue.
 
 We work with github pull requests. If your patch is accepted you will get credit in the contributors file. You are responsible for tracking your patch and convincing the maintainers to accept it.
 
