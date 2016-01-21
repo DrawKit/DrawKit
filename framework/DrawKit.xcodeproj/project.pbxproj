@@ -1374,7 +1374,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = DK;
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0720;
 				ORGANIZATIONNAME = DrawKit;
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "DrawKit" */;
@@ -1626,6 +1626,7 @@
 				INFOPLIST_FILE = DrawKitInfo.plist;
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				NSZombieEnabled = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.apptree.drawkit;
 				PRODUCT_NAME = DKDrawKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1647,6 +1648,7 @@
 				GCC_PREFIX_HEADER = Code/DKDrawKit_Prefix.pch;
 				INFOPLIST_FILE = DrawKitInfo.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.apptree.drawkit;
 				PRODUCT_NAME = DKDrawKit;
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1655,6 +1657,7 @@
 		1DEB91B208733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_TESTABILITY = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
@@ -1735,6 +1738,7 @@
 					"-framework",
 					SenTestingKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = DKUnitTests;
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1760,6 +1764,7 @@
 					"-framework",
 					SenTestingKit,
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.yourcompany.${PRODUCT_NAME:identifier}";
 				PRODUCT_NAME = DKUnitTests;
 				WRAPPER_EXTENSION = octest;
 				ZERO_LINK = NO;
