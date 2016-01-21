@@ -1,7 +1,7 @@
 /**
  @author Jason Jobe
  @author Contributions from the community; see CONTRIBUTORS.md
- @date 2005-2015
+ @date 2005-2016
  @copyright MPL2; see LICENSE.txt
 */
 

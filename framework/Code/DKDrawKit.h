@@ -1,6 +1,6 @@
 /**
  @author Contributions from the community; see CONTRIBUTORS.md
- @date 2005-2015
+ @date 2005-2016
  @licence MPL2; see LICENSE.txt
  */
 
