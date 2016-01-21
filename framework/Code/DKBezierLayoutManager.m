@@ -109,7 +109,7 @@
 }
 
 - (void)drawUnderlineForGlyphRange:(NSRange)glyphRange
-					 underlineType:(NSUnderlineStyle)underlineVal
+					 underlineType:(NSInteger)underlineVal
 					baselineOffset:(CGFloat)baselineOffset
 				  lineFragmentRect:(NSRect)lineRect
 			lineFragmentGlyphRange:(NSRange)lineGlyphRange
@@ -121,7 +121,7 @@
 }
 
 - (void)drawStrikethroughForGlyphRange:(NSRange)glyphRange
-					 strikethroughType:(NSUnderlineStyle)strikethroughVal
+					 strikethroughType:(NSInteger)strikethroughVal
 						baselineOffset:(CGFloat)baselineOffset
 					  lineFragmentRect:(NSRect)lineRect
 				lineFragmentGlyphRange:(NSRange)lineGlyphRange
