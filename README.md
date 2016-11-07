@@ -1,6 +1,6 @@
 # DrawKit [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit) ![podspec Version](https://cocoapod-badges.herokuapp.com/v/DrawKit/badge.png) ![podspec Platform](https://cocoapod-badges.herokuapp.com/p/DrawKit/badge.png)
 
-DrawKit is an illustration and vector artwork framework for Mac OS X. See http://drawkit.github.io for full documentation and a getting started guide.
+DrawKit is an illustration and vector artwork framework for macOS. See http://drawkit.github.io for full documentation and a getting started guide.
 
 ## DrawKit Demos
 
@@ -10,7 +10,7 @@ For a full demonstration of DrawKit, try the [DrawDemo](https://github.com/DrawK
 
 ## Installation with CocoaPods
 
-[CocoaPods](http://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like [DrawKit](http://drawkit.github.io/) in your projects.
+[CocoaPods](https://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like [DrawKit](https://drawkit.github.io/) in your projects.
 
 ### Podfile
 
@@ -34,7 +34,7 @@ We work with github pull requests. If your patch is accepted you will get credit
 
 # Overview
 
-DrawKit is a software framework that enables the Mac OS X Cocoa developer to rapidly implement vector drawing and illustration features in a custom application. It is comprehensive, powerful and complete, but it is also highly modular so you can make use of only those parts that you need, or go the whole hog and drop it in as a complete vector drawing solution.
+DrawKit is a software framework that enables the macOS Cocoa developer to rapidly implement vector drawing and illustration features in a custom application. It is comprehensive, powerful and complete, but it is also highly modular so you can make use of only those parts that you need, or go the whole hog and drop it in as a complete vector drawing solution.
 
 ![DrawKit sample capabilities](https://raw.githubusercontent.com/DrawKit/DrawKit/master/documentation/drawkit-sample-capabilities.png)
 
@@ -80,4 +80,4 @@ Originally based on, and forked from, [DrawKit 1.0b7 (2010/05/01) source code](h
 
 ## Maintainers
 
- - [Graham Miln](http://github.com/grahammiln) ([@grahammiln](https://twitter.com/grahammiln)) / [miln.eu](http://miln.eu)
+ - [Graham Miln](https://github.com/grahammiln) ([@grahammiln](https://twitter.com/grahammiln)) / [miln.eu](https://miln.eu)
