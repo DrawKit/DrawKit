@@ -8,11 +8,17 @@ DrawKit is an illustration and vector artwork framework for macOS. See http://dr
 
 For a full demonstration of DrawKit, try the [DrawDemo](https://github.com/DrawKit/legacy-DrawKit-demo/releases/download/1.0b7/DrawDemo_app_b7.zip) application. Complete with [source code](https://github.com/DrawKit/legacy-DrawKit-demo) this application highlights what is possible with DrawKit.
 
-## Installation with CocoaPods
+## Package Managers
 
-[CocoaPods](https://cocoapods.org) is a dependency manager for Objective-C, which automates and simplifies the process of using 3rd-party libraries like [DrawKit](https://drawkit.github.io/) in your projects.
+Carthage and CocoaPods are dependency managers. They aim to help automate and simplify the use of 3rd-party libraries like [DrawKit](https://drawkit.github.io/) in your Xcode projects.
 
-### Podfile
+### Carthage
+
+For [Carthage](https://github.com/Carthage/Carthage), append the following to your project's `Cartfile`:
+
+### CocoaPods
+
+For [CocoaPods](https://github.com/CocoaPods/CocoaPods), append the following to your project's `Podfile`:
 
 ```ruby
 platform :osx, '10.7'
