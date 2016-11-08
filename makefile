@@ -1,2 +1,2 @@
 all:
-	cd framework; xcodebuild clean build
+	xcodebuild clean build

@@ -11,8 +11,8 @@
 
 #import "CurveFit.h"
 #import "bezier-utils.h"
-#import "../../Code/NSBezierPath+Geometry.h"
-#import "../../Code/DKGeometryUtilities.h"
+#import "../../Source/NSBezierPath+Geometry.h"
+#import "../../Source/DKGeometryUtilities.h"
 
 
 
