@@ -46,7 +46,7 @@ We work with github pull requests. If your patch is accepted you will get credit
 
 DrawKit is a software framework that enables the macOS Cocoa developer to rapidly implement vector drawing and illustration features in a custom application. It is comprehensive, powerful and complete, but it is also highly modular so you can make use of only those parts that you need, or go the whole hog and drop it in as a complete vector drawing solution.
 
-![DrawKit sample capabilities](https://raw.githubusercontent.com/DrawKit/DrawKit/master/documentation/drawkit-sample-capabilities.png)
+![DrawKit sample capabilities](https://raw.githubusercontent.com/DrawKit/DrawKit/master/Documentation/drawkit-sample-capabilities.png)
 
 Taking its cue from Cocoa's powerful text handling model, DrawKit provides a general purpose and complete drawing model that can be deployed with very little (or in the most general case, no) code at all. The defaults for most classes and created objects have been selected to give a working system out of the box with minimal set up. As you might expect, the more your requirements deviate from the defaults, the more customising you will need to do, but DrawKit has been designed to make this as straightforward as possible without compromising on the graphical power available. Many classes can be operated in a variety of modes for the most obvious of customisations, and can of course be subclassed when necessary to provide more divergent behaviour.
 
