@@ -1,4 +1,4 @@
-# DrawKit [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit) ![podspec Version](https://cocoapod-badges.herokuapp.com/v/DrawKit/badge.png) ![podspec Platform](https://cocoapod-badges.herokuapp.com/p/DrawKit/badge.png)
+# DrawKit [![Build Status](https://travis-ci.org/DrawKit/DrawKit.png?branch=master)](https://travis-ci.org/DrawKit/DrawKit) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) ![podspec Version](https://cocoapod-badges.herokuapp.com/v/DrawKit/badge.png) ![podspec Platform](https://cocoapod-badges.herokuapp.com/p/DrawKit/badge.png)
 
 DrawKit is an illustration and vector artwork framework for macOS. See http://drawkit.github.io for full documentation and a getting started guide.
 
