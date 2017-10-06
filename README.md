@@ -2,11 +2,22 @@
 
 DrawKit is an illustration and vector artwork framework for macOS. See http://drawkit.github.io for full documentation and a getting started guide.
 
+## Quick Start
+
+Using Terminal.app on macOS, clone the DrawKit project and open the [first example](https://github.com/DrawKit/DrawKit/tree/master/Examples) in Xcode:
+
+```
+git clone https://github.com/DrawKit/DrawKit DrawKit
+open DrawKit/Examples/0-no-code/drawkit-no-code.xcodeproj
+```
+
+> Try pasting in text or dragging an image onto the canvas of the no code example application.
+
 ## DrawKit Demos
 
-[DKMiniDemo](https://github.com/DrawKit/legacy-DrawKit-mini-demo/releases/download/v1.5/DKMiniDemo-1.5.zip) and [source code](https://github.com/DrawKit/legacy-DrawKit-mini-demo)  are great for learning about DrawKit.
-
 For a full demonstration of DrawKit, try the [DrawDemo](https://github.com/DrawKit/legacy-DrawKit-demo/releases/download/1.0b7/DrawDemo_app_b7.zip) application. Complete with [source code](https://github.com/DrawKit/legacy-DrawKit-demo) this application highlights what is possible with DrawKit.
+
+[DKMiniDemo](https://github.com/DrawKit/legacy-DrawKit-mini-demo/releases/download/v1.5/DKMiniDemo-1.5.zip) and [source code](https://github.com/DrawKit/legacy-DrawKit-mini-demo)  are great for learning about DrawKit.
 
 ## Package Managers
 
@@ -31,16 +42,9 @@ pod "DrawKit"
 
 ## How We Work Together / Contributing
 
-The DrawKit Community uses the [C4.1 (Collective Code Construction Contract)](http://rfc.zeromq.org/spec:22) process for its core projects: DrawKit and stable releases, as well as surrounding projects.
+DrawKit needs your help! There are numerous warnings to address and minor updates needed. Pick something easy and make a difference. Please help maintain and support this incredible framework.
 
-Please do take the time to read the [C4.1 RFC](http://rfc.zeromq.org/spec:22).
-
-1. Find an issue or limitation that bugs you / open a new one.
-2. Discuss.
-3. Branch off, commit, and test.
-4. Make a pull request / attach the commits to the issue.
-
-We work with github pull requests. If your patch is accepted you will get credit in the contributors file. You are responsible for tracking your patch and convincing the maintainers to accept it.
+**We welcome GitHub pull requests.** If your patch is accepted you will get credit in the contributors file.
 
 # Overview
 
@@ -90,4 +94,6 @@ Originally based on, and forked from, [DrawKit 1.0b7 (2010/05/01) source code](h
 
 ## Maintainers
 
- - [Graham Miln](https://github.com/grahammiln) ([@grahammiln](https://twitter.com/grahammiln)) / [miln.eu](https://miln.eu)
+See [CONTRIBUTORS](https://github.com/DrawKit/DrawKit/blob/master/CONTRIBUTORS.md) for a list of code level contributors.
+
+ - [Graham Miln](https://theworklife.com) ([@grahammiln](https://twitter.com/grahammiln)) / [miln.eu](https://miln.eu)
