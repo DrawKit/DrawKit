@@ -158,6 +158,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
  */
 - (CGFloat)viewScale;
 
+@property (readonly) CGFloat viewScale;
+
 // handling mouse input events from the view
 
 /** @brief Handle the mouse down event
@@ -231,6 +233,9 @@ completed except for page breaks. Tool controllers for example can draw selectio
  @return YES if standard contextual menus are enabled, NO if not
  */
 - (BOOL)contextualMenusEnabled;
+
+@property BOOL contextualMenusEnabled;
+
 - (NSMenu*)menuForEvent:(NSEvent*)event;
 
 // autoscrolling:
@@ -275,6 +280,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
  @return YES to auto-activate a layer, NO to leave it to someone else
  */
 - (BOOL)activatesLayersAutomatically;
+
+@property (nonatomic) BOOL activatesLayersAutomatically;
 
 /** @brief Which layer did the point hit?
 
@@ -371,6 +378,9 @@ completed except for page breaks. Tool controllers for example can draw selectio
  @param aView the view 
  */
 - (void)setView:(NSView*)aView;
+
+@property (nonatomic, assign) DKDrawing *drawing;
+@property (nonatomic, assign) NSView *view;
 
 @end
 

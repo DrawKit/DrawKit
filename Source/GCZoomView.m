@@ -334,59 +334,10 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 	}
 }
 
-/** @brief Returns the current view scale (zoom)
- @return the current scale
- */
-- (CGFloat)scale
-{
-	return m_scale;
-}
-
-/** @brief Returns whether the scale is being changed
-
- This property can be used to detect whether the user is rapidly changing the scale, for example using
- the scrollwheel. When a scrollwheel change starts, this is set to YES and a timer is run which is
- retriggered by further events. If it times out, this resets to NO. It can be used as one part of a
- drawing strategy where rapid changes temporarily use a lower quality drawing mechanism for performance,
- but reverts to a higher quality when things settle.
- @return YES if the scale is changing, NO if not
- */
-- (BOOL)isChangingScale
-{
-	return mIsChangingScale;
-}
-
-/** @brief Sets the minimum permitted view scale (zoom)
- @param scmin the minimum scale
- */
-- (void)setMinimumScale:(CGFloat)scmin
-{
-	mMinScale = scmin;
-}
-
-/** @brief Returns the minimum permitted view scale (zoom)
- @return the minimum scale
- */
-- (CGFloat)minimumScale
-{
-	return mMinScale;
-}
-
-/** @brief Sets the maximum permitted view scale (zoom)
- @param scmax the maximum scale
- */
-- (void)setMaximumScale:(CGFloat)scmax
-{
-	mMaxScale = scmax;
-}
-
-/** @brief Returns the maximum permitted view scale (zoom)
- @return the maximum scale
- */
-- (CGFloat)maximumScale
-{
-	return mMaxScale;
-}
+@synthesize scale=m_scale;
+@synthesize changingScale=mIsChangingScale;
+@synthesize minimumScale=mMinScale;
+@synthesize maximumScale=mMaxScale;
 
 #pragma mark -
 

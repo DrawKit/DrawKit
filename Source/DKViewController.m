@@ -40,21 +40,8 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - fundamental objects in the controller's world
 
-/** @brief Return the controller's view
- @return the controller's view
- */
-- (NSView*)view
-{
-	return mViewRef;
-}
-
-/** @brief Return the controller's drawing
- @return the controller's drawing
- */
-- (DKDrawing*)drawing
-{
-	return mDrawingRef;
-}
+@synthesize view=mViewRef;
+@synthesize drawing=mDrawingRef;
 
 #pragma mark -
 #pragma mark - updating the view from the drawing(refresh)
@@ -385,27 +372,7 @@ static NSTimer* s_autoscrollTimer = nil;
 
 #pragma mark -
 #pragma mark - contextual menu support
-
-/** @brief Set whether the standard contextual menus within DK are enabled or not
-
- The default is to enable the menus - some apps may wish to turn off the standard menus altogether
- rather than overriding each point where they are set up.
- @param enable YES to enable the menus, NO to disable them
- */
-- (void)setContextualMenusEnabled:(BOOL)enable
-{
-	mEnableDKMenus = enable;
-}
-
-/** @brief Are the standard contextual menus within DK are enabled or not?
-
- The default is to enable the menus
- @return YES if standard contextual menus are enabled, NO if not
- */
-- (BOOL)contextualMenusEnabled
-{
-	return mEnableDKMenus;
-}
+@synthesize contextualMenusEnabled=mEnableDKMenus;
 
 /** @brief Build a menu for a right-click event
 
@@ -502,25 +469,7 @@ static NSTimer* s_autoscrollTimer = nil;
 	return [[self drawing] activeLayerOfClass:aClass];
 }
 
-/** @brief Should a mouse down activate the layer it hits automatically?
-
- The default is YES	
- @param acts YES to auto-activate a layer, NO to leave it to someone else
- */
-- (void)setActivatesLayersAutomatically:(BOOL)acts
-{
-	m_autoLayerSelect = acts;
-}
-
-/** @brief Should a mouse down activate the layer it hits automatically?
-
- The default is YES	
- @return YES to auto-activate a layer, NO to leave it to someone else
- */
-- (BOOL)activatesLayersAutomatically
-{
-	return m_autoLayerSelect;
-}
+@synthesize activatesLayersAutomatically=m_autoLayerSelect;
 
 /** @brief Which layer did the point hit?
 

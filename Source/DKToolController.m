@@ -300,15 +300,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	}
 }
 
-/** @brief Whether the tool should automatically "spring back" to the selection tool after each application
-
- The default is YES
- @return YES to spring back, NO to leave the present tool active after each use
- */
-- (BOOL)automaticallyRevertsToSelectionTool
-{
-	return mAutoRevert;
-}
+@synthesize automaticallyRevertsToSelectionTool=mAutoRevert;
 
 /** @brief Draw any tool graphic content into the view
  @param rect the update rect in the view

@@ -43,6 +43,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  */
 + (BOOL)scrollwheelZoomEnabled;
 
+@property (class) BOOL scrollwheelZoomEnabled;
+
 /** @brief Set the modifier key(s) that will activate zooming using the scrollwheel
 
  Operating the given modifier keys along with the scroll wheel will zoom the view
@@ -56,6 +58,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  @return a modifier key mask value
  */
 + (NSEventModifierFlags)scrollwheelModifierKeyMask;
+
+@property (class) NSEventModifierFlags scrollwheelModifierKeyMask;
 
 /** @brief Set whether view zooms in or out for a given scrollwheel rotation direction
 
@@ -71,6 +75,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  @return whether scroll wheel inverted
  */
 + (BOOL)scrollwheelInverted;
+
+@property (class) BOOL scrollwheelInverted;
 
 /** @brief Zoom in (scale up) by a factor of 2
  @param sender - the sender of the action
@@ -152,6 +158,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  */
 - (CGFloat)scale;
 
+@property (nonatomic) CGFloat scale;
+
 /** @brief Returns whether the scale is being changed
 
  This property can be used to detect whether the user is rapidly changing the scale, for example using
@@ -163,6 +171,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  */
 - (BOOL)isChangingScale;
 
+@property (readonly, getter=isChangingScale) BOOL changingScale;
+
 /** @brief Sets the minimum permitted view scale (zoom)
  @param scmin the minimum scale
  */
@@ -173,6 +183,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  */
 - (CGFloat)minimumScale;
 
+@property CGFloat minimumScale;
+
 /** @brief Sets the maximum permitted view scale (zoom)
  @param scmax the maximum scale
  */
@@ -182,6 +194,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  @return the maximum scale
  */
 - (CGFloat)maximumScale;
+
+@property CGFloat maximumScale;
 
 @end
 

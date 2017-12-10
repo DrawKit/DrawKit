@@ -80,6 +80,8 @@ tool's name and target first responder with this action.
  */
 + (DKDrawingToolScope)drawingToolOperatingScope;
 
+@property (class) DKDrawingToolScope drawingToolOperatingScope;
+
 /** @brief Set whether setting a tool will auto-activate a layer appropriate to the tool
 
  Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
@@ -97,6 +99,8 @@ tool's name and target first responder with this action.
  @return YES if tools auto-activate appropriate layer, NO if not
  */
 + (BOOL)toolsAutoActivateValidLayer;
+
+@property (class) BOOL toolsAutoActivateValidLayer;
 
 /** @brief Sets the current drawing tool
 
@@ -119,6 +123,8 @@ tool's name and target first responder with this action.
  @return the current tool
  */
 - (DKDrawingTool*)drawingTool;
+
+@property (nonatomic, retain) DKDrawingTool *drawingTool;
 
 /** @brief Check if the tool can be set for the current active layer
 
@@ -144,6 +150,8 @@ tool's name and target first responder with this action.
  @return YES to spring back, NO to leave the present tool active after each use
  */
 - (BOOL)automaticallyRevertsToSelectionTool;
+
+@property (nonatomic) BOOL automaticallyRevertsToSelectionTool;
 
 /** @brief Select the tool using its registered name based on the title of a UI control, etc.
 
