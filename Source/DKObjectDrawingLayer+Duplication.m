@@ -142,7 +142,7 @@
 	// to fit this many exactly will require a small increase in radius
 
 	incAngle = (2 * M_PI) / (CGFloat)number;
-	radius = r / tanf(incAngle * 0.5f);
+	radius = r / tan(incAngle * 0.5);
 
 	// set the duplication master at this radius from centre
 
