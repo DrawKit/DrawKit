@@ -5,6 +5,7 @@
 */
 
 #import "DKDrawableShape.h"
+#import "DKDrawableShape+Hotspots.h"
 
 //! option constants for crop or scale image
 typedef NS_OPTIONS(NSInteger, DKImageCroppingOptions) {
@@ -32,7 +33,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  facilitated by a central DKImageDataManager object, which is managed by the drawing. Note that using certian operations, such as creating
  the shape with an NSImage will bypass this benefit.
 */
-@interface DKImageShape : DKDrawableShape <NSCoding, NSCopying> {
+@interface DKImageShape : DKDrawableShape <NSCoding, NSCopying, DKHotspotDelegate> {
 @private
 	NSString* mImageKey; // key in the image manager holding original data for this image
 	NSImage* m_image; // the image the shape displays

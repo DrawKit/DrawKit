@@ -5,6 +5,7 @@
 */
 
 #import "DKViewController.h"
+#import "DKDrawingToolProtocol.h"
 
 @class DKDrawingTool, DKUndoManager;
 
@@ -51,7 +52,7 @@ tool and set it. As a convenience, the -selectDrawingToolByName: action method w
 set the tool if one exists in the registry with this name - thus a palette of buttons for example can just set each button title to the
 tool's name and target first responder with this action.
 */
-@interface DKToolController : DKViewController {
+@interface DKToolController : DKViewController <DKToolDelegate> {
 @private
 	DKDrawingTool* mTool; // the current tool if stored locally
 	BOOL mAutoRevert; // YES to "spring" tool back to selection after each one completes

@@ -176,7 +176,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 // managing rulers and margins
 
-@property NSUInteger rulerSteps;
+@property (nonatomic) NSUInteger rulerSteps;
 
 /** @brief Sets the ruler step-up cycle
  

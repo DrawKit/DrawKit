@@ -9,6 +9,7 @@
 @class DKDrawableObject, DKLayer;
 @protocol DKToolDelegate;
 
+NS_SWIFT_NAME(DKDrawingToolProtocol)
 @protocol DKDrawingTool <NSObject>
 
 - (NSString*)actionName;

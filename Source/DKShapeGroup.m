@@ -552,7 +552,7 @@
 
  Distortion operations cannot be applied to a group
  @param mode ignored */
-- (void)setOperationMode:(NSInteger)mode
+- (void)setOperationMode:(DKShapeTransformOperation)mode
 {
 #pragma unused(mode)
 }
