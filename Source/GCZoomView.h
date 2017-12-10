@@ -50,7 +50,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  Operating the given modifier keys along with the scroll wheel will zoom the view
  @param aMask a modifier key mask value
  */
-+ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask;
++ (void)setScrollwheelModifierKeyMask:(NSEventModifierFlags)aMask;
++ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask DEPRECATED_ATTRIBUTE;
 
 /** @brief Return the default zoom key mask used by new instances of this class
 

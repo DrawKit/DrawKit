@@ -53,10 +53,15 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
  Operating the given modifier keys along with the scroll wheel will zoom the view
  @param aMask a modifier key mask value
  */
-+ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask
++ (void)setScrollwheelModifierKeyMask:(NSEventModifierFlags)aMask
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:aMask
 											   forKey:kDKScrollwheelModifierKeyMaskPreferenceKey];
+}
+
++ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask
+{
+	self.scrollwheelModifierKeyMask = aMask;
 }
 
 /** @brief Return the default zoom key mask used by new instances of this class

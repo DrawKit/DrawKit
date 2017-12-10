@@ -18,11 +18,21 @@ extension DKLayerGroup {
 		return __flattenedLayers(of: layerClass, includeGroups: includeGroups) as! [A]
 	}
 	
-	public func firstLayer<A: DKLayer>(of cl: A.Type, performDeepSearch: Bool) -> A? {
+	/// Returns the uppermost layer matching class, if any.
+	///
+	/// - parameter cl: The class of layer to seek.
+	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched
+	/// - returns: The uppermost layer of the given class, or `nil`.
+	public func firstLayer<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool) -> A? {
 		return __firstLayer(of: cl, performDeepSearch: performDeepSearch) as? A
 	}
 	
-	public func layers<A: DKLayer>(of cl: A.Type, performDeepSearch: Bool) -> [A]? {
-		return __layers(of: cl, performDeepSearch: performDeepSearch) as? [A]
+	/// Returns a list of layers of the given class.
+	///
+	/// - parameter cl: The class of layer to seek.
+	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched
+	/// - returns: A list of layers. May be empty.
+	public func layers<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool) -> [A]? {
+		return __layers(of: cl, performDeepSearch: deep) as? [A]
 	}	
 }
