@@ -93,8 +93,8 @@ static const CGFloat sin60 = 0.8660254038;
 	NSBezierPath* linkPath = [self bezierPathWithStandardChainLink];
 	NSAffineTransform* tfm = [NSAffineTransform transform];
 
-	CGFloat slope = atan2f(b.y - a.y, b.x - a.x);
-	CGFloat length = hypotf(b.x - a.x, b.y - a.y);
+	CGFloat slope = atan2(b.y - a.y, b.x - a.x);
+	CGFloat length = hypot(b.x - a.x, b.y - a.y);
 
 	[tfm translateXBy:a.x
 				  yBy:a.y];
@@ -112,8 +112,8 @@ static const CGFloat sin60 = 0.8660254038;
 	// returns a path representing a roller chain sprocket having the pitch and number of teeeth specified. The sprocket is centred at the
 	// origin and is sized as needed to accommodate the number of teeth required.
 
-	CGFloat toothAngle = pi / teeth;
-	CGFloat radius = pitch / (2 * sinf(toothAngle));
+	CGFloat toothAngle = M_PI / teeth;
+	CGFloat radius = pitch / (2 * sin(toothAngle));
 	CGFloat rollerRadius = pitch / 3.6f;
 	CGFloat toothRadius = pitch - rollerRadius;
 
@@ -122,14 +122,14 @@ static const CGFloat sin60 = 0.8660254038;
 	NSPoint rp1, rp2;
 	NSBezierPath* tooth = [NSBezierPath bezierPath];
 
-	rp1.x = radius * cosf(toothAngle);
-	rp1.y = radius * sinf(toothAngle);
-	rp2.x = radius * cosf(-toothAngle);
-	rp2.y = radius * sinf(-toothAngle);
+	rp1.x = radius * cos(toothAngle);
+	rp1.y = radius * sin(toothAngle);
+	rp2.x = radius * cos(-toothAngle);
+	rp2.y = radius * sin(-toothAngle);
 
 	// tooth root follows roller radius
 
-	CGFloat taDegrees = (toothAngle * 180.0) / pi;
+	CGFloat taDegrees = (toothAngle * 180.0) / M_PI;
 
 	[tooth appendBezierPathWithArcWithCenter:rp1
 									  radius:rollerRadius
@@ -140,7 +140,7 @@ static const CGFloat sin60 = 0.8660254038;
 	// flank of tooth follows the larger radius until it reaches the halfway point. The x3 here stops it slightly short so that
 	// the top edge of the tooth is flattened off a little
 
-	CGFloat endAngle = (cosf(pitch / (3 * toothRadius)) * 180.0) / pi;
+	CGFloat endAngle = (cos(pitch / (3 * toothRadius)) * 180.0) / M_PI;
 
 	[tooth appendBezierPathWithArcWithCenter:rp2
 									  radius:toothRadius
@@ -186,7 +186,7 @@ static const CGFloat sin60 = 0.8660254038;
 
 #pragma mark -
 #pragma mark - nuts and bolts
-+ (NSBezierPath*)bezierPathWithThreadedBarOfLength:(CGFloat)length diameter:(CGFloat)dia threadPitch:(CGFloat)pitch options:(NSUInteger)options
++ (NSBezierPath*)bezierPathWithThreadedBarOfLength:(CGFloat)length diameter:(CGFloat)dia threadPitch:(CGFloat)pitch options:(DKShapeOptions)options
 {
 	// path consists of zig-zags along the top and bottom edges with a 60° angle, optionally capped and with joining lines.
 
@@ -275,7 +275,7 @@ static const CGFloat sin60 = 0.8660254038;
 	return path;
 }
 
-+ (NSBezierPath*)bezierPathWithHexagonHeadSideViewOfHeight:(CGFloat)height diameter:(CGFloat)dia options:(NSUInteger)options
++ (NSBezierPath*)bezierPathWithHexagonHeadSideViewOfHeight:(CGFloat)height diameter:(CGFloat)dia options:(DKShapeOptions)options
 {
 	// produces the side-on view of a hex head or nut. The diameter is the across-flats dimension: the diameter of the circle inscribed
 	// within the hexagon. The resulting path shows the head oriented with its peaks set north-south so the height returned is larger than
@@ -318,7 +318,7 @@ static const CGFloat sin60 = 0.8660254038;
 							   headDiameter:(CGFloat)hdia
 								 headHeight:(CGFloat)hheight
 								shankLength:(CGFloat)shank
-									options:(NSUInteger)options
+									options:(DKShapeOptions)options
 {
 #pragma unused(options)
 

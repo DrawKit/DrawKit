@@ -192,13 +192,13 @@ CGFloat PointFromLine(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 {
 	NSPoint cp = NearestPointOnLine(inPoint, a, b);
 
-	return hypotf((inPoint.x - cp.x), (inPoint.y - cp.y));
+	return hypot((inPoint.x - cp.x), (inPoint.y - cp.y));
 }
 
 /**  */
 NSPoint NearestPointOnLine(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 {
-	CGFloat mag = hypotf((b.x - a.x), (b.y - a.y));
+	CGFloat mag = hypot((b.x - a.x), (b.y - a.y));
 
 	if (mag > 0.0) {
 		CGFloat u = (((inPoint.x - a.x) * (b.x - a.x)) + ((inPoint.y - a.y) * (b.y - a.y))) / (mag * mag);
@@ -224,7 +224,7 @@ NSInteger PointInLineSegment(const NSPoint inPoint, const NSPoint a, const NSPoi
 	// returns 0 if <inPoint> falls within the region defined by the line segment a-b, -1 if it's beyond the point a, 1 if beyond b. The "region" is an
 	// infinite plane defined by all possible lines parallel to a-b.
 
-	CGFloat mag = hypotf((b.x - a.x), (b.y - a.y));
+	CGFloat mag = hypot((b.x - a.x), (b.y - a.y));
 
 	if (mag > 0.0) {
 		CGFloat u = (((inPoint.x - a.x) * (b.x - a.x)) + ((inPoint.y - a.y) * (b.y - a.y))) / (mag * mag);
@@ -271,7 +271,7 @@ NSPoint Interpolate(const NSPoint a, const NSPoint b, const CGFloat proportion)
 
 CGFloat LineLength(const NSPoint a, const NSPoint b)
 {
-	return hypotf(b.x - a.x, b.y - a.y);
+	return hypot(b.x - a.x, b.y - a.y);
 }
 
 #pragma mark -
@@ -318,8 +318,8 @@ NSPoint EndPoint(NSPoint origin, CGFloat angle, CGFloat length)
 
 	NSPoint ep;
 
-	ep.x = origin.x + (cosf(angle) * length);
-	ep.y = origin.y + (sinf(angle) * length);
+	ep.x = origin.x + (cos(angle) * length);
+	ep.y = origin.y + (sin(angle) * length);
 	return ep;
 }
 
@@ -327,7 +327,7 @@ CGFloat Slope(const NSPoint a, const NSPoint b)
 {
 	// returns the slope of a line given its end points, in radians
 
-	return atan2f(b.y - a.y, b.x - a.x);
+	return atan2(b.y - a.y, b.x - a.x);
 }
 
 CGFloat AngleBetween(const NSPoint a, const NSPoint b, const NSPoint c)

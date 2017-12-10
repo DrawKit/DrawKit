@@ -483,7 +483,7 @@ static NSColor* sInfoWindowColour = nil;
 
 	for (j = 0; j < 2; ++j) {
 		for (k = 0; k < 2; ++k) {
-			dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+			dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 			if (dist <= tol) {
 				// found points close enough to join. One path may need reversing to accomplish it.
@@ -499,7 +499,7 @@ static NSColor* sInfoWindowColour = nil;
 				k = (k == 0) ? 1 : 0;
 				j = (j == 0) ? 1 : 0;
 
-				dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+				dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 				if (dist <= tol)
 					result = kDKPathBothEndsJoined;
@@ -546,7 +546,7 @@ static NSColor* sInfoWindowColour = nil;
 
 	for (j = 0; j < 2; ++j) {
 		for (k = 0; k < 2; ++k) {
-			dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+			dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 			if (dist <= tol) {
 				// found points close enough to join. One path may need reversing to accomplish it.
@@ -603,7 +603,7 @@ static NSColor* sInfoWindowColour = nil;
 				k = (k == 0) ? 1 : 0;
 				j = (j == 0) ? 1 : 0;
 
-				dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+				dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 				if (dist <= tol) {
 					[newPath closePath];
@@ -968,17 +968,17 @@ finish:
 		if (constrain) {
 			// slope of line is forced to be on 15 degree intervals
 
-			CGFloat angle = atan2f(p.y - ip.y, p.x - ip.x);
+			CGFloat angle = atan2(p.y - ip.y, p.x - ip.x);
 			CGFloat rem = fmod(angle, angleConstraint);
-			CGFloat radius = hypotf(p.x - ip.x, p.y - ip.y);
+			CGFloat radius = hypot(p.x - ip.x, p.y - ip.y);
 
 			if (rem > angleConstraint / 2.0)
 				angle += (angleConstraint - rem);
 			else
 				angle -= rem;
 
-			p.x = ip.x + (radius * cosf(angle));
-			p.y = ip.y + (radius * sinf(angle));
+			p.x = ip.x + (radius * cos(angle));
+			p.y = ip.y + (radius * sin(angle));
 		}
 
 		switch ([theEvent type]) {
@@ -1129,17 +1129,17 @@ finish:
 		if (constrain) {
 			// slope of line is forced to be on 15 degree intervals
 
-			CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
+			CGFloat angle = atan2(p.y - lp.y, p.x - lp.x);
 			CGFloat rem = fmod(angle, sAngleConstraint);
-			CGFloat radius = hypotf(p.x - lp.x, p.y - lp.y);
+			CGFloat radius = hypot(p.x - lp.x, p.y - lp.y);
 
 			if (rem > sAngleConstraint / 2.0)
 				angle += (sAngleConstraint - rem);
 			else
 				angle -= rem;
 
-			p.x = lp.x + (radius * cosf(angle));
-			p.y = lp.y + (radius * sinf(angle));
+			p.x = lp.x + (radius * cos(angle));
+			p.y = lp.y + (radius * sin(angle));
 		}
 
 		switch ([theEvent type]) {
@@ -1333,17 +1333,17 @@ finish:
 		if (constrain) {
 			// slope of line is forced to be on 15¬¨¬®‚Äö√†√ª intervals
 
-			CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
+			CGFloat angle = atan2(p.y - lp.y, p.x - lp.x);
 			CGFloat rem = fmod(angle, sAngleConstraint);
-			CGFloat rad = hypotf(p.x - lp.x, p.y - lp.y);
+			CGFloat rad = hypot(p.x - lp.x, p.y - lp.y);
 
 			if (rem > sAngleConstraint / 2.0)
 				angle += (sAngleConstraint - rem);
 			else
 				angle -= rem;
 
-			p.x = lp.x + (rad * cosf(angle));
-			p.y = lp.y + (rad * sinf(angle));
+			p.x = lp.x + (rad * cos(angle));
+			p.y = lp.y + (rad * sin(angle));
 		}
 
 		switch ([theEvent type]) {
@@ -1352,8 +1352,8 @@ finish:
 				// set radius as the distance from this click to the centre, and the
 				// start angle based on the slope of this line
 
-				radius = hypotf(p.x - centre.x, p.y - centre.y);
-				startAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
+				radius = hypot(p.x - centre.x, p.y - centre.y);
+				startAngle = (atan2(p.y - centre.y, p.x - centre.x) * 180.0) / M_PI;
 				++phase; // now setting the arc
 			} else
 				loop = NO;
@@ -1365,7 +1365,7 @@ finish:
 			if (phase == 0) {
 				[path setControlPoint:p
 						  forPartcode:partcode];
-				radius = hypotf(p.x - centre.x, p.y - centre.y);
+				radius = hypot(p.x - centre.x, p.y - centre.y);
 
 				if ([[self class] displaysSizeInfoWhenDragging]) {
 					CGFloat rad = [[self drawing] convertLength:radius];
@@ -1376,7 +1376,7 @@ finish:
 												   atPoint:nsp];
 				}
 			} else if (phase == 1) {
-				endAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
+				endAngle = (atan2(p.y - centre.y, p.x - centre.x) * 180.0) / M_PI;
 
 				[self setStyle:savedStyle];
 				[path removeAllPoints];

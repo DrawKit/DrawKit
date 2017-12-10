@@ -649,7 +649,7 @@ indicate likely handling of drag and drop operations by a layer instance.
 
 @end
 
-extern NSString* kDKLayerLockStateDidChange;
-extern NSString* kDKLayerVisibleStateDidChange;
-extern NSString* kDKLayerNameDidChange;
-extern NSString* kDKLayerSelectionHighlightColourDidChange;
+extern NSNotificationName kDKLayerLockStateDidChange;
+extern NSNotificationName kDKLayerVisibleStateDidChange;
+extern NSNotificationName kDKLayerNameDidChange;
+extern NSNotificationName kDKLayerSelectionHighlightColourDidChange;

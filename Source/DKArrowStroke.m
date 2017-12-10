@@ -320,8 +320,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 		// this arrowhead is curved to match the actual curvature of the path at the place where the arrow heads will go
 		// angle in degrees is half the atan(y/x)
 
-		CGFloat degrees = (atan2f([self arrowHeadWidth], [self arrowHeadLength]) * 90.0) / pi;
-		CGFloat hyp = hypotf([self arrowHeadWidth], [self arrowHeadLength]);
+		CGFloat degrees = (atan2([self arrowHeadWidth], [self arrowHeadLength]) * 90.0) / M_PI;
+		CGFloat hyp = hypot([self arrowHeadWidth], [self arrowHeadLength]);
 
 		NSBezierPath* headPath;
 
@@ -415,7 +415,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 				// flipped heads point the other way
 
 				if (flip)
-					slope += pi;
+					slope += M_PI;
 
 				NSAffineTransform* scl = [NSAffineTransform transform];
 

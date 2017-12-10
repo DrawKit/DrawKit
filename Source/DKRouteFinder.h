@@ -6,18 +6,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum {
+@protocol DKRouteFinderProgressDelegate;
+
+typedef NS_ENUM(NSInteger, DKRouteAlgorithmType) {
 	kDKUseSimulatedAnnealing = 1,
 	kDKUseNearestNeighbour = 2
-} DKRouteAlgorithmType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKDirection) {
 	kDirectionEast = 0,
 	kDirectionSouth = 1,
 	kDirectionWest = 2,
 	kDirectionNorth = 3,
 	kDirectionAny = -1
-} DKDirection;
+};
 
 /** @brief This object implements an heuristic solution to the travelling salesman problem.
 
@@ -40,7 +42,7 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 	DKRouteAlgorithmType mAlgorithm; // which algorithm to use
 	NSInteger* mOrder; // final sort order (1-based)
 	BOOL mCalculationDone; // flag whether the sort was run
-	id mProgressDelegate; // a progress delegate, if any
+	id<DKRouteFinderProgressDelegate> mProgressDelegate; // a progress delegate, if any
 	// for SA
 	CGFloat* mX; // for SA, list of input x coordinates
 	CGFloat* mY; // for SA, list of input y coordinates
@@ -62,16 +64,15 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 - (CGFloat)pathLength;
 - (DKRouteAlgorithmType)algorithm;
 
-- (void)setProgressDelegate:(id)aDelegate;
+- (void)setProgressDelegate:(id<DKRouteFinderProgressDelegate>)aDelegate;
 
 @end
 
 #define kDKDefaultAnnealingSteps 100
 
-// informal protocol that an object can implement to be called back as the route finding progresses.
-// <value> is in the range 0..1
-
-@interface NSObject (DKRouteFinderProgressDelegate)
+/// informal protocol that an object can implement to be called back as the route finding progresses.
+/// <value> is in the range 0..1
+@protocol DKRouteFinderProgressDelegate <NSObject>
 
 - (void)routeFinder:(DKRouteFinder*)rf progressHasReached:(CGFloat)value;
 

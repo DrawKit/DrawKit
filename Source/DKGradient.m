@@ -372,15 +372,15 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	ep.x = NSMidX(pb);
 	ep.y = NSMidY(pb);
 
-	//radius = hypotf( pb.size.width, pb.size.height ) / 3.0;
+	//radius = hypot( pb.size.width, pb.size.height ) / 3.0;
 	r1 = pb.size.width / 2.0;
 	r2 = pb.size.height / 2.0;
 
 	if ([self gradientType] == kDKGradientTypeLinear) {
-		sp.x = ep.x - r1 * cosf([self angle]);
-		sp.y = ep.y - r2 * sinf([self angle]);
-		ep.x = ep.x + r1 * cosf([self angle]);
-		ep.y = ep.y + r2 * sinf([self angle]);
+		sp.x = ep.x - r1 * cos([self angle]);
+		sp.y = ep.y - r2 * sin([self angle]);
+		ep.x = ep.x + r1 * cos([self angle]);
+		ep.y = ep.y + r2 * sin([self angle]);
 	} else if ([self gradientType] == kDKGradientTypeRadial && m_extensionData != nil) {
 		// can try to get these points from extensions data
 
@@ -394,7 +394,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 		sp.x = ep.x + co.x;
 		sp.y = ep.y + co.y;
 		sr = 0.0;
-		er = hypotf(pb.size.width, pb.size.height) / 3.0;
+		er = hypot(pb.size.width, pb.size.height) / 3.0;
 	}
 
 	[self fillPath:path
@@ -754,7 +754,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
-	[self setAngle:(degrees * pi) / 180.0f];
+	[self setAngle:(degrees * M_PI) / 180.0f];
 }
 
 /** @brief Returns the gradient's current angle in degrees
@@ -762,7 +762,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (CGFloat)angleInDegrees
 {
-	return fmod(([self angle] * 180.0f) / pi, 360.0);
+	return fmod(([self angle] * 180.0f) / M_PI, 360.0);
 }
 
 - (void)setAngleWithoutNotifying:(CGFloat)ang
@@ -1362,9 +1362,9 @@ static inline double powerMap(double x, double y)
 static inline double sineMap(double x, double y)
 {
 	if (y < 0)
-		return sin(x * pi / 2.0 + 3.0 * pi / 2.0) + 1.0;
+		return sin(x * M_PI / 2.0 + 3.0 * M_PI / 2.0) + 1.0;
 	else
-		return sin(x * pi / 2.0);
+		return sin(x * M_PI / 2.0);
 }
 
 static inline void transformHSV_RGB(CGFloat* components) //H,S,B -> R,G,B

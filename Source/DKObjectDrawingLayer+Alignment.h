@@ -18,7 +18,10 @@ enum {
 	kDKAlignmentVerticalDistribution = 6,
 	kDKAlignmentHorizontalDistribution = 7,
 	kDKAlignmentVSpaceDistribution = 8,
-	kDKAlignmentHSpaceDistribution = 9,
+	kDKAlignmentHSpaceDistribution = 9
+};
+
+typedef NS_OPTIONS(NSUInteger, DKAlignmentAlign) {
 	kDKAlignmentAlignLeftEdge = (1 << kDKAlignmentLeftEdge),
 	kDKAlignmentAlignTopEdge = (1 << kDKAlignmentTopEdge),
 	kDKAlignmentAlignRightEdge = (1 << kDKAlignmentRightEdge),
@@ -65,21 +68,21 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param objects the objects to align
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects withAlignment:(NSInteger)align;
+- (void)alignObjects:(NSArray*)objects withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Aligns a set ofobjects
  @param objects the objects to align
  @param object the "master" object - the one to which the others are aligned
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects toMasterObject:(id)object withAlignment:(NSInteger)align;
+- (void)alignObjects:(NSArray*)objects toMasterObject:(id)object withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Aligns a set of objects to a given point
  @param objects the objects to align
  @param loc the point to which the objects are aligned
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects toLocation:(NSPoint)loc withAlignment:(NSInteger)align;
+- (void)alignObjects:(NSArray*)objects toLocation:(NSPoint)loc withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Aligns the objects to the grid, resizing and positioning as necessary so that all edges lie on
  the grid. The logical bounds is used for alignment, consistent with normal snapping behaviour.
@@ -138,7 +141,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param align the distribution required
  @return YES if the operation could be performed, NO otherwise
  */
-- (BOOL)distributeObjects:(NSArray*)objects withAlignment:(NSInteger)align;
+- (BOOL)distributeObjects:(NSArray*)objects withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Returns the minimum number of objects needed to enable the user interface item
 
@@ -209,4 +212,4 @@ This category implements object alignment features for DKObjectDrawingLayer
 
 // alignment helper function:
 
-NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, NSInteger alignment);
+NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment);

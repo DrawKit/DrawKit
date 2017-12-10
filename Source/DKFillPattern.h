@@ -60,4 +60,4 @@ just sets up the path clipping and calls the rendering method for each location 
 
 @end
 
-extern NSString* kDKDrawingViewDidChangeScale;
+extern NSNotificationName kDKDrawingViewDidChangeScale;

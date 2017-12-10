@@ -7,14 +7,15 @@
 #import <Cocoa/Cocoa.h>
 
 @class DKDrawableObject, DKLayer;
+@protocol DKToolDelegate;
 
-@protocol DKDrawingTool
+@protocol DKDrawingTool <NSObject>
 
 - (NSString*)actionName;
 - (NSCursor*)cursor;
-- (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel;
-- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel;
-- (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel;
+- (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id<DKToolDelegate>)aDel;
+- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id<DKToolDelegate>)aDel;
+- (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id<DKToolDelegate>)aDel;
 
 @end
 
@@ -51,7 +52,8 @@ action name when requested.
 
 6. Tools must supply a cursor which is displayed during the mouse down/drag/up sequence and whenever the tool is set.
 */
-@interface NSObject (DKToolDelegate)
+@protocol DKToolDelegate <NSObject>
+@optional
 
 - (void)toolWillPerformUndoableAction:(id<DKDrawingTool>)aTool;
 - (void)toolDidPerformUndoableAction:(id<DKDrawingTool>)aTool;

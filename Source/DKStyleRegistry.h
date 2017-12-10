@@ -397,7 +397,7 @@ extern NSString* kDKStyleRegistryTextStylesCategory;
 
 // notifications
 
-extern NSString* kDKStyleRegistryDidFlagPossibleUIChange;
+extern NSNotificationName kDKStyleRegistryDidFlagPossibleUIChange;
 extern NSString* kDKStyleWasRegisteredNotification;
 extern NSString* kDKStyleWasRemovedFromRegistryNotification;
 extern NSString* kDKStyleWasEditedWhileRegisteredNotification;

@@ -6,26 +6,26 @@
 
 #import <Cocoa/Cocoa.h>
 
+//! abbreviation flags
+typedef NS_ENUM(NSUInteger, DKAbbreviationOptions) {
+	kDKAbbreviationOptionAddPeriods = (1 << 0),
+	kDKAbbreviationOptionAmpersand = (1 << 1)
+};
+
 @interface NSString (DKAdditions)
 
 - (NSComparisonResult)localisedCaseInsensitiveNumericCompare:(NSString*)anotherString;
 
-- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSUInteger)mask;
+- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSStringCompareOptions)mask;
 - (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet;
 - (NSString*)stringByRemovingCharacter:(unichar)character;
 - (NSString*)stringByReplacingCharactersInSet:(NSCharacterSet*)charSet withString:(NSString*)substitute;
 
 - (NSString*)stringByCapitalizingFirstCharacter;
-- (NSString*)stringByAbbreviatingWithOptions:(NSUInteger)flags;
+- (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOptions)flags;
 - (NSString*)stringByAbbreviatingWordsWithDictionary:(NSDictionary*)abbreviations;
 
 - (NSString*)stringValue;
 
 @end
 
-// abbreviation flags
-
-enum {
-	kDKAbbreviationOptionAddPeriods = (1 << 0),
-	kDKAbbreviationOptionAmpersand = (1 << 1)
-};

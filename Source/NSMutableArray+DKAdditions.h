@@ -6,9 +6,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface NSMutableArray (DKAdditions)
+@interface NSMutableArray<Object> (DKAdditions)
 
-/**  */
-- (void)addUniqueObjectsFromArray:(NSArray*)array;
+/** adds objects from \c array to the receiver, but only those not already contained by it */
+- (void)addUniqueObjectsFromArray:(NSArray<Object>*)array;
 
 @end

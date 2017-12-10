@@ -67,7 +67,7 @@
 {
 	DKHatching* hatch = [self hatchingWithLineWidth:diameter
 											spacing:pitch
-											  angle:pi * 0.25];
+											  angle:M_PI_4];
 
 	CGFloat dashPattern[2];
 
@@ -511,7 +511,7 @@
 
 		[self setLeadIn:0.0];
 		[self setSpacing:8.0];
-		[self setAngle:pi / 4.0]; //45 degrees
+		[self setAngle:M_PI_4]; //45 degrees
 		[self setWidth:0.25];
 
 		[self setLineCapStyle:NSButtLineCapStyle];

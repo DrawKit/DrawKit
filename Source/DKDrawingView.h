@@ -315,11 +315,11 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
 @end
 
-extern NSString* kDKDrawingViewDidBeginTextEditing;
-extern NSString* kDKDrawingViewTextEditingContentsDidChange;
-extern NSString* kDKDrawingViewDidEndTextEditing;
-extern NSString* kDKDrawingViewWillCreateAutoDrawing;
-extern NSString* kDKDrawingViewDidCreateAutoDrawing;
+extern NSNotificationName kDKDrawingViewDidBeginTextEditing;
+extern NSNotificationName kDKDrawingViewTextEditingContentsDidChange;
+extern NSNotificationName kDKDrawingViewDidEndTextEditing;
+extern NSNotificationName kDKDrawingViewWillCreateAutoDrawing;
+extern NSNotificationName kDKDrawingViewDidCreateAutoDrawing;
 
 extern NSString* kDKDrawingMouseDownLocation;
 extern NSString* kDKDrawingMouseDraggedLocation;

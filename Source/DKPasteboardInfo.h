@@ -38,4 +38,4 @@ This object is archived and added to the pasteboard when copying items within DK
 
 @end
 
-extern NSString* kDKDrawableObjectInfoPasteboardType;
+extern NSPasteboardType kDKDrawableObjectInfoPasteboardType;

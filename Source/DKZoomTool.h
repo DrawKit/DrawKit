@@ -15,7 +15,7 @@ the data content of the drawing, only the view that is applying it, so does not 
 @interface DKZoomTool : DKDrawingTool {
 @private
 	BOOL mMode; // NO to zoom in, YES to zoom out
-	NSUInteger mModeModifierMask; // modifier mask used to flip mode in response to modifier
+	NSEventModifierFlags mModeModifierMask; // modifier mask used to flip mode in response to modifier
 	NSPoint mAnchor; // initial click pt
 	NSRect mZoomRect; // zoom rect when dragged
 }
@@ -23,7 +23,7 @@ the data content of the drawing, only the view that is applying it, so does not 
 - (void)setZoomsOut:(BOOL)zoomOut;
 - (BOOL)zoomsOut;
 
-- (void)setModeModifierMask:(NSUInteger)msk;
-- (NSUInteger)modeModifierMask;
+- (void)setModeModifierMask:(NSEventModifierFlags)msk;
+- (NSEventModifierFlags)modeModifierMask;
 
 @end

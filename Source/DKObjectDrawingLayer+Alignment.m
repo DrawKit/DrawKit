@@ -74,7 +74,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
  @param objects the objects to align
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects withAlignment:(NSInteger)align
+- (void)alignObjects:(NSArray*)objects withAlignment:(DKAlignmentAlign)align
 {
 	[self alignObjects:objects
 		toMasterObject:[self keyObject]
@@ -86,7 +86,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
  @param object the "master" object - the one to which the others are aligned
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects toMasterObject:(id)object withAlignment:(NSInteger)align
+- (void)alignObjects:(NSArray*)objects toMasterObject:(id)object withAlignment:(DKAlignmentAlign)align
 {
 	// if we are distributing the objects, use the distributor method first - master
 	// doesn't come into it
@@ -127,7 +127,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
  @param loc the point to which the objects are aligned
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects toLocation:(NSPoint)loc withAlignment:(NSInteger)align
+- (void)alignObjects:(NSArray*)objects toLocation:(NSPoint)loc withAlignment:(DKAlignmentAlign)align
 {
 #pragma unused(objects)
 #pragma unused(loc)
@@ -298,7 +298,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
  @param align the distribution required
  @return YES if the operation could be performed, NO otherwise
  */
-- (BOOL)distributeObjects:(NSArray*)objects withAlignment:(NSInteger)align
+- (BOOL)distributeObjects:(NSArray*)objects withAlignment:(DKAlignmentAlign)align
 {
 	// distribute the objects - this is usually called from the alignment method as needed - calling it directly will
 	// ignore any edge alignment set.
@@ -695,7 +695,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
  @param mr>, <sr two bounding rectangles
  @param alignment the type of alignment being applied
  @return an x and y offset */
-NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, NSInteger alignment)
+NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment)
 {
 	NSPoint p = { 0, 0 };
 

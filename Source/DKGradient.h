@@ -274,10 +274,9 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 // notifications sent by DKGradient:
 
-extern NSString* kDKNotificationGradientWillAddColorStop;
-extern NSString* kDKNotificationGradientDidAddColorStop;
-extern NSString* kDKNotificationGradientWillRemoveColorStop;
-extern NSString* kDKNotificationGradientDidRemoveColorStop;
-extern NSString* kDKNotificationGradientWillChange;
-extern NSString* kDKNotificationGradientDidChange;
-
+extern NSNotificationName kDKNotificationGradientWillAddColorStop;
+extern NSNotificationName kDKNotificationGradientDidAddColorStop;
+extern NSNotificationName kDKNotificationGradientWillRemoveColorStop;
+extern NSNotificationName kDKNotificationGradientDidRemoveColorStop;
+extern NSNotificationName kDKNotificationGradientWillChange;
+extern NSNotificationName kDKNotificationGradientDidChange;

@@ -49,7 +49,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 {
 	// returns the point opposite p from q at radius r in a straight line.
 
-	CGFloat a = atan2f(p.y - q.y, p.x - q.x) + pi;
+	CGFloat a = atan2(p.y - q.y, p.x - q.x) + M_PI;
 	return NSMakePoint(q.x + (r * cos(a)), q.y + (r * sin(a)));
 }
 
@@ -108,13 +108,13 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 	CGFloat angle = (Slope(inPoints[1], inPoints[2]) + Slope(inPoints[0], inPoints[1])) / 2.0f;
 
 	if (outCPA) {
-		outCPA->x = inPoints[1].x + r1 * cos(angle + pi);
-		outCPA->y = inPoints[1].y + r1 * sin(angle + pi);
+		outCPA->x = inPoints[1].x + r1 * cos(angle + M_PI);
+		outCPA->y = inPoints[1].y + r1 * sin(angle + M_PI);
 	}
 
 	if (outCPB) {
-		outCPB->x = inPoints[1].x - r2 * cos(angle + pi);
-		outCPB->y = inPoints[1].y - r2 * sin(angle + pi);
+		outCPB->x = inPoints[1].x - r2 * cos(angle + M_PI);
+		outCPB->y = inPoints[1].y - r2 * sin(angle + M_PI);
 	}
 }
 
@@ -1236,7 +1236,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 		[self elementAtIndex:se + 1
 			associatedPoints:bp];
 
-		return atan2f(bp[0].y - ap[0].y, bp[0].x - ap[0].x) + pi;
+		return atan2(bp[0].y - ap[0].y, bp[0].x - ap[0].x) + M_PI;
 	} else
 		return 0.0;
 }
@@ -1258,7 +1258,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 	// if last element is a curveto, we have all the information we need to compute the tangent
 
 	if (et == NSCurveToBezierPathElement)
-		return atan2f(ap[2].y - ap[1].y, ap[2].x - ap[1].x);
+		return atan2(ap[2].y - ap[1].y, ap[2].x - ap[1].x);
 	else {
 		// ending element is a lineto or other single point, so we need to find the last point of the previous element
 
@@ -1268,9 +1268,9 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 		// if it s a curveto, its end point is bp[2], otherwise it's bp[0]
 
 		if (pt == NSCurveToBezierPathElement)
-			return atan2f(ap[0].y - bp[2].y, ap[0].x - bp[2].x);
+			return atan2(ap[0].y - bp[2].y, ap[0].x - bp[2].x);
 		else
-			return atan2f(ap[0].y - bp[0].y, ap[0].x - bp[0].x);
+			return atan2(ap[0].y - bp[0].y, ap[0].x - bp[0].x);
 	}
 }
 
@@ -1368,7 +1368,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 
 			// check to see if the nearest point is within tolerance:
 
-			CGFloat d = hypotf((np.x - p.x), (np.y - p.y));
+			CGFloat d = hypot((np.x - p.x), (np.y - p.y));
 
 			//NSLog(@"point is %f from segment line: {%1.2f,%1.2f}..{%1.2f,%1.2f}", d, ap[0].x, ap[0].y, lp[0].x, lp[0].y );
 

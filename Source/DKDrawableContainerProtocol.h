@@ -8,6 +8,14 @@
 
 @class DKDrawing, DKLayer, DKImageDataManager, DKDrawableObject, DKMetadataItem;
 
+/**
+ 
+ Objects that claim ownership of a DKDrawableObject must formally implement this protocol.
+ 
+ This includes DKObjectOwnerLayer, DKShapeGroup
+ 
+ 
+ */
 @protocol DKDrawableContainer <NSObject>
 
 - (DKDrawing*)drawing;
@@ -22,11 +30,3 @@
 
 @end
 
-/*
-
-Objects that claim ownership of a DKDrawableObject must formally implement this protocol.
- 
-This includes DKObjectOwnerLayer, DKShapeGroup
-
-
-*/

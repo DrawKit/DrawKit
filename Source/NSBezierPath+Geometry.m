@@ -191,7 +191,7 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 	// resultis in radians. Can be used to determine the necessary bounding rect of the path for a given stroke width and miter limit. For curve
 	// elements, the curvature is ignored and the element treated as a line segment.
 
-	CGFloat v, a = pi;
+	CGFloat v, a = M_PI;
 	NSInteger i, m = [self elementCount] - 1;
 	NSBezierPathElement element, nextElement;
 	NSPoint fp, cp, pp, xp, ap[3], np[3];
@@ -395,12 +395,12 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 				}
 			}
 
-			slope = atan2f(p1.y - p0.y, p1.x - p0.x) + (pi * 0.5);
+			slope = atan2(p1.y - p0.y, p1.x - p0.x) + (M_PI_2);
 
 			// calculate the position of the modified point
 
-			dx = delta * cosf(slope);
-			dy = delta * sinf(slope);
+			dx = delta * cos(slope);
+			dy = delta * sin(slope);
 
 			switch (kind) {
 			case NSMoveToBezierPathElement:
@@ -460,7 +460,7 @@ static NSPoint CornerPoint(const NSPoint* pointsIn, CGFloat offset, CGFloat mite
 	s2 = Slope(pointsIn[1], pointsIn[2]);
 
 	relAngle = (s2 - s1) * 0.5f;
-	r = offset / cosf(relAngle);
+	r = offset / cos(relAngle);
 	angle = s1 + relAngle + NINETY_DEGREES;
 
 	CGFloat maxR = fabs(miterLimit * offset);
@@ -471,8 +471,8 @@ static NSPoint CornerPoint(const NSPoint* pointsIn, CGFloat offset, CGFloat mite
 	if (r < -maxR)
 		r = -maxR;
 
-	rp.x = pointsIn[1].x + r * cosf(angle);
-	rp.y = pointsIn[1].y + r * sinf(angle);
+	rp.x = pointsIn[1].x + r * cos(angle);
+	rp.y = pointsIn[1].y + r * sin(angle);
 
 	return rp;
 }
@@ -495,11 +495,11 @@ static BOOL CornerArc(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* new
 
 	ra = s2 - s1;
 
-	if (ra > pi)
-		ra = pi - ra;
+	if (ra > M_PI)
+		ra = M_PI - ra;
 
-	if (ra < -pi)
-		ra = -pi - ra;
+	if (ra < -M_PI)
+		ra = -M_PI - ra;
 
 	//NSLog(@"ra = %f, offset = %f", ra, offset );
 
@@ -535,11 +535,11 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 	ra = s2 - s1;
 
-	if (ra > pi)
-		ra = pi - ra;
+	if (ra > M_PI)
+		ra = M_PI - ra;
 
-	if (ra < -pi)
-		ra = -pi - ra;
+	if (ra < -M_PI)
+		ra = -M_PI - ra;
 
 	//NSLog(@"ra = %f, offset = %f", ra, offset );
 
@@ -548,10 +548,10 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 	NSPoint pa, pb;
 
-	pa.x = pointsIn[1].x + offset * cosf(s1 + NINETY_DEGREES);
-	pa.y = pointsIn[1].y + offset * sinf(s1 + NINETY_DEGREES);
-	pb.x = pointsIn[1].x + offset * cosf(s2 - NINETY_DEGREES);
-	pb.y = pointsIn[1].y + offset * sinf(s2 - NINETY_DEGREES);
+	pa.x = pointsIn[1].x + offset * cos(s1 + NINETY_DEGREES);
+	pa.y = pointsIn[1].y + offset * sin(s1 + NINETY_DEGREES);
+	pb.x = pointsIn[1].x + offset * cos(s2 - NINETY_DEGREES);
+	pb.y = pointsIn[1].y + offset * sin(s2 - NINETY_DEGREES);
 
 	[newPath lineToPoint:pa];
 	[newPath lineToPoint:pb];
@@ -624,9 +624,9 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 				// ok, we have enough to work out the slope and start the new path
 
-				slope = Slope(v[0], v[1]) + pi * 0.5f;
-				op.x = v[0].x + delta * cosf(slope);
-				op.y = v[0].y + delta * sinf(slope);
+				slope = Slope(v[0], v[1]) + M_PI * 0.5f;
+				op.x = v[0].x + delta * cos(slope);
+				op.y = v[0].y + delta * sin(slope);
 				[newPath moveToPoint:op];
 				spStartIndex = [newPath elementCount] - 1;
 			} else {
@@ -709,9 +709,9 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 	if (spc > 0) {
 		// open-ended path, place last offset point
 
-		slope = Slope(v[0], v[1]) + pi * 0.5f;
-		op.x = v[1].x + delta * cosf(slope);
-		op.y = v[1].y + delta * sinf(slope);
+		slope = Slope(v[0], v[1]) + M_PI * 0.5f;
+		op.x = v[1].x + delta * cos(slope);
+		op.y = v[1].y + delta * sin(slope);
 		[newPath lineToPoint:op];
 	}
 
@@ -772,12 +772,12 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 				}
 			}
 
-			slope = atan2f(p1.y - p0.y, p1.x - p0.x) + (pi * 0.5);
+			slope = atan2(p1.y - p0.y, p1.x - p0.x) + (M_PI * 0.5);
 
 			// calculate the position of the modified point
 
-			dx = del * cosf(slope);
-			dy = del * sinf(slope);
+			dx = del * cos(slope);
+			dy = del * sin(slope);
 
 			switch (kind) {
 			case NSMoveToBezierPathElement:
@@ -984,8 +984,8 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 
 	// calculate the ratio of the two lengths
 
-	CGFloat len1 = hypotf(v[1].x - v[0].x, v[1].y - v[0].y); //sqrt((x1-x0) * (x1-x0) + (y1-y0) * (y1-y0));
-	CGFloat len2 = hypotf(v[2].x - v[1].x, v[2].y - v[1].y); //sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1));
+	CGFloat len1 = hypot(v[1].x - v[0].x, v[1].y - v[0].y); //sqrt((x1-x0) * (x1-x0) + (y1-y0) * (y1-y0));
+	CGFloat len2 = hypot(v[2].x - v[1].x, v[2].y - v[1].y); //sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1));
 	CGFloat k1;
 
 	if ((len1 + len2) > 0.0)
@@ -1242,14 +1242,14 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 		// calculate position of corner offset from the path
 
 		if (side)
-			slope += (pi / 2.0);
+			slope += (M_PI_2);
 		else
-			slope -= (pi / 2.0);
+			slope -= (M_PI_2);
 
 		side = !side;
 
-		np.x = zp.x + (cosf(slope) * zag);
-		np.y = zp.y + (sinf(slope) * zag);
+		np.x = zp.x + (cos(slope) * zag);
+		np.y = zp.y + (sin(slope) * zag);
 
 		if (doneFirst)
 			[newPath lineToPoint:np];
@@ -1328,24 +1328,24 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 			CGFloat slp = slope;
 
 			if (side)
-				slp += (pi / 2.0);
+				slp += (M_PI / 2.0);
 			else
-				slp -= (pi / 2.0);
+				slp -= (M_PI / 2.0);
 
 			side = !side;
 
-			np.x = zp.x + (cosf(slp) * amp);
-			np.y = zp.y + (sinf(slp) * amp);
+			np.x = zp.x + (cos(slp) * amp);
+			np.y = zp.y + (sin(slp) * amp);
 
 			// calculate the control points
 
 			cp1 = [newPath currentPoint];
-			cp1.x += cosf(lastSlope) * rad;
-			cp1.y += sinf(lastSlope) * rad;
+			cp1.x += cos(lastSlope) * rad;
+			cp1.y += sin(lastSlope) * rad;
 
 			cp2 = np;
-			cp2.x += cosf(slope - pi) * rad;
-			cp2.y += sinf(slope - pi) * rad;
+			cp2.x += cos(slope - M_PI) * rad;
+			cp2.y += sin(slope - M_PI) * rad;
 
 			if (doneFirst)
 				[newPath curveToPoint:np
@@ -1897,7 +1897,7 @@ inline void subdivideBezierAtT(const NSPoint bez[4], NSPoint bez1[4], NSPoint be
 // Distance between two points
 static inline CGFloat distanceBetween(NSPoint a, NSPoint b)
 {
-	return hypotf(a.x - b.x, a.y - b.y);
+	return hypot(a.x - b.x, a.y - b.y);
 }
 
 // Length of a curve

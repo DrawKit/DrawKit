@@ -171,8 +171,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 {
 	// move the given control point to the location. This establishes the angular and radial parameters, which in turn define the path.
 
-	CGFloat rad = hypotf(mp.x - mCentre.x, mp.y - mCentre.y);
-	CGFloat angle = atan2f(mp.y - mCentre.y, mp.x - mCentre.x);
+	CGFloat rad = hypot(mp.x - mCentre.x, mp.y - mCentre.y);
+	CGFloat angle = atan2(mp.y - mCentre.y, mp.x - mCentre.x);
 
 	if (constrain) {
 		CGFloat rem = fmod(angle, sAngleConstraint);
@@ -323,17 +323,17 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 		if (constrain) {
 			// slope of line is forced to be on 15° intervals
 
-			CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
+			CGFloat angle = atan2(p.y - lp.y, p.x - lp.x);
 			CGFloat rem = fmod(angle, sAngleConstraint);
-			CGFloat rad = hypotf(p.x - lp.x, p.y - lp.y);
+			CGFloat rad = hypot(p.x - lp.x, p.y - lp.y);
 
 			if (rem > sAngleConstraint / 2.0)
 				angle += (sAngleConstraint - rem);
 			else
 				angle -= rem;
 
-			p.x = lp.x + (rad * cosf(angle));
-			p.y = lp.y + (rad * sinf(angle));
+			p.x = lp.x + (rad * cos(angle));
+			p.y = lp.y + (rad * sin(angle));
 		}
 
 		switch ([theEvent type]) {
@@ -342,8 +342,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 				// set radius as the distance from this click to the centre, and the
 				// start angle based on the slope of this line
 
-				mRadius = hypotf(p.x - mCentre.x, p.y - mCentre.y);
-				mEndAngle = atan2f(p.y - mCentre.y, p.x - mCentre.x);
+				mRadius = hypot(p.x - mCentre.x, p.y - mCentre.y);
+				mEndAngle = atan2(p.y - mCentre.y, p.x - mCentre.x);
 				++phase; // now setting the arc
 
 				if ([self arcType] == kDKArcPathCircle)
@@ -356,12 +356,12 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 			[self notifyVisualChange];
 			[view autoscroll:theEvent];
 			if (phase == 0) {
-				mRadius = hypotf(p.x - mCentre.x, p.y - mCentre.y);
+				mRadius = hypot(p.x - mCentre.x, p.y - mCentre.y);
 
 				if ([self arcType] == kDKArcPathCircle)
 					[self calculatePath];
 				else
-					[self setAngle:atan2f(p.y - mCentre.y, p.x - mCentre.x)];
+					[self setAngle:atan2(p.y - mCentre.y, p.x - mCentre.x)];
 
 				if ([[self class] displaysSizeInfoWhenDragging]) {
 					CGFloat rad = [[self drawing] convertLength:mRadius];
@@ -374,7 +374,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 												   atPoint:nsp];
 				}
 			} else if (phase == 1) {
-				mStartAngle = atan2f(p.y - mCentre.y, p.x - mCentre.x);
+				mStartAngle = atan2(p.y - mCentre.y, p.x - mCentre.x);
 				[self calculatePath];
 
 				if ([[self class] displaysSizeInfoWhenDragging]) {
@@ -507,8 +507,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 	NSPoint kp;
 
-	kp.x = mCentre.x + (cosf(angle) * radius);
-	kp.y = mCentre.y + (sinf(angle) * radius);
+	kp.x = mCentre.x + (cos(angle) * radius);
+	kp.y = mCentre.y + (sin(angle) * radius);
 
 	return kp;
 }
@@ -708,10 +708,10 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 		CGFloat angle = (mStartAngle + mEndAngle) * 0.5f;
 
 		if (fabs(mEndAngle - mStartAngle) < 0.001)
-			angle -= pi;
+			angle -= M_PI;
 
 		if (mEndAngle < mStartAngle)
-			angle += pi;
+			angle += M_PI;
 
 		return angle;
 	}
@@ -738,7 +738,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	radSize = [aTransform transformSize:radSize];
 
 	[self setLocation:loc];
-	[self setRadius:hypotf(radSize.width, radSize.height) / _CGFloatSqrt(2.0f)];
+	[self setRadius:hypot(radSize.width, radSize.height) / _CGFloatSqrt(2.0f)];
 	[self setAngle:[self angle] + [aGroup angle]];
 }
 

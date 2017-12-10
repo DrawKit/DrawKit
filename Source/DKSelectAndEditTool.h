@@ -223,12 +223,12 @@ has a very low opacity should be used - the default style takes the system's hig
 
 // notifications:
 
-extern NSString* kDKSelectionToolWillStartSelectionDrag;
-extern NSString* kDKSelectionToolDidFinishSelectionDrag;
-extern NSString* kDKSelectionToolWillStartMovingObjects;
-extern NSString* kDKSelectionToolDidFinishMovingObjects;
-extern NSString* kDKSelectionToolWillStartEditingObject;
-extern NSString* kDKSelectionToolDidFinishEditingObject;
+extern NSNotificationName kDKSelectionToolWillStartSelectionDrag;
+extern NSNotificationName kDKSelectionToolDidFinishSelectionDrag;
+extern NSNotificationName kDKSelectionToolWillStartMovingObjects;
+extern NSNotificationName kDKSelectionToolDidFinishMovingObjects;
+extern NSNotificationName kDKSelectionToolWillStartEditingObject;
+extern NSNotificationName kDKSelectionToolDidFinishEditingObject;
 
 // keys for user info dictionary:
 

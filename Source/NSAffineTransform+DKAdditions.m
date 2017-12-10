@@ -25,11 +25,11 @@
 - (NSAffineTransform*)mapFrom:(NSRect)src to:(NSRect)dst dstAngle:(CGFloat)radians
 {
 	NSAffineTransformStruct at;
-	at.m11 = (dst.size.width / src.size.width) * cosf(radians);
-	at.m12 = sinf(radians);
+	at.m11 = (dst.size.width / src.size.width) * cos(radians);
+	at.m12 = sin(radians);
 	at.tX = dst.origin.x - at.m11 * src.origin.x;
-	at.m21 = -sinf(radians);
-	at.m22 = (dst.size.height / src.size.height) * cosf(radians);
+	at.m21 = -sin(radians);
+	at.m22 = (dst.size.height / src.size.height) * cos(radians);
 	at.tY = dst.origin.y - at.m22 * src.origin.y;
 	[self setTransformStruct:at];
 	return self;

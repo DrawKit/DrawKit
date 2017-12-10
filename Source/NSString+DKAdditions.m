@@ -18,7 +18,7 @@
 
 /* Remove all characters from the specified set */
 
-- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSUInteger)mask
+- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSStringCompareOptions)mask
 {
 	NSRange range;
 	NSMutableString* newString = [NSMutableString string];
@@ -106,7 +106,7 @@
 	return sc;
 }
 
-- (NSString*)stringByAbbreviatingWithOptions:(NSUInteger)flags
+- (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOptions)flags
 {
 	// returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
 

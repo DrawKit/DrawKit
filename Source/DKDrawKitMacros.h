@@ -19,9 +19,9 @@
 // some useful angular constants
 
 #define FIFTEEN_DEGREES (0.261799387799)
-#define NINETY_DEGREES (pi * 0.5)
-#define FORTYFIVE_DEGREES (pi * 0.25)
-#define HALF_PI (pi * 0.5)
+#define NINETY_DEGREES M_PI_2
+#define FORTYFIVE_DEGREES M_PI_4
+#define HALF_PI M_PI_2
 
 // exception safe save/restore of the current graphics context
 
@@ -41,7 +41,7 @@
 #ifdef __LP64__
 #define _CGFloatFabs(n) fabs(n)
 #define _CGFloatTrunc(n) trunc(n)
-#define _CGFloatLround(n) roundtol(n)
+#define _CGFloatLround(n) lround(n)
 #define _CGFloatFloor(n) floor(n)
 #define _CGFloatCeil(n) ceil(n)
 #define _CGFloatExp(n) exp(n)
@@ -50,7 +50,7 @@
 #else
 #define _CGFloatFabs(n) fabs(n)
 #define _CGFloatTrunc(n) trunc(n)
-#define _CGFloatLround(n) roundtol((double)n)
+#define _CGFloatLround(n) lround(n)
 #define _CGFloatFloor(n) floor(n)
 #define _CGFloatCeil(n) ceil(n)
 #define _CGFloatExp(n) exp(n)

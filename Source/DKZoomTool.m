@@ -24,12 +24,12 @@
 	return mMode;
 }
 
-- (void)setModeModifierMask:(NSUInteger)msk
+- (void)setModeModifierMask:(NSEventModifierFlags)msk
 {
 	mModeModifierMask = msk;
 }
 
-- (NSUInteger)modeModifierMask
+- (NSEventModifierFlags)modeModifierMask
 {
 	return mModeModifierMask;
 }

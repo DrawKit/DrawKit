@@ -286,7 +286,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 - (void)drawControlBarWithKnobsFromPoint:(NSPoint)a ofType:(DKKnobType)typeA toPoint:(NSPoint)b ofType:(DKKnobType)typeB
 {
-	CGFloat angle = atan2f(b.y - a.y, b.x - a.x);
+	CGFloat angle = atan2(b.y - a.y, b.x - a.x);
 
 	[self drawControlBarFromPoint:a
 						  toPoint:b];

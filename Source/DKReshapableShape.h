@@ -46,10 +46,9 @@ be added to DKShapeFactory rather than having to make lots of individual subclas
 
 @end
 
-// the shape provider must have a method that conforms to the following prototype:
-// - (NSBezierPath*)	someShapeInRect:(NSRect) r otherParameters:(id) object;
-// this is actually called by a C function call internally, so the following is the real prototype:
-
+//! the shape provider must have a method that conforms to the following prototype:
+//! - (NSBezierPath*)	someShapeInRect:(NSRect) r otherParameters:(id) object;
+//! this is actually called by a C function call internally, so the following is the real prototype:
 typedef NSBezierPath* (*shapeProviderFunction)(id, SEL, NSRect, id);
 
 // the <otherParameters> part is optional but must be an object - for example an NSValue, NSNumber or NSDictionary are all valid, but

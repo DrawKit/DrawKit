@@ -690,5 +690,5 @@ enum {
 	kDKPasteCommandContextualMenuTag = 201 // used for contextual 'paste' menu to use mouse position when positioning pasted items
 };
 
-extern NSString* kDKLayerSelectionDidChange;
-extern NSString* kDKLayerKeyObjectDidChange;
+extern NSNotificationName kDKLayerSelectionDidChange;
+extern NSNotificationName kDKLayerKeyObjectDidChange;

@@ -77,11 +77,11 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 
 extern NSString* kDKRasterizerPasteboardType;
 
-extern NSString* kDKRasterizerPropertyWillChange;
-extern NSString* kDKRasterizerPropertyDidChange;
+extern NSNotificationName kDKRasterizerPropertyWillChange;
+extern NSNotificationName kDKRasterizerPropertyDidChange;
 extern NSString* kDKRasterizerChangedPropertyKey;
 
-/*
+/*!
  DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
  include DKStroke, DKFill, DKHatching, DKFillPattern, DKGradient, etc.
  
@@ -95,7 +95,6 @@ extern NSString* kDKRasterizerChangedPropertyKey;
  of a shape when a set of rendering operations is applied to it.
 
 */
-
 @interface NSObject (DKRendererDelegate)
 
 - (NSBezierPath*)renderer:(DKRasterizer*)aRenderer willRenderPath:(NSBezierPath*)aPath;

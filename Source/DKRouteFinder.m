@@ -261,7 +261,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	for (k = 0; k < [arrayOfPoint count]; ++k) {
 		p = [[arrayOfPoint objectAtIndex:k] pointValue];
 
-		dist = hypotf(p.x - cvp.x, p.y - cvp.y);
+		dist = hypot(p.x - cvp.x, p.y - cvp.y);
 
 		if (dist < shortestDistanceSoFar) {
 			// could be a candidate - check whether it falls within the direction limits
@@ -270,7 +270,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 				shortestDistanceSoFar = dist;
 				nn = k;
 			} else {
-				DKDirection ad = directionOfAngle(atan2f(p.y - cvp.y, p.x - cvp.x));
+				DKDirection ad = directionOfAngle(atan2(p.y - cvp.y, p.x - cvp.x));
 
 				if (ad == direction) {
 					shortestDistanceSoFar = dist;
@@ -381,7 +381,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 	while ((val = [iter nextObject])) {
 		pt = [val pointValue];
-		pl += hypotf(pt.x - pp.x, pt.y - pp.y);
+		pl += hypot(pt.x - pp.x, pt.y - pp.y);
 		pp = pt;
 	}
 
@@ -428,8 +428,8 @@ static DKDirection directionOfAngle(const CGFloat angle)
 {
 	// given an angle in radians, returns its basic direction.
 
-	CGFloat fortyFiveDegrees = pi * 0.25f;
-	CGFloat oneThirtyFiveDegrees = pi * 0.75f;
+	CGFloat fortyFiveDegrees = M_PI_4;
+	CGFloat oneThirtyFiveDegrees = M_PI * 0.75f;
 
 	if (angle >= -fortyFiveDegrees && angle < fortyFiveDegrees)
 		return kDirectionEast;

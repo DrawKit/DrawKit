@@ -298,7 +298,7 @@
 	// return a value in 0..1 given a value in 0..1 which is used to set the curvature of the leadin and lead out ramps
 	// (for a linear ramp, return val)
 
-	return 0.5 * (1 - cosf(fmod(val, 1.0) * pi));
+	return 0.5 * (1 - cos(fmod(val, 1.0) * M_PI));
 }
 
 #pragma mark -
@@ -412,10 +412,10 @@
 		// this has no effect except if the alternating flag is also set it flips every other image.
 
 		if ((mPlacementCount & 1) && mAlternateLateralOffsets)
-			slope += pi;
+			slope += M_PI;
 
-		CGFloat dx = mLateralOffset * cosf(slope + HALF_PI);
-		CGFloat dy = mLateralOffset * sinf(slope + HALF_PI);
+		CGFloat dx = mLateralOffset * cos(slope + HALF_PI);
+		CGFloat dy = mLateralOffset * sin(slope + HALF_PI);
 		NSPoint wobblePoint = NSZeroPoint;
 
 		if ([self wobblyness] > 0.0) {
@@ -532,7 +532,7 @@
 		NSSize ss = [[self image] size];
 
 		CGFloat max = MAX(ss.width, ss.height) * [self scale];
-		CGFloat xtra = hypotf(max, max);
+		CGFloat xtra = hypot(max, max);
 
 		es.width += (xtra / 2.0) + ABS(mLateralOffset);
 		es.height += (xtra / 2.0) + ABS(mLateralOffset);

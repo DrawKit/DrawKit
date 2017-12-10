@@ -720,11 +720,11 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 extern NSString* kDKDrawableObjectPasteboardType;
 extern NSString* kDKDrawableObjectInfoPasteboardType;
-extern NSString* kDKLayerDidReorderObjects;
+extern NSNotificationName kDKLayerDidReorderObjects;
 
-extern NSString* kDKLayerWillAddObject;
-extern NSString* kDKLayerDidAddObject;
-extern NSString* kDKLayerWillRemoveObject;
-extern NSString* kDKLayerDidRemoveObject;
+extern NSNotificationName kDKLayerWillAddObject;
+extern NSNotificationName kDKLayerDidAddObject;
+extern NSNotificationName kDKLayerWillRemoveObject;
+extern NSNotificationName kDKLayerDidRemoveObject;
 
 #define DEFAULT_PASTE_OFFSET 20

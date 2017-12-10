@@ -7,6 +7,7 @@
 #import "DKLayerGroup.h"
 
 @class DKGridLayer, DKGuideLayer, DKKnob, DKViewController, DKImageDataManager, DKUndoManager;
+@protocol DKDrawingDelegate;
 
 /** @brief A DKDrawing is the model data for the drawing system.
 
@@ -364,15 +365,15 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @memberof DKDrawing
  @{ */
 
-extern NSString* kDKDrawingActiveLayerWillChange;
-extern NSString* kDKDrawingActiveLayerDidChange;
-extern NSString* kDKDrawingWillChangeSize;
-extern NSString* kDKDrawingDidChangeSize;
-extern NSString* kDKDrawingUnitsWillChange;
-extern NSString* kDKDrawingUnitsDidChange;
-extern NSString* kDKDrawingWillChangeMargins;
-extern NSString* kDKDrawingDidChangeMargins;
-extern NSString* kDKDrawingWillBeSavedOrExported;
+extern NSNotificationName kDKDrawingActiveLayerWillChange;
+extern NSNotificationName kDKDrawingActiveLayerDidChange;
+extern NSNotificationName kDKDrawingWillChangeSize;
+extern NSNotificationName kDKDrawingDidChangeSize;
+extern NSNotificationName kDKDrawingUnitsWillChange;
+extern NSNotificationName kDKDrawingUnitsDidChange;
+extern NSNotificationName kDKDrawingWillChangeMargins;
+extern NSNotificationName kDKDrawingDidChangeMargins;
+extern NSNotificationName kDKDrawingWillBeSavedOrExported;
 
 /** @}
  @name keys for standard drawing info items:
@@ -405,7 +406,8 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 /** @} */
 
 /** @brief Delegate methods */
-@interface NSObject (DKDrawingDelegate)
+@protocol DKDrawingDelegate <NSObject>
+@optional
 
 - (void)drawing:(DKDrawing*)drawing willDrawRect:(NSRect)rect inView:(DKDrawingView*)aView;
 - (void)drawing:(DKDrawing*)drawing didDrawRect:(NSRect)rect inView:(DKDrawingView*)aView;

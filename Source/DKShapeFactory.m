@@ -124,10 +124,10 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	[path moveToPoint:p];
 
 	for (i = 0; i < numberOfSides; i++) {
-		angle = ((2 * pi * i) / numberOfSides);
+		angle = ((2 * M_PI * i) / numberOfSides);
 
-		p.x = radius * cosf(angle);
-		p.y = radius * sinf(angle);
+		p.x = radius * cos(angle);
+		p.y = radius * sin(angle);
 
 		[path lineToPoint:p];
 	}
@@ -207,14 +207,14 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	[path moveToPoint:p];
 
 	for (i = 0; i < (numberOfPoints * 2); i++) {
-		angle = ((pi * i) / numberOfPoints);
+		angle = ((M_PI * i) / numberOfPoints);
 
 		if ((i % 2) == 0) {
-			p.x = radius * cosf(angle);
-			p.y = radius * sinf(angle);
+			p.x = radius * cos(angle);
+			p.y = radius * sin(angle);
 		} else {
-			p.x = diam * cosf(angle) / 2.0;
-			p.y = diam * sinf(angle) / 2.0;
+			p.x = diam * cos(angle) / 2.0;
+			p.y = diam * sin(angle) / 2.0;
 		}
 
 		[path lineToPoint:p];

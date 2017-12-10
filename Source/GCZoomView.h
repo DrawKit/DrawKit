@@ -48,14 +48,14 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  Operating the given modifier keys along with the scroll wheel will zoom the view
  @param aMask a modifier key mask value
  */
-+ (void)setScrollwheelModiferKeyMask:(NSUInteger)aMask;
++ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask;
 
 /** @brief Return the default zoom key mask used by new instances of this class
 
  Reads the value from the prefs. If not set or set to zero, defaults to option key.
  @return a modifier key mask value
  */
-+ (NSUInteger)scrollwheelModifierKeyMask;
++ (NSEventModifierFlags)scrollwheelModifierKeyMask;
 
 /** @brief Set whether view zooms in or out for a given scrollwheel rotation direction
 
@@ -187,8 +187,8 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 
 #define kDKZoomingRetriggerPeriod 0.5
 
-extern NSString* kDKDrawingViewWillChangeScale;
-extern NSString* kDKDrawingViewDidChangeScale;
+extern NSNotificationName kDKDrawingViewWillChangeScale;
+extern NSNotificationName kDKDrawingViewDidChangeScale;
 
 extern NSString* kDKScrollwheelModifierKeyMaskPreferenceKey;
 extern NSString* kDKDrawingDisableScrollwheelZoomPrefsKey;

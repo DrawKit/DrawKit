@@ -1,6 +1,6 @@
 /*
  *  CurveFit.h
-///  DrawKit ©2005-2008 Apptree.net
+///  DrawKit ï¿½2005-2008 Apptree.net
  *
  *  Created by graham on 05/11/2006.
  *  Copyright 2006 Apptree.net. All rights reserved.
@@ -35,6 +35,6 @@ NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, float epsilon, float cor
 #endif
 
 
-#define kDKDefaultCornerThreshold		(pi / 6)
+#define kDKDefaultCornerThreshold		(M_PI / 6)
 
 #endif /* defined(qUseCurveFit) */

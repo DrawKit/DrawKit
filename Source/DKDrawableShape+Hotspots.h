@@ -7,6 +7,7 @@
 #import "DKDrawableShape.h"
 
 @class DKHotspot;
+@protocol DKHotspotDelegate;
 
 typedef NS_ENUM(NSInteger, DKHotspotState) {
 	kDKHotspotStateOff = 0,
@@ -53,7 +54,7 @@ enum {
 	DKDrawableShape* m_owner;
 	NSInteger m_partcode;
 	NSPoint m_relLoc;
-	id m_delegate;
+	id<DKHotspotDelegate> m_delegate;
 }
 
 - (id)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate;
@@ -70,8 +71,8 @@ enum {
 
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state;
 
-- (void)setDelegate:(id)delegate;
-- (id)delegate;
+- (void)setDelegate:(id<DKHotspotDelegate>)delegate;
+- (id<DKHotspotDelegate>)delegate;
 
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view;
 - (void)continueMouseTracking:(NSEvent*)event inView:(NSView*)view;
@@ -83,7 +84,8 @@ enum {
 
 #pragma mark -
 
-@interface NSObject (DKHotspotDelegate)
+@protocol DKHotspotDelegate <NSObject>
+@optional
 
 - (void)hotspot:(DKHotspot*)hs willBeginTrackingWithEvent:(NSEvent*)event inView:(NSView*)view;
 - (void)hotspot:(DKHotspot*)hs isTrackingWithEvent:(NSEvent*)event inView:(NSView*)view;
