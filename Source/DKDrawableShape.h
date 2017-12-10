@@ -8,13 +8,12 @@
 
 @class DKDrawablePath, DKDistortionTransform, DKGridLayer;
 
-// edit operation constants tell the shape what info to display in the floater
-
-typedef enum {
+//! edit operation constants tell the shape what info to display in the floater
+typedef NS_ENUM(NSInteger, DKShapeEditOperation) {
 	kDKShapeOperationResize = 0,
 	kDKShapeOperationMove = 1,
 	kDKShapeOperationRotate = 2
-} DKShapeEditOperation;
+};
 
 /** @brief A semi-abstract base class for a drawable object consisting of any path-based shape that can be drawn to fit a rectangle.
 

@@ -8,26 +8,23 @@
 
 @class DKDrawableObject, DKUndoManager;
 
-// swatch types that can be passed to -styleSwatchWithSize:type:
-
-typedef enum {
+//! swatch types that can be passed to -styleSwatchWithSize:type:
+typedef NS_ENUM(NSInteger, DKStyleSwatchType) {
 	kDKStyleSwatchAutomatic = -1,
 	kDKStyleSwatchRectanglePath = 0,
 	kDKStyleSwatchCurvePath = 1
-} DKStyleSwatchType;
+};
 
-// options that can be passed to -derivedStyleWithPasteboard:withOptions:
-
-typedef enum {
+//! options that can be passed to -derivedStyleWithPasteboard:withOptions:
+typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 	kDKDerivedStyleDefault = 0,
 	kDKDerivedStyleForPathHint = 1,
 	kDKDerivedStyleForShapeHint = 2
-} DKDerivedStyleOptions;
+};
 
 #define STYLE_SWATCH_SIZE NSMakeSize(128.0, 128.0)
 
-// n.b. for style registry API, see DKStyleRegistry.h
-
+//! n.b. for style registry API, see DKStyleRegistry.h
 @interface DKStyle : DKRastGroup <NSCoding, NSCopying, NSMutableCopying> {
 @private
 	NSDictionary* m_textAttributes; // supports text additions

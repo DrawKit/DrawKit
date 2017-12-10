@@ -10,20 +10,18 @@
 @class DKBSPIndexTree;
 
 /// node types
-
-typedef enum {
+typedef NS_ENUM(NSInteger, DKLeafType) {
 	kNodeHorizontal,
 	kNodeVertical,
 	kNodeLeaf
-} DKLeafType;
+};
 
 /// tree operations
-
-typedef enum {
+typedef NS_ENUM(NSInteger, DKBSPOperation) {
 	kDKOperationInsert,
 	kDKOperationDelete,
 	kDKOperationAccumulate
-} DKBSPOperation;
+};
 
 /** @brief The actual storage object.
 

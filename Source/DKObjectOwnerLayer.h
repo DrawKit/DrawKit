@@ -12,12 +12,12 @@
 
 // caching options
 
-typedef enum {
-	kDKLayerCacheNone = 0, // no caching
-	kDKLayerCacheUsingPDF = (1 << 0), // layer is cached in a PDF Image Rep
-	kDKLayerCacheUsingCGLayer = (1 << 1), // layer is cached in a CGLayer bitmap
-	kDKLayerCacheObjectOutlines = (1 << 2) // objects are drawn using a simple outline stroke only
-} DKLayerCacheOption;
+typedef NS_OPTIONS(NSUInteger, DKLayerCacheOption) {
+	kDKLayerCacheNone = 0, //!< no caching
+	kDKLayerCacheUsingPDF = (1 << 0), //!< layer is cached in a PDF Image Rep
+	kDKLayerCacheUsingCGLayer = (1 << 1), //!< layer is cached in a CGLayer bitmap
+	kDKLayerCacheObjectOutlines = (1 << 2) //!< objects are drawn using a simple outline stroke only
+};
 
 // the class
 

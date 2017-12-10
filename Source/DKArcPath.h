@@ -6,13 +6,12 @@
 
 #import "DKDrawablePath.h"
 
-// shape types this class supports:
-
-typedef enum {
+//! shape types this class supports:
+typedef NS_ENUM(NSInteger, DKArcPathType) {
 	kDKArcPathOpenArc = 0,
 	kDKArcPathWedge,
 	kDKArcPathCircle
-} DKArcPathType;
+};
 
 // the class:
 

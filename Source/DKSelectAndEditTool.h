@@ -9,22 +9,20 @@
 
 @class DKDrawingView, DKStyle, DKObjectDrawingLayer;
 
-// modes of operation determined by what was hit and what is in the selection
-
-typedef enum {
+//! modes of operation determined by what was hit and what is in the selection
+typedef NS_ENUM(NSInteger, DKEditToolOperation) {
 	kDKEditToolInvalidMode = 0,
 	kDKEditToolSelectionMode = 1,
 	kDKEditToolEditObjectMode = 2,
 	kDKEditToolMoveObjectsMode = 3
-} DKEditToolOperation;
+};
 
 // drag phases passed to dragObjectAsGroup:...
-
-typedef enum {
+typedef NS_ENUM(NSInteger, DKEditToolDragPhase) {
 	kDKDragMouseDown = 1,
 	kDKDragMouseDragged = 2,
 	kDKDragMouseUp = 3
-} DKEditToolDragPhase;
+};
 
 // tool class
 

@@ -6,12 +6,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKBooleanOperation) {
 	kDKBooleanOpUnion = 0,
 	kDKBooleanOpIntersection = 1,
 	kDKBooleanOpDifference = 2,
 	kDKBooleanOpExclusiveOR = 3
-} DKBooleanOperation;
+};
 
 /**
 ######## NOTE ######## NOT YET IMPLEMENTED - DO NOT USE - THESE FILES ARE A PLACEHOLDER ONLY

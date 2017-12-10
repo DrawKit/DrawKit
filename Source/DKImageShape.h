@@ -6,12 +6,11 @@
 
 #import "DKDrawableShape.h"
 
-// option constants for crop or scale image
-
-typedef enum {
+//! option constants for crop or scale image
+typedef NS_OPTIONS(NSInteger, DKImageCroppingOptions) {
 	kDKImageScaleToPath = 0,
 	kDKImageCropToPath = 1
-} DKImageCroppingOptions;
+};
 
 // the class
 

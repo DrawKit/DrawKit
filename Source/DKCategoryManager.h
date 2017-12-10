@@ -8,19 +8,19 @@
 
 // menu creation options:
 
-typedef enum {
+typedef NS_OPTIONS(NSUInteger, DKCategoryMenuOptions) {
 	kDKIncludeRecentlyAddedItems = (1 << 0),
 	kDKIncludeRecentlyUsedItems = (1 << 1),
 	kDKIncludeAllItems = (1 << 2),
 	kDKDontAddDividingLine = (1 << 3),
 	kDKMenuIsPopUpMenu = (1 << 4)
-} DKCategoryMenuOptions;
+};
 
-typedef enum {
-	kDKReplaceExisting = (1 << 1), // objects passed in replace those with the same key (doc -> reg)
-	kDKReturnExisting = (1 << 2), // objects in reg with the same keys are returned (reg -> doc)
-	kDKAddAsNewVersions = (1 << 3) // objects with the same keys are copied and registered again (reg || doc)
-} DKCatManagerMergeOptions;
+typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
+	kDKReplaceExisting = (1 << 1), //!< objects passed in replace those with the same key (doc -> reg)
+	kDKReturnExisting = (1 << 2), //!< objects in reg with the same keys are returned (reg -> doc)
+	kDKAddAsNewVersions = (1 << 3) //!< objects with the same keys are copied and registered again (reg || doc)
+};
 
 // the class
 

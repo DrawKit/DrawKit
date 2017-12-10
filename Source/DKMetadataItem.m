@@ -957,7 +957,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		}
 
 	default:
-		NSLog(@"an unknown type (%d) was passed to DKMetadataItem <%@> for conversion, value = %@", type, self, inValue);
+            NSLog(@"an unknown type (%ld) was passed to DKMetadataItem <%@> for conversion, value = %@", (long)type, self, inValue);
 		break;
 	}
 

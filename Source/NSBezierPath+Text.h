@@ -144,7 +144,7 @@
  This does two things - it sets up the text's container so that text will be laid out properly
  within the path's length, and secondly if the text is "justified" it kerns the text to fit the path.
  @param str text storage containing the text to lay out
- @param length the path length
+ @param lm the layout manager in use
  @return none.
  */
 - (NSTextStorage*)preadjustedTextStorageWithString:(NSAttributedString*)str layoutManager:(NSLayoutManager*)lm;

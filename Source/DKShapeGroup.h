@@ -11,11 +11,11 @@
 
 // caching options
 
-typedef enum {
+typedef NS_OPTIONS(NSUInteger, DKGroupCacheOption) {
 	kDKGroupCacheNone = 0,
 	kDKGroupCacheUsingPDF = (1 << 0),
 	kDKGroupCacheUsingCGLayer = (1 << 1)
-} DKGroupCacheOption;
+};
 
 /** @brief This is a group objects that can group any number of shapes or paths.
 

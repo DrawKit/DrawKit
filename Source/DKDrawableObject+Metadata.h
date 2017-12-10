@@ -9,11 +9,11 @@
 
 // metadata has been through a bit of evolution. This constant indicates which schema is in use
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 	kDKMetadataOriginalSchema = 1,
 	kDKMetadataMark2Schema = 2,
 	kDKMetadata107Schema = 3
-} DKMetadataSchema;
+};
 
 /** @brief Stores various drawkit private variables in the metadata.
 

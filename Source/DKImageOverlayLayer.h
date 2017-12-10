@@ -6,9 +6,8 @@
 
 #import "DKLayer.h"
 
-// coverage method flags - can be combined to give different effects
-
-typedef enum {
+//! coverage method flags - can be combined to give different effects
+typedef NS_OPTIONS(NSUInteger, DKImageCoverageFlags) {
 	kDKDrawingImageCoverageNormal = 0,
 	kDKDrawingImageCoverageHorizontallyCentred = 1,
 	kDKDrawingImageCoverageHorizontallyStretched = 2,
@@ -16,7 +15,7 @@ typedef enum {
 	kDKDrawingImageCoverageVerticallyCentred = 32,
 	kDKDrawingImageCoverageVerticallyStretched = 64,
 	kDKDrawingImageCoverageVerticallyTiled = 128,
-} DKImageCoverageFlags;
+};
 
 /** @brief This layer type implements a single image overlay, for example for tracing a photograph in another layer.
 

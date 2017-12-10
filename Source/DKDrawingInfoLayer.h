@@ -6,14 +6,13 @@
 
 #import "DKLayer.h"
 
-// placement of info panel:
-
-typedef enum {
+//! placement of info panel:
+typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 	kDKDrawingInfoPlaceBottomRight = 0,
 	kDKDrawingInfoPlaceBottomLeft = 1,
 	kDKDrawingInfoPlaceTopLeft = 2,
 	kDKDrawingInfoPlaceTopRight = 3
-} DKInfoBoxPlacement;
+};
 
 /** @brief This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
 

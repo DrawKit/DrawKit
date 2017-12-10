@@ -8,11 +8,11 @@
 
 @class DKHotspot;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKHotspotState) {
 	kDKHotspotStateOff = 0,
 	kDKHotspotStateOn = 1,
 	kDKHotspotStateDisabled = 2
-} DKHotspotState;
+};
 
 /** @brief A HOTSPOT is an object attached to a shape to provide a direct user-interface for implementing custom actions, etc.
 

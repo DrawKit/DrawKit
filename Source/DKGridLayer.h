@@ -6,10 +6,10 @@
 
 #import "DKLayer.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
 	kDKMetricDrawingGrid = 0,
 	kDKImperialDrawingGrid
-} DKGridMeasurementSystem;
+};
 
 /** @brief This class is a layer that draws a grid like a piece of graph paper.
 

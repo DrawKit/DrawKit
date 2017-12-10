@@ -7,11 +7,11 @@
 #import "DKLayer.h"
 #import "DKMetadataItem.h"
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
 	kDKLayerMetadataOriginalSchema = 1,
 	kDKLayerMetadataCaseInsensitiveSchema = 2,
 	kDKLayerMetadata107Schema = 3
-} DKLayerMetadataSchema;
+};
 
 /** @brief adds some convenience methods for standard meta data attached to a graphic object.
 

@@ -8,11 +8,11 @@
 
 @class DKDrawing, DKLayer, DKViewController;
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 	DKCropMarksNone = 0,
 	DKCropMarksCorners = 1,
 	DKCropMarksEdges = 2
-} DKCropMarkKind;
+};
 
 /** @brief DKDrawingView is the visible "front end" for the DKDrawing architecture.
 

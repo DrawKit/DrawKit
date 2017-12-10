@@ -8,13 +8,12 @@
 
 @class DKDrawablePath;
 
-// modes of operation for this tool:
-
-typedef enum {
+//! modes of operation for this tool:
+typedef NS_ENUM(NSInteger, DKPathToolMode) {
 	kDKPathDeletePointMode = 0,
 	kDKPathInsertPointMode = 1,
 	kDKPathDeleteElementMode = 2
-} DKPathToolMode;
+};
 
 /** @brief This tool is able to insert or delete on-path points from a path.
 

@@ -9,33 +9,31 @@
 @class DKDrawableShape;
 @class DKKnob;
 
-// editing modes:
+//! editing modes:
+typedef NS_ENUM(NSInteger, DKDrawablePathCreationMode) {
+	kDKPathCreateModeEditExisting = 0, //!< normal operation - just move points on the existing path
+	kDKPathCreateModeLineCreate = 1, //!< create a straight line between two points
+	kDKPathCreateModeBezierCreate = 2, //!< create a curved path point by point
+	kDKPathCreateModePolygonCreate = 3, //!< create an irreglar polygon pont by point (multiple lines)
+	kDKPathCreateModeFreehandCreate = 4, //!< create a curve path by dragging freehand
+	kDKPathCreateModeArcSegment = 5, //!< create an arc section
+	kDKPathCreateModeWedgeSegment = 6 //!< create a wedge section
+};
 
-typedef enum {
-	kDKPathCreateModeEditExisting = 0, // normal operation - just move points on the existing path
-	kDKPathCreateModeLineCreate = 1, // create a straight line between two points
-	kDKPathCreateModeBezierCreate = 2, // create a curved path point by point
-	kDKPathCreateModePolygonCreate = 3, // create an irreglar polygon pont by point (multiple lines)
-	kDKPathCreateModeFreehandCreate = 4, // create a curve path by dragging freehand
-	kDKPathCreateModeArcSegment = 5, // create an arc section
-	kDKPathCreateModeWedgeSegment = 6 // create a wedge section
-} DKDrawablePathCreationMode;
-
-typedef enum {
+typedef NS_ENUM(NSInteger, DKDrawablePathJoinResult) {
 	kDKPathNoJoin = 0,
 	kDKPathOtherPathWasAppended = 1,
 	kDKPathOtherPathWasPrepended = 2,
 	kDKPathBothEndsJoined = 3
-} DKDrawablePathJoinResult;
+};
 
-// path point types that can be passed to pathInsertPointAt:ofType:
-
-typedef enum {
-	kDKPathPointTypeAuto = 0, // insert whatever the hit element is already using
-	kDKPathPointTypeLine = 1, // insert a line segment
-	kDKPathPointTypeCurve = 2, // insert a curve segment
-	kDKPathPointTypeInverseAuto = 3, // insert the opposite of whatever hit element is already using
-} DKDrawablePathInsertType;
+//! path point types that can be passed to pathInsertPointAt:ofType:
+typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
+	kDKPathPointTypeAuto = 0, //!< insert whatever the hit element is already using
+	kDKPathPointTypeLine = 1, //!< insert a line segment
+	kDKPathPointTypeCurve = 2, //!< insert a curve segment
+	kDKPathPointTypeInverseAuto = 3, //!< insert the opposite of whatever hit element is already using
+};
 
 // the class:
 

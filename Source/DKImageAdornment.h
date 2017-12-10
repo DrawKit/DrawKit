@@ -8,13 +8,12 @@
 
 @class DKDrawableObject, DKDrawing;
 
-// fitting options:
-
-typedef enum {
-	kDKScaleToFitBounds = 0, // scale setting ignored - image will fill bounds
-	kDKScaleToFitPreservingAspectRatio = 1, // scale setting ignored - image will fit bounds with original aspect ratio preserved
-	kDKClipToBounds = 2 // scales according to setting, but clipped to object's path if size exceeds it
-} DKImageFittingOption;
+//! fitting options:
+typedef NS_ENUM(NSInteger, DKImageFittingOption) {
+	kDKScaleToFitBounds = 0, //!< scale setting ignored - image will fill bounds
+	kDKScaleToFitPreservingAspectRatio = 1, //!< scale setting ignored - image will fit bounds with original aspect ratio preserved
+	kDKClipToBounds = 2 //!< scales according to setting, but clipped to object's path if size exceeds it
+};
 
 /** @brief This class allows any image to be part of the rendering tree.
 

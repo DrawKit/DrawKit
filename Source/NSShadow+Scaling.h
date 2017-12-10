@@ -6,10 +6,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum {
+typedef NS_OPTIONS(NSUInteger, DKShadowDrawingOperation) {
 	kDKShadowDrawFill = (1 << 0),
 	kDKShadowDrawStroke = (1 << 1)
-} DKShadowDrawingOperation;
+};
 
 /**
 a big annoyance with NSShadow is that it ignores the current CTM when it is set, meaning that as a drawing is scaled,

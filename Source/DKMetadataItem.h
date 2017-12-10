@@ -6,9 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-// data types storable by a DKMetadataItem
-
-typedef enum {
+//! data types storable by a DKMetadataItem
+typedef NS_ENUM(NSInteger, DKMetadataType) {
 	DKMetadataTypeUnknown = -2,
 	DKMetadataMultipleTypesMarker = -1,
 	DKMetadataTypeString = 0,
@@ -26,7 +25,7 @@ typedef enum {
 	DKMetadataTypeSize = 12,
 	DKMetadataTypePoint = 13,
 	DKMetadataTypeRect = 14
-} DKMetadataType;
+};
 
 /**
 DKMetadataItems are used to store metadata (attribute) values in user info dictionaries attached to various objects such as layers and

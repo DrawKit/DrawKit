@@ -7,12 +7,11 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
-// visual flags, used internally
-
-typedef enum {
+//! visual flags, used internally
+typedef NS_OPTIONS(NSUInteger, DKKnobDrawingFlags) {
 	kDKKnobDrawsStroke = (1 << 0),
 	kDKKnobDrawsFill = (1 << 1)
-} DKKnobDrawingFlags;
+};
 
 @class DKHandle;
 

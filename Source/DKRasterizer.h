@@ -9,13 +9,12 @@
 
 @class DKRastGroup;
 
-// clipping values:
-
-typedef enum {
+//! clipping values:
+typedef NS_ENUM(NSInteger, DKClippingOption) {
 	kDKClippingNone = 0,
 	kDKClipOutsidePath = 1,
 	kDKClipInsidePath = 2
-} DKClippingOption;
+};
 
 /** @brief Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
 

@@ -8,7 +8,7 @@
 
 // arrow head kinds - each end can be specified independently:
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKArrowHeadKind) {
 	kDKArrowHeadNone = 0,
 	kDKArrowHeadStandard = 1,
 	kDKArrowHeadInflected = 2,
@@ -20,32 +20,29 @@ typedef enum {
 	kDKArrowHeadDimensionLineAndBar = 8,
 	kDKArrowHeadSquare = 9,
 	kDKArrowHeadDiamond = 10
-} DKArrowHeadKind;
+};
 
-// positioning of dimension label, or none:
-
-typedef enum {
+//! positioning of dimension label, or none:
+typedef NS_ENUM(NSInteger, DKDimensioningLineOptions) {
 	kDKDimensionNone = 0,
 	kDKDimensionPlaceAboveLine = 1,
 	kDKDimensionPlaceInLine = 2,
 	kDKDimensionPlaceBelowLine = 3
-} DKDimensioningLineOptions;
+};
 
-// dimension kind - sets additional embellishments on the dimension text:
-
-typedef enum {
+//! dimension kind - sets additional embellishments on the dimension text:
+typedef NS_ENUM(NSInteger, DKDimensionTextKind) {
 	kDKDimensionLinear = 0,
 	kDKDimensionDiameter = 1,
 	kDKDimensionRadius = 2,
 	kDKDimensionAngle = 3
-} DKDimensionTextKind;
+};
 
-// tolerance options:
-
-typedef enum {
+//! tolerance options:
+typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 	kDKDimensionToleranceNotShown = 0,
 	kDKDimensionToleranceShown = 1
-} DKDimensionToleranceOption;
+};
 
 // the class:
 
