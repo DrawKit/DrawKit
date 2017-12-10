@@ -44,19 +44,22 @@ be upside-down. This class automatically reverses the stacking order in an archi
  @param layers a list of existing layers
  @return a new layer group
  */
-- (id)initWithLayers:(NSArray*)layers;
+- (id)initWithLayers:(NSArray<DKLayer*>*)layers;
 
 // layer list
 
-- (void)setLayers:(NSArray*)layers; // KVC/KVO compliant
-- (NSArray*)layers; // KVC/KVO compliant
+- (void)setLayers:(NSArray<DKLayer*>*)layers; // KVC/KVO compliant
+- (NSArray<DKLayer*>*)layers; // KVC/KVO compliant
 - (NSUInteger)countOfLayers; // KVC/KVO compliant
 - (NSUInteger)indexOfHighestOpaqueLayer;
 
-- (NSArray*)flattenedLayers;
-- (NSArray*)flattenedLayersIncludingGroups:(BOOL)includeGroups;
-- (NSArray*)flattenedLayersOfClass:(Class)layerClass;
-- (NSArray*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups;
+@property (readonly) NSUInteger countOfLayers;
+@property (nonatomic, copy) NSArray<DKLayer*> *layers;
+
+- (NSArray<DKLayer*>*)flattenedLayers;
+- (NSArray<DKLayer*>*)flattenedLayersIncludingGroups:(BOOL)includeGroups;
+- (NSArray<DKLayer*>*)flattenedLayersOfClass:(Class)layerClass NS_REFINED_FOR_SWIFT;
+- (NSArray<DKLayer*>*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups NS_REFINED_FOR_SWIFT;
 
 /** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is
 
@@ -64,6 +67,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  @return the group's level
  */
 - (NSUInteger)level;
+@property (readonly) NSUInteger level;
 
 // adding and removing layers
 
@@ -82,10 +86,10 @@ be upside-down. This class automatically reverses the stacking order in an archi
 - (DKLayer*)topLayer;
 - (DKLayer*)bottomLayer;
 - (NSUInteger)indexOfLayer:(DKLayer*)aLayer;
-- (DKLayer*)firstLayerOfClass:(Class)cl;
-- (DKLayer*)firstLayerOfClass:(Class)cl performDeepSearch:(BOOL)deep;
-- (NSArray*)layersOfClass:(Class)cl;
-- (NSArray*)layersOfClass:(Class)cl performDeepSearch:(BOOL)deep;
+- (DKLayer*)firstLayerOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
+- (DKLayer*)firstLayerOfClass:(Class)cl performDeepSearch:(BOOL)deep NS_REFINED_FOR_SWIFT;
+- (NSArray*)layersOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
+- (NSArray*)layersOfClass:(Class)cl performDeepSearch:(BOOL)deep NS_REFINED_FOR_SWIFT;
 - (NSEnumerator*)layerTopToBottomEnumerator;
 - (NSEnumerator*)layerBottomToTopEnumerator;
 

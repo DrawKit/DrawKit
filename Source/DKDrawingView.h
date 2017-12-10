@@ -140,6 +140,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (DKDrawing*)drawing;
 
+@property (readonly, retain) DKDrawing *drawing;
+
 /** @brief Create an entire "back end" for the view 
 
  Normally you create a drawing, and add layers to it. However, you can also let the view create the

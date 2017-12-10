@@ -478,15 +478,7 @@ static BOOL sSubstitute = NO;
 	}
 }
 
-/** @brief Returns the attributes dictionary
-
- Renderers are not considered attributes in this sense
- @return a dictionary of attributes
- */
-- (NSDictionary*)textAttributes
-{
-	return m_textAttributes;
-}
+@synthesize textAttributes=m_textAttributes;
 
 /** @brief Return wjether the style has any text attributes set
  @return YES if there are any text attributes
@@ -524,14 +516,7 @@ static BOOL sSubstitute = NO;
 	}
 }
 
-/** @brief Returns whether the style can be shared among multiple objects, or whether unique copies should be
- used.
- @return YES to share among several objects, NO to make unique copies.
- */
-- (BOOL)isStyleSharable
-{
-	return m_shared;
-}
+@synthesize styleSharable = m_shared;
 
 /** @brief Set whether style is locked (editable)
 
@@ -655,23 +640,7 @@ static BOOL sSubstitute = NO;
 #pragma mark -
 #pragma mark - undo
 
-/** @brief Sets the undo manager that style changes will be recorded by
-
- The undo manager is not retained.
- @param undomanager the manager to use
- */
-- (void)setUndoManager:(NSUndoManager*)undomanager
-{
-	m_undoManagerRef = undomanager;
-}
-
-/** @brief Returns the undo manager that style changes will be recorded by
- @return the style's current undo manager
- */
-- (NSUndoManager*)undoManager
-{
-	return m_undoManagerRef;
-}
+@synthesize undoManager=m_undoManagerRef;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object

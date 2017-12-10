@@ -27,7 +27,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 //! n.b. for style registry API, see DKStyleRegistry.h
 @interface DKStyle : DKRastGroup <NSCoding, NSCopying, NSMutableCopying> {
 @private
-	NSDictionary* m_textAttributes; // supports text additions
+	NSDictionary<NSAttributedStringKey,id>* m_textAttributes; // supports text additions
 	NSUndoManager* m_undoManagerRef; // style's undo manager
 	BOOL m_shared; // YES if the style is shared
 	BOOL m_locked; // YES if style can't be edited
@@ -53,7 +53,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 /** @brief Return a list of types supported by styles for pasteboard operations
  @return an array listing the pasteboard types usable by DKStyle
  */
-+ (NSArray*)stylePasteboardTypes;
++ (NSArray<NSPasteboardType>*)stylePasteboardTypes;
 + (BOOL)canInitWithPasteboard:(NSPasteboard*)pb;
 
 // pasted styles - separate non-persistent registry
@@ -78,6 +78,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES if styles are shared, NO if unique copies will be returned
  */
 + (BOOL)stylesAreSharableByDefault;
+
+@property (class) BOOL stylesAreSharableByDefault;
 
 // shadows:
 
@@ -105,6 +107,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  */
 + (BOOL)willDrawShadows;
 
+@property (class, readonly) BOOL willDrawShadows;
+
 // performance options:
 
 /** @brief Set whether drawing should be anti-aliased or not
@@ -120,6 +124,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES to anti-alias, NO to turn anti-aliasing off
  */
 + (BOOL)shouldAntialias;
+
+@property (class) BOOL shouldAntialias;
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
  render.
@@ -138,6 +144,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES to substitute a faster placeholder style for complex styles
  */
 + (BOOL)shouldSubstitutePlaceholderStyle;
+
+@property (class) BOOL shouldSubstitutePlaceholderStyle;
 
 // updating & notifying clients:
 
@@ -181,14 +189,16 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  allows text (labels in particular) to have their styling changed for a whole drawing. See also
  DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
  @param attrs a dictionary of text attributes */
-- (void)setTextAttributes:(NSDictionary*)attrs;
+- (void)setTextAttributes:(NSDictionary<NSAttributedStringKey,id>*)attrs;
 
 /** @brief Returns the attributes dictionary
 
  Renderers are not considered attributes in this sense
  @return a dictionary of attributes
  */
-- (NSDictionary*)textAttributes;
+- (NSDictionary<NSAttributedStringKey,id>*)textAttributes;
+
+@property (nonatomic, copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
 
 /** @brief Return wjether the style has any text attributes set
  @return YES if there are any text attributes
@@ -217,6 +227,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES to share among several objects, NO to make unique copies.
  */
 - (BOOL)isStyleSharable;
+@property (nonatomic, getter=isStyleSharable) BOOL styleSharable;
 
 /** @brief Set whether style is locked (editable)
 
@@ -233,8 +244,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES if locked (non-editable)
  */
 - (BOOL)locked;
-	
-	@property (nonatomic) BOOL locked;
+
+@property (nonatomic) BOOL locked;
 
 // registry info:
 
@@ -247,6 +258,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  */
 - (BOOL)isStyleRegistered;
 
+@property (readonly, getter=isStyleRegistered) BOOL styleRegistered;
+
 /** @brief Returns the list of keys that the style is registered under (if any)
 
  The returned array may contain no keys if the style isn't registered, or >1 key if the style has
@@ -254,7 +267,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  display in a user interface and has no relationship to the style's name.
  @return a list of keys (NSStrings)
  */
-- (NSArray*)registryKeys;
+- (NSArray<NSString*>*)registryKeys;
 
 /** @brief Returns the unique key of the style
 
@@ -305,6 +318,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  */
 - (NSUndoManager*)undoManager;
 
+@property (assign) NSUndoManager *undoManager;
+
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object
  @param object the real target of the invocation
@@ -345,6 +360,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return the number of stroke rasterizers
  */
 - (NSUInteger)countOfStrokes;
+@property (readonly) NSUInteger countOfStrokes;
 
 // clipboard:
 
