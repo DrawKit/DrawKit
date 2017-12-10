@@ -21,8 +21,8 @@
 	SEL mSelector;
 }
 
-+ (DKSelectorWrapper*)wrapperWithSelector:(SEL)aSelector;
-- (SEL)selector;
++ (DKSelectorWrapper*)wrapperWithSelector:(nonnull SEL)aSelector;
+@property (readonly, nonnull) SEL selector;
 
 @end
 
@@ -166,28 +166,11 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	LogEvent_(kReactiveEvent, @"undo mgr = %@", [self undoManager]);
 }
 
-/** @brief Return the document's drawing object
-
- The document owns the drawing
- @return the document's drawing object
- */
-- (DKDrawing*)drawing
-{
-	return m_drawing;
-}
+@synthesize drawing=m_drawing;
 
 #pragma mark -
 
-/** @brief Return the document's main view
-
- If the document has a main view, this returns it. Normally this is set up in the nib. A document
- isn't required to have an outlet to the main view but it makes setting everything up easier.
- @return the document's main view
- */
-- (DKDrawingView*)mainView
-{
-	return mMainDrawingView;
-}
+@synthesize mainView=mMainDrawingView;
 
 /** @brief Create a controller object to connect the given view to the document's drawing
 
@@ -785,6 +768,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 #pragma mark - As a DKSelectorWrapper
 
 @implementation DKSelectorWrapper
+@synthesize selector=mSelector;
 
 + (DKSelectorWrapper*)wrapperWithSelector:(SEL)aSelector
 {
@@ -793,11 +777,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	DKSelectorWrapper* wrapper = [[DKSelectorWrapper alloc] init];
 	wrapper->mSelector = aSelector;
 	return [wrapper autorelease];
-}
-
-- (SEL)selector
-{
-	return mSelector;
 }
 
 @end

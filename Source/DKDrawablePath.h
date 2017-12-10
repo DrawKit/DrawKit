@@ -48,7 +48,7 @@ maintain the concept of rotation or scale - it just is what it is.
 @private
 	NSBezierPath* m_path;
 	NSBezierPath* m_undoPath;
-	NSInteger m_editPathMode;
+	DKDrawablePathCreationMode m_editPathMode;
 	CGFloat m_freehandEpsilon;
 	BOOL m_extending;
 }
@@ -61,7 +61,7 @@ maintain the concept of rotation or scale - it just is what it is.
  @param path the path to use
  @return a new drawable path object which has the path supplied
  */
-+ (DKDrawablePath*)drawablePathWithBezierPath:(NSBezierPath*)path;
++ (instancetype)drawablePathWithBezierPath:(NSBezierPath*)path;
 
 /** @brief Creates a drawable path object for an existing NSBezierPath and style
 
@@ -70,7 +70,7 @@ maintain the concept of rotation or scale - it just is what it is.
  @param aStyle a style to apply to the path
  @return a new drawable path object which has the path supplied
  */
-+ (DKDrawablePath*)drawablePathWithBezierPath:(NSBezierPath*)path withStyle:(DKStyle*)aStyle;
++ (instancetype)drawablePathWithBezierPath:(NSBezierPath*)path withStyle:(DKStyle*)aStyle;
 
 // colour for feedback window:
 
@@ -239,6 +239,8 @@ maintain the concept of rotation or scale - it just is what it is.
 - (DKDrawablePath*)dividePathAtLength:(CGFloat)distance;
 
 // creating paths
+
+@property DKDrawablePathCreationMode pathCreationMode;
 
 /** @brief Sets the "mode" of operation for creating new path objects
 

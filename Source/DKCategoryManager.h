@@ -49,7 +49,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  Convenience method. Initial categories only consist of "All Items"
  @return a category manager object
  */
-+ (DKCategoryManager*)categoryManager;
++ (instancetype)categoryManager;
 
 /** @brief Returns a new category manager object based on an existing dictionary
 
@@ -57,7 +57,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict an existign dictionary
  @return a category manager object
  */
-+ (DKCategoryManager*)categoryManagerWithDictionary:(NSDictionary*)dict;
++ (instancetype)categoryManagerWithDictionary:(NSDictionary*)dict;
 
 /** @brief Return the default categories defined for this class
  @return an array of categories */
@@ -70,8 +70,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return a key string */
 + (NSString*)categoryManagerKeyForObject:(id)obj;
 
-+ (id)dearchivingHelper;
-+ (void)setDearchivingHelper:(id)helper;
+@property (class, retain) id dearchivingHelper;
 
 // initialization
 
@@ -81,7 +80,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param data data containing a correctly archived category manager
  @return the category manager object
  */
-- (id)initWithData:(NSData*)data;
+- (instancetype)initWithData:(NSData*)data;
 
 /** @brief Initialized a category manager object from an existing dictionary
 
@@ -89,7 +88,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict dictionary containing a set of objects and keys
  @return the category manager object
  */
-- (id)initWithDictionary:(NSDictionary*)dict;
+- (instancetype)initWithDictionary:(NSDictionary*)dict;
 
 // adding and retrieving objects
 
@@ -125,7 +124,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  After this no keys will not be found in any category or either list
  @param keys a list of keys
  */
-- (void)removeObjectsForKeys:(NSArray*)keys;
+- (void)removeObjectsForKeys:(NSArray<NSString*>*)keys;
 
 /** @brief Removes all objects from the container
 
@@ -139,6 +138,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return the number of objects
  */
 - (NSUInteger)count;
+@property (readonly) NSUInteger count;
 
 /** @brief Return the object for the given key, but do not remember it in the "recently used" list
  @param key the object's key
@@ -161,12 +161,12 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param obj the object
  @return an array, listing all the unique keys that refer to the object.
  */
-- (NSArray*)keysForObject:(id)obj;
+- (NSArray<NSString*>*)keysForObject:(id)obj;
 
 /** @brief Return a copy of the master dictionary
  @return the main dictionary
  */
-- (NSDictionary*)dictionary;
+- (NSDictionary<NSString*,id>*)dictionary;
 
 // smartly merging objects:
 
@@ -225,7 +225,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  because the master list contains case-modified keys that may not be matched with categories.
  @return an array, all keys (listed only once)
  */
-- (NSArray*)allKeysInCategory:(NSString*)catName;
+- (NSArray<NSString*>*)allKeysInCategory:(NSString*)catName;
 
 /** @brief Return all of the keys in all given categories
 
@@ -233,8 +233,8 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames an array of category names
  @return an array, the union of keys in listed categories. May be empty.
  */
-- (NSArray*)allKeysInCategories:(NSArray*)catNames;
-- (NSArray*)allKeys;
+- (NSArray<NSString*>*)allKeysInCategories:(NSArray<NSString*>*)catNames;
+- (NSArray<NSString*>*)allKeys;
 
 /** @brief Return all of the objects
  @return an array, all objects (listed only once, in arbitrary order)

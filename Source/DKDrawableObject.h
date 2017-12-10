@@ -56,6 +56,9 @@ to attach arbitrary data to any drawable object.
 	BOOL m_unused_padding : 4; // not used - reserved
 }
 
+@property (class, readonly) NSInteger initialPartcodeForObjectCreation;
+@property (class, readonly, getter=isGroupable) BOOL groupable;
+
 /** @brief Return whether an info floater is displayed when resizing an object
 
  Size info is width and height
@@ -86,6 +89,8 @@ to attach arbitrary data to any drawable object.
 
 // ghosting settings:
 
+@property (class, retain) NSColor *ghostColour;
+
 /** @brief Set the outline colour to use when drawing objects in their ghosted state
 
  The ghost colour is persistent, stored using the kDKGhostColourPreferencesKey key
@@ -102,7 +107,7 @@ to attach arbitrary data to any drawable object.
 
 // pasteboard types for drag/drop:
 
-+ (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
++ (NSArray<NSPasteboardType>*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
 + (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb;
 
 /** @brief Return the number of native objects held by the pasteboard
@@ -123,7 +128,7 @@ to attach arbitrary data to any drawable object.
  which simply passes through the requested type unchanged.
  @return the table (a dictionary)
  */
-+ (NSDictionary*)interconversionTable;
++ (NSDictionary<NSString*,Class>*)interconversionTable;
 
 /** @brief Return the interconversion table
 
@@ -133,7 +138,9 @@ to attach arbitrary data to any drawable object.
  as a string, and returns the class to use in place of that type.
  @param icTable a dictionary containing mappings from standard base classes to custom classes
  */
-+ (void)setInterconversionTable:(NSDictionary*)icTable;
++ (void)setInterconversionTable:(NSDictionary<NSString*,Class>*)icTable;
+
+@property (class, copy) NSDictionary<NSString*,Class> *interconversionTable;
 
 /** @brief Return the class to use in place of the given class when performing a conversion
 
@@ -165,6 +172,12 @@ to attach arbitrary data to any drawable object.
 - (id)initWithStyle:(DKStyle*)aStyle;
 
 // relationships:
+
+@property (readonly, retain) DKObjectOwnerLayer *layer;
+@property (readonly, retain) DKDrawing *drawing;
+@property (readonly, retain) NSUndoManager *undoManager;
+@property (nonatomic, assign) id<DKDrawableContainer> container;
+@property (readonly) NSUInteger indexInContainer;
 
 /** @brief Returns the layer that this object ultimately belongs to
 
@@ -198,10 +211,9 @@ to attach arbitrary data to any drawable object.
 
 // state:
 
-- (void)setVisible:(BOOL)vis;
-- (BOOL)visible;
-- (void)setLocked:(BOOL)locked;
-- (BOOL)locked;
+@property BOOL visible;
+@property BOOL locked;
+@property BOOL locationLocked;
 
 /** @brief Sets whether the object's location is locked or not
 
@@ -216,8 +228,10 @@ to attach arbitrary data to any drawable object.
  @return YES if locked location, NO to unlock
  */
 - (BOOL)locationLocked;
-- (void)setMouseSnappingEnabled:(BOOL)ems;
-- (BOOL)mouseSnappingEnabled;
+
+@property BOOL mouseSnappingEnabled;
+
+@property (nonatomic, getter=isGhosted) BOOL ghosted;
 
 /** @brief Set whether the object is ghosted rather than with its full style
 
@@ -237,20 +251,18 @@ to attach arbitrary data to any drawable object.
 
 // internal state accessors:
 
-- (BOOL)isTrackingMouse;
-- (void)setTrackingMouse:(BOOL)tracking;
-
-- (NSSize)mouseDragOffset;
-- (void)setMouseDragOffset:(NSSize)offset;
-
-- (BOOL)mouseHasMovedSinceStartOfTracking;
-- (void)setMouseHasMovedSinceStartOfTracking:(BOOL)moved;
+@property (getter=isTrackingMouse) BOOL trackingMouse;
+@property NSSize mouseDragOffset;
+@property BOOL mouseHasMovedSinceStartOfTracking;
 
 // selection state:
 
-- (BOOL)isSelected;
+@property (readonly, getter=isSelected) BOOL selected;
 - (void)objectDidBecomeSelected;
 - (void)objectIsNoLongerSelected;
+@property (readonly) BOOL objectMayBecomeSelected;
+@property (readonly, getter=isPendingObject) BOOL pendingObject;
+@property (readonly, getter=isKeyObject) BOOL keyObject;
 
 /** @brief Is the object able to be selected?
 
@@ -349,13 +361,17 @@ to attach arbitrary data to any drawable object.
 
 // style:
 
-- (void)setStyle:(DKStyle*)aStyle;
+/** @brief Return the attached style
+ @return the current style
+ */
 - (DKStyle*)style;
+
+@property (nonatomic, copy) DKStyle *style;
 - (void)styleWillChange:(NSNotification*)note;
 - (void)styleDidChange:(NSNotification*)note;
-- (NSSet*)allStyles;
-- (NSSet*)allRegisteredStyles;
-- (void)replaceMatchingStylesFromSet:(NSSet*)aSet;
+@property (readonly, copy) NSSet<DKStyle*> *allStyles;
+@property (readonly, copy) NSSet<DKStyle*> *allRegisteredStyles;
+- (void)replaceMatchingStylesFromSet:(NSSet<DKStyle*>*)aSet;
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
 
@@ -367,17 +383,18 @@ to attach arbitrary data to any drawable object.
 // geometry:
 // size (invariant with angle)
 
-- (void)setSize:(NSSize)size;
-- (NSSize)size;
-- (void)resizeWidthBy:(CGFloat)xFactor heightBy:(CGFloat)yFactor;
+@property (nonatomic) NSSize size;
+- (void)resizeWidthBy:(CGFloat)xFactor heightBy:(CGFloat)yFactor NS_SWIFT_NAME(resizeBy(width:height:));
 
 // location within the drawing
 
-- (void)setLocation:(NSPoint)p;
-- (NSPoint)location;
-- (void)offsetLocationByX:(CGFloat)dx byY:(CGFloat)dy;
+@property (nonatomic) NSPoint location;
+- (void)offsetLocationByX:(CGFloat)dx byY:(CGFloat)dy NS_SWIFT_NAME(offsetLocationBy(x:y:));
 
 // angle of object with respect to its container
+
+@property (nonatomic) CGFloat angle;
+@property (readonly) CGFloat angleInDegrees;
 
 /** @brief Set the object's current angle in radians
  @param angle the object's angle (radians)
@@ -402,11 +419,13 @@ to attach arbitrary data to any drawable object.
 
 // relative offset of locus within the object
 
-- (void)setOffset:(NSSize)offs;
-- (NSSize)offset;
+@property (nonatomic) NSSize offset;
 - (void)resetOffset;
 
 // path transforms
+
+@property (readonly, copy) NSAffineTransform *transform;
+@property (readonly, copy) NSAffineTransform *containerTransform;
 
 /** @brief Return a transform that maps the object's stored path to its true location in the drawing
 
@@ -431,16 +450,16 @@ to attach arbitrary data to any drawable object.
 
 // bounding rects:
 
-- (NSRect)bounds;
-- (NSRect)apparentBounds;
-- (NSRect)logicalBounds;
-- (NSSize)extraSpaceNeeded;
+@property (readonly) NSRect bounds;
+@property (readonly) NSRect apparentBounds;
+@property (readonly) NSRect logicalBounds;
+@property (readonly) NSSize extraSpaceNeeded;
 
 // creation tool protocol:
 
 - (void)creationTool:(DKDrawingTool*)tool willBeginCreationAtPoint:(NSPoint)p;
 - (void)creationTool:(DKDrawingTool*)tool willEndCreationAtPoint:(NSPoint)p;
-- (BOOL)objectIsValid;
+@property (readonly) BOOL objectIsValid;
 
 // grouping/ungrouping protocol:
 
@@ -492,9 +511,10 @@ to attach arbitrary data to any drawable object.
 - (NSPoint)snappedMousePoint:(NSPoint)mp withControlFlag:(BOOL)snapControl;
 - (NSPoint)snappedMousePoint:(NSPoint)mp forSnappingPointsWithControlFlag:(BOOL)snapControl;
 
-- (NSArray*)snappingPoints;
-- (NSArray*)snappingPointsWithOffset:(NSSize)offset;
-- (NSSize)mouseOffset;
+// NSPoints
+@property (readonly, copy) NSArray<NSValue*> *snappingPoints;
+- (NSArray<NSValue*>*)snappingPointsWithOffset:(NSSize)offset;
+@property (readonly) NSSize mouseOffset;
 
 // getting dimensions in drawing coordinates
 
@@ -502,6 +522,7 @@ to attach arbitrary data to any drawable object.
 - (NSPoint)convertPointToDrawing:(NSPoint)pt;
 
 // hit testing:
+@property (nonatomic, getter=isBeingHitTested) BOOL beingHitTested;
 
 - (BOOL)intersectsRect:(NSRect)rect;
 - (NSInteger)hitPart:(NSPoint)pt;
@@ -571,8 +592,8 @@ to attach arbitrary data to any drawable object.
 
 // user info:
 
-- (void)setUserInfo:(NSDictionary*)info;
-- (void)addUserInfo:(NSDictionary*)info;
+- (void)setUserInfo:(NSDictionary<NSString*,id>*)info;
+- (void)addUserInfo:(NSDictionary<NSString*,id>*)info;
 
 /** @brief Return the attached user info
 
@@ -581,7 +602,7 @@ to attach arbitrary data to any drawable object.
  the object however.
  @return the user info
  */
-- (NSMutableDictionary*)userInfo;
+- (NSMutableDictionary<NSString*,id>*)userInfo;
 
 /** @brief Return an item of user info
  @param key the key to use to refer to the item

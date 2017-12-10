@@ -714,23 +714,7 @@ static NSColor* sInfoWindowColour = nil;
 
 #pragma mark -
 
-/** @brief Sets the "mode" of operation for creating new path objects
-
- Paths are created by tools usually so this will be rarely needed. Pass 0 for the defalt mode which
- is to edit an existing path (once created all paths are logically the same)
- @param editPathMode a constant indicating how a new path should be constructed.
- */
-- (void)setPathCreationMode:(DKDrawablePathCreationMode)editPathMode
-{
-	m_editPathMode = editPathMode;
-}
-
-/** @brief Gets the "mode" of operation for creating new path objects
- */
-- (DKDrawablePathCreationMode)pathCreationMode
-{
-	return m_editPathMode;
-}
+@synthesize pathCreationMode = m_editPathMode;
 
 #pragma mark -
 

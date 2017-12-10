@@ -18,13 +18,11 @@
 	NSImage* m_cache;
 }
 
-+ (DKCIFilterRastGroup*)effectGroupWithFilter:(NSString*)filter;
++ (instancetype)effectGroupWithFilter:(NSString*)filter;
 
-- (void)setFilter:(NSString*)filter;
-- (NSString*)filter;
+@property (nonatomic, copy) NSString *filter;
 
-- (void)setArguments:(NSDictionary*)dict;
-- (NSDictionary*)arguments;
+@property (copy) NSDictionary *arguments;
 
 - (void)invalidateCache;
 

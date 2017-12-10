@@ -27,10 +27,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-- (NSSize)size
-{
-	return m_size;
-}
+@synthesize size=m_size;
 
 #pragma mark -
 - (void)setPlacement:(DKInfoBoxPlacement)placement
@@ -41,10 +38,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-- (DKInfoBoxPlacement)placement
-{
-	return m_placement;
-}
+@synthesize placement=m_placement;
 
 #pragma mark -
 - (void)setBackgroundColour:(NSColor*)colour
@@ -66,10 +60,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-- (BOOL)drawsBorder
-{
-	return m_drawBorder;
-}
+@synthesize drawsBorder=m_drawBorder;
 
 #pragma mark -
 - (NSRect)infoBoxRect

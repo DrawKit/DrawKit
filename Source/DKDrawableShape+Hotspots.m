@@ -142,10 +142,7 @@
 }
 
 #pragma mark -
-- (void)setOwner:(DKDrawableShape*)shape
-{
-	m_owner = shape;
-}
+@synthesize owner=m_owner;
 
 - (void)setOwner:(DKDrawableShape*)shape withPartcode:(NSInteger)pc
 {
@@ -153,32 +150,9 @@
 	[self setPartcode:pc];
 }
 
-- (DKDrawableShape*)owner
-{
-	return m_owner;
-}
-
 #pragma mark -
-- (void)setPartcode:(NSInteger)pc
-{
-	m_partcode = pc;
-}
-
-- (NSInteger)partcode
-{
-	return m_partcode;
-}
-
-#pragma mark -
-- (void)setRelativeLocation:(NSPoint)rloc
-{
-	m_relLoc = rloc;
-}
-
-- (NSPoint)relativeLocation
-{
-	return m_relLoc;
-}
+@synthesize partcode=m_partcode;
+@synthesize relativeLocation=m_relLoc;
 
 #pragma mark -
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state
@@ -188,15 +162,7 @@
 }
 
 #pragma mark -
-- (void)setDelegate:(id)delegate
-{
-	m_delegate = delegate;
-}
-
-- (id)delegate
-{
-	return m_delegate;
-}
+@synthesize delegate=m_delegate;
 
 #pragma mark -
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view
@@ -275,8 +241,8 @@
 #pragma unused(zone)
 
 	DKHotspot* copy = [[DKHotspot alloc] init];
-	[copy setRelativeLocation:m_relLoc];
-	[copy setPartcode:m_partcode];
+	copy.relativeLocation=m_relLoc;
+	copy.partcode=m_partcode;
 
 	return copy;
 }

@@ -127,9 +127,8 @@ siderations are outside the scope of DK itself.
 
 #pragma mark -
 
+//! most of these are now implemented by \c DKToolRegistry - these methods call it for compatibility
 @interface DKDrawingTool (Deprecated)
-
-// most of these are now implemented by DKToolRegistry - these methods call it for compatibility
 
 /** @brief Return the shared instance of the tool registry
 

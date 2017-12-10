@@ -59,20 +59,16 @@ enum {
 
 - (id)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate;
 
-- (void)setOwner:(DKDrawableShape*)shape;
+@property (assign) DKDrawableShape *owner;
 - (void)setOwner:(DKDrawableShape*)shape withPartcode:(NSInteger)pc;
-- (DKDrawableShape*)owner;
 
-- (void)setPartcode:(NSInteger)pc;
-- (NSInteger)partcode;
+@property NSInteger partcode;
 
-- (void)setRelativeLocation:(NSPoint)rloc;
-- (NSPoint)relativeLocation;
+@property NSPoint relativeLocation;
 
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state;
 
-- (void)setDelegate:(id<DKHotspotDelegate>)delegate;
-- (id<DKHotspotDelegate>)delegate;
+@property (assign) id<DKHotspotDelegate> delegate;
 
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view;
 - (void)continueMouseTracking:(NSEvent*)event inView:(NSView*)view;

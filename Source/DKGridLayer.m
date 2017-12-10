@@ -278,15 +278,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-/** @brief Returns the location within the drawing where the grid considers zero to be (i.e. coordinate 0,0)
-
- By default this is set to the upper, left corner of the drawing's interior
- @return a point in the drawing where zero is
- */
-- (NSPoint)zeroPoint
-{
-	return m_zeroDatum;
-}
+@synthesize zeroPoint=m_zeroDatum;
 
 #pragma mark - getting grid info
 
@@ -300,29 +292,9 @@ static NSColor* sMajorColour = nil;
 	return [[self drawing] unitToPointsConversionFactor];
 }
 
-/** @brief Returns the number of divisions per span
- @return an integer value > 1
- */
-- (NSUInteger)divisions
-{
-	return m_divisionsPerSpan;
-}
-
-/** @brief Returns the number of spans per major
- @return an integer value
- */
-- (NSUInteger)majors
-{
-	return m_spansPerMajor;
-}
-
-/** @brief Returns the number of units of basic distance for one span
- @return a float value
- */
-- (CGFloat)spanMultiplier
-{
-	return mSpanMultiplier;
-}
+@synthesize divisions=m_divisionsPerSpan;
+@synthesize majors=m_spansPerMajor;
+@synthesize spanMultiplier=mSpanMultiplier;
 
 - (void)setDivisionsHidden:(BOOL)hide
 {
@@ -369,15 +341,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-/** @brief Returns the ruler step-up cycle in use
-
- See NSRulerView for details about the ruler step-up cycle
- @return an integer value > 1
- */
-- (NSUInteger)rulerSteps
-{
-	return m_rulerStepUpCycle;
-}
+@synthesize rulerSteps=m_rulerStepUpCycle;
 
 /** @brief Set up the rulers of all views that have them so that they agree with the current grid
 
@@ -479,16 +443,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-/** @brief The colour used to draw the spans
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you.
- @return a colour
- */
-- (NSColor*)spanColour
-{
-	return m_spanColour;
-}
+@synthesize spanColour=m_spanColour;
 
 /** @brief Sets the colour used to draw the divisions
 
@@ -506,10 +461,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-- (NSColor*)divisionColour
-{
-	return m_divisionColour;
-}
+@synthesize divisionColour=m_divisionColour;
 
 /** @brief Sets the colour used to draw the majors
 
@@ -527,10 +479,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-- (NSColor*)majorColour
-{
-	return m_majorColour;
-}
+@synthesize majorColour=m_majorColour;
 
 /** @brief Sets the colours used to draw the grid as a whole
 

@@ -64,30 +64,32 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 + (NSColor*)pageBreakColour;
 
+@property (class, retain) NSColor *pageBreakColour;
+
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
  @return a colour
  */
 + (NSColor*)backgroundColour;
+@property (class, readonly, copy) NSColor *backgroundColour;
 
 /** @brief Get the point for the initial mouse down that last opened a contextual menu
  @return a point in the drawing's coordinates
  */
 + (NSPoint)pointForLastContextualMenuEvent;
+@property (class, readonly) NSPoint pointForLastContextualMenuEvent;
 
 /** @brief Return an image resource from the framework bundle
  @param name the image name
  @return the image, if available
  */
-+ (NSImage*)imageResourceNamed:(NSString*)name;
++ (NSImage*)imageResourceNamed:(NSImageName)name;
 
 /** @name Temporary Text Editor
  @brief Setting the class to use for the temporary text editor
  @{ */
 
-+ (Class)classForTextEditor;
-+ (void)setClassForTextEditor:(Class)aClass;
-+ (void)setTextEditorAllowsTypingUndo:(BOOL)allowUndo;
-+ (BOOL)textEditorAllowsTypingUndo;
+@property (class/*, null_resettable*/) Class classForTextEditor;
+@property (class) BOOL textEditorAllowsTypingUndo;
 
 /** @} */
 
@@ -115,6 +117,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  @return the controller
  */
 - (DKViewController*)controller;
+
+@property (assign) DKViewController *controller;
 
 /** @brief Sea new controller for this view
 
@@ -169,6 +173,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (BOOL)pageBreaksVisible;
 
+@property (nonatomic) BOOL pageBreaksVisible;
+
 /** @brief Draw page breaks based on the page break print info */
 - (void)drawPageBreaks;
 
@@ -186,6 +192,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (DKCropMarkKind)printCropMarkKind;
 
+@property (nonatomic) DKCropMarkKind printCropMarkKind;
+
 /** @brief Draws the crop marks if set to do so and the view is being printed */
 - (void)drawCropMarks;
 
@@ -195,6 +203,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  @return a NSPrintInfo object
  */
 - (NSPrintInfo*)printInfo;
+
+@property (nonatomic, retain) NSPrintInfo *printInfo;
 
 - (void)set;
 
@@ -245,6 +255,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (NSTextView*)textEditingView;
 
+@property (readonly, retain) NSTextView *textEditingView;
+
 /** @brief Respond to frame size changes in the text editor view
 
  This tidies up the display when the editor frame changes size. The frame can change
@@ -261,6 +273,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  @return YES if text editing is in progress, NO otherwise
  */
 - (BOOL)isTextBeingEdited;
+
+@property (readonly, getter=isTextBeingEdited) BOOL textBeingEdited;
 
 // ruler stuff
 
@@ -321,11 +335,11 @@ extern NSNotificationName kDKDrawingViewDidEndTextEditing;
 extern NSNotificationName kDKDrawingViewWillCreateAutoDrawing;
 extern NSNotificationName kDKDrawingViewDidCreateAutoDrawing;
 
-extern NSString* kDKDrawingMouseDownLocation;
-extern NSString* kDKDrawingMouseDraggedLocation;
-extern NSString* kDKDrawingMouseUpLocation;
-extern NSString* kDKDrawingMouseMovedLocation;
-extern NSString* kDKDrawingViewRulersChanged;
+extern NSNotificationName kDKDrawingMouseDownLocation;
+extern NSNotificationName kDKDrawingMouseDraggedLocation;
+extern NSNotificationName kDKDrawingMouseUpLocation;
+extern NSNotificationName kDKDrawingMouseMovedLocation;
+extern NSNotificationName kDKDrawingViewRulersChanged;
 
 extern NSString* kDKDrawingMouseLocationInView;
 extern NSString* kDKDrawingMouseLocationInDrawingUnits;

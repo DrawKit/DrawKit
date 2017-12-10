@@ -552,46 +552,10 @@ static NSDictionary* s_interconversionTable = nil;
 	}
 }
 
-/** @brief Retuirn whether the object is ghosted rather than with its full style
-
- Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
- a thin outline. See also: +setGhostingColour:
- @return YES if the object is ghosted, NO otherwise
- */
-- (BOOL)isGhosted
-{
-	return mGhosted;
-}
-
-- (BOOL)isTrackingMouse
-{
-	return m_inMouseOp;
-}
-
-- (void)setTrackingMouse:(BOOL)tracking
-{
-	m_inMouseOp = tracking;
-}
-
-- (NSSize)mouseDragOffset
-{
-	return m_mouseOffset;
-}
-
-- (void)setMouseDragOffset:(NSSize)offset
-{
-	m_mouseOffset = offset;
-}
-
-- (BOOL)mouseHasMovedSinceStartOfTracking
-{
-	return m_mouseEverMoved;
-}
-
-- (void)setMouseHasMovedSinceStartOfTracking:(BOOL)moved
-{
-	m_mouseEverMoved = moved;
-}
+@synthesize ghosted=mGhosted;
+@synthesize trackingMouse=m_inMouseOp;
+@synthesize mouseDragOffset=m_mouseOffset;
+@synthesize mouseHasMovedSinceStartOfTracking=m_mouseEverMoved;
 
 #pragma mark -
 
@@ -1093,13 +1057,7 @@ static NSDictionary* s_interconversionTable = nil;
 	[newStyle release];
 }
 
-/** @brief Return the attached style
- @return the current style
- */
-- (DKStyle*)style
-{
-	return m_style;
-}
+@synthesize style=m_style;
 
 static NSRect s_oldBounds;
 

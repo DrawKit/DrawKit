@@ -48,11 +48,13 @@ static NSPoint sLastContextMenuClick = { 0, 0 };
 
 NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 
-@interface DKDrawingView (Private)
+@interface DKDrawingView ()
 
+#if 0
 + (void)secondaryThreadEntryPoint:(id)obj;
 + (BOOL)secondaryThreadShouldRun;
 + (void)signalSecondaryThreadShouldDrawInRect:(NSRect)rect withView:(DKDrawingView*)aView;
+#endif
 
 /** @brief Broadcast the current mouse position in both native and drawing coordinates.
 
@@ -77,6 +79,7 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 - (NSDictionary*)rulerMarkerInfo;
 
+@property (copy) NSDictionary *rulerMarkerInfo;
 @end
 
 #pragma mark -
@@ -161,9 +164,8 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (NSImage*)imageResourceNamed:(NSString*)name
 {
-	NSString* path = [[NSBundle bundleForClass:self] pathForImageResource:name];
-	NSImage* image = [[NSImage alloc] initByReferencingFile:path];
-	return [image autorelease];
+	NSImage* image = [[NSBundle bundleForClass:self] imageForResource:name];
+	return image;
 }
 
 #pragma mark -
@@ -199,24 +201,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark -
 #pragma mark - the view's controller
 
-/** @brief Set the view's controller
-
- Do not call this directly - the controller will call it to set up the relationship at the right
- time.
- @param aController the controller for this view
- */
-- (void)setController:(DKViewController*)aController
-{
-	mControllerRef = aController;
-}
-
-/** @brief Return the view's controller
- @return the controller
- */
-- (DKViewController*)controller
-{
-	return mControllerRef;
-}
+@synthesize controller=mControllerRef;
 
 /** @brief Sea new controller for this view
 
@@ -414,13 +399,7 @@ static Class s_textEditorClass = Nil;
 	[self setNeedsDisplay:YES];
 }
 
-/** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations
- @return a NSPrintInfo object
- */
-- (NSPrintInfo*)printInfo
-{
-	return mPrintInfo;
-}
+@synthesize printInfo=mPrintInfo;
 
 /** @brief Sets whether the page breaks are shown or not
 
@@ -435,13 +414,7 @@ static Class s_textEditorClass = Nil;
 	}
 }
 
-/** @brief Are page breaks vissble?
- @return YES if page breaks are visible
- */
-- (BOOL)pageBreaksVisible
-{
-	return mPageBreaksVisible;
-}
+@synthesize pageBreaksVisible=mPageBreaksVisible;
 
 /** @brief Show or hide the page breaks
  @param sender the action's sender
@@ -465,15 +438,7 @@ static Class s_textEditorClass = Nil;
 	}
 }
 
-/** @brief What sort of crop mark sare applied to printed output
-
- Default is no crop marks
- @return the crop mark kind
- */
-- (DKCropMarkKind)printCropMarkKind
-{
-	return mCropMarkKind;
-}
+@synthesize printCropMarkKind=mCropMarkKind;
 
 /** @brief Draws the crop marks if set to do so and the view is being printed */
 - (void)drawCropMarks
@@ -665,13 +630,7 @@ static Class s_textEditorClass = Nil;
 	return [[m_textEditViewRef layoutManager] textStorage];
 }
 
-/** @brief Return the current temporary text editing view
- @return the text editing view, or nil
- */
-- (NSTextView*)textEditingView
-{
-	return m_textEditViewRef;
-}
+@synthesize textEditingView=m_textEditViewRef;
 
 /** @brief Respond to frame size changes in the text editor view
 
@@ -686,16 +645,7 @@ static Class s_textEditorClass = Nil;
 	mEditorFrame = [[note object] frame];
 }
 
-/** @brief Is the text editor visible and active?
-
- Clients should not generally start a text editing operation if there is already one in progress,
- though if they do the old one is immediately ended anyway.
- @return YES if text editing is in progress, NO otherwise
- */
-- (BOOL)isTextBeingEdited
-{
-	return mTextEditViewInUse;
-}
+@synthesize textBeingEdited=mTextEditViewInUse;
 
 #pragma mark -
 #pragma mark - ruler stuff
@@ -909,17 +859,7 @@ static Class s_textEditorClass = Nil;
 														object:self];
 }
 
-- (void)setRulerMarkerInfo:(NSDictionary*)dict
-{
-	[dict retain];
-	[mRulerMarkersDict release];
-	mRulerMarkersDict = dict;
-}
-
-- (NSDictionary*)rulerMarkerInfo
-{
-	return mRulerMarkersDict;
-}
+@synthesize rulerMarkerInfo=mRulerMarkersDict;
 
 #pragma mark -
 #pragma mark - monitoring the mouse location

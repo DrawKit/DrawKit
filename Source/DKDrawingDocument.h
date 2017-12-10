@@ -7,6 +7,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class DKDrawing, DKDrawingView, DKViewController, DKDrawingTool, DKPrintDrawingView;
+@class DKStyle;
 
 /** @brief This class is a simple document type that owns a drawing instance.
 
@@ -39,6 +40,7 @@ like this are one easy way to do it, but not the only way.
  @return the shared instance of the undo manager
  */
 + (NSUndoManager*)sharedDrawkitUndoManager;
+@property (class, readonly, retain) NSUndoManager *sharedDrawkitUndoManager;
 
 /** @brief Establishes a mapping between a file type and a method that can import that file type
 
@@ -74,6 +76,8 @@ like this are one easy way to do it, but not the only way.
  */
 + (NSUInteger)defaultLevelsOfUndo;
 
+@property (class) NSUInteger defaultLevelsOfUndo;
+
 /** @brief Set the document's drawing object
 
  The document owns the drawing
@@ -88,6 +92,8 @@ like this are one easy way to do it, but not the only way.
  */
 - (DKDrawing*)drawing;
 
+@property (nonatomic, retain) DKDrawing *drawing;
+
 /** @brief Return the document's main view
 
  If the document has a main view, this returns it. Normally this is set up in the nib. A document
@@ -95,6 +101,7 @@ like this are one easy way to do it, but not the only way.
  @return the document's main view
  */
 - (DKDrawingView*)mainView;
+@property (readonly, assign) DKDrawingView *mainView;
 
 /** @brief Create a controller object to connect the given view to the document's drawing
 
@@ -123,6 +130,7 @@ like this are one easy way to do it, but not the only way.
  @return the class of the default drawing layer
  */
 - (Class)classOfDefaultDrawingLayer;
+@property (readonly) Class classOfDefaultDrawingLayer;
 
 /** @brief Return whether an info layer should be added to the default drawing.
 
@@ -130,11 +138,12 @@ like this are one easy way to do it, but not the only way.
  @return YES, by default
  */
 - (BOOL)wantsInfoLayer;
+@property (readonly) BOOL wantsInfoLayer;
 
 /** @brief Returns all styles used by the document's drawing
  @return a set of all styles in the drawing
  */
-- (NSSet*)allStyles;
+- (NSSet<DKStyle*>*)allStyles;
 
 /** @brief Returns all registered styles used by the document's drawing
 
@@ -143,7 +152,7 @@ like this are one easy way to do it, but not the only way.
  care that this is only called once after loading a document if it's the flagged styles you require.
  @return a set of all registered styles in the drawing
  */
-- (NSSet*)allRegisteredStyles;
+- (NSSet<DKStyle*>*)allRegisteredStyles;
 
 /** @brief The first step in reconsolidating a newly opened document's registered styles with the current
  style registry.
@@ -154,7 +163,7 @@ like this are one easy way to do it, but not the only way.
  @param stylesToMerge a set of styles loaded with the document that are flagged as having been registered
  @param url the url from whence the document was loaded (ignored by default)
  */
-- (void)remergeStyles:(NSSet*)stylesToMerge readFromURL:(NSURL*)url;
+- (void)remergeStyles:(NSSet<DKStyle*>*)stylesToMerge readFromURL:(NSURL*)url;
 
 /** @brief The second step in reconsolidating a newly opened document's registered styles with the current
  style registry.
@@ -162,7 +171,7 @@ like this are one easy way to do it, but not the only way.
  This should only be called if the registry actually returned anything from the remerge operation
  @param aSetOfStyles the styles returned from the registry that should replace those in the document
  */
-- (void)replaceDocumentStylesWithMatchingStylesFromSet:(NSSet*)aSetOfStyles;
+- (void)replaceDocumentStylesWithMatchingStylesFromSet:(NSSet<DKStyle*>*)aSetOfStyles;
 
 /** @brief Returns a name that can be used for a style registry category for this document
  @return a string - just the document's filename without the extension or other path components
@@ -186,6 +195,8 @@ like this are one easy way to do it, but not the only way.
  @return a drawing tool object, if any
  */
 - (DKDrawingTool*)drawingTool;
+
+@property (retain) DKDrawingTool *drawingTool;
 
 /** @brief High-level method to add a new drawing layer to the document
 
@@ -225,4 +236,4 @@ extern NSString* kDKDrawingDocumentXMLUTI;
 
 extern NSString* kDKDocumentLevelsOfUndoDefaultsKey;
 
-#define DEFAULT_LEVELS_OF_UNDO 24
+#define DEFAULT_LEVELS_OF_UNDO 24lu

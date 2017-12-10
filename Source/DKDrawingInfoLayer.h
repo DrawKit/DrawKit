@@ -35,24 +35,20 @@ modified form. It is provided as another example of how to implement layer subcl
 
 // general settings:
 
-- (void)setSize:(NSSize)size;
-- (NSSize)size;
+@property (nonatomic) NSSize size;
 
-- (void)setPlacement:(DKInfoBoxPlacement)placement;
-- (DKInfoBoxPlacement)placement;
+@property (nonatomic) DKInfoBoxPlacement placement;
 
-- (void)setBackgroundColour:(NSColor*)colour;
-- (NSColor*)backgroundColour;
+@property (retain) NSColor *backgroundColour;
 
-- (void)setDrawsBorder:(BOOL)border;
-- (BOOL)drawsBorder;
+@property (nonatomic) BOOL drawsBorder;
 
 // internal stuff:
 
-- (NSRect)infoBoxRect;
+@property (readonly) NSRect infoBoxRect;
 - (void)drawInfoInRect:(NSRect)br;
 - (NSDictionary*)attributesForDrawingInfoItem:(NSString*)key;
-- (void)drawString:(NSString*)str inRect:(NSRect)r withAttributes:(NSDictionary*)attr;
+- (void)drawString:(NSString*)str inRect:(NSRect)r withAttributes:(NSDictionary<NSAttributedStringKey, id>*)attr;
 
 - (NSAttributedString*)labelForDrawingInfoItem:(NSString*)key;
 - (NSRect)layoutRectForDrawingInfoItem:(NSString*)key inRect:(NSRect)bounds;
