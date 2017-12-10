@@ -36,7 +36,7 @@
 - (NSBitmapImageRep*)bitmapImageRepresentation;
 @end
 
-#define CIIMAGE_PADDING 32.0f
+#define CIIMAGE_PADDING 32.0
 
 @interface NSBitmapImageRep (CoreImage)
 /** @brief Draws the specified image representation using Core Image. */

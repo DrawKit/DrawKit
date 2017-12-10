@@ -262,8 +262,8 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		CGFloat dx, dy;
 
-		dx = niSize.width * 0.5f;
-		dy = niSize.height * 0.5f;
+		dx = niSize.width * 0.5;
+		dy = niSize.height * 0.5;
 
 		NSAffineTransform* tfm = [NSAffineTransform transform];
 		[tfm translateXBy:-([self location].x - dx)

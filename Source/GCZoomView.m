@@ -146,7 +146,7 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 - (IBAction)zoomToPercentageWithTag:(id)sender
 {
 	NSInteger tag = [sender tag];
-	CGFloat ns = (CGFloat)tag / 100.0f;
+	CGFloat ns = (CGFloat)tag / 100.0;
 
 	[self zoomViewToAbsoluteScale:ns];
 }

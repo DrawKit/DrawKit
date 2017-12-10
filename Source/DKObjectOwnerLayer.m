@@ -2044,8 +2044,8 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 			cp = [view convertPoint:[sender draggingLocation]
 						   fromView:nil];
-			cp.x -= [tShape size].width * 0.5f;
-			cp.y += [tShape size].height * 0.5f;
+			cp.x -= [tShape size].width * 0.5;
+			cp.y += [tShape size].height * 0.5;
 
 			dropObjects = [NSArray arrayWithObject:tShape];
 			[self addObjects:dropObjects
@@ -2072,8 +2072,8 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 			cp = [view convertPoint:[sender draggingLocation]
 						   fromView:nil];
 
-			cp.x -= [imshape size].width * 0.5f;
-			cp.y += [imshape size].height * 0.5f;
+			cp.x -= [imshape size].width * 0.5;
+			cp.y += [imshape size].height * 0.5;
 
 			dropObjects = [NSArray arrayWithObject:imshape];
 			[imshape release];

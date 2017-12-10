@@ -719,7 +719,7 @@ static NSDictionary* s_interconversionTable = nil;
 		[NSGraphicsContext restoreGraphicsState];
 
 		if (m_showBBox) {
-			CGFloat sc = 0.5f / [(DKDrawingView*)[self currentView] scale];
+			CGFloat sc = 0.5 / [(DKDrawingView*)[self currentView] scale];
 
 			[[NSColor redColor] set];
 
@@ -1302,7 +1302,7 @@ static NSRect s_oldBounds;
  */
 - (CGFloat)angle
 {
-	return 0.0f;
+	return 0.0;
 }
 
 /** @brief Set the object's current angle in radians
@@ -1324,9 +1324,9 @@ static NSRect s_oldBounds;
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
-	return fmod(angle, 360.0f);
+	return fmod(angle, 360.0);
 }
 
 /** @brief Rotate the shape by adding a delta angle to the current angle

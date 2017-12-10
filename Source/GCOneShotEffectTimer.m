@@ -46,7 +46,7 @@
 	if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotWillBegin)])
 		[mDelegate oneShotWillBegin];
 
-	mTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 48.0f
+	mTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 48.0
 											  target:self
 											selector:@selector(osfx_callback:)
 											userInfo:nil

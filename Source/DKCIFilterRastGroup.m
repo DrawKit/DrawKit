@@ -173,8 +173,8 @@
 
 			NSPoint pp;
 
-			pp.x = imgRect.size.width * 0.5f + ([object offset].width * [object size].width);
-			pp.y = imgRect.size.height * 0.5f + ([object offset].height * [object size].height);
+			pp.x = imgRect.size.width * 0.5 + ([object offset].width * [object size].width);
+			pp.y = imgRect.size.height * 0.5 + ([object offset].height * [object size].height);
 
 			[args setObject:[CIVector vectorWithX:pp.x
 												Y:pp.y]
@@ -282,7 +282,7 @@
 			[self drawAtPoint:point
 					 fromRect:fromRect
 					operation:NSCompositeSourceOver
-					 fraction:1.0f];
+					 fraction:1.0];
 
 	}
 }
@@ -323,16 +323,16 @@
 					   "gt_noRenderPadding" in the argument dictionary. */
 					fromRect.origin.x -= CIIMAGE_PADDING;
 					fromRect.origin.y -= CIIMAGE_PADDING;
-					fromRect.size.width += CIIMAGE_PADDING * 2.0f;
-					fromRect.size.height += CIIMAGE_PADDING * 2.0f;
+					fromRect.size.width += CIIMAGE_PADDING * 2.0;
+					fromRect.size.height += CIIMAGE_PADDING * 2.0;
 					point.x -= CIIMAGE_PADDING;
 					point.y -= CIIMAGE_PADDING;
 				}
 
 				ciContext = [[NSGraphicsContext currentContext] CIContext];
 				[ciContext drawImage:after
-							 atPoint:*(CGPoint*)(&point)
-							fromRect:*(CGRect*)(&fromRect)];
+							 atPoint:NSPointToCGPoint(point)
+							fromRect:NSRectToCGRect(fromRect)];
 			}
 		}
 		@catch (NSException* e)

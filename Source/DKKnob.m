@@ -118,7 +118,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 			// inset the bounds to allow for half the stroke width to take up that space
 
 			CGFloat strokeWidth = [self strokeWidthForKnobType:knobType];
-			fkr = NSInsetRect(fkr, cns.width / 16.0f, cns.height / 16.0f);
+			fkr = NSInsetRect(fkr, cns.width / 16.0, cns.height / 16.0);
 
 			if (radians != 0.0) {
 				NSAffineTransform* transform = RotationTransform(radians, p);
@@ -219,7 +219,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 			// inset the bounds to allow for half the stroke width to take up that space
 
 			CGFloat strokeWidth = [self strokeWidthForKnobType:knobType];
-			fkr = NSInsetRect(fkr, cns.width / 16.0f, cns.height / 16.0f);
+			fkr = NSInsetRect(fkr, cns.width / 16.0, cns.height / 16.0);
 
 			if (radians != 0.0) {
 				NSAffineTransform* transform = RotationTransform(radians, p);
@@ -667,8 +667,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	NSRect r;
 
 	r.size = [[self class] controlKnobSize];
-	r.origin.x = kp.x - (r.size.width * 0.5f);
-	r.origin.y = kp.y - (r.size.height * 0.5f);
+	r.origin.x = kp.x - (r.size.width * 0.5);
+	r.origin.y = kp.y - (r.size.height * 0.5);
 
 	return r;
 }
@@ -758,7 +758,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 	switch (knobType & kDKKnobTypeMask) {
 	case kDKCentreTargetKnobType:
-		strk = cns.width * 4.0f / 24.0f;
+		strk = cns.width * 4.0 / 24.0;
 		break;
 
 	case kDKRotationKnobType:
@@ -766,7 +766,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 		break;
 
 	default:
-		strk = cns.width / 8.0f;
+		strk = cns.width / 8.0;
 		break;
 	}
 
@@ -836,7 +836,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	// inset the bounds to allow for half the stroke width to take up that space
 
 	CGFloat strokeWidth = [self strokeWidthForKnobType:knobType];
-	boundsRect = NSInsetRect(boundsRect, strokeWidth * 0.5f, strokeWidth * 0.5f);
+	boundsRect = NSInsetRect(boundsRect, strokeWidth * 0.5, strokeWidth * 0.5);
 
 	if (isRect) {
 		path = [NSBezierPath bezierPathWithRect:boundsRect];
@@ -850,8 +850,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 		path = [NSBezierPath bezierPath];
 		NSSize half;
 
-		half.width = boundsRect.size.width * 0.5f;
-		half.height = boundsRect.size.height * 0.5f;
+		half.width = boundsRect.size.width * 0.5;
+		half.height = boundsRect.size.height * 0.5;
 
 		p.y -= half.height;
 		[path moveToPoint:p];
@@ -942,7 +942,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	NSSize hs = [self controlKnobSize];
 	NSRect hr = NSMakeRect(kp.x, kp.y, hs.width, hs.height);
 
-	hr = NSOffsetRect(hr, -(hs.width * 0.5f), -(hs.height * 0.5f));
+	hr = NSOffsetRect(hr, -(hs.width * 0.5), -(hs.height * 0.5));
 
 	return hr;
 }

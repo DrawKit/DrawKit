@@ -11,7 +11,7 @@
 
 static inline NSUInteger depthForObjectCount(NSUInteger n)
 {
-	return (n > 0 ? MAX((NSUInteger)_CGFloatCeil(_CGFloatLog((CGFloat)n)) / _CGFloatLog(2.0f), kDKMinimumDepth) : 0);
+	return (n > 0 ? MAX((NSUInteger)_CGFloatCeil(_CGFloatLog((CGFloat)n)) / _CGFloatLog(2.0), kDKMinimumDepth) : 0);
 }
 
 static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
@@ -576,13 +576,13 @@ static NSUInteger sLeafCount = 0;
 
 		if ([node type] == kNodeHorizontal) {
 			type = kNodeVertical;
-			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect), NSHeight(rect) * 0.5f);
+			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect), NSHeight(rect) * 0.5);
 			rb = NSMakeRect(NSMinX(rect), NSMaxY(ra), NSWidth(rect), NSHeight(rect) - NSHeight(ra));
 			oa = NSMidX(ra);
 			ob = NSMidX(rb);
 		} else {
 			type = kNodeHorizontal;
-			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect) * 0.5f, NSHeight(rect));
+			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect) * 0.5, NSHeight(rect));
 			rb = NSMakeRect(NSMaxX(ra), NSMinY(rect), NSWidth(rect) - NSWidth(ra), NSHeight(rect));
 			oa = NSMidY(ra);
 			ob = NSMidY(rb);

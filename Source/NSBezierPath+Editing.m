@@ -105,7 +105,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 
 	// find angle ABC and bisect it
 
-	CGFloat angle = (Slope(inPoints[1], inPoints[2]) + Slope(inPoints[0], inPoints[1])) / 2.0f;
+	CGFloat angle = (Slope(inPoints[1], inPoints[2]) + Slope(inPoints[0], inPoints[1])) / 2.0;
 
 	if (outCPA) {
 		outCPA->x = inPoints[1].x + r1 * cos(angle + M_PI);

@@ -124,7 +124,7 @@
 	if (m_cache) {
 		cr = [m_cache bounds];
 
-		if ((br.size.width * 1.5f) > cr.size.width || (br.size.height * 1.5f) > cr.size.height)
+		if ((br.size.width * 1.5) > cr.size.width || (br.size.height * 1.5) > cr.size.height)
 			[self invalidateCache];
 	}
 
@@ -158,7 +158,7 @@
 		else
 			[m_cache setLineDash:nil
 						   count:0
-						   phase:0.0f];
+						   phase:0.0];
 
 		[m_cache setLineCapStyle:[self lineCapStyle]];
 		[m_cache setLineJoinStyle:[self lineJoinStyle]];
@@ -247,7 +247,7 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
@@ -409,8 +409,8 @@
 
 		NSRect cr;
 
-		cr.size.width = cr.size.height = (MAX(rect.size.width, rect.size.height) * 1.5f);
-		cr.origin.x = cr.origin.y = (cr.size.width * -0.5f);
+		cr.size.width = cr.size.height = (MAX(rect.size.width, rect.size.height) * 1.5);
+		cr.origin.x = cr.origin.y = (cr.size.width * -0.5);
 
 		//LogEvent_(kReactiveEvent,  @"hatch origin rect = {%f, %f},{%f, %f}", cr.origin.x, cr.origin.y, cr.size.width, cr.size.height );
 
@@ -534,7 +534,7 @@
 			objectAngle:[obj angle]];
 	else
 		[self hatchPath:path
-			objectAngle:0.0f];
+			objectAngle:0.0];
 }
 
 #pragma mark -

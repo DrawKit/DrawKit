@@ -26,8 +26,8 @@ static inline void VP(CGFloat* px, CGFloat* py, CGFloat x1, CGFloat y1, CGFloat 
 {
 	CGFloat d = MMul(x1 - x2, y1 - y2, x3 - x4, y3 - y4);
 
-	if (d == 0.0f)
-		d = 1.0f;
+	if (d == 0.0)
+		d = 1.0;
 
 	*px = MMul(MMul(x1, y1, x2, y2), x1 - x2, MMul(x3, y3, x4, y4), x3 - x4) / d;
 	*py = MMul(MMul(x1, y1, x2, y2), y1 - y2, MMul(x3, y3, x4, y4), y3 - y4) / d;

@@ -96,8 +96,8 @@
 
 		// canonical  rect is centred at origin
 
-		r.origin.x -= r.size.width * 0.5f;
-		r.origin.y -= r.size.height * 0.5f;
+		r.origin.x -= r.size.width * 0.5;
+		r.origin.y -= r.size.height * 0.5;
 
 		// need to set up rect so that widths and heights are always +ve
 

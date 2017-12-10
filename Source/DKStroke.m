@@ -89,13 +89,13 @@
 
 - (CGFloat)allowance
 {
-	CGFloat allow = ([self width] * 0.5f) + fabs([self lateralOffset]);
+	CGFloat allow = ([self width] * 0.5) + fabs([self lateralOffset]);
 
 	// factor in miter limit if that's the join style. Note that miter limits can be extremely generous, and cause the bounds
 	// to blow out quite substantially.
 
 	if ([self lineJoinStyle] == NSMiterLineJoinStyle) {
-		CGFloat m = ([self miterLimit] * [self width] * 0.5f);
+		CGFloat m = ([self miterLimit] * [self width] * 0.5);
 		CGFloat om = ([self miterLimit] * fabs([self lateralOffset]));
 
 		if (m > allow)

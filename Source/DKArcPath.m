@@ -368,7 +368,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 					CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 					if (angle < 0)
-						angle += 360.0f;
+						angle += 360.0;
 
 					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
 												   atPoint:nsp];
@@ -448,7 +448,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	for (pc = kDKArcPathRadiusPart; pc <= kDKArcPathCentrePointPart; ++pc) {
 		kp = [self pointForPartcode:pc];
 		kr.origin = kp;
-		kr = NSOffsetRect(kr, tol * -0.5f, tol * -0.5f);
+		kr = NSOffsetRect(kr, tol * -0.5, tol * -0.5);
 
 		if (NSPointInRect(pt, kr))
 			return pc;
@@ -598,7 +598,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 		default:
 			angle = RADIANS_TO_DEGREES(mEndAngle - mStartAngle);
 			if (angle < 0)
-				angle += 360.0f;
+				angle += 360.0;
 			infoStr = [NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f%C", rad, abbrUnits, angle, 0xB0];
 			break;
 		}
@@ -667,7 +667,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	for (pc = kDKArcPathRadiusPart; pc <= pcm; ++pc) {
 		kp = [self pointForPartcode:pc];
 		kr.origin = kp;
-		kr = NSOffsetRect(kr, tol * -0.5f, tol * -0.5f);
+		kr = NSOffsetRect(kr, tol * -0.5, tol * -0.5);
 		pb = NSUnionRect(pb, kr);
 	}
 
@@ -705,7 +705,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	if ([self arcType] == kDKArcPathCircle)
 		return 0.0;
 	else {
-		CGFloat angle = (mStartAngle + mEndAngle) * 0.5f;
+		CGFloat angle = (mStartAngle + mEndAngle) * 0.5;
 
 		if (fabs(mEndAngle - mStartAngle) < 0.001)
 			angle -= M_PI;
@@ -738,7 +738,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	radSize = [aTransform transformSize:radSize];
 
 	[self setLocation:loc];
-	[self setRadius:hypot(radSize.width, radSize.height) / _CGFloatSqrt(2.0f)];
+	[self setRadius:hypot(radSize.width, radSize.height) / M_SQRT2];
 	[self setAngle:[self angle] + [aGroup angle]];
 }
 

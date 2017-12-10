@@ -145,9 +145,9 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 				break;
 			}
 
-			r = (CGFloat)rgb[0] / 255.0f;
-			g = (CGFloat)rgb[1] / 255.0f;
-			b = (CGFloat)rgb[2] / 255.0f;
+			r = (CGFloat)rgb[0] / 255.0;
+			g = (CGFloat)rgb[1] / 255.0;
+			b = (CGFloat)rgb[2] / 255.0;
 
 			[m_cTable addObject:[NSColor colorWithCalibratedRed:r
 														  green:g
@@ -303,7 +303,7 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 {
 	if (pTree) {
 		if (pTree->bIsLeaf) {
-			CGFloat divs = ((CGFloat)(pTree->nPixelCount) * 255.0f); //(float) m_maxColours);
+			CGFloat divs = ((CGFloat)(pTree->nPixelCount) * 255.0); //(float) m_maxColours);
 
 			rgb[*pindex].r = (CGFloat)(pTree->nRedSum) / divs;
 			rgb[*pindex].g = (CGFloat)(pTree->nGreenSum) / divs;

@@ -1763,7 +1763,7 @@ finish:
 	// just for fun,this adds a little random offset to every control point on the path. For some paths (such as text) this produces
 	// a fairly interesting effect.
 
-	[self setPath:[[self path] bezierPathByRandomisingPoints:0.0f]];
+	[self setPath:[[self path] bezierPathByRandomisingPoints:0.0]];
 	[[self undoManager] setActionName:NSLocalizedString(@"Add Randomness", @"undo string for path add random")];
 }
 
@@ -2107,7 +2107,7 @@ finish:
 	NSRect kr = [[[self layer] knobs] controlKnobRectAtPoint:NSZeroPoint
 													  ofType:kDKOnPathKnobType];
 
-	CGFloat kbs = kr.size.width * 0.5f;
+	CGFloat kbs = kr.size.width * 0.5;
 	r = NSInsetRect([[self renderingPath] controlPointBounds], -kbs, -kbs);
 
 	// factor in style allowance

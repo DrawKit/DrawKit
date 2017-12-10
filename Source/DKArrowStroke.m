@@ -283,7 +283,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 		if (kind == kDKArrowHeadDimensionLineAndBar) {
 			// add the bar
 
-			NSBezierPath* barPath = [NSBezierPath bezierPathWithRect:NSMakeRect(-0.25f, [self arrowHeadWidth] * -0.75f, 0.5f, [self arrowHeadWidth] * 1.5)];
+			NSBezierPath* barPath = [NSBezierPath bezierPathWithRect:NSMakeRect(-0.25, [self arrowHeadWidth] * -0.75, 0.5, [self arrowHeadWidth] * 1.5)];
 
 			CGFloat slope;
 			NSPoint ep;
@@ -504,15 +504,15 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			switch ([self dimensioningLineOptions]) {
 			default:
 			case kDKDimensionPlaceAboveLine:
-				dy = 2.0f + ([self width] / 2);
+				dy = 2.0 + ([self width] / 2);
 				break;
 
 			case kDKDimensionPlaceBelowLine:
-				dy = -lineHeight - ([self width] / 2) - 2.0f;
+				dy = -lineHeight - ([self width] / 2) - 2.0;
 				break;
 
 			case kDKDimensionPlaceInLine:
-				dy = lineHeight * -0.5f;
+				dy = lineHeight * -0.5;
 				break;
 			}
 
@@ -783,8 +783,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			NSAttributedString* str = [self dimensionTextForObject:nil];
 			NSSize strSize = [str size];
 
-			es.height = MAX(es.width, strSize.height * 0.7f);
-			es.width = MAX(es.height, strSize.height * 0.7f);
+			es.height = MAX(es.width, strSize.height * 0.7);
+			es.width = MAX(es.height, strSize.height * 0.7);
 		}
 
 		return es;

@@ -66,10 +66,10 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	// Make sure radius doesn't exceed a maximum size
 
 	if (radius >= (rect.size.height / 2))
-		radius = rect.size.height * 0.5f;
+		radius = rect.size.height * 0.5;
 
 	if (radius >= (rect.size.width / 2))
-		radius = rect.size.width * 0.5f;
+		radius = rect.size.width * 0.5;
 
 	// Make sure silly values simply lead to un-rounded corners:
 
@@ -266,7 +266,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	if (innerDiameter > 1.0)
 		innerDiameter = 1.0;
 
-	CGFloat rad = innerDiameter * 0.5f;
+	CGFloat rad = innerDiameter * 0.5;
 	NSRect r = NSMakeRect(-rad, -rad, innerDiameter, innerDiameter);
 
 	[path appendBezierPathWithOvalInRect:r];
@@ -436,7 +436,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 {
 	// the rakeFactor is how far back the feather is swept - can be a value from 0..1
 
-	rakeFactor = LIMIT(rakeFactor, 0, 1) * 0.5f;
+	rakeFactor = LIMIT(rakeFactor, 0, 1) * 0.5;
 
 	NSBezierPath* feather = [NSBezierPath bezierPath];
 	NSPoint p = NSMakePoint(-0.5 + rakeFactor, 0);

@@ -459,7 +459,7 @@ static NSPoint CornerPoint(const NSPoint* pointsIn, CGFloat offset, CGFloat mite
 	s1 = Slope(pointsIn[0], pointsIn[1]);
 	s2 = Slope(pointsIn[1], pointsIn[2]);
 
-	relAngle = (s2 - s1) * 0.5f;
+	relAngle = (s2 - s1) * 0.5;
 	r = offset / cos(relAngle);
 	angle = s1 + relAngle + NINETY_DEGREES;
 
@@ -624,7 +624,7 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 				// ok, we have enough to work out the slope and start the new path
 
-				slope = Slope(v[0], v[1]) + M_PI * 0.5f;
+				slope = Slope(v[0], v[1]) + M_PI_2;
 				op.x = v[0].x + delta * cos(slope);
 				op.y = v[0].y + delta * sin(slope);
 				[newPath moveToPoint:op];
@@ -709,7 +709,7 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 	if (spc > 0) {
 		// open-ended path, place last offset point
 
-		slope = Slope(v[0], v[1]) + M_PI * 0.5f;
+		slope = Slope(v[0], v[1]) + M_PI_2;
 		op.x = v[1].x + delta * cos(slope);
 		op.y = v[1].y + delta * sin(slope);
 		[newPath lineToPoint:op];
@@ -977,10 +977,10 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 
 	// calculate the midpoints of the two edges
 
-	CGFloat xc1 = (v[0].x + v[1].x) * 0.5f; //(x0 + x1) / 2.0;
-	CGFloat yc1 = (v[0].y + v[1].y) * 0.5f; //(y0 + y1) / 2.0;
-	CGFloat xc2 = (v[1].x + v[2].x) * 0.5f; //(x1 + x2) / 2.0;
-	CGFloat yc2 = (v[1].y + v[2].y) * 0.5f; //(y1 + y2) / 2.0;
+	CGFloat xc1 = (v[0].x + v[1].x) * 0.5; //(x0 + x1) / 2.0;
+	CGFloat yc1 = (v[0].y + v[1].y) * 0.5; //(y0 + y1) / 2.0;
+	CGFloat xc2 = (v[1].x + v[2].x) * 0.5; //(x1 + x2) / 2.0;
+	CGFloat yc2 = (v[1].y + v[2].y) * 0.5; //(y1 + y2) / 2.0;
 
 	// calculate the ratio of the two lengths
 
@@ -1045,8 +1045,8 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 	NSBezierPath* newPath = [self copy];
 
 	if (![self isEmpty]) {
-		if (maxAmount == 0.0f)
-			maxAmount = MIN([self controlPointBounds].size.width, [self controlPointBounds].size.height) / 24.0f;
+		if (maxAmount == 0.0)
+			maxAmount = MIN([self controlPointBounds].size.width, [self controlPointBounds].size.height) / 24.0;
 
 		NSInteger i, count = [self elementCount];
 		NSPoint ap[3];
@@ -2269,11 +2269,11 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 	// removes a section <trimLength> long from the centre of the path. The returned path thus consists of two
 	// subpaths with a gap between them.
 
-	CGFloat centre = [self length] * 0.5f;
+	CGFloat centre = [self length] * 0.5;
 
-	NSBezierPath* temp1 = [self bezierPathByTrimmingToLength:centre - (trimLength * 0.5f)
+	NSBezierPath* temp1 = [self bezierPathByTrimmingToLength:centre - (trimLength * 0.5)
 											withMaximumError:maxError];
-	NSBezierPath* temp2 = [self bezierPathByTrimmingFromLength:centre + (trimLength * 0.5f)
+	NSBezierPath* temp2 = [self bezierPathByTrimmingFromLength:centre + (trimLength * 0.5)
 											  withMaximumError:maxError];
 
 	[temp1 appendBezierPath:temp2];

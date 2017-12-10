@@ -754,7 +754,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
-	[self setAngle:(degrees * M_PI) / 180.0f];
+	[self setAngle:(degrees * M_PI) / 180.0];
 }
 
 /** @brief Returns the gradient's current angle in degrees
@@ -762,7 +762,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  */
 - (CGFloat)angleInDegrees
 {
-	return fmod(([self angle] * 180.0f) / M_PI, 360.0);
+	return fmod(([self angle] * 180.0) / M_PI, 360.0);
 }
 
 - (void)setAngleWithoutNotifying:(CGFloat)ang

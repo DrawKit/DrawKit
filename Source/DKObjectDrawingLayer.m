@@ -1480,8 +1480,8 @@ enum {
 			// figure out the bottom left corner of the pasted objects
 			
 			NSRect ur = [DKDrawableObject unionOfBoundsOfDrawablesInArray:objects];
-			cp.x -= ur.size.width * 0.5f;
-			cp.y += ur.size.height * 0.5f;
+			cp.x -= ur.size.width * 0.5;
+			cp.y += ur.size.height * 0.5;
 			
 			[super addObjects:objects fromPasteboard:pb atDropLocation:cp];
 			[self exchangeSelectionWithObjectsFromArray:objects];
@@ -1543,8 +1543,8 @@ enum {
 															inRect:NSMakeRect(0, 0, 200, 100)];
 			[tShape fitToText:self];
 
-			cp.x -= [tShape size].width * 0.5f;
-			cp.y += [tShape size].height * 0.5f;
+			cp.x -= [tShape size].width * 0.5;
+			cp.y += [tShape size].height * 0.5;
 
 			objects = [NSArray arrayWithObject:tShape];
 			[self addObjects:objects
@@ -1565,8 +1565,8 @@ enum {
 		objects = [NSArray arrayWithObject:imshape];
 		[imshape release];
 
-		cp.x -= [imshape size].width * 0.5f;
-		cp.y += [imshape size].height * 0.5f;
+		cp.x -= [imshape size].width * 0.5;
+		cp.y += [imshape size].height * 0.5;
 
 		[self addObjects:objects
 			fromPasteboard:pb

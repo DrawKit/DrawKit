@@ -385,7 +385,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 
 				gbr = [lm boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
 									inTextContainer:tc];
-				CGFloat half = NSWidth(gbr) * 0.5f;
+				CGFloat half = NSWidth(gbr) * 0.5;
 
 				// if the character width is zero or -ve, skip it - some control glyphs appear to need suppressing in this way.
 				// Note that this prevents some kinds of accents from getting drawn - need to work out a fix for that.
@@ -681,7 +681,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 
 		NSUInteger glyphIndex = [tempLM glyphIndexForCharacterAtIndex:range.location];
 		ulOffset = [[tempLM typesetter] baselineOffsetInLayoutManager:tempLM
-														   glyphIndex:glyphIndex] * -0.5f;
+														   glyphIndex:glyphIndex] * -0.5;
 
 		[tempStr release];
 
@@ -822,7 +822,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 		ulp = [self textLinePathWithMask:ulAttribute
 						   startPosition:start
 								  length:length
-								  offset:base + dy + (xHeight * 0.5f)
+								  offset:base + dy + (xHeight * 0.5)
 						   lineThickness:ulThickness
 						 descenderBreaks:nil
 						   grotThreshold:0];
@@ -981,8 +981,8 @@ static NSDictionary* s_TOPTextAttributes = nil;
 		lineThickness *= 2.0;
 
 	if (isDouble) {
-		lineThickness *= 0.75f;
-		offset += (lineThickness * 0.5f);
+		lineThickness *= 0.75;
+		offset += (lineThickness * 0.5);
 	}
 
 	NSBezierPath* trimmedPath;
@@ -1936,7 +1936,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 	font = [[self class] fontWithName:@"Times"
 								 size:[self pointSize]];
 
-	return (ulo + [font underlinePosition]) * 0.5f;
+	return (ulo + [font underlinePosition]) * 0.5;
 }
 
 - (CGFloat)valueForInvalidUnderlineThickness
@@ -1950,7 +1950,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 	font = [[self class] fontWithName:@"Times"
 								 size:[self pointSize]];
 
-	return (ulo + [font underlineThickness]) * 0.5f;
+	return (ulo + [font underlineThickness]) * 0.5;
 }
 
 @end

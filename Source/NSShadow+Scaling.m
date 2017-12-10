@@ -68,7 +68,7 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self shadowAngle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
@@ -106,7 +106,7 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }

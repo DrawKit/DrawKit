@@ -71,7 +71,7 @@
 	cp.y = NSMidY(rect);
 
 	CGFloat max = MAX(NSWidth(rect), NSHeight(rect));
-	rect.size.width = rect.size.height = max * 1.4142f;
+	rect.size.width = rect.size.height = max * 1.4142;
 	rect = CentreRectOnPoint(rect, cp);
 
 	NSSize mb = [[self image] size];
@@ -191,8 +191,8 @@
 
 					// tp is inside the path but not all of the image's bounds may be, so need to do full intersection test
 
-					motifBounds.origin.x = tp.x - motifBounds.size.width * 0.5f;
-					motifBounds.origin.y = tp.y - motifBounds.size.height * 0.5f;
+					motifBounds.origin.x = tp.x - motifBounds.size.width * 0.5;
+					motifBounds.origin.y = tp.y - motifBounds.size.height * 0.5;
 
 					// uses Omni's code to perform the detection - returns as soon as it has an answer
 
@@ -234,7 +234,7 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
@@ -269,7 +269,7 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self motifAngle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }

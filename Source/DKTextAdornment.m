@@ -404,7 +404,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
@@ -1037,7 +1037,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			   forKey:NSStrokeColorAttributeName];
 		[ta setObject:[[object class] ghostColour]
 			   forKey:NSForegroundColorAttributeName];
-		[ta setObject:[NSNumber numberWithDouble:1.5f]
+		[ta setObject:@1.5
 			   forKey:NSStrokeWidthAttributeName];
 		[str setAttributes:ta
 					 range:NSMakeRange(0, [str length])];
@@ -1233,7 +1233,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		// text height is used so that the text is centred on the path exactly. dy will be typically slightly negative.
 		// <height> is the distance between the top of the characters and the baseline (i.e. the xHeight)
 
-		dy = (height * -0.5f);
+		dy = (height * -0.5);
 		break;
 
 	default:
@@ -1336,8 +1336,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	NSSize bboxSize = [contents size];
 	NSPoint origin;
 
-	origin.x = p.x - (bboxSize.width * 0.5f);
-	origin.y = p.y - (bboxSize.height * 0.5f);
+	origin.x = p.x - (bboxSize.width * 0.5);
+	origin.y = p.y - (bboxSize.height * 0.5);
 
 	[contents drawAtPoint:origin];
 
@@ -1394,7 +1394,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			// distance is doubled to give effective strokewidth for calculating the outline path
 
 			CGFloat fontHeight = [[self font] pointSize];
-			CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 50.0f;
+			CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 50.0;
 
 			[textPath setLineJoinStyle:NSRoundLineJoinStyle];
 			[textPath setLineCapStyle:NSRoundLineCapStyle];
@@ -1485,7 +1485,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 	if ([self textKnockoutDistance] > 0) {
 		CGFloat fontHeight = [[self font] pointSize];
-		CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 100.0f;
+		CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 100.0;
 
 		es.width += dist;
 		es.height += dist;

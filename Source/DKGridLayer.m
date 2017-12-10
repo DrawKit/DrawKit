@@ -404,8 +404,8 @@ static NSColor* sMajorColour = nil;
 	if (rem < 0.001)
 		rem = 0;
 
-	newLeft = [[self drawing] leftMargin] + (rem * 0.5f);
-	newRight = [[self drawing] rightMargin] + (rem * 0.5f);
+	newLeft = [[self drawing] leftMargin] + (rem * 0.5);
+	newRight = [[self drawing] rightMargin] + (rem * 0.5);
 
 	marg = [[self drawing] topMargin] + [[self drawing] bottomMargin];
 	dim = paper.height - marg;
@@ -414,8 +414,8 @@ static NSColor* sMajorColour = nil;
 	if (rem < 0.001)
 		rem = 0;
 
-	newTop = [[self drawing] topMargin] + (rem * 0.5f);
-	newBottom = [[self drawing] bottomMargin] + (rem * 0.5f);
+	newTop = [[self drawing] topMargin] + (rem * 0.5);
+	newBottom = [[self drawing] bottomMargin] + (rem * 0.5);
 
 	[[self drawing] setMarginsLeft:newLeft
 							   top:newTop
@@ -517,14 +517,14 @@ static NSColor* sMajorColour = nil;
 	CGFloat dd = [self divisionDistance];
 	CGFloat rem = fmod(p.x - [[self drawing] leftMargin], dd);
 
-	if (rem > dd * 0.5f)
+	if (rem > dd * 0.5)
 		p.x += (dd - rem);
 	else
 		p.x -= rem;
 
 	rem = fmod(p.y - [[self drawing] topMargin], dd);
 
-	if (rem > dd * 0.5f)
+	if (rem > dd * 0.5)
 		p.y += (dd - rem);
 	else
 		p.y -= rem;
@@ -732,10 +732,10 @@ static NSColor* sMajorColour = nil;
 		mSpanCycle = 1;
 
 	if (m_divsCache == nil) {
-		//float divsDash[2] = { divs * 0.5f, divs * 0.5f };
+		//CGFloat divsDash[2] = { divs * 0.5, divs * 0.5 };
 
 		m_divsCache = [[NSBezierPath bezierPath] retain];
-		//[m_divsCache setLineDash:divsDash count:2 phase:divs * 0.25f];
+		//[m_divsCache setLineDash:divsDash count:2 phase:divs * 0.25];
 	}
 
 	if (m_spanCache == nil) {

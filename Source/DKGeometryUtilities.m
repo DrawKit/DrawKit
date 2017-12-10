@@ -43,8 +43,8 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size)
 	NSRect r;
 
 	r.size = size;
-	r.origin.x = p.x - (size.width * 0.5f);
-	r.origin.y = p.y - (size.height * 0.5f);
+	r.origin.x = p.x - (size.width * 0.5);
+	r.origin.y = p.y - (size.height * 0.5);
 
 	return r;
 }
@@ -254,8 +254,8 @@ NSPoint BisectLine(const NSPoint a, const NSPoint b)
 {
 	NSPoint p;
 
-	p.x = (a.x + b.x) * 0.5f;
-	p.y = (a.y + b.y) * 0.5f;
+	p.x = (a.x + b.x) * 0.5;
+	p.y = (a.y + b.y) * 0.5;
 	return p;
 }
 
@@ -398,8 +398,8 @@ NSRect CentreRectOnPoint(const NSRect inRect, const NSPoint p)
 
 	NSRect r = inRect;
 
-	r.origin.x = p.x - (inRect.size.width * 0.5f);
-	r.origin.y = p.y - (inRect.size.height * 0.5f);
+	r.origin.x = p.x - (inRect.size.width * 0.5);
+	r.origin.y = p.y - (inRect.size.height * 0.5);
 	return r;
 }
 

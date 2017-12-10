@@ -136,7 +136,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	BOOL hadFirstPoint = NO, isStar = NO;
 	CGFloat pa, lpa, tip, valley, halfPi;
 
-	halfPi = M_PI * 0.5f;
+	halfPi = M_PI_2;
 	p = fp = pp = NSZeroPoint;
 	lpa = 0;
 
@@ -456,7 +456,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 		kp = [self pointForPartcode:pc];
 		kr.origin = kp;
-		kr = NSOffsetRect(kr, tol * -0.5f, tol * -0.5f);
+		kr = NSOffsetRect(kr, tol * -0.5, tol * -0.5);
 
 		if (NSPointInRect(pt, kr))
 			return pc;
@@ -640,7 +640,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	NSRect pb = [[self path] bounds];
 	NSRect kr;
 
-	CGFloat tol = [[[self layer] knobs] controlKnobSize].width * 0.71f;
+	CGFloat tol = [[[self layer] knobs] controlKnobSize].width * 0.71;
 	kr.size = NSMakeSize(tol, tol);
 
 	NSSize ex = [super extraSpaceNeeded];

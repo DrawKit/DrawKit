@@ -45,8 +45,8 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 
 	NSSize bmSize = [self drawingSize];
 
-	bmSize.width = ceil((bmSize.width * (CGFloat)dpi * relScale) / 72.0f);
-	bmSize.height = ceil((bmSize.height * (CGFloat)dpi * relScale) / 72.0f);
+	bmSize.width = ceil((bmSize.width * (CGFloat)dpi * relScale) / 72.0);
+	bmSize.height = ceil((bmSize.height * (CGFloat)dpi * relScale) / 72.0);
 
 	NSBitmapImageRep* bmRep;
 

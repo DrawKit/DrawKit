@@ -22,7 +22,7 @@ static const CGFloat sin60 = 0.8660254038;
 	// using transformations of this path.
 
 	NSBezierPath* path = [self bezierPath];
-	CGFloat r = 1.0 / 2.5f;
+	CGFloat r = 1.0 / 2.5;
 	NSPoint ep, cp1, cp2;
 
 	[path setWindingRule:NSEvenOddWindingRule];
@@ -114,7 +114,7 @@ static const CGFloat sin60 = 0.8660254038;
 
 	CGFloat toothAngle = M_PI / teeth;
 	CGFloat radius = pitch / (2 * sin(toothAngle));
-	CGFloat rollerRadius = pitch / 3.6f;
+	CGFloat rollerRadius = pitch / 3.6;
 	CGFloat toothRadius = pitch - rollerRadius;
 
 	// make one tooth then copy it around the circle
@@ -192,21 +192,21 @@ static const CGFloat sin60 = 0.8660254038;
 
 	NSPoint p;
 	NSBezierPath* path = [self bezierPath];
-	CGFloat xIncrement = pitch * 0.5f;
+	CGFloat xIncrement = pitch * 0.5;
 	CGFloat yIncrement = pitch * sin60;
 	CGFloat phase = -1;
 
 	// draw the top side thread
 
 	p.x = 0;
-	p.y = (dia * -0.5f) + (yIncrement * 0.5f);
+	p.y = (dia * -0.5) + (yIncrement * 0.5);
 	[path moveToPoint:p];
 
 	while (p.x < (length - xIncrement)) {
 		p.x += xIncrement;
 		p.y += (phase * yIncrement);
 		[path lineToPoint:p];
-		phase *= -1.0f;
+		phase *= -1.0;
 	}
 
 	// length is rounded up to nearest whole multiple of pitch
@@ -226,7 +226,7 @@ static const CGFloat sin60 = 0.8660254038;
 		p.x -= xIncrement;
 		p.y += (phase * yIncrement);
 		[path lineToPoint:p];
-		phase *= -1.0f;
+		phase *= -1.0;
 	}
 
 	if (options & kThreadedBarLeftEndCapped)
@@ -248,12 +248,12 @@ static const CGFloat sin60 = 0.8660254038;
 {
 	NSPoint p, opp;
 	NSBezierPath* path = [self bezierPath];
-	CGFloat xIncrement = pitch * 0.5f;
+	CGFloat xIncrement = pitch * 0.5;
 	CGFloat yIncrement = pitch * sin60;
 	CGFloat phase = -1;
 
 	p.x = 0;
-	p.y = (dia * -0.5f) + (yIncrement * 0.5f);
+	p.y = (dia * -0.5) + (yIncrement * 0.5);
 	[path moveToPoint:p];
 
 	while (p.x < (length - xIncrement)) {
@@ -269,7 +269,7 @@ static const CGFloat sin60 = 0.8660254038;
 
 		[path moveToPoint:p];
 		[path lineToPoint:opp];
-		phase *= -1.0f;
+		phase *= -1.0;
 	}
 
 	return path;
@@ -283,7 +283,7 @@ static const CGFloat sin60 = 0.8660254038;
 
 	CGFloat fh = dia / sin60;
 
-	NSRect br = NSMakeRect(0, fh * -0.5f, height, fh);
+	NSRect br = NSMakeRect(0, fh * -0.5, height, fh);
 	NSBezierPath* path = [self bezierPathWithRect:br];
 
 	// cross lines
@@ -291,13 +291,13 @@ static const CGFloat sin60 = 0.8660254038;
 	NSPoint a, b;
 
 	a.x = 0;
-	a.y = b.y = dia / 4.0f;
+	a.y = b.y = dia / 4.0;
 	b.x = height;
 
 	[path moveToPoint:a];
 	[path lineToPoint:b];
 
-	a.y -= dia * 0.5f;
+	a.y -= dia * 0.5;
 	b.y = a.y;
 
 	[path moveToPoint:a];

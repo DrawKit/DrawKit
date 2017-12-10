@@ -90,8 +90,8 @@
 	// directly create a bitmap context of the desired size then convert it to an image - this is much easier than messing about with data
 	// providers, etc
 
-	width = MAX(1, (NSInteger)(rect.size.width * 1.5f));
-	height = MAX(1, (NSInteger)(rect.size.height * 1.5f));
+	width = MAX(1, (NSInteger)(rect.size.width * 1.5));
+	height = MAX(1, (NSInteger)(rect.size.height * 1.5));
 
 	NSUInteger bufferSize = 4 * width * (height + 1);
 	unsigned char* buffer;

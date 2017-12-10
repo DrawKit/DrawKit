@@ -73,7 +73,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	NSUInteger a, b;
 	CGFloat hcf, rem, halfLen;
 
-	halfLen = len * 0.5f;
+	halfLen = len * 0.5;
 	a = (NSUInteger)floor(fabs(aSize.width));
 	b = (NSUInteger)floor(fabs(aSize.height));
 
@@ -82,7 +82,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 
 	//NSLog(@"size = %@, hcf = %f, rem = %f, halfLen = %f", NSStringFromSize(aSize), hcf, rem, halfLen);
 
-	if (rem > (hcf * 0.5f))
+	if (rem > (hcf * 0.5))
 		halfLen += (hcf - rem);
 	else
 		halfLen -= rem;
