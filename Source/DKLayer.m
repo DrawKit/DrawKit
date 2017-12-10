@@ -83,7 +83,7 @@ static NSArray* s_selectionColours = nil;
  This simply returns a colour looked up in a table. It provides a default
  selection colour for new layers - you can change the layer's selection colour to whatever you like - 
  this just provides a default
- @param index a positive number
+ @param indx a positive number
  @return a colour
  */
 + (NSColor*)selectionColourForIndex:(NSUInteger)indx

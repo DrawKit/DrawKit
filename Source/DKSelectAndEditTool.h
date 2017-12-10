@@ -104,8 +104,8 @@ has a very low opacity should be used - the default style takes the system's hig
  This updates the area that is different between the current marquee and the new one being set,
  which results in much faster interactive selection of objects because far less drawing is going on.
  @param marqueeRect a rect
- @param alayer the current layer (used to mark the update for the marquee rect)
- @return a rect */
+ @param aLayer the current layer (used to mark the update for the marquee rect)
+ */
 - (void)setMarqueeRect:(NSRect)marqueeRect inLayer:(DKLayer*)aLayer;
 
 /** @brief Set the drawing style for the marquee (selection rect)
@@ -119,7 +119,7 @@ has a very low opacity should be used - the default style takes the system's hig
 
  If you replace the default style, take care that the style is generally fairly transparent,
  otherwise it will be hard to see what you are selecting!
- @param aStyle a style object */
+  */
 - (DKStyle*)marqueeStyle;
 
 // setting up optional behaviours:

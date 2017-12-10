@@ -114,14 +114,14 @@
 
 /** @brief Returns a colour by blending the receiver with <color> in rgb space
  @param color blend with this colour
- @param blendingAmounts an array of four values, each 0..1, specifies how components from each colour are
+ @param blends an array of four values, each 0..1, specifies how components from each colour are
  @return blend of the two colours
  */
 - (NSColor*)colorWithRGBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends;
 
 /** @brief Returns a colour by blending the receiver with <color> in hsb space
  @param color blend with this colour
- @param blendingAmounts an array of four values, each 0..1, specifies how components from each colour are
+ @param blends an array of four values, each 0..1, specifies how components from each colour are
  @return blend of the two colours
  */
 - (NSColor*)colorWithHSBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends;
@@ -171,7 +171,7 @@
 - (NSColor*)darkerColorWithLevel:(CGFloat)amount;
 
 /** @brief Returns a colour by interpolating between the receiver and a second colour
- @param secondColour another colour
+ @param secondColor another colour
  @param interpValue a value between 0 and 1
  @return a colour that is intermediate between the receiver and secondColor, in RGB space
  */

@@ -136,7 +136,6 @@
  dropped from the end of the line when laid out.
  @param text text storage containing the text to lay out
  @param length the path length
- @return none.
  */
 - (void)kernText:(NSTextStorage*)text toFitLength:(CGFloat)length;
 
@@ -144,7 +143,7 @@
 
  This does two things - it sets up the text's container so that text will be laid out properly
  within the path's length, and secondly if the text is "justified" it kerns the text to fit the path.
- @param text text storage containing the text to lay out
+ @param str text storage containing the text to lay out
  @param length the path length
  @return none.
  */
@@ -161,7 +160,6 @@
  @param lm the layout manager in use
  @param dy the text baseline offset from the path
  @param cache a cache used to store intermediate calculations to speed up repeated drawing
- @return none.
  */
 - (void)drawUnderlinePathForLayoutManager:(NSLayoutManager*)lm yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
@@ -174,7 +172,6 @@
  @param lm the layout manager in use
  @param dy the text baseline offset from the path
  @param cache a cache used to store intermediate calculations to speed up repeated drawing
- @return none.
  */
 - (void)drawStrikethroughPathForLayoutManager:(NSLayoutManager*)lm yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
@@ -185,7 +182,6 @@
  @param range the range of text to apply the underline attribute to
  @param dy the text baseline offset from the path
  @param cache a cache used to store intermediate calculations to speed up repeated drawing
- @return none.
  */
 - (void)drawUnderlinePathForLayoutManager:(NSLayoutManager*)lm range:(NSRange)range yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
@@ -196,7 +192,6 @@
  @param range the range of text to apply the underline attribute to
  @param dy the text baseline offset from the path
  @param cache a cache used to store intermediate calculations to speed up repeated drawing
- @return none.
  */
 - (void)drawStrikethroughPathForLayoutManager:(NSLayoutManager*)lm range:(NSRange)range yOffset:(CGFloat)dy cache:(NSMutableDictionary*)cache;
 
@@ -328,7 +323,7 @@
  @param path a path to position at intervals on this path
  @param interval the distance between each object placed
  @param phase an initial offset added to the distance
- @param alternate if YES, odd-numbered elements are reversed 180 degrees
+ @param alt if YES, odd-numbered elements are reversed 180 degrees
  @param taperDel an optional taper delegate.
  @return A single path consisting of all of the added paths */
 - (NSBezierPath*)bezierPathWithPath:(NSBezierPath*)path atInterval:(CGFloat)interval phase:(CGFloat)phase alternate:(BOOL)alt taperDelegate:(id)taperDel;

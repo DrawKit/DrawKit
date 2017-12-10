@@ -538,9 +538,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 
 /** @brief Returns whether this group, or any subgroup within, contains the layer
 
- Unlike -indexOfLayer:, considers nested subgroups.  If the layer is the group, returns NO
+ Unlike -indexOfLayer:, considers nested subgroups.  If the layer is the group, returns \c NO
  (doesn't contain itself).
- @param alayer a layer of interest
+ @param aLayer a layer of interest
  @return YES if the group contains the layer.
  */
 - (BOOL)containsLayer:(DKLayer*)aLayer

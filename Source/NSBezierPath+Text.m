@@ -1461,7 +1461,8 @@ static NSDictionary* s_TOPTextAttributes = nil;
 #pragma mark - calculating text layout rects for running text within a shape
 
 /** @brief Compares NSPoint values and returns them in order of their horizontal position
- @param value1>, <value2 the two values to compare
+ @param value1 the first value to compare
+ @param value2 the second value to compare
  @return comparison result */
 static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* context)
 {

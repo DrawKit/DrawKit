@@ -63,7 +63,7 @@ typedef enum {
 /** @brief Returns a gradient from Color c1 to c2 with given type and angle
  @param c1 the starting Color
  @param c2 the ending Color
- @param type the gradient's type (linear or radial, etc)
+ @param gt the gradient's type (linear or radial, etc)
  @param degrees angle in degrees
  @return gradient object
  */

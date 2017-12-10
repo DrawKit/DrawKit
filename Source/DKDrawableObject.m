@@ -1964,7 +1964,7 @@ static NSRect s_oldBounds;
  different behaviours.
  @param mp the point where it was clicked
  @param partcode the partcode
- @param event the original mouse event
+ @param evt the original mouse event
  */
 - (void)mouseDoubleClickedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {

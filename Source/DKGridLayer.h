@@ -103,9 +103,9 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @param conversionFactor the distance in points represented by a single span unit
  @param units a string giving the user-readable full name of the drawing units
  @param span the span distance in grid coordinates (typically 1.0)
- @param divs> the number of divisions per span, must be  1
+ @param divs the number of divisions per span, must be  1
  @param majors the number of spans per major
- @param steps> the ruler step-up cycle (see NSRulerView), must be  1
+ @param steps the ruler step-up cycle (see NSRulerView), must be  1
  */
 - (void)setDistanceForUnitSpan:(CGFloat)conversionFactor
 				  drawingUnits:(NSString*)units
@@ -236,7 +236,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 /** @brief Given a point in "real world" coordinates, returns the drawing coordinates of the same point
 
  See also gridLocationForPoint: which is the inverse operation
- @param pt a point in terms of the grid's drawing units
+ @param gpt a point in terms of the grid's drawing units
  @return a point giving the same position in the drawing.
  */
 - (NSPoint)pointForGridLocation:(NSPoint)gpt;

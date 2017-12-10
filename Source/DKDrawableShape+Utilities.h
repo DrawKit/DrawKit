@@ -49,7 +49,7 @@
  in such a way that the object's size and angle set the positioning and orientation of the path
  but not its actual size. This is useful for adding an adornment to the shape that is unscaled
  by the object, such as the text indicator shown by DKTextShape
- @param path the path to transform
+ @param inPath the path to transform
  @param size the final desired size of the rectangle
  @param offset an offset in absolute units from the nominated partcode position
  @param pc the partcode that the path is positioned relative to

@@ -28,7 +28,7 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
 
  This is used when the tool scope is per-document. In that case the tool is associated with the
  drawing, not the individual view.
- @param dwg a key for the drawing object
+ @param drawingKey a key for the drawing object
  @return the current tool set for the drawing
  */
 + (DKDrawingTool*)drawingToolForDrawing:(NSString*)drawingKey;
@@ -38,7 +38,7 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
  This is used when the tool scope is per-document. In that case the tool is associated with the
  document, not the individual view.
  @param tool the tool to set
- @param dwg a key for the drawing object
+ @param drawingKey a key for the drawing object
  */
 + (void)setDrawingTool:(DKDrawingTool*)tool forDrawing:(NSString*)drawingKey;
 

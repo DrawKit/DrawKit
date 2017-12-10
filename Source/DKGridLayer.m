@@ -178,7 +178,6 @@ static NSColor* sMajorColour = nil;
 }
 
 /** @brief Sets the grid to the standard imperial default settings
- @return none
  and the drawing units are "Inches"
  */
 - (void)setImperialDefaults
@@ -360,7 +359,7 @@ static NSColor* sMajorColour = nil;
 /** @brief Sets the ruler step-up cycle
 
  See NSRulerView for details about the ruler step-up cycle
- @param steps> an integer value that must be  1 
+ @param steps an integer value that must be  1 
  */
 - (void)setRulerSteps:(NSUInteger)steps
 {

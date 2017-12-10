@@ -474,7 +474,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
  Keep dragging out the object
  @param p the local point where the mouse has been dragged to
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -500,7 +500,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  re-enabling undo. Invalid objects are simply discarded. The delegate is called to signal an undoable
  task is about to be made.
  @param p the local point where the mouse went up
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate

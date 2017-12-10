@@ -197,7 +197,7 @@
 		DKStroke* stroke = (DKStroke*)[[self renderersOfClass:[DKStroke class]] lastObject];
 		return [stroke lineJoinStyle];
 	} else
-		return NSButtLineCapStyle;
+		return NSMiterLineJoinStyle;
 }
 
 - (void)setString:(NSString*)aString

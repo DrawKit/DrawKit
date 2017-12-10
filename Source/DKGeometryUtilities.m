@@ -18,7 +18,8 @@ const NSPoint NSNotFoundPoint = { -10000000.2, -999999.6 };
 
  The rect is normalised, in that the relative positions of a and b do not affect the result - the
  rect always extends in the positive x and y directions.
- @param a, b a pair of points
+ @param a a rect
+ @paran b a rect
  @return the rectangle formed by a and b at the opposite corners */
 NSRect NSRectFromTwoPoints(const NSPoint a, const NSPoint b)
 {
@@ -56,7 +57,8 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size)
  considered mathematically correct, since a rect of zero width or height cannot "contain" anything
  in the set sense, what's more practically required for real geometry is to allow infinitely thin
  lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
- @param a, b a pair of rects
+ @param a a rect
+ @paran b a rect
  @return the rectangle that encloses a and b */
 NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
 {

@@ -529,7 +529,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
  This uses the file type bindings established to look up the necessary method to invoke to perform
  the data conversion. If no bindings were registered or the method doesn't exist, will throw an error.
- @param typename the type of data to write (ignored)
+ @param typeName the type of data to write (ignored)
  @param outError an error, if it wasn't successful
  @return the data to be written to disk
  */

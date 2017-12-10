@@ -174,7 +174,7 @@ typedef enum {
  @param aSet a set of objects of the same kind as the current contents
  @param categories an optional list of categories to add th eobjects to. Categories will be created if needed.
  @param options replacxement options. Delegate may override these.
- @param adelegate an optional delegate that can be asked to make decisions about which objects get replaced.
+ @param aDelegate an optional delegate that can be asked to make decisions about which objects get replaced.
  @return a set, possibly empty. The set contains those objects that already existed in the CM that should replace
  equivalent items in the supplied set.
  */
@@ -537,7 +537,7 @@ typedef enum {
  If the content of a menu item needs to change, call -updateMenusForKey: for the object key in
  question. When the client is dealloc'd, it should call -removeMenu: for any menus it obtained
  using this, so that stale references to the callback object are cleared out.
- @param id an object that is called back with each menu item created (may be nil)
+ @param del an object that is called back with each menu item created (may be nil)
  @param isPopUp set YES if menu is destined for use as a popup (adds extra zeroth item)
  @return a menu object
  */

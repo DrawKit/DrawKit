@@ -28,18 +28,6 @@ The second method is similar except that text is flowed into the layoutPath.
  @param layoutSize a size describing the text layout container. Text is laid out to fit into this size.
  @param radians an angle to which the text is rotated before being drawn to <destRect>
  */
-
-/** @brief Lays out the receiver then draws it to the destination
-
- This method is intended to be utilised by high-level text objects such as DKTextShape and
- DKTextAdornment. It both lays out and renders text in many different ways according to its
- parameters (and the string's attributes themselves). 
- @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
- @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
- @param radians an angle to which the text is rotated before being drawn to <destRect>
- @param vAlign whether the text is positioned at top, centre, bottom or at some value
- @param vPos proportion of srcRect given by interval 0..1 when vAlign is proportional
- */
 - (void)drawInRect:(NSRect)destRect withLayoutSize:(NSSize)layoutSize atAngle:(CGFloat)radians;
 
 /** @brief Lays out the receiver then draws it to the destination
@@ -52,6 +40,18 @@ The second method is similar except that text is flowed into the layoutPath.
  @param radians an angle to which the text is rotated before being drawn to <destRect>
  */
 - (void)drawInRect:(NSRect)destRect withLayoutPath:(NSBezierPath*)layoutPath atAngle:(CGFloat)radians;
+
+/** @brief Lays out the receiver then draws it to the destination
+ 
+ This method is intended to be utilised by high-level text objects such as DKTextShape and
+ DKTextAdornment. It both lays out and renders text in many different ways according to its
+ parameters (and the string's attributes themselves).
+ @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
+ @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
+ @param radians an angle to which the text is rotated before being drawn to <destRect>
+ @param vAlign whether the text is positioned at top, centre, bottom or at some value
+ @param vPos proportion of srcRect given by interval 0..1 when vAlign is proportional
+ */
 - (void)drawInRect:(NSRect)destRect withLayoutPath:(NSBezierPath*)layoutPath atAngle:(CGFloat)radians verticalPositioning:(DKVerticalTextAlignment)vAlign verticalOffset:(CGFloat)vPos;
 - (NSSize)accurateSize;
 - (BOOL)isHomogeneous;

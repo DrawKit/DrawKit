@@ -895,7 +895,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Add contextual menu items pertaining to the current object's context
- @param themenu a menu object to add items to
+ @param theMenu a menu object to add items to
  @return YES
  */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu

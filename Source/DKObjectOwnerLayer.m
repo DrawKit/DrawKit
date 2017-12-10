@@ -539,7 +539,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 /** @brief Adds an object to the layer at a specific stacking index position
  @param obj the object to add
- @param index the stacking order position index (0 = bottom, grows upwards)
+ @param indx the stacking order position index (0 = bottom, grows upwards)
  */
 - (void)addObject:(DKDrawableObject*)obj atIndex:(NSUInteger)indx
 {

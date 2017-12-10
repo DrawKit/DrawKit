@@ -162,7 +162,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (NSUInteger)countOfObjects; // KVC/KVO compliant
 
 /** @brief Returns the object at a given stacking position index
- @param index the stacking position
+ @param indx the stacking position
  */
 - (DKDrawableObject*)objectInObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
 
@@ -203,23 +203,20 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Adds an object to the layer
  @param obj the object to add
- @param index the index at which the object should be inserted
- @return none
+ @param indx the index at which the object should be inserted
  these. Adding multiple objects calls this multiple times.
  */
 - (void)insertObject:(DKDrawableObject*)obj inObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
 
 /** @brief Removes an object from the layer
- @param index the index at which the object should be removed
- @return none
+ @param indx the index at which the object should be removed
  these. Removing multiple objects calls this multiple times.
  */
 - (void)removeObjectFromObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
 
 /** @brief Replaces an object in the layer with another
- @param index the index at which the object should be exchanged
+ @param indx the index at which the object should be exchanged
  @param obj the object that will replace the item at index
- @return none
  can be observed if desired to get notified of these events.
  */
 - (void)replaceObjectInObjectsAtIndex:(NSUInteger)indx withObject:(DKDrawableObject*)obj; // KVC/KVO compliant
@@ -291,7 +288,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)removeObject:(DKDrawableObject*)obj;
 
 /** @brief Removes the object at the given stacking position index
- @param index the stacking index value
+ @param indx the stacking index value
  */
 - (void)removeObjectAtIndex:(NSUInteger)indx;
 
@@ -458,7 +455,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
  Used to implement all the other moveTo.. ops
  @param obj the object to move
- @param i the index it should be moved to
+ @param indx the index it should be moved to
  */
 - (void)moveObject:(DKDrawableObject*)obj toIndex:(NSUInteger)indx;
 
@@ -480,7 +477,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param objs an array of objects already owned by the layer
  @param indx the index it should be moved to
  */
-- (void)moveObjectsInArray:(NSArray*)objs toIndex:(NSUInteger)indx;
+- (void)moveObjectsInArray:(NSArray<DKDrawableObject*>*)objs toIndex:(NSUInteger)indx;
 
 // clipboard ops:
 
@@ -488,7 +485,6 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param objects a list of objects already dearchived from the pasteboard
  @param pb the pasteboard (for information only)
  @param p the drop location of the objects, defined as the lower left corner of the drag image - thus
- @return none
  a multiple selection is positioned at the point p, with others maintaining their positions
  relative to this object as in the original set. 
  This is the preferred method to use when pasting or dropping anything, because the subclass that
@@ -545,7 +541,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 /** @brief Establish the paste offset - a value used to position items when pasting and duplicating
 
  The values passed will be adjusted to the nearest grid interval if snap to grid is on.
- @param x>, <y the x and y values of the offset
+ @param x the x value of the offset
+ @param y the y value of the offset
  */
 - (void)setPasteOffsetX:(CGFloat)x y:(CGFloat)y;
 
@@ -553,7 +550,6 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param objects the list of objects that were moved
  @param startPt the starting point for the drag
  @param endPt the ending point for the drag
- @return none
  if offset recording is currently set to YES, then resets the record flag.
  */
 - (void)objects:(NSArray*)objects wereDraggedFromPoint:(NSPoint)startPt toPoint:(NSPoint)endPt;
@@ -608,7 +604,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 /** @brief Snap a (mouse) point to grid, guide or other object according to settings
 
  Usually called from snappedMousePoint: method in DKDrawableObject
- @param p a point
+ @param mp a point
  @return the modified point, or the original point
  */
 - (NSPoint)snappedMousePoint:(NSPoint)mp forObject:(DKDrawableObject*)obj withControlFlag:(BOOL)snapControl;

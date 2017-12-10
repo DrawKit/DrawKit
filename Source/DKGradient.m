@@ -567,10 +567,10 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  Radii are ignored for linear gradients. Angle is ignored by this method, if you call it directly
  (angle is used to calculate start and endpoints in other methods that call this)
  @param path the bezier path to fill
- @param startingAtPoint the point where the gradient begins
- @param startRadius for radial fills, the radius of the start of the gradient
- @param endingAtPoint the point where the gradient ends
- @param endRadius for radial fills, the radius of the end of the gradient
+ @param sp the point where the gradient begins
+ @param sr for radial fills, the radius of the start of the gradient
+ @param ep the point where the gradient ends
+ @param er for radial fills, the radius of the end of the gradient
  */
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp startRadius:(CGFloat)sr endingAtPoint:(NSPoint)ep endRadius:(CGFloat)er
 {

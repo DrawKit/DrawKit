@@ -104,7 +104,7 @@ void InitializePrefsForEventTypeNames(void)
 	}
 }
 
-#ifndef NDEBUG
+#ifdef NDEBUG
 BOOL IsValidEventType(NSString* eventType)
 {
 	BOOL isValidType = NO;

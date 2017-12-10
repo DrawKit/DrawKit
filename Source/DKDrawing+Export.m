@@ -373,7 +373,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 
  This is a convenience wrapper around the dictionary-based methods above
  @param dpi the resolution in dots per inch
- @param gamma the gamma value 0..1
+ @param gumma the gamma value 0..1
  @param interlaced YES to interlace the image, NO otherwise
  @return PNG data
  */

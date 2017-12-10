@@ -63,7 +63,7 @@ extern DKDrawingView* sCurDView;
 
 /** @brief A drag left the view
  @param sender the drag sender
- @return a drag operation constant */
+  a drag operation constant */
 - (void)draggingExited:(id<NSDraggingInfo>)sender
 {
 	if (![[self activeLayer] lockedOrHidden] && [[self activeLayer] respondsToSelector:@selector(draggingExited:)]) {

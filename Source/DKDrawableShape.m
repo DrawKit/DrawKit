@@ -321,7 +321,7 @@ static NSSize sTempSavedOffset;
 
  The resulting shape is located at the centre of the path and the size is set to the width and height
  of the path's bounds. The angle is zero.
- @param path a path
+ @param aPath a path
  @return the initialized object
  */
 - (id)initWithBezierPath:(NSBezierPath*)aPath
@@ -485,8 +485,8 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Fetch a new path definition following a resize of the shape
- @return none
- Notes:
+
+ @discussion
  some shapes will need to be reshaped when their size changes. An example would be a round-cornered rect where the corners
  are expected to remain at a fixed radius whatever the shape's overall size. This means that the path needs to be reshaped
  so that the final size of the shape is used to compute the path, which is then transformed back to the internally stored
@@ -664,7 +664,6 @@ static NSSize sTempSavedOffset;
  @param p the point that the knob should be moved to
  @param rotate YES to allow any knob to rotate the shape, NO if only the rotate knob has this privilege
  @param constrain YES to constrain appropriately, NO for free movement
- @return none
  angle may be affected. If the knob is a sizing knob, a constrain of YES maintains the current aspect
  ratio. If a rotate, the angle is constrained to that set by the angular constraint value. The shape's
  offset also affects this - operation are performed relative to it, so it's necessary to set the offset
@@ -1289,7 +1288,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Allows the distortion transform to be adjusted interactively
- @param partcode a knob partcode for the distortion envelope private to the class
+ @param partCode a knob partcode for the distortion envelope private to the class
  @param p the point where the knob should be moved to.
  */
 - (void)moveDistortionKnob:(NSInteger)partCode toPoint:(NSPoint)p

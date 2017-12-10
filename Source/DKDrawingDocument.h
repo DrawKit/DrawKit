@@ -58,7 +58,7 @@ like this are one easy way to do it, but not the only way.
  to forge the binding between the two. This class will then invoke the category method as required
  without the need to modify or subclass this class.
  @param fileType a filetype or UTI string for a file type
- @param selector a selector for the method that implements the file export
+ @param aSelector a selector for the method that implements the file export
  */
 + (void)bindFileExportType:(NSString*)fileType toSelector:(SEL)aSelector;
 

@@ -1305,7 +1305,7 @@ static BOOL sSubstitute = NO;
 
 /** @brief Inserts a renderer into the style, ensuring internal KVO linkage is established
  @param renderer the renderer to insert
- @param index the index where the renderer is inserted
+ @param indx the index where the renderer is inserted
  */
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {

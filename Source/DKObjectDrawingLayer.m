@@ -819,7 +819,7 @@ enum {
  The style is compared by key, so clones of the style are not considered a match
  @param style the style to match
  @param newStyle the style to replace it with
- @param select if YES, also replace the selection with the affected objects
+ @param selectObjects if YES, also replace the selection with the affected objects
  @return YES if the selection changed, NO if it did not
  */
 - (BOOL)replaceStyle:(DKStyle*)style withStyle:(DKStyle*)newStyle selectingObjects:(BOOL)selectObjects
@@ -2138,7 +2138,7 @@ enum {
 /** @brief Removes an object from the layer
 
  If the object is selected, it is removed from the selection
- @param index the index at which the object should be removed
+ @param indx the index at which the object should be removed
  */
 - (void)removeObjectFromObjectsAtIndex:(NSUInteger)indx
 {
@@ -2157,7 +2157,7 @@ enum {
 /** @brief Replaces an object in the layer with another
 
  If index is selected, new object replaces the object in the selection
- @param index the index at which the object should be exchanged
+ @param indx the index at which the object should be exchanged
  @param obj the object that will replace the item at index
  */
 - (void)replaceObjectInObjectsAtIndex:(NSUInteger)indx withObject:(DKDrawableObject*)obj

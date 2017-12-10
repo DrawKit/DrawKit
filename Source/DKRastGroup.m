@@ -142,7 +142,7 @@
 
 /** @brief Inserts a renderer into the group at the given index
  @param renderer the renderer to insert
- @param index the index where to insert it
+ @param indx the index where to insert it
  */
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
@@ -158,7 +158,7 @@
 }
 
 /** @brief Removes the renderer at the given index
- @param index the index to remove
+ @param indx the index to remove
  */
 - (void)removeRendererAtIndex:(NSUInteger)indx
 {
@@ -185,7 +185,7 @@
 #pragma mark -
 
 /** @brief Returns the rendere at the given index position
- @param index the index position of the renderer
+ @param indx the index position of the renderer
  @return the renderer at that position
  */
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)indx
@@ -296,7 +296,7 @@
  Renderers must be an exact match for <class> - subclasses are not considered a match. This is
  intended for specialist use and should not generally be used by application code
  @param cl the renderer class to remove
- @return <subs> if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
+ @param subs if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
  */
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs
 {

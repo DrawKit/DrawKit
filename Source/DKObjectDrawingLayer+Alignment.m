@@ -16,14 +16,16 @@
 /** @brief Determines the relative vertical position order of a pair of objects
 
  Objects must respond to the -apparentBounds method
- @param a>, <b the objects to compare
+ @param a an object to compare
+ @paran b an object to compare
  @return sort order constant */
 static NSInteger vertLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void* context);
 
 /** @brief Determines the relative horizontal position order of a pair of objects
 
  Objects must respond to the -apparentBounds method
- @param a>, <b the objects to compare
+ @param a an object to compare
+ @paran b an object to compare
  @return sort order constant */
 static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void* context);
 

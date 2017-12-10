@@ -1038,7 +1038,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 
  The delegate may be called to signal that an undoable task is about to be created at certain times.
  @param p the local point where the mouse has been dragged to
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -1115,7 +1115,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 
  The delegate may be called to signal that an undoable task is about to be created at certain times.
  @param p the local point where the mouse went up
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -1216,7 +1216,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
  current one for the tool.
  @param mp the local mouse point
  @param obj the target object under the mouse, if any
- @param alayer the active layer
+ @param aLayer the active layer
  @param event the original event
  */
 - (void)setCursorForPoint:(NSPoint)mp targetObject:(DKDrawableObject*)obj inLayer:(DKLayer*)aLayer event:(NSEvent*)event
