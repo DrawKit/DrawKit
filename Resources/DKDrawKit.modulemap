@@ -1,0 +1,16 @@
+framework module DKDrawKit {
+  umbrella header "DKDrawKit.h"
+
+  export *
+  module * { export * }
+  
+  explicit module LogEvent {
+	  header "LogEvent.h"
+	  export *
+  }
+  
+  module DKGradientExtensions {
+	  header "DKGradientExtensions.h"
+	  export *
+  }
+}

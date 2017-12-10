@@ -135,9 +135,9 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 - (NSString*)stringValue;
 - (NSAttributedString*)attributedStringValue;
-- (NSInteger)intValue;
+- (int)intValue;
 - (NSInteger)integerValue;
-- (CGFloat)floatValue;
+- (float)floatValue;
 - (double)doubleValue;
 - (BOOL)boolValue;
 - (NSColor*)colourValue;

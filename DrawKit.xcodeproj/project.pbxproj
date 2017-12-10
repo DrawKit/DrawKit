@@ -296,6 +296,7 @@
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		32DBCF5E0370ADEE00C91783 /* DKDrawKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKDrawKit_Prefix.pch; path = Source/DKDrawKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
+		553CEFC91FDD2FF8003E9342 /* DKDrawKit.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = DKDrawKit.modulemap; sourceTree = "<group>"; };
 		7633D31E1B7743570093DB40 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DrawKitInfo.plist; path = Source/DrawKitInfo.plist; sourceTree = SOURCE_ROOT; };
 		9660E6100BEF442B00B6A38C /* DKDrawKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DKDrawKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -635,6 +636,7 @@
 		089C1665FE841158C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				553CEFC91FDD2FF8003E9342 /* DKDrawKit.modulemap */,
 				BF2EE3D10F6557C900B8CFFD /* DK_Auxiliary_Menus.xib */,
 				96F516CD0B89DC050047BA96 /* Images */,
 				8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */,
@@ -1599,6 +1601,7 @@
 				GCC_PREFIX_HEADER = Source/DKDrawKit_Prefix.pch;
 				HEADER_SEARCH_PATHS = "ThirdParty/**";
 				INFOPLIST_FILE = Source/DrawKitInfo.plist;
+				MODULEMAP_FILE = Resources/DKDrawKit.modulemap;
 				NSZombieEnabled = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.drawkit;
 				PRODUCT_NAME = DKDrawKit;
@@ -1624,6 +1627,7 @@
 				GCC_PREFIX_HEADER = Source/DKDrawKit_Prefix.pch;
 				HEADER_SEARCH_PATHS = "ThirdParty/**";
 				INFOPLIST_FILE = Source/DrawKitInfo.plist;
+				MODULEMAP_FILE = Resources/DKDrawKit.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.drawkit;
 				PRODUCT_NAME = DKDrawKit;
 				WRAPPER_EXTENSION = framework;

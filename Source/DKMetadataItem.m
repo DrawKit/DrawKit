@@ -632,7 +632,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 					 wasLossy:NULL];
 }
 
-- (NSInteger)intValue
+- (int)intValue
 {
 	return [[self convertValue:[self value]
 						toType:DKMetadataTypeInteger
@@ -646,7 +646,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 					  wasLossy:NULL] integerValue];
 }
 
-- (CGFloat)floatValue
+- (float)floatValue
 {
 	return [[self convertValue:[self value]
 						toType:DKMetadataTypeReal
