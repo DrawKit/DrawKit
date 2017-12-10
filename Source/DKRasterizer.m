@@ -61,28 +61,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 #pragma mark -
 
-/** @brief Set the name of the renderer
-
- Named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
- @param name the name to give the renderer
- */
-- (void)setName:(NSString*)name
-{
-	NSString* nameCopy = [name copy];
-
-	[m_name release];
-	m_name = nameCopy;
-}
-
-/** @brief Get the name of the renderer
-
- Named renderers can be referred to in scripts or bound to in the UI
- @return the renderer's name
- */
-- (NSString*)name
-{
-	return m_name;
-}
+@synthesize name = m_name;
 
 /** @brief Get the name or classname of the renderer
 
@@ -121,47 +100,12 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 #pragma mark -
 
-/** @brief Set whether the renderer is enabled or not
-
- Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
- larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
- @param enable YES to enable, NO to disable
- */
-- (void)setEnabled:(BOOL)enable
-{
-	m_enabled = enable;
-}
-
-/** @brief Query whether the renderer is enabled or not
-
- Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
- larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
- @return YES if enabled, NO if not
- */
-- (BOOL)enabled
-{
-	return m_enabled;
-}
-
-/** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
- @param clipping a DKClippingOption value
- */
-- (void)setClipping:(DKClippingOption)clipping
-{
-	mClipping = clipping;
-}
+@synthesize enabled=m_enabled;
+@synthesize clipping=mClipping;
 
 - (void)setClippingWithoutNotifying:(DKClippingOption)clipping
 {
 	mClipping = clipping;
-}
-
-/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
- @return a DKClippingOption value
- */
-- (DKClippingOption)clipping
-{
-	return mClipping;
 }
 
 #pragma mark -

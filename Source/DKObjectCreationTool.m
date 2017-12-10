@@ -150,7 +150,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 - (void)setStyle:(DKStyle*)aStyle
 {
-	// sets the style for the prototype (an dhence subsequently created objects). This setting is overridden by
+	// sets the style for the prototype (and hence subsequently created objects). This setting is overridden by
 	// a style set for the class as a whole.
 
 	if ([[self prototype] respondsToSelector:_cmd])
@@ -167,15 +167,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		return [(DKDrawableObject*)[self prototype] style];
 }
 
-- (void)setStylePickupEnabled:(BOOL)pickup
-{
-	mEnableStylePickup = pickup;
-}
-
-- (BOOL)stylePickupEnabled
-{
-	return mEnableStylePickup;
-}
+@synthesize stylePickupEnabled=mEnableStylePickup;
 
 #pragma mark -
 

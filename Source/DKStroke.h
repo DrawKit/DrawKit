@@ -30,44 +30,36 @@ DKStyle can contains a list of strokes without limit.
 	CGFloat m_width;
 }
 
-+ (DKStroke*)defaultStroke;
-+ (DKStroke*)strokeWithWidth:(CGFloat)width colour:(NSColor*)colour;
++ (instancetype)defaultStroke NS_SWIFT_UNAVAILABLE("use DKStroke.init() instead.");
++ (instancetype)strokeWithWidth:(CGFloat)width colour:(NSColor*)colour;
 
-- (id)initWithWidth:(CGFloat)width colour:(NSColor*)colour;
+- (instancetype)init;
+- (instancetype)initWithWidth:(CGFloat)width colour:(NSColor*)colour;
 
-- (void)setColour:(NSColor*)colour;
-- (NSColor*)colour;
+@property (retain) NSColor *colour;
 
-- (void)setWidth:(CGFloat)width;
-- (CGFloat)width;
+@property CGFloat width;
 - (void)scaleWidthBy:(CGFloat)scale;
-- (CGFloat)allowance;
+@property (readonly) CGFloat allowance;
 
-- (void)setDash:(DKStrokeDash*)dash;
-- (DKStrokeDash*)dash;
+@property (retain) DKStrokeDash *dash;
 - (void)setAutoDash;
 
-- (void)setLateralOffset:(CGFloat)offset;
-- (CGFloat)lateralOffset;
+@property CGFloat lateralOffset;
 
-- (void)setShadow:(NSShadow*)shadow;
-- (NSShadow*)shadow;
+@property (retain) NSShadow *shadow;
 
 - (void)strokeRect:(NSRect)rect;
 - (void)applyAttributesToPath:(NSBezierPath*)path;
 
-- (void)setLineCapStyle:(NSLineCapStyle)lcs;
-- (NSLineCapStyle)lineCapStyle;
+@property NSLineCapStyle lineCapStyle;
 
-- (void)setLineJoinStyle:(NSLineJoinStyle)ljs;
-- (NSLineJoinStyle)lineJoinStyle;
+@property NSLineJoinStyle lineJoinStyle;
 
-- (void)setMiterLimit:(CGFloat)limit;
-- (CGFloat)miterLimit;
+@property CGFloat miterLimit;
 
-- (void)setTrimLength:(CGFloat)tl;
-- (CGFloat)trimLength;
+@property (nonatomic) CGFloat trimLength;
 
-- (NSSize)extraSpaceNeededIgnoringMitreLimit;
+@property (readonly) NSSize extraSpaceNeededIgnoringMitreLimit;
 
 @end

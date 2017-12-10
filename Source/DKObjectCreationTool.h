@@ -54,6 +54,8 @@ You can also set up a style to be applied to all new objects initially as an ind
  */
 + (DKStyle*)styleForCreatedObjects;
 
+@property (class, retain) DKStyle *styleForCreatedObjects;
+
 /** @brief Initialize the tool
  @param aPrototype an object that will be used as the tool's prototype - each new object created will
  @return the tool object
@@ -80,8 +82,9 @@ You can also set up a style to be applied to all new objects initially as an ind
 - (void)setStyle:(DKStyle*)aStyle;
 - (DKStyle*)style;
 
-- (void)setStylePickupEnabled:(BOOL)pickup;
-- (BOOL)stylePickupEnabled;
+@property (retain) DKStyle *style;
+
+@property BOOL stylePickupEnabled;
 
 /** @brief Return an image showing what the tool creates
 

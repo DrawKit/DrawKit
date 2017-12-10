@@ -157,7 +157,7 @@ extern NSString* DKMultipleMetadataItemsPBoardType;
 
 @interface NSObject (DKMetadataItemConversions)
 
-- (NSURL*)url;
+//- (NSURL*)url;
 - (NSColor*)colorValue;
 - (NSColor*)colourValue;
 - (NSString*)hexString;

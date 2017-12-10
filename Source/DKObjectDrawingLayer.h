@@ -71,6 +71,8 @@ selected state.
  */
 - (NSArray<DKDrawableObject*>*)selectedAvailableObjects; // KVC/KVO compliant (read only)
 
+@property (readonly, copy) NSArray<DKDrawableObject*> *selectedAvailableObjects;
+
 /** @brief Returns the objects that are not locked, visible and selected and which have the given class
 
  See comments for selectedAvailableObjects

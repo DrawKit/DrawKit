@@ -23,8 +23,8 @@
 {
 	DKStroke* stroke = [[self alloc] init];
 
-	[stroke setWidth:width];
-	[stroke setColour:colour];
+	stroke.width = width;
+	stroke.colour = colour;
 
 	return [stroke autorelease];
 }
@@ -51,34 +51,10 @@
 }
 
 #pragma mark -
-- (void)setColour:(NSColor*)colour
-{
-	//LogEvent_(kReactiveEvent, @"stroke setting colour: %@", colour);
-
-	[colour retain];
-	[m_colour release];
-	m_colour = colour;
-}
-
-- (NSColor*)colour
-{
-	return m_colour;
-}
+@synthesize colour=m_colour;
 
 #pragma mark -
-- (void)setWidth:(CGFloat)width
-{
-	//LogEvent_(kReactiveEvent, @"stroke setting width: %f", width);
-
-	if (width != m_width) {
-		m_width = width;
-	}
-}
-
-- (CGFloat)width
-{
-	return m_width;
-}
+@synthesize width=m_width;
 
 - (void)scaleWidthBy:(CGFloat)scale
 {
@@ -118,17 +94,7 @@
 }
 
 #pragma mark -
-- (void)setDash:(DKStrokeDash*)dash
-{
-	[dash retain];
-	[m_dash release];
-	m_dash = dash;
-}
-
-- (DKStrokeDash*)dash
-{
-	return m_dash;
-}
+@synthesize dash=m_dash;
 
 - (void)setAutoDash
 {
@@ -146,28 +112,10 @@
 }
 
 #pragma mark -
-- (void)setLateralOffset:(CGFloat)offset
-{
-	mLateralOffset = offset;
-}
-
-- (CGFloat)lateralOffset
-{
-	return mLateralOffset;
-}
+@synthesize lateralOffset=mLateralOffset;
 
 #pragma mark -
-- (void)setShadow:(NSShadow*)shadw
-{
-	[shadw retain];
-	[m_shadow release];
-	m_shadow = shadw;
-}
-
-- (NSShadow*)shadow
-{
-	return m_shadow;
-}
+@synthesize shadow=m_shadow;
 
 #pragma mark -
 - (void)strokeRect:(NSRect)rect
@@ -193,39 +141,9 @@
 }
 
 #pragma mark -
-- (void)setLineCapStyle:(NSLineCapStyle)lcs
-{
-	if (lcs != m_cap) {
-		m_cap = lcs;
-	}
-}
-
-- (NSLineCapStyle)lineCapStyle
-{
-	return m_cap;
-}
-
-- (void)setLineJoinStyle:(NSLineJoinStyle)ljs
-{
-	if (ljs != m_join) {
-		m_join = ljs;
-	}
-}
-
-- (NSLineJoinStyle)lineJoinStyle
-{
-	return m_join;
-}
-
-- (void)setMiterLimit:(CGFloat)limit
-{
-	m_mitreLimit = limit;
-}
-
-- (CGFloat)miterLimit
-{
-	return m_mitreLimit;
-}
+@synthesize lineCapStyle=m_cap;
+@synthesize lineJoinStyle=m_join;
+@synthesize miterLimit=m_mitreLimit;
 
 #pragma mark -
 - (void)setTrimLength:(CGFloat)tl
@@ -237,10 +155,7 @@
 	m_trimLength = tl;
 }
 
-- (CGFloat)trimLength
-{
-	return m_trimLength;
-}
+@synthesize trimLength=m_trimLength;
 
 - (NSSize)extraSpaceNeededIgnoringMitreLimit
 {
@@ -444,7 +359,7 @@
 		if (ml == 0.0)
 			ml = 10.0;
 
-		[self setMiterLimit:ml];
+		self.miterLimit = ml;
 	}
 	return self;
 }
@@ -455,22 +370,22 @@
 {
 	DKStroke* cp = [super copyWithZone:zone];
 
-	[cp setColour:[self colour]];
-	[cp setWidth:[self width]];
+	cp.colour = self.colour;
+	cp.width = self.width;
 
-	DKStrokeDash* dashCopy = [[self dash] copyWithZone:zone];
-	[cp setDash:dashCopy];
+	DKStrokeDash* dashCopy = [self.dash copyWithZone:zone];
+	cp.dash = dashCopy;
 	[dashCopy release];
 
-	NSShadow* shcopy = [[self shadow] copyWithZone:zone];
-	[cp setShadow:shcopy];
+	NSShadow* shcopy = [self.shadow copyWithZone:zone];
+	cp.shadow = shcopy;
 	[shcopy release];
 
-	[cp setLineCapStyle:[self lineCapStyle]];
-	[cp setLineJoinStyle:[self lineJoinStyle]];
-	[cp setLateralOffset:[self lateralOffset]];
-	[cp setTrimLength:[self trimLength]];
-	[cp setMiterLimit:[self miterLimit]];
+	cp.lineCapStyle = self.lineCapStyle;
+	cp.lineJoinStyle = self.lineJoinStyle;
+	cp.lateralOffset = self.lateralOffset;
+	cp.trimLength = self.trimLength;
+	cp.miterLimit = self.miterLimit;
 
 	return cp;
 }

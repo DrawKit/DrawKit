@@ -67,10 +67,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 + (void)setDefaultLayerCacheOption:(DKLayerCacheOption)option;
 + (DKLayerCacheOption)defaultLayerCacheOption;
 
+@property (class) DKLayerCacheOption defaultLayerCacheOption;
+
 // setting the storage (n.b. storage is set by default, this is an advanced feature that you can ignore 99% of the time):
 
 + (void)setStorageClass:(Class)aClass;
 + (Class)storageClass;
+
+@property (class) Class storageClass;
 
 - (void)setStorage:(id<DKObjectStorage>)storage;
 
@@ -78,6 +82,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @return a storage object
  */
 - (id<DKObjectStorage>)storage;
+
+@property (nonatomic, retain) id<DKObjectStorage> storage;
 
 // as a container for a DKDrawableObject:
 
@@ -88,24 +94,30 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (DKObjectOwnerLayer*)layer;
 
+@property (readonly, retain) DKObjectOwnerLayer *layer;
+
 // the list of objects:
 
 /** @brief Sets the objects that this layer owns
  @param objs an array of DKDrawableObjects, or subclasses thereof
  */
-- (void)setObjects:(NSArray*)objs; // KVC/KVO compliant
+- (void)setObjects:(NSArray<DKDrawableObject*>*)objs; // KVC/KVO compliant
 
 /** @brief Returns all owned objects
  @return an array of the objects
  */
-- (NSArray*)objects; // KVC/KVO compliant
+- (NSArray<DKDrawableObject*>*)objects; // KVC/KVO compliant
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible
 
  If the layer itself is locked, returns the empty list
  @return an array of available objects
  */
-- (NSArray*)availableObjects;
+- (NSArray<DKDrawableObject*>*)availableObjects;
+
+@property (nonatomic, copy) NSArray<DKDrawableObject*> *objects;
+@property (readonly, copy) NSArray<DKDrawableObject*> *availableObjects;
+@property (readonly, copy) NSArray<DKDrawableObject*> *visibleObjects;
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible and that
  intersect the rect
@@ -114,7 +126,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param aRect - objects must also intersect this rect
  @return an array of available objects
  */
-- (NSArray*)availableObjectsInRect:(NSRect)aRect;
+- (NSArray<DKDrawableObject*>*)availableObjectsInRect:(NSRect)aRect;
 
 /** @brief Returns objects that are available to the user of the given class
 
@@ -122,14 +134,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param aClass - class of the desired objects
  @return an array of available objects
  */
-- (NSArray*)availableObjectsOfClass:(Class)aClass;
+- (NSArray<DKDrawableObject*>*)availableObjectsOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @brief Returns objects that are visible to the user, but may be locked
 
  If the layer itself is not visible, returns nil
  @return an array of visible objects
  */
-- (NSArray*)visibleObjects;
+- (NSArray<DKDrawableObject*>*)visibleObjects;
 
 /** @brief Returns objects that are visible to the user, intersect the rect, but may be locked
 
@@ -137,7 +149,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param aRect the objects returned intersect this rect
  @return an array of visible objects
  */
-- (NSArray*)visibleObjectsInRect:(NSRect)aRect;
+- (NSArray<DKDrawableObject*>*)visibleObjectsInRect:(NSRect)aRect;
 
 /** @brief Returns objects that share the given style
 
@@ -155,11 +167,12 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  anything larger than an int or it will be ignored and the result may be wrong.
  @return an array, objects that match the value of <answer>
  */
-- (NSArray*)objectsReturning:(NSInteger)answer toSelector:(SEL)selector;
+- (NSArray<DKDrawableObject*>*)objectsReturning:(NSInteger)answer toSelector:(SEL)selector;
 
 // getting objects:
 
 - (NSUInteger)countOfObjects; // KVC/KVO compliant
+@property (readonly) NSUInteger countOfObjects;
 
 /** @brief Returns the object at a given stacking position index
  @param indx the stacking position
@@ -171,10 +184,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (DKDrawableObject*)topObject;
 
+
 /** @brief Returns the bottom object
  @return the bottom object
  */
 - (DKDrawableObject*)bottomObject;
+
+@property (readonly, retain) DKDrawableObject* topObject;
+@property (readonly, retain) DKDrawableObject* bottomObject;
 
 /** @brief Returns the stacking position of the given object
 
@@ -188,13 +205,13 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param set an index set
  @return a list of objects
  */
-- (NSArray*)objectsAtIndexes:(NSIndexSet*)set; // KVC/KVO compliant
+- (NSArray<DKDrawableObject*>*)objectsAtIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 
 /** @brief Given a list of objects that are part of this layer, return an index set for them
  @param objs a list of objects
  @return an index set listing the array index positions for the objects passed
  */
-- (NSIndexSet*)indexesOfObjectsInArray:(NSArray*)objs;
+- (NSIndexSet*)indexesOfObjectsInArray:(NSArray<DKDrawableObject*>*)objs;
 
 // adding and removing objects:
 // note that the 'objects' property is fully KVC/KVO compliant because where necessary all methods call some directly KVC/KVO compliant method internally.
@@ -226,7 +243,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param objs the objects to insert
  @param set the indexes where they should be inserted
  */
-- (void)insertObjects:(NSArray*)objs atIndexes:(NSIndexSet*)set; // KVC/KVO compliant
+- (void)insertObjects:(NSArray<DKDrawableObject*>*)objs atIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 
 /** @brief Removes objects from the indexes listed by the set
  @param set an index set
@@ -248,7 +265,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  Take care that no objects are already owned by any layer - this doesn't check.
  @param objs an array of DKDrawableObjects, or subclasses.
  */
-- (void)addObjectsFromArray:(NSArray*)objs;
+- (void)addObjectsFromArray:(NSArray<DKDrawableObject*>*)objs;
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  a given point.
@@ -262,7 +279,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @return YES if all objects were placed within the interior bounds of the drawing, NO if any object was
  placed outside the interior.
  */
-- (BOOL)addObjectsFromArray:(NSArray*)objs relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin;
+- (BOOL)addObjectsFromArray:(NSArray<DKDrawableObject*>*)objs relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin;
 
 /** @brief Adds a set of objects to the layer offsetting their location by the given delta values relative to
  a given point.
@@ -280,7 +297,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @return YES if all objects were placed within the interior bounds of the drawing, NO if any object was
  placed outside the interior.
  */
-- (BOOL)addObjectsFromArray:(NSArray*)objs bounds:(NSRect)bounds relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin;
+- (BOOL)addObjectsFromArray:(NSArray<DKDrawableObject*>*)objs bounds:(NSRect)bounds relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin;
 
 /** @brief Removes the object from the layer
  @param obj the object to remove
@@ -294,7 +311,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Removes a set of objects from the layer
  */
-- (void)removeObjectsInArray:(NSArray*)objs;
+- (void)removeObjectsInArray:(NSArray<DKDrawableObject*>*)objs;
 
 /** @brief Removes all objects from the layer
  */
@@ -514,6 +531,9 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 - (void)setRecordingPasteOffset:(BOOL)record;
 - (NSInteger)pasteCount;
 
+@property (getter=isRecordingPasteOffset) BOOL recordingPasteOffset;
+@property (readonly) NSInteger pasteCount;
+
 /** @brief Return the current point where pasted object will be positioned relative to
 
  See paste: for how this is used
@@ -528,6 +548,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (void)setPasteOrigin:(NSPoint)po;
 
+@property (nonatomic) NSPoint pasteOrigin;
+
 /** @brief Returns the paste offset (distance between successively pasted objects)
  @return the paste offset as a NSSize
  */
@@ -538,13 +560,15 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (void)setPasteOffset:(NSSize)offset;
 
+@property (nonatomic) NSSize pasteOffset;
+
 /** @brief Establish the paste offset - a value used to position items when pasting and duplicating
 
  The values passed will be adjusted to the nearest grid interval if snap to grid is on.
  @param x the x value of the offset
  @param y the y value of the offset
  */
-- (void)setPasteOffsetX:(CGFloat)x y:(CGFloat)y;
+- (void)setPasteOffsetX:(CGFloat)x y:(CGFloat)y NS_SWIFT_NAME(setPasteOffset(x:y:));
 
 /** @brief Sets the paste offset (distance between successively pasted objects)
  @param objects the list of objects that were moved
@@ -577,7 +601,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param rect a rectangle
  @return a list of objects touched by the rect
  */
-- (NSArray*)objectsInRect:(NSRect)rect;
+- (NSArray<DKDrawableObject*>*)objectsInRect:(NSRect)rect;
 
 /** @brief An object owned by the layer was double-clicked
 
@@ -622,6 +646,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @return YES if editing will take place, NO if it is prevented
  */
 - (BOOL)allowsEditing;
+	
+@property (nonatomic) BOOL allowsEditing;
 
 /** @brief Sets whether the layer permits snapping to its objects
  @param snap YES to allow snapping
@@ -632,6 +658,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @return YES if snapping allowed
  */
 - (BOOL)allowsSnapToObjects;
+
+@property (nonatomic) BOOL allowsSnapToObjects;
 
 /** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
 
@@ -651,6 +679,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (DKLayerCacheOption)layerCacheOption;
 
+@property (nonatomic) DKLayerCacheOption layerCacheOption;
+
 /** @brief Query whether the layer is currently highlighted for a drag (receive) operation
  @return YES if highlighted, NO otherwise
  */
@@ -660,6 +690,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param highlight YES to highlight, NO otherwise
  */
 - (void)setHighlightedForDrag:(BOOL)highlight;
+
+@property (nonatomic, getter=isHighlightedForDrag) BOOL highlightedForDrag;
 
 /** @brief Draws the highlighting to indicate the layer is a drag target
 

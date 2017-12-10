@@ -285,6 +285,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (DKLayer*)activeLayer;
 - (__kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
+@property (nonatomic, assign, readonly) DKLayer *activeLayer;
+
 /** @} */
 /** @name high level methods that help support a UI
  @{ */

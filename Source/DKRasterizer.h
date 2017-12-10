@@ -8,6 +8,7 @@
 #import "GCObservableObject.h"
 
 @class DKRastGroup;
+@protocol DKRendererDelegate;
 
 //! clipping values:
 typedef NS_ENUM(NSInteger, DKClippingOption) {
@@ -42,17 +43,52 @@ Renderers can now have a delegate attached which is able to modify behaviours su
  @param container the objects's container - must be a group, or nil
  */
 - (void)setContainer:(DKRastGroup*)container;
+	
+@property (assign) DKRastGroup *container;
 
+/** @brief Set the name of the renderer
+ 
+ Named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
+ @param name the name to give the renderer
+ */
 - (void)setName:(NSString*)name;
+
+/** @brief Get the name of the renderer
+ 
+ Named renderers can be referred to in scripts or bound to in the UI
+ @return the renderer's name
+ */
 - (NSString*)name;
+@property (nonatomic, copy) NSString *name;
+
 - (NSString*)label;
+@property (readonly, copy/*, nonnull*/) NSString *label;
 
 - (BOOL)isValid;
 - (NSString*)styleScript;
 
-- (void)setEnabled:(BOOL)enable;
-- (BOOL)enabled;
+@property (readonly, getter=isValid) BOOL valid;
 
+/** @brief Set whether the renderer is enabled or not
+ 
+ Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
+ larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
+ @param enable \c YES to enable, \c NO to disable.
+ */
+- (void)setEnabled:(BOOL)enable;
+	
+/** @brief Query whether the renderer is enabled or not
+ 
+ Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
+ larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
+ @return \c YES if enabled, \c NO if not.
+ */
+- (BOOL)enabled;
+@property BOOL enabled;
+
+/** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
+ @param clipping a DKClippingOption value
+ */
 - (void)setClipping:(DKClippingOption)clipping;
 - (void)setClippingWithoutNotifying:(DKClippingOption)clipping;
 
@@ -60,6 +96,8 @@ Renderers can now have a delegate attached which is able to modify behaviours su
  @return a DKClippingOption value
  */
 - (DKClippingOption)clipping;
+
+@property DKClippingOption clipping;
 
 /** @brief Returns the path to render given the object doing the rendering
 
@@ -95,7 +133,7 @@ extern NSString* kDKRasterizerChangedPropertyKey;
  of a shape when a set of rendering operations is applied to it.
 
 */
-@interface NSObject (DKRendererDelegate)
+@protocol DKRendererDelegate <NSObject>
 
 - (NSBezierPath*)renderer:(DKRasterizer*)aRenderer willRenderPath:(NSBezierPath*)aPath;
 

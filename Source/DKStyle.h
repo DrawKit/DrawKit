@@ -56,6 +56,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 + (NSArray<NSPasteboardType>*)stylePasteboardTypes;
 + (BOOL)canInitWithPasteboard:(NSPasteboard*)pb;
 
+@property (class, readonly, copy) NSArray<NSPasteboardType>*stylePasteboardTypes;
+
 // pasted styles - separate non-persistent registry
 
 + (DKStyle*)styleWithPasteboardName:(NSString*)name;
