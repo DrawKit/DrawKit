@@ -1473,7 +1473,7 @@ static NSSize sTempSavedOffset;
  Switches between normal location, scaling and rotation operations, and those involving the
  distortion transform (shearing, free distort, perpective).
  */
-- (void)setOperationMode:(NSInteger)mode
+- (void)setOperationMode:(DKShapeTransformOperation)mode
 {
 	if (mode != m_opMode) {
 		[[[self undoManager] prepareWithInvocationTarget:self] setOperationMode:m_opMode];
@@ -1495,7 +1495,7 @@ static NSSize sTempSavedOffset;
 /** @brief Returns the current operation mode
  @return ops mode
  */
-- (NSInteger)operationMode
+- (DKShapeTransformOperation)operationMode
 {
 	return m_opMode;
 }

@@ -190,7 +190,11 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 		mOrder = malloc(sizeof(NSInteger) * n);
 		NSInteger kludge = 1;
+#if defined(__LP64__) && __LP64__
+		memset_pattern8(mOrder, &kludge, sizeof(NSInteger) * n);
+#else
 		memset_pattern4(mOrder, &kludge, sizeof(NSInteger) * n);
+#endif
 
 		if ((mAlgorithm & kDKUseSimulatedAnnealing) != 0) {
 			mX = malloc(sizeof(CGFloat) * n);

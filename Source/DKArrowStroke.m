@@ -98,47 +98,12 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 }
 
 #pragma mark -
-- (void)setArrowHeadAtStart:(DKArrowHeadKind)sa
-{
-	mArrowHeadAtStart = sa;
-}
-
-- (void)setArrowHeadAtEnd:(DKArrowHeadKind)se
-{
-	mArrowHeadAtEnd = se;
-}
-
-- (DKArrowHeadKind)arrowHeadAtStart
-{
-	return mArrowHeadAtStart;
-}
-
-- (DKArrowHeadKind)arrowHeadAtEnd
-{
-	return mArrowHeadAtEnd;
-}
+@synthesize arrowHeadAtStart=mArrowHeadAtStart;
+@synthesize arrowHeadAtEnd=mArrowHeadAtEnd;
 
 #pragma mark -
-
-- (void)setArrowHeadWidth:(CGFloat)width
-{
-	m_arrowWidth = width;
-}
-
-- (CGFloat)arrowHeadWidth
-{
-	return m_arrowWidth;
-}
-
-- (void)setArrowHeadLength:(CGFloat)length
-{
-	m_arrowLength = length;
-}
-
-- (CGFloat)arrowHeadLength
-{
-	return m_arrowLength;
-}
+@synthesize arrowHeadWidth=m_arrowWidth;
+@synthesize arrowHeadLength=m_arrowLength;
 
 #pragma mark -
 - (void)standardArrowForStrokeWidth:(CGFloat)sw
@@ -162,27 +127,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 }
 #endif
 
-- (void)setOutlineColour:(NSColor*)colour
-{
-	[colour retain];
-	[m_outlineColour release];
-	m_outlineColour = colour;
-}
-
-- (NSColor*)outlineColour
-{
-	return m_outlineColour;
-}
-
-- (void)setOutlineWidth:(CGFloat)width
-{
-	m_outlineWidth = width;
-}
-
-- (CGFloat)outlineWidth
-{
-	return m_outlineWidth;
-}
+@synthesize outlineColour=m_outlineColour;
+@synthesize outlineWidth=m_outlineWidth;
 
 #pragma mark -
 - (NSImage*)arrowSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width
@@ -585,17 +531,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 #pragma mark -
 #pragma mark - dimensioning lines
 
-- (void)setFormatter:(NSNumberFormatter*)fmt
-{
-	[fmt retain];
-	[m_dims_formatter release];
-	m_dims_formatter = fmt;
-}
-
-- (NSNumberFormatter*)formatter
-{
-	return m_dims_formatter;
-}
+@synthesize formatter=m_dims_formatter;
 
 - (void)setFormat:(NSString*)format
 {
@@ -612,10 +548,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	}
 }
 
-- (DKDimensioningLineOptions)dimensioningLineOptions
-{
-	return mDimensionOptions;
-}
+
+@synthesize dimensioningLineOptions=mDimensionOptions;
 
 - (NSAttributedString*)dimensionTextForObject:(id)obj
 {
@@ -719,20 +653,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	}
 }
 
-- (DKDimensionTextKind)dimensionTextKind
-{
-	return mDimTextKind;
-}
-
-- (void)setDimensionToleranceOption:(DKDimensionToleranceOption)option
-{
-	mDimToleranceOptions = option;
-}
-
-- (DKDimensionToleranceOption)dimensionToleranceOption
-{
-	return mDimToleranceOptions;
-}
+@synthesize dimensionTextKind=mDimTextKind;
+@synthesize dimensionToleranceOption=mDimToleranceOptions;
 
 - (void)setTextAttributes:(NSDictionary*)dict
 {

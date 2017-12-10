@@ -67,24 +67,19 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 	DKDimensionToleranceOption mDimToleranceOptions;
 }
 
-+ (void)setDimensioningLineTextAttributes:(NSDictionary*)attrs;
-+ (NSDictionary*)dimensioningLineTextAttributes;
-+ (DKArrowStroke*)standardDimensioningLine;
+@property (class, retain /*, null_resettable*/) NSDictionary<NSAttributedStringKey,id> *dimensioningLineTextAttributes;
+@property (class, readonly, retain) DKArrowStroke *standardDimensioningLine;
 + (NSNumberFormatter*)defaultDimensionLineFormatter;
 
 // head kind at each end
 
-- (void)setArrowHeadAtStart:(DKArrowHeadKind)kind;
-- (void)setArrowHeadAtEnd:(DKArrowHeadKind)kind;
-- (DKArrowHeadKind)arrowHeadAtStart;
-- (DKArrowHeadKind)arrowHeadAtEnd;
+@property DKArrowHeadKind arrowHeadAtStart;
+@property DKArrowHeadKind arrowHeadAtEnd;
 
 // head widths and lengths (some head kinds may set these also)
 
-- (void)setArrowHeadWidth:(CGFloat)width;
-- (CGFloat)arrowHeadWidth;
-- (void)setArrowHeadLength:(CGFloat)length;
-- (CGFloat)arrowHeadLength;
+@property CGFloat arrowHeadWidth;
+@property CGFloat arrowHeadLength;
 
 - (void)standardArrowForStrokeWidth:(CGFloat)sw;
 
@@ -92,10 +87,8 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 - (void)setOutlineColour:(NSColor*)colour width:(CGFloat)width;
 #endif
 
-- (void)setOutlineColour:(NSColor*)colour;
-- (NSColor*)outlineColour;
-- (void)setOutlineWidth:(CGFloat)width;
-- (CGFloat)outlineWidth;
+@property (copy) NSColor *outlineColour;
+@property CGFloat outlineWidth;
 
 - (NSImage*)arrowSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width;
 - (NSImage*)standardArrowSwatchImage;
@@ -104,27 +97,21 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 // dimensioning lines:
 
-- (void)setFormatter:(NSNumberFormatter*)fmt;
-- (NSNumberFormatter*)formatter;
+@property (retain) NSNumberFormatter *formatter;
 - (void)setFormat:(NSString*)format;
 
-- (void)setDimensioningLineOptions:(DKDimensioningLineOptions)dimOps;
-- (DKDimensioningLineOptions)dimensioningLineOptions;
+@property (nonatomic) DKDimensioningLineOptions dimensioningLineOptions;
 
 - (NSAttributedString*)dimensionTextForObject:(id)obj;
 - (CGFloat)widthOfDimensionTextForObject:(id)obj;
 - (NSString*)toleranceTextForObject:(id)object;
 
-- (void)setDimensionTextKind:(DKDimensionTextKind)kind;
-- (DKDimensionTextKind)dimensionTextKind;
+@property (nonatomic) DKDimensionTextKind dimensionTextKind;
 
-- (void)setDimensionToleranceOption:(DKDimensionToleranceOption)option;
-- (DKDimensionToleranceOption)dimensionToleranceOption;
+@property DKDimensionToleranceOption dimensionToleranceOption;
 
-- (void)setTextAttributes:(NSDictionary*)dict;
-- (NSDictionary*)textAttributes;
-- (void)setFont:(NSFont*)font;
-- (NSFont*)font;
+@property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+@property (retain) NSFont *font;
 
 @end
 
