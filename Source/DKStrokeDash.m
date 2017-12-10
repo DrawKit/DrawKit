@@ -109,7 +109,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 #pragma mark -
 - (id)initWithPattern:(CGFloat[])dashes count:(NSInteger)count
 {
-	NSAssert((NSUInteger)(sizeof(dashes)) <= (NSUInteger)(8 * sizeof(CGFloat)), @"Expected dashes to be no more than 8 floats");
+	//NSAssert((NSUInteger)(sizeof(dashes)) <= (NSUInteger)(8 * sizeof(CGFloat)), @"Expected dashes to be no more than 8 floats");
 	self = [super init];
 	if (self != nil) {
 		[self setDashPattern:dashes

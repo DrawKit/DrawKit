@@ -264,7 +264,7 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 
 + (NSString*)keyForKnobType:(DKKnobType)type
 {
-	return [NSString stringWithFormat:@"hnd_type_%d", type];
+	return [NSString stringWithFormat:@"hnd_type_%ld", (long)type];
 }
 
 #pragma mark -

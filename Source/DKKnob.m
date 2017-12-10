@@ -83,7 +83,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 					  angle:radians];
 	}
 	return;
-#endif
+#else
 
 	CGFloat scale = 1.0;
 
@@ -157,6 +157,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 			//[userInfo release];
 		}
 	}
+#endif
 }
 
 - (void)drawKnobAtPoint:(NSPoint)p ofType:(DKKnobType)knobType angle:(CGFloat)radians userInfo:(id)userInfo
@@ -167,6 +168,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 // skip this fancy stuff
 
 #if USE_DK_HANDLES
+#pragma unused(userInfo)
 	if ([[self owner] respondsToSelector:@selector(knobsWantDrawingActiveState)]) {
 		BOOL active = [[self owner] knobsWantDrawingActiveState];
 
@@ -182,7 +184,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 					  angle:radians];
 	}
 	return;
-#endif
+#else
 
 	CGFloat scale = 1.0;
 
@@ -248,6 +250,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 					  userInfo:userInfo];
 		}
 	}
+#endif
 }
 
 - (void)drawControlBarFromPoint:(NSPoint)a toPoint:(NSPoint)b

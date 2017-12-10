@@ -570,7 +570,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 /** @brief Set up the document in its initial state for the "New" command.
 
  Creates a default drawing object
- @param typename the type of data that the document is created to handle (ignored)
+ @param typeName the type of data that the document is created to handle (ignored)
  @param outError an error, if it wasn't successful
  @return the document object
  */
@@ -621,8 +621,8 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
  Instantiates the drawing from the file data at the given URL.
  @param absoluteURL the url being read
- @param typename the type of data to load
- @param error the error if not successful
+ @param typeName the type of data to load
+ @param outError the error if not successful
  @return YES if the file was opened, NO otherwise
  */
 - (BOOL)readFromData:(NSData*)data ofType:(NSString*)typeName error:(NSError**)outError
