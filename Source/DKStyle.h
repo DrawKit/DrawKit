@@ -233,6 +233,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES if locked (non-editable)
  */
 - (BOOL)locked;
+	
+	@property (nonatomic) BOOL locked;
 
 // registry info:
 

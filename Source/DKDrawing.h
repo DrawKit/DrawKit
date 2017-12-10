@@ -215,7 +215,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 /** @name the drawing's view controllers
  @{ */
 
-- (NSSet*)controllers;
+- (NSSet<DKViewController*>*)controllers;
 - (void)addController:(DKViewController*)aController;
 - (void)removeController:(DKViewController*)aController;
 
@@ -275,6 +275,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSColor*)paperColour;
 - (void)setPaperColourIsPrinted:(BOOL)printIt;
 - (BOOL)paperColourIsPrinted;
+@property BOOL paperColourIsPrinted;
 
 /** @} */
 /** @name active layer
@@ -282,7 +283,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (BOOL)setActiveLayer:(DKLayer*)aLayer;
 - (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo;
 - (DKLayer*)activeLayer;
-- (id)activeLayerOfClass:(Class)aClass;
+- (__kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @} */
 /** @name high level methods that help support a UI

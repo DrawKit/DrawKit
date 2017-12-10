@@ -69,22 +69,22 @@ selected state.
  Note that if the layer is locked as a whole, this always returns an empty list
  @return an array, objects that can be acted upon by a command as a set
  */
-- (NSArray*)selectedAvailableObjects; // KVC/KVO compliant (read only)
+- (NSArray<DKDrawableObject*>*)selectedAvailableObjects; // KVC/KVO compliant (read only)
 
 /** @brief Returns the objects that are not locked, visible and selected and which have the given class
 
  See comments for selectedAvailableObjects
  @return an array, objects of the given class that can be acted upon by a command as a set
  */
-- (NSArray*)selectedAvailableObjectsOfClass:(Class)aClass;
+- (NSArray<DKDrawableObject*>*)selectedAvailableObjectsOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @brief Returns the objects that are visible and selected
 
  See comments for selectedAvailableObjects
  @return an array
  */
-- (NSArray*)selectedVisibleObjects;
-- (NSSet*)selectedObjectsReturning:(NSInteger)answer toSelector:(SEL)selector;
+- (NSArray<DKDrawableObject*>*)selectedVisibleObjects;
+- (NSSet<DKDrawableObject*>*)selectedObjectsReturning:(NSInteger)answer toSelector:(SEL)selector;
 
 /** @brief Returns objects that respond to the selector <selector>
 
