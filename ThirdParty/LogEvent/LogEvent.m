@@ -544,7 +544,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 		NSDictionary *environment = [NSDictionary dictionaryWithObject: @"YES" forKey: @"NSZombieEnabled"];
 		NSString* execPath = [[NSBundle mainBundle] executablePath];
 		
-		const char* executablePath = [execPath UTF8String];
+		const char* executablePath = [execPath fileSystemRepresentation];
 		
 		FSPathMakeRef((UInt8*) executablePath, &fileRef, nil);
 		LSApplicationParameters appParameters = {0, kLSLaunchDefaults | kLSLaunchNewInstance, &fileRef, nil, (CFDictionaryRef)environment, nil, nil};
