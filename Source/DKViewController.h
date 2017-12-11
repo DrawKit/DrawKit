@@ -5,6 +5,7 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "DKDrawing.h"
 
 @class DKDrawingView, DKDrawing, DKLayer;
 
@@ -128,7 +129,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  similar drawing methods that take simple parameter types
  @param unitString a string used to look up the previously established ruler settings
  */
-- (void)synchronizeViewRulersWithUnits:(NSString*)unitString;
+- (void)synchronizeViewRulersWithUnits:(DKDrawingUnits)unitString;
 
 /** @brief Invalidate the cursor rects for the view
 

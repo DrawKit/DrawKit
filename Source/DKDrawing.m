@@ -64,6 +64,20 @@ NSString* kDKDrawingSnapToGridUserDefault = @"kDKDrawingSnapToGridUserDefault";
 NSString* kDKDrawingSnapToGuidesUserDefault = @"kDKDrawingSnapToGuidesUserDefault";
 NSString* kDKDrawingUnitAbbreviationsUserDefault = @"kDKDrawingUnitAbbreviations";
 
+// drawing units:
+
+NSString *const DKDrawingUnitInches = @"inches";
+NSString *const DKDrawingUnitMillimetres = @"millimetres";
+NSString *const DKDrawingUnitCentimetres = @"centimetres";
+NSString *const DKDrawingUnitMetres = @"metres";
+NSString *const DKDrawingUnitKilometres = @"kilometres";
+NSString *const DKDrawingUnitPicas = @"picas";
+NSString *const DKDrawingUnitPixels = @"pixels";
+NSString *const DKDrawingUnitFeet = @"feet";
+NSString *const DKDrawingUnitYards = @"yards";
+NSString *const DKDrawingUnitPoints = @"points";
+NSString *const DKDrawingUnitMiles = @"miles";
+
 #pragma mark Static vars
 
 static id sDearchivingHelper = nil;
@@ -706,20 +720,15 @@ static id sDearchivingHelper = nil;
 															object:self];
 		[units retain];
 		[m_units release];
-		m_units = units;
+		m_units = [units copy];
+		[units release];
 		m_unitConversionFactor = conversionFactor;
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingUnitsDidChange
 															object:self];
 	}
 }
 
-/** @brief Returns the full name of the drawing's units
- @return a string
- */
-- (NSString*)drawingUnits
-{
-	return m_units;
-}
+@synthesize drawingUnits=m_units;
 
 /** @brief Returns the abbreviation of the drawing's units
 
@@ -779,25 +788,7 @@ static id sDearchivingHelper = nil;
 										withObject:unitString];
 }
 
-/** @brief Sets the delegate
-
- See header for possible delegate methods
- @param aDelegate some delegate object
- */
-- (void)setDelegate:(id)aDelegate
-{
-	mDelegateRef = aDelegate;
-}
-
-/** @brief Return the delegate
-
- See header for possible delegate methods
- @return some delegate object
- */
-- (id)delegate
-{
-	return mDelegateRef;
-}
+@synthesize delegate=mDelegateRef;
 
 #pragma mark -
 #pragma mark - controllers attachment
@@ -1121,14 +1112,6 @@ static id sDearchivingHelper = nil;
  @param aLayer a layer object to be added
  @param activateIt if YES, the added layer will be made the active layer, NO will not change it
  */
-
-/** @brief Adds a layer to the drawing
-
- The added layer is placed above all other layers. If it is the first layer to be added to the
- drawing, or the current active layer isn't set, it is also made the active layer (if permitted).
- For a UI-driven call, it is probably better to use addLayer:andActivateIt: which is smarter.
- @param aLayer a DKLayer object, or subclass thereof
- */
 - (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt
 {
 	NSAssert(aLayer != nil, @"cannot add a nil layer to the drawing");
@@ -1156,13 +1139,6 @@ static id sDearchivingHelper = nil;
  finds the topmost layer of the same class as <aLayer> and makes that active.
  @param aLayer a layer object to be removed
  @param anotherLayer if not nil, this layer will be activated after removing the first one.
- */
-
-/** @brief Removes the layer from the drawing
-
- Disposes of the layer if there are no other references to it.
- For a UI-driven call, it is probably better to use removeLayer:andActivateLayer: which is smarter.
- @param aLayer a DKLayer object, or subclass thereof, that already exists in the drawing
  */
 - (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(DKLayer*)anotherLayer
 {
@@ -1592,6 +1568,17 @@ static id sDearchivingHelper = nil;
 	return [[self drawingData] writeToFile:filename
 								atomically:atom];
 }
+
+- (BOOL)writeToURL:(NSURL*)filename options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable * _Nullable)errorPtr
+{
+	NSAssert(filename != nil, @"filename was nil");
+	NSAssert([[filename path] length] > 0, @"filename was empty");
+	
+	[[self drawingInfo] setObject:filename.path
+						   forKey:kDKDrawingInfoOriginalFilename];
+	return [[self drawingData] writeToURL:filename options:writeOptionsMask error:errorPtr];
+}
+
 
 /** @brief Returns the entire drawing's data in XML format, having the key "root"
 

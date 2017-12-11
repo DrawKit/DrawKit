@@ -9,6 +9,8 @@
 @class DKGridLayer, DKGuideLayer, DKKnob, DKViewController, DKImageDataManager, DKUndoManager;
 @protocol DKDrawingDelegate;
 
+typedef NSString *DKDrawingUnits NS_TYPED_EXTENSIBLE_ENUM;
+
 /** @brief A DKDrawing is the model data for the drawing system.
 
 Usually a document will own one of these. A drawing consists of one or more DKLayers,
@@ -29,7 +31,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 */
 @interface DKDrawing : DKLayerGroup <NSCoding, NSCopying> {
 @private
-	NSString* m_units; /**< user readable drawing units string, e.g. "millimetres" */
+	DKDrawingUnits m_units; /**< user readable drawing units string, e.g. "millimetres" */
 	DKLayer* m_activeLayerRef; /**< which one is active for editing, etc */
 	NSColor* m_paperColour; /**< underlying colour of the "paper" */
 	DKUndoManager* m_undoManager; /**< undo manager to use for data changes */
@@ -51,9 +53,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 	NSTimeInterval m_lastRenderTime; /**< time the last render operation occurred */
 	NSTimeInterval mTriggerPeriod; /**< the time interval to use to trigger low quality rendering */
 	NSRect m_lastRectUpdated; /**< for refresh in HQ mode */
-	NSMutableSet* mControllers; /**< the set of current controllers */
+	NSMutableSet<DKViewController*>* mControllers; /**< the set of current controllers */
 	DKImageDataManager* mImageManager; /**< internal object used to substantially improve efficiency of image archiving */
-	id mDelegateRef; /**< delegate, if any */
+	id<DKDrawingDelegate> mDelegateRef; /**< delegate, if any */
 	id mOwnerRef; /**< back pointer to document or view that owns this */
 }
 
@@ -137,16 +139,16 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @param abbrev the abbreviation for the unit
  @param fullString the full name of the drawing units
  */
-+ (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(NSString*)fullString;
++ (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(DKDrawingUnits)fullString;
 
 /** @brief Returns the abbreviation for the given drawing units string
  @param fullString the full name of the drawing units
  @return a string - the abbreviated form
  */
-+ (NSString*)abbreviationForDrawingUnits:(NSString*)fullString;
++ (NSString*)abbreviationForDrawingUnits:(DKDrawingUnits)fullString;
 
 /** @brief designated initializer */
-- (id)initWithSize:(NSSize)size;
+- (instancetype)initWithSize:(NSSize)size NS_DESIGNATED_INITIALIZER;
 
 // owner (document or view)
 
@@ -226,19 +228,36 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @name setting the rulers to the grid
  @{ */
 
-- (void)setDrawingUnits:(NSString*)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
-- (NSString*)drawingUnits;
+- (void)setDrawingUnits:(DKDrawingUnits)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
+/** @brief Returns the full name of the drawing's units
+ @return a string
+ */
+- (DKDrawingUnits)drawingUnits;
 - (NSString*)abbreviatedDrawingUnits;
 - (CGFloat)unitToPointsConversionFactor;
 - (CGFloat)effectiveUnitToPointsConversionFactor;
-- (void)synchronizeRulersWithUnits:(NSString*)unitString;
+- (void)synchronizeRulersWithUnits:(DKDrawingUnits)unitString;
+
+@property (readonly, copy) DKDrawingUnits drawingUnits;
+@property (readonly, copy) NSString *abbreviatedDrawingUnits;
 
 /** @} */
 /** @name setting the delegate */
 
+/** @brief Sets the delegate
+ 
+ See header for possible delegate methods
+ @param aDelegate some delegate object
+ */
 - (void)setDelegate:(id<DKDrawingDelegate>)aDelegate;
+
+/** @brief Return the delegate
+ 
+ See header for possible delegate methods
+ @return some delegate object
+ */
 - (id<DKDrawingDelegate>)delegate;
-@property (nonatomic, assign) id<DKDrawingDelegate> delegate;
+@property (assign) id<DKDrawingDelegate> delegate;
 
 /** @name the drawing's view controllers
  @{ */
@@ -439,8 +458,30 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 /** @name export
  @{ */
 
+/** @brief Called just prior to an operation that saves the drawing to a file, pasteboard or data.
+ 
+ Can be overridden or you can make use of the notification
+ */
 - (void)finalizePriorToSaving;
+/** @brief Saves the entire drawing to a file
+ 
+ Implies the binary format
+ @param filename the full path of the file
+ @param atom \c YES to save to a temporary file and swap (safest), \c NO to overwrite file
+ @return \c YES if succesfully written, \c NO otherwise
+ */
 - (BOOL)writeToFile:(NSString*)filename atomically:(BOOL)atom;
+
+/** @brief Saves the entire drawing to a file URL.
+ 
+ Implies the binary format.
+ @param filename the full file URL of the file.
+ @param writeOptionsMask see \c NSDataWritingOptions for more info.
+ @param errorPtr If there is an error writing out the data, upon return contains an error
+ object that describes the problem.
+ @return \c YES if succesfully written, \c NO otherwise.
+ */
+- (BOOL)writeToURL:(NSURL*)filename options:(NSDataWritingOptions)writeOptionsMask error:(NSError * __autoreleasing*)errorPtr;
 - (NSData*)drawingAsXMLDataAtRoot;
 - (NSData*)drawingAsXMLDataForKey:(NSString*)key;
 - (NSData*)drawingData;
@@ -513,7 +554,7 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 - (void)drawing:(DKDrawing*)drawing didDrawRect:(NSRect)rect inView:(DKDrawingView*)aView;
 - (NSPoint)drawing:(DKDrawing*)drawing convertLocationToExternalCoordinates:(NSPoint)drawingPt;
 - (CGFloat)drawing:(DKDrawing*)drawing convertDistanceToExternalCoordinates:(CGFloat)drawingDistance;
-- (NSString*)drawing:(DKDrawing*)drawing willReturnAbbreviationForUnit:(NSString*)unit;
+- (NSString*)drawing:(DKDrawing*)drawing willReturnAbbreviationForUnit:(DKDrawingUnits)unit;
 - (NSString*)drawing:(DKDrawing*)drawing willReturnFormattedCoordinateForDistance:(CGFloat)drawingDistance;
 - (CGFloat)drawingWillReturnUnitToPointsConversonFactor:(DKDrawing*)drawing;
 
@@ -530,19 +571,31 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 /** @brief deprecated methods */
 @interface DKDrawing (Deprecated)
 
-+ (DKDrawing*)drawingWithContentsOfFile:(NSString*)filepath;
-+ (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath;
++ (DKDrawing*)drawingWithContentsOfFile:(NSString*)filepath DEPRECATED_ATTRIBUTE;
++ (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath DEPRECATED_ATTRIBUTE;
 
 /** @brief Saves the static class defaults for ALL classes in the drawing system
 
  Deprecated - no longer does anything
  */
-+ (void)saveDefaults;
++ (void)saveDefaults DEPRECATED_ATTRIBUTE;
 
 /** @brief Loads the static user defaults for all classes in the drawing system
 
  Deprecated - no longer does anything
  */
-+ (void)loadDefaults;
++ (void)loadDefaults DEPRECATED_ATTRIBUTE;
 
 @end
+
+extern DKDrawingUnits const DKDrawingUnitInches;
+extern DKDrawingUnits const DKDrawingUnitMillimetres;
+extern DKDrawingUnits const DKDrawingUnitCentimetres;
+extern DKDrawingUnits const DKDrawingUnitMetres;
+extern DKDrawingUnits const DKDrawingUnitKilometres;
+extern DKDrawingUnits const DKDrawingUnitPicas;
+extern DKDrawingUnits const DKDrawingUnitPixels;
+extern DKDrawingUnits const DKDrawingUnitFeet;
+extern DKDrawingUnits const DKDrawingUnitYards;
+extern DKDrawingUnits const DKDrawingUnitPoints;
+extern DKDrawingUnits const DKDrawingUnitMiles;
