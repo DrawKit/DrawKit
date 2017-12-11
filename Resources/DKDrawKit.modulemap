@@ -1,5 +1,6 @@
 framework module DKDrawKit {
   umbrella header "DKDrawKit.h"
+  config_macros qUseLogEvent
 
   export *
   module * { export * }
