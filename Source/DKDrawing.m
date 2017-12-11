@@ -897,50 +897,8 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 #pragma mark - dynamically adjusting the rendering quality
 
-/** @brief Set whether drawing quality modulation is enabled or not
-
- Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
- the need for it. This flag allows that behaviour to be turned on or off.
- */
-- (void)setDynamicQualityModulationEnabled:(BOOL)qmEnabled
-{
-	m_qualityModEnabled = qmEnabled;
-}
-
-- (BOOL)dynamicQualityModulationEnabled
-{
-	return m_qualityModEnabled;
-}
-
-/** @brief Advise whether drawing should be done in best quality or not
-
- Rasterizers in DK can query this flag to check if they can use a fast quick rendering method.
- this is set while zooming, scrolling or other operations that require many rapid updates. Speed
- under these conditions can be improved by using bitmap caches, etc rather than drawing at best
- quality.
- @param quickAndDirty YES to offer low quality faster rendering
- */
-- (void)setLowRenderingQuality:(BOOL)quickAndDirty
-{
-	if (quickAndDirty != m_useQandDRendering) {
-		m_useQandDRendering = quickAndDirty;
-
-		//	LogEvent_(kStateEvent, @"setting rendering quality: %@", m_useQandDRendering? @"LOW": @"HIGH" );
-	}
-}
-
-/** @brief Advise whether drawing should be done in best quality or not
-
- Renderers in drawkit can query this flag to check if they can use a fast quick rendering method.
- this is set while zooming, scrolling or other operations that require many rapid updates. Speed
- under these conditions can be inmproved by using bitmap caches, etc rather than drawing at best
- quality.
- @return YES if low quality is an option
- */
-- (BOOL)lowRenderingQuality
-{
-	return m_useQandDRendering;
-}
+@synthesize dynamicQualityModulationEnabled=m_qualityModEnabled;
+@synthesize lowRenderingQuality=m_useQandDRendering;
 
 /** @brief Dynamically check if low or high quality should be used
 
@@ -998,26 +956,11 @@ static id sDearchivingHelper = nil;
 	m_lastRectUpdated = NSZeroRect;
 }
 
-- (void)setLowQualityTriggerInterval:(NSTimeInterval)t
-{
-	mTriggerPeriod = t;
-}
-
-- (NSTimeInterval)lowQualityTriggerInterval
-{
-	return mTriggerPeriod;
-}
+@synthesize lowQualityTriggerInterval=mTriggerPeriod;
 
 #pragma mark -
 #pragma mark - setting the undo manager
 
-/** @brief Sets the undoManager that will be used for all undo actions that occur in this drawing.
-
- The undoManager is retained. It is passed down to all levels that need undoable actions. The
- default is nil, so nothing will be undoable unless you set it. In a document-based app, the
- document's undoManager should be used. Otherwise, the view's or window's undoManager can be used.
- @param um the undo manager to use
- */
 - (void)setUndoManager:(id)um
 {
 	if (um != m_undoManager) {
@@ -1034,13 +977,7 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-/** @brief Returns the undo manager for the drawing
- @return the currently used undo manager
- */
-- (id)undoManager
-{
-	return m_undoManager;
-}
+@synthesize undoManager=m_undoManager;
 
 #pragma mark -
 #pragma mark - drawing meta - data
@@ -1068,11 +1005,6 @@ static id sDearchivingHelper = nil;
 
 #pragma mark -
 
-/** @brief Sets the background colour of the entire drawing
-
- Default is white
- @param colour the colour to set for the drawing's background (paper) colour
- */
 - (void)setPaperColour:(NSColor*)colour
 {
 	if (colour != [self paperColour]) {
@@ -1088,36 +1020,9 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-/** @brief The curremt paper colour of the drawing
+@synthesize paperColour=m_paperColour;
 
- Default is white
- @return the current colour of the background (paper)
- */
-- (NSColor*)paperColour
-{
-	return m_paperColour;
-}
-
-/** @brief Set whether the paper colour is printed or not
-
- Default is NO
- @param printIt YES to include the paper colour when printing
- */
-- (void)setPaperColourIsPrinted:(BOOL)printIt
-{
-	mPaperColourIsPrinted = printIt;
-}
-
-/** @brief Whether the paper colour is printed or not
-
- Default is NO
- @return YES if the paper colour is included when printing
- */
-- (BOOL)paperColourIsPrinted
-{
-	return mPaperColourIsPrinted;
-}
-
+@synthesize paperColourIsPrinted=mPaperColourIsPrinted;
 #pragma mark -
 
 /** @brief For the utility of contained objects, this ends any open text editing session without the object
@@ -1190,13 +1095,7 @@ static id sDearchivingHelper = nil;
 	return NO;
 }
 
-/** @brief Returns the current active layer
- @return a DKLayer object, or subclass, which is the current active layer
- */
-- (DKLayer*)activeLayer
-{
-	return m_activeLayerRef;
-}
+@synthesize activeLayer=m_activeLayerRef;
 
 /** @brief Returns the active layer if it matches the requested class
  @param aClass the class of layer sought

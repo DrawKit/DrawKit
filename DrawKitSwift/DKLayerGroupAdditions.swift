@@ -30,9 +30,10 @@ extension DKLayerGroup {
 	/// Returns a list of layers of the given class.
 	///
 	/// - parameter cl: The class of layer to seek.
-	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched
+	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched.<br>
+	/// Default is `false`.
 	/// - returns: A list of layers. May be empty.
-	public func layers<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool) -> [A]? {
-		return __layers(of: cl, performDeepSearch: deep) as? [A]
+	public func layers<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool = false) -> [A] {
+		return __layers(of: cl, performDeepSearch: deep) as! [A]
 	}	
 }

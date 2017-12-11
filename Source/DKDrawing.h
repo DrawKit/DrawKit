@@ -74,6 +74,10 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 + (NSString*)drawkitReleaseStatus;
 
+@property (class, readonly) NSUInteger drawkitVersion;
+@property (class, readonly, copy) NSString *drawkitVersionString;
+@property (class, readonly, copy) NSString *drawkitReleaseStatus;
+
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
 
  As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
@@ -109,6 +113,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @param helper a suitable helper object
  */
 + (void)setDearchivingHelper:(id)helper;
+
+@property (class, retain) id dearchivingHelper;
 
 /** @brief Returns a new drawing number by incrementing the current default seed value
  @return a new drawing number
@@ -159,6 +165,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (void)setOwner:(id)owner;
 
+@property (assign) id owner;
+
 /** @name basic drawing parameters
  *	@{ */
 
@@ -166,7 +174,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSSize)drawingSize;
 - (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo;
 
-- (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b;
+@property (nonatomic) NSSize drawingSize;
+
+- (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b NS_SWIFT_NAME(setMargins(left:top:right:bottom:));
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo;
 - (CGFloat)leftMargin;
 - (CGFloat)rightMargin;
@@ -175,8 +185,15 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSRect)interior;
 - (NSPoint)pinPointToInterior:(NSPoint)p;
 
+@property (readonly) CGFloat leftMargin;
+@property (readonly) CGFloat rightMargin;
+@property (readonly) CGFloat topMargin;
+@property (readonly) CGFloat bottomMargin;
+
 - (void)setFlipped:(BOOL)flipped;
 - (BOOL)isFlipped;
+
+@property (getter=isFlipped) BOOL flipped;
 
 /** @brief Sets the destination colour space for the whole drawing
 
@@ -194,6 +211,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (NSColorSpace*)colourSpace;
 
+@property (retain) NSColorSpace *colourSpace;
+
 /**
  @}
  @name setting the rulers to the grid
@@ -209,8 +228,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 /** @} */
 /** @name setting the delegate */
 
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
+- (void)setDelegate:(id<DKDrawingDelegate>)aDelegate;
+- (id<DKDrawingDelegate>)delegate;
+@property (nonatomic, assign) id<DKDrawingDelegate> delegate;
 
 /** @name the drawing's view controllers
  @{ */
@@ -218,6 +238,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSSet<DKViewController*>*)controllers;
 - (void)addController:(DKViewController*)aController;
 - (void)removeController:(DKViewController*)aController;
+
+@property (readonly, copy) NSSet<DKViewController*> *controllers;
 
 /** @brief Removes all controller from the drawing
 
@@ -247,19 +269,52 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (void)setDynamicQualityModulationEnabled:(BOOL)qmEnabled;
 - (BOOL)dynamicQualityModulationEnabled;
 
+@property BOOL dynamicQualityModulationEnabled;
+
+/** @brief Advise whether drawing should be done in best quality or not
+ 
+ Rasterizers in DK can query this flag to check if they can use a fast quick rendering method.
+ this is set while zooming, scrolling or other operations that require many rapid updates. Speed
+ under these conditions can be improved by using bitmap caches, etc rather than drawing at best
+ quality.
+ @param quickAndDirty YES to offer low quality faster rendering
+ */
 - (void)setLowRenderingQuality:(BOOL)quickAndDirty;
+
+/** @brief Advise whether drawing should be done in best quality or not
+ 
+ Renderers in drawkit can query this flag to check if they can use a fast quick rendering method.
+ this is set while zooming, scrolling or other operations that require many rapid updates. Speed
+ under these conditions can be inmproved by using bitmap caches, etc rather than drawing at best
+ quality.
+ @return YES if low quality is an option
+ */
 - (BOOL)lowRenderingQuality;
+
+@property BOOL lowRenderingQuality;
 - (void)checkIfLowQualityRequired;
 - (void)qualityTimerCallback:(NSTimer*)timer;
-- (void)setLowQualityTriggerInterval:(NSTimeInterval)t;
-- (NSTimeInterval)lowQualityTriggerInterval;
+@property NSTimeInterval lowQualityTriggerInterval;
 
 /** @} */
 /** @name setting the undo manager:
  @{ */
 
+/** @brief Sets the undoManager that will be used for all undo actions that occur in this drawing.
+ 
+ The undoManager is retained. It is passed down to all levels that need undoable actions. The
+ default is nil, so nothing will be undoable unless you set it. In a document-based app, the
+ document's undoManager should be used. Otherwise, the view's or window's undoManager can be used.
+ @param um the undo manager to use
+ */
 - (void)setUndoManager:(id)um;
+
+/** @brief Returns the undo manager for the drawing
+ @return the currently used undo manager
+ */
 - (id)undoManager;
+
+@property (nonatomic, retain) id undoManager;
 
 /** @} */
 /** @name drawing meta-data:
@@ -271,9 +326,33 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 /** @name rendering the drawing:
  @{ */
 
+/** @brief Sets the background colour of the entire drawing
+ 
+ Default is white
+ @param colour the colour to set for the drawing's background (paper) colour
+ */
 - (void)setPaperColour:(NSColor*)colour;
+
+/** @brief The curremt paper colour of the drawing
+ 
+ Default is white
+ @return the current colour of the background (paper)
+ */
 - (NSColor*)paperColour;
+
+@property (nonatomic, retain) NSColor *paperColour;
+
+/** @brief Set whether the paper colour is printed or not
+ 
+ Default is NO
+ @param printIt YES to include the paper colour when printing
+ */
 - (void)setPaperColourIsPrinted:(BOOL)printIt;
+/** @brief Whether the paper colour is printed or not
+ 
+ Default is NO
+ @return YES if the paper colour is included when printing
+ */
 - (BOOL)paperColourIsPrinted;
 @property BOOL paperColourIsPrinted;
 
@@ -282,6 +361,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @{ */
 - (BOOL)setActiveLayer:(DKLayer*)aLayer;
 - (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo;
+/** @brief Returns the current active layer
+ @return a DKLayer object, or subclass, which is the current active layer
+ */
 - (DKLayer*)activeLayer;
 - (__kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
@@ -293,7 +375,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 - (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt;
 - (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(DKLayer*)anotherLayer;
-- (DKLayer*)firstActivateableLayerOfClass:(Class)cl;
+- (__kindof DKLayer*)firstActivateableLayerOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
 
 /** @} */
 /** @name interaction with grid and guides
@@ -303,6 +385,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (BOOL)snapsToGrid;
 - (void)setSnapsToGuides:(BOOL)snaps;
 - (BOOL)snapsToGuides;
+
+@property BOOL snapsToGrid;
+@property BOOL snapsToGuides;
 
 - (NSPoint)snapToGrid:(NSPoint)p withControlFlag:(BOOL)snapControl;
 - (NSPoint)snapToGrid:(NSPoint)p ignoringUserSetting:(BOOL)ignore;
@@ -336,7 +421,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @param pt a point in base points (pixels)
  @return a pair of strings containing a fully formatted distance plus the units abbreviation
  */
-- (NSArray*)formattedConvertedPoint:(NSPoint)pt;
+- (NSArray<NSString*>*)formattedConvertedPoint:(NSPoint)pt;
 
 /** @} */
 /** @name export
