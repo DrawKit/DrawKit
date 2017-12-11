@@ -39,6 +39,7 @@ siderations are outside the scope of DK itself.
  @return NO
  */
 + (BOOL)toolPerformsUndoableAction;
+@property (class, readonly) BOOL toolPerformsUndoableAction;
 
 /** @brief Load tool defaults from the user defaults
 
@@ -62,6 +63,8 @@ siderations are outside the scope of DK itself.
  @return a string, the name this tool is registerd under, if any:
  */
 - (NSString*)registeredName;
+@property (readonly, copy) NSString *registeredName;
+
 - (void)drawRect:(NSRect)aRect inView:(NSView*)aView;
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer;
 - (BOOL)isValidTargetLayer:(DKLayer*)aLayer;

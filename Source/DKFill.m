@@ -40,38 +40,16 @@
 
 + (DKFill*)fillWithPatternImageNamed:(NSString*)path
 {
-	NSImage* ip = [NSImage imageResourceNamed:path];
+	NSImage* ip = [NSImage imageNamed:path];
 
 	return [self fillWithPatternImage:ip];
 }
 
 #pragma mark -
-- (void)setColour:(NSColor*)colour
-{
-	//LogEvent_(kReactiveEvent, @"fill setting colour: %@", colour);
-
-	[colour retain];
-	[m_fillColour release];
-	m_fillColour = colour;
-}
-
-- (NSColor*)colour
-{
-	return m_fillColour;
-}
+@synthesize colour=m_fillColour;
 
 #pragma mark -
-- (void)setShadow:(NSShadow*)shadw
-{
-	[shadw retain];
-	[m_shadow release];
-	m_shadow = shadw;
-}
-
-- (NSShadow*)shadow
-{
-	return m_shadow;
-}
+@synthesize shadow=m_shadow;
 
 #pragma mark -
 - (void)setGradient:(DKGradient*)grad
@@ -94,28 +72,10 @@
 	}
 }
 
-- (DKGradient*)gradient
-{
-	return m_gradient;
-}
+@synthesize gradient=m_gradient;
 
 #pragma mark -
-
-/** @brief Sets whether the gradient's angle is aligned with the rendered object's angle
- @param toa YES if the gradient angle is based off the object's angle
- */
-- (void)setTracksObjectAngle:(BOOL)toa
-{
-	m_angleTracksObject = toa;
-}
-
-/** @brief Whether the gradient's angle is aligned with the rendered object's angle
- @return YES if the gradient angle is based off the object's angle
- */
-- (BOOL)tracksObjectAngle
-{
-	return m_angleTracksObject;
-}
+@synthesize tracksObjectAngle=m_angleTracksObject;
 
 #pragma mark -
 #pragma mark As a DKRasterizer

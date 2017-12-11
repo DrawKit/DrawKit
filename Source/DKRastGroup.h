@@ -54,9 +54,12 @@ as well.
 
 - (NSUInteger)countOfRenderList;
 - (BOOL)containsRendererOfClass:(Class)cl;
-- (NSArray*)renderersOfClass:(Class)cl;
+- (NSArray<DKRasterizer*>*)renderersOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
 
 - (BOOL)isValid;
+
+@property (readonly) NSUInteger countOfRenderList;
+@property (readonly, getter=isValid) BOOL valid;
 
 - (void)removeAllRenderers;
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs;

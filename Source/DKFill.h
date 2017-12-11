@@ -29,7 +29,7 @@ areas the solid fill will show through.
 + (DKFill*)fillWithColour:(NSColor*)colour;
 + (DKFill*)fillWithGradient:(DKGradient*)gradient;
 + (DKFill*)fillWithPatternImage:(NSImage*)image;
-+ (DKFill*)fillWithPatternImageNamed:(NSString*)path;
++ (DKFill*)fillWithPatternImageNamed:(NSImageName)path;
 
 - (void)setColour:(NSColor*)colour;
 - (NSColor*)colour;
@@ -40,7 +40,18 @@ areas the solid fill will show through.
 - (void)setGradient:(DKGradient*)grad;
 - (DKGradient*)gradient;
 
+/** @brief Sets whether the gradient's angle is aligned with the rendered object's angle
+ @param toa YES if the gradient angle is based off the object's angle
+ */
 - (void)setTracksObjectAngle:(BOOL)toa;
+/** @brief Whether the gradient's angle is aligned with the rendered object's angle
+ @return YES if the gradient angle is based off the object's angle
+ */
 - (BOOL)tracksObjectAngle;
+
+@property (retain) NSColor *colour;
+@property (retain) NSShadow *shadow;
+@property (nonatomic, retain) DKGradient *gradient;
+@property BOOL tracksObjectAngle;
 
 @end

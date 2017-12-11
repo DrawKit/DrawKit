@@ -182,6 +182,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return an unsigned integer, the number of clients using this style
  */
 - (NSUInteger)countOfClients;
+@property (readonly) NSUInteger countOfClients;
 
 // (text) attributes - basic support
 
@@ -206,6 +207,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES if there are any text attributes
  */
 - (BOOL)hasTextAttributes;
+@property (readonly) BOOL hasTextAttributes;
 
 /** @brief Remove all of the style's current text attributes
 
@@ -432,6 +434,12 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return YES if there are no components and no text attributes, NO if there is at least 1 or has text 
  */
 - (BOOL)isEmpty;
+
+@property (readonly) BOOL hasStroke;
+@property (readonly) BOOL hasFill;
+@property (readonly) BOOL hasHatch;
+@property (readonly) BOOL hasTextAdornment;
+@property (readonly,getter=isEmpty) BOOL empty;
 
 // swatch images:
 
