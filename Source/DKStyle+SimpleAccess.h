@@ -8,6 +8,8 @@
 
 @class DKStrokeDash, DKStroke, DKFill;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This category on \c DKStyle provides some simple accessors if your app only has the most basic use of styles in mind, e.
 
 This category on \c DKStyle provides some simple accessors if your app only has the most basic use of styles in mind, e.g. one solid fill and
@@ -28,31 +30,31 @@ If the style is locked these do nothing.
 
 + (DKStyle*)styleWithDotDensity:(CGFloat)percent foreColour:(NSColor*)fore backColour:(NSColor*)back;
 
-- (DKStroke*)stroke;
-- (DKFill*)fill;
+- (nullable DKStroke*)stroke;
+- (nullable DKFill*)fill;
 
-@property (readonly, retain) DKStroke *stroke;
-@property (readonly, retain) DKFill *fill;
+@property (readonly, retain, nullable) DKStroke *stroke;
+@property (readonly, retain, nullable) DKFill *fill;
 
-- (void)setFillColour:(NSColor*)fillColour;
-- (NSColor*)fillColour;
+- (void)setFillColour:(nullable NSColor*)fillColour;
+- (nullable NSColor*)fillColour;
 
-@property (retain) NSColor *fillColour;
+@property (retain, nullable) NSColor *fillColour;
 
-- (void)setStrokeColour:(NSColor*)strokeColour;
-- (NSColor*)strokeColour;
+- (void)setStrokeColour:(nullable NSColor*)strokeColour;
+- (nullable NSColor*)strokeColour;
 
-@property (retain) NSColor *strokeColour;
+@property (retain, nullable) NSColor *strokeColour;
 
 - (void)setStrokeWidth:(CGFloat)strokeWidth;
 - (CGFloat)strokeWidth;
 
 @property CGFloat strokeWidth;
 
-- (void)setStrokeDash:(DKStrokeDash*)aDash;
-- (DKStrokeDash*)strokeDash;
+- (void)setStrokeDash:(nullable DKStrokeDash*)aDash;
+- (nullable DKStrokeDash*)strokeDash;
 
-@property (retain) DKStrokeDash *strokeDash;
+@property (retain, nullable) DKStrokeDash *strokeDash;
 
 - (void)setStrokeLineCapStyle:(NSLineCapStyle)capStyle;
 - (NSLineCapStyle)strokeLineCapStyle;
@@ -64,16 +66,18 @@ If the style is locked these do nothing.
 
 @property NSLineJoinStyle strokeLineJoinStyle;
 
-- (void)setString:(NSString*)aString;
-- (NSString*)string;
+- (void)setString:(nullable NSString*)aString;
+- (nullable NSString*)string;
 
-@property (copy) NSString *string;
+@property (nullable, copy) NSString *string;
 
 - (BOOL)hasImageComponent;
-- (void)setImageComponent:(NSImage*)anImage;
-- (NSImage*)imageComponent;
+- (void)setImageComponent:(nullable NSImage*)anImage;
+- (nullable NSImage*)imageComponent;
 
 @property (readonly) BOOL hasImageComponent;
-@property (retain) NSImage *imageComponent;
+@property (retain, nullable) NSImage *imageComponent;
 
 @end
+
+NS_ASSUME_NONNULL_END

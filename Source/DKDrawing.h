@@ -396,6 +396,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSSize)snapPointsToGuide:(NSArray*)points;
 
 - (NSPoint)nudgeOffset;
+@property (readonly) NSPoint nudgeOffset;
 
 - (DKGridLayer*)gridLayer;
 - (DKGuideLayer*)guideLayer;
@@ -403,6 +404,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSPoint)convertPoint:(NSPoint)pt;
 - (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt;
 - (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len;
+
+@property (readonly, retain) DKGridLayer *gridLayer;
+@property (readonly, retain) DKGuideLayer *guideLayer;
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
 
