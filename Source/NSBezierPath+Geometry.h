@@ -132,10 +132,6 @@
 
 @end
 
-// undocumented Core Graphics:
-
-extern CGPathRef CGContextCopyPath(CGContextRef context);
-
 /*
  Bezier path utility category (trimming)
  *

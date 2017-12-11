@@ -13,4 +13,71 @@ framework module DKDrawKit {
 	  header "DKGradientExtensions.h"
 	  export *
   }
+  
+  explicit module NSBezierPath_OAExtensions {
+	  requires !objc_arc
+	  header "NSBezierPath-OAExtensions.h"
+	  export *
+  }
+  
+  explicit module DKBezierLayoutManager {
+	  header "DKBezierLayoutManager.h"
+	  export *
+  }
+  
+  explicit module DKPasteboardInfo {
+	  header "DKPasteboardInfo.h"
+	  export *
+  }
+  
+  explicit module DKRuntimeHelper {
+	  header "DKRuntimeHelper.h"
+	  export *
+  }
+  
+  explicit module DKCropTool {
+	  header "DKCropTool.h"
+	  export *
+  }
+  
+  explicit module DKTextSubstitutor {
+	  header "DKTextSubstitutor.h"
+	  export *
+  }
+  
+  explicit module CurveFit {
+	  header "CurveFit.h"
+	  export *
+  }
+  
+  explicit module NSAttributedString_DKAdditions {
+	  header "NSAttributedString+DKAdditions.h"
+	  export *
+  }
+  
+  explicit module DKUnarchivingHelper {
+	  header "DKUnarchivingHelper.h"
+	  export *
+  }
+  
+  explicit module DKShapeCluster {
+	  header "DKShapeCluster.h"
+	  export *
+  }
+  
+  explicit module NSBezierPath_Shapes {
+	  requires !objc_arc
+	  header "NSBezierPath+Shapes.h"
+	  export *
+  }
+  
+  explicit module DKKeyedUnarchiver {
+	  header "DKKeyedUnarchiver.h"
+	  export *
+  }
+  
+  explicit module DKImageDataManager {
+	  header "DKImageDataManager.h"
+	  export *
+  }
 }

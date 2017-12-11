@@ -1619,9 +1619,6 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 
 	NSAssert(context != nil, @"no context for bezierPathWithPathFromContext");
 
-	// WARNING: this uses an undocumented function in CG (CGContextCopyPath)
-	// UPDATE 12/09: This function was made public from 10.6, so this is safe. Not yet documented though.
-
 	CGPathRef cp = CGContextCopyPath(context);
 	NSBezierPath* bp = [self bezierPathWithCGPath:cp];
 	CGPathRelease(cp);
