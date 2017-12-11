@@ -99,7 +99,8 @@ NSRect UnionOfRectsInSet(const NSSet* aSet)
  the resulting list is the area to update assuming that nothing changed in the common area,
  which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
  the result contains a and b.
- @param a, b a pair of rects
+ @param a the first rect
+ @param b the second rect
  @return an array of rect NSValues */
 NSSet* DifferenceOfTwoRects(const NSRect a, const NSRect b)
 {

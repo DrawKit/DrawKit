@@ -33,8 +33,11 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 
 /** @brief Counts the number of elements of each type in the path
 
- Pass NULL for any values you are not interested in
- @param mtc, ltc, ctc, cpc pointers to integers that receive the counts for each element type */
+ Pass \c NULL for any values you are not interested in
+ @param mtc pointer to integer that receive the move to count
+ @param ltc pointer to integer that receive the line count
+ @param ctc pointer to integer that receive the curve to count
+ @param cpc pointer to integer that receive the close path count*/
 - (void)getPathMoveToCount:(NSInteger*)mtc lineToCount:(NSInteger*)ltc curveToCount:(NSInteger*)ctc closePathCount:(NSInteger*)cpc;
 
 - (BOOL)isPathClosed;

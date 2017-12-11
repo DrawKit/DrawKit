@@ -138,7 +138,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		NSSize textSize = [layoutPath bounds].size;
 		NSRect srcRect;
 		NSLayoutManager* layoutMgr = sharedDrawingLayoutManager();
-		DKBezierTextContainer* textContainer = [[layoutMgr textContainers] lastObject];
+		DKBezierTextContainer* textContainer = (id)[[layoutMgr textContainers] lastObject];
 
 		srcRect.size = textSize;
 		srcRect.origin = NSZeroPoint;
@@ -214,7 +214,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
 	if ([contents length] > 0) {
 		NSLayoutManager* layoutMgr = sharedDrawingLayoutManager();
-		DKBezierTextContainer* textContainer = [[layoutMgr textContainers] lastObject];
+		DKBezierTextContainer* textContainer = (id)[[layoutMgr textContainers] lastObject];
 
 		[textContainer setBezierPath:nil];
 		[textContainer setContainerSize:NSMakeSize(50000, 50000)];

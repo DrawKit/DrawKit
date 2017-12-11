@@ -1128,7 +1128,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	if ([contents length] > 0) {
 		NSSize osize = obj ? [obj size] : [path bounds].size;
 
-		DKBezierTextContainer* bc = [[lm textContainers] lastObject];
+		DKBezierTextContainer* bc = (id)[[lm textContainers] lastObject];
 
 		if ([self layoutMode] == kDKTextLayoutFlowedInPath) {
 			// if the text angle is rel to the object, the layout path should be the unrotated path
@@ -1268,7 +1268,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 		NSSize oSize = [object size];
 		NSLayoutManager* lm = sharedDrawingLayoutManager();
-		DKBezierTextContainer* bc = [[lm textContainers] lastObject];
+		DKBezierTextContainer* bc = (id)[[lm textContainers] lastObject];
 
 		if ([self allowsTextToExtendHorizontally])
 			oSize.width = 50000;

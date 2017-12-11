@@ -526,8 +526,11 @@ static id sDearchivingHelper = nil;
 
 /** @brief Sets the margins for the drawing
 
- The margins inset the drawing area within the papersize set
- @param left,top, right,bottom the margin sizes in Quartz units
+ The margins inset the drawing area within the \c papersize set
+ @param l the left margin in Quartz units
+ @param t the top margin in Quartz units
+ @param r the right margin in Quartz units
+ @param b the bottom margin in Quartz units
  */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b
 {

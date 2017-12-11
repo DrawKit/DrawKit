@@ -176,6 +176,14 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 @property (nonatomic) NSSize drawingSize;
 
+/** @brief Sets the margins for the drawing
+ 
+ The margins inset the drawing area within the \c papersize set
+ @param l the left margin in Quartz units
+ @param t the top margin in Quartz units
+ @param r the right margin in Quartz units
+ @param b the bottom margin in Quartz units
+ */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b NS_SWIFT_NAME(setMargins(left:top:right:bottom:));
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo;
 - (CGFloat)leftMargin;

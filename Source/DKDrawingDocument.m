@@ -603,7 +603,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 /** @brief Initialises the document from a file on disk when opened from the "Open" command.
 
  Instantiates the drawing from the file data at the given URL.
- @param absoluteURL the url being read
+ @param data the data being read
  @param typeName the type of data to load
  @param outError the error if not successful
  @return YES if the file was opened, NO otherwise

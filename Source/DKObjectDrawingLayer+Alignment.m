@@ -692,7 +692,8 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 #pragma mark -
 
 /** @brief Returns an offset indicating the distance sr needs to be moved to give the chosen alignment with mr
- @param mr>, <sr two bounding rectangles
+ @param mr the first bounding rectangle
+ @param sr the second bounding rectangle
  @param alignment the type of alignment being applied
  @return an x and y offset */
 NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment)

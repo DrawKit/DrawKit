@@ -1873,7 +1873,7 @@ finish:
 		DKStyle* newStyle = [DKStyle styleWithFillColour:[stroke colour]
 											strokeColour:strokeColour];
 
-		stroke = [[newStyle renderersOfClass:[DKStroke class]] lastObject];
+		stroke = (DKStroke*)[[newStyle renderersOfClass:[DKStroke class]] lastObject];
 
 		if (stroke)
 			[stroke setWidth:sw];

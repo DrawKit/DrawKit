@@ -1313,9 +1313,6 @@ static id sDearchivingHelper = nil;
 {
 	// private method - returns the management object for the given menu
 
-	NSEnumerator* iter = [mMenusList objectEnumerator];
-	DKCategoryManagerMenuInfo* menuInfo;
-
 	for (DKCategoryManagerMenuInfo* menuInfo in mMenusList) {
 		if ([menuInfo menu] == aMenu)
 			return menuInfo;
