@@ -191,7 +191,7 @@
 
 - (void)endMouseTracking:(NSEvent*)event inView:(NSView*)view
 {
-	LogEvent_(kReactiveEvent, @"hotspot stopped tracking, partcode = %d", m_partcode);
+	LogEvent_(kReactiveEvent, @"hotspot stopped tracking, partcode = %ld", (long)m_partcode);
 
 	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:
 																   didEndTrackingWithEvent:

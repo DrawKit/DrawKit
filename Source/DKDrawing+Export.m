@@ -94,7 +94,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 		CGImageRef image = CGBitmapContextCreateImage([context graphicsPort]);
 
-	return CFAutorelease(image);
+	return (CGImageRef)CFAutorelease(image);
 }
 
 /** @brief Returns JPEG data for the drawing.

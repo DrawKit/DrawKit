@@ -36,7 +36,7 @@ This uses Image I/O to perform the data encoding.
  @param hasAlpha specifies whether the image is painted in the background paper colour or not.
  @return a CG image that is used to generate the export image formats
  */
-- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha;
+- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha CF_RETURNS_NOT_RETAINED;
 /** @brief Creates the initial bitmap image that the various bitmap formats are created from.
  
  Returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
@@ -46,7 +46,7 @@ This uses Image I/O to perform the data encoding.
  @param relScale scaling factor, 1.0 = actual size, 0.5 = half size, etc.
  @return a CG image that is used to generate the export image formats
  */
-- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha relativeScale:(CGFloat)relScale;
+- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha relativeScale:(CGFloat)relScale CF_RETURNS_NOT_RETAINED;
 
 // convert to various formats:
 
