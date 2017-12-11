@@ -45,6 +45,8 @@ the shift key down.
  */
 + (CGFloat)defaultSnapTolerance;
 
+@property (class) CGFloat defaultSnapTolerance;
+
 // adding and removing guides:
 
 /** @brief Adds a guide to the layer
@@ -87,12 +89,12 @@ the shift key down.
 /** @brief Get all current guides
  @return an array of guide objects
  */
-- (NSArray*)guides;
+- (NSArray<DKGuide*>*)guides;
 
 /** @brief Adds a set of guides to th elayer
  @param guides an array of guide objects
  */
-- (void)setGuides:(NSArray*)guides;
+- (void)setGuides:(NSArray<DKGuide*>*)guides;
 
 // finding guides close to a given position
 
@@ -113,14 +115,16 @@ the shift key down.
  The guides returns are not in any particular order
  @return an array of DKGuide objects
  */
-- (NSArray*)verticalGuides;
+- (NSArray<DKGuide*>*)verticalGuides;
+@property (readonly, retain) NSArray<DKGuide*>* verticalGuides;
 
 /** @brief Returns the list of horizontal guides
 
  The guides returns are not in any particular order
  @return an array of DKGuide objects
  */
-- (NSArray*)horizontalGuides;
+- (NSArray<DKGuide*>*)horizontalGuides;
+@property (readonly, retain) NSArray<DKGuide*>* horizontalGuides;
 
 // setting a common colour for the guides:
 
@@ -152,6 +156,8 @@ the shift key down.
  */
 - (NSColor*)guideColour;
 
+@property (retain) NSColor *guideColour;
+
 // set whether guides snap to grid or not
 
 /** @brief Set whether guids should snap to the grid by default or not
@@ -167,6 +173,8 @@ the shift key down.
  @return YES to always snap guides to the grid, NO otherwise
  */
 - (BOOL)guidesSnapToGrid;
+
+@property BOOL guidesSnapToGrid;
 
 // set the snapping tolerance for this layer
 
@@ -184,6 +192,8 @@ the shift key down.
  */
 - (CGFloat)snapTolerance;
 
+@property CGFloat snapTolerance;
+
 // set whether the info window is displayed or not
 
 /** @brief Set whether the info window should be displayed when dragging a guide
@@ -200,6 +210,8 @@ the shift key down.
  */
 - (BOOL)showsDragInfoWindow;
 
+@property BOOL showsDragInfoWindow;
+
 /** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
 
  Default is the same as the drawing's interior
@@ -214,8 +226,12 @@ the shift key down.
  */
 - (NSRect)guideDeletionRect;
 
+@property NSRect guideDeletionRect;
+
 - (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside;
 - (BOOL)guidesDrawnInEnclosingScrollview;
+
+@property (nonatomic) BOOL guidesDrawnInEnclosingScrollview;
 
 // snapping points and rects to the guides:
 
@@ -299,8 +315,7 @@ the shift key down.
 
 @end
 
-// each guide is implemented by an instance of DKGuide:
-
+/** @brief each guide is implemented by an instance of DKGuide: */
 @interface DKGuide : NSObject <NSCoding> {
 @private
 	CGFloat m_position;
@@ -318,6 +333,8 @@ the shift key down.
  */
 - (CGFloat)guidePosition;
 
+@property CGFloat guidePosition;
+
 /** @brief Sets whether the guide is vertically oriented or horizontal
  @param vert YES for a vertical guide, NO for a horizontal guide
  */
@@ -328,8 +345,12 @@ the shift key down.
  */
 - (BOOL)isVerticalGuide;
 
+@property BOOL isVerticalGuide;
+
 - (void)setGuideColour:(NSColor*)colour;
 - (NSColor*)guideColour;
+
+@property (retain) NSColor *guideColour;
 
 /** @brief Draws the guide
 

@@ -136,10 +136,8 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 + (void)saveDefaults
 {
 	NSMutableDictionary* toolInfo = [NSMutableDictionary dictionary];
-	NSEnumerator* iter = [[self toolNames] objectEnumerator];
-	NSString* key;
 
-	while ((key = [iter nextObject])) {
+	for (NSString* key in [self toolNames]) {
 		DKDrawingTool* tool = [self drawingToolWithName:key];
 		NSData* pd = [tool persistentData];
 

@@ -450,11 +450,9 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 	NSMutableArray* array = [[[self metadata] allKeys] mutableCopy];
 	[array sortUsingSelector:@selector(compare:)];
 
-	NSEnumerator* iter = [array objectEnumerator];
-	NSString* key;
 	id value;
 
-	while ((key = [iter nextObject])) {
+	for (NSString *key in array) {
 #if USE_107_OR_LATER_SCHEMA
 		value = [[self metadataItemForKey:key] value];
 #else

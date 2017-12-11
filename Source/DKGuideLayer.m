@@ -122,12 +122,10 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos
 {
-	NSEnumerator* iter = [[self verticalGuides] objectEnumerator];
-	DKGuide* guide;
 	DKGuide* nearestGuide = nil;
 	CGFloat nearestDistance = 10000, distance;
 
-	while ((guide = [iter nextObject])) {
+	for (DKGuide* guide in [self verticalGuides]) {
 		distance = _CGFloatFabs(pos - [guide guidePosition]);
 
 		if (distance < [self snapTolerance] && distance < nearestDistance) {
@@ -145,12 +143,10 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos
 {
-	NSEnumerator* iter = [[self horizontalGuides] objectEnumerator];
-	DKGuide* guide;
 	DKGuide* nearestGuide = nil;
 	CGFloat nearestDistance = 10000, distance;
 
-	while ((guide = [iter nextObject])) {
+	for (DKGuide* guide in [self horizontalGuides]) {
 		distance = _CGFloatFabs(pos - [guide guidePosition]);
 
 		if (distance < [self snapTolerance] && distance < nearestDistance) {
@@ -184,25 +180,7 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-/** @brief Set whether guids should snap to the grid by default or not
-
- The default is NO
- @param gridsnap YES to always snap guides to the grid, NO otherwise
- */
-- (void)setGuidesSnapToGrid:(BOOL)gridsnap
-{
-	m_snapToGrid = gridsnap;
-}
-
-/** @brief Whether guids should snap to the grid by default or not
-
- The default is NO
- @return YES to always snap guides to the grid, NO otherwise
- */
-- (BOOL)guidesSnapToGrid
-{
-	return m_snapToGrid;
-}
+@synthesize guidesSnapToGrid=m_snapToGrid;
 
 #pragma mark -
 
@@ -372,25 +350,7 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-/** @brief Sets the distance a point needs to be before it is snapped to a guide
-
- The default value is determind by the class method of the same name
- @param tol the distance in points
- */
-- (void)setSnapTolerance:(CGFloat)tol
-{
-	m_snapTolerance = tol;
-}
-
-/** @brief Resturns the distance a point needs to be before it is snapped to a guide
-
- The default value is determind by the class method of the same name
- @return the distance in points
- */
-- (CGFloat)snapTolerance
-{
-	return m_snapTolerance;
-}
+@synthesize snapTolerance=m_snapTolerance;
 
 #pragma mark -
 
@@ -516,10 +476,7 @@ static BOOL sWasInside = NO;
 {
 	NSAssert(guides != nil, @"can't set guides from nil array");
 
-	NSEnumerator* iter = [guides objectEnumerator];
-	DKGuide* guide;
-
-	while ((guide = [iter nextObject])) {
+	for (DKGuide* guide in guides) {
 		if ([guide isKindOfClass:[DKGuide class]])
 			[self addGuide:guide];
 	}
@@ -596,45 +553,8 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-/** @brief Set whether the info window should be displayed when dragging a guide
-
- Default is YES, display the window
- @param showsIt YES to display the window, NO otherwise
- */
-- (void)setShowsDragInfoWindow:(BOOL)showsIt
-{
-	m_showDragInfo = showsIt;
-}
-
-/** @brief Return whether the info window should be displayed when dragging a guide
-
- Default is YES, display the window
- @return YES to display the window, NO otherwise
- */
-- (BOOL)showsDragInfoWindow
-{
-	return m_showDragInfo;
-}
-
-/** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
-
- Default is the same as the drawing's interior
- @param rect the rect
- */
-- (void)setGuideDeletionRect:(NSRect)rect
-{
-	mGuideDeletionZone = rect;
-}
-
-/** @brief The rect for which guides will be deleted if they are dragged outside of it
-
- Default is the same as the drawing's interior
- @return the rect
- */
-- (NSRect)guideDeletionRect
-{
-	return mGuideDeletionZone;
-}
+@synthesize showsDragInfoWindow=m_showDragInfo;
+@synthesize guideDeletionRect=mGuideDeletionZone;
 
 - (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside
 {
@@ -642,10 +562,7 @@ static BOOL sWasInside = NO;
 	[self setNeedsDisplay:YES];
 }
 
-- (BOOL)guidesDrawnInEnclosingScrollview
-{
-	return mDrawGuidesInClipView;
-}
+@synthesize guidesDrawnInEnclosingScrollview=mDrawGuidesInClipView;
 
 #pragma mark -
 
@@ -1165,49 +1082,9 @@ static BOOL sWasInside = NO;
 @implementation DKGuide
 #pragma mark As a DKGuide
 
-/** @brief Sets the position of the guide
- @param pos a position value in drawing coordinates
- */
-- (void)setGuidePosition:(CGFloat)pos
-{
-	m_position = pos;
-}
-
-/** @brief Returns the position of the guide
- @return position value in drawing coordinates
- */
-- (CGFloat)guidePosition
-{
-	return m_position;
-}
-
-/** @brief Sets whether the guide is vertically oriented or horizontal
- @param vert YES for a vertical guide, NO for a horizontal guide
- */
-- (void)setIsVerticalGuide:(BOOL)vert
-{
-	m_isVertical = vert;
-}
-
-/** @brief Returns whether the guide is vertically oriented or horizontal
- @return YES for a vertical guide, NO for a horizontal guide
- */
-- (BOOL)isVerticalGuide
-{
-	return m_isVertical;
-}
-
-- (void)setGuideColour:(NSColor*)colour
-{
-	[colour retain];
-	[m_colour release];
-	m_colour = colour;
-}
-
-- (NSColor*)guideColour
-{
-	return m_colour;
-}
+@synthesize guidePosition=m_position;
+@synthesize isVerticalGuide=m_isVertical;
+@synthesize guideColour=m_colour;
 
 /** @brief Draws the guide
 

@@ -105,16 +105,13 @@ static DKToolRegistry* s_toolRegistry = nil;
 	NSAssert(keyEvent != nil, @"event was nil");
 
 	if ([keyEvent type] == NSKeyDown) {
-		NSEnumerator* iter = [[mToolsReg allKeys] objectEnumerator];
-		NSString* name;
 		NSString* keyEquivalent;
-		DKDrawingTool* tool;
 		NSUInteger flags;
 
 		//NSLog(@"looking for tool with keyboard equivalent, string = '%@', modifers = %d", [keyEvent charactersIgnoringModifiers], [keyEvent modifierFlags]);
 
-		while ((name = [iter nextObject])) {
-			tool = [mToolsReg objectForKey:name];
+		for (NSString *name in mToolsReg) {
+			DKDrawingTool* tool = [mToolsReg objectForKey:name];
 
 			keyEquivalent = [tool keyboardEquivalent];
 			flags = [tool keyboardModifierFlags];

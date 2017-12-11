@@ -84,7 +84,7 @@
  @param str the  string to render
  @param dy the baseline offset between the path and the text
  @return a list of bezier path objects. */
-- (NSArray*)bezierPathsWithGlyphsOnPath:(NSAttributedString*)str yOffset:(CGFloat)dy;
+- (NSArray<NSBezierPath*>*)bezierPathsWithGlyphsOnPath:(NSAttributedString*)str yOffset:(CGFloat)dy;
 
 /** @brief Returns a single path consisting of all of the laid out glyphs of the text.
 
@@ -106,7 +106,7 @@
  @param str the  string to render
  @param attrs the drawing attributes for the text
  @return a list of bezier path objects. */
-- (NSBezierPath*)bezierPathWithStringOnPath:(NSString*)str attributes:(NSDictionary*)attrs;
+- (NSBezierPath*)bezierPathWithStringOnPath:(NSString*)str attributes:(NSDictionary<NSAttributedStringKey,id>*)attrs;
 
 // low-level glyph layout method called by all other methods to generate the glyphs. The result depends on the helper object which must conform
 // to the textOnPathPlacement informal protocol (see below)

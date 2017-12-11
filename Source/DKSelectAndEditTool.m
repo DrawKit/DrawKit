@@ -696,10 +696,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 
 			[[layer undoManager] disableUndoRegistration];
 
-			NSEnumerator* iter = [objects objectEnumerator];
-			DKDrawableObject* obj;
-
-			while ((obj = [iter nextObject]))
+			for (DKDrawableObject* obj in objects)
 				[obj setVisible:NO];
 
 			[[layer undoManager] enableUndoRegistration];
@@ -729,10 +726,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 		dx = p.x - anchor.x;
 		dy = p.y - anchor.y;
 
-		NSEnumerator* iter = [objects objectEnumerator];
-		DKDrawableObject* obj;
-
-		while ((obj = [iter nextObject])) {
+		for (DKDrawableObject* obj in objects) {
 			[obj offsetLocationByX:dx
 							   byY:dy];
 

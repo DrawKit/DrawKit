@@ -165,10 +165,7 @@ static id sDearchivingHelper = nil;
 	if (self != nil) {
 		// dictionary keys need to be all lowercase to allow "case insensitivity" in the master list
 
-		NSEnumerator* iter = [[dict allKeys] objectEnumerator];
-		NSString* s;
-
-		while ((s = [iter nextObject])) {
+		for (NSString* s in dict) {
 			id obj = [dict objectForKey:s];
 			[m_masterList setObject:obj
 							 forKey:[s lowercaseString]];
@@ -305,10 +302,7 @@ static id sDearchivingHelper = nil;
  */
 - (void)removeObjectsForKeys:(NSArray*)keys
 {
-	NSEnumerator* iter = [keys objectEnumerator];
-	NSString* key;
-
-	while ((key = [iter nextObject]))
+	for (NSString* key in keys)
 		[self removeObjectForKey:key];
 }
 
@@ -385,10 +379,8 @@ static id sDearchivingHelper = nil;
 	//return [[self dictionary] allKeysForObject:obj];  // doesn't work because master dict uses lowercase keys
 
 	NSMutableArray* keys = [[NSMutableArray alloc] init];
-	NSEnumerator* iter = [[self allKeys] objectEnumerator];
-	NSString* key;
 
-	while ((key = [iter nextObject])) {
+	for (NSString* key in [self allKeys]) {
 		if ([[self objectForKey:key] isEqual:obj])
 			[keys addObject:key];
 	}
@@ -416,12 +408,11 @@ static id sDearchivingHelper = nil;
 {
 	NSAssert(aSet != nil, @"cannot merge - set was nil");
 
-	NSEnumerator* iter = [aSet objectEnumerator];
-	id obj, existingObj;
+	id existingObj;
 	NSMutableSet* changedStyles = nil;
 	NSString* key;
 
-	while ((obj = [iter nextObject])) {
+	for (id obj in aSet) {
 		// if the style is unknown to the registry, simply register it - in this case there's no need to do any complex merging or
 		// further analysis.
 
@@ -593,11 +584,9 @@ static id sDearchivingHelper = nil;
 		return [self allKeysInCategory:[catNames lastObject]];
 	else {
 		NSMutableArray* temp = [[NSMutableArray alloc] init];
-		NSEnumerator* iter = [catNames objectEnumerator];
-		NSString* catname;
 		NSArray* keys;
 
-		while ((catname = [iter nextObject])) {
+		for (NSString* catname in catNames) {
 			keys = [self allKeysInCategory:catname];
 
 			// add keys not already in <temp> to temp
@@ -737,10 +726,7 @@ static id sDearchivingHelper = nil;
  @param catNames a list of the names of the new categories */
 - (void)addCategories:(NSArray*)catNames
 {
-	NSEnumerator* iter = [catNames objectEnumerator];
-	NSString* catName;
-
-	while ((catName = [iter nextObject]))
+	for (NSString *catName in catNames)
 		[self addCategory:catName];
 }
 
@@ -871,10 +857,7 @@ static id sDearchivingHelper = nil;
 	if (catNames == nil)
 		return;
 
-	NSEnumerator* iter = [catNames objectEnumerator];
-	NSString* cat;
-
-	while ((cat = [iter nextObject]))
+	for (NSString* cat in catNames)
 		[self addKey:key
 				toCategory:cat
 			createCategory:cg];
@@ -912,10 +895,7 @@ static id sDearchivingHelper = nil;
 	if (catNames == nil)
 		return;
 
-	NSEnumerator* iter = [catNames objectEnumerator];
-	NSString* cat;
-
-	while ((cat = [iter nextObject]))
+	for (NSString* cat in catNames)
 		[self removeKey:key
 			fromCategory:cat];
 }
@@ -934,10 +914,7 @@ static id sDearchivingHelper = nil;
  keys that refer to it did for some reason (such as an exception). */
 - (void)fixUpCategories
 {
-	NSEnumerator* iter = [[self allKeys] objectEnumerator];
-	NSString* key;
-
-	while ((key = [iter nextObject])) {
+	for (NSString *key in [self allKeys]) {
 		if ([self objectForKey:key] == nil)
 			[self removeKeyFromAllCategories:key];
 	}
@@ -1025,15 +1002,12 @@ static id sDearchivingHelper = nil;
 
 - (NSArray*)categoriesContainingKey:(NSString*)key withSorting:(BOOL)sortIt
 {
-	NSEnumerator* iter = [[m_categories allKeys] objectEnumerator];
-	NSString* catName;
-	NSArray* cat;
 	NSMutableArray* catList;
 
 	catList = [[NSMutableArray alloc] init];
 
-	while ((catName = [iter nextObject])) {
-		cat = [self allKeysInCategory:catName];
+	for (NSString *catName in [m_categories allKeys]) {
+		NSArray* cat = [self allKeysInCategory:catName];
 
 		if ([cat containsObject:key])
 			[catList addObject:catName];
@@ -1316,14 +1290,10 @@ static id sDearchivingHelper = nil;
 	NSArray* newCategories;
 	NSArray* newObjects = [cm allKeys];
 
-	NSEnumerator* iter = [newObjects objectEnumerator];
-	NSString* key;
-	id obj;
-
 	[self setRecentlyAddedListEnabled:NO];
 
-	while ((key = [iter nextObject])) {
-		obj = [cm objectForKey:key];
+	for (NSString* key in newObjects) {
+		id obj = [cm objectForKey:key];
 		newCategories = [cm categoriesContainingKey:key
 										withSorting:NO];
 		[self addObject:obj
@@ -1346,7 +1316,7 @@ static id sDearchivingHelper = nil;
 	NSEnumerator* iter = [mMenusList objectEnumerator];
 	DKCategoryManagerMenuInfo* menuInfo;
 
-	while ((menuInfo = [iter nextObject])) {
+	for (DKCategoryManagerMenuInfo* menuInfo in mMenusList) {
 		if ([menuInfo menu] == aMenu)
 			return menuInfo;
 	}
@@ -1779,13 +1749,11 @@ static id sDearchivingHelper = nil;
 	// the key may be being added to several categories, so first get a list of the categories that it belongs to
 
 	NSArray* cats = [mCatManagerRef categoriesContainingKey:aKey];
-	NSEnumerator* iter = [cats objectEnumerator];
-	NSString* cat;
 	id repObject = [mCatManagerRef objectForKey:aKey];
 
 	// iterate over the categories and find the menu responsible for it
 
-	while ((cat = [iter nextObject])) {
+	for (NSString* cat in cats) {
 		NSMenuItem* catItem = [mTheMenu itemWithTitle:[cat capitalizedString]];
 
 		if (catItem != nil) {

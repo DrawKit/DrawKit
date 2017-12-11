@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class DKCategoryManagerMenuInfo;
+
 // menu creation options:
 
 typedef NS_OPTIONS(NSUInteger, DKCategoryMenuOptions) {
@@ -35,12 +37,12 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 @interface DKCategoryManager : NSObject <NSCoding, NSCopying> {
 @private
 	NSMutableDictionary* m_masterList;
-	NSMutableDictionary* m_categories;
+	NSMutableDictionary<NSString*,id>* m_categories;
 	NSMutableArray* m_recentlyAdded;
 	NSMutableArray* m_recentlyUsed;
 	NSUInteger m_maxRecentlyAddedItems;
 	NSUInteger m_maxRecentlyUsedItems;
-	NSMutableArray* mMenusList;
+	NSMutableArray<DKCategoryManagerMenuInfo*>* mMenusList;
 	BOOL mRecentlyAddedEnabled;
 }
 

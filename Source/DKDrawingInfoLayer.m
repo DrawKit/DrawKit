@@ -312,11 +312,9 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 
 	NSDictionary* di = [[self drawing] drawingInfo];
 	NSArray* keys = [di allKeys];
-	NSEnumerator* iter = [keys reverseObjectEnumerator];
-	NSString* key;
 	NSRect r, br = [self infoBoxRect];
 
-	while ((key = [iter nextObject])) {
+	for (NSString *key in [keys reverseObjectEnumerator]) {
 		r = [self layoutRectForDrawingInfoItem:key
 										inRect:br];
 

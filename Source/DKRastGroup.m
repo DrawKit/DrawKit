@@ -232,10 +232,7 @@
 - (BOOL)containsRendererOfClass:(Class)cl
 {
 	if ([self countOfRenderList] > 0) {
-		NSEnumerator* iter = [[self renderList] objectEnumerator];
-		id rend;
-
-		while ((rend = [iter nextObject])) {
+		for (id rend in [self renderList]) {
 			if ([rend isKindOfClass:cl]) // && [rend enabled]  // (should we skip disabled ones? causes some problems with KVO)
 				return YES;
 
@@ -257,10 +254,8 @@
 {
 	if ([self containsRendererOfClass:cl]) {
 		NSMutableArray* rl = [[NSMutableArray alloc] init];
-		NSEnumerator* iter = [[self renderList] objectEnumerator];
-		id rend;
 
-		while ((rend = [iter nextObject])) {
+		for (id rend in [self renderList]) {
 			if ([rend isKindOfClass:cl])
 				[rl addObject:rend];
 
@@ -530,10 +525,7 @@
  */
 - (BOOL)isFill
 {
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rast;
-
-	while ((rast = [iter nextObject])) {
+	for (DKRasterizer* rast in [self renderList]) {
 		if ([rast isFill])
 			return YES;
 	}

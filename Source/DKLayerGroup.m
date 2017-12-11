@@ -150,14 +150,12 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)flattenedLayersIncludingGroups:(BOOL)includeGroups
 {
-	NSEnumerator* iter = [[self layers] objectEnumerator];
-	DKLayer* layer;
 	NSMutableArray* fLayers = [NSMutableArray array];
 
 	if (includeGroups)
 		[fLayers addObject:self];
 
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in [self layers]) {
 		if ([layer respondsToSelector:_cmd])
 			[fLayers addObjectsFromArray:[(DKLayerGroup*)layer flattenedLayersIncludingGroups:includeGroups]];
 		else
@@ -186,14 +184,12 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups
 {
-	NSEnumerator* iter = [[self layers] objectEnumerator];
-	DKLayer* layer;
 	NSMutableArray* fLayers = [NSMutableArray array];
 
 	if (includeGroups || [self isKindOfClass:layerClass])
 		[fLayers addObject:self];
 
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in [self layers]) {
 		if ([layer respondsToSelector:_cmd])
 			[fLayers addObjectsFromArray:[(DKLayerGroup*)layer flattenedLayersOfClass:layerClass
 																		includeGroups:includeGroups]];
@@ -573,10 +569,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)layerWithUniqueKey:(NSString*)key
 {
-	NSEnumerator* iter = [[self layers] objectEnumerator];
-	DKLayer* layer;
-
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in [self layers]) {
 		if ([[layer uniqueKey] isEqualToString:key])
 			return layer;
 		else if ([layer isKindOfClass:[self class]]) {
@@ -1068,10 +1061,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 
 			if ([layerStack count] > 1) {
 				NSMutableArray* temp = [NSMutableArray array];
-				NSEnumerator* iter = [layerStack objectEnumerator];
-				DKLayer* layer;
 
-				while ((layer = [iter nextObject]))
+				for (DKLayer* layer in layerStack)
 					[temp insertObject:layer
 							   atIndex:0];
 

@@ -228,9 +228,8 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	NSEnumerator* iter = [[self bezierPathsWithGlyphsOnPath:str
 													yOffset:dy] objectEnumerator];
 	NSBezierPath* path = [NSBezierPath bezierPath];
-	NSBezierPath* temp;
 
-	while ((temp = [iter nextObject]))
+	for (NSBezierPath* temp in iter)
 		[path appendBezierPath:temp];
 
 	return path;
@@ -448,10 +447,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 		//NSLog(@"drawing from cache, %d glyphs", [glyphCache count]);
 		// glyph layout info was cached, so all we need do is to feed the information to the helper object
 
-		DKPathGlyphInfo* info;
-		NSEnumerator* iter = [glyphCache objectEnumerator];
-
-		while ((info = [iter nextObject]))
+		for (DKPathGlyphInfo* info in glyphCache)
 			[helperObject layoutManager:lm
 				  willPlaceGlyphAtIndex:[info glyphIndex]
 							 atLocation:[info point]
@@ -471,7 +467,6 @@ static NSDictionary* s_TOPTextAttributes = nil;
  dropped from the end of the line when laid out.
  @param text text storage containing the text to lay out
  @param length the path length
- @return none.
  */
 - (void)kernText:(NSTextStorage*)text toFitLength:(CGFloat)length
 {
@@ -1155,10 +1150,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	if ([placedObjects count] > 0) {
 		newPath = [NSBezierPath bezierPath];
 
-		NSEnumerator* iter = [placedObjects objectEnumerator];
-		id obj;
-
-		while ((obj = [iter nextObject])) {
+		for (id obj in placedObjects) {
 			if ([obj isKindOfClass:[NSBezierPath class]])
 				[newPath appendBezierPath:obj];
 		}

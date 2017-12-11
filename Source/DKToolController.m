@@ -428,10 +428,7 @@ static DKDrawingTool* sGlobalTool = nil;
 {
 	NSAssert(tool != nil, @"tool passed to findEligibleLayer was nil");
 
-	NSEnumerator* iter = [[[self drawing] flattenedLayers] objectEnumerator];
-	DKLayer* layer;
-
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in [[self drawing] flattenedLayers]) {
 		if (![layer lockedOrHidden] && [layer layerMayBecomeActive] && [tool isValidTargetLayer:layer])
 			return layer;
 	}

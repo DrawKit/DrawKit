@@ -842,12 +842,12 @@ static BOOL sSubstitute = NO;
 	if (colour != nil) {
 		// if the style already has a fill, mutate it - otherwise add a new one
 
-		DKFill* fill = [[style renderersOfClass:[DKFill class]] lastObject];
+		DKFill* fill = (DKFill*)[[style renderersOfClass:[DKFill class]] lastObject];
 
 		if (fill == nil) {
 			// no fill, so before adding one, see if we should work on the stroke instead
 
-			DKStroke* stroke = [[style renderersOfClass:[DKStroke class]] lastObject];
+			DKStroke* stroke = (DKStroke*)[[style renderersOfClass:[DKStroke class]] lastObject];
 
 			if (stroke)
 				[stroke setColour:colour];

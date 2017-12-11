@@ -10,9 +10,10 @@ import DKDrawKit.DKStyle
 import DKDrawKit.DKRastGroup
 
 extension DKRastGroup {
-	//(NSArray<DKRasterizer*>*)renderersOfClass:(Class)cl
+	/// Returns a flattened list of renderers of a given class.
+	/// - parameter cl: the class to look for
+	/// - returns: an array containing the renderers matching `cl`, or `nil`.
 	public func renderers<A: DKRasterizer>(of cl: A.Type) -> [A]? {
 		return __renderers(of: cl) as? [A]
 	}
-
 }
