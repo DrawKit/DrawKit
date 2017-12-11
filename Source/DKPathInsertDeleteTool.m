@@ -122,7 +122,7 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 
 		pc = [obj hitPart:p];
 
-		LogEvent_(kUserEvent, @"insert/delete tool got mouse down, target = %@, mode = %d, partcode = %d", obj, m_mode, pc);
+		LogEvent_(kUserEvent, @"insert/delete tool got mouse down, target = %@, mode = %ld, partcode = %ld", obj, (long)m_mode, (long)pc);
 
 		// if the pc was not an on-path point and we are deleting, the operation won't work so return 0
 

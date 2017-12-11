@@ -447,7 +447,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 			  depth:depth
 			  index:0];
 
-	LogEvent_(kInfoEvent, @"%@ <%p> (re)inited BSP, size = %@, depth = %d, nodes = %d, leaves = %d", NSStringFromClass([self class]), self, NSStringFromSize(mCanvasSize), depth, [mNodes count], [mLeaves count]);
+	LogEvent_(kInfoEvent, @"%@ <%p> (re)inited BSP, size = %@, depth = %lu, nodes = %lu, leaves = %lu", NSStringFromClass([self class]), self, NSStringFromSize(mCanvasSize), (unsigned long)depth, (unsigned long)[mNodes count], (unsigned long)[mLeaves count]);
 }
 
 - (void)insertItemIndex:(NSUInteger)idx withRect:(NSRect)rect

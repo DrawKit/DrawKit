@@ -1312,7 +1312,7 @@ static BOOL sSubstitute = NO;
 - (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
 	if (![self locked] && (src != dest)) {
-		LogEvent_(kStateEvent, @"moving style component at %d to %d", src, dest);
+		LogEvent_(kStateEvent, @"moving style component at %lu to %lu", (unsigned long)src, (unsigned long)dest);
 
 		[[[self undoManager] prepareWithInvocationTarget:self] moveRendererAtIndex:dest
 																		   toIndex:src];

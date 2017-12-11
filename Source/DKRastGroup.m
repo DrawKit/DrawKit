@@ -542,7 +542,7 @@
  */
 - (void)setValue:(id)val forNumericParameter:(NSInteger)pnum
 {
-	LogEvent_(kReactiveEvent, @"anonymous parameter #%d, value = %@", pnum, val);
+	LogEvent_(kReactiveEvent, @"anonymous parameter #%ld, value = %@", (long)pnum, val);
 
 	// if <val> conforms to the DKRasterizer protocol, we add it
 

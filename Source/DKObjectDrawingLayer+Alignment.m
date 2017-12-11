@@ -105,7 +105,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 
 		NSAssert(object != nil, @"cannot align - master object is nil");
 
-		LogEvent_(kUserEvent, @"Aligning objects with alignment = %d", align);
+		LogEvent_(kUserEvent, @"Aligning objects with alignment = %lu", (unsigned long)align);
 
 		mb = [object apparentBounds];
 

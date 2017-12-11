@@ -54,7 +54,7 @@
 
 - (void)setObjects:(NSArray*)objects
 {
-	LogEvent_(kReactiveEvent, @"storage setting %d objects %@", [objects count], self);
+	LogEvent_(kReactiveEvent, @"storage setting %lu objects %@", (unsigned long)[objects count], self);
 
 	[objects retain];
 	[mObjects release];

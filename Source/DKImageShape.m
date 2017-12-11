@@ -21,7 +21,11 @@ NSString* kDKOriginalFileMetadataKey = @"dk_original_file";
 NSString* kDKOriginalImageDimensionsMetadataKey = @"dk_image_original_dims";
 NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
-@interface DKImageShape (Private)
+@interface NSObject (DKSecretSelectors)
+-(IBAction)vectorize:(id)sender;
+@end
+
+@interface DKImageShape ()
 
 /** @brief Return a transform that can be used to position, size and rotate the image to the shape
 

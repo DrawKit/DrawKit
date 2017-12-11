@@ -453,7 +453,7 @@ static DKDrawingTool* sGlobalTool = nil;
 		[self setAutomaticallyRevertsToSelectionTool:NO];
 	}
 
-	LogEvent_(kInfoEvent, @"created tool controller, current scope = %d", [[self class] drawingToolOperatingScope]);
+	LogEvent_(kInfoEvent, @"created tool controller, current scope = %ld", (long)[[self class] drawingToolOperatingScope]);
 
 	return self;
 }

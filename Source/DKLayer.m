@@ -329,7 +329,7 @@ static NSArray* s_selectionColours = nil;
 - (void)setSelectionColour:(NSColor*)colour
 {
 	if (![self locked] && ![colour isEqual:[self selectionColour]]) {
-		LogEvent_(kReactiveEvent, @"<%@ 0x%x> setting selection colour: %@", NSStringFromClass([self class]), self, colour);
+		LogEvent_(kReactiveEvent, @"<%@ %p> setting selection colour: %@", NSStringFromClass([self class]), self, colour);
 
 		[[[self undoManager] prepareWithInvocationTarget:self] setSelectionColour:[self selectionColour]];
 

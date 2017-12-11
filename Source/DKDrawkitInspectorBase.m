@@ -190,6 +190,7 @@
 
 - (void)windowDidLoad
 {
+	[super windowDidLoad];
 	[self redisplayContentForSelection:[self selectedObjectForCurrentTarget]];
 }
 

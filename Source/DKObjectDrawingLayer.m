@@ -32,6 +32,15 @@ NSString* kDKLayerKeyObjectDidChange = @"kDKLayerKeyObjectDidChange";
 static BOOL sSelVisWhenInactive = NO;
 static NSMutableDictionary* sSelectionBuffer = nil;
 
+@interface NSObject (DKSecretSelectors)
+-(IBAction)unionSelectedObjects:(id)sender;
+-(IBAction)combineSelectedObjects:(id)sender;
+-(IBAction)diffSelectedObjects:(id)sender;
+-(IBAction)intersectionSelectedObjects:(id)sender;
+-(IBAction)xorSelectedObjects:(id)sender;
+-(IBAction)divideSelectedObjects:(id)sender;
+@end
+
 @interface DKObjectDrawingLayer (Private)
 
 enum {
@@ -957,7 +966,7 @@ enum {
 
 	m_selectionUndo = [[self selection] retain];
 
-	LogEvent_(kReactiveEvent, @"recorded selection for possible undo, count = %d", mUndoCount);
+	LogEvent_(kReactiveEvent, @"recorded selection for possible undo, count = %lu", (unsigned long)mUndoCount);
 }
 
 /** @brief Sends the recorded selection state to the undo manager and tags it with the given action name

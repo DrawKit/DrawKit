@@ -75,7 +75,7 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 {
 	mOperationMode = op;
 
-	LogEvent_(kInfoEvent, @"select tool set op mode = %d", op);
+	LogEvent_(kInfoEvent, @"select tool set op mode = %ld", (long)op);
 }
 
 /** @brief Returns the tool's current operation mode

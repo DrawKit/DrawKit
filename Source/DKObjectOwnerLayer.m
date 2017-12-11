@@ -378,7 +378,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	NSAssert(obj != nil, @"attempt to add a nil object to the layer");
 
-	LogEvent_(kReactiveEvent, @"inserting %@ at: %d, count = %d", obj, indx, [self countOfObjects]);
+	LogEvent_(kReactiveEvent, @"inserting %@ at: %lu, count = %lu", obj, (unsigned long)indx, (unsigned long)[self countOfObjects]);
 
 	if (![[self storage] containsObject:obj] && ![self lockedOrHidden]) {
 		[[[self undoManager] prepareWithInvocationTarget:self] removeObject:obj];
@@ -405,7 +405,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 	if (![self lockedOrHidden]) {
 		DKDrawableObject* obj = [[self objectInObjectsAtIndex:indx] retain];
-		LogEvent_(kReactiveEvent, @"removing object %@, index = %d", obj, indx);
+		LogEvent_(kReactiveEvent, @"removing object %@, index = %lu", obj, (unsigned long)indx);
 
 		[[[self undoManager] prepareWithInvocationTarget:self] insertObject:obj
 														   inObjectsAtIndex:indx];
@@ -1380,7 +1380,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	NSInteger partcode;
 	NSArray* objects = [[self storage] objectsContainingPoint:point];
 
-	LogEvent_(kUserEvent, @"hit-testing %d objects; layer = %@; objects = %@", [objects count], self, objects);
+	LogEvent_(kUserEvent, @"hit-testing %lu objects; layer = %@; objects = %@", (unsigned long)[objects count], self, objects);
 
 	iter = [objects reverseObjectEnumerator];
 

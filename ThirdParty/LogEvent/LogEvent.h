@@ -120,7 +120,7 @@ extern NSString* const kUndoEvent;		// pertains to undo operations
 extern "C" {
 #endif
 
-	BOOL LogEvent(NSString* eventType, NSString* format, ...);
+	BOOL LogEvent(NSString* eventType, NSString* format, ...) NS_FORMAT_FUNCTION(2,3);
 	// Returns YES when the message was actually logged out; NO otherwise. Useful for attempting to log for more than one type, but not kWheneverEvent.
 
 	BOOL IsAnyEventTypeBeingLogged(void);

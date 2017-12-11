@@ -461,7 +461,7 @@
 
 	NSInteger groupIndex = [layer indexOfObject:self];
 
-	LogEvent_(kReactiveEvent, @"will ungroup %d objects, inserting at %d", [m_objects count], groupIndex);
+	LogEvent_(kReactiveEvent, @"will ungroup %lu objects, inserting at %ld", (unsigned long)[m_objects count], (long)groupIndex);
 
 	NSEnumerator* iter = [m_objects objectEnumerator];
 	DKDrawableObject* obj;

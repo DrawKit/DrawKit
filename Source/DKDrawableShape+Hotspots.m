@@ -167,7 +167,7 @@
 #pragma mark -
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view
 {
-	LogEvent_(kReactiveEvent, @"hotspot started tracking, partcode = %d", m_partcode);
+	LogEvent_(kReactiveEvent, @"hotspot started tracking, partcode = %ld", (long)m_partcode);
 
 	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:
 																   willBeginTrackingWithEvent:

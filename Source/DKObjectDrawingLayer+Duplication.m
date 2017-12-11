@@ -151,7 +151,7 @@
 
 	[object setLocation:ocp];
 
-	LogEvent_(kReactiveEvent, @"auto polar, copies = %d, inc = %f", number, incAngle);
+	LogEvent_(kReactiveEvent, @"auto polar, copies = %ld, inc = %f", (long)number, incAngle);
 
 	return [self polarDuplicate:[NSArray arrayWithObject:object]
 						 centre:centre

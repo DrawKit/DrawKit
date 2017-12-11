@@ -368,7 +368,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 	NSAssert(stylesToMerge != nil, @"attempt to remerge a nil set");
 
-	LogEvent_(kInfoEvent, @"remerge of %d styles after loading...", [stylesToMerge count]);
+	LogEvent_(kInfoEvent, @"remerge of %lu styles after loading...", (unsigned long)[stylesToMerge count]);
 
 	// the styles in the given set are those that were originally registered when this document was last saved. At this point in time
 	// the styles exist as new copies of the registered styles, so they need to be reconciled with the current state of the registry, which
@@ -422,7 +422,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	// doc's styles with the registry's styles.
 
 	NSAssert(aSetOfStyles != nil, @"can't replace styles from a nil set");
-	LogEvent_(kStateEvent, @"document will replace %d styles", [aSetOfStyles count]);
+	LogEvent_(kStateEvent, @"document will replace %lu styles", (unsigned long)[aSetOfStyles count]);
 
 	[[self drawing] replaceMatchingStylesFromSet:aSetOfStyles];
 

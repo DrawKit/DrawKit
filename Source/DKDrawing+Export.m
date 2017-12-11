@@ -66,7 +66,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	if (bmRep == nil)
 		return nil;
 
-	LogEvent_(kInfoEvent, @"size = %@, dpi = %d, rep = %@", NSStringFromSize(bmSize), dpi, bmRep);
+	LogEvent_(kInfoEvent, @"size = %@, dpi = %ld, rep = %@", NSStringFromSize(bmSize), (long)dpi, bmRep);
 
 	NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithBitmapImageRep:bmRep];
 	[bmRep release];
