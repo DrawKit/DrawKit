@@ -56,7 +56,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (NSData*)JPEGDataWithProperties:(NSDictionary*)props;
+- (NSData*)JPEGDataWithProperties:(NSDictionary<NSString*,id>*)props;
 
 /** @brief Returns TIFF data for the drawing.
  @param props various parameters and properties
@@ -64,7 +64,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (NSData*)TIFFDataWithProperties:(NSDictionary*)props;
+- (NSData*)TIFFDataWithProperties:(NSDictionary<NSString*,id>*)props;
 
 /** @brief Returns PNG data for the drawing.
  @param props various parameters and properties
@@ -72,7 +72,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (NSData*)PNGDataWithProperties:(NSDictionary*)props;
+- (NSData*)PNGDataWithProperties:(NSDictionary<NSString*,id>*)props;
 
 // convenience methods that set up the property dictionaries for you:
 
@@ -94,6 +94,15 @@ This uses Image I/O to perform the data encoding.
  @return TIFF data
  */
 - (NSData*)TIFFDataWithResolution:(NSInteger)dpi compressionType:(NSTIFFCompression)compType;
+
+/** @brief Returns PNG data for the drawing or nil if there was a problem
+ 
+ This is a convenience wrapper around the dictionary-based methods above
+ @param dpi the resolution in dots per inch
+ @param gamma the gamma value 0..1
+ @param interlaced YES to interlace the image, NO otherwise
+ @return PNG data
+ */
 - (NSData*)PNGDataWithResolution:(NSInteger)dpi gamma:(CGFloat)gamma interlaced:(BOOL)interlaced;
 
 /** @brief Returns JPEG data for the drawing at 50% actual size, with 50% quality
@@ -111,7 +120,7 @@ This uses Image I/O to perform the data encoding.
  @param dpi the desired resolution in dots per inch.
  @return an array of bitmaps
  */
-- (NSArray*)layerBitmapsWithDPI:(NSUInteger)dpi;
+- (NSArray<NSBitmapImageRep*>*)layerBitmapsWithDPI:(NSUInteger)dpi;
 
 /** @brief Returns TIFF data
 
