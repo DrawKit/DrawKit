@@ -256,7 +256,6 @@ static Class s_textEditorClass = Nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillCreateAutoDrawing
 														object:self];
 
-	[DKDrawing loadDefaults];
 	mAutoDrawing = [[DKDrawing defaultDrawingWithSize:viewSize] retain];
 	m_didCreateDrawing = YES;
 	[mAutoDrawing setOwner:self];

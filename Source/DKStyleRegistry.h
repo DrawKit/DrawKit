@@ -346,6 +346,14 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  */
 - (BOOL)writeToFile:(NSString*)path atomically:(BOOL)atom;
 
+/** @brief Write the registry to a file
+ @param path the full path of the file to write
+ @param writeOptionsMask data writing flags.
+ @param errorPtr The error, if any, that occured
+ @return \c YES if the file was saved sucessfully, \c NO otherwise
+ */
+- (BOOL)writeToURL:(NSURL*)path options:(NSDataWritingOptions)writeOptionsMask error:(NSError**)errorPtr;
+
 /** @brief Merge the contents of a file into the registry
 
  Reads styles from the file at <path> into the registry. Styles are merged as indicated by the
@@ -358,6 +366,9 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @return YES if the file was read and merged sucessfully, NO otherwise
  */
 - (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel;
+
+- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel error:(NSError**)error;
+
 
 - (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id)aDel;
 

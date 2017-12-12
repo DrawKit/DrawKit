@@ -734,6 +734,34 @@ static BOOL s_NoDKDefaults = NO;
 	return result;
 }
 
+/** @brief Write the registry to a file
+ @param path the full path of the file to write
+ @param writeOptionsMask data writing flags.
+ @param errorPtr The error, if any, that occured
+ @return YES if the file was saved sucessfully, NO otherwise
+ */
+- (BOOL)writeToURL:(NSURL*)path options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable * _Nullable)errorPtr
+{
+	NSAssert(path != nil, @"path can't be nil");
+	
+	BOOL result = NO;
+	
+	NSData* data = [self data];
+	if (data == nil) {
+		if (errorPtr) {
+			*errorPtr = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:nil];
+		}
+		
+		return NO;
+	}
+	
+	if (data != nil)
+		result = [data writeToURL:path options:writeOptionsMask error:errorPtr];
+	
+	return result;
+}
+
+
 /** @brief Merge the contents of a file into the registry
 
  Reads styles from the file at <path> into the registry. Styles are merged as indicated by the
@@ -779,6 +807,57 @@ static BOOL s_NoDKDefaults = NO;
 		}
 	}
 
+	return readOK;
+}
+
+/** @brief Merge the contents of a file into the registry
+ 
+ Reads styles from the file at <path> into the registry. Styles are merged as indicated by the
+ options, etc. The intention of this method is to load a file containing styles only - either to
+ augment or replace the existing registry. It is not used when opening a drawing document.
+ If the intention is to replace the reg, the caller should clear out the current one before calling this.
+ @param path the full path of the file to write
+ @param options merging options
+ @param aDel an optional delegate object that can make a merge decision for each individual style object
+ @return YES if the file was read and merged sucessfully, NO otherwise
+ */
+- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel error:(NSError**)error
+{
+	NSAssert(path != nil, @"cannot read file - path is nil");
+	
+	BOOL readOK = NO;
+	NSData* styleData = [NSData dataWithContentsOfURL:path options:0 error:error];
+	if (!styleData) {
+		return NO;
+	}
+	
+	if (styleData != nil && [styleData length] > 0) {
+		// because we are merging the file, a temporary registry object is created and that is used to populate the "real" one.
+		
+		DKStyleRegistry* regTemp = [[DKStyleRegistry alloc] initWithData:styleData];
+		
+		if (regTemp != nil) {
+			NSEnumerator* iter = [[regTemp allObjects] objectEnumerator];
+			DKStyle* style;
+			NSSet* styles;
+			NSArray* cats;
+			
+			while ((style = [iter nextObject])) {
+				cats = [regTemp categoriesContainingKey:[style uniqueKey]];
+				styles = [NSSet setWithObject:style];
+				
+				[[self class] mergeStyles:styles
+							 inCategories:cats
+								  options:options
+							mergeDelegate:aDel];
+				
+				readOK = YES;
+			}
+			
+			[regTemp release];
+		}
+	}
+	
 	return readOK;
 }
 
