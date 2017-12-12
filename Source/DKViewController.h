@@ -53,13 +53,15 @@ completed except for page breaks. Tool controllers for example can draw selectio
 	NSEvent* mDragEvent; // cached drag event for autoscroll to use
 }
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
 // designated initializer
 
 /** @brief Initialize the controller
  @param aView the view object that this controller manages
  @return the controller object
  */
-- (id)initWithView:(NSView*)aView;
+- (instancetype)initWithView:(NSView*)aView NS_DESIGNATED_INITIALIZER;
 
 // fundamental objects in the controller's world
 

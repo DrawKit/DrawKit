@@ -67,7 +67,7 @@ static id sDearchivingHelper = nil;
  @return an array of categories */
 + (NSArray*)defaultCategories
 {
-	return [NSArray arrayWithObject:kDKDefaultCategoryName];
+	return @[kDKDefaultCategoryName];
 }
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
@@ -108,7 +108,7 @@ static id sDearchivingHelper = nil;
  @param data data containing a correctly archived category manager
  @return the category manager object
  */
-- (id)initWithData:(NSData*)data
+- (instancetype)initWithData:(NSData*)data
 {
 	NSAssert(data != nil, @"Expected valid data");
 
@@ -158,7 +158,7 @@ static id sDearchivingHelper = nil;
  @param dict dictionary containing a set of objects and keys
  @return the category manager object
  */
-- (id)initWithDictionary:(NSDictionary*)dict
+- (instancetype)initWithDictionary:(NSDictionary*)dict
 {
 	NSAssert(dict != nil, @"Expected valid dict");
 	self = [self init];
@@ -703,7 +703,7 @@ static id sDearchivingHelper = nil;
 		//	LogEvent_(kStateEvent,  @"adding new category '%@'", catName );
 
 		NSMutableArray* cat = [[NSMutableArray alloc] init];
-		NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"category_name", nil];
+		NSDictionary* info = @{@"category_name": catName};
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillCreateNewCategory
 															object:self
@@ -742,7 +742,7 @@ static id sDearchivingHelper = nil;
 	//	LogEvent_(kStateEvent, @"removing category '%@'", catName );
 
 	if ([m_categories objectForKey:catName]) {
-		NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"category_name", nil];
+		NSDictionary* info = @{@"category_name": catName};
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillDeleteCategory
 															object:self
@@ -781,7 +781,7 @@ static id sDearchivingHelper = nil;
 
 		// update menu item title:
 
-		NSDictionary* info = [NSDictionary dictionaryWithObjectsAndKeys:catName, @"old_name", newname, @"new_name", nil];
+		NSDictionary* info = @{@"old_name": catName, @"new_name": newname};
 		[mMenusList makeObjectsPerformSelector:@selector(renameCategoryWithInfo:)
 									withObject:info];
 
@@ -1466,7 +1466,7 @@ static id sDearchivingHelper = nil;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1514,7 +1514,7 @@ static id sDearchivingHelper = nil;
 				  forKey:@"maxuse"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	m_masterList = [[coder decodeObjectForKey:@"master"] retain];
 	m_categories = [[coder decodeObjectForKey:@"categories"] retain];
@@ -1574,7 +1574,7 @@ static id sDearchivingHelper = nil;
 
 @implementation DKCategoryManagerMenuInfo
 
-- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
 {
 	self = [super init];
 	if (self != nil) {
@@ -1589,7 +1589,7 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate options:(DKCategoryMenuOptions)options
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate options:(DKCategoryMenuOptions)options
 {
 	NSAssert(delegate != nil, @"no delegate for menu item callback");
 
@@ -1605,7 +1605,7 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
 {
 	NSAssert(delegate != nil, @"no delegate for menu item callback");
 
@@ -1760,7 +1760,7 @@ static id sDearchivingHelper = nil;
 				// make a submenu to list the actual items
 
 				subMenu = [self createSubmenuWithTitle:[cat capitalizedString]
-											  forArray:[NSArray arrayWithObject:aKey]];
+											  forArray:@[aKey]];
 				[catItem setSubmenu:subMenu];
 				[catItem setEnabled:YES];
 			} else {

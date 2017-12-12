@@ -39,7 +39,7 @@
 		return nil;
 }
 
-- (id)initWithObjectsInArray:(NSArray*)objects
+- (instancetype)initWithObjectsInArray:(NSArray*)objects
 {
 	self = [super init];
 	if (self) {
@@ -63,9 +63,9 @@
 			count = [clDict objectForKey:classname];
 
 			if (count == nil)
-				count = [NSNumber numberWithInteger:1];
+				count = @1;
 			else
-				count = [NSNumber numberWithInteger:[count integerValue] + 1];
+				count = @([count integerValue] + 1);
 
 			[clDict setObject:count
 					   forKey:classname];
@@ -124,12 +124,14 @@
 
 #pragma mark -
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
+	if (self = [super init]) {
 	mCount = [coder decodeIntegerForKey:@"DKPasteboardInfo_count"];
 	mClassInfo = [[coder decodeObjectForKey:@"DKPasteboardInfo_classInfo"] retain];
 	mBoundingRect = [coder decodeRectForKey:@"DKPasteboardInfo_boundsRect"];
 	mOriginatingLayerKey = [[coder decodeObjectForKey:@"DKPasteboardInfo_originatingLayerKey"] retain];
+	}
 	return self;
 }
 

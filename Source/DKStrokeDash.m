@@ -107,7 +107,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 #pragma mark -
-- (id)initWithPattern:(CGFloat[])dashes count:(NSInteger)count
+- (instancetype)initWithPattern:(CGFloat[])dashes count:(NSInteger)count
 {
 	//NSAssert((NSUInteger)(sizeof(dashes)) <= (NSUInteger)(8 * sizeof(CGFloat)), @"Expected dashes to be no more than 8 floats");
 	self = [super init];
@@ -350,7 +350,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 			  withName:@"default_6"];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -390,7 +390,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 			   forKey:@"scale_to_width"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];

@@ -23,7 +23,7 @@ static NSTimer* s_autoscrollTimer = nil;
  @param aView the view object that this controller manages
  @return the controller object
  */
-- (id)initWithView:(NSView*)aView
+- (instancetype)initWithView:(NSView*)aView
 {
 	NSAssert(aView != nil, @"can't initialize a controller for nil view");
 

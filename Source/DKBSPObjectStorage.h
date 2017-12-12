@@ -66,8 +66,9 @@ typedef NS_ENUM(NSInteger, DKBSPOperation) {
 
 + (Class)leafClass;
 
-- (id)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth;
-- (NSSize)canvasSize;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth NS_DESIGNATED_INITIALIZER;
+@property (readonly) NSSize canvasSize;
 
 - (void)setDepth:(NSUInteger)depth;
 - (NSUInteger)countOfLeaves;

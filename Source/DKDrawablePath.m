@@ -148,7 +148,7 @@ static NSColor* sInfoWindowColour = nil;
  @param aPath the path to use
  @return the drawable path object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath
 {
 	self = [self init];
 	if (self != nil) {
@@ -165,7 +165,7 @@ static NSColor* sInfoWindowColour = nil;
  @param aStyle the style to use
  @return the drawable path object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
 {
 	self = [self initWithStyle:aStyle];
 	if (self) {
@@ -1936,7 +1936,7 @@ finish:
 	if (odl) {
 		[odl recordSelectionForUndo];
 		[odl addObject:newPath];
-		[odl exchangeSelectionWithObjectsFromArray:[NSArray arrayWithObject:newPath]];
+		[odl exchangeSelectionWithObjectsFromArray:@[newPath]];
 		[odl commitSelectionUndoWithActionName:NSLocalizedString(@"Parallel Copy", @"undo string for parallel copy")];
 	}
 }
@@ -2059,8 +2059,8 @@ finish:
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-	return [NSArray arrayWithObjects:NSColorPboardType, NSStringPboardType, NSPDFPboardType, NSTIFFPboardType,
-									 NSFilenamesPboardType, kDKStylePasteboardType, kDKStyleKeyPasteboardType, nil];
+	return @[NSColorPboardType, NSStringPboardType, NSPDFPboardType, NSTIFFPboardType,
+									 NSFilenamesPboardType, kDKStylePasteboardType, kDKStyleKeyPasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -2070,7 +2070,7 @@ finish:
  @param aStyle the initial style for the object
  @return the object
  */
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super initWithStyle:aStyle];
 	if (self) {
@@ -2628,7 +2628,7 @@ finish:
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithStyle:[DKStyle styleWithFillColour:nil
 											   strokeColour:[NSColor blackColor]
@@ -2647,7 +2647,7 @@ finish:
 				 forKey:@"freehand_smoothing"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	self = [super initWithCoder:coder];
 	if (self != nil) {

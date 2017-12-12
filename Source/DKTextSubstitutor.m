@@ -49,7 +49,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 
 #pragma mark -
 
-- (id)initWithString:(NSString*)aString
+- (instancetype)initWithString:(NSString*)aString
 {
 	NSAttributedString* str = [[NSAttributedString alloc] initWithString:aString];
 	self = [self initWithAttributedString:str];
@@ -58,7 +58,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return self;
 }
 
-- (id)initWithAttributedString:(NSAttributedString*)aString
+- (instancetype)initWithAttributedString:(NSAttributedString*)aString
 {
 	// designated initializer
 
@@ -318,7 +318,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -335,8 +335,9 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	[super dealloc];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
+	if (self = [super init]) {
 	mKeys = [[NSMutableArray alloc] init];
 
 	// deal with earlier format
@@ -347,7 +348,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 			withAttributes:nil];
 	else
 		[self setMasterString:[coder decodeObjectForKey:@"DKOTextSubstitutor_attributedString"]];
-
+	}
 	return self;
 }
 
@@ -393,7 +394,7 @@ static NSDictionary* s_abbreviationDict = nil;
 	[abbreviations release];
 }
 
-- (id)initWithKey:(NSString*)key range:(NSRange)aRange
+- (instancetype)initWithKey:(NSString*)key range:(NSRange)aRange
 {
 	self = [super init];
 	if (self) {

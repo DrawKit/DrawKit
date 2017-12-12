@@ -28,8 +28,8 @@ sets whether the image is scaled, tiled or drawn only once in a particular posit
 	DKImageCoverageFlags m_coverageMethod;
 }
 
-- (id)initWithImage:(NSImage*)image;
-- (id)initWithContentsOfFile:(NSString*)imagefile;
+- (instancetype)initWithImage:(NSImage*)image;
+- (instancetype)initWithContentsOfFile:(NSString*)imagefile;
 
 @property (retain) NSImage *image;
 - (void)setImage:(NSImage*)image;

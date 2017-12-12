@@ -281,7 +281,7 @@ static NSDictionary* s_interconversionTable = nil;
  @param aStyle the initial style for the object
  @return the object
  */
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super init];
 	if (self) {
@@ -1025,7 +1025,7 @@ static NSDictionary* s_interconversionTable = nil;
 
 		// set up the user info. If newStyle is nil, this will terminate the list after the old style
 
-		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[self style], kDKDrawableOldStyleKey, newStyle, kDKDrawableNewStyleKey, nil];
+		NSDictionary* userInfo = @{kDKDrawableOldStyleKey: [self style], kDKDrawableNewStyleKey: newStyle};
 
 		if ([self layer])
 			[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableStyleWillBeDetachedNotification
@@ -1586,14 +1586,14 @@ static NSRect s_oldBounds;
  @param offset an offset value that is added to each point
  @return a list of points (NSValues)
  */
-- (NSArray*)snappingPointsWithOffset:(NSSize)offset
+- (NSArray<NSValue*>*)snappingPointsWithOffset:(NSSize)offset
 {
 	NSPoint p = [self location];
 
 	p.x += offset.width;
 	p.y += offset.height;
 
-	return [NSArray arrayWithObject:[NSValue valueWithPoint:p]];
+	return @[[NSValue valueWithPoint:p]];
 }
 
 /** @brief Returns the offset between the mouse point and the shape's location during a drag
@@ -2153,7 +2153,7 @@ static NSRect s_oldBounds;
 	// allows the attached style to be copied to the clipboard.
 
 	if ([self style] != nil) {
-		[[NSPasteboard generalPasteboard] declareTypes:[NSArray array]
+		[[NSPasteboard generalPasteboard] declareTypes:@[]
 												 owner:self];
 		[[self style] copyToPasteboard:[NSPasteboard generalPasteboard]];
 	}
@@ -2271,7 +2271,7 @@ static NSRect s_oldBounds;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithStyle:[DKStyle defaultStyle]];
 }
@@ -2316,7 +2316,7 @@ static NSRect s_oldBounds;
 			   forKey:@"DKDrawable_locationLocked"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	//	LogEvent_(kFileEvent, @"decoding drawable object %@", self);

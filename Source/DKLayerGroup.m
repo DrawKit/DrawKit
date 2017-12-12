@@ -44,7 +44,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  @param layers a list of existing layers
  @return a new layer group
  */
-- (id)initWithLayers:(NSArray*)layers
+- (instancetype)initWithLayers:(NSArray*)layers
 {
 	self = [super init];
 	if (self != nil) {
@@ -1023,7 +1023,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithLayers:nil];
 }
@@ -1044,7 +1044,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 				 forKey:@"DKLayerGroup_layers"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	LogEvent_(kFileEvent, @"decoding layer group %@", self);

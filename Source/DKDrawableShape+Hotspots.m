@@ -122,7 +122,7 @@
 #pragma mark -
 @implementation DKHotspot
 #pragma mark As a DKHotspot
-- (id)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate
+- (instancetype)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate
 {
 	self = [super init];
 	if (self != nil) {
@@ -202,6 +202,14 @@
 }
 
 #pragma mark -
+#pragma mark As an NSObject
+
+- (instancetype)init
+{
+	return self = [self initHotspotWithOwner:nil partcode:0 delegate:nil];
+}
+
+#pragma mark -
 #pragma mark As part of NSCoding Protocol
 - (void)encodeWithCoder:(NSCoder*)coder
 {
@@ -216,7 +224,7 @@
 							forKey:@"delegate"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];

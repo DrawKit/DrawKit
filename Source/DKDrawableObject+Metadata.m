@@ -234,13 +234,13 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 					NSNumber* newValue;
 
 					if (strcmp(dataType, @encode(CGFloat)) == 0)
-						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
+						newValue = @([obj doubleValue]);
 					else if (strcmp(dataType, @encode(double)) == 0)
-						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
+						newValue = @([obj doubleValue]);
 					else if (strcmp(dataType, @encode(NSInteger)) == 0)
-						newValue = [NSNumber numberWithInteger:[obj integerValue]];
+						newValue = @([obj integerValue]);
 					else if (strcmp(dataType, @encode(BOOL)) == 0)
-						newValue = [NSNumber numberWithBool:[obj integerValue]];
+						newValue = @((BOOL)([obj integerValue] != 0));
 					else
 						newValue = obj;
 
@@ -593,8 +593,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -604,8 +603,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification
 														object:self
 													  userInfo:userInfo];

@@ -15,7 +15,7 @@
 #import "LogEvent.h"
 #import "DKDrawableObject+Metadata.h"
 
-@interface DKShapeGroup (Private)
+@interface DKShapeGroup ()
 - (void)invalidateCache;
 - (void)updateCache;
 - (void)drawUntransformedContent;
@@ -111,7 +111,7 @@
  @param objects a list of drawable objects
  @return the group object
  */
-- (id)initWithObjectsInArray:(NSArray*)objects
+- (instancetype)initWithObjectsInArray:(NSArray*)objects
 {
 	self = [super init];
 	if (self != nil) {
@@ -357,18 +357,18 @@
 - (NSData*)				pdfDataOfObjects
 {
 	NSData* pdfData = nil;
-	
+ 
 	if([[self groupObjects] count] > 0 )
 	{
 		NSRect	fr = NSZeroRect;
-		
+ 
 		fr.size = [[self drawing] drawingSize];
-		
+ 
 		DKGroupPDFView*		pdfView = [[DKGroupPDFView alloc] initWithFrame:fr withGroup:self];
 		DKViewController*	vc = [pdfView makeViewController];
-		
+ 
 		[[self drawing] addController:vc];
-		
+ 
 		NSRect sr = mBounds;
 		pdfData = [pdfView dataWithPDFInsideRect:sr];
 		[pdfView release];
@@ -443,7 +443,7 @@
 #pragma mark -
 #pragma mark - ungrouping
 
-/** @brief Unpacks the group back into the nominated layer 
+/** @brief Unpacks the group back into the nominated layer
 
  Usually it's better to call the higher level ungroupObjects: action method which calls this. This
  method strives to preserve as much information about the objects as possible - e.g. their rotation
@@ -835,7 +835,7 @@
 #pragma mark -
 #pragma mark As an NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -919,7 +919,7 @@
 			   forKey:@"DKShapeGroup_clipContent"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

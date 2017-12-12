@@ -41,7 +41,8 @@ This prefers PDF image representations where the image contains one, preserving 
 
 + (DKPathDecorator*)pathDecoratorWithImage:(NSImage*)image;
 
-- (id)initWithImage:(NSImage*)image;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithImage:(NSImage*)image NS_DESIGNATED_INITIALIZER;
 
 - (void)setImage:(NSImage*)image;
 - (NSImage*)image;

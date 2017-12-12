@@ -70,7 +70,7 @@
 										   withBorder:YES];
 
 	NSPasteboard* pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-	[pboard declareTypes:[NSArray arrayWithObject:NSColorPboardType]
+	[pboard declareTypes:@[NSColorPboardType]
 				   owner:self];
 	[color writeToPasteboard:pboard];
 
@@ -288,7 +288,7 @@
 #pragma mark -
 - (void)setFloat:(float)f forKey:(id)key
 {
-	[self setValue:[NSNumber numberWithDouble:f]
+	[self setValue:@(f)
 			forKey:key];
 }
 

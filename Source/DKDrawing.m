@@ -275,11 +275,11 @@ static id sDearchivingHelper = nil;
 	NSUInteger drawingNumber = [self newDrawingNumber];
 	NSString* prefix = @"A2";
 
-	[di setObject:[NSNumber numberWithInteger:revision]
+	[di setObject:@(revision)
 		   forKey:[kDKDrawingInfoDrawingRevision lowercaseString]];
 	[di setObject:prefix
 		   forKey:[kDKDrawingInfoDrawingPrefix lowercaseString]];
-	[di setObject:[NSNumber numberWithInteger:drawingNumber]
+	[di setObject:@(drawingNumber)
 		   forKey:[kDKDrawingInfoDrawingNumberUnformatted lowercaseString]];
 	[di setObject:[NSString stringWithFormat:@"%@-%06ld-%04ld", prefix, (long)drawingNumber, (long)revision]
 		   forKey:[kDKDrawingInfoDrawingNumber lowercaseString]];
@@ -326,17 +326,17 @@ static id sDearchivingHelper = nil;
 	NSDictionary* abbrevs = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault];
 
 	if (abbrevs == nil) {
-		abbrevs = [NSDictionary dictionaryWithObjectsAndKeys:@"in.", @"inches",
-															 @"mm", @"millimetres",
-															 @"cm", @"centimetres",
-															 @"m", @"metres",
-															 @"km", @"kilometres",
-															 @"pc", @"picas",
-															 @"px", @"pixels",
-															 @"ft.", @"feet",
-															 @"yd.", @"yards",
-															 @"pt", @"points",
-															 @"mi", @"miles", nil];
+		abbrevs = @{DKDrawingUnitInches: @"in.",
+					DKDrawingUnitMillimetres: @"mm",
+					DKDrawingUnitCentimetres: @"cm",
+					DKDrawingUnitMetres: @"m",
+					DKDrawingUnitKilometres: @"km",
+					DKDrawingUnitPicas: @"pc",
+					DKDrawingUnitPixels: @"px",
+					DKDrawingUnitFeet: @"ft.",
+					DKDrawingUnitYards: @"yd.",
+					DKDrawingUnitPoints: @"pt",
+					DKDrawingUnitMiles: @"mi"};
 
 		[[NSUserDefaults standardUserDefaults] setObject:abbrevs
 												  forKey:kDKDrawingUnitAbbreviationsUserDefault];
@@ -418,7 +418,7 @@ static id sDearchivingHelper = nil;
  @param size the paper size for the drawing
  @return the initialised drawing object
  */
-- (id)initWithSize:(NSSize)size
+- (instancetype)initWithSize:(NSSize)size
 {
 	self = [super init];
 	if (self != nil) {
@@ -1807,7 +1807,7 @@ static id sDearchivingHelper = nil;
 - (void)setNeedsDisplay:(BOOL)refresh
 {
 	[[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplay:)
-										withObject:[NSNumber numberWithBool:refresh]];
+										withObject:@(refresh)];
 }
 
 /** @brief Marks the rect as needing update in all attached views
@@ -1938,7 +1938,7 @@ static id sDearchivingHelper = nil;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithSize:[DKDrawing isoA2PaperSize:NO]];
 }
@@ -1996,7 +1996,7 @@ static id sDearchivingHelper = nil;
 			   forKey:@"clips"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 

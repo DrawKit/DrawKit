@@ -56,11 +56,13 @@ You can also set up a style to be applied to all new objects initially as an ind
 
 @property (class, retain) DKStyle *styleForCreatedObjects;
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
 /** @brief Initialize the tool
  @param aPrototype an object that will be used as the tool's prototype - each new object created will
  @return the tool object
  */
-- (id)initWithPrototypeObject:(id<NSObject>)aPrototype;
+- (instancetype)initWithPrototypeObject:(id<NSObject>)aPrototype NS_DESIGNATED_INITIALIZER;
 
 /** @brief Set the object to be copied when the tool created a new one
  @param aPrototype an object that will be used as the tool's prototype - each new object created will

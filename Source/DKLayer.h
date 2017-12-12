@@ -56,7 +56,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  The list is used to supply colours in rotation when new layers are instantiated
  @param listOfColours an array containing NSColor objects
  */
-+ (void)setSelectionColours:(NSArray*)listOfColours;
++ (void)setSelectionColours:(NSArray<NSColor*>*)listOfColours;
 
 /** @brief Returns the list of colours used for supplying the selection colours
 
@@ -64,8 +64,11 @@ indicate likely handling of drag and drop operations by a layer instance.
  traditionally used.
  @return an array containing NSColor objects
  */
-+ (NSArray*)selectionColours;
++ (NSArray<NSColor*>*)selectionColours;
 + (NSColor*)selectionColourForIndex:(NSUInteger)index;
+
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 // owning drawing:
 
@@ -120,6 +123,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  The layer's group might be the drawing itself, which is a group
  @return the layer's group */
 - (DKLayerGroup*)layerGroup;
+
+@property (assign) DKLayerGroup *layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 

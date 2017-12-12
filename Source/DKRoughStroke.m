@@ -101,7 +101,7 @@
 #pragma mark -
 #pragma mark As a DKStroke
 
-- (id)initWithWidth:(CGFloat)width colour:(NSColor*)colour
+- (instancetype)initWithWidth:(CGFloat)width colour:(NSColor*)colour
 {
 	self = [super initWithWidth:width
 						 colour:colour];
@@ -157,7 +157,7 @@
 
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObject:@"roughness"]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"roughness"]];
 }
 
 - (void)registerActionNames
@@ -170,7 +170,7 @@
 #pragma mark -
 #pragma mark As part of the NSCoding protocol
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	[super initWithCoder:coder];
 	mPathCache = [[NSMutableDictionary alloc] init];

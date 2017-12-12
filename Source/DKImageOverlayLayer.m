@@ -12,7 +12,7 @@
 #pragma mark As a DKImageOverlayLayer
 
 /**  */
-- (id)initWithImage:(NSImage*)image
+- (instancetype)initWithImage:(NSImage*)image
 {
 	self = [self init];
 	if (self != nil) {
@@ -29,7 +29,7 @@
 	return self;
 }
 
-- (id)initWithContentsOfFile:(NSString*)imagefile
+- (instancetype)initWithContentsOfFile:(NSString*)imagefile
 {
 	NSImage* img = [[[NSImage alloc] initWithContentsOfFile:imagefile] autorelease];
 	return [self initWithImage:img];
@@ -189,7 +189,7 @@
 				  forKey:@"coveragemethod"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

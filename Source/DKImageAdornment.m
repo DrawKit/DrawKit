@@ -226,7 +226,7 @@
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:
-										   [NSArray arrayWithObjects:@"image", @"opacity", @"scale", @"fittingOption", @"angle", @"operation", nil]];
+										   @[@"image", @"opacity", @"scale", @"fittingOption", @"angle", @"operation"]];
 }
 
 - (void)registerActionNames
@@ -258,7 +258,7 @@
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -365,7 +365,7 @@
 				 forKey:@"ident"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

@@ -297,8 +297,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 
 	value = [props objectForKey:NSImageInterlaced];
 	if (value != nil)
-		[options setObject:[NSDictionary dictionaryWithObject:value
-													   forKey:(NSString*)kCGImagePropertyPNGInterlaceType]
+		[options setObject:@{(NSString*)kCGImagePropertyPNGInterlaceType: value}
 					forKey:(NSString*)kCGImagePropertyPNGDictionary];
 
 	// generate the bitmap image at the required size

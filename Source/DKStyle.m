@@ -85,7 +85,7 @@ static BOOL sSubstitute = NO;
 		basic->m_uniqueKey = kDKBasicStyleDefaultKey;
 
 		[DKStyleRegistry registerStyle:basic
-						  inCategories:[NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory]];
+						  inCategories:@[kDKStyleRegistryDKDefaultsCategory]];
 	}
 
 	return basic;
@@ -115,7 +115,7 @@ static BOOL sSubstitute = NO;
 		deftrack->m_uniqueKey = kDKBasicTrackStyleDefaultKey;
 
 		[DKStyleRegistry registerStyle:deftrack
-						  inCategories:[NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory]];
+						  inCategories:@[kDKStyleRegistryDKDefaultsCategory]];
 	}
 
 	return deftrack;
@@ -204,7 +204,7 @@ static BOOL sSubstitute = NO;
 	static NSArray* spTypes = nil;
 
 	if (spTypes == nil)
-		spTypes = [[NSArray arrayWithObjects:kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil] retain];
+		spTypes = [@[kDKStyleKeyPasteboardType, kDKStylePasteboardType] retain];
 
 	return spTypes;
 }
@@ -412,8 +412,7 @@ static BOOL sSubstitute = NO;
 
 	//LogEvent_(kReactiveEvent, @"style %@ attached to object %@", self, toObject );
 
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObject:self
-														 forKey:@"style"];
+	NSDictionary* userInfo = @{@"style": self};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasAttachedNotification
 														object:toObject
 													  userInfo:userInfo];
@@ -434,8 +433,7 @@ static BOOL sSubstitute = NO;
 {
 	//LogEvent_(kReactiveEvent, @"style %@ removed from object %@", self, fromObject );
 
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObject:self
-														 forKey:@"style"];
+	NSDictionary* userInfo = @{@"style": self};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWillBeDetachedNotification
 														object:fromObject
 													  userInfo:userInfo];
@@ -569,13 +567,13 @@ static BOOL sSubstitute = NO;
  */
 - (NSArray*)registryKeys
 {
-	return [NSArray arrayWithObject:[self uniqueKey]]; //[[DKStyleRegistry sharedStyleRegistry] keysForObject:self];
+	return @[[self uniqueKey]]; //[[DKStyleRegistry sharedStyleRegistry] keysForObject:self];
 }
 
 /** @brief Returns the unique key of the style
 
  The unique key is set once and for all time when the style is initialised, and is guaranteed unique
- as it is a UUID. 
+ as it is a UUID.
  @return a string
  */
 - (NSString*)uniqueKey
@@ -787,9 +785,9 @@ static BOOL sSubstitute = NO;
 	NSArray* types;
 
 	if (registered)
-		types = [NSArray arrayWithObjects:kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil];
+		types = @[kDKStyleKeyPasteboardType, kDKStylePasteboardType];
 	else
-		types = [NSArray arrayWithObject:kDKStylePasteboardType];
+		types = @[kDKStylePasteboardType];
 
 	[pb addTypes:types
 		   owner:self];
@@ -985,7 +983,7 @@ static BOOL sSubstitute = NO;
 }
 
 /** @brief Queries whether the style has any components at all
- @return YES if there are no components and no text attributes, NO if there is at least 1 or has text 
+ @return YES if there are no components and no text attributes, NO if there is at least 1 or has text
  */
 - (BOOL)isEmpty
 {
@@ -1436,7 +1434,7 @@ static BOOL sSubstitute = NO;
 
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"locked", @"styleSharable", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"locked", @"styleSharable"]];
 }
 
 #pragma mark -
@@ -1466,7 +1464,7 @@ static BOOL sSubstitute = NO;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1532,7 +1530,7 @@ static BOOL sSubstitute = NO;
 			   forKey:@"locked"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

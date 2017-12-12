@@ -1011,7 +1011,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1074,7 +1074,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 				  forKey:@"interpolation"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];
@@ -1131,7 +1131,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 @end
 
 #pragma mark -
-@implementation DKColorStop : NSObject
+@implementation DKColorStop
 #pragma mark As a DKColorStop
 
 /** @brief Initialise the stop with a Color and position
@@ -1139,7 +1139,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
  @param pos the relative position within the gradient, valid range = 0.0..1.0
  @return the stop
  */
-- (id)initWithColor:(NSColor*)Color at:(CGFloat)pos
+- (instancetype)initWithColor:(NSColor*)Color at:(CGFloat)pos
 {
 	self = [super init];
 	if (self != nil) {
@@ -1261,7 +1261,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 							forKey:@"DKColorStop_owner"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];

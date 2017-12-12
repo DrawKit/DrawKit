@@ -148,13 +148,13 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 
 #pragma mark -
 
-- (id)initWithSize:(NSSize)size
+- (instancetype)initWithSize:(NSSize)size
 {
 	return [self initWithSize:size
 					   colour:nil];
 }
 
-- (id)initWithSize:(NSSize)size colour:(NSColor*)colour
+- (instancetype)initWithSize:(NSSize)size colour:(NSColor*)colour
 {
 	self = [super init];
 	if (self) {

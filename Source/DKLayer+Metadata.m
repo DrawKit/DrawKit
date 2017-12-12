@@ -378,8 +378,7 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -389,8 +388,7 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification
 														object:self
 													  userInfo:userInfo];

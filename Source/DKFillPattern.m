@@ -170,7 +170,7 @@
 						ra = [[mMotifAngleRandCache objectAtIndex:mPlacementCount] doubleValue];
 					else {
 						ra = [DKRandom randomPositiveOrNegativeNumber] * 2.0 * M_PI * [self motifAngleRandomness];
-						[mMotifAngleRandCache addObject:[NSNumber numberWithDouble:ra]];
+						[mMotifAngleRandCache addObject:@(ra)];
 					}
 					tempAngle = mangle;
 					tempAngle += ra;
@@ -318,7 +318,7 @@
 
 #pragma mark -
 #pragma mark As a DKPathDecorator
-- (id)initWithImage:(NSImage*)image
+- (instancetype)initWithImage:(NSImage*)image
 {
 	self = [super initWithImage:image];
 	if (self != nil) {
@@ -336,10 +336,10 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"angle",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"angle",
 																							   @"patternAlternateOffset", @"angleIsRelativeToObject",
 																							   @"motifAngle", @"motifAngleIsRelativeToPattern", @"drawingOfClippedElementsSupressed",
-																							   @"motifAngleRandomness", nil]];
+																							   @"motifAngleRandomness"]];
 }
 
 - (void)registerActionNames
@@ -363,7 +363,7 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -439,7 +439,7 @@
 				 forKey:@"DKFillPattern_motifAngleRandomness"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

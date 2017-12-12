@@ -28,8 +28,10 @@ This objects abstracts the text substitution task used by text adornments, et. a
 @property (class, copy) NSString *delimiterString;
 + (NSCharacterSet*)keyBreakingCharacterSet;
 
-- (id)initWithString:(NSString*)aString;
-- (id)initWithAttributedString:(NSAttributedString*)aString;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithString:(NSString*)aString;
+- (instancetype)initWithAttributedString:(NSAttributedString*)aString NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 - (void)setMasterString:(NSAttributedString*)master;
 - (NSAttributedString*)masterString;
@@ -71,7 +73,8 @@ extern NSString* kDKTextSubstitutorNewStringNotification;
 @property (class, readonly, retain) NSCharacterSet *validSubkeysCharacterSet;
 @property (class, copy) NSDictionary *abbreviationDictionary;
 
-- (id)initWithKey:(NSString*)key range:(NSRange)aRange;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithKey:(NSString*)key range:(NSRange)aRange NS_DESIGNATED_INITIALIZER;
 
 - (NSString*)key;
 - (NSRange)range;

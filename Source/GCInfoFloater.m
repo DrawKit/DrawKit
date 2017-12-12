@@ -29,7 +29,7 @@
 }
 
 #pragma mark -
-- (id)initWithContentRect:(NSRect)contentRect
+- (instancetype)initWithContentRect:(NSRect)contentRect
 				styleMask:(NSWindowStyleMask)styleMask
 				  backing:(NSBackingStoreType)bufferingType
 					defer:(BOOL)deferCreation

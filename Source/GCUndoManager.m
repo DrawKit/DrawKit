@@ -851,7 +851,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -859,7 +859,7 @@
 		mRedoStack = [[NSMutableArray alloc] init];
 
 		mGroupsByEvent = YES;
-		mRunLoopModes = [[NSArray arrayWithObject:NSDefaultRunLoopMode] retain];
+		mRunLoopModes = [@[NSDefaultRunLoopMode] retain];
 		mAutoDeleteEmptyGroups = YES;
 		mCoalKind = kGCCoalesceLastTask;
 
@@ -1062,7 +1062,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -1092,7 +1092,7 @@
 
 @implementation GCConcreteUndoTask
 
-- (id)initWithInvocation:(NSInvocation*)inv
+- (instancetype)initWithInvocation:(NSInvocation*)inv
 {
 	// designated initializer.
 	// If <inv> is nil the task is released and nil is returned.
@@ -1116,7 +1116,7 @@
 	return self;
 }
 
-- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)object
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(id)object
 {
 	// alternative initialiser for direct target/selector/object initialisation. Creates an invocation internally. If the UM is set not to retain
 	// its target, the target will be nil and subsequently set using -setTarget:
@@ -1183,7 +1183,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	[self autorelease];
 	return nil;

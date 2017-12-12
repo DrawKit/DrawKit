@@ -92,6 +92,9 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (instancetype)initWithDictionary:(NSDictionary*)dict;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+
 // adding and retrieving objects
 
 /** @brief Add an object to the container, associating with a key and optionally a category.
@@ -640,9 +643,10 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 	NSMenuItem* mRecentlyAddedMenuItemRef; // the menu item for "recently added"
 }
 
-- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options;
-- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate options:(DKCategoryMenuOptions)options;
-- (id)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
 
 - (NSMenu*)menu;
 

@@ -396,7 +396,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 	LogEvent_(kInfoEvent, @"preflight info = %@", preflightInfo);
 
-	NSArray* docNameCat = [NSArray arrayWithObject:[self documentStyleCategoryName]];
+	NSArray* docNameCat = @[[self documentStyleCategoryName]];
 	NSSet* changedStyles = [DKStyleRegistry mergeStyles:stylesToMerge
 										   inCategories:docNameCat
 												options:kDKReturnExistingStyles
@@ -557,7 +557,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  @param outError an error, if it wasn't successful
  @return the document object
  */
-- (id)initWithType:(NSString*)typeName error:(NSError**)outError
+- (instancetype)initWithType:(NSString*)typeName error:(NSError**)outError
 {
 	LogEvent_(kLifeEvent, @"initialising default drawing, type = '%@'", typeName);
 
@@ -697,7 +697,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 #define USE_DK_UNDO_MANAGER 1
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {

@@ -412,7 +412,7 @@ static void unmarkFunc(const void* value, void* context)
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -428,7 +428,7 @@ static void unmarkFunc(const void* value, void* context)
 	[super dealloc];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	// this method is here solely to support backward compatibility with b5; storage is no longer archived.
 
@@ -578,7 +578,7 @@ static void unmarkFunc(const void* value, void* context)
 	return [NSMutableArray class];
 }
 
-- (id)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth
+- (instancetype)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth
 {
 	self = [super initWithCanvasSize:size
 							   depth:depth];

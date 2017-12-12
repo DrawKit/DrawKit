@@ -464,10 +464,11 @@
 	CGFloat mSlope;
 }
 
-- (id)initWithGlyphIndex:(NSUInteger)glyphIndex position:(NSPoint)pt slope:(CGFloat)slope;
-- (NSUInteger)glyphIndex;
-- (CGFloat)slope;
-- (NSPoint)point;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithGlyphIndex:(NSUInteger)glyphIndex position:(NSPoint)pt slope:(CGFloat)slope NS_DESIGNATED_INITIALIZER;
+@property (readonly) NSUInteger glyphIndex;
+@property (readonly) CGFloat slope;
+@property (readonly) NSPoint point;
 
 @end
 

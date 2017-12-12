@@ -26,7 +26,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 #pragma mark As a DKKnob
 
 /**  */
-+ (id)standardKnobs
++ (instancetype)standardKnobs
 {
 	return [[[DKKnob alloc] init] autorelease];
 }
@@ -471,7 +471,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -502,7 +502,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	[super dealloc];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	[self setOwner:[coder decodeObjectForKey:@"DKKnob_ownerRef"]];
 	mScaleRatio = [coder decodeDoubleForKey:@"DKKnob_scaleRatio"];

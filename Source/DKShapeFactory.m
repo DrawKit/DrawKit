@@ -575,7 +575,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 #pragma mark -
 #pragma mark - As part of the NSCoding protocol
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 #pragma unused(coder)
 	return self;

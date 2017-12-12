@@ -198,7 +198,7 @@
 #pragma mark -
 #pragma mark - as implementor of the NSCoding protocol
 
-- (id)initWithCoder:(NSCoder*)aCoder
+- (instancetype)initWithCoder:(NSCoder*)aCoder
 {
 	// b6: for backward comptibility only
 
@@ -221,7 +221,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {

@@ -88,7 +88,7 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"shadow", @"tracksObjectAngle", @"gradient", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"colour", @"shadow", @"tracksObjectAngle", @"gradient"]];
 }
 
 - (void)registerActionNames
@@ -115,7 +115,7 @@
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -238,7 +238,7 @@
 			   forKey:@"fill_tracks_angle"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

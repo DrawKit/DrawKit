@@ -57,7 +57,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param pboard a pasteboard
  @return the objet if it was successfully initialized, or nil
  */
-- (id)initWithPasteboard:(NSPasteboard*)pboard
+- (instancetype)initWithPasteboard:(NSPasteboard*)pboard
 {
 	NSImage* image = nil;
 	if ([NSImage canInitWithPasteboard:pboard]) {
@@ -70,7 +70,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 		self = [self initWithImage:image];
 
 		if (self != nil) {
-			NSString* urlType = [pboard availableTypeFromArray:[NSArray arrayWithObject:NSFilenamesPboardType]];
+			NSString* urlType = [pboard availableTypeFromArray:@[NSFilenamesPboardType]];
 
 			if (urlType != nil) {
 				NSArray* files = (NSArray*)[pboard propertyListForType:NSFilenamesPboardType];
@@ -99,7 +99,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param anImage a valid image object
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImage:(NSImage*)anImage
+- (instancetype)initWithImage:(NSImage*)anImage
 {
 	NSAssert(anImage != nil, @"cannot init with a nil image");
 
@@ -141,7 +141,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param imageData image data of some kind
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImageData:(NSData*)imageData
+- (instancetype)initWithImageData:(NSData*)imageData
 {
 	NSAssert(imageData != nil, @"cannot initialise with nil data");
 
@@ -167,7 +167,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param imageName the name of an image
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImageNamed:(NSString*)imageName
+- (instancetype)initWithImageNamed:(NSString*)imageName
 {
 	[self initWithImage:[NSImage imageNamed:imageName]];
 	[self setString:imageName
@@ -183,7 +183,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param filepath the path to an image file on disk
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithContentsOfFile:(NSString*)filepath
+- (instancetype)initWithContentsOfFile:(NSString*)filepath
 {
 	NSAssert(filepath != nil, @"path was nil");
 
@@ -491,7 +491,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 	BOOL result = NO;
 
-	[pb declareTypes:[NSArray arrayWithObjects:NSFileContentsPboardType, NSTIFFPboardType, NSPDFPboardType, nil]
+	[pb declareTypes:@[NSFileContentsPboardType, NSTIFFPboardType, NSPDFPboardType]
 			   owner:self];
 
 	NSData* imgData = [self imageData];
@@ -1076,7 +1076,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 /** @brief Dearchive the object
  @param coder a coder
  @return the object */
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

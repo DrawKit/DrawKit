@@ -406,8 +406,8 @@ static DKDrawingTool* sGlobalTool = nil;
 
 		// clean up empty undo task if nothing was actually done (NSUndoManager bug workaround)
 		/*
-		NSInteger	groupLevel = [[self undoManager] groupingLevel];
-		NSUInteger	taskCount = [[self undoManager] numberOfTasksInLastGroup];
+		NSInteger    groupLevel = [[self undoManager] groupingLevel];
+		NSUInteger    taskCount = [[self undoManager] numberOfTasksInLastGroup];
 		
 		if( groupLevel == 0 && taskCount == 0 )
 		{
@@ -446,7 +446,7 @@ static DKDrawingTool* sGlobalTool = nil;
  @param aView the view associated with the controller
  @return the controller object
  */
-- (id)initWithView:(NSView*)aView
+- (instancetype)initWithView:(NSView*)aView
 {
 	self = [super initWithView:aView];
 	if (self != nil) {
@@ -740,7 +740,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	} else {
 		@try
 		{
-			[[self view] interpretKeyEvents:[NSArray arrayWithObject:event]];
+			[[self view] interpretKeyEvents:@[event]];
 		}
 		@catch (NSException* excp)
 		{

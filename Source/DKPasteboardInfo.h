@@ -24,7 +24,9 @@ This object is archived and added to the pasteboard when copying items within DK
 + (DKPasteboardInfo*)pasteboardInfoWithData:(NSData*)data;
 + (DKPasteboardInfo*)pasteboardInfoWithPasteboard:(NSPasteboard*)pb;
 
-- (id)initWithObjectsInArray:(NSArray*)objects;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithObjectsInArray:(NSArray*)objects NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 - (NSUInteger)count;
 - (NSRect)bounds;
 

@@ -34,7 +34,8 @@ DKStyle can contains a list of strokes without limit.
 + (instancetype)strokeWithWidth:(CGFloat)width colour:(NSColor*)colour;
 
 - (instancetype)init;
-- (instancetype)initWithWidth:(CGFloat)width colour:(NSColor*)colour;
+- (instancetype)initWithWidth:(CGFloat)width colour:(NSColor*)colour NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 @property (retain) NSColor *colour;
 

@@ -96,22 +96,23 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 // initializing various types of metadata item
 
-- (id)initWithType:(DKMetadataType)type;
-- (id)initWithString:(NSString*)aString;
-- (id)initWithInteger:(NSInteger)anInteger;
-- (id)initWithReal:(CGFloat)aReal;
-- (id)initWithBoolean:(BOOL)aBool;
-- (id)initWithUnsigned:(NSUInteger)anInteger;
-- (id)initWithAttributedString:(NSAttributedString*)attrString;
-- (id)initWithImage:(NSImage*)image;
-- (id)initWithImageData:(NSData*)imageData;
-- (id)initWithURL:(NSURL*)url;
-- (id)initWithDate:(NSDate*)date;
-- (id)initWithColour:(NSColor*)colour;
-- (id)initWithData:(NSData*)data;
-- (id)initWithSize:(NSSize)size;
-- (id)initWithPoint:(NSPoint)point;
-- (id)initWithRect:(NSRect)rect;
+- (instancetype)initWithType:(DKMetadataType)type NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithString:(NSString*)aString;
+- (instancetype)initWithInteger:(NSInteger)anInteger;
+- (instancetype)initWithReal:(CGFloat)aReal;
+- (instancetype)initWithBoolean:(BOOL)aBool;
+- (instancetype)initWithUnsigned:(NSUInteger)anInteger;
+- (instancetype)initWithAttributedString:(NSAttributedString*)attrString;
+- (instancetype)initWithImage:(NSImage*)image;
+- (instancetype)initWithImageData:(NSData*)imageData;
+- (instancetype)initWithURL:(NSURL*)url;
+- (instancetype)initWithDate:(NSDate*)date;
+- (instancetype)initWithColour:(NSColor*)colour;
+- (instancetype)initWithData:(NSData*)data;
+- (instancetype)initWithSize:(NSSize)size;
+- (instancetype)initWithPoint:(NSPoint)point;
+- (instancetype)initWithRect:(NSRect)rect;
 
 // set value, converting to current type as necessary
 

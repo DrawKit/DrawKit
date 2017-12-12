@@ -26,7 +26,7 @@
 	return [[[self alloc] initWithImage:image] autorelease];
 }
 
-- (id)initWithImage:(NSImage*)image
+- (instancetype)initWithImage:(NSImage*)image
 {
 	self = [super init];
 	if (self != nil) {
@@ -319,7 +319,7 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"scale", @"interval",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"scale", @"interval",
 																							   @"normalToPath", @"image",
 																							   @"leaderDistance",
 																							   @"leadInAndOutLengthProportion",
@@ -327,8 +327,7 @@
 																							   @"lateralOffset",
 																							   @"lateralOffsetAlternates",
 																							   @"wobblyness",
-																							   @"scaleRandomness",
-																							   nil]];
+																							   @"scaleRandomness"]];
 }
 
 - (void)registerActionNames
@@ -370,7 +369,7 @@
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	// default init method has no image - one needs to be added to get something rendered
 
@@ -441,7 +440,7 @@
 				randScale = [[mScaleRandCache objectAtIndex:mPlacementCount] doubleValue];
 			else {
 				randScale = 1.0 + ([DKRandom randomPositiveOrNegativeNumber] * [self scaleRandomness]);
-				[mScaleRandCache addObject:[NSNumber numberWithDouble:randScale]];
+				[mScaleRandCache addObject:@(randScale)];
 			}
 		}
 
@@ -651,7 +650,7 @@
 				 forKey:@"DKPathDecorator_scaleRandomness"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

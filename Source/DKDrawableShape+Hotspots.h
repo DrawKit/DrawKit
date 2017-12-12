@@ -57,7 +57,9 @@ enum {
 	id<DKHotspotDelegate> m_delegate;
 }
 
-- (id)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate;
+- (instancetype)init;
+- (instancetype)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 @property (assign) DKDrawableShape *owner;
 - (void)setOwner:(DKDrawableShape*)shape withPartcode:(NSInteger)pc;

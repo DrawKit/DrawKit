@@ -31,6 +31,9 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 
 + (DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+
 /** @brief Returns the immediate container of this object, if owned by a group
  @return the object's container group, if any
  */

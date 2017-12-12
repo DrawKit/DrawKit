@@ -30,7 +30,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 	// this method tracks the number of objects decoded and also sends notifications about the dearchiving progress, allowing a dearchiving
 	// to drive a progress bar, etc. The notification is delivered on the main thread in case this is being invoked by a thread.
 
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:mCount], @"count", object, @"decoded_object", nil];
+	NSDictionary* userInfo = @{@"count": @(mCount), @"decoded_object": object};
 	NSNotification* note;
 
 	if (mCount == 0)
@@ -55,7 +55,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 {
 #pragma unused(unarchiver)
 
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:mCount], @"count", nil];
+	NSDictionary* userInfo = @{@"count": @(mCount)};
 	NSNotification* note = [NSNotification notificationWithName:kDKUnarchiverProgressFinishedNotification
 														 object:self
 													   userInfo:userInfo];
@@ -167,7 +167,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 	return mSubstitutedForClassname;
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	// make a note of the class name that this was substituted for. This may aid in debugging.
 

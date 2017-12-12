@@ -141,7 +141,7 @@ static BOOL s_NoDKDefaults = NO;
 + (void)registerStyle:(DKStyle*)aStyle
 {
 	[self registerStyle:aStyle
-		   inCategories:[NSArray arrayWithObject:kDKStyleLibraryStylesCategory]];
+		   inCategories:@[kDKStyleLibraryStylesCategory]];
 }
 
 /** @brief Register the style with the registry
@@ -408,7 +408,7 @@ static BOOL s_NoDKDefaults = NO;
 		if (regStyle == nil) {
 			// unknown style
 
-			infoValue = [NSNumber numberWithInteger:kDKStyleNotRegistered];
+			infoValue = @(kDKStyleNotRegistered);
 		} else {
 			// known - compare timestamps. Note that for timestamp comparison to work,
 			// it is essential that the styles being tested have not in any way been touched
@@ -420,11 +420,11 @@ static BOOL s_NoDKDefaults = NO;
 			b = [regStyle lastModificationTimestamp];
 
 			if (a > b)
-				infoValue = [NSNumber numberWithInteger:kDKStyleIsNewer];
+				infoValue = @(kDKStyleIsNewer);
 			else if (a < b)
-				infoValue = [NSNumber numberWithInteger:kDKStyleIsOlder];
+				infoValue = @(kDKStyleIsOlder);
 			else
-				infoValue = [NSNumber numberWithInteger:kDKStyleUnchanged];
+				infoValue = @(kDKStyleUnchanged);
 		}
 
 		[info setObject:infoValue
@@ -484,7 +484,7 @@ static BOOL s_NoDKDefaults = NO;
 	// reinsert the framework defaults
 
 	if (!s_NoDKDefaults) {
-		NSArray* defaultCategories = [NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory];
+		NSArray* defaultCategories = @[kDKStyleRegistryDKDefaultsCategory];
 		DKStyle* style;
 
 		style = [DKStyle defaultStyle];
@@ -538,7 +538,7 @@ static BOOL s_NoDKDefaults = NO;
 		NSArray* cats;
 		NSMutableArray* styles = [NSMutableArray array];
 
-		cats = [NSArray arrayWithObject:catName];
+		cats = @[catName];
 
 		while ((key = [iter nextObject])) {
 			colour = [list colorWithKey:key];
@@ -582,7 +582,7 @@ static BOOL s_NoDKDefaults = NO;
 		NSArray* cats;
 		NSMutableArray* styles = [NSMutableArray array];
 
-		cats = [NSArray arrayWithObject:catName];
+		cats = @[catName];
 
 		while ((key = [iter nextObject])) {
 			colour = [list colorWithKey:key];
@@ -770,7 +770,7 @@ static BOOL s_NoDKDefaults = NO;
  If the intention is to replace the reg, the caller should clear out the current one before calling this.
  @param path the full path of the file to write
  @param options merging options
- @param aDel an optional delegate object that can make a merge decision for each individual style object 
+ @param aDel an optional delegate object that can make a merge decision for each individual style object
  @return YES if the file was read and merged sucessfully, NO otherwise
  */
 - (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel
@@ -871,7 +871,7 @@ static BOOL s_NoDKDefaults = NO;
  returned so that it can replace the temporary style in the specific document that is performing
  the merge - the document contains the only set of style clients that need actual new objects.
  @param aStyle a style object
- @param aDel an optional delegate object that can make a merge decision for each individual style object 
+ @param aDel an optional delegate object that can make a merge decision for each individual style object
  @return a style if the merge modified an existing one, otherwise nil
  */
 - (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id)aDel
@@ -989,8 +989,7 @@ static BOOL s_NoDKDefaults = NO;
 	if ([self styleForKey:key] == style) {
 		[self updateMenusForKey:key];
 
-		NSDictionary* userInfo = [NSDictionary dictionaryWithObject:style
-															 forKey:@"style"];
+		NSDictionary* userInfo = @{@"style": style};
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasEditedWhileRegisteredNotification
 															object:self
 														  userInfo:userInfo];

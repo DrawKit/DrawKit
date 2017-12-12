@@ -30,7 +30,7 @@
 }
 
 #pragma mark -
-- (id)initWithWidth:(CGFloat)width colour:(NSColor*)colour
+- (instancetype)initWithWidth:(CGFloat)width colour:(NSColor*)colour
 {
 	self = [super init];
 	if (self != nil) {
@@ -179,9 +179,9 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"width", @"dash",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"colour", @"width", @"dash",
 																							   @"shadow", @"lineCapStyle", @"lineJoinStyle",
-																							   @"lateralOffset", @"trimLength", nil]];
+																							   @"lateralOffset", @"trimLength"]];
 }
 
 - (void)registerActionNames
@@ -216,7 +216,7 @@
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithWidth:1.0
 						colour:[NSColor blackColor]];
@@ -333,7 +333,7 @@
 				 forKey:@"trim_length"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

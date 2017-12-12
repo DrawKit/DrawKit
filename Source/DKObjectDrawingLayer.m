@@ -233,7 +233,7 @@ enum {
 
  The result maintains the stacking order of the original objects, but the objects do not belong to
  where objects are ultimately going to be pasted back in to this or another layer.
- @return an array of objects. 
+ @return an array of objects.
  */
 - (NSArray*)duplicatedSelection
 {
@@ -568,7 +568,7 @@ enum {
 {
 	NSAssert(obj != nil, @"attempt to replace selection with nil");
 
-	return [self exchangeSelectionWithObjectsFromArray:[NSArray arrayWithObject:obj]];
+	return [self exchangeSelectionWithObjectsFromArray:@[obj]];
 }
 
 /** @brief Remove a single object from the selection
@@ -1268,7 +1268,7 @@ enum {
  This also tries to intelligently set the state of the item. If some objects set the state one way
  and others to another state, this will automatically set the mixed state. While the menu item
  itself is enabled if any object enabled it, the mixed state indicates that the outcome of the
- operation is likely to vary for different objects. 
+ operation is likely to vary for different objects.
  @param item the menu item to validate
  @return YES if at least one of the objects enabled the item, NO otherwise
  */
@@ -1487,11 +1487,11 @@ enum {
 		if ( isContextMenu )
 		{
 			// figure out the bottom left corner of the pasted objects
-			
+		 
 			NSRect ur = [DKDrawableObject unionOfBoundsOfDrawablesInArray:objects];
 			cp.x -= ur.size.width * 0.5;
 			cp.y += ur.size.height * 0.5;
-			
+		 
 			[super addObjects:objects fromPasteboard:pb atDropLocation:cp];
 			[self exchangeSelectionWithObjectsFromArray:objects];
 		}
@@ -1542,7 +1542,7 @@ enum {
 
 		NSString* action = ([objects count] == 1) ? NSLocalizedString(@"Paste Object", @"undo action for paste object") : NSLocalizedString(@"Paste Objects", @"undo action for paste objects");
 		[self commitSelectionUndoWithActionName:action];
-	} else if ([pb availableTypeFromArray:[NSArray arrayWithObject:NSStringPboardType]] != nil) {
+	} else if ([pb availableTypeFromArray:@[NSStringPboardType]] != nil) {
 		// pasting a string - add a text object
 
 		NSString* theString = [pb stringForType:NSStringPboardType];
@@ -1555,7 +1555,7 @@ enum {
 			cp.x -= [tShape size].width * 0.5;
 			cp.y += [tShape size].height * 0.5;
 
-			objects = [NSArray arrayWithObject:tShape];
+			objects = @[tShape];
 			[self addObjects:objects
 				fromPasteboard:pb
 				atDropLocation:cp];
@@ -1571,7 +1571,7 @@ enum {
 
 		[image release];
 
-		objects = [NSArray arrayWithObject:imshape];
+		objects = @[imshape];
 		[imshape release];
 
 		cp.x -= [imshape size].width * 0.5;
@@ -2235,7 +2235,7 @@ enum {
 
 /** @brief Draws the layer and its contents on demand
 
- Called by the drawing when necessary to update the views. 
+ Called by the drawing when necessary to update the views.
  @param rect the area being updated
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
@@ -2485,7 +2485,7 @@ enum {
 		// see if what's being dragged is our native type - if so, don't try and target an individual object.
 
 		NSPasteboard* pb = [sender draggingPasteboard];
-		NSString* availableType = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKDrawableObjectPasteboardType]];
+		NSString* availableType = [pb availableTypeFromArray:@[kDKDrawableObjectPasteboardType]];
 
 		if (availableType != nil) {
 			[self deselectAll];
@@ -2641,7 +2641,7 @@ enum {
 	}
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -2705,7 +2705,7 @@ enum {
 			   forKey:@"DKObjectDrawingLayer_allowDragTargets"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	//	LogEvent_(kFileEvent, @"decoding object drawing layer %@", self);

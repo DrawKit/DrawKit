@@ -92,7 +92,10 @@ For the normal case of grouping existing objects within a layer, this is not an 
  @param objects a list of drawable objects
  @return the group object
  */
-- (id)initWithObjectsInArray:(NSArray*)objects;
+- (instancetype)initWithObjectsInArray:(NSArray*)objects NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 /** @brief Sets up the group state from the original set of objects
 

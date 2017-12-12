@@ -145,7 +145,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 + (NSArray*)pastableTextTypes
 {
-	return [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType, nil];
+	return @[NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType];
 }
 
 #define PLUS_SIGN_A 0.4
@@ -207,7 +207,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 /** @brief Set whether text editing permits inline images to be pasted
 
  This state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
- @param allowed YES to allow images, NO to disallow 
+ @param allowed YES to allow images, NO to disallow
  */
 + (void)setAllowsInlineImages:(BOOL)allowed
 {
@@ -1184,7 +1184,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 #pragma mark -
 #pragma mark As a DKDrawableObject
 
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super initWithStyle:aStyle];
 	if (self != nil) {
@@ -1454,11 +1454,11 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {
-	if ([pb addTypes:[NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil]
+	if ([pb addTypes:@[NSRTFPboardType, NSStringPboardType]
 			   owner:self]) {
 		NSRange range = NSMakeRange(0, [[self text] length]);
 		NSData* rtfData = [[self text] RTFFromRange:range
-								 documentAttributes:[NSDictionary dictionary]];
+								 documentAttributes:@{}];
 
 		[pb setData:rtfData
 			forType:NSRTFPboardType];
@@ -1493,7 +1493,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithStyle:[DKStyle defaultTextStyle]];
 }
@@ -1536,7 +1536,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 				 forKey:@"DKTextShape_textAdornment"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

@@ -991,7 +991,7 @@ static BOOL sWasInside = NO;
 /** @brief Initializes the guide
  @return the guide
  */
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1035,7 +1035,7 @@ static BOOL sWasInside = NO;
 			   forKey:@"DKGuideLayer_deletionRect"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -1115,7 +1115,7 @@ static BOOL sWasInside = NO;
 #pragma mark -
 #pragma mark As an NSObject
 
-- (id)init
+- (instancetype)init
 {
 	if ((self = [super init]) != nil) {
 		m_position = 0.0;
@@ -1141,7 +1141,7 @@ static BOOL sWasInside = NO;
 				 forKey:@"guide_colour"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	if ((self = [super init]) != nil) {

@@ -46,7 +46,11 @@ be upside-down. This class automatically reverses the stacking order in an archi
  @param layers a list of existing layers
  @return a new layer group
  */
-- (nullable instancetype)initWithLayers:(nullable NSArray<DKLayer*>*)layers;
+- (nullable instancetype)initWithLayers:(nullable NSArray<DKLayer*>*)layers NS_DESIGNATED_INITIALIZER;
+
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init;
 
 // layer list
 

@@ -173,7 +173,7 @@ static DKToolRegistry* s_toolRegistry = nil;
 	[rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
 				 selector:@selector(roundRectInRect:
 										   objParam:)];
-	[rss setOptionalParameter:[NSNumber numberWithDouble:16.0]];
+	[rss setOptionalParameter:@16.0];
 	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
 	[rss release];
 	[self registerDrawingTool:dt
@@ -382,7 +382,7 @@ static DKToolRegistry* s_toolRegistry = nil;
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {

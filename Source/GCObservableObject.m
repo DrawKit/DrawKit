@@ -54,7 +54,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	// subclasses to simply append their own keypaths without caring if there are already any paths defined
 	// by its superclass.
 
-	return [NSArray array];
+	return @[];
 }
 
 #pragma mark -
@@ -241,7 +241,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {

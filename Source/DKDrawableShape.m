@@ -286,7 +286,7 @@ static NSSize sTempSavedOffset;
  @param aRect a rectangle
  @return the initialized object
  */
-- (id)initWithRect:(NSRect)aRect
+- (instancetype)initWithRect:(NSRect)aRect
 {
 	return [self initWithRect:aRect
 						style:[DKStyle defaultStyle]];
@@ -298,7 +298,7 @@ static NSSize sTempSavedOffset;
  @param aRect the bounding rect for an oval
  @return the initialized object
  */
-- (id)initWithOvalInRect:(NSRect)aRect
+- (instancetype)initWithOvalInRect:(NSRect)aRect
 {
 	return [self initWithOvalInRect:aRect
 							  style:[DKStyle defaultStyle]];
@@ -311,7 +311,7 @@ static NSSize sTempSavedOffset;
  @param path the canonical path, that is, one having a bounds rect of size 1.0 centred at the origin
  @return the initialized object
  */
-- (id)initWithCanonicalBezierPath:(NSBezierPath*)path
+- (instancetype)initWithCanonicalBezierPath:(NSBezierPath*)path
 {
 	return [self initWithCanonicalBezierPath:path
 									   style:[DKStyle defaultStyle]];
@@ -324,7 +324,7 @@ static NSSize sTempSavedOffset;
  @param aPath a path
  @return the initialized object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath
 {
 	return [self initWithBezierPath:aPath
 					 rotatedToAngle:0.0];
@@ -338,14 +338,14 @@ static NSSize sTempSavedOffset;
  @param angle the intial rotation angle of the shape, in radians.
  @return the initialized object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle
 {
 	return [self initWithBezierPath:aPath
 					 rotatedToAngle:angle
 							  style:[DKStyle defaultStyle]];
 }
 
-- (id)initWithRect:(NSRect)aRect style:(DKStyle*)aStyle
+- (instancetype)initWithRect:(NSRect)aRect style:(DKStyle*)aStyle
 {
 	self = [self initWithStyle:aStyle];
 	if (self != nil) {
@@ -359,7 +359,7 @@ static NSSize sTempSavedOffset;
 	return self;
 }
 
-- (id)initWithOvalInRect:(NSRect)aRect style:(DKStyle*)aStyle
+- (instancetype)initWithOvalInRect:(NSRect)aRect style:(DKStyle*)aStyle
 {
 	self = [self initWithStyle:aStyle];
 	if (self != nil) {
@@ -376,7 +376,7 @@ static NSSize sTempSavedOffset;
 	return self;
 }
 
-- (id)initWithCanonicalBezierPath:(NSBezierPath*)path style:(DKStyle*)aStyle
+- (instancetype)initWithCanonicalBezierPath:(NSBezierPath*)path style:(DKStyle*)aStyle
 {
 	NSAssert(path != nil, @"can't initialize with a nil path");
 
@@ -395,14 +395,14 @@ static NSSize sTempSavedOffset;
 	return self;
 }
 
-- (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
 {
 	return [self initWithBezierPath:aPath
 					 rotatedToAngle:0.0
 							  style:aStyle];
 }
 
-- (id)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle style:(DKStyle*)style
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle style:(DKStyle*)style
 {
 	NSAssert(aPath != nil, @"attempt to initialise shape with a nil path");
 
@@ -1738,7 +1738,7 @@ static NSSize sTempSavedOffset;
 
 - (BOOL)canPastePathWithPasteboard:(NSPasteboard*)pb
 {
-	NSString* type = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKDrawableObjectInfoPasteboardType]];
+	NSString* type = [pb availableTypeFromArray:@[kDKDrawableObjectInfoPasteboardType]];
 	if (type) {
 		DKPasteboardInfo* info = [DKPasteboardInfo pasteboardInfoWithPasteboard:pb];
 		return [info count] == 1;
@@ -1799,8 +1799,8 @@ static NSSize sTempSavedOffset;
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-	return [NSArray arrayWithObjects:NSColorPboardType, NSPDFPboardType, NSTIFFPboardType, NSFilenamesPboardType,
-									 NSStringPboardType, kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil];
+	return @[NSColorPboardType, NSPDFPboardType, NSTIFFPboardType, NSFilenamesPboardType,
+									 NSStringPboardType, kDKStyleKeyPasteboardType, kDKStylePasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -1810,7 +1810,7 @@ static NSSize sTempSavedOffset;
  @param aStyle the initial style for the object
  @return the object
  */
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super initWithStyle:aStyle];
 	if (self != nil) {
@@ -2613,7 +2613,7 @@ static NSSize sTempSavedOffset;
 				 forKey:@"dt"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	//	LogEvent_(kFileEvent, @"decoding drawable shape %@", self);

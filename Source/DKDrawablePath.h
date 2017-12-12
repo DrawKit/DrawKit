@@ -104,7 +104,7 @@ maintain the concept of rotation or scale - it just is what it is.
  */
 + (BOOL)defaultOnPathHitDetectionPriority;
 
-- (id)initWithBezierPath:(NSBezierPath*)aPath;
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath;
 
 /** @brief Initialises a drawable path object from an existing path with the given style
 
@@ -113,7 +113,7 @@ maintain the concept of rotation or scale - it just is what it is.
  @param aStyle the style to use
  @return the drawable path object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle;
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle;
 
 /** @brief Set the angle of constraint for new paths
  

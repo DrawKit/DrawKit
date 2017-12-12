@@ -60,7 +60,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 }
 
 #pragma mark -
-- (id)initWithRect:(NSRect)rect
+- (instancetype)initWithRect:(NSRect)rect
 {
 	self = [super init];
 	if (self != nil) {
@@ -78,7 +78,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 	return self;
 }
 
-- (id)initWithEnvelope:(NSPoint*)points
+- (instancetype)initWithEnvelope:(NSPoint*)points
 {
 	self = [super init];
 	if (self != nil) {
@@ -272,7 +272,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];

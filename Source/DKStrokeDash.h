@@ -25,7 +25,9 @@
 
 + (DKStrokeDash*)equallySpacedDashToFitSize:(NSSize)aSize dashLength:(CGFloat)len;
 
-- (id)initWithPattern:(CGFloat[])dashes count:(NSInteger)count;
+- (instancetype)initWithPattern:(CGFloat[])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 - (void)setDashPattern:(CGFloat[])dashes count:(NSInteger)count;
 - (void)getDashPattern:(CGFloat[])dashes count:(NSInteger*)count;
 - (NSInteger)count;

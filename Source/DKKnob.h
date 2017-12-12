@@ -44,7 +44,7 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 }
 
 /**  */
-+ (id)standardKnobs;
++ (instancetype)standardKnobs;
 
 // main high-level methods that will be called by clients
 

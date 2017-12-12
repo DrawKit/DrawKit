@@ -70,6 +70,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 	BOOL mIsRemovingTargets; // YES during stack clean-up to prevent re-entrancy
 }
 
+- (instancetype)init;
+
 // NSUndoManager compatible API
 // undo groups
 
@@ -276,8 +278,9 @@ The point of this is to provide an undo manager whose source is openly readable,
 	BOOL mTargetRetained;
 }
 
-- (id)initWithInvocation:(NSInvocation*)inv;
-- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)object;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithInvocation:(NSInvocation*)inv NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(id)object;
 - (void)setTarget:(id)target retained:(BOOL)retainIt;
 - (id)target;
 - (SEL)selector;

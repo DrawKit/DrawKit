@@ -1154,7 +1154,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  @param p the drop location of the objects, defined as the lower left corner of the drag image - thus
  @return none
  a multiple selection is positioned at the point p, with others maintaining their positions
- relative to this object as in the original set. 
+ relative to this object as in the original set.
  This is the preferred method to use when pasting or dropping anything, because the subclass that
  implements selection overrides this to handle the selection also. Thus when pasting non-native
  objects, convert them to native objects and pass to this method in an array.
@@ -1859,7 +1859,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	// we can write PDF and TIFF image formats:
 
 	if ((op & kDKAllWritableTypes) != 0) {
-		[types addObjectsFromArray:[NSArray arrayWithObjects:NSPDFPboardType, NSTIFFPboardType, nil]];
+		[types addObjectsFromArray:@[NSPDFPboardType, NSTIFFPboardType]];
 	}
 
 	return types;
@@ -1899,7 +1899,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1965,7 +1965,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 				  forKey:@"DKObjectOwnerLayer_cacheOption"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	LogEvent_(kFileEvent, @"decoding object owner layer %@", self);
@@ -2047,7 +2047,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 			cp.x -= [tShape size].width * 0.5;
 			cp.y += [tShape size].height * 0.5;
 
-			dropObjects = [NSArray arrayWithObject:tShape];
+			dropObjects = @[tShape];
 			[self addObjects:dropObjects
 				fromPasteboard:pb
 				atDropLocation:cp];
@@ -2075,7 +2075,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 			cp.x -= [imshape size].width * 0.5;
 			cp.y += [imshape size].height * 0.5;
 
-			dropObjects = [NSArray arrayWithObject:imshape];
+			dropObjects = @[imshape];
 			[imshape release];
 			[self addObjects:dropObjects
 				fromPasteboard:pb

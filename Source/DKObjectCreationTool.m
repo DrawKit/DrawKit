@@ -87,7 +87,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  @param aPrototype an object that will be used as the tool's prototype - each new object created will
  @return the tool object
  */
-- (id)initWithPrototypeObject:(id<NSObject>)aPrototype
+- (instancetype)initWithPrototypeObject:(id<NSObject>)aPrototype
 {
 	self = [super init];
 	if (self != nil) {

@@ -1085,7 +1085,7 @@ static Class s_textEditorClass = Nil;
 	if ([[self controller] respondsToSelector:@selector(keyDown:)])
 		[(NSResponder*)[self controller] keyDown:event];
 	else
-		[self interpretKeyEvents:[NSArray arrayWithObject:event]];
+		[self interpretKeyEvents:@[event]];
 }
 
 /** @brief Handle the mouse down event

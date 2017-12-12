@@ -38,7 +38,7 @@ static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D5
 		dts->m_uniqueKey = kDKBasicTextStyleDefaultKey;
 
 		[DKStyleRegistry registerStyle:dts
-						  inCategories:[NSArray arrayWithObject:kDKStyleRegistryDKDefaultsCategory]];
+						  inCategories:@[kDKStyleRegistryDKDefaultsCategory]];
 		[dts release];
 	}
 
@@ -221,7 +221,7 @@ static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D5
 {
 	if (![self locked]) {
 		[self changeTextAttribute:NSUnderlineStyleAttributeName
-						  toValue:[NSNumber numberWithInteger:uval]];
+						  toValue:@(uval)];
 		[[self undoManager] setActionName:NSLocalizedString(@"Underline", @"undo string for underline text")];
 	}
 }

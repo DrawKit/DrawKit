@@ -66,7 +66,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 + (NSArray*)pastableTextTypes
 {
-	return [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType, nil];
+	return @[NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType];
 }
 
 + (DKStyle*)textPathDefaultStyle
@@ -973,7 +973,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 #pragma mark -
 #pragma mark - as a DKDrawableObject
 
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super initWithStyle:aStyle];
 	if (self != nil) {
@@ -1012,11 +1012,11 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {
-	if ([pb addTypes:[NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil]
+	if ([pb addTypes:@[NSRTFPboardType, NSStringPboardType]
 			   owner:self]) {
 		NSRange range = NSMakeRange(0, [[self text] length]);
 		NSData* rtfData = [[self text] RTFFromRange:range
-								 documentAttributes:[NSDictionary dictionary]];
+								 documentAttributes:@{}];
 
 		[pb setData:rtfData
 			forType:NSRTFPboardType];
@@ -1028,7 +1028,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithStyle:[[self class] textPathDefaultStyle]];
 }
@@ -1102,7 +1102,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 				 forKey:@"DKTextPath_textAdornment"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

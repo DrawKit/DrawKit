@@ -636,22 +636,22 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	// add all DK-specific attributes that are really properties of the adornment. This conveniently allows these attributes to be copied and pasted to other
 	// text and saved in styles.
 
-	[attrs setObject:[NSNumber numberWithInteger:[self capitalization]]
+	[attrs setObject:@([self capitalization])
 			  forKey:DKTextCapitalizationAttributeName];
 
 	if ([self textKnockoutColour])
 		[attrs setObject:[self textKnockoutColour]
 				  forKey:DKTextKnockoutColourAttributeName];
-	[attrs setObject:[NSNumber numberWithDouble:[self textKnockoutDistance]]
+	[attrs setObject:@([self textKnockoutDistance])
 			  forKey:DKTextKnockoutDistanceAttributeName];
 
 	if ([self textKnockoutStrokeColour])
 		[attrs setObject:[self textKnockoutStrokeColour]
 				  forKey:DKTextKnockoutStrokeColourAttributeName];
 
-	[attrs setObject:[NSNumber numberWithDouble:[self textKnockoutStrokeWidth]]
+	[attrs setObject:@([self textKnockoutStrokeWidth])
 			  forKey:DKTextKnockoutStrokeWidthAttributeName];
-	[attrs setObject:[NSNumber numberWithInteger:[self verticalAlignment]]
+	[attrs setObject:@([self verticalAlignment])
 			  forKey:DKTextVerticalAlignmentAttributeName];
 
 	return [attrs autorelease];
@@ -775,7 +775,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	// width value is a percentage of font size, see docs for NSStrokeWidthAttributeName
 
 	[self changeTextAttribute:NSStrokeWidthAttributeName
-					  toValue:[NSNumber numberWithDouble:aWidth]];
+					  toValue:@(aWidth)];
 }
 
 - (CGFloat)outlineWidth
@@ -786,7 +786,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setUnderlines:(NSInteger)under
 {
 	[self changeTextAttribute:NSUnderlineStyleAttributeName
-					  toValue:[NSNumber numberWithInteger:under]];
+					  toValue:@(under)];
 }
 
 - (NSInteger)underlines
@@ -797,7 +797,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setKerning:(CGFloat)kernValue
 {
 	[self changeTextAttribute:NSKernAttributeName
-					  toValue:[NSNumber numberWithDouble:kernValue]];
+					  toValue:@(kernValue)];
 }
 
 - (CGFloat)kerning
@@ -808,7 +808,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setBaseline:(CGFloat)baseLine
 {
 	[self changeTextAttribute:NSBaselineOffsetAttributeName
-					  toValue:[NSNumber numberWithDouble:baseLine]];
+					  toValue:@(baseLine)];
 }
 
 - (CGFloat)baseline
@@ -819,7 +819,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setSuperscriptAttribute:(NSInteger)amount
 {
 	[self changeTextAttribute:NSSuperscriptAttributeName
-					  toValue:[NSNumber numberWithInteger:amount]];
+					  toValue:@(amount)];
 }
 
 - (NSInteger)superscriptAttribute
@@ -1310,7 +1310,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 		if (geoCheck != cs) {
 			[mTACache removeObjectForKey:kDKTextAdornmentMaskPathCacheKey];
-			[mTACache setObject:[NSNumber numberWithInteger:geoCheck]
+			[mTACache setObject:@(geoCheck)
 						 forKey:kDKTextAdornmentMaskObjectChecksumCacheKey];
 		}
 
@@ -1446,7 +1446,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		cs = [(id)object metadataChecksum];
 		if (cs != ccs) {
 			[self invalidateCache];
-			[mTACache setObject:[NSNumber numberWithInteger:ccs]
+			[mTACache setObject:@(ccs)
 						 forKey:kDKTextAdornmentMetadataChecksumCacheKey];
 		}
 
@@ -1541,11 +1541,11 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"label", @"identifier", @"angle", @"wrapsLines",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"label", @"identifier", @"angle", @"wrapsLines",
 																							   @"appliesObjectAngle", @"verticalAlignment", @"font", @"colour", @"alignment", @"capitalization", @"baseline", @"superscriptAttribute", @"kerning",
 																							   @"paragraphStyle", @"layoutMode", @"flowedTextPathInset", @"allowsTextToExtendHorizontally", @"verticalAlignmentProportion",
 																							   @"outlineColour", @"outlineWidth", @"textKnockoutDistance", @"textKnockoutColour", @"textKnockoutStrokeWidth", @"textKnockoutStrokeColour",
-																							   @"placeholderString", nil]];
+																							   @"placeholderString"]];
 }
 
 - (void)registerActionNames
@@ -1603,7 +1603,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1674,7 +1674,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 				 forKey:@"DKTextAdornment_placeholder"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

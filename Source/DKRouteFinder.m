@@ -86,7 +86,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	NSNumber* num;
 
 	for (k = 1; k <= [mInput count]; ++k) {
-		num = [NSNumber numberWithInteger:mOrder[k] - 1];
+		num = @(mOrder[k] - 1);
 		[routeOrder addObject:num];
 	}
 
@@ -158,7 +158,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 #pragma mark -
 #pragma mark - private methods
 
-- (id)initWithArray:(NSArray*)array
+- (instancetype)initWithArray:(NSArray*)array
 {
 	self = [super init];
 	if (self != nil) {
@@ -561,10 +561,10 @@ NSInteger irbit1(unsigned long* iseed)
 }
 
 /*
-This algorithm ﬁnds the shortest round-trip path to ncity cities whose coordinates are in the 
-arrays x[1..ncity], y[1..ncity]. The array iorder[1..ncity] speciﬁes the order in 
-which the cities are visited. On input, the elements of iorder may be set to any permutation 
-of the numbers 1 to ncity. This routine will return the best alternative path it can ﬁnd. 
+This algorithm ﬁnds the shortest round-trip path to ncity cities whose coordinates are in the
+arrays x[1..ncity], y[1..ncity]. The array iorder[1..ncity] speciﬁes the order in
+which the cities are visited. On input, the elements of iorder may be set to any permutation
+of the numbers 1 to ncity. This routine will return the best alternative path it can ﬁnd.
 
 function result is the final path length
 */
@@ -675,11 +675,11 @@ CGFloat anneal(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 }
 
 /*
-This function returns the value of the cost function for a proposed path reversal. ncity is the 
-number of cities, and arrays x[1..ncity], y[1..ncity] give the coordinates of these cities. 
-iorder[1..ncity] holds the present itinerary. The ﬁrst two values n[1] and n[2] of array 
-n give the starting and ending cities along the path segment which is to be reversed. On output, 
-de is the cost of making the reversal. The actual reversal is not performed by this routine. 
+This function returns the value of the cost function for a proposed path reversal. ncity is the
+number of cities, and arrays x[1..ncity], y[1..ncity] give the coordinates of these cities.
+iorder[1..ncity] holds the present itinerary. The ﬁrst two values n[1] and n[2] of array
+n give the starting and ending cities along the path segment which is to be reversed. On output,
+de is the cost of making the reversal. The actual reversal is not performed by this routine.
 */
 
 CGFloat revcst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -705,11 +705,11 @@ CGFloat revcst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 }
 
 /*
-This routine performs a path segment reversal. iorder[1..ncity] is an input array giving the 
-present itinerary. The vector n has as its ﬁrst four elements the ﬁrst and last cities n[1],n[2] 
-of the path segment to be reversed, and the two cities n[3] and n[4] that immediately 
-precede and follow this segment. n[3]and n[4] are found by function revcst. On output, 
-iorder[1..ncity] contains thesegment from n[1] t on[2] in reversed order. 
+This routine performs a path segment reversal. iorder[1..ncity] is an input array giving the
+present itinerary. The vector n has as its ﬁrst four elements the ﬁrst and last cities n[1],n[2]
+of the path segment to be reversed, and the two cities n[3] and n[4] that immediately
+precede and follow this segment. n[3]and n[4] are found by function revcst. On output,
+iorder[1..ncity] contains thesegment from n[1] t on[2] in reversed order.
 */
 
 void reverse(NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -728,12 +728,12 @@ void reverse(NSInteger iorder[], NSInteger ncity, NSInteger n[])
 }
 
 /*
-This routine returns the value of the cost function for a proposed path segment transport. ncity 
-is the number of cities, and arrays x[1..ncity] and y[1..ncity] give the city coordinates. 
-iorder[1..ncity] is an array giving the present itinerary. The ﬁrst three elements of array 
-n give the starting and ending cities of the path to be transported, and the point among the 
-remaining cities after which it is to be inserted. On output, de is the cost of the change. The 
-actual transport is not performed by this routine. 
+This routine returns the value of the cost function for a proposed path segment transport. ncity
+is the number of cities, and arrays x[1..ncity] and y[1..ncity] give the city coordinates.
+iorder[1..ncity] is an array giving the present itinerary. The ﬁrst three elements of array
+n give the starting and ending cities of the path to be transported, and the point among the
+remaining cities after which it is to be inserted. On output, de is the cost of the change. The
+actual transport is not performed by this routine.
 */
 
 CGFloat trncst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -763,13 +763,13 @@ CGFloat trncst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 	return de;
 }
 
-/* 
-This routine does the actual path transport, once metrop has approved. iorder[1..ncity] 
-is an input array giving the present itinerary. The array n has as its six elements the beginning 
-n[1] and end n[2] of the path to be transported, the adjacent cities n[3] and n[4] between 
-which the path is to be placed, and the cities n[5] and n[6] tha tprecede and follow the path. 
-n[4], n[5], and n[6] are calculated by function trncst. On output, iorder is modiﬁed to 
-reﬂect the movement of the path segment. 
+/*
+This routine does the actual path transport, once metrop has approved. iorder[1..ncity]
+is an input array giving the present itinerary. The array n has as its six elements the beginning
+n[1] and end n[2] of the path to be transported, the adjacent cities n[3] and n[4] between
+which the path is to be placed, and the cities n[5] and n[6] tha tprecede and follow the path.
+n[4], n[5], and n[6] are calculated by function trncst. On output, iorder is modiﬁed to
+reﬂect the movement of the path segment.
 */
 
 void trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -808,10 +808,10 @@ void trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[])
 }
 
 /*
-Metropolis algorithm. metrop returns a boolean variable that issues a verdict on whether 
-to accept a reconﬁguration that leads to a changed e in the objective function e. If de < 0, 
-metrop = 1(true), while if de > 0, metrop is only true with probability exp(-de/t), where 
-t is a temperature determined by the annealing schedule. 
+Metropolis algorithm. metrop returns a boolean variable that issues a verdict on whether
+to accept a reconﬁguration that leads to a changed e in the objective function e. If de < 0,
+metrop = 1(true), while if de > 0, metrop is only true with probability exp(-de/t), where
+t is a temperature determined by the annealing schedule.
 */
 
 NSInteger metrop(CGFloat de, CGFloat t)

@@ -563,7 +563,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			lengthOfPath = [obj convertLength:lengthOfPath];
 
 		if ([self formatter]) {
-			dimText = [[self formatter] attributedStringForObjectValue:[NSNumber numberWithDouble:lengthOfPath]
+			dimText = [[self formatter] attributedStringForObjectValue:@(lengthOfPath)
 												 withDefaultAttributes:[[self class] dimensioningLineTextAttributes]];
 		} else {
 			dimstr = [NSString stringWithFormat:@"%.2f", lengthOfPath];
@@ -696,7 +696,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"arrowHeadAtStart",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"arrowHeadAtStart",
 																							   @"arrowHeadAtEnd",
 																							   @"arrowHeadWidth",
 																							   @"arrowHeadLength",
@@ -706,8 +706,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 																							   @"textAttributes",
 																							   @"formatter",
 																							   @"dimensionTextKind",
-																							   @"dimensionToleranceOption",
-																							   nil]];
+																							   @"dimensionToleranceOption"]];
 }
 
 - (void)registerActionNames
@@ -748,7 +747,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -848,7 +847,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 				  forKey:@"DKArrowStroke_dimToleranceOption"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

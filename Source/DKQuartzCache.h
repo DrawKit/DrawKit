@@ -23,9 +23,10 @@ Higher-level wrapper for CGLayer, used to cache graphics in numerous places in D
 + (DKQuartzCache*)cacheForImage:(NSImage*)image;
 + (DKQuartzCache*)cacheForImageRep:(NSImageRep*)imageRep;
 
-- (id)initWithContext:(NSGraphicsContext*)context forRect:(NSRect)rect;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithContext:(NSGraphicsContext*)context forRect:(NSRect)rect NS_DESIGNATED_INITIALIZER;
 - (NSSize)size;
-- (CGContextRef)context;
+- (CGContextRef)context CF_RETURNS_NOT_RETAINED;
 
 - (void)setFlipped:(BOOL)flipped;
 - (BOOL)flipped;

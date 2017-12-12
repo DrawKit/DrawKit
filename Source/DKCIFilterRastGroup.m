@@ -53,7 +53,7 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"filter", @"arguments", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"filter", @"arguments"]];
 }
 
 - (void)registerActionNames
@@ -76,7 +76,7 @@
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -205,7 +205,7 @@
 				 forKey:@"arguments"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

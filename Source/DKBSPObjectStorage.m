@@ -294,7 +294,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 #pragma mark -
 #pragma mark - as implementor of the NSCoding protocol
 
-- (id)initWithCoder:(NSCoder*)aCoder
+- (instancetype)initWithCoder:(NSCoder*)aCoder
 {
 	// this method is here solely to support backward compatibility with b5; storage is no longer archived.
 
@@ -398,7 +398,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	return [NSMutableIndexSet class];
 }
 
-- (id)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth
+- (instancetype)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth
 {
 	self = [super init];
 	if (self) {
@@ -414,10 +414,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	return self;
 }
 
-- (NSSize)canvasSize
-{
-	return mCanvasSize;
-}
+@synthesize canvasSize=mCanvasSize;
 
 // a.k.a "initialize"
 

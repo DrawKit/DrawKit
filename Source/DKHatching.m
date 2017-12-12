@@ -460,9 +460,9 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"angle", @"spacing",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"colour", @"angle", @"spacing",
 																							   @"width", @"dash", @"leadIn",
-																							   @"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness", nil]];
+																							   @"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness"]];
 }
 
 - (void)registerActionNames
@@ -503,7 +503,7 @@
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -602,7 +602,7 @@
 				 forKey:@"DKHatching_wobble"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

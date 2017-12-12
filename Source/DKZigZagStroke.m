@@ -51,7 +51,7 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"wavelength", @"amplitude", @"spread", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"wavelength", @"amplitude", @"spread"]];
 }
 
 - (void)registerActionNames
@@ -67,7 +67,7 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -129,7 +129,7 @@
 				 forKey:@"spread"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

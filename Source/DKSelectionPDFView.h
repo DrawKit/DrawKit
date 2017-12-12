@@ -22,7 +22,8 @@ these objects are never used to make a visible view. Their only function is to a
 	DKLayer* mLayerRef;
 }
 
-- (id)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer;
+- (instancetype)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -30,6 +31,7 @@ these objects are never used to make a visible view. Their only function is to a
 	DKDrawableObject* mObjectRef;
 }
 
-- (id)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj;
+- (instancetype)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
 @end

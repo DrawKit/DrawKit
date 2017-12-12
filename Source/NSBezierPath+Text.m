@@ -64,8 +64,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	if (s_TOPTextAttributes == nil) {
 		NSFont* font = [NSFont fontWithName:@"Helvetica"
 									   size:12.0];
-		s_TOPTextAttributes = [[NSDictionary dictionaryWithObject:font
-														   forKey:NSFontAttributeName] retain];
+		s_TOPTextAttributes = [@{NSFontAttributeName: font} retain];
 	}
 
 	return s_TOPTextAttributes;
@@ -130,7 +129,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 		if (cachedCS != 0)
 			[cache removeAllObjects];
 
-		[cache setObject:[NSNumber numberWithInteger:CS]
+		[cache setObject:@(CS)
 				  forKey:kDKTextOnPathChecksumCacheKey];
 	}
 
@@ -335,8 +334,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	[para setLineBreakMode:NSLineBreakByClipping];
 
 	if (para) {
-		NSDictionary* attrs = [NSDictionary dictionaryWithObject:para
-														  forKey:NSParagraphStyleAttributeName];
+		NSDictionary* attrs = @{NSParagraphStyleAttributeName: para};
 		[str addAttributes:attrs
 					 range:NSMakeRange(0, [str length])];
 		[para release];
@@ -441,7 +439,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 
 		[cache setObject:newGlyphCache
 				  forKey:kDKTextOnPathGlyphPositionCacheKey];
-		[cache setObject:[NSNumber numberWithBool:result]
+		[cache setObject:@(result)
 				  forKey:kDKTextOnPathTextFittedCacheKey];
 	} else {
 		//NSLog(@"drawing from cache, %d glyphs", [glyphCache count]);
@@ -510,8 +508,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 			kernAmount = kernLimit;
 	}
 
-	NSDictionary* kernAttributes = [NSDictionary dictionaryWithObject:[NSNumber numberWithDouble:kernAmount]
-															   forKey:NSKernAttributeName];
+	NSDictionary* kernAttributes = @{NSKernAttributeName: @(kernAmount)};
 	NSRange charRange = [lm characterRangeForGlyphRange:glyphRange
 									   actualGlyphRange:NULL];
 	[text addAttributes:kernAttributes
@@ -1377,7 +1374,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 
 			[parameters setObject:self
 						   forKey:@"path"];
-			[parameters setObject:[NSNumber numberWithDouble:speed]
+			[parameters setObject:@(speed)
 						   forKey:@"speed"];
 
 			if (userInfo != nil)
@@ -1386,11 +1383,11 @@ static NSDictionary* s_TOPTextAttributes = nil;
 
 			[parameters setObject:object
 						   forKey:@"target"];
-			[parameters setObject:[NSNumber numberWithDouble:[self length]]
+			[parameters setObject:@([self length])
 						   forKey:@"path_length"];
-			[parameters setObject:[NSNumber numberWithBool:loop]
+			[parameters setObject:@(loop)
 						   forKey:@"loop"];
-			[parameters setObject:[NSNumber numberWithDouble:[NSDate timeIntervalSinceReferenceDate]]
+			[parameters setObject:@([NSDate timeIntervalSinceReferenceDate])
 						   forKey:@"start_time"];
 
 			NSTimer* t = [NSTimer timerWithTimeInterval:1.0 / 30.0
@@ -1792,7 +1789,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 	[glyphTemp release];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self)
@@ -1884,7 +1881,7 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 
 @implementation DKPathGlyphInfo
 
-- (id)initWithGlyphIndex:(NSUInteger)glyphIndex position:(NSPoint)pt slope:(CGFloat)slope
+- (instancetype)initWithGlyphIndex:(NSUInteger)glyphIndex position:(NSPoint)pt slope:(CGFloat)slope
 {
 	self = [super init];
 	if (self) {
@@ -1896,20 +1893,9 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 	return self;
 }
 
-- (NSUInteger)glyphIndex
-{
-	return mGlyphIndex;
-}
-
-- (CGFloat)slope
-{
-	return mSlope;
-}
-
-- (NSPoint)point
-{
-	return mPoint;
-}
+@synthesize glyphIndex=mGlyphIndex;
+@synthesize slope=mSlope;
+@synthesize point=mPoint;
 
 @end
 

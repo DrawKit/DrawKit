@@ -80,7 +80,7 @@ void InitializePrefsForEventTypeNames(void)
 		assert(eventTypeNames != nil);
 		unsigned count = [eventTypeNames count];
 		NSMutableDictionary* defaultPrefs = [NSMutableDictionary dictionaryWithCapacity:count];
-		NSNumber* defaultLoggingState = [NSNumber numberWithBool:NO];
+		NSNumber* defaultLoggingState = @NO;
 		
 		NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
 		assert(typeNameEnumerator != nil);
@@ -541,7 +541,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	if( result == NSAlertDefaultReturn )
 	{
 		FSRef fileRef;
-		NSDictionary *environment = [NSDictionary dictionaryWithObject: @"YES" forKey: @"NSZombieEnabled"];
+		NSDictionary *environment = @{@"NSZombieEnabled": @"YES"};
 		NSString* execPath = [[NSBundle mainBundle] executablePath];
 		
 		const char* executablePath = [execPath fileSystemRepresentation];

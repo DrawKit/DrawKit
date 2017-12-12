@@ -787,7 +787,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 /** @brief Designated initialiser
  @return the object
  */
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -841,7 +841,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
  @param coder the coder
  @return the object
  */
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	[super initWithCoder:coder];
 	mStartAngle = [coder decodeDoubleForKey:@"DKArcPath_startAngle"];

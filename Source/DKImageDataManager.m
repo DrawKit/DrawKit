@@ -107,7 +107,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	// uses that. Otherwise it extracts the data and proceeds conventionally.
 
 	NSData* imageData = nil;
-	NSString* privateType = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKImageDataManagerPasteboardType]];
+	NSString* privateType = [pb availableTypeFromArray:@[kDKImageDataManagerPasteboardType]];
 
 	if (privateType) {
 		// could be already cached by this - may not be, because it could have come from a different document, but will be here if the same
@@ -181,7 +181,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 		if (useCount < 0)
 			useCount = 0;
 
-		[mKeyUsage setObject:[NSNumber numberWithInteger:useCount]
+		[mKeyUsage setObject:@(useCount)
 					  forKey:key];
 	}
 }
@@ -227,7 +227,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 #pragma mark -
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -253,7 +253,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 				 forKey:@"DKImageDataManager_repo"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	mRepository = [[coder decodeObjectForKey:@"DKImageDataManager_repo"] retain];
 	mHashList = [[NSMutableDictionary alloc] init];

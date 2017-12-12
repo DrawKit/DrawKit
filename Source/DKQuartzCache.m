@@ -54,7 +54,7 @@
 
 #pragma mark -
 
-- (id)initWithContext:(NSGraphicsContext*)context forRect:(NSRect)rect
+- (instancetype)initWithContext:(NSGraphicsContext*)context forRect:(NSRect)rect
 {
 	NSAssert(context != nil, @"attempt to init cache with a nil context");
 	NSAssert(!NSEqualSizes(rect.size, NSZeroSize), @"cannot init cache with zero size");

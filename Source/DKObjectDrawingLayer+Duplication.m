@@ -153,7 +153,7 @@
 
 	LogEvent_(kReactiveEvent, @"auto polar, copies = %ld, inc = %f", (long)number, incAngle);
 
-	return [self polarDuplicate:[NSArray arrayWithObject:object]
+	return [self polarDuplicate:@[object]
 						 centre:centre
 				 numberOfCopies:number - 1
 				 incrementAngle:incAngle

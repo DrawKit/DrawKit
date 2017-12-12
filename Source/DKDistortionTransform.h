@@ -22,8 +22,10 @@ can be used in a similar way.
 
 + (DKDistortionTransform*)transformWithInitialRect:(NSRect)rect;
 
-- (id)initWithRect:(NSRect)rect;
-- (id)initWithEnvelope:(NSPoint*)points;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithRect:(NSRect)rect NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithEnvelope:(NSPoint*)points NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 - (void)setEnvelopePoints:(NSPoint*)points;
 - (void)getEnvelopePoints:(NSPoint*)points;

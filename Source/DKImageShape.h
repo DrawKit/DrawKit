@@ -55,7 +55,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  @param anImage a valid image object
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImage:(NSImage*)anImage;
+- (instancetype)initWithImage:(NSImage*)anImage NS_DESIGNATED_INITIALIZER;
 
 /** @brief Initializes the image shape from image data
 
@@ -65,7 +65,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  @param imageData image data of some kind
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImageData:(NSData*)imageData;
+- (instancetype)initWithImageData:(NSData*)imageData;
 
 /** @brief Initializes the image shape from an image file given by the path
 
@@ -74,7 +74,9 @@ A hotspot is added to allow the user to drag the image offset position around.
  @param filepath the path to an image file on disk
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithContentsOfFile:(NSString*)filepath;
+- (instancetype)initWithContentsOfFile:(NSString*)filepath;
+
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 /** @brief Sets the object's image
 

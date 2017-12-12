@@ -365,8 +365,8 @@ static NSColor* sMajorColour = nil;
 	NSArray* upCycle; // > 1.0
 	NSArray* downCycle; // < 1.0
 
-	upCycle = [NSArray arrayWithObject:[NSNumber numberWithDouble:m_rulerStepUpCycle]];
-	downCycle = [NSArray arrayWithObject:[NSNumber numberWithDouble:1.0 / [self divisions]]];
+	upCycle = @[@(m_rulerStepUpCycle)];
+	downCycle = @[@(1.0 / [self divisions])];
 
 	LogEvent_(kReactiveEvent, @"registering ruler units '%@', abbr: '%@'", units, abbr);
 
@@ -1006,7 +1006,7 @@ static NSColor* sMajorColour = nil;
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1085,7 +1085,7 @@ static NSColor* sMajorColour = nil;
 			   forKey:@"DKGridLayer_inv_drawsMajors"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

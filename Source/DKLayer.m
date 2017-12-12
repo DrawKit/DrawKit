@@ -452,7 +452,7 @@ static NSArray* s_selectionColours = nil;
 {
 	NSAssert(pb != nil, @"Cannot write to a nil pasteboard");
 
-	[pb declareTypes:[NSArray arrayWithObject:NSPDFPboardType]
+	[pb declareTypes:@[NSPDFPboardType]
 			   owner:self];
 	return [pb setData:[self pdf]
 			   forType:NSPDFPboardType];
@@ -1312,7 +1312,7 @@ static NSArray* s_selectionColours = nil;
 /** @brief Designated initializer for base class of all layers
 
  A layer must be added to a group (and ultimately a drawing, which is a group) before it can be used */
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1366,12 +1366,12 @@ static NSArray* s_selectionColours = nil;
 			   forKey:@"DKLayer_disableRulerMarkerUpdates"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	LogEvent_(kFileEvent, @"decoding layer %@", self);
 
-	self = [self init];
+	self = [super init];
 	if (self) {
 		[self setLayerGroup:[coder decodeObjectForKey:@"group"]];
 		[self setLayerName:[coder decodeObjectForKey:@"name"]];

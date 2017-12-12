@@ -23,7 +23,7 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"blendMode", @"alpha", @"maskImage", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"blendMode", @"alpha", @"maskImage"]];
 }
 
 - (void)registerActionNames
@@ -46,7 +46,7 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -108,7 +108,7 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 				 forKey:@"mask_image"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

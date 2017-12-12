@@ -266,7 +266,9 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 	CGFloat components[4]; // cached rgba values
 }
 
-- (id)initWithColor:(NSColor*)aColor at:(CGFloat)pos;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithColor:(NSColor*)aColor at:(CGFloat)pos NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 - (NSColor*)color;
 - (void)setColor:(NSColor*)aColor;

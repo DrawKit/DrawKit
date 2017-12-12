@@ -148,7 +148,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 + (NSString*)abbreviationForDrawingUnits:(DKDrawingUnits)fullString;
 
 /** @brief designated initializer */
-- (instancetype)initWithSize:(NSSize)size;
+- (instancetype)initWithSize:(NSSize)size NS_DESIGNATED_INITIALIZER;
 
 // owner (document or view)
 

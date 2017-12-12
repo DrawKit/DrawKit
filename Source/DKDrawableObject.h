@@ -169,7 +169,7 @@ to attach arbitrary data to any drawable object.
  @param aStyle the initial style for the object
  @return the object
  */
-- (id)initWithStyle:(DKStyle*)aStyle;
+- (instancetype)initWithStyle:(DKStyle*)aStyle NS_DESIGNATED_INITIALIZER;
 
 // relationships:
 

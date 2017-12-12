@@ -391,7 +391,7 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 #pragma mark -
 #pragma mark As an NSView
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
 	self = [super initWithFrame:frame];
 	if (self != nil) {
@@ -406,7 +406,7 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if ((self = [super initWithCoder:coder])) {
 		if ([self respondsToSelector:@selector(setTranslatesAutoresizingMaskIntoConstraints:)]) {

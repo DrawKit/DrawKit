@@ -35,6 +35,8 @@ objects to the undo manager and vice versa, implementing undo for all keypaths d
 
 + (NSArray*)observableKeyPaths;
 
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+
 - (BOOL)setUpKVOForObserver:(id)object;
 - (BOOL)tearDownKVOForObserver:(id)object;
 

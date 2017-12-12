@@ -1434,7 +1434,7 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 	// first see if we can take a shortcut - if there's only one subpath, just return self in the array
 
 	if ([self countSubPaths] < 2)
-		return [NSArray arrayWithObject:self];
+		return @[self];
 
 	// more than 1 subpath, break it down:
 
