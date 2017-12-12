@@ -30,7 +30,7 @@
 
 @interface NSImage (CoreImage)
 /** @brief Draws the specified image using Core Image. */
-- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments;
+- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
 
 /** @brief Gets a bitmap representation of the image, or creates one if the image does not have any. */
 - (NSBitmapImageRep*)bitmapImageRepresentation;
@@ -40,5 +40,5 @@
 
 @interface NSBitmapImageRep (CoreImage)
 /** @brief Draws the specified image representation using Core Image. */
-- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments;
+- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
 @end

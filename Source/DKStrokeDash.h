@@ -20,7 +20,8 @@
 + (DKStrokeDash*)dashWithPattern:(CGFloat[])dashes count:(NSInteger)count;
 + (DKStrokeDash*)dashWithName:(NSString*)name;
 + (void)registerDash:(DKStrokeDash*)dash withName:(NSString*)name;
-+ (NSArray*)registeredDashes;
++ (NSArray<DKStrokeDash*>*)registeredDashes;
+@property (class, readonly, copy) NSArray<DKStrokeDash*> *registeredDashes;
 
 + (DKStrokeDash*)equallySpacedDashToFitSize:(NSSize)aSize dashLength:(CGFloat)len;
 
@@ -34,11 +35,18 @@
 - (CGFloat)length;
 - (CGFloat)lengthAtIndex:(NSUInteger)indx;
 
+@property (readonly) NSInteger count;
+@property CGFloat phase;
+@property (readonly) CGFloat length;
+
 - (void)setScalesToLineWidth:(BOOL)stlw;
 - (BOOL)scalesToLineWidth;
 
 - (void)setIsBeingEdited:(BOOL)edit;
 - (BOOL)isBeingEdited;
+
+@property BOOL scalesToLineWidth;
+@property BOOL isBeingEdited;
 
 - (void)applyToPath:(NSBezierPath*)path;
 - (void)applyToPath:(NSBezierPath*)path withPhase:(CGFloat)phase;
@@ -50,8 +58,8 @@
 
 @interface DKStrokeDash (Deprecated)
 
-+ (void)saveDefaults;
-+ (void)loadDefaults;
++ (void)saveDefaults DEPRECATED_ATTRIBUTE;
++ (void)loadDefaults DEPRECATED_ATTRIBUTE;
 
 @end
 

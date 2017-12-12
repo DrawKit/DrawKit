@@ -8,7 +8,7 @@
 
 @implementation DKGreekingLayoutManager
 @synthesize greeking=mGreeking;
-@synthesize greekingColor=mGreekingColour;
+@synthesize greekingColour=mGreekingColour;
 
 #pragma mark - as a NSLayoutManager
 

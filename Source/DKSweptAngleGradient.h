@@ -34,6 +34,8 @@ typedef union {
 - (void)setNumberOfAngularSegments:(NSInteger)ns;
 - (NSInteger)numberOfAngularSegments;
 
+@property NSInteger numberOfAngularSegments;
+
 - (void)preloadColours;
 - (void)createGradientImageWithRect:(NSRect)rect;
 - (void)invalidateCache;

@@ -26,7 +26,8 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 {
 	[delim retain];
 	[sDelimiter release];
-	sDelimiter = delim;
+	sDelimiter = [delim copy];
+	[delim release];
 }
 
 + (NSCharacterSet*)keyBreakingCharacterSet
@@ -388,7 +389,8 @@ static NSDictionary* s_abbreviationDict = nil;
 {
 	[abbreviations retain];
 	[s_abbreviationDict release];
-	s_abbreviationDict = abbreviations;
+	s_abbreviationDict = [abbreviations copy];
+	[abbreviations release];
 }
 
 - (id)initWithKey:(NSString*)key range:(NSRange)aRange
@@ -454,15 +456,8 @@ static NSDictionary* s_abbreviationDict = nil;
 	return self;
 }
 
-- (NSString*)key
-{
-	return mKey;
-}
-
-- (NSRange)range
-{
-	return mRange;
-}
+@synthesize key=mKey;
+@synthesize range=mRange;
 
 - (BOOL)isPropertyKeyPath
 {
@@ -570,24 +565,8 @@ static NSDictionary* s_abbreviationDict = nil;
 	mPadLength = MIN(20U, padLength);
 }
 
-- (NSUInteger)padding
-{
-	return mPadLength;
-}
-
-- (void)setPaddingCharacter:(NSString*)padStr
-{
-	// set as a string, but only the first character is used
-
-	[padStr retain];
-	[mPadCharacter release];
-	mPadCharacter = padStr;
-}
-
-- (NSString*)paddingCharacter
-{
-	return mPadCharacter;
-}
+@synthesize padding=mPadLength;
+@synthesize paddingCharacter=mPadCharacter;
 
 #pragma mark -
 

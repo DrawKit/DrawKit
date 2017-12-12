@@ -6,8 +6,8 @@
 
 #import "DKStroke.h"
 
-// arrow head kinds - each end can be specified independently:
-
+/** @brief arrow head kinds - each end can be specified independently:
+ */
 typedef NS_ENUM(NSInteger, DKArrowHeadKind) {
 	kDKArrowHeadNone = 0,
 	kDKArrowHeadStandard = 1,
@@ -22,7 +22,8 @@ typedef NS_ENUM(NSInteger, DKArrowHeadKind) {
 	kDKArrowHeadDiamond = 10
 };
 
-//! positioning of dimension label, or none:
+/** @brief positioning of dimension label, or none:
+ */
 typedef NS_ENUM(NSInteger, DKDimensioningLineOptions) {
 	kDKDimensionNone = 0,
 	kDKDimensionPlaceAboveLine = 1,
@@ -30,7 +31,8 @@ typedef NS_ENUM(NSInteger, DKDimensioningLineOptions) {
 	kDKDimensionPlaceBelowLine = 3
 };
 
-//! dimension kind - sets additional embellishments on the dimension text:
+/** @brief dimension kind - sets additional embellishments on the dimension text:
+ */
 typedef NS_ENUM(NSInteger, DKDimensionTextKind) {
 	kDKDimensionLinear = 0,
 	kDKDimensionDiameter = 1,
@@ -38,7 +40,8 @@ typedef NS_ENUM(NSInteger, DKDimensionTextKind) {
 	kDKDimensionAngle = 3
 };
 
-//! tolerance options:
+/** @brief tolerance options:
+ */
 typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 	kDKDimensionToleranceNotShown = 0,
 	kDKDimensionToleranceShown = 1

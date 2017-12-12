@@ -104,14 +104,16 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  A gradient needs a minimum of two Colors to be a gradient, but will function with one.
  @param stops an array of DKColorStop objects
  */
-- (void)setColorStops:(NSArray*)stops;
+- (void)setColorStops:(NSArray<DKColorStop*>*)stops;
 
 /** @brief Returns the list of Color stops in the gradient
 
  A gradient needs a minimum of two Colors to be a gradient, but will function with one.
  @return the array of DKColorStop (color + position) objects in the gradient
  */
-- (NSArray*)colorStops;
+- (NSArray<DKColorStop*>*)colorStops;
+
+@property (copy) NSArray<DKColorStop*> *colorStops;
 
 /** @brief Sorts the Color stops into position order
 
@@ -133,6 +135,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @return an integer, the number of Colors used to compute the gradient
  */
 - (NSUInteger)countOfColorStops;
+@property (readonly) NSUInteger countOfColorStops;
 
 /** @brief Returns the the indexed Color stop
 
@@ -197,6 +200,8 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  */
 - (CGFloat)angle;
 
+@property CGFloat angle;
+
 /** @brief Sets the angle of the gradient to the given angle
  @param degrees the desired angle expressed in degrees
  */
@@ -207,6 +212,8 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  */
 - (CGFloat)angleInDegrees;
 - (void)setAngleWithoutNotifying:(CGFloat)ang;
+
+@property CGFloat angleInDegrees;
 
 // setting gradient type, blending and interpolation settings
 
@@ -221,12 +228,17 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 - (void)setGradientBlending:(DKGradientBlending)bt;
 - (DKGradientBlending)gradientBlending;
 
+@property DKGradientType gradientType;
+@property DKGradientBlending gradientBlending;
+
 - (void)setGradientInterpolation:(DKGradientInterpolation)intrp;
 
 /** @brief Returns the interpolation algorithm for the gradient
  @return the current interpolation
  */
 - (DKGradientInterpolation)gradientInterpolation;
+
+@property DKGradientInterpolation gradientInterpolation;
 
 // swatch images
 
@@ -259,6 +271,8 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 - (NSColor*)color;
 - (void)setColor:(NSColor*)aColor;
 
+@property (retain) NSColor *color;
+
 /** @brief Set the alpha of the colour associated with this stop
  @param alpha the alpha to set
  */
@@ -269,6 +283,8 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  */
 - (CGFloat)position;
 - (void)setPosition:(CGFloat)pos;
+
+@property (nonatomic) CGFloat position;
 
 @end
 

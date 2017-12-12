@@ -58,6 +58,14 @@ just sets up the path clipping and calls the rendering method for each location 
 - (void)setDrawingOfClippedElementsSupressed:(BOOL)suppress;
 - (BOOL)drawingOfClippedElementsSupressed;
 
+@property NSSize patternAlternateOffset;
+@property CGFloat angle;
+@property CGFloat motifAngle;
+@property CGFloat motifAngleInDegrees;
+@property CGFloat motifAngleRandomness;
+@property BOOL motifAngleIsRelativeToPattern;
+@property BOOL drawingOfClippedElementsSupressed;
+
 @end
 
 extern NSNotificationName kDKDrawingViewDidChangeScale;

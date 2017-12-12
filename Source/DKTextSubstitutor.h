@@ -25,6 +25,7 @@ This objects abstracts the text substitution task used by text adornments, et. a
 
 + (NSString*)delimiterString;
 + (void)setDelimiterString:(NSString*)delim;
+@property (class, copy) NSString *delimiterString;
 + (NSCharacterSet*)keyBreakingCharacterSet;
 
 - (id)initWithString:(NSString*)aString;
@@ -32,12 +33,15 @@ This objects abstracts the text substitution task used by text adornments, et. a
 
 - (void)setMasterString:(NSAttributedString*)master;
 - (NSAttributedString*)masterString;
+@property (retain) NSAttributedString *masterString;
 
 - (void)setString:(NSString*)aString withAttributes:(NSDictionary*)attrs;
 - (NSString*)string;
+@property (readonly, copy) NSString*string;
 
 - (void)setAttributes:(NSDictionary*)attrs;
 - (NSDictionary*)attributes;
+@property (retain) NSDictionary *attributes;
 
 - (void)processMasterString;
 - (NSArray*)allKeys;
@@ -64,6 +68,9 @@ extern NSString* kDKTextSubstitutorNewStringNotification;
 + (NSDictionary*)abbreviationDictionary;
 + (void)setAbbreviationDictionary:(NSDictionary*)abbreviations;
 
+@property (class, readonly, retain) NSCharacterSet *validSubkeysCharacterSet;
+@property (class, copy) NSDictionary *abbreviationDictionary;
+
 - (id)initWithKey:(NSString*)key range:(NSRange)aRange;
 
 - (NSString*)key;
@@ -72,9 +79,17 @@ extern NSString* kDKTextSubstitutorNewStringNotification;
 - (NSArray*)subKeys;
 - (NSString*)stringByApplyingSubkeysToString:(NSString*)inString;
 
+@property (readonly, copy) NSString *key;
+@property (readonly) NSRange range;
+@property (readonly, getter=isPropertyKeyPath) BOOL propertyKeyPath;
+@property (readonly, copy) NSArray *subKeys;
+
 - (void)setPadding:(NSUInteger)padLength;
 - (NSUInteger)padding;
 - (void)setPaddingCharacter:(NSString*)padStr;
 - (NSString*)paddingCharacter;
+
+@property (nonatomic) NSUInteger padding;
+@property (copy) NSString *paddingCharacter;
 
 @end

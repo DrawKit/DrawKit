@@ -23,4 +23,8 @@
 - (void)setSpread:(CGFloat)sp;
 - (CGFloat)spread;
 
+@property CGFloat wavelength;
+@property CGFloat amplitude;
+@property CGFloat spread;
+
 @end

@@ -17,7 +17,7 @@
 
 + (DKCIFilterRastGroup*)effectGroupWithFilter:(NSString*)filter
 {
-	DKCIFilterRastGroup* fg = [[DKCIFilterRastGroup alloc] init];
+	DKCIFilterRastGroup* fg = [[self alloc] init];
 
 	[fg setFilter:filter];
 

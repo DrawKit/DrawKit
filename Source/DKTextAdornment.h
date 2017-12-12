@@ -73,6 +73,8 @@ other fixed content. See that class for details.
 - (void)setPlaceholderString:(NSString*)str;
 - (NSString*)placeholderString;
 
+@property (copy) NSString *placeholderString;
+
 // text conversions:
 
 - (NSBezierPath*)textAsPathForObject:(id)object;
@@ -92,24 +94,41 @@ other fixed content. See that class for details.
 - (void)setTextRect:(NSRect)rect;
 - (NSRect)textRect;
 
+@property DKVerticalTextAlignment verticalAlignment;
+@property CGFloat verticalAlignmentProportion;
+@property (readonly) CGFloat baselineOffset;
+@property NSRect textRect;
+
 - (void)setLayoutMode:(DKTextLayoutMode)mode;
 - (DKTextLayoutMode)layoutMode;
 
+@property DKTextLayoutMode layoutMode;
+
 - (void)setFlowedTextPathInset:(CGFloat)inset;
 - (CGFloat)flowedTextPathInset;
+
+@property CGFloat flowedTextPathInset;
 
 - (void)setAngle:(CGFloat)angle;
 - (CGFloat)angle;
 - (void)setAngleInDegrees:(CGFloat)degrees;
 - (CGFloat)angleInDegrees;
 
+@property CGFloat angle;
+@property CGFloat angleInDegrees;
+
 - (void)setAppliesObjectAngle:(BOOL)aa;
 - (BOOL)appliesObjectAngle;
+
+@property (nonatomic) BOOL appliesObjectAngle;
 
 - (void)setWrapsLines:(BOOL)wraps;
 - (BOOL)wrapsLines;
 - (void)setAllowsTextToExtendHorizontally:(BOOL)extend;
 - (BOOL)allowsTextToExtendHorizontally;
+
+@property (nonatomic) BOOL wrapsLines;
+@property BOOL allowsTextToExtendHorizontally;
 
 // text masking or "knockouts":
 
@@ -122,6 +141,11 @@ other fixed content. See that class for details.
 - (void)setTextKnockoutStrokeColour:(NSColor*)colour;
 - (NSColor*)textKnockoutStrokeColour;
 
+@property (nonatomic) CGFloat textKnockoutDistance;
+@property CGFloat textKnockoutStrokeWidth;
+@property (retain) NSColor *textKnockoutColour;
+@property (retain) NSColor *textKnockoutStrokeColour;
+
 // modifying text when drawn:
 
 - (void)setCapitalization:(DKTextCapitalization)cap;
@@ -129,6 +153,9 @@ other fixed content. See that class for details.
 
 - (void)setGreeking:(DKGreeking)greeking;
 - (DKGreeking)greeking;
+
+@property (nonatomic) DKTextCapitalization capitalization;
+@property DKGreeking greeking;
 
 // text attributes:
 
@@ -142,14 +169,21 @@ other fixed content. See that class for details.
 - (CGFloat)fontSize;
 - (void)scaleTextBy:(CGFloat)factor;
 
+@property (retain) NSFont *font;
+@property CGFloat fontSize;
+
 - (void)setColour:(NSColor*)colour;
 - (NSColor*)colour;
+
+@property (retain) NSColor *colour;
 
 - (void)setTextAttributes:(NSDictionary*)attrs;
 - (NSDictionary*)textAttributes;
 - (NSDictionary*)defaultTextAttributes;
 - (BOOL)attributeIsHomogeneous:(NSString*)attributeName;
 - (BOOL)isHomogeneous;
+
+@property (readonly, getter=isHomogeneous) BOOL homogeneous;
 
 // paragraph styles:
 
@@ -180,6 +214,16 @@ other fixed content. See that class for details.
 - (void)setSuperscriptAttribute:(NSInteger)amount;
 - (NSInteger)superscriptAttribute;
 
+@property (retain) NSParagraphStyle*paragraphStyle;
+@property NSTextAlignment alignment;
+@property (retain) NSColor *backgroundColour;
+@property (retain) NSColor *outlineColour;
+@property CGFloat outlineWidth;
+@property NSInteger underlines;
+@property CGFloat kerning;
+@property CGFloat baseline;
+@property NSInteger superscriptAttribute;
+
 - (void)loosenKerning;
 - (void)tightenKerning;
 - (void)turnOffKerning;
@@ -195,7 +239,11 @@ other fixed content. See that class for details.
 - (void)setTextSubstitutor:(DKTextSubstitutor*)subs;
 - (DKTextSubstitutor*)textSubstitutor;
 
+@property (nonatomic, retain) DKTextSubstitutor*textSubstitutor;
+
 - (BOOL)allTextWasFitted;
+
+@property (readonly) BOOL allTextWasFitted;
 
 - (void)invalidateCache;
 
@@ -205,8 +253,8 @@ other fixed content. See that class for details.
 
 @interface DKTextAdornment (Deprecated)
 
-- (void)setIdentifier:(NSString*)ident;
-- (NSString*)identifier;
+- (void)setIdentifier:(NSString*)ident DEPRECATED_ATTRIBUTE;
+- (NSString*)identifier DEPRECATED_ATTRIBUTE;
 
 @end
 
@@ -223,7 +271,7 @@ other fixed content. See that class for details.
 #define DEFAULT_BASELINE_OFFSET_MAX 16
 
 // these keys are used to access text adornment properties in the -textAttributes dictionary. Using this dictionary allows these settings to
-// be more portable especially when cuttign and pasting styles between objects. These are placed alongside any Cocoa attributes defined in the
+// be more portable especially when cutting and pasting styles between objects. These are placed alongside any Cocoa attributes defined in the
 // same dictionary.
 
 extern NSString* DKTextKnockoutColourAttributeName;

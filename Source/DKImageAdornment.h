@@ -67,4 +67,15 @@ This class allows any image to be part of the rendering tree.
 
 - (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject;
 
+@property (retain) NSImage *image;
+@property (retain) NSString *imageKey;
+@property (retain) NSString *imageIdentifier;
+@property CGFloat scale;
+@property CGFloat opacity;
+@property NSPoint origin;
+@property CGFloat angle;
+@property CGFloat angleInDegrees;
+@property NSCompositingOperation operation;
+@property DKImageFittingOption fittingOption;
+
 @end

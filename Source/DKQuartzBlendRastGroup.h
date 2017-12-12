@@ -16,13 +16,8 @@ yielding a wide range of available effects.
 	NSImage* m_maskImage;
 }
 
-- (void)setBlendMode:(CGBlendMode)mode;
-- (CGBlendMode)blendMode;
-
-- (void)setAlpha:(CGFloat)alpha;
-- (CGFloat)alpha;
-
-- (void)setMaskImage:(NSImage*)image;
-- (NSImage*)maskImage;
+@property CGBlendMode blendMode;
+@property CGFloat alpha;
+@property (retain) NSImage *maskImage;
 
 @end

@@ -45,43 +45,66 @@ This prefers PDF image representations where the image contains one, preserving 
 
 - (void)setImage:(NSImage*)image;
 - (NSImage*)image;
+@property (retain) NSImage *image;
 - (void)setUpCache;
 - (void)setPDFImageRep:(NSPDFImageRep*)rep;
 
 - (void)setScale:(CGFloat)scale;
 - (CGFloat)scale;
 
+@property CGFloat scale;
+
 - (void)setScaleRandomness:(CGFloat)scRand;
 - (CGFloat)scaleRandomness;
+
+@property CGFloat scaleRandomness;
 
 - (void)setInterval:(CGFloat)interval;
 - (CGFloat)interval;
 
+@property CGFloat interval;
+
 - (void)setLeaderDistance:(CGFloat)leader;
 - (CGFloat)leaderDistance;
+
+@property CGFloat leaderDistance;
 
 - (void)setLateralOffset:(CGFloat)loff;
 - (CGFloat)lateralOffset;
 - (void)setLateralOffsetAlternates:(BOOL)alts;
 - (BOOL)lateralOffsetAlternates;
 
+@property CGFloat lateralOffset;
+@property BOOL lateralOffsetAlternates;
+
 - (void)setWobblyness:(CGFloat)wobble;
 - (CGFloat)wobblyness;
 
+@property CGFloat wobblyness;
+
 - (void)setNormalToPath:(BOOL)normal;
 - (BOOL)normalToPath;
+
+@property BOOL normalToPath;
 
 - (void)setLeadInLength:(CGFloat)linLength;
 - (void)setLeadOutLength:(CGFloat)loutLength;
 - (CGFloat)leadInLength;
 - (CGFloat)leadOutLength;
 
+@property CGFloat leadInLength;
+@property CGFloat leadOutLength;
+
 - (void)setLeadInAndOutLengthProportion:(CGFloat)proportion;
 - (CGFloat)leadInAndOutLengthProportion;
 - (CGFloat)rampFunction:(CGFloat)val;
 
+@property CGFloat leadInAndOutLengthProportion;
+
 - (void)setUsesChainMethod:(BOOL)chain;
 - (BOOL)usesChainMethod;
+
+@property BOOL usesChainMethod;
 
 @end
 

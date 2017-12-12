@@ -24,7 +24,7 @@
 #import "DKTextSubstitutor.h"
 #import "DKGreekingLayoutManager.h"
 
-@interface DKTextAdornment (Private)
+@interface DKTextAdornment ()
 
 - (void)drawText:(NSTextStorage*)contents withObject:(id<DKRenderable>)obj withPath:(NSBezierPath*)path;
 - (void)drawText:(NSTextStorage*)contents withObject:(id<DKRenderable>)obj withPath:(NSBezierPath*)path layoutManager:(NSLayoutManager*)lm;
@@ -164,17 +164,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	return [edText autorelease];
 }
 
-- (void)setPlaceholderString:(NSString*)str
-{
-	[str retain];
-	[mPlaceholder release];
-	mPlaceholder = str;
-}
-
-- (NSString*)placeholderString
-{
-	return mPlaceholder;
-}
+@synthesize placeholderString=mPlaceholder;
 
 #pragma mark -
 - (NSBezierPath*)textAsPathForObject:(id)object
@@ -416,10 +406,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (BOOL)appliesObjectAngle
-{
-	return m_applyObjectAngle;
-}
+@synthesize appliesObjectAngle=m_applyObjectAngle;
 
 #pragma mark -
 - (void)setWrapsLines:(BOOL)wraps
@@ -430,20 +417,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (BOOL)wrapsLines
-{
-	return m_wrapLines;
-}
-
-- (void)setAllowsTextToExtendHorizontally:(BOOL)hExtends
-{
-	mAllowIndefiniteWidth = hExtends;
-}
-
-- (BOOL)allowsTextToExtendHorizontally
-{
-	return mAllowIndefiniteWidth;
-}
+@synthesize wrapsLines=m_wrapLines;
+@synthesize allowsTextToExtendHorizontally=mAllowIndefiniteWidth;
 
 - (void)setTextKnockoutDistance:(CGFloat)distance
 {
@@ -451,44 +426,10 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[mTACache removeObjectForKey:kDKTextAdornmentMaskPathCacheKey];
 }
 
-- (CGFloat)textKnockoutDistance
-{
-	return mTextKnockoutDistance;
-}
-
-- (void)setTextKnockoutStrokeWidth:(CGFloat)width
-{
-	mTextKnockoutStrokeWidth = width;
-}
-
-- (CGFloat)textKnockoutStrokeWidth
-{
-	return mTextKnockoutStrokeWidth;
-}
-
-- (void)setTextKnockoutColour:(NSColor*)colour
-{
-	[colour retain];
-	[mTextKnockoutColour release];
-	mTextKnockoutColour = colour;
-}
-
-- (NSColor*)textKnockoutColour
-{
-	return mTextKnockoutColour;
-}
-
-- (void)setTextKnockoutStrokeColour:(NSColor*)colour
-{
-	[colour retain];
-	[mTextKnockoutStrokeColour release];
-	mTextKnockoutStrokeColour = colour;
-}
-
-- (NSColor*)textKnockoutStrokeColour
-{
-	return mTextKnockoutStrokeColour;
-}
+@synthesize textKnockoutDistance=mTextKnockoutDistance;
+@synthesize textKnockoutStrokeWidth=mTextKnockoutStrokeWidth;
+@synthesize textKnockoutColour=mTextKnockoutColour;
+@synthesize textKnockoutStrokeColour=mTextKnockoutStrokeColour;
 
 - (void)setCapitalization:(DKTextCapitalization)cap
 {
@@ -498,10 +439,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKTextCapitalization)capitalization
-{
-	return mCapitalization;
-}
+@synthesize capitalization=mCapitalization;
 
 - (void)setGreeking:(DKGreeking)greeking
 {
@@ -967,10 +905,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	return mSubstitutor;
 }
 
-- (BOOL)allTextWasFitted
-{
-	return mLastLayoutFittedAllText;
-}
+@synthesize allTextWasFitted=mLastLayoutFittedAllText;
 
 - (void)invalidateCache
 {
@@ -1464,7 +1399,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		// add in the current lineheight to both width and height. As we are only interested in the lineheight, we just use
 		// some dummy text in conjunction with our current attributes
 
-		NSInteger opts = NSStringDrawingUsesFontLeading | NSStringDrawingDisableScreenFontSubstitution | NSStringDrawingUsesDeviceMetrics | NSStringDrawingOneShot;
+		NSStringDrawingOptions opts = NSStringDrawingUsesFontLeading | NSStringDrawingDisableScreenFontSubstitution | NSStringDrawingUsesDeviceMetrics | NSStringDrawingOneShot;
 
 		NSSize textBoxSize = NSMakeSize(1000, 200);
 

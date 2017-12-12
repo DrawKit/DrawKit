@@ -132,4 +132,16 @@ doesn't change the cache.
 - (void)invalidateCache;
 - (void)calcHatchInRect:(NSRect)rect;
 
+@property CGFloat angle;
+@property CGFloat angleInDegrees;
+@property BOOL angleIsRelativeToObject;
+@property CGFloat spacing;
+@property CGFloat leadIn;
+@property CGFloat width;
+@property NSLineCapStyle lineCapStyle;
+@property NSLineJoinStyle lineJoinStyle;
+@property (retain) NSColor *colour;
+@property (retain) DKStrokeDash *dash;
+@property CGFloat roughness;
+@property CGFloat wobblyness;
 @end

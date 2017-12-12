@@ -28,6 +28,8 @@ Paths are cached up to the maximum number set by the constant, after which least
 - (void)setRoughness:(CGFloat)roughness;
 - (CGFloat)roughness;
 
+@property CGFloat roughness;
+
 - (NSString*)pathKeyForPath:(NSBezierPath*)path;
 - (void)invalidateCache;
 - (NSBezierPath*)roughPathFromPath:(NSBezierPath*)path;
