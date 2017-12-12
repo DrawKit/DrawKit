@@ -4,6 +4,8 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Foundation/NSObjCRuntime.h>
+
 //! functional types, as passed to \c drawKnobAtPoint:ofType:userInfo:
 //! locked flag can be ORed in to pass signal the locked property - any other state info used by subclasses
 //! should be passed in the userInfo.
@@ -80,3 +82,5 @@ typedef NS_ENUM(NSInteger, DKGreeking) {
 	kDKGreekingByLineRectangle = 1, //!< greek by filling line rects
 	kDKGreekingByGlyphRectangle = 2 //!< greek by filling glyph rects
 };
+
+typedef NSString *DKToolName NS_EXTENSIBLE_STRING_ENUM;

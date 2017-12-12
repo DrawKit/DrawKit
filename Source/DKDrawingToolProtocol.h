@@ -12,17 +12,20 @@
 NS_SWIFT_NAME(DKDrawingToolProtocol)
 @protocol DKDrawingTool <NSObject>
 
-- (NSString*)actionName;
+@property (readonly, copy) NSString *actionName;
 - (NSCursor*)cursor;
 - (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id<DKToolDelegate>)aDel;
 - (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id<DKToolDelegate>)aDel;
 - (BOOL)mouseUpAtPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id<DKToolDelegate>)aDel;
 
+@optional
+/**
+ informally, a tool can also implement this, which will be called from DKToolController if the object does respond to it.
+ */
+- (void)drawRect:(NSRect)rect inView:(NSView*)aView;
+
 @end
 
-// informally, a tool can also implement this, which will be called from DKToolController if the object does respond to it.
-
-//- (void)			drawRect:(NSRect) inView:(NSView*) aView;
 
 //==== NOTE ABOUT UNDO ====
 

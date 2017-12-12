@@ -208,4 +208,4 @@ extern NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey;
 
 // constants:
 
-extern NSString* kDKStandardSelectionToolName;
+extern DKToolName kDKStandardSelectionToolName;

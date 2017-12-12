@@ -5,6 +5,7 @@
 */
 
 #import "DKDrawingToolProtocol.h"
+#import "DKCommonTypes.h"
 
 @class DKToolController;
 
@@ -23,8 +24,8 @@ a view, not change any data.
 Tools should be considered to be controllers, and sit between the view and the drawing data model.
 
 Note: do not confuse "tools" as DK defines them with a palette of buttons or other UI - an application might implement an interface to
-select a tool in such a way, but the buttons are not tools. A button could store a tool as its representedObject however. These UI con-
-siderations are outside the scope of DK itself.
+select a tool in such a way, but the buttons are not tools. A button could store a tool as its representedObject however. These UI
+considerations are outside the scope of DK itself.
 */
 @interface DKDrawingTool : NSObject <DKDrawingTool> {
 @private
@@ -62,8 +63,8 @@ siderations are outside the scope of DK itself.
  If the tool isn't registered, returns nil
  @return a string, the name this tool is registerd under, if any:
  */
-- (NSString*)registeredName;
-@property (readonly, copy) NSString *registeredName;
+- (DKToolName)registeredName;
+@property (readonly, copy) DKToolName registeredName;
 
 - (void)drawRect:(NSRect)aRect inView:(NSView*)aView;
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer;
@@ -76,6 +77,7 @@ siderations are outside the scope of DK itself.
  @return YES if the tool selects objects, NO otherwise
  */
 - (BOOL)isSelectionTool;
+@property (readonly, getter=isSelectionTool) BOOL selectionTool;
 
 /** @brief Sets the tool as the current tool for the key view in the main window, if possible
 
@@ -114,6 +116,8 @@ siderations are outside the scope of DK itself.
 - (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSUInteger)flags;
 - (NSString*)keyboardEquivalent;
 - (NSUInteger)keyboardModifierFlags;
+@property (readonly, copy) NSString *keyboardEquivalent;
+@property (readonly) NSUInteger keyboardModifierFlags;
 
 // drawing tools can optionally return arbitrary persistent data that DK will store in the prefs for it
 

@@ -5,10 +5,9 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "DKCommonTypes.h"
 
 @class DKDrawingTool;
-
-typedef NSString *DKToolName NS_EXTENSIBLE_STRING_ENUM;
 
 /** @brief DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself.
 

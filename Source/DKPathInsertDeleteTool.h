@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <AppKit/NSImage.h>
 #import "DKDrawingTool.h"
 
 @class DKDrawablePath;
@@ -30,11 +31,10 @@ This tool is able to insert or delete on-path points from a path. If applied to 
 + (DKDrawingTool*)pathInsertionTool;
 + (DKDrawingTool*)pathElementDeletionTool;
 
-- (void)setMode:(DKPathToolMode)m;
-- (DKPathToolMode)mode;
+@property DKPathToolMode mode;
 
 @end
 
-extern NSString* kDKInsertPathPointCursorImageName;
-extern NSString* kDKDeletePathPointCursorImageName;
-extern NSString* kDKDeletePathElementCursorImageName;
+extern NSImageName kDKInsertPathPointCursorImageName;
+extern NSImageName kDKDeletePathPointCursorImageName;
+extern NSImageName kDKDeletePathElementCursorImageName;
