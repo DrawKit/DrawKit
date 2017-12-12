@@ -30,6 +30,9 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 + (NSString*)defaultTextString;
 + (Class)textAdornmentClass;
 
+@property (class, retain) NSString *defaultTextString;
+@property (class, readonly) Class textAdornmentClass;
+
 /** @brief Return a list of types we can paste in priority order.
 
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
@@ -91,16 +94,23 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 - (void)setLayoutMode:(DKTextLayoutMode)mode;
 - (DKTextLayoutMode)layoutMode;
 
+@property DKVerticalTextAlignment verticalAlignment;
+@property CGFloat verticalAlignmentProportion;
+@property (retain) NSParagraphStyle *paragraphStyle;
+@property (readonly) NSTextAlignment alignment;
+
 // editing the text:
 
 - (void)startEditingInView:(DKDrawingView*)view;
 - (void)endEditing;
 - (BOOL)isEditing;
+@property (readonly) BOOL isEditing;
 
 // the internal adornment object:
 
 - (DKTextAdornment*)textAdornment;
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
+@property (retain) DKTextAdornment *textAdornment;
 
 // user actions:
 

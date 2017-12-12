@@ -376,13 +376,13 @@
 
 #pragma mark -
 
-// informal protocol for placing objects at linear intervals along a bezier path. Will be called from placeObjectsOnPathAtInterval:withObject:userInfo:
-// the <object> is called with this method if it implements it.
+/** informal protocol for placing objects at linear intervals along a bezier path. Will be called from \c placeObjectsOnPathAtInterval:withObject:userInfo:
+ the <object> is called with this method if it implements it.
 
-// the second method can be used to implement fluid motion along a path using the moveObject:alongPathDistance:inTime:userInfo: method.
+ the second method can be used to implement fluid motion along a path using the \c moveObject:alongPathDistance:inTime:userInfo: method.
 
-// the links method is used to implement chain effects from the "placeLinks..." method.
-
+ the links method is used to implement chain effects from the "placeLinks..." method.
+*/
 @interface NSObject (BezierPlacement)
 
 - (id)placeObjectAtPoint:(NSPoint)p onPath:(NSBezierPath*)path position:(CGFloat)pos slope:(CGFloat)slope userInfo:(void*)userInfo;
@@ -393,10 +393,10 @@
 
 #pragma mark -
 
-// when laying out glyphs on the path, a helper object with this informal protocol is used. The object can process the glyph appropriately, for example
-// just drawing it after applying a transform, or accumulating the glyph path. An object implementing this protocol is passed internally by the text on
-// path methods as necessary, or you can supply one.
-
+/** when laying out glyphs on the path, a helper object with this informal protocol is used. The object can process the glyph appropriately, for example
+ just drawing it after applying a transform, or accumulating the glyph path. An object implementing this protocol is passed internally by the text on
+ path methods as necessary, or you can supply one.
+ */
 @interface NSObject (TextOnPathPlacement)
 
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
@@ -405,8 +405,7 @@
 
 #pragma mark -
 
-// when using a tapering method, the taper callback object must implement the following informal protocol
-
+//! when using a tapering method, the taper callback object must implement the following informal protocol
 @interface NSObject (TaperPathDelegate)
 
 - (CGFloat)taperFactorAtDistance:(CGFloat)distance onPath:(NSBezierPath*)path ofLength:(CGFloat)length;
@@ -414,8 +413,7 @@
 
 #pragma mark -
 
-// helper objects used internally when accumulating or laying glyphs
-
+//! helper objects used internally when accumulating or laying glyphs
 @interface DKTextOnPathGlyphAccumulator : NSObject {
 	NSMutableArray* mGlyphs;
 }
@@ -448,6 +446,8 @@
 }
 
 - (void)setCharacterRange:(NSRange)range;
+@property (readonly) CGFloat length;
+@property (readonly) CGFloat position;
 - (CGFloat)length;
 - (CGFloat)position;
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;

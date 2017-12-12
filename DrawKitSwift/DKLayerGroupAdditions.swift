@@ -21,9 +21,10 @@ extension DKLayerGroup {
 	/// Returns the uppermost layer matching class, if any.
 	///
 	/// - parameter cl: The class of layer to seek.
-	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched
+	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched.<br>
+	/// Default is `false`.
 	/// - returns: The uppermost layer of the given class, or `nil`.
-	public func firstLayer<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool) -> A? {
+	public func firstLayer<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool = false) -> A? {
 		return __firstLayer(of: cl, performDeepSearch: deep) as? A
 	}
 	

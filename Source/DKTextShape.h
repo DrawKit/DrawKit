@@ -247,7 +247,7 @@ Text shapes are shapes that draw text.
 
 // text attributes - accesses the internal adornment object
 
-- (NSDictionary*)textAttributes;
+- (NSDictionary<NSAttributedStringKey,id>*)textAttributes;
 - (void)updateFontPanel;
 
 // setting text attributes for the entire text:
@@ -264,6 +264,8 @@ Text shapes are shapes that draw text.
  */
 - (NSFont*)font;
 
+@property (retain) NSFont *font;
+
 /** @brief Sets the text's font size, if permitted
 
  Updates the style if using it and it's not locked. Currently does nothing if using local attributes -
@@ -279,6 +281,9 @@ Text shapes are shapes that draw text.
 - (void)setTextColour:(NSColor*)colour;
 - (NSColor*)textColour;
 
+@property CGFloat fontSize;
+@property (retain) NSColor *textColour;
+
 - (void)scaleTextBy:(CGFloat)factor;
 
 // paragraph style attributes:
@@ -292,12 +297,20 @@ Text shapes are shapes that draw text.
 - (void)setAlignment:(NSTextAlignment)align;
 - (NSTextAlignment)alignment;
 
+@property DKVerticalTextAlignment verticalAlignment;
+@property CGFloat verticalAlignmentProportion;
+@property (copy) NSParagraphStyle *paragraphStyle;
+@property NSTextAlignment alignment;
+
 // layout within the text object:
 
 - (void)setLayoutMode:(DKTextLayoutMode)mode;
 - (DKTextLayoutMode)layoutMode;
 - (void)setWrapsLines:(BOOL)wraps;
 - (BOOL)wrapsLines;
+
+@property DKTextLayoutMode layoutMode;
+@property BOOL wrapsLines;
 
 // editing the text:
 
@@ -306,6 +319,9 @@ Text shapes are shapes that draw text.
 - (BOOL)isEditing;
 - (DKTextAdornment*)textAdornment;
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
+
+@property (readonly, getter=isEditing) BOOL editing;
+@property (retain) DKTextAdornment *textAdornment;
 
 // user actions:
 

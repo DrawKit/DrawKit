@@ -50,6 +50,9 @@ selected state.
 + (void)setDefaultSelectionChangesAreUndoable:(BOOL)undoSel;
 + (BOOL)defaultSelectionChangesAreUndoable;
 
+@property (class) BOOL selectionIsShownWhenInactive;
+@property (class) BOOL defaultSelectionChangesAreUndoable;
+
 // convenience constructor:
 
 /** @brief Convenience method creates an entire new layer containing the given objects

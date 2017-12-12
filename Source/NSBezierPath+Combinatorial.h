@@ -34,7 +34,7 @@ thrown away, and the rest joined up into the new path.
 
 - (void)showIntersectionsWithPath:(NSBezierPath*)path;
 - (NSBezierPath*)renormalizePath;
-- (NSArray*)dividePathWithPath:(NSBezierPath*)path;
+- (NSArray<NSBezierPath*>*)dividePathWithPath:(NSBezierPath*)path;
 
 - (NSBezierPath*)performBooleanOp:(DKBooleanOperation)op withPath:(NSBezierPath*)path;
 

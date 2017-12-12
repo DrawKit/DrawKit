@@ -41,7 +41,9 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 - (void)getPathMoveToCount:(NSInteger*)mtc lineToCount:(NSInteger*)ltc curveToCount:(NSInteger*)ctc closePathCount:(NSInteger*)cpc;
 
 - (BOOL)isPathClosed;
+@property (readonly) BOOL isPathClosed;
 - (NSUInteger)checksum;
+@property (readonly) NSUInteger checksum;
 
 - (BOOL)subpathContainingElementIsClosed:(NSInteger)element;
 - (NSInteger)subpathStartingElementForElement:(NSInteger)element;
@@ -83,8 +85,8 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 
 - (NSRect)boundingBoxForElement:(NSInteger)elementIndex;
 - (void)drawElementsBoundingBoxes;
-- (NSSet*)boundingBoxesForPartcode:(NSInteger)pc;
-- (NSSet*)allBoundingBoxes;
+- (NSSet<NSValue*>*)boundingBoxesForPartcode:(NSInteger)pc;
+- (NSSet<NSValue*>*)allBoundingBoxes;
 
 @end
 

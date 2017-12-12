@@ -190,6 +190,6 @@
  is responsible for releasing the colour ref when done.
  @return CGColorRef
  */
-- (CGColorRef)newQuartzColor;
+- (CGColorRef)newQuartzColor CF_RETURNS_RETAINED;
 
 @end

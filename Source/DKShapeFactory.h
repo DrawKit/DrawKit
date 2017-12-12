@@ -23,6 +23,7 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 
 /**  */
 + (DKShapeFactory*)sharedShapeFactory;
+@property (class, readonly, retain) DKShapeFactory* sharedShapeFactory;
 
 + (NSRect)rectOfUnitSize;
 

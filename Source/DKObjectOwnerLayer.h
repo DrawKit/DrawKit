@@ -750,8 +750,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 #endif
 
-extern NSString* kDKDrawableObjectPasteboardType;
-extern NSString* kDKDrawableObjectInfoPasteboardType;
+extern NSPasteboardType kDKDrawableObjectPasteboardType;
+extern NSPasteboardType kDKDrawableObjectInfoPasteboardType;
 extern NSNotificationName kDKLayerDidReorderObjects;
 
 extern NSNotificationName kDKLayerWillAddObject;

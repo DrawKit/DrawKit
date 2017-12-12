@@ -694,7 +694,7 @@ enum {
 
 // constant strings:
 
-extern NSString* kDKDrawableObjectPasteboardType;
+extern NSPasteboardType kDKDrawableObjectPasteboardType;
 extern NSString* kDKDrawableDidChangeNotification;
 extern NSString* kDKDrawableStyleWillBeDetachedNotification;
 extern NSString* kDKDrawableStyleWasAttachedNotification;

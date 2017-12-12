@@ -51,8 +51,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 */
 @interface GCUndoManager : NSObject {
 @private
-	NSMutableArray* mUndoStack; // list of groups making up the undo stack
-	NSMutableArray* mRedoStack; // list of groups making up the redo stack
+	NSMutableArray<GCUndoGroup*>* mUndoStack; // list of groups making up the undo stack
+	NSMutableArray<GCUndoGroup*>* mRedoStack; // list of groups making up the redo stack
 	NSArray* mRunLoopModes; // current run loop modes, used by automatic grouping by event
 	id mNextTarget; // next prepared target
 	GCUndoGroup* mOpenGroupRef; // internal reference to current open group
@@ -80,24 +80,33 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (BOOL)groupsByEvent;
 - (void)setGroupsByEvent:(BOOL)groupByEvent;
 
-- (NSArray*)runLoopModes;
-- (void)setRunLoopModes:(NSArray*)modes;
+@property (readonly) NSUInteger groupingLevel;
+@property BOOL groupsByEvent;
+
+- (NSArray<NSRunLoopMode>*)runLoopModes;
+- (void)setRunLoopModes:(NSArray<NSRunLoopMode>*)modes;
+@property (retain) NSArray<NSRunLoopMode> *runLoopModes;
 
 // enabling undo registration
 
 - (void)enableUndoRegistration;
 - (void)disableUndoRegistration;
 - (BOOL)isUndoRegistrationEnabled;
+@property (readonly, getter=isUndoRegistrationEnabled) BOOL undoRegistrationEnabled;
 
 // setting the number of undos allowed before old ones are discarded
 
 - (NSUInteger)levelsOfUndo;
 - (void)setLevelsOfUndo:(NSUInteger)levels;
+@property NSUInteger levelsOfUndo;
 
 // performing the undo or redo
 
 - (BOOL)canUndo;
 - (BOOL)canRedo;
+
+@property (readonly) BOOL canUndo;
+@property (readonly) BOOL canRedo;
 
 - (void)undo;
 - (void)redo;
@@ -105,6 +114,9 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 - (BOOL)isUndoing;
 - (BOOL)isRedoing;
+
+@property (readonly) BOOL isUndoing;
+@property (readonly) BOOL isRedoing;
 
 // undo menu management
 
@@ -132,8 +144,9 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)_processEndOfEventNotification:(NSNotification*)note;
 
 // additional API
-// automatic empty group discarding (default = YES)
 
+// automatic empty group discarding (default = YES)
+@property BOOL automaticallyDiscardsEmptyGroups;
 - (void)setAutomaticallyDiscardsEmptyGroups:(BOOL)autoDiscard;
 - (BOOL)automaticallyDiscardsEmptyGroups;
 
@@ -142,30 +155,43 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)enableUndoTaskCoalescing;
 - (void)disableUndoTaskCoalescing;
 - (BOOL)isUndoTaskCoalescingEnabled;
+@property (readonly, getter=isUndoTaskCoalescingEnabled) BOOL undoTaskCoalescingEnabled;
 
 - (void)setCoalescingKind:(GCUndoTaskCoalescingKind)kind;
 - (GCUndoTaskCoalescingKind)coalescingKind;
+@property GCUndoTaskCoalescingKind coalescingKind;
 
 // retaining targets
 
 - (void)setRetainsTargets:(BOOL)retainsTargets;
 - (BOOL)retainsTargets;
+@property BOOL retainsTargets;
 - (void)setNextTarget:(id)target;
 
 // getting/resetting change count
 
+/**
+ return the change count, which is roughly the number of individual tasks accepted. However, do not rely on the exact value,
+ instead you can compare it before and after, and if it has changed, then something was added. This could be used to e.g.
+ provide some additional auxiliary undoable state, such as selection changes, which are not normally considered undoable
+ in their own right.
+ */
 - (NSUInteger)changeCount;
+@property (readonly) NSUInteger changeCount;
 - (void)resetChangeCount;
 
 // internal methods - public to permit overriding
 
 - (GCUndoGroup*)currentGroup;
+@property (readonly, assign) GCUndoGroup *currentGroup;
 
-- (NSArray*)undoStack;
-- (NSArray*)redoStack;
+- (NSArray<GCUndoGroup*>*)undoStack;
+- (NSArray<GCUndoGroup*>*)redoStack;
 
 - (GCUndoGroup*)peekUndo;
 - (GCUndoGroup*)peekRedo;
+@property (readonly) NSUInteger numberOfUndoActions;
+@property (readonly) NSUInteger numberOfRedoActions;
 - (NSUInteger)numberOfUndoActions;
 - (NSUInteger)numberOfRedoActions;
 
@@ -182,8 +208,11 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)clearRedoStack;
 - (void)checkpoint;
 
-- (GCUndoManagerState)undoManagerState;
+/** @abstract sets the current state of the undo manager - called internally, not for client use
+ */
 - (void)setUndoManagerState:(GCUndoManagerState)aState;
+
+@property GCUndoManagerState undoManagerState;
 - (void)reset;
 
 - (void)conditionallyBeginUndoGrouping;
@@ -196,16 +225,16 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 #pragma mark -
 
-// undo tasks (actions) come in two types - groups and concrete tasks. Both descend from the same semi-abstract base which
-// provides the 'back pointer' to the parent group. The -perform method must be overridden by concrete subclasses.
-
+/**
+ undo tasks (actions) come in two types - groups and concrete tasks. Both descend from the same semi-abstract base which
+ provides the 'back pointer' to the parent group. The \c -perform method must be overridden by concrete subclasses.
+ */
 @interface GCUndoTask : NSObject {
 @private
 	GCUndoGroup* mGroupRef;
 }
 
-- (GCUndoGroup*)parentGroup;
-- (void)setParentGroup:(GCUndoGroup*)parent;
+@property (assign) GCUndoGroup *parentGroup;
 - (void)perform;
 
 @end
@@ -225,7 +254,7 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)addTask:(GCUndoTask*)aTask;
 - (GCUndoTask*)taskAtIndex:(NSUInteger)indx;
 - (GCConcreteUndoTask*)lastTaskIfConcrete;
-- (NSArray*)tasks;
+- (NSArray<GCUndoTask*>*)tasks;
 - (NSArray*)tasksWithTarget:(id)target selector:(SEL)selector;
 - (BOOL)isEmpty;
 

@@ -9,9 +9,9 @@
 @interface DKRuntimeHelper : NSObject
 
 /**  */
-+ (NSArray*)allClasses;
-+ (NSArray*)allClassesOfKind:(Class)aClass;
-+ (NSArray*)allImmediateSubclassesOf:(Class)aClass;
++ (NSArray<Class>*)allClasses;
++ (NSArray<Class>*)allClassesOfKind:(Class)aClass;
++ (NSArray<Class>*)allImmediateSubclassesOf:(Class)aClass;
 
 @end
 

@@ -799,17 +799,7 @@
 														object:self];
 }
 
-- (GCUndoManagerState)undoManagerState
-{
-	return mState;
-}
-
-- (void)setUndoManagerState:(GCUndoManagerState)aState
-{
-	// sets the current state of the undo manager - called internally, not for client use
-
-	mState = aState;
-}
+@synthesize undoManagerState=mState;
 
 - (void)reset
 {
@@ -922,16 +912,7 @@
 #pragma mark -
 
 @implementation GCUndoTask
-
-- (GCUndoGroup*)parentGroup
-{
-	return mGroupRef;
-}
-
-- (void)setParentGroup:(GCUndoGroup*)parent
-{
-	mGroupRef = parent;
-}
+@synthesize parentGroup=mGroupRef;
 
 - (void)perform
 {

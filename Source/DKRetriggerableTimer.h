@@ -26,9 +26,12 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
 
 - (id)initWithPeriod:(NSTimeInterval)period;
 - (NSTimeInterval)period;
+@property (readonly) NSTimeInterval period;
 
 - (void)retrigger;
 
+@property SEL action;
+@property (assign) id target;
 - (void)setAction:(SEL)action;
 - (SEL)action;
 - (void)setTarget:(id)target;

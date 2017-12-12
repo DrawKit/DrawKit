@@ -8,6 +8,8 @@
 
 @class DKDrawing, DKLayer, DKViewController;
 
+typedef NSString *DKDrawingViewMarkerName NS_STRING_ENUM;
+
 typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 	DKCropMarksNone = 0,
 	DKCropMarksCorners = 1,
@@ -350,9 +352,9 @@ extern NSString* kDKDrawingRulersVisibleDefaultPrefsKey;
 extern NSString* kDKTextEditorSmartQuotesPrefsKey;
 extern NSString* kDKTextEditorUndoesTypingPrefsKey;
 
-extern NSString* kDKDrawingViewHorizontalLeftMarkerName;
-extern NSString* kDKDrawingViewHorizontalCentreMarkerName;
-extern NSString* kDKDrawingViewHorizontalRightMarkerName;
-extern NSString* kDKDrawingViewVerticalTopMarkerName;
-extern NSString* kDKDrawingViewVerticalCentreMarkerName;
-extern NSString* kDKDrawingViewVerticalBottomMarkerName;
+extern DKDrawingViewMarkerName kDKDrawingViewHorizontalLeftMarkerName;
+extern DKDrawingViewMarkerName kDKDrawingViewHorizontalCentreMarkerName;
+extern DKDrawingViewMarkerName kDKDrawingViewHorizontalRightMarkerName;
+extern DKDrawingViewMarkerName kDKDrawingViewVerticalTopMarkerName;
+extern DKDrawingViewMarkerName kDKDrawingViewVerticalCentreMarkerName;
+extern DKDrawingViewMarkerName kDKDrawingViewVerticalBottomMarkerName;

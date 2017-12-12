@@ -8,13 +8,15 @@
 
 @class DKDrawingTool;
 
+typedef NSString *DKToolName NS_EXTENSIBLE_STRING_ENUM;
+
 /** @brief DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself.
 
 DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself. The old methods in DKDrawingTool now map to this class for backward
  compatibility but are deprecated.
 */
 @interface DKToolRegistry : NSObject {
-	NSMutableDictionary* mToolsReg;
+	NSMutableDictionary<DKToolName,__kindof DKDrawingTool*>* mToolsReg;
 }
 
 /** @brief Return the shared tool registry
@@ -24,18 +26,19 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
  @return a shared DKToolRegistry object
  */
 + (DKToolRegistry*)sharedToolRegistry;
+@property (class, readonly, retain) DKToolRegistry *sharedToolRegistry;
 
 /** @brief Return a named tool from the registry
  @param name the name of the tool of interest
  @return the tool if found, or nil if not
  */
-- (DKDrawingTool*)drawingToolWithName:(NSString*)name;
+- (DKDrawingTool*)drawingToolWithName:(DKToolName)name;
 
 /** @brief Add a tool to the registry
  @param tool the tool to register
  @param name the name of the tool of interest
  */
-- (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name;
+- (void)registerDrawingTool:(DKDrawingTool*)tool withName:(DKToolName)name;
 
 /** @brief Find the tool having a key equivalent matching the key event
  @param keyEvent the key event to match
@@ -44,9 +47,9 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
 - (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
 
 - (void)registerStandardTools;
-- (NSArray*)toolNames;
+- (NSArray<DKToolName>*)toolNames;
 - (NSArray*)allKeysForTool:(DKDrawingTool*)tool;
-- (NSArray*)tools;
+- (NSArray<DKDrawingTool*>*)tools;
 
 @end
 
@@ -56,23 +59,23 @@ extern NSString* kDKDrawingToolWasRegisteredNotification;
 
 // standard tool name constants
 
-extern NSString* kDKStandardSelectionToolName;
-extern NSString* kDKStandardRectangleToolName;
-extern NSString* kDKStandardOvalToolName;
-extern NSString* kDKStandardRoundRectangleToolName;
-extern NSString* kDKStandardRoundEndedRectangleToolName;
-extern NSString* kDKStandardBezierPathToolName;
-extern NSString* kDKStandardStraightLinePathToolName;
-extern NSString* kDKStandardIrregularPolygonPathToolName;
-extern NSString* kDKStandardRegularPolygonPathToolName;
-extern NSString* kDKStandardFreehandPathToolName;
-extern NSString* kDKStandardArcToolName;
-extern NSString* kDKStandardWedgeToolName;
-extern NSString* kDKStandardRingToolName;
-extern NSString* kDKStandardSpeechBalloonToolName;
-extern NSString* kDKStandardTextBoxToolName;
-extern NSString* kDKStandardTextPathToolName;
-extern NSString* kDKStandardAddPathPointToolName;
-extern NSString* kDKStandardDeletePathPointToolName;
-extern NSString* kDKStandardDeletePathSegmentToolName;
-extern NSString* kDKStandardZoomToolName;
+extern DKToolName kDKStandardSelectionToolName;
+extern DKToolName kDKStandardRectangleToolName;
+extern DKToolName kDKStandardOvalToolName;
+extern DKToolName kDKStandardRoundRectangleToolName;
+extern DKToolName kDKStandardRoundEndedRectangleToolName;
+extern DKToolName kDKStandardBezierPathToolName;
+extern DKToolName kDKStandardStraightLinePathToolName;
+extern DKToolName kDKStandardIrregularPolygonPathToolName;
+extern DKToolName kDKStandardRegularPolygonPathToolName;
+extern DKToolName kDKStandardFreehandPathToolName;
+extern DKToolName kDKStandardArcToolName;
+extern DKToolName kDKStandardWedgeToolName;
+extern DKToolName kDKStandardRingToolName;
+extern DKToolName kDKStandardSpeechBalloonToolName;
+extern DKToolName kDKStandardTextBoxToolName;
+extern DKToolName kDKStandardTextPathToolName;
+extern DKToolName kDKStandardAddPathPointToolName;
+extern DKToolName kDKStandardDeletePathPointToolName;
+extern DKToolName kDKStandardDeletePathSegmentToolName;
+extern DKToolName kDKStandardZoomToolName;

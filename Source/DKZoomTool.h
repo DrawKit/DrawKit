@@ -20,10 +20,12 @@ the data content of the drawing, only the view that is applying it, so does not 
 	NSRect mZoomRect; // zoom rect when dragged
 }
 
-- (void)setZoomsOut:(BOOL)zoomOut;
-- (BOOL)zoomsOut;
+/** @brief \c NO to zoom in, \c YES to zoom out.
+ */
+@property (nonatomic) BOOL zoomsOut;
 
-- (void)setModeModifierMask:(NSEventModifierFlags)msk;
-- (NSEventModifierFlags)modeModifierMask;
+/** @brief modifier mask used to flip mode in response to modifier.
+ */
+@property NSEventModifierFlags modeModifierMask;
 
 @end

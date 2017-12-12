@@ -71,6 +71,7 @@ typedef NS_ENUM(NSInteger, DKBSPOperation) {
 
 - (void)setDepth:(NSUInteger)depth;
 - (NSUInteger)countOfLeaves;
+@property (readonly) NSUInteger countOfLeaves;
 
 - (void)insertItemIndex:(NSUInteger)idx withRect:(NSRect)rect;
 - (void)removeItemIndex:(NSUInteger)idx withRect:(NSRect)rect;

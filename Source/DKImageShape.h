@@ -287,10 +287,11 @@ A hotspot is added to allow the user to drag the image offset position around.
 
 @end
 
-// deprecated methods
 
 #ifdef DRAWKIT_DEPRECATED
 
+/** @brief deprecated methods
+ */
 @interface DKImageShape (Deprecated)
 
 /** @brief Initializes the image shape from the pasteboard

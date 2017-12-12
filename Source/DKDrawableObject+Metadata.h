@@ -7,8 +7,8 @@
 #import "DKDrawableObject.h"
 #import "DKMetadataItem.h"
 
-// metadata has been through a bit of evolution. This constant indicates which schema is in use
-
+/** metadata has been through a bit of evolution. This constant indicates which schema is in use
+ */
 typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 	kDKMetadataOriginalSchema = 1,
 	kDKMetadataMark2Schema = 2,
@@ -74,9 +74,9 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 
 @end
 
-// deprecated methods - avoid using anonymous objects with metadata - wrap values in DKMetadataItem objects and use
-// setMetadataItem:forKey: and metadataItemForKey: instead. This preserves type and handles far more interconversions.
-
+/** deprecated methods - avoid using anonymous objects with metadata - wrap values in DKMetadataItem objects and use
+ \c setMetadataItem:forKey: and \c metadataItemForKey: instead. This preserves type and handles far more interconversions.
+ */
 @interface DKDrawableObject (MetadataDeprecated)
 
 - (void)setMetadataObject:(id)obj forKey:(NSString*)key;

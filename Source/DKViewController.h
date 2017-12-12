@@ -266,7 +266,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  @param aClass a layer class
  @return the active layer if it matches the class, otherwise nil
  */
-- (id)activeLayerOfClass:(Class)aClass;
+- (DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @brief Should a mouse down activate the layer it hits automatically?
 

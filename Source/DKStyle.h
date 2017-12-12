@@ -60,8 +60,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // pasted styles - separate non-persistent registry
 
-+ (DKStyle*)styleWithPasteboardName:(NSString*)name;
-+ (void)registerStyle:(DKStyle*)style withPasteboardName:(NSString*)pbname;
++ (DKStyle*)styleWithPasteboardName:(NSPasteboardName)name;
++ (void)registerStyle:(DKStyle*)style withPasteboardName:(NSPasteboardName)pbname;
 
 // default sharing flag
 
@@ -272,6 +272,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return a list of keys (NSStrings)
  */
 - (NSArray<NSString*>*)registryKeys;
+@property (readonly, copy) NSArray<NSString*> *registryKeys;
 
 /** @brief Returns the unique key of the style
 
@@ -280,6 +281,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return a string
  */
 - (NSString*)uniqueKey;
+@property (readonly, copy) NSString *uniqueKey;
 
 /** @brief Sets the unique key of the style
 
@@ -299,6 +301,9 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 - (BOOL)requiresRemerge;
 - (void)clearRemergeFlag;
 - (NSTimeInterval)lastModificationTimestamp;
+
+@property (readonly) BOOL requiresRemerge;
+@property (readonly) NSTimeInterval lastModificationTimestamp;
 
 /** @brief Is this style the same as <aStyle>?
 
@@ -342,11 +347,13 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return a number, the width of the widest contained stroke, or 0.0 if there are no strokes.
  */
 - (CGFloat)maxStrokeWidth;
+@property (readonly) CGFloat maxStrokeWidth;
 
 /** @brief Returns the difference between the widest and narrowest strokes
  @return a number, can be 0.0 if there are no strokes or only one stroke
  */
 - (CGFloat)maxStrokeWidthDifference;
+@property (readonly) CGFloat maxStrokeWidthDifference;
 
 /** @brief Applies the cap, join, mitre limit, dash and line width attributes of the rear-most stroke to the path
 
@@ -459,6 +466,9 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 - (NSImage*)image;
 - (NSImage*)imageToFitSize:(NSSize)aSize;
 
+@property (readonly, retain) NSImage *standardStyleSwatch;
+@property (readonly, retain) NSImage *image;
+
 /** @brief Return a key for the swatch cache for the given size and type of swatch
 
  The key is a simple concatenation of the size and the type, but don't rely on this anywhere - just
@@ -506,8 +516,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // pasteboard types:
 
-extern NSString* kDKStylePasteboardType;
-extern NSString* kDKStyleKeyPasteboardType;
+extern NSPasteboardType kDKStylePasteboardType NS_SWIFT_NAME(dkStyle);
+extern NSPasteboardType kDKStyleKeyPasteboardType NS_SWIFT_NAME(dkStyleKey);
 
 // notifications:
 

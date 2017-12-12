@@ -171,22 +171,8 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 	return self;
 }
 
-- (NSSize)size
-{
-	return mSize;
-}
-
-- (void)setColour:(NSColor*)colour
-{
-	[colour retain];
-	[mColour release];
-	mColour = colour;
-}
-
-- (NSColor*)colour
-{
-	return mColour;
-}
+@synthesize size=mSize;
+@synthesize colour=mColour;
 
 - (void)drawAtPoint:(NSPoint)point
 {

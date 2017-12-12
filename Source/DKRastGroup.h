@@ -31,11 +31,23 @@ as well.
 */
 @interface DKRastGroup : DKRasterizer <NSCoding, NSCopying> {
 @private
-	NSMutableArray* m_renderList;
+	NSMutableArray<DKRasterizer*>* m_renderList;
 }
 
-- (void)setRenderList:(NSArray*)list;
-- (NSArray*)renderList;
+/** @brief Set the contained objects to those in array
+ 
+ This method no longer attempts to try and manage observing of the objects. The observer must
+ properly stop observing before this is called, or start observing after it is called when
+ initialising from an archive.
+ @param list a list of renderer objects
+ */
+- (void)setRenderList:(NSArray<DKRasterizer*>*)list;
+
+/** @brief Get the list of contained renderers
+ @return an array containing the list of renderers
+ */
+- (NSArray<DKRasterizer*>*)renderList;
+@property (nonatomic, copy) NSArray<DKRasterizer*>* renderList;
 
 - (DKRastGroup*)root;
 
@@ -67,7 +79,7 @@ as well.
 // KVO compliant variants of the render list management methods, key = "renderList"
 
 - (id)objectInRenderListAtIndex:(NSUInteger)indx;
-- (void)insertObject:(id)obj inRenderListAtIndex:(NSUInteger)index;
+- (void)insertObject:(DKRasterizer*)obj inRenderListAtIndex:(NSUInteger)index;
 - (void)removeObjectFromRenderListAtIndex:(NSUInteger)indx;
 
 @end

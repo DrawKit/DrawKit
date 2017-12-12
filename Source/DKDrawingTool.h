@@ -179,6 +179,7 @@ siderations are outside the scope of DK itself.
  May be useful for supporting a UI
  @return an array, a list of NSStrings
  */
-+ (NSArray*)toolNames;
++ (NSArray<NSString*>*)toolNames;
+@property (class, readonly, copy) NSArray<NSString*> *toolNames;
 
 @end

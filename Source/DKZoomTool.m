@@ -19,20 +19,8 @@
 		mModeModifierMask = 0;
 }
 
-- (BOOL)zoomsOut
-{
-	return mMode;
-}
-
-- (void)setModeModifierMask:(NSEventModifierFlags)msk
-{
-	mModeModifierMask = msk;
-}
-
-- (NSEventModifierFlags)modeModifierMask
-{
-	return mModeModifierMask;
-}
+@synthesize zoomsOut=mMode;
+@synthesize modeModifierMask=mModeModifierMask;
 
 #pragma mark - As a DKDrawingTool
 
