@@ -8,18 +8,17 @@
 
 #import "LogEvent.h"
 
-@interface GCOneShotEffectTimer (Private)
+@interface GCOneShotEffectTimer ()
 
-- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id)del;
-- (void)setDelegate:(id)del;
-- (id)delegate;
+- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del;
+@property (retain) id<GCOneShotDelegate> delegate;
 - (void)osfx_callback:(NSTimer*)timer;
 
 @end
 
 @implementation GCOneShotEffectTimer
 
-+ (id)oneShotWithTime:(NSTimeInterval)t forDelegate:(id)del
++ (id)oneShotWithTime:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del
 {
 	GCOneShotEffectTimer* ft = [[GCOneShotEffectTimer alloc] initWithTimeInterval:t
 																	  forDelegate:del];
@@ -30,13 +29,13 @@
 	return ft;
 }
 
-+ (id)oneShotWithStandardFadeTimeForDelegate:(id)del
++ (id)oneShotWithStandardFadeTimeForDelegate:(id<GCOneShotDelegate>)del
 {
 	return [self oneShotWithTime:kDKStandardFadeTime
 					 forDelegate:del];
 }
 
-- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id)del
+- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del
 {
 	[super init];
 	[self setDelegate:del];
@@ -65,20 +64,7 @@
 	[super dealloc];
 }
 
-- (void)setDelegate:(id)del
-{
-	// delegate is retained and released when one-shot completes. This allows some effects to work even
-	// though the original delegate might be released by the caller.
-
-	[del retain];
-	[mDelegate release];
-	mDelegate = del;
-}
-
-- (id)delegate
-{
-	return mDelegate;
-}
+@synthesize delegate=mDelegate;
 
 - (void)osfx_callback:(NSTimer*)timer
 {

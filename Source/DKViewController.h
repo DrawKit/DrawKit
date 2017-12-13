@@ -222,6 +222,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
  */
 - (NSRect)activeCursorRect;
 
+@property (readonly) NSRect activeCursorRect;
+
 /** @brief Set whether the standard contextual menus within DK are enabled or not
 
  The default is to enable the menus - some apps may wish to turn off the standard menus altogether

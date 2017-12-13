@@ -16,7 +16,7 @@
 	id mNextTarget;
 }
 
-- (id)initWithUndoManager:(GCUndoManager*)um;
+- (instancetype)initWithUndoManager:(GCUndoManager*)um;
 - (void)forwardInvocation:(NSInvocation*)inv;
 - (NSMethodSignature*)methodSignatureForSelector:(SEL)selector;
 - (BOOL)respondsToSelector:(SEL)selector;
@@ -223,21 +223,6 @@
 #endif
 }
 
-- (BOOL)groupsByEvent
-{
-	return mGroupsByEvent;
-}
-
-- (void)setGroupsByEvent:(BOOL)groupByEvent
-{
-	mGroupsByEvent = groupByEvent;
-}
-
-- (NSUInteger)levelsOfUndo
-{
-	return mLevelsOfUndo;
-}
-
 - (void)setLevelsOfUndo:(NSUInteger)levels
 {
 	mLevelsOfUndo = levels;
@@ -257,20 +242,9 @@
 	}
 }
 
-- (NSArray*)runLoopModes
-{
-	return mRunLoopModes;
-}
-
-- (void)setRunLoopModes:(NSArray*)modes
-{
-	[modes retain];
-	[mRunLoopModes release];
-	mRunLoopModes = modes;
-
-	// n.b. if this is changed while a callback is pending, the new modes won't take effect until
-	// the next event cycle.
-}
+@synthesize groupsByEvent=mGroupsByEvent;
+@synthesize levelsOfUndo=mLevelsOfUndo;
+@synthesize runLoopModes=mRunLoopModes;
 
 - (void)setActionName:(NSString*)actionName
 {
@@ -456,20 +430,7 @@
 #pragma mark -
 #pragma mark - additional API
 
-- (void)setAutomaticallyDiscardsEmptyGroups:(BOOL)autoDiscard
-{
-	// set whether empty groups are automatically discarded when the top level group is closed. Default is YES. Set to
-	// NO for NSUndoManager behaviour - could conceivably be used to trigger undo managed outside of the undo manager.
-	// However this behaviour is buggy for normal usage of the undo manager. Setting this from NO to YES does not
-	// remove existing empty groups. Used in -endUndoGrouping.
-
-	mAutoDeleteEmptyGroups = autoDiscard;
-}
-
-- (BOOL)automaticallyDiscardsEmptyGroups
-{
-	return mAutoDeleteEmptyGroups;
-}
+@synthesize automaticallyDiscardsEmptyGroups=mAutoDeleteEmptyGroups;
 
 - (void)enableUndoTaskCoalescing
 {
@@ -481,25 +442,8 @@
 	mCoalescing = NO;
 }
 
-- (BOOL)isUndoTaskCoalescingEnabled
-{
-	return mCoalescing;
-}
-
-- (void)setCoalescingKind:(GCUndoTaskCoalescingKind)kind
-{
-	// sets the behaviour for coalescing. kGCCoalesceLastTask (default) checks just the most recent task submitted, whereas
-	// kGCCoalesceAllMatchingTasks checks all in the current group. Last task is appropriate for property changes such as
-	// ABBBBBBA > ABA, where the last A needs to be included but the intermediate B's do not. The other kind is better for changes
-	// such as ABABABAB > AB where a repeated sequence is coalesced into a single example of the sequence.
-
-	mCoalKind = kind;
-}
-
-- (GCUndoTaskCoalescingKind)coalescingKind
-{
-	return mCoalKind;
-}
+@synthesize undoTaskCoalescingEnabled=mCoalescing;
+@synthesize coalescingKind=mCoalKind;
 
 - (void)setRetainsTargets:(BOOL)retainsTargets
 {
@@ -514,6 +458,7 @@
 {
 	return mRetainsTargets;
 }
+@synthesize retainsTargets=mRetainsTargets;
 
 - (void)setNextTarget:(id)target
 {
@@ -531,6 +476,8 @@
 
 	return mChangeCount;
 }
+
+@synthesize changeCount=mChangeCount;
 
 - (void)resetChangeCount
 {
@@ -583,12 +530,7 @@
 	return [[self redoStack] count];
 }
 
-- (GCUndoGroup*)currentGroup
-{
-	// return the currently open group, or nil if no group is open
-
-	return mOpenGroupRef;
-}
+@synthesize currentGroup=mOpenGroupRef;
 
 - (NSArray*)undoStack
 {
@@ -1032,19 +974,7 @@
 	[temp release];
 }
 
-- (void)setActionName:(NSString*)name
-{
-	// sets the group's action name. In general this is automatically handled by the owning undo manager
-
-	[name retain];
-	[mActionName release];
-	mActionName = name;
-}
-
-- (NSString*)actionName
-{
-	return mActionName;
-}
+@synthesize actionName=mActionName;
 
 #pragma mark -
 #pragma mark - as a GCUndoTask

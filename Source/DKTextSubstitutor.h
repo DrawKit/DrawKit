@@ -23,30 +23,23 @@ This objects abstracts the text substitution task used by text adornments, et. a
 	BOOL mNeedsToEvaluate;
 }
 
-+ (NSString*)delimiterString;
-+ (void)setDelimiterString:(NSString*)delim;
 @property (class, copy) NSString *delimiterString;
-+ (NSCharacterSet*)keyBreakingCharacterSet;
+@property (class, readonly, retain) NSCharacterSet *keyBreakingCharacterSet;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithString:(NSString*)aString;
 - (instancetype)initWithAttributedString:(NSAttributedString*)aString NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-- (void)setMasterString:(NSAttributedString*)master;
-- (NSAttributedString*)masterString;
-@property (retain) NSAttributedString *masterString;
+@property (nonatomic, retain) NSAttributedString *masterString;
 
 - (void)setString:(NSString*)aString withAttributes:(NSDictionary*)attrs;
-- (NSString*)string;
 @property (readonly, copy) NSString*string;
 
-- (void)setAttributes:(NSDictionary*)attrs;
-- (NSDictionary*)attributes;
-@property (retain) NSDictionary *attributes;
+@property (copy) NSDictionary<NSAttributedStringKey,id> *attributes;
 
 - (void)processMasterString;
-- (NSArray*)allKeys;
+- (NSArray<NSString*>*)allKeys;
 
 - (NSAttributedString*)substitutedStringWithObject:(id)anObject;
 - (NSString*)metadataStringFromObject:(id)object;
@@ -61,14 +54,10 @@ extern NSString* kDKTextSubstitutorNewStringNotification;
 @interface DKTextSubstitutionKey : NSObject {
 	NSString* mKey;
 	NSRange mRange;
-	NSArray* mSubKeys;
+	NSArray<NSString*>* mSubKeys;
 	NSUInteger mPadLength;
 	NSString* mPadCharacter;
 }
-
-+ (NSCharacterSet*)validSubkeysCharacterSet;
-+ (NSDictionary*)abbreviationDictionary;
-+ (void)setAbbreviationDictionary:(NSDictionary*)abbreviations;
 
 @property (class, readonly, retain) NSCharacterSet *validSubkeysCharacterSet;
 @property (class, copy) NSDictionary *abbreviationDictionary;
@@ -76,21 +65,11 @@ extern NSString* kDKTextSubstitutorNewStringNotification;
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithKey:(NSString*)key range:(NSRange)aRange NS_DESIGNATED_INITIALIZER;
 
-- (NSString*)key;
-- (NSRange)range;
-- (BOOL)isPropertyKeyPath;
-- (NSArray*)subKeys;
-- (NSString*)stringByApplyingSubkeysToString:(NSString*)inString;
-
 @property (readonly, copy) NSString *key;
 @property (readonly) NSRange range;
 @property (readonly, getter=isPropertyKeyPath) BOOL propertyKeyPath;
-@property (readonly, copy) NSArray *subKeys;
-
-- (void)setPadding:(NSUInteger)padLength;
-- (NSUInteger)padding;
-- (void)setPaddingCharacter:(NSString*)padStr;
-- (NSString*)paddingCharacter;
+@property (readonly, copy) NSArray<NSString*> *subKeys;
+- (NSString*)stringByApplyingSubkeysToString:(NSString*)inString;
 
 @property (nonatomic) NSUInteger padding;
 @property (copy) NSString *paddingCharacter;

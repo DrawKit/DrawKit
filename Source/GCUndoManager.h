@@ -85,9 +85,10 @@ The point of this is to provide an undo manager whose source is openly readable,
 @property (readonly) NSUInteger groupingLevel;
 @property BOOL groupsByEvent;
 
-- (NSArray<NSRunLoopMode>*)runLoopModes;
-- (void)setRunLoopModes:(NSArray<NSRunLoopMode>*)modes;
-@property (retain) NSArray<NSRunLoopMode> *runLoopModes;
+/** n.b. if this is changed while a callback is pending, the new modes won't take effect until
+ the next event cycle.
+ */
+@property (copy) NSArray<NSRunLoopMode> *runLoopModes;
 
 // enabling undo registration
 
@@ -96,11 +97,9 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (BOOL)isUndoRegistrationEnabled;
 @property (readonly, getter=isUndoRegistrationEnabled) BOOL undoRegistrationEnabled;
 
-// setting the number of undos allowed before old ones are discarded
-
-- (NSUInteger)levelsOfUndo;
-- (void)setLevelsOfUndo:(NSUInteger)levels;
-@property NSUInteger levelsOfUndo;
+/** @brief setting the number of undos allowed before old ones are discarded
+ */
+@property (nonatomic) NSUInteger levelsOfUndo;
 
 // performing the undo or redo
 
@@ -130,6 +129,11 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (NSString*)undoMenuTitleForUndoActionName:(NSString*)actionName;
 - (NSString*)redoMenuTitleForUndoActionName:(NSString*)actionName;
 
+@property (readonly, copy) NSString *undoActionName;
+@property (readonly, copy) NSString *redoActionName;
+@property (readonly, copy) NSString *undoMenuItemTitle;
+@property (readonly, copy) NSString *redoMenuItemTitle;
+
 // registering actions with the undo manager
 
 - (id)prepareWithInvocationTarget:(id)target;
@@ -148,6 +152,13 @@ The point of this is to provide an undo manager whose source is openly readable,
 // additional API
 
 // automatic empty group discarding (default = YES)
+/** @brief automatic empty group discarding (default = YES)
+ 
+ set whether empty groups are automatically discarded when the top level group is closed. Default is YES. Set to
+ \c NO for NSUndoManager behaviour - could conceivably be used to trigger undo managed outside of the undo manager.
+ However this behaviour is buggy for normal usage of the undo manager. Setting this from \c NO to \c YES does not
+ remove existing empty groups. Used in -endUndoGrouping.
+ */
 @property BOOL automaticallyDiscardsEmptyGroups;
 - (void)setAutomaticallyDiscardsEmptyGroups:(BOOL)autoDiscard;
 - (BOOL)automaticallyDiscardsEmptyGroups;
@@ -159,8 +170,13 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (BOOL)isUndoTaskCoalescingEnabled;
 @property (readonly, getter=isUndoTaskCoalescingEnabled) BOOL undoTaskCoalescingEnabled;
 
-- (void)setCoalescingKind:(GCUndoTaskCoalescingKind)kind;
-- (GCUndoTaskCoalescingKind)coalescingKind;
+/**
+ 
+ The behaviour for coalescing. \c kGCCoalesceLastTask (default) checks just the most recent task submitted, whereas
+ \c kGCCoalesceAllMatchingTasks checks all in the current group. Last task is appropriate for property changes such as
+ ABBBBBBA > ABA, where the last A needs to be included but the intermediate B's do not. The other kind is better for changes
+ such as ABABABAB > AB where a repeated sequence is coalesced into a single example of the sequence.
+*/
 @property GCUndoTaskCoalescingKind coalescingKind;
 
 // retaining targets
@@ -184,7 +200,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 // internal methods - public to permit overriding
 
-- (GCUndoGroup*)currentGroup;
+/** @brief return the currently open group, or \c nil if no group is open
+ */
 @property (readonly, assign) GCUndoGroup *currentGroup;
 
 - (NSArray<GCUndoGroup*>*)undoStack;
@@ -255,14 +272,19 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 - (void)addTask:(GCUndoTask*)aTask;
 - (GCUndoTask*)taskAtIndex:(NSUInteger)indx;
-- (GCConcreteUndoTask*)lastTaskIfConcrete;
-- (NSArray<GCUndoTask*>*)tasks;
+@property (readonly) GCConcreteUndoTask *lastTaskIfConcrete;
+@property (readonly, retain) NSArray<GCUndoTask*> *tasks;
 - (NSArray*)tasksWithTarget:(id)target selector:(SEL)selector;
-- (BOOL)isEmpty;
+/** return whether the group contains any actual tasks. If it only contains other empty groups, returns YES.
+ */
+@property (readonly, getter=isEmpty) BOOL empty;
 
 - (void)removeTasksWithTarget:(id)aTarget undoManager:(GCUndoManager*)um;
-- (void)setActionName:(NSString*)name;
-- (NSString*)actionName;
+/** @brief The group's action name.
+ 
+ In general, setting this is automatically handled by the owning undo manager.
+ */
+@property (copy) NSString *actionName;
 
 @end
 

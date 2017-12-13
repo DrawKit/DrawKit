@@ -109,7 +109,7 @@ Registering a style. The style registry performs the following steps:
 
 Cut/Paste: cut and paste of styles works independently of the registry, including dealing with shared styles. See DKStyle for more info.
 */
-@interface DKStyleRegistry : DKCategoryManager
+@interface DKStyleRegistry : DKCategoryManager <DKCategoryManagerMenuItemDelegate>
 
 // retrieving the registry and styles
 

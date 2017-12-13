@@ -306,7 +306,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
  @return YES if all text was laid out, NO if some text was not laid out. */
 - (BOOL)layoutStringOnPath:(NSTextStorage*)str
 				   yOffset:(CGFloat)dy
-		 usingLayoutHelper:(id)helperObject
+		 usingLayoutHelper:(id<DKTextOnPathPlacement>)helperObject
 			 layoutManager:(NSLayoutManager*)lm
 					 cache:(NSMutableDictionary*)cache
 {
@@ -1084,7 +1084,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
  @param object a factory object used to supply the paths placed
  @param userInfo information passed to the factory object
  @return A list of placed objects */
-- (NSArray*)placeObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id)object userInfo:(void*)userInfo
+- (NSArray*)placeObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id<DKBezierPlacement>)object userInfo:(void*)userInfo
 {
 	if (![object respondsToSelector:@selector(placeObjectAtPoint:
 														  onPath:
@@ -1839,20 +1839,9 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 
 @implementation DKTextOnPathMetricsHelper
 
-- (void)setCharacterRange:(NSRange)range
-{
-	mCharacterRange = range;
-}
-
-- (CGFloat)length
-{
-	return mLength;
-}
-
-- (CGFloat)position
-{
-	return mStartPosition;
-}
+@synthesize characterRange=mCharacterRange;
+@synthesize length=mLength;
+@synthesize position=mStartPosition;
 
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy
 {

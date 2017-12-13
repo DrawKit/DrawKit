@@ -142,7 +142,7 @@ considerations are outside the scope of DK itself.
  Creates a new empty registry if it doesn't yet exist
  @return a dictionary - contains drawing tool objects keyed by name
  */
-+ (NSDictionary*)sharedToolRegistry;
++ (NSDictionary*)sharedToolRegistry DEPRECATED_ATTRIBUTE;
 
 /** @brief Retrieve a tool from the registry with the given name
 
@@ -150,7 +150,7 @@ considerations are outside the scope of DK itself.
  @param name the registry name of the tool required.
  @return the tool if it exists, or nil
  */
-+ (DKDrawingTool*)drawingToolWithName:(NSString*)name;
++ (DKDrawingTool*)drawingToolWithName:(NSString*)name DEPRECATED_ATTRIBUTE;
 
 /** @brief Register a tool in th eregistry with the given name
 
@@ -158,7 +158,7 @@ considerations are outside the scope of DK itself.
  @param tool a tool object to register
  @param name a name to register it against.
  */
-+ (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name;
++ (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name DEPRECATED_ATTRIBUTE;
 
 /** @brief Retrieve a tool from the registry matching the key equivalent indicated by the key event passed
 
@@ -166,7 +166,7 @@ considerations are outside the scope of DK itself.
  @param keyEvent a keyDown event.
  @return the tool if it can be matched, or nil
  */
-+ (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
++ (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent DEPRECATED_ATTRIBUTE;
 
 /** @brief Set a "standard" set of tools in the registry
 
@@ -176,14 +176,13 @@ considerations are outside the scope of DK itself.
  the class from the table, so that apps don't need to swap out all the tools for subclasses, but
  can simply set up the table.
  */
-+ (void)registerStandardTools;
++ (void)registerStandardTools DEPRECATED_ATTRIBUTE;
 
 /** @brief Return a list of registered tools' names, sorted alphabetically
 
  May be useful for supporting a UI
  @return an array, a list of NSStrings
  */
-+ (NSArray<NSString*>*)toolNames;
-@property (class, readonly, copy) NSArray<NSString*> *toolNames;
++ (NSArray<NSString*>*)toolNames DEPRECATED_ATTRIBUTE;
 
 @end

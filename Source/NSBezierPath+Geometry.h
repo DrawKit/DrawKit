@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@protocol DKBezierElementIterationDelegate;
+
 @interface NSBezierPath (Geometry)
 
 // simple transformations
@@ -17,15 +19,15 @@
 - (NSBezierPath*)insetPathBy:(CGFloat)amount;
 - (NSBezierPath*)horizontallyFlippedPathAboutPoint:(NSPoint)cp;
 - (NSBezierPath*)verticallyFlippedPathAboutPoint:(NSPoint)cp;
-- (NSBezierPath*)horizontallyFlippedPath;
-- (NSBezierPath*)verticallyFlippedPath;
+@property (readonly, copy) NSBezierPath *horizontallyFlippedPath;
+@property (readonly, copy) NSBezierPath *verticallyFlippedPath;
 
-- (NSPoint)centreOfBounds;
-- (CGFloat)minimumCornerAngle;
+@property (readonly) NSPoint centreOfBounds;
+@property (readonly) CGFloat minimumCornerAngle;
 
 // iterating over a path using a iteration delegate:
 
-- (NSBezierPath*)bezierPathByIteratingWithDelegate:(id)delegate contextInfo:(void*)contextInfo;
+- (NSBezierPath*)bezierPathByIteratingWithDelegate:(id<DKBezierElementIterationDelegate>)delegate contextInfo:(void*)contextInfo;
 
 - (NSBezierPath*)paralleloidPathWithOffset:(CGFloat)delta;
 - (NSBezierPath*)paralleloidPathWithOffset2:(CGFloat)delta;
@@ -54,18 +56,18 @@
 
 // getting the outline of a stroked path:
 
-- (NSBezierPath*)strokedPath;
+@property (readonly, copy) NSBezierPath *strokedPath;
 - (NSBezierPath*)strokedPathWithStrokeWidth:(CGFloat)width;
 
 // breaking a path apart:
 
-- (NSArray*)subPaths;
-- (NSInteger)countSubPaths;
+@property (readonly, copy) NSArray<NSBezierPath*> *subPaths;
+@property (readonly) NSInteger countSubPaths;
 
 // converting to and from Core Graphics paths
 
-- (CGPathRef)newQuartzPath;
-- (CGMutablePathRef)newMutableQuartzPath;
+- (CGPathRef)newQuartzPath CF_RETURNS_RETAINED;
+- (CGMutablePathRef)newMutableQuartzPath CF_RETURNS_RETAINED;
 - (CGContextRef)setQuartzPath;
 - (void)setQuartzPathInContext:(CGContextRef)context isNewPath:(BOOL)np;
 
@@ -75,7 +77,7 @@
 // finding path lengths for points and points for lengths
 
 - (NSPoint)pointOnPathAtLength:(CGFloat)length slope:(CGFloat*)slope;
-- (CGFloat)slopeStartingPath;
+@property (readonly) CGFloat slopeStartingPath;
 - (CGFloat)distanceFromStartOfPathAtPoint:(NSPoint)p tolerance:(CGFloat)tol;
 
 - (NSInteger)pointWithinPathRegion:(NSPoint)p;
@@ -86,13 +88,13 @@
 
 // path trimming
 
-- (CGFloat)length;
+@property (readonly) CGFloat length;
 - (CGFloat)lengthWithMaximumError:(CGFloat)maxError;
 - (CGFloat)lengthOfElement:(NSInteger)i;
 - (CGFloat)lengthOfPathFromElement:(NSInteger)startElement toElement:(NSInteger)endElement;
 
-- (NSPoint)firstPoint;
-- (NSPoint)lastPoint;
+@property (readonly) NSPoint firstPoint;
+@property (readonly) NSPoint lastPoint;
 
 // trimming utilities - modified source originally from A J Houghton, see copyright notice below
 
@@ -118,10 +120,19 @@
 
 @end
 
-// informal protocol for iterating over the elements in a bezier path using bezierPathByIteratingWithDelegate:contextInfo:
+/** @brief informal protocol for iterating over the elements in a bezier path using bezierPathByIteratingWithDelegate:contextInfo:
+ */
+@protocol DKBezierElementIterationDelegate <NSObject>
 
-@interface NSObject (BezierElementIterationDelegate)
-
+/**
+ @param path the new path that the delegate can build or modify from the information given
+ @param element the element index
+ @param type the element type
+ @param p list of associated points 0 = next point, 1 = cp1, 2 = cp2 (for curves), 3 = last point on subpath
+ @param spi which subpath this is
+ @param spClosed is the subpath closed?
+ @param contextInfo the context info
+ */
 - (void)path:(NSBezierPath*)path // the new path that the delegate can build or modify from the information given
 	 elementIndex:(NSInteger)element // the element index
 			 type:(NSBezierPathElement)type // the element type

@@ -49,6 +49,8 @@
 	return m_image;
 }
 
+@synthesize image=m_image;
+
 #pragma mark -
 - (void)setOpacity:(CGFloat)op
 {

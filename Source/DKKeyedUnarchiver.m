@@ -7,17 +7,6 @@
 #import "DKKeyedUnarchiver.h"
 
 @implementation DKKeyedUnarchiver
-
-- (void)setImageManager:(DKImageDataManager*)imgMgr
-{
-	// not retained because we know that it's retained by the drawing and the lifetime of the dearchiver is limited.
-
-	mImageManagerRef = imgMgr;
-}
-
-- (DKImageDataManager*)imageManager
-{
-	return mImageManagerRef;
-}
+@synthesize imageManager=mImageManagerRef;
 
 @end

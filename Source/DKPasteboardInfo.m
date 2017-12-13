@@ -8,6 +8,7 @@
 #import "DKGeometryUtilities.h"
 #import "DKLayer.h"
 #import "LogEvent.h"
+#import "DKObjectOwnerLayer.h"
 
 @implementation DKPasteboardInfo
 
@@ -83,30 +84,16 @@
 	return self;
 }
 
-- (NSUInteger)count
-{
-	return mCount;
-}
-
-- (NSRect)bounds
-{
-	return mBoundingRect;
-}
-
-- (NSDictionary*)classInfo
-{
-	return mClassInfo;
-}
+@synthesize count=mCount;
+@synthesize bounds=mBoundingRect;
+@synthesize classInfo=mClassInfo;
 
 - (NSUInteger)countOfClass:(Class)aClass
 {
 	return [[[self classInfo] objectForKey:NSStringFromClass(aClass)] integerValue];
 }
 
-- (NSString*)keyOfOriginatingLayer
-{
-	return mOriginatingLayerKey;
-}
+@synthesize keyOfOriginatingLayer=mOriginatingLayerKey;
 
 - (NSData*)data
 {

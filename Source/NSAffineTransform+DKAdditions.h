@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** stolen from Apple sample code "speedy categories"
  */
 @interface NSAffineTransform (DKAdditions)
@@ -19,3 +21,5 @@
 - (NSAffineTransform*)flipVertical:(NSRect)bounds;
 
 @end
+
+NS_ASSUME_NONNULL_END

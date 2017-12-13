@@ -398,10 +398,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	return (mEditorRef != nil);
 }
 
-- (DKTextAdornment*)textAdornment
-{
-	return mTextAdornment;
-}
+@synthesize textAdornment=mTextAdornment;
 
 #pragma mark -
 

@@ -14,30 +14,30 @@ This object is archived and added to the pasteboard when copying items within DK
  Presently this merely supplies the object count and a list of classes present and a count of each, but may be extended later
 */
 @interface DKPasteboardInfo : NSObject <NSCoding> {
-	NSInteger mCount;
+	NSUInteger mCount;
 	NSDictionary* mClassInfo;
 	NSRect mBoundingRect;
 	NSString* mOriginatingLayerKey;
 }
 
-+ (DKPasteboardInfo*)pasteboardInfoForObjects:(NSArray*)objects;
-+ (DKPasteboardInfo*)pasteboardInfoWithData:(NSData*)data;
-+ (DKPasteboardInfo*)pasteboardInfoWithPasteboard:(NSPasteboard*)pb;
++ (instancetype)pasteboardInfoForObjects:(NSArray*)objects NS_SWIFT_UNAVAILABLE("");
++ (instancetype)pasteboardInfoWithData:(NSData*)data;
++ (instancetype)pasteboardInfoWithPasteboard:(NSPasteboard*)pb;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithObjectsInArray:(NSArray*)objects NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
-- (NSUInteger)count;
-- (NSRect)bounds;
 
-- (NSDictionary*)classInfo;
+@property (readonly) NSUInteger count;
+@property (readonly) NSRect bounds;
+
+@property (readonly, copy) NSDictionary<NSString*,NSNumber*> *classInfo;
 - (NSUInteger)countOfClass:(Class)aClass;
 
-- (NSString*)keyOfOriginatingLayer;
+@property (readonly, copy) NSString *keyOfOriginatingLayer;
 
 - (NSData*)data;
 - (BOOL)writeToPasteboard:(NSPasteboard*)pb;
 
 @end
 
-extern NSPasteboardType kDKDrawableObjectInfoPasteboardType;

@@ -31,7 +31,7 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
  @param name the name of the tool of interest
  @return the tool if found, or nil if not
  */
-- (DKDrawingTool*)drawingToolWithName:(DKToolName)name;
+- (__kindof DKDrawingTool*)drawingToolWithName:(DKToolName)name;
 
 /** @brief Add a tool to the registry
  @param tool the tool to register
@@ -43,7 +43,7 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
  @param keyEvent the key event to match
  @return the tool if found, or nil
  */
-- (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
+- (__kindof DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
 
 - (void)registerStandardTools;
 - (NSArray<DKToolName>*)toolNames;

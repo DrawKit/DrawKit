@@ -36,8 +36,9 @@ static inline void transformRGB_HSV(CGFloat* components);
 static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 #pragma mark -
-@interface DKColorStop (Private)
+@interface DKColorStop ()
 
+@property (assign) DKGradient *owner;
 - (void)setOwner:(DKGradient*)owner;
 - (DKGradient*)owner;
 
@@ -1157,21 +1158,18 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 
 #pragma mark -
 
-- (NSColor*)color
-{
-	return mColor;
-}
+@synthesize color=mColor;
 
 /** @brief Set the Color associated with this stop
 
  Colors are converted to calibrated RGB to permit shading calculations
- @param Color the Color to set
+ @param aColor the Color to set
  */
-- (void)setColor:(NSColor*)Color
+- (void)setColor:(NSColor*)aColor
 {
 	[[self owner] colorStopWillChangeColor:self];
 
-	NSColor* rgb = [Color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
+	NSColor* rgb = [aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 
 	[rgb retain];
 	[mColor release];
@@ -1196,13 +1194,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 
 #pragma mark -
 
-/** @brief Get the stop's relative position
- @return a value between 0 and 1
- */
-- (CGFloat)position
-{
-	return position;
-}
+@synthesize position;
 
 /** @brief Set the stop's relative position
 
@@ -1217,15 +1209,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 }
 
 #pragma mark -
-- (DKGradient*)owner
-{
-	return m_ownerRef;
-}
-
-- (void)setOwner:(DKGradient*)owner
-{
-	m_ownerRef = owner;
-}
+@synthesize owner=m_ownerRef;
 
 #pragma mark -
 #pragma mark As an NSObject

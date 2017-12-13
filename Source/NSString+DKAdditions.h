@@ -21,11 +21,9 @@ typedef NS_ENUM(NSUInteger, DKAbbreviationOptions) {
 - (NSString*)stringByRemovingCharacter:(unichar)character;
 - (NSString*)stringByReplacingCharactersInSet:(NSCharacterSet*)charSet withString:(NSString*)substitute;
 
-- (NSString*)stringByCapitalizingFirstCharacter;
+@property (readonly, copy) NSString *stringByCapitalizingFirstCharacter;
 - (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOptions)flags;
 - (NSString*)stringByAbbreviatingWordsWithDictionary:(NSDictionary*)abbreviations;
-
-- (NSString*)stringValue;
 
 @end
 

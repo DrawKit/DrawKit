@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+@protocol GCOneShotDelegate;
+
 /** @brief This class wraps up a very simple piece of timer functionality.
 
 This class wraps up a very simple piece of timer functionality. It sets up a timer that will call the
@@ -31,15 +33,18 @@ This class wraps up a very simple piece of timer functionality. It sets up a tim
 	NSTimer* mTimer;
 	NSTimeInterval mStart;
 	NSTimeInterval mTotal;
-	id mDelegate;
+	// delegate is retained and released when one-shot completes. This allows some effects to work even
+	// though the original delegate might be released by the caller.
+	id<GCOneShotDelegate> mDelegate;
 }
 
-+ (id)oneShotWithStandardFadeTimeForDelegate:(id)del;
-+ (id)oneShotWithTime:(NSTimeInterval)t forDelegate:(id)del;
++ (GCOneShotEffectTimer*)oneShotWithStandardFadeTimeForDelegate:(id<GCOneShotDelegate>)del;
++ (GCOneShotEffectTimer*)oneShotWithTime:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del;
 
 @end
 
-@interface NSObject (OneShotDelegate)
+@protocol GCOneShotDelegate <NSObject>
+@optional
 
 - (void)oneShotWillBegin;
 - (void)oneShotHasReached:(CGFloat)relpos;

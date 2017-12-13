@@ -18,14 +18,14 @@ s
 	NSUInteger m_maxColours;
 	NSUInteger m_nBits;
 	NSSize m_imageSize;
-	NSMutableArray* m_cTable;
+	NSMutableArray<NSColor*>* m_cTable;
 }
 
 - (id)initWithBitmapImageRep:(NSBitmapImageRep*)rep maxColours:(NSUInteger)maxColours colourBits:(NSUInteger)nBits;
 - (NSUInteger)indexForRGB:(NSUInteger[])rgb;
 - (NSColor*)colourForIndex:(NSUInteger)index;
-- (NSArray*)colourTable;
-- (NSInteger)numberOfColours;
+@property (readonly, retain) NSArray<NSColor*> *colourTable;
+@property (readonly) NSUInteger numberOfColours;
 
 - (void)analyse:(NSBitmapImageRep*)rep;
 

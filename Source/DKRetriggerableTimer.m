@@ -35,10 +35,7 @@
 	return self;
 }
 
-- (NSTimeInterval)period
-{
-	return mPeriod;
-}
+@synthesize period=mPeriod;
 
 - (void)retrigger
 {
@@ -54,25 +51,8 @@
 												 repeats:NO];
 }
 
-- (void)setAction:(SEL)action
-{
-	mAction = action;
-}
-
-- (SEL)action
-{
-	return mAction;
-}
-
-- (void)setTarget:(id)target
-{
-	mTarget = target;
-}
-
-- (id)target
-{
-	return mTarget;
-}
+@synthesize action=mAction;
+@synthesize target=mTarget;
 
 #pragma mark -
 

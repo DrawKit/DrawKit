@@ -425,7 +425,20 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSPoint)nudgeOffset;
 @property (readonly) NSPoint nudgeOffset;
 
+/** @brief Returns the master grid layer, if there is one
+ 
+ Usually there will only be one grid, but if there is more than one this only finds the uppermost.
+ This only returns a grid that returns YES to -isMasterGrid, so subclasses can return NO to
+ prevent themselves being considered for this role.
+ @return the grid layer, or nil
+ */
 - (DKGridLayer*)gridLayer;
+
+/** @brief Returns the guide layer, if there is one
+ 
+ Usually there will only be one guide layer, but if there is more than one this only finds the uppermost.
+ @return the guide layer, or nil
+ */
 - (DKGuideLayer*)guideLayer;
 - (CGFloat)convertLength:(CGFloat)len;
 - (NSPoint)convertPoint:(NSPoint)pt;

@@ -484,6 +484,8 @@ static NSSize sTempSavedOffset;
 	return pth;
 }
 
+@synthesize path=m_path;
+
 /** @brief Fetch a new path definition following a resize of the shape
 
  @discussion
@@ -1524,13 +1526,7 @@ static NSSize sTempSavedOffset;
 	}
 }
 
-/** @brief Return the current distortion transform
- @return the distortion transform if there is one, or nil otherwise
- */
-- (DKDistortionTransform*)distortionTransform
-{
-	return m_distortTransform;
-}
+@synthesize distortionTransform=m_distortTransform;
 
 #pragma mark -
 #pragma mark - convert to editable path

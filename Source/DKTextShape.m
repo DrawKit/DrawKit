@@ -752,10 +752,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	return (m_editorRef && ([m_editorRef superview] == [[self drawing] currentView]) && [[NSGraphicsContext currentContext] isDrawingToScreen]);
 }
 
-- (DKTextAdornment*)textAdornment
-{
-	return mTextAdornment;
-}
+@synthesize textAdornment=mTextAdornment;
 
 #pragma mark -
 #pragma mark - user actions

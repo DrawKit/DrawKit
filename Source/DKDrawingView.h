@@ -66,7 +66,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 + (NSColor*)pageBreakColour;
 
-@property (class, retain) NSColor *pageBreakColour;
+@property (class, retain /*, null_resettable*/) NSColor *pageBreakColour;
 
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
  @return a colour

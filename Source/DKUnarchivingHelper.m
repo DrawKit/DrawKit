@@ -18,10 +18,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 	mCount = 0;
 }
 
-- (NSUInteger)numberOfObjectsDecoded
-{
-	return mCount;
-}
+@synthesize numberOfObjectsDecoded=mCount;
 
 - (id)unarchiver:(NSKeyedUnarchiver*)unarchiver didDecodeObject:(id)object
 {
@@ -138,10 +135,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 	return theClass;
 }
 
-- (NSString*)lastClassnameSubstituted
-{
-	return mLastClassnameSubstituted;
-}
+@synthesize lastClassnameSubstituted=mLastClassnameSubstituted;
 
 - (void)dealloc
 {
@@ -154,18 +148,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 #pragma mark -
 
 @implementation DKNullObject
-
-- (void)setSubstitutionClassname:(NSString*)classname
-{
-	[classname retain];
-	[mSubstitutedForClassname release];
-	mSubstitutedForClassname = classname;
-}
-
-- (NSString*)substitutionClassname
-{
-	return mSubstitutedForClassname;
-}
+@synthesize substitutionClassname=mSubstitutedForClassname;
 
 - (instancetype)initWithCoder:(NSCoder*)coder
 {

@@ -8,6 +8,10 @@
 #import "GCOneShotEffectTimer.h"
 #import "NSColor+DKAdditions.h"
 
+@interface GCInfoFloater () <GCOneShotDelegate>
+
+@end
+
 @implementation GCInfoFloater
 #pragma mark As a GCInfoFloater
 

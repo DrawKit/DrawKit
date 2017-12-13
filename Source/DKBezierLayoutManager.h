@@ -15,7 +15,7 @@
 	NSBezierPath* mPath;
 }
 
-- (NSBezierPath*)textPath;
+@property (readonly, retain) NSBezierPath *textPath;
 - (NSArray*)glyphPathsForContainer:(NSTextContainer*)container usedSize:(NSSize*)aSize;
 
 @end

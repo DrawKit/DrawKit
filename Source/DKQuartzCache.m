@@ -73,8 +73,13 @@
 
 - (NSSize)size
 {
+#if defined(NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES) && NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES
+	// Ssh, CGSize and NSSize are the same on 64-bit Mac OS X.
+	return CGLayerGetSize(mCGLayer);
+#else
 	CGSize cg_size = CGLayerGetSize(mCGLayer);
 	return NSMakeSize(cg_size.width, cg_size.height);
+#endif
 }
 
 - (CGContextRef)context
@@ -82,15 +87,7 @@
 	return CGLayerGetContext(mCGLayer);
 }
 
-- (void)setFlipped:(BOOL)flipped
-{
-	mFlipped = flipped;
-}
-
-- (BOOL)flipped
-{
-	return mFlipped;
-}
+@synthesize flipped=mFlipped;
 
 - (void)drawAtPoint:(NSPoint)point
 {

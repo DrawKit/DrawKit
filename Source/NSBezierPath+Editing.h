@@ -41,7 +41,7 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 - (void)getPathMoveToCount:(NSInteger*)mtc lineToCount:(NSInteger*)ltc curveToCount:(NSInteger*)ctc closePathCount:(NSInteger*)cpc;
 
 - (BOOL)isPathClosed;
-@property (readonly) BOOL isPathClosed;
+@property (readonly, getter=isPathClosed) BOOL pathClosed;
 - (NSUInteger)checksum;
 @property (readonly) NSUInteger checksum;
 

@@ -110,7 +110,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 - (DKTextAdornment*)textAdornment;
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
-@property (retain) DKTextAdornment *textAdornment;
+@property (nonatomic, retain) DKTextAdornment *textAdornment;
 
 // user actions:
 

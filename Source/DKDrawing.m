@@ -479,6 +479,8 @@ static id sDearchivingHelper = nil;
 	mOwnerRef = owner;
 }
 
+@synthesize owner=mOwnerRef;
+
 #pragma mark -
 #pragma mark - basic drawing parameters
 
@@ -697,6 +699,8 @@ static id sDearchivingHelper = nil;
 {
 	return mColourSpace;
 }
+
+@synthesize colourSpace=mColourSpace;
 
 #pragma mark -
 #pragma mark - setting the rulers to the grid
@@ -1219,6 +1223,8 @@ static id sDearchivingHelper = nil;
 	return m_snapsToGrid;
 }
 
+@synthesize snapsToGrid=m_snapsToGrid;
+
 /** @brief Sets whether mouse actions within the drawing should snap to guides or not.
 
  Actually snapping requires that objects call the snapToGuides: method for points and rects that they are
@@ -1239,6 +1245,8 @@ static id sDearchivingHelper = nil;
 {
 	return m_snapsToGuides;
 }
+
+@synthesize snapsToGuides=m_snapsToGuides;
 
 #pragma mark -
 

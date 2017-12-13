@@ -270,10 +270,14 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 - (instancetype)initWithColor:(NSColor*)aColor at:(CGFloat)pos NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-- (NSColor*)color;
+/** @brief Set the Color associated with this stop
+ 
+ Colors are converted to calibrated RGB to permit shading calculations
+ @param aColor the Color to set
+ */
 - (void)setColor:(NSColor*)aColor;
 
-@property (retain) NSColor *color;
+@property (nonatomic, retain) NSColor *color;
 
 /** @brief Set the alpha of the colour associated with this stop
  @param alpha the alpha to set
@@ -284,6 +288,12 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @return a value between 0 and 1
  */
 - (CGFloat)position;
+
+/** @brief Set the stop's relative position
+ 
+ Value is constrained between 0.0 and 1.0
+ @param pos a vlue between 0 and 1
+ */
 - (void)setPosition:(CGFloat)pos;
 
 @property (nonatomic) CGFloat position;

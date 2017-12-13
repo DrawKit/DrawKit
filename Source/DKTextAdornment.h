@@ -83,78 +83,85 @@ other fixed content. See that class for details.
 
 // text layout:
 
-- (void)setVerticalAlignment:(DKVerticalTextAlignment)placement;
-- (DKVerticalTextAlignment)verticalAlignment;
 - (void)setVerticalAlignmentProportion:(CGFloat)prop;
 - (CGFloat)verticalAlignmentProportion;
 - (CGFloat)baselineOffset;
 - (CGFloat)baselineOffsetForTextHeight:(CGFloat)height;
 - (CGFloat)verticalTextOffsetForObject:(id<DKRenderable>)object;
 - (NSRect)textLayoutRectForObject:(id<DKRenderable>)object;
-- (void)setTextRect:(NSRect)rect;
-- (NSRect)textRect;
 
-@property DKVerticalTextAlignment verticalAlignment;
-@property CGFloat verticalAlignmentProportion;
+/** @brief vertical text alignment
+ */
+@property (nonatomic) DKVerticalTextAlignment verticalAlignment;
+
+/** @brief for proportional vertical text placement, this is the proportion 0..1 of the height
+ */
+@property (nonatomic) CGFloat verticalAlignmentProportion;
 @property (readonly) CGFloat baselineOffset;
+
+/** @brief layout rect
+ 
+ The \c textRect defines a rect relative to the shape's original path bounds that the text is laid out in. If you pass \c NSZeroRect (the default), the text
+ is laid out using the shape's bounds. This additional rect gives you the flexibility to modify the text layout to anywhere within the shape. Note the
+ coordinate system it uses is transformed by the shape's transform - so if you wanted to lay the text out in half the shape's width, the rect's width
+ would be 0.5. Similarly, to offset the text halfway across, its origin would be 0. This means this rect maintains its correct effect no matter how
+ the shape is scaled or rotated, and it does the thing you expect. Otherwise it would have to be recalculated for every new shape size.
+*/
 @property NSRect textRect;
 
-- (void)setLayoutMode:(DKTextLayoutMode)mode;
-- (DKTextLayoutMode)layoutMode;
+/** @brief layout modes - wrap in box, shape or along path
+ */
+@property (nonatomic) DKTextLayoutMode layoutMode;
 
-@property DKTextLayoutMode layoutMode;
+/** @brief inset the layout path by this much before laying out the text
+ */
+@property (nonatomic) CGFloat flowedTextPathInset;
 
-- (void)setFlowedTextPathInset:(CGFloat)inset;
-- (CGFloat)flowedTextPathInset;
-
-@property CGFloat flowedTextPathInset;
-
-- (void)setAngle:(CGFloat)angle;
-- (CGFloat)angle;
-- (void)setAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)angleInDegrees;
-
-@property CGFloat angle;
+/** @brief independent text angle
+ */
+@property (nonatomic) CGFloat angle;
 @property CGFloat angleInDegrees;
 
-- (void)setAppliesObjectAngle:(BOOL)aa;
-- (BOOL)appliesObjectAngle;
-
+/** @brief \c YES to add the object's angle to the text angle
+ */
 @property (nonatomic) BOOL appliesObjectAngle;
 
-- (void)setWrapsLines:(BOOL)wraps;
-- (BOOL)wrapsLines;
-- (void)setAllowsTextToExtendHorizontally:(BOOL)extend;
-- (BOOL)allowsTextToExtendHorizontally;
-
+/** @brief \c YES to wrap into the text rect, \c NO for single line
+ */
 @property (nonatomic) BOOL wrapsLines;
+/** @brief YES to allow unwrapped text to extend as much as it needs to horizontally
+ */
 @property BOOL allowsTextToExtendHorizontally;
 
 // text masking or "knockouts":
 
-- (void)setTextKnockoutDistance:(CGFloat)distance;
-- (CGFloat)textKnockoutDistance;
-- (void)setTextKnockoutStrokeWidth:(CGFloat)width;
-- (CGFloat)textKnockoutStrokeWidth;
-- (void)setTextKnockoutColour:(NSColor*)colour;
-- (NSColor*)textKnockoutColour;
-- (void)setTextKnockoutStrokeColour:(NSColor*)colour;
-- (NSColor*)textKnockoutStrokeColour;
-
+/** @brief distance to extend path when drawing knockout; 0 = no knockout.
+ */
 @property (nonatomic) CGFloat textKnockoutDistance;
+/** @brief stroke width for text knockout, if any (0 = none)
+ */
 @property CGFloat textKnockoutStrokeWidth;
+/** @brief colour for text knockout, default = white
+ */
 @property (retain) NSColor *textKnockoutColour;
+/** @brief colour for stroking the text knockout, default = black
+ */
 @property (retain) NSColor *textKnockoutStrokeColour;
 
 // modifying text when drawn:
 
-- (void)setCapitalization:(DKTextCapitalization)cap;
-- (DKTextCapitalization)capitalization;
-
-- (void)setGreeking:(DKGreeking)greeking;
-- (DKGreeking)greeking;
-
+/** @brief capitalization mode
+ */
 @property (nonatomic) DKTextCapitalization capitalization;
+
+/** @brief greeking mode
+ 
+ greeking is a text rendition method that substitutes simple rectangles for the actual drawn glyphs. It can be used to render extremely small point text
+ more quickly, or to give an impression of text. It is rarely used, but can be handy for hit-testing where the exact glyphs are not required and don't work
+ well when rendered using scaling to small bitmap contexts (as when hit-testing).
+ 
+ currently the greeking setting is considered temporary so isn't archived or exported as an observable property
+*/
 @property DKGreeking greeking;
 
 // text attributes:
@@ -162,57 +169,26 @@ other fixed content. See that class for details.
 - (void)changeFont:(id)sender;
 - (void)changeAttributes:(id)sender;
 
-- (void)setFont:(NSFont*)font;
-- (NSFont*)font;
-
-- (void)setFontSize:(CGFloat)fontSize;
-- (CGFloat)fontSize;
-- (void)scaleTextBy:(CGFloat)factor;
-
 @property (retain) NSFont *font;
-@property CGFloat fontSize;
 
-- (void)setColour:(NSColor*)colour;
-- (NSColor*)colour;
+@property CGFloat fontSize;
+- (void)scaleTextBy:(CGFloat)factor;
 
 @property (retain) NSColor *colour;
 
-- (void)setTextAttributes:(NSDictionary*)attrs;
-- (NSDictionary*)textAttributes;
-- (NSDictionary*)defaultTextAttributes;
-- (BOOL)attributeIsHomogeneous:(NSString*)attributeName;
-- (BOOL)isHomogeneous;
-
+@property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+/** @brief returns text attributes to be used when there is no text content at present. These will either be what was previously set or the class
+ default.
+*/
+@property (readonly, retain) NSDictionary<NSAttributedStringKey,id> *defaultTextAttributes;
+/** @brief asks whether a given attribute applies over the entire length of the string.
+*/
+- (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attributeName;
+/** @brief asks whether all attributes apply over the whole length of the string
+ */
 @property (readonly, getter=isHomogeneous) BOOL homogeneous;
 
 // paragraph styles:
-
-- (void)setParagraphStyle:(NSParagraphStyle*)style;
-- (NSParagraphStyle*)paragraphStyle;
-
-- (void)setAlignment:(NSTextAlignment)align;
-- (NSTextAlignment)alignment;
-
-- (void)setBackgroundColour:(NSColor*)colour;
-- (NSColor*)backgroundColour;
-
-- (void)setOutlineColour:(NSColor*)aColour;
-- (NSColor*)outlineColour;
-
-- (void)setOutlineWidth:(CGFloat)aWidth;
-- (CGFloat)outlineWidth;
-
-- (void)setUnderlines:(NSInteger)under;
-- (NSInteger)underlines;
-
-- (void)setKerning:(CGFloat)kernValue;
-- (CGFloat)kerning;
-
-- (void)setBaseline:(CGFloat)baseLine;
-- (CGFloat)baseline;
-
-- (void)setSuperscriptAttribute:(NSInteger)amount;
-- (NSInteger)superscriptAttribute;
 
 @property (retain) NSParagraphStyle*paragraphStyle;
 @property NSTextAlignment alignment;
@@ -234,14 +210,9 @@ other fixed content. See that class for details.
 - (void)subscript;
 - (void)unscript;
 
-// the substitutor object, which supplies the text content:
-
-- (void)setTextSubstitutor:(DKTextSubstitutor*)subs;
-- (DKTextSubstitutor*)textSubstitutor;
-
-@property (nonatomic, retain) DKTextSubstitutor*textSubstitutor;
-
-- (BOOL)allTextWasFitted;
+/** @brief the substitutor object, which supplies the text content:
+ */
+@property (nonatomic, retain) DKTextSubstitutor *textSubstitutor;
 
 @property (readonly) BOOL allTextWasFitted;
 
@@ -258,10 +229,11 @@ other fixed content. See that class for details.
 
 @end
 
-// objects can implement this method if they wish to support the 'centroid' layout mode. While intended for
-// positioning text at the centroid, the object is not required to return the true centroid - it can be any point.
-// In this mode text is laid out in one line centred on the point with no clipping.
-
+/**
+ objects can implement this method if they wish to support the 'centroid' layout mode. While intended for
+ positioning text at the centroid, the object is not required to return the true centroid - it can be any point.
+ In this mode text is laid out in one line centred on the point with no clipping.
+ */
 @interface NSObject (TextLayoutProtocol)
 
 - (NSPoint)pointForTextLayout;
@@ -274,10 +246,10 @@ other fixed content. See that class for details.
 // be more portable especially when cutting and pasting styles between objects. These are placed alongside any Cocoa attributes defined in the
 // same dictionary.
 
-extern NSString* DKTextKnockoutColourAttributeName;
-extern NSString* DKTextKnockoutDistanceAttributeName;
-extern NSString* DKTextKnockoutStrokeColourAttributeName;
-extern NSString* DKTextKnockoutStrokeWidthAttributeName;
-extern NSString* DKTextVerticalAlignmentAttributeName;
-extern NSString* DKTextVerticalAlignmentProportionAttributeName;
-extern NSString* DKTextCapitalizationAttributeName;
+extern NSAttributedStringKey DKTextKnockoutColourAttributeName;
+extern NSAttributedStringKey DKTextKnockoutDistanceAttributeName;
+extern NSAttributedStringKey DKTextKnockoutStrokeColourAttributeName;
+extern NSAttributedStringKey DKTextKnockoutStrokeWidthAttributeName;
+extern NSAttributedStringKey DKTextVerticalAlignmentAttributeName;
+extern NSAttributedStringKey DKTextVerticalAlignmentProportionAttributeName;
+extern NSAttributedStringKey DKTextCapitalizationAttributeName;

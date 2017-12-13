@@ -51,7 +51,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  @param aMask a modifier key mask value
  */
 + (void)setScrollwheelModifierKeyMask:(NSEventModifierFlags)aMask;
-+ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask DEPRECATED_ATTRIBUTE;
++ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask API_DEPRECATED_WITH_REPLACEMENT("setScrollwheelModifierKeyMask", macosx(10.0, 10.6));
 
 /** @brief Return the default zoom key mask used by new instances of this class
 

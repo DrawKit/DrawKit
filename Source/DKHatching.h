@@ -102,46 +102,26 @@ doesn't change the cache.
  @return the angle in degrees
  */
 - (CGFloat)angleInDegrees;
-- (void)setAngleIsRelativeToObject:(BOOL)rel;
-- (BOOL)angleIsRelativeToObject;
 
-- (void)setSpacing:(CGFloat)spacing;
-- (CGFloat)spacing;
-- (void)setLeadIn:(CGFloat)amount;
-- (CGFloat)leadIn;
+@property (nonatomic) CGFloat angle;
+@property CGFloat angleInDegrees;
+@property BOOL angleIsRelativeToObject;
 
-- (void)setWidth:(CGFloat)width;
-- (CGFloat)width;
-- (void)setLineCapStyle:(NSLineCapStyle)lcs;
-- (NSLineCapStyle)lineCapStyle;
-- (void)setLineJoinStyle:(NSLineJoinStyle)ljs;
-- (NSLineJoinStyle)lineJoinStyle;
+@property (nonatomic) CGFloat spacing;
+@property (nonatomic) CGFloat leadIn;
 
-- (void)setColour:(NSColor*)colour;
-- (NSColor*)colour;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) NSLineCapStyle lineCapStyle;
+@property (nonatomic) NSLineJoinStyle lineJoinStyle;
 
-- (void)setDash:(DKStrokeDash*)dash;
-- (DKStrokeDash*)dash;
+@property (retain) NSColor *colour;
+
+@property (nonatomic, retain) DKStrokeDash *dash;
 - (void)setAutoDash;
 
-- (void)setRoughness:(CGFloat)amount;
-- (CGFloat)roughness;
-- (void)setWobblyness:(CGFloat)wobble;
-- (CGFloat)wobblyness;
+@property (nonatomic) CGFloat roughness;
+@property (nonatomic) CGFloat wobblyness;
 
 - (void)invalidateCache;
 - (void)calcHatchInRect:(NSRect)rect;
-
-@property CGFloat angle;
-@property CGFloat angleInDegrees;
-@property BOOL angleIsRelativeToObject;
-@property CGFloat spacing;
-@property CGFloat leadIn;
-@property CGFloat width;
-@property NSLineCapStyle lineCapStyle;
-@property NSLineJoinStyle lineJoinStyle;
-@property (retain) NSColor *colour;
-@property (retain) DKStrokeDash *dash;
-@property CGFloat roughness;
-@property CGFloat wobblyness;
 @end

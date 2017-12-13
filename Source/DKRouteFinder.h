@@ -53,17 +53,19 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 	DKDirection mDirection; // limit search for NN to this direction
 }
 
-+ (DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray*)arrayOfPoints;
++ (DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray<NSValue*>*)arrayOfPoints;
 + (DKRouteFinder*)routeFinderWithObjects:(NSArray*)objects withValueForKey:(NSString*)key;
 + (NSArray*)sortedArrayOfObjects:(NSArray*)objects byShortestRouteForKey:(NSString*)key;
+@property (class) DKRouteAlgorithmType algorithm;
 + (void)setAlgorithm:(DKRouteAlgorithmType)algType;
 
 - (NSArray*)shortestRoute;
-- (NSArray*)shortestRouteOrder;
+- (NSArray<NSNumber*>*)shortestRouteOrder;
 - (NSArray*)sortedArrayFromArray:(NSArray*)anArray;
-- (CGFloat)pathLength;
-- (DKRouteAlgorithmType)algorithm;
+@property (readonly) CGFloat pathLength;
+@property (readonly) DKRouteAlgorithmType algorithm;
 
+@property (assign) id<DKRouteFinderProgressDelegate> progressDelegate;
 - (void)setProgressDelegate:(id<DKRouteFinderProgressDelegate>)aDelegate;
 
 @end

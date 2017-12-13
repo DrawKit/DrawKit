@@ -168,23 +168,7 @@ static NSArray* s_selectionColours = nil;
 #pragma mark -
 #pragma mark - layer group hierarchy
 
-/** @brief Sets the group that the layer is contained in - called automatically when the layer is added to a group
-
- The group retains this, so the group isn't retained here
- @param group the group we belong to */
-- (void)setLayerGroup:(DKLayerGroup*)group
-{
-	m_groupRef = group;
-}
-
-/** @brief Gets the group that the layer is contained in
-
- The layer's group might be the drawing itself, which is a group
- @return the layer's group */
-- (DKLayerGroup*)layerGroup
-{
-	return m_groupRef;
-}
+@synthesize layerGroup=m_groupRef;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 
@@ -351,13 +335,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Returns the currently preferred selection colour for this layer
- @return the colour
- */
-- (NSColor*)selectionColour
-{
-	return m_selectionColour;
-}
+@synthesize selectionColour=m_selectionColour;
 
 #pragma mark -
 
@@ -539,15 +517,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Whether the drawing will be clipped to the interior or not
-
- Default is NO.
- @return YES if clipping, NO if not.
- */
-- (BOOL)clipsDrawingToInterior
-{
-	return m_clipToInterior;
-}
+@synthesize clipsDrawingToInterior=m_clipToInterior;
 
 /** @brief Sets the alpha level for the layer
 
@@ -567,15 +537,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Returns the alpha level for the layer as a whole
-
- Default is 1.0 (fully opaque objects)
- @return the current alpha level
- */
-- (CGFloat)alpha
-{
-	return mAlpha;
-}
+@synthesize alpha=mAlpha;
 
 - (void)updateRulerMarkersForRect:(NSRect)rect
 {
@@ -589,15 +551,7 @@ static NSArray* s_selectionColours = nil;
 		[[self layerGroup] hideRulerMarkers];
 }
 
-- (void)setRulerMarkerUpdatesEnabled:(BOOL)enable
-{
-	mRulerMarkersEnabled = enable;
-}
-
-- (BOOL)rulerMarkerUpdatesEnabled
-{
-	return mRulerMarkersEnabled;
-}
+@synthesize rulerMarkerUpdatesEnabled=mRulerMarkersEnabled;
 
 #pragma mark -
 #pragma mark - states
@@ -680,13 +634,7 @@ static NSArray* s_selectionColours = nil;
 	return [self locked] || ![self visible];
 }
 
-/** @brief Returns the layer's unique key
- @return the unique key
- */
-- (NSString*)uniqueKey
-{
-	return mLayerUniqueKey;
-}
+@synthesize uniqueKey=mLayerUniqueKey;
 
 #pragma mark -
 
@@ -716,13 +664,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Returns the layer's name
- @return the name
- */
-- (NSString*)layerName
-{
-	return m_name;
-}
+@synthesize layerName=m_name;
 
 #pragma mark -
 #pragma mark - user info
@@ -738,7 +680,8 @@ static NSArray* s_selectionColours = nil;
 {
 	[info retain];
 	[mUserInfo release];
-	mUserInfo = info;
+	mUserInfo = [info mutableCopy];
+	[info release];
 }
 
 /** @brief Add a dictionary of metadata to the object
@@ -797,26 +740,7 @@ static NSArray* s_selectionColours = nil;
 #pragma mark -
 #pragma mark - print this layer ?
 
-/** @brief Set whether this layer should be included in printed output
-
- Default is YES
- @param printIt YES to includethe layer, NO to skip it
- */
-- (void)setShouldDrawToPrinter:(BOOL)printIt
-{
-	m_printed = printIt;
-}
-
-/** @brief Return whether the layer should be part of the printed output or not
-
- Some layers won't want to be printed - guides for example. Override this to return NO if you
- don't want the layer to be printed. By default layers are printed.
- @return YES to draw to printer, NO to suppress drawing on the printer
- */
-- (BOOL)shouldDrawToPrinter
-{
-	return m_printed;
-}
+@synthesize shouldDrawToPrinter=m_printed;
 
 #pragma mark -
 #pragma mark - becoming / resigning active
@@ -1055,7 +979,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setKnobsShouldAdustToViewScale:(BOOL)ka
 {
-	m_knobsAdjustToScale = ka;
+	self.knobsShouldAdjustToViewScale = ka;
 }
 
 /** @brief Return whether the drawing will scale its selection knobs to the view or not
@@ -1070,6 +994,8 @@ static NSArray* s_selectionColours = nil;
 	else
 		return NO;
 }
+
+@synthesize knobsShouldAdjustToViewScale=m_knobsAdjustToScale;
 
 #pragma mark -
 #pragma mark - pasteboard / drag and drop support

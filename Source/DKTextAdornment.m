@@ -331,10 +331,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKVerticalTextAlignment)verticalAlignment
-{
-	return m_vertAlign;
-}
+@synthesize verticalAlignment=m_vertAlign;
 
 - (void)setVerticalAlignmentProportion:(CGFloat)prop
 {
@@ -342,10 +339,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (CGFloat)verticalAlignmentProportion
-{
-	return mVerticalPosition;
-}
+@synthesize verticalAlignmentProportion=mVerticalPosition;
 
 #pragma mark -
 - (void)setLayoutMode:(DKTextLayoutMode)mode
@@ -356,10 +350,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKTextLayoutMode)layoutMode
-{
-	return m_layoutMode;
-}
+@synthesize layoutMode=m_layoutMode;
 
 - (void)setFlowedTextPathInset:(CGFloat)inset
 {
@@ -367,10 +358,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (CGFloat)flowedTextPathInset
-{
-	return mFlowedTextPathInset;
-}
+@synthesize flowedTextPathInset=mFlowedTextPathInset;
 
 #pragma mark -
 - (void)setAngle:(CGFloat)angle
@@ -379,10 +367,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (CGFloat)angle
-{
-	return m_angle;
-}
+@synthesize angle=m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -440,39 +425,10 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 }
 
 @synthesize capitalization=mCapitalization;
-
-- (void)setGreeking:(DKGreeking)greeking
-{
-	// greeking is a text rendition method that substitutes simple rectangles for the actual drawn glyphs. It can be used to render extremely small point text
-	// more quickly, or to give an impression of text. It is rarely used, but can be handy for hit-testing where the exact glyphs are not required and don't work
-	// well when rendered using scaling to small bitmap contexts (as when hit-testing).
-
-	// currently the greeking setting is considered temporary so isn't archived or exported as an observable property
-
-	mGreeking = greeking;
-}
-
-- (DKGreeking)greeking
-{
-	return mGreeking;
-}
+@synthesize greeking=mGreeking;
 
 #pragma mark -
-- (void)setTextRect:(NSRect)rect
-{
-	// the textRect defines a rect relative to the shape's original path bounds that the text is laid out in. If you pass NSZeroRect (the default), the text
-	// is laid out using the shape's bounds. This additional rect gives you the flexibility to modify the text layout to anywhere within the shape. Note the
-	// coordinate system it uses is transformed by the shape's transform - so if you wanted to lay the text out in half the shape's width, the rect's width
-	// would be 0.5. Similarly, to offset the text halfway across, its origin would be 0. This means this rect maintains its correct effect no matter how
-	// the shape is scaled or rotated, and it does the thing you expect. Otherwise it would have to be recalculated for every new shape size.
-
-	m_textRect = rect;
-}
-
-- (NSRect)textRect
-{
-	return m_textRect;
-}
+@synthesize textRect=m_textRect;
 
 #pragma mark -
 - (void)changeTextAttribute:(NSString*)attribute toValue:(id)val
@@ -668,7 +624,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		return mDefaultAttributes;
 }
 
-- (BOOL)attributeIsHomogeneous:(NSString*)attributeName
+- (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attributeName
 {
 	// asks whether a given attribute applies over the entire length of the string.
 
@@ -900,11 +856,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKTextSubstitutor*)textSubstitutor
-{
-	return mSubstitutor;
-}
-
+@synthesize textSubstitutor=mSubstitutor;
 @synthesize allTextWasFitted=mLastLayoutFittedAllText;
 
 - (void)invalidateCache

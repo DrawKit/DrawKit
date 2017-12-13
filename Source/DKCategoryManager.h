@@ -7,9 +7,10 @@
 #import <Cocoa/Cocoa.h>
 
 @class DKCategoryManagerMenuInfo;
+@protocol DKCategoryManagerMergeDelegate;
+@protocol DKCategoryManagerMenuItemDelegate;
 
 // menu creation options:
-
 typedef NS_OPTIONS(NSUInteger, DKCategoryMenuOptions) {
 	kDKIncludeRecentlyAddedItems = (1 << 0),
 	kDKIncludeRecentlyUsedItems = (1 << 1),
@@ -51,7 +52,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  Convenience method. Initial categories only consist of "All Items"
  @return a category manager object
  */
-+ (instancetype)categoryManager;
++ (DKCategoryManager*)categoryManager;
 
 /** @brief Returns a new category manager object based on an existing dictionary
 
@@ -59,11 +60,13 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict an existign dictionary
  @return a category manager object
  */
-+ (instancetype)categoryManagerWithDictionary:(NSDictionary*)dict;
++ (DKCategoryManager*)categoryManagerWithDictionary:(NSDictionary<NSString*,id>*)dict;
 
 /** @brief Return the default categories defined for this class
  @return an array of categories */
-+ (NSArray*)defaultCategories;
++ (NSArray<NSString*>*)defaultCategories;
+
+@property (class, readonly, copy) NSArray<NSString*> *defaultCategories;
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
 
@@ -90,7 +93,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict dictionary containing a set of objects and keys
  @return the category manager object
  */
-- (instancetype)initWithDictionary:(NSDictionary*)dict;
+- (instancetype)initWithDictionary:(NSDictionary<NSString*,id>*)dict;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
@@ -115,7 +118,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames the names of the categories to add it to, or nil for defaults
  @param cg YES to create the categories if they don't exist. NO not to do so
  */
-- (void)addObject:(id)obj forKey:(NSString*)name toCategories:(NSArray*)catNames createCategories:(BOOL)cg;
+- (void)addObject:(id)obj forKey:(NSString*)name toCategories:(NSArray<NSString*>*)catNames createCategories:(BOOL)cg;
 
 /** @brief Remove an object from the container
 
@@ -172,6 +175,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return the main dictionary
  */
 - (NSDictionary<NSString*,id>*)dictionary;
+@property (readonly, copy)NSDictionary<NSString*,id> *dictionary;
 
 // smartly merging objects:
 
@@ -183,7 +187,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return a set, possibly empty. The set contains those objects that already existed in the CM that should replace
  equivalent items in the supplied set.
  */
-- (NSSet*)mergeObjectsFromSet:(NSSet*)aSet inCategories:(NSArray*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id)aDelegate;
+- (NSSet*)mergeObjectsFromSet:(NSSet*)aSet inCategories:(NSArray<NSString*>*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
 
 /** @brief Asks delegate to make decision about the merging of an object
 
@@ -192,7 +196,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param aDelegate the delegate to ask
  @return an equivalent object or nil. May be the supplied object or another having an identical ID.
  */
-- (id)mergeObject:(id)obj mergeDelegate:(id)aDelegate;
+- (id)mergeObject:(id)obj mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
 
 // retrieving lists of objects by category
 
@@ -214,7 +218,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames list of categories
  @return an array, the list of objects indicated by the categories. May be empty.
  */
-- (NSArray*)objectsInCategories:(NSArray*)catNames;
+- (NSArray*)objectsInCategories:(NSArray<NSString*>*)catNames;
 
 /** @brief Return all of the keys in a given category
 
@@ -253,7 +257,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category name
  @return an array, the list of keys indicated by the category. May be empty.
  */
-- (NSArray*)allSortedKeysInCategory:(NSString*)catName;
+- (NSArray<NSString*>*)allSortedKeysInCategory:(NSString*)catName;
 
 /** @brief Return all of the names in a given category, sorted into some useful order
 
@@ -263,7 +267,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category name
  @return an array, the list of names indicated by the category. May be empty.
  */
-- (NSArray*)allSortedNamesInCategory:(NSString*)catName;
+- (NSArray<NSString*>*)allSortedNamesInCategory:(NSString*)catName;
 
 /** @brief Replaces the recently added items with new items, up to the current max.
  @param array an array of suitable objects
@@ -277,12 +281,16 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (NSArray*)recentlyAddedItems;
 
+@property (nonatomic, retain) NSArray *recentlyAddedItems;
+
 /** @brief Return the list of recently used items
 
  Returned objects are in order of use, most recent first.
  @return an array, the list of keys recently used.
  */
 - (NSArray*)recentlyUsedItems;
+
+@property (nonatomic, retain) NSArray *recentlyUsedItems;
 
 // category management - creating, deleting and renaming categories
 
@@ -295,7 +303,8 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 /** @brief Return the default categories defined for this class or object
  @return an array of categories
  */
-- (NSArray*)defaultCategories;
+- (NSArray<NSString*>*)defaultCategories;
+@property (readonly, copy) NSArray<NSString*> *defaultCategories;
 
 /** @brief Create a new category with the given name
 
@@ -305,7 +314,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
 /** @brief Create a new categories with the given names
  @param catNames a list of the names of the new categories */
-- (void)addCategories:(NSArray*)catNames;
+- (void)addCategories:(NSArray<NSString*>*)catNames;
 
 /** @brief Remove a category with the given name
 
@@ -340,7 +349,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param key the key to add
  @param catNames a list of categories to add it to
  @param cg YES to create the category if it doesn't exist, NO otherwise */
-- (void)addKey:(NSString*)key toCategories:(NSArray*)catNames createCategories:(BOOL)cg;
+- (void)addKey:(NSString*)key toCategories:(NSArray<NSString*>*)catNames createCategories:(BOOL)cg;
 
 /** @brief Removes a key from a category
  @param key the key to remove
@@ -350,7 +359,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 /** @brief Removes a key from a number of categories
  @param key the key to remove
  @param catNames the list of categories to remove it from */
-- (void)removeKey:(NSString*)key fromCategories:(NSArray*)catNames;
+- (void)removeKey:(NSString*)key fromCategories:(NSArray<NSString*>*)catNames;
 
 /** @brief Removes a key from all categories
  @param key the key to remove */
@@ -379,12 +388,13 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  The list is alphabetically sorted for the convenience of a user interface
  @return an array containg a list of all category names
  */
-- (NSArray*)allCategories;
+- (NSArray<NSString*>*)allCategories;
 
 /** @brief Get the count of all categories
  @return the number of categories currently defined
  */
 - (NSUInteger)countOfCategories;
+@property (readonly) NSUInteger countOfCategories;
 
 /** @brief Get a list of all categories that contain a given key
 
@@ -392,8 +402,8 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param key the key in question
  @return an array containing a list of categories which contain the key
  */
-- (NSArray*)categoriesContainingKey:(NSString*)key;
-- (NSArray*)categoriesContainingKey:(NSString*)key withSorting:(BOOL)sortIt;
+- (NSArray<NSString*>*)categoriesContainingKey:(NSString*)key;
+- (NSArray<NSString*>*)categoriesContainingKey:(NSString*)key withSorting:(BOOL)sortIt;
 
 /** @brief Get a list of reserved categories - those that should not be deleted or renamed
 
@@ -402,7 +412,8 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  default cats. Subclasses can change this as they wish.
  @return an array containing a list of the reserved categories 
  */
-- (NSArray*)reservedCategories;
+- (NSArray<NSString*>*)reservedCategories;
+@property (readonly, copy) NSArray<NSString*> *reservedCategories;
 
 /** @brief Test whether there is a category of the given name
  @param catName the category name
@@ -463,11 +474,14 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 - (NSData*)data;
 - (NSData*)dataWithFormat:(NSPropertyListFormat)format;
 
+@property (readonly, copy) NSData *data;
+
 /** @brief Return the filetype (for saving, etc)
 
  Subclasses should override to change the filetype used for specific examples of this object
  */
 - (NSString*)fileType;
+@property (readonly, copy) NSString *fileType;
 
 /** @brief Discard all existing content, then reload from the archive data passed
  @param data data, being an archive earlier obtained using -data
@@ -516,7 +530,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param options various flags which set which items are added
  @return a menu populated with category and other names
  */
-- (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target options:(NSInteger)options;
+- (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target options:(DKCategoryMenuOptions)options;
 
 /** @brief Sets the checkmarks in a menu of category names to reflect the presence of <key> in those categories
 
@@ -546,9 +560,9 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param isPopUp set YES if menu is destined for use as a popup (adds extra zeroth item)
  @return a menu object
  */
-- (NSMenu*)createMenuWithItemDelegate:(id)del isPopUpMenu:(BOOL)isPopUp;
-- (NSMenu*)createMenuWithItemDelegate:(id)del options:(DKCategoryMenuOptions)options;
-- (NSMenu*)createMenuWithItemDelegate:(id)del itemTarget:(id)target itemAction:(SEL)action options:(DKCategoryMenuOptions)options;
+- (NSMenu*)createMenuWithItemDelegate:(id<DKCategoryManagerMenuItemDelegate>)del isPopUpMenu:(BOOL)isPopUp;
+- (NSMenu*)createMenuWithItemDelegate:(id<DKCategoryManagerMenuItemDelegate>)del options:(DKCategoryMenuOptions)options;
+- (NSMenu*)createMenuWithItemDelegate:(id<DKCategoryManagerMenuItemDelegate>)del itemTarget:(id)target itemAction:(SEL)action options:(DKCategoryMenuOptions)options;
 
 /** @brief Removes the menu from the list of managed menus
 
@@ -584,19 +598,19 @@ extern NSString* kDKDefaultCategoryName;
 extern NSString* kDKRecentlyAddedUserString;
 extern NSString* kDKRecentlyUsedUserString;
 
-extern NSString* kDKCategoryManagerWillAddObject;
-extern NSString* kDKCategoryManagerDidAddObject;
-extern NSString* kDKCategoryManagerWillRemoveObject;
-extern NSString* kDKCategoryManagerDidRemoveObject;
-extern NSString* kDKCategoryManagerDidRenameCategory;
-extern NSString* kDKCategoryManagerWillAddKeyToCategory;
-extern NSString* kDKCategoryManagerDidAddKeyToCategory;
-extern NSString* kDKCategoryManagerWillRemoveKeyFromCategory;
-extern NSString* kDKCategoryManagerDidRemoveKeyFromCategory;
-extern NSString* kDKCategoryManagerWillCreateNewCategory;
-extern NSString* kDKCategoryManagerDidCreateNewCategory;
-extern NSString* kDKCategoryManagerWillDeleteCategory;
-extern NSString* kDKCategoryManagerDidDeleteCategory;
+extern NSNotificationName kDKCategoryManagerWillAddObject;
+extern NSNotificationName kDKCategoryManagerDidAddObject;
+extern NSNotificationName kDKCategoryManagerWillRemoveObject;
+extern NSNotificationName kDKCategoryManagerDidRemoveObject;
+extern NSNotificationName kDKCategoryManagerDidRenameCategory;
+extern NSNotificationName kDKCategoryManagerWillAddKeyToCategory;
+extern NSNotificationName kDKCategoryManagerDidAddKeyToCategory;
+extern NSNotificationName kDKCategoryManagerWillRemoveKeyFromCategory;
+extern NSNotificationName kDKCategoryManagerDidRemoveKeyFromCategory;
+extern NSNotificationName kDKCategoryManagerWillCreateNewCategory;
+extern NSNotificationName kDKCategoryManagerDidCreateNewCategory;
+extern NSNotificationName kDKCategoryManagerWillDeleteCategory;
+extern NSNotificationName kDKCategoryManagerDidDeleteCategory;
 
 /*
 
@@ -612,7 +626,7 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 // informal protocol used by the createMenuWithItemDelegate method:
 
-@interface NSObject (CategoryManagerMenuItemDelegate)
+@protocol DKCategoryManagerMenuItemDelegate <NSObject>
 
 - (void)menuItem:(NSMenuItem*)item wasAddedForObject:(id)object inCategory:(NSString*)category;
 
@@ -620,7 +634,7 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 // delegate informal protocol allows the delegate to decide which of a pair of objects should be used when merging
 
-@interface NSObject (categoryManagerMergeDelegate)
+@protocol DKCategoryManagerMergeDelegate <NSObject>
 
 - (id)categoryManager:(DKCategoryManager*)cm shouldReplaceObject:(id)regObject withObject:(id)docObject;
 
@@ -634,8 +648,8 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 @private
 	DKCategoryManager* mCatManagerRef; // the category manager that owns this
 	NSMenu* mTheMenu; // the menu being managed
-	id mTargetRef; // initial target for new menu items
-	id mCallbackTargetRef; // delegate for menu items
+	__unsafe_unretained id mTargetRef; // initial target for new menu items
+	__unsafe_unretained id<DKCategoryManagerMenuItemDelegate> mCallbackTargetRef; // delegate for menu items
 	SEL mSelector; // initial action for new menu items
 	DKCategoryMenuOptions mOptions; // option flags
 	BOOL mCategoriesOnly; // YES if the menu just lists the categories and not the category contents
@@ -645,14 +659,14 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id<DKCategoryManagerMenuItemDelegate>)delegate options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id<DKCategoryManagerMenuItemDelegate>)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
 
 - (NSMenu*)menu;
 
 - (void)addCategory:(NSString*)newCategory;
 - (void)removeCategory:(NSString*)oldCategory;
-- (void)renameCategoryWithInfo:(NSDictionary*)info;
+- (void)renameCategoryWithInfo:(NSDictionary<NSString*,NSString*>*)info;
 - (void)addKey:(NSString*)aKey;
 - (void)addRecentlyAddedOrUsedKey:(NSString*)aKey;
 - (void)syncRecentlyUsedMenuForKey:(NSString*)aKey;

@@ -137,6 +137,8 @@
  */
 - (CGFloat)luminosity;
 
+@property (readonly) CGFloat luminosity;
+
 /** @brief Returns a grey rgb colour having the same luminosity as the receiver
  @return a grey colour having the same luminosity
  */
@@ -183,6 +185,7 @@
  @return hexadecimal string
  */
 - (NSString*)hexString;
+@property (readonly, copy) NSString *hexString;
 
 /** @brief Returns a quartz CGColorRef corresponding to the receiver's colours
 

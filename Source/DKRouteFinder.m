@@ -36,6 +36,11 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	s_Algorithm = algType;
 }
 
++ (DKRouteAlgorithmType)algorithm
+{
+	return s_Algorithm;
+}
+
 + (DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray*)arrayOfPoints
 {
 	NSAssert(arrayOfPoints != nil, @"cannot operate on a nil array");
@@ -141,11 +146,10 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	return mPathLength;
 }
 
-- (DKRouteAlgorithmType)algorithm
-{
-	return mAlgorithm;
-}
+@synthesize algorithm=mAlgorithm;
 
+@synthesize progressDelegate=mProgressDelegate;
+#if 0
 - (void)setProgressDelegate:(id)aDelegate
 {
 	// set a delegate that will be called with progress information as the route finder proceeds. Note that
@@ -154,6 +158,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 	mProgressDelegate = aDelegate;
 }
+#endif
 
 #pragma mark -
 #pragma mark - private methods

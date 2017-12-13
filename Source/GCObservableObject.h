@@ -33,15 +33,21 @@ objects to the undo manager and vice versa, implementing undo for all keypaths d
 + (void)registerActionName:(NSString*)na forKeyPath:(NSString*)kp objClass:(Class)cl;
 + (NSString*)actionNameForKeyPath:(NSString*)kp objClass:(Class)cl;
 
-+ (NSArray*)observableKeyPaths;
+/**
+ Subclasses can override to provide a list of observable properties for this class, which can be
+ automatically registered with any nominated observer. This returns an empty array by default, allowing
+ subclasses to simply append their own keypaths without caring if there are already any paths defined
+ by its superclass.
+ */
+@property (class, readonly, copy) NSArray<NSString*> *observableKeyPaths;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 
 - (BOOL)setUpKVOForObserver:(id)object;
 - (BOOL)tearDownKVOForObserver:(id)object;
 
-- (void)setUpObservables:(NSArray*)keypaths forObserver:(id)object;
-- (void)tearDownObservables:(NSArray*)keypaths forObserver:(id)object;
+- (void)setUpObservables:(NSArray<NSString*>*)keypaths forObserver:(id)object;
+- (void)tearDownObservables:(NSArray<NSString*>*)keypaths forObserver:(id)object;
 
 - (void)registerActionNames;
 - (NSString*)actionNameForKeyPath:(NSString*)keypath;

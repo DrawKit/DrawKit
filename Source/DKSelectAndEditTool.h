@@ -84,6 +84,8 @@ has a very low opacity should be used - the default style takes the system's hig
  @return the current operation mode */
 - (DKEditToolOperation)operationMode;
 
+@property DKEditToolOperation operationMode;
+
 // drawing the marquee (selection rect):
 
 /** @brief Draws the marquee (selection rect)
@@ -96,6 +98,8 @@ has a very low opacity should be used - the default style takes the system's hig
 /** @brief Returns the current marquee (selection rect)
  @return a rect */
 - (NSRect)marqueeRect;
+
+@property (readonly) NSRect marqueeRect;
 
 /** @brief Sets the current marquee (selection rect)
 
@@ -120,6 +124,8 @@ has a very low opacity should be used - the default style takes the system's hig
   */
 - (DKStyle*)marqueeStyle;
 
+@property (retain) DKStyle *marqueeStyle;
+
 // setting up optional behaviours:
 
 /** @brief Set whether the selection highlight of objects should be supressed during a drag
@@ -133,11 +139,38 @@ has a very low opacity should be used - the default style takes the system's hig
  The default is YES. Hiding the selection can make positioning objects by eye more precise.
  @return YES to hide selections during a drag, NO to leave them visible */
 - (BOOL)selectionShouldHideDuringDrag;
+
+/** @brief Sets whether dragging moves all objects in the selection as a group, or only the one under the mouse
+ 
+ The default is YES.
+ @param multi YES to drag all selected objects as a group, NO to drag just the one hit
+ */
 - (void)setDragsAllObjectsInSelection:(BOOL)multi;
+
+/** @brief Drags all objects as agroup?
+ 
+ The default is YES
+ @return YES if all selected objects are dragged as a group, NO if only one is
+ */
 - (BOOL)dragsAllObjectsInSelection;
+
+/** @brief Sets whether option-drag copies the original object
+ 
+ The default is YES
+ @param dragCopy YES to allow option-drag to copy the object
+ */
 - (void)setAllowsDirectDragCopying:(BOOL)dragCopy;
+
+/** @brief Whether option-drag copies the original object
+ 
+ The default is YES
+ @return YES if option-drag will copy the object
+ */
 - (BOOL)allowsDirectDragCopying;
 
+@property BOOL selectionShouldHideDuringDrag;
+@property BOOL dragsAllObjectsInSelection;
+@property BOOL allowsDirectDragCopying;
 /** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
 
  The default is NO
@@ -151,6 +184,8 @@ has a very low opacity should be used - the default style takes the system's hig
  @return YES to drag the selection, NO to change the selection and drag the knob
  */
 - (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob;
+
+@property BOOL dragsAllObjectsInSelectionWhenDraggingKnob;
 
 /** @brief Sets the number of selected objects at which a proxy drag is used rather than a live drag
 
@@ -172,6 +207,8 @@ has a very low opacity should be used - the default style takes the system's hig
  @return the number above which a proxy drag is used
  */
 - (NSUInteger)proxyDragThreshold;
+
+@property NSUInteger proxyDragThreshold;
 
 // handling the selection
 
@@ -211,8 +248,8 @@ has a very low opacity should be used - the default style takes the system's hig
 
 @end
 
-// informal protocol ised to verify use of tool with target layer
-
+/** informal protocol ised to verify use of tool with target layer
+ */
 @interface NSObject (SelectionToolDelegate)
 
 - (BOOL)canBeUsedWithSelectionTool;

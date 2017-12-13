@@ -54,9 +54,9 @@ The second method is similar except that text is flowed into the layoutPath.
  */
 - (void)drawInRect:(NSRect)destRect withLayoutPath:(NSBezierPath*)layoutPath atAngle:(CGFloat)radians verticalPositioning:(DKVerticalTextAlignment)vAlign verticalOffset:(CGFloat)vPos;
 - (NSSize)accurateSize;
-- (BOOL)isHomogeneous;
-- (BOOL)attributeIsHomogeneous:(NSString*)attrName;
-- (BOOL)attributesAreHomogeneous:(NSDictionary*)attrs;
+@property (readonly, getter=isHomogeneous) BOOL homogeneous;
+- (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attrName;
+- (BOOL)attributesAreHomogeneous:(NSDictionary<NSAttributedStringKey,id>*)attrs;
 
 @end
 

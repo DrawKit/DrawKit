@@ -27,7 +27,7 @@ The purpose of this class is to allow images to be archived much more efficientl
 - (BOOL)hasImageDataForKey:(NSString*)key;
 - (NSString*)generateKey;
 - (NSString*)keyForImageData:(NSData*)imageData;
-- (NSArray*)allKeys;
+@property (readonly, copy) NSArray<NSString*> *allKeys;
 - (void)removeKey:(NSString*)key;
 
 - (NSImage*)makeImageWithData:(NSData*)imageData key:(NSString**)key;
@@ -41,7 +41,7 @@ The purpose of this class is to allow images to be archived much more efficientl
 
 @end
 
-extern NSString* kDKImageDataManagerPasteboardType;
+extern NSPasteboardType kDKImageDataManagerPasteboardType;
 
 @interface NSData (Checksum)
 

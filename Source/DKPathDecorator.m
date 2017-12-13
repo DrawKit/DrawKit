@@ -81,10 +81,7 @@
 	}
 }
 
-- (NSImage*)image
-{
-	return m_image;
-}
+@synthesize image=m_image;
 
 #define USE_DK_CACHE 1
 
@@ -162,10 +159,7 @@
 	m_scale = scale;
 }
 
-- (CGFloat)scale
-{
-	return m_scale;
-}
+@synthesize scale=m_scale;
 
 - (void)setScaleRandomness:(CGFloat)scRand
 {
@@ -181,52 +175,15 @@
 	}
 }
 
-- (CGFloat)scaleRandomness
-{
-	return mScaleRandomness;
-}
+@synthesize scaleRandomness=mScaleRandomness;
 
 #pragma mark -
-- (void)setInterval:(CGFloat)interval
-{
-	m_interval = interval;
-}
-
-- (CGFloat)interval
-{
-	return m_interval;
-}
+@synthesize interval=m_interval;
 
 #pragma mark -
-- (void)setLeaderDistance:(CGFloat)leader
-{
-	m_leader = leader;
-}
-
-- (CGFloat)leaderDistance
-{
-	return m_leader;
-}
-
-- (void)setLateralOffset:(CGFloat)loff
-{
-	mLateralOffset = loff;
-}
-
-- (CGFloat)lateralOffset
-{
-	return mLateralOffset;
-}
-
-- (void)setLateralOffsetAlternates:(BOOL)alts
-{
-	mAlternateLateralOffsets = alts;
-}
-
-- (BOOL)lateralOffsetAlternates
-{
-	return mAlternateLateralOffsets;
-}
+@synthesize leaderDistance=m_leader;
+@synthesize lateralOffset=mLateralOffset;
+@synthesize lateralOffsetAlternates=mAlternateLateralOffsets;
 
 - (void)setWobblyness:(CGFloat)wobble
 {
@@ -242,42 +199,14 @@
 	}
 }
 
-- (CGFloat)wobblyness
-{
-	return mWobblyness;
-}
+@synthesize wobblyness=mWobblyness;
 
 #pragma mark -
-- (void)setNormalToPath:(BOOL)norml
-{
-	m_normalToPath = norml;
-}
-
-- (BOOL)normalToPath
-{
-	return m_normalToPath;
-}
+@synthesize normalToPath=m_normalToPath;
 
 #pragma mark -
-- (void)setLeadInLength:(CGFloat)linLength
-{
-	m_leadInLength = linLength;
-}
-
-- (void)setLeadOutLength:(CGFloat)loutLength
-{
-	m_leadOutLength = loutLength;
-}
-
-- (CGFloat)leadInLength
-{
-	return m_leadInLength;
-}
-
-- (CGFloat)leadOutLength
-{
-	return m_leadOutLength;
-}
+@synthesize leadInLength=m_leadInLength;
+@synthesize leadOutLength=m_leadOutLength;
 
 #pragma mark -
 - (void)setLeadInAndOutLengthProportion:(CGFloat)proportion
@@ -288,10 +217,7 @@
 		m_leadInLength = m_leadOutLength = 0.0;
 }
 
-- (CGFloat)leadInAndOutLengthProportion
-{
-	return m_liloProportion;
-}
+@synthesize leadInAndOutLengthProportion=m_liloProportion;
 
 - (CGFloat)rampFunction:(CGFloat)val
 {
@@ -302,18 +228,7 @@
 }
 
 #pragma mark -
-- (void)setUsesChainMethod:(BOOL)chain
-{
-	// experimental: allows use of "chain" callback which emulates links more accurately than image drawing - but really this ought to be
-	// pushed out into another more specialised class.
-
-	m_useChainMethod = chain;
-}
-
-- (BOOL)usesChainMethod
-{
-	return m_useChainMethod;
-}
+@synthesize usesChainMethod=m_useChainMethod;
 
 #pragma mark -
 #pragma mark As a GCObservableObject

@@ -29,14 +29,11 @@ as you scale.
 - (CGFloat)shadowAngleInDegrees;
 #endif
 
-- (void)setAngle:(CGFloat)radians;
-- (void)setAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)angle;
-- (CGFloat)angleInDegrees;
+@property CGFloat angle;
+@property CGFloat angleInDegrees;
 
-- (void)setDistance:(CGFloat)distance;
-- (CGFloat)distance;
-- (CGFloat)extraSpace;
+@property CGFloat distance;
+@property (readonly) CGFloat extraSpace;
 
 - (void)drawApproximateShadowWithPath:(NSBezierPath*)path operation:(DKShadowDrawingOperation)op strokeWidth:(NSInteger)sw;
 

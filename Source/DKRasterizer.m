@@ -59,6 +59,8 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
     mContainerRef = container;
 }
 
+@synthesize container=mContainerRef;
+
 #pragma mark -
 
 @synthesize name = m_name;

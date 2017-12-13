@@ -6,6 +6,22 @@
 
 #import <Cocoa/Cocoa.h>
 
+// params for speech balloon shapes:
+
+typedef NS_OPTIONS(NSUInteger, DKSpeechBalloonOptions) {
+	kDKSpeechBalloonPointsLeft = 0,
+	kDKSpeechBalloonPointsRight = 1,
+	kDKSpeechBalloonPointsDown = 0,
+	kDKSpeechBalloonPointsUp = 1,
+	kDKSpeechBalloonLeftEdge = 2,
+	kDKSpeechBalloonRightEdge = 4,
+	kDKSpeechBalloonTopEdge = 6,
+	kDKSpeechBalloonBottomEdge = 8,
+	kDKStandardSpeechBalloon = kDKSpeechBalloonTopEdge | kDKSpeechBalloonPointsLeft,
+	kDKSpeechBalloonEdgeMask = 0x0E
+};
+
+
 /** @brief This class provides a number of standard shareable paths that can be utilsed by DKDrawableShape.
 
 This class provides a number of standard shareable paths that can be utilsed by DKDrawableShape. These are all
@@ -26,6 +42,7 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 @property (class, readonly, retain) DKShapeFactory* sharedShapeFactory;
 
 + (NSRect)rectOfUnitSize;
+@property (class, readonly) NSRect rectOfUnitSize;
 
 + (NSBezierPath*)rect;
 + (NSBezierPath*)oval;
@@ -51,9 +68,9 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 
 + (NSBezierPath*)ring:(CGFloat)innerDiameter;
 
-+ (NSBezierPath*)roundRectSpeechBalloon:(NSInteger)sbParams cornerRadius:(CGFloat)cr;
-+ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(NSInteger)sbParams cornerRadius:(CGFloat)cr;
-+ (NSBezierPath*)ovalSpeechBalloon:(NSInteger)sbParams;
++ (NSBezierPath*)roundRectSpeechBalloon:(DKSpeechBalloonOptions)sbParams cornerRadius:(CGFloat)cr;
++ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(DKSpeechBalloonOptions)sbParams cornerRadius:(CGFloat)cr;
++ (NSBezierPath*)ovalSpeechBalloon:(DKSpeechBalloonOptions)sbParams;
 
 + (NSBezierPath*)arrowhead;
 + (NSBezierPath*)arrowTailFeather;
@@ -69,21 +86,6 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 - (NSBezierPath*)speechBalloonInRect:(NSRect)rect objParam:(id)param;
 
 @end
-
-// params for speech balloon shapes:
-
-enum {
-	kDKSpeechBalloonPointsLeft = 0,
-	kDKSpeechBalloonPointsRight = 1,
-	kDKSpeechBalloonPointsDown = 0,
-	kDKSpeechBalloonPointsUp = 1,
-	kDKSpeechBalloonLeftEdge = 2,
-	kDKSpeechBalloonRightEdge = 4,
-	kDKSpeechBalloonTopEdge = 6,
-	kDKSpeechBalloonBottomEdge = 8,
-	kDKStandardSpeechBalloon = kDKSpeechBalloonTopEdge | kDKSpeechBalloonPointsLeft,
-	kDKSpeechBalloonEdgeMask = 0x0E
-};
 
 // param keys for dictionary passed to provider methods:
 

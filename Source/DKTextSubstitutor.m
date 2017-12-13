@@ -99,10 +99,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	}
 }
 
-- (NSAttributedString*)masterString
-{
-	return mMasterString;
-}
+@synthesize masterString=mMasterString;
 
 - (void)setString:(NSString*)aString withAttributes:(NSDictionary*)attrs
 {
@@ -468,10 +465,7 @@ static NSDictionary* s_abbreviationDict = nil;
 	return [firstCharacter isEqualToString:@"$"];
 }
 
-- (NSArray*)subKeys
-{
-	return mSubKeys;
-}
+@synthesize subKeys=mSubKeys;
 
 - (NSString*)stringByApplyingSubkeysToString:(NSString*)inString
 {

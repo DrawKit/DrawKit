@@ -22,7 +22,7 @@ NSString* kDKDidChangeToolAutoRevertStateNotification = @"kDKDidChangeToolAutoRe
 
 NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActivatesLayer";
 
-@interface DKToolController (Private)
+@interface DKToolController ()
 
 /** @brief Returns the drawing tool currently set for the given drawing
 
@@ -55,6 +55,8 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
  @param tool the tool to set
  */
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool;
+
+@property (class, retain) DKDrawingTool *globalDrawingTool;
 
 /** @brief Search for a layer usable with a given tool.
 
@@ -267,6 +269,8 @@ static DKDrawingTool* sGlobalTool = nil;
 		return [[self class] globalDrawingTool];
 	}
 }
+
+@synthesize drawingTool=mTool;
 
 /** @brief Check if the tool can be set for the current active layer
 

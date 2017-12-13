@@ -24,17 +24,14 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
 
 + (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(id)target selector:(SEL)action;
 
-- (id)initWithPeriod:(NSTimeInterval)period;
-- (NSTimeInterval)period;
+- (instancetype)initWithPeriod:(NSTimeInterval)period NS_DESIGNATED_INITIALIZER;
+- (instancetype)init;
+
 @property (readonly) NSTimeInterval period;
 
 - (void)retrigger;
 
 @property SEL action;
 @property (assign) id target;
-- (void)setAction:(SEL)action;
-- (SEL)action;
-- (void)setTarget:(id)target;
-- (id)target;
 
 @end

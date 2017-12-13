@@ -1423,7 +1423,7 @@ static id sDearchivingHelper = nil;
  @param options various flags which set which items are added
  @return a menu populated with category and other names
  */
-- (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target options:(NSInteger)options
+- (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target options:(DKCategoryMenuOptions)options
 {
 	// create and populate a menu with the category names plus optionally the recent items lists
 
@@ -1605,7 +1605,7 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id<DKCategoryManagerMenuItemDelegate>)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options
 {
 	NSAssert(delegate != nil, @"no delegate for menu item callback");
 

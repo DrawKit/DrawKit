@@ -6,8 +6,12 @@
 
 #import <Cocoa/Cocoa.h>
 
-// bezier path category:
+@protocol DKBezierPlacement;
+@protocol DKTextOnPathPlacement;
+@protocol DKTaperPathDelegate;
 
+/** @brief bezier path category:
+ */
 @interface NSBezierPath (TextOnPath)
 
 /** @brief Returns a layout manager used for text on path layout.
@@ -20,13 +24,15 @@
 
  The default is 12 point Helvetica Roman black text with the default paragraph style.
  @return a dictionary of string attributes */
-+ (NSDictionary*)textOnPathDefaultAttributes;
++ (NSDictionary<NSAttributedStringKey,id>*)textOnPathDefaultAttributes;
 
 /** @brief Sets the attributes used to draw strings on paths.
 
  Pass nil to set the default. The attributes are used by the drawStringOnPath: method.
  @param attrs a dictionary of text attributes */
-+ (void)setTextOnPathDefaultAttributes:(NSDictionary*)attrs;
++ (void)setTextOnPathDefaultAttributes:(NSDictionary<NSAttributedStringKey,id>*)attrs;
+
+@property (class, copy) NSDictionary<NSAttributedStringKey,id> *textOnPathDefaultAttributes;
 
 // drawing text along a path - high level methods that use a default layout manager and don't use a cache:
 
@@ -56,7 +62,7 @@
  @param attrs the attributes to use to draw the string - may be nil
  @return YES if the text was fully laid out, NO if some text could not be drawn (for example because it
  would not all fit on the path). */
-- (BOOL)drawStringOnPath:(NSString*)str attributes:(NSDictionary*)attrs;
+- (BOOL)drawStringOnPath:(NSString*)str attributes:(NSDictionary<NSAttributedStringKey,id>*)attrs;
 
 // more advanced method called by the others allows use of different layout managers and cached information for better efficiency. If an object passes back the same
 // cache each time, text-on-path rendering avoids recalculating several things. The caller is responsible for invalidating the cache if the actual string
@@ -125,7 +131,7 @@
  @return YES if all text was laid out, NO if some text was not laid out. */
 - (BOOL)layoutStringOnPath:(NSTextStorage*)str
 				   yOffset:(CGFloat)dy
-		 usingLayoutHelper:(id)helperObject
+		 usingLayoutHelper:(id<DKTextOnPathPlacement>)helperObject
 			 layoutManager:(NSLayoutManager*)lm
 					 cache:(NSMutableDictionary*)cache;
 
@@ -296,7 +302,7 @@
  @param object a factory object used to supply the paths placed
  @param userInfo information passed to the factory object
  @return A list of placed objects */
-- (NSArray*)placeObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id)object userInfo:(void*)userInfo;
+- (NSArray*)placeObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id<DKBezierPlacement>)object userInfo:(void*)userInfo;
 
 /** @brief Places objects at regular intervals along the path.
 
@@ -305,7 +311,7 @@
  @param object a factory object used to supply the paths placed
  @param userInfo information passed to the factory object
  @return A single path consisting of all of the added paths */
-- (NSBezierPath*)bezierPathWithObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id)object userInfo:(void*)userInfo;
+- (NSBezierPath*)bezierPathWithObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id<DKBezierPlacement>)object userInfo:(void*)userInfo;
 
 /** @brief Places copies of a given path at regular intervals along the path.
 
@@ -326,7 +332,7 @@
  @param alt if YES, odd-numbered elements are reversed 180 degrees
  @param taperDel an optional taper delegate.
  @return A single path consisting of all of the added paths */
-- (NSBezierPath*)bezierPathWithPath:(NSBezierPath*)path atInterval:(CGFloat)interval phase:(CGFloat)phase alternate:(BOOL)alt taperDelegate:(id)taperDel;
+- (NSBezierPath*)bezierPathWithPath:(NSBezierPath*)path atInterval:(CGFloat)interval phase:(CGFloat)phase alternate:(BOOL)alt taperDelegate:(id<DKTaperPathDelegate>)taperDel;
 
 // placing "chain links" along a path:
 
@@ -337,7 +343,7 @@
  @param object a factory object used to generate the links themselves
  @param userInfo user info passed to the factory object
  @return a list of created link objects */
-- (NSArray*)placeLinksOnPathWithLinkLength:(CGFloat)ll factoryObject:(id)object userInfo:(void*)userInfo;
+- (NSArray*)placeLinksOnPathWithLinkLength:(CGFloat)ll factoryObject:(id<DKBezierPlacement>)object userInfo:(void*)userInfo;
 
 /** @brief Places "links" along the path at alternating even and odd intervals.
 
@@ -356,7 +362,7 @@
  @param object a factory object used to generate the links themselves
  @param userInfo user info passed to the factory object
  @return a list of created link objects */
-- (NSArray*)placeLinksOnPathWithEvenLinkLength:(CGFloat)ell oddLinkLength:(CGFloat)oll factoryObject:(id)object userInfo:(void*)userInfo;
+- (NSArray*)placeLinksOnPathWithEvenLinkLength:(CGFloat)ell oddLinkLength:(CGFloat)oll factoryObject:(id<DKBezierPlacement>)object userInfo:(void*)userInfo;
 
 // easy motion method:
 
@@ -376,14 +382,15 @@
 
 #pragma mark -
 
-/** informal protocol for placing objects at linear intervals along a bezier path. Will be called from \c placeObjectsOnPathAtInterval:withObject:userInfo:
+/** Protocol for placing objects at linear intervals along a bezier path. Will be called from \c placeObjectsOnPathAtInterval:withObject:userInfo:
  the <object> is called with this method if it implements it.
 
  the second method can be used to implement fluid motion along a path using the \c moveObject:alongPathDistance:inTime:userInfo: method.
 
  the links method is used to implement chain effects from the "placeLinks..." method.
 */
-@interface NSObject (BezierPlacement)
+@protocol DKBezierPlacement <NSObject>
+@optional
 
 - (id)placeObjectAtPoint:(NSPoint)p onPath:(NSBezierPath*)path position:(CGFloat)pos slope:(CGFloat)slope userInfo:(void*)userInfo;
 - (BOOL)moveObjectTo:(NSPoint)p position:(CGFloat)pos slope:(CGFloat)slope userInfo:(id)userInfo;
@@ -397,7 +404,7 @@
  just drawing it after applying a transform, or accumulating the glyph path. An object implementing this protocol is passed internally by the text on
  path methods as necessary, or you can supply one.
  */
-@interface NSObject (TextOnPathPlacement)
+@protocol DKTextOnPathPlacement <NSObject>
 
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
@@ -406,7 +413,7 @@
 #pragma mark -
 
 //! when using a tapering method, the taper callback object must implement the following informal protocol
-@interface NSObject (TaperPathDelegate)
+@protocol DKTaperPathDelegate <NSObject>
 
 - (CGFloat)taperFactorAtDistance:(CGFloat)distance onPath:(NSBezierPath*)path ofLength:(CGFloat)length;
 @end
@@ -414,21 +421,21 @@
 #pragma mark -
 
 //! helper objects used internally when accumulating or laying glyphs
-@interface DKTextOnPathGlyphAccumulator : NSObject {
+@interface DKTextOnPathGlyphAccumulator : NSObject <DKTextOnPathPlacement> {
 	NSMutableArray* mGlyphs;
 }
 
-- (NSArray*)glyphs;
+@property (readonly, retain) NSArray<NSBezierPath*> *glyphs;
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end
 
 #pragma mark -
 
-// this just applies the transform and causes the layout manager to draw the glyph. This ensures that all the stylistic variations on the glyph are applied allowing
-// attributed strings to be drawn along the path.
-
-@interface DKTextOnPathGlyphDrawer : NSObject
+/** this just applies the transform and causes the layout manager to draw the glyph. This ensures that all the stylistic variations on the glyph are applied allowing
+ attributed strings to be drawn along the path.
+ */
+@interface DKTextOnPathGlyphDrawer : NSObject <DKTextOnPathPlacement>
 
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
@@ -436,28 +443,26 @@
 
 #pragma mark -
 
-// this helper calculates the start and length of a given run of characters in the string. The character range should be set prior to use. As each glyph is laid, the
-// glyph run position and length along the line fragment rectangle is calculated.
-
-@interface DKTextOnPathMetricsHelper : NSObject {
+/** this helper calculates the start and length of a given run of characters in the string. The character range should be set prior to use. As each glyph is laid, the
+ glyph run position and length along the line fragment rectangle is calculated.
+*/
+@interface DKTextOnPathMetricsHelper : NSObject <DKTextOnPathPlacement> {
 	CGFloat mStartPosition;
 	CGFloat mLength;
 	NSRange mCharacterRange;
 }
 
-- (void)setCharacterRange:(NSRange)range;
+@property NSRange characterRange;
 @property (readonly) CGFloat length;
 @property (readonly) CGFloat position;
-- (CGFloat)length;
-- (CGFloat)position;
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end
 
 #pragma mark -
 
-// this is a small wrapper object used to cache information about locations on a path, to save recalculating them each time.
-
+/** this is a small wrapper object used to cache information about locations on a path, to save recalculating them each time.
+ */
 @interface DKPathGlyphInfo : NSObject {
 	NSUInteger mGlyphIndex;
 	NSPoint mPoint;
@@ -474,12 +479,12 @@
 
 #pragma mark -
 
-// category on NSFont used to fudge the underline offset for invalid fonts. Apparently this is what Apple do also, though currently the
-// definition of "invalid font" is not known with any precision. Currently underline offsets of 0 will use this value instead
-
+/** category on NSFont used to fudge the underline offset for invalid fonts. Apparently this is what Apple do also, though currently the
+ definition of "invalid font" is not known with any precision. Currently underline offsets of 0 will use this value instead
+*/
 @interface NSFont (DKUnderlineCategory)
 
-- (CGFloat)valueForInvalidUnderlinePosition;
-- (CGFloat)valueForInvalidUnderlineThickness;
+@property (readonly) CGFloat valueForInvalidUnderlinePosition;
+@property (readonly) CGFloat valueForInvalidUnderlineThickness;
 
 @end

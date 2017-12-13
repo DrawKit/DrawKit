@@ -321,7 +321,7 @@ Text shapes are shapes that draw text.
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
 
 @property (readonly, getter=isEditing) BOOL editing;
-@property (retain) DKTextAdornment *textAdornment;
+@property (nonatomic, retain) DKTextAdornment *textAdornment;
 
 // user actions:
 

@@ -101,12 +101,7 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
     }
 }
 
-/** @brief Returns the current marquee (selection rect)
- @return a rect */
-- (NSRect)marqueeRect
-{
-    return mMarqueeRect;
-}
+@synthesize marqueeRect=mMarqueeRect;
 
 /** @brief Sets the current marquee (selection rect)
 
@@ -156,113 +151,16 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
     return mMarqueeStyle;
 }
 
+@synthesize marqueeStyle=mMarqueeStyle;
+
 #pragma mark -
 #pragma mark - setting options for the tool
 
-/** @brief Set whether the selection highlight of objects should be supressed during a drag
-
- The default is YES. Hiding the selection can make positioning objects by eye more precise.
- @param hideSel YES to hide selections during a drag, NO to leave them visible */
-- (void)setSelectionShouldHideDuringDrag:(BOOL)hideSel
-{
-    mHideSelectionOnDrag = hideSel;
-}
-
-/** @brief Should the selection highlight of objects should be supressed during a drag?
-
- The default is YES. Hiding the selection can make positioning objects by eye more precise.
- @return YES to hide selections during a drag, NO to leave them visible */
-- (BOOL)selectionShouldHideDuringDrag
-{
-    return mHideSelectionOnDrag;
-}
-
-/** @brief Sets whether dragging moves all objects in the selection as a group, or only the one under the mouse
-
- The default is YES.
- @param multi YES to drag all selected objects as a group, NO to drag just the one hit
- */
-- (void)setDragsAllObjectsInSelection:(BOOL)multi
-{
-    mAllowMultiObjectDrag = multi;
-}
-
-/** @brief Drags all objects as agroup?
-
- The default is YES
- @return YES if all selected objects are dragged as a group, NO if only one is
- */
-- (BOOL)dragsAllObjectsInSelection
-{
-    return mAllowMultiObjectDrag;
-}
-
-/** @brief Sets whether option-drag copies the original object
-
- The default is YES
- @param dragCopy YES to allow option-drag to copy the object
- */
-- (void)setAllowsDirectDragCopying:(BOOL)dragCopy
-{
-    mAllowDirectCopying = dragCopy;
-}
-
-/** @brief Whether option-drag copies the original object
-
- The default is YES
- @return YES if option-drag will copy the object
- */
-- (BOOL)allowsDirectDragCopying
-{
-    return mAllowDirectCopying;
-}
-
-/** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
-
- The default is NO
- @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
- */
-- (void)setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL)dragWithKnob
-{
-    mAllowMultiObjectKnobDrag = dragWithKnob;
-}
-
-/** @brief Returns whether a hit on a knob in a multiple selection drags the objects or drags the knob
-
- The default is NO
- @return YES to drag the selection, NO to change the selection and drag the knob
- */
-- (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob
-{
-    return mAllowMultiObjectKnobDrag;
-}
-
-/** @brief Sets the number of selected objects at which a proxy drag is used rather than a live drag
-
- Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- a temporary image of the objects being dragged. A value of 0 will disable proxy dragging. Note that
- this gives a hugh performance gain for large numbers of objects - in fact it makes dragging of a lot
- of objects actually feasible. The default threshold is 50 objects. Setting this to 1 effectively
- makes proxy dragging operate at all times.
- @param numberOfObjects the number above which a proxy drag is used 
- */
-- (void)setProxyDragThreshold:(NSUInteger)numberOfObjects
-{
-    mProxyDragThreshold = numberOfObjects;
-}
-
-/** @brief The number of selected objects at which a proxy drag is used rather than a live drag
-
- Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- a temporary image of the objects being dragged. A value of 0 will disable proxy dragging.
- @return the number above which a proxy drag is used
- */
-- (NSUInteger)proxyDragThreshold
-{
-    return mProxyDragThreshold;
-}
+@synthesize selectionShouldHideDuringDrag=mHideSelectionOnDrag;
+@synthesize dragsAllObjectsInSelection=mAllowMultiObjectDrag;
+@synthesize allowsDirectDragCopying=mAllowDirectCopying;
+@synthesize dragsAllObjectsInSelectionWhenDraggingKnob=mAllowMultiObjectKnobDrag;
+@synthesize proxyDragThreshold=mProxyDragThreshold;
 
 #pragma mark -
 #pragma mark - changing the selection and dragging

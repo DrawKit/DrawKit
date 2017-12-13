@@ -164,9 +164,4 @@
 	return result;
 }
 
-- (NSString*)stringValue
-{
-	return self;
-}
-
 @end

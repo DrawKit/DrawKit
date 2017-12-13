@@ -29,7 +29,7 @@ can be used in a similar way.
 
 - (void)setEnvelopePoints:(NSPoint*)points;
 - (void)getEnvelopePoints:(NSPoint*)points;
-- (NSRect)bounds;
+@property (readonly) NSRect bounds;
 
 - (void)offsetByX:(CGFloat)dx byY:(CGFloat)dy;
 - (void)shearHorizontallyBy:(CGFloat)dx;

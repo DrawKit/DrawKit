@@ -32,50 +32,29 @@ This class allows any image to be part of the rendering tree.
 	NSString* m_imageIdentifier;
 }
 
-+ (DKImageAdornment*)imageAdornmentWithImage:(NSImage*)image;
-+ (DKImageAdornment*)imageAdornmentWithImageFromFile:(NSString*)path;
++ (instancetype)imageAdornmentWithImage:(NSImage*)image;
++ (instancetype)imageAdornmentWithImageFromFile:(NSString*)path;
 
-- (void)setImage:(NSImage*)image;
-- (NSImage*)image;
+@property (nonatomic, retain) NSImage *image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing;
-- (void)setImageKey:(NSString*)key;
-- (NSString*)imageKey;
+@property (copy) NSString *imageKey;
 
-- (void)setImageIdentifier:(NSString*)imageID;
-- (NSString*)imageIdentifier;
+@property (copy) NSString *imageIdentifier;
 
-- (void)setScale:(CGFloat)scale;
-- (CGFloat)scale;
+@property (nonatomic) CGFloat scale;
 
-- (void)setOpacity:(CGFloat)opacity;
-- (CGFloat)opacity;
+@property (nonatomic) CGFloat opacity;
 
-- (void)setOrigin:(NSPoint)origin;
-- (NSPoint)origin;
-
-- (void)setAngle:(CGFloat)angle;
-- (CGFloat)angle;
-- (void)setAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)angleInDegrees;
-
-- (void)setOperation:(NSCompositingOperation)op;
-- (NSCompositingOperation)operation;
-
-- (void)setFittingOption:(DKImageFittingOption)fopt;
-- (DKImageFittingOption)fittingOption;
-
-- (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject;
-
-@property (retain) NSImage *image;
-@property (retain) NSString *imageKey;
-@property (retain) NSString *imageIdentifier;
-@property CGFloat scale;
-@property CGFloat opacity;
 @property NSPoint origin;
+
 @property CGFloat angle;
 @property CGFloat angleInDegrees;
+
 @property NSCompositingOperation operation;
+
 @property DKImageFittingOption fittingOption;
+
+- (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject;
 
 @end

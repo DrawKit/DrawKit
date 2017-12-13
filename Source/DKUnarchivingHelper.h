@@ -14,9 +14,9 @@
 }
 
 - (void)reset;
-- (NSUInteger)numberOfObjectsDecoded;
+@property (readonly) NSUInteger numberOfObjectsDecoded;
 
-- (NSString*)lastClassnameSubstituted;
+@property (readonly, copy) NSString *lastClassnameSubstituted;
 
 @end
 
@@ -28,6 +28,7 @@ if a substitution would return NSObject, return this insead, which provides a st
 	NSString* mSubstitutedForClassname;
 }
 
+@property (copy) NSString *substitutionClassname;
 - (void)setSubstitutionClassname:(NSString*)classname;
 - (NSString*)substitutionClassname;
 

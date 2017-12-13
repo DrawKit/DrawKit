@@ -223,13 +223,7 @@
 	}
 }
 
-/** @brief The angle of the hatching
- @return the angle in radians
- */
-- (CGFloat)angle
-{
-	return m_angle;
-}
+@synthesize angle=m_angle;
 
 /** @brief Set the angle of the hatching in degrees
  @param degs the angle in degrees 
@@ -252,15 +246,7 @@
 	return angle;
 }
 
-- (void)setAngleIsRelativeToObject:(BOOL)rel
-{
-	m_angleRelativeToObject = rel;
-}
-
-- (BOOL)angleIsRelativeToObject
-{
-	return m_angleRelativeToObject;
-}
+@synthesize angleIsRelativeToObject=m_angleRelativeToObject;
 
 #pragma mark -
 - (void)setSpacing:(CGFloat)spacing
@@ -273,10 +259,7 @@
 	}
 }
 
-- (CGFloat)spacing
-{
-	return m_spacing;
-}
+@synthesize spacing=m_spacing;
 
 - (void)setLeadIn:(CGFloat)amount
 {
@@ -286,10 +269,7 @@
 	}
 }
 
-- (CGFloat)leadIn
-{
-	return m_leadIn;
-}
+@synthesize leadIn=m_leadIn;
 
 #pragma mark -
 - (void)setWidth:(CGFloat)width
@@ -298,10 +278,7 @@
 	[self invalidateRoughnessCache];
 }
 
-- (CGFloat)width
-{
-	return m_lineWidth;
-}
+@synthesize width=m_lineWidth;
 
 - (void)setLineCapStyle:(NSLineCapStyle)lcs
 {
@@ -309,10 +286,7 @@
 	[self invalidateRoughnessCache];
 }
 
-- (NSLineCapStyle)lineCapStyle
-{
-	return m_cap;
-}
+@synthesize lineCapStyle=m_cap;
 
 - (void)setLineJoinStyle:(NSLineJoinStyle)ljs
 {
@@ -320,23 +294,10 @@
 	[self invalidateRoughnessCache];
 }
 
-- (NSLineJoinStyle)lineJoinStyle
-{
-	return m_join;
-}
+@synthesize lineJoinStyle=m_join;
 
 #pragma mark -
-- (void)setColour:(NSColor*)colour
-{
-	[colour retain];
-	[m_hatchColour release];
-	m_hatchColour = colour;
-}
-
-- (NSColor*)colour
-{
-	return m_hatchColour;
-}
+@synthesize colour=m_hatchColour;
 
 #pragma mark -
 - (void)setDash:(DKStrokeDash*)dash
@@ -347,10 +308,7 @@
 	[self invalidateRoughnessCache];
 }
 
-- (DKStrokeDash*)dash
-{
-	return m_hatchDash;
-}
+@synthesize dash=m_hatchDash;
 
 - (void)setAutoDash
 {
@@ -374,10 +332,7 @@
 	[self invalidateRoughnessCache];
 }
 
-- (CGFloat)roughness
-{
-	return mRoughness;
-}
+@synthesize roughness=mRoughness;
 
 - (void)setWobblyness:(CGFloat)wobble
 {
@@ -385,10 +340,7 @@
 	[self invalidateCache];
 }
 
-- (CGFloat)wobblyness
-{
-	return mWobblyness;
-}
+@synthesize wobblyness=mWobblyness;
 
 #pragma mark -
 - (void)invalidateCache

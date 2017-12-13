@@ -333,6 +333,8 @@ static NSDictionary* s_interconversionTable = nil;
 	return mContainerRef;
 }
 
+@synthesize container=mContainerRef;
+
 /** @brief Sets the immediate parent of this object (a DKObjectOwnerLayer layer, typically)
 
  The container itself is responsible for setting this - applications should not use this method. An

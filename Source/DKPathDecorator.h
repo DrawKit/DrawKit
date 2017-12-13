@@ -5,17 +5,18 @@
 */
 
 #import "DKRasterizer.h"
+#import "NSBezierPath+Text.h"
 
 @class DKQuartzCache;
 
 /** @brief This renderer draws the image along the path of another object spaced at <interval> distance.
 
-This renderer draws the image along the path of another object spaced at <interval> distance. Each image is scaled by <scale> and is
+This renderer draws the image along the path of another object spaced at \c interval distance. Each image is scaled by \c scale and is
 rotated to be normal to the path unless _normalToPath is NO.
 
 This prefers PDF image representations where the image contains one, preserving resolution as the drawing is scaled.
 */
-@interface DKPathDecorator : DKRasterizer <NSCoding, NSCopying> {
+@interface DKPathDecorator : DKRasterizer <NSCoding, NSCopying, DKBezierPlacement> {
 @private
 	NSImage* m_image;
 	NSPDFImageRep* m_pdf;
@@ -44,67 +45,35 @@ This prefers PDF image representations where the image contains one, preserving 
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithImage:(NSImage*)image NS_DESIGNATED_INITIALIZER;
 
-- (void)setImage:(NSImage*)image;
-- (NSImage*)image;
-@property (retain) NSImage *image;
+@property (nonatomic, retain) NSImage *image;
 - (void)setUpCache;
 - (void)setPDFImageRep:(NSPDFImageRep*)rep;
 
-- (void)setScale:(CGFloat)scale;
-- (CGFloat)scale;
+@property (nonatomic) CGFloat scale;
 
-@property CGFloat scale;
-
-- (void)setScaleRandomness:(CGFloat)scRand;
-- (CGFloat)scaleRandomness;
-
-@property CGFloat scaleRandomness;
-
-- (void)setInterval:(CGFloat)interval;
-- (CGFloat)interval;
+@property (nonatomic) CGFloat scaleRandomness;
 
 @property CGFloat interval;
 
-- (void)setLeaderDistance:(CGFloat)leader;
-- (CGFloat)leaderDistance;
-
 @property CGFloat leaderDistance;
-
-- (void)setLateralOffset:(CGFloat)loff;
-- (CGFloat)lateralOffset;
-- (void)setLateralOffsetAlternates:(BOOL)alts;
-- (BOOL)lateralOffsetAlternates;
 
 @property CGFloat lateralOffset;
 @property BOOL lateralOffsetAlternates;
 
-- (void)setWobblyness:(CGFloat)wobble;
-- (CGFloat)wobblyness;
-
-@property CGFloat wobblyness;
-
-- (void)setNormalToPath:(BOOL)normal;
-- (BOOL)normalToPath;
+@property (nonatomic) CGFloat wobblyness;
 
 @property BOOL normalToPath;
-
-- (void)setLeadInLength:(CGFloat)linLength;
-- (void)setLeadOutLength:(CGFloat)loutLength;
-- (CGFloat)leadInLength;
-- (CGFloat)leadOutLength;
 
 @property CGFloat leadInLength;
 @property CGFloat leadOutLength;
 
-- (void)setLeadInAndOutLengthProportion:(CGFloat)proportion;
-- (CGFloat)leadInAndOutLengthProportion;
+@property (nonatomic) CGFloat leadInAndOutLengthProportion;
 - (CGFloat)rampFunction:(CGFloat)val;
 
-@property CGFloat leadInAndOutLengthProportion;
-
-- (void)setUsesChainMethod:(BOOL)chain;
-- (BOOL)usesChainMethod;
-
+/**
+ experimental: allows use of "chain" callback which emulates links more accurately than image drawing - but really this ought to be
+ pushed out into another more specialised class.
+*/
 @property BOOL usesChainMethod;
 
 @end

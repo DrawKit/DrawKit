@@ -90,6 +90,8 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return mStorage;
 }
 
+@synthesize storage=mStorage;
+
 #pragma mark - the list of objects
 
 /** @brief Sets the objects that this layer owns
@@ -317,7 +319,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  */
 - (DKDrawableObject*)bottomObject
 {
-	return [[self objects] objectAtIndex:0];
+	return [[self objects] firstObject];
 }
 
 /** @brief Returns the stacking position of the given object

@@ -18,6 +18,9 @@ The most useful is probably NSValue, since this will automatically use NSStringF
 - (NSString*)stringValue;
 - (NSString*)address;
 
+@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString *address;
+
 @end
 
 @interface NSValue (StringValue)

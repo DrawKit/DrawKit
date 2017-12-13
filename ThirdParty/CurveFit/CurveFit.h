@@ -1,6 +1,6 @@
 /*
  *  CurveFit.h
-///  DrawKit �2005-2008 Apptree.net
+///  DrawKit ©2005-2008 Apptree.net
  *
  *  Created by graham on 05/11/2006.
  *  Copyright 2006 Apptree.net. All rights reserved.
@@ -20,8 +20,8 @@ extern "C"
 
 // curve fit vector paths using bezier curve fitting:
 
-NSBezierPath*		curveFitPath(NSBezierPath* inPath, float epsilon);
-NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, float epsilon, float cornerAngleThreshold );
+NSBezierPath*		curveFitPath(NSBezierPath* inPath, CGFloat epsilon);
+NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold );
 
 #ifdef __cplusplus
 }

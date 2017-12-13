@@ -275,14 +275,14 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-+ (NSBezierPath*)roundRectSpeechBalloon:(NSInteger)sbParams cornerRadius:(CGFloat)cr
++ (NSBezierPath*)roundRectSpeechBalloon:(DKSpeechBalloonOptions)sbParams cornerRadius:(CGFloat)cr
 {
 	return [self roundRectSpeechBalloonInRect:[self rectOfUnitSize]
 									   params:sbParams
 								 cornerRadius:cr];
 }
 
-+ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(NSInteger)sbParams cornerRadius:(CGFloat)cr
++ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(DKSpeechBalloonOptions)sbParams cornerRadius:(CGFloat)cr
 {
 	// speech ballon is a round rect with a straight spur going to one corner. The spur occupies 1/4 of the height or width of the
 	// overall bounds rectangle. The params set on which edge and which way the spur points.
@@ -403,7 +403,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-+ (NSBezierPath*)ovalSpeechBalloon:(NSInteger)sbParams
++ (NSBezierPath*)ovalSpeechBalloon:(DKSpeechBalloonOptions)sbParams
 {
 #pragma unused(sbParams)
 
@@ -557,13 +557,13 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	// param is a dictionary containing the following parameters:
 	// key = kDKSpeechBalloonType, value = type flags (NSNumber as integer)
 	// key = kDKSpeechBalloonCornerRadius, value = radius (NSNumber as float)
-	NSInteger sbtype = kDKStandardSpeechBalloon;
+	DKSpeechBalloonOptions sbtype = kDKStandardSpeechBalloon;
 	CGFloat radius = 16.0;
 
 	if ([param isKindOfClass:[NSDictionary class]]) {
 		NSDictionary* p = (NSDictionary*)param;
 
-		sbtype = [[p objectForKey:kDKSpeechBalloonType] integerValue];
+		sbtype = [[p objectForKey:kDKSpeechBalloonType] unsignedIntegerValue];
 		radius = [[p objectForKey:kDKSpeechBalloonCornerRadius] doubleValue];
 	}
 

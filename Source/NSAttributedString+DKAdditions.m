@@ -246,7 +246,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		return YES;
 }
 
-- (BOOL)attributeIsHomogeneous:(NSString*)attrName
+- (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attrName
 {
 	// returns YES if the attribute named applies over the entire length of the string or the string is empty, NO otherwise (including if the attribute doesn't exist).
 

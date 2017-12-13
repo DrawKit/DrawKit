@@ -19,11 +19,7 @@ This layout manager subclass draws greeking rectangles instead of glyphs, either
 }
 
 @property DKGreeking greeking;
-@property (retain) NSColor *greekingColour;
-- (void)setGreeking:(DKGreeking)greeking;
-- (DKGreeking)greeking;
 
-- (void)setGreekingColour:(NSColor*)aColour;
-- (NSColor*)greekingColour;
+@property (retain) NSColor *greekingColour;
 
 @end

@@ -25,11 +25,10 @@ Higher-level wrapper for CGLayer, used to cache graphics in numerous places in D
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithContext:(NSGraphicsContext*)context forRect:(NSRect)rect NS_DESIGNATED_INITIALIZER;
-- (NSSize)size;
+@property (readonly) NSSize size;
 - (CGContextRef)context CF_RETURNS_NOT_RETAINED;
 
-- (void)setFlipped:(BOOL)flipped;
-- (BOOL)flipped;
+@property BOOL flipped;
 
 - (void)drawAtPoint:(NSPoint)point;
 - (void)drawAtPoint:(NSPoint)point operation:(CGBlendMode)op fraction:(CGFloat)frac;

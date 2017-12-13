@@ -67,6 +67,8 @@ indicate likely handling of drag and drop operations by a layer instance.
 + (NSArray<NSColor*>*)selectionColours;
 + (NSColor*)selectionColourForIndex:(NSUInteger)index;
 
+@property (class, retain /*, null_resettable*/) NSArray<NSColor*> *selectionColours;
+
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
@@ -228,6 +230,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (NSColor*)selectionColour;
 
+@property (nonatomic, retain) NSColor *selectionColour;
+
 /** @brief Returns an image of the layer a the given size
 
  While the image has the size passed, the rendered content will have the same aspect ratio as the
@@ -279,6 +283,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (BOOL)clipsDrawingToInterior;
 
+@property (nonatomic) BOOL clipsDrawingToInterior;
+
 /** @brief Sets the alpha level for the layer
 
  Default is 1.0 (fully opaque objects). Note that alpha must be implemented by a layer's
@@ -296,12 +302,14 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (CGFloat)alpha;
 
+@property (nonatomic) CGFloat alpha;
+
 // managing ruler markers:
 
 - (void)updateRulerMarkersForRect:(NSRect)rect;
 - (void)hideRulerMarkers;
 - (void)setRulerMarkerUpdatesEnabled:(BOOL)enable;
-- (BOOL)rulerMarkerUpdatesEnabled;
+@property BOOL rulerMarkerUpdatesEnabled;
 
 // states:
 
@@ -334,6 +342,9 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (BOOL)visible;
 
+@property BOOL locked;
+@property BOOL visible;
+
 /** @brief Is the layer the active layer?
  @return YES if the active layer, NO otherwise
  */
@@ -345,6 +356,9 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return YES if locked or hidden, NO if unlocked and visible
  */
 - (BOOL)lockedOrHidden;
+
+@property (readonly, getter=isActive) BOOL active;
+@property (readonly) BOOL lockedOrHidden;
 
 /** @brief Sets the user-readable name of the layer
 
@@ -359,10 +373,12 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (NSString*)layerName;
 
+@property (nonatomic, retain) NSString *layerName;
+
 // user info support
 
-- (void)setUserInfo:(NSMutableDictionary*)info;
-- (void)addUserInfo:(NSDictionary*)info;
+- (void)setUserInfo:(NSMutableDictionary<NSString*,id>*)info;
+- (void)addUserInfo:(NSDictionary<NSString*,id>*)info;
 
 /** @brief Return the attached user info
 
@@ -371,7 +387,9 @@ indicate likely handling of drag and drop operations by a layer instance.
  the object however.
  @return the user info
  */
-- (NSMutableDictionary*)userInfo;
+- (NSMutableDictionary<NSString*,id>*)userInfo;
+
+@property (copy) NSMutableDictionary<NSString*,id> *userInfo;
 
 /** @brief Return an item of user info
  @param key the key to use to refer to the item
@@ -384,6 +402,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return the unique key
  */
 - (NSString*)uniqueKey;
+
+@property (readonly, copy) NSString *uniqueKey;
 
 // print this layer?
 
@@ -402,6 +422,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (BOOL)shouldDrawToPrinter;
 
+@property BOOL shouldDrawToPrinter;
+
 // becoming/resigning active:
 
 /** @brief Returns whether the layer can become the active layer
@@ -410,6 +432,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return YES if the layer can become active, NO to not become active
  */
 - (BOOL)layerMayBecomeActive;
+
+@property (readonly) BOOL layerMayBecomeActive;
 
 /** @brief The layer was made the active layer by the owning drawing
 
@@ -429,9 +453,11 @@ indicate likely handling of drag and drop operations by a layer instance.
 
  This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
  It does not prevent code from directly removing the layer.
- @return YES if layer can be deleted, override to return NO to prevent this
+ @return \c YES if layer can be deleted, override to return \c NO to prevent this
  */
 - (BOOL)layerMayBeDeleted;
+
+@property (readonly) BOOL layerMayBeDeleted;
 
 // mouse event handling:
 
@@ -519,6 +545,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (NSRect)activeCursorRect;
 
+@property (readonly) NSRect activeCursorRect;
+
 /** @brief Allows a contextual menu to be built for the layer or its contents
 
  By default this returns nil, resulting in nothing being displayed. Subclasses can override to build
@@ -531,10 +559,38 @@ indicate likely handling of drag and drop operations by a layer instance.
 
 // supporting per-layer knob handling - default defers to the drawing as before
 
+/** @brief Sets the selection knob helper object used for this drawing and any objects within it
+ 
+ Selection appearance can be customised for this drawing by setting up the knobs object or subclassing
+ it. This object is propagated down to all objects below this in the system to draw their selection.
+ See also: -setSelectionColour, -selectionColour.
+ @param knobs the knobs objects
+ */
 - (void)setKnobs:(DKKnob*)knobs;
+/** @brief Returns the attached selection knobs helper object
+ 
+ If custom knobs have been set for the layer, they are returned. Otherwise, the knobs for the group
+ or ultimately the drawing will be returned.
+ @return the attached knobs object
+ */
 - (DKKnob*)knobs;
-- (void)setKnobsShouldAdustToViewScale:(BOOL)ka;
+- (void)setKnobsShouldAdustToViewScale:(BOOL)ka API_DEPRECATED_WITH_REPLACEMENT("setKnobsShouldAdjustToViewScale", macosx(10.0, 10.6));
+/** @brief Return whether the drawing will scale its selection knobs to the view or not
+ 
+ The default setting is YES, knobs should adjust to scale.
+ @return YES if knobs ar scaled, NO if not
+ */
 - (BOOL)knobsShouldAdjustToViewScale;
+/** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
+ 
+ In general it's best to scale the knobs otherwise they tend to overlap and become large at high
+ zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
+ @param ka YES to set knobs to scale, NO to fix their size.
+ */
+- (void)setKnobsShouldAdjustToViewScale:(BOOL)ka;
+
+@property (nonatomic, retain) DKKnob *knobs;
+@property (nonatomic) BOOL knobsShouldAdjustToViewScale;
 
 // pasteboard types for drag/drop etc:
 

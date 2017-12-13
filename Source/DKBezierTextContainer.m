@@ -8,6 +8,7 @@
 #import "NSBezierPath+Text.h"
 
 @implementation DKBezierTextContainer
+@synthesize bezierPath=mPath;
 
 - (void)setBezierPath:(NSBezierPath*)aPath
 {
