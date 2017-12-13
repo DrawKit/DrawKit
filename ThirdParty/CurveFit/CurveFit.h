@@ -20,8 +20,8 @@ extern "C"
 
 // curve fit vector paths using bezier curve fitting:
 
-NSBezierPath*		curveFitPath(NSBezierPath* inPath, CGFloat epsilon);
-NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold );
+extern NSBezierPath*		curveFitPath(NSBezierPath* inPath, CGFloat epsilon);
+extern NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold );
 
 #ifdef __cplusplus
 }

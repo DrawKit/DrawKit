@@ -232,7 +232,7 @@ static DKDrawingTool* sGlobalTool = nil;
 - (void)setDrawingToolWithName:(NSString*)name
 {
 	if (name != nil && [name length] > 0) {
-		DKDrawingTool* tool = [DKDrawingTool drawingToolWithName:name];
+		DKDrawingTool* tool = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:name];
 
 		LogEvent_(kStateEvent, @"tool controller selecting tool with name '%@', tool = %@", name, tool);
 
@@ -662,7 +662,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	if ([self automaticallyRevertsToSelectionTool] && ![ct isKindOfClass:[DKSelectAndEditTool class]]) {
 		DKDrawingTool* se;
 
-		se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
+		se = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:kDKStandardSelectionToolName];
 
 		if (se == nil)
 			se = [[DKSelectAndEditTool alloc] init];
@@ -728,7 +728,7 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)keyDown:(NSEvent*)event
 {
-	DKDrawingTool* tool = [DKDrawingTool drawingToolWithKeyboardEquivalent:event];
+	DKDrawingTool* tool = [[DKToolRegistry sharedToolRegistry] drawingToolWithKeyboardEquivalent:event];
 
 	if (tool) {
 		[self setAutomaticallyRevertsToSelectionTool:NO];
