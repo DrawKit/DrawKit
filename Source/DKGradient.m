@@ -748,6 +748,8 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	return m_gradAngle;
 }
 
+@synthesize angle=m_gradAngle;
+
 /** @brief Sets the angle of the gradient to the given angle
  @param degrees the desired angle expressed in degrees
  */

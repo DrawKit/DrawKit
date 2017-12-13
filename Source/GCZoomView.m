@@ -140,6 +140,20 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 {
 #pragma unused(sender)
 
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		NSRect ssfr = sv.frame;
+		
+		NSRect fr = [self frame];
+		
+		CGFloat sx, sy;
+		
+		sx = ssfr.size.width / fr.size.width;
+		sy = ssfr.size.height / fr.size.height;
+
+		[self zoomViewToAbsoluteScale:MIN(sx, sy)];
+		return;
+	}
 	// zooms the view to fit within the current window (command/action)
 	NSRect sfr = [[self superview] frame];
 	[self zoomViewToFitRect:sfr];
@@ -305,6 +319,18 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
  */
 - (void)setScale:(CGFloat)sc
 {
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillChangeScale
+															object:self];
+
+		sv.magnification = sc;
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidChangeScale
+															object:self];
+		return;
+	}
 	if (sc < [self minimumScale])
 		sc = [self minimumScale];
 
@@ -339,10 +365,58 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 	}
 }
 
+- (CGFloat)scale
+{
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		
+		return sv.magnification;
+	}
+	return m_scale;
+}
+
 @synthesize scale=m_scale;
 @synthesize changingScale=mIsChangingScale;
 @synthesize minimumScale=mMinScale;
 @synthesize maximumScale=mMaxScale;
+
+- (CGFloat)minimumScale
+{
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		return sv.minMagnification;
+	} else {
+		return mMinScale;
+	}
+}
+
+- (void)setMinimumScale:(CGFloat)scmin
+{
+	mMinScale=scmin;
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		sv.minMagnification = scmin;
+	}
+}
+
+- (CGFloat)maximumScale
+{
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		return sv.maxMagnification;
+	} else {
+		return mMaxScale;
+	}
+}
+
+- (void)setMaximumScale:(CGFloat)scmax
+{
+	mMaxScale=scmax;
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		sv.maxMagnification = scmax;
+	}
+}
 
 #pragma mark -
 
@@ -422,6 +496,16 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 														 selector:@selector(stopScaleChange)];
 	}
 	return self;
+}
+
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview
+{
+	[super viewWillMoveToSuperview:newSuperview];
+	if ([newSuperview.superview isKindOfClass:[NSScrollView self]]) {
+		NSScrollView *sv = (NSScrollView*)newSuperview.superview;
+		sv.maxMagnification=mMaxScale;
+		sv.minMagnification=mMinScale;
+	}
 }
 
 #pragma mark -

@@ -569,6 +569,7 @@ static BOOL sSubstitute = NO;
 	return @[[self uniqueKey]]; //[[DKStyleRegistry sharedStyleRegistry] keysForObject:self];
 }
 
+#if 0
 /** @brief Returns the unique key of the style
 
  The unique key is set once and for all time when the style is initialised, and is guaranteed unique
@@ -579,6 +580,9 @@ static BOOL sSubstitute = NO;
 {
 	return [m_uniqueKey copy];
 }
+#else
+@synthesize uniqueKey=m_uniqueKey;
+#endif
 
 /** @brief Sets the unique key of the style
 
