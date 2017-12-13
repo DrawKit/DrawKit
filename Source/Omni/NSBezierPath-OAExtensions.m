@@ -1133,7 +1133,7 @@ static double subpathElementLength( subpathWalkingState *iter, double errorBudge
         double totalLength;
         NSInteger filledLengths, curLength;
 		
-        lengths = malloc((cursor.elementCount+1) * sizeof(lengths));
+        lengths = malloc((cursor.elementCount+1) * sizeof(*lengths));
         filledLengths = 0;
         totalLength = 0;
 
@@ -1229,8 +1229,10 @@ static int compareFloat(const void *a_, const void *b_)
             yCoordinates[coordinateCount ++] = points[2].y;
         /* Else, a closepath --- ignore, since its y-coordinate would be a duplicate of some moveto's y-coordinate */
     }
-    if (coordinateCount < 2)
+	if (coordinateCount < 2) {
+		free(yCoordinates);
         return YES;  // degenerate path
+	}
     qsort(yCoordinates, coordinateCount, sizeof(*yCoordinates), compareFloat);
     
     CGFloat bestGapSize, bestGapMidpoint;

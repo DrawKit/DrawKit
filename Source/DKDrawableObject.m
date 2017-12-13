@@ -1027,7 +1027,7 @@ static NSDictionary* s_interconversionTable = nil;
 
 		// set up the user info. If newStyle is nil, this will terminate the list after the old style
 
-		NSDictionary* userInfo = @{kDKDrawableOldStyleKey: [self style], kDKDrawableNewStyleKey: newStyle};
+		NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[self style], kDKDrawableOldStyleKey, newStyle, kDKDrawableNewStyleKey, nil];
 
 		if ([self layer])
 			[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawableStyleWillBeDetachedNotification

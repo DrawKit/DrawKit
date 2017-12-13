@@ -298,10 +298,11 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 {
 	// this method is here solely to support backward compatibility with b5; storage is no longer archived.
 
-	[super initWithCoder:aCoder];
+	if (self = [super initWithCoder:aCoder]) {
 	mTreeDepth = [aCoder decodeIntegerForKey:@"DKBSPObjectStorage_treeDepth"];
 	[self setCanvasSize:[aCoder decodeSizeForKey:@"DKBSPObjectStorage_canvasSize"]];
-
+	}
+	
 	return self;
 }
 

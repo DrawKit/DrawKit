@@ -472,14 +472,17 @@ static void trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[]);
 
 NSInteger* ivector(long nl, long nh)
 {
-	NSInteger* v;
-
-	v = (NSInteger*)malloc((size_t)((nh - nl + 1 + NR_END) * sizeof(NSInteger)));
-	if (v != NULL)
+	NSInteger *v;
+	size_t vSize = ((nh - nl + 1 + NR_END) * sizeof(NSInteger));
+	
+	v = (NSInteger *)malloc(vSize);
+	if (v != NULL) {
+		memset(v, 0, vSize);
 		return v - nl + NR_END;
-	else
+	} else
 		return NULL;
 }
+
 
 /* free an int vector allocated with ivector() */
 

@@ -648,7 +648,7 @@ static NSInteger FindRoots(NSPoint* w, NSInteger degree, double* t, NSInteger de
 	NSInteger i;
 	NSPoint Left[6], Right[6]; // control polygons
 	NSInteger left_count, right_count;
-	double left_t[6], right_t[6];
+	double left_t[6]={0}, right_t[6]={0};
 
 	switch (CrossingCount(w, degree)) {
 	default:
@@ -854,7 +854,7 @@ static double ComputeXIntercept(NSPoint* v, NSInteger degree)
 NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[4], double* tValue)
 {
 	NSPoint* w; // Ctl pts for 5th-degree eqn
-	double t_candidate[5]; // Possible roots
+	double t_candidate[5] = {0}; // Possible roots
 	NSInteger n_solutions; // Number of roots found
 	double t; // Parameter value of closest pt
 

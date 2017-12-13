@@ -743,6 +743,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 - (void)dealloc
 {
 	[m_dims_formatter release];
+	[m_outlineColour release];
 
 	[super dealloc];
 }

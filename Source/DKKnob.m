@@ -405,10 +405,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 #pragma mark -
 #pragma mark - low - level methods(mostly internal and overridable)
-- (void)setControlKnobSize:(NSSize)cks
-{
-	m_knobSize = cks;
-}
+@synthesize controlKnobSize=m_knobSize;
 
 - (void)setControlKnobSizeForViewScale:(CGFloat)scale
 {
@@ -424,11 +421,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	ns.width /= ff;
 	ns.height /= ff;
 	[self setControlKnobSize:ns];
-}
-
-- (NSSize)controlKnobSize
-{
-	return m_knobSize;
 }
 
 #pragma mark -

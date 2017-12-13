@@ -235,7 +235,7 @@ bezier_fit_cubic_full(Point bezier[], int split_points[],
     }
 
     /*  Parameterize points, and attempt to fit curve */
-    unsigned splitPoint;   /* Point to split point set at. */
+    unsigned splitPoint = 0;   /* Point to split point set at. */
     bool is_corner;
     {
         double *u = new double[len];

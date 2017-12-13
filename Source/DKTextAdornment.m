@@ -457,6 +457,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	// setting the label notifies us to invalidate cache
 
 	[self setLabel:str];
+	[str release];
 }
 
 #pragma mark -
@@ -466,6 +467,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	NSMutableAttributedString* str = [[[self textSubstitutor] masterString] mutableCopy];
 	[str changeFont:sender];
 	[self setLabel:str];
+	[str release];
 }
 
 - (void)changeAttributes:(id)sender
@@ -473,6 +475,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	NSMutableAttributedString* str = [[[self textSubstitutor] masterString] mutableCopy];
 	[str changeAttributes:sender];
 	[self setLabel:str];
+	[str release];
 }
 
 - (void)setFont:(NSFont*)font
@@ -499,6 +502,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	NSMutableAttributedString* str = [[[self textSubstitutor] masterString] mutableCopy];
 	[str convertFontsToSize:fontSize];
 	[self setLabel:str];
+	[str release];
 }
 
 - (CGFloat)fontSize

@@ -290,7 +290,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (NSArray*)recentlyUsedItems;
 
-@property (nonatomic, retain) NSArray *recentlyUsedItems;
+@property (readonly, nonatomic, retain) NSArray *recentlyUsedItems;
 
 // category management - creating, deleting and renaming categories
 

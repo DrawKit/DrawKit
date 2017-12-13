@@ -76,6 +76,7 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 - (void)setControlKnobSize:(NSSize)cks;
 - (void)setControlKnobSizeForViewScale:(CGFloat)scale;
 - (NSSize)controlKnobSize;
+@property NSSize controlKnobSize;
 
 // new model APIs
 

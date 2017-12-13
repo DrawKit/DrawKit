@@ -415,8 +415,10 @@ static NSSize sTempSavedOffset;
 		br = [aPath bounds];
 	}
 
-	if (br.size.width <= 0.0 || br.size.height <= 0.0)
+	if (br.size.width <= 0.0 || br.size.height <= 0.0) {
+		[self release];
 		return nil;
+	}
 
 	self = [self initWithRect:br
 						style:style];

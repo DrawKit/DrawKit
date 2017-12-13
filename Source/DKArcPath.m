@@ -843,13 +843,14 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
  */
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
-	[super initWithCoder:coder];
+	if (self = [super initWithCoder:coder]) {
 	mStartAngle = [coder decodeDoubleForKey:@"DKArcPath_startAngle"];
 	mEndAngle = [coder decodeDoubleForKey:@"DKArcPath_endAngle"];
 	mRadius = [coder decodeDoubleForKey:@"DKArcPath_radius"];
 	[self setArcType:[coder decodeIntegerForKey:@"DKArcPath_arcType"]];
 	[self setLocation:[coder decodePointForKey:@"DKArcPath_location"]];
-
+	}
+	
 	return self;
 }
 

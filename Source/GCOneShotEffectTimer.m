@@ -37,7 +37,7 @@
 
 - (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del
 {
-	[super init];
+	if (self = [super init]) {
 	[self setDelegate:del];
 
 	mTotal = t;
@@ -53,7 +53,8 @@
 	[[NSRunLoop currentRunLoop] addTimer:mTimer
 								 forMode:NSEventTrackingRunLoopMode];
 	mStart = [NSDate timeIntervalSinceReferenceDate];
-
+	}
+	
 	return self;
 }
 

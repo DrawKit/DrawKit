@@ -176,7 +176,7 @@
 	if (hex == nil || [hex length] < 7)
 		return nil;
 
-	CGFloat rgb[3];
+	CGFloat rgb[3]={0};
 	const char* p = [[hex lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
 	NSColor* c = nil;
 	NSInteger h, k = 0;

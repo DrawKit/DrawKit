@@ -2085,6 +2085,8 @@ static id sDearchivingHelper = nil;
 		// set up.
 
 		[self wasAddedToDrawing:self];
+	} else {
+		[imageManager release];
 	}
 	if (self != nil) {
 		if (!newFileFormat) {

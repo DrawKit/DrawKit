@@ -1158,4 +1158,11 @@ static BOOL sWasInside = NO;
 	return self;
 }
 
+- (void)dealloc
+{
+	[m_colour release];
+	
+	[super dealloc];
+}
+
 @end
