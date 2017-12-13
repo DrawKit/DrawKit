@@ -8,9 +8,10 @@
 #import "DKCategoryManager.h"
 
 @class DKStyle;
+@protocol DKStyleRegistryDelegate;
 
-// options flags - control behaviour when styles from a document are merged with the registry
-
+/** options flags - control behaviour when styles from a document are merged with the registry
+ */
 typedef NS_OPTIONS(NSUInteger, DKStyleMergeOptions) {
 	kDKIgnoreUnsharedStyles = (1 << 0), //!< compatibility with old registry - styles with sharing off are ignored
 	kDKReplaceExistingStyles = (1 << 1), //!< styles passed in replace those with the same key (doc -> reg)
@@ -18,7 +19,8 @@ typedef NS_OPTIONS(NSUInteger, DKStyleMergeOptions) {
 	kDKAddStylesAsNewVersions = (1 << 3) //!< styles with the same keys are copied and registered again (reg || doc)
 };
 
-//! values you can test for in result of compareStylesInSet:
+/** values you can test for in result of compareStylesInSet:
+ */
 enum {
 	kDKStyleNotRegistered = 0,
 	kDKStyleIsOlder = 1,
@@ -160,7 +162,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param aStyle the style to register
  @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
  */
-+ (void)registerStyle:(DKStyle*)aStyle inCategories:(NSArray*)styleCategories;
++ (void)registerStyle:(DKStyle*)aStyle inCategories:(NSArray<NSString*>*)styleCategories;
 
 /** @brief Register a list of styles with the registry
 
@@ -169,7 +171,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param styles an array of DKStyle objects to register
  @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
  */
-+ (void)registerStylesFromArray:(NSArray*)styles inCategories:(NSArray*)styleCategories;
++ (void)registerStylesFromArray:(NSArray*)styles inCategories:(NSArray<NSString*>*)styleCategories;
 
 /** @brief Register a list of styles with the registry
 
@@ -219,7 +221,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @return a set of styles that should replace those with the same key in whatever structure made the call.
  can be nil if there is no need to do anything.
  */
-+ (NSSet*)mergeStyles:(NSSet*)styles inCategories:(NSArray*)styleCategories options:(DKStyleMergeOptions)options mergeDelegate:(id)aDel;
++ (NSSet*)mergeStyles:(NSSet*)styles inCategories:(NSArray<NSString*>*)styleCategories options:(DKStyleMergeOptions)options mergeDelegate:(id)aDel;
 
 /** @brief Preflight a set of styles against the registry for a possible future merge operation
 
@@ -239,7 +241,8 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 /** @brief Return the entire list of keys of the styles in the registry
  @return an array listing all of the keys in the registry
  */
-+ (NSArray*)registeredStyleKeys;
++ (NSArray<NSString*>*)registeredStyleKeys;
+@property (class, readonly, copy) NSArray<NSString*> *registeredStyleKeys;
 
 /** @brief Return data that can be saved to a file, etc. representing the registry
  @return NSData of the entire registry
@@ -365,7 +368,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param aDel an optional delegate object that can make a merge decision for each individual style object 
  @return YES if the file was read and merged sucessfully, NO otherwise
  */
-- (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel;
+- (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel;
 
 /** @brief Merge the contents of a file into the registry
  
@@ -378,10 +381,10 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param aDel an optional delegate object that can make a merge decision for each individual style object
  @return YES if the file was read and merged sucessfully, NO otherwise
  */
-- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel error:(NSError**)error;
+- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel error:(NSError**)error;
 
 
-- (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id)aDel;
+- (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id<DKStyleRegistryDelegate>)aDel;
 
 /** @brief Set the registry empty
 
@@ -424,15 +427,14 @@ extern NSString* kDKStyleWasRegisteredNotification;
 extern NSString* kDKStyleWasRemovedFromRegistryNotification;
 extern NSString* kDKStyleWasEditedWhileRegisteredNotification;
 
-// delegate informal protocol allows the delegate to decide which of a pair of styles should be used
-
-@interface NSObject (DKStyleRegistryDelegate)
+// Protocol allows the delegate to decide which of a pair of styles should be used
+@protocol DKStyleRegistryDelegate <NSObject>
 
 - (DKStyle*)registry:(DKStyleRegistry*)reg shouldReplaceStyle:(DKStyle*)regStyle withStyle:(DKStyle*)docStyle;
 
 @end
 
-@interface NSObject (StyleRegistrySubstitution)
+@interface NSObject (DKStyleRegistrySubstitution)
 
 - (DKStyleRegistry*)applicationWillReturnStyleRegistry;
 

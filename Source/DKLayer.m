@@ -1225,7 +1225,7 @@ static NSArray* s_selectionColours = nil;
 	if (self != nil) {
 		[self setVisible:YES];
 		[self setLocked:NO];
-		[self setKnobsShouldAdustToViewScale:YES];
+		[self setKnobsShouldAdjustToViewScale:YES];
 		[self setShouldDrawToPrinter:YES];
 		[self setSelectionColour:[[self class] selectionColourForIndex:sLayerIndexSeed++]];
 		mLayerUniqueKey = [DKUniqueID uniqueKey];
@@ -1289,7 +1289,7 @@ static NSArray* s_selectionColours = nil;
 			[self setSelectionColour:selColour];
 
 		[self setKnobs:[coder decodeObjectForKey:@"DKLayer_knobs"]];
-		[self setKnobsShouldAdustToViewScale:YES];
+		[self setKnobsShouldAdjustToViewScale:YES];
 
 		[self setVisible:[coder decodeBoolForKey:@"visible"]];
 		// Check older files for presence of flag - if not there, assume YES

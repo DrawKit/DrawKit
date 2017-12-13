@@ -1116,7 +1116,7 @@ static BOOL s_NoDKDefaults = NO;
 @end
 
 #pragma mark -
-
+#if 0
 @implementation NSObject (DKStyleRegistryDelegate)
 
 /** @brief Determines which of a pair of styles should be used over the other
@@ -1140,3 +1140,4 @@ static BOOL s_NoDKDefaults = NO;
 }
 
 @end
+#endif

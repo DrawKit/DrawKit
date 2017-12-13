@@ -248,7 +248,7 @@ has a very low opacity should be used - the default style takes the system's hig
 
 @end
 
-/** informal protocol ised to verify use of tool with target layer
+/** informal protocol used to verify use of tool with target layer
  */
 @interface NSObject (SelectionToolDelegate)
 

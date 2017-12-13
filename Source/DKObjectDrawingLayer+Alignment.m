@@ -91,13 +91,13 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 	// if we are distributing the objects, use the distributor method first - master
 	// doesn't come into it
 
-	if ((align & kDKAlignmentDistributionMask) != 0)
+	if ((align & kDKAlignmentAlignDistributionMask) != 0)
 		[self distributeObjects:objects
 				  withAlignment:align];
 
 	// apply other alignment flag if there is any
 
-	if ((align & ~kDKAlignmentDistributionMask) != 0) {
+	if ((align & ~kDKAlignmentAlignDistributionMask) != 0) {
 		NSEnumerator* iter;
 		id mo;
 		NSRect mb, ob;

@@ -433,7 +433,7 @@ static id sDearchivingHelper = nil;
 
 		m_snapsToGrid = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingSnapToGridUserDefault];
 		m_snapsToGuides = ![[NSUserDefaults standardUserDefaults] boolForKey:kDKDrawingSnapToGuidesUserDefault];
-		[self setKnobsShouldAdustToViewScale:YES];
+		[self setKnobsShouldAdjustToViewScale:YES];
 		m_lastRenderTime = [NSDate timeIntervalSinceReferenceDate];
 
 		[self setDynamicQualityModulationEnabled:NO];
