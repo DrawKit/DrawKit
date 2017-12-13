@@ -189,7 +189,6 @@ static DKDrawingTool* sGlobalTool = nil;
 
 		switch ([[self class] drawingToolOperatingScope]) {
 		case kDKToolScopeLocalToView:
-			aTool;
 			mTool = aTool;
 			break;
 

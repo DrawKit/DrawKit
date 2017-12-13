@@ -11,6 +11,7 @@
 #import "DKStyle.h"
 #import "DKStyleRegistry.h"
 #import "DKToolController.h"
+#import "DKToolRegistry.h"
 #import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
@@ -48,7 +49,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 	id cpy = [shape copyWithZone:nil];
 	DKObjectCreationTool* dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:cpy];
 
-	[DKDrawingTool registerDrawingTool:dt
+	[[DKToolRegistry sharedToolRegistry] registerDrawingTool:dt
 							  withName:name];
 }
 

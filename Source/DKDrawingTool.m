@@ -114,14 +114,11 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	NSDictionary* toolInfo = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingToolUserDefaultsKey];
 
 	if (toolInfo) {
-		NSEnumerator* iter = [toolInfo keyEnumerator];
-		NSString* key;
-
-		while ((key = [iter nextObject])) {
+		for (NSString *key in toolInfo) {
 			NSData* data = [toolInfo objectForKey:key];
 
 			if (data) {
-				DKDrawingTool* tool = [self drawingToolWithName:key];
+				DKDrawingTool* tool = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:key];
 				[tool shouldLoadPersistentData:data];
 			}
 		}
