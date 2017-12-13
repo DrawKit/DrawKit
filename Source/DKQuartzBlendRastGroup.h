@@ -18,6 +18,6 @@ yielding a wide range of available effects.
 
 @property CGBlendMode blendMode;
 @property CGFloat alpha;
-@property (retain) NSImage *maskImage;
+@property (strong) NSImage *maskImage;
 
 @end

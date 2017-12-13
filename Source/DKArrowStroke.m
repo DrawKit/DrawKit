@@ -28,7 +28,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 + (void)setDimensioningLineTextAttributes:(NSDictionary*)attrs
 {
 	NSMutableDictionary* temp = [attrs mutableCopy];
-	[sDimLinesAttributes release];
 	sDimLinesAttributes = temp;
 }
 
@@ -50,7 +49,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 		[ps setAlignment:NSCenterTextAlignment];
 		[sDimLinesAttributes setObject:ps
 								forKey:NSParagraphStyleAttributeName];
-		[ps release];
 	}
 
 	return sDimLinesAttributes;
@@ -92,9 +90,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[fmt setTextAttributesForPositiveValues:attrs];
 	[fmt setTextAttributesForNegativeValues:attrs];
 	[fmt setTextAttributesForZero:attrs];
-	[attrs release];
 
-	return [fmt autorelease];
+	return fmt;
 }
 
 #pragma mark -
@@ -159,7 +156,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[image unlockFocus];
 	m_width = saved;
 
-	return [image autorelease];
+	return image;
 }
 
 - (NSImage*)standardArrowSwatchImage
@@ -523,7 +520,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 				[shaft appendBezierPath:textPath];
 		}
 	}
-	[shaftCopy release];
 
 	return shaft;
 }
@@ -569,7 +565,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			dimstr = [NSString stringWithFormat:@"%.2f", lengthOfPath];
 			dimText = [[NSAttributedString alloc] initWithString:dimstr
 													  attributes:[[self class] dimensioningLineTextAttributes]];
-			[dimText autorelease];
 		}
 
 		if ([self dimensionToleranceOption] != kDKDimensionToleranceNotShown) {
@@ -580,8 +575,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			NSAttributedString* temp = [[NSAttributedString alloc] initWithString:tolText
 																	   attributes:attrs];
 			[str appendAttributedString:temp];
-			[temp release];
-			dimText = [str autorelease];
+			dimText = str;
 		}
 	}
 
@@ -674,7 +668,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[dict setObject:font
 			 forKey:NSFontAttributeName];
 	[self setTextAttributes:dict];
-	[dict release];
 }
 
 - (NSFont*)font
@@ -739,15 +732,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 #pragma mark -
 #pragma mark As an NSObject
-
-- (void)dealloc
-{
-	[m_dims_formatter release];
-	[m_outlineColour release];
-
-	[super dealloc];
-}
-
 - (instancetype)init
 {
 	self = [super init];
@@ -892,7 +876,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[copy setArrowHeadLength:[self arrowHeadLength]];
 	[copy setDimensioningLineOptions:[self dimensioningLineOptions]];
 
-	NSNumberFormatter* fc = [[[self formatter] copy] autorelease];
+	NSNumberFormatter* fc = [[self formatter] copy];
 	[copy setFormatter:fc];
 
 	[copy setOutlineColour:[self outlineColour]];

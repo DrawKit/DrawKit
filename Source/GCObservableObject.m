@@ -29,7 +29,6 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 		sd = [[NSMutableDictionary alloc] init];
 		[sActionNameRegistry setObject:sd
 								forKey:className];
-		[sd release];
 	}
 
 	[sd setObject:na
@@ -183,7 +182,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 		[s replaceCharactersInRange:range
 						  withString:NSLocalizedString(chStr, @"")];
 
-		return [s autorelease];
+		return s;
 	} else
 		return an;
 }
@@ -235,12 +234,6 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_oldArrayValues release];
-	[super dealloc];
-}
-
 - (instancetype)init
 {
 	self = [super init];
@@ -271,7 +264,6 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 			[m_oldArrayValues setObject:old
 								 forKey:key];
-			[old release];
 		}
 	}
 
@@ -356,7 +348,6 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKObserverRelayDidReceiveChange
 														object:object
 													  userInfo:changeDict];
-	[changeDict release];
 }
 
 @end

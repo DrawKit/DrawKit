@@ -102,10 +102,5 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[mGreekingColour release];
-	[super dealloc];
-}
 
 @end

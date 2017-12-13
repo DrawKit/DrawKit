@@ -13,8 +13,6 @@
 
 - (void)setShapeProvider:(id)provider selector:(SEL)selector
 {
-	[provider retain];
-	[m_shapeProvider release];
 	m_shapeProvider = provider;
 	m_shapeSelector = selector;
 
@@ -39,8 +37,6 @@
 	// Typically it would be an NSNumber or a dictionary of multiple parameters.
 
 	if (objParam != m_optionalParam) {
-		[objParam retain];
-		[m_optionalParam release];
 		m_optionalParam = objParam;
 
 		// allow a change of param to force an update of the shape:
@@ -129,7 +125,6 @@
 
 				[self setPath:p];
 			}
-			[p release];
 		}
 	}
 }
@@ -141,13 +136,6 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_shapeProvider release];
-	[m_optionalParam release];
-
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol

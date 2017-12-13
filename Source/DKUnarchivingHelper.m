@@ -120,8 +120,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 
 		if ([classname isEqualToString:@"NSObject"]) {
 			classname = @"DKNullObject";
-			[mLastClassnameSubstituted release];
-			mLastClassnameSubstituted = [name retain];
+			mLastClassnameSubstituted = name;
 		}
 
 		theClass = NSClassFromString(classname);
@@ -137,11 +136,6 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 
 @synthesize lastClassnameSubstituted=mLastClassnameSubstituted;
 
-- (void)dealloc
-{
-	[mLastClassnameSubstituted release];
-	[super dealloc];
-}
 
 @end
 
@@ -167,11 +161,6 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 #pragma unused(coder)
 }
 
-- (void)dealloc
-{
-	[mSubstitutedForClassname release];
-	[super dealloc];
-}
 
 - (NSString*)description
 {

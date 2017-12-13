@@ -142,8 +142,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 	// sets the drawing to <drwg>.
 
-	[drwg retain];
-	[m_drawing release]; // also removes and releases all existing controllers
+	 // also removes and releases all existing controllers
 	m_drawing = drwg;
 	[m_drawing setOwner:self];
 
@@ -190,7 +189,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 		return [(id)aView makeViewController];
 	else {
 		DKViewController* aController = [[DKViewController alloc] initWithView:aView];
-		return [aController autorelease];
+		return aController;
 	}
 }
 
@@ -210,14 +209,12 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	DKGridLayer* grid = [[DKGridLayer alloc] init];
 	[dr addLayer:grid];
 	[grid tweakDrawingMargins];
-	[grid release];
 
 	// attach a drawing layer and make it the active layer
 
 	DKObjectDrawingLayer* layer = [[[self classOfDefaultDrawingLayer] alloc] init];
 	[dr addLayer:layer];
 	[dr setActiveLayer:layer];
-	[layer release];
 
 	// optional info layer
 
@@ -225,15 +222,13 @@ static NSMutableDictionary* sFileExportBindings = nil;
 		DKDrawingInfoLayer* infoLayer = [[DKDrawingInfoLayer alloc] init];
 		[dr addLayer:infoLayer];
 		[infoLayer setVisible:NO];
-		[infoLayer release];
 	}
 
 	// attach a guide layer
 
 	DKGuideLayer* guides = [[DKGuideLayer alloc] init];
 	[dr addLayer:guides];
-	[guides release];
-	return [dr autorelease];
+	return dr;
 }
 
 /** @brief Return the class of the layer for New Layer and default drawing construction.
@@ -277,7 +272,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 	[dr addLayer:layer
 		andActivateIt:YES];
-	[layer release];
 
 	[[self undoManager] setActionName:NSLocalizedString(@"New Layer", @"undo string for new layer")];
 }
@@ -311,7 +305,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 			// move objects to it and select them
 
-			[selection retain];
 			[cLayer recordSelectionForUndo];
 			[cLayer removeObjectsInArray:selection];
 			[cLayer commitSelectionUndoWithActionName:@""];
@@ -320,9 +313,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 			[layer addObjectsFromArray:selection];
 			[layer addObjectsToSelectionFromArray:selection];
 			[layer commitSelectionUndoWithActionName:@""];
-
-			[selection release];
-			[layer release];
 
 			[[self undoManager] setActionName:NSLocalizedString(@"Move To New Layer", @"undo string for move to new layer")];
 
@@ -502,7 +492,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 	DKDrawingView* pdv = [[DKDrawingView alloc] initWithFrame:fr];
 
-	return [pdv autorelease];
+	return pdv;
 }
 
 #pragma mark -
@@ -578,7 +568,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (void)printShowingPrintPanel:(BOOL)flag
 {
-	DKDrawingView* pdv = [[self makePrintDrawingView] retain];
+	DKDrawingView* pdv = [self makePrintDrawingView];
 	DKViewController* vc = [pdv makeViewController];
 
 	[[self drawing] addController:vc];
@@ -596,8 +586,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 						delegate:nil
 				  didRunSelector:nil
 					 contextInfo:nil];
-
-	[pdv release];
 }
 
 /** @brief Initialises the document from a file on disk when opened from the "Open" command.
@@ -705,7 +693,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 		DKUndoManager* dkum = [[DKUndoManager alloc] init];
 		[dkum enableUndoTaskCoalescing:YES];
 		[self setUndoManager:(id)dkum];
-		[dkum release];
 #endif
 		// bind the standard drawing types to the usual methods
 
@@ -735,8 +722,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 	[[self drawing] setUndoManager:nil];
 	[m_drawing setOwner:nil];
-	[m_drawing release];
-	[super dealloc];
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem*)item
@@ -776,7 +761,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 	DKSelectorWrapper* wrapper = [[DKSelectorWrapper alloc] init];
 	wrapper->mSelector = aSelector;
-	return [wrapper autorelease];
+	return wrapper;
 }
 
 @end

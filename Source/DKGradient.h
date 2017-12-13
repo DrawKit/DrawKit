@@ -261,7 +261,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 @interface DKColorStop : NSObject <NSCoding, NSCopying> {
 	NSColor* mColor;
 	CGFloat position;
-	DKGradient* m_ownerRef;
+	DKGradient* __weak m_ownerRef;
 @public
 	CGFloat components[4]; // cached rgba values
 }
@@ -277,7 +277,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  */
 - (void)setColor:(NSColor*)aColor;
 
-@property (nonatomic, retain) NSColor *color;
+@property (nonatomic, strong) NSColor *color;
 
 /** @brief Set the alpha of the colour associated with this stop
  @param alpha the alpha to set

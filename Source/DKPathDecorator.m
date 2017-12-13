@@ -23,7 +23,7 @@
 
 + (DKPathDecorator*)pathDecoratorWithImage:(NSImage*)image
 {
-	return [[[self alloc] initWithImage:image] autorelease];
+	return [[self alloc] initWithImage:image];
 }
 
 - (instancetype)initWithImage:(NSImage*)image
@@ -48,17 +48,13 @@
 
 	// whatever happens the pdf rep is also released
 
-	[m_pdf release];
 	m_pdf = nil;
 
 	// remove any CGLayer cache so that next time the rasterizer is used it
 	// will be recreated using the new image
 
-	[mDKCache release];
 	mDKCache = nil;
 
-	[image retain];
-	[m_image release];
 	m_image = image;
 
 	if (m_image != nil) {
@@ -72,7 +68,7 @@
 
 		while ((rep = [iter nextObject])) {
 			if ([rep isKindOfClass:[NSPDFImageRep class]]) {
-				m_pdf = [(NSPDFImageRep*)rep retain];
+				m_pdf = (NSPDFImageRep*)rep;
 
 				//	LogEvent_(kInfoEvent, @"PDF image cached");
 				break;
@@ -90,9 +86,7 @@
 	NSAssert(m_image != nil, @"no image to create cache with");
 
 #if USE_DK_CACHE
-	if (mDKCache)
-		[mDKCache release];
-	mDKCache = [[DKQuartzCache cacheForImage:[self image]] retain];
+	mDKCache = [DKQuartzCache cacheForImage:[self image]];
 #else
 	NSAssert(m_cache == nil, @"expected cache to be NULL");
 
@@ -147,7 +141,6 @@
 
 		[image addRepresentation:rep];
 		[self setImage:image];
-		[image release];
 	}
 }
 
@@ -274,16 +267,6 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_pdf release];
-	[m_image release];
-	[mDKCache release];
-	[mWobbleCache release];
-	[mScaleRandCache release];
-	[super dealloc];
-}
-
 - (instancetype)init
 {
 	// default init method has no image - one needs to be added to get something rendered
@@ -613,11 +596,9 @@
 	if (m_pdf) {
 		NSPDFImageRep* pdfCopy = [m_pdf copyWithZone:zone];
 		[dc setPDFImageRep:pdfCopy];
-		[pdfCopy release];
 	} else {
 		NSImage* imgCopy = [[self image] copyWithZone:zone];
 		[dc setImage:imgCopy];
-		[imgCopy release];
 	}
 
 	[dc setScale:[self scale]];

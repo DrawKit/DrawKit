@@ -51,17 +51,17 @@ enum {
 #pragma mark -
 
 @interface DKHotspot : NSObject <NSCoding, NSCopying> {
-	DKDrawableShape* m_owner;
+	DKDrawableShape* __weak m_owner;
 	NSInteger m_partcode;
 	NSPoint m_relLoc;
-	id<DKHotspotDelegate> m_delegate;
+	id<DKHotspotDelegate> __unsafe_unretained m_delegate;
 }
 
 - (instancetype)init;
 - (instancetype)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-@property (assign) DKDrawableShape *owner;
+@property (weak) DKDrawableShape *owner;
 - (void)setOwner:(DKDrawableShape*)shape withPartcode:(NSInteger)pc;
 
 @property NSInteger partcode;
@@ -70,7 +70,7 @@ enum {
 
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state;
 
-@property (assign) id<DKHotspotDelegate> delegate;
+@property (unsafe_unretained) id<DKHotspotDelegate> delegate;
 
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view;
 - (void)continueMouseTracking:(NSEvent*)event inView:(NSView*)view;

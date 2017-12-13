@@ -114,9 +114,9 @@ doesn't change the cache.
 @property (nonatomic) NSLineCapStyle lineCapStyle;
 @property (nonatomic) NSLineJoinStyle lineJoinStyle;
 
-@property (retain) NSColor *colour;
+@property (strong) NSColor *colour;
 
-@property (nonatomic, retain) DKStrokeDash *dash;
+@property (nonatomic, strong) DKStrokeDash *dash;
 - (void)setAutoDash;
 
 @property (nonatomic) CGFloat roughness;

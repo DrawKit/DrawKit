@@ -55,7 +55,7 @@
 		96F516840B89DBBE0047BA96 /* DKStrokeDash.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F516280B89DBBD0047BA96 /* DKStrokeDash.m */; };
 		96F516850B89DBBE0047BA96 /* DKGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F516290B89DBBD0047BA96 /* DKGradient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96F516870B89DBBE0047BA96 /* DKFillPattern.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F5162B0B89DBBD0047BA96 /* DKFillPattern.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		96F516880B89DBBE0047BA96 /* DKFillPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F5162C0B89DBBD0047BA96 /* DKFillPattern.m */; };
+		96F516880B89DBBE0047BA96 /* DKFillPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F5162C0B89DBBD0047BA96 /* DKFillPattern.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		96F516890B89DBBE0047BA96 /* DKHatching.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F5162D0B89DBBD0047BA96 /* DKHatching.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96F5168A0B89DBBE0047BA96 /* DKHatching.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F5162E0B89DBBD0047BA96 /* DKHatching.m */; };
 		96F5168B0B89DBBE0047BA96 /* DKStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F5162F0B89DBBD0047BA96 /* DKStroke.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -82,7 +82,7 @@
 		96F516A00B89DBBE0047BA96 /* NSBezierPath+Editing.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F516460B89DBBD0047BA96 /* NSBezierPath+Editing.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96F516A10B89DBBE0047BA96 /* NSBezierPath+Editing.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F516470B89DBBD0047BA96 /* NSBezierPath+Editing.m */; };
 		96F516A20B89DBBE0047BA96 /* NSBezierPath+Geometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F516480B89DBBD0047BA96 /* NSBezierPath+Geometry.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		96F516A30B89DBBE0047BA96 /* NSBezierPath+Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F516490B89DBBD0047BA96 /* NSBezierPath+Geometry.m */; };
+		96F516A30B89DBBE0047BA96 /* NSBezierPath+Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F516490B89DBBD0047BA96 /* NSBezierPath+Geometry.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		96F516A60B89DBBE0047BA96 /* DKDistortionTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F5164C0B89DBBD0047BA96 /* DKDistortionTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96F516A70B89DBBE0047BA96 /* DKDistortionTransform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 96F5164D0B89DBBD0047BA96 /* DKDistortionTransform.mm */; };
 		96F516A80B89DBBE0047BA96 /* NSDictionary+DeepCopy.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F5164E0B89DBBD0047BA96 /* NSDictionary+DeepCopy.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -101,7 +101,7 @@
 		AA0E9CF10D78E1B300BC83AE /* DKDrawKit_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = 32DBCF5E0370ADEE00C91783 /* DKDrawKit_Prefix.pch */; };
 		AA91597C0D9DFECA00905699 /* Logging.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA9159780D9DFECA00905699 /* Logging.xib */; };
 		AA91597D0D9DFECA00905699 /* LogEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = AA91597A0D9DFECA00905699 /* LogEvent.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AA91597E0D9DFECA00905699 /* LogEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = AA91597B0D9DFECA00905699 /* LogEvent.m */; };
+		AA91597E0D9DFECA00905699 /* LogEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = AA91597B0D9DFECA00905699 /* LogEvent.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BF0350330F3A93A20042C98B /* NSBezierPath+Text.h in Headers */ = {isa = PBXBuildFile; fileRef = BF0350310F3A93A20042C98B /* NSBezierPath+Text.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF0350340F3A93A20042C98B /* NSBezierPath+Text.m in Sources */ = {isa = PBXBuildFile; fileRef = BF0350320F3A93A20042C98B /* NSBezierPath+Text.m */; };
 		BF0826810E11203500971D3D /* DKCropTool.h in Headers */ = {isa = PBXBuildFile; fileRef = BF08267F0E11203500971D3D /* DKCropTool.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -168,7 +168,7 @@
 		BF633DDE0BAFEF4E001B5901 /* DKArrowStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = BF633DDC0BAFEF4E001B5901 /* DKArrowStroke.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF633DDF0BAFEF4E001B5901 /* DKArrowStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = BF633DDD0BAFEF4E001B5901 /* DKArrowStroke.m */; };
 		BF633E4C10F40FCD00A151D5 /* GCUndoManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BF633E4A10F40FCD00A151D5 /* GCUndoManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BF633E4D10F40FCD00A151D5 /* GCUndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF633E4B10F40FCD00A151D5 /* GCUndoManager.m */; };
+		BF633E4D10F40FCD00A151D5 /* GCUndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF633E4B10F40FCD00A151D5 /* GCUndoManager.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BF633F170BB144D6001B5901 /* DKCategoryManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BF633F150BB144D6001B5901 /* DKCategoryManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF633F180BB144D6001B5901 /* DKCategoryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = BF633F160BB144D6001B5901 /* DKCategoryManager.m */; };
 		BF65E1D30FBA5F0700E93B46 /* DKGreekingLayoutManager.h in Headers */ = {isa = PBXBuildFile; fileRef = BF65E1D10FBA5F0700E93B46 /* DKGreekingLayoutManager.h */; };
@@ -235,7 +235,7 @@
 		BFBFD0690D9A130100680E6B /* DKGradient+UISupport.h in Headers */ = {isa = PBXBuildFile; fileRef = BFBFD0670D9A130100680E6B /* DKGradient+UISupport.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFBFD06A0D9A130100680E6B /* DKGradient+UISupport.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFD0680D9A130100680E6B /* DKGradient+UISupport.m */; };
 		BFBFD36C0D9B4D5000680E6B /* DKRuntimeHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = BFBFD36A0D9B4D5000680E6B /* DKRuntimeHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BFBFD36D0D9B4D5000680E6B /* DKRuntimeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFD36B0D9B4D5000680E6B /* DKRuntimeHelper.m */; };
+		BFBFD36D0D9B4D5000680E6B /* DKRuntimeHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFD36B0D9B4D5000680E6B /* DKRuntimeHelper.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BFBFD3C30D9B607600680E6B /* NSMutableArray+DKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BFBFD3C10D9B607600680E6B /* NSMutableArray+DKAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFBFD3C40D9B607600680E6B /* NSMutableArray+DKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BFBFD3C20D9B607600680E6B /* NSMutableArray+DKAdditions.m */; };
 		BFC243590BAA499C00A1AA0F /* DKCIFilterRastGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = BFC243570BAA499C00A1AA0F /* DKCIFilterRastGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -247,10 +247,10 @@
 		BFC804350FAFD5DF00705ADB /* DKUnarchivingHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC804330FAFD5DF00705ADB /* DKUnarchivingHelper.m */; };
 		BFCD54660D863865001A1A4E /* DKCommonTypes.h in Headers */ = {isa = PBXBuildFile; fileRef = BFCD54650D863865001A1A4E /* DKCommonTypes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFCE7AB80F5A7D3400C20648 /* DKDrawableContainerProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = BFCE7AB60F5A7D3400C20648 /* DKDrawableContainerProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BFD211AD0E2C28C80081C007 /* NSBezierPath-OAExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD211AA0E2C28C80081C007 /* NSBezierPath-OAExtensions.m */; };
+		BFD211AD0E2C28C80081C007 /* NSBezierPath-OAExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD211AA0E2C28C80081C007 /* NSBezierPath-OAExtensions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BFD211AE0E2C28C80081C007 /* NSBezierPath-OAExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = BFD211AB0E2C28C80081C007 /* NSBezierPath-OAExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFD211AF0E2C28C80081C007 /* NSBezierPath-OAInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = BFD211AC0E2C28C80081C007 /* NSBezierPath-OAInternal.h */; };
-		BFD211C90E2C2CBD0081C007 /* NSBezierPath+Combinatorial.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD211C70E2C2CBD0081C007 /* NSBezierPath+Combinatorial.m */; };
+		BFD211C90E2C2CBD0081C007 /* NSBezierPath+Combinatorial.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD211C70E2C2CBD0081C007 /* NSBezierPath+Combinatorial.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BFD211CA0E2C2CBD0081C007 /* NSBezierPath+Combinatorial.h in Headers */ = {isa = PBXBuildFile; fileRef = BFD211C80E2C2CBD0081C007 /* NSBezierPath+Combinatorial.h */; };
 		BFD2349D0DA24D6500FB629C /* DKViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFD2349B0DA24D6500FB629C /* DKViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFD2349E0DA24D6500FB629C /* DKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFD2349C0DA24D6500FB629C /* DKViewController.m */; };
@@ -271,7 +271,7 @@
 		BFE7A2010E52FD9800626425 /* NSString+DKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE7A1FF0E52FD9800626425 /* NSString+DKAdditions.m */; };
 		BFE7A2020E52FD9800626425 /* NSString+DKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE7A2000E52FD9800626425 /* NSString+DKAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFEAEE700DAAD959002972BC /* DKSelectAndEditTool.h in Headers */ = {isa = PBXBuildFile; fileRef = BFEAEE6E0DAAD959002972BC /* DKSelectAndEditTool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BFEAEE710DAAD959002972BC /* DKSelectAndEditTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAEE6F0DAAD959002972BC /* DKSelectAndEditTool.m */; };
+		BFEAEE710DAAD959002972BC /* DKSelectAndEditTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAEE6F0DAAD959002972BC /* DKSelectAndEditTool.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		BFEAEEAB0DAB00BF002972BC /* DKToolController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFEAEEA90DAB00BF002972BC /* DKToolController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFEAEEAC0DAB00BF002972BC /* DKToolController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAEEAA0DAB00BF002972BC /* DKToolController.m */; };
 		BFEAF6210DB30912002972BC /* DKRoughStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = BFEAF61F0DB30912002972BC /* DKRoughStroke.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -550,9 +550,9 @@
 		BFC804330FAFD5DF00705ADB /* DKUnarchivingHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKUnarchivingHelper.m; sourceTree = "<group>"; };
 		BFCD54650D863865001A1A4E /* DKCommonTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKCommonTypes.h; sourceTree = "<group>"; };
 		BFCE7AB60F5A7D3400C20648 /* DKDrawableContainerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDrawableContainerProtocol.h; sourceTree = "<group>"; };
-		BFD211AA0E2C28C80081C007 /* NSBezierPath-OAExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-OAExtensions.m"; path = "Omni/NSBezierPath-OAExtensions.m"; sourceTree = "<group>"; };
-		BFD211AB0E2C28C80081C007 /* NSBezierPath-OAExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath-OAExtensions.h"; path = "Omni/NSBezierPath-OAExtensions.h"; sourceTree = "<group>"; };
-		BFD211AC0E2C28C80081C007 /* NSBezierPath-OAInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath-OAInternal.h"; path = "Omni/NSBezierPath-OAInternal.h"; sourceTree = "<group>"; };
+		BFD211AA0E2C28C80081C007 /* NSBezierPath-OAExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-OAExtensions.m"; path = "Omni/NSBezierPath-OAExtensions.m"; sourceTree = "<group>"; usesTabs = 0; };
+		BFD211AB0E2C28C80081C007 /* NSBezierPath-OAExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath-OAExtensions.h"; path = "Omni/NSBezierPath-OAExtensions.h"; sourceTree = "<group>"; usesTabs = 0; };
+		BFD211AC0E2C28C80081C007 /* NSBezierPath-OAInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath-OAInternal.h"; path = "Omni/NSBezierPath-OAInternal.h"; sourceTree = "<group>"; usesTabs = 0; };
 		BFD211C70E2C2CBD0081C007 /* NSBezierPath+Combinatorial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSBezierPath+Combinatorial.m"; sourceTree = "<group>"; };
 		BFD211C80E2C2CBD0081C007 /* NSBezierPath+Combinatorial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+Combinatorial.h"; sourceTree = "<group>"; };
 		BFD2349B0DA24D6500FB629C /* DKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKViewController.h; sourceTree = "<group>"; };
@@ -1668,6 +1668,7 @@
 		1DEB91AE08733DA50010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEFINES_MODULE = YES;
@@ -1695,6 +1696,7 @@
 		1DEB91AF08733DA50010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;

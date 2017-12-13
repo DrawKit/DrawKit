@@ -90,6 +90,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  */
 - (NSImage*)image;
 
+@property (retain) NSImage *image;
+
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
 
  This also applies the path clipping, if any
@@ -144,6 +146,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  */
 - (NSString*)imageKey;
 
+@property (copy) NSString *imageKey;
+
 /** @brief Sets the image from data
 
  This method liases with the image manager so that the image key is correctly recorded or assigned
@@ -161,6 +165,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  */
 - (NSData*)imageData;
 
+@property (copy) NSData*imageData;
+
 /** @brief Set the image's opacity
 
  The default is 1.0
@@ -174,6 +180,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  @return <opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
  */
 - (CGFloat)imageOpacity;
+
+@property CGFloat imageOpacity;
 
 /** @brief Set whether the image draws above or below the rendering done by the style
 
@@ -189,6 +197,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  */
 - (BOOL)imageDrawsOnTop;
 
+@property BOOL imageDrawsOnTop;
+
 /** @brief Set the Quartz composition mode to use when compositing the image
 
  Default is NSCompositeSourceAtop
@@ -202,6 +212,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  @return an NSCompositingOperation constant
  */
 - (NSCompositingOperation)compositingOperation;
+
+@property NSCompositingOperation compositingOperation;
 
 /** @brief Set the scale factor for the image
 
@@ -219,6 +231,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  */
 - (CGFloat)imageScale;
 
+@property CGFloat imageScale;
+
 /** @brief Set the offset position for the image
 
  The default is 0,0. The value is the distance in points from the top, left corner of the shape's
@@ -235,6 +249,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  */
 - (NSPoint)imageOffset;
 
+@property NSPoint imageOffset;
+
 /** @brief Set the display mode for the object - crop image or scale it
 
  The default is scale. 
@@ -248,6 +264,8 @@ A hotspot is added to allow the user to drag the image offset position around.
  @return a mode value
  */
 - (DKImageCroppingOptions)imageCroppingOptions;
+
+@property DKImageCroppingOptions imageCroppingOptions;
 
 // user actions
 

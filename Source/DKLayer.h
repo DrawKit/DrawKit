@@ -43,7 +43,7 @@ indicate likely handling of drag and drop operations by a layer instance.
 	BOOL m_printed; // is the layer drawn when printing?
 	BOOL mRulerMarkersEnabled; // YES to pass ruler marker updates to enclosing group, NO to ignore
 	GCInfoFloater* m_infoWindow; // info window instance that can be used by client objects as they wish
-	DKLayerGroup* m_groupRef; // group we are contained by (or drawing)
+	DKLayerGroup* __weak m_groupRef; // group we are contained by (or drawing)
 	BOOL m_clipToInterior; // YES to clip drawing to inside the interior region
 	NSMutableDictionary* mUserInfo; // metadata
 	NSUInteger mReserved[3]; // unused
@@ -126,7 +126,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return the layer's group */
 - (DKLayerGroup*)layerGroup;
 
-@property (assign) DKLayerGroup *layerGroup;
+@property (weak) DKLayerGroup *layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 
@@ -145,7 +145,7 @@ indicate likely handling of drag and drop operations by a layer instance.
 
 /** @brief Returns the hierarchical level of this layer, i.e. how deeply nested it is
 
- Layers in the root group return 1. A layer's level is its group's level + 1 
+ Layers in the root group return 1. A layer's level is its group's level + 1
  @return the layer's level
  */
 - (NSUInteger)level;
@@ -230,7 +230,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (NSColor*)selectionColour;
 
-@property (nonatomic, retain) NSColor *selectionColour;
+@property (nonatomic, strong) NSColor *selectionColour;
 
 /** @brief Returns an image of the layer a the given size
 
@@ -373,7 +373,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (NSString*)layerName;
 
-@property (nonatomic, retain) NSString *layerName;
+@property (nonatomic, strong) NSString *layerName;
 
 // user info support
 
@@ -589,7 +589,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (void)setKnobsShouldAdjustToViewScale:(BOOL)ka;
 
-@property (nonatomic, retain) DKKnob *knobs;
+@property (nonatomic, strong) DKKnob *knobs;
 @property (nonatomic) BOOL knobsShouldAdjustToViewScale;
 
 // pasteboard types for drag/drop etc:

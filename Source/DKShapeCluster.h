@@ -22,7 +22,7 @@ since the master object must be nominated when creating the cluster.
 */
 @interface DKShapeCluster : DKShapeGroup {
 @private
-	DKDrawableShape* m_masterObjRef;
+	DKDrawableShape* __weak m_masterObjRef;
 }
 
 /** @brief Creates a new cluster from a set of objects
@@ -46,6 +46,6 @@ since the master object must be nominated when creating the cluster.
  */
 - (DKDrawableShape*)masterObject;
 
-@property (assign) DKDrawableShape *masterObject;
+@property (weak) DKDrawableShape *masterObject;
 
 @end

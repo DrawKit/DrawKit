@@ -12,6 +12,7 @@
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
 #import "DKDrawkitMacros.h"
+#import "DKShapeGroup.h"
 #include <tgmath.h>
 
 @interface DKRegularPolygonPath (Private)
@@ -695,7 +696,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	radSize = [aTransform transformSize:radSize];
 
 	[self setLocation:loc];
-	[self setRadius:hypot(radSize.width, radSize.height) / _CGFloatSqrt(2.0)];
+	[self setRadius:hypot(radSize.width, radSize.height) / M_SQRT2];
 	[self setAngle:[self angle] + [aGroup angle]];
 }
 
@@ -742,7 +743,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 							  action:NULL
 					   keyEquivalent:@""];
 	[item setSubmenu:sidesMenu];
-	[sidesMenu release];
 
 	[[theMenu addItemWithTitle:NSLocalizedString(@"Convert To Path", @"menu item for convert to path")
 						action:@selector(convertToPath:)

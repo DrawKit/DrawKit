@@ -34,9 +34,9 @@ typedef NS_OPTIONS(NSUInteger, DKAlignmentAlign) {
 	kDKAlignmentAlignHSpaceDistribution = (1 << kDKAlignmentHSpaceDistribution),
 	kDKAlignmentAlignNone = 0,
 	kDKAlignmentAlignColocate = kDKAlignmentAlignVerticalCentre | kDKAlignmentAlignHorizontalCentre,
-	kDKAlignmentHorizontalAlignMask = kDKAlignmentAlignLeftEdge | kDKAlignmentAlignRightEdge | kDKAlignmentAlignHorizontalCentre | kDKAlignmentAlignHDistribution | kDKAlignmentAlignHSpaceDistribution,
-	kDKAlignmentVerticalAlignMask = kDKAlignmentAlignTopEdge | kDKAlignmentAlignBottomEdge | kDKAlignmentAlignVerticalCentre | kDKAlignmentAlignVDistribution | kDKAlignmentAlignVSpaceDistribution,
-	kDKAlignmentDistributionMask = kDKAlignmentAlignVDistribution | kDKAlignmentAlignHDistribution | kDKAlignmentAlignVSpaceDistribution | kDKAlignmentAlignHSpaceDistribution
+	kDKAlignmentAlignHorizontalMask = kDKAlignmentAlignLeftEdge | kDKAlignmentAlignRightEdge | kDKAlignmentAlignHorizontalCentre | kDKAlignmentAlignHDistribution | kDKAlignmentAlignHSpaceDistribution,
+	kDKAlignmentAlignVerticalMask = kDKAlignmentAlignTopEdge | kDKAlignmentAlignBottomEdge | kDKAlignmentAlignVerticalCentre | kDKAlignmentAlignVDistribution | kDKAlignmentAlignVSpaceDistribution,
+	kDKAlignmentAlignDistributionMask = kDKAlignmentAlignVDistribution | kDKAlignmentAlignHDistribution | kDKAlignmentAlignVSpaceDistribution | kDKAlignmentAlignHSpaceDistribution
 };
 
 /**
@@ -209,6 +209,10 @@ This category implements object alignment features for DKObjectDrawingLayer
 - (IBAction)assignKeyObject:(id)sender;
 
 @end
+
+static const DKAlignmentAlign kDKAlignmentDistributionMask API_DEPRECATED_WITH_REPLACEMENT("kDKAlignmentAlignDistributionMask", macosx(10.0, 10.7)) = kDKAlignmentAlignDistributionMask;
+static const DKAlignmentAlign kDKAlignmentHorizontalAlignMask API_DEPRECATED_WITH_REPLACEMENT("kDKAlignmentAlignHorizontalMask", macosx(10.0, 10.7)) = kDKAlignmentAlignHorizontalMask;
+static const DKAlignmentAlign kDKAlignmentVerticalAlignMask API_DEPRECATED_WITH_REPLACEMENT("kDKAlignmentAlignVerticalMask", macosx(10.0, 10.7)) = kDKAlignmentAlignVerticalMask;
 
 // alignment helper function:
 

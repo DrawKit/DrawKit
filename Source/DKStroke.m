@@ -16,7 +16,7 @@
 #pragma mark As a DKStroke
 + (DKStroke*)defaultStroke
 {
-	return [[[self alloc] init] autorelease];
+	return [[self alloc] init];
 }
 
 + (DKStroke*)strokeWithWidth:(CGFloat)width colour:(NSColor*)colour
@@ -26,7 +26,7 @@
 	stroke.width = width;
 	stroke.colour = colour;
 
-	return [stroke autorelease];
+	return stroke;
 }
 
 #pragma mark -
@@ -43,8 +43,7 @@
 		m_trimLength = 0.0;
 
 		if (m_colour == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -108,7 +107,6 @@
 				   count:2];
 
 	[self setDash:dash];
-	[dash release];
 }
 
 #pragma mark -
@@ -207,15 +205,6 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_shadow release];
-	[m_dash release];
-	[m_colour release];
-
-	[super dealloc];
-}
-
 - (instancetype)init
 {
 	return [self initWithWidth:1.0
@@ -260,7 +249,7 @@
 	if ([self trimLength] > 0.0)
 		pc = [path bezierPathByTrimmingFromBothEnds:[self trimLength]];
 	else
-		pc = [[path copy] autorelease];
+		pc = [path copy];
 
 	if (mLateralOffset != 0.0) {
 		// make a parallel copy of the path
@@ -344,7 +333,6 @@
 
 		DKStrokeDash* dash = [[coder decodeObjectForKey:@"dash"] copy];
 		[self setDash:dash];
-		[dash release];
 
 		[self setShadow:[coder decodeObjectForKey:@"stroke_shadow"]];
 		[self setLineCapStyle:[coder decodeIntegerForKey:@"cap_style"]];
@@ -375,11 +363,9 @@
 
 	DKStrokeDash* dashCopy = [self.dash copyWithZone:zone];
 	cp.dash = dashCopy;
-	[dashCopy release];
 
 	NSShadow* shcopy = [self.shadow copyWithZone:zone];
 	cp.shadow = shcopy;
-	[shcopy release];
 
 	cp.lineCapStyle = self.lineCapStyle;
 	cp.lineJoinStyle = self.lineJoinStyle;

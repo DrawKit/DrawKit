@@ -123,77 +123,77 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 + (DKMetadataItem*)metadataItemWithString:(NSString*)aString
 {
-	return [[[self alloc] initWithString:aString] autorelease];
+	return [[self alloc] initWithString:aString];
 }
 
 + (DKMetadataItem*)metadataItemWithInteger:(NSInteger)anInteger
 {
-	return [[[self alloc] initWithInteger:anInteger] autorelease];
+	return [[self alloc] initWithInteger:anInteger];
 }
 
 + (DKMetadataItem*)metadataItemWithReal:(CGFloat)aReal
 {
-	return [[[self alloc] initWithReal:aReal] autorelease];
+	return [[self alloc] initWithReal:aReal];
 }
 
 + (DKMetadataItem*)metadataItemWithBoolean:(BOOL)aBool
 {
-	return [[[self alloc] initWithBoolean:aBool] autorelease];
+	return [[self alloc] initWithBoolean:aBool];
 }
 
 + (DKMetadataItem*)metadataItemWithUnsigned:(NSUInteger)anInteger
 {
-	return [[[self alloc] initWithUnsigned:anInteger] autorelease];
+	return [[self alloc] initWithUnsigned:anInteger];
 }
 
 + (DKMetadataItem*)metadataItemWithAttributedString:(NSAttributedString*)attrString
 {
-	return [[[self alloc] initWithAttributedString:attrString] autorelease];
+	return [[self alloc] initWithAttributedString:attrString];
 }
 
 + (DKMetadataItem*)metadataItemWithImage:(NSImage*)image
 {
-	return [[[self alloc] initWithImage:image] autorelease];
+	return [[self alloc] initWithImage:image];
 }
 
 + (DKMetadataItem*)metadataItemWithImageData:(NSData*)imageData
 {
-	return [[[self alloc] initWithImageData:imageData] autorelease];
+	return [[self alloc] initWithImageData:imageData];
 }
 
 + (DKMetadataItem*)metadataItemWithURL:(NSURL*)url
 {
-	return [[[self alloc] initWithURL:url] autorelease];
+	return [[self alloc] initWithURL:url];
 }
 
 + (DKMetadataItem*)metadataItemWithDate:(NSDate*)date
 {
-	return [[[self alloc] initWithDate:date] autorelease];
+	return [[self alloc] initWithDate:date];
 }
 
 + (DKMetadataItem*)metadataItemWithColour:(NSColor*)colour
 {
-	return [[[self alloc] initWithColour:colour] autorelease];
+	return [[self alloc] initWithColour:colour];
 }
 
 + (DKMetadataItem*)metadataItemWithData:(NSData*)data
 {
-	return [[[self alloc] initWithData:data] autorelease];
+	return [[self alloc] initWithData:data];
 }
 
 + (DKMetadataItem*)metadataItemWithSize:(NSSize)size
 {
-	return [[[self alloc] initWithSize:size] autorelease];
+	return [[self alloc] initWithSize:size];
 }
 
 + (DKMetadataItem*)metadataItemWithPoint:(NSPoint)point
 {
-	return [[[self alloc] initWithPoint:point] autorelease];
+	return [[self alloc] initWithPoint:point];
 }
 
 + (DKMetadataItem*)metadataItemWithRect:(NSRect)rect
 {
-	return [[[self alloc] initWithRect:rect] autorelease];
+	return [[self alloc] initWithRect:rect];
 }
 
 + (DKMetadataItem*)metadataItemWithObject:(id)value
@@ -202,7 +202,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	// mainly provided as a mechanism for migrating older metadata values to DKMetadataItem values.
 
 	if ([value isKindOfClass:[self class]])
-		return [[value copy] autorelease];
+		return [value copy];
 
 	if ([value isKindOfClass:[NSString class]])
 		return [self metadataItemWithString:value];
@@ -612,9 +612,8 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		DKMetadataItem* item = [[[self class] alloc] initWithType:type];
 		id valCopy = [[self value] copy];
 		[item setValue:valCopy];
-		[valCopy release];
 
-		return [item autorelease];
+		return item;
 	}
 }
 
@@ -716,8 +715,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 {
 	// sets the current value ignoring type and without notifying
 
-	[aValue retain];
-	[mValue release];
 	mValue = aValue;
 }
 
@@ -748,7 +745,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	if ([inValue isKindOfClass:[self class]]) {
 		DKMetadataType inType = [(DKMetadataItem*)inValue type];
 		if (inType == [self type])
-			return [[[inValue value] copy] autorelease];
+			return [[inValue value] copy];
 	}
 
 	// conversion is necessary, but may not succeed:
@@ -870,11 +867,11 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		if ([inValue respondsToSelector:@selector(image)])
 			return [inValue image];
 		else if ([inValue isKindOfClass:[NSData class]])
-			return [[[NSImage alloc] initWithData:inValue] autorelease];
+			return [[NSImage alloc] initWithData:inValue];
 		else if ([inValue isKindOfClass:[NSURL class]])
-			return [[[NSImage alloc] initWithContentsOfURL:inValue] autorelease];
+			return [[NSImage alloc] initWithContentsOfURL:inValue];
 		else if ([inValue isKindOfClass:[NSString class]])
-			return [[[NSImage alloc] initWithContentsOfFile:inValue] autorelease];
+			return [[NSImage alloc] initWithContentsOfFile:inValue];
 		else {
 			if (lossy)
 				*lossy = YES;
@@ -904,14 +901,14 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		if ([inValue respondsToSelector:@selector(attributedString)])
 			return [inValue attributedString];
 		else if ([inValue isKindOfClass:[NSString class]])
-			return [[[NSAttributedString alloc] initWithString:inValue] autorelease];
+			return [[NSAttributedString alloc] initWithString:inValue];
 		else if ([inValue respondsToSelector:@selector(stringValue)])
-			return [[[NSAttributedString alloc] initWithString:[inValue stringValue]] autorelease];
+			return [[NSAttributedString alloc] initWithString:[inValue stringValue]];
 		else {
 			if (lossy)
 				*lossy = YES;
 
-			return [[[NSAttributedString alloc] initWithString:@""] autorelease];
+			return [[NSAttributedString alloc] initWithString:@""];
 		}
 
 	case DKMetadataTypeSize:
@@ -975,12 +972,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return [self initWithString:@""];
 }
 
-- (void)dealloc
-{
-	[mValue release];
-	[super dealloc];
-}
-
 - (id)copyWithZone:(NSZone*)zone
 {
 	// copy always returns a mutable, independent copy. See also -metadataItemWithType:
@@ -988,7 +979,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	DKMetadataItem* copy = [[[self class] allocWithZone:zone] initWithType:[self type]];
 	id valCopy = [[self value] copy];
 	[copy assignValue:valCopy];
-	[valCopy release];
 
 	return copy;
 }

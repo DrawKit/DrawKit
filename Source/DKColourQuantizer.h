@@ -24,7 +24,7 @@ s
 - (id)initWithBitmapImageRep:(NSBitmapImageRep*)rep maxColours:(NSUInteger)maxColours colourBits:(NSUInteger)nBits;
 - (NSUInteger)indexForRGB:(NSUInteger[])rgb;
 - (NSColor*)colourForIndex:(NSUInteger)index;
-@property (readonly, retain) NSArray<NSColor*> *colourTable;
+@property (readonly, strong) NSArray<NSColor*> *colourTable;
 @property (readonly) NSUInteger numberOfColours;
 
 - (void)analyse:(NSBitmapImageRep*)rep;

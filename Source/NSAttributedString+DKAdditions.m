@@ -33,7 +33,6 @@ NSLayoutManager* sharedDrawingLayoutManager(void)
 		[tc setWidthTracksTextView:NO];
 		[tc setHeightTracksTextView:NO];
 		[sharedLM addTextContainer:tc];
-		[tc release];
 
 		[sharedLM setUsesScreenFonts:NO];
 	} else
@@ -57,12 +56,10 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		sharedLM = [[DKBezierLayoutManager alloc] init];
 
 		[tc setTextView:tv];
-		[tv release];
 
 		[tc setWidthTracksTextView:NO];
 		[tc setHeightTracksTextView:NO];
 		[sharedLM addTextContainer:tc];
-		[tc release];
 
 		[sharedLM setUsesScreenFonts:NO];
 	} else
@@ -78,7 +75,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
- parameters (and the string's attributes themselves). 
+ parameters (and the string's attributes themselves).
  @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
  @param layoutSize a size describing the text layout container. Text is laid out to fit into this size.
  @param radians an angle to which the text is rotated before being drawn to <destRect>
@@ -88,7 +85,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
- parameters (and the string's attributes themselves). 
+ parameters (and the string's attributes themselves).
  @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
  @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
  @param radians an angle to which the text is rotated before being drawn to <destRect>
@@ -106,7 +103,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
  This method is intended to be utilised by high-level text objects such as DKTextShape and
  DKTextAdornment. It both lays out and renders text in many different ways according to its
- parameters (and the string's attributes themselves). 
+ parameters (and the string's attributes themselves).
  @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
  @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
  @param radians an angle to which the text is rotated before being drawn to <destRect>
@@ -201,7 +198,6 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		[contents removeLayoutManager:layoutMgr];
 		[textContainer setBezierPath:nil];
 	}
-	[contents release];
 }
 
 - (NSSize)accurateSize
@@ -227,7 +223,6 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
 		[contents removeLayoutManager:layoutMgr];
 	}
-	[contents release];
 
 	return as;
 }

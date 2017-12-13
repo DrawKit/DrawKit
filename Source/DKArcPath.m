@@ -11,7 +11,8 @@
 #import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
-#import "DKDrawkitMacros.h"
+#import "DKDrawKitMacros.h"
+#import "DKShapeGroup.h"
 #include <tgmath.h>
 
 @interface DKArcPath (Private)
@@ -850,7 +851,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	[self setArcType:[coder decodeIntegerForKey:@"DKArcPath_arcType"]];
 	[self setLocation:[coder decodePointForKey:@"DKArcPath_location"]];
 	}
-	
+
 	return self;
 }
 

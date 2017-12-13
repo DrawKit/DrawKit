@@ -107,7 +107,7 @@
 	[swatchImage unlockFocus];
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
-	return [swatchImage autorelease];
+	return swatchImage;
 }
 
 @end

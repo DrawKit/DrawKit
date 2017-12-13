@@ -28,7 +28,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 @interface DKStyle : DKRastGroup <NSCoding, NSCopying, NSMutableCopying> {
 @private
 	NSDictionary<NSAttributedStringKey,id>* m_textAttributes; // supports text additions
-	NSUndoManager* m_undoManagerRef; // style's undo manager
+	NSUndoManager* __weak m_undoManagerRef; // style's undo manager
 	BOOL m_shared; // YES if the style is shared
 	BOOL m_locked; // YES if style can't be edited
 	id m_renderClientRef; // valid only while actually drawing
@@ -327,7 +327,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  */
 - (NSUndoManager*)undoManager;
 
-@property (assign) NSUndoManager *undoManager;
+@property (weak) NSUndoManager *undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object
@@ -466,8 +466,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 - (NSImage*)image;
 - (NSImage*)imageToFitSize:(NSSize)aSize;
 
-@property (readonly, retain) NSImage *standardStyleSwatch;
-@property (readonly, retain) NSImage *image;
+@property (readonly, strong) NSImage *standardStyleSwatch;
+@property (readonly, strong) NSImage *image;
 
 /** @brief Return a key for the swatch cache for the given size and type of swatch
 

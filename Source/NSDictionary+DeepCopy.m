@@ -28,7 +28,6 @@
 		cobj = [[self objectForKey:key] deepCopy];
 		[copy setObject:cobj
 				 forKey:key];
-		[cobj release];
 	}
 
 	return copy;
@@ -55,7 +54,6 @@
 	while ((obj = [iter nextObject])) {
 		cobj = [obj deepCopy];
 		[copy addObject:cobj];
-		[cobj release];
 	}
 
 	return copy;
@@ -92,7 +90,6 @@
 	while ((obj = [iter nextObject])) {
 		cobj = [obj deepCopy];
 		[copy addObject:cobj];
-		[cobj release];
 	}
 
 	return copy;

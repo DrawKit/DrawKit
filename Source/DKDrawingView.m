@@ -122,8 +122,6 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (void)setPageBreakColour:(NSColor*)colour
 {
-	[colour retain];
-	[sPageBreakColour release];
 	sPageBreakColour = colour;
 }
 
@@ -133,7 +131,7 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 + (NSColor*)pageBreakColour
 {
 	if (sPageBreakColour == nil) {
-		sPageBreakColour = [[[NSColor cyanColor] colorWithAlphaComponent:0.75] retain];
+		sPageBreakColour = [[NSColor cyanColor] colorWithAlphaComponent:0.75];
 	}
 
 	return sPageBreakColour;
@@ -256,7 +254,7 @@ static Class s_textEditorClass = Nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillCreateAutoDrawing
 														object:self];
 
-	mAutoDrawing = [[DKDrawing defaultDrawingWithSize:viewSize] retain];
+	mAutoDrawing = [DKDrawing defaultDrawingWithSize:viewSize];
 	m_didCreateDrawing = YES;
 	[mAutoDrawing setOwner:self];
 
@@ -293,7 +291,7 @@ static Class s_textEditorClass = Nil;
 - (DKViewController*)makeViewController
 {
 	DKToolController* aController = [[DKToolController alloc] initWithView:self];
-	return [aController autorelease];
+	return aController;
 }
 
 #pragma mark -
@@ -391,8 +389,6 @@ static Class s_textEditorClass = Nil;
  */
 - (void)setPrintInfo:(NSPrintInfo*)pbpi
 {
-	[pbpi retain];
-	[mPrintInfo release];
 	mPrintInfo = pbpi;
 
 	[self setNeedsDisplay:YES];
@@ -521,7 +517,6 @@ static Class s_textEditorClass = Nil;
 #if USE_STORAGE_REPLACEMENT
 	NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
 	[lm replaceTextStorage:textStorage];
-	[textStorage release];
 #else
 	NSRange textRange = NSMakeRange(0, [[m_textEditViewRef textStorage] length]);
 
@@ -737,7 +732,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewHorizontalLeftMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalCentreMarkerName];
@@ -749,7 +743,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewHorizontalCentreMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalRightMarkerName];
@@ -761,7 +754,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewHorizontalRightMarkerName];
-			[rm release];
 		}
 
 		rv = [sv verticalRulerView];
@@ -775,7 +767,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewVerticalTopMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalCentreMarkerName];
@@ -787,7 +778,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewVerticalCentreMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalBottomMarkerName];
@@ -799,7 +789,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewVerticalBottomMarkerName];
-			[rm release];
 		}
 
 		[self setRulerMarkerInfo:markerInfo];
@@ -1225,17 +1214,11 @@ static Class s_textEditorClass = Nil;
 	}
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[mPrintInfo release];
-	[mRulerMarkersDict release];
-	[m_textEditViewRef release];
 
 	// if the view automatically created its own "back-end", release all of that now - the drawing owns the controllers so
 	// they are also disposed of.
 
-	if (m_didCreateDrawing && mAutoDrawing != nil)
-		[mAutoDrawing release];
 
-	[super dealloc];
 }
 
 /** @brief Forward an invocation to the active layer if it implements it

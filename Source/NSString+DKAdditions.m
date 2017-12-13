@@ -97,7 +97,7 @@
 	// returns a copy of the receiver with just the first character capitalized, ignoring all others. Thus, the rest of the string isn't necessarily forced to
 	// lowercase.
 
-	NSMutableString* sc = [[self mutableCopy] autorelease];
+	NSMutableString* sc = [self mutableCopy];
 
 	if ([self length] > 0)
 		[sc replaceCharactersInRange:NSMakeRange(0, 1)

@@ -21,20 +21,18 @@
 
 	[gir setImage:image];
 
-	return [gir autorelease];
+	return gir;
 }
 
 + (instancetype)imageAdornmentWithImageFromFile:(NSString*)path
 {
-	NSImage* image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+	NSImage* image = [[NSImage alloc] initWithContentsOfFile:path];
 	return [self imageAdornmentWithImage:image];
 }
 
 #pragma mark -
 - (void)setImage:(NSImage*)image
 {
-	[image retain];
-	[m_image release];
 	m_image = image;
 
 	//[_image setFlipped:YES];
@@ -187,15 +185,6 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_imageIdentifier release];
-	[m_image release];
-	[mImageKey release];
-
-	[super dealloc];
-}
-
 - (instancetype)init
 {
 	self = [super init];

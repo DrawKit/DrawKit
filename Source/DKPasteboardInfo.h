@@ -40,4 +40,3 @@ This object is archived and added to the pasteboard when copying items within DK
 - (BOOL)writeToPasteboard:(NSPasteboard*)pb;
 
 @end
-

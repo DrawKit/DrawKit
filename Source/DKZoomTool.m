@@ -171,7 +171,7 @@
 
 	NSCursor* curs = [[NSCursor alloc] initWithImage:img
 											 hotSpot:NSMakePoint(12, 12)];
-	return [curs autorelease];
+	return curs;
 }
 
 #pragma mark -

@@ -201,17 +201,17 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	NSMutableDictionary* ad = nil;
 
 	if ([key isEqualToString:kDKDrawingInfoDrawingNumber]) {
-		ad = [[[NSMutableDictionary alloc] init] autorelease];
+		ad = [[NSMutableDictionary alloc] init];
 		[ad setObject:[NSFont fontWithName:@"Helvetica"
 									  size:24]
 			   forKey:NSFontAttributeName];
 	} else if ([key isEqualToString:kDKDrawingInfoDrawingRevision]) {
-		ad = [[[NSMutableDictionary alloc] init] autorelease];
+		ad = [[NSMutableDictionary alloc] init];
 		[ad setObject:[NSFont fontWithName:@"Helvetica"
 									  size:24]
 			   forKey:NSFontAttributeName];
 	} else if ([key isEqualToString:kDKDrawingInfoTextLabelAttributes]) {
-		ad = [[[NSMutableDictionary alloc] init] autorelease];
+		ad = [[NSMutableDictionary alloc] init];
 		[ad setObject:[NSFont fontWithName:@"Helvetica"
 									  size:7]
 			   forKey:NSFontAttributeName];
@@ -229,7 +229,6 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 																 attributes:attr];
 
 		[as drawInRect:NSOffsetRect(r, 4, 2)];
-		[as release];
 	}
 }
 
@@ -258,7 +257,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		s = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"mods:", @"drawing info modification history label")
 											attributes:attr];
 
-	return [s autorelease];
+	return s;
 }
 
 - (NSRect)layoutRectForDrawingInfoItem:(NSString*)key inRect:(NSRect)bounds
@@ -426,7 +425,6 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 									inRect:NSOffsetRect(fr, -1.5, 2.5)
 								  delegate:self];
 			m_editingKeyRef = key;
-			[str autorelease];
 		} else {
 			[[self drawing] exitTemporaryTextEditingMode];
 			m_editingKeyRef = nil;

@@ -61,11 +61,10 @@
 				[copy setAngle:[o angle] + relAngle];
 
 			[result addObject:copy];
-			[copy release];
 		}
 	}
 
-	return [result autorelease];
+	return result;
 }
 
 /** @brief Duplicates one or more objects linearly
@@ -104,11 +103,10 @@
 			[copy setLocation:location];
 
 			[result addObject:copy];
-			[copy release];
 		}
 	}
 
-	return [result autorelease];
+	return result;
 }
 
 /** @brief Automatically polar duplicates object to fit a circle exactly
@@ -168,7 +166,7 @@
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
  @param centre the location of the centre around which the copies are arranged
  @param numberOfCopies how many copies to make
- @param insetBy the amount each copy is inset or outset (-ve) by 
+ @param insetBy the amount each copy is inset or outset (-ve) by
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)concentricDuplicate:(NSArray*)objectsToDuplicate
@@ -211,7 +209,6 @@
 			[copy setLocation:location];
 
 			[result addObject:copy];
-			[copy release];
 		}
 	}
 

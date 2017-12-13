@@ -425,7 +425,7 @@
 	NSMutableArray* mGlyphs;
 }
 
-@property (readonly, retain) NSArray<NSBezierPath*> *glyphs;
+@property (readonly, strong) NSArray<NSBezierPath*> *glyphs;
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end

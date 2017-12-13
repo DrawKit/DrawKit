@@ -32,7 +32,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 @interface DKDrawing : DKLayerGroup <NSCoding, NSCopying> {
 @private
 	DKDrawingUnits m_units; /**< user readable drawing units string, e.g. "millimetres" */
-	DKLayer* m_activeLayerRef; /**< which one is active for editing, etc */
+	DKLayer* __weak m_activeLayerRef; /**< which one is active for editing, etc */
 	NSColor* m_paperColour; /**< underlying colour of the "paper" */
 	DKUndoManager* m_undoManager; /**< undo manager to use for data changes */
 	NSColorSpace* mColourSpace; /**< the colour space of the drawing as a whole (nil means use default) */
@@ -55,8 +55,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 	NSRect m_lastRectUpdated; /**< for refresh in HQ mode */
 	NSMutableSet<DKViewController*>* mControllers; /**< the set of current controllers */
 	DKImageDataManager* mImageManager; /**< internal object used to substantially improve efficiency of image archiving */
-	id<DKDrawingDelegate> mDelegateRef; /**< delegate, if any */
-	id mOwnerRef; /**< back pointer to document or view that owns this */
+	id<DKDrawingDelegate> __unsafe_unretained mDelegateRef; /**< delegate, if any */
+	id __unsafe_unretained mOwnerRef; /**< back pointer to document or view that owns this */
 }
 
 /** @brief Return the current version number of the framework
@@ -167,7 +167,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (void)setOwner:(id)owner;
 
-@property (assign) id owner;
+@property (unsafe_unretained) id owner;
 
 /** @name basic drawing parameters
  *	@{ */
@@ -221,7 +221,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (NSColorSpace*)colourSpace;
 
-@property (retain) NSColorSpace *colourSpace;
+@property (strong) NSColorSpace *colourSpace;
 
 /**
  @}
@@ -257,7 +257,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @return some delegate object
  */
 - (id<DKDrawingDelegate>)delegate;
-@property (assign) id<DKDrawingDelegate> delegate;
+@property (unsafe_unretained) id<DKDrawingDelegate> delegate;
 
 /** @name the drawing's view controllers
  @{ */
@@ -341,7 +341,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (id)undoManager;
 
-@property (nonatomic, retain) id undoManager;
+@property (nonatomic, strong) id undoManager;
 
 /** @} */
 /** @name drawing meta-data:
@@ -367,7 +367,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (NSColor*)paperColour;
 
-@property (nonatomic, retain) NSColor *paperColour;
+@property (nonatomic, strong) NSColor *paperColour;
 
 /** @brief Set whether the paper colour is printed or not
  
@@ -394,7 +394,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (DKLayer*)activeLayer;
 - (__kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
-@property (nonatomic, assign, readonly) DKLayer *activeLayer;
+@property (nonatomic, weak, readonly) DKLayer *activeLayer;
 
 /** @} */
 /** @name high level methods that help support a UI
@@ -445,8 +445,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 - (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt;
 - (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len;
 
-@property (readonly, retain) DKGridLayer *gridLayer;
-@property (readonly, retain) DKGuideLayer *guideLayer;
+@property (readonly, strong) DKGridLayer *gridLayer;
+@property (readonly, strong) DKGuideLayer *guideLayer;
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
 

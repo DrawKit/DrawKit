@@ -168,8 +168,6 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (void)setGhostColour:(NSColor*)ghostColour
 {
-	[ghostColour retain];
-	[s_ghostColour release];
 	s_ghostColour = ghostColour;
 
 	[[NSUserDefaults standardUserDefaults] setObject:[ghostColour hexString]
@@ -219,8 +217,6 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (void)setInterconversionTable:(NSDictionary*)icTable
 {
-	[icTable retain];
-	[s_interconversionTable release];
 	s_interconversionTable = icTable;
 }
 
@@ -268,7 +264,6 @@ static NSDictionary* s_interconversionTable = nil;
 		[dict setObject:newClass
 				 forKey:NSStringFromClass(baseClass)];
 		[self setInterconversionTable:dict];
-		[dict release];
 	} else
 		[NSException raise:NSInternalInconsistencyException
 					format:@"you must only substitute a subclass for the base class"];
@@ -782,7 +777,6 @@ static NSDictionary* s_interconversionTable = nil;
 
 			NSBezierPath* rpc = [[self renderingPath] copy];
 			[rpc fill];
-			[rpc release];
 		}
 	}
 }
@@ -971,8 +965,6 @@ static NSDictionary* s_interconversionTable = nil;
 
 	NSData* pdfData = [pdfView dataWithPDFInsideRect:[self bounds]];
 
-	[pdfView release];
-
 	return pdfData;
 }
 
@@ -1035,8 +1027,7 @@ static NSDictionary* s_interconversionTable = nil;
 															  userInfo:userInfo];
 
 		[m_style styleWillBeRemoved:self];
-		[m_style release];
-		m_style = [newStyle retain];
+		m_style = newStyle;
 
 		// set the style's undo manager to ours if it's actually set
 
@@ -1055,8 +1046,6 @@ static NSDictionary* s_interconversionTable = nil;
 																object:self
 															  userInfo:userInfo];
 	}
-
-	[newStyle release];
 }
 
 @synthesize style=m_style;
@@ -1161,7 +1150,6 @@ static NSRect s_oldBounds;
 
 		[detachedStyle setStyleSharable:NO];
 		[self setStyle:detachedStyle];
-		[detachedStyle release];
 	}
 }
 
@@ -1745,8 +1733,8 @@ static NSRect s_oldBounds;
 				CGContextSetInterpolationQuality(bm, kCGInterpolationNone);
 				CGContextSetShouldAntialias(bm, NO);
 				CGContextSetShouldSmoothFonts(bm, NO);
-				bitmapContext = [[NSGraphicsContext graphicsContextWithGraphicsPort:bm
-																			flipped:YES] retain];
+				bitmapContext = [NSGraphicsContext graphicsContextWithGraphicsPort:bm
+																			flipped:YES];
 				[bitmapContext setShouldAntialias:NO];
 			}
 
@@ -1957,7 +1945,7 @@ static NSRect s_oldBounds;
  */
 - (NSMenu*)menu
 {
-	return [[[DKAuxiliaryMenus auxiliaryMenus] copyMenuForClass:[self class]] autorelease];
+	return [[DKAuxiliaryMenus auxiliaryMenus] copyMenuForClass:[self class]];
 }
 
 /** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
@@ -2033,7 +2021,7 @@ static NSRect s_oldBounds;
 		[image unlockFocus];
 		[image setFlipped:NO];
 
-		return [image autorelease];
+		return image;
 	} else
 		return nil;
 }
@@ -2068,7 +2056,6 @@ static NSRect s_oldBounds;
 	NSDictionary* deepCopy = [info deepCopy];
 
 	[mUserInfo addEntriesFromDictionary:deepCopy];
-	[deepCopy release];
 	[self notifyStatusChange];
 }
 
@@ -2266,11 +2253,7 @@ static NSRect s_oldBounds;
 
 	if (m_style != nil) {
 		[m_style styleWillBeRemoved:self];
-		[m_style release];
 	}
-	[mUserInfo release];
-	[mRenderingCache release];
-	[super dealloc];
 }
 
 - (instancetype)init
@@ -2369,7 +2352,6 @@ static NSRect s_oldBounds;
 
 	DKStyle* styleCopy = [[self style] copy];
 	[copy setStyle:styleCopy]; // style will be shared if set to be shared, otherwise copied
-	[styleCopy release];
 
 	// ghost setting is copied but lock states are not
 
@@ -2380,7 +2362,6 @@ static NSRect s_oldBounds;
 	if ([self userInfo] != nil) {
 		NSDictionary* ucopy = [[self userInfo] deepCopy];
 		[copy setUserInfo:ucopy];
-		[ucopy release];
 	}
 
 	return copy;

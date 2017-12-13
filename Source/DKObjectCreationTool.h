@@ -84,7 +84,7 @@ You can also set up a style to be applied to all new objects initially as an ind
 - (void)setStyle:(DKStyle*)aStyle;
 - (DKStyle*)style;
 
-@property (retain) DKStyle *style;
+@property (strong) DKStyle *style;
 
 @property BOOL stylePickupEnabled;
 

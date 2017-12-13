@@ -124,7 +124,7 @@ tool's name and target first responder with this action.
  */
 - (DKDrawingTool*)drawingTool;
 
-@property (nonatomic, retain) DKDrawingTool *drawingTool;
+@property (nonatomic, strong) DKDrawingTool *drawingTool;
 
 /** @brief Check if the tool can be set for the current active layer
 

@@ -38,7 +38,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 #pragma mark -
 @interface DKColorStop ()
 
-@property (assign) DKGradient *owner;
+@property (weak) DKGradient *owner;
 - (void)setOwner:(DKGradient*)owner;
 - (DKGradient*)owner;
 
@@ -62,7 +62,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	[grad addColor:[NSColor rgbWhite]
 				at:1.0];
 
-	return [grad autorelease];
+	return grad;
 }
 
 /** @brief Returns a linear gradient from Color c1 to c2
@@ -98,7 +98,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	[grad setGradientType:gt];
 	[grad setAngleInDegrees:degrees];
 
-	return [grad autorelease];
+	return grad;
 }
 
 #pragma mark -
@@ -119,7 +119,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	while ((stop = [iter nextObject]))
 		[stop setColor:[[stop color] colorWithHueAndSaturationFrom:rgb]];
 
-	return [copy autorelease];
+	return copy;
 }
 
 /** @brief Creates a copy of the gradient but sets the alpha vealue of all stop colours to <alpha>
@@ -136,7 +136,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	while ((stop = [iter nextObject]))
 		[stop setAlpha:alpha];
 
-	return [copy autorelease];
+	return copy;
 }
 
 #pragma mark -
@@ -152,7 +152,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	DKColorStop* stop = [[DKColorStop alloc] initWithColor:Color
 														at:pos];
 	[self addColorStop:stop];
-	[stop release];
 	return stop;
 }
 
@@ -218,7 +217,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillAddColorStop
 														object:self];
-	[m_colorStops release];
 	m_colorStops = [stops mutableCopy];
 
 	// set the owner ref - no longer needed for unarchiving gradients - compat with older files
@@ -879,7 +877,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	}
 	[swatchImage unlockFocus];
 
-	return [swatchImage autorelease];
+	return swatchImage;
 }
 
 /** @brief Returns an image of the current gradient for use in a UI, etc.
@@ -1006,10 +1004,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 - (void)dealloc
 {
 	[self removeAllColors];
-	[m_colorStops release];
 	CGFunctionRelease(m_cbfunc);
-	[m_extensionData release];
-	[super dealloc];
 }
 
 - (instancetype)init
@@ -1024,8 +1019,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 		m_cbfunc = makeShaderFunction(self);
 
 		if (m_colorStops == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -1090,8 +1084,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 		[self setGradientInterpolation:[coder decodeIntegerForKey:@"interpolation"]];
 
 		if (m_colorStops == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	if (self != nil) {
@@ -1121,7 +1114,6 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	while ((stop = [curs nextObject])) {
 		stopCopy = [stop copy];
 		[grad addColorStop:stopCopy];
-		[stopCopy release];
 	}
 
 	grad->m_extensionData = [m_extensionData mutableCopy];
@@ -1149,8 +1141,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 		NSAssert(m_ownerRef == nil, @"Expected init to zero");
 
 		if (mColor == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -1171,8 +1162,6 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 
 	NSColor* rgb = [aColor colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 
-	[rgb retain];
-	[mColor release];
 	mColor = rgb;
 
 	// cache the components so that they can be rapidly accessed when plotting the shading
@@ -1213,11 +1202,6 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[mColor release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of GraphicsAttributes Protocol
@@ -1255,8 +1239,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 		[self setOwner:[coder decodeObjectForKey:@"DKColorStop_owner"]];
 
 		if (mColor == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -1299,7 +1282,7 @@ static void shaderCallback(void* info, const CGFloat* in, CGFloat* out)
 		sfunc = (void (*)(id, SEL, CGFloat, CGFloat*, BOOL))[DKGradient instanceMethodForSelector : ssel];
 	}
 
-	sfunc(info, ssel, *in, out, NO);
+	sfunc((__bridge id)(info), ssel, *in, out, NO);
 #else
 	[(DKGradient*)info private_colorAtValue:*in
 								 components:out

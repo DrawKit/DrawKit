@@ -18,10 +18,10 @@ This class works identically to NSKeyedUnarchiver in every way, except that it c
 */
 @interface DKKeyedUnarchiver : NSKeyedUnarchiver {
 @private
-	DKImageDataManager* mImageManagerRef;
+	DKImageDataManager* __unsafe_unretained mImageManagerRef;
 }
 
 // not retained because we know that it's retained by the drawing and the lifetime of the dearchiver is limited.
-@property (assign) DKImageDataManager *imageManager;
+@property (unsafe_unretained) DKImageDataManager *imageManager;
 
 @end

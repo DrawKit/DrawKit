@@ -30,7 +30,7 @@ like this are one easy way to do it, but not the only way.
 */
 @interface DKDrawingDocument : NSDocument {
 @private
-	IBOutlet DKDrawingView* mMainDrawingView;
+	IBOutlet DKDrawingView* __weak mMainDrawingView;
 	DKDrawing* m_drawing;
 }
 
@@ -92,7 +92,7 @@ like this are one easy way to do it, but not the only way.
  */
 - (DKDrawing*)drawing;
 
-@property (nonatomic, retain) DKDrawing *drawing;
+@property (nonatomic, strong) DKDrawing *drawing;
 
 /** @brief Return the document's main view
 
@@ -101,7 +101,7 @@ like this are one easy way to do it, but not the only way.
  @return the document's main view
  */
 - (DKDrawingView*)mainView;
-@property (readonly, assign) DKDrawingView *mainView;
+@property (readonly, weak) DKDrawingView *mainView;
 
 /** @brief Create a controller object to connect the given view to the document's drawing
 
@@ -130,7 +130,7 @@ like this are one easy way to do it, but not the only way.
  @return the class of the default drawing layer
  */
 - (Class)classOfDefaultDrawingLayer;
-@property (readonly) Class classOfDefaultDrawingLayer;
+@property (unsafe_unretained, readonly) Class classOfDefaultDrawingLayer;
 
 /** @brief Return whether an info layer should be added to the default drawing.
 
@@ -196,7 +196,7 @@ like this are one easy way to do it, but not the only way.
  */
 - (DKDrawingTool*)drawingTool;
 
-@property (retain) DKDrawingTool *drawingTool;
+@property (strong) DKDrawingTool *drawingTool;
 
 /** @brief High-level method to add a new drawing layer to the document
 

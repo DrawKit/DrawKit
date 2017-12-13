@@ -69,7 +69,6 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	LogEvent_(kInfoEvent, @"size = %@, dpi = %ld, rep = %@", NSStringFromSize(bmSize), (long)dpi, bmRep);
 
 	NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithBitmapImageRep:bmRep];
-	[bmRep release];
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 		[NSGraphicsContext setCurrentContext : context];
@@ -119,7 +118,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	if (scale == 0)
 		scale = 1.0;
 
-	NSMutableDictionary* options = [[props mutableCopy] autorelease];
+	NSMutableDictionary* options = [props mutableCopy];
 
 	[options setObject:@(dpi)
 				forKey:(NSString*)kCGImagePropertyDPIWidth];
@@ -161,9 +160,8 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	CFRelease(destRef);
 
 	if (result) {
-		return [data autorelease];
+		return data;
 	} else {
-		[data release];
 		return nil;
 	}
 }
@@ -188,7 +186,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	if (scale == 0)
 		scale = 1.0;
 
-	NSMutableDictionary* options = [[props mutableCopy] autorelease];
+	NSMutableDictionary* options = [props mutableCopy];
 
 	[options setObject:@(dpi)
 				forKey:(NSString*)kCGImagePropertyDPIWidth];
@@ -259,9 +257,8 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	CFRelease(destRef);
 
 	if (result) {
-		return [data autorelease];
+		return data;
 	} else {
-		[data release];
 		return nil;
 	}
 }
@@ -286,7 +283,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	if (scale == 0)
 		scale = 1.0;
 
-	NSMutableDictionary* options = [[props mutableCopy] autorelease];
+	NSMutableDictionary* options = [props mutableCopy];
 
 	[options setObject:@(dpi)
 				forKey:(NSString*)kCGImagePropertyDPIWidth];
@@ -323,9 +320,8 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	CFRelease(destRef);
 
 	if (result) {
-		return [data autorelease];
+		return data;
 	} else {
-		[data release];
 		return nil;
 	}
 }

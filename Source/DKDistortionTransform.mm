@@ -56,7 +56,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 {
 	DKDistortionTransform* dt = [[DKDistortionTransform alloc] initWithRect:rect];
 
-	return [dt autorelease];
+	return dt;
 }
 
 #pragma mark -
@@ -267,7 +267,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 		}
 	}
 
-	return [newPath autorelease];
+	return newPath;
 }
 
 #pragma mark -

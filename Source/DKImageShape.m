@@ -61,11 +61,10 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 {
 	NSImage* image = nil;
 	if ([NSImage canInitWithPasteboard:pboard]) {
-		image = [[[NSImage alloc] initWithPasteboard:pboard] autorelease];
+		image = [[NSImage alloc] initWithPasteboard:pboard];
 	}
 	if (image == nil) {
-		[self autorelease];
-		self = nil;
+		return nil;
 	} else {
 		self = [self initWithImage:image];
 
@@ -122,11 +121,9 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 													   delegate:self];
 		mImageOffsetPartcode = [self addHotspot:hs];
 		[hs setRelativeLocation:NSZeroPoint];
-		[hs release];
 
 		if (m_image == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 
@@ -149,13 +146,11 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 	if (image) {
 		self = [self initWithImage:image];
-		[image release];
 
 		if (self)
 			[self setImageData:imageData];
 	} else {
-		[self autorelease];
-		self = nil;
+		return nil;
 	}
 
 	return self;
@@ -200,8 +195,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 					 forKey:kDKOriginalNameMetadataKey];
 		}
 	} else {
-		[self autorelease];
-		self = nil;
+		return nil;
 	}
 	return self;
 }
@@ -222,8 +216,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 										  selector:@selector(setImage:)
 											object:[self image]];
 
-		[anImage retain];
-		[m_image release];
 		m_image = anImage;
 
 		[m_image setCacheMode:NSImageCacheNever];
@@ -232,7 +224,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		// setting the image nils the key. Callers that know there is a key should use setImageWithKey:coder: instead.
 
-		[mImageKey release];
 		mImageKey = nil;
 
 		// record image size in metadata
@@ -280,7 +271,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 
 	[self setCompositingOperation:savedOp];
-	return [newImage autorelease];
+	return newImage;
 }
 
 /** @brief Set the object's image from image data in the drawing's image data manager
@@ -307,7 +298,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 			NSImage* image = [dm makeImageForKey:key];
 
 			if (image) {
-				[key retain];
 				[self setImage:image]; // releases key and sets it to nil
 				mImageKey = key;
 			}
@@ -315,6 +305,8 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
+@synthesize imageKey=mImageKey;
+#if 0
 /** @brief Set the object's image key
 
  This is called by other methods as necessary. It currently simply retains the key.
@@ -322,8 +314,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  */
 - (void)setImageKey:(NSString*)key
 {
-	[key retain];
-	[mImageKey release];
 	mImageKey = key;
 }
 
@@ -334,6 +324,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 {
 	return mImageKey;
 }
+#endif
 
 /** @brief Transfer the image key when the object is added to a new container
 
@@ -361,8 +352,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 			NSString* key = [newIM keyForImageData:imageData];
 
 			if (key) {
-				imageData = [[newIM imageDataForKey:key] retain];
-				[mOriginalImageData release];
+				imageData = [newIM imageDataForKey:key];
 				mOriginalImageData = imageData;
 				[self setImageKey:key];
 
@@ -391,8 +381,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  */
 - (void)setImageData:(NSData*)data
 {
-	[data retain];
-	[mOriginalImageData release];
 	mOriginalImageData = data;
 
 	// link up with the image manager - if it already knows the data it will return a key for it, otherwise a new key
@@ -411,7 +399,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	} else {
 		image = [[NSImage alloc] initWithData:data];
 		[self setImage:image];
-		[image release];
 	}
 }
 
@@ -425,7 +412,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 - (NSData*)imageData
 {
 	if (mOriginalImageData == nil)
-		mOriginalImageData = [[[[self container] imageManager] imageDataForKey:[self imageKey]] retain];
+		mOriginalImageData = [[[self container] imageManager] imageDataForKey:[self imageKey]];
 
 	return mOriginalImageData;
 }
@@ -454,8 +441,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 			// keep a local reference to the data if possible
 
 			NSData* imgData = [dm imageDataForKey:newKey];
-			[imgData retain];
-			[mOriginalImageData release];
 			mOriginalImageData = imgData;
 
 			[self setImage:image];
@@ -470,7 +455,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		if (image != nil) {
 			[self setImage:image];
-			[image release];
 
 			return YES;
 		}
@@ -944,16 +928,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 #pragma mark -
 #pragma mark As an NSObject
-
-/** @brief Deallocates the object
- */
-- (void)dealloc
-{
-	[m_image release];
-	[mImageKey release];
-	[mOriginalImageData release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of the DKHotspotDelegate protocol

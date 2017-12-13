@@ -37,18 +37,18 @@ DKStyle can contains a list of strokes without limit.
 - (instancetype)initWithWidth:(CGFloat)width colour:(NSColor*)colour NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
-@property (retain) NSColor *colour;
+@property (strong) NSColor *colour;
 
 @property CGFloat width;
 - (void)scaleWidthBy:(CGFloat)scale;
 @property (readonly) CGFloat allowance;
 
-@property (retain) DKStrokeDash *dash;
+@property (strong) DKStrokeDash *dash;
 - (void)setAutoDash;
 
 @property CGFloat lateralOffset;
 
-@property (retain) NSShadow *shadow;
+@property (strong) NSShadow *shadow;
 
 - (void)strokeRect:(NSRect)rect;
 - (void)applyAttributesToPath:(NSBezierPath*)path;

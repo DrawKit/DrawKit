@@ -45,7 +45,7 @@ This prefers PDF image representations where the image contains one, preserving 
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithImage:(NSImage*)image NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, retain) NSImage *image;
+@property (nonatomic, strong) NSImage *image;
 - (void)setUpCache;
 - (void)setPDFImageRep:(NSPDFImageRep*)rep;
 

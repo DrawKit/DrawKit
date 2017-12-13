@@ -98,7 +98,7 @@ enum {
 	DKObjectDrawingLayer* newLayer = [[self alloc] init];
 	[newLayer addObjectsFromArray:objects];
 
-	return [newLayer autorelease];
+	return newLayer;
 }
 
 #pragma mark -
@@ -124,7 +124,7 @@ enum {
 				[ao addObject:od];
 		}
 	}
-	return [ao autorelease];
+	return ao;
 }
 
 /** @brief Returns the objects that are not locked, visible and selected and which have the given class
@@ -145,7 +145,7 @@ enum {
 				[ao addObject:od];
 		}
 	}
-	return [ao autorelease];
+	return ao;
 }
 
 /** @brief Returns the objects that are visible and selected
@@ -166,7 +166,7 @@ enum {
 				[ao addObject:od];
 		}
 	}
-	return [ao autorelease];
+	return ao;
 }
 
 /** @brief Returns objects that respond to the selector with the value <answer>
@@ -247,10 +247,9 @@ enum {
 	while ((od = [iter nextObject])) {
 		odc = [od copy];
 		[arr addObject:odc];
-		[odc release];
 	}
 
-	return [arr autorelease];
+	return arr;
 }
 
 /** @brief Returns the selected objects in their original stacking order.
@@ -441,7 +440,6 @@ enum {
 			[m_selection makeObjectsPerformSelector:@selector(objectIsNoLongerSelected)];
 
 			NSMutableSet* temp = [sel mutableCopy];
-			[m_selection release];
 			m_selection = temp;
 			mSelBoundsCached = NSZeroRect;
 
@@ -462,7 +460,7 @@ enum {
  */
 - (NSSet*)selection
 {
-	return [self lockedOrHidden] ? nil : [[m_selection copy] autorelease];
+	return [self lockedOrHidden] ? nil : [m_selection copy];
 }
 
 /** @brief If the selection consists of a single available object, return it. Otherwise nil.
@@ -676,7 +674,6 @@ enum {
 
 					[newSel makeObjectsPerformSelector:@selector(objectDidBecomeSelected)];
 					[newSel makeObjectsPerformSelector:@selector(notifyVisualChange)];
-					[oldSel release];
 
 					mSelBoundsCached = NSZeroRect;
 					[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerSelectionDidChange
@@ -954,7 +951,6 @@ enum {
 - (void)recordSelectionForUndo
 {
 	if (m_selectionUndo) {
-		[m_selectionUndo release];
 		m_selectionUndo = nil;
 	}
 
@@ -964,7 +960,7 @@ enum {
 	if ([[self undoManager] respondsToSelector:@selector(changeCount)])
 		mUndoCount = [(DKUndoManager*)[self undoManager] changeCount];
 
-	m_selectionUndo = [[self selection] retain];
+	m_selectionUndo = [self selection];
 
 	LogEvent_(kReactiveEvent, @"recorded selection for possible undo, count = %lu", (unsigned long)mUndoCount);
 }
@@ -1017,7 +1013,6 @@ enum {
 
 		// done with the recorded selection, so get rid of it
 
-		[m_selectionUndo release];
 		m_selectionUndo = nil;
 	}
 }
@@ -1085,7 +1080,7 @@ enum {
 	[self drawSelectedObjects];
 	[img unlockFocus];
 
-	return [img autorelease];
+	return img;
 }
 
 /** @brief Creates a PDF representation of the selected objects
@@ -1110,7 +1105,6 @@ enum {
 
 	NSRect sr = [self selectionBounds];
 	NSData* pdfData = [pdfView dataWithPDFInsideRect:sr];
-	[pdfView release];
 
 	return pdfData;
 }
@@ -1171,8 +1165,6 @@ enum {
 	NSImage* si = [self imageOfSelectedObjects];
 	[pb setData:[si TIFFRepresentation]
 		forType:NSTIFFPboardType];
-
-	[dataTypes release];
 }
 
 #pragma mark -
@@ -1356,7 +1348,7 @@ enum {
 	// save a temporary list of the objects being dragged so that if they are dragged back into the same layer,
 	// the originals can be removed.
 
-	m_objectsPendingDrag = [[self selectedObjectsPreservingStackingOrder] retain];
+	m_objectsPendingDrag = [self selectedObjectsPreservingStackingOrder];
 	[self setSelectedObjectsVisible:NO];
 
 	[view dragImage:image
@@ -1569,10 +1561,8 @@ enum {
 		NSImage* image = [[NSImage alloc] initWithPasteboard:pb];
 		DKImageShape* imshape = [[DKImageShape alloc] initWithImage:image];
 
-		[image release];
 
 		objects = @[imshape];
-		[imshape release];
 
 		cp.x -= [imshape size].width * 0.5;
 		cp.y += [imshape size].height * 0.5;
@@ -1878,8 +1868,6 @@ enum {
 			[self replaceSelectionWithObject:group];
 			[self commitSelectionUndoWithActionName:NSLocalizedString(@"Group", @"undo string for grouping")];
 		}
-
-		[group release];
 	}
 }
 
@@ -2390,7 +2378,6 @@ enum {
 					keyEquivalent:@""] setTarget:self];
 
 			[item setSubmenu:am];
-			[am release];
 		}
 	} else {
 		item = [contextmenu addItemWithTitle:NSLocalizedString(@"Paste", @"menu item for Paste")
@@ -2400,7 +2387,7 @@ enum {
 		[item setTag:kDKPasteCommandContextualMenuTag];
 	}
 
-	return [contextmenu autorelease];
+	return contextmenu;
 }
 
 - (void)setLayerGroup:(DKLayerGroup*)aGroup
@@ -2458,7 +2445,7 @@ enum {
 		}
 	}
 
-	return [types autorelease];
+	return types;
 }
 
 - (void)logDescription:(id)sender
@@ -2550,7 +2537,6 @@ enum {
 				// delete the objects held in the temporary drag list, as we have dragged them to self
 
 				[self removeObjectsInArray:m_objectsPendingDrag];
-				[m_objectsPendingDrag release];
 				m_objectsPendingDrag = nil;
 			}
 		}
@@ -2583,7 +2569,6 @@ enum {
 		while ((dko = [iter nextObject]))
 			[dko setVisible:YES];
 
-		[m_objectsPendingDrag release];
 		m_objectsPendingDrag = nil;
 	}
 }
@@ -2595,11 +2580,6 @@ enum {
 	//	LogEvent_(kReactiveEvent, @"dealloc - DKObjectDrawingLayer");
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[m_selectionUndo release];
-	[m_selection release];
-
-	[super dealloc];
 }
 
 /** @brief Allows actions to be retargeted on single selected objects directly
@@ -2652,8 +2632,7 @@ enum {
 		m_allowDragTargeting = YES;
 
 		if (m_selection == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -2727,8 +2706,7 @@ enum {
 			[self setAllowsObjectsToBeTargetedByDrags:YES];
 
 		if (m_selection == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 

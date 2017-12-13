@@ -96,7 +96,6 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 		if (inst != nil) {
 			[s_handleInstancesTable setObject:inst
 									   forKey:key];
-			[inst release];
 
 			//NSLog(@"added handle instance %@, key = %@, total instances = %d", inst, key, [s_handleInstancesTable count]);
 		}
@@ -183,7 +182,7 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 - (void)drawAtPoint:(NSPoint)point angle:(CGFloat)radians
 {
 	if (mCache == nil) {
-		mCache = [[DKQuartzCache cacheForCurrentContextWithSize:[self size]] retain];
+		mCache = [DKQuartzCache cacheForCurrentContextWithSize:[self size]];
 
 		[mCache lockFocus];
 
@@ -255,12 +254,5 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 
 #pragma mark -
 #pragma mark - as a NSObject
-
-- (void)dealloc
-{
-	[mCache release];
-	[mColour release];
-	[super dealloc];
-}
 
 @end

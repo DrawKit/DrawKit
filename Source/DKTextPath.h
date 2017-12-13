@@ -30,7 +30,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 + (NSString*)defaultTextString;
 + (Class)textAdornmentClass;
 
-@property (class, retain) NSString *defaultTextString;
+@property (class, copy) NSString *defaultTextString;
 @property (class, readonly) Class textAdornmentClass;
 
 /** @brief Return a list of types we can paste in priority order.
@@ -96,7 +96,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 @property DKVerticalTextAlignment verticalAlignment;
 @property CGFloat verticalAlignmentProportion;
-@property (retain) NSParagraphStyle *paragraphStyle;
+@property (strong) NSParagraphStyle *paragraphStyle;
 @property (readonly) NSTextAlignment alignment;
 
 // editing the text:
@@ -110,7 +110,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 - (DKTextAdornment*)textAdornment;
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
-@property (nonatomic, retain) DKTextAdornment *textAdornment;
+@property (nonatomic, strong) DKTextAdornment *textAdornment;
 
 // user actions:
 

@@ -98,7 +98,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 	// create and return the image
 
-	return [[[NSImage alloc] initWithData:imageData] autorelease];
+	return [[NSImage alloc] initWithData:imageData];
 }
 
 - (NSImage*)makeImageWithPasteboard:(NSPasteboard*)pb key:(NSString**)key
@@ -120,7 +120,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 			if (key != NULL)
 				*key = theKey;
 
-			return [[[NSImage alloc] initWithData:imageData] autorelease];
+			return [[NSImage alloc] initWithData:imageData];
 		}
 	}
 
@@ -161,7 +161,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	NSData* imageData = [self imageDataForKey:key];
 
 	if (imageData)
-		return [[[NSImage alloc] initWithData:imageData] autorelease];
+		return [[NSImage alloc] initWithData:imageData];
 	else
 		return nil;
 }
@@ -203,8 +203,6 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 		if (![self keyIsInUse:key])
 			[self removeKey:key];
 	}
-
-	[keys release];
 }
 
 - (void)buildHashList
@@ -239,14 +237,6 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	return self;
 }
 
-- (void)dealloc
-{
-	[mRepository release];
-	[mHashList release];
-	[mKeyUsage release];
-	[super dealloc];
-}
-
 - (void)encodeWithCoder:(NSCoder*)coder
 {
 	[coder encodeObject:mRepository
@@ -256,7 +246,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super init]) {
-	mRepository = [[coder decodeObjectForKey:@"DKImageDataManager_repo"] retain];
+	mRepository = [coder decodeObjectForKey:@"DKImageDataManager_repo"];
 	mHashList = [[NSMutableDictionary alloc] init];
 
 	// hash list is built from repository, so there is no need to archive it.

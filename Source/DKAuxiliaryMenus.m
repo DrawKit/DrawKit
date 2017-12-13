@@ -58,7 +58,6 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 		}
 
 		if (tempNib == nil) {
-			[self autorelease];
 			return nil;
 		}
 
@@ -67,18 +66,11 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 		if (![mNib instantiateNibWithOwner:self
 						   topLevelObjects:nil]) {
 			NSLog(@"failed to instantiate nib '%@' (name = '%@')", mNib, nib);
-			[self autorelease];
 			return nil;
 		}
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[mNib release];
-	[super dealloc];
 }
 
 @end

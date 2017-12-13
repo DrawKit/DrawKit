@@ -22,25 +22,19 @@ the text it displays. Other objects that use text can make use of this as they w
  */
 + (NSString*)styleNameForFont:(NSFont*)font;
 
-- (void)setParagraphStyle:(NSParagraphStyle*)style;
-- (NSParagraphStyle*)paragraphStyle;
+@property (strong) NSParagraphStyle *paragraphStyle;
 
-- (void)setAlignment:(NSTextAlignment)align;
-- (NSTextAlignment)alignment;
+@property NSTextAlignment alignment;
 
-- (void)changeTextAttribute:(NSString*)attribute toValue:(id)val;
-- (NSString*)actionNameForTextAttribute:(NSString*)attribute;
+- (void)changeTextAttribute:(NSAttributedStringKey)attribute toValue:(id)val;
+- (NSString*)actionNameForTextAttribute:(NSAttributedStringKey)attribute;
 
-- (void)setFont:(NSFont*)font;
-- (NSFont*)font;
-- (void)setFontSize:(CGFloat)size;
-- (CGFloat)fontSize;
+@property (strong) NSFont *font;
+@property CGFloat fontSize;
 
-- (void)setTextColour:(NSColor*)aColour;
-- (NSColor*)textColour;
+@property (strong) NSColor *textColour;
 
-- (void)setUnderlined:(NSInteger)uval;
-- (NSInteger)underlined;
+@property NSUnderlineStyle underlined;
 - (void)toggleUnderlined;
 
 - (void)applyToText:(NSMutableAttributedString*)text;

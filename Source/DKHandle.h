@@ -39,7 +39,7 @@ DKHandle is a base class for all handles, which are the knobs attached to shapes
 - (instancetype)initWithSize:(NSSize)size colour:(NSColor*)colour NS_DESIGNATED_INITIALIZER;
 @property (readonly) NSSize size;
 
-@property (retain) NSColor *colour;
+@property (strong) NSColor *colour;
 
 - (void)drawAtPoint:(NSPoint)point;
 - (void)drawAtPoint:(NSPoint)point angle:(CGFloat)radians;

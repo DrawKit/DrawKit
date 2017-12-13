@@ -49,9 +49,9 @@ areas the solid fill will show through.
  */
 - (BOOL)tracksObjectAngle;
 
-@property (retain) NSColor *colour;
-@property (retain) NSShadow *shadow;
-@property (nonatomic, retain) DKGradient *gradient;
+@property (strong) NSColor *colour;
+@property (strong) NSShadow *shadow;
+@property (nonatomic, strong) DKGradient *gradient;
 @property BOOL tracksObjectAngle;
 
 @end

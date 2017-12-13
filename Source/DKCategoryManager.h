@@ -281,7 +281,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (NSArray*)recentlyAddedItems;
 
-@property (nonatomic, retain) NSArray *recentlyAddedItems;
+@property (nonatomic, strong) NSArray *recentlyAddedItems;
 
 /** @brief Return the list of recently used items
 
@@ -290,7 +290,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (NSArray*)recentlyUsedItems;
 
-@property (readonly, nonatomic, retain) NSArray *recentlyUsedItems;
+@property (readonly, nonatomic, strong) NSArray *recentlyUsedItems;
 
 // category management - creating, deleting and renaming categories
 

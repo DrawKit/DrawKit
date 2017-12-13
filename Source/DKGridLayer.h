@@ -222,21 +222,21 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  part of the grid, but it's up to you.
  */
 
-@property (nonatomic, retain) NSColor *spanColour;
+@property (nonatomic, strong) NSColor *spanColour;
 /**
  @brief the colour used to draw the divisions.
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
 
-@property (nonatomic, retain) NSColor *divisionColour;
+@property (nonatomic, strong) NSColor *divisionColour;
 /**
  @brief The colour used to draw the majors.
  
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
-@property (nonatomic, retain) NSColor *majorColour;
+@property (nonatomic, strong) NSColor *majorColour;
 
 /** @brief Sets the colour used to draw the spans
 

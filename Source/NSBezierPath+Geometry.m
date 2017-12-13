@@ -2328,7 +2328,7 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 	[leftSide transformUsingAffineTransform:leftTransform];
 
 	/* Careful!  We don't want to append the -moveToPoint from the right hand
-     side, because then -closePath won't do what we would want it to. */
+	 side, because then -closePath won't do what we would want it to. */
 	[leftSide appendBezierPathRemovingInitialMoveToPoint:rightSide];
 
 	if (closeit)

@@ -199,7 +199,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 
  Ignores opacity of layers in the stack - this is the one on the top, regardless.
  */
-@property (readonly, retain, nullable) __kindof DKLayer *topLayer;
+@property (readonly, strong, nullable) __kindof DKLayer *topLayer;
 
 /** @brief The bottom layer.
 
@@ -207,7 +207,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 
  Ignores opacity of layers in the stack - this is the one on the bottom, regardless.
  */
-@property (readonly, retain, nullable) __kindof DKLayer *bottomLayer;
+@property (readonly, strong, nullable) __kindof DKLayer *bottomLayer;
 
 /** @brief Returns the stack position of a given layer.
  

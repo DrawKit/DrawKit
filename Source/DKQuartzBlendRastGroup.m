@@ -39,13 +39,6 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_maskImage release];
-
-	[super dealloc];
-}
-
 - (instancetype)init
 {
 	self = [super init];

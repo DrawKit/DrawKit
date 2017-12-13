@@ -31,7 +31,7 @@ This objects abstracts the text substitution task used by text adornments, et. a
 - (instancetype)initWithAttributedString:(NSAttributedString*)aString NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, retain) NSAttributedString *masterString;
+@property (nonatomic, strong) NSAttributedString *masterString;
 
 - (void)setString:(NSString*)aString withAttributes:(NSDictionary*)attrs;
 @property (readonly, copy) NSString*string;

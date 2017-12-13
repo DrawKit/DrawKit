@@ -174,15 +174,13 @@ static id sDearchivingHelper = nil;
 	DKObjectDrawingLayer* layer = [[DKObjectDrawingLayer alloc] init];
 	[dr addLayer:layer];
 	[dr setActiveLayer:layer];
-	[layer release];
 
 	// attach a guide layer
 
 	DKGuideLayer* guides = [[DKGuideLayer alloc] init];
 	[dr addLayer:guides];
-	[guides release];
 
-	return [dr autorelease];
+	return dr;
 }
 
 /** @brief Creates a drawing from a lump of data
@@ -212,7 +210,6 @@ static id sDearchivingHelper = nil;
 	DKDrawing* dwg = [unarch decodeObjectForKey:@"root"];
 
 	[unarch finishDecoding];
-	[unarch release];
 
 	return dwg;
 }
@@ -241,8 +238,6 @@ static id sDearchivingHelper = nil;
  */
 + (void)setDearchivingHelper:(id)helper
 {
-	[helper retain];
-	[sDearchivingHelper release];
 	sDearchivingHelper = helper;
 }
 
@@ -291,7 +286,7 @@ static id sDearchivingHelper = nil;
 	[di setObject:[NSDate date]
 		   forKey:[kDKDrawingInfoLastModificationDate lowercaseString]];
 
-	return [di autorelease];
+	return di;
 }
 
 /** @brief Sets the abbreviation for the given drawing units string
@@ -314,7 +309,6 @@ static id sDearchivingHelper = nil;
 			 forKey:[fullString lowercaseString]];
 	[[NSUserDefaults standardUserDefaults] setObject:dict
 											  forKey:kDKDrawingUnitAbbreviationsUserDefault];
-	[dict release];
 }
 
 /** @brief Returns the abbreviation for the given drawing units string
@@ -451,8 +445,7 @@ static id sDearchivingHelper = nil;
 			|| [self knobs] == nil
 			|| m_paperColour == nil
 			|| mControllers == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -684,8 +677,6 @@ static id sDearchivingHelper = nil;
  */
 - (void)setColourSpace:(NSColorSpace*)cSpace
 {
-	[cSpace retain];
-	[mColourSpace release];
 	mColourSpace = cSpace;
 }
 
@@ -722,10 +713,7 @@ static id sDearchivingHelper = nil;
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingUnitsWillChange
 															object:self];
-		[units retain];
-		[m_units release];
 		m_units = [units copy];
-		[units release];
 		m_unitConversionFactor = conversionFactor;
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingUnitsDidChange
 															object:self];
@@ -923,11 +911,11 @@ static id sDearchivingHelper = nil;
 		if (m_renderQualityTimer == nil) {
 			// start the timer:
 
-			m_renderQualityTimer = [[NSTimer scheduledTimerWithTimeInterval:mTriggerPeriod
+			m_renderQualityTimer = [NSTimer scheduledTimerWithTimeInterval:mTriggerPeriod
 																	 target:self
 																   selector:@selector(qualityTimerCallback:)
 																   userInfo:nil
-																	repeats:YES] retain];
+																	repeats:YES];
 			[[NSRunLoop currentRunLoop] addTimer:m_renderQualityTimer
 										 forMode:NSEventTrackingRunLoopMode];
 		} else {
@@ -946,7 +934,6 @@ static id sDearchivingHelper = nil;
 	// if the timer ever fires it calls this, so we simply invalidate it and set high quality
 
 	[m_renderQualityTimer invalidate];
-	[m_renderQualityTimer release];
 	m_renderQualityTimer = nil;
 	[self setLowRenderingQuality:NO];
 	m_isForcedHQUpdate = YES;
@@ -964,8 +951,6 @@ static id sDearchivingHelper = nil;
 	if (um != m_undoManager) {
 		[m_undoManager removeAllActions];
 
-		[um retain];
-		[m_undoManager release];
 		m_undoManager = um;
 
 		// the undo manager needs to be known objects (particularly styles) that the drawing contains. For a drawing created from an
@@ -1008,8 +993,6 @@ static id sDearchivingHelper = nil;
 	if (colour != [self paperColour]) {
 		[[[self undoManager] prepareWithInvocationTarget:self] setPaperColour:[self paperColour]];
 
-		[colour retain];
-		[m_paperColour release];
 		m_paperColour = colour;
 		[self setNeedsDisplay:YES];
 
@@ -1149,10 +1132,6 @@ static id sDearchivingHelper = nil;
 	NSAssert(aLayer != nil, @"can't remove a nil layer from the drawing ");
 	NSAssert(aLayer != anotherLayer, @"cannot activate the layer being removed - layers must be different");
 
-	// retain the layer until we are completely done with it
-
-	[aLayer retain];
-
 	BOOL removingActive = (aLayer == [self activeLayer]);
 
 	// remove it from the drawing
@@ -1175,7 +1154,6 @@ static id sDearchivingHelper = nil;
 		[self setActiveLayer:anotherLayer
 					withUndo:YES];
 
-	[aLayer release];
 }
 
 /** @brief Finds the first layer of the given class that can be activated.
@@ -1622,9 +1600,8 @@ static id sDearchivingHelper = nil;
 	[karch encodeObject:self
 				 forKey:key];
 	[karch finishEncoding];
-	[karch release];
 
-	return [data autorelease];
+	return data;
 }
 
 /** @brief Returns the entire drawing's data in binary format
@@ -1748,7 +1725,7 @@ static id sDearchivingHelper = nil;
 	// save the graphics context on entry so that we can restore it when we return. This allows recovery from an exception
 	// that could leave the context stack unbalanced.
 
-	NSGraphicsContext* topContext = [[NSGraphicsContext currentContext] retain];
+	NSGraphicsContext* topContext = [NSGraphicsContext currentContext];
 
 	@try
 	{
@@ -1804,7 +1781,6 @@ static id sDearchivingHelper = nil;
 	}
 
 	[NSGraphicsContext setCurrentContext:topContext];
-	[topContext release];
 }
 
 /** @brief Marks the entire drawing as needing updating (or not) for all attached views
@@ -1891,7 +1867,6 @@ static id sDearchivingHelper = nil;
 
 		if (oldDrawingInfo)
 			[self setDrawingInfo:oldDrawingInfo];
-		[oldDrawingInfo release];
 	}
 }
 
@@ -1927,23 +1902,14 @@ static id sDearchivingHelper = nil;
 	[self setUndoManager:nil];
 	[self exitTemporaryTextEditingMode];
 	[self removeAllControllers];
-	[mControllers release];
 
 	m_activeLayerRef = nil;
 	mDelegateRef = nil;
 
 	if (m_renderQualityTimer != nil) {
 		[m_renderQualityTimer invalidate];
-		[m_renderQualityTimer release];
 		m_renderQualityTimer = nil;
 	}
-
-	[m_paperColour release];
-	[mColourSpace release];
-	[m_units release];
-	[mImageManager release];
-
-	[super dealloc];
 }
 
 - (instancetype)init
@@ -2077,8 +2043,7 @@ static id sDearchivingHelper = nil;
 			|| m_paperColour == nil) {
 			NSLog(@"drawing failed initialization (%@)", self);
 
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 
 		// notify all the contained layers that they were added to the root drawing, allowing them to perform any special
@@ -2086,7 +2051,7 @@ static id sDearchivingHelper = nil;
 
 		[self wasAddedToDrawing:self];
 	} else {
-		[imageManager release];
+		imageManager = nil;
 	}
 	if (self != nil) {
 		if (!newFileFormat) {

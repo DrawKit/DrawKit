@@ -21,7 +21,7 @@
 
 	[fg setFilter:filter];
 
-	return [fg autorelease];
+	return fg;
 }
 
 #pragma mark -
@@ -30,10 +30,7 @@
 	LogEvent_(kStateEvent, @"setting fx filter: %@", filter);
 
 	if (filter != [self filter]) {
-		[filter retain];
-		[m_filter release];
 		m_filter = [filter copy];
-		[filter release];
 
 		[self invalidateCache];
 	}
@@ -45,7 +42,6 @@
 #pragma mark -
 - (void)invalidateCache
 {
-	[m_cache release];
 	m_cache = nil;
 }
 
@@ -67,15 +63,6 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_cache release];
-	[m_arguments release];
-	[m_filter release];
-
-	[super dealloc];
-}
-
 - (instancetype)init
 {
 	self = [super init];
@@ -84,7 +71,6 @@
 		[self setClipping:kDKClipInsidePath];
 
 		if (m_filter == nil) {
-			[self autorelease];
 			return nil;
 		}
 	}
@@ -185,8 +171,6 @@
 				   fromRect:fr
 			coreImageFilter:[self filter]
 				  arguments:args];
-		[args release];
-		[image release];
 
 		RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 	}
@@ -219,7 +203,6 @@
 			[self setClipping:kDKClipInsidePath];
 
 		if (m_filter == nil) {
-			[self autorelease];
 			return nil;
 		}
 	}
@@ -236,7 +219,6 @@
 
 	NSDictionary* args = [[self arguments] deepCopy];
 	[copy setArguments:args];
-	[args release];
 
 	return copy;
 }
@@ -341,7 +323,7 @@
 		}
 		@finally
 		{
-			[before release];
+			before = nil;
 		}
 
 	}

@@ -31,7 +31,7 @@ sets whether the image is scaled, tiled or drawn only once in a particular posit
 - (instancetype)initWithImage:(NSImage*)image;
 - (instancetype)initWithContentsOfFile:(NSString*)imagefile;
 
-@property (retain) NSImage *image;
+@property (strong) NSImage *image;
 - (void)setImage:(NSImage*)image;
 - (NSImage*)image;
 

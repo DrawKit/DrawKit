@@ -23,7 +23,7 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 */
 @interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying> {
 @private
-	DKRastGroup* mContainerRef; // group that contains this
+	DKRastGroup* __weak mContainerRef; // group that contains this
 	NSString* m_name; // optional name
 	BOOL m_enabled; // YES if actually drawn
 	DKClippingOption mClipping; // set path clipping to this
@@ -47,7 +47,7 @@ Renderers can now have a delegate attached which is able to modify behaviours su
  */
 - (void)setContainer:(DKRastGroup*)container;
 	
-@property (assign) DKRastGroup *container;
+@property (weak) DKRastGroup *container;
 
 /** @brief Set the name of the renderer
  

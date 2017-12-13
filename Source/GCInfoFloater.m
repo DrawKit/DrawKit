@@ -18,10 +18,10 @@
 /**  */
 + (GCInfoFloater*)infoFloater
 {
-	GCInfoFloater* fi = [[[GCInfoFloater alloc] initWithContentRect:NSZeroRect
+	GCInfoFloater* fi = [[GCInfoFloater alloc] initWithContentRect:NSZeroRect
 														  styleMask:NSBorderlessWindowMask
 															backing:NSBackingStoreBuffered
-															  defer:YES] autorelease];
+															  defer:YES];
 
 	// note - because windows are all sent a -close message at quit time, set it
 	// not to be released at that time, otherwise the release from the autorelease pool
@@ -45,7 +45,7 @@
 	if (self != nil) {
 		// add a control view that displays the actual info value
 
-		NSTextField* di = [[[NSTextField alloc] initWithFrame:contentRect] autorelease];
+		NSTextField* di = [[NSTextField alloc] initWithFrame:contentRect];
 
 		if (di != nil) {
 			//[di setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -67,8 +67,7 @@
 		[self setFormat:@",0.000"];
 
 		if (m_infoViewRef == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	if (self != nil) {
@@ -134,7 +133,6 @@
 		if ([m_infoViewRef formatter] == nil) {
 			NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
 			[m_infoViewRef setFormatter:formatter];
-			[formatter release];
 		}
 
 		[[m_infoViewRef formatter] setFormat:fmt];

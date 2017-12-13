@@ -9,6 +9,7 @@
 #import "DKDrawing.h"
 #import "DKKnob.h"
 #import "LogEvent.h"
+#import "DKObjectOwnerLayer.h"
 
 @implementation DKDrawableShape (Hotspots)
 #pragma mark As a DKDrawableShape
@@ -31,7 +32,6 @@
 
 - (void)setHotspots:(NSArray*)spots
 {
-	[m_customHotSpots release];
 	m_customHotSpots = [spots mutableCopy];
 
 	[m_customHotSpots makeObjectsPerformSelector:@selector(setOwner:)
@@ -134,8 +134,7 @@
 		[self setDelegate:delegate];
 
 		if (m_owner == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -235,8 +234,7 @@
 		m_delegate = [coder decodeObjectForKey:@"delegate"];
 
 		if (m_owner == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;

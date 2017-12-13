@@ -39,7 +39,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 	BOOL mPageBreaksVisible; /**< YES if page breaks are drawn in the view */
 	NSPrintInfo* mPrintInfo; /**< print info used to draw page breaks and paginate, etc */
 	DKCropMarkKind mCropMarkKind; /**< what kind of crop marks to add to the printed output */
-	DKViewController* mControllerRef; /**< the view's controller (weak ref) */
+	DKViewController* __weak mControllerRef; /**< the view's controller (weak ref) */
 	DKDrawing* mAutoDrawing; /**< the drawing we created automatically (if we did so - typically nil for doc-based apps) */
 	BOOL m_didCreateDrawing; /**< YES if the window built the back end itself */
 	NSRect mEditorFrame; /**< tracks current frame of text editor */
@@ -120,7 +120,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (DKViewController*)controller;
 
-@property (assign) DKViewController *controller;
+@property (weak) DKViewController *controller;
 
 /** @brief Sea new controller for this view
 
@@ -142,9 +142,9 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (DKDrawing*)drawing;
 
-@property (readonly, retain) DKDrawing *drawing;
+@property (readonly, strong) DKDrawing *drawing;
 
-/** @brief Create an entire "back end" for the view 
+/** @brief Create an entire "back end" for the view
 
  Normally you create a drawing, and add layers to it. However, you can also let the view create the
  drawing back-end for you. This will occur when the view is asked to draw and there is no back end. This method
@@ -208,7 +208,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (NSPrintInfo*)printInfo;
 
-@property (nonatomic, retain) NSPrintInfo *printInfo;
+@property (nonatomic, strong) NSPrintInfo *printInfo;
 
 - (void)set;
 
@@ -259,7 +259,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (NSTextView*)textEditingView;
 
-@property (readonly, retain) NSTextView *textEditingView;
+@property (readonly, strong) NSTextView *textEditingView;
 
 /** @brief Respond to frame size changes in the text editor view
 

@@ -32,8 +32,6 @@ static NSColor* sMajorColour = nil;
  */
 + (void)setDefaultSpanColour:(NSColor*)colour
 {
-	[colour retain];
-	[sSpanColour release];
 	sSpanColour = colour;
 }
 
@@ -56,8 +54,6 @@ static NSColor* sMajorColour = nil;
  */
 + (void)setDefaultDivisionColour:(NSColor*)colour
 {
-	[colour retain];
-	[sDivisionColour release];
 	sDivisionColour = colour;
 }
 
@@ -80,8 +76,6 @@ static NSColor* sMajorColour = nil;
  */
 + (void)setDefaultMajorColour:(NSColor*)colour
 {
-	[colour retain];
-	[sMajorColour release];
 	sMajorColour = colour;
 }
 
@@ -126,7 +120,7 @@ static NSColor* sMajorColour = nil;
 + (DKGridLayer*)standardMetricGridLayer
 {
 	DKGridLayer* gl = [[self alloc] init];
-	return [gl autorelease];
+	return gl;
 }
 
 /** @brief Return a grid layer with default imperial settings
@@ -137,7 +131,7 @@ static NSColor* sMajorColour = nil;
 {
 	DKGridLayer* gl = [[self alloc] init];
 	[gl setImperialDefaults];
-	return [gl autorelease];
+	return gl;
 }
 
 /** @brief Return a grid layer with default imperial PCB (printed circuit board) settings
@@ -157,7 +151,7 @@ static NSColor* sMajorColour = nil;
 						majors:2
 					rulerSteps:2];
 
-	return [gl autorelease];
+	return gl;
 }
 
 #pragma mark - one - stop shop for setting grid, drawing and rulers in one hit
@@ -436,8 +430,6 @@ static NSColor* sMajorColour = nil;
 - (void)setSpanColour:(NSColor*)colour
 {
 	if (![self locked]) {
-		[colour retain];
-		[m_spanColour release];
 		m_spanColour = colour;
 		[self setNeedsDisplay:YES];
 	}
@@ -454,8 +446,6 @@ static NSColor* sMajorColour = nil;
 - (void)setDivisionColour:(NSColor*)colour
 {
 	if (![self locked]) {
-		[colour retain];
-		[m_divisionColour release];
 		m_divisionColour = colour;
 		[self setNeedsDisplay:YES];
 	}
@@ -472,8 +462,6 @@ static NSColor* sMajorColour = nil;
 - (void)setMajorColour:(NSColor*)colour
 {
 	if (![self locked]) {
-		[colour retain];
-		[m_majorColour release];
 		m_majorColour = colour;
 		[self setNeedsDisplay:YES];
 	}
@@ -698,9 +686,6 @@ static NSColor* sMajorColour = nil;
  */
 - (void)invalidateCache
 {
-	[m_divsCache release];
-	[m_spanCache release];
-	[m_majorsCache release];
 	m_divsCache = nil;
 	m_spanCache = nil;
 	m_majorsCache = nil;
@@ -734,21 +719,21 @@ static NSColor* sMajorColour = nil;
 	if (m_divsCache == nil) {
 		//CGFloat divsDash[2] = { divs * 0.5, divs * 0.5 };
 
-		m_divsCache = [[NSBezierPath bezierPath] retain];
+		m_divsCache = [NSBezierPath bezierPath];
 		//[m_divsCache setLineDash:divsDash count:2 phase:divs * 0.25];
 	}
 
 	if (m_spanCache == nil) {
 		//float spanDash[2] = { divs * 2, m_spanDistance - ( divs * 2 )};
 
-		m_spanCache = [[NSBezierPath bezierPath] retain];
+		m_spanCache = [NSBezierPath bezierPath];
 		//[m_spanCache setLineDash:spanDash count:2 phase:divs];
 	}
 
 	if (m_majorsCache == nil) {
 		//float majDash[2] = { divs * 4, m_spansPerMajor * m_spanDistance - (divs * 4)};
 
-		m_majorsCache = [[NSBezierPath bezierPath] retain];
+		m_majorsCache = [NSBezierPath bezierPath];
 		//[m_majorsCache setLineDash:majDash count:2 phase:divs * 2];
 	}
 	// first all the vertical lines
@@ -979,7 +964,7 @@ static NSColor* sMajorColour = nil;
 								inView:view];
 
 	if (menu == nil)
-		menu = [[[NSMenu alloc] initWithTitle:@"DK_GridLayerContextualMenu"] autorelease]; // title never seen
+		menu = [[NSMenu alloc] initWithTitle:@"DK_GridLayerContextualMenu"]; // title never seen
 
 	NSMenuItem* item = [menu addItemWithTitle:NSLocalizedString(@"Copy Grid", nil)
 									   action:@selector(copy:)
@@ -999,11 +984,6 @@ static NSColor* sMajorColour = nil;
 - (void)dealloc
 {
 	[self invalidateCache]; // Releases cache
-	[m_majorColour release];
-	[m_divisionColour release];
-	[m_spanColour release];
-
-	[super dealloc];
 }
 
 - (instancetype)init
@@ -1030,8 +1010,7 @@ static NSColor* sMajorColour = nil;
 		if (m_spanColour == nil
 			|| m_divisionColour == nil
 			|| m_majorColour == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	if (self != nil) {
@@ -1092,9 +1071,9 @@ static NSColor* sMajorColour = nil;
 	if (self != nil) {
 		// set colours directly in case the locked flag was saved in the locked state
 
-		m_spanColour = [[coder decodeObjectForKey:@"span_colour"] retain];
-		m_divisionColour = [[coder decodeObjectForKey:@"div_colour"] retain];
-		m_majorColour = [[coder decodeObjectForKey:@"major_colour"] retain];
+		m_spanColour = [coder decodeObjectForKey:@"span_colour"];
+		m_divisionColour = [coder decodeObjectForKey:@"div_colour"];
+		m_majorColour = [coder decodeObjectForKey:@"major_colour"];
 
 		double span = [coder decodeDoubleForKey:@"span_dist_d"];
 		// if this value is 0, try reading it as a size value (older code will have written it as such)

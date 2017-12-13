@@ -45,8 +45,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
 */
 @interface DKViewController : NSObject {
 @private
-	NSView* mViewRef; // weak ref to the view that is associated with this
-	DKDrawing* mDrawingRef; // weak ref to the drawing that owns this
+	NSView* __weak mViewRef; // weak ref to the view that is associated with this
+	DKDrawing* __weak mDrawingRef; // weak ref to the drawing that owns this
 	BOOL m_autoLayerSelect; // YES to allow mouse to activate layers automatically
 	BOOL mEnableDKMenus; // YES to enable all standard contextual menus provided by DK.
 @protected
@@ -274,14 +274,14 @@ completed except for page breaks. Tool controllers for example can draw selectio
 
 /** @brief Should a mouse down activate the layer it hits automatically?
 
- The default is YES	
+ The default is YES
  @param acts YES to auto-activate a layer, NO to leave it to someone else
  */
 - (void)setActivatesLayersAutomatically:(BOOL)acts;
 
 /** @brief Should a mouse down activate the layer it hits automatically?
 
- The default is YES	
+ The default is YES
  @return YES to auto-activate a layer, NO to leave it to someone else
  */
 - (BOOL)activatesLayersAutomatically;
@@ -292,13 +292,13 @@ completed except for page breaks. Tool controllers for example can draw selectio
 
  Test layers top-down. Each layer can decide for itself what constitutes a "hit". Typically a
  layer is hit when any object it contains is hit.
- @param p a point in local coordinates 
+ @param p a point in local coordinates
  @return the topmost layer hit by the given point, else nil
  */
 - (DKLayer*)findLayer:(NSPoint)p;
 
 /** @brief A new layer is about to be activated
- @param aLayer the layer about to be activated 
+ @param aLayer the layer about to be activated
  */
 - (void)activeLayerWillChangeToLayer:(DKLayer*)aLayer;
 
@@ -306,12 +306,12 @@ completed except for page breaks. Tool controllers for example can draw selectio
 
  The default method sets up the drag types for the view based on what drag types the layer is
  able to receive. If you override this, call super to ensure dragging still operates correctly.
- @param aLayer the layer that was activated 
+ @param aLayer the layer that was activated
  */
 - (void)activeLayerDidChangeToLayer:(DKLayer*)aLayer;
 
 /** @brief If layers can be automatically activated, perform that switch
- @param event the initiating event - typically a mouseDown event. 
+ @param event the initiating event - typically a mouseDown event.
  @return YES if a new layer was actually made active, NO if it remained the same */
 - (BOOL)autoActivateLayerWithEvent:(NSEvent*)event;
 
@@ -320,42 +320,42 @@ completed except for page breaks. Tool controllers for example can draw selectio
 /** @brief Bring the active layer to the front of its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer to front.
- @param sender the sender of the action 
+ @param sender the sender of the action
  */
 - (IBAction)layerBringToFront:(id)sender;
 
 /** @brief Move the active layer 1 position forward within its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer forward.
- @param sender the sender of the action 
+ @param sender the sender of the action
  */
 - (IBAction)layerBringForward:(id)sender;
 
 /** @brief Move the active layer to the back within its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer to the back.
- @param sender the sender of the action 
+ @param sender the sender of the action
  */
 - (IBAction)layerSendToBack:(id)sender;
 
 /** @brief Move the active layer 1 position towards the back within its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer backwards.
- @param sender the sender of the action 
+ @param sender the sender of the action
  */
 - (IBAction)layerSendBackward:(id)sender;
 
 /** @brief Hides all inactive layers and shows the active layer (if it's hidden)
 
  High-level method can be invoked directly from a menu.
- @param sender the sender of the action 
+ @param sender the sender of the action
  */
 - (IBAction)hideInactiveLayers:(id)sender;
 
 /** @brief Shows all layers
 
  High-level method can be invoked directly from a menu.
- @param sender the sender of the action 
+ @param sender the sender of the action
  */
 - (IBAction)showAllLayers:(id)sender;
 
@@ -373,19 +373,19 @@ completed except for page breaks. Tool controllers for example can draw selectio
 
  DKDrawing objects own the controllers added to them. You should not call this directly - DKDrawing
  calls this at the appropriate time when the controller is added.
- @param aDrawing the drawing object 
+ @param aDrawing the drawing object
  */
 - (void)setDrawing:(DKDrawing*)aDrawing;
 
 /** @brief Set the view that the controller is associated with
 
  You should not call this directly, it is called by the designated initializer
- @param aView the view 
+ @param aView the view
  */
 - (void)setView:(NSView*)aView;
 
-@property (nonatomic, assign) DKDrawing *drawing;
-@property (nonatomic, assign) NSView *view;
+@property (nonatomic, weak) DKDrawing *drawing;
+@property (nonatomic, weak) NSView *view;
 
 @end
 

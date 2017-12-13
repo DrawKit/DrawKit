@@ -15,7 +15,7 @@
 + (DKPasteboardInfo*)pasteboardInfoForObjects:(NSArray*)objects
 {
 	DKPasteboardInfo* info = [[self alloc] initWithObjectsInArray:objects];
-	return [info autorelease];
+	return info;
 }
 
 + (DKPasteboardInfo*)pasteboardInfoWithData:(NSData*)data
@@ -72,7 +72,7 @@
 					   forKey:classname];
 
 			if (mOriginatingLayerKey == nil)
-				mOriginatingLayerKey = [[(DKLayer*)[obj layer] uniqueKey] retain];
+				mOriginatingLayerKey = [(DKLayer*)[obj layer] uniqueKey];
 		}
 
 		mClassInfo = [clDict copy];
@@ -115,9 +115,9 @@
 {
 	if (self = [super init]) {
 	mCount = [coder decodeIntegerForKey:@"DKPasteboardInfo_count"];
-	mClassInfo = [[coder decodeObjectForKey:@"DKPasteboardInfo_classInfo"] retain];
+	mClassInfo = [coder decodeObjectForKey:@"DKPasteboardInfo_classInfo"];
 	mBoundingRect = [coder decodeRectForKey:@"DKPasteboardInfo_boundsRect"];
-	mOriginatingLayerKey = [[coder decodeObjectForKey:@"DKPasteboardInfo_originatingLayerKey"] retain];
+	mOriginatingLayerKey = [coder decodeObjectForKey:@"DKPasteboardInfo_originatingLayerKey"];
 	}
 	return self;
 }
@@ -132,13 +132,6 @@
 			   forKey:@"DKPasteboardInfo_boundsRect"];
 	[coder encodeObject:[self keyOfOriginatingLayer]
 				 forKey:@"DKPasteboardInfo_originatingLayerKey"];
-}
-
-- (void)dealloc
-{
-	[mClassInfo release];
-	[mOriginatingLayerKey release];
-	[super dealloc];
 }
 
 @end

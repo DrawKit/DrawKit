@@ -19,7 +19,7 @@
 - (id)dequeue
 {
 	[mLock lockWhenCondition:1];
-	id element = [[[mQueue objectAtIndex:0] retain] autorelease];
+	id element = [mQueue objectAtIndex:0];
 	[mQueue removeObjectAtIndex:0];
 	NSInteger count = [mQueue count];
 	[mLock unlockWithCondition:(count > 0) ? 1 : 0];
@@ -32,7 +32,7 @@
 	id element = NULL;
 	if ([mLock tryLock]) {
 		if ([mLock condition] == 1) {
-			element = [[[mQueue objectAtIndex:0] retain] autorelease];
+			element = [mQueue objectAtIndex:0];
 			[mQueue removeObjectAtIndex:0];
 		}
 		NSInteger count = [mQueue count];
@@ -49,13 +49,6 @@
 		mLock = [[NSConditionLock alloc] initWithCondition:0];
 	}
 	return self;
-}
-
-- (void)dealloc
-{
-	[mQueue release];
-	[mLock release];
-	[super dealloc];
 }
 
 @end

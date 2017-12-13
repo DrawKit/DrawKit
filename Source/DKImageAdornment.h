@@ -35,7 +35,7 @@ This class allows any image to be part of the rendering tree.
 + (instancetype)imageAdornmentWithImage:(NSImage*)image;
 + (instancetype)imageAdornmentWithImageFromFile:(NSString*)path;
 
-@property (nonatomic, retain) NSImage *image;
+@property (nonatomic, strong) NSImage *image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing;
 @property (copy) NSString *imageKey;

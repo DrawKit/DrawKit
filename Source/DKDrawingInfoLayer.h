@@ -39,7 +39,7 @@ modified form. It is provided as another example of how to implement layer subcl
 
 @property (nonatomic) DKInfoBoxPlacement placement;
 
-@property (retain) NSColor *backgroundColour;
+@property (strong) NSColor *backgroundColour;
 
 @property (nonatomic) BOOL drawsBorder;
 

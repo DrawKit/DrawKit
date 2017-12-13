@@ -49,16 +49,16 @@ OABezierPathPosition;
 typedef struct
 {
     struct OABezierPathIntersectionHalf
-	{
+    {
         NSBezierPathSegmentIndex segment;
         double parameter;
         double parameterDistance;
         // Unlike the lower-level calls, these aspects are ordered according to their occurrence on this path, not the other path.
-		// So 'firstAspect' is the aspect of the other line where it crosses us at (parameter), and 'secondAspect' is the aspect at (parameter.parameterDistance).
-		
+        // So 'firstAspect' is the aspect of the other line where it crosses us at (parameter), and 'secondAspect' is the aspect at (parameter.parameterDistance).
+        
         enum OAIntersectionAspect firstAspect, secondAspect;
     }
-	left, right;
+    left, right;
     NSPoint location;
 }
 OABezierPathIntersection;

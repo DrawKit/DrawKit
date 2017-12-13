@@ -11,7 +11,7 @@
 @interface GCOneShotEffectTimer ()
 
 - (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del;
-@property (retain) id<GCOneShotDelegate> delegate;
+@property (strong) id<GCOneShotDelegate> delegate;
 - (void)osfx_callback:(NSTimer*)timer;
 
 @end
@@ -61,8 +61,6 @@
 - (void)dealloc
 {
 	[mTimer invalidate];
-	[mDelegate release];
-	[super dealloc];
 }
 
 @synthesize delegate=mDelegate;
@@ -81,7 +79,6 @@
 		if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotComplete)])
 			[mDelegate oneShotComplete];
 
-		[self release];
 	} else {
 		if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotHasReached:)])
 			[mDelegate oneShotHasReached:val];

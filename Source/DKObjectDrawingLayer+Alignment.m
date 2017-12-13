@@ -51,7 +51,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 /** @brief Returns the object as the master to be used for alignment operations, etc
 
  If no specific object is set (nil), then the first object in the selection is returned. If there's
- no selection, returns nil. 
+ no selection, returns nil.
  @return an object that is to be considered key for alignment ops
  */
 - (DKDrawableObject*)keyObject
@@ -270,7 +270,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 
 	[na sortUsingFunction:vertLocSortFunc
 				  context:nil];
-	return [na autorelease];
+	return na;
 }
 
 /** @brief Sorts a set of objects into order of their horizontal location
@@ -285,7 +285,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 
 	[na sortUsingFunction:horizLocSortFunc
 				  context:nil];
-	return [na autorelease];
+	return na;
 }
 
 #pragma mark -

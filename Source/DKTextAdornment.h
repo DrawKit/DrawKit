@@ -143,10 +143,10 @@ other fixed content. See that class for details.
 @property CGFloat textKnockoutStrokeWidth;
 /** @brief colour for text knockout, default = white
  */
-@property (retain) NSColor *textKnockoutColour;
+@property (strong) NSColor *textKnockoutColour;
 /** @brief colour for stroking the text knockout, default = black
  */
-@property (retain) NSColor *textKnockoutStrokeColour;
+@property (strong) NSColor *textKnockoutStrokeColour;
 
 // modifying text when drawn:
 
@@ -169,18 +169,18 @@ other fixed content. See that class for details.
 - (void)changeFont:(id)sender;
 - (void)changeAttributes:(id)sender;
 
-@property (retain) NSFont *font;
+@property (strong) NSFont *font;
 
 @property CGFloat fontSize;
 - (void)scaleTextBy:(CGFloat)factor;
 
-@property (retain) NSColor *colour;
+@property (strong) NSColor *colour;
 
 @property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
 /** @brief returns text attributes to be used when there is no text content at present. These will either be what was previously set or the class
  default.
 */
-@property (readonly, retain) NSDictionary<NSAttributedStringKey,id> *defaultTextAttributes;
+@property (readonly, strong) NSDictionary<NSAttributedStringKey,id> *defaultTextAttributes;
 /** @brief asks whether a given attribute applies over the entire length of the string.
 */
 - (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attributeName;
@@ -190,10 +190,10 @@ other fixed content. See that class for details.
 
 // paragraph styles:
 
-@property (retain) NSParagraphStyle*paragraphStyle;
+@property (strong) NSParagraphStyle*paragraphStyle;
 @property NSTextAlignment alignment;
-@property (retain) NSColor *backgroundColour;
-@property (retain) NSColor *outlineColour;
+@property (strong) NSColor *backgroundColour;
+@property (strong) NSColor *outlineColour;
 @property CGFloat outlineWidth;
 @property NSInteger underlines;
 @property CGFloat kerning;
@@ -212,7 +212,7 @@ other fixed content. See that class for details.
 
 /** @brief the substitutor object, which supplies the text content:
  */
-@property (nonatomic, retain) DKTextSubstitutor *textSubstitutor;
+@property (nonatomic, strong) DKTextSubstitutor *textSubstitutor;
 
 @property (readonly) BOOL allTextWasFitted;
 

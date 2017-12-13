@@ -100,7 +100,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 // dimensioning lines:
 
-@property (retain) NSNumberFormatter *formatter;
+@property (strong) NSNumberFormatter *formatter;
 - (void)setFormat:(NSString*)format;
 
 @property (nonatomic) DKDimensioningLineOptions dimensioningLineOptions;
@@ -114,7 +114,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 @property DKDimensionToleranceOption dimensionToleranceOption;
 
 @property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
-@property (retain) NSFont *font;
+@property (strong) NSFont *font;
 
 @end
 

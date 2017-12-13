@@ -116,7 +116,7 @@ the shift key down.
  @return an array of DKGuide objects
  */
 - (NSArray<DKGuide*>*)verticalGuides;
-@property (readonly, retain) NSArray<DKGuide*>* verticalGuides;
+@property (readonly, strong) NSArray<DKGuide*>* verticalGuides;
 
 /** @brief Returns the list of horizontal guides
 
@@ -124,7 +124,7 @@ the shift key down.
  @return an array of DKGuide objects
  */
 - (NSArray<DKGuide*>*)horizontalGuides;
-@property (readonly, retain) NSArray<DKGuide*>* horizontalGuides;
+@property (readonly, strong) NSArray<DKGuide*>* horizontalGuides;
 
 // setting a common colour for the guides:
 
@@ -156,7 +156,7 @@ the shift key down.
  */
 - (NSColor*)guideColour;
 
-@property (retain) NSColor *guideColour;
+@property (strong) NSColor *guideColour;
 
 // set whether guides snap to grid or not
 
@@ -350,7 +350,7 @@ the shift key down.
 - (void)setGuideColour:(NSColor*)colour;
 - (NSColor*)guideColour;
 
-@property (retain) NSColor *guideColour;
+@property (strong) NSColor *guideColour;
 
 /** @brief Draws the guide
 

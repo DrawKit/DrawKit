@@ -82,6 +82,8 @@ Text shapes are shapes that draw text.
  */
 + (NSString*)defaultTextString;
 
+@property (class, copy ) NSString *defaultTextString;
+
 /** @brief Return the class of object to create as the shape's text adornment.
 
  This provides an opportunity for subclasses to supply a different type of object, which must be
@@ -89,6 +91,7 @@ Text shapes are shapes that draw text.
  @return the object class
  */
 + (Class)textAdornmentClass;
+@property (class, readonly) Class textAdornmentClass;
 
 /** @brief Return a list of types we can paste in priority order.
 
@@ -118,6 +121,8 @@ Text shapes are shapes that draw text.
  */
 + (BOOL)showsTextOverflowIndicator;
 
+@property (class) BOOL showsTextOverflowIndicator;
+
 /** @brief Set whether text editing permits inline images to be pasted
 
  This state is persistent and ends up as the parameter to [NSTextView setImportsGraphics:]
@@ -131,6 +136,8 @@ Text shapes are shapes that draw text.
  @return YES to allow images, NO to disallow
  */
 + (BOOL)allowsInlineImages;
+
+@property (class) BOOL allowsInlineImages;
 
 // the text:
 
@@ -149,6 +156,7 @@ Text shapes are shapes that draw text.
  @return the object's text string
  */
 - (NSString*)string;
+@property (readonly, copy) NSString *string;
 
 /** @brief Adjust the object's height to match the height of the current text
 
@@ -180,6 +188,7 @@ Text shapes are shapes that draw text.
  @return a size, the smallest width and height text can be laid out in
  */
 - (NSSize)minSize;
+@property (readonly) NSSize minSize;
 
 /** @brief Return the maximum size of the text layout area
 
@@ -187,6 +196,7 @@ Text shapes are shapes that draw text.
  @return a size, the largest width and height of the text
  */
 - (NSSize)maxSize;
+@property (readonly) NSSize maxSize;
 
 /** @brief Return the ideal size of the text layout area
 
@@ -195,6 +205,7 @@ Text shapes are shapes that draw text.
  @return a size, the ideal text size
  */
 - (NSSize)idealTextSize;
+@property (readonly) NSSize idealTextSize;
 
 // conversion to path/shape with text path:
 
@@ -264,7 +275,7 @@ Text shapes are shapes that draw text.
  */
 - (NSFont*)font;
 
-@property (retain) NSFont *font;
+@property (strong) NSFont *font;
 
 /** @brief Sets the text's font size, if permitted
 
@@ -282,7 +293,7 @@ Text shapes are shapes that draw text.
 - (NSColor*)textColour;
 
 @property CGFloat fontSize;
-@property (retain) NSColor *textColour;
+@property (strong) NSColor *textColour;
 
 - (void)scaleTextBy:(CGFloat)factor;
 
@@ -321,7 +332,7 @@ Text shapes are shapes that draw text.
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
 
 @property (readonly, getter=isEditing) BOOL editing;
-@property (nonatomic, retain) DKTextAdornment *textAdornment;
+@property (nonatomic, strong) DKTextAdornment *textAdornment;
 
 // user actions:
 
