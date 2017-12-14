@@ -2050,10 +2050,7 @@ static id sDearchivingHelper = nil;
 		// set up.
 
 		[self wasAddedToDrawing:self];
-	} else {
-		imageManager = nil;
-	}
-	if (self != nil) {
+
 		if (!newFileFormat) {
 			LogEvent_(kReactiveEvent, @"old file format - dearchiving layers directly");
 

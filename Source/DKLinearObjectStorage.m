@@ -52,7 +52,7 @@
 								 options:0];
 }
 
-- (void)setObjects:(NSArray*)objects
+- (void)setObjects:(NSArray<id<DKStorableObject>>*)objects
 {
 	LogEvent_(kReactiveEvent, @"storage setting %lu objects %@", (unsigned long)[objects count], self);
 
@@ -62,7 +62,7 @@
 							  withObject:self];
 }
 
-- (NSArray*)objects
+- (NSArray<id<DKStorableObject>>*)objects
 {
 	return mObjects;
 }

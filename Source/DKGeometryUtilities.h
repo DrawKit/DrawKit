@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -34,9 +36,9 @@ NSRect UnionOfTwoRects(const NSRect a, const NSRect b);
 /** @brief Returns the smallest rect that encloses all rects in the set
  @param aSet a set of NSValues containing rect values
  @return the rectangle that encloses all rects */
-NSRect UnionOfRectsInSet(const NSSet* aSet);
-NSSet* DifferenceOfTwoRects(const NSRect a, const NSRect b);
-NSSet* SubtractTwoRects(const NSRect a, const NSRect b);
+NSRect UnionOfRectsInSet(const NSSet<NSValue*>* aSet);
+NSSet<NSValue*>* DifferenceOfTwoRects(const NSRect a, const NSRect b);
+NSSet<NSValue*>* SubtractTwoRects(const NSRect a, const NSRect b);
 
 BOOL AreSimilarRects(const NSRect a, const NSRect b, const CGFloat epsilon);
 
@@ -77,13 +79,15 @@ NSAffineTransform* RotationTransform(const CGFloat radians, const NSPoint aboutP
 
 //NSPoint			PerspectiveMap( NSPoint inPoint, NSSize sourceSize, NSPoint quad[4]);
 
-NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[4], double* tValue);
-NSPoint Bezier(const NSPoint* v, const NSInteger degree, const double t, NSPoint* Left, NSPoint* Right);
+NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[_Nonnull 4], double*__nullable tValue);
+NSPoint Bezier(const NSPoint* v, const NSInteger degree, const double t, NSPoint*__nullable Left, NSPoint*__nullable Right);
 
-CGFloat BezierSlope(const NSPoint bez[4], const CGFloat t);
+CGFloat BezierSlope(const NSPoint bez[_Nonnull 4], const CGFloat t);
 
 extern const NSPoint NSNotFoundPoint;
 
 #ifdef __cplusplus
 }
 #endif
+
+NS_ASSUME_NONNULL_END

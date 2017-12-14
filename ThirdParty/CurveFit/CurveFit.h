@@ -13,6 +13,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -36,5 +38,7 @@ extern NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, CGFloat epsilon, 
 
 
 #define kDKDefaultCornerThreshold		(M_PI / 6)
+
+NS_ASSUME_NONNULL_END
 
 #endif /* defined(qUseCurveFit) */

@@ -39,7 +39,7 @@ static NSArray* s_selectionColours = nil;
  */
 + (void)setSelectionColours:(NSArray*)listOfColours
 {
-	s_selectionColours = listOfColours;
+	s_selectionColours = [listOfColours copy];
 }
 
 /** @brief Returns the list of colours used for supplying the selection colours
@@ -53,6 +53,7 @@ static NSArray* s_selectionColours = nil;
 	if (s_selectionColours == nil) {
 		NSMutableArray* list = [NSMutableArray array];
 
+		const
 		static CGFloat colours[][3] = { { 0.5, 0.9, 1 }, // light blue
 										{ 1, 0, 0 }, // red
 										{ 0, 1, 0 }, // green

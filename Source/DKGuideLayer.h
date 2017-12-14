@@ -23,8 +23,8 @@ the shift key down.
 */
 @interface DKGuideLayer : DKLayer <NSCoding> {
 @private
-	NSMutableArray* m_hGuides; // the list of horizontal guides
-	NSMutableArray* m_vGuides; // the list of vertical guides
+	NSMutableArray<DKGuide*>* m_hGuides; // the list of horizontal guides
+	NSMutableArray<DKGuide*>* m_vGuides; // the list of vertical guides
 	BOOL m_snapToGrid; // YES if snap to grid is enabled
 	BOOL m_showDragInfo; // YES if dragging a guide displays the floating info window
 	DKGuide* m_dragGuideRef; // the current guide being dragged
@@ -95,6 +95,8 @@ the shift key down.
  @param guides an array of guide objects
  */
 - (void)setGuides:(NSArray<DKGuide*>*)guides;
+
+@property (copy) NSArray<DKGuide*> *guides;
 
 // finding guides close to a given position
 

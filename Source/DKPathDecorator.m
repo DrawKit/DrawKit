@@ -61,12 +61,10 @@
 		// get any PDF image rep and retain it for later quick access
 
 		NSArray* reps = [m_image representations];
-		NSEnumerator* iter = [reps objectEnumerator];
-		NSImageRep* rep;
 
 		//	LogEvent_(kInfoEvent, @"reps: %@", reps );
 
-		while ((rep = [iter nextObject])) {
+		for (NSImageRep* rep in reps) {
 			if ([rep isKindOfClass:[NSPDFImageRep class]]) {
 				m_pdf = (NSPDFImageRep*)rep;
 

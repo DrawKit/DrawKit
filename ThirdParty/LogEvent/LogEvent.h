@@ -81,24 +81,25 @@
 
 #pragma mark -
 #pragma mark Constants (Not Localized)
+typedef NSString *LCEventType NS_EXTENSIBLE_STRING_ENUM;
 	// Standard event types for conditional logging
-extern NSString*const kWheneverEvent; // I.e., Whenever we are logging anything
+extern LCEventType const kWheneverEvent; // I.e., Whenever we are logging anything
 	// Useful for logging an event that is always of interest when debugging, but not of interest when not debugging. For example, a caught exception or other failure of some kind.
 	// You will still use NSLog() to *always* log an event, regardless of whether you are debugging or not.
 
-extern NSString*const kUserEvent;     // E.g., IBActions and other user input
-extern NSString*const kScriptEvent;   // E.g., Any reaction to an AppleScript event
-extern NSString*const kReactiveEvent; // E.g., Significant reactions, such as a critical method call
-extern NSString*const kUIEvent;       // E.g., Displaying a dialog or changing a tab of a NSTabView
-extern NSString*const kFileEvent;     // E.g., Any intermediate steps taken during file saving or reading.
-extern NSString*const kLifeEvent;     // I.e., Object lifetime (allocation, initialization or deallocation)
-extern NSString*const kStateEvent;    // E.g., Significant changes to object state
-extern NSString*const kInfoEvent;     // E.g., Informational logging such as an object's current state. Use sparingly.
+extern LCEventType const kUserEvent;     //!< E.g., IBActions and other user input
+extern LCEventType const kScriptEvent;   //!< E.g., Any reaction to an AppleScript event
+extern LCEventType const kReactiveEvent; //!< E.g., Significant reactions, such as a critical method call
+extern LCEventType const kUIEvent;       //!< E.g., Displaying a dialog or changing a tab of a NSTabView
+extern LCEventType const kFileEvent;     //!< E.g., Any intermediate steps taken during file saving or reading.
+extern LCEventType const kLifeEvent;     //!< I.e., Object lifetime (allocation, initialization or deallocation)
+extern LCEventType const kStateEvent;    //!< E.g., Significant changes to object state
+extern LCEventType const kInfoEvent;     //!< E.g., Informational logging such as an object's current state. Use sparingly.
 
 // new event types added by Graham Cox 
 
-extern NSString* const kKVOEvent;		// pertains to KVO adding or removing observers, which events lead to a very verbose log if enabled, therefore separate.
-extern NSString* const kUndoEvent;		// pertains to undo operations
+extern NSString* const kKVOEvent;		//!< pertains to KVO adding or removing observers, which events lead to a very verbose log if enabled, therefore separate.
+extern NSString* const kUndoEvent;		//!< pertains to undo operations
 
 //    Remember, you are not required to use all of the event types. They are intended
 // solely to make it easier to reduce the noise level in any given set of logged output.
@@ -120,12 +121,12 @@ extern NSString* const kUndoEvent;		// pertains to undo operations
 extern "C" {
 #endif
 
-	BOOL LogEvent(NSString* eventType, NSString* format, ...) NS_FORMAT_FUNCTION(2,3);
+	BOOL LogEvent(LCEventType eventType, NSString* format, ...) NS_FORMAT_FUNCTION(2,3);
 	// Returns YES when the message was actually logged out; NO otherwise. Useful for attempting to log for more than one type, but not kWheneverEvent.
 
 	BOOL IsAnyEventTypeBeingLogged(void);
 	void LogAppNameAndVersion(void);
-	void LogLoggingState(NSArray* eventTypeNames); // Which also logs app name & version
+	void LogLoggingState(NSArray<LCEventType>* eventTypeNames); // Which also logs app name & version
 
 #ifdef __cplusplus
 }
@@ -154,18 +155,21 @@ extern "C" {
 }
 
 + (LoggingController*)sharedLoggingController;
+@property (class, readonly, retain) LoggingController *sharedLoggingController;
 
 - (void)showLoggingWindow;
 
-- (NSDictionary*)newEventTypes; // Override if you wish to add more eventTypes; but message super.
-- (NSArray*)eventTypeNames; // An array of the event type names (NSStrings).
+- (NSDictionary*)newEventTypes NS_REQUIRES_SUPER; //!< Override if you wish to add more eventTypes; but message super.
+- (NSArray<LCEventType>*)eventTypeNames; //!< An array of the event type names (NSStrings).
 
+/** All logging IBOutlets (NSButtons) have this as their action.
+ */
 - (IBAction)logStateChanged:(id)sender;
-	// All logging IBOutlets (NSButtons) have this as their action.
+
 
 - (NSString*)windowNibName; // Override to use a nib name other than "Logging".
 
-- (IBAction)	setZombiesAction:(id) sender;
+- (IBAction)setZombiesAction:(id) sender;
 
 @end
 

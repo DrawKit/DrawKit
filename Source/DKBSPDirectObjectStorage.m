@@ -499,7 +499,7 @@ static void unmarkFunc(const void* value, void* context)
 	mObjectCount = 0;
 }
 
-- (NSMutableArray*)objectsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count inView:aView
+- (NSMutableArray*)objectsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count inView:(NSView*)aView
 {
 	// this may be used in conjunction with NSView's -getRectsBeingDrawn:count: to find those objects that intersect the non-rectangular update region.
 

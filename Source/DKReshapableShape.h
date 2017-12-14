@@ -39,8 +39,10 @@ be added to DKShapeFactory rather than having to make lots of individual subclas
 - (id)shapeProvider;
 - (SEL)shapeSelector;
 
-- (void)setOptionalParameter:(id)objParam;
-- (id)optionalParameter;
+@property (nonatomic, readonly, strong) id shapeProvider;
+@property (nonatomic, readonly) SEL shapeSelector;
+
+@property (nonatomic, strong) id optionalParameter;
 
 - (NSBezierPath*)providedShapeForRect:(NSRect)r;
 

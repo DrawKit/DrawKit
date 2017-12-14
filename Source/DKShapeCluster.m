@@ -47,14 +47,6 @@
 	}
 }
 
-/** @brief What is the cluster's master object?
- @return the master object for this cluster
- */
-- (DKDrawableShape*)masterObject
-{
-	return m_masterObjRef;
-}
-
 @synthesize masterObject=m_masterObjRef;
 
 #pragma mark -

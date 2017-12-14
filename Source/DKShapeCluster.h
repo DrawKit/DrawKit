@@ -32,7 +32,7 @@ since the master object must be nominated when creating the cluster.
  @param master the master object
  @return a new autoreleased cluster object, which should be added to a suitable drawing layer before use
  */
-+ (DKShapeCluster*)clusterWithObjects:(NSArray*)objects masterObject:(DKDrawableShape*)master;
++ (DKShapeCluster*)clusterWithObjects:(NSArray<DKDrawableObject*>*)objects masterObject:(DKDrawableShape*)master;
 
 /** @brief Sets the master object for the cluster
 
@@ -46,6 +46,6 @@ since the master object must be nominated when creating the cluster.
  */
 - (DKDrawableShape*)masterObject;
 
-@property (weak) DKDrawableShape *masterObject;
+@property (nonatomic, weak) DKDrawableShape *masterObject;
 
 @end

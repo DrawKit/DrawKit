@@ -10,8 +10,11 @@
 
 NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrtype";
 
-@interface DKImageDataManager (Private)
+@interface DKImageDataManager ()
 
+/** hash list maps hash (or checksum) -> key, so is inverse to repository. As it can be built from the repo, it is safer to do this following dearchiving
+ rather than archive the hash list itself. Earlier versions did archive the hash list but that data can be ignored.
+*/
 - (void)buildHashList;
 
 @end
@@ -171,10 +174,11 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	if ([self hasImageDataForKey:key]) {
 		NSInteger useCount = [[mKeyUsage objectForKey:key] integerValue];
 
-		if (inUse)
+		if (inUse) {
 			++useCount;
-		else
+		} else {
 			--useCount;
+		}
 
 		// protect against over-decrementing
 
@@ -195,29 +199,21 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 {
 	// delete all data and associated keys for keys not in use
 
-	NSArray* keys = [[self allKeys] copy];
-	NSEnumerator* iter = [keys objectEnumerator];
-	NSString* key;
+	NSArray<NSString*>* keys = [[self allKeys] copy];
 
-	while ((key = [iter nextObject])) {
-		if (![self keyIsInUse:key])
+	for (NSString *key in keys) {
+		if (![self keyIsInUse:key]) {
 			[self removeKey:key];
+		}
 	}
 }
 
 - (void)buildHashList
 {
-	// hash list maps hash (or checksum) -> key, so is inverse to repository. As it can be built from the repo, it is safer to do this following dearchiving
-	// rather than archive the hash list itself. Earlier versions did archive the hash list but that data can be ignored.
-
 	[mHashList removeAllObjects];
 
-	NSEnumerator* iter = [mRepository keyEnumerator];
-	NSString* key;
-	NSData* data;
-
-	while ((key = [iter nextObject])) {
-		data = [mRepository objectForKey:key];
+	for (NSString *key in mRepository) {
+		NSData* data = [mRepository objectForKey:key];
 		[mHashList setObject:key
 					  forKey:[data checksumString]];
 	}
@@ -246,7 +242,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super init]) {
-	mRepository = [coder decodeObjectForKey:@"DKImageDataManager_repo"];
+	mRepository = [[coder decodeObjectForKey:@"DKImageDataManager_repo"] mutableCopy];
 	mHashList = [[NSMutableDictionary alloc] init];
 
 	// hash list is built from repository, so there is no need to archive it.
@@ -280,9 +276,6 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 - (NSUInteger)checksum
 {
-	// the checksum is a weighted sum of the first 1024 bytes (or less) of the data XOR the length. This value should be reasonably unique for quickly comparing
-	// image data.
-
 	NSUInteger sum = 0, weight = 0;
 	unsigned char* p = (unsigned char*)[self bytes];
 	NSInteger bc = MIN((NSInteger)[self length], 1024);

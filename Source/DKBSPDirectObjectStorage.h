@@ -41,7 +41,7 @@
 	id<DKStorableObject> mObj;
 	NSMutableArray* mFoundObjects;
 	NSUInteger mObjectCount;
-	NSView* mViewRef;
+	__weak NSView* mViewRef;
 	NSRect mRect;
 }
 
@@ -52,7 +52,7 @@
 
 // tree returns mutable results so that they can be sorted in place without needing to be copied
 
-- (NSMutableArray*)objectsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count inView:aView;
+- (NSMutableArray*)objectsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count inView:(NSView*)aView;
 - (NSMutableArray*)objectsIntersectingRect:(NSRect)rect;
 - (NSMutableArray*)objectsIntersectingPoint:(NSPoint)point;
 

@@ -49,7 +49,7 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 	NSInteger mAnnealingSteps; // for SA, the number of steps in the outer loop
 	CGFloat mPathLength; // the path length
 	// for NN
-	NSMutableArray* mVisited; // for NN, the list of visited points in visit order
+	NSMutableArray<NSValue*>* mVisited; // for NN, the list of visited points in visit order
 	DKDirection mDirection; // limit search for NN to this direction
 }
 
@@ -66,14 +66,14 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 @property (readonly) DKRouteAlgorithmType algorithm;
 
 @property (unsafe_unretained) id<DKRouteFinderProgressDelegate> progressDelegate;
-- (void)setProgressDelegate:(id<DKRouteFinderProgressDelegate>)aDelegate;
 
 @end
 
 #define kDKDefaultAnnealingSteps 100
 
-/// informal protocol that an object can implement to be called back as the route finding progresses.
-/// <value> is in the range 0..1
+/** Protocol that an object can implement to be called back as the route finding progresses.
+ <value> is in the range 0..1
+ */
 @protocol DKRouteFinderProgressDelegate <NSObject>
 
 - (void)routeFinder:(DKRouteFinder*)rf progressHasReached:(CGFloat)value;

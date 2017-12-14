@@ -318,16 +318,6 @@ static NSDictionary* s_interconversionTable = nil;
 	return [[self drawing] undoManager];
 }
 
-/** @brief Returns the immediate parent of this object
-
- A parent is usually a layer, same as owner - but can be a group if the object is grouped
- @return the object's parent
- */
-- (id<DKDrawableContainer>)container
-{
-	return mContainerRef;
-}
-
 @synthesize container=mContainerRef;
 
 /** @brief Sets the immediate parent of this object (a DKObjectOwnerLayer layer, typically)
@@ -415,6 +405,7 @@ static NSDictionary* s_interconversionTable = nil;
 {
 	mStorageRef = storage;
 }
+@synthesize storage=mStorageRef;
 
 /** @brief Marks the object
 
@@ -1794,27 +1785,7 @@ static NSRect s_oldBounds;
 		return NO;
 }
 
-/** @brief Is a hit-test in progress
-
- Drawing methods can check this to see if they can take shortcuts to save time when hit-testing.
- This will only return YES during calls to -drawContent etc when invoked by the rectHitsPath method.
- @return YES if hit-testing is taking place, otherwise NO
- */
-- (BOOL)isBeingHitTested
-{
-	return mIsHitTesting;
-}
-
-/** @brief Set whether a hit-test in progress
-
- Applicaitons should not generally use this. It allows certain container classes (e.g. groups) to
- flag the *they* are being hit tested to provide easier hitting of thin objects in groups.
- @param hitTesting YES if hit-testing, NO otherwise
- */
-- (void)setBeingHitTested:(BOOL)hitTesting
-{
-	mIsHitTesting = hitTesting;
-}
+@synthesize beingHitTested=mIsHitTesting;
 
 #pragma mark -
 #pragma mark - basic event handling

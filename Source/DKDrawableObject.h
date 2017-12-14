@@ -32,9 +32,9 @@ to attach arbitrary data to any drawable object.
 */
 @interface DKDrawableObject : NSObject <DKStorableObject, DKRenderable, NSCoding, NSCopying> {
 @private
-	id<DKDrawableContainer> __unsafe_unretained mContainerRef; // the immediate container of this object (layer, group or another drawable)
+	id<DKDrawableContainer> __weak mContainerRef; // the immediate container of this object (layer, group or another drawable)
 	DKStyle* m_style; // the drawing style attached
-	id<DKObjectStorage> mStorageRef; // ref to the object's storage (DKStorableObject protocol)
+	__weak id<DKObjectStorage> mStorageRef; // ref to the object's storage (DKStorableObject protocol)
 	NSMutableDictionary* mUserInfo; // user info including metadata is stored in this dictionary
 	NSSize m_mouseOffset; // used to track where mouse was relative to bounds
 	NSUInteger mZIndex; // used by the DKStorableObject protocol
@@ -176,7 +176,7 @@ to attach arbitrary data to any drawable object.
 @property (readonly, strong) DKObjectOwnerLayer *layer;
 @property (readonly, strong) DKDrawing *drawing;
 @property (readonly, strong) NSUndoManager *undoManager;
-@property (nonatomic, unsafe_unretained) id<DKDrawableContainer> container;
+@property (nonatomic, weak) id<DKDrawableContainer> container;
 @property (readonly) NSUInteger indexInContainer;
 
 /** @brief Returns the layer that this object ultimately belongs to

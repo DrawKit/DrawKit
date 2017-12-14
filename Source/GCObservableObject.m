@@ -277,15 +277,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 #pragma mark -
 @implementation GCObserverUndoRelay
 #pragma mark As a GCObserverUndoRelay
-- (void)setUndoManager:(NSUndoManager*)um
-{
-	m_um = um;
-}
-
-- (NSUndoManager*)undoManager
-{
-	return m_um;
-}
+@synthesize undoManager=m_um;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object

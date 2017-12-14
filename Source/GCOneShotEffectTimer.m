@@ -9,7 +9,9 @@
 #import "LogEvent.h"
 
 @interface GCOneShotEffectTimer ()
-
+{
+	__strong GCOneShotEffectTimer *selfRetained;
+}
 - (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del;
 @property (strong) id<GCOneShotDelegate> delegate;
 - (void)osfx_callback:(NSTimer*)timer;
@@ -53,6 +55,7 @@
 	[[NSRunLoop currentRunLoop] addTimer:mTimer
 								 forMode:NSEventTrackingRunLoopMode];
 	mStart = [NSDate timeIntervalSinceReferenceDate];
+		selfRetained = self;
 	}
 	
 	return self;
@@ -79,6 +82,7 @@
 		if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotComplete)])
 			[mDelegate oneShotComplete];
 
+		selfRetained = nil;
 	} else {
 		if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotHasReached:)])
 			[mDelegate oneShotHasReached:val];

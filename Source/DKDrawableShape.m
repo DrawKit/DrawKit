@@ -85,6 +85,11 @@ static NSSize sTempSavedOffset;
 	sAngleConstraint = radians;
 }
 
++ (CGFloat)angularConstraintAngle
+{
+	return sAngleConstraint;
+}
+
 /** @brief Return the unit rect centred at the origin
 
  This rect represents the bounds of all untransformed paths stored by a shape object

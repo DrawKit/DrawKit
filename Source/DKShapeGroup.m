@@ -37,14 +37,12 @@
  @param style a style object to apply to each new shape or path as it is created; pass nil to create
  @return a new group object consisting of a set of other objects built from the supplied paths
  */
-+ (DKShapeGroup*)groupWithBezierPaths:(NSArray*)paths objectType:(NSInteger)type style:(DKStyle*)style
++ (DKShapeGroup*)groupWithBezierPaths:(NSArray*)paths objectType:(DKCreateGroupObjectType)type style:(DKStyle*)style
 {
 	NSMutableArray* objects = [NSMutableArray array];
-	NSEnumerator* iter = [paths objectEnumerator];
-	NSBezierPath* path;
-	DKDrawableObject* od;
 
-	while ((path = [iter nextObject])) {
+	for (NSBezierPath* path in paths) {
+		DKDrawableObject* od;
 		if (![path isEmpty] && !NSEqualSizes([path bounds].size, NSZeroSize)) {
 			if (type == kDKCreateGroupWithShapes)
 				od = [DKDrawableShape drawableShapeWithBezierPath:path];
@@ -87,12 +85,11 @@
 + (NSArray*)objectsAvailableForGroupingFromArray:(NSArray*)array
 {
 	NSMutableArray* groupables = [NSMutableArray array];
-	NSEnumerator* iter = [array objectEnumerator];
-	DKDrawableObject* od;
 
-	while ((od = [iter nextObject])) {
-		if ([[od class] isGroupable])
+	for (DKDrawableObject* od in array) {
+		if ([[od class] isGroupable]) {
 			[groupables addObject:od];
+		}
 	}
 
 	return groupables;
@@ -161,22 +158,13 @@
 
 	NSPoint loc;
 
-	NSEnumerator* iter = [m_objects objectEnumerator];
-	DKDrawableObject* obj;
-
-	while ((obj = [iter nextObject])) {
+	for (DKDrawableObject *obj in m_objects) {
 		loc = [self convertPointFromContainer:[obj location]];
 		[obj setLocation:loc];
 	}
 }
 
-/** @brief Gets the list of objects contained by the group
- @return the list of contained objects
- */
-- (NSArray*)groupObjects
-{
-	return m_objects;
-}
+@synthesize groupObjects=m_objects;
 
 /** @brief Sets the current list of objects to the given objects
 
@@ -190,7 +178,7 @@
 										  selector:@selector(setObjects:)
 											object:m_objects];
 
-		m_objects = objects;
+		m_objects = [objects copy];
 
 		[m_objects makeObjectsPerformSelector:@selector(groupWillAddObject:)
 								   withObject:self];
@@ -206,16 +194,14 @@
  is moved or resized - transforms are calculated by comparing the original bounds to the instantaneous
  size and position.
  @param objects the objects to be grouped */
-- (void)calcBoundingRectOfObjects:(NSArray*)objects
+- (void)calcBoundingRectOfObjects:(NSArray<DKDrawableObject*>*)objects
 {
 	NSRect bounds = NSZeroRect;
-	NSEnumerator* iter = [objects objectEnumerator];
-	DKDrawableObject* obj;
 
 	// WARNING!! Do NOT use NSUnionRect here - it doesn't work when bounds height or width is 0 as is the case with
 	// paths consisting of straight lines at orthogonal angles
 
-	while ((obj = [iter nextObject]))
+	for (DKDrawableObject* obj in objects)
 		bounds = UnionOfTwoRects(bounds, NormalizedRect([obj logicalBounds]));
 
 	mBounds = bounds;
@@ -232,13 +218,11 @@
  The result is the max of all the contained objects
  @return the extra space required
  */
-- (NSSize)extraSpaceNeededByObjects:(NSArray*)objects
+- (NSSize)extraSpaceNeededByObjects:(NSArray<DKDrawableObject*>*)objects
 {
-	NSEnumerator* iter = [objects objectEnumerator];
-	DKDrawableObject* obj;
 	NSSize extra, ms = NSMakeSize(0, 0);
 
-	while ((obj = [iter nextObject])) {
+	for (DKDrawableObject* obj in objects) {
 		extra = [obj extraSpaceNeeded];
 
 		if (extra.width > ms.width)
@@ -251,13 +235,7 @@
 	return ms;
 }
 
-/** @brief Returns the original untransformed bounds of the grouped objects
- @return the original group bounds
- */
-- (NSRect)groupBoundingRect
-{
-	return mBounds;
-}
+@synthesize groupBoundingRect=mBounds;
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
 
@@ -383,10 +361,7 @@
 	}
 }
 
-- (BOOL)clipContentToPath
-{
-	return mClipContentToPath;
-}
+@synthesize clipContentToPath=mClipContentToPath;
 
 - (void)setTransformsVisually:(BOOL)tv
 {
@@ -396,10 +371,7 @@
 	}
 }
 
-- (BOOL)transformsVisually
-{
-	return m_transformVisually;
-}
+@synthesize transformsVisually=m_transformVisually;
 
 #pragma mark -
 #pragma mark - content caching
@@ -412,10 +384,7 @@
 	}
 }
 
-- (DKGroupCacheOption)cacheOptions
-{
-	return mCacheOption;
-}
+@synthesize cacheOptions=mCacheOption;
 
 - (void)updateCache
 {

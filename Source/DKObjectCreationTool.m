@@ -21,7 +21,7 @@ NSString* kDKDrawingToolCreatedObjectsStyleDidChange = @"kDKDrawingToolCreatedOb
 #pragma mark Static Vars
 static DKStyle* sCreatedObjectsStyle = nil;
 
-@interface DKObjectCreationTool (Private)
+@interface DKObjectCreationTool ()
 
 - (BOOL)finishCreation:(DKToolController*)controller;
 
@@ -85,7 +85,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  @param aPrototype an object that will be used as the tool's prototype - each new object created will
  @return the tool object
  */
-- (instancetype)initWithPrototypeObject:(id<NSObject>)aPrototype
+- (instancetype)initWithPrototypeObject:(id<NSCopying, NSObject>)aPrototype
 {
 	self = [super init];
 	if (self != nil) {
@@ -104,7 +104,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 /** @brief Set the object to be copied when the tool created a new one
  @param aPrototype an object that will be used as the tool's prototype - each new object created will
  */
-- (void)setPrototype:(id<NSObject>)aPrototype
+- (void)setPrototype:(id<NSCopying, NSObject>)aPrototype
 {
 	NSAssert(aPrototype != nil, @"prototype object cannot be nil");
 
@@ -114,10 +114,11 @@ static DKStyle* sCreatedObjectsStyle = nil;
 /** @brief Return the object to be copied when the tool creates a new one
  @return an object - each new object created will be a copy of this one.
  */
-- (id)prototype
+- (id<NSCopying, NSObject>)prototype
 {
 	return m_prototypeObject;
 }
+@synthesize prototype=m_prototypeObject;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
 
@@ -129,7 +130,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWillMakeNewObjectNotification
 														object:self];
 
-	id obj = [[self prototype] copy];
+	id obj = [(NSObject*)[self prototype] copy];
 
 	NSAssert(obj != nil, @"couldn't create new object from prototype");
 
@@ -173,7 +174,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  */
 - (NSImage*)image
 {
-	return [[self prototype] swatchImageWithSize:kDKDefaultToolSwatchSize];
+	return [(id)[self prototype] swatchImageWithSize:kDKDefaultToolSwatchSize];
 }
 
 /** @brief Complete the object creation cleanly

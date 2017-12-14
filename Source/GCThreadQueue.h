@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface GCThreadQueue : NSObject {
 @private
 	NSMutableArray* mQueue;
@@ -15,6 +17,8 @@
 /**  */
 - (void)enqueue:(id)object;
 - (id)dequeue; // Blocks until there is an object to return
-- (id)tryDequeue; // Returns NULL if the queue is empty
+- (nullable id)tryDequeue; // Returns NULL if the queue is empty
 
 @end
+
+NS_ASSUME_NONNULL_END

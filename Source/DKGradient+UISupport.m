@@ -16,6 +16,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 /**  */
 + (DKGradient*)aquaSelectedGradient
 {
+	// TODO: Are these still good values?
 	DKGradient* grad = [[DKGradient alloc] init];
 
 	[grad addColor:[NSColor colorWithCalibratedRed:0.58

@@ -31,8 +31,8 @@ The appearance of a hotspot is drawn by default by a method of DKKnob.
 
 - (NSInteger)addHotspot:(DKHotspot*)hspot;
 - (void)removeHotspot:(DKHotspot*)hspot;
-- (void)setHotspots:(NSArray*)spots;
-- (NSArray*)hotspots;
+- (void)setHotspots:(NSArray<DKHotspot*>*)spots;
+- (NSArray<DKHotspot*>*)hotspots;
 
 - (DKHotspot*)hotspotForPartCode:(NSInteger)pc;
 - (DKHotspot*)hotspotUnderMouse:(NSPoint)mp;
@@ -54,7 +54,7 @@ enum {
 	DKDrawableShape* __weak m_owner;
 	NSInteger m_partcode;
 	NSPoint m_relLoc;
-	id<DKHotspotDelegate> __unsafe_unretained m_delegate;
+	__weak id<DKHotspotDelegate> m_delegate;
 }
 
 - (instancetype)init;
@@ -70,7 +70,7 @@ enum {
 
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state;
 
-@property (unsafe_unretained) id<DKHotspotDelegate> delegate;
+@property (weak) id<DKHotspotDelegate> delegate;
 
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view;
 - (void)continueMouseTracking:(NSEvent*)event inView:(NSView*)view;

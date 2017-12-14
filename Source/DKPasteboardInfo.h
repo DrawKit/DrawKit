@@ -15,7 +15,7 @@ This object is archived and added to the pasteboard when copying items within DK
 */
 @interface DKPasteboardInfo : NSObject <NSCoding> {
 	NSUInteger mCount;
-	NSDictionary* mClassInfo;
+	NSDictionary<NSString*,NSNumber*>* mClassInfo;
 	NSRect mBoundingRect;
 	NSString* mOriginatingLayerKey;
 }

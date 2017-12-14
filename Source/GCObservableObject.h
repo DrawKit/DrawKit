@@ -66,11 +66,10 @@ objects to the undo manager and vice versa, implementing undo for all keypaths d
 // set up as an observer. It also implements the above protocol so that observees are easily able to hook up to it.
 
 @interface GCObserverUndoRelay : NSObject {
-	NSUndoManager* m_um;
+	__unsafe_unretained NSUndoManager* m_um;
 }
 
-- (void)setUndoManager:(NSUndoManager*)um;
-- (NSUndoManager*)undoManager;
+@property (unsafe_unretained) NSUndoManager *undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object

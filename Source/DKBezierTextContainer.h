@@ -15,6 +15,6 @@
 	NSBezierPath* mPath;
 }
 
-@property (nonatomic, copy) NSBezierPath* bezierPath;
+@property (nonatomic, copy, nullable) NSBezierPath* bezierPath;
 
 @end

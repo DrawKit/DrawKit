@@ -9,10 +9,10 @@
 @protocol DKObjectStorage;
 
 typedef NS_OPTIONS(NSUInteger, DKObjectStorageOptions) {
-	kDKReverseOrder = (1 << 0), // return objects in top to bottom order if set
-	kDKIncludeInvisible = (1 << 1), // includes invisible objects
-	kDKIgnoreUpdateRect = (1 << 2), // includes objects regardless of whether they are within the update region or not
-	kDKZOrderMayBeRelaxed = (1 << 3) // if set, the strict Z-ordering of objects may be relaxed if there is a performance benefit
+	kDKReverseOrder = (1 << 0), //!< return objects in top to bottom order if set
+	kDKIncludeInvisible = (1 << 1), //!< includes invisible objects
+	kDKIgnoreUpdateRect = (1 << 2), //!< includes objects regardless of whether they are within the update region or not
+	kDKZOrderMayBeRelaxed = (1 << 3) //!< if set, the strict Z-ordering of objects may be relaxed if there is a performance benefit
 };
 
 /**
@@ -29,11 +29,9 @@ typedef NS_OPTIONS(NSUInteger, DKObjectStorageOptions) {
  */
 @protocol DKStorableObject <NSObject, NSCoding, NSCopying>
 
-- (__kindof id<DKObjectStorage>)storage;
-- (void)setStorage:(__kindof id<DKObjectStorage>)storage;
+@property (weak, readwrite) __kindof id<DKObjectStorage> storage;
 
-- (NSUInteger)index;
-- (void)setIndex:(NSUInteger)indx;
+@property (nonatomic, readwrite) NSUInteger index;
 
 @property (readwrite, getter=isMarked) BOOL marked;
 

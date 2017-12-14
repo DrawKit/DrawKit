@@ -39,7 +39,7 @@ selected state.
 	BOOL mBufferSelectionChanges; // YES to buffer a series of selection changes during a multiple forwarding invocation
 	NSUInteger mUndoCount; // records undo count when the selection state is recorded
 	NSArray* m_objectsPendingDrag; // temporary list of objects being dragged from the layer
-	DKDrawableObject* mKeyAlignmentObject; // the master object to which others can be aligned
+	__unsafe_unretained DKDrawableObject* mKeyAlignmentObject; // the master object to which others can be aligned
 	NSRect mSelBoundsCached; // cached value of the selection bounds
 }
 
@@ -531,7 +531,7 @@ selected state.
  it has ungrouped - see [DKShapeGroup ungroupObjects:]
  @param ungroupedObjects the objects just ungrouped
  */
-- (void)didUngroupObjects:(NSArray<DKShapeGroup*>*)ungroupedObjects;
+- (void)didUngroupObjects:(NSArray<__kindof DKShapeGroup*>*)ungroupedObjects;
 
 // user actions:
 

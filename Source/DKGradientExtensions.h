@@ -40,7 +40,13 @@
 - (CGFloat)radialStartingRadius;
 - (CGFloat)radialEndingRadius;
 
+@property NSPoint radialStartingPoint;
+@property NSPoint radialEndingPoint;
+@property CGFloat radialStartingRadius;
+@property CGFloat radialEndingRadius;
+
 - (BOOL)hasRadialSettings;
+@property (readonly) BOOL hasRadialSettings;
 
 - (NSPoint)mapPoint:(NSPoint)p fromRect:(NSRect)rect;
 - (NSPoint)mapPoint:(NSPoint)p toRect:(NSRect)rect;

@@ -19,15 +19,8 @@
 	//LogEvent_(kReactiveEvent, @"selector = '%@'", [NSString stringWithCString:sel_getName( selector )]);
 }
 
-- (id)shapeProvider
-{
-	return m_shapeProvider;
-}
-
-- (SEL)shapeSelector
-{
-	return m_shapeSelector;
-}
+@synthesize shapeProvider=m_shapeProvider;
+@synthesize shapeSelector=m_shapeSelector;
 
 #pragma mark -
 - (void)setOptionalParameter:(id)objParam
@@ -45,10 +38,7 @@
 	}
 }
 
-- (id)optionalParameter
-{
-	return m_optionalParam;
-}
+@synthesize optionalParameter=m_optionalParam;
 
 #pragma mark -
 - (NSBezierPath*)providedShapeForRect:(NSRect)r

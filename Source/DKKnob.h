@@ -31,7 +31,7 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 */
 @interface DKKnob : NSObject <NSCoding, NSCopying> {
 @private
-	id m_ownerRef; // the object that owns (and hence retains) this - typically a DKLayer
+	__weak id<DKKnobOwner> m_ownerRef; // the object that owns (and hence retains) this - typically a DKLayer
 	NSSize m_knobSize; // the currently cached knob size
 	CGFloat mScaleRatio; // ratio to zoom factor used to scale knob size (default = 0.3)
 	NSColor* mControlKnobColour; // colour of square knobs
@@ -48,8 +48,9 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 
 // main high-level methods that will be called by clients
 
-- (void)setOwner:(id<DKKnobOwner>)owner;
-- (id<DKKnobOwner>)owner;
+/** the object that owns (and hence retains) this - typically a \c DKLayer
+ */
+@property (nonatomic, weak) id<DKKnobOwner> owner;
 
 - (void)drawKnobAtPoint:(NSPoint)p ofType:(DKKnobType)knobType userInfo:(id)userInfo;
 - (void)drawKnobAtPoint:(NSPoint)p ofType:(DKKnobType)knobType angle:(CGFloat)radians userInfo:(id)userInfo;
@@ -63,26 +64,27 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 
 - (BOOL)hitTestPoint:(NSPoint)p inKnobAtPoint:(NSPoint)kp ofType:(DKKnobType)knobType userInfo:(id)userInfo;
 
-- (void)setControlBarColour:(NSColor*)clr;
-- (NSColor*)controlBarColour;
-- (void)setControlBarWidth:(CGFloat)width;
-- (CGFloat)controlBarWidth;
+/** colour of control bars
+ */
+@property (copy) NSColor *controlBarColour;
+/** control bar width
+ */
+@property CGFloat controlBarWidth;
 
-- (void)setScalingRatio:(CGFloat)scaleRatio;
-- (CGFloat)scalingRatio;
+@property CGFloat scalingRatio;
 
 // low-level methods (mostly internal and overridable)
 
-- (void)setControlKnobSize:(NSSize)cks;
-- (void)setControlKnobSizeForViewScale:(CGFloat)scale;
-- (NSSize)controlKnobSize;
+/** the currently cached knob size
+ */
 @property NSSize controlKnobSize;
+- (void)setControlKnobSizeForViewScale:(CGFloat)scale;
 
 // new model APIs
 
 - (DKHandle*)handleForType:(DKKnobType)knobType;
 - (DKHandle*)handleForType:(DKKnobType)knobType colour:(NSColor*)colour;
-- (NSSize)actualHandleSize;
+@property (readonly) NSSize actualHandleSize;
 
 @end
 

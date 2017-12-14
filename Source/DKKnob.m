@@ -43,10 +43,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	}
 }
 
-- (id<DKKnobOwner>)owner
-{
-	return m_ownerRef;
-}
+@synthesize owner=m_ownerRef;
 
 #pragma mark -
 #define FASTER_KNOB_DRAWING 1
@@ -371,35 +368,9 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 		return NO;
 }
 
-- (void)setControlBarColour:(NSColor*)clr
-{
-	mControlBarColour = clr;
-}
-
-- (NSColor*)controlBarColour
-{
-	return mControlBarColour;
-}
-
-- (void)setControlBarWidth:(CGFloat)width
-{
-	mControlBarWidth = width;
-}
-
-- (CGFloat)controlBarWidth
-{
-	return mControlBarWidth;
-}
-
-- (void)setScalingRatio:(CGFloat)scaleRatio
-{
-	mScaleRatio = scaleRatio;
-}
-
-- (CGFloat)scalingRatio
-{
-	return mScaleRatio;
-}
+@synthesize controlBarColour=mControlBarColour;
+@synthesize controlBarWidth=mControlBarWidth;
+@synthesize scalingRatio=mScaleRatio;
 
 #pragma mark -
 #pragma mark - low - level methods(mostly internal and overridable)

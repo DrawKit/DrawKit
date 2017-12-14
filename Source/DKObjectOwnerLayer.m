@@ -80,14 +80,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-/** @brief Returns the storage object for the layer
- @return a storage object
- */
-- (id<DKObjectStorage>)storage
-{
-	return mStorage;
-}
-
 @synthesize storage=mStorage;
 
 #pragma mark - the list of objects
@@ -765,7 +757,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  @param options various flags that you can pass to modify behaviour:
  @return an array, the objects needig update, in drawing order
  */
-- (NSArray*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options
+- (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options
 {
 	return [[self storage] objectsIntersectingRect:rect
 											inView:aView
@@ -1594,6 +1586,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	return mLayerCachingOption;
 }
+@synthesize layerCacheOption =mLayerCachingOption;
 
 /** @brief Query whether the layer is currently highlighted for a drag (receive) operation
  @return YES if highlighted, NO otherwise
@@ -1613,6 +1606,8 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[self setNeedsDisplay:YES];
 	}
 }
+
+@synthesize highlightedForDrag=m_inDragOp;
 
 /** @brief Draws the highlighting to indicate the layer is a drag target
 
@@ -1729,11 +1724,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	if ([self countOfObjects] > 0) {
 		NSEnumerator* iter = [self objectEnumeratorForUpdateRect:rect
 														  inView:aView];
-		DKDrawableObject* obj;
 
 		// draw the objects - this enumerator has already excluded any not needing to be drawn
 
-		while ((obj = [iter nextObject]))
+		for (DKDrawableObject* obj in iter)
 			[obj drawContentWithSelectedState:NO];
 	}
 

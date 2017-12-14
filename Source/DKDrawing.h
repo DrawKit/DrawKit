@@ -55,8 +55,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 	NSRect m_lastRectUpdated; /**< for refresh in HQ mode */
 	NSMutableSet<DKViewController*>* mControllers; /**< the set of current controllers */
 	DKImageDataManager* mImageManager; /**< internal object used to substantially improve efficiency of image archiving */
-	id<DKDrawingDelegate> __unsafe_unretained mDelegateRef; /**< delegate, if any */
-	id __unsafe_unretained mOwnerRef; /**< back pointer to document or view that owns this */
+	id<DKDrawingDelegate> __weak mDelegateRef; /**< delegate, if any */
+	id __weak mOwnerRef; /**< back pointer to document or view that owns this */
 }
 
 /** @brief Return the current version number of the framework
@@ -167,7 +167,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (void)setOwner:(id)owner;
 
-@property (unsafe_unretained) id owner;
+@property (weak) id owner;
 
 /** @name basic drawing parameters
  *	@{ */
@@ -257,7 +257,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @return some delegate object
  */
 - (id<DKDrawingDelegate>)delegate;
-@property (unsafe_unretained) id<DKDrawingDelegate> delegate;
+@property (weak) id<DKDrawingDelegate> delegate;
 
 /** @name the drawing's view controllers
  @{ */
@@ -581,7 +581,8 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 
 @end
 
-/** @brief deprecated methods */
+/** @brief deprecated methods
+ */
 @interface DKDrawing (Deprecated)
 
 + (DKDrawing*)drawingWithContentsOfFile:(NSString*)filepath DEPRECATED_ATTRIBUTE;

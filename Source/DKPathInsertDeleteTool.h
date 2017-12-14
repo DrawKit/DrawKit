@@ -24,7 +24,7 @@ This tool is able to insert or delete on-path points from a path. If applied to 
 @private
 	DKPathToolMode m_mode;
 	BOOL m_performedAction;
-	DKDrawablePath* mTargetRef;
+	__weak DKDrawablePath* mTargetRef;
 }
 
 + (DKDrawingTool*)pathDeletionTool;

@@ -19,7 +19,7 @@ these objects are never used to make a visible view. Their only function is to a
 @class DKObjectOwnerLayer, DKShapeGroup;
 
 @interface DKLayerPDFView : DKDrawingView {
-	DKLayer* mLayerRef;
+	__weak DKLayer* mLayerRef;
 }
 
 - (instancetype)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer NS_DESIGNATED_INITIALIZER;
@@ -28,7 +28,7 @@ these objects are never used to make a visible view. Their only function is to a
 @end
 
 @interface DKDrawablePDFView : NSView {
-	DKDrawableObject* mObjectRef;
+	__weak DKDrawableObject* mObjectRef;
 }
 
 - (instancetype)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj NS_DESIGNATED_INITIALIZER;

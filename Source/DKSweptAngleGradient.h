@@ -7,7 +7,7 @@
 #import "DKGradient.h"
 
 typedef union {
-	unsigned long pixel;
+	unsigned int pixel;
 	struct
 		{
 		unsigned char a;

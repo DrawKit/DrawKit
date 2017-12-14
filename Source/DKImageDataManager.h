@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
 The purpose of this class is to allow images to be archived much more efficiently, by archiving the original data that the image was created from rather than any bitmaps or
  other uncompressed forms, and to avoid storing multiple copies of the same image. Each drawing will have an instance of this class and any image using objects such as DKImageShape
@@ -17,26 +19,29 @@ The purpose of this class is to allow images to be archived much more efficientl
 */
 @interface DKImageDataManager : NSObject <NSCoding> {
 @private
-	NSMutableDictionary* mRepository;
-	NSMutableDictionary* mHashList;
-	NSMutableDictionary* mKeyUsage;
+	NSMutableDictionary<NSString*,NSData*>* mRepository;
+	NSMutableDictionary<NSString*,NSString*>* mHashList;
+	NSMutableDictionary<NSString*,NSNumber*>* mKeyUsage;
 }
 
-- (NSData*)imageDataForKey:(NSString*)key;
+- (nullable NSData*)imageDataForKey:(NSString*)key;
 - (void)setImageData:(NSData*)imageData forKey:(NSString*)key;
 - (BOOL)hasImageDataForKey:(NSString*)key;
 - (NSString*)generateKey;
-- (NSString*)keyForImageData:(NSData*)imageData;
+- (nullable NSString*)keyForImageData:(NSData*)imageData;
 @property (readonly, copy) NSArray<NSString*> *allKeys;
 - (void)removeKey:(NSString*)key;
 
-- (NSImage*)makeImageWithData:(NSData*)imageData key:(NSString**)key;
-- (NSImage*)makeImageWithPasteboard:(NSPasteboard*)pb key:(NSString**)key;
-- (NSImage*)makeImageWithContentsOfURL:(NSURL*)url key:(NSString**)key;
-- (NSImage*)makeImageForKey:(NSString*)key;
+- (nullable NSImage*)makeImageWithData:(NSData*)imageData key:(NSString* _Nullable __autoreleasing*_Nullable)key;
+- (nullable NSImage*)makeImageWithPasteboard:(NSPasteboard*)pb key:(NSString* _Nullable __autoreleasing*_Nullable)key;
+- (nullable NSImage*)makeImageWithContentsOfURL:(NSURL*)url key:(NSString* _Nullable __autoreleasing*_Nullable)key;
+- (nullable NSImage*)makeImageForKey:(NSString*)key;
 
 - (void)setKey:(NSString*)key isInUse:(BOOL)inUse;
 - (BOOL)keyIsInUse:(NSString*)key;
+
+/** delete all data and associated keys for keys not in use
+ */
 - (void)removeUnusedData;
 
 @end
@@ -45,7 +50,12 @@ extern NSPasteboardType kDKImageDataManagerPasteboardType;
 
 @interface NSData (Checksum)
 
+/** the checksum is a weighted sum of the first 1024 bytes (or less) of the data XOR the length. This value should be reasonably unique for quickly comparing
+ image data.
+ */
 - (NSUInteger)checksum;
 - (NSString*)checksumString;
 
 @end
+
+NS_ASSUME_NONNULL_END

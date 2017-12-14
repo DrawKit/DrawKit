@@ -327,7 +327,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param aView the view being updated, if any (may be nil)
  @return an iterator
  */
-- (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView;
+- (NSEnumerator<DKDrawableObject*>*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView;
 
 /** @brief Return an iterator that will enumerate the objects needing update
 
@@ -339,7 +339,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param options various flags that you can pass to modify behaviour:
  @return an iterator
  */
-- (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
+- (NSEnumerator<DKDrawableObject*>*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
 
 /** @brief Return the objects needing update
 
@@ -348,7 +348,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param aView the view being updated, if any (may be nil)
  @return an array, the objects needing update, in drawing order
  */
-- (NSArray*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView;
+- (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView;
 
 /** @brief Return the objects needing update
 
@@ -358,7 +358,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param options various flags that you can pass to modify behaviour:
  @return an array, the objects needig update, in drawing order
  */
-- (NSArray*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
+- (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
 
 // updating & drawing objects:
 
