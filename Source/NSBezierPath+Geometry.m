@@ -1016,7 +1016,7 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 		*cp2 = ctrl2;
 }
 
-- (NSBezierPath*)filletPathForVertex:(NSPoint[])vp filletSize:(CGFloat)fs
+- (NSBezierPath*)filletPathForVertex:(NSPoint[3])vp filletSize:(CGFloat)fs
 {
 	// given three points vp[0]..vp[2], this calculates a curve that will form a fillet. <fs> is the size of the fillet, expressed as the distance from the
 	// apex ap[1] along each side of the vertex. The returned path consists of a single element curve segment.

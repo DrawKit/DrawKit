@@ -13,8 +13,8 @@ the text it displays. Other objects that use text can make use of this as they w
 */
 @interface DKStyle (TextAdditions)
 
-+ (DKStyle*)defaultTextStyle;
-+ (DKStyle*)textStyleWithFont:(NSFont*)font;
++ (DKStyle*)defaultTextStyle NS_SWIFT_NAME(init(defaultTextStyle:));
++ (DKStyle*)textStyleWithFont:(NSFont*)font NS_SWIFT_NAME(init(textStyleWith:));
 
 /** @brief Returns the name and size of the font in a form that can be used as a style name
  @param font a font

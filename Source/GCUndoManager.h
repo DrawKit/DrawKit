@@ -207,6 +207,9 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (NSArray<GCUndoGroup*>*)undoStack;
 - (NSArray<GCUndoGroup*>*)redoStack;
 
+@property (readonly, retain) NSArray<GCUndoGroup*> *undoStack;
+@property (readonly, retain) NSArray<GCUndoGroup*> *redoStack;
+
 - (GCUndoGroup*)peekUndo;
 - (GCUndoGroup*)peekRedo;
 @property (readonly) NSUInteger numberOfUndoActions;
@@ -260,10 +263,11 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 #pragma mark -
 
-// undo groups can contain any number of other groups or concrete tasks. The top level actions in the undo/redo stacks always consist
-// of groups, even if they only contain a single concrete task. The group also provides the storage for the action name associated with
-// the action. Groups own their tasks.
-
+/**
+ Undo groups can contain any number of other groups or concrete tasks. The top level actions in the undo/redo stacks always consist
+ of groups, even if they only contain a single concrete task. The group also provides the storage for the action name associated with
+ the action. Groups own their tasks.
+ */
 @interface GCUndoGroup : GCUndoTask {
 @private
 	NSString* mActionName;

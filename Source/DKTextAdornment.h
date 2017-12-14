@@ -55,10 +55,9 @@ other fixed content. See that class for details.
 
 // class defaults:
 
-+ (NSDictionary*)defaultTextAttributes;
-+ (NSString*)defaultLabel;
-+ (CGFloat)defaultMaximumVerticalOffset;
-+ (void)setDefaultMaximumVerticalOffset:(CGFloat)mvo;
+@property (class, readonly, strong) NSDictionary<NSAttributedStringKey,id> *defaultTextAttributes;
+@property (class, readonly, copy) NSString *defaultLabel;
+@property (class) CGFloat defaultMaximumVerticalOffset;
 
 // the text:
 

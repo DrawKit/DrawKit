@@ -30,7 +30,7 @@ This uses Image I/O to perform the data encoding.
 
 /** @brief Creates the initial bitmap image that the various bitmap formats are created from.
 
- Returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
+ Returned ref is autoreleased. The image always has an alpha channel, but the \c hasAlpha flag will
  paint the background in the paper colour if \c hasAlpha is NO.
  @param dpi the resolution of the image in dots per inch.
  @param hasAlpha specifies whether the image is painted in the background paper colour or not.
@@ -39,8 +39,8 @@ This uses Image I/O to perform the data encoding.
 - (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha CF_RETURNS_NOT_RETAINED;
 /** @brief Creates the initial bitmap image that the various bitmap formats are created from.
  
- Returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
- paint the background in the paper colour if hasAlpha is NO.
+ Returned ref is autoreleased. The image always has an alpha channel, but the \c hasAlpha flag will
+ paint the background in the paper colour if \c hasAlpha is NO.
  @param dpi the resolution of the image in dots per inch.
  @param hasAlpha specifies whether the image is painted in the background paper colour or not.
  @param relScale scaling factor, 1.0 = actual size, 0.5 = half size, etc.

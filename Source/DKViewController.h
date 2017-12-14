@@ -265,6 +265,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  @return the active layer
  */
 - (DKLayer*)activeLayer;
+@property (readonly, weak) DKLayer *activeLayer;
 
 /** @brief Return the drawing's current active layer if it matches the given class, else nil
  @param aClass a layer class

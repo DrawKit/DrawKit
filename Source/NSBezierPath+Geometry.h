@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol DKBezierElementIterationDelegate;
 
 @interface NSBezierPath (Geometry)
@@ -27,7 +29,7 @@
 
 // iterating over a path using a iteration delegate:
 
-- (NSBezierPath*)bezierPathByIteratingWithDelegate:(id<DKBezierElementIterationDelegate>)delegate contextInfo:(void*)contextInfo;
+- (nullable NSBezierPath*)bezierPathByIteratingWithDelegate:(id<DKBezierElementIterationDelegate>)delegate contextInfo:(nullable void*)contextInfo;
 
 - (NSBezierPath*)paralleloidPathWithOffset:(CGFloat)delta;
 - (NSBezierPath*)paralleloidPathWithOffset2:(CGFloat)delta;
@@ -41,7 +43,7 @@
 
 // calculating a fillet
 
-- (NSBezierPath*)filletPathForVertex:(NSPoint[])vp filletSize:(CGFloat)fs;
+- (NSBezierPath*)filletPathForVertex:(NSPoint[_Nonnull 3])vp filletSize:(CGFloat)fs;
 
 // roughening and randomising paths
 
@@ -66,9 +68,9 @@
 
 // converting to and from Core Graphics paths
 
-- (CGPathRef)newQuartzPath CF_RETURNS_RETAINED;
-- (CGMutablePathRef)newMutableQuartzPath CF_RETURNS_RETAINED;
-- (CGContextRef)setQuartzPath;
+- (nullable CGPathRef)newQuartzPath CF_RETURNS_RETAINED;
+- (nullable CGMutablePathRef)newMutableQuartzPath CF_RETURNS_RETAINED;
+- (CGContextRef)setQuartzPath CF_RETURNS_NOT_RETAINED;
 - (void)setQuartzPathInContext:(CGContextRef)context isNewPath:(BOOL)np;
 
 + (NSBezierPath*)bezierPathWithCGPath:(CGPathRef)path;
@@ -139,7 +141,7 @@
 		   points:(NSPoint*)p // list of associated points 0 = next point, 1 = cp1, 2 = cp2 (for curves), 3 = last point on subpath
 	 subPathIndex:(NSInteger)spi // which subpath this is
 	subPathClosed:(BOOL)spClosed // is the subpath closed?
-	  contextInfo:(void*)contextInfo; // the context info
+ contextInfo:(nullable void*)contextInfo; // the context info
 
 @end
 
@@ -175,4 +177,6 @@
  ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * */
 
-void subdivideBezierAtT(const NSPoint bez[4], NSPoint bez1[4], NSPoint bez2[4], CGFloat t);
+void subdivideBezierAtT(const NSPoint bez[_Nonnull 4], NSPoint bez1[_Nonnull 4], NSPoint bez2[_Nonnull 4], CGFloat t);
+
+NS_ASSUME_NONNULL_END
