@@ -78,7 +78,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // finding path lengths for points and points for lengths
 
-- (NSPoint)pointOnPathAtLength:(CGFloat)length slope:(CGFloat*)slope;
+- (NSPoint)pointOnPathAtLength:(CGFloat)length slope:(nullable CGFloat*)slope;
 @property (readonly) CGFloat slopeStartingPath;
 - (CGFloat)distanceFromStartOfPathAtPoint:(NSPoint)p tolerance:(CGFloat)tol;
 
