@@ -427,8 +427,10 @@ extern NSString* kDKStyleWasRegisteredNotification;
 extern NSString* kDKStyleWasRemovedFromRegistryNotification;
 extern NSString* kDKStyleWasEditedWhileRegisteredNotification;
 
-// Protocol allows the delegate to decide which of a pair of styles should be used
+/** Protocol allows the delegate to decide which of a pair of styles should be used
+ */
 @protocol DKStyleRegistryDelegate <NSObject>
+@optional
 
 - (DKStyle*)registry:(DKStyleRegistry*)reg shouldReplaceStyle:(DKStyle*)regStyle withStyle:(DKStyle*)docStyle;
 

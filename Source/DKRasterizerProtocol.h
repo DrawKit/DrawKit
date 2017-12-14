@@ -32,7 +32,7 @@
 
 /** Returns the transform applied by the object's container, if any (otherwise the identity transform).
  */
-@property (readonly, retain) NSAffineTransform *containerTransform;
+@property (readonly, copy) NSAffineTransform *containerTransform;
 
 /** Any extra space needed outside of the renderingPath to accommodate the stylistic effects.
  */
