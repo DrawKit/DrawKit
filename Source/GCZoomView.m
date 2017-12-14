@@ -325,7 +325,7 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillChangeScale
 															object:self];
 
-		sv.magnification = sc;
+		sv.animator.magnification = sc;
 		
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidChangeScale
 															object:self];
