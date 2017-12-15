@@ -120,11 +120,8 @@ BOOL IsValidEventType(NSString* eventType)
 		NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
 		
 		assert(eventTypeNames != nil);
-		NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
 		
-		assert(typeNameEnumerator != nil);
-		NSString* typeName;
-		while ((typeName = [typeNameEnumerator nextObject]) != nil)
+		for (NSString* typeName in eventTypeNames)
 		{
 			assert(eventType != nil);
 			assert(typeName != nil);

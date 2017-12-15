@@ -2430,11 +2430,9 @@ enum {
 		// append all the types from the object classes we can accept:
 
 		NSArray* eligibleClasses = [DKRuntimeHelper allClassesOfKind:[DKDrawableObject class]];
-		NSEnumerator* iter = [eligibleClasses objectEnumerator];
-		Class class;
-		NSArray* dragTypes;
 
-		while ((class = [iter nextObject])) {
+		for (Class class in eligibleClasses) {
+			NSArray* dragTypes;
 			if ([class respondsToSelector:@selector(pasteboardTypesForOperation:)])
 				dragTypes = [class pasteboardTypesForOperation:op];
 			else

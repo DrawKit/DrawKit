@@ -13,10 +13,7 @@
 {
 	// adds objects from <array> to the receiver, but only those not already contained by it
 
-	NSEnumerator* iter = [array objectEnumerator];
-	id obj;
-
-	while ((obj = [iter nextObject])) {
+	for (id obj in array) {
 		if (![self containsObject:obj])
 			[self addObject:obj];
 	}
