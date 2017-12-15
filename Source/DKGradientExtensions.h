@@ -5,6 +5,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
 @interface NSView (DKGradientExtensions)

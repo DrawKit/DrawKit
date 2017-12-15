@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawing.h"
 
 /** @brief This category provides methods for exporting drawings in a variety of formats, such as TIFF, JPEG and PNG.

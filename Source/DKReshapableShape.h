@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawableShape.h"
 
 /** @brief This subclass of DKDrawableShape implements a protocol for obtaining shapes dynamically from a shape provider.

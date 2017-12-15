@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKStyle.h"
 
 @class DKStrokeDash, DKStroke, DKFill;

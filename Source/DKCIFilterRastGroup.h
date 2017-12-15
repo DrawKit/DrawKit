@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKRastGroup.h"
 
 /** @brief Captures the output of its contained renderers in an image

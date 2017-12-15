@@ -8,7 +8,7 @@
 
 // params for speech balloon shapes:
 
-typedef NS_OPTIONS(NSUInteger, DKSpeechBalloonOptions) {
+typedef NS_OPTIONS(NSUInteger, DKSpeechBalloonOption) {
 	kDKSpeechBalloonPointsLeft = 0,
 	kDKSpeechBalloonPointsRight = 1,
 	kDKSpeechBalloonPointsDown = 0,
@@ -67,9 +67,9 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 
 + (NSBezierPath*)ring:(CGFloat)innerDiameter;
 
-+ (NSBezierPath*)roundRectSpeechBalloon:(DKSpeechBalloonOptions)sbParams cornerRadius:(CGFloat)cr;
-+ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(DKSpeechBalloonOptions)sbParams cornerRadius:(CGFloat)cr;
-+ (NSBezierPath*)ovalSpeechBalloon:(DKSpeechBalloonOptions)sbParams;
++ (NSBezierPath*)roundRectSpeechBalloon:(DKSpeechBalloonOption)sbParams cornerRadius:(CGFloat)cr;
++ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(DKSpeechBalloonOption)sbParams cornerRadius:(CGFloat)cr;
++ (NSBezierPath*)ovalSpeechBalloon:(DKSpeechBalloonOption)sbParams;
 
 + (NSBezierPath*)arrowhead;
 + (NSBezierPath*)arrowTailFeather;

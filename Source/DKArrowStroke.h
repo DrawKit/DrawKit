@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
 
 /** @brief arrow head kinds - each end can be specified independently:

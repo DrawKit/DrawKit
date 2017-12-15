@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKShapeGroup.h"
 
 /** @brief A CLUSTER is a specialised form of group.

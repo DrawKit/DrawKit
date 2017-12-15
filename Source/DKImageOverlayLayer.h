@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
 
 //! coverage method flags - can be combined to give different effects

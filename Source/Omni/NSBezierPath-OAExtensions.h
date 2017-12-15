@@ -7,6 +7,7 @@
 //
 // $Header: svn+ssh://source.omnigroup.com/Source/svn/Omni/tags/OmniSourceRelease/2008-03-20/OmniGroup/Frameworks/OmniAppKit/OpenStepExtensions.subproj/NSBezierPath-OAExtensions.h 91941 2007-09-26 20:46:20Z wiml $
 
+#import <Cocoa/Cocoa.h>
 #import <AppKit/NSBezierPath.h>
 
 @class NSCountedSet, NSDictionary, NSMutableDictionary;

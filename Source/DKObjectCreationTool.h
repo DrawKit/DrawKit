@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawingTool.h"
 
 NS_ASSUME_NONNULL_BEGIN

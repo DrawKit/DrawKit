@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
 
 /** @brief DKRoughStroke is a stroke rasterizer that randomly varies the stroke width about its nominal set width by some factor.

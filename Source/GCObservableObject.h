@@ -4,7 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 /** @brief This is used to permit setting up KVO in a simpler manner than comes as standard.
 

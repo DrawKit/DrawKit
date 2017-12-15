@@ -131,7 +131,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  similar drawing methods that take simple parameter types
  @param unitString a string used to look up the previously established ruler settings
  */
-- (void)synchronizeViewRulersWithUnits:(DKDrawingUnits)unitString;
+- (void)synchronizeViewRulersWithUnits:(DKDrawingUnit)unitString;
 
 /** @brief Invalidate the cursor rects for the view
 

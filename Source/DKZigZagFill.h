@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKFill.h"
 
 @interface DKZigZagFill : DKFill <NSCoding, NSCopying> {

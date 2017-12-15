@@ -9,7 +9,7 @@
 @class DKGridLayer, DKGuideLayer, DKKnob, DKViewController, DKImageDataManager, DKUndoManager;
 @protocol DKDrawingDelegate;
 
-typedef NSString *DKDrawingUnits NS_TYPED_EXTENSIBLE_ENUM;
+typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
 
 /** @brief A DKDrawing is the model data for the drawing system.
 
@@ -31,7 +31,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 */
 @interface DKDrawing : DKLayerGroup <NSCoding, NSCopying> {
 @private
-	DKDrawingUnits m_units; /**< user readable drawing units string, e.g. "millimetres" */
+	DKDrawingUnit m_units; /**< user readable drawing units string, e.g. "millimetres" */
 	DKLayer* __weak m_activeLayerRef; /**< which one is active for editing, etc */
 	NSColor* m_paperColour; /**< underlying colour of the "paper" */
 	DKUndoManager* m_undoManager; /**< undo manager to use for data changes */
@@ -139,13 +139,13 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @param abbrev the abbreviation for the unit
  @param fullString the full name of the drawing units
  */
-+ (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(DKDrawingUnits)fullString;
++ (void)setAbbreviation:(NSString*)abbrev forDrawingUnits:(DKDrawingUnit)fullString;
 
 /** @brief Returns the abbreviation for the given drawing units string
  @param fullString the full name of the drawing units
  @return a string - the abbreviated form
  */
-+ (NSString*)abbreviationForDrawingUnits:(DKDrawingUnits)fullString;
++ (NSString*)abbreviationForDrawingUnits:(DKDrawingUnit)fullString;
 
 /** @brief designated initializer */
 - (instancetype)initWithSize:(NSSize)size NS_DESIGNATED_INITIALIZER;
@@ -228,17 +228,17 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  @name setting the rulers to the grid
  @{ */
 
-- (void)setDrawingUnits:(DKDrawingUnits)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
+- (void)setDrawingUnits:(DKDrawingUnit)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
 /** @brief Returns the full name of the drawing's units
  @return a string
  */
-- (DKDrawingUnits)drawingUnits;
+- (DKDrawingUnit)drawingUnits;
 - (NSString*)abbreviatedDrawingUnits;
 - (CGFloat)unitToPointsConversionFactor;
 - (CGFloat)effectiveUnitToPointsConversionFactor;
-- (void)synchronizeRulersWithUnits:(DKDrawingUnits)unitString;
+- (void)synchronizeRulersWithUnits:(DKDrawingUnit)unitString;
 
-@property (readonly, copy) DKDrawingUnits drawingUnits;
+@property (readonly, copy) DKDrawingUnit drawingUnits;
 @property (readonly, copy) NSString *abbreviatedDrawingUnits;
 
 /** @} */
@@ -567,7 +567,7 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 - (void)drawing:(DKDrawing*)drawing didDrawRect:(NSRect)rect inView:(DKDrawingView*)aView;
 - (NSPoint)drawing:(DKDrawing*)drawing convertLocationToExternalCoordinates:(NSPoint)drawingPt;
 - (CGFloat)drawing:(DKDrawing*)drawing convertDistanceToExternalCoordinates:(CGFloat)drawingDistance;
-- (NSString*)drawing:(DKDrawing*)drawing willReturnAbbreviationForUnit:(DKDrawingUnits)unit;
+- (NSString*)drawing:(DKDrawing*)drawing willReturnAbbreviationForUnit:(DKDrawingUnit)unit;
 - (NSString*)drawing:(DKDrawing*)drawing willReturnFormattedCoordinateForDistance:(CGFloat)drawingDistance;
 - (CGFloat)drawingWillReturnUnitToPointsConversonFactor:(DKDrawing*)drawing;
 
@@ -602,14 +602,14 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 
 @end
 
-extern DKDrawingUnits const DKDrawingUnitInches;
-extern DKDrawingUnits const DKDrawingUnitMillimetres;
-extern DKDrawingUnits const DKDrawingUnitCentimetres;
-extern DKDrawingUnits const DKDrawingUnitMetres;
-extern DKDrawingUnits const DKDrawingUnitKilometres;
-extern DKDrawingUnits const DKDrawingUnitPicas;
-extern DKDrawingUnits const DKDrawingUnitPixels;
-extern DKDrawingUnits const DKDrawingUnitFeet;
-extern DKDrawingUnits const DKDrawingUnitYards;
-extern DKDrawingUnits const DKDrawingUnitPoints;
-extern DKDrawingUnits const DKDrawingUnitMiles;
+extern DKDrawingUnit const DKDrawingUnitInches;
+extern DKDrawingUnit const DKDrawingUnitMillimetres;
+extern DKDrawingUnit const DKDrawingUnitCentimetres;
+extern DKDrawingUnit const DKDrawingUnitMetres;
+extern DKDrawingUnit const DKDrawingUnitKilometres;
+extern DKDrawingUnit const DKDrawingUnitPicas;
+extern DKDrawingUnit const DKDrawingUnitPixels;
+extern DKDrawingUnit const DKDrawingUnitFeet;
+extern DKDrawingUnit const DKDrawingUnitYards;
+extern DKDrawingUnit const DKDrawingUnitPoints;
+extern DKDrawingUnit const DKDrawingUnitMiles;

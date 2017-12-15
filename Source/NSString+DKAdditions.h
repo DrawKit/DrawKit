@@ -4,10 +4,10 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 //! abbreviation flags
-typedef NS_ENUM(NSUInteger, DKAbbreviationOptions) {
+typedef NS_ENUM(NSUInteger, DKAbbreviationOption) {
 	kDKAbbreviationOptionAddPeriods = (1 << 0),
 	kDKAbbreviationOptionAmpersand = (1 << 1)
 };
@@ -22,7 +22,7 @@ typedef NS_ENUM(NSUInteger, DKAbbreviationOptions) {
 - (NSString*)stringByReplacingCharactersInSet:(NSCharacterSet*)charSet withString:(NSString*)substitute;
 
 @property (readonly, copy) NSString *stringByCapitalizingFirstCharacter;
-- (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOptions)flags;
+- (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOption)flags;
 - (NSString*)stringByAbbreviatingWordsWithDictionary:(NSDictionary*)abbreviations;
 
 @end

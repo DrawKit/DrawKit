@@ -106,7 +106,7 @@
 	return sc;
 }
 
-- (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOptions)flags
+- (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOption)flags
 {
 	// returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
 

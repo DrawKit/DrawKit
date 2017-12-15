@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKPathDecorator.h"
 
 /** @brief This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
