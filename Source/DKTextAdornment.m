@@ -1543,9 +1543,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		[self setFlowedTextPathInset:3];
 
 		mTACache = [[NSMutableDictionary alloc] init];
-	}
 
-	if (self != nil) {
 		mSubstitutor = [[DKTextSubstitutor alloc] init];
 
 		[self setLabel:[[self class] defaultLabel]];

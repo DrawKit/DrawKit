@@ -69,8 +69,7 @@
 		if (m_infoViewRef == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[self setBackgroundColor:[NSColor colorWithDeviceRed:1.0
 													   green:1.0
 														blue:0.6

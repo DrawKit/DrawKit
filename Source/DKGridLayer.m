@@ -1012,8 +1012,7 @@ static NSColor* sMajorColour = nil;
 			|| m_majorColour == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[self setShouldDrawToPrinter:NO];
 		[self setMetricDefaults];
 		[self setLayerName:NSLocalizedString(@"Grid", @"default name for grid layer")];

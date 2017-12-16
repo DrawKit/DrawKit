@@ -53,8 +53,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		if (m_layers == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
+
 		if (layers != nil) {
 			[self setLayers:layers];
 		}

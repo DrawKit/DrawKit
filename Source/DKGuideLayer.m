@@ -996,8 +996,7 @@ static BOOL sWasInside = NO;
 		if (m_hGuides == nil || m_vGuides == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[self setLayerName:NSLocalizedString(@"Guides", @"default name for guide layer")];
 	}
 	return self;

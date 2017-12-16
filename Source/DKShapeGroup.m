@@ -117,8 +117,7 @@
 		if (m_objects == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
+
 		NSBezierPath* path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
 		[self setPath:path];
 
@@ -892,8 +891,7 @@
 		if (m_objects == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[[self path] appendBezierPathWithRect:[[self class] unitRectAtOrigin]];
 		mBounds = [coder decodeRectForKey:@"group_bounds"];
 

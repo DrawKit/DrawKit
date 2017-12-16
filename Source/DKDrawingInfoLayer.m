@@ -445,8 +445,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		NSAssert(m_editingKeyRef == nil, @"Expected init to zero");
 		[self setBackgroundColour:[NSColor whiteColor]];
 		m_drawBorder = YES;
-	}
-	if (self != nil) {
+
 		[self setLayerName:NSLocalizedString(@"Info", @"default name for info layer")];
 	}
 	return self;
@@ -476,8 +475,6 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		[self setSize:[coder decodeSizeForKey:@"infoBoxSize"]];
 		NSAssert(m_editingKeyRef == nil, @"Expected init to zero");
 		[self setDrawsBorder:[coder decodeBoolForKey:@"drawBorder"]];
-	}
-	if (self != nil) {
 	}
 	return self;
 }

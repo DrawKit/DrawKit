@@ -1082,8 +1082,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 		if (m_colorStops == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[self convertOldKeys];
 	}
 

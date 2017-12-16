@@ -1039,7 +1039,7 @@
 			mInvocation = [inv retain];
 		} else {
 			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 

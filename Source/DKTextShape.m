@@ -1178,8 +1178,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		m_textRect = NSZeroRect;
 		m_ignoreStyleAttributes = YES; //[DKTextShape defaultIgnoresStyleAttributes];
 #endif
-	}
-	if (self != nil) {
+
 		[self setPath:[NSBezierPath bezierPathWithRect:[DKDrawableShape unitRectAtOrigin]]];
 		[self setVerticalAlignment:kDKTextShapeVerticalAlignmentTop];
 	}

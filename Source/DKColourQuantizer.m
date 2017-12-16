@@ -419,8 +419,7 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 		NSAssert(m_pTree == NULL, @"Expected init to zero");
 		NSAssert(m_nLeafCount == 0, @"Expected init to zero");
 
-		NSInteger i = 0;
-		for (; i < 9; ++i) {
+		for (NSInteger i = 0; i < 9; ++i) {
 			m_pReducibleNodes[i] = NULL;
 		}
 
