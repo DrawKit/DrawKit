@@ -1462,8 +1462,6 @@ static id sDearchivingHelper = nil;
 			|| m_recentlyUsed == nil) {
 			return nil;
 		}
-	}
-	if (self != nil) {
 		// add the default categories
 
 		[self addDefaultCategories];

@@ -6,6 +6,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
+#import "DKDrawing.h"
 
 typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
 	kDKMetricDrawingGrid = 0,
@@ -106,7 +107,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @param steps the ruler step-up cycle (see NSRulerView), must be  1
  */
 - (void)setDistanceForUnitSpan:(CGFloat)conversionFactor
-				  drawingUnits:(NSString*)units
+				  drawingUnits:(DKDrawingUnit)units
 						  span:(CGFloat)span
 					 divisions:(NSUInteger)divs
 						majors:(NSUInteger)majors

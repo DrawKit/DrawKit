@@ -617,10 +617,7 @@ static BOOL sSubstitute = NO;
 	m_mergeFlag = NO;
 }
 
-- (NSTimeInterval)lastModificationTimestamp
-{
-	return m_lastModTime;
-}
+@synthesize lastModificationTimestamp=m_lastModTime;
 
 /** @brief Is this style the same as <aStyle>?
 

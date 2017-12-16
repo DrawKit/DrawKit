@@ -240,6 +240,8 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 @property (readonly, copy) DKDrawingUnit drawingUnits;
 @property (readonly, copy) NSString *abbreviatedDrawingUnits;
+@property (readonly) CGFloat unitToPointsConversionFactor;
+@property (readonly) CGFloat effectiveUnitToPointsConversionFactor;
 
 /** @} */
 /** @name setting the delegate */

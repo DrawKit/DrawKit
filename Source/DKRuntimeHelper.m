@@ -39,13 +39,10 @@
 
 	NSMutableArray* list = [NSMutableArray array];
 
-	Class* buffer = NULL;
-	Class cl;
-
-	NSInteger i, numClasses = objc_getClassList(NULL, 0);
+	NSInteger numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
-		buffer = malloc(sizeof(Class) * numClasses);
+		Class *buffer = malloc(sizeof(Class) * numClasses);
 
 		NSAssert(buffer != nil, @"couldn't allocate the buffer");
 
@@ -53,8 +50,8 @@
 
 		// go through the list and carefully check whether the class can respond to isSubclassOfClass: - if so, add it to the list.
 
-		for (i = 0; i < numClasses; ++i) {
-			cl = buffer[i];
+		for (NSInteger i = 0; i < numClasses; ++i) {
+			Class cl = buffer[i];
 
 			if (classIsSubclassOfClass(cl, aClass))
 				[list addObject:cl];

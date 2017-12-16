@@ -473,7 +473,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	if (aDrawing != nil && [self drawingTool] == nil) {
 		DKDrawingTool* se;
 
-		se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
+		se = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:kDKStandardSelectionToolName];
 
 		if (se == nil)
 			se = [[DKSelectAndEditTool alloc] init];

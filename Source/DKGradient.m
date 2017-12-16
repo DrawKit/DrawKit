@@ -825,13 +825,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	}
 }
 
-/** @brief Gets the blending mode for the gradient
- @return the current blending mode
- */
-- (DKGradientBlending)gradientBlending
-{
-	return m_blending;
-}
+@synthesize gradientBlending=m_blending;
 
 #pragma mark -
 
