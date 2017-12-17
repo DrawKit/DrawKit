@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		550324061FE5F01A001D16F7 /* DKDrawKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9660E6100BEF442B00B6A38C /* DKDrawKit.framework */; };
 		551B085D1FDF5ED1008AE439 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 551B085C1FDF5ED1008AE439 /* Images.xcassets */; };
 		551B085F1FDF63D2008AE439 /* DKViewControllerAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B085E1FDF63D2008AE439 /* DKViewControllerAdditions.swift */; };
 		551B08611FE0643C008AE439 /* DKDrawingToolAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B08601FE0643C008AE439 /* DKDrawingToolAdditions.swift */; };
@@ -123,9 +124,6 @@
 		BF2EE3CE0F6550DE00B8CFFD /* DKAuxiliaryMenus.h in Headers */ = {isa = PBXBuildFile; fileRef = BF2EE3CC0F6550DE00B8CFFD /* DKAuxiliaryMenus.h */; };
 		BF2EE3CF0F6550DE00B8CFFD /* DKAuxiliaryMenus.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2EE3CD0F6550DE00B8CFFD /* DKAuxiliaryMenus.m */; };
 		BF2EE3D20F6557C900B8CFFD /* DK_Auxiliary_Menus.xib in Resources */ = {isa = PBXBuildFile; fileRef = BF2EE3D10F6557C900B8CFFD /* DK_Auxiliary_Menus.xib */; };
-		BF2EE4AA0F66026F00B8CFFD /* DKLinearObjectStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFED1F1D0F0E5251004CFC16 /* DKLinearObjectStorage.m */; };
-		BF2EE4AC0F66026F00B8CFFD /* DKBSPObjectStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFED210B0F0F92CF004CFC16 /* DKBSPObjectStorage.m */; };
-		BF2EE4AE0F66026F00B8CFFD /* DKBSPDirectObjectStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFC5842C0F1EB2B5005512CD /* DKBSPDirectObjectStorage.m */; };
 		BF2EE4B30F6602A400B8CFFD /* TestBSPStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BF2EE4B20F6602A400B8CFFD /* TestBSPStorage.m */; };
 		BF33FD221050A8EA00BC6B90 /* DKQuartzCache.h in Headers */ = {isa = PBXBuildFile; fileRef = BF33FD201050A8EA00BC6B90 /* DKQuartzCache.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BF33FD231050A8EA00BC6B90 /* DKQuartzCache.m in Sources */ = {isa = PBXBuildFile; fileRef = BF33FD211050A8EA00BC6B90 /* DKQuartzCache.m */; };
@@ -294,6 +292,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		550324041FE5F014001D16F7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = DrawKit;
+		};
 		553CF0341FDDC3AF003E9342 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
@@ -618,6 +623,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				550324061FE5F01A001D16F7 /* DKDrawKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1415,6 +1421,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				550324051FE5F014001D16F7 /* PBXTargetDependency */,
 			);
 			name = DKUnitTests;
 			productName = DKUnitTests;
@@ -1636,9 +1643,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BF2EE4AA0F66026F00B8CFFD /* DKLinearObjectStorage.m in Sources */,
-				BF2EE4AC0F66026F00B8CFFD /* DKBSPObjectStorage.m in Sources */,
-				BF2EE4AE0F66026F00B8CFFD /* DKBSPDirectObjectStorage.m in Sources */,
 				BF2EE4B30F6602A400B8CFFD /* TestBSPStorage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1646,6 +1650,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		550324051FE5F014001D16F7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8DC2EF4F0486A6940098B216 /* DrawKit */;
+			targetProxy = 550324041FE5F014001D16F7 /* PBXContainerItemProxy */;
+		};
 		553CF0351FDDC3AF003E9342 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8DC2EF4F0486A6940098B216 /* DrawKit */;
@@ -1930,7 +1939,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "DKUnitTests-Info.plist";
+				INFOPLIST_FILE = "Source/DKUnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -1955,7 +1964,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/Cocoa.framework/Headers/Cocoa.h";
-				INFOPLIST_FILE = "DKUnitTests-Info.plist";
+				INFOPLIST_FILE = "Source/DKUnitTests-Info.plist";
 				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
 				OTHER_LDFLAGS = (
 					"-framework",

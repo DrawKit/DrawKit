@@ -5,7 +5,7 @@
 */
 
 #import <XCTest/XCTest.h>
-#import "DKBSPDirectObjectStorage.h"
+#import <DKDrawKit/DKBSPDirectObjectStorage.h>
 
 /** @brief Unit Test for the BSP storage sub-system.
 
