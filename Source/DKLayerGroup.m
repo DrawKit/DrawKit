@@ -466,10 +466,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 
 {
 	NSEnumerator* iter = [self layerTopToBottomEnumerator];
-	DKLayer* lyr;
 	NSMutableArray* layers = [NSMutableArray array];
 
-	while ((lyr = [iter nextObject])) {
+	for (DKLayer* lyr in iter) {
 		if ([lyr isKindOfClass:cl])
 			[layers addObject:lyr];
 
@@ -514,9 +513,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 {
 	if ([self visible]) {
 		NSEnumerator* iter = [self layerTopToBottomEnumerator];
-		DKLayer* layer;
 
-		while ((layer = [iter nextObject])) {
+		for (__strong DKLayer* layer in iter) {
 			if ([layer isKindOfClass:[DKLayerGroup class]]) {
 				layer = [(DKLayerGroup*)layer findLayerForPoint:p];
 
@@ -542,9 +540,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		return NO;
 	else {
 		NSEnumerator* iter = [self layerTopToBottomEnumerator];
-		DKLayer* layer;
 
-		while ((layer = [iter nextObject])) {
+		for (DKLayer* layer in iter) {
 			if (aLayer == layer)
 				return YES;
 
@@ -588,9 +585,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 - (void)showAll
 {
 	NSEnumerator* iter = [self layerTopToBottomEnumerator];
-	DKLayer* aLayer;
 
-	while ((aLayer = [iter nextObject])) {
+	for (DKLayer* aLayer in iter) {
 		[aLayer setVisible:YES];
 
 		if ([aLayer isKindOfClass:[DKLayerGroup class]])
@@ -606,9 +602,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 - (void)hideAllExcept:(DKLayer*)aLayer
 {
 	NSEnumerator* iter = [self layerTopToBottomEnumerator];
-	DKLayer* layer;
 
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in iter) {
 		if ([layer isKindOfClass:[DKLayerGroup class]]) {
 			[(DKLayerGroup*)layer hideAllExcept:aLayer];
 
@@ -634,9 +629,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		return YES;
 	else {
 		NSEnumerator* iter = [self layerTopToBottomEnumerator];
-		DKLayer* layer;
 
-		while ((layer = [iter nextObject])) {
+		for (DKLayer* layer in iter) {
 			if (![layer visible])
 				return YES;
 
@@ -662,9 +656,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		return NO;
 
 	NSEnumerator* iter = [self layerTopToBottomEnumerator];
-	DKLayer* layer;
 
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in iter) {
 		if (layer != aLayer) {
 			if ([layer visible])
 				return YES;
@@ -902,9 +895,8 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 - (BOOL)hitLayer:(NSPoint)p
 {
 	NSEnumerator* iter = [self layerTopToBottomEnumerator];
-	DKLayer* layer;
 
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in iter) {
 		if ([layer hitLayer:p])
 			return YES;
 	}
@@ -946,12 +938,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 	// returns the union of all sublayers that return something for this method
 
 	NSEnumerator* iter = [self layerTopToBottomEnumerator];
-	DKLayer* layer;
-	NSSet* styles;
 	NSMutableSet* unionOfAllStyles = nil;
 
-	while ((layer = [iter nextObject])) {
-		styles = [layer allStyles];
+	for (DKLayer* layer in iter) {
+		NSSet *styles = [layer allStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -974,12 +964,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 	// returns the union of all sublayers that return something for this method
 
 	NSEnumerator* iter = [self layerTopToBottomEnumerator];
-	DKLayer* layer;
-	NSSet* styles;
 	NSMutableSet* unionOfAllStyles = nil;
 
-	while ((layer = [iter nextObject])) {
-		styles = [layer allRegisteredStyles];
+	for (DKLayer* layer in iter) {
+		NSSet *styles = [layer allRegisteredStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary

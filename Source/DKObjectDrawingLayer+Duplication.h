@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKObjectDrawingLayer.h"
 
+@class DKDrawableObject;
+
 /** @brief Some handy methods for implementing various kinds of object duplications.
 
 Some handy methods for implementing various kinds of object duplications.
@@ -24,11 +26,11 @@ Some handy methods for implementing various kinds of object duplications.
  @param rotCopies YES to rotate the copies so that they lie on the radial, NO to keep them at their original rotation
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)polarDuplicate:(NSArray*)objectsToDuplicate
-					centre:(NSPoint)centre
-			numberOfCopies:(NSInteger)nCopies
-			incrementAngle:(CGFloat)incRadians
-			  rotateCopies:(BOOL)rotCopies;
+- (NSArray<DKDrawableObject*>*)polarDuplicate:(NSArray<DKDrawableObject*>*)objectsToDuplicate
+									   centre:(NSPoint)centre
+							   numberOfCopies:(NSInteger)nCopies
+							   incrementAngle:(CGFloat)incRadians
+								 rotateCopies:(BOOL)rotCopies;
 
 /** @brief Duplicates one or more objects linearly
 
@@ -39,9 +41,9 @@ Some handy methods for implementing various kinds of object duplications.
  @param nCopies how many copies to make
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)linearDuplicate:(NSArray*)objectsToDuplicate
-					 offset:(NSSize)offset
-			 numberOfCopies:(NSInteger)nCopies;
+- (NSArray<DKDrawableObject*>*)linearDuplicate:(NSArray<DKDrawableObject*>*)objectsToDuplicate
+										offset:(NSSize)offset
+								numberOfCopies:(NSInteger)nCopies;
 
 /** @brief Automatically polar duplicates object to fit a circle exactly
 
@@ -52,8 +54,8 @@ Some handy methods for implementing various kinds of object duplications.
  @param centre the centre around which the object is located
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)autoPolarDuplicate:(DKDrawableObject*)object
-						centre:(NSPoint)centre;
+- (NSArray<DKDrawableObject*>*)autoPolarDuplicate:(DKDrawableObject*)object
+										   centre:(NSPoint)centre;
 
 /** @brief Duplicates one or more objects concentrically around a common centre
 
@@ -66,9 +68,9 @@ Some handy methods for implementing various kinds of object duplications.
  @param inset the amount each copy is inset or outset (-ve) by
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)concentricDuplicate:(NSArray*)objectsToDuplicate
-						 centre:(NSPoint)centre
-				 numberOfCopies:(NSInteger)nCopies
-						insetBy:(CGFloat)inset;
+- (NSArray<DKDrawableObject*>*)concentricDuplicate:(NSArray<DKDrawableObject*>*)objectsToDuplicate
+											centre:(NSPoint)centre
+									numberOfCopies:(NSInteger)nCopies
+										   insetBy:(CGFloat)inset;
 
 @end

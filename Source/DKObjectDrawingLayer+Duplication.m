@@ -38,27 +38,22 @@
 	for (i = 0; i < nCopies; ++i) {
 		// copy each object
 
-		NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
-		DKDrawableObject* o;
-		DKDrawableObject* copy;
-		CGFloat radius, angle, relAngle;
-		NSPoint location;
+		for (DKDrawableObject* o in objectsToDuplicate) {
+			DKDrawableObject* copy = [o copy];
+			NSPoint location = [copy location];
 
-		while ((o = [iter nextObject])) {
-			copy = [o copy];
-			location = [copy location];
-
-			relAngle = incRadians * (i + 1);
-			radius = hypot(location.x - centre.x, location.y - centre.y);
-			angle = atan2(location.y - centre.y, location.x - centre.x) + relAngle;
+			CGFloat relAngle = incRadians * (i + 1);
+			CGFloat radius = hypot(location.x - centre.x, location.y - centre.y);
+			CGFloat angle = atan2(location.y - centre.y, location.x - centre.x) + relAngle;
 
 			location.x = centre.x + cos(angle) * radius;
 			location.y = centre.y + sin(angle) * radius;
 
 			[copy setLocation:location];
 
-			if (rotCopies)
+			if (rotCopies) {
 				[copy setAngle:[o angle] + relAngle];
+			}
 
 			[result addObject:copy];
 		}
@@ -89,14 +84,9 @@
 	for (i = 0; i < nCopies; ++i) {
 		// copy each object
 
-		NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
-		DKDrawableObject* o;
-		DKDrawableObject* copy;
-		NSPoint location;
-
-		while ((o = [iter nextObject])) {
-			copy = [o copy];
-			location = [copy location];
+		for (DKDrawableObject* o in objectsToDuplicate) {
+			DKDrawableObject *copy = [o copy];
+			NSPoint location = [copy location];
 
 			location.x += offset.width * (i + 1);
 			location.y += offset.height * (i + 1);
@@ -178,29 +168,21 @@
 		return nil; // nothing to copy
 
 	NSMutableArray* result = [NSMutableArray array];
-	NSInteger i;
 
-	for (i = 0; i < nCopies; ++i) {
-		NSEnumerator* iter = [objectsToDuplicate objectEnumerator];
-		DKDrawableObject* o;
-		DKDrawableObject* copy;
-		CGFloat radius, angle, di, scale;
-		NSPoint location;
-		NSSize size;
+	for (NSInteger i = 0; i < nCopies; ++i) {
+		CGFloat di = -inset * (i + 1) * 2.0;
 
-		di = -inset * (i + 1) * 2.0;
+		for (DKDrawableObject* o in objectsToDuplicate) {
+			DKDrawableObject* copy = [o copy];
+			NSPoint location = [copy location];
+			NSSize size = [copy size];
 
-		while ((o = [iter nextObject])) {
-			copy = [o copy];
-			location = [copy location];
-			size = [copy size];
-
-			radius = hypot(location.x - centre.x, location.y - centre.y);
-			angle = atan2(location.y - centre.y, location.x - centre.x);
+			CGFloat radius = hypot(location.x - centre.x, location.y - centre.y);
+			CGFloat angle = atan2(location.y - centre.y, location.x - centre.x);
 			size.width += di;
 			size.height += di;
 
-			scale = (size.width / [copy size].width);
+			CGFloat scale = (size.width / [copy size].width);
 
 			location.x = centre.x + cos(angle) * radius * scale;
 			location.y = centre.y + sin(angle) * radius * scale;

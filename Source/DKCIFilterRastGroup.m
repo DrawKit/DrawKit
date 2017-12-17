@@ -230,22 +230,15 @@
 #pragma mark As an NSImage
 - (NSBitmapImageRep*)bitmapImageRepresentation
 {
-	NSImageRep* rep;
-	NSEnumerator* e;
-	Class bitmapImageRep;
+	Class bitmapImageRep = [NSBitmapImageRep class];
 
-	bitmapImageRep = [NSBitmapImageRep class];
-	e = [[self representations] objectEnumerator];
-
-	while ((rep = [e nextObject]) != nil) {
-		if ([rep isKindOfClass:bitmapImageRep])
-			break;
+	for (NSImageRep* rep in [self representations]) {
+		if ([rep isKindOfClass:bitmapImageRep]) {
+			return (NSBitmapImageRep*)rep;
+		}
 	}
 
-	if (!rep)
-		rep = [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
-
-	return (NSBitmapImageRep*)rep;
+	return [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
 }
 
 - (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments

@@ -46,12 +46,10 @@
 #pragma mark -
 - (DKHotspot*)hotspotForPartCode:(NSInteger)pc
 {
-	NSEnumerator* iter = [[self hotspots] objectEnumerator];
-	DKHotspot* hs;
-
-	while ((hs = [iter nextObject])) {
-		if ([hs partcode] == pc)
+	for (DKHotspot* hs in self.hotspots) {
+		if ([hs partcode] == pc) {
 			return hs;
+		}
 	}
 
 	return nil; // not found
@@ -59,12 +57,10 @@
 
 - (DKHotspot*)hotspotUnderMouse:(NSPoint)mp
 {
-	NSEnumerator* iter = [[self hotspots] objectEnumerator];
-	DKHotspot* hs;
-
-	while ((hs = [iter nextObject])) {
-		if (NSPointInRect(mp, [self hotspotRect:hs]))
+	for (DKHotspot* hs in self.hotspots) {
+		if (NSPointInRect(mp, [self hotspotRect:hs])) {
 			return hs;
+		}
 	}
 
 	return nil; // not found
@@ -106,12 +102,8 @@
 
 - (void)drawHotspotsInState:(DKHotspotState)state
 {
-	NSEnumerator* iter = [[self hotspots] objectEnumerator];
-	DKHotspot* hs;
-	NSPoint p;
-
-	while ((hs = [iter nextObject])) {
-		p = [self convertPointFromRelativeLocation:[hs relativeLocation]];
+	for (DKHotspot* hs in self.hotspots) {
+		NSPoint p = [self convertPointFromRelativeLocation:[hs relativeLocation]];
 		[hs drawHotspotAtPoint:p
 					   inState:state];
 	}

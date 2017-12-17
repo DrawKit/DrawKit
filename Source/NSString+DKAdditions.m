@@ -111,13 +111,11 @@
 	// returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
 
 	NSArray* words = [self componentsSeparatedByString:@" "];
-	NSEnumerator* iter = [words objectEnumerator];
 	NSMutableString* result = [NSMutableString string];
-	NSString* word;
 	unichar chr;
 	BOOL addPeriods = flags & kDKAbbreviationOptionAddPeriods;
 
-	while ((word = [iter nextObject])) {
+	for (NSString *word in words) {
 		if (flags & kDKAbbreviationOptionAmpersand) {
 			if ([[word lowercaseString] isEqualToString:@"and"]) {
 				[result appendString:@"&"];
@@ -147,11 +145,9 @@
 
 	NSArray* words = [self componentsSeparatedByString:@" "];
 	NSMutableString* result = [NSMutableString string];
-	NSEnumerator* iter = [words objectEnumerator];
-	NSString* word;
 	NSString* newWord;
 
-	while ((word = [iter nextObject])) {
+	for (__strong NSString* word in words) {
 		newWord = [abbreviations objectForKey:[word lowercaseString]];
 
 		if (newWord)

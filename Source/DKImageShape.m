@@ -492,10 +492,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		// look for PDF data
 
-		NSEnumerator* iter = [[image representations] objectEnumerator];
-		NSImageRep* rep;
-
-		while ((rep = [iter nextObject])) {
+		for (NSImageRep* rep in image.representations) {
 			if ([rep respondsToSelector:@selector(PDFRepresentation)]) {
 				imgData = [(NSPDFImageRep*)rep PDFRepresentation];
 				result |= [pb setData:imgData

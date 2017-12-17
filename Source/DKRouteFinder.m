@@ -205,10 +205,8 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 			mY = malloc(sizeof(CGFloat) * n);
 
 			NSInteger k = 0;
-			NSEnumerator* iter = [array objectEnumerator];
-			NSValue* val;
 
-			while ((val = [iter nextObject])) {
+			for (NSValue *val in array) {
 				++k; // preincrement, start loading arrays from 1
 
 				if (strcmp([val objCType], @encode(NSPoint)) == 0) {

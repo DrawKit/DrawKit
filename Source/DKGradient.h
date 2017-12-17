@@ -226,10 +226,10 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 - (void)setGradientType:(DKGradientType)gt;
 - (DKGradientType)gradientType;
 
+- (void)setGradientBlending:(DKGradientBlending)bt;
 /** @brief Gets the blending mode for the gradient
  @return the current blending mode
  */
-- (void)setGradientBlending:(DKGradientBlending)bt;
 - (DKGradientBlending)gradientBlending;
 
 @property DKGradientType gradientType;

@@ -260,12 +260,10 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 {
 	// returns yes if the attributes listed in <attrs> are homogeneous, otherwise NO.
 
-	NSEnumerator* iter = [attrs keyEnumerator];
-	NSString* key;
-
-	while ((key = [iter nextObject])) {
-		if (![self attributeIsHomogeneous:key])
+	for (NSString *key in attrs) {
+		if (![self attributeIsHomogeneous:key]) {
 			return NO;
+		}
 	}
 
 	return YES;

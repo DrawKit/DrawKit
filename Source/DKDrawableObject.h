@@ -71,13 +71,15 @@ to attach arbitrary data to any drawable object.
  @param doesDisplay YES to show the info, NO to not show it */
 + (void)setDisplaysSizeInfoWhenDragging:(BOOL)doesDisplay;
 
+@property (class) BOOL displaysSizeInfoWhenDragging;
+
 /** @brief Returns the union of the bounds of the objects in the array
 
  Utility method as this is a very common task - throws exception if any object in the list is
  not a DKDrawableObject or subclass thereof
  @param array a list of DKDrawable objects
  @return a rect, the union of the bounds of all objects */
-+ (NSRect)unionOfBoundsOfDrawablesInArray:(NSArray*)array;
++ (NSRect)unionOfBoundsOfDrawablesInArray:(NSArray<DKDrawableObject*>*)array;
 + (NSInteger)initialPartcodeForObjectCreation;
 
 /** @brief Return whether obejcts of this class can be grouped

@@ -310,13 +310,11 @@ static BOOL sWasInside = NO;
  */
 - (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh
 {
-	NSEnumerator* iter = [arrayOfPoints objectEnumerator];
-	NSValue* v;
 	NSPoint p;
 	NSSize result = NSZeroSize;
 	DKGuide* guide;
 
-	while ((v = [iter nextObject])) {
+	for (NSValue* v in arrayOfPoints) {
 		p = [v pointValue];
 
 		if (result.height == 0) {
@@ -636,12 +634,9 @@ static BOOL sWasInside = NO;
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
 {
-	NSEnumerator* iter;
-	DKGuide* guide;
 	CGFloat savedLineWidth, lineWidth = ([aView scale] < 1.0) ? 1.0 : (2.0 / [aView scale]);
 
 	savedLineWidth = [NSBezierPath defaultLineWidth];
-	iter = [[self guides] objectEnumerator];
 
 #if DK_DRAW_GUIDES_IN_CLIP_VIEW
 	NSClipView* clipView = [[aView enclosingScrollView] contentView];
@@ -656,7 +651,7 @@ static BOOL sWasInside = NO;
 		NSRect br = [clipView bounds];
 		[NSBezierPath clipRect:br];
 
-		while ((guide = [iter nextObject])) {
+		for (DKGuide* guide in self.guides) {
 			NSRect gr = [self guideRectOfGuide:guide
 					forEnclosingClipViewOfView:aView];
 
@@ -697,7 +692,7 @@ static BOOL sWasInside = NO;
 	{
 		[NSBezierPath setDefaultLineWidth:lineWidth];
 
-		while ((guide = [iter nextObject])) {
+		for (DKGuide* guide in self.guides) {
 			if (aView == nil || [aView needsToDrawRect:[self guideRect:guide]])
 				[guide drawInRect:rect
 						lineWidth:lineWidth];

@@ -151,11 +151,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	if (![self lockedOrHidden]) {
 		NSEnumerator* iter = [self objectEnumeratorForUpdateRect:aRect
 														  inView:nil];
-		DKDrawableObject* od;
-
-		while ((od = [iter nextObject])) {
-			if ([od visible] && ![od locked])
+		for (DKDrawableObject* od in iter) {
+			if ([od visible] && ![od locked]) {
 				[ao addObject:od];
+			}
 		}
 	}
 	return ao;
@@ -173,11 +172,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 	if (![self lockedOrHidden]) {
 		NSEnumerator* iter = [[self objects] objectEnumerator];
-		DKDrawableObject* od;
 
-		while ((od = [iter nextObject])) {
-			if ([od visible] && ![od locked] && [od isKindOfClass:aClass])
+		for (DKDrawableObject* od in iter) {
+			if ([od visible] && ![od locked] && [od isKindOfClass:aClass]) {
 				[ao addObject:od];
+			}
 		}
 	}
 	return ao;
@@ -208,11 +207,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 		NSEnumerator* iter = [self objectEnumeratorForUpdateRect:aRect
 														  inView:nil];
-		DKDrawableObject* od;
-
-		while ((od = [iter nextObject])) {
-			if ([od visible])
+		for (DKDrawableObject* od in iter) {
+			if ([od visible]) {
 				[vo addObject:od];
+			}
 		}
 	}
 
@@ -229,11 +227,9 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 - (NSArray*)objectsWithStyle:(DKStyle*)style
 {
 	NSMutableArray* ao = [[NSMutableArray alloc] init];
-	NSEnumerator* iter = [[self objects] objectEnumerator];
-	DKDrawableObject* od;
 	NSString* key = [style uniqueKey];
 
-	while ((od = [iter nextObject])) {
+	for (DKDrawableObject* od in self.objects) {
 		if ([[[od style] uniqueKey] isEqualToString:key])
 			[ao addObject:od];
 	}
@@ -250,14 +246,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  */
 - (NSArray*)objectsReturning:(NSInteger)answer toSelector:(SEL)selector
 {
-	NSEnumerator* iter = [[self objects] objectEnumerator];
 	NSMutableArray* result = [NSMutableArray array];
-	id o;
-	NSInteger rval;
 
-	while ((o = [iter nextObject])) {
+	for (id o in [self objects]) {
 		if ([o respondsToSelector:selector]) {
-			rval = 0;
+			NSInteger rval = 0;
 
 			NSInvocation* inv = [NSInvocation invocationWithMethodSignature:[o methodSignatureForSelector:selector]];
 
@@ -343,12 +336,9 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	NSAssert(objs != nil, @"can't get indexes for a nil array");
 
 	NSMutableIndexSet* mset = [[NSMutableIndexSet alloc] init];
-	DKDrawableObject* o;
-	NSEnumerator* iter = [objs objectEnumerator];
-	NSUInteger indx;
 
-	while ((o = [iter nextObject])) {
-		indx = [[self storage] indexOfObject:o];
+	for (DKDrawableObject* o in objs) {
+		NSUInteger indx = [[self storage] indexOfObject:o];
 
 		if (indx != NSNotFound)
 			[mset addIndex:indx];
@@ -596,20 +586,19 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 - (BOOL)addObjectsFromArray:(NSArray*)objs bounds:(NSRect)bounds relativeToPoint:(NSPoint)origin pinToInterior:(BOOL)pin
 {
 	if (![self lockedOrHidden]) {
-		NSEnumerator* iter = [objs objectEnumerator];
-		DKDrawableObject* o;
 		NSRect di = [[self drawing] interior];
 		CGFloat rx, ry;
 		NSRect br = bounds;
 		BOOL result = YES;
 
-		if (NSEqualRects(NSZeroRect, br))
+		if (NSEqualRects(NSZeroRect, br)) {
 			br = [DKDrawableObject unionOfBoundsOfDrawablesInArray:objs];
+		}
 
 		rx = origin.x - br.origin.x;
 		ry = origin.y - br.origin.y;
 
-		while ((o = [iter nextObject])) {
+		for (DKDrawableObject* o in objs) {
 			NSPoint proposedLocation = [o location];
 			proposedLocation.x += rx;
 			proposedLocation.y += ry;
@@ -790,8 +779,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  */
 - (void)drawVisibleObjects
 {
-	NSEnumerator* iter = [[self visibleObjects] objectEnumerator];
-	DKDrawableObject* od;
 	BOOL outlines;
 	DKStyle* tempStyle = nil;
 
@@ -804,7 +791,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 									strokeColour:[NSColor blackColor]
 									 strokeWidth:1.0];
 
-	while ((od = [iter nextObject])) {
+	for (DKDrawableObject* od in self.visibleObjects) {
 		if (outlines)
 			[od drawContentWithStyle:tempStyle];
 		else
@@ -958,12 +945,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  */
 - (NSRect)unionOfAllObjectBounds
 {
-	NSEnumerator* iter = [[self visibleObjects] objectEnumerator];
-	DKDrawableObject* obj;
 	NSRect u = NSZeroRect;
 
-	while ((obj = [iter nextObject]))
+	for (DKDrawableObject* obj in self.visibleObjects) {
 		u = UnionOfTwoRects(u, [obj bounds]);
+	}
 
 	return u;
 }
@@ -1114,11 +1100,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		// iterate in reverse - insertion at index reverses the order
 
 		NSEnumerator* iter = [objs reverseObjectEnumerator];
-		DKDrawableObject* od;
 
-		while ((od = [iter nextObject]))
+		for (DKDrawableObject* od in iter) {
 			[self moveObject:od
 					 toIndex:indx];
+		}
 	}
 }
 
@@ -1157,7 +1143,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 	NSAssert(objects != nil, @"cannot drop - array of objects is nil");
 
-	NSEnumerator* iter = [objects objectEnumerator];
 	DKDrawableObject* o;
 	CGFloat dx, dy;
 	BOOL hadFirst = NO;
@@ -1176,7 +1161,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	p = [[self drawing] snapToGrid:p
 				   withControlFlag:NO];
 
-	while ((o = [iter nextObject])) {
+	for (o in objects) {
 		if (![o isKindOfClass:[DKDrawableObject class]])
 			[NSException raise:NSInternalInconsistencyException
 						format:@"error - trying to drop non-drawable objects"];
@@ -1365,7 +1350,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 - (DKDrawableObject*)hitTest:(NSPoint)point partCode:(NSInteger*)part
 {
 	NSEnumerator* iter;
-	DKDrawableObject* o;
 	NSInteger partcode;
 	NSArray* objects = [[self storage] objectsContainingPoint:point];
 
@@ -1373,12 +1357,13 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 	iter = [objects reverseObjectEnumerator];
 
-	while ((o = [iter nextObject])) {
+	for (DKDrawableObject* o in objects) {
 		partcode = [o hitPart:point];
 
 		if (partcode != kDKDrawingNoPart) {
-			if (part)
+			if (part) {
 				*part = partcode;
+			}
 
 			LogEvent_(kUserEvent, @"found hit = %@", o);
 
@@ -1406,12 +1391,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	NSEnumerator* iter = [self objectEnumeratorForUpdateRect:rect
 													  inView:nil];
-	DKDrawableObject* o;
 	NSMutableArray* hits;
 
 	hits = [[NSMutableArray alloc] init];
 
-	while ((o = [iter nextObject])) {
+	for (DKDrawableObject* o in iter) {
 		if ([o intersectsRect:rect])
 			[hits addObject:o];
 	}
@@ -1449,12 +1433,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 	if ([self allowsSnapToObjects]) {
 		NSInteger pc;
-		DKDrawableObject* ho;
 		NSEnumerator* iter;
 
 		iter = [[self objects] reverseObjectEnumerator];
 
-		while ((ho = [iter nextObject])) {
+		for (DKDrawableObject* ho in iter) {
 			if (ho != except) {
 				pc = [ho hitSelectedPart:p
 						forSnapDetection:YES];
@@ -1763,13 +1746,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  */
 - (NSSet*)allStyles
 {
-	NSEnumerator* iter = [[self objects] reverseObjectEnumerator];
-	DKDrawableObject* dko;
-	NSSet* styles;
-	NSMutableSet* unionOfAllStyles = nil;
+	NSEnumerator<DKDrawableObject*>* iter = [[self objects] reverseObjectEnumerator];
+	NSMutableSet<DKStyle*>* unionOfAllStyles = nil;
 
-	while ((dko = [iter nextObject])) {
-		styles = [dko allStyles];
+	for (DKDrawableObject* dko in iter) {
+		NSSet<DKStyle*> *styles = [dko allStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -1781,7 +1762,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		}
 	}
 
-	return unionOfAllStyles;
+	return [unionOfAllStyles copy];
 }
 
 /** @brief Returns a list of styles used by the current set of objects that are also registered
@@ -1791,13 +1772,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  */
 - (NSSet*)allRegisteredStyles
 {
-	NSEnumerator* iter = [[self objects] reverseObjectEnumerator];
-	DKDrawableObject* dko;
-	NSSet* styles;
-	NSMutableSet* unionOfAllStyles = nil;
+	NSEnumerator<DKDrawableObject*>* iter = [[self objects] reverseObjectEnumerator];
+	NSMutableSet<DKStyle*>* unionOfAllStyles = nil;
 
-	while ((dko = [iter nextObject])) {
-		styles = [dko allRegisteredStyles];
+	for (DKDrawableObject* dko in iter) {
+		NSSet<DKStyle*>* styles = [dko allRegisteredStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -1809,7 +1788,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		}
 	}
 
-	return unionOfAllStyles;
+	return [unionOfAllStyles copy];
 }
 
 /** @brief Given a set of styles, replace those that have a matching key with the objects in the set

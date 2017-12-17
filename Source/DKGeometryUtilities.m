@@ -83,11 +83,9 @@ NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
  @return the rectangle that encloses all rects */
 NSRect UnionOfRectsInSet(const NSSet* aSet)
 {
-	NSEnumerator* iter = [aSet objectEnumerator];
-	NSValue* val;
 	NSRect ur = NSZeroRect;
 
-	while ((val = [iter nextObject]))
+	for (NSValue* val in aSet)
 		ur = UnionOfTwoRects(ur, [val rectValue]);
 
 	return ur;

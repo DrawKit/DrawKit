@@ -103,10 +103,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 	LogEvent_(kKVOEvent, @"%@ is adding the observer %@ for keypaths %@", [self description], [object description], keypaths);
 
-	NSEnumerator* iter = [keypaths objectEnumerator];
-	NSString* kp;
-
-	while ((kp = [iter nextObject]))
+	for (NSString *kp in keypaths)
 		[self addObserver:object
 			   forKeyPath:kp
 				  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
@@ -119,10 +116,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 	LogEvent_(kKVOEvent, @"%@ is removing the observer %@ for keypaths %@", [self description], [object description], keypaths);
 
-	NSEnumerator* iter = [keypaths objectEnumerator];
-	NSString* kp;
-
-	while ((kp = [iter nextObject]))
+	for (NSString* kp in keypaths)
 		[self removeObserver:object
 				  forKeyPath:kp];
 }
@@ -209,13 +203,10 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	NSArray* observables = [[self class] observableKeyPaths];
 
 	if (observables && [observables count] > 0) {
-		NSEnumerator* iter = [observables objectEnumerator];
-		NSString* keyPath;
 		NSMutableDictionary* changeDict = [NSMutableDictionary dictionary];
-		id value;
 
-		while ((keyPath = [iter nextObject])) {
-			value = [self valueForKeyPath:keyPath];
+		for (NSString *keyPath in observables) {
+			id value = [self valueForKeyPath:keyPath];
 
 			// allow nil to be sent as a legitimate value by passing it as NSNull
 

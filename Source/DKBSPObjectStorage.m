@@ -71,16 +71,16 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	// weed out any false positives which we don't need to draw. This is fairly common when the depth is low and the canvas isn't
 	// very finely divided. As depth increases this effect is diminished
 
-	NSEnumerator* iter = [[[self objects] objectsAtIndexes:indexes] objectEnumerator];
-	id<DKStorableObject> obj;
 	NSMutableArray* array = [NSMutableArray array];
 
-	while ((obj = [iter nextObject])) {
+	for (id<DKStorableObject> obj in [[self objects] objectsAtIndexes:indexes]) {
 		if (aView) {
-			if ([aView needsToDrawRect:[obj bounds]])
+			if ([aView needsToDrawRect:[obj bounds]]) {
 				[array addObject:obj];
-		} else if (NSIntersectsRect(aRect, [obj bounds]))
+			}
+		} else if (NSIntersectsRect(aRect, [obj bounds])) {
 			[array addObject:obj];
+		}
 	}
 
 	//NSLog(@"returning %d object(s)", [array count]);
@@ -94,11 +94,9 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 
 	//NSLog(@"indexes returned for hit: %@", indexes );
 
-	NSEnumerator* iter = [[[self objects] objectsAtIndexes:indexes] objectEnumerator];
-	id<DKStorableObject> obj;
 	NSMutableArray* array = [NSMutableArray array];
 
-	while ((obj = [iter nextObject])) {
+	for (id<DKStorableObject> obj in [[self objects] objectsAtIndexes:indexes]) {
 		if (NSPointInRect(aPoint, [obj bounds]))
 			[array addObject:obj];
 	}
@@ -249,14 +247,13 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 
 - (void)loadBSPTree
 {
-	NSEnumerator* iter = [[self objects] objectEnumerator];
-	id<DKStorableObject> obj;
 	NSUInteger k = 0;
 
-	while ((obj = [iter nextObject])) {
-		if ([obj visible])
+	for (id<DKStorableObject> obj in self.objects) {
+		if ([obj visible]) {
 			[mTree insertItemIndex:k
 						  withRect:[obj bounds]];
+		}
 
 		++k;
 	}
@@ -521,10 +518,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	// when an item is inserted or removed from the main array, all indexes above it will change. This method keeps the tree in synch by
 	// incrementing or decrementing the stored indices to match.
 
-	NSEnumerator* iter = [mLeaves objectEnumerator];
-	NSMutableIndexSet* leafSet;
-
-	while ((leafSet = [iter nextObject]))
+	for (NSMutableIndexSet* leafSet in mLeaves)
 		[leafSet shiftIndexesStartingAtIndex:startIndex
 										  by:delta];
 }
@@ -748,10 +742,7 @@ static NSUInteger sLeafCount = 0;
 
 - (void)removeIndex:(NSUInteger)indx
 {
-	NSEnumerator* iter = [mLeaves objectEnumerator];
-	NSMutableIndexSet* is;
-
-	while ((is = [iter nextObject]))
+	for (NSMutableIndexSet* is in mLeaves)
 		[is removeIndex:indx];
 }
 

@@ -379,10 +379,8 @@
 		mIsRemovingTargets = YES;
 
 		NSArray* temp = [[self undoStack] copy];
-		NSEnumerator* iter = [temp objectEnumerator];
-		GCUndoGroup* task;
 
-		while ((task = [iter nextObject])) {
+		for (GCUndoGroup* task in temp) {
 			[task removeTasksWithTarget:target
 							undoManager:self];
 
@@ -396,9 +394,8 @@
 		[temp release];
 
 		temp = [[self redoStack] copy];
-		iter = [temp objectEnumerator];
 
-		while ((task = [iter nextObject])) {
+		for (GCUndoGroup* task in temp) {
 			[task removeTasksWithTarget:target
 							undoManager:self];
 
@@ -768,13 +765,11 @@
 
 	if ([self canUndo]) {
 		GCUndoGroup* topGroup = [self popUndo];
-		NSEnumerator* iter = [[topGroup tasks] objectEnumerator];
 		NSUInteger suffix = 0;
-		GCUndoTask* task;
 		GCUndoGroup* newTaskGroup;
 		NSString* selString;
 
-		while ((task = [iter nextObject])) {
+		for (GCUndoTask* task in [topGroup tasks]) {
 			newTaskGroup = [[GCUndoGroup alloc] init];
 			[newTaskGroup addTask:task];
 
@@ -908,11 +903,9 @@
 	if (target == nil && selector == NULL)
 		return [self tasks];
 
-	NSEnumerator* iter = [[self tasks] objectEnumerator];
-	GCUndoTask* task;
 	NSMutableArray* tasks = [NSMutableArray array];
 
-	while ((task = [iter nextObject])) {
+	for (GCUndoTask* task in [self tasks]) {
 		if ([task isKindOfClass:[GCConcreteUndoTask class]]) {
 			id targ = [(GCConcreteUndoTask*)task target];
 			SEL sel = [(GCConcreteUndoTask*)task selector];
@@ -932,10 +925,7 @@
 	if ([[self tasks] count] == 0)
 		return YES;
 	else {
-		NSEnumerator* iter = [[self tasks] objectEnumerator];
-		GCUndoTask* task;
-
-		while ((task = [iter nextObject])) {
+		for (GCUndoTask* task in self.tasks) {
 			if ([task isKindOfClass:[self class]]) {
 				// is a group - is that one empty?
 
@@ -955,10 +945,8 @@
 	// It also removes any subgroups that become empty as a result.
 
 	NSArray* temp = [[self tasks] copy];
-	NSEnumerator* iter = [temp objectEnumerator];
-	GCUndoTask* task;
 
-	while ((task = [iter nextObject])) {
+	for (GCUndoTask* task in temp) {
 		if ([task respondsToSelector:_cmd]) {
 			[(GCUndoGroup*)task removeTasksWithTarget:aTarget
 										  undoManager:um];

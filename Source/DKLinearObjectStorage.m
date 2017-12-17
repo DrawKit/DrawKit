@@ -15,20 +15,18 @@
 {
 	NSMutableArray* temp = [NSMutableArray array];
 	NSEnumerator* iter;
-	id<DKStorableObject> obj;
-	NSRect bounds;
 
 	if (options & kDKReverseOrder)
 		iter = [[self objects] reverseObjectEnumerator];
 	else
 		iter = [[self objects] objectEnumerator];
 
-	while ((obj = [iter nextObject])) {
+	for (id<DKStorableObject> obj in iter) {
 		if ((options & kDKIncludeInvisible) || [obj visible]) {
-			if (options & kDKIgnoreUpdateRect)
+			if (options & kDKIgnoreUpdateRect) {
 				[temp addObject:obj];
-			else {
-				bounds = [obj bounds];
+			} else {
+				NSRect bounds = [obj bounds];
 
 				// if a view was passed, use -needsToDrawRect, otherwise intersection with <rect>
 

@@ -258,7 +258,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  which way round layers are ordered to give the top to bottom visual stacking.
  @return An \c NSEnumerator object.
  */
-- (NSEnumerator*)layerTopToBottomEnumerator;
+- (NSEnumerator<DKLayer*>*)layerTopToBottomEnumerator;
 
 /** @brief Returns an enumerator that can be used to iterate over the layers in bottom to top order.
 
@@ -266,7 +266,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  which way round layers are ordered to give the top to bottom visual stacking.
  @return An \c NSEnumerator object.
  */
-- (NSEnumerator*)layerBottomToTopEnumerator;
+- (NSEnumerator<DKLayer*>*)layerBottomToTopEnumerator;
 
 
 /** @brief find the topmost layer in this group that is 'hit' by the given point

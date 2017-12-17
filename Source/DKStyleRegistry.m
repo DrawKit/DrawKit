@@ -14,10 +14,16 @@
 
 #pragma mark constants(non - localized)
 
-NSString* kDKStyleLibraryStylesCategory = @"All User Styles";
-NSString* kDKStyleTemporaryDocumentCategory = @"Temporary Document";
-NSString* kDKStyleRegistryDKDefaultsCategory = @"DrawKit Defaults";
-NSString* kDKStyleRegistryTextStylesCategory = @"Text Styles";
+NSString* const kDKStyleLibraryStylesCategory = @"All User Styles";
+NSString* const kDKStyleTemporaryDocumentCategory = @"Temporary Document";
+NSString* const kDKStyleRegistryDKDefaultsCategory = @"DrawKit Defaults";
+NSString* const kDKStyleRegistryTextStylesCategory = @"Text Styles";
+
+NSString* const kDKStyleCategoryLibraryStyles = @"All User Styles";
+NSString* const kDKStyleCategoryTemporaryDocument = @"Temporary Document";
+NSString* const kDKStyleCategoryRegistryDKDefaults = @"DrawKit Defaults";
+NSString* const kDKStyleCategoryRegistryTextStyles = @"Text Styles";
+
 
 NSString* kDKStyleRegistryDidFlagPossibleUIChange = @"kDKStyleRegistryDidFlagPossibleUIChange";
 NSString* kDKStyleWasRegisteredNotification = @"kDKDrawingStyleWasRegisteredNotification";
@@ -230,19 +236,19 @@ static BOOL s_NoDKDefaults = NO;
 {
 	NSAssert(styles != nil, @"array of styles was nil - can't register");
 
-	NSEnumerator* iter = [styles objectEnumerator];
-	DKStyle* style;
 	NSArray* stNames = nil;
 
 	[[self sharedStyleRegistry] setRecentlyAddedListEnabled:NO];
 
-	while ((style = [iter nextObject])) {
+	for (DKStyle* style in styles) {
 		if (ignoreDupes) {
-			if (stNames == nil)
+			if (stNames == nil) {
 				stNames = [[self sharedStyleRegistry] styleNames];
+			}
 
-			if ([stNames containsObject:[style name]])
+			if ([stNames containsObject:[style name]]) {
 				continue;
+			}
 		}
 
 		[self registerStyle:style
@@ -304,12 +310,9 @@ static BOOL s_NoDKDefaults = NO;
 {
 	NSAssert(styles != nil, @"cannot merge a nil set of styles");
 
-	NSEnumerator* iter = [styles objectEnumerator];
-	DKStyle* style;
-	DKStyle* regStyle;
 	NSMutableSet* changedStyles = nil;
 
-	while ((style = [iter nextObject])) {
+	for (DKStyle* style in styles) {
 		// this option relates to the old registry's behaviour, and is mostly inappropriate for this one. Whether a style is sharable or not
 		// generally has no connection to how it is registered in the current model.
 
@@ -319,7 +322,7 @@ static BOOL s_NoDKDefaults = NO;
 		// if the style is unknown to the registry, simply register it - in this case there's no need to do any complex merging or
 		// further analysis.
 
-		regStyle = [self styleForKey:[style uniqueKey]];
+		DKStyle* regStyle = [self styleForKey:[style uniqueKey]];
 
 		if (regStyle == nil)
 			[self registerStyle:style
@@ -390,20 +393,16 @@ static BOOL s_NoDKDefaults = NO;
  @return a dictionary, listing for each style whether it is unknown, older, the same or newer than the
  registry styles having the same keys.
  */
-+ (NSDictionary*)compareStylesInSet:(NSSet*)styles
++ (NSDictionary<NSString*,NSNumber*>*)compareStylesInSet:(NSSet*)styles
 {
 	NSAssert(styles != nil, @"can't preflight a nil set");
 
-	NSMutableDictionary* info = [NSMutableDictionary dictionary];
-	NSEnumerator* iter = [styles objectEnumerator];
-	DKStyle* style;
-	DKStyle* regStyle;
-	NSString* key;
-	NSNumber* infoValue;
+	NSMutableDictionary<NSString*,NSNumber*>* info = [NSMutableDictionary dictionary];
 
-	while ((style = [iter nextObject])) {
-		key = [style uniqueKey];
-		regStyle = [self styleForKey:key];
+	for (DKStyle* style in styles) {
+		NSNumber* infoValue;
+		NSString* key = [style uniqueKey];
+		DKStyle* regStyle = [self styleForKey:key];
 
 		if (regStyle == nil) {
 			// unknown style
@@ -531,20 +530,14 @@ static BOOL s_NoDKDefaults = NO;
 		catName = name;
 
 	if (list != nil) {
-		NSEnumerator* iter = [[list allKeys] objectEnumerator];
-		NSColor* colour;
-		NSString* key;
-		DKStyle* style;
-		NSArray* cats;
 		NSMutableArray* styles = [NSMutableArray array];
+		NSArray* cats = @[catName];
 
-		cats = @[catName];
+		for (NSColorName key in list.allKeys) {
+			NSColor* colour = [list colorWithKey:key];
 
-		while ((key = [iter nextObject])) {
-			colour = [list colorWithKey:key];
-
-			style = [DKStyle styleWithFillColour:colour
-									strokeColour:nil];
+			DKStyle* style = [DKStyle styleWithFillColour:colour
+											 strokeColour:nil];
 
 			if (style != nil) {
 				[style setName:[NSString stringWithFormat:@"%@ - fill", key]];
@@ -575,20 +568,14 @@ static BOOL s_NoDKDefaults = NO;
 		catName = name;
 
 	if (list != nil) {
-		NSEnumerator* iter = [[list allKeys] objectEnumerator];
-		NSColor* colour;
-		NSString* key;
-		DKStyle* style;
-		NSArray* cats;
 		NSMutableArray* styles = [NSMutableArray array];
+		NSArray* cats = @[catName];
 
-		cats = @[catName];
+		for (NSColorName key in list.allKeys) {
+			NSColor* colour = [list colorWithKey:key];
 
-		while ((key = [iter nextObject])) {
-			colour = [list colorWithKey:key];
-
-			style = [DKStyle styleWithFillColour:nil
-									strokeColour:colour];
+			DKStyle* style = [DKStyle styleWithFillColour:nil
+											 strokeColour:colour];
 
 			if (style != nil) {
 				[style setName:[NSString stringWithFormat:@"%@ - stroke", key]];
@@ -683,16 +670,15 @@ static BOOL s_NoDKDefaults = NO;
  */
 - (NSArray*)styleNames
 {
-	NSEnumerator* iter = [[self allObjects] objectEnumerator];
-	DKStyle* style;
 	NSMutableArray* names = [NSMutableArray array];
 
-	while ((style = [iter nextObject]))
+	for (DKStyle* style in self.allObjects) {
 		[names addObject:[style name]];
+	}
 
 	[names sortUsingSelector:@selector(caseInsensitiveCompare:)];
 
-	return names;
+	return [names copy];
 }
 
 /** @brief Return a list of the registered styles' names in the category, in alphabetical order
@@ -703,16 +689,15 @@ static BOOL s_NoDKDefaults = NO;
 {
 	// returns an alphabetical list of the styles' names in the given category
 
-	NSEnumerator* iter = [[self allKeysInCategory:catName] objectEnumerator];
 	NSMutableArray* names = [NSMutableArray array];
-	NSString* key;
 
-	while ((key = [iter nextObject]))
+	for (NSString* key in [self allKeysInCategory:catName]) {
 		[names addObject:[self styleNameForKey:key]];
+	}
 
 	[names sortUsingSelector:@selector(localisedCaseInsensitiveNumericCompare:)];
 
-	return names;
+	return [names copy];
 }
 
 /** @brief Write the registry to a file
@@ -786,14 +771,9 @@ static BOOL s_NoDKDefaults = NO;
 		DKStyleRegistry* regTemp = [[DKStyleRegistry alloc] initWithData:styleData];
 
 		if (regTemp != nil) {
-			NSEnumerator* iter = [[regTemp allObjects] objectEnumerator];
-			DKStyle* style;
-			NSSet* styles;
-			NSArray* cats;
-
-			while ((style = [iter nextObject])) {
-				cats = [regTemp categoriesContainingKey:[style uniqueKey]];
-				styles = [NSSet setWithObject:style];
+			for (DKStyle* style in regTemp.allObjects) {
+				NSArray* cats = [regTemp categoriesContainingKey:[style uniqueKey]];
+				NSSet* styles = [NSSet setWithObject:style];
 
 				[[self class] mergeStyles:styles
 							 inCategories:cats
@@ -836,14 +816,9 @@ static BOOL s_NoDKDefaults = NO;
 		DKStyleRegistry* regTemp = [[DKStyleRegistry alloc] initWithData:styleData];
 		
 		if (regTemp != nil) {
-			NSEnumerator* iter = [[regTemp allObjects] objectEnumerator];
-			DKStyle* style;
-			NSSet* styles;
-			NSArray* cats;
-			
-			while ((style = [iter nextObject])) {
-				cats = [regTemp categoriesContainingKey:[style uniqueKey]];
-				styles = [NSSet setWithObject:style];
+			for (DKStyle* style in regTemp.allObjects) {
+				NSArray* cats = [regTemp categoriesContainingKey:[style uniqueKey]];
+				NSSet* styles = [NSSet setWithObject:style];
 				
 				[[self class] mergeStyles:styles
 							 inCategories:cats

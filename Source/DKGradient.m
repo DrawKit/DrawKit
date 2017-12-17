@@ -113,11 +113,10 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	DKGradient* copy = [self copy];
 
 	NSColor* rgb = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
-	NSEnumerator* iter = [[copy colorStops] objectEnumerator];
-	DKColorStop* stop;
 
-	while ((stop = [iter nextObject]))
-		[stop setColor:[[stop color] colorWithHueAndSaturationFrom:rgb]];
+	for (DKColorStop* stop in copy.colorStops) {
+		stop.color = [stop.color colorWithHueAndSaturationFrom:rgb];
+	}
 
 	return copy;
 }
@@ -130,11 +129,9 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 {
 	DKGradient* copy = [self copy];
 
-	NSEnumerator* iter = [[copy colorStops] objectEnumerator];
-	DKColorStop* stop;
-
-	while ((stop = [iter nextObject]))
+	for (DKColorStop* stop in copy.colorStops) {
 		[stop setAlpha:alpha];
+	}
 
 	return copy;
 }
@@ -273,11 +270,9 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
 														object:self];
-	NSEnumerator* iter = [[self colorStops] objectEnumerator];
-	DKColorStop* stop;
-
-	while ((stop = [iter nextObject]))
-		[stop setPosition:1.0 - [stop position]];
+	for (DKColorStop *stop in self.colorStops) {
+		stop.position = 1.0 - stop.position;
+	}
 
 	[self sortColorStops];
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
@@ -1102,12 +1097,9 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	grad->m_interp = m_interp;
 
 	[grad removeAllColors];
-	NSEnumerator* curs = [[self colorStops] objectEnumerator];
-	id stop;
-	id stopCopy;
 
-	while ((stop = [curs nextObject])) {
-		stopCopy = [stop copy];
+	for (id stop in [self colorStops]) {
+		id stopCopy = [stop copy];
 		[grad addColorStop:stopCopy];
 	}
 

@@ -306,16 +306,13 @@
 
 - (void)drawGroupContent
 {
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableShape* od;
-
 	if (m_transformVisually) {
 		[NSGraphicsContext saveGraphicsState];
 		NSAffineTransform* tfm = [self contentTransform];
 		[tfm concat];
 	}
 
-	while ((od = [iter nextObject])) {
+	for (DKDrawableShape* od in self.groupObjects) {
 		if ([od visible]) {
 			[od setBeingHitTested:[self isBeingHitTested]];
 			[od drawContentWithSelectedState:NO];
@@ -428,8 +425,6 @@
 
 	LogEvent_(kReactiveEvent, @"will ungroup %lu objects, inserting at %ld", (unsigned long)[m_objects count], (long)groupIndex);
 
-	NSEnumerator* iter = [m_objects objectEnumerator];
-	DKDrawableObject* obj;
 	NSAffineTransform* tfm;
 	NSInteger insertIndex = groupIndex;
 
@@ -438,7 +433,7 @@
 	else
 		tfm = [self renderingTransform];
 
-	while ((obj = [iter nextObject])) {
+	for (DKDrawableObject* obj in m_objects) {
 		// set the object's container to the layer it will become part of, so its transform is not influenced
 		// by the group for the next step.
 
@@ -534,13 +529,10 @@
 {
 	// return the union of all the contained objects' styles
 
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	NSSet* styles;
 	NSMutableSet* unionOfAllStyles = nil;
-	DKDrawableObject* dko;
 
-	while ((dko = [iter nextObject])) {
-		styles = [dko allStyles];
+	for (DKDrawableObject* dko in self.groupObjects) {
+		NSSet* styles = dko.allStyles;
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -559,13 +551,10 @@
 {
 	// return the union of all the contained objects' registered styles
 
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	NSSet* styles;
 	NSMutableSet* unionOfAllStyles = nil;
-	DKDrawableObject* dko;
 
-	while ((dko = [iter nextObject])) {
-		styles = [dko allRegisteredStyles];
+	for (DKDrawableObject* dko in self.groupObjects) {
+		NSSet* styles = [dko allRegisteredStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -736,23 +725,19 @@
 
 - (void)setGhosted:(BOOL)ghosted
 {
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableObject* obj;
-
-	while ((obj = [iter nextObject]))
+	for (DKDrawableObject* obj in self.groupObjects) {
 		[obj setGhosted:ghosted];
+	}
 
 	[self notifyVisualChange];
 }
 
 - (BOOL)isGhosted
 {
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableObject* obj;
-
-	while ((obj = [iter nextObject])) {
-		if ([obj isGhosted])
+	for (DKDrawableObject* obj in self.groupObjects) {
+		if ([obj isGhosted]) {
 			return YES;
+		}
 	}
 
 	return NO;
@@ -908,20 +893,17 @@
 	DKShapeGroup* copy = [super copyWithZone:zone];
 
 	NSMutableArray* objectsCopy = [[NSMutableArray alloc] init];
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableShape* obj;
-	DKDrawableShape* copyOfObj;
 
 	// make a deep copy of the group's objects
 
-	while ((obj = [iter nextObject])) {
-		copyOfObj = [obj copyWithZone:zone];
+	for (DKDrawableShape* obj in self.groupObjects) {
+		DKDrawableShape* copyOfObj = [obj copyWithZone:zone];
 
 		[objectsCopy addObject:copyOfObj];
 		[copyOfObj setContainer:copy];
 	}
 
-	copy->m_objects = objectsCopy;
+	copy->m_objects = [objectsCopy copyWithZone:zone];
 	copy->mBounds = mBounds;
 	copy->mClipContentToPath = mClipContentToPath;
 

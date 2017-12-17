@@ -197,12 +197,10 @@
  */
 - (DKRasterizer*)rendererWithName:(NSString*)name
 {
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
-
-	while ((rend = [iter nextObject])) {
-		if ([[rend name] isEqualToString:name])
+	for (DKRasterizer* rend in self.renderList) {
+		if ([[rend name] isEqualToString:name]) {
 			return rend;
+		}
 	}
 
 	return nil;
@@ -275,12 +273,10 @@
  */
 - (void)removeAllRenderers
 {
-	NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
-	DKRasterizer* rast;
-
-	while ((rast = [iter nextObject])) {
-		if (![rast isKindOfClass:[self class]])
+	for (DKRasterizer* rast in self.renderList) {
+		if (![rast isKindOfClass:[self class]]) {
 			[self removeRenderer:rast];
+		}
 	}
 }
 
@@ -295,15 +291,13 @@
 {
 	// removes any renderers of the given *exact* class from the group. If <subs> is YES, recurses down to any subgroups below.
 
-	NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
-	DKRasterizer* rast;
-
-	while ((rast = [iter nextObject])) {
-		if ([rast isMemberOfClass:cl])
+	for (DKRasterizer* rast in self.renderList) {
+		if ([rast isMemberOfClass:cl]) {
 			[self removeRenderer:rast];
-		else if (subs && [rast isKindOfClass:[self class]])
+		} else if (subs && [rast isKindOfClass:[self class]]) {
 			[(DKRastGroup*)rast removeRenderersOfClass:cl
 										   inSubgroups:subs];
+		}
 	}
 }
 
@@ -342,12 +336,10 @@
 	if ([self countOfRenderList] < 1)
 		return NO;
 
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
-
-	while ((rend = [iter nextObject])) {
-		if ([rend enabled] && [rend isValid])
+	for (DKRasterizer* rend in self.renderList) {
+		if ([rend enabled] && [rend isValid]) {
 			return YES;
+		}
 	}
 
 	// went through list and nothing was valid, so group isn't valid.
@@ -364,20 +356,17 @@
 	// with the correct syntax to indicate the full hierarchy and oredr ofthe renderers. The spec string can be used to construct a
 	// render group having the same properties.
 
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
-	NSMutableString* str;
-
-	str = [[NSMutableString alloc] init];
+	NSMutableString* str = [[NSMutableString alloc] init];
 
 	[str setString:@"{"];
 
-	while ((rend = [iter nextObject]))
+	for (DKRasterizer* rend in self.renderList) {
 		[str appendString:[rend styleScript]];
+	}
 
 	[str appendString:@"}"];
 
-	return str;
+	return [str copy];
 }
 
 #pragma mark -
@@ -459,10 +448,7 @@
 	NSSize rs, accSize = NSZeroSize;
 
 	if ([self enabled]) {
-		NSEnumerator* iter = [[self renderList] objectEnumerator];
-		DKRasterizer* rend;
-
-		while ((rend = [iter nextObject])) {
+		for (DKRasterizer* rend in self.renderList) {
 			rs = [rend extraSpaceNeeded];
 
 			if (rs.width > accSize.width)
@@ -517,8 +503,9 @@
 - (BOOL)isFill
 {
 	for (DKRasterizer* rast in [self renderList]) {
-		if ([rast isFill])
+		if ([rast isFill]) {
 			return YES;
+		}
 	}
 
 	return NO;
@@ -614,13 +601,12 @@
  */
 - (id)valueForUndefinedKey:(NSString*)key
 {
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
 	Class classForKey = [self renderClassForKey:key];
 
-	while ((rend = [iter nextObject])) {
-		if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey]))
+	for (DKRasterizer *rend in self.renderList) {
+		if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey])) {
 			return rend;
+		}
 	}
 	return nil;
 }

@@ -9,7 +9,7 @@
 
 @class DKGridLayer;
 
-enum {
+typedef NS_ENUM(NSInteger, DKAlignment) {
 	kDKAlignmentLeftEdge = 0,
 	kDKAlignmentTopEdge = 1,
 	kDKAlignmentRightEdge = 2,
@@ -63,27 +63,29 @@ This category implements object alignment features for DKObjectDrawingLayer
  */
 - (DKDrawableObject*)keyObject;
 
+@property (unsafe_unretained) DKDrawableObject *keyObject;
+
 /** @brief Aligns a set of objects
 
  Objects are aligned with the layer's nominated key object, by default the first object in the supplied list
  @param objects the objects to align
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects withAlignment:(DKAlignmentAlign)align;
+- (void)alignObjects:(NSArray<DKDrawableObject*>*)objects withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Aligns a set ofobjects
  @param objects the objects to align
  @param object the "master" object - the one to which the others are aligned
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects toMasterObject:(id)object withAlignment:(DKAlignmentAlign)align;
+- (void)alignObjects:(NSArray<DKDrawableObject*>*)objects toMasterObject:(id)object withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Aligns a set of objects to a given point
  @param objects the objects to align
  @param loc the point to which the objects are aligned
  @param align the alignment operation required
  */
-- (void)alignObjects:(NSArray*)objects toLocation:(NSPoint)loc withAlignment:(DKAlignmentAlign)align;
+- (void)alignObjects:(NSArray<DKDrawableObject*>*)objects toLocation:(NSPoint)loc withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Aligns the objects to the grid, resizing and positioning as necessary so that all edges lie on
  the grid. The logical bounds is used for alignment, consistent with normal snapping behaviour.
@@ -92,7 +94,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param objects the objects to align
  @param grid the grid to use
  */
-- (void)alignObjectEdges:(NSArray*)objects toGrid:(DKGridLayer*)grid;
+- (void)alignObjectEdges:(NSArray<DKDrawableObject*>*)objects toGrid:(DKGridLayer*)grid;
 
 /** @brief Aligns a set of objects so their locations lie on a grid intersection
 
@@ -100,7 +102,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param objects the objects to align
  @param grid the grid to use
  */
-- (void)alignObjectLocation:(NSArray*)objects toGrid:(DKGridLayer*)grid;
+- (void)alignObjectLocation:(NSArray<DKDrawableObject*>*)objects toGrid:(DKGridLayer*)grid;
 
 /** @brief Computes the amount of space available for a vertical distribution operation
 
@@ -110,7 +112,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param objects the objects to align
  @return the total space available for distribution in the vertical direction
  */
-- (CGFloat)totalVerticalSpace:(NSArray*)objects;
+- (CGFloat)totalVerticalSpace:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Computes the amount of space available for a horizontal distribution operation
 
@@ -120,19 +122,19 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param objects the objects to align
  @return the total space available for distribution in the horizontal direction
  */
-- (CGFloat)totalHorizontalSpace:(NSArray*)objects;
+- (CGFloat)totalHorizontalSpace:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Sorts a set of objects into order of their vertical location
  @param objects the objects to sort
  @return a copy of the array sorted into vertical order
  */
-- (NSArray*)objectsSortedByVerticalPosition:(NSArray*)objects;
+- (NSArray*)objectsSortedByVerticalPosition:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Sorts a set of objects into order of their horizontal location
  @param objects the objects to sort
  @return a copy of the array sorted into horizontal order
  */
-- (NSArray*)objectsSortedByHorizontalPosition:(NSArray*)objects;
+- (NSArray*)objectsSortedByHorizontalPosition:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Distributes a set of objects
 
@@ -142,7 +144,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param align the distribution required
  @return YES if the operation could be performed, NO otherwise
  */
-- (BOOL)distributeObjects:(NSArray*)objects withAlignment:(DKAlignmentAlign)align;
+- (BOOL)distributeObjects:(NSArray<DKDrawableObject*>*)objects withAlignment:(DKAlignmentAlign)align;
 
 /** @brief Returns the minimum number of objects needed to enable the user interface item
 

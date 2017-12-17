@@ -666,11 +666,9 @@ static BOOL sSubstitute = NO;
 		if (!quiet)
 			[self notifyClientsBeforeChange];
 
-		NSEnumerator* iter = [[self renderersOfClass:[DKStroke class]] objectEnumerator];
-		DKStroke* stroke;
-
-		while ((stroke = [iter nextObject]))
+		for (DKStroke* stroke in [self renderersOfClass:[DKStroke class]]) {
 			[stroke scaleWidthBy:scale];
+		}
 
 		if (!quiet)
 			[self notifyClientsAfterChange];
@@ -687,12 +685,10 @@ static BOOL sSubstitute = NO;
 	NSArray* strokes = [self renderersOfClass:[DKStroke class]];
 
 	if (strokes) {
-		NSEnumerator* iter = [strokes objectEnumerator];
-		DKStroke* stk;
-
-		while ((stk = [iter nextObject])) {
-			if ([stk width] > maxWid)
+		for (DKStroke* stk in strokes) {
+			if ([stk width] > maxWid) {
 				maxWid = [stk width];
+			}
 		}
 	}
 
@@ -710,15 +706,14 @@ static BOOL sSubstitute = NO;
 	NSArray* strokes = [self renderersOfClass:[DKStroke class]];
 
 	if (strokes != nil && [strokes count] > 1) {
-		NSEnumerator* iter = [strokes objectEnumerator];
-		DKStroke* stk;
-
-		while ((stk = [iter nextObject])) {
-			if ([stk width] > maxWid)
+		for (DKStroke* stk in strokes) {
+			if ([stk width] > maxWid) {
 				maxWid = [stk width];
+			}
 
-			if ([stk width] < minWid)
+			if ([stk width] < minWid) {
 				minWid = [stk width];
+			}
 		}
 
 		return maxWid - minWid;
@@ -873,7 +868,7 @@ static BOOL sSubstitute = NO;
 			NSEnumerator* iter = [[style renderList] reverseObjectEnumerator];
 			DKRasterizer* rast = nil;
 
-			while ((rast = [iter nextObject])) {
+			for (rast in iter) {
 				if ([rast respondsToSelector:@selector(setImage:)]) {
 					[(id)rast setImage:image];
 					break;
@@ -1165,20 +1160,20 @@ static BOOL sSubstitute = NO;
 	NSSize rs, accSize = NSZeroSize;
 
 	if ([self enabled]) {
-		NSEnumerator* iter = [[self renderList] objectEnumerator];
-		DKRasterizer* rend;
-
-		while ((rend = [iter nextObject])) {
-			if ([rend respondsToSelector:_cmd])
+		for (DKRasterizer* rend in self.renderList) {
+			if ([rend respondsToSelector:_cmd]) {
 				rs = [(id)rend extraSpaceNeededIgnoringMitreLimit];
-			else
+			} else {
 				rs = [rend extraSpaceNeeded];
+			}
 
-			if (rs.width > accSize.width)
+			if (rs.width > accSize.width) {
 				accSize.width = rs.width;
+			}
 
-			if (rs.height > accSize.height)
+			if (rs.height > accSize.height) {
 				accSize.height = rs.height;
+			}
 		}
 	}
 
@@ -1212,12 +1207,9 @@ static BOOL sSubstitute = NO;
 	NSAssert(otherStyle != nil, @"can't merge a nil style");
 
 	DKStyle* newStyle = [self mutableCopy];
-	NSEnumerator* iter = [[otherStyle renderList] objectEnumerator];
-	DKRasterizer* rast;
 
-	while ((rast = [iter nextObject])) {
-		rast = [rast copy];
-		[newStyle addRenderer:rast];
+	for (DKRasterizer* rast in otherStyle.renderList) {
+		[newStyle addRenderer:[rast copy]];
 	}
 
 	return newStyle;

@@ -53,11 +53,10 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 {
 	NSMutableArray* list = [NSMutableArray array];
 	NSArray* keys = [[sDashDict allKeys] sortedArrayUsingSelector:@selector(compare:)];
-	NSEnumerator* iter = [keys objectEnumerator];
-	NSString* key;
 
-	while ((key = [iter nextObject]))
+	for (NSString *key in keys) {
 		[list addObject:[sDashDict valueForKey:key]];
+	}
 
 	return list;
 }

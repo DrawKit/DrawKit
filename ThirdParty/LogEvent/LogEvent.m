@@ -81,11 +81,7 @@ void InitializePrefsForEventTypeNames(void)
 		unsigned count = [eventTypeNames count];
 		NSMutableDictionary* defaultPrefs = [NSMutableDictionary dictionaryWithCapacity:count];
 		NSNumber* defaultLoggingState = @NO;
-		
-		NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
-		assert(typeNameEnumerator != nil);
-		NSString* typeName;
-		while ((typeName = [typeNameEnumerator nextObject]) != nil)
+		for (NSString *typeName in eventTypeNames)
 		{
 			assert(defaultPrefs != nil);
 			assert(defaultLoggingState != nil);
@@ -185,12 +181,9 @@ BOOL IsAnyEventTypeBeingLogged(void)
 	NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
 	
 	assert(eventTypeNames != nil);
-	NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 	
-	assert(typeNameEnumerator != nil);
-	NSString* typeName;
-	while ((typeName = [typeNameEnumerator nextObject]) != nil)
+	for (NSString *typeName in eventTypeNames)
 	{
 		assert(userPrefs != nil);
 		assert(typeName != nil);
@@ -255,11 +248,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 	
 	assert(eventTypeNames != nil);
-	NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
-	
-	assert(typeNameEnumerator != nil);
-	NSString* typeName;
-	while ((typeName = [typeNameEnumerator nextObject]) != nil)
+	for (NSString* typeName in eventTypeNames)
 	{
 		assert(typeName != nil);
 		assert(userPrefs != nil);
@@ -355,11 +344,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 		NSDictionary* eventTypes = [self eventTypes];
 		
 		NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-		NSEnumerator* keyEnumerator = [eventTypes keyEnumerator];
-		
-		NSAssert(keyEnumerator != nil, @"Expected valid keyEnumerator");
-		NSString* eventKey;
-		while ((eventKey = [keyEnumerator nextObject]) != nil)
+		for (NSString* eventKey in eventTypes)
 		{
 			NSAssert(eventKey != nil, @"Expected valid eventKey");
 			NSButton* eventButton = [eventTypes objectForKey:eventKey];
@@ -495,17 +480,13 @@ void LogLoggingState(NSArray* eventTypeNames)
 	NSDictionary* eventTypes = [self eventTypes];
 	
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-	NSEnumerator* keyEnumerator = [eventTypes keyEnumerator];
-	
-	NSAssert(keyEnumerator != nil, @"Expected valid keyEnumerator");
-	NSString* eventKey;
-	while ((eventKey = [keyEnumerator nextObject]) != nil)
+	for (NSString* eventKey in eventTypes)
 	{
 		NSAssert(eventKey != nil, @"Expected valid eventKey");
 		NSButton* eventButton = [eventTypes objectForKey:eventKey];
 		
 		NSAssert(eventButton != nil, @"Expected valid eventButton");
-		int buttonState = [eventButton state];
+		NSControlStateValue buttonState = [eventButton state];
 		
 		if (buttonState == NSOnState)
 		{

@@ -379,10 +379,8 @@ static void unmarkFunc(const void* value, void* context)
 	// reload the tree
 
 	NSUInteger z = 0;
-	NSEnumerator* iter = [[self objects] objectEnumerator];
-	id<DKStorableObject> obj;
 
-	while ((obj = [iter nextObject])) {
+	for (id<DKStorableObject> obj in [self objects]) {
 		if ([obj conformsToProtocol:@protocol(DKStorableObject)]) {
 			[obj setIndex:z++];
 			[obj setStorage:self];
@@ -490,10 +488,7 @@ static void unmarkFunc(const void* value, void* context)
 
 - (void)removeAllObjects
 {
-	NSEnumerator* iter = [mLeaves objectEnumerator];
-	NSMutableArray* leaf;
-
-	while ((leaf = [iter nextObject]))
+	for (NSMutableArray* leaf in mLeaves)
 		[leaf removeAllObjects];
 
 	mObjectCount = 0;
@@ -632,11 +627,9 @@ static void addValueToFoundObjects(const void* value, void* context)
 {
 	// removes all references to <obj> from the tree. Ignores its bounds and simply iterates over the leaves removing the object.
 
-	NSEnumerator* iter = [mLeaves objectEnumerator];
-	NSMutableArray* leaf;
-
-	while ((leaf = [iter nextObject]))
+	for (NSMutableArray* leaf in mLeaves) {
 		[leaf removeObject:obj];
+	}
 
 	if (mObjectCount > 0)
 		mObjectCount--;

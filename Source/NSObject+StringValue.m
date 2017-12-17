@@ -90,10 +90,8 @@
 {
 	NSMutableString* sv = [[NSMutableString alloc] init];
 	id object;
-	id key;
-	NSEnumerator* iter = [[self allKeys] objectEnumerator];
 
-	while ((key = [iter nextObject])) {
+	for (id key in self) {
 		object = [self objectForKey:key];
 		[sv appendString:[NSString stringWithFormat:@"%@: %@\n", key, [object stringValue]]];
 	}
@@ -111,10 +109,8 @@
 - (NSString*)stringValue
 {
 	NSMutableString* sv = [[NSMutableString alloc] init];
-	id object;
-	NSEnumerator* iter = [self objectEnumerator];
 
-	while ((object = [iter nextObject])) {
+	for (id object in self) {
 		[sv appendString:[NSString stringWithFormat:@"%@\n", [object stringValue]]];
 	}
 

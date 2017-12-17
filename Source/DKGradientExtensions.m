@@ -246,16 +246,11 @@
 
 - (void)convertOldKeys
 {
-	NSEnumerator* iter = [[m_extensionData allKeys] objectEnumerator];
-	NSString* key;
-	id value;
-	const char* ctyp;
-
-	while ((key = [iter nextObject])) {
-		value = [m_extensionData valueForKey:key];
+	for (NSString *key in m_extensionData) {
+		id value = [m_extensionData valueForKey:key];
 
 		if ([value isKindOfClass:[NSValue class]]) {
-			ctyp = [value objCType];
+			const char* ctyp = [value objCType];
 
 			if (strcmp(ctyp, @encode(NSPoint)) == 0)
 				[self convertOldKey:key];

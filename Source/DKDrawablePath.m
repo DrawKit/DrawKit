@@ -653,14 +653,12 @@ static NSColor* sInfoWindowColour = nil;
 	// returns one object in the array which is equivalent to a copy.
 
 	NSArray* subpaths = [[self path] subPaths];
-	NSEnumerator* iter = [subpaths objectEnumerator];
-	NSBezierPath* pp;
 	NSMutableArray* newObjects;
 	DKDrawablePath* dp;
 
 	newObjects = [[NSMutableArray alloc] init];
 
-	while ((pp = [iter nextObject])) {
+	for (NSBezierPath* pp in subpaths) {
 		if (![pp isEmpty]) {
 			dp = [[self class] drawablePathWithBezierPath:pp];
 
@@ -1822,12 +1820,10 @@ finish:
 	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
 
 	if (odl && [broken count] > 1) {
-		NSEnumerator* iter = [broken objectEnumerator];
-		DKDrawableObject* obj;
-
-		while ((obj = [iter nextObject]))
+		for (DKDrawableObject* obj in broken) {
 			[obj willBeAddedAsSubstituteFor:self
 									toLayer:odl];
+		}
 
 		[odl recordSelectionForUndo];
 		[odl addObjectsFromArray:broken];

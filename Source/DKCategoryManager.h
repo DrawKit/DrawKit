@@ -10,6 +10,8 @@
 @protocol DKCategoryManagerMergeDelegate;
 @protocol DKCategoryManagerMenuItemDelegate;
 
+typedef NSString *DKCategoryName NS_EXTENSIBLE_STRING_ENUM;
+
 // menu creation options:
 typedef NS_OPTIONS(NSUInteger, DKCategoryMenuOptions) {
 	kDKIncludeRecentlyAddedItems = (1 << 0),
@@ -35,12 +37,12 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  informed of the changes and in turn update the menus to match by adding or deleting menu items. This is necessary because when the CM grows to a significant number
  of items, rebuilding the menus is very time-consuming. This way performance is much better.
 */
-@interface DKCategoryManager : NSObject <NSCoding, NSCopying> {
+@interface DKCategoryManager<__covariant ObjectType> : NSObject <NSCoding, NSCopying> {
 @private
-	NSMutableDictionary* m_masterList;
-	NSMutableDictionary<NSString*,id>* m_categories;
-	NSMutableArray* m_recentlyAdded;
-	NSMutableArray* m_recentlyUsed;
+	NSMutableDictionary<NSString*,ObjectType>* m_masterList;
+	NSMutableDictionary<DKCategoryName, NSMutableArray<ObjectType>*>* m_categories;
+	NSMutableArray<ObjectType>* m_recentlyAdded;
+	NSMutableArray<ObjectType>* m_recentlyUsed;
 	NSUInteger m_maxRecentlyAddedItems;
 	NSUInteger m_maxRecentlyUsedItems;
 	NSMutableArray<DKCategoryManagerMenuInfo*>* mMenusList;
@@ -60,12 +62,13 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict an existign dictionary
  @return a category manager object
  */
-+ (DKCategoryManager*)categoryManagerWithDictionary:(NSDictionary<NSString*,id>*)dict;
++ (DKCategoryManager*)categoryManagerWithDictionary:(NSDictionary<NSString*,ObjectType>*)dict;
 
 /** @brief Return the default categories defined for this class
  @return an array of categories */
 + (NSArray<NSString*>*)defaultCategories;
 
+@property (class, readonly, strong) DKCategoryManager *categoryManager;
 @property (class, readonly, copy) NSArray<NSString*> *defaultCategories;
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
@@ -93,7 +96,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict dictionary containing a set of objects and keys
  @return the category manager object
  */
-- (instancetype)initWithDictionary:(NSDictionary<NSString*,id>*)dict;
+- (instancetype)initWithDictionary:(NSDictionary<NSString*,ObjectType>*)dict;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
@@ -108,7 +111,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the name of the category to add it to, or nil for defaults only
  @param cg YES to create the category if it doesn't exist. NO not to do so
  */
-- (void)addObject:(id)obj forKey:(NSString*)name toCategory:(NSString*)catName createCategory:(BOOL)cg;
+- (void)addObject:(ObjectType)obj forKey:(NSString*)name toCategory:(DKCategoryName)catName createCategory:(BOOL)cg;
 
 /** @brief Add an object to the container, associating with a key and optionally a number of categories.
 
@@ -118,7 +121,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames the names of the categories to add it to, or nil for defaults
  @param cg YES to create the categories if they don't exist. NO not to do so
  */
-- (void)addObject:(id)obj forKey:(NSString*)name toCategories:(NSArray<NSString*>*)catNames createCategories:(BOOL)cg;
+- (void)addObject:(ObjectType)obj forKey:(NSString*)name toCategories:(NSArray<DKCategoryName>*)catNames createCategories:(BOOL)cg;
 
 /** @brief Remove an object from the container
 
@@ -152,7 +155,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param key the object's key
  @return the object if available, else nil
  */
-- (id)objectForKey:(NSString*)key;
+- (ObjectType)objectForKey:(NSString*)key;
 
 /** @brief Return the object for the given key, optionally remembering it in the "recently used" list
 
@@ -161,7 +164,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param add if YES, object's key is added to recently used items
  @return the object if available, else nil
  */
-- (id)objectForKey:(NSString*)key addToRecentlyUsedItems:(BOOL)add;
+- (ObjectType)objectForKey:(NSString*)key addToRecentlyUsedItems:(BOOL)add;
 
 /** @brief Returns a list of all unique keys that refer to the given object
 
@@ -169,13 +172,13 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param obj the object
  @return an array, listing all the unique keys that refer to the object.
  */
-- (NSArray<NSString*>*)keysForObject:(id)obj;
+- (NSArray<NSString*>*)keysForObject:(ObjectType)obj;
 
 /** @brief Return a copy of the master dictionary
  @return the main dictionary
  */
-- (NSDictionary<NSString*,id>*)dictionary;
-@property (readonly, copy)NSDictionary<NSString*,id> *dictionary;
+- (NSDictionary<NSString*,ObjectType>*)dictionary;
+@property (readonly, copy) NSDictionary<NSString*,ObjectType> *dictionary;
 
 // smartly merging objects:
 
@@ -187,7 +190,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return a set, possibly empty. The set contains those objects that already existed in the CM that should replace
  equivalent items in the supplied set.
  */
-- (NSSet*)mergeObjectsFromSet:(NSSet*)aSet inCategories:(NSArray<NSString*>*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
+- (NSSet*)mergeObjectsFromSet:(NSSet<ObjectType>*)aSet inCategories:(NSArray<DKCategoryName>*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
 
 /** @brief Asks delegate to make decision about the merging of an object
 
@@ -196,7 +199,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param aDelegate the delegate to ask
  @return an equivalent object or nil. May be the supplied object or another having an identical ID.
  */
-- (id)mergeObject:(id)obj mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
+- (ObjectType)mergeObject:(ObjectType)obj mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
 
 // retrieving lists of objects by category
 
@@ -208,7 +211,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category name
  @return an array, the list of objects indicated by the category. May be empty.
  */
-- (NSArray*)objectsInCategory:(NSString*)catName;
+- (NSArray<ObjectType>*)objectsInCategory:(DKCategoryName)catName;
 
 /** @brief Return all of the objects belonging to the given categories
 
@@ -218,7 +221,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames list of categories
  @return an array, the list of objects indicated by the categories. May be empty.
  */
-- (NSArray*)objectsInCategories:(NSArray<NSString*>*)catNames;
+- (NSArray<ObjectType>*)objectsInCategories:(NSArray<DKCategoryName>*)catNames;
 
 /** @brief Return all of the keys in a given category
 
@@ -234,7 +237,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  because the master list contains case-modified keys that may not be matched with categories.
  @return an array, all keys (listed only once)
  */
-- (NSArray<NSString*>*)allKeysInCategory:(NSString*)catName;
+- (NSArray<NSString*>*)allKeysInCategory:(DKCategoryName)catName;
 
 /** @brief Return all of the keys in all given categories
 
@@ -242,13 +245,15 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames an array of category names
  @return an array, the union of keys in listed categories. May be empty.
  */
-- (NSArray<NSString*>*)allKeysInCategories:(NSArray<NSString*>*)catNames;
+- (NSArray<NSString*>*)allKeysInCategories:(NSArray<DKCategoryName>*)catNames;
 - (NSArray<NSString*>*)allKeys;
+
+@property (readonly, copy) NSArray<NSString*> *allKeys;
 
 /** @brief Return all of the objects
  @return an array, all objects (listed only once, in arbitrary order)
  */
-- (NSArray*)allObjects;
+- (NSArray<ObjectType>*)allObjects;
 
 /** @brief Return all of the keys in a given category, sorted into some useful order
 
@@ -257,7 +262,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category name
  @return an array, the list of keys indicated by the category. May be empty.
  */
-- (NSArray<NSString*>*)allSortedKeysInCategory:(NSString*)catName;
+- (NSArray<NSString*>*)allSortedKeysInCategory:(DKCategoryName)catName;
 
 /** @brief Return all of the names in a given category, sorted into some useful order
 
@@ -267,30 +272,30 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category name
  @return an array, the list of names indicated by the category. May be empty.
  */
-- (NSArray<NSString*>*)allSortedNamesInCategory:(NSString*)catName;
+- (NSArray<NSString*>*)allSortedNamesInCategory:(DKCategoryName)catName;
 
 /** @brief Replaces the recently added items with new items, up to the current max.
  @param array an array of suitable objects
  */
-- (void)setRecentlyAddedItems:(NSArray*)array;
+- (void)setRecentlyAddedItems:(NSArray<ObjectType>*)array;
 
 /** @brief Return the list of recently added items
 
  Returned objects are in order of addition, most recent first.
  @return an array, the list of keys recently added.
  */
-- (NSArray*)recentlyAddedItems;
+- (NSArray<ObjectType>*)recentlyAddedItems;
 
-@property (nonatomic, strong) NSArray *recentlyAddedItems;
+@property (nonatomic, strong) NSArray<ObjectType> *recentlyAddedItems;
 
 /** @brief Return the list of recently used items
 
  Returned objects are in order of use, most recent first.
  @return an array, the list of keys recently used.
  */
-- (NSArray*)recentlyUsedItems;
+- (NSArray<ObjectType>*)recentlyUsedItems;
 
-@property (readonly, nonatomic, strong) NSArray *recentlyUsedItems;
+@property (readonly, nonatomic, strong) NSArray<ObjectType> *recentlyUsedItems;
 
 // category management - creating, deleting and renaming categories
 
@@ -303,18 +308,18 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 /** @brief Return the default categories defined for this class or object
  @return an array of categories
  */
-- (NSArray<NSString*>*)defaultCategories;
-@property (readonly, copy) NSArray<NSString*> *defaultCategories;
+- (NSArray<DKCategoryName>*)defaultCategories;
+@property (readonly, copy) NSArray<DKCategoryName> *defaultCategories;
 
 /** @brief Create a new category with the given name
 
  If the name is already a category name, this does nothing
  @param catName the name of the new category */
-- (void)addCategory:(NSString*)catName;
+- (void)addCategory:(DKCategoryName)catName;
 
 /** @brief Create a new categories with the given names
  @param catNames a list of the names of the new categories */
-- (void)addCategories:(NSArray<NSString*>*)catNames;
+- (void)addCategories:(NSArray<DKCategoryName>*)catNames;
 
 /** @brief Remove a category with the given name
 
@@ -323,7 +328,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  category.
  @param catName the category to remove
  */
-- (void)removeCategory:(NSString*)catName;
+- (void)removeCategory:(DKCategoryName)catName;
 
 /** @brief Change a category's name
 
@@ -331,7 +336,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category's old name
  @param newname the category's new name
  */
-- (void)renameCategory:(NSString*)catName to:(NSString*)newname;
+- (void)renameCategory:(DKCategoryName)catName to:(DKCategoryName)newname;
 
 /** @brief Removes all categories and objects from the CM.
 
@@ -343,23 +348,23 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param key the key to add
  @param catName the category to add it to
  @param cg YES to create the category if it doesn't exist, NO otherwise */
-- (void)addKey:(NSString*)key toCategory:(NSString*)catName createCategory:(BOOL)cg;
+- (void)addKey:(NSString*)key toCategory:(DKCategoryName)catName createCategory:(BOOL)cg;
 
 /** @brief Adds a new key to several categories, optionally creating any if necessary
  @param key the key to add
  @param catNames a list of categories to add it to
  @param cg YES to create the category if it doesn't exist, NO otherwise */
-- (void)addKey:(NSString*)key toCategories:(NSArray<NSString*>*)catNames createCategories:(BOOL)cg;
+- (void)addKey:(NSString*)key toCategories:(NSArray<DKCategoryName>*)catNames createCategories:(BOOL)cg;
 
 /** @brief Removes a key from a category
  @param key the key to remove
  @param catName the category to remove it from */
-- (void)removeKey:(NSString*)key fromCategory:(NSString*)catName;
+- (void)removeKey:(NSString*)key fromCategory:(DKCategoryName)catName;
 
 /** @brief Removes a key from a number of categories
  @param key the key to remove
  @param catNames the list of categories to remove it from */
-- (void)removeKey:(NSString*)key fromCategories:(NSArray<NSString*>*)catNames;
+- (void)removeKey:(NSString*)key fromCategories:(NSArray<DKCategoryName>*)catNames;
 
 /** @brief Removes a key from all categories
  @param key the key to remove */
@@ -388,7 +393,8 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  The list is alphabetically sorted for the convenience of a user interface
  @return an array containg a list of all category names
  */
-- (NSArray<NSString*>*)allCategories;
+- (NSArray<DKCategoryName>*)allCategories;
+@property (readonly, copy) NSArray<DKCategoryName>*allCategories;
 
 /** @brief Get the count of all categories
  @return the number of categories currently defined
@@ -402,8 +408,8 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param key the key in question
  @return an array containing a list of categories which contain the key
  */
-- (NSArray<NSString*>*)categoriesContainingKey:(NSString*)key;
-- (NSArray<NSString*>*)categoriesContainingKey:(NSString*)key withSorting:(BOOL)sortIt;
+- (NSArray<DKCategoryName>*)categoriesContainingKey:(NSString*)key;
+- (NSArray<DKCategoryName>*)categoriesContainingKey:(NSString*)key withSorting:(BOOL)sortIt;
 
 /** @brief Get a list of reserved categories - those that should not be deleted or renamed
 
@@ -412,27 +418,27 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  default cats. Subclasses can change this as they wish.
  @return an array containing a list of the reserved categories 
  */
-- (NSArray<NSString*>*)reservedCategories;
-@property (readonly, copy) NSArray<NSString*> *reservedCategories;
+- (NSArray<DKCategoryName>*)reservedCategories;
+@property (readonly, copy) NSArray<DKCategoryName> *reservedCategories;
 
 /** @brief Test whether there is a category of the given name
  @param catName the category name
  @return YES if a category exists with the name, NO otherwise
  */
-- (BOOL)categoryExists:(NSString*)catName;
+- (BOOL)categoryExists:(DKCategoryName)catName;
 
 /** @brief Count how many objects in the category of the given name
  @param catName the category name
  @return the number of objects in the category
  */
-- (NSUInteger)countOfObjectsInCategory:(NSString*)catName;
+- (NSUInteger)countOfObjectsInCategory:(DKCategoryName)catName;
 
 /** @brief Query whether a given key is present in a particular category
  @param key the key
  @param catName the category name
  @return YES if the category contains <key>, NO if it doesn't
  */
-- (BOOL)key:(NSString*)key existsInCategory:(NSString*)catName;
+- (BOOL)key:(NSString*)key existsInCategory:(DKCategoryName)catName;
 
 // managing recent lists
 
@@ -593,10 +599,10 @@ enum {
 
 // standard name for "All items" category:
 
-extern NSString* kDKDefaultCategoryName;
+extern DKCategoryName kDKDefaultCategoryName;
 
-extern NSString* kDKRecentlyAddedUserString;
-extern NSString* kDKRecentlyUsedUserString;
+extern DKCategoryName kDKRecentlyAddedUserString;
+extern DKCategoryName kDKRecentlyUsedUserString;
 
 extern NSNotificationName kDKCategoryManagerWillAddObject;
 extern NSNotificationName kDKCategoryManagerDidAddObject;
@@ -628,7 +634,7 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 @protocol DKCategoryManagerMenuItemDelegate <NSObject>
 
-- (void)menuItem:(NSMenuItem*)item wasAddedForObject:(id)object inCategory:(NSString*)category;
+- (void)menuItem:(NSMenuItem*)item wasAddedForObject:(id)object inCategory:(DKCategoryName)category;
 
 @end
 

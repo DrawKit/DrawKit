@@ -514,10 +514,8 @@ static id sDearchivingHelper = nil;
 - (NSArray*)objectsInCategory:(NSString*)catName
 {
 	NSMutableArray* keys = [[NSMutableArray alloc] init];
-	NSEnumerator* iter = [[self allKeysInCategory:catName] objectEnumerator];
-	NSString* s;
 
-	while ((s = [iter nextObject]))
+	for (NSString *s in [self allKeysInCategory:catName])
 		[keys addObject:[s lowercaseString]];
 
 	return [m_masterList objectsForKeys:keys
@@ -535,10 +533,8 @@ static id sDearchivingHelper = nil;
 - (NSArray*)objectsInCategories:(NSArray*)catNames
 {
 	NSMutableArray* keys = [[NSMutableArray alloc] init];
-	NSEnumerator* iter = [[self allKeysInCategories:catNames] objectEnumerator];
-	NSString* s;
 
-	while ((s = [iter nextObject]))
+	for (NSString *s in [self allKeysInCategories:catNames])
 		[keys addObject:[s lowercaseString]];
 
 	return [m_masterList objectsForKeys:keys
@@ -1537,11 +1533,11 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 #pragma mark DKCategoryManagerMenuInfo
 
-@interface DKCategoryManagerMenuInfo (Private)
+@interface DKCategoryManagerMenuInfo ()
 
 - (void)createMenu;
 - (void)createCategoriesMenu;
-- (NSMenu*)createSubmenuWithTitle:(NSString*)title forArray:(NSArray*)items;
+- (NSMenu*)createSubmenuWithTitle:(NSString*)title forArray:(NSArray<NSString*>*)items;
 - (void)removeItemsInMenu:(NSMenu*)aMenu withTag:(NSInteger)tag excludingItem0:(BOOL)title;
 
 @end
@@ -1812,12 +1808,9 @@ static id sDearchivingHelper = nil;
 			// remove any menu items that are not present in the array
 
 			NSArray* items = [[raSub itemArray] copy];
-			NSEnumerator* iter = [items objectEnumerator];
-			NSMenuItem* item;
-			NSArray* allKeys;
 
-			while ((item = [iter nextObject])) {
-				allKeys = [mCatManagerRef keysForObject:[item representedObject]];
+			for (NSMenuItem *item in items) {
+				NSArray* allKeys = [mCatManagerRef keysForObject:[item representedObject]];
 
 				// if there are no keys, the object can't be known to the cat mgr, so delete it from the menu now
 
@@ -1896,13 +1889,11 @@ static id sDearchivingHelper = nil;
 		return;
 
 	NSArray* cats = [mCatManagerRef categoriesContainingKey:aKey];
-	NSEnumerator* iter = [cats objectEnumerator];
-	NSString* cat;
 	id repObject = [mCatManagerRef objectForKey:aKey];
 
 	// iterate over the categories and find the menu responsible for it
 
-	while ((cat = [iter nextObject])) {
+	for (NSString* cat in cats) {
 		NSMenuItem* catItem = [mTheMenu itemWithTitle:[cat capitalizedString]];
 
 		if (catItem != nil) {
@@ -1941,12 +1932,8 @@ static id sDearchivingHelper = nil;
 	// check whether there's really anything to do here:
 
 	if ([categories count] > 1) {
-		NSEnumerator* iter = [[mTheMenu itemArray] objectEnumerator];
-		NSMenuItem* item;
-		NSString* ti;
-
-		while ((item = [iter nextObject])) {
-			ti = [item title];
+		for (NSMenuItem* item in [mTheMenu itemArray]) {
+			NSString* ti = [item title];
 
 			if ([categories containsObject:ti])
 				[item setState:NSOnState];
@@ -1978,10 +1965,8 @@ static id sDearchivingHelper = nil;
 	// check whether there's really anything to do here:
 
 	id repObject = [mCatManagerRef objectForKey:key];
-	NSEnumerator* iter = [categories objectEnumerator];
-	NSString* catName;
 
-	while ((catName = [iter nextObject])) {
+	for (NSString* catName in categories) {
 		NSMenu* subMenu = [[mTheMenu itemWithTitle:[catName capitalizedString]] submenu];
 
 		if (subMenu != nil) {
@@ -2048,8 +2033,6 @@ static id sDearchivingHelper = nil;
 {
 	mTheMenu = [[NSMenu alloc] initWithTitle:@"Category Manager"];
 
-	NSEnumerator* iter = [[mCatManagerRef allCategories] objectEnumerator];
-	NSString* cat;
 	NSArray* catObjects;
 	NSMenuItem* parentItem;
 
@@ -2073,7 +2056,7 @@ static id sDearchivingHelper = nil;
 							  inCategory:nil];
 	}
 
-	while ((cat = [iter nextObject])) {
+	for (NSString* cat in [mCatManagerRef allCategories]) {
 		// if flagged to exclude "all items" then skip it
 
 		if (((mOptions & kDKIncludeAllItems) == 0) && [cat isEqualToString:kDKDefaultCategoryName])
@@ -2177,10 +2160,9 @@ static id sDearchivingHelper = nil;
 
 	// now just list the categories
 
-	NSEnumerator* iter = [[mCatManagerRef allCategories] objectEnumerator]; // already sorted alphabetically
-	NSString* cat;
+	NSArray* allCats = [mCatManagerRef allCategories]; // already sorted alphabetically
 
-	while ((cat = [iter nextObject])) {
+	for (NSString* cat in allCats) {
 		if (![cat isEqualToString:kDKDefaultCategoryName]) {
 			ti = [mTheMenu addItemWithTitle:cat
 									 action:mSelector
@@ -2200,21 +2182,15 @@ static id sDearchivingHelper = nil;
 	NSAssert(items != nil, @"can't create menu for nil array");
 
 	NSMenu* theMenu;
-	NSEnumerator* iter;
-	NSString* key;
-
-	iter = [items objectEnumerator];
 
 	theMenu = [[NSMenu alloc] initWithTitle:title];
 
-	id repObject;
-
-	while ((key = [iter nextObject])) {
+	for (NSString* key in items) {
 		NSMenuItem* childItem = [theMenu addItemWithTitle:[key capitalizedString]
 												   action:mSelector
 											keyEquivalent:@""];
 		[childItem setTarget:mTargetRef];
-		repObject = [mCatManagerRef objectForKey:key];
+		id repObject = [mCatManagerRef objectForKey:key];
 		[childItem setRepresentedObject:repObject];
 
 		if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
@@ -2235,7 +2211,6 @@ static id sDearchivingHelper = nil;
 - (void)removeItemsInMenu:(NSMenu*)aMenu withTag:(NSInteger)tag excludingItem0:(BOOL)title
 {
 	NSMutableArray* items = [[aMenu itemArray] mutableCopy];
-	NSMenuItem* item;
 
 	NSLog(@"menu items = %@", items);
 
@@ -2246,7 +2221,7 @@ static id sDearchivingHelper = nil;
 
 	NSEnumerator* iter = [items reverseObjectEnumerator];
 
-	while ((item = [iter nextObject])) {
+	for (NSMenuItem* item in iter) {
 		if ([item tag] == tag)
 			[aMenu removeItem:item];
 	}

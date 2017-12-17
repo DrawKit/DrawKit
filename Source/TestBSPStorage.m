@@ -419,8 +419,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// do the brute force search first. These should be in the right z-order.
 
-			NSEnumerator* iter = [objects objectEnumerator];
-			while ((tso = [iter nextObject])) {
+			for (testStorableObject* tso in objects) {
 				if (NSIntersectsRect(retrievalRect, [tso bounds]))
 					[bruteForceSearchResults addObject:tso];
 			}
@@ -493,8 +492,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// do the brute force search first. These should be in the right z-order.
 
-			NSEnumerator* iter = [objects objectEnumerator];
-			while ((tso = [iter nextObject])) {
+			for (testStorableObject* tso in objects) {
 				if (NSPointInRect(retrievalPoint, [tso bounds]))
 					[bruteForceSearchResults addObject:tso];
 			}
@@ -629,16 +627,12 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	NSLog(@"checking storage integrity...");
 
-	NSEnumerator* iter = [[storage objects] objectEnumerator];
-	testStorableObject* tso;
-	NSArray* leafArray, *leaves = [[storage tree] leaves];
+	NSArray *leaves = [[storage tree] leaves];
 	NSUInteger foundCount = 0;
 
-	while ((tso = [iter nextObject])) {
+	for (testStorableObject* tso in storage.objects) {
 		@autoreleasepool {
-			NSEnumerator* leafEnum = [leaves objectEnumerator];
-
-			while ((leafArray = [leafEnum nextObject])) {
+			for (NSArray* leafArray in leaves) {
 				if ([leafArray containsObject:tso]) {
 					foundCount++;
 					break;
@@ -655,16 +649,13 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	// if not equal, try and find out where the problem is...
 
 	if (foundCount != [storage countOfObjects]) {
-		iter = [[storage objects] objectEnumerator];
 		NSUInteger linIndex = 0;
 
-		while ((tso = [iter nextObject])) {
+		for (testStorableObject *tso in storage.objects) {
 			BOOL found = NO;
 			@autoreleasepool {
 
-				NSEnumerator* leafEnum = [leaves objectEnumerator];
-
-				while ((leafArray = [leafEnum nextObject])) {
+				for (leafArray in leaves) {
 					if ([leafArray containsObject:tso]) {
 						found = YES;
 						break;
@@ -687,11 +678,10 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	foundCount = 0;
 
 	iter = [leaves objectEnumerator];
-	while ((leafArray = [iter nextObject])) {
+	for (leafArray in leaves)) {
 		@autoreleasepool {
 
-			NSEnumerator* leafIter = [leafArray objectEnumerator];
-			while ((tso = [leafIter nextObject])) {
+			for (testStorableObject *tso in leafArray) {
 				XCTAssertTrue([[storage objects] containsObject:tso], @"an object was present in the tree but not in the linear array: %@ (leaf index = %lu)", tso, (unsigned long)foundCount);
 				XCTAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
 				XCTAssertEqual([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage");
@@ -741,13 +731,11 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	DKBSPIndexTree* tree = [storage tree];
 	NSArray* leaves = [tree leaves];
-	NSIndexSet* leaf;
 	NSArray* objs = [storage objects];
 	NSMutableIndexSet* allIndexes = [[NSMutableIndexSet alloc] init];
 	NSUInteger minIndex, maxIndex;
 
-	NSEnumerator* iter = [leaves objectEnumerator];
-	while ((leaf = [iter nextObject])) {
+	for (NSIndexSet *leaf in leaves) {
 		minIndex = [leaf firstIndex];
 		maxIndex = [leaf lastIndex];
 

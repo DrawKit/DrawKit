@@ -133,16 +133,14 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 	// returns an array of metadata items for the keys listed in <keyArray>. The returned order matches that of the keyArray.
 
 	NSMutableArray* result = [NSMutableArray arrayWithCapacity:[keyArray count]];
-	NSEnumerator* iter = [keyArray objectEnumerator];
-	NSString* key;
-	DKMetadataItem* item;
 
-	while ((key = [iter nextObject])) {
-		item = [self metadataItemForKey:key
-					 limitToLocalSearch:local];
+	for (NSString* key in keyArray) {
+		DKMetadataItem* item = [self metadataItemForKey:key
+									 limitToLocalSearch:local];
 
-		if (item)
+		if (item) {
 			[result addObject:item];
+		}
 	}
 	return result;
 }
@@ -376,7 +374,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 }
 
 #pragma mark -
-- (void)setFloatValue:(float)val forKey:(NSString*)key
+- (void)setFloatValue:(CGFloat)val forKey:(NSString*)key
 {
 #if USE_107_OR_LATER_SCHEMA
 	[self setMetadataItem:[DKMetadataItem metadataItemWithReal:val]
@@ -396,7 +394,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-- (void)setIntValue:(int)val forKey:(NSString*)key
+- (void)setIntValue:(NSInteger)val forKey:(NSString*)key
 {
 #if USE_107_OR_LATER_SCHEMA
 	[self setMetadataItem:[DKMetadataItem metadataItemWithInteger:val]
@@ -562,11 +560,8 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 	NSMutableArray* array = [[[self metadata] allKeys] mutableCopy];
 	[array sortUsingSelector:@selector(compare:)];
 
-	NSEnumerator* iter = [array objectEnumerator];
-	NSString* key;
-	id value;
-
-	while ((key = [iter nextObject])) {
+	for (NSString* key in array) {
+		id value;
 #if USE_107_OR_LATER_SCHEMA
 		value = [[self metadataItemForKey:key] value];
 #else

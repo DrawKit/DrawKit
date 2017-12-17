@@ -26,6 +26,8 @@ correctly implement the protocol to its requirements, and not just "hope for the
  DKDrawing maintains the active layer - look there for a method to set it
  @return a layer, the one that is currently active
  */
-- (DKLayer*)activeLayer;
+- (nullable DKLayer*)activeLayer;
+
+@property (readonly, retain, nullable) DKLayer *activeLayer;
 
 @end

@@ -46,10 +46,7 @@
 		NSArray* sel = [self selectedObjectForCurrentTarget];
 		[self redisplayContentForSelection:sel];
 
-		NSEnumerator* iter = [sel objectEnumerator];
-		id obj;
-
-		while ((obj = [iter nextObject]))
+		for (id obj in sel)
 			[[NSNotificationCenter defaultCenter] addObserver:self
 													 selector:@selector(subSelectionDidChange:)
 														 name:kDKDrawableSubselectionChangedNotification

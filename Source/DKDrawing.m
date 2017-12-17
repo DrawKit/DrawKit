@@ -1166,12 +1166,11 @@ static id sDearchivingHelper = nil;
 {
 	NSArray* layers = [self layersOfClass:cl
 						performDeepSearch:YES];
-	NSEnumerator* iter = [layers objectEnumerator];
-	DKLayer* layer;
 
-	while ((layer = [iter nextObject])) {
-		if ([layer layerMayBecomeActive])
+	for (DKLayer *layer in layers) {
+		if ([layer layerMayBecomeActive]) {
 			return layer;
+		}
 	}
 
 	return nil;
@@ -1360,10 +1359,7 @@ static id sDearchivingHelper = nil;
 	NSArray* gridLayers = [self layersOfClass:[DKGridLayer class]
 							performDeepSearch:YES];
 
-	NSEnumerator* iter = [gridLayers objectEnumerator];
-	DKGridLayer* grid;
-
-	while ((grid = [iter nextObject])) {
+	for (DKGridLayer* grid in gridLayers) {
 		if ([grid isMasterGrid])
 			return grid;
 	}
@@ -1815,12 +1811,10 @@ static id sDearchivingHelper = nil;
 {
 	NSAssert(setOfRects != nil, @"update set was nil");
 
-	NSEnumerator* iter = [setOfRects objectEnumerator];
-	NSValue* val;
-
-	while ((val = [iter nextObject]))
+	for (NSValue* val in setOfRects) {
 		[[self controllers] makeObjectsPerformSelector:@selector(setViewNeedsDisplayInRect:)
 											withObject:val];
+	}
 }
 
 /** @brief Marks several areas for update at once
@@ -1834,11 +1828,9 @@ static id sDearchivingHelper = nil;
 {
 	NSAssert(setOfRects != nil, @"update set was nil");
 
-	NSEnumerator* iter = [setOfRects objectEnumerator];
-	NSValue* val;
-	NSRect ur;
+	NSRect ur = NSZeroRect;
 
-	while ((val = [iter nextObject])) {
+	for (NSValue* val in setOfRects) {
 		ur = NSInsetRect([val rectValue], -padding.width, -padding.height);
 		[self setNeedsDisplayInRect:ur];
 	}
@@ -2084,14 +2076,12 @@ static id sDearchivingHelper = nil;
 	else {
 		// roll up sleeves and go through the controllers
 
-		NSEnumerator* iter = [[self controllers] objectEnumerator];
-		DKViewController* cllr;
-
-		while ((cllr = [iter nextObject])) {
-			if ([cllr respondsToSelector:_cmd])
+		for (DKViewController* cllr in [self controllers]) {
+			if ([cllr respondsToSelector:_cmd]) {
 				return [(id)cllr windowForSheet];
-			else if ([[cllr view] respondsToSelector:@selector(window)])
+			} else if ([[cllr view] respondsToSelector:@selector(window)]) {
 				return [[cllr view] window];
+			}
 		}
 	}
 

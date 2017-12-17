@@ -250,24 +250,19 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 
 	NSMutableAttributedString* newString = [[self masterString] mutableCopy];
 
-	NSEnumerator* iter = [mKeys objectEnumerator];
-	DKTextSubstitutionKey* key;
-	id metaObject;
-	NSString* subString;
 	NSInteger rangeAdjustment = 0;
-	NSRange range;
 
-	while ((key = [iter nextObject])) {
-		subString = @"";
+	for (DKTextSubstitutionKey* key in mKeys) {
+		NSString* subString = @"";
 
 		if ([anObject respondsToSelector:@selector(metadataObjectForKey:)]) {
-			metaObject = [anObject metadataObjectForKey:[key key]];
+			id metaObject = [anObject metadataObjectForKey:[key key]];
 
 			if (metaObject)
 				subString = [key stringByApplyingSubkeysToString:[self metadataStringFromObject:metaObject]];
 		}
 
-		range = [key range];
+		NSRange range = [key range];
 
 		// compensate for string length changes:
 
@@ -462,14 +457,12 @@ static NSDictionary* s_abbreviationDict = nil;
 	else {
 		NSMutableString* result = [NSMutableString string];
 		NSArray* words = [inString componentsSeparatedByString:@" "];
-		NSEnumerator* iter = [mSubKeys objectEnumerator];
-		NSString* sKey;
 		NSString* capFlag = nil;
 		NSUInteger wordsUsed = 0;
 		NSInteger wordIndex;
 		BOOL abbreviate = NO;
 
-		while ((sKey = [iter nextObject])) {
+		for (NSString* sKey in mSubKeys) {
 			if ([sKey isEqualToString:@"U"] || [sKey isEqualToString:@"L"] || [sKey isEqualToString:@"C"] || [sKey isEqualToString:@"A"])
 				capFlag = sKey;
 			else if ([sKey isEqualToString:@"E"]) {

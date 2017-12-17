@@ -41,8 +41,8 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 - (DKMetadataItem*)metadataItemForKey:(NSString*)key;
 - (DKMetadataItem*)metadataItemForKey:(NSString*)key limitToLocalSearch:(BOOL)local;
 
-- (NSArray*)metadataItemsForKeysInArray:(NSArray*)keyArray;
-- (NSArray*)metadataItemsForKeysInArray:(NSArray*)keyArray limitToLocalSearch:(BOOL)local;
+- (NSArray*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray;
+- (NSArray*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray limitToLocalSearch:(BOOL)local;
 
 - (void)setMetadataItemType:(DKMetadataType)type forKey:(NSString*)key;
 
@@ -52,10 +52,10 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 - (BOOL)hasMetadataForKey:(NSString*)key;
 - (void)removeMetadataForKey:(NSString*)key;
 
-- (void)setFloatValue:(float)val forKey:(NSString*)key;
+- (void)setFloatValue:(CGFloat)val forKey:(NSString*)key;
 - (CGFloat)floatValueForKey:(NSString*)key;
 
-- (void)setIntValue:(int)val forKey:(NSString*)key;
+- (void)setIntValue:(NSInteger)val forKey:(NSString*)key;
 - (NSInteger)intValueForKey:(NSString*)key;
 
 - (void)setString:(NSString*)string forKey:(NSString*)key;

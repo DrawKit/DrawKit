@@ -273,15 +273,12 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	// this is designed as a way to convert existing dictionaries of attributes wholesale. If the dictionary already contains meta items, the
 	// result is effectively a copy of those items.
 
-	NSEnumerator* iter = [aDict keyEnumerator];
 	NSMutableDictionary* newDict = [NSMutableDictionary dictionary];
-	id key, value;
-	DKMetadataItem* item;
 
-	while ((key = [iter nextObject])) {
+	for (id key in aDict) {
 		if ([key isKindOfClass:[NSString class]]) {
-			value = [aDict objectForKey:key];
-			item = [self metadataItemWithObject:value];
+			id value = [aDict objectForKey:key];
+			DKMetadataItem* item = [self metadataItemWithObject:value];
 
 			if (item)
 				[newDict setObject:item
@@ -297,16 +294,14 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	// returns an array of DKMetadataItems built by iterating the input array and wrapping each object using metadataItemWithObject:
 	// this is designed as a way to convert existing arrays of attributes wholesale.
 
-	NSEnumerator* iter = [array objectEnumerator];
 	NSMutableArray* newArray = [NSMutableArray array];
-	id value;
-	DKMetadataItem* item;
 
-	while ((value = [iter nextObject])) {
-		item = [self metadataItemWithObject:value];
+	for (id value in array) {
+		DKMetadataItem* item = [self metadataItemWithObject:value];
 
-		if (item)
+		if (item) {
 			[newArray addObject:item];
+		}
 	}
 
 	return newArray;
@@ -346,12 +341,9 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	// add the items as TSV text for other apps to make use of
 
 	NSMutableString* tabText = [NSMutableString string];
-	NSEnumerator* iter = [keys objectEnumerator];
-	NSString* key;
-	DKMetadataItem* item;
 
-	while ((key = [iter nextObject])) {
-		item = [dict objectForKey:key];
+	for (NSString *key in keys) {
+		DKMetadataItem* item = [dict objectForKey:key];
 
 		[tabText appendString:[key uppercaseString]];
 		[tabText appendString:@"\t"];

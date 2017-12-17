@@ -29,8 +29,8 @@ selected state.
 */
 @interface DKObjectDrawingLayer : DKObjectOwnerLayer <NSCoding> {
 @private
-	NSMutableSet* m_selection; // list of selected objects
-	NSSet* m_selectionUndo; // old selection when setting up undo
+	NSMutableSet<DKDrawableObject*>* m_selection; // list of selected objects
+	NSSet<DKDrawableObject*>* m_selectionUndo; // old selection when setting up undo
 	NSRect m_dragExcludeRect; // drags will become "real" once this rect is left
 	BOOL m_selectionIsUndoable; // YES if selection changes tracked by undo
 	BOOL m_drawSelectionOnTop; // YES if selection highlights are drawn in a pseudo-layer on top of all objects
@@ -39,7 +39,7 @@ selected state.
 	BOOL mMultipleAutoForwarding; // YES to automatically forward actions to all objects in the selection that can respond
 	BOOL mBufferSelectionChanges; // YES to buffer a series of selection changes during a multiple forwarding invocation
 	NSUInteger mUndoCount; // records undo count when the selection state is recorded
-	NSArray* m_objectsPendingDrag; // temporary list of objects being dragged from the layer
+	NSArray<DKDrawableObject*>* m_objectsPendingDrag; // temporary list of objects being dragged from the layer
 	__unsafe_unretained DKDrawableObject* mKeyAlignmentObject; // the master object to which others can be aligned
 	NSRect mSelBoundsCached; // cached value of the selection bounds
 }
@@ -82,7 +82,7 @@ selected state.
  See comments for selectedAvailableObjects
  @return an array, objects of the given class that can be acted upon by a command as a set
  */
-- (NSArray<DKDrawableObject*>*)selectedAvailableObjectsOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
+- (NSArray<__kindof DKDrawableObject*>*)selectedAvailableObjectsOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @brief Returns the objects that are visible and selected
 

@@ -5,6 +5,7 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "DKStyleRegistry.h"
 
 @class DKDrawing, DKDrawingView, DKViewController, DKDrawingTool, DKPrintDrawingView;
 @class DKStyle;
@@ -28,7 +29,7 @@ its drawing.
 If you subclass this to have more views, etc, bear this in mind - you have to consider how the document's drawing gets hooked up to the views you want. Outlets
 like this are one easy way to do it, but not the only way.
 */
-@interface DKDrawingDocument : NSDocument {
+@interface DKDrawingDocument : NSDocument <DKStyleRegistryDelegate> {
 @private
 	IBOutlet DKDrawingView* __weak mMainDrawingView;
 	DKDrawing* m_drawing;

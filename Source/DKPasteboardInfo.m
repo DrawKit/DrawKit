@@ -49,13 +49,11 @@
 		// make a list of all the different classes and their counts.
 
 		NSMutableDictionary* clDict = [NSMutableDictionary dictionary];
-		NSEnumerator* iter = [objects objectEnumerator];
-		id obj;
 		NSString* classname;
 		NSNumber* count;
 		NSRect br = NSZeroRect;
 
-		while ((obj = [iter nextObject])) {
+		for (id obj in objects) {
 			br = UnionOfTwoRects(br, [obj bounds]);
 
 			// record count for each class

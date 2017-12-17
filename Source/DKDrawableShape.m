@@ -1559,17 +1559,14 @@ static NSSize sTempSavedOffset;
 	// returns one object in the array which is equivalent to a copy.
 
 	NSArray* subpaths = [[self renderingPath] subPaths];
-	NSEnumerator* iter = [subpaths objectEnumerator];
-	NSBezierPath* pp;
 	NSMutableArray* newObjects;
-	DKDrawableShape* dp;
 
 	newObjects = [[NSMutableArray alloc] init];
 
-	while ((pp = [iter nextObject])) {
+	for (NSBezierPath* pp in subpaths) {
 		if (![pp isEmpty]) {
-			dp = [[self class] drawableShapeWithBezierPath:pp
-											rotatedToAngle:[self angle]];
+			DKDrawableShape* dp = [[self class] drawableShapeWithBezierPath:pp
+															 rotatedToAngle:[self angle]];
 
 			[dp setStyle:[self style]];
 			[dp setUserInfo:[self userInfo]];

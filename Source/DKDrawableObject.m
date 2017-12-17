@@ -83,10 +83,8 @@ static NSDictionary* s_interconversionTable = nil;
 	NSAssert(array != nil, @"array cannot be nil");
 
 	NSRect u = NSZeroRect;
-	NSEnumerator* iter = [array objectEnumerator];
-	id dko;
 
-	while ((dko = [iter nextObject])) {
+	for (id dko in array) {
 		if (![dko isKindOfClass:[DKDrawableObject class]])
 			[NSException raise:NSInternalInconsistencyException
 						format:@"objects must all derive from DKDrawableObject"];
@@ -1115,10 +1113,7 @@ static NSRect s_oldBounds;
 	NSAssert(aSet != nil, @"style set was nil");
 
 	if ([self style] != nil) {
-		NSEnumerator* iter = [aSet objectEnumerator];
-		DKStyle* st;
-
-		while ((st = [iter nextObject])) {
+		for (DKStyle* st in aSet) {
 			if ([[st uniqueKey] isEqualToString:[[self style] uniqueKey]]) {
 				LogEvent_(kStateEvent, @"replacing style with %@ '%@'", st, [st name]);
 
