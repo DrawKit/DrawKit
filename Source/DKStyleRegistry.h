@@ -323,7 +323,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param cats a list of one or more categories
  @return a set, all of the styles in the requested categories
  */
-- (NSSet/* <DKStyle*>*/*)stylesInCategories:(NSArray<DKStyleCategory>*)cats NS_REFINED_FOR_SWIFT;
+- (NSSet<DKStyle*>*)stylesInCategories:(NSArray<DKStyleCategory>*)cats;
 
 /** @brief Return a modified name to resolve a collision with names already in use
 

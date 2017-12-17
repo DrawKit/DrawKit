@@ -66,10 +66,10 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
 /** @brief Return the default categories defined for this class
  @return an array of categories */
-+ (NSArray<NSString*>*)defaultCategories;
++ (NSArray<DKCategoryName>*)defaultCategories;
 
 @property (class, readonly, strong) DKCategoryManager *categoryManager;
-@property (class, readonly, copy) NSArray<NSString*> *defaultCategories;
+@property (class, readonly, copy) NSArray<DKCategoryName> *defaultCategories;
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
 
@@ -670,9 +670,9 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 - (NSMenu*)menu;
 
-- (void)addCategory:(NSString*)newCategory;
-- (void)removeCategory:(NSString*)oldCategory;
-- (void)renameCategoryWithInfo:(NSDictionary<NSString*,NSString*>*)info;
+- (void)addCategory:(DKCategoryName)newCategory;
+- (void)removeCategory:(DKCategoryName)oldCategory;
+- (void)renameCategoryWithInfo:(NSDictionary<NSString*,DKCategoryName>*)info;
 - (void)addKey:(NSString*)aKey;
 - (void)addRecentlyAddedOrUsedKey:(NSString*)aKey;
 - (void)syncRecentlyUsedMenuForKey:(NSString*)aKey;
