@@ -11,24 +11,6 @@
 #import "DKGridLayer.h"
 #import "LogEvent.h"
 
-#pragma mark Static Functions
-
-/** @brief Determines the relative vertical position order of a pair of objects
-
- Objects must respond to the -apparentBounds method
- @param a an object to compare
- @paran b an object to compare
- @return sort order constant */
-static NSInteger vertLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void* context);
-
-/** @brief Determines the relative horizontal position order of a pair of objects
-
- Objects must respond to the -apparentBounds method
- @param a an object to compare
- @paran b an object to compare
- @return sort order constant */
-static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void* context);
-
 #pragma mark -
 @implementation DKObjectDrawingLayer (Alignment)
 #pragma mark As a DKObjectDrawingLayer
@@ -129,7 +111,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 #pragma unused(loc)
 #pragma unused(align)
 
-	// TO DO
+	// TODO: implement
 }
 
 #pragma mark -
@@ -245,8 +227,19 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 
 	NSMutableArray* na = [objects mutableCopy];
 
-    [na sortUsingFunction:vertLocSortFunc
-                  context:nil];
+	[na sortUsingComparator:^NSComparisonResult(DKDrawableObject *_Nonnull a, DKDrawableObject *_Nonnull b) {
+		CGFloat ya, yb;
+		
+		ya = [a location].y;
+		yb = [b location].y;
+		
+		if (ya < yb)
+			return NSOrderedAscending;
+		else if (ya > yb)
+			return NSOrderedDescending;
+		else
+			return NSOrderedSame;
+	}];
 	return na;
 }
 
@@ -260,8 +253,19 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 
 	NSMutableArray* na = [objects mutableCopy];
 
-	[na sortUsingFunction:horizLocSortFunc
-				  context:nil];
+	[na sortUsingComparator:^NSComparisonResult(DKDrawableObject *_Nonnull a, DKDrawableObject *_Nonnull b) {
+		CGFloat xa, xb;
+		
+		xa = [a location].x;
+		xb = [b location].x;
+		
+		if (xa < xb)
+			return NSOrderedAscending;
+		else if (xa > xb)
+			return NSOrderedDescending;
+		else
+			return NSOrderedSame;
+	}];
 	return na;
 }
 
@@ -628,43 +632,6 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 }
 
 @end
-
-#pragma mark -
-#pragma mark Static Functions
-
-static NSInteger vertLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void* context)
-{
-#pragma unused(context)
-
-	CGFloat ya, yb;
-
-	ya = [a location].y;
-	yb = [b location].y;
-
-	if (ya < yb)
-		return NSOrderedAscending;
-	else if (ya > yb)
-		return NSOrderedDescending;
-	else
-		return NSOrderedSame;
-}
-
-static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void* context)
-{
-#pragma unused(context)
-
-	CGFloat xa, xb;
-
-	xa = [a location].x;
-	xb = [b location].x;
-
-	if (xa < xb)
-		return NSOrderedAscending;
-	else if (xa > xb)
-		return NSOrderedDescending;
-	else
-		return NSOrderedSame;
-}
 
 #pragma mark -
 
