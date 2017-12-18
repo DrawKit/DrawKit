@@ -8,6 +8,8 @@
 #import "DKDrawableObject.h"
 #import "DKMetadataItem.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** metadata has been through a bit of evolution. This constant indicates which schema is in use
  */
 typedef NS_ENUM(NSInteger, DKMetadataSchema) {
@@ -28,6 +30,7 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 
 + (void)setMetadataChangesAreUndoable:(BOOL)undo;
 + (BOOL)metadataChangesAreUndoable;
+@property (class) BOOL metadataChangesAreUndoable;
 
 - (void)addMetadata:(NSDictionary*)dict;
 - (void)setMetadata:(NSDictionary*)dict;
@@ -38,8 +41,8 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 - (DKMetadataSchema)schema;
 
 - (void)setMetadataItem:(DKMetadataItem*)item forKey:(NSString*)key;
-- (DKMetadataItem*)metadataItemForKey:(NSString*)key;
-- (DKMetadataItem*)metadataItemForKey:(NSString*)key limitToLocalSearch:(BOOL)local;
+- (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key;
+- (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key limitToLocalSearch:(BOOL)local;
 
 - (NSArray*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray;
 - (NSArray*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray limitToLocalSearch:(BOOL)local;
@@ -70,8 +73,8 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 - (void)updateMetadataKeys;
 - (NSUInteger)metadataChecksum;
 
-- (void)metadataWillChangeKey:(NSString*)key;
-- (void)metadataDidChangeKey:(NSString*)key;
+- (void)metadataWillChangeKey:(nullable NSString*)key;
+- (void)metadataDidChangeKey:(nullable NSString*)key;
 
 @end
 
@@ -102,3 +105,5 @@ extern NSString* kDKUndoableChangesUserDefaultsKey;
 - (NSAttributedString*)originalText;
 
 @end
+
+NS_ASSUME_NONNULL_END

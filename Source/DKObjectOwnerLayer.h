@@ -588,8 +588,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Performs a hit test but also returns the hit part code
  @param point the point to test
- @param part pointer to int, receives the partcode hit as a result of the test. Can be NULL to ignore
- @return the object hit, or nil if none
+ @param part pointer to int, receives the partcode hit as a result of the test. Can be \c NULL to ignore
+ @return the object hit, or \c nil if none
  */
 - (DKDrawableObject*)hitTest:(NSPoint)point partCode:(NSInteger*)part;
 
@@ -659,7 +659,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (BOOL)allowsSnapToObjects;
 
-@property (nonatomic) BOOL allowsSnapToObjects;
+@property BOOL allowsSnapToObjects;
 
 /** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
 

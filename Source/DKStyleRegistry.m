@@ -147,7 +147,7 @@ static BOOL s_NoDKDefaults = NO;
 + (void)registerStyle:(DKStyle*)aStyle
 {
 	[self registerStyle:aStyle
-		   inCategories:@[kDKStyleLibraryStylesCategory]];
+		   inCategories:@[kDKStyleCategoryLibraryStyles]];
 }
 
 /** @brief Register the style with the registry
@@ -483,7 +483,7 @@ static BOOL s_NoDKDefaults = NO;
 	// reinsert the framework defaults
 
 	if (!s_NoDKDefaults) {
-		NSArray* defaultCategories = @[kDKStyleRegistryDKDefaultsCategory];
+		NSArray* defaultCategories = @[kDKStyleCategoryRegistryDKDefaults];
 		DKStyle* style;
 
 		style = [DKStyle defaultStyle];

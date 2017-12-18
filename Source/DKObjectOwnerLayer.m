@@ -1349,13 +1349,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  */
 - (DKDrawableObject*)hitTest:(NSPoint)point partCode:(NSInteger*)part
 {
-	NSEnumerator* iter;
 	NSInteger partcode;
 	NSArray* objects = [[self storage] objectsContainingPoint:point];
 
 	LogEvent_(kUserEvent, @"hit-testing %lu objects; layer = %@; objects = %@", (unsigned long)[objects count], self, objects);
-
-	iter = [objects reverseObjectEnumerator];
 
 	for (DKDrawableObject* o in objects) {
 		partcode = [o hitPart:point];
@@ -1512,6 +1509,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark -
 #pragma mark - options
 
+#if 0
 /** @brief Sets whether the layer permits editing of its objects
  @param editable YES to enable editing, NO to prevent it
  */
@@ -1519,6 +1517,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	m_allowEditing = editable;
 }
+#endif
 
 /** @brief Does the layer permit editing of its objects?
 
@@ -1530,6 +1529,9 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return m_allowEditing && ![self lockedOrHidden];
 }
 
+@synthesize allowsEditing=m_allowEditing;
+
+#if 0
 /** @brief Sets whether the layer permits snapping to its objects
  @param snap YES to allow snapping
  */
@@ -1545,7 +1547,11 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	return m_allowSnapToObjects;
 }
+#endif
 
+@synthesize allowsSnapToObjects=m_allowSnapToObjects;
+
+#if 0
 /** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
 
  Layers can cache their entire contents offscreen when they are inactive. This can boost
@@ -1569,8 +1575,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	return mLayerCachingOption;
 }
+#endif
 @synthesize layerCacheOption =mLayerCachingOption;
 
+#if 0
 /** @brief Query whether the layer is currently highlighted for a drag (receive) operation
  @return YES if highlighted, NO otherwise
  */
@@ -1578,6 +1586,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	return m_inDragOp;
 }
+#endif
 
 /** @brief Set whether the layer is currently highlighted for a drag (receive) operation
  @param highlight YES to highlight, NO otherwise

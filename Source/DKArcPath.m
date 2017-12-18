@@ -15,7 +15,7 @@
 #import "DKShapeGroup.h"
 #include <tgmath.h>
 
-@interface DKArcPath (Private)
+@interface DKArcPath ()
 
 /** @brief Sets the path based on the current arc parameters
 
@@ -61,6 +61,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 {
 	return mRadius;
 }
+
+@synthesize radius=mRadius;
 
 /** @brief Sets the starting angle, which is the more anti-clockwise point on the arc
 
@@ -127,6 +129,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
+#if 0
 /** @brief Returns the arc type, which affects the path geometry
  @return the current arc type
  */
@@ -134,6 +137,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 {
 	return mArcType;
 }
+#endif
+
+@synthesize arcType=mArcType;
 
 - (void)calculatePath
 {

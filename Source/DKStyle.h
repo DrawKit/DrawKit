@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKRastGroup.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawableObject, DKUndoManager;
 
 //! swatch types that can be passed to -styleSwatchWithSize:type:
@@ -42,14 +44,50 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // basic standard styles:
 
+/** @brief Returns a very basic style object
+ 
+ Style has a 1 pixel black stroke and a light gray fill. Style may be shared if sharing is YES.
+ @return a style object
+ */
 + (DKStyle*)defaultStyle; // very boring, black stroke and light gray fill
+/** @brief Returns a basic style with a dual stroke, 5.6pt light grey over 8.0pt black
+ 
+ Style may be shared if sharing is YES.
+ @return a style object
+ */
 + (DKStyle*)defaultTrackStyle; // grey stroke over wider black stroke, no fill
 
 // easy construction of other simple styles:
 
-+ (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc;
-+ (DKStyle*)styleWithFillColour:(NSColor*)fc strokeColour:(NSColor*)sc strokeWidth:(CGFloat)sw;
-+ (DKStyle*)styleFromPasteboard:(NSPasteboard*)pb;
+/** @brief Creates a simple style with fill and strokes of the colours passed
+ 
+ Stroke is drawn "on top" of fill, so rendered width appears true. You can pass nil for either
+ colour to not create the renderer for that attribute, but note that passing nil for BOTH parameters
+ is an error.
+ @param fc the colour for the solid fill
+ @param sc the colour for the 1.0 pixel wide stroke
+ @return a style object
+ */
++ (DKStyle*)styleWithFillColour:(nullable NSColor*)fc strokeColour:(nullable NSColor*)sc;
+/** @brief Creates a simple style with fill and strokes of the colours passed
+ 
+ Stroke is drawn "on top" of fill, so rendered width appears true. You can pass nil for either
+ colour to not create the renderer for that attribute, but note that passing nil for BOTH parameters
+ is an error.
+ @param fc the colour for the solid fill
+ @param sc the colour for the stroke
+ @param sw the width of the stroke
+ @return a style object
+ */
++ (DKStyle*)styleWithFillColour:(nullable NSColor*)fc strokeColour:(nullable NSColor*)sc strokeWidth:(CGFloat)sw;
+
+/** @brief Creates a style from data on the pasteboard
+ 
+ Preferentially tries to match the style name in order to preserve style sharing
+ @param pb a pasteboard
+ @return a style object
+ */
++ (nullable DKStyle*)styleFromPasteboard:(NSPasteboard*)pb;
 
 /** @brief Return a list of types supported by styles for pasteboard operations
  @return an array listing the pasteboard types usable by DKStyle
@@ -61,7 +99,11 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // pasted styles - separate non-persistent registry
 
+/** look for the style in the pasteboard registry. If not there, look in the main registry.
+ */
 + (DKStyle*)styleWithPasteboardName:(NSPasteboardName)name;
+/** put the style into the pasteboard registry
+ */
 + (void)registerStyle:(DKStyle*)style withPasteboardName:(NSPasteboardName)pbname;
 
 // default sharing flag
@@ -187,6 +229,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // (text) attributes - basic support
 
+#if 0
 /** @brief Sets the text attributes dictionary
 
  Objects that display text can use a style's text attributes. This together with sharable styles
@@ -201,8 +244,9 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return a dictionary of attributes
  */
 - (NSDictionary<NSAttributedStringKey,id>*)textAttributes;
+#endif
 
-@property (nonatomic, copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+@property (nonatomic, copy, nullable) NSDictionary<NSAttributedStringKey,id> *textAttributes;
 
 /** @brief Return wjether the style has any text attributes set
  @return YES if there are any text attributes
@@ -316,6 +360,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // undo:
 
+#if 0
 /** @brief Sets the undo manager that style changes will be recorded by
 
  The undo manager is not retained.
@@ -327,14 +372,15 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return the style's current undo manager
  */
 - (NSUndoManager*)undoManager;
+#endif
 
-@property (weak) NSUndoManager *undoManager;
+@property (weak, nullable) NSUndoManager *undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object
  @param object the real target of the invocation
  */
-- (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value;
+- (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(nullable id)value;
 
 // stroke utilities:
 
@@ -464,11 +510,11 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  @return an image of a path rendered using this style in the default size
  */
 - (NSImage*)standardStyleSwatch;
-- (NSImage*)image;
-- (NSImage*)imageToFitSize:(NSSize)aSize;
+- (nullable NSImage*)image;
+- (nullable NSImage*)imageToFitSize:(NSSize)aSize;
 
 @property (readonly, strong) NSImage *standardStyleSwatch;
-@property (readonly, strong) NSImage *image;
+@property (readonly, strong, nullable) NSImage *image;
 
 /** @brief Return a key for the swatch cache for the given size and type of swatch
 
@@ -536,3 +582,5 @@ extern NSString* kDKStyleNameChangedNotification;
 extern NSString* kDKStyleDisplayPerformance_no_anti_aliasing;
 extern NSString* kDKStyleDisplayPerformance_no_shadows;
 extern NSString* kDKStyleDisplayPerformance_substitute_styles;
+
+NS_ASSUME_NONNULL_END

@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawablePath.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 //! shape types this class supports:
 typedef NS_ENUM(NSInteger, DKArcPathType) {
 	kDKArcPathOpenArc = 0,
@@ -47,9 +49,9 @@ typedef NS_ENUM(NSInteger, DKArcPathType) {
  */
 - (DKArcPathType)arcType;
 
-@property DKArcPathType arcType;
+@property (nonatomic) DKArcPathType arcType;
 
-- (IBAction)convertToPath:(id)sender;
+- (IBAction)convertToPath:(nullable id)sender;
 
 @end
 
@@ -73,3 +75,5 @@ enum {
 enum {
 	kDKArcSimpleCreationMode = 7
 };
+
+NS_ASSUME_NONNULL_END

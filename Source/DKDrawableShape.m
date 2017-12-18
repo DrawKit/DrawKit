@@ -1494,6 +1494,8 @@ static NSSize sTempSavedOffset;
 	}
 }
 
+@synthesize operationMode=m_opMode;
+
 /** @brief Returns the current operation mode
  @return ops mode
  */

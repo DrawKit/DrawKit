@@ -8,6 +8,8 @@
 #import "DKLayer.h"
 #import "DKMetadataItem.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
 	kDKLayerMetadataOriginalSchema = 1,
 	kDKLayerMetadataCaseInsensitiveSchema = 2,
@@ -23,24 +25,25 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 
 + (void)setMetadataChangesAreUndoable:(BOOL)undo;
 + (BOOL)metadataChangesAreUndoable;
+@property (class) BOOL metadataChangesAreUndoable;
 
 - (void)setupMetadata;
-- (NSMutableDictionary*)metadata;
+- (NSMutableDictionary<NSString*,id>*)metadata;
 - (DKLayerMetadataSchema)schema;
-- (NSArray*)metadataKeys;
+- (NSArray<NSString*>*)metadataKeys;
 
-- (void)addMetadata:(NSDictionary*)dict;
-- (void)setMetadata:(NSDictionary*)dict;
+- (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
+- (void)setMetadata:(NSDictionary<NSString*,id>*)dict;
 
 - (void)setMetadataItem:(DKMetadataItem*)item forKey:(NSString*)key;
-- (DKMetadataItem*)metadataItemForKey:(NSString*)key;
+- (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key;
 - (void)setMetadataItemValue:(id)value forKey:(NSString*)key;
 - (void)setMetadataItemType:(DKMetadataType)type forKey:(NSString*)key;
 
-- (id)metadataObjectForKey:(NSString*)key;
+- (nullable id)metadataObjectForKey:(NSString*)key;
 
 - (BOOL)hasMetadataForKey:(NSString*)key;
-- (void)removeMetadataForKey:(NSString*)key;
+- (void)removeMetadataForKey:(nonnull NSString*)key;
 
 - (void)setFloatValue:(float)val forKey:(NSString*)key;
 - (CGFloat)floatValueForKey:(NSString*)key;
@@ -49,10 +52,10 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 - (NSInteger)intValueForKey:(NSString*)key;
 
 - (void)setString:(NSString*)string forKey:(NSString*)key;
-- (NSString*)stringForKey:(NSString*)key;
+- (nullable NSString*)stringForKey:(NSString*)key;
 
 - (void)setColour:(NSColor*)colour forKey:(NSString*)key;
-- (NSColor*)colourForKey:(NSString*)key;
+- (nullable NSColor*)colourForKey:(NSString*)key;
 
 - (void)setSize:(NSSize)size forKey:(NSString*)key;
 - (NSSize)sizeForKey:(NSString*)key;
@@ -61,8 +64,10 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 - (NSUInteger)metadataChecksum;
 
 - (BOOL)supportsMetadata;
-- (void)metadataWillChangeKey:(NSString*)key;
-- (void)metadataDidChangeKey:(NSString*)key;
+- (void)metadataWillChangeKey:(nullable NSString*)key;
+- (void)metadataDidChangeKey:(nullable NSString*)key;
+
+@property (readonly) BOOL supportsMetadata;
 
 @end
 
@@ -73,6 +78,8 @@ extern NSString* kDKMetadataDidChangeNotification;
 
 @interface DKLayer (MetadataDeprecated)
 
-- (void)setMetadataObject:(id)obj forKey:(id)key;
+- (void)setMetadataObject:(null_unspecified id)obj forKey:(null_unspecified id)key DEPRECATED_ATTRIBUTE;
 
 @end
+
+NS_ASSUME_NONNULL_END

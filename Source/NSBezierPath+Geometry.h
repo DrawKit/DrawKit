@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 // roughening and randomising paths
 
 - (NSBezierPath*)bezierPathByRandomisingPoints:(CGFloat)maxAmount;
-- (NSBezierPath*)bezierPathWithRoughenedStrokeOutline:(CGFloat)amount;
+- (nullable NSBezierPath*)bezierPathWithRoughenedStrokeOutline:(CGFloat)amount;
 - (NSBezierPath*)bezierPathWithFragmentedLineSegments:(CGFloat)flatness;
 
 // zig-zags and waves

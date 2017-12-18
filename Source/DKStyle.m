@@ -443,6 +443,7 @@ static BOOL sSubstitute = NO;
 	--m_clientCount;
 }
 
+#if 0
 /** @brief Returns the number of client objects using this style
 
  This is for information only - do not base critical code on this value
@@ -452,6 +453,9 @@ static BOOL sSubstitute = NO;
 {
 	return m_clientCount;
 }
+#endif
+
+@synthesize countOfClients=m_clientCount;
 
 #pragma mark -
 #pragma mark - (text) attributes - basic support
@@ -534,6 +538,7 @@ static BOOL sSubstitute = NO;
 	}
 }
 
+#if 0
 /** @brief Returns whether the style is locked and cannot be edited
  @return YES if locked (non-editable)
  */
@@ -541,6 +546,8 @@ static BOOL sSubstitute = NO;
 {
 	return m_locked;
 }
+#endif
+@synthesize locked=m_locked;
 
 #pragma mark -
 #pragma mark - registry info
