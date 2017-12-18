@@ -16,8 +16,6 @@
 				  locale:[NSLocale currentLocale]];
 }
 
-/* Remove all characters from the specified set */
-
 - (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSStringCompareOptions)mask
 {
 	NSRange range;
@@ -61,9 +59,6 @@
 
 - (NSString*)stringByReplacingCharactersInSet:(NSCharacterSet*)charSet withString:(NSString*)substitute
 {
-	//characters in <charSet> are replaced by <substitute>. The process is non-recursive, so if <substitute> contains characters from
-	// <charSet>, they will remain there.
-
 	NSRange range;
 	NSMutableString* newString = [NSMutableString string];
 	NSUInteger len = [self length];
@@ -94,9 +89,6 @@
 
 - (NSString*)stringByCapitalizingFirstCharacter
 {
-	// returns a copy of the receiver with just the first character capitalized, ignoring all others. Thus, the rest of the string isn't necessarily forced to
-	// lowercase.
-
 	NSMutableString* sc = [self mutableCopy];
 
 	if ([self length] > 0)
@@ -108,8 +100,6 @@
 
 - (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOption)flags
 {
-	// returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
-
 	NSArray* words = [self componentsSeparatedByString:@" "];
 	NSMutableString* result = [NSMutableString string];
 	unichar chr;
@@ -137,9 +127,6 @@
 
 - (NSString*)stringByAbbreviatingWordsWithDictionary:(NSDictionary*)abbreviations
 {
-	// breaks a string into words. If any words are keys in the dictionary, the word is substituted by its value. Keys are case insensitive (dictionary should have lower case
-	// keys) and words are substituted with the verbatim value. If dictionary is nil, self is returned.
-
 	if (abbreviations == nil)
 		return self;
 

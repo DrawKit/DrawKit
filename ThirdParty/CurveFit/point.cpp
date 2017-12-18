@@ -3,7 +3,7 @@
 #include "coord.h"
 #include "isnan.h" //temporary fix for isnan()
 #include "matrix.h"
-#include "float.h" // for DBL_MAX
+#include <float.h> // for DBL_MAX
 
 namespace Geom {
 
