@@ -85,7 +85,7 @@ static BOOL sSubstitute = NO;
 		basic->m_uniqueKey = kDKBasicStyleDefaultKey;
 
 		[DKStyleRegistry registerStyle:basic
-						  inCategories:@[kDKStyleRegistryDKDefaultsCategory]];
+						  inCategories:@[kDKStyleCategoryRegistryDKDefaults]];
 	}
 
 	return basic;
@@ -115,7 +115,7 @@ static BOOL sSubstitute = NO;
 		deftrack->m_uniqueKey = kDKBasicTrackStyleDefaultKey;
 
 		[DKStyleRegistry registerStyle:deftrack
-						  inCategories:@[kDKStyleRegistryDKDefaultsCategory]];
+						  inCategories:@[kDKStyleCategoryRegistryDKDefaults]];
 	}
 
 	return deftrack;

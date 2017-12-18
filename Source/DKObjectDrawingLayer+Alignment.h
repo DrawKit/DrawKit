@@ -128,13 +128,13 @@ This category implements object alignment features for DKObjectDrawingLayer
  @param objects the objects to sort
  @return a copy of the array sorted into vertical order
  */
-- (NSArray*)objectsSortedByVerticalPosition:(NSArray<DKDrawableObject*>*)objects;
+- (NSArray<DKDrawableObject*>*)objectsSortedByVerticalPosition:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Sorts a set of objects into order of their horizontal location
  @param objects the objects to sort
  @return a copy of the array sorted into horizontal order
  */
-- (NSArray*)objectsSortedByHorizontalPosition:(NSArray<DKDrawableObject*>*)objects;
+- (NSArray<DKDrawableObject*>*)objectsSortedByHorizontalPosition:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Distributes a set of objects
 

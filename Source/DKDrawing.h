@@ -351,6 +351,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 
 - (void)setDrawingInfo:(NSMutableDictionary*)info;
 - (NSMutableDictionary*)drawingInfo;
+@property (copy) NSMutableDictionary *drawingInfo;
 
 /** @name rendering the drawing:
  @{ */
@@ -512,7 +513,7 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  that have images, such as DKImageShape, use this to cache image data.
  @return the drawing's image manager
  */
-- (DKImageDataManager*)imageManager;
+@property (readonly, strong) DKImageDataManager *imageManager;
 
 /** @} */
 @end

@@ -1623,16 +1623,7 @@ static id sDearchivingHelper = nil;
 	return [super pdf];
 }
 
-/** @brief Returns the image manager
-
- The image manager is an object that is used to improve archiving efficiency of images. Classes
- that have images, such as DKImageShape, use this to cache image data.
- @return the drawing's image manager
- */
-- (DKImageDataManager*)imageManager
-{
-	return mImageManager;
-}
+@synthesize imageManager=mImageManager;
 
 #pragma mark -
 #pragma mark As a DKLayerGroup

@@ -38,7 +38,7 @@ static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D5
 		dts->m_uniqueKey = kDKBasicTextStyleDefaultKey;
 
 		[DKStyleRegistry registerStyle:dts
-						  inCategories:@[kDKStyleRegistryDKDefaultsCategory]];
+						  inCategories:@[kDKStyleCategoryRegistryDKDefaults]];
 	}
 
 	return dts;

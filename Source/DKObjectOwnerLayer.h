@@ -159,7 +159,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param style the style to compare
  @return an array of those objects that have the style
  */
-- (NSArray*)objectsWithStyle:(DKStyle*)style;
+- (NSArray<DKDrawableObject*>*)objectsWithStyle:(DKStyle*)style NS_SWIFT_NAME(objectsWith(_:));
 
 /** @brief Returns objects that respond to the selector with the value <answer>
  <selector> a selector taking no parameters

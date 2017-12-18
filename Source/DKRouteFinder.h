@@ -59,7 +59,7 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 @property (class) DKRouteAlgorithmType algorithm;
 + (void)setAlgorithm:(DKRouteAlgorithmType)algType;
 
-- (NSArray*)shortestRoute;
+- (NSArray<NSValue*>*)shortestRoute;
 - (NSArray<NSNumber*>*)shortestRouteOrder;
 - (NSArray*)sortedArrayFromArray:(NSArray*)anArray;
 @property (readonly) CGFloat pathLength;

@@ -103,6 +103,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return the undo manager in use
  */
 - (NSUndoManager*)undoManager;
+@property (nonatomic, strong) NSUndoManager *undoManager;
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
 
