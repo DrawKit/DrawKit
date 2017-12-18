@@ -6,23 +6,23 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSColor (DKAdditions)
 
 /** @brief Returns the colour white as an RGB Color
 
  Uses the RGB Color space, not the greyscale Colorspace you get with NSColor's whiteColor
  method.
- @return the colour white
  */
-+ (NSColor*)rgbWhite;
+@property (class, readonly, copy) NSColor *rgbWhite;
 
 /** @brief Returns the colour black as an RGB Color
 
  Uses the RGB Color space, not the greyscale Colorspace you get with NSColor's blackColor
  method.
- @return the colour black
  */
-+ (NSColor*)rgbBlack;
+@property (class, readonly, copy) NSColor *rgbBlack;
 
 /** @brief Returns a grey RGB colour
 
@@ -51,10 +51,14 @@
 + (NSColor*)rgbGreyWithLuminosityFrom:(NSColor*)colour withAlpha:(CGFloat)alpha;
 
 /** @brief A very light grey colour
- @return a very light grey colour in rgb space
  */
-+ (NSColor*)veryLightGrey;
+@property (class, readonly, copy) NSColor *veryLightGrey;
 
+/** @brief Returns black or white depending on input colour - dark colours give white, else black.
+ 
+ Colour returned is in grayscale colour space
+ @return black or white
+ */
 + (NSColor*)contrastingColor:(NSColor*)color;
 
 /** @brief Returns an RGB colour approximating the wavelength.
@@ -115,19 +119,21 @@
 /** @brief Returns a colour by blending the receiver with <color> in rgb space
  @param color blend with this colour
  @param blends an array of four values, each 0..1, specifies how components from each colour are
+ blended
  @return blend of the two colours
  */
-- (NSColor*)colorWithRGBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends;
+- (NSColor*)colorWithRGBBlendFrom:(NSColor*)color blendingAmounts:(const CGFloat[_Nonnull])blends;
 
 /** @brief Returns a colour by blending the receiver with <color> in hsb space
  @param color blend with this colour
  @param blends an array of four values, each 0..1, specifies how components from each colour are
+ blended
  @return blend of the two colours
  */
-- (NSColor*)colorWithHSBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends;
+- (NSColor*)colorWithHSBBlendFrom:(NSColor*)color blendingAmounts:(const CGFloat[_Nonnull])blends;
 
 /** @brief Returns the luminosity value of the receiver
-
+ 
  Luminosity of a colour is both subjective and dependent on the display characteristics of particular
  monitors, etc. A frequently used formula can be traced to experiments done by the NTSC television
  standards committee in 1953, which was based on tube phosphors in common use at that time. A more
@@ -135,26 +141,21 @@
  NTSC_1953_STANDARD is defined, otherwise the modern one.
  @return a value 0..1 that is the colour's luminosity
  */
-- (CGFloat)luminosity;
-
 @property (readonly) CGFloat luminosity;
 
 /** @brief Returns a grey rgb colour having the same luminosity as the receiver
- @return a grey colour having the same luminosity
  */
-- (NSColor*)colorWithLuminosity;
+@property (readonly, copy) NSColor *colorWithLuminosity;
 
 /** @brief Returns black or white to give best contrast with the receiver's colour
- @return black or white
  */
-- (NSColor*)contrastingColor;
+@property (readonly, copy) NSColor *contrastingColor;
 
 /** @brief Returns the colour with each colour component subtracted from 1
 
  The alpha value is not inverted
- @return the "inverse" of the receiver
  */
-- (NSColor*)invertedColor;
+@property (readonly, copy) NSColor *invertedColor;
 
 /** @brief Returns a lighter colour based on a blend between the receiver and white
 
@@ -184,7 +185,6 @@
  Format is '#000000' (black) to '#FFFFFF' (white)
  @return hexadecimal string
  */
-- (NSString*)hexString;
 @property (readonly, copy) NSString *hexString;
 
 /** @brief Returns a quartz CGColorRef corresponding to the receiver's colours
@@ -196,3 +196,5 @@
 - (CGColorRef)newQuartzColor CF_RETURNS_RETAINED;
 
 @end
+
+NS_ASSUME_NONNULL_END

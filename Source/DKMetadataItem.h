@@ -165,4 +165,6 @@ extern NSString* DKMultipleMetadataItemsPBoardType;
 - (NSData*)imageData;
 - (NSPoint)point;
 
+@property (readonly, copy) NSString *hexString;
+
 @end

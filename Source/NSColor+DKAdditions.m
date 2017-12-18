@@ -306,7 +306,7 @@
  @param blendingAmounts an array of four values, each 0..1, specifies how components from each colour are
  @return blend of the two colours
  */
-- (NSColor*)colorWithRGBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends
+- (NSColor*)colorWithRGBBlendFrom:(NSColor*)color blendingAmounts:(const CGFloat[])blends
 {
 	NSColor* sc = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	NSColor* dc = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -329,7 +329,7 @@
  @param blendingAmounts an array of four values, each 0..1, specifies how components from each colour are
  @return blend of the two colours
  */
-- (NSColor*)colorWithHSBBlendFrom:(NSColor*)color blendingAmounts:(CGFloat[])blends
+- (NSColor*)colorWithHSBBlendFrom:(NSColor*)color blendingAmounts:(const CGFloat[])blends
 {
 	NSColor* sc = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
 	NSColor* dc = [color colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
