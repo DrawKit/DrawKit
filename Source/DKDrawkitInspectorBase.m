@@ -194,6 +194,7 @@
 #pragma mark As part of NSNibAwaking Protocol
 - (void)awakeFromNib
 {
+	[super awakeFromNib];
 	// sets up the notifications - call super if you override it
 
 	[[NSNotificationCenter defaultCenter] addObserver:self

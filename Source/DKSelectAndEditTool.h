@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, DKEditToolOperation) {
 	kDKEditToolMoveObjectsMode = 3
 };
 
-// drag phases passed to dragObjectAsGroup:...
+//! drag phases passed to \c dragObjectAsGroup:...
 typedef NS_ENUM(NSInteger, DKEditToolDragPhase) {
 	kDKDragMouseDown = 1,
 	kDKDragMouseDragged = 2,
@@ -131,8 +131,8 @@ has a very low opacity should be used - the default style takes the system's hig
 
 /** @brief Set whether the selection highlight of objects should be supressed during a drag
 
- The default is YES. Hiding the selection can make positioning objects by eye more precise.
- @param hideSel YES to hide selections during a drag, NO to leave them visible */
+ The default is <code>YES</code>. Hiding the selection can make positioning objects by eye more precise.
+ @param hideSel \c YES to hide selections during a drag, \c NO to leave them visible */
 - (void)setSelectionShouldHideDuringDrag:(BOOL)hideSel;
 
 /** @brief Should the selection highlight of objects should be supressed during a drag?
@@ -143,29 +143,29 @@ has a very low opacity should be used - the default style takes the system's hig
 
 /** @brief Sets whether dragging moves all objects in the selection as a group, or only the one under the mouse
  
- The default is YES.
- @param multi YES to drag all selected objects as a group, NO to drag just the one hit
+ The default is <code>YES</code>.
+ @param multi \c YES to drag all selected objects as a group, \c NO to drag just the one hit
  */
 - (void)setDragsAllObjectsInSelection:(BOOL)multi;
 
 /** @brief Drags all objects as agroup?
  
- The default is YES
- @return YES if all selected objects are dragged as a group, NO if only one is
+ The default is <code>YES</code>.
+ @return \c YES if all selected objects are dragged as a group, \c NO if only one is
  */
 - (BOOL)dragsAllObjectsInSelection;
 
 /** @brief Sets whether option-drag copies the original object
  
- The default is YES
- @param dragCopy YES to allow option-drag to copy the object
+ The default is <code>YES</code>.
+ @param dragCopy \c YES to allow option-drag to copy the object
  */
 - (void)setAllowsDirectDragCopying:(BOOL)dragCopy;
 
 /** @brief Whether option-drag copies the original object
  
- The default is YES
- @return YES if option-drag will copy the object
+ The default is <code>YES</code>.
+ @return \c YES if option-drag will copy the object.
  */
 - (BOOL)allowsDirectDragCopying;
 
@@ -174,15 +174,15 @@ has a very low opacity should be used - the default style takes the system's hig
 @property BOOL allowsDirectDragCopying;
 /** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
 
- The default is NO
- @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
+ The default is \c <code>NO</code>
+ @param dragWithKnob \c YES to drag the selection, \c NO to change the selection and drag the knob
  */
 - (void)setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL)dragWithKnob;
 
 /** @brief Returns whether a hit on a knob in a multiple selection drags the objects or drags the knob
 
- The default is NO
- @return YES to drag the selection, NO to change the selection and drag the knob
+ The default is \c <code>NO</code>
+ @return \c YES to drag the selection, \c NO to change the selection and drag the knob.
  */
 - (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob;
 

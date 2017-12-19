@@ -613,6 +613,8 @@ static NSArray* s_selectionColours = nil;
 	return m_visible && ([self layerGroup] == nil || [[self layerGroup] visible]);
 }
 
+@synthesize visible=m_visible;
+
 /** @brief Is the layer the active layer?
  @return YES if the active layer, NO otherwise
  */

@@ -517,6 +517,7 @@ static id sDearchivingHelper = nil;
 {
 	return m_size;
 }
+@synthesize drawingSize=m_size;
 
 /** @brief Sets the drawing's paper size and margins to be equal to the sizes stored in a NSPrintInfo object.
 
@@ -584,33 +585,10 @@ static id sDearchivingHelper = nil;
 				  bottom:[printInfo bottomMargin]];
 }
 
-/** @return the width of the left margin
- */
-- (CGFloat)leftMargin
-{
-	return m_leftMargin;
-}
-
-/** @return the width of the right margin
- */
-- (CGFloat)rightMargin
-{
-	return m_rightMargin;
-}
-
-/** @return the width of the top margin
- */
-- (CGFloat)topMargin
-{
-	return m_topMargin;
-}
-
-/** @return the width of the bottom margin
- */
-- (CGFloat)bottomMargin
-{
-	return m_bottomMargin;
-}
+@synthesize leftMargin=m_leftMargin;
+@synthesize rightMargin=m_rightMargin;
+@synthesize topMargin=m_topMargin;
+@synthesize bottomMargin=m_bottomMargin;
 
 /** @brief Returns the interior region of the drawing, within the margins
  @return a rectangle, the interior area of the drawing (paper size less margins)
@@ -658,39 +636,7 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-/** @brief Whether the Y axis of the drawing is flipped
-
- Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
- DKDrawingView
- @return YES to have increase Y going down, NO for increasing Y going up
- */
-- (BOOL)isFlipped
-{
-	return mFlipped;
-}
-
-/** @brief Sets the destination colour space for the whole drawing
-
- Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- nil will use whatever is set in the colours used by the styles.
- @param cSpace the colour space 
- */
-- (void)setColourSpace:(NSColorSpace*)cSpace
-{
-	mColourSpace = cSpace;
-}
-
-/** @brief Returns the colour space for the whole drawing
-
- Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- nil will use whatever is set in the colours used by the styles.
- @return the colour space
- */
-- (NSColorSpace*)colourSpace
-{
-	return mColourSpace;
-}
-
+@synthesize flipped=mFlipped;
 @synthesize colourSpace=mColourSpace;
 
 #pragma mark -
@@ -743,13 +689,7 @@ static id sDearchivingHelper = nil;
 		return [[self class] abbreviationForDrawingUnits:[self drawingUnits]];
 }
 
-/** @brief Returns the number of Quartz units per basic drawing unit
- @return the conversion value
- */
-- (CGFloat)unitToPointsConversionFactor
-{
-	return m_unitConversionFactor;
-}
+@synthesize unitToPointsConversionFactor=m_unitConversionFactor;
 
 /** @brief Returns the number of Quartz units per basic drawing unit, as optionally determined by the delegate
 
@@ -792,7 +732,7 @@ static id sDearchivingHelper = nil;
  */
 - (NSSet*)controllers
 {
-	return mControllers;
+	return [mControllers copy];
 }
 
 /** @brief Add a controller to the drawing

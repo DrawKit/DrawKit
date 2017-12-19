@@ -188,22 +188,38 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b NS_SWIFT_NAME(setMargins(left:top:right:bottom:));
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo;
-- (CGFloat)leftMargin;
-- (CGFloat)rightMargin;
-- (CGFloat)topMargin;
-- (CGFloat)bottomMargin;
-- (NSRect)interior;
+/** @brief The width of the left margin.
+ */
+@property (readonly) CGFloat leftMargin;
+/** @brief The width of the right margin.
+ */
+@property (readonly) CGFloat rightMargin;
+/** @brief The width of the top margin.
+ */
+@property (readonly) CGFloat topMargin;
+/** @brief The width of the bottom margin.
+ */
+@property (readonly) CGFloat bottomMargin;
+@property (readonly) NSRect interior;
 - (NSPoint)pinPointToInterior:(NSPoint)p;
 
-@property (readonly) CGFloat leftMargin;
-@property (readonly) CGFloat rightMargin;
-@property (readonly) CGFloat topMargin;
-@property (readonly) CGFloat bottomMargin;
-
+/** @brief Sets whether the Y axis of the drawing is flipped
+ 
+ Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
+ DKDrawingView. WARNING: drawings with flip set to NO may have issues at present as some lower level
+ code is currently assuming a flipped view.
+ @param flipped YES to have increase Y going down, NO for increasing Y going up
+ */
 - (void)setFlipped:(BOOL)flipped;
+/** @brief Whether the Y axis of the drawing is flipped
+ 
+ Drawings are typically flipped, \c YES is the default. This affects the -isFlipped return from a
+ <code>DKDrawingView</code>
+ @return \c YES to have increase Y going down, \c NO for increasing Y going up.
+ */
 - (BOOL)isFlipped;
 
-@property (getter=isFlipped) BOOL flipped;
+@property (nonatomic, getter=isFlipped) BOOL flipped;
 
 /** @brief Sets the destination colour space for the whole drawing
 
@@ -234,6 +250,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  */
 - (DKDrawingUnit)drawingUnits;
 - (NSString*)abbreviatedDrawingUnits;
+/** @brief Returns the number of Quartz units per basic drawing unit
+ @return the conversion value
+ */
 - (CGFloat)unitToPointsConversionFactor;
 - (CGFloat)effectiveUnitToPointsConversionFactor;
 - (void)synchronizeRulersWithUnits:(DKDrawingUnit)unitString;

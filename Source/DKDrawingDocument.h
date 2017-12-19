@@ -145,6 +145,7 @@ like this are one easy way to do it, but not the only way.
  @return a set of all styles in the drawing
  */
 - (NSSet<DKStyle*>*)allStyles;
+@property (readonly, copy) NSSet<DKStyle*> *allStyles;
 
 /** @brief Returns all registered styles used by the document's drawing
 
@@ -154,6 +155,7 @@ like this are one easy way to do it, but not the only way.
  @return a set of all registered styles in the drawing
  */
 - (NSSet<DKStyle*>*)allRegisteredStyles;
+@property (readonly, copy) NSSet<DKStyle*> *allRegisteredStyles;
 
 /** @brief The first step in reconsolidating a newly opened document's registered styles with the current
  style registry.
@@ -178,6 +180,7 @@ like this are one easy way to do it, but not the only way.
  @return a string - just the document's filename without the extension or other path components
  */
 - (NSString*)documentStyleCategoryName;
+@property (readonly, copy) NSString *documentStyleCategoryName;
 
 /** @brief Sets the main view's drawing tool to the given tool
 

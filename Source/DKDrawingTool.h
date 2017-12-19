@@ -8,6 +8,8 @@
 #import "DKDrawingToolProtocol.h"
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKToolController;
 
 /** @brief DKDrawingTool is the semi-abstract base class for all types of drawing tool.
@@ -36,7 +38,7 @@ considerations are outside the scope of DK itself.
 
 /** @brief Does the tool ever implement undoable actions?
 
- Classes must override this and say YES if the tool does indeed perform an undoable action
+ Classes must override this and say \c YES if the tool does indeed perform an undoable action
  (i.e. it does something to an object)
  @return NO
  */
@@ -57,15 +59,15 @@ considerations are outside the scope of DK itself.
  restore the styles associated with each tool when the app is next launched.
  */
 + (void)saveDefaults;
-+ (id)firstResponderAbleToSetTool;
++ (nullable id)firstResponderAbleToSetTool;
 
 /** @brief Return the registry name for this tool
 
  If the tool isn't registered, returns nil
  @return a string, the name this tool is registerd under, if any:
  */
-- (DKToolName)registeredName;
-@property (readonly, copy) DKToolName registeredName;
+- (nullable DKToolName)registeredName;
+@property (readonly, copy, nullable) DKToolName registeredName;
 
 - (void)drawRect:(NSRect)aRect inView:(NSView*)aView;
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer;
@@ -75,14 +77,14 @@ considerations are outside the scope of DK itself.
 
  This method is used to assist the tool controller in making sensible decisions about certain
  automatic operations. Subclasses that implement a selection tool should override this to return YES.
- @return YES if the tool selects objects, NO otherwise
+ @return \c YES if the tool selects objects, \c NO otherwise
  */
 - (BOOL)isSelectionTool;
 @property (readonly, getter=isSelectionTool) BOOL selectionTool;
 
 /** @brief Sets the tool as the current tool for the key view in the main window, if possible
 
- This follows the -set approach that cocoa uses for many objects. It looks for the key view in the
+ This follows the \c -set approach that cocoa uses for many objects. It looks for the key view in the
  main window. If it's a DKDrawingView that has a tool controller, it sets itself as the controller's
  current tool. This might be more convenient than other ways of setting a tool.
  */
@@ -122,7 +124,7 @@ considerations are outside the scope of DK itself.
 
 // drawing tools can optionally return arbitrary persistent data that DK will store in the prefs for it
 
-- (NSData*)persistentData;
+- (nullable NSData*)persistentData;
 - (void)shouldLoadPersistentData:(NSData*)data;
 
 @end
@@ -143,7 +145,7 @@ considerations are outside the scope of DK itself.
  Creates a new empty registry if it doesn't yet exist
  @return a dictionary - contains drawing tool objects keyed by name
  */
-+ (NSDictionary*)sharedToolRegistry DEPRECATED_ATTRIBUTE;
++ (null_unspecified NSDictionary*)sharedToolRegistry DEPRECATED_ATTRIBUTE;
 
 /** @brief Retrieve a tool from the registry with the given name
 
@@ -151,7 +153,7 @@ considerations are outside the scope of DK itself.
  @param name the registry name of the tool required.
  @return the tool if it exists, or nil
  */
-+ (DKDrawingTool*)drawingToolWithName:(NSString*)name DEPRECATED_ATTRIBUTE;
++ (null_unspecified DKDrawingTool*)drawingToolWithName:(null_unspecified NSString*)name DEPRECATED_ATTRIBUTE;
 
 /** @brief Register a tool in th eregistry with the given name
 
@@ -159,7 +161,7 @@ considerations are outside the scope of DK itself.
  @param tool a tool object to register
  @param name a name to register it against.
  */
-+ (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name DEPRECATED_ATTRIBUTE;
++ (void)registerDrawingTool:(null_unspecified DKDrawingTool*)tool withName:(null_unspecified NSString*)name DEPRECATED_ATTRIBUTE;
 
 /** @brief Retrieve a tool from the registry matching the key equivalent indicated by the key event passed
 
@@ -167,7 +169,7 @@ considerations are outside the scope of DK itself.
  @param keyEvent a keyDown event.
  @return the tool if it can be matched, or nil
  */
-+ (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent DEPRECATED_ATTRIBUTE;
++ (null_unspecified DKDrawingTool*)drawingToolWithKeyboardEquivalent:(null_unspecified NSEvent*)keyEvent DEPRECATED_ATTRIBUTE;
 
 /** @brief Set a "standard" set of tools in the registry
 
@@ -184,6 +186,8 @@ considerations are outside the scope of DK itself.
  May be useful for supporting a UI
  @return an array, a list of NSStrings
  */
-+ (NSArray<NSString*>*)toolNames DEPRECATED_ATTRIBUTE;
++ (null_unspecified NSArray<NSString*>*)toolNames DEPRECATED_ATTRIBUTE;
 
 @end
+
+NS_ASSUME_NONNULL_END
