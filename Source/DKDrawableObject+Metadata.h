@@ -52,6 +52,15 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 
 - (void)setMetadataItemType:(DKMetadataType)type forKey:(NSString*)key;
 
+/** retrieve the metadata object for the given key. As an extra bonus, if the
+ key is a string, and it starts with a dollar sign, the rest of the string is used
+ as a keypath, and will return the property at that keypath. This allows stuff that
+ reads metadata to introspect objects in the framework - for example $style.name returns the style name, etc.
+
+ to allow metadata retrieval to work smarter with nested objects, if the keyed object isn't found here and
+ the container also implements this, the container is searched and so on until a non-confoming container is hit,
+ at which point the search gives up and returns nil.
+ */
 - (nullable id)metadataObjectForKey:(NSString*)key;
 - (void)setMetadataItemValue:(nullable id)value forKey:(NSString*)key;
 
