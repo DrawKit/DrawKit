@@ -1,6 +1,6 @@
 framework module DKDrawKit {
   umbrella header "DKDrawKit.h"
-  config_macros qUseLogEvent
+  config_macros qUseLogEvent, qUseCurveFit
 
   export *
   module * { export * }
