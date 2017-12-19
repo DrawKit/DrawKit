@@ -14,13 +14,6 @@
 
 const NSPoint NSNotFoundPoint = { -10000000.2, -999999.6 };
 
-/** @brief Forms a rectangle from any two corner points
-
- The rect is normalised, in that the relative positions of a and b do not affect the result - the
- rect always extends in the positive x and y directions.
- @param a a rect
- @paran b a rect
- @return the rectangle formed by a and b at the opposite corners */
 NSRect NSRectFromTwoPoints(const NSPoint a, const NSPoint b)
 {
 	NSRect r;
@@ -49,17 +42,6 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size)
 	return r;
 }
 
-/** @brief Returns the smallest rect that encloses both a and b
-
- Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
- width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
- returned, but in all other cases it correctly forms the union. While NSUnionRect might be
- considered mathematically correct, since a rect of zero width or height cannot "contain" anything
- in the set sense, what's more practically required for real geometry is to allow infinitely thin
- lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
- @param a a rect
- @paran b a rect
- @return the rectangle that encloses a and b */
 NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
 {
 	if (NSEqualRects(a, NSZeroRect))
@@ -78,9 +60,6 @@ NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
 	}
 }
 
-/** @brief Returns the smallest rect that encloses all rects in the set
- @param aSet a set of NSValues containing rect values
- @return the rectangle that encloses all rects */
 NSRect UnionOfRectsInSet(const NSSet* aSet)
 {
 	NSRect ur = NSZeroRect;
@@ -91,15 +70,6 @@ NSRect UnionOfRectsInSet(const NSSet* aSet)
 	return ur;
 }
 
-/** @brief Returns the area that is different between two input rects, as a list of rects
-
- This can be used to optimize upates. If a and b are "before and after" rects of a visual change,
- the resulting list is the area to update assuming that nothing changed in the common area,
- which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
- the result contains a and b.
- @param a the first rect
- @param b the second rect
- @return an array of rect NSValues */
 NSSet* DifferenceOfTwoRects(const NSRect a, const NSRect b)
 {
 	NSMutableSet* result = [NSMutableSet set];
@@ -122,7 +92,7 @@ NSSet* DifferenceOfTwoRects(const NSRect a, const NSRect b)
 		}
 	}
 
-	return result;
+	return [result copy];
 }
 
 NSSet* SubtractTwoRects(const NSRect a, const NSRect b)
