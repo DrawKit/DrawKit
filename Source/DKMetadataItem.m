@@ -574,10 +574,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	}
 }
 
-- (DKMetadataType)type
-{
-	return mType;
-}
+@synthesize type=mType;
 
 - (NSString*)typeDisplayName
 {
@@ -717,7 +714,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 {
 	// sets the current value ignoring type and without notifying
 
-	mValue = aValue;
+	mValue = [aValue copy];
 }
 
 - (id)valueWithCurrentType:(id)inValue

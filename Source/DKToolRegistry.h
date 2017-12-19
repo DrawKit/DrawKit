@@ -8,6 +8,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawingTool;
 
 /** @brief DKToolRegistry takes over the tool collection functionality formerly part of DKDrawingTool itself.
@@ -32,7 +34,7 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
  @param name the name of the tool of interest
  @return the tool if found, or nil if not
  */
-- (__kindof DKDrawingTool*)drawingToolWithName:(DKToolName)name;
+- (nullable __kindof DKDrawingTool*)drawingToolWithName:(DKToolName)name;
 
 /** @brief Add a tool to the registry
  @param tool the tool to register
@@ -44,12 +46,15 @@ DKToolRegistry takes over the tool collection functionality formerly part of DKD
  @param keyEvent the key event to match
  @return the tool if found, or nil
  */
-- (__kindof DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
+- (nullable __kindof DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent;
 
 - (void)registerStandardTools;
 - (NSArray<DKToolName>*)toolNames;
-- (NSArray*)allKeysForTool:(DKDrawingTool*)tool;
+- (NSArray<DKToolName>*)allKeysForTool:(DKDrawingTool*)tool;
 - (NSArray<DKDrawingTool*>*)tools;
+
+@property (readonly, copy) NSArray<DKToolName> *toolNames;
+@property (readonly, copy) NSArray<DKDrawingTool*> *tools;
 
 @end
 
@@ -79,3 +84,5 @@ extern DKToolName kDKStandardAddPathPointToolName;
 extern DKToolName kDKStandardDeletePathPointToolName;
 extern DKToolName kDKStandardDeletePathSegmentToolName;
 extern DKToolName kDKStandardZoomToolName;
+
+NS_ASSUME_NONNULL_END
