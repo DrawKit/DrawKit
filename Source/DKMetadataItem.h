@@ -67,22 +67,22 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 // convenience constructors
 
-+ (DKMetadataItem*)metadataItemWithString:(NSString*)aString;
-+ (DKMetadataItem*)metadataItemWithInteger:(NSInteger)anInteger;
-+ (DKMetadataItem*)metadataItemWithReal:(CGFloat)aReal;
-+ (DKMetadataItem*)metadataItemWithBoolean:(BOOL)aBool;
-+ (DKMetadataItem*)metadataItemWithUnsigned:(NSUInteger)anInteger;
-+ (DKMetadataItem*)metadataItemWithAttributedString:(NSAttributedString*)attrString;
-+ (DKMetadataItem*)metadataItemWithImage:(NSImage*)image;
-+ (DKMetadataItem*)metadataItemWithImageData:(NSData*)imageData;
-+ (DKMetadataItem*)metadataItemWithURL:(NSURL*)url;
-+ (DKMetadataItem*)metadataItemWithDate:(NSDate*)date;
-+ (DKMetadataItem*)metadataItemWithColour:(NSColor*)colour;
-+ (DKMetadataItem*)metadataItemWithData:(NSData*)data;
-+ (DKMetadataItem*)metadataItemWithSize:(NSSize)size;
-+ (DKMetadataItem*)metadataItemWithPoint:(NSPoint)point;
-+ (DKMetadataItem*)metadataItemWithRect:(NSRect)rect;
-+ (DKMetadataItem*)metadataItemWithObject:(id)value;
++ (instancetype)metadataItemWithString:(NSString*)aString;
++ (instancetype)metadataItemWithInteger:(NSInteger)anInteger;
++ (instancetype)metadataItemWithReal:(CGFloat)aReal;
++ (instancetype)metadataItemWithBoolean:(BOOL)aBool;
++ (instancetype)metadataItemWithUnsigned:(NSUInteger)anInteger;
++ (instancetype)metadataItemWithAttributedString:(NSAttributedString*)attrString;
++ (instancetype)metadataItemWithImage:(NSImage*)image;
++ (instancetype)metadataItemWithImageData:(NSData*)imageData;
++ (instancetype)metadataItemWithURL:(NSURL*)url;
++ (instancetype)metadataItemWithDate:(NSDate*)date;
++ (instancetype)metadataItemWithColour:(NSColor*)colour;
++ (instancetype)metadataItemWithData:(NSData*)data;
++ (instancetype)metadataItemWithSize:(NSSize)size;
++ (instancetype)metadataItemWithPoint:(NSPoint)point;
++ (instancetype)metadataItemWithRect:(NSRect)rect;
++ (instancetype)metadataItemWithObject:(id)value;
 
 + (DKMetadataItem*)metadataItemWithPasteboard:(NSPasteboard*)pb;
 
@@ -117,8 +117,9 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 // set value, converting to current type as necessary
 
+/** sets the current value, always converting it to the current type, lossily maybe.*/
 - (void)setValue:(id)value;
-- (id)value;
+@property (nonatomic, strong) id value;
 
 - (void)takeObjectValueFrom:(id)sender;
 - (id)objectValue;

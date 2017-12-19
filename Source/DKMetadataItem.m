@@ -66,55 +66,55 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 {
 	switch (type) {
 	case DKMetadataTypeString:
-		return NSLocalizedString(@"String", nil);
+		return NSLocalizedStringFromTableInBundle(@"String", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeInteger:
-		return NSLocalizedString(@"Integer", nil);
+		return NSLocalizedStringFromTableInBundle(@"Integer", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeReal:
-		return NSLocalizedString(@"Real Number", nil);
+		return NSLocalizedStringFromTableInBundle(@"Real Number", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeUnsignedInt:
-		return NSLocalizedString(@"Unsigned Integer", nil);
+		return NSLocalizedStringFromTableInBundle(@"Unsigned Integer", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeBoolean:
-		return NSLocalizedString(@"Boolean", nil);
+		return NSLocalizedStringFromTableInBundle(@"Boolean", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeURL:
-		return NSLocalizedString(@"URL", nil);
+		return NSLocalizedStringFromTableInBundle(@"URL", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeColour:
-		return NSLocalizedString(@"Colour", nil);
+		return NSLocalizedStringFromTableInBundle(@"Colour", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeData:
-		return NSLocalizedString(@"Data", nil);
+		return NSLocalizedStringFromTableInBundle(@"Data", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeImageData:
-		return NSLocalizedString(@"Image Data", nil);
+		return NSLocalizedStringFromTableInBundle(@"Image Data", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeDate:
-		return NSLocalizedString(@"Date", nil);
+		return NSLocalizedStringFromTableInBundle(@"Date", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeImage:
-		return NSLocalizedString(@"Image", nil);
+		return NSLocalizedStringFromTableInBundle(@"Image", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeAttributedString:
-		return NSLocalizedString(@"Styled String", nil);
+		return NSLocalizedStringFromTableInBundle(@"Styled String", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeSize:
-		return NSLocalizedString(@"Size", nil);
+		return NSLocalizedStringFromTableInBundle(@"Size", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypePoint:
-		return NSLocalizedString(@"Point", nil);
+		return NSLocalizedStringFromTableInBundle(@"Point", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeRect:
-		return NSLocalizedString(@"Rectangle", nil);
+		return NSLocalizedStringFromTableInBundle(@"Rectangle", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataTypeUnknown:
-		return NSLocalizedString(@"???", nil);
+		return NSLocalizedStringFromTableInBundle(@"???", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	case DKMetadataMultipleTypesMarker:
-		return NSLocalizedString(@"<multiple types>", nil);
+		return NSLocalizedStringFromTableInBundle(@"<multiple types>", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 
 	default:
 		return @"";
@@ -545,10 +545,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	[self assignValue:[self valueWithCurrentType:value]];
 }
 
-- (id)value
-{
-	return mValue;
-}
+@synthesize value=mValue;
 
 - (void)takeObjectValueFrom:(id)sender
 {
