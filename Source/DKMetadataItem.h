@@ -88,17 +88,18 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 // wholesale conversion
 
-+ (NSDictionary*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary*)aDict;
-+ (NSArray*)arrayOfMetadataItemsWithArray:(NSArray*)array;
-+ (NSDictionary*)metadataItemsWithPasteboard:(NSPasteboard*)pb;
++ (NSDictionary<NSString*,DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*,id>*)aDict;
++ (NSArray<DKMetadataItem*>*)arrayOfMetadataItemsWithArray:(NSArray*)array;
++ (NSDictionary<NSString*,DKMetadataItem*>*)metadataItemsWithPasteboard:(NSPasteboard*)pb;
 
-+ (BOOL)writeMetadataItems:(NSArray*)items forKeys:(NSArray*)keys toPasteboard:(NSPasteboard*)pb;
++ (BOOL)writeMetadataItems:(NSArray<DKMetadataItem*>*)items forKeys:(NSArray<NSString*>*)keys toPasteboard:(NSPasteboard*)pb;
 
 // initializing various types of metadata item
 
 - (instancetype)initWithType:(DKMetadataType)type NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithString:(NSString*)aString;
+- (instancetype)initWithInt:(int)anInteger;
 - (instancetype)initWithInteger:(NSInteger)anInteger;
 - (instancetype)initWithReal:(CGFloat)aReal;
 - (instancetype)initWithBoolean:(BOOL)aBool;
@@ -122,12 +123,13 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 - (void)takeObjectValueFrom:(id)sender;
 - (id)objectValue;
 
-// set type, converting current value to the type as necessary. Type never mutates unless deliberately
-// changed, unlike NSValue/NSNumber. This strictly preserves the original data type under editing operations.
-
+/** set type, converting current value to the type as necessary. Type never mutates unless deliberately
+ changed, unlike NSValue/NSNumber. This strictly preserves the original data type under editing operations.
+*/
 - (void)setType:(DKMetadataType)type;
 - (DKMetadataType)type;
-- (NSString*)typeDisplayName;
+@property (nonatomic) DKMetadataType type;
+@property (readonly, copy) NSString* typeDisplayName;
 
 - (BOOL)isLossyConversionToType:(DKMetadataType)type;
 - (DKMetadataItem*)metadataItemWithType:(DKMetadataType)type;
@@ -146,13 +148,25 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 - (NSPoint)pointValue;
 - (NSRect)rectValue;
 
+@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSAttributedString *attributedStringValue;
+@property (readonly) int intValue;
+@property (readonly) NSInteger integerValue;
+@property (readonly) float floatValue;
+@property (readonly) double doubleValue;
+@property (readonly) BOOL boolValue;
+@property (readonly, copy) NSColor *colourValue;
+@property (readonly) NSSize sizeValue;
+@property (readonly) NSPoint pointValue;
+@property (readonly) NSRect rectValue;
+
 - (NSData*)data;
 - (BOOL)writeToPasteboard:(NSPasteboard*)pb;
 
 @end
 
-extern NSString* DKSingleMetadataItemPBoardType;
-extern NSString* DKMultipleMetadataItemsPBoardType;
+extern NSPasteboardType DKSingleMetadataItemPBoardType;
+extern NSPasteboardType DKMultipleMetadataItemsPBoardType;
 
 // objects can optionally implement any of the following to assist with additional conversions:
 

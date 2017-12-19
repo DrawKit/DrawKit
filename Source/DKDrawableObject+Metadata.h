@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** metadata has been through a bit of evolution. This constant indicates which schema is in use
+/** Metadata has been through a bit of evolution. This constant indicates which schema is in use
  */
 typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 	kDKMetadataOriginalSchema = 1,
@@ -32,25 +32,28 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 + (BOOL)metadataChangesAreUndoable;
 @property (class) BOOL metadataChangesAreUndoable;
 
-- (void)addMetadata:(NSDictionary*)dict;
-- (void)setMetadata:(NSDictionary*)dict;
-- (NSMutableDictionary*)metadata;
-- (NSArray*)metadataKeys;
+- (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
+- (void)setMetadata:(NSDictionary<NSString*,DKMetadataItem*>*)dict;
+- (NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
+@property (readonly, copy) NSArray<NSString*> *metadataKeys;
 
 - (void)setupMetadata;
-- (DKMetadataSchema)schema;
+/** Detects the current schema and returns a constant indicating which is in use. When an object is unarchived it is automatically
+ migrated to the latest schema using the -updateMetadataKeys method.
+ */
+@property (readonly) DKMetadataSchema schema;
 
 - (void)setMetadataItem:(DKMetadataItem*)item forKey:(NSString*)key;
 - (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key;
 - (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key limitToLocalSearch:(BOOL)local;
 
-- (NSArray*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray;
-- (NSArray*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray limitToLocalSearch:(BOOL)local;
+- (NSArray<DKMetadataItem*>*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray;
+- (NSArray<DKMetadataItem*>*)metadataItemsForKeysInArray:(NSArray<NSString*>*)keyArray limitToLocalSearch:(BOOL)local;
 
 - (void)setMetadataItemType:(DKMetadataType)type forKey:(NSString*)key;
 
-- (id)metadataObjectForKey:(NSString*)key;
-- (void)setMetadataItemValue:(id)value forKey:(NSString*)key;
+- (nullable id)metadataObjectForKey:(NSString*)key;
+- (void)setMetadataItemValue:(nullable id)value forKey:(NSString*)key;
 
 - (BOOL)hasMetadataForKey:(NSString*)key;
 - (void)removeMetadataForKey:(NSString*)key;
@@ -61,11 +64,11 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 - (void)setIntValue:(NSInteger)val forKey:(NSString*)key;
 - (NSInteger)intValueForKey:(NSString*)key;
 
-- (void)setString:(NSString*)string forKey:(NSString*)key;
-- (NSString*)stringForKey:(NSString*)key;
+- (void)setString:(nullable NSString*)string forKey:(NSString*)key;
+- (nullable NSString*)stringForKey:(NSString*)key;
 
-- (void)setColour:(NSColor*)colour forKey:(NSString*)key;
-- (NSColor*)colourForKey:(NSString*)key;
+- (void)setColour:(nullable NSColor*)colour forKey:(NSString*)key;
+- (nullable NSColor*)colourForKey:(NSString*)key;
 
 - (void)setSize:(NSSize)size forKey:(NSString*)key;
 - (NSSize)sizeForKey:(NSString*)key;
@@ -83,7 +86,7 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
  */
 @interface DKDrawableObject (MetadataDeprecated)
 
-- (void)setMetadataObject:(id)obj forKey:(NSString*)key;
+- (void)setMetadataObject:(id)obj forKey:(NSString*)key DEPRECATED_ATTRIBUTE;
 
 @end
 

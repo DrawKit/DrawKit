@@ -11,6 +11,7 @@
 		551B085D1FDF5ED1008AE439 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 551B085C1FDF5ED1008AE439 /* Images.xcassets */; };
 		551B085F1FDF63D2008AE439 /* DKViewControllerAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B085E1FDF63D2008AE439 /* DKViewControllerAdditions.swift */; };
 		551B08611FE0643C008AE439 /* DKDrawingToolAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 551B08601FE0643C008AE439 /* DKDrawingToolAdditions.swift */; };
+		5523ED121FE8933B00639846 /* DKDrawableObjectAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5523ED111FE8933B00639846 /* DKDrawableObjectAdditions.swift */; };
 		553CF02E1FDDC2F0003E9342 /* DrawKitSwift.h in Headers */ = {isa = PBXBuildFile; fileRef = 553CF02C1FDDC2F0003E9342 /* DrawKitSwift.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		553CF0331FDDC398003E9342 /* DKDrawingAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553CF0321FDDC398003E9342 /* DKDrawingAdditions.swift */; };
 		553CF0361FDDC3B4003E9342 /* DKDrawKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9660E6100BEF442B00B6A38C /* DKDrawKit.framework */; };
@@ -316,6 +317,7 @@
 		551B085C1FDF5ED1008AE439 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		551B085E1FDF63D2008AE439 /* DKViewControllerAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKViewControllerAdditions.swift; sourceTree = "<group>"; };
 		551B08601FE0643C008AE439 /* DKDrawingToolAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKDrawingToolAdditions.swift; sourceTree = "<group>"; };
+		5523ED111FE8933B00639846 /* DKDrawableObjectAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKDrawableObjectAdditions.swift; sourceTree = "<group>"; };
 		553CEFC91FDD2FF8003E9342 /* DKDrawKit.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = DKDrawKit.modulemap; sourceTree = "<group>"; };
 		553CF02A1FDDC2EF003E9342 /* DrawKitSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DrawKitSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		553CF02C1FDDC2F0003E9342 /* DrawKitSwift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DrawKitSwift.h; sourceTree = "<group>"; };
@@ -727,6 +729,7 @@
 				553CF0441FDE14DB003E9342 /* DKStyleAdditions.swift */,
 				551B085E1FDF63D2008AE439 /* DKViewControllerAdditions.swift */,
 				551B08601FE0643C008AE439 /* DKDrawingToolAdditions.swift */,
+				5523ED111FE8933B00639846 /* DKDrawableObjectAdditions.swift */,
 			);
 			path = DrawKitSwift;
 			sourceTree = "<group>";
@@ -1498,6 +1501,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				553CF03F1FDDC72B003E9342 /* DKObjectDrawingLayerAdditions.swift in Sources */,
+				5523ED121FE8933B00639846 /* DKDrawableObjectAdditions.swift in Sources */,
 				553CF0411FDDD312003E9342 /* DKLayerGroupAdditions.swift in Sources */,
 				553CF0331FDDC398003E9342 /* DKDrawingAdditions.swift in Sources */,
 				553CF0431FDDE2A8003E9342 /* DKObjectOwnerLayerAdditions.swift in Sources */,

@@ -9,7 +9,7 @@
 NSString* DKSingleMetadataItemPBoardType = @"com.apptree.dk.meta";
 NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
-@interface DKMetadataItem (Private)
+@interface DKMetadataItem ()
 
 - (void)assignValue:(id)aValue;
 - (id)valueWithCurrentType:(id)inValue;
@@ -267,7 +267,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return nil;
 }
 
-+ (NSDictionary*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary*)aDict
++ (NSDictionary<NSString*,DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*,id>*)aDict
 {
 	// returns a dictionary of DKMetadataItems built by iterating the input dictionary and wrapping each object using metadataItemWithObject:
 	// this is designed as a way to convert existing dictionaries of attributes wholesale. If the dictionary already contains meta items, the
@@ -387,6 +387,16 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 }
 
 - (instancetype)initWithInteger:(NSInteger)anInteger
+{
+	self = [self initWithType:DKMetadataTypeInteger];
+	if (self) {
+		[self assignValue:@(anInteger)];
+	}
+	
+	return self;
+}
+
+- (instancetype)initWithInt:(int)anInteger
 {
 	self = [self initWithType:DKMetadataTypeInteger];
 	if (self) {
@@ -627,7 +637,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 {
 	return [[self convertValue:[self value]
 						toType:DKMetadataTypeInteger
-					  wasLossy:NULL] integerValue];
+					  wasLossy:NULL] intValue];
 }
 
 - (NSInteger)integerValue

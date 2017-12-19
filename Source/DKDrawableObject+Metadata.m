@@ -229,16 +229,37 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 					const char* dataType = [oldValue objCType];
 					NSNumber* newValue;
 
-					if (strcmp(dataType, @encode(CGFloat)) == 0)
+					if (strcmp(dataType, @encode(CGFloat)) == 0) {
 						newValue = @([obj doubleValue]);
-					else if (strcmp(dataType, @encode(double)) == 0)
+					} else if (strcmp(dataType, @encode(double)) == 0) {
 						newValue = @([obj doubleValue]);
-					else if (strcmp(dataType, @encode(NSInteger)) == 0)
+					} else if (strcmp(dataType, @encode(float)) == 0) {
+						newValue = @([obj floatValue]);
+					} else if (strcmp(dataType, @encode(long)) == 0) {
+						newValue = @([obj longValue]);
+					} else if (strcmp(dataType, @encode(unsigned long)) == 0) {
+						newValue = @([obj unsignedLongValue]);
+					} else if (strcmp(dataType, @encode(NSInteger)) == 0) {
 						newValue = @([obj integerValue]);
-					else if (strcmp(dataType, @encode(BOOL)) == 0)
+					} else if (strcmp(dataType, @encode(NSUInteger)) == 0) {
+						newValue = @([obj unsignedIntegerValue]);
+					} else if (strcmp(dataType, @encode(long long)) == 0) {
+						newValue = @([obj longLongValue]);
+					} else if (strcmp(dataType, @encode(unsigned long long)) == 0) {
+						newValue = @([obj unsignedLongLongValue]);
+					} else if (strcmp(dataType, @encode(int)) == 0) {
+						newValue = @([obj intValue]);
+					} else if (strcmp(dataType, @encode(short)) == 0) {
+						newValue = @([obj intValue]);
+					} else if (strcmp(dataType, @encode(unsigned int)) == 0) {
+						newValue = @([obj unsignedIntValue]);
+					} else if (strcmp(dataType, @encode(unsigned short)) == 0) {
+						newValue = @([obj unsignedIntValue]);
+					} else if (strcmp(dataType, @encode(BOOL)) == 0) {
 						newValue = @((BOOL)([obj integerValue] != 0));
-					else
+					} else {
 						newValue = obj;
+					}
 
 					obj = newValue;
 				}

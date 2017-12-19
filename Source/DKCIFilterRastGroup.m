@@ -29,7 +29,7 @@
 {
 	LogEvent_(kStateEvent, @"setting fx filter: %@", filter);
 
-	if (filter != [self filter]) {
+	if (![filter isEqualToString:self.filter]) {
 		m_filter = [filter copy];
 
 		[self invalidateCache];
