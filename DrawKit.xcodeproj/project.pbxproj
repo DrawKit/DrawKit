@@ -354,20 +354,20 @@
 		96F5160C0B89DBBD0047BA96 /* DKObjectDrawingLayer+Alignment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DKObjectDrawingLayer+Alignment.m"; sourceTree = "<group>"; };
 		96F516110B89DBBD0047BA96 /* DKLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKLayer.h; sourceTree = "<group>"; };
 		96F516120B89DBBD0047BA96 /* DKLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKLayer.m; sourceTree = "<group>"; };
-		96F516140B89DBBD0047BA96 /* DKDrawableObject.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKDrawableObject.h; sourceTree = "<group>"; };
-		96F516150B89DBBD0047BA96 /* DKDrawableObject.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKDrawableObject.m; sourceTree = "<group>"; };
-		96F516160B89DBBD0047BA96 /* DKDrawableShape.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKDrawableShape.h; sourceTree = "<group>"; };
-		96F516170B89DBBD0047BA96 /* DKDrawableShape.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKDrawableShape.m; sourceTree = "<group>"; };
-		96F516180B89DBBD0047BA96 /* DKReshapableShape.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKReshapableShape.h; sourceTree = "<group>"; };
-		96F516190B89DBBD0047BA96 /* DKReshapableShape.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKReshapableShape.m; sourceTree = "<group>"; };
-		96F5161A0B89DBBD0047BA96 /* DKImageShape.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKImageShape.h; sourceTree = "<group>"; };
-		96F5161B0B89DBBD0047BA96 /* DKImageShape.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKImageShape.m; sourceTree = "<group>"; };
-		96F5161E0B89DBBD0047BA96 /* DKShapeGroup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKShapeGroup.h; sourceTree = "<group>"; };
-		96F5161F0B89DBBD0047BA96 /* DKShapeGroup.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKShapeGroup.m; sourceTree = "<group>"; };
-		96F516200B89DBBD0047BA96 /* DKDrawablePath.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKDrawablePath.h; sourceTree = "<group>"; };
-		96F516210B89DBBD0047BA96 /* DKDrawablePath.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKDrawablePath.m; sourceTree = "<group>"; };
-		96F516220B89DBBD0047BA96 /* DKTextShape.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKTextShape.h; sourceTree = "<group>"; };
-		96F516230B89DBBD0047BA96 /* DKTextShape.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKTextShape.m; sourceTree = "<group>"; };
+		96F516140B89DBBD0047BA96 /* DKDrawableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDrawableObject.h; sourceTree = "<group>"; };
+		96F516150B89DBBD0047BA96 /* DKDrawableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDrawableObject.m; sourceTree = "<group>"; };
+		96F516160B89DBBD0047BA96 /* DKDrawableShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDrawableShape.h; sourceTree = "<group>"; };
+		96F516170B89DBBD0047BA96 /* DKDrawableShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDrawableShape.m; sourceTree = "<group>"; };
+		96F516180B89DBBD0047BA96 /* DKReshapableShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKReshapableShape.h; sourceTree = "<group>"; };
+		96F516190B89DBBD0047BA96 /* DKReshapableShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKReshapableShape.m; sourceTree = "<group>"; };
+		96F5161A0B89DBBD0047BA96 /* DKImageShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKImageShape.h; sourceTree = "<group>"; };
+		96F5161B0B89DBBD0047BA96 /* DKImageShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKImageShape.m; sourceTree = "<group>"; };
+		96F5161E0B89DBBD0047BA96 /* DKShapeGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKShapeGroup.h; sourceTree = "<group>"; };
+		96F5161F0B89DBBD0047BA96 /* DKShapeGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKShapeGroup.m; sourceTree = "<group>"; };
+		96F516200B89DBBD0047BA96 /* DKDrawablePath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDrawablePath.h; sourceTree = "<group>"; };
+		96F516210B89DBBD0047BA96 /* DKDrawablePath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDrawablePath.m; sourceTree = "<group>"; };
+		96F516220B89DBBD0047BA96 /* DKTextShape.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKTextShape.h; sourceTree = "<group>"; };
+		96F516230B89DBBD0047BA96 /* DKTextShape.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKTextShape.m; sourceTree = "<group>"; };
 		96F516270B89DBBD0047BA96 /* DKStrokeDash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStrokeDash.h; sourceTree = "<group>"; };
 		96F516280B89DBBD0047BA96 /* DKStrokeDash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStrokeDash.m; sourceTree = "<group>"; };
 		96F516290B89DBBD0047BA96 /* DKGradient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKGradient.h; sourceTree = "<group>"; };
@@ -412,10 +412,10 @@
 		96F516550B89DBBE0047BA96 /* GCZoomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GCZoomView.m; sourceTree = "<group>"; };
 		96F516560B89DBBE0047BA96 /* DKSelectionPDFView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKSelectionPDFView.h; sourceTree = "<group>"; };
 		96F516570B89DBBE0047BA96 /* DKSelectionPDFView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSelectionPDFView.m; sourceTree = "<group>"; };
-		96F5165B0B89DBBE0047BA96 /* DKDrawingTool.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DKDrawingTool.h; sourceTree = "<group>"; };
-		96F5165C0B89DBBE0047BA96 /* DKDrawingTool.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DKDrawingTool.m; sourceTree = "<group>"; };
+		96F5165B0B89DBBE0047BA96 /* DKDrawingTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDrawingTool.h; sourceTree = "<group>"; };
+		96F5165C0B89DBBE0047BA96 /* DKDrawingTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDrawingTool.m; sourceTree = "<group>"; };
 		96F516B90B89DBE60047BA96 /* CurveFit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveFit.h; sourceTree = "<group>"; };
-		96F517DB0B8A8A300047BA96 /* DKDrawKit.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DKDrawKit.h; path = Source/DKDrawKit.h; sourceTree = "<group>"; };
+		96F517DB0B8A8A300047BA96 /* DKDrawKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKDrawKit.h; path = Source/DKDrawKit.h; sourceTree = "<group>"; };
 		AA9159790D9DFECA00905699 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Logging.xib; sourceTree = "<group>"; };
 		AA91597A0D9DFECA00905699 /* LogEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogEvent.h; sourceTree = "<group>"; };
 		AA91597B0D9DFECA00905699 /* LogEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogEvent.m; sourceTree = "<group>"; };
@@ -700,6 +700,7 @@
 			isa = PBXGroup;
 			children = (
 				1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */,
+				BFC2439D0BAA51AC00A1AA0F /* QuartzCore.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -707,7 +708,6 @@
 		1058C7B2FEA5585E11CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BFC2439D0BAA51AC00A1AA0F /* QuartzCore.framework */,
 				0867D6A5FE840307C02AAC07 /* AppKit.framework */,
 				0867D69BFE84028FC02AAC07 /* Foundation.framework */,
 			);
@@ -722,6 +722,7 @@
 				AA9159770D9DFECA00905699 /* LogEvent */,
 			);
 			name = "Other Sources";
+			path = ThirdParty;
 			sourceTree = "<group>";
 		};
 		553CF02B1FDDC2F0003E9342 /* DrawKitSwift */ = {
@@ -1024,8 +1025,7 @@
 				AA91597B0D9DFECA00905699 /* LogEvent.m */,
 				AA9159780D9DFECA00905699 /* Logging.xib */,
 			);
-			name = LogEvent;
-			path = ThirdParty/LogEvent;
+			path = LogEvent;
 			sourceTree = "<group>";
 		};
 		BF2865C70E264A6C001CD43F /* Drawing */ = {
@@ -1172,7 +1172,7 @@
 				BF88EFD30C128C7900A23755 /* translate.h */,
 			);
 			name = "Curve Fit";
-			path = ThirdParty/CurveFit;
+			path = CurveFit;
 			sourceTree = "<group>";
 		};
 		BFD211950E2C28B30081C007 /* Bezier Paths */ = {
