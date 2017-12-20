@@ -173,6 +173,9 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
  *	@{ */
 
 - (void)setDrawingSize:(NSSize)aSize;
+/** @brief Returns the current paper size of the drawing
+ @return the drawing size
+ */
 - (NSSize)drawingSize;
 - (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo;
 

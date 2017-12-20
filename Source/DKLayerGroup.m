@@ -439,10 +439,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 	NSArray* layers = [self layersOfClass:cl
 						performDeepSearch:deep];
 
-	if (layers && [layers count] > 0)
-		return [layers objectAtIndex:0];
-	else
-		return nil;
+	return layers.firstObject;
 }
 
 /** @brief Returns a list of layers of the given class

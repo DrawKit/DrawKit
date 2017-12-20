@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		76D81C5A1F873B0800926ABF /* DKDrawKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76D81C551F873AEC00926ABF /* DKDrawKit.framework */; };
-		76D81C5B1F873B4A00926ABF /* DKDrawKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 76D81C551F873AEC00926ABF /* DKDrawKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		76D81C5B1F873B4A00926ABF /* DKDrawKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 76D81C551F873AEC00926ABF /* DKDrawKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76FC0AA01AFD090D005277C4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC0A9F1AFD090D005277C4 /* AppDelegate.m */; };
 		76FC0AA21AFD090D005277C4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC0AA11AFD090D005277C4 /* main.m */; };
 		76FC0AA51AFD090D005277C4 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 76FC0AA41AFD090D005277C4 /* Document.m */; };
@@ -19,6 +19,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		5523ED381FEA612600639846 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 76D81C4F1F873AEB00926ABF /* DrawKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 553CF02A1FDDC2EF003E9342;
+			remoteInfo = DrawKitSwift;
+		};
 		76D81C541F873AEC00926ABF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 76D81C4F1F873AEB00926ABF /* DrawKit.xcodeproj */;
@@ -50,14 +57,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		76FC0ACE1AFD0936005277C4 /* CopyFiles */ = {
+		76FC0ACE1AFD0936005277C4 /* Copy Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				76D81C5B1F873B4A00926ABF /* DKDrawKit.framework in CopyFiles */,
+				76D81C5B1F873B4A00926ABF /* DKDrawKit.framework in Copy Frameworks */,
 			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -103,6 +111,7 @@
 			children = (
 				76D81C551F873AEC00926ABF /* DKDrawKit.framework */,
 				76D81C571F873AEC00926ABF /* DKUnitTests.octest */,
+				5523ED391FEA612600639846 /* DrawKitSwift.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,7 +186,7 @@
 				76FC0A951AFD090D005277C4 /* Sources */,
 				76FC0A961AFD090D005277C4 /* Frameworks */,
 				76FC0A971AFD090D005277C4 /* Resources */,
-				76FC0ACE1AFD0936005277C4 /* CopyFiles */,
+				76FC0ACE1AFD0936005277C4 /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -251,6 +260,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		5523ED391FEA612600639846 /* DrawKitSwift.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DrawKitSwift.framework;
+			remoteRef = 5523ED381FEA612600639846 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		76D81C551F873AEC00926ABF /* DKDrawKit.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -261,7 +277,7 @@
 		76D81C571F873AEC00926ABF /* DKUnitTests.octest */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = DKUnitTests.octest;
+			path = DKUnitTests.xctest;
 			remoteRef = 76D81C561F873AEC00926ABF /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

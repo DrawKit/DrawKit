@@ -451,27 +451,6 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-/** @brief Returns the "owner" of this drawing.
-
- The owner is usually either a document, a window controller or a drawing view.
- @return the owner
- */
-- (id)owner
-{
-	return mOwnerRef;
-}
-
-/** @brief Sets the "owner" of this drawing.
-
- The owner is usually either a document, a window controller or a drawing view. It is not required to
- be set at all, though some higher-level conveniences may depend on it.
- @param owner the owner for this object
- */
-- (void)setOwner:(id)owner
-{
-	mOwnerRef = owner;
-}
-
 @synthesize owner=mOwnerRef;
 
 #pragma mark -
@@ -484,7 +463,7 @@ static id sDearchivingHelper = nil;
  */
 - (void)setDrawingSize:(NSSize)aSize
 {
-	NSAssert(aSize.width > 0.0, @"width cant be zero or negative");
+	NSAssert(aSize.width > 0.0, @"width can't be zero or negative");
 	NSAssert(aSize.height > 0.0, @"height can't be zero or negative");
 
 	if (!NSEqualSizes(aSize, m_size)) {
@@ -510,13 +489,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-/** @brief Returns the current paper size of the drawing
- @return the drawing size
- */
-- (NSSize)drawingSize
-{
-	return m_size;
-}
 @synthesize drawingSize=m_size;
 
 /** @brief Sets the drawing's paper size and margins to be equal to the sizes stored in a NSPrintInfo object.
