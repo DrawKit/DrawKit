@@ -2,6 +2,103 @@ framework module DKDrawKit {
   umbrella header "DKDrawKit.h"
   config_macros qUseLogEvent, qUseCurveFit
 
+	module DKObjectDrawingLayer {
+		header "DKObjectDrawingLayer.h"
+
+		module Alignment {
+			header "DKObjectDrawingLayer+Alignment.h"
+			export *
+		}
+
+		module Duplication {
+			header "DKObjectDrawingLayer+Duplication.h"
+			export *
+		}
+
+		export *
+	}
+
+	module DKGradient {
+		header "DKGradient.h"
+		
+		module Extensions {
+			header "DKGradientExtensions.h"
+			export *
+		}
+		
+		module UISupport {
+			header "DKGradient+UISupport.h"
+			export *
+		}
+		
+		export *
+	}
+
+	module DKLayer {
+		header "DKLayer.h"
+		
+		module Metadata {
+			header "DKLayer+Metadata.h"
+			export *
+		}
+		
+		export *
+	}
+
+	module DKStyle {
+		header "DKStyle.h"
+		
+		module SimpleAccess {
+			header "DKStyle+SimpleAccess.h"
+			export *
+		}
+		
+		module Text {
+			header "DKStyle+Text.h"
+			export *
+		}
+		
+		export *
+	}
+	
+	module DKDrawing {
+		header "DKDrawing.h"
+		
+		module Export {
+			header "DKDrawing+Export.h"
+			export *
+		}
+		
+		module Paper {
+			header "DKDrawing+Paper.h"
+			export *
+		}
+		
+		export *
+	}
+	
+	module DKDrawableObject {
+		header "DKDrawableObject.h"
+		
+		module Metadata {
+			header "DKDrawableObject+Metadata.h"
+			export *
+		}
+		
+		export *
+	}
+	
+	module DKDrawableShape {
+		header "DKDrawableShape.h"
+		
+		module Hotspots {
+			header "DKDrawableShape+Hotspots.h"
+			export *
+		}
+		
+		export *
+	}
+	
   export *
   module * { export * }
   

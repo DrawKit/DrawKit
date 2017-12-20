@@ -7,7 +7,7 @@
 //
 
 import DKDrawKit.DKDrawableObject
-import DKDrawKit.DKDrawableObject_Metadata
+import DKDrawKit.DKDrawableObject.Metadata
 
 extension DKDrawableObject {
 	public var metadata: [String: DKMetadataItem] {
