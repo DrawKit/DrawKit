@@ -155,6 +155,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  @return the scale ratios
  */
 - (NSSize)groupScaleRatios;
+@property (readonly) NSSize groupScaleRatios;
 
 /** @brief Sets the current list of objects to the given objects
 
@@ -170,6 +171,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  This transform is used when drawing the group's contents
  @return a transform object */
 - (NSAffineTransform*)contentTransform;
+@property (readonly, copy) NSAffineTransform *contentTransform;
 
 /** @brief Returns a transform which is the accumulation of all the parent objects above this one.
 
@@ -178,6 +180,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  and the content transform. Either way contained objects are oblivious and do the right thing.
  @return a transform object */
 - (NSAffineTransform*)renderingTransform;
+@property (readonly, copy) NSAffineTransform *renderingTransform;
 
 /** @brief Maps a point from the original container's coordinates to the equivalent group point
 

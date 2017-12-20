@@ -111,6 +111,11 @@ static NSSize sTempSavedOffset;
 	sInfoWindowColour = colour;
 }
 
++ (NSColor *)infoWindowBackgroundColour
+{
+	return sInfoWindowColour;
+}
+
 /** @brief Return a cursor for the given partcode
 
  Shapes have a fixed set of partcodes so the cursors can be set up by the class and cached for all

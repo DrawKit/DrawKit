@@ -54,14 +54,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-/** @brief Returns the radius of the arc
- @return the radius
- */
-- (CGFloat)radius
-{
-	return mRadius;
-}
-
 @synthesize radius=mRadius;
 
 /** @brief Sets the starting angle, which is the more anti-clockwise point on the arc
@@ -128,16 +120,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 		[[self undoManager] setActionName:NSLocalizedString(@"Change Arc Type", @"undo string for change arc type")];
 	}
 }
-
-#if 0
-/** @brief Returns the arc type, which affects the path geometry
- @return the current arc type
- */
-- (DKArcPathType)arcType
-{
-	return mArcType;
-}
-#endif
 
 @synthesize arcType=mArcType;
 

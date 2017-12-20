@@ -33,25 +33,15 @@ a star shape (not used if the inner radius is -ve).
 - (void)setNumberOfSides:(NSInteger)sides;
 - (CGFloat)numberOfSides;
 
-@property CGFloat radius;
-- (void)setRadius:(CGFloat)rad;
-- (CGFloat)radius;
+@property (nonatomic) CGFloat radius;
 
-@property CGFloat innerRadius;
-- (void)setInnerRadius:(CGFloat)innerRad;
-- (CGFloat)innerRadius;
+@property (nonatomic) CGFloat innerRadius;
 
-@property CGFloat topSpread;
-- (void)setTipSpread:(CGFloat)spread;
-- (CGFloat)tipSpread;
+@property (nonatomic) CGFloat tipSpread;
 
-@property CGFloat valleySpread;
-- (void)setValleySpread:(CGFloat)spread;
-- (CGFloat)valleySpread;
+@property (nonatomic) CGFloat valleySpread;
 
-@property BOOL showsSpreadControls;
-- (void)setShowsSpreadControls:(BOOL)showControls;
-- (BOOL)showsSpreadControls;
+@property (nonatomic) BOOL showsSpreadControls;
 
 - (IBAction)convertToPath:(nullable id)sender;
 - (IBAction)setNumberOfSidesWithTag:(nullable id)sender;

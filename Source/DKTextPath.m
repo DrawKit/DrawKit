@@ -34,8 +34,8 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 + (DKTextPath*)textPathWithString:(NSString*)str onPath:(NSBezierPath*)aPath
 {
-	DKTextPath* te = [[DKTextPath alloc] initWithBezierPath:aPath
-													  style:[self textPathDefaultStyle]];
+	DKTextPath* te = [[self alloc] initWithBezierPath:aPath
+												style:[self textPathDefaultStyle]];
 
 	[te setText:str];
 

@@ -61,10 +61,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)radius
-{
-	return mOuterRadius;
-}
+@synthesize radius=mOuterRadius;
 
 - (void)setInnerRadius:(CGFloat)innerRad
 {
@@ -77,10 +74,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)innerRadius
-{
-	return mInnerRadius;
-}
+@synthesize innerRadius=mInnerRadius;
 
 - (void)setTipSpread:(CGFloat)spread
 {
@@ -93,10 +87,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)tipSpread
-{
-	return mTipSpread;
-}
+@synthesize tipSpread=mTipSpread;
 
 - (void)setValleySpread:(CGFloat)spread
 {
@@ -109,10 +100,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)valleySpread
-{
-	return mValleySpread;
-}
+@synthesize valleySpread=mValleySpread;
 
 - (void)setShowsSpreadControls:(BOOL)showControls
 {
@@ -122,10 +110,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (BOOL)showsSpreadControls
-{
-	return mShowSpreadControls;
-}
+@synthesize showsSpreadControls=mShowSpreadControls;
 
 #pragma mark - private
 

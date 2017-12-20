@@ -23,7 +23,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 // convenience constructors:
 
-+ (DKTextPath*)textPathWithString:(NSString*)str onPath:(NSBezierPath*)aPath;
++ (instancetype)textPathWithString:(NSString*)str onPath:(NSBezierPath*)aPath;
 
 // class defaults:
 
@@ -39,7 +39,8 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
  @return a list of types
  */
-+ (NSArray*)pastableTextTypes;
++ (NSArray<NSPasteboardType>*)pastableTextTypes;
+@property (class, readonly, retain) NSArray<NSPasteboardType> *pastableTextTypes;
 + (DKStyle*)textPathDefaultStyle;
 
 // the text:
@@ -61,6 +62,9 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 - (DKShapeGroup*)makeShapeGroupWithText;
 - (DKStyle*)styleWithTextAttributes;
 
+@property (readonly, copy) NSBezierPath *textPath;
+@property (readonly, retain) DKStyle *styleWithTextAttributes;
+
 /** @brief Creates a style that is the current style + any text attributes
 
  A style which is the current style if it has text attributes, otherwise the current style with added text
@@ -69,9 +73,11 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
  */
 - (DKStyle*)syntheticStyle;
 
+@property (readonly, retain) DKStyle *syntheticStyle;
+
 // text attributes - accesses the internal adornment object
 
-- (NSDictionary*)textAttributes;
+- (NSDictionary<NSAttributedStringKey,id>*)textAttributes;
 
 - (void)setFont:(NSFont*)font;
 - (NSFont*)font;
@@ -79,6 +85,11 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 - (CGFloat)fontSize;
 - (void)setTextColour:(NSColor*)colour;
 - (NSColor*)textColour;
+
+@property (readonly, copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+@property (retain) NSFont *font;
+@property CGFloat fontSize;
+@property (retain) NSColor *textColour;
 
 - (void)scaleTextBy:(CGFloat)factor;
 
@@ -100,12 +111,14 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 @property (strong) NSParagraphStyle *paragraphStyle;
 @property (readonly) NSTextAlignment alignment;
 
+@property DKTextLayoutMode layoutMode;
+
 // editing the text:
 
 - (void)startEditingInView:(DKDrawingView*)view;
 - (void)endEditing;
 - (BOOL)isEditing;
-@property (readonly) BOOL isEditing;
+@property (readonly,getter=isEditing) BOOL editing;
 
 // the internal adornment object:
 

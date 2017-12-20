@@ -27,28 +27,24 @@ typedef NS_ENUM(NSInteger, DKArcPathType) {
 	DKArcPathType mArcType;
 }
 
-@property CGFloat radius;
-- (void)setRadius:(CGFloat)rad;
-- (CGFloat)radius;
+/** @brief The radius of the arc.
+ */
+@property (nonatomic) CGFloat radius;
 
+/** @brief The starting angle, which is the more anti-clockwise point on the arc.
+ 
+ Angle is passed in DEGREES.
+ */
 @property CGFloat startAngle;
-- (void)setStartAngle:(CGFloat)sa;
-- (CGFloat)startAngle;
 
+/** @brief The ending angle, which is the more clockwise point on the arc.
+ 
+ Angle is passed in DEGREES.
+ */
 @property CGFloat endAngle;
-- (void)setEndAngle:(CGFloat)ea;
-- (CGFloat)endAngle;
 
-/** @brief Sets the arc type, which affects the path geometry
- @param arcType the required type
+/** @brief The arc type, which affects the path geometry.
  */
-- (void)setArcType:(DKArcPathType)arcType;
-
-/** @brief Returns the arc type, which affects the path geometry
- @return the current arc type
- */
-- (DKArcPathType)arcType;
-
 @property (nonatomic) DKArcPathType arcType;
 
 - (IBAction)convertToPath:(nullable id)sender;

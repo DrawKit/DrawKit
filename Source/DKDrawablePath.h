@@ -40,10 +40,10 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
 
 /** @brief DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
 
-DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
+ DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
 
-The path is rendered at its stored size, not transformed to its final size like DKDrawableShape. Thus this type of object doesn't
-maintain the concept of rotation or scale - it just is what it is.
+ The path is rendered at its stored size, not transformed to its final size like DKDrawableShape. Thus this type of object doesn't
+ maintain the concept of rotation or scale - it just is what it is.
 */
 @interface DKDrawablePath : DKDrawableObject <NSCoding, NSCopying, NSDraggingDestination> {
 @private
@@ -85,6 +85,8 @@ maintain the concept of rotation or scale - it just is what it is.
  */
 + (NSColor*)infoWindowBackgroundColour;
 
+@property (class, retain) NSColor *infoWindowBackgroundColour;
+
 /** @brief Set whether the default hit-detection behaviour is to prioritise on-path points or off-path points
 
  Affects hit-detection when on-path and off-path points are coincident. Normally off-path points
@@ -104,6 +106,8 @@ maintain the concept of rotation or scale - it just is what it is.
  @return if YES, on-path points have priority by default
  */
 + (BOOL)defaultOnPathHitDetectionPriority;
+
+@property (class) BOOL defaultOnPathHitDetectionPriority;
 
 - (instancetype)initWithBezierPath:(NSBezierPath*)aPath;
 
@@ -126,6 +130,8 @@ maintain the concept of rotation or scale - it just is what it is.
  */
 + (CGFloat)angularConstraintAngle;
 
+@property (class) CGFloat angularConstraintAngle;
+
 /** @brief Should the angle of the path be constrained?
  
  Returns yes if the shift key is currently held down, otherwise no.
@@ -138,6 +144,8 @@ maintain the concept of rotation or scale - it just is what it is.
 - (NSBezierPath*)path;
 - (void)drawControlPointsOfPath:(NSBezierPath*)path usingKnobs:(DKKnob*)knobs;
 
+@property (copy) NSBezierPath *path;
+
 /** @brief Return the length of the path
 
  Length is accurately computed by summing the segment distances.
@@ -146,6 +154,9 @@ maintain the concept of rotation or scale - it just is what it is.
 - (CGFloat)length;
 - (CGFloat)lengthForPoint:(NSPoint)mp;
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol;
+
+@property (readonly) CGFloat length;
+
 
 /** @brief Return the length to display to the user of a path
  
@@ -161,6 +172,7 @@ maintain the concept of rotation or scale - it just is what it is.
  @return YES if the path is closed, NO if open
  */
 - (BOOL)isPathClosed;
+@property (readonly, getter=isPathClosed) BOOL pathClosed;
 
 - (void)recordPathForUndo;
 - (NSBezierPath*)undoPath;
@@ -183,7 +195,7 @@ maintain the concept of rotation or scale - it just is what it is.
  is only one subpath (common) then the result will have just one entry.
  @return an array of DKDrawablePath objects
  */
-- (NSArray*)breakApart;
+- (NSArray<DKDrawablePath*>*)breakApart;
 
 /** @brief Delete the point from the path with the given part code
 
@@ -277,9 +289,17 @@ maintain the concept of rotation or scale - it just is what it is.
  When YES, this affects the starting partcode for the creation process. Normally paths are started
  from scratch, but if YES, this extends the existing path from its end if the path is open. The
  tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
- @param xtend YES to extend the path, NO for normal creation
+ @param xtend \c YES to extend the path, \c NO for normal creation
  */
 - (void)setShouldExtendExistingPath:(BOOL)xtend;
+
+/** @brief Whether the object is extending its path or starting from scratch.
+ 
+ When <code>YES</code>, this affects the starting partcode for the creation process. Normally paths are started
+ from scratch, but if <code>YES</code>, this extends the existing path from its end if the path is open. The
+ tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
+*/
+@property BOOL shouldExtendExistingPath;
 
 /** @brief Event loop for creating a curved path point by point
 
@@ -321,18 +341,12 @@ maintain the concept of rotation or scale - it just is what it is.
 - (void)pathCreationLoopDidEnd;
 - (NSEvent*)postMouseUpAtPoint:(NSPoint)p;
 
-/** @brief Set the smoothness of paths created in freehand mode
-
+/** @brief The smoothness of paths created in freehand mode.
+ 
  The bigger the number, the smoother but less accurate the path. The value is the distance in
- base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20
- @param fs a smoothness value
+ base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20.
  */
-- (void)setFreehandSmoothing:(CGFloat)fs;
-
-/** @brief Get the smoothness valueof paths created in freehand mode
- @return the smoothness value
- */
-- (CGFloat)freehandSmoothing;
+@property CGFloat freehandSmoothing;
 
 // converting to other types
 
@@ -344,6 +358,8 @@ maintain the concept of rotation or scale - it just is what it is.
  */
 - (DKDrawableShape*)makeShape;
 - (BOOL)canConvertToTrack;
+
+@property (readonly) BOOL canConvertToTrack;
 
 /** @brief Make a copy of the path but with a parallel offset
  @param distance the distance from the original that the path is offset (negative forupward displacement)
@@ -445,9 +461,8 @@ maintain the concept of rotation or scale - it just is what it is.
 
 @end
 
-// special partcode value used to mean snap to the nearest point on the path itself:
-
 enum {
+	//! special partcode value used to mean snap to the nearest point on the path itself:
 	kDKSnapToNearestPathPointPartcode = -99
 };
 

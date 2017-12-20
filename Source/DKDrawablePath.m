@@ -1487,17 +1487,7 @@ finish:
 	return NO;
 }
 
-/** @brief Set whether the object should extend its path or start from scratch
-
- When YES, this affects the starting partcode for the creation process. Normally paths are started
- from scratch, but if YES, this extends the existing path from its end if the path is open. The
- tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
- @param xtend YES to extend the path, NO for normal creation
- */
-- (void)setShouldExtendExistingPath:(BOOL)xtend
-{
-	m_extending = xtend;
-}
+@synthesize shouldExtendExistingPath=m_extending;
 
 /** @brief Conditionally display the length info feedback window
 
@@ -1645,24 +1635,7 @@ finish:
 
 #pragma mark -
 
-/** @brief Set the smoothness of paths created in freehand mode
-
- The bigger the number, the smoother but less accurate the path. The value is the distance in
- base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20
- @param fs a smoothness value
- */
-- (void)setFreehandSmoothing:(CGFloat)fs
-{
-	m_freehandEpsilon = fs;
-}
-
-/** @brief Get the smoothness valueof paths created in freehand mode
- @return the smoothness value
- */
-- (CGFloat)freehandSmoothing
-{
-	return m_freehandEpsilon;
-}
+@synthesize freehandSmoothing=m_freehandEpsilon;
 
 #pragma mark -
 

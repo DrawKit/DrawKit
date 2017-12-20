@@ -9,8 +9,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-//! utilities for calculating regions within a shape and drawing images allowing
-//! for scale, rotation, etc.
+/** Utilities for calculating regions within a shape and drawing images allowing
+ for scale, rotation, etc.
+ */
 @interface DKDrawableShape (Utilities)
 
 /** @brief Return a rectangular path with given size and origin

@@ -18,15 +18,15 @@ typedef NS_ENUM(NSInteger, DKHotspotState) {
 
 /** @brief A HOTSPOT is an object attached to a shape to provide a direct user-interface for implementing custom actions, etc.
 
-A HOTSPOT is an object attached to a shape to provide a direct user-interface for implementing custom actions, etc.
+ A HOTSPOT is an object attached to a shape to provide a direct user-interface for implementing custom actions, etc.
 
-Hotspots are clickable areas on a shape indicated by a special "knob" appearance. They can appear anywhere within the bounds. When clicked,
-they will be tracked and can do any useful thing they wish. The original purpose is to allow the direct manipulation of certain shape parameters
-such as radius of round corners, and so on, but the design is completely general-purpose. 
+ Hotspots are clickable areas on a shape indicated by a special "knob" appearance. They can appear anywhere within the bounds. When clicked,
+ they will be tracked and can do any useful thing they wish. The original purpose is to allow the direct manipulation of certain shape parameters
+ such as radius of round corners, and so on, but the design is completely general-purpose.
 
-The action of a hotspot is handled by default by its delegate, though you could also subclass it and implement the action directly if you wish.
+ The action of a hotspot is handled by default by its delegate, though you could also subclass it and implement the action directly if you wish.
 
-The appearance of a hotspot is drawn by default by a method of DKKnob.
+ The appearance of a hotspot is drawn by default by a method of DKKnob.
 */
 @interface DKDrawableShape (Hotspots)
 
