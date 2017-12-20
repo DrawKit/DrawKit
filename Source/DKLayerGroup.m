@@ -976,7 +976,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		}
 	}
 
-	return unionOfAllStyles;
+	return [unionOfAllStyles copy];
 }
 
 /** @brief Substitute styles with those in the given set

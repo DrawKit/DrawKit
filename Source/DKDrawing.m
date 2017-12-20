@@ -1898,6 +1898,8 @@ static id sDearchivingHelper = nil;
 		self = [self init];
 
 	if (self != nil) {
+		[self setDrawingUnits:[coder decodeObjectForKey:@"drawing_units"]
+ unitToPointsConversionFactor:[coder decodeDoubleForKey:@"utp_conv"]];
 		mImageManager = imageManager;
 
 		if ([coder containsValueForKey:@"DKDrawing_isFlipped"])

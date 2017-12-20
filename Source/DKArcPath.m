@@ -620,6 +620,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	return mCentre;
 }
 
+@synthesize location=mCentre;
+
 /** @brief Move the object to a given location within the drawing
 
  Arc objects consider their centre origin as the datum of the location

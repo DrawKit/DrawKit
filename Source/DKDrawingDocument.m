@@ -433,7 +433,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 	// return the name of the category that this document creates in the style registry - by default it's just the name part of the URL.
 
-	return [[[[self fileURL] path] lastPathComponent] stringByDeletingPathExtension];
+	return [[[self fileURL] lastPathComponent] stringByDeletingPathExtension];
 }
 
 /** @brief Returns all styles used by the document's drawing

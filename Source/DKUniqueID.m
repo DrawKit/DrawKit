@@ -11,11 +11,10 @@
 /**  */
 + (NSString*)uniqueKey
 {
-	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-	CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-	CFRelease(uuid);
+	NSUUID *uuid = [NSUUID UUID];
+	NSString *str = uuid.UUIDString;
 
-	return CFBridgingRelease(str);
+	return str;
 }
 
 @end
