@@ -169,11 +169,12 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 extern NSPasteboardType DKSingleMetadataItemPBoardType;
 extern NSPasteboardType DKMultipleMetadataItemsPBoardType;
 
-// objects can optionally implement any of the following to assist with additional conversions:
+//! objects can optionally implement any of the following to assist with additional conversions:
+@protocol DKMetadataItemConversions <NSObject>
 
-@interface NSObject (DKMetadataItemConversions)
+@optional
 
-//- (NSURL*)url;
+- (NSURL*)url;
 - (NSColor*)colorValue;
 - (NSColor*)colourValue;
 - (NSString*)hexString;
@@ -181,5 +182,8 @@ extern NSPasteboardType DKMultipleMetadataItemsPBoardType;
 - (NSPoint)point;
 
 @property (readonly, copy) NSString *hexString;
+@property (readonly, copy) NSColor *colorValue;
+@property (readonly, copy) NSColor *colourValue;
+@property (readonly) NSPoint point;
 
 @end

@@ -11,26 +11,26 @@
 
 // generic layer class:
 
-/** @brief drawing layers are lightweight objects which represent a layer.
+/** @brief Drawing layers are lightweight objects which represent a layer.
 
-drawing layers are lightweight objects which represent a layer. They are owned by a DKDrawing which manages the
-stacking order and invokes the drawRect: method as needed. The other state variables control whether the layer is
-visible, locked, etc.
-
-DKDrawing will not ever call a drawRect: on a layer that returns NO for visible.
-
-if isOpaque returns YES, layers that are stacked below this one will not be drawn, even if they are visible. isOpaque
-returns NO by default.
-
-locked layers should not be editable, but this must be enforced by subclasses, as this class contains no editing
-features. However, locked layers will never receive mouse event calls so generally this will be enough.
-
-As layers are retained by the drawing, this does not retain the drawing.
-
-By definition the bounds of the layer is the same as the bounds of the drawing.
+ Drawing layers are lightweight objects which represent a layer. They are owned by a DKDrawing which manages the
+ stacking order and invokes the drawRect: method as needed. The other state variables control whether the layer is
+ visible, locked, etc.
  
-DKLayer does not implement a dragging destination but some subclasses do. NSDraggingDestination is declared to
-indicate likely handling of drag and drop operations by a layer instance.
+ \c DKDrawing will not ever call a \c drawRect: on a layer that returns \c NO for visible.
+ 
+ If \c isOpaque returns YES, layers that are stacked below this one will not be drawn, even if they are visible. \c isOpaque
+ returns \c NO by default.
+ 
+ Locked layers should not be editable, but this must be enforced by subclasses, as this class contains no editing
+ features. However, locked layers will never receive mouse event calls so generally this will be enough.
+ 
+ As layers are retained by the drawing, this does not retain the drawing.
+ 
+ By definition the bounds of the layer is the same as the bounds of the drawing.
+ 
+ \c DKLayer does not implement a dragging destination but some subclasses do. \c NSDraggingDestination is declared to
+ indicate likely handling of drag and drop operations by a layer instance.
 */
 @interface DKLayer : NSObject <NSCoding, NSDraggingDestination, NSUserInterfaceValidations, DKKnobOwner> {
 @private
@@ -67,7 +67,7 @@ indicate likely handling of drag and drop operations by a layer instance.
 + (NSArray<NSColor*>*)selectionColours;
 + (NSColor*)selectionColourForIndex:(NSUInteger)index;
 
-@property (class, retain /*, null_resettable*/) NSArray<NSColor*> *selectionColours;
+@property (class, copy /*, null_resettable*/) NSArray<NSColor*> *selectionColours;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
@@ -81,6 +81,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return the layer's owner drawing
  */
 - (DKDrawing*)drawing;
+@property (readonly, strong) DKDrawing *drawing;
 
 /** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
  to update their references
@@ -135,6 +136,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return an integer, the layer's index
  */
 - (NSUInteger)indexInGroup;
+@property (readonly) NSUInteger indexInGroup;
 
 /** @brief Determine whether a given group is the parent of this layer, or anywhere above it in the hierarchy
 
@@ -150,6 +152,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return the layer's level
  */
 - (NSUInteger)level;
+@property (readonly) NSUInteger level;
 
 // drawing:
 
@@ -171,6 +174,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return whether to treat the layer as opaque or not
  */
 - (BOOL)isOpaque;
+@property (readonly, getter=isOpaque) BOOL opaque;
 
 /** @brief Flags the whole layer as needing redrawing
 
@@ -194,7 +198,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  directly.
  @param setOfRects a set containing NSValues with rect values
  */
-- (void)setNeedsDisplayInRects:(NSSet*)setOfRects;
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects;
 
 /** @brief Marks several areas for update at once
 
@@ -203,7 +207,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @param setOfRects a set containing NSValues with rect values
  @param padding the width and height will be added to EACH rect before invalidating
  */
-- (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding;
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects withExtraPadding:(NSSize)padding;
 
 /** @brief Called before the layer starts drawing its content
 
@@ -239,11 +243,10 @@ indicate likely handling of drag and drop operations by a layer instance.
  drawing, scaled to fit. Areas left outside of the drawn portion are transparent.
  @return an image of this layer only
  */
-
+- (NSImage*)thumbnailImageWithSize:(NSSize)size;
 /** @brief Returns an image of the layer at the default size
  @return an image of this layer only
  */
-- (NSImage*)thumbnailImageWithSize:(NSSize)size;
 - (NSImage*)thumbnail;
 
 /** @brief Returns the content of the layer as a pdf
@@ -273,14 +276,14 @@ indicate likely handling of drag and drop operations by a layer instance.
 /** @brief Sets whether drawing is limited to the interior area or not
 
  Default is NO, so drawings show in the margins.
- @param clip YES to limit drawing to the interior, NO to allow drawing to be visible in the margins.
+ @param clip \c YES to limit drawing to the interior, \c NO to allow drawing to be visible in the margins.
  */
 - (void)setClipsDrawingToInterior:(BOOL)clip;
 
 /** @brief Whether the drawing will be clipped to the interior or not
 
  Default is NO.
- @return YES if clipping, NO if not.
+ @return \c YES if clipping, \c NO if not.
  */
 - (BOOL)clipsDrawingToInterior;
 
@@ -309,7 +312,6 @@ indicate likely handling of drag and drop operations by a layer instance.
 
 - (void)updateRulerMarkersForRect:(NSRect)rect;
 - (void)hideRulerMarkers;
-- (void)setRulerMarkerUpdatesEnabled:(BOOL)enable;
 @property BOOL rulerMarkerUpdatesEnabled;
 
 // states:
@@ -374,7 +376,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  */
 - (NSString*)layerName;
 
-@property (nonatomic, strong) NSString *layerName;
+@property (nonatomic, copy) NSString *layerName;
 
 // user info support
 

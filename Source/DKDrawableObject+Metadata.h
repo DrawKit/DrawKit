@@ -7,6 +7,7 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawableObject.h"
 #import "DKMetadataItem.h"
+#import "DKMetadataStorable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -20,22 +21,22 @@ typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 
 /** @brief Stores various drawkit private variables in the metadata.
 
-Stores various drawkit private variables in the metadata.
+ Stores various drawkit private variables in the metadata.
 
-Note that the details of how metadata is stored changed in 1.0b6. Now, the metadata is held in a separate dictionary within the overall userinfo dictionary, rather than as
+ Note that the details of how metadata is stored changed in 1.0b6. Now, the metadata is held in a separate dictionary within the overall userinfo dictionary, rather than as
  individual items within userInfo. This permits the userInfo dictionary to be used more extensively while keeping metadata grouped together. Using this API shields you
  from those changes, though if you were accessing userInfo to obtain the metadata, you may need to revise code to call -metadata instead.
 */
-@interface DKDrawableObject (Metadata)
+@interface DKDrawableObject (Metadata) <DKMetadataStorable>
 
 + (void)setMetadataChangesAreUndoable:(BOOL)undo;
 + (BOOL)metadataChangesAreUndoable;
 @property (class) BOOL metadataChangesAreUndoable;
 
 - (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
-- (void)setMetadata:(NSDictionary<NSString*,DKMetadataItem*>*)dict;
-- (NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
-@property (readonly, copy) NSArray<NSString*> *metadataKeys;
+- (void)setMetadata:(NSDictionary<NSString*,DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
+- (nullable NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
+@property (readonly, copy, nullable) NSArray<NSString*> *metadataKeys;
 
 - (void)setupMetadata;
 /** Detects the current schema and returns a constant indicating which is in use. When an object is unarchived it is automatically
@@ -73,10 +74,10 @@ Note that the details of how metadata is stored changed in 1.0b6. Now, the metad
 - (void)setIntValue:(NSInteger)val forKey:(NSString*)key;
 - (NSInteger)intValueForKey:(NSString*)key;
 
-- (void)setString:(nullable NSString*)string forKey:(NSString*)key;
+- (void)setString:(NSString*)string forKey:(NSString*)key;
 - (nullable NSString*)stringForKey:(NSString*)key;
 
-- (void)setColour:(nullable NSColor*)colour forKey:(NSString*)key;
+- (void)setColour:(NSColor*)colour forKey:(NSString*)key;
 - (nullable NSColor*)colourForKey:(NSString*)key;
 
 - (void)setSize:(NSSize)size forKey:(NSString*)key;

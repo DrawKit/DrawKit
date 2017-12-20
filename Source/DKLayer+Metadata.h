@@ -7,6 +7,7 @@
 #import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
 #import "DKMetadataItem.h"
+#import "DKMetadataStorable.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -21,19 +22,22 @@ typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
 adds some convenience methods for standard meta data attached to a graphic object. By default the metadata is just an uncomitted
 id, but using this sets it to be a mutable dictionary. You can then easily get and set values in that dictionary.
 */
-@interface DKLayer (Metadata)
+@interface DKLayer (Metadata) <DKMetadataStorable>
 
 + (void)setMetadataChangesAreUndoable:(BOOL)undo;
 + (BOOL)metadataChangesAreUndoable;
 @property (class) BOOL metadataChangesAreUndoable;
 
 - (void)setupMetadata;
-- (NSMutableDictionary<NSString*,id>*)metadata;
+- (nullable NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
 - (DKLayerMetadataSchema)schema;
-- (NSArray<NSString*>*)metadataKeys;
+- (nullable NSArray<NSString*>*)metadataKeys;
+
+@property (readonly) DKLayerMetadataSchema schema;
+@property (readonly, copy, nullable) NSArray<NSString*> *metadataKeys;
 
 - (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
-- (void)setMetadata:(NSDictionary<NSString*,id>*)dict;
+- (void)setMetadata:(NSDictionary<NSString*,DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
 
 - (void)setMetadataItem:(DKMetadataItem*)item forKey:(NSString*)key;
 - (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key;
@@ -45,10 +49,10 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 - (BOOL)hasMetadataForKey:(NSString*)key;
 - (void)removeMetadataForKey:(nonnull NSString*)key;
 
-- (void)setFloatValue:(float)val forKey:(NSString*)key;
+- (void)setFloatValue:(CGFloat)val forKey:(NSString*)key;
 - (CGFloat)floatValueForKey:(NSString*)key;
 
-- (void)setIntValue:(int)val forKey:(NSString*)key;
+- (void)setIntValue:(NSInteger)val forKey:(NSString*)key;
 - (NSInteger)intValueForKey:(NSString*)key;
 
 - (void)setString:(NSString*)string forKey:(NSString*)key;

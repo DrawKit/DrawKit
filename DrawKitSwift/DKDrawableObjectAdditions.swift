@@ -10,12 +10,5 @@ import DKDrawKit.DKDrawableObject
 import DKDrawKit.DKDrawableObject.Metadata
 
 extension DKDrawableObject {
-	public var metadata: [String: DKMetadataItem] {
-		get {
-			return __metadata() as NSDictionary as! [String: DKMetadataItem]
-		}
-		set {
-			setMetadata(newValue)
-		}
-	}
+	
 }
