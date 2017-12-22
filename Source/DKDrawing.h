@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
  display them in its info box.
  @return a mutable dictionary of standard drawing info
  */
-+ (NSMutableDictionary*)defaultDrawingInfo;
++ (NSMutableDictionary<NSString*,id>*)defaultDrawingInfo;
 
 /** @brief Sets the abbreviation for the given drawing units string
 
@@ -174,24 +174,32 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name basic drawing parameters
  *	@{ */
 
-- (void)setDrawingSize:(NSSize)aSize;
-/** @brief Returns the current paper size of the drawing
- @return the drawing size
+/** @brief the paper dimensions of the drawing.
+ 
+ The paper size is the absolute limits of ths drawing dimensions. Usually margins are set within this.
  */
-- (NSSize)drawingSize;
-- (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo;
-
 @property (nonatomic) NSSize drawingSize;
+/** @brief Sets the drawing's paper size and margins to be equal to the sizes stored in a \c NSPrintInfo object.
+ 
+ Can be used to synchronise a drawing size to the settings for a printer.
+ @param printInfo An \c NSPrintInfo object, obtained from the printing system.
+ */
+- (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo;
 
 /** @brief Sets the margins for the drawing
  
- The margins inset the drawing area within the \c papersize set
- @param l the left margin in Quartz units
- @param t the top margin in Quartz units
- @param r the right margin in Quartz units
- @param b the bottom margin in Quartz units
+ The margins inset the drawing area within the \c papersize set.
+ @param l the left margin in Quartz units.
+ @param t the top margin in Quartz units.
+ @param r the right margin in Quartz units.
+ @param b the bottom margin in Quartz units.
  */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b NS_SWIFT_NAME(setMargins(left:top:right:bottom:));
+/** @brief Sets the margins from the margin values stored in a NSPrintInfo object
+ 
+ SetDrawingSizeFromPrintInfo: will also call this for you
+ @param printInfo a NSPrintInfo object, obtained from the printing system
+ */
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo;
 /** @brief The width of the left margin.
  */

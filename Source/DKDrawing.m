@@ -544,11 +544,6 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-/** @brief Sets the margins from the margin values stored in a NSPrintInfo object
-
- SetDrawingSizeFromPrintInfo: will also call this for you
- @param printInfo a NSPrintInfo object, obtained from the printing system
- */
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo
 {
 	[self setMarginsLeft:[printInfo leftMargin]

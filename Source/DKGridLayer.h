@@ -8,6 +8,8 @@
 #import "DKLayer.h"
 #import "DKDrawing.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
 	kDKMetricDrawingGrid = 0,
 	kDKImperialDrawingGrid
@@ -74,9 +76,9 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 // setting class defaults:
 
-@property (class, retain) NSColor *defaultSpanColour;
-@property (class, retain) NSColor *defaultDivisionColour;
-@property (class, retain) NSColor *defaultMajorColour;
+@property (class, retain, null_resettable) NSColor *defaultSpanColour;
+@property (class, retain, null_resettable) NSColor *defaultDivisionColour;
+@property (class, retain, null_resettable) NSColor *defaultMajorColour;
 + (void)setDefaultGridThemeColour:(NSColor*)colour;
 
 + (instancetype)standardMetricGridLayer;
@@ -369,7 +371,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  defaults. Not super-useful, but handy for quickly exploring alternative grids.
  @param sender the sender of the action
  */
-- (IBAction)setMeasurementSystemAction:(id)sender;
+- (IBAction)setMeasurementSystemAction:(nullable id)sender;
 
 @end
 
@@ -381,3 +383,5 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 extern NSString* kDKGridDrawingLayerStandardMetric;
 extern NSString* kDKGridDrawingLayerStandardImperial;
 extern NSString* kDKGridDrawingLayerStandardImperialPCB;
+
+NS_ASSUME_NONNULL_END

@@ -145,7 +145,7 @@ static NSColor* sMajorColour = nil;
 {
 	DKGridLayer* gl = [[self alloc] init];
 	[gl setDistanceForUnitSpan:kDKGridDrawingLayerImperialInterval
-				  drawingUnits:@"Inches"
+				  drawingUnits:DKDrawingUnitInches
 						  span:1.0
 					 divisions:10
 						majors:2
@@ -164,7 +164,7 @@ static NSColor* sMajorColour = nil;
 - (void)setMetricDefaults
 {
 	[self setDistanceForUnitSpan:kDKGridDrawingLayerMetricInterval
-					drawingUnits:@"Centimetres"
+					drawingUnits:DKDrawingUnitCentimetres
 							span:1.0
 					   divisions:5
 						  majors:10
@@ -177,7 +177,7 @@ static NSColor* sMajorColour = nil;
 - (void)setImperialDefaults
 {
 	[self setDistanceForUnitSpan:kDKGridDrawingLayerImperialInterval
-					drawingUnits:@"Inches"
+					drawingUnits:DKDrawingUnitInches
 							span:1.0
 					   divisions:8
 						  majors:4
