@@ -6,13 +6,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** Objects that can be passed to a renderer must implement the following formal protocol.
  */
 @protocol DKRenderable <NSObject>
 
 /** Returns the actual path to be rendered, at its final location and size in the base coordinate system.
  */
-- (NSBezierPath*)renderingPath;
+- (nullable NSBezierPath*)renderingPath;
 
 /** Angle in radians - may be 0
  */
@@ -46,17 +48,18 @@
  
  Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
  */
-- (NSUInteger)geometryChecksum;
+@property (readonly) NSUInteger geometryChecksum;
 
 @optional
 /** return a mutable dictionary that a renderer can store information into for caching purposes
  */
-- (NSMutableDictionary*)renderingCache;
+- (nullable NSMutableDictionary*)renderingCache;
 
 @end
 
 /** renderers must implement the following formal protocol:
  */
+NS_SWIFT_NAME(DKRasterizerProtocol)
 @protocol DKRasterizer <NSObject>
 
 @property (readonly) NSSize extraSpaceNeeded;
@@ -65,3 +68,5 @@
 @property (readonly) BOOL isFill;
 
 @end
+
+NS_ASSUME_NONNULL_END
