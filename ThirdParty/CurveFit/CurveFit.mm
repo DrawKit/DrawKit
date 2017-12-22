@@ -46,7 +46,7 @@ NSBezierPath* curveFitPath(NSBezierPath* inPath, CGFloat epsilon)
 	// converted, now try the curve fit. Note that we don't know how much space we need to store the result, and the code doesn't give
 	// us a way to find out, so we just create a big buffer and hope for the best.
 	
-	int				segments, maxSegments;
+	NSInteger		segments, maxSegments;
 	Geom::Point*	segBuffer;
 	
 	maxSegments = 256;
@@ -54,7 +54,7 @@ NSBezierPath* curveFitPath(NSBezierPath* inPath, CGFloat epsilon)
 	
 	// do the fitting:
 	
-	segments = bezier_fit_cubic_r( segBuffer, pd, ec, epsilon, maxSegments );
+	segments = bezier_fit_cubic_r( segBuffer, pd, (int)ec, epsilon, (int)maxSegments );
 	
 	if ( segments > 0 )
 	{

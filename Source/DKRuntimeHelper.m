@@ -39,7 +39,7 @@
 
 	NSMutableArray* list = [NSMutableArray array];
 
-	NSInteger numClasses = objc_getClassList(NULL, 0);
+	int numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
 		Class *buffer = malloc(sizeof(Class) * numClasses);
@@ -91,7 +91,7 @@
 	Class* buffer = NULL;
 	Class cl;
 
-	NSInteger i, numClasses = objc_getClassList(NULL, 0);
+	int i, numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
 		buffer = malloc(sizeof(Class) * numClasses);

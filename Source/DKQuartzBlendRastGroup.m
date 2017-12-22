@@ -106,7 +106,7 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
 	if (self != nil) {
-		[self setBlendMode:[coder decodeIntegerForKey:@"blend_mode"]];
+		[self setBlendMode:[coder decodeIntForKey:@"blend_mode"]];
 		[self setAlpha:[coder decodeDoubleForKey:@"alpha"]];
 		[self setMaskImage:[coder decodeObjectForKey:@"mask_image"]];
 	}

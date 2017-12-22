@@ -78,7 +78,7 @@ void InitializePrefsForEventTypeNames(void)
 		NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
 		
 		assert(eventTypeNames != nil);
-		unsigned count = [eventTypeNames count];
+		NSUInteger count = [eventTypeNames count];
 		NSMutableDictionary* defaultPrefs = [NSMutableDictionary dictionaryWithCapacity:count];
 		NSNumber* defaultLoggingState = @NO;
 		for (NSString *typeName in eventTypeNames)
