@@ -132,7 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
  display them in its info box.
  @return a mutable dictionary of standard drawing info
  */
-+ (NSMutableDictionary<NSString*,id>*)defaultDrawingInfo;
++ (NSMutableDictionary<NSString*,id>*)defaultDrawingInfo NS_REFINED_FOR_SWIFT;
 
 /** @brief Sets the abbreviation for the given drawing units string
 
@@ -381,9 +381,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name drawing meta-data:
  @{ */
 
-- (void)setDrawingInfo:(nullable NSMutableDictionary*)info;
-- (nullable NSMutableDictionary*)drawingInfo;
-@property (copy, nullable) NSMutableDictionary *drawingInfo;
+- (void)setDrawingInfo:(nullable NSMutableDictionary<NSString*,id>*)info;
+- (nullable NSMutableDictionary<NSString*,id>*)drawingInfo;
+@property (copy, nullable) NSMutableDictionary<NSString*,id> *drawingInfo NS_REFINED_FOR_SWIFT;
 
 /** @name rendering the drawing:
  @{ */

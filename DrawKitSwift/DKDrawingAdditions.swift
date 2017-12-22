@@ -34,4 +34,32 @@ extension DKDrawing {
 			setMargins(left: newValue.left, top: newValue.top, right: newValue.right, bottom: newValue.bottom)
 		}
 	}
+	
+	/// The drawing info metadata of the drawing.
+	///
+	/// The drawing info contains whatever you want, but a number of standard fields are defined and can be
+	/// interpreted by a `DKDrawingInfoLayer`, if there is one. Note this inherits the storage from
+	/// `DKLayer`.
+	public var drawingInfo: [String: Any]? {
+		get {
+			return __drawingInfo as NSDictionary? as? [String: Any]
+		}
+		set {
+			if let nv = newValue {
+				__drawingInfo = NSMutableDictionary(dictionary: nv)
+			} else {
+				__drawingInfo = nil
+			}
+		}
+	}
+	
+	/// Returns a dictionary containing some standard drawing info attributes.
+	/// - returns: A dictionary of standard drawing info.
+	///
+	/// This is usually called by the drawing object itself when built new. Usually you'll want to replace
+	/// its contents with your own info. A `DKDrawingInfoLayer` can interpret some of the standard values and
+	/// display them in its info box.
+	open class func defaultDrawingInfo() -> [String: Any] {
+		return __defaultDrawingInfo() as NSDictionary as! [String: Any]
+	}
 }

@@ -167,10 +167,10 @@
 					 forKey:@"inputCenter"];
 		}
 
-		[image drawAtPoint:imgRect.origin
-				   fromRect:fr
-			coreImageFilter:[self filter]
-				  arguments:args];
+		[image drawInRect:imgRect
+				 fromRect:fr
+		  coreImageFilter:[self filter]
+				arguments:args];
 
 		RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 	}
@@ -262,6 +262,28 @@
 	}
 }
 
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments
+{
+	NSBitmapImageRep* rep;
+	
+	@autoreleasepool {
+		
+		if (filterName) {
+			rep = [self bitmapImageRepresentation];
+			[rep drawInRect:inrect
+				   fromRect:fromRect
+			coreImageFilter:filterName
+				  arguments:arguments];
+		} else {
+			[self drawInRect:inrect
+					fromRect:fromRect
+				   operation:NSCompositeSourceOver
+					fraction:1.0];
+		}
+	}
+}
+
+
 @end
 
 #pragma mark -
@@ -319,6 +341,55 @@
 			before = nil;
 		}
 
+	}
+}
+
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
+{
+	CIFilter* filter;
+	CIImage* before = nil;
+	CIImage* after;
+	CIContext* ciContext;
+	
+	@autoreleasepool {
+		@try {
+			before = [[CIImage alloc] initWithBitmapImageRep:self];
+			if (before) {
+				filter = [CIFilter filterWithName:filterName];
+				[filter setDefaults];
+				if (arguments)
+					[filter setValuesForKeysWithDictionary:arguments];
+				[filter setValue:before
+						  forKey:@"inputImage"];
+			} else
+				filter = nil;
+			
+			after = [filter valueForKey:@"outputImage"];
+			if (after) {
+				if (![[arguments objectForKey:@"gt_noRenderPadding"] boolValue]) {
+					/* Add a wide berth to the bounds -- the padding can be turned
+					 off by passing an NSNumber with a YES value in the argument
+					 "gt_noRenderPadding" in the argument dictionary. */
+					fromRect.origin.x -= CIIMAGE_PADDING;
+					fromRect.origin.y -= CIIMAGE_PADDING;
+					fromRect.size.width += CIIMAGE_PADDING * 2.0;
+					fromRect.size.height += CIIMAGE_PADDING * 2.0;
+					inrect.origin.x -= CIIMAGE_PADDING;
+					inrect.origin.y -= CIIMAGE_PADDING;
+					inrect.size.width += CIIMAGE_PADDING * 2.0;
+					inrect.size.height += CIIMAGE_PADDING * 2.0;
+				}
+				
+				ciContext = [[NSGraphicsContext currentContext] CIContext];
+				[ciContext drawImage:after
+							  inRect:NSRectToCGRect(inrect)
+							fromRect:NSRectToCGRect(fromRect)];
+			}
+		} @catch (NSException* e) {
+			LogEvent_(kWheneverEvent, @"exception encountered during core image filtering: %@", e);
+		} @finally {
+			before = nil;
+		}
 	}
 }
 
