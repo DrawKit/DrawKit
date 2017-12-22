@@ -150,7 +150,10 @@
 	p = [v convertPoint:p
 				 toView:nil];
 
-	NSPoint gp = [[v window] convertBaseToScreen:p];
+	NSRect prect;
+	prect.origin = p;
+	prect.size = NSMakeSize(1, 1);
+	NSPoint gp = [[v window] convertRectToScreen:prect].origin;
 
 	gp.x += m_wOffset.width;
 	gp.y += m_wOffset.height;

@@ -851,7 +851,10 @@ static BOOL sWasInside = NO;
 		if (!NSIntersectsRect(gr, ir)) {
 			[self removeGuide:m_dragGuideRef];
 
-			NSPoint animLoc = [[event window] convertBaseToScreen:[event locationInWindow]];
+			NSRect aRect;
+			aRect.origin = [event locationInWindow];
+			aRect.size = NSMakeSize(1, 1);
+			NSPoint animLoc = [[event window] convertRectToScreen:aRect].origin;
 			NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, animLoc, NSZeroSize, nil, nil, NULL);
 		}
 
