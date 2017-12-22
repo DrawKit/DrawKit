@@ -126,7 +126,7 @@
 /** @brief Zooms so that the passed rect fills the view
 
  The centre of the rect is centred in the view. In general this should be used for a zoom IN to a
- specific smaller rectange. <aRect> is in current view coordinates. This is good for a dragged rect
+ specific smaller rectange. \c aRect is in current view coordinates. This is good for a dragged rect
  zoom tool.
  @param aRect - a rect
  */
@@ -136,6 +136,9 @@
  @param factor - relative zoom factor
  @param p a point within the view that should be scrolled to the centre of the zoomed view. */
 - (void)zoomViewByFactor:(CGFloat)factor andCentrePoint:(NSPoint)p;
+/** @brief Converts the scrollwheel delta value into a zoom factor and performs the zoom.
+ @param delta - scrollwheel delta value
+ @param cp a point within the view that should be scrolled to the centre of the zoomed view. */
 - (void)zoomWithScrollWheelDelta:(CGFloat)delta toCentrePoint:(NSPoint)cp;
 
 /** @brief Calculates the coordinates of the point that is visually centred in the view at the current scroll
@@ -148,18 +151,10 @@
  @param aPoint the desired centre point */
 - (void)scrollPointToCentre:(NSPoint)aPoint;
 
-/** @brief Zooms the view to the given scale
-
+/** @brief The current view scale (zoom).
+ 
  All zooms bottleneck through here. Scale passed is pinned within the min and max limits.
- @param sc - the desired scale
  */
-- (void)setScale:(CGFloat)sc;
-
-/** @brief Returns the current view scale (zoom)
- @return the current scale
- */
-- (CGFloat)scale;
-
 @property (nonatomic) CGFloat scale;
 
 /** @brief Returns whether the scale is being changed
@@ -171,32 +166,14 @@
  but reverts to a higher quality when things settle.
  @return YES if the scale is changing, NO if not
  */
-- (BOOL)isChangingScale;
-
 @property (readonly, getter=isChangingScale) BOOL changingScale;
 
-/** @brief Sets the minimum permitted view scale (zoom)
- @param scmin the minimum scale
+/** @brief The minimum permitted view scale (zoom).
  */
-- (void)setMinimumScale:(CGFloat)scmin;
-
-/** @brief Returns the minimum permitted view scale (zoom)
- @return the minimum scale
- */
-- (CGFloat)minimumScale;
-
 @property CGFloat minimumScale;
 
-/** @brief Sets the maximum permitted view scale (zoom)
- @param scmax the maximum scale
+/** @brief The maximum permitted view scale (zoom).
  */
-- (void)setMaximumScale:(CGFloat)scmax;
-
-/** @brief Returns the maximum permitted view scale (zoom)
- @return the maximum scale
- */
-- (CGFloat)maximumScale;
-
 @property CGFloat maximumScale;
 
 @end

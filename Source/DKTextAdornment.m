@@ -205,7 +205,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		return [path bezierPathWithTextOnPath:str
 									  yOffset:baseOffset];
 	} else {
-		DKBezierLayoutManager* captureLM = (DKBezierLayoutManager*)sharedCaptureLayoutManager();
+		DKBezierLayoutManager* captureLM = sharedCaptureLayoutManager();
 		[[captureLM textPath] removeAllPoints];
 
 		// by drawing into a temporary flipped image context, text will be right side up with its lines in the right order
@@ -257,7 +257,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		return [path bezierPathsWithGlyphsOnPath:str
 										 yOffset:[self baselineOffset]];
 	} else {
-		DKBezierLayoutManager* captureLM = (DKBezierLayoutManager*)sharedCaptureLayoutManager();
+		DKBezierLayoutManager* captureLM = sharedCaptureLayoutManager();
 		NSTextContainer* container = [[captureLM textContainers] lastObject];
 
 		[self drawText:str

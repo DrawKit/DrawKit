@@ -6,6 +6,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
+#import "DKBezierLayoutManager.h"
 
 /** @brief These category methods perform high-level text layout.
 
@@ -80,10 +81,10 @@ The second method is similar except that text is flowed into the layoutPath.
 
 // can be used by text drawers everywhere
 
-/** @brief Supply a layout manager common to all DKTextShape instances
+/** @brief Supply a layout manager common to all \c DKTextShape instances
  @return the shared layout manager instance */
 NSLayoutManager* sharedDrawingLayoutManager(void);
 
 /** @brief Supply a layout manager that can be used to capture text layout into a bezier path
  @return the shared layout manager instance */
-NSLayoutManager* sharedCaptureLayoutManager(void);
+DKBezierLayoutManager* sharedCaptureLayoutManager(void);

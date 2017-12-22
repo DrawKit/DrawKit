@@ -44,7 +44,7 @@ NSLayoutManager* sharedDrawingLayoutManager(void)
 
 /** @brief Supply a layout manager that can be used to capture text layout into a bezier path
  @return the shared layout manager instance */
-NSLayoutManager* sharedCaptureLayoutManager(void)
+DKBezierLayoutManager* sharedCaptureLayoutManager(void)
 {
 	static DKBezierLayoutManager* sharedLM = nil;
 	NSTextContainer* tc = nil;
