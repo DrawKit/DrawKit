@@ -57,7 +57,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)updateMetadataKeys;
 @property (readonly) NSUInteger metadataChecksum;
-- (NSUInteger)metadataChecksum;
 
 - (void)metadataWillChangeKey:(nullable NSString*)key;
 - (void)metadataDidChangeKey:(nullable NSString*)key;
