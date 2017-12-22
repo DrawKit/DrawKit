@@ -199,7 +199,7 @@ static id sDearchivingHelper = nil;
 	// in order to translate older files with classes named 'GC' instead of 'DK', need a delegate that can handle the
 	// translation. DKUnarchivingHelper can also be used to report loading progress.
 
-	id dearchivingHelper = [self dearchivingHelper];
+	DKUnarchivingHelper *dearchivingHelper = [self dearchivingHelper];
 	if ([dearchivingHelper respondsToSelector:@selector(reset)])
 		[dearchivingHelper reset];
 
@@ -1457,20 +1457,18 @@ static id sDearchivingHelper = nil;
 	NSAssert(filename != nil, @"filename was nil");
 	NSAssert([filename length] > 0, @"filename was empty");
 
-	[[self drawingInfo] setObject:filename
-						   forKey:kDKDrawingInfoOriginalFilename];
-	return [[self drawingData] writeToFile:filename
-								atomically:atom];
+	NSDataWritingOptions atomically = atom ? NSDataWritingAtomic : 0;
+	return [self writeToURL:[NSURL fileURLWithPath:filename] options:atomically error:NULL];
 }
 
-- (BOOL)writeToURL:(NSURL*)filename options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable * _Nullable)errorPtr
+- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable * _Nullable)errorPtr
 {
-	NSAssert(filename != nil, @"filename was nil");
-	NSAssert([[filename path] length] > 0, @"filename was empty");
+	NSAssert(url != nil, @"URL was nil");
+	NSAssert([[url path] length] > 0, @"filename was empty");
 	
-	[[self drawingInfo] setObject:filename.path
+	[[self drawingInfo] setObject:url.path
 						   forKey:kDKDrawingInfoOriginalFilename];
-	return [[self drawingData] writeToURL:filename options:writeOptionsMask error:errorPtr];
+	return [[self drawingData] writeToURL:url options:writeOptionsMask error:errorPtr];
 }
 
 
@@ -1509,12 +1507,12 @@ static id sDearchivingHelper = nil;
 				 forKey:key];
 	[karch finishEncoding];
 
-	return data;
+	return [data copy];
 }
 
 /** @brief Returns the entire drawing's data in binary format
 
- Specifies NSPropertyListBinaryFormat_v1_0
+ Specifies \c NSPropertyListBinaryFormat_v1_0
  @return an NSData object which is the entire drawing and all its contents
  */
 - (NSData*)drawingData

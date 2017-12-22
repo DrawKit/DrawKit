@@ -8,7 +8,7 @@
 
 /** @brief this helper is used when unarchiving to translate class names from older files to their modern equivalents
 */
-@interface DKUnarchivingHelper : NSObject {
+@interface DKUnarchivingHelper : NSObject <NSKeyedUnarchiverDelegate> {
 	NSUInteger mCount;
 	NSString* mLastClassnameSubstituted;
 }
@@ -29,8 +29,6 @@ if a substitution would return NSObject, return this insead, which provides a st
 }
 
 @property (copy) NSString *substitutionClassname;
-- (void)setSubstitutionClassname:(NSString*)classname;
-- (NSString*)substitutionClassname;
 
 @end
 

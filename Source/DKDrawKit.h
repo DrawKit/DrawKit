@@ -4,6 +4,8 @@
  @licence MPL2; see LICENSE.txt
  */
 
+#import <Cocoa/Cocoa.h>
+
 #import "DKDrawingView.h"
 #import "DKSelectionPDFView.h"
 #import "DKToolController.h"

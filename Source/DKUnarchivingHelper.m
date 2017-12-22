@@ -61,7 +61,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 														waitUntilDone:[NSThread isMainThread]];
 }
 
-- (Class)unarchiver:(NSKeyedUnarchiver*)unarchiver cannotDecodeObjectOfClassName:(NSString*)name originalClasses:(NSArray*)classNames
+- (Class)unarchiver:(NSKeyedUnarchiver*)unarchiver cannotDecodeObjectOfClassName:(NSString*)name originalClasses:(NSArray<NSString*>*)classNames
 {
 #pragma unused(unarchiver)
 #pragma unused(classNames)
@@ -115,7 +115,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 
 		NSString* classname = [classNames objectAtIndex:indx++];
 
-		// substitute DKNullObject for NSObject. Because NSOBject does not respond to -initWithCoder:, returning it will throw
+		// substitute DKNullObject for NSObject. Because NSObject does not respond to -initWithCoder:, returning it will throw
 		// an exception aborting dearchiving. The DKNullObject does nothing except provide a dummy initWithCoder method.
 
 		if ([classname isEqualToString:@"NSObject"]) {

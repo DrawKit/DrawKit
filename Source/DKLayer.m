@@ -412,7 +412,7 @@ static NSArray* s_selectionColours = nil;
 	[[self drawing] addController:vc];
 
 	NSData* pdfData = [pdfView dataWithPDFInsideRect:frame];
-	 // removes the controller
+	pdfView = nil; // removes the controller
 
 	return pdfData;
 }

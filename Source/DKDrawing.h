@@ -13,21 +13,21 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
 
 /** @brief A DKDrawing is the model data for the drawing system.
 
-Usually a document will own one of these. A drawing consists of one or more DKLayers,
-each of which contains any number of drawable objects, or implements some special feature such as a grid or guides, etc.
+ Usually a document will own one of these. A drawing consists of one or more DKLayers,
+ each of which contains any number of drawable objects, or implements some special feature such as a grid or guides, etc.
 
-A drawing can have multiple views, though typically it will have only one. Each view is managed by a single view controller, either an instance
-or subclass of DKViewController. Drawing updates refersh all views via their controllers, and input from the views is directed to the current
-active layer through the controller. The drawing owns the controllers, but the views are owned as normal by their respective superviews. The controller
-provides only weak references to both drawing and view to prevent potential retain cycles when a view owns a drawing for the automatic backend scenario.
+ A drawing can have multiple views, though typically it will have only one. Each view is managed by a single view controller, either an instance
+ or subclass of DKViewController. Drawing updates refersh all views via their controllers, and input from the views is directed to the current
+ active layer through the controller. The drawing owns the controllers, but the views are owned as normal by their respective superviews. The controller
+ provides only weak references to both drawing and view to prevent potential retain cycles when a view owns a drawing for the automatic backend scenario.
  
-The drawing and the attached views must all have the same bounds size (though the views are free to have any desired frame). Setting the
-drawing size will adjust the views' bounds automatically.
+ The drawing and the attached views must all have the same bounds size (though the views are free to have any desired frame). Setting the
+ drawing size will adjust the views' bounds automatically.
 
-The active layer will receive mouse events from any of the attached views via its controller. (Because the user can't mouse in more than one view
-at a time, there is no contention here.) The commands will go to whichever view is the current responder and be passed on appropriately.
+ The active layer will receive mouse events from any of the attached views via its controller. (Because the user can't mouse in more than one view
+ at a time, there is no contention here.) The commands will go to whichever view is the current responder and be passed on appropriately.
 
-Drawings can be saved simply by archiving them, thus all parts of the drawing need to adopt the NSCoding protocol.
+ Drawings can be saved simply by archiving them, thus all parts of the drawing need to adopt the NSCoding protocol.
 */
 @interface DKDrawing : DKLayerGroup <NSCoding, NSCopying> {
 @private
@@ -513,13 +513,13 @@ Drawings can be saved simply by archiving them, thus all parts of the drawing ne
 /** @brief Saves the entire drawing to a file URL.
  
  Implies the binary format.
- @param filename the full file URL of the file.
+ @param url the full file URL of the file.
  @param writeOptionsMask see \c NSDataWritingOptions for more info.
  @param errorPtr If there is an error writing out the data, upon return contains an error
  object that describes the problem.
  @return \c YES if succesfully written, \c NO otherwise.
  */
-- (BOOL)writeToURL:(NSURL*)filename options:(NSDataWritingOptions)writeOptionsMask error:(NSError * __autoreleasing*)errorPtr;
+- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError * __autoreleasing*)errorPtr;
 - (NSData*)drawingAsXMLDataAtRoot;
 - (NSData*)drawingAsXMLDataForKey:(NSString*)key;
 - (NSData*)drawingData;
