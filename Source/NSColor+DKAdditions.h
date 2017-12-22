@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param hex a string formatted '#RRGGBB'
  @return rgb equivalent colour
  */
-+ (NSColor*)colorWithHexString:(NSString*)hex;
++ (nullable NSColor*)colorWithHexString:(NSString*)hex;
 
 /** @brief Returns a colour by interpolating between two colours
  @param startColor a colour

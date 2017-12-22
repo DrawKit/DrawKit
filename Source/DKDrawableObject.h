@@ -854,7 +854,7 @@ to attach arbitrary data to any drawable object.
  @param size desired size of the image - shape is scaled to fit in this size
  @return the image
  */
-- (NSImage*)swatchImageWithSize:(NSSize)size;
+- (nullable NSImage*)swatchImageWithSize:(NSSize)size;
 
 // user info:
 

@@ -239,6 +239,9 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 
 - (void)removeMetadataForKey:(NSString*)key
 {
+	if (key == nil) {
+		return;
+	}
 #if USE_107_OR_LATER_SCHEMA
 	if ([[self class] metadataChangesAreUndoable]) {
 		DKMetadataItem* item = [self metadataItemForKey:key];
