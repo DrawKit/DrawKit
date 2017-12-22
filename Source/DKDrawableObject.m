@@ -99,6 +99,7 @@ static NSDictionary* s_interconversionTable = nil;
 
  Default method does nothing - subclasses will override if they can receive a drag
  @param op set of flags indicating what this operation the types relate to. Currently objects can only
+ receive drags so this is the only flag that should be passed
  @return an array of pasteboard types
  */
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
@@ -128,13 +129,6 @@ static NSDictionary* s_interconversionTable = nil;
 	return YES;
 }
 
-/** @brief Unarchive a list of objects from the pasteboard, if possible
-
- This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
- any valid types, nil is returned
- @param pb the pasteboard to take objects from
- @return a list of objects
- */
 + (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb
 {
 	NSData* pbdata = [pb dataForType:kDKDrawableObjectPasteboardType];
@@ -146,13 +140,6 @@ static NSDictionary* s_interconversionTable = nil;
 	return objects;
 }
 
-/** @brief Return the number of native objects held by the pasteboard
-
- This efficiently queries the info object rather than dearchiving the objects themselves. A value
- of 0 means no native objects on the pasteboard (naturally)
- @param pb the pasteboard to read from
- @return a count
- */
 + (NSUInteger)countOfNativeObjectsOnPasteboard:(NSPasteboard*)pb
 {
 	DKPasteboardInfo* info = [DKPasteboardInfo pasteboardInfoWithPasteboard:pb];
@@ -215,7 +202,7 @@ static NSDictionary* s_interconversionTable = nil;
  */
 + (void)setInterconversionTable:(NSDictionary*)icTable
 {
-	s_interconversionTable = icTable;
+	s_interconversionTable = [icTable copy];
 }
 
 /** @brief Return the class to use in place of the given class when performing a conversion
@@ -290,27 +277,16 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark -
 #pragma mark - relationships
 
-/** @brief Returns the layer that this object ultimately belongs to
-
- This returns the layer even if container isn't the layer, by recursing up the tree as needed
- @return the containing layer
- */
 - (DKObjectOwnerLayer*)layer
 {
 	return (DKObjectOwnerLayer*)[[self container] layer];
 }
 
-/** @brief Returns the drawing that owns this object's layer
- @return the drawing
- */
 - (DKDrawing*)drawing
 {
 	return [[self container] drawing];
 }
 
-/** @brief Returns the undo manager used to handle undoable actions for this object
- @return the undo manager in use
- */
 - (NSUndoManager*)undoManager
 {
 	return [[self drawing] undoManager];
@@ -479,6 +455,8 @@ static NSDictionary* s_interconversionTable = nil;
 	return m_locked;
 }
 
+@synthesize locked=m_locked;
+
 /** @brief Sets whether the object's location is locked or not
 
  Location may be locked independently of the general lock
@@ -494,31 +472,8 @@ static NSDictionary* s_interconversionTable = nil;
 	}
 }
 
-/** @brief Whether the object's location is locked or not
-
- Location may be locked independently of the general lock
- @return YES if locked location, NO to unlock
- */
-- (BOOL)locationLocked
-{
-	return mLocationLocked;
-}
-
-/** @brief Enable mouse snapping
- @param ems YES to enable snapping (default), NO to disable it
- */
-- (void)setMouseSnappingEnabled:(BOOL)ems
-{
-	m_snapEnable = ems;
-}
-
-/** @brief Is mouse snapping enabled?
- @return YES if will snap on mouse actions, NO if not
- */
-- (BOOL)mouseSnappingEnabled
-{
-	return m_snapEnable;
-}
+@synthesize locationLocked=mLocationLocked;
+@synthesize mouseSnappingEnabled=m_snapEnable;
 
 /** @brief Set whether the object is ghosted rather than with its full style
 
@@ -555,21 +510,12 @@ static NSDictionary* s_interconversionTable = nil;
 	return [(DKObjectDrawingLayer*)[self layer] isSelectedObject:self];
 }
 
-/** @brief Get notified when the object is selected
-
- Subclasses can override to take action when they become selected (drawing the selection isn't
- part of this - the layer will do that). Overrides should generally invoke super.
- */
 - (void)objectDidBecomeSelected
 {
 	[self notifyStatusChange];
 	[self updateRulerMarkers];
 }
 
-/** @brief Get notified when an object is deselected
-
- Subclasses can override to take action when they are deselected
- */
 - (void)objectIsNoLongerSelected
 {
 	[self notifyStatusChange];
@@ -626,12 +572,6 @@ static NSDictionary* s_interconversionTable = nil;
 	return [NSSet setWithObject:self];
 }
 
-/** @brief The object was added to a layer
-
- Purely for information, should an object need to know. Override to make use of this. Subclasses
- should call super.
- @param aLayer the layer this was added to
- */
 - (void)objectWasAddedToLayer:(DKObjectOwnerLayer*)aLayer
 {
 #pragma unused(aLayer)
@@ -648,12 +588,6 @@ static NSDictionary* s_interconversionTable = nil;
 											   object:[self style]];
 }
 
-/** @brief The object was removed from the layer
-
- Purely for information, should an object need to know. Override to make use of this. Subclasses
- should call super to maintain notifications.
- @param aLayer the layer this was removed from
- */
 - (void)objectWasRemovedFromLayer:(DKObjectOwnerLayer*)aLayer
 {
 #pragma unused(aLayer)
@@ -666,17 +600,6 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark -
 #pragma mark - drawing
 
-/** @brief Draw the object and its selection on demand
-
- The caller will have determined that the object needs drawing, so this will only be called when
- necessary. The default method does nothing - subclasses must override this.
- @param selected YES if the object is to draw itself in the selected state, NO otherwise
- */
-
-/** @brief Draw the content of the object
-
- This just hands off to the style rendering by default, but subclasses may override it to do more.
- */
 - (void)drawContentWithSelectedState:(BOOL)selected
 {
 	@autoreleasepool {
@@ -732,9 +655,6 @@ static NSDictionary* s_interconversionTable = nil;
 	[self drawContentWithStyle:[self style]];
 }
 
-/** @brief Draw the content of the object but using a specific style, which might not be the one attached
- @param aStyle a valid style object, or nil to use the object's current style
- */
 - (void)drawContentWithStyle:(DKStyle*)aStyle
 {
 	if ([self isGhosted])
@@ -770,12 +690,6 @@ static NSDictionary* s_interconversionTable = nil;
 	}
 }
 
-/** @brief Draw the ghosted content of the object
-
- The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
- overridden for more complex appearances. Note that ghosting should deliberately keep the object
- unobtrusive and simple.
- */
 - (void)drawGhostedContent
 {
 	[[[self class] ghostColour] set];
@@ -784,22 +698,11 @@ static NSDictionary* s_interconversionTable = nil;
 	[rp stroke];
 }
 
-/** @brief Draw the selection highlight for the object
-
- The owning layer may call this independently of drawContent~ in some circumstances, so 
- subclasses need to be ready to factor this code as required.
- */
 - (void)drawSelectedState
 {
 	// placeholder - override to implement this
 }
 
-/** @brief Stroke the given path using the selection highlight colour for the owning layer
-
- This is a convenient utility method your subclasses can use as needed to make selections consistent
- among different objects and layers. A side effect is that the line width of the path may be changed.
- @param path the selection highlight path
- */
 - (void)drawSelectionPath:(NSBezierPath*)path
 {
 	if ([self locked])
@@ -811,14 +714,6 @@ static NSDictionary* s_interconversionTable = nil;
 	[path stroke];
 }
 
-/** @brief Request a redraw of this object
-
- Marks the object's bounds as needing updating. Most operations on an object that affect its
- appearance to the user should call this before and after the operation is performed.
- Subclasses that override this for optimisation purposes should make sure that the layer is
- updated through the drawable:needsDisplayInRect: method and that the notification is sent, otherwise
- there may be problems when layer contents are cached.
- */
 - (void)notifyVisualChange
 {
 	if ([self layer])
@@ -826,24 +721,11 @@ static NSDictionary* s_interconversionTable = nil;
 			needsDisplayInRect:[self bounds]];
 }
 
-/** @brief Notify the drawing and its controllers that a non-visual status change occurred
-
- The drawing passes this back to any controllers it has
- */
 - (void)notifyStatusChange
 {
 	[[self drawing] objectDidNotifyStatusChange:self];
 }
 
-/** @brief Notify that the geomnetry of the object has changed
-
- Subclasses can override this to make use of the change notification. This is intended to signal
- purely geometric changes which for some objects could be used to invalidate cached information
- that more general changes might not need to invalidate. This also informs the storage about the
- bounds change so that if the storage uses bounds information to optimise storage, it can do
- whatever it needs to to keep the storage correctly organised.
- @param oldBounds the bounds of the object *before* it got changed by whatever is calling this
- */
 - (void)notifyGeometryChange:(NSRect)oldBounds
 {
 	if (!NSEqualRects(oldBounds, [self bounds])) {
@@ -854,32 +736,17 @@ static NSDictionary* s_interconversionTable = nil;
 	}
 }
 
-/** @brief Sets the ruler markers for all of the drawing's views to the logical bounds of this
-
- This is largely automatic, but if there is an operation that shoul dupdate the markers, you can
- call this to perform it. Also, if a subclass has some special way to set the markers, it may
- override this.
- */
 - (void)updateRulerMarkers
 {
 	[[self layer] updateRulerMarkersForRect:[self logicalBounds]];
 }
 
-/** @brief Mark some part of the drawing as needing update
-
- Usually an object should mark only areas within its bounds using this, to be polite.
- @param rect this area requires an update
- */
 - (void)setNeedsDisplayInRect:(NSRect)rect
 {
 	[[self layer] drawable:self
 		needsDisplayInRect:rect];
 }
 
-/** @brief Mark multiple parts of the drawing as needing update
-
- The layer call with NSZeroRect is to ensure the layer's caches work
- */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects
 {
 	[[self layer] drawable:self
@@ -887,11 +754,6 @@ static NSDictionary* s_interconversionTable = nil;
 	[[self layer] setNeedsDisplayInRects:setOfRects];
 }
 
-/** @brief Mark multiple parts of the drawing as needing update
- <padding> some additional margin added to each rect before marking as needing update
-
- The layer call with NSZeroRect is to ensure the layer's caches work
- */
 - (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding
 {
 	[[self layer] drawable:self
@@ -903,13 +765,6 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark -
 #pragma mark - specialised drawing methods
 
-/**
- Useful for rendering the object into any context at any size. The object is scaled by the ratio
- of srcRect to destRect. <destRect> can't be zero-sized.
- @param destRect the destination rect in the current context
- @param srcRect the srcRect in the same coordinate space as the current bounds, or NSZeroRect to mean the
- @param aStyle currently unused - draws in the object's attached style
- */
 - (void)drawContentInRect:(NSRect)destRect fromRect:(NSRect)srcRect withStyle:(DKStyle*)aStyle
 {
 #pragma unused(aStyle)
@@ -1159,7 +1014,7 @@ static NSRect s_oldBounds;
  */
 - (NSSize)size
 {
-	NSLog(@"!!! 'size' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
+	NSLog(@"!!! 'size' must be overridden by subclasses of DKDrawableObject (culprit = %@)", NSStringFromClass([self class]));
 
 	return NSZeroSize;
 }
@@ -1183,24 +1038,11 @@ static NSRect s_oldBounds;
 	[self setSize:newSize];
 }
 
-/** @brief Returns the visually apparent bounds
-
- This bounds is intended for use when aligning objects to each other or to guides, etc. By default
- it is the same as the bounds, but subclasses may redefine it to be something else.
- @return the apparent bounds rect
- */
 - (NSRect)apparentBounds
 {
 	return [self bounds];
 }
 
-/** @brief Returns the logical bounds
-
- The logical bounds is the object's bounds ignoring any stylistic effects. Unlike the other bounds,
- it remains constant for a given paht even if styles change. By default it is the same as the bounds,
- but subclasses will probably wish to redefine it.
- @return the logical bounds
- */
 - (NSRect)logicalBounds
 {
 	return [self bounds];
@@ -1208,14 +1050,6 @@ static NSRect s_oldBounds;
 
 #pragma mark -
 
-/** @brief Test whether the object intersects a given rectangle
-
- Used for selecting using a marquee, and other things. The default hit tests by rendering the object
- into a special 1-byte bitmap and testing its alpha channel - this is fast and efficient and in most
- simple cases doesn't need to be overridden.
- @param rect the rect to test against
- @return YES if the object intersects the rect, NO otherwise
- */
 - (BOOL)intersectsRect:(NSRect)rect
 {
 	NSRect ir, br = [self bounds];
@@ -1244,13 +1078,9 @@ static NSRect s_oldBounds;
 {
 #pragma unused(p)
 
-	NSLog(@"**** You must override -setLocation: for the object %@ ****", self);
+	NSLog(@"**** You must override -setLocation: for the object %@ ****", NSStringFromClass([self class]));
 }
 
-/** @brief Offsets the object's position by the values passed
- @param dx add this much to the x coordinate
- @param dy add this much to the y coordinate
- */
 - (void)offsetLocationByX:(CGFloat)dx byY:(CGFloat)dy
 {
 	if (dx != 0 || dy != 0) {
@@ -1289,12 +1119,6 @@ static NSRect s_oldBounds;
 #pragma unused(angle)
 }
 
-/** @brief Return the shape's current rotation angle
-
- This method is primarily to supply the angle for display to the user, rather than for doing angular
- calculations with. It converts negative values -180 to 0 to +180 to 360 degrees.
- @return the shape's angle in degrees
- */
 - (CGFloat)angleInDegrees
 {
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
@@ -1305,11 +1129,6 @@ static NSRect s_oldBounds;
 	return fmod(angle, 360.0);
 }
 
-/** @brief Rotate the shape by adding a delta angle to the current angle
-
- Da is a value in radians
- @param da add this much to the current angle
- */
 - (void)rotateByAngle:(CGFloat)da
 {
 	if (da != 0)
@@ -1370,10 +1189,6 @@ static NSRect s_oldBounds;
 	return NSZeroSize;
 }
 
-/** @brief Reset the relative offset of the object's anchor point to its original value
-
- Subclasses must override if they support this concept
- */
 - (void)resetOffset
 {
 }
@@ -1407,11 +1222,6 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - drawing tool information
 
-/** @brief Called by the creation tool when this object has just beeen created by the tool
-
- FYI - override to make use of this
- @param tool the tool that created this
- @param p the initial point that the tool will start dragging the object from */
 - (void)creationTool:(DKDrawingTool*)tool willBeginCreationAtPoint:(NSPoint)p
 {
 #pragma unused(tool)
@@ -1420,11 +1230,6 @@ static NSRect s_oldBounds;
 	// override to make use of this event
 }
 
-/** @brief Called by the creation tool when this object has finished being created by the tool
-
- FYI - override to make use of this
- @param tool the tool that created this
- @param p the point that the tool finished dragging the object to */
 - (void)creationTool:(DKDrawingTool*)tool willEndCreationAtPoint:(NSPoint)p
 {
 #pragma unused(tool)
@@ -1433,14 +1238,6 @@ static NSRect s_oldBounds;
 	// override to make use of this event
 }
 
-/** @brief Return whether the object is valid in terms of having a visible, usable state
-
- Subclasses must override and implement this appropriately. It is called by the object creation tool
- at the end of a creation operation to determine if what was created is in any way useful. Objects that
- cannot be used will not be added to the drawing. The object type needs to decide what constitutes
- validity - for example shapes with zero size or paths with zero length are likely not valid.
- @return YES if valid, NO otherwise
- */
 - (BOOL)objectIsValid
 {
 	return NO;
@@ -1476,23 +1273,10 @@ static NSRect s_oldBounds;
 	NSLog(@"*** you should override -group:willUngroupObjectWithTransform: to correctly ungroup '%@' ***", NSStringFromClass([self class]));
 }
 
-/** @brief This object was ungrouped from a group
-
- This is called when the ungrouping operation has finished entirely. The object will belong to its
- original container and have its location, etc set as required. Override to make use of this notification.
- */
 - (void)objectWasUngrouped
 {
 }
 
-/** @brief Some high-level operations substitute a new object in place of an existing one (or several). In
- those cases this should be called to allow the object to do any special substitution work.
-
- Subclasses should override this to do additional work during a substitution. Note that user info
- and style is handled for you, this does not need to deal with those properties.
- @param obj the original object his is being substituted for
- @param aLayer the layer this will be added to (but is not yet)
- */
 - (void)willBeAddedAsSubstituteFor:(DKDrawableObject*)obj toLayer:(DKObjectOwnerLayer*)aLayer
 {
 #pragma unused(obj, aLayer)
@@ -1501,12 +1285,6 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - snapping to guides, grid and other objects(utility methods)
 
-/** @brief Offset the point to cause snap to grid + guides accoding to the drawing's settings
-
- DKObjectOwnerLayer + DKDrawing implements the details of this method. The snapControl flag is
- intended to come from a modifier flag - usually <ctrl>.
- @param mp a point which is the proposed location of the shape
- @return a new point which may be offset from the input enough to snap it to the guides and grid */
 - (NSPoint)snappedMousePoint:(NSPoint)mp withControlFlag:(BOOL)snapControl
 {
 	if ([self mouseSnappingEnabled] && [self layer])
@@ -1517,13 +1295,6 @@ static NSRect s_oldBounds;
 	return mp;
 }
 
-/** @brief Offset the point to cause snap to grid + guides according to the drawing's settings
-
- Given a proposed location, this modifies it by checking if any of the points returned by the
- object's snappingPoints method will snap. The result can be passed to moveToPoint:
- @param mp a point which is the proposed location of the shape
- @return a new point which may be offset from the input enough to snap it to the guides and grid
- */
 - (NSPoint)snappedMousePoint:(NSPoint)mp forSnappingPointsWithControlFlag:(BOOL)snapControl
 {
 	if ([self mouseSnappingEnabled] && [self drawing]) {
@@ -1572,11 +1343,6 @@ static NSRect s_oldBounds;
 	return @[[NSValue valueWithPoint:p]];
 }
 
-/** @brief Returns the offset between the mouse point and the shape's location during a drag
-
- Result is undefined except during a dragging operation
- @return mouse offset during a drag
- */
 - (NSSize)mouseOffset
 {
 	return m_mouseOffset;
@@ -1585,23 +1351,11 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - getting dimensions in drawing coordinates
 
-/** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
-
- This is a conveniece API to query the drawing's grid layer
- @param len a distance in pixels
- @return the distance in drawing units
- */
 - (CGFloat)convertLength:(CGFloat)len
 {
 	return [[self drawing] convertLength:len];
 }
 
-/** @brief Convert a point in quartz coordinates to the units established by the drawing grid
-
- This is a conveniece API to query the drawing's grid layer
- @param pt a point value
- @return the equivalent point in drawing units
- */
 - (NSPoint)convertPointToDrawing:(NSPoint)pt
 {
 	return [[self drawing] convertPoint:pt];
@@ -1610,15 +1364,6 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - hit testing
 
-/** @brief Hit test the object
-
- Part codes are private to the object class, except for 0 = nothing hit and -1 = entire object hit.
- for other parts, the object is free to return any code it likes and attach any meaning it wishes.
- the part code is passed back by the mouse event methods but apart from 0 and -1 is never interpreted
- by any other object
- @param pt the mouse location
- @return a part code representing which part of the object got hit, if any
- */
 - (NSInteger)hitPart:(NSPoint)pt
 {
 	if ([self visible]) {
@@ -1633,14 +1378,6 @@ static NSRect s_oldBounds;
 		return kDKDrawingNoPart; // can never hit invisible objects
 }
 
-/** @brief Hit test the object in the selected state
-
- This is a factoring of the general hitPart: method to allow parts that only come into play when
- selected to be hit tested. It is also used when snapping to objects. Subclasses should override
- for the partcodes they define such as control knobs that operate when selected.
- @param pt the mouse location
- @param snap is YES if called to detect snap, NO otherwise
- @return a part code representing which part of the selected object got hit, if any */
 - (NSInteger)hitSelectedPart:(NSPoint)pt forSnapDetection:(BOOL)snap
 {
 #pragma unused(pt)
@@ -1649,13 +1386,6 @@ static NSRect s_oldBounds;
 	return kDKDrawingEntireObjectPart;
 }
 
-/** @brief Return the point associated with the part code
-
- If partcode is no object, returns {-1,-1}, if entire object, return location. Object classes
- should override this to correctly implement it for partcodes they define
- @param pc a valid partcode for this object
- @return the current point associated with the partcode
- */
 - (NSPoint)pointForPartcode:(NSInteger)pc
 {
 	if (pc == kDKDrawingEntireObjectPart)
@@ -1664,13 +1394,6 @@ static NSRect s_oldBounds;
 		return NSMakePoint(-1, -1);
 }
 
-/** @brief Provide a mapping between the object's partcode and a knob type draw for that part
-
- Knob types are defined by DKKnob, they describe the functional type of the knob, plus the locked
- state. Concrete subclasses should override this unless the default suffices.
- @param pc a valid partcode for this object
- @return a valid knob type
- */
 - (DKKnobType)knobTypeForPartCode:(NSInteger)pc
 {
 #pragma unused(pc)
@@ -1765,12 +1488,6 @@ static NSRect s_oldBounds;
 	return hit;
 }
 
-/** @brief Test a point against the offscreen bitmap representation of the shape
-
- Special case of the rectHitsPath call, which is now the fastest way to perform this test
- @param p the point to test
- @return YES if the point hit the shape's pixels, NO otherwise
- */
 - (BOOL)pointHitsPath:(NSPoint)p
 {
 	if (NSPointInRect(p, [self bounds])) {
@@ -1785,13 +1502,6 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - basic event handling
 
-/** @brief The mouse went down in this object
-
- Default method records the mouse offset, but otherwise you will override to make use of this
- @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
- @param partcode the partcode that was returned by hitPart if non-zero.
- @param evt the original event
- */
 - (void)mouseDownAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
 #pragma unused(evt, partcode)
@@ -1802,14 +1512,6 @@ static NSRect s_oldBounds;
 	[self setTrackingMouse:YES];
 }
 
-/** @brief The mouse is dragging within this object
-
- Default method moves the entire object, and snaps to grid and guides if enabled. Control key disables
- snapping temporarily.
- @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
- @param partcode the partcode that was returned by hitPart if non-zero.
- @param evt the original event
- */
 - (void)mouseDraggedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
 #pragma unused(partcode)
@@ -1827,11 +1529,6 @@ static NSRect s_oldBounds;
 	}
 }
 
-/** @brief The mouse went up in this object
- @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
- @param partcode the partcode that was returned by hitPart if non-zero.
- @param evt the original event
- */
 - (void)mouseUpAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
 #pragma unused(mp)
@@ -1846,23 +1543,11 @@ static NSRect s_oldBounds;
 	[self setTrackingMouse:NO];
 }
 
-/** @brief Get the view currently drawing or passing events to this
-
- The view is only meaningful when called from within a drawing or event handling method.
- */
 - (NSView*)currentView
 {
 	return [[self layer] currentView];
 }
 
-/** @brief Return the cursor displayed when a given partcode is hit or entered
-
- The cursor may be displayed when the mouse hovers over or is clicked in the area indicated by the
- partcode. The default is simply to return the standard arrow - override for others.
- @param partcode the partcode
- @param button YES if the mouse left button is pressed, NO otherwise
- @return a cursor object
- */
 - (NSCursor*)cursorForPartcode:(NSInteger)partcode mouseButtonDown:(BOOL)button
 {
 #pragma unused(partcode)
@@ -1871,15 +1556,6 @@ static NSRect s_oldBounds;
 	return [NSCursor arrowCursor];
 }
 
-/** @brief Inform the object that it was double-clicked
-
- This is invoked by the select tool and any others that decide to implement it. The object can
- respond however it likes - by default it simply broadcasts a notification. Override for
- different behaviours.
- @param mp the point where it was clicked
- @param partcode the partcode
- @param evt the original mouse event
- */
 - (void)mouseDoubleClickedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt
 {
 #pragma unused(partcode, evt)
@@ -1914,12 +1590,6 @@ static NSRect s_oldBounds;
 	return [[DKAuxiliaryMenus auxiliaryMenus] copyMenuForClass:[self class]];
 }
 
-/** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
-
- The default method adds commands to copy and paste the style
- @param theMenu a menu - add items and commands to it as required
- @return YES if any items were added, NO otherwise.
- */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu
 {
 	// if the object supports any contextual menu commands, it should add them to the menu and return YES. If subclassing,
@@ -1944,14 +1614,6 @@ static NSRect s_oldBounds;
 	return YES;
 }
 
-/** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
-
- The default method adds commands to copy and paste the style. This method allows the point to
- be used by subclasses to refine the menu for special areas within the object.
- @param theMenu a menu - add items and commands to it as required
- @param localPoint the point in local (view) coordinates where the menu click went down
- @return YES if any items were added, NO otherwise.
- */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu atPoint:(NSPoint)localPoint
 {
 #pragma unused(localPoint)
@@ -1962,12 +1624,6 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - swatch
 
-/** @brief Returns an image of this object rendered using its current style and path
-
- If size is NSZeroRect, uses the current bounds size
- @param size desired size of the image - shape is scaled to fit in this size
- @return the image
- */
 - (NSImage*)swatchImageWithSize:(NSSize)size
 {
 	if (NSEqualSizes(size, NSZeroSize))
@@ -1995,11 +1651,6 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - user info
 
-/** @brief Attach a dictionary of metadata to the object
-
- The dictionary replaces the current user info. To merge with any existing user info, use addUserInfo:
- @param info a dictionary containing anything you wish
- */
 - (void)setUserInfo:(NSDictionary*)info
 {
 	if (mUserInfo == nil)
@@ -2009,11 +1660,6 @@ static NSRect s_oldBounds;
 	[self notifyStatusChange];
 }
 
-/** @brief Add a dictionary of metadata to the object
-
- <info> is merged with the existin gcontent of the user info
- @param info a dictionary containing anything you wish
- */
 - (void)addUserInfo:(NSDictionary*)info
 {
 	if (mUserInfo == nil)
@@ -2025,31 +1671,16 @@ static NSRect s_oldBounds;
 	[self notifyStatusChange];
 }
 
-/** @brief Return the attached user info
-
- The user info is returned as a mutable dictionary (which it is), and can thus have its contents
- mutated directly for certain uses. Doing this cannot cause any notification of the status of
- the object however.
- @return the user info
- */
 - (NSMutableDictionary*)userInfo
 {
 	return mUserInfo;
 }
 
-/** @brief Return an item of user info
- @param key the key to use to refer to the item
- @return the user info item
- */
 - (id)userInfoObjectForKey:(NSString*)key
 {
 	return [[self userInfo] objectForKey:key];
 }
 
-/** @brief Set an item of user info
- @param obj the object to store
- @param key the key to use to refer to the item
- */
 - (void)setUserInfoObject:(id)obj forKey:(NSString*)key
 {
 	NSAssert(obj != nil, @"cannot add nil to the user info");
@@ -2066,29 +1697,12 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - pasteboard
 
-/** @brief Write additional data to the pasteboard specific to the object
-
- The owning layer generally handles the case of writing the selected objects to the pasteboard but
- sometimes an object might wish to supplement that data. For example a text-bearing object might
- add the text to the pasteboard. This is only invoked when the object is the only object selected.
- The default method does nothing - override to make use of this. Also, your override must declare
- the types it's writing using addTypes:owner:
- @param pb the pasteboard to write to
- */
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {
 #pragma unused(pb)
 	// override to make use of
 }
 
-/** @brief Read additional data from the pasteboard specific to the object
-
- This is invoked by the owning layer after an object has been pasted. Override to make use of. Note
- that this is not necessarily symmetrical with -writeSupplementaryDataToPasteboard: depending on
- what data types the other method actually wrote. For example standard text would not normally
- need to be handled as a special case.
- @param pb the pasteboard to read from
- */
 - (void)readSupplementaryDataFromPasteboard:(NSPasteboard*)pb
 {
 #pragma unused(pb)
@@ -2098,9 +1712,6 @@ static NSRect s_oldBounds;
 #pragma mark -
 #pragma mark - user level commands that can be responded to by this object(and its subclasses)
 
-/** @brief Copies the object's style to the general pasteboard
- @param sender the action's sender
- */
 - (IBAction)copyDrawingStyle:(id)sender
 {
 #pragma unused(sender)
@@ -2114,11 +1725,6 @@ static NSRect s_oldBounds;
 	}
 }
 
-/** @brief Pastes a style from the general pasteboard onto the object
-
- Attempts to maintain shared styles by using the style's name initially.
- @param sender the action's sender
- */
 - (IBAction)pasteDrawingStyle:(id)sender
 {
 #pragma unused(sender)
@@ -2425,15 +2031,11 @@ static NSRect s_oldBounds;
  */
 - (NSRect)bounds
 {
-	NSLog(@"!!! 'bounds' must be overridden by subclasses of DKDrawableObject (culprit = %@)", self);
+	NSLog(@"!!! 'bounds' must be overridden by subclasses of DKDrawableObject (culprit = %@)", NSStringFromClass([self class]));
 
 	return NSZeroRect;
 }
 
-/** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
- between the logical and reported bounds.
- @return the extra space required
- */
 - (NSSize)extraSpaceNeeded
 {
 	if ([self style])
@@ -2479,12 +2081,6 @@ static NSRect s_oldBounds;
 	return [[self drawing] lowRenderingQuality];
 }
 
-/** @brief Return a number that changes when any aspect of the geometry changes. This can be used to detect
- that a change has taken place since an earlier time.
-
- Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
- @return a number
- */
 - (NSUInteger)geometryChecksum
 {
 	NSUInteger cd = 282735623; // arbitrary

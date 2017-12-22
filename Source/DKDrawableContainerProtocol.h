@@ -10,7 +10,7 @@
 
 /**
  
- Objects that claim ownership of a DKDrawableObject must formally implement this protocol.
+ Objects that claim ownership of a \c DKDrawableObject must formally implement this protocol.
  
  This includes DKObjectOwnerLayer, DKShapeGroup
  */

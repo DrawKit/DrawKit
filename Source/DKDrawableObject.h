@@ -10,6 +10,8 @@
 #import "DKRasterizerProtocol.h"
 #import "DKDrawableContainerProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKObjectOwnerLayer, DKStyle, DKDrawing, DKDrawingTool, DKShapeGroup;
 
 /** @brief This object is responsible for the visual representation of the selection as well as any content.
@@ -56,9 +58,6 @@ to attach arbitrary data to any drawable object.
 	BOOL m_unused_padding : 4; // not used - reserved
 }
 
-@property (class, readonly) NSInteger initialPartcodeForObjectCreation;
-@property (class, readonly, getter=isGroupable) BOOL groupable;
-
 /** @brief Return whether an info floater is displayed when resizing an object
 
  Size info is width and height
@@ -71,6 +70,10 @@ to attach arbitrary data to any drawable object.
  @param doesDisplay YES to show the info, NO to not show it */
 + (void)setDisplaysSizeInfoWhenDragging:(BOOL)doesDisplay;
 
+/** @brief Whether an info floater is displayed when resizing an object.
+
+ Size info is width and height.
+ */
 @property (class) BOOL displaysSizeInfoWhenDragging;
 
 /** @brief Returns the union of the bounds of the objects in the array
@@ -80,37 +83,48 @@ to attach arbitrary data to any drawable object.
  @param array a list of DKDrawable objects
  @return a rect, the union of the bounds of all objects */
 + (NSRect)unionOfBoundsOfDrawablesInArray:(NSArray<DKDrawableObject*>*)array;
-+ (NSInteger)initialPartcodeForObjectCreation;
+/** @brief Return the partcode that should be used by tools when initially creating a new object
+
+ Default method does nothing - subclasses must override this and supply the right partcode value
+ appropriate to the class. The client of this method is DKObjectCreationTool.
+ @return a partcode value
+ */
+@property (class, readonly) NSInteger initialPartcodeForObjectCreation;
 
 /** @brief Return whether obejcts of this class can be grouped
 
  Default is YES. see also [DKShapeGroup objectsAvailableForGroupingFromArray];
  @return YES if objects can be included in groups
  */
-+ (BOOL)isGroupable;
+@property (class, readonly, getter=isGroupable) BOOL groupable;
 
 // ghosting settings:
 
-@property (class, retain) NSColor *ghostColour;
+/** @brief The outline colour used when drawing objects in their ghosted state.
 
-/** @brief Set the outline colour to use when drawing objects in their ghosted state
-
- The ghost colour is persistent, stored using the kDKGhostColourPreferencesKey key
- @param ghostColour the colour to use
+ The ghost colour is persistent, stored using the \c kDKGhostColourPreferencesKey key.
+ The default is light gray.
  */
-+ (void)setGhostColour:(NSColor*)ghostColour;
-
-/** @brief Return the outline colour to use when drawing objects in their ghosted state
-
- The default is light gray
- @return the colour to use
- */
-+ (NSColor*)ghostColour;
+@property (class, retain, null_resettable) NSColor *ghostColour;
 
 // pasteboard types for drag/drop:
 
-+ (NSArray<NSPasteboardType>*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
-+ (NSArray*)nativeObjectsFromPasteboard:(NSPasteboard*)pb;
+/** @brief Return pasteboard types that this object class can receive
+
+ Default method does nothing - subclasses will override if they can receive a drag
+ @param op set of flags indicating what this operation the types relate to. Currently objects can only
+ receive drags so this is the only flag that should be passed
+ @return an array of pasteboard types
+ */
++ (nullable NSArray<NSPasteboardType>*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
+/** @brief Unarchive a list of objects from the pasteboard, if possible
+
+ This factors the dearchiving of objects from the pasteboard. If the pasteboard does not contain
+ any valid types, nil is returned
+ @param pb the pasteboard to take objects from
+ @return a list of objects
+ */
++ (nullable NSArray<DKDrawableObject*>*)nativeObjectsFromPasteboard:(NSPasteboard*)pb;
 
 /** @brief Return the number of native objects held by the pasteboard
 
@@ -123,26 +137,14 @@ to attach arbitrary data to any drawable object.
 
 // interconversion table used when changing one drawable into another - can be customised
 
-/** @brief Return the interconversion table
-
- The interconversion table is used when drawables are converted to another type. The table can be
- customised to permit conversions to subclasses or other types of object. The default is nil,
- which simply passes through the requested type unchanged.
- @return the table (a dictionary)
- */
-+ (NSDictionary<NSString*,Class>*)interconversionTable;
-
-/** @brief Return the interconversion table
+/** @brief The interconversion table.
 
  The interconversion table is used when drawables are converted to another type. The table can be
  customised to permit conversions to subclasses of the requested class. The default is nil,
  which simply passes through the requested type unchanged. The dictionary consists of the base class
  as a string, and returns the class to use in place of that type.
- @param icTable a dictionary containing mappings from standard base classes to custom classes
  */
-+ (void)setInterconversionTable:(NSDictionary<NSString*,Class>*)icTable;
-
-@property (class, copy) NSDictionary<NSString*,Class> *interconversionTable;
+@property (class, copy, nullable) NSDictionary<NSString*,Class> *interconversionTable;
 
 /** @brief Return the class to use in place of the given class when performing a conversion
 
@@ -151,7 +153,7 @@ to attach arbitrary data to any drawable object.
  @param aClass the base class which we are converting TO.
  @return the actual object class to use for that conversion.
  */
-+ (Class)classForConversionRequestFor:(Class)aClass;
++ (nullable Class)classForConversionRequestFor:(Class)aClass;
 
 /** @brief Sets the class to use in place of the a base class when performing a conversion
 
@@ -171,38 +173,37 @@ to attach arbitrary data to any drawable object.
  @param aStyle the initial style for the object
  @return the object
  */
-- (instancetype)initWithStyle:(DKStyle*)aStyle NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithStyle:(nullable DKStyle*)aStyle NS_DESIGNATED_INITIALIZER;
 
 // relationships:
-
-@property (readonly, strong) DKObjectOwnerLayer *layer;
-@property (readonly, strong) DKDrawing *drawing;
-@property (readonly, strong) NSUndoManager *undoManager;
-@property (nonatomic, weak) id<DKDrawableContainer> container;
-@property (readonly) NSUInteger indexInContainer;
 
 /** @brief Returns the layer that this object ultimately belongs to
 
  This returns the layer even if container isn't the layer, by recursing up the tree as needed
  @return the containing layer
  */
-- (DKObjectOwnerLayer*)layer;
-- (DKDrawing*)drawing;
-- (NSUndoManager*)undoManager;
+@property (readonly, strong) DKObjectOwnerLayer *layer;
+/** @brief Returns the drawing that owns this object's layer
+ @return the drawing
+ */
+@property (readonly, strong) DKDrawing *drawing;
+/** @brief Returns the undo manager used to handle undoable actions for this object
+ @return the undo manager in use
+ */
+@property (readonly, strong, nullable) NSUndoManager *undoManager;
 
-/** @brief Returns the immediate parent of this object
+/** @brief The immediate parent of this object.
 
  A parent is usually a layer, same as owner - but can be a group if the object is grouped
- @return the object's parent
  */
-- (id<DKDrawableContainer>)container;
-- (void)setContainer:(id<DKDrawableContainer>)aContainer;
+@property (nonatomic, weak, nullable) id<DKDrawableContainer> container;
 
 /** @brief Returns the index position of this object in its container layer
 
  This is intended for debugging and should generally be avoided by user code.
  @return the index position
  */
+@property (readonly) NSUInteger indexInContainer;
 
 /** @brief Where object storage stores the Z-index in the object itself, this returns it.
 
@@ -213,43 +214,33 @@ to attach arbitrary data to any drawable object.
 
 // state:
 
+/** @brief Is the object visible?
+
+ The visible property is independent of the locked property, i.e. locked objects may be hidden & shown.
+*/
 @property BOOL visible;
+/** @brief Is the object locked?
+
+ Locked objects are visible but can't be edited.
+*/
 @property BOOL locked;
-@property BOOL locationLocked;
 
-/** @brief Sets whether the object's location is locked or not
+/** @brief Whether the object's location is locked or not.
 
- Location may be locked independently of the general lock
- @param lockLocation YES to lock location, NO to unlock
+ Location may be locked independently of the general lock.
  */
-- (void)setLocationLocked:(BOOL)lockLocation;
+@property (nonatomic) BOOL locationLocked;
 
-/** @brief Whether the object's location is locked or not
-
- Location may be locked independently of the general lock
- @return YES if locked location, NO to unlock
+/** @brief Is mouse snapping enabled?
  */
-- (BOOL)locationLocked;
-
 @property BOOL mouseSnappingEnabled;
 
+/** @brief Whether the object is ghosted rather than with its full style.
+
+ Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
+ a thin outline. See also: \c +setGhostingColour:
+*/
 @property (nonatomic, getter=isGhosted) BOOL ghosted;
-
-/** @brief Set whether the object is ghosted rather than with its full style
-
- Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
- a thin outline. See also: +setGhostingColour:
- @param ghosted YES to ghost the object, NO to unghost it
- */
-- (void)setGhosted:(BOOL)ghosted;
-
-/** @brief Retuirn whether the object is ghosted rather than with its full style
-
- Ghosting is an alternative to hiding - ghosted objects are still visible but are only drawn using
- a thin outline. See also: +setGhostingColour:
- @return YES if the object is ghosted, NO otherwise
- */
-- (BOOL)isGhosted;
 
 // internal state accessors:
 
@@ -259,12 +250,22 @@ to attach arbitrary data to any drawable object.
 
 // selection state:
 
+/** @brief Returns whether the object is selected.
+
+ Assumes that the owning layer is an object drawing layer (which is a reasonable assumption!)
+*/
 @property (readonly, getter=isSelected) BOOL selected;
-- (void)objectDidBecomeSelected;
+/** @brief Get notified when the object is selected
+
+ Subclasses can override to take action when they become selected (drawing the selection isn't
+ part of this - the layer will do that). Overrides should generally invoke super.
+ */
+- (void)objectDidBecomeSelected NS_REQUIRES_SUPER;
+/** @brief Get notified when an object is deselected
+ 
+ Subclasses can override to take action when they are deselected
+ */
 - (void)objectIsNoLongerSelected;
-@property (readonly) BOOL objectMayBecomeSelected;
-@property (readonly, getter=isPendingObject) BOOL pendingObject;
-@property (readonly, getter=isKeyObject) BOOL keyObject;
 
 /** @brief Is the object able to be selected?
 
@@ -272,7 +273,7 @@ to attach arbitrary data to any drawable object.
  specialised use this might be useful.
  @return YES if selectable, NO if not
  */
-- (BOOL)objectMayBecomeSelected;
+@property (readonly) BOOL objectMayBecomeSelected;
 
 /** @brief Is the object currently a pending object?
 
@@ -280,16 +281,16 @@ to attach arbitrary data to any drawable object.
  to need to know, but one might be to implement a special selection highlight for this case.
  @return YES if pending, NO if not
  */
-- (BOOL)isPendingObject;
+@property (readonly, getter=isPendingObject) BOOL pendingObject;
 
 /** @brief Is the object currently the layer's key object?
 
- DKObjectDrawingLayer maintains a 'key object' for the purposes of alignment operations. The drawable
+ \c DKObjectDrawingLayer maintains a 'key object' for the purposes of alignment operations. The drawable
  could use this information to draw itself in a particular way for example. Note that DK doesn't
  use this information except for object alignment operations.
  @return YES if key, NO if not
  */
-- (BOOL)isKeyObject;
+@property (readonly, getter=isKeyObject) BOOL keyObject;
 
 /** @brief Return the subselection of the object
 
@@ -301,7 +302,7 @@ to attach arbitrary data to any drawable object.
  'kDKDrawableSubselectionChangedNotification' should be sent when this changes.
  @return a set containing the selection within the object. May be empty, nil or contain self.
  */
-- (NSSet*)subSelection;
+@property (readonly, copy) NSSet<DKDrawableObject*> *subSelection;
 
 // notification about being added and removed from a layer
 
@@ -323,35 +324,123 @@ to attach arbitrary data to any drawable object.
 
 // primary drawing method:
 
+/** @brief Draw the object and its selection on demand
+
+ The caller will have determined that the object needs drawing, so this will only be called when
+ necessary. The default method does nothing - subclasses must override this.
+ @param selected \c YES if the object is to draw itself in the selected state, \c NO otherwise
+ */
 - (void)drawContentWithSelectedState:(BOOL)selected;
 
 // drawing factors:
 
+/** @brief Draw the content of the object
+
+ This just hands off to the style rendering by default, but subclasses may override it to do more.
+ */
 - (void)drawContent;
+/** @brief Draw the content of the object but using a specific style, which might not be the one attached
+ @param aStyle a valid style object, or nil to use the object's current style
+ */
 - (void)drawContentWithStyle:(DKStyle*)aStyle;
+/** @brief Draw the ghosted content of the object
+ 
+ The default simply strokes the rendering path at minimum width using the ghosting colour. Can be
+ overridden for more complex appearances. Note that ghosting should deliberately keep the object
+ unobtrusive and simple.
+ */
 - (void)drawGhostedContent;
+/** @brief Draw the selection highlight for the object
+ 
+ The owning layer may call this independently of drawContent~ in some circumstances, so
+ subclasses need to be ready to factor this code as required.
+ */
 - (void)drawSelectedState;
+/** @brief Stroke the given path using the selection highlight colour for the owning layer
+ 
+ This is a convenient utility method your subclasses can use as needed to make selections consistent
+ among different objects and layers. A side effect is that the line width of the path may be changed.
+ @param path the selection highlight path
+ */
 - (void)drawSelectionPath:(NSBezierPath*)path;
 
 // refresh notifiers:
 
+/** @brief Request a redraw of this object
+
+ Marks the object's bounds as needing updating. Most operations on an object that affect its
+ appearance to the user should call this before and after the operation is performed.
+ Subclasses that override this for optimisation purposes should make sure that the layer is
+ updated through the drawable:needsDisplayInRect: method and that the notification is sent, otherwise
+ there may be problems when layer contents are cached.
+ */
 - (void)notifyVisualChange;
+/** @brief Notify the drawing and its controllers that a non-visual status change occurred
+
+ The drawing passes this back to any controllers it has
+ */
 - (void)notifyStatusChange;
+/** @brief Notify that the geomnetry of the object has changed
+
+ Subclasses can override this to make use of the change notification. This is intended to signal
+ purely geometric changes which for some objects could be used to invalidate cached information
+ that more general changes might not need to invalidate. This also informs the storage about the
+ bounds change so that if the storage uses bounds information to optimise storage, it can do
+ whatever it needs to to keep the storage correctly organised.
+ @param oldBounds the bounds of the object *before* it got changed by whatever is calling this
+ */
 - (void)notifyGeometryChange:(NSRect)oldBounds;
+/** @brief Sets the ruler markers for all of the drawing's views to the logical bounds of this
+
+ This is largely automatic, but if there is an operation that shoul dupdate the markers, you can
+ call this to perform it. Also, if a subclass has some special way to set the markers, it may
+ override this.
+ */
 - (void)updateRulerMarkers;
 
+/** @brief Mark some part of the drawing as needing update
+
+ Usually an object should mark only areas within its bounds using this, to be polite.
+ @param rect this area requires an update
+ */
 - (void)setNeedsDisplayInRect:(NSRect)rect;
-- (void)setNeedsDisplayInRects:(NSSet*)setOfRects;
-- (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding;
+/** @brief Mark multiple parts of the drawing as needing update
 
-- (NSBezierPath*)renderingPath;
+ The layer call with NSZeroRect is to ensure the layer's caches work
+ @param setOfRects a set of NSRect/NSValues to be updated.
+ */
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects;
+/** @brief Mark multiple parts of the drawing as needing update
+
+ The layer call with \c NSZeroRect is to ensure the layer's caches work
+ @param setOfRects a set of NSRect/NSValues to be updated.
+ @param padding some additional margin added to each rect before marking as needing update
+ */
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects withExtraPadding:(NSSize)padding;
+
+- (nullable NSBezierPath*)renderingPath;
 - (BOOL)useLowQualityDrawing;
+@property (readonly) BOOL useLowQualityDrawing;
 
+/** @brief Return a number that changes when any aspect of the geometry changes. This can be used to detect
+ that a change has taken place since an earlier time.
+
+ Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
+ @return a number
+ */
 - (NSUInteger)geometryChecksum;
 
 // specialised drawing:
 
-- (void)drawContentInRect:(NSRect)destRect fromRect:(NSRect)srcRect withStyle:(DKStyle*)aStyle;
+/** @brief Renders the object or part of it into the current context, applying scaling and/or a temporary style.
+
+ Useful for rendering the object into any context at any size. The object is scaled by the ratio
+ of srcRect to destRect. \c destRect can't be zero-sized.
+ @param destRect the destination rect in the current context
+ @param srcRect the srcRect in the same coordinate space as the current bounds, or NSZeroRect to mean the
+ @param aStyle currently unused - draws in the object's attached style
+ */
+- (void)drawContentInRect:(NSRect)destRect fromRect:(NSRect)srcRect withStyle:(nullable DKStyle*)aStyle;
 
 /** @brief Returns the single object rendered as a PDF image
 
@@ -366,13 +455,13 @@ to attach arbitrary data to any drawable object.
 /** @brief Return the attached style
  @return the current style
  */
-- (DKStyle*)style;
+- (nullable DKStyle*)style;
 
-@property (nonatomic, copy) DKStyle *style;
+@property (nonatomic, copy, nullable) DKStyle *style;
 - (void)styleWillChange:(NSNotification*)note;
 - (void)styleDidChange:(NSNotification*)note;
-@property (readonly, copy) NSSet<DKStyle*> *allStyles;
-@property (readonly, copy) NSSet<DKStyle*> *allRegisteredStyles;
+@property (readonly, copy, nullable) NSSet<DKStyle*> *allStyles;
+@property (readonly, copy, nullable) NSSet<DKStyle*> *allRegisteredStyles;
 - (void)replaceMatchingStylesFromSet:(NSSet<DKStyle*>*)aSet;
 
 /** @brief If the object's style is currently sharable, copy it and make it non-sharable.
@@ -391,56 +480,62 @@ to attach arbitrary data to any drawable object.
 // location within the drawing
 
 @property (nonatomic) NSPoint location;
+/** @brief Offsets the object's position by the values passed
+ @param dx add this much to the x coordinate
+ @param dy add this much to the y coordinate
+ */
 - (void)offsetLocationByX:(CGFloat)dx byY:(CGFloat)dy NS_SWIFT_NAME(offsetLocationBy(x:y:));
 
 // angle of object with respect to its container
 
-@property (nonatomic) CGFloat angle;
-@property (readonly) CGFloat angleInDegrees;
+/** @brief the object's angle (radians)
 
-/** @brief Set the object's current angle in radians
- @param angle the object's angle (radians)
+ Override if your subclass implements variable angles
  */
-- (void)setAngle:(CGFloat)angle;
-- (CGFloat)angle;
-
+@property (nonatomic) CGFloat angle;
 /** @brief Return the shape's current rotation angle
 
  This method is primarily to supply the angle for display to the user, rather than for doing angular
  calculations with. It converts negative values -180 to 0 to +180 to 360 degrees.
  @return the shape's angle in degrees
  */
-- (CGFloat)angleInDegrees;
+@property (readonly) CGFloat angleInDegrees;
 
 /** @brief Rotate the shape by adding a delta angle to the current angle
 
- Da is a value in radians
+ \c da is a value in radians.
  @param da add this much to the current angle
  */
 - (void)rotateByAngle:(CGFloat)da;
 
 // relative offset of locus within the object
 
+/** @brief The relative offset of the object's anchor point.
+
+ Subclasses must override if they support this concept
+ @return a width and height value relative to the object's bounds
+ */
 @property (nonatomic) NSSize offset;
+/** @brief Reset the relative offset of the object's anchor point to its original value
+
+ Subclasses must override if they support this concept
+ */
 - (void)resetOffset;
 
 // path transforms
-
-@property (readonly, copy) NSAffineTransform *transform;
-@property (readonly, copy) NSAffineTransform *containerTransform;
 
 /** @brief Return a transform that maps the object's stored path to its true location in the drawing
 
  Override for real transforms - the default merely returns the identity matrix
  @return a transform */
-- (NSAffineTransform*)transform;
+@property (readonly, copy) NSAffineTransform *transform;
 
 /** @brief Return the container's transform
 
  The container transform must be taken into account for rendering this object, as it accounts for
  groups and other possible containers.
  @return a transform */
-- (NSAffineTransform*)containerTransform;
+@property (readonly, copy) NSAffineTransform *containerTransform;
 
 /** @brief Apply the transform to the object
 
@@ -452,15 +547,58 @@ to attach arbitrary data to any drawable object.
 
 // bounding rects:
 
+/** @brief Return the full extent of the object within the drawing, including any decoration, etc.
+
+ The object must draw only within its declared bounds. If it draws outside of this, it will leave
+ trails and debris when moved, rotated or scaled. All style-based decoration must be contained within
+ bounds. The style has the method \c -extraSpaceNeeded to help you determine the correct bounds.
+ subclasses must override this and return a valid, sensible bounds rect
+ @return the full bounds of the object
+ */
 @property (readonly) NSRect bounds;
+/** @brief Returns the visually apparent bounds
+
+ This bounds is intended for use when aligning objects to each other or to guides, etc. By default
+ it is the same as the bounds, but subclasses may redefine it to be something else.
+ @return the apparent bounds rect
+ */
 @property (readonly) NSRect apparentBounds;
+/** @brief Returns the logical bounds
+
+ The logical bounds is the object's bounds ignoring any stylistic effects. Unlike the other bounds,
+ it remains constant for a given paht even if styles change. By default it is the same as the bounds,
+ but subclasses will probably wish to redefine it.
+ @return the logical bounds
+ */
 @property (readonly) NSRect logicalBounds;
+/** @brief Returns the extra space needed to display the object graphically. This will usually be the difference
+ between the logical and reported bounds.
+ @return the extra space required
+ */
 @property (readonly) NSSize extraSpaceNeeded;
 
 // creation tool protocol:
 
+/** @brief Called by the creation tool when this object has just beeen created by the tool
+
+ FYI - override to make use of this
+ @param tool the tool that created this
+ @param p the initial point that the tool will start dragging the object from */
 - (void)creationTool:(DKDrawingTool*)tool willBeginCreationAtPoint:(NSPoint)p;
+/** @brief Called by the creation tool when this object has finished being created by the tool
+
+ FYI - override to make use of this
+ @param tool the tool that created this
+ @param p the point that the tool finished dragging the object to */
 - (void)creationTool:(DKDrawingTool*)tool willEndCreationAtPoint:(NSPoint)p;
+/** @brief Return whether the object is valid in terms of having a visible, usable state
+
+ Subclasses must override and implement this appropriately. It is called by the object creation tool
+ at the end of a creation operation to determine if what was created is in any way useful. Objects that
+ cannot be used will not be added to the drawing. The object type needs to decide what constitutes
+ validity - for example shapes with zero size or paths with zero length are likely not valid.
+ @return YES if valid, NO otherwise
+ */
 @property (readonly) BOOL objectIsValid;
 
 // grouping/ungrouping protocol:
@@ -506,30 +644,101 @@ to attach arbitrary data to any drawable object.
 
 /** @brief Offset the point to cause snap to grid + guides accoding to the drawing's settings
 
- DKObjectOwnerLayer + DKDrawing implements the details of this method. The snapControl flag is
- intended to come from a modifier flag - usually <ctrl>.
+ DKObjectOwnerLayer + DKDrawing implements the details of this method. The \c snapControl flag is
+ intended to come from a modifier flag - usually <b>ctrl</b>.
  @param mp a point which is the proposed location of the shape
  @return a new point which may be offset from the input enough to snap it to the guides and grid */
 - (NSPoint)snappedMousePoint:(NSPoint)mp withControlFlag:(BOOL)snapControl;
+/** @brief Offset the point to cause snap to grid + guides according to the drawing's settings
+
+ Given a proposed location, this modifies it by checking if any of the points returned by the
+ object's snappingPoints method will snap. The result can be passed to moveToPoint:
+ @param mp a point which is the proposed location of the shape
+ @return a new point which may be offset from the input enough to snap it to the guides and grid
+ */
 - (NSPoint)snappedMousePoint:(NSPoint)mp forSnappingPointsWithControlFlag:(BOOL)snapControl;
 
 // NSPoints
+/** @brief Return an array of \c NSPoint values representing points that can be snapped to guides.
+ @return a list of points (NSValues)
+ */
 @property (readonly, copy) NSArray<NSValue*> *snappingPoints;
+/** @brief Return an array of NSPoint values representing points that can be snapped to guides.
+
+ Snapping points are locations within an object that will snap to a guide. List can be empty.
+ @param offset an offset value that is added to each point
+ @return a list of points (NSValues)
+ */
 - (NSArray<NSValue*>*)snappingPointsWithOffset:(NSSize)offset;
+/** @brief Returns the offset between the mouse point and the shape's location during a drag.
+
+ Result is undefined except during a dragging operation
+ @return mouse offset during a drag
+ */
 @property (readonly) NSSize mouseOffset;
 
 // getting dimensions in drawing coordinates
 
+/** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
+
+ This is a conveniece API to query the drawing's grid layer
+ @param len a distance in pixels
+ @return the distance in drawing units
+ */
 - (CGFloat)convertLength:(CGFloat)len;
+/** @brief Convert a point in quartz coordinates to the units established by the drawing grid
+
+ This is a conveniece API to query the drawing's grid layer
+ @param pt a point value
+ @return the equivalent point in drawing units
+ */
 - (NSPoint)convertPointToDrawing:(NSPoint)pt;
 
 // hit testing:
-@property (nonatomic, getter=isBeingHitTested) BOOL beingHitTested;
 
+/** @brief Test whether the object intersects a given rectangle
+
+ Used for selecting using a marquee, and other things. The default hit tests by rendering the object
+ into a special 1-byte bitmap and testing its alpha channel - this is fast and efficient and in most
+ simple cases doesn't need to be overridden.
+ @param rect the rect to test against
+ @return YES if the object intersects the rect, NO otherwise
+ */
 - (BOOL)intersectsRect:(NSRect)rect;
+/** @brief Hit test the object
+
+ Part codes are private to the object class, except for 0 = nothing hit and -1 = entire object hit.
+ for other parts, the object is free to return any code it likes and attach any meaning it wishes.
+ the part code is passed back by the mouse event methods but apart from 0 and -1 is never interpreted
+ by any other object
+ @param pt the mouse location
+ @return a part code representing which part of the object got hit, if any
+ */
 - (NSInteger)hitPart:(NSPoint)pt;
+/** @brief Hit test the object in the selected state
+
+ This is a factoring of the general hitPart: method to allow parts that only come into play when
+ selected to be hit tested. It is also used when snapping to objects. Subclasses should override
+ for the partcodes they define such as control knobs that operate when selected.
+ @param pt the mouse location
+ @param snap is YES if called to detect snap, NO otherwise
+ @return a part code representing which part of the selected object got hit, if any */
 - (NSInteger)hitSelectedPart:(NSPoint)pt forSnapDetection:(BOOL)snap;
+/** @brief Return the point associated with the part code
+
+ If partcode is no object, returns {-1,-1}, if entire object, return location. Object classes
+ should override this to correctly implement it for partcodes they define
+ @param pc a valid partcode for this object
+ @return the current point associated with the partcode
+ */
 - (NSPoint)pointForPartcode:(NSInteger)pc;
+/** @brief Provide a mapping between the object's partcode and a knob type draw for that part
+
+ Knob types are defined by DKKnob, they describe the functional type of the knob, plus the locked
+ state. Concrete subclasses should override this unless the default suffices.
+ @param pc a valid partcode for this object
+ @return a valid knob type
+ */
 - (DKKnobType)knobTypeForPartCode:(NSInteger)pc;
 
 /** @brief Test if a rect encloses any of the shape's actual pixels
@@ -544,34 +753,69 @@ to attach arbitrary data to any drawable object.
 
  Special case of the rectHitsPath call, which is now the fastest way to perform this test
  @param p the point to test
- @return YES if the point hit the shape's pixels, NO otherwise
+ @return \c YES if the point hit the shape's pixels, \c NO otherwise
  */
 - (BOOL)pointHitsPath:(NSPoint)p;
 
 /** @brief Is a hit-test in progress
 
  Drawing methods can check this to see if they can take shortcuts to save time when hit-testing.
- This will only return YES during calls to -drawContent etc when invoked by the rectHitsPath method.
- @return YES if hit-testing is taking place, otherwise NO
- */
-- (BOOL)isBeingHitTested;
+ This will only return YES during calls to \c -drawContent etc when invoked by the rectHitsPath method.
 
-/** @brief Set whether a hit-test in progress
-
- Applicaitons should not generally use this. It allows certain container classes (e.g. groups) to
- flag the *they* are being hit tested to provide easier hitting of thin objects in groups.
- @param hitTesting YES if hit-testing, NO otherwise
+ Applicaitons should not generally set this. It allows certain container classes (e.g. groups) to
+ flag that *they* are being hit tested to provide easier hitting of thin objects in groups.
  */
-- (void)setBeingHitTested:(BOOL)hitTesting;
+@property (nonatomic, getter=isBeingHitTested) BOOL beingHitTested;
 
 // mouse events:
 
+/** @brief The mouse went down in this object
+
+ Default method records the mouse offset, but otherwise you will override to make use of this
+ @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ @param partcode the partcode that was returned by hitPart if non-zero.
+ @param evt the original event
+ */
 - (void)mouseDownAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
+/** @brief The mouse is dragging within this object
+
+ Default method moves the entire object, and snaps to grid and guides if enabled. Control key disables
+ snapping temporarily.
+ @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ @param partcode the partcode that was returned by hitPart if non-zero.
+ @param evt the original event
+ */
 - (void)mouseDraggedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
+/** @brief The mouse went up in this object
+ @param mp the mouse point (already converted to the relevant view - gives drawing relative coordinates)
+ @param partcode the partcode that was returned by hitPart if non-zero.
+ @param evt the original event
+ */
 - (void)mouseUpAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
+/** @brief Get the view currently drawing or passing events to this
+
+ The view is only meaningful when called from within a drawing or event handling method.
+ */
 - (NSView*)currentView;
 
+/** @brief Return the cursor displayed when a given partcode is hit or entered
+
+ The cursor may be displayed when the mouse hovers over or is clicked in the area indicated by the
+ partcode. The default is simply to return the standard arrow - override for others.
+ @param partcode the partcode
+ @param button YES if the mouse left button is pressed, NO otherwise
+ @return a cursor object
+ */
 - (NSCursor*)cursorForPartcode:(NSInteger)partcode mouseButtonDown:(BOOL)button;
+/** @brief Inform the object that it was double-clicked
+
+ This is invoked by the select tool and any others that decide to implement it. The object can
+ respond however it likes - by default it simply broadcasts a notification. Override for
+ different behaviours.
+ @param mp the point where it was clicked
+ @param partcode the partcode
+ @param evt the original mouse event
+ */
 - (void)mouseDoubleClickedAtPoint:(NSPoint)mp inPart:(NSInteger)partcode event:(NSEvent*)evt;
 
 // contextual menu:
@@ -585,16 +829,46 @@ to attach arbitrary data to any drawable object.
  @return the menu
  */
 - (NSMenu*)menu;
+/** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
+
+ The default method adds commands to copy and paste the style
+ @param theMenu a menu - add items and commands to it as required
+ @return \c YES if any items were added, \c NO otherwise.
+ */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu;
+/** @brief Allows the object to populate the menu with commands that are relevant to its current state and type
+
+ The default method adds commands to copy and paste the style. This method allows the point to
+ be used by subclasses to refine the menu for special areas within the object.
+ @param theMenu a menu - add items and commands to it as required
+ @param localPoint the point in local (view) coordinates where the menu click went down
+ @return \c YES if any items were added, \c NO otherwise.
+ */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu atPoint:(NSPoint)localPoint;
 
 // swatch image of this object:
 
+/** @brief Returns an image of this object rendered using its current style and path
+
+ If size is NSZeroRect, uses the current bounds size
+ @param size desired size of the image - shape is scaled to fit in this size
+ @return the image
+ */
 - (NSImage*)swatchImageWithSize:(NSSize)size;
 
 // user info:
 
-- (void)setUserInfo:(NSDictionary<NSString*,id>*)info;
+/** @brief Attach a dictionary of metadata to the object
+
+ The dictionary replaces the current user info. To merge with any existing user info, use \c addUserInfo:
+ @param info a dictionary containing anything you wish
+ */
+- (void)setUserInfo:(NSDictionary<NSString*,id>*)info NS_REFINED_FOR_SWIFT;
+/** @brief Add a dictionary of metadata to the object
+ 
+ \c info is merged with the existing content of the user info.
+ @param info a dictionary containing anything you wish
+ */
 - (void)addUserInfo:(NSDictionary<NSString*,id>*)info;
 
 /** @brief Return the attached user info
@@ -604,7 +878,7 @@ to attach arbitrary data to any drawable object.
  the object however.
  @return the user info
  */
-- (NSMutableDictionary<NSString*,id>*)userInfo;
+- (NSMutableDictionary<NSString*,id>*)userInfo NS_REFINED_FOR_SWIFT;
 
 /** @brief Return an item of user info
  @param key the key to use to refer to the item
@@ -635,6 +909,7 @@ to attach arbitrary data to any drawable object.
  @return an image of the object
  */
 - (NSImage*)cachedImage;
+@property (readonly, strong) NSImage *cachedImage;
 
 // pasteboard:
 
@@ -652,7 +927,7 @@ to attach arbitrary data to any drawable object.
 /** @brief Read additional data from the pasteboard specific to the object
 
  This is invoked by the owning layer after an object has been pasted. Override to make use of. Note
- that this is not necessarily symmetrical with -writeSupplementaryDataToPasteboard: depending on
+ that this is not necessarily symmetrical with \c -writeSupplementaryDataToPasteboard: depending on
  what data types the other method actually wrote. For example standard text would not normally
  need to be handled as a special case.
  @param pb the pasteboard to read from
@@ -661,21 +936,29 @@ to attach arbitrary data to any drawable object.
 
 // user level commands that can be responded to by this object (and its subclasses)
 
-- (IBAction)copyDrawingStyle:(id)sender;
-- (IBAction)pasteDrawingStyle:(id)sender;
-- (IBAction)lock:(id)sender;
-- (IBAction)unlock:(id)sender;
-- (IBAction)lockLocation:(id)sender;
-- (IBAction)unlockLocation:(id)sender;
+/** @brief Copies the object's style to the general pasteboard
+ @param sender the action's sender
+ */
+- (IBAction)copyDrawingStyle:(nullable id)sender;
+/** @brief Pastes a style from the general pasteboard onto the object
+
+ Attempts to maintain shared styles by using the style's name initially.
+ @param sender the action's sender
+ */
+- (IBAction)pasteDrawingStyle:(nullable id)sender;
+- (IBAction)lock:(nullable id)sender;
+- (IBAction)unlock:(nullable id)sender;
+- (IBAction)lockLocation:(nullable id)sender;
+- (IBAction)unlockLocation:(nullable id)sender;
 
 #ifdef qIncludeGraphicDebugging
 // debugging:
 
-- (IBAction)toggleShowBBox:(id)sender;
-- (IBAction)toggleClipToBBox:(id)sender;
-- (IBAction)toggleShowPartcodes:(id)sender;
-- (IBAction)toggleShowTargets:(id)sender;
-- (IBAction)logDescription:(id)sender;
+- (IBAction)toggleShowBBox:(nullable id)sender;
+- (IBAction)toggleClipToBBox:(nullable id)sender;
+- (IBAction)toggleShowPartcodes:(nullable id)sender;
+- (IBAction)toggleShowTargets:(nullable id)sender;
+- (IBAction)logDescription:(nullable id)sender;
 
 #endif
 
@@ -713,3 +996,5 @@ extern NSString* kDKDrawableClickedPointKey;
 
 extern NSString* kDKGhostColourPreferencesKey;
 extern NSString* kDKDragFeedbackEnabledPreferencesKey;
+
+NS_ASSUME_NONNULL_END

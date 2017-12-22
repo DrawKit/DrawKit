@@ -43,6 +43,8 @@
 @property (readonly) NSRect bounds;
 
 /** return a checksum for the object's geometry (size, angle and position)
+ 
+ Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
  */
 - (NSUInteger)geometryChecksum;
 
