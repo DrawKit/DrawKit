@@ -66,6 +66,7 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 
 - (void)updateMetadataKeys;
 - (NSUInteger)metadataChecksum;
+@property (readonly) NSUInteger metadataChecksum;
 
 - (BOOL)supportsMetadata;
 - (void)metadataWillChangeKey:(nullable NSString*)key;

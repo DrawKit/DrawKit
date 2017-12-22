@@ -85,6 +85,7 @@ typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 
 - (void)updateMetadataKeys;
 - (NSUInteger)metadataChecksum;
+@property (readonly) NSUInteger metadataChecksum;
 
 - (void)metadataWillChangeKey:(nullable NSString*)key;
 - (void)metadataDidChangeKey:(nullable NSString*)key;
