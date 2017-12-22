@@ -432,7 +432,11 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 {
 	NSAssert(str != nil, @"attempt to set keyboard equivalent to nil string - string can be empty but not nil");
 
-	mKeyboardEquivalent = str;
+	if (str.length > 0) {
+		mKeyboardEquivalent = [str substringWithRange:NSMakeRange(0, 1)];
+	} else {
+		mKeyboardEquivalent = @"";
+	}
 
 	mKeyboardModifiers = flags;
 }
@@ -451,16 +455,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 		return nil;
 }
 
-/** @brief Return the keyboard modifier flags that need to be down to select this tool using the keyboard modifier
-
- A *registered* tool can be looked up by keyboard equivalent. This is implemented by DKToolController
- in conjunction with this class.
- @return the modifier flags - may be 0 if no flags are needed
- */
-- (NSUInteger)keyboardModifierFlags
-{
-	return mKeyboardModifiers;
-}
+@synthesize keyboardModifierFlags=mKeyboardModifiers;
 
 #pragma mark -
 

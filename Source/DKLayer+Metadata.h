@@ -12,9 +12,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
-	kDKLayerMetadataOriginalSchema = 1,
-	kDKLayerMetadataCaseInsensitiveSchema = 2,
-	kDKLayerMetadata107Schema = 3
+	kDKLayerMetadataOriginalSchema NS_SWIFT_NAME(DKLayerMetadataSchema.original)= 1,
+	kDKLayerMetadataCaseInsensitiveSchema NS_SWIFT_NAME(DKLayerMetadataSchema.caseInsensitive)= 2,
+	kDKLayerMetadata107Schema NS_SWIFT_NAME(DKLayerMetadataSchema.metadata107)= 3
 };
 
 /** @brief adds some convenience methods for standard meta data attached to a graphic object.

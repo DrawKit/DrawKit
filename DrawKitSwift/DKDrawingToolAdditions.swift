@@ -11,7 +11,7 @@ import DKDrawKit.DKDrawingTool
 extension DKDrawingTool {
 	public var keyboard: (equivalent: String, modifierFlags: UInt) {
 		get {
-			return (keyboardEquivalent, keyboardModifierFlags)
+			return (keyboardEquivalent ?? "", keyboardModifierFlags)
 		}
 		set {
 			setKeyboardEquivalent(newValue.equivalent, modifierFlags: newValue.modifierFlags)

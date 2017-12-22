@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Metadata has been through a bit of evolution. This constant indicates which schema is in use
  */
 typedef NS_ENUM(NSInteger, DKMetadataSchema) {
-	kDKMetadataOriginalSchema = 1,
-	kDKMetadataMark2Schema = 2,
-	kDKMetadata107Schema = 3
+	kDKMetadataOriginalSchema NS_SWIFT_NAME(DKMetadataSchema.original)= 1,
+	kDKMetadataMark2Schema NS_SWIFT_NAME(DKMetadataSchema.mark2)= 2,
+	kDKMetadata107Schema NS_SWIFT_NAME(DKMetadataSchema.metadata107)= 3
 };
 
 /** @brief Stores various drawkit private variables in the metadata.
@@ -25,7 +25,7 @@ typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 
  Note that the details of how metadata is stored changed in 1.0b6. Now, the metadata is held in a separate dictionary within the overall userinfo dictionary, rather than as
  individual items within userInfo. This permits the userInfo dictionary to be used more extensively while keeping metadata grouped together. Using this API shields you
- from those changes, though if you were accessing userInfo to obtain the metadata, you may need to revise code to call -metadata instead.
+ from those changes, though if you were accessing userInfo to obtain the metadata, you may need to revise code to call \c -metadata instead.
 */
 @interface DKDrawableObject (Metadata) <DKMetadataStorable>
 

@@ -117,9 +117,15 @@ considerations are outside the scope of DK itself.
 // the tool must be registered for this to function.
 
 - (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSUInteger)flags;
-- (NSString*)keyboardEquivalent;
+- (nullable NSString*)keyboardEquivalent;
+/** @brief Return the keyboard modifier flags that need to be down to select this tool using the keyboard modifier
+ 
+ A *registered* tool can be looked up by keyboard equivalent. This is implemented by DKToolController
+ in conjunction with this class.
+ @return the modifier flags - may be 0 if no flags are needed
+ */
 - (NSUInteger)keyboardModifierFlags;
-@property (readonly, copy) NSString *keyboardEquivalent;
+@property (readonly, copy, nullable) NSString *keyboardEquivalent;
 @property (readonly) NSUInteger keyboardModifierFlags;
 
 // drawing tools can optionally return arbitrary persistent data that DK will store in the prefs for it

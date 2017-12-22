@@ -7,6 +7,7 @@
 //
 
 import DKDrawKit.DKMetadataStorable
+import DKDrawKit.DKMetadataItem
 
 extension DKMetadataStorable {
 	public var metadata: [String: DKMetadataItem] {

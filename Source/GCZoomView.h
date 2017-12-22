@@ -10,14 +10,14 @@
 
 /** @brief This is a very general-purpose view class that provides some handy high-level methods for doing zooming.
 
-This is a very general-purpose view class that provides some handy high-level methods for doing zooming. Simply hook up
-the action methods to suitable menu commands and away you go. The stuff you draw within drawRect: doesn't need to know or
-care abut the zoom of the view - you can just draw as usual and it works.
+ This is a very general-purpose view class that provides some handy high-level methods for doing zooming. Simply hook up
+ the action methods to suitable menu commands and away you go. The stuff you draw within drawRect: doesn't need to know or
+ care abut the zoom of the view - you can just draw as usual and it works.
 
-@note
-this class doesn't bother to support NSCoding and thereby encoding the view zoom, because it usually isn't important for this
-value to persist. However, if your subclass wants to support coding, your initWithCoder method should reset _scale to 1.0. Otherwise
-it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
+ @note
+ this class doesn't bother to support NSCoding and thereby encoding the view zoom, because it usually isn't important for this
+ value to persist. However, if your subclass wants to support coding, your initWithCoder method should reset _scale to 1.0. Otherwise
+ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 */
 @interface GCZoomView : NSView {
 @private
@@ -142,6 +142,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  position and zoom.
  @return the visually centred point */
 - (NSPoint)centredPointInDocView;
+@property (readonly) NSPoint centredPointInDocView;
 
 /** @brief Scrolls the view so that the point ends up visually centred
  @param aPoint the desired centre point */
