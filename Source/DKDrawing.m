@@ -423,7 +423,7 @@ static id sDearchivingHelper = nil;
 						 top:m
 					   right:m
 					  bottom:m];
-		[self setDrawingUnits:@"Centimetres"
+		[self setDrawingUnits:DKDrawingUnitCentimetres
 			unitToPointsConversionFactor:kDKGridDrawingLayerMetricInterval];
 		mControllers = [[NSMutableSet alloc] init];
 

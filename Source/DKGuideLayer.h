@@ -274,7 +274,7 @@ the shift key down.
  @param arrayOfPoints a list of NSValue object containing pointValues 
  @return a size, being the offset between whichever point was snapped and its snapped position
  */
-- (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints;
+- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints;
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
 
@@ -288,7 +288,7 @@ the shift key down.
  @param gh if not NULL, receives the actual horizontal guide snapped to
  @return a size, being the offset between whichever point was snapped and its snapped position
  */
-- (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh;
+- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh;
 
 // redrawing the guides
 

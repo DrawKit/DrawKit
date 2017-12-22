@@ -11,6 +11,8 @@
 
 typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief A DKDrawing is the model data for the drawing system.
 
  Usually a document will own one of these. A drawing consists of one or more DKLayers,
@@ -96,7 +98,7 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  @param drawingData data representing an archived drawing
  @return the unarchived drawing
  */
-+ (DKDrawing*)drawingWithData:(NSData*)drawingData;
++ (nullable DKDrawing*)drawingWithData:(NSData*)drawingData;
 
 /** @brief Return the default derachiving helper for deaerchiving a drawing
 
@@ -116,7 +118,7 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  */
 + (void)setDearchivingHelper:(id)helper;
 
-@property (class, retain) id dearchivingHelper;
+@property (class, retain, null_resettable) id dearchivingHelper;
 
 /** @brief Returns a new drawing number by incrementing the current default seed value
  @return a new drawing number
@@ -157,7 +159,7 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  The owner is usually either a document, a window controller or a drawing view.
  @return the owner
  */
-- (id)owner;
+- (nullable id)owner;
 
 /** @brief Sets the "owner" of this drawing.
 
@@ -165,9 +167,9 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  be set at all, though some higher-level conveniences may depend on it.
  @param owner the owner for this object
  */
-- (void)setOwner:(id)owner;
+- (void)setOwner:(nullable id)owner;
 
-@property (weak) id owner;
+@property (weak, nullable) id owner;
 
 /** @name basic drawing parameters
  *	@{ */
@@ -230,7 +232,7 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  nil will use whatever is set in the colours used by the styles.
  @param cSpace the colour space 
  */
-- (void)setColourSpace:(NSColorSpace*)cSpace;
+- (void)setColourSpace:(nullable NSColorSpace*)cSpace;
 
 /** @brief Returns the colour space for the whole drawing
 
@@ -238,9 +240,9 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  nil will use whatever is set in the colours used by the styles.
  @return the colour space
  */
-- (NSColorSpace*)colourSpace;
+- (nullable NSColorSpace*)colourSpace;
 
-@property (strong) NSColorSpace *colourSpace;
+@property (strong, nullable) NSColorSpace *colourSpace;
 
 /**
  @}
@@ -273,15 +275,15 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  See header for possible delegate methods
  @param aDelegate some delegate object
  */
-- (void)setDelegate:(id<DKDrawingDelegate>)aDelegate;
+- (void)setDelegate:(nullable id<DKDrawingDelegate>)aDelegate;
 
 /** @brief Return the delegate
  
  See header for possible delegate methods
  @return some delegate object
  */
-- (id<DKDrawingDelegate>)delegate;
-@property (weak) id<DKDrawingDelegate> delegate;
+- (nullable id<DKDrawingDelegate>)delegate;
+@property (weak, nullable) id<DKDrawingDelegate> delegate;
 
 /** @name the drawing's view controllers
  @{ */
@@ -358,22 +360,22 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  document's undoManager should be used. Otherwise, the view's or window's undoManager can be used.
  @param um the undo manager to use
  */
-- (void)setUndoManager:(id)um;
+- (void)setUndoManager:(nullable id)um;
 
 /** @brief Returns the undo manager for the drawing
  @return the currently used undo manager
  */
-- (id)undoManager;
+- (nullable id)undoManager;
 
-@property (nonatomic, strong) id undoManager;
+@property (nonatomic, strong, nullable) id undoManager;
 
 /** @} */
 /** @name drawing meta-data:
  @{ */
 
-- (void)setDrawingInfo:(NSMutableDictionary*)info;
-- (NSMutableDictionary*)drawingInfo;
-@property (copy) NSMutableDictionary *drawingInfo;
+- (void)setDrawingInfo:(nullable NSMutableDictionary*)info;
+- (nullable NSMutableDictionary*)drawingInfo;
+@property (copy, nullable) NSMutableDictionary *drawingInfo;
 
 /** @name rendering the drawing:
  @{ */
@@ -383,16 +385,16 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  Default is white
  @param colour the colour to set for the drawing's background (paper) colour
  */
-- (void)setPaperColour:(NSColor*)colour;
+- (void)setPaperColour:(nullable NSColor*)colour;
 
 /** @brief The curremt paper colour of the drawing
  
  Default is white
  @return the current colour of the background (paper)
  */
-- (NSColor*)paperColour;
+- (nullable NSColor*)paperColour;
 
-@property (nonatomic, strong) NSColor *paperColour;
+@property (nonatomic, strong, nullable) NSColor *paperColour;
 
 /** @brief Set whether the paper colour is printed or not
  
@@ -411,23 +413,23 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
 /** @} */
 /** @name active layer
  @{ */
-- (BOOL)setActiveLayer:(DKLayer*)aLayer;
-- (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo;
+- (BOOL)setActiveLayer:(nullable DKLayer*)aLayer;
+- (BOOL)setActiveLayer:(nullable DKLayer*)aLayer withUndo:(BOOL)undo;
 /** @brief Returns the current active layer
  @return a DKLayer object, or subclass, which is the current active layer
  */
-- (DKLayer*)activeLayer;
-- (__kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
+- (nullable DKLayer*)activeLayer;
+- (nullable __kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
-@property (nonatomic, weak, readonly) DKLayer *activeLayer;
+@property (nonatomic, weak, readonly, nullable) DKLayer *activeLayer;
 
 /** @} */
 /** @name high level methods that help support a UI
  @{ */
 
 - (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt;
-- (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(DKLayer*)anotherLayer;
-- (__kindof DKLayer*)firstActivateableLayerOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
+- (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(nullable DKLayer*)anotherLayer;
+- (nullable __kindof DKLayer*)firstActivateableLayerOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
 
 /** @} */
 /** @name interaction with grid and guides
@@ -445,7 +447,7 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
 - (NSPoint)snapToGrid:(NSPoint)p ignoringUserSetting:(BOOL)ignore;
 - (NSPoint)snapToGuides:(NSPoint)p;
 - (NSRect)snapRectToGuides:(NSRect)r includingCentres:(BOOL)cent;
-- (NSSize)snapPointsToGuide:(NSArray*)points;
+- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)points;
 
 - (NSPoint)nudgeOffset;
 @property (readonly) NSPoint nudgeOffset;
@@ -457,21 +459,21 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  prevent themselves being considered for this role.
  @return the grid layer, or nil
  */
-- (DKGridLayer*)gridLayer;
+- (nullable DKGridLayer*)gridLayer;
 
 /** @brief Returns the guide layer, if there is one
  
  Usually there will only be one guide layer, but if there is more than one this only finds the uppermost.
  @return the guide layer, or nil
  */
-- (DKGuideLayer*)guideLayer;
+- (nullable DKGuideLayer*)guideLayer;
 - (CGFloat)convertLength:(CGFloat)len;
 - (NSPoint)convertPoint:(NSPoint)pt;
 - (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt;
 - (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len;
 
-@property (readonly, strong) DKGridLayer *gridLayer;
-@property (readonly, strong) DKGuideLayer *guideLayer;
+@property (readonly, strong, nullable) DKGridLayer *gridLayer;
+@property (readonly, strong, nullable) DKGuideLayer *guideLayer;
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
 
@@ -519,7 +521,7 @@ typedef NSString *DKDrawingUnit NS_TYPED_EXTENSIBLE_ENUM;
  object that describes the problem.
  @return \c YES if succesfully written, \c NO otherwise.
  */
-- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError * __autoreleasing*)errorPtr;
+- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable __autoreleasing*_Nullable)errorPtr;
 - (NSData*)drawingAsXMLDataAtRoot;
 - (NSData*)drawingAsXMLDataForKey:(NSString*)key;
 - (NSData*)drawingData;
@@ -602,7 +604,7 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 */
 @interface DKDrawing (UISupport)
 
-- (NSWindow*)windowForSheet;
+- (nullable NSWindow*)windowForSheet;
 
 @end
 
@@ -610,8 +612,8 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
  */
 @interface DKDrawing (Deprecated)
 
-+ (DKDrawing*)drawingWithContentsOfFile:(NSString*)filepath DEPRECATED_ATTRIBUTE;
-+ (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath DEPRECATED_ATTRIBUTE;
++ (null_unspecified DKDrawing*)drawingWithContentsOfFile:(null_unspecified NSString*)filepath DEPRECATED_ATTRIBUTE;
++ (null_unspecified DKDrawing*)drawingWithData:(null_unspecified NSData*)drawingData fromFileAtPath:(null_unspecified NSString*)filepath DEPRECATED_ATTRIBUTE;
 
 /** @brief Saves the static class defaults for ALL classes in the drawing system
 
@@ -638,3 +640,5 @@ extern DKDrawingUnit const DKDrawingUnitFeet;
 extern DKDrawingUnit const DKDrawingUnitYards;
 extern DKDrawingUnit const DKDrawingUnitPoints;
 extern DKDrawingUnit const DKDrawingUnitMiles;
+
+NS_ASSUME_NONNULL_END
