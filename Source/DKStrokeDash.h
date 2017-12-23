@@ -37,8 +37,15 @@
 - (CGFloat)length;
 - (CGFloat)lengthAtIndex:(NSUInteger)indx;
 
+/** @brief The count of dashes.
+ */
 @property (readonly) NSInteger count;
-@property CGFloat phase;
+/** @brief The phase of the dash, ignoring any line width scaling.
+ */
+@property (nonatomic) CGFloat phase;
+/** returns the length of the dash pattern before it repeats. Note that if the pattern is scaled to the line width,
+ this returns the unscaled length, so the client needs to multiply the result by the line width if necessary.
+ */
 @property (readonly) CGFloat length;
 
 - (void)setScalesToLineWidth:(BOOL)stlw;

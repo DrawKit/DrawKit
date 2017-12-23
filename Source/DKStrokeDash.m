@@ -170,10 +170,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	m_phase = LIMIT(ph, 0, [self length]);
 }
 
-- (CGFloat)phase
-{
-	return m_phase;
-}
+@synthesize phase=m_phase;
 
 - (CGFloat)length
 {
