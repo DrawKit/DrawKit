@@ -99,7 +99,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (NSArray*)layers
 {
-	return m_layers;
+	return [m_layers copy];
 }
 
 /** @brief Returns the number of layers

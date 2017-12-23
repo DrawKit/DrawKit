@@ -105,7 +105,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
  @param includeGroups If YES, includes groups as well as the requested class
  @return A list of matching layers.
  */
-- (NSArray<__kindof DKLayer*>*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups NS_REFINED_FOR_SWIFT;
+- (NSArray<__kindof DKLayer*>*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups;
 
 
 /** @brief returns the hierarchical level of this group, i.e. how deeply nested it is.
