@@ -200,12 +200,6 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 #pragma mark -
 #pragma mark - adding and removing layers
 
-/** @brief Creates and adds a layer to the drawing
-
- LayerClass must be a valid subclass of DKLayer, otherwise does nothing and nil is returned
- @param layerClass the class of some kind of layer
- @return the layer created
- */
 - (DKLayer*)addNewLayerOfClass:(Class)layerClass
 {
 	if ([layerClass isSubclassOfClass:[DKLayer class]]) {

@@ -119,7 +119,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 
 /** @brief creates and adds a layer to the drawing
  
- @discussion layerClass must be a valid subclass of <code>DKLayer</code>, otherwise does nothing and \c nil is returned.
+ @discussion \c layerClass must be a valid subclass of <code>DKLayer</code>, otherwise does nothing and \c nil is returned.
 
  @param layerClass the class of some kind of layer
  @return the layer created.
