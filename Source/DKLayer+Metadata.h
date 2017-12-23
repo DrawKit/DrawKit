@@ -68,18 +68,17 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 - (NSUInteger)metadataChecksum;
 @property (readonly) NSUInteger metadataChecksum;
 
-- (BOOL)supportsMetadata;
+/** Subclasses that want to prevent access to metadata for a layer can override this to return NO. Controllers that provide
+ UI to metadata need to check this - it is not honoured at this level.
+ */
+@property (readonly) BOOL supportsMetadata;
 - (void)metadataWillChangeKey:(nullable NSString*)key;
 - (void)metadataDidChangeKey:(nullable NSString*)key;
-
-@property (readonly) BOOL supportsMetadata;
 
 @end
 
 extern NSString* kDKLayerMetadataUserInfoKey;
 extern NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey;
-extern NSString* kDKMetadataWillChangeNotification;
-extern NSString* kDKMetadataDidChangeNotification;
 
 @interface DKLayer (MetadataDeprecated)
 
