@@ -263,14 +263,6 @@
 #pragma mark -
 @implementation NSDictionary (StructEncoding)
 
-- (void)setPoint:(NSPoint)p forKey:(id)key
-{
-	[self setFloat:p.x
-			forKey:[key stringByAppendingString:@".x"]];
-	[self setFloat:p.y
-			forKey:[key stringByAppendingString:@".y"]];
-}
-
 - (NSPoint)pointForKey:(id)key
 {
 	NSPoint p;
@@ -281,15 +273,29 @@
 }
 
 #pragma mark -
-- (void)setFloat:(float)f forKey:(id)key
-{
-	[self setValue:@(f)
-			forKey:key];
-}
-
 - (float)floatForKey:(id)key
 {
-	return [[self valueForKey:key] doubleValue];
+	return [[self objectForKey:key] doubleValue];
+}
+
+@end
+
+#pragma mark -
+@implementation NSMutableDictionary (StructEncoding)
+
+- (void)setPoint:(NSPoint)p forKey:(id)key
+{
+	[self setFloat:p.x
+			forKey:[key stringByAppendingString:@".x"]];
+	[self setFloat:p.y
+			forKey:[key stringByAppendingString:@".y"]];
+}
+
+#pragma mark -
+- (void)setFloat:(float)f forKey:(id)key
+{
+	[self setObject:@(f)
+			 forKey:key];
 }
 
 @end

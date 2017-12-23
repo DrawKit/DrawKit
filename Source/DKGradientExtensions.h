@@ -59,10 +59,17 @@
 
 @interface NSDictionary (StructEncoding)
 
-- (void)setPoint:(NSPoint)p forKey:(id)key;
 - (NSPoint)pointForKey:(id)key;
 
-- (void)setFloat:(float)f forKey:(id)key;
 - (float)floatForKey:(id)key;
 
 @end
+
+@interface NSMutableDictionary (StructEncoding)
+
+- (void)setPoint:(NSPoint)p forKey:(id)key;
+
+- (void)setFloat:(float)f forKey:(id)key;
+
+@end
+
