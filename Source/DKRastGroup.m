@@ -273,7 +273,7 @@
  */
 - (void)removeAllRenderers
 {
-	for (DKRasterizer* rast in self.renderList) {
+	for (DKRasterizer* rast in [self.renderList copy]) {
 		if (![rast isKindOfClass:[self class]]) {
 			[self removeRenderer:rast];
 		}
@@ -291,7 +291,7 @@
 {
 	// removes any renderers of the given *exact* class from the group. If <subs> is YES, recurses down to any subgroups below.
 
-	for (DKRasterizer* rast in self.renderList) {
+	for (DKRasterizer* rast in [self.renderList copy]) {
 		if ([rast isMemberOfClass:cl]) {
 			[self removeRenderer:rast];
 		} else if (subs && [rast isKindOfClass:[self class]]) {
