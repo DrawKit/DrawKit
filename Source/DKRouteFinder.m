@@ -12,7 +12,7 @@ static DKDirection directionOfAngle(const CGFloat angle);
 
 @interface DKRouteFinder (Private)
 
-- (id)initWithArray:(NSArray*)array;
+- (id)initWithArray:(NSArray<NSValue*>*)array;
 - (void)notifyProgress:(CGFloat)value;
 - (NSUInteger)nearestNeighbourInArray:(NSArray*)arrayOfPoint toPoint:(NSPoint)cvp inDirection:(DKDirection)direction;
 - (NSArray*)sortArrayUsingNearestNeighbour:(NSArray*)points;

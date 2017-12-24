@@ -42,7 +42,7 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 	DKRouteAlgorithmType mAlgorithm; // which algorithm to use
 	NSInteger* mOrder; // final sort order (1-based)
 	BOOL mCalculationDone; // flag whether the sort was run
-	id<DKRouteFinderProgressDelegate> __unsafe_unretained mProgressDelegate; // a progress delegate, if any
+	id<DKRouteFinderProgressDelegate> __weak mProgressDelegate; // a progress delegate, if any
 	// for SA
 	CGFloat* mX; // for SA, list of input x coordinates
 	CGFloat* mY; // for SA, list of input y coordinates
@@ -65,7 +65,7 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 @property (readonly) CGFloat pathLength;
 @property (readonly) DKRouteAlgorithmType algorithm;
 
-@property (unsafe_unretained) id<DKRouteFinderProgressDelegate> progressDelegate;
+@property (weak) id<DKRouteFinderProgressDelegate> progressDelegate;
 
 @end
 
