@@ -138,10 +138,7 @@
 	}
 }
 
-- (void)setWindowOffset:(NSSize)offset
-{
-	m_wOffset = offset;
-}
+@synthesize windowOffset=m_wOffset;
 
 - (void)positionNearPoint:(NSPoint)p inView:(NSView*)v
 {

@@ -28,6 +28,7 @@ user interaction.
 
 - (void)setFormat:(NSString*)fmt;
 - (void)setWindowOffset:(NSSize)offset;
+@property NSSize windowOffset;
 /** places the window just to the right and above the point \c p as expressed in the coordinate system of view <code>v</code>.
 */
 - (void)positionNearPoint:(NSPoint)p inView:(NSView*)v;

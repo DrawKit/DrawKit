@@ -175,14 +175,10 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 	  endingAtPoint:(NSPoint)ep
 		  endRadius:(CGFloat)er;
 
-/** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
-
- While intended for internal use, this function can be called at any time if you wish
- the private version here is called internally. It does fewer checks and returns raw component
- values for performance. do not use from external code.
- @param val the proportion of the gradient ramp from start (0) to finish (1.0) 
- @return the Color corresponding to that position
- */
+- (void)fillStartingAtPoint:(NSPoint)sp
+				startRadius:(CGFloat)sr
+			  endingAtPoint:(NSPoint)ep
+				  endRadius:(CGFloat)er;
 
 /** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
  

@@ -577,9 +577,8 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 		[path addClip];
 
-	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-	[self fillContext:context
-		startingAtPoint:sp
+	//CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+	[self fillStartingAtPoint:sp
 			startRadius:sr
 		  endingAtPoint:ep
 			  endRadius:er];
@@ -654,13 +653,37 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 }
 
 #pragma mark -
+
+- (void)fillStartingAtPoint:(NSPoint)sp
+				startRadius:(CGFloat)sr
+			  endingAtPoint:(NSPoint)ep
+				  endRadius:(CGFloat)er
+{
+	NSGradient *gradient = [self newNSGradient];
+	
+	switch (self.gradientType) {
+		case kDKGradientTypeLinear:
+			[gradient drawFromPoint:sp toPoint:ep options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
+			break;
+			
+			
+		case kDKGradientTypeRadial:
+			[gradient drawFromCenter:sp radius:sr toCenter:ep radius:er options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
+			break;
+			
+		default:
+			break;
+	}
+}
+
+
+#pragma mark -
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
 		startRadius:(CGFloat)sr
 	  endingAtPoint:(NSPoint)ep
 		  endRadius:(CGFloat)er
 {
 	CGShadingRef shader;
-	NSGradient *gradient = [self newNSGradient];
 
 	switch ([self gradientType]) {
 	case kDKGradientTypeLinear:
