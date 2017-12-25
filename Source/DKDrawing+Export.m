@@ -297,10 +297,16 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 		[options setObject:@{(NSString*)kCGImagePropertyPNGInterlaceType: value}
 					forKey:(NSString*)kCGImagePropertyPNGDictionary];
 
+	value = [props objectForKey:kDKExportedImageHasAlpha];
+	BOOL hasAlpha = YES;
+	
+	if (value != nil)
+		hasAlpha = [value boolValue];
+
 	// generate the bitmap image at the required size
 
 	CGImageRef image = [self CGImageWithResolution:dpi
-										  hasAlpha:NO
+										  hasAlpha:hasAlpha
 									 relativeScale:scale];
 
 	NSAssert(image != nil, @"could not create image for PNG export");
