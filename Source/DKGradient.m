@@ -39,8 +39,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 @interface DKColorStop ()
 
 @property (weak) DKGradient *owner;
-- (void)setOwner:(DKGradient*)owner;
-- (DKGradient*)owner;
 
 @end
 
@@ -232,7 +230,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  */
 - (NSArray*)colorStops
 {
-	return m_colorStops;
+	return [m_colorStops copy];
 }
 
 static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
