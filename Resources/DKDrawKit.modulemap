@@ -178,4 +178,9 @@ framework module DKDrawKit {
 	  header "DKImageDataManager.h"
 	  export *
   }
+  
+  explicit module DKSweptAngleGradient {
+	  header "DKSweptAngleGradient.h"
+	  export *
+  }
 }

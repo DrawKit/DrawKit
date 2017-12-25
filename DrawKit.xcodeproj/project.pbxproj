@@ -285,7 +285,7 @@
 		BFED210D0F0F92CF004CFC16 /* DKBSPObjectStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BFED210B0F0F92CF004CFC16 /* DKBSPObjectStorage.m */; };
 		BFF067A80C367530008D427F /* DKQuartzBlendRastGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF067A40C367530008D427F /* DKQuartzBlendRastGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFF067A90C367530008D427F /* DKQuartzBlendRastGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF067A50C367530008D427F /* DKQuartzBlendRastGroup.m */; };
-		BFF0793A0C479EF4008D427F /* DKSweptAngleGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF079360C479EF4008D427F /* DKSweptAngleGradient.h */; };
+		BFF0793A0C479EF4008D427F /* DKSweptAngleGradient.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF079360C479EF4008D427F /* DKSweptAngleGradient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFF0793B0C479EF4008D427F /* DKSweptAngleGradient.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF079370C479EF4008D427F /* DKSweptAngleGradient.m */; };
 		BFF5C9B10DF0E39F00A6BB74 /* DKLayer+Metadata.m in Sources */ = {isa = PBXBuildFile; fileRef = BFF5C9AF0DF0E39F00A6BB74 /* DKLayer+Metadata.m */; };
 		BFF5C9B20DF0E39F00A6BB74 /* DKLayer+Metadata.h in Headers */ = {isa = PBXBuildFile; fileRef = BFF5C9B00DF0E39F00A6BB74 /* DKLayer+Metadata.h */; settings = {ATTRIBUTES = (Public, ); }; };
