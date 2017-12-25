@@ -37,6 +37,9 @@
 	}
 
 // 64-bit float macros
+// Deprecated, do not use:
+// instead, use double values with tgmath header included
+// If are really worried about the types.
 
 #ifdef __LP64__
 #define _CGFloatFabs(n) fabs(n)

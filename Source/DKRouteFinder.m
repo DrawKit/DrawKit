@@ -569,7 +569,7 @@ function result is the final path length
 
 #pragma mark -
 #define TFACTR 0.9 // Annealing schedule: reduce t by this factor on each step.
-#define ALEN(a, b, c, d) _CGFloatSqrt(((b) - (a)) * ((b) - (a)) + ((d) - (c)) * ((d) - (c)))
+#define ALEN(a, b, c, d) sqrt(((b) - (a)) * ((b) - (a)) + ((d) - (c)) * ((d) - (c)))
 
 CGFloat anneal(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NSInteger annealingSteps, const void* context)
 {
@@ -816,5 +816,5 @@ NSInteger metrop(CGFloat de, CGFloat t)
 {
 	static long gljdum = 1;
 
-	return de < 0.0 || ran3(&gljdum) < _CGFloatExp(-de / t);
+	return de < 0.0 || ran3(&gljdum) < exp(-de / t);
 }

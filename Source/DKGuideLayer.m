@@ -126,7 +126,7 @@ static BOOL sWasInside = NO;
 	CGFloat nearestDistance = 10000, distance;
 
 	for (DKGuide* guide in [self verticalGuides]) {
-		distance = _CGFloatFabs(pos - [guide guidePosition]);
+		distance = fabs(pos - [guide guidePosition]);
 
 		if (distance < [self snapTolerance] && distance < nearestDistance) {
 			nearestDistance = distance;
@@ -147,7 +147,7 @@ static BOOL sWasInside = NO;
 	CGFloat nearestDistance = 10000, distance;
 
 	for (DKGuide* guide in [self horizontalGuides]) {
-		distance = _CGFloatFabs(pos - [guide guidePosition]);
+		distance = fabs(pos - [guide guidePosition]);
 
 		if (distance < [self snapTolerance] && distance < nearestDistance) {
 			nearestDistance = distance;

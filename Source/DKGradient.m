@@ -1327,7 +1327,7 @@ static inline void transformHSV_RGB(CGFloat* components) //H,S,B -> R,G,B
 		S = components[1],
 			V = components[2];
 
-	NSInteger Hi = (NSInteger)_CGFloatFloor(H / 60.) % 6;
+	NSInteger Hi = (NSInteger)floor(H / 60.) % 6;
 	CGFloat f = H / 60 - Hi,
 			p = V * (1 - S),
 			q = V * (1 - f * S),

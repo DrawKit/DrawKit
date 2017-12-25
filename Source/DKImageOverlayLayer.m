@@ -133,12 +133,12 @@
 			NSInteger h, v, x, y;
 
 			if (cm & kDKDrawingImageCoverageHorizontallyTiled)
-				h = 1 + _CGFloatTrunc(ds.width / ri.size.width);
+				h = 1 + trunc(ds.width / ri.size.width);
 			else
 				h = 1;
 
 			if (cm & kDKDrawingImageCoverageVerticallyTiled)
-				v = 1 + _CGFloatTrunc(ds.height / ri.size.height);
+				v = 1 + trunc(ds.height / ri.size.height);
 			else
 				v = 1;
 

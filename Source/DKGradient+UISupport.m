@@ -229,7 +229,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 	GlossParameters params;
 
 	params.expCoefficient = EXP_COEFFICIENT;
-	params.expOffset = _CGFloatExp(-params.expCoefficient);
+	params.expOffset = exp(-params.expCoefficient);
 	params.expScale = 1.0 / (1.0 - params.expOffset);
 
 	NSColor* source = [colour colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -296,7 +296,7 @@ static void glossInterpolation(void* info, const CGFloat* input, CGFloat* output
 	CGFloat progress = *input;
 	if (progress < 0.5) {
 		progress = progress * 2.0;
-		progress = 1.0 - params->expScale * (_CGFloatExp(progress * -params->expCoefficient) - params->expOffset);
+		progress = 1.0 - params->expScale * (exp(progress * -params->expCoefficient) - params->expOffset);
 
 		CGFloat currentWhite = progress * (params->finalWhite - params->initialWhite) + params->initialWhite;
 
@@ -307,7 +307,7 @@ static void glossInterpolation(void* info, const CGFloat* input, CGFloat* output
 	} else {
 		progress = (progress - 0.5) * 2.0;
 
-		progress = params->expScale * (_CGFloatExp((1.0 - progress) * -params->expCoefficient) - params->expOffset);
+		progress = params->expScale * (exp((1.0 - progress) * -params->expCoefficient) - params->expOffset);
 
 		output[0] = params->color[0] * (1.0 - progress) + params->caustic[0] * progress;
 		output[1] = params->color[1] * (1.0 - progress) + params->caustic[1] * progress;

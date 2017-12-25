@@ -112,7 +112,7 @@
 	double blue = 0.0;
 	double factor;
 
-	wave = _CGFloatTrunc(lambda);
+	wave = trunc(lambda);
 
 	if (wave < 380 || wave > 780)
 		return [NSColor blackColor];

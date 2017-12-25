@@ -364,7 +364,7 @@
 
 		NSInteger i, m;
 
-		m = _CGFloatLround(cr.size.width / [self spacing]) + 1;
+		m = lround(cr.size.width / [self spacing]) + 1;
 		NSPoint a, b;
 
 		a.y = NSMinY(cr);

@@ -306,10 +306,10 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	// Make sure radius doesn't exceed a maximum size
 
 	if (cr >= (mainRect.size.height / 2))
-		cr = _CGFloatTrunc(mainRect.size.height / 2) - 1;
+		cr = trunc(mainRect.size.height / 2) - 1;
 
 	if (cr >= (mainRect.size.width / 2))
-		cr = _CGFloatTrunc(mainRect.size.width / 2) - 1;
+		cr = trunc(mainRect.size.width / 2) - 1;
 
 	// Now draw our rectangle:
 	NSRect innerRect = NSInsetRect(mainRect, cr, cr); // Make rect with corners being centers of the corner circles.
