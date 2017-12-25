@@ -40,7 +40,6 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 	DKGradientType m_gradType; // type
 	DKGradientBlending m_blending; // method to blend colours
 	DKGradientInterpolation m_interp; // interpolation function
-	CGFunctionRef m_cbfunc; // callback function
 }
 
 // simple gradient convenience methods
@@ -165,6 +164,16 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @param co displacement from the centre for the start of a radial fill
  */
 - (void)fillPath:(NSBezierPath*)path centreOffset:(NSPoint)co;
+/** @brief Fills the path using the gradient between two given points
+ 
+ Radii are ignored for linear gradients. Angle is ignored by this method, if you call it directly
+ (angle is used to calculate start and endpoints in other methods that call this)
+ @param path the bezier path to fill
+ @param sp the point where the gradient begins
+ @param sr for radial fills, the radius of the start of the gradient
+ @param ep the point where the gradient ends
+ @param er for radial fills, the radius of the end of the gradient
+ */
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp
 		startRadius:(CGFloat)sr
 	  endingAtPoint:(NSPoint)ep
@@ -173,7 +182,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
 		startRadius:(CGFloat)sr
 	  endingAtPoint:(NSPoint)ep
-		  endRadius:(CGFloat)er;
+		  endRadius:(CGFloat)er API_DEPRECATED_WITH_REPLACEMENT("fillStartingAtPoint:startRadius:endingAtPoint:endRadius:", macosx(10.0, 10.6));
 
 - (void)fillStartingAtPoint:(NSPoint)sp
 				startRadius:(CGFloat)sr
@@ -234,7 +243,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 #pragma mark -
 
-/** @brief small object that links a Color with its relative position
+/** @brief Small object that links a Color with its relative position.
 */
 @interface DKColorStop : NSObject <NSCoding, NSCopying> {
 	NSColor* mColor;

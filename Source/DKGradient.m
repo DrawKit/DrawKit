@@ -27,8 +27,6 @@ NSString* kDKNotificationGradientDidChange = @"kDKNotificationGradientDidChange"
 #pragma mark Static Vars
 
 #pragma mark Function Declarations
-static void shaderCallback(void* info, const CGFloat* in, CGFloat* out);
-static CGFunctionRef makeShaderFunction(DKGradient* object);
 static inline double powerMap(double x, double y);
 static inline double sineMap(double x, double y);
 static inline void transformHSV_RGB(CGFloat* components);
@@ -390,6 +388,10 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 			  endRadius:er];
 }
 
+/** if \c ra is <code>NO</code>, this is optimised on the basis that it will be called from a loop with \c val going from 0 -> 1. In
+ that case sequential access to the stops can be assumed and so no lookup loop is required. For random access, where
+ \c val can be any value in or out of sequence, the lookup loop is required. If in doubt, pass YES.
+ */
 - (void)private_colorAtValue:(CGFloat)val components:(CGFloat*)components randomAccess:(BOOL)ra
 {
 	// if <ra> is NO, this is optimised on the basis that it will be called from a loop with <val> going from 0 -> 1. In
@@ -630,28 +632,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return grad;
 }
 
-/** @brief Sets up the CGShader for doing a linear gradient fill
-
- Caller is responsible for releasing the returned ref
- @param sp the starting point of the fill
- @param ep the ending point of the fill */
-- (CGShadingRef)newLinearShaderForStartingPoint:(NSPoint)sp endPoint:(NSPoint)ep
-{
-	return CGShadingCreateAxial([DKGradient sharedGradientColorSpace], *(CGPoint*)&sp, *(CGPoint*)&ep, m_cbfunc, YES, YES);
-}
-
-/** @brief Sets up the CGShader for doing a radial gradient fill
-
- Caller is responsible for releasing the returned ref
- @param sp the starting point of the fill
- @param sr the starting radius
- @param ep the end point of the fill
- @param er the ending radius */
-- (CGShadingRef)newRadialShaderForStartingPoint:(NSPoint)sp startRadius:(CGFloat)sr endPoint:(NSPoint)ep endRadius:(CGFloat)er
-{
-	return CGShadingCreateRadial([DKGradient sharedGradientColorSpace], *(CGPoint*)&sp, sr, *(CGPoint*)&ep, er, m_cbfunc, YES, YES);
-}
-
 #pragma mark -
 
 - (void)fillStartingAtPoint:(NSPoint)sp
@@ -660,17 +640,16 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 				  endRadius:(CGFloat)er
 {
 	NSGradient *gradient = [self newNSGradient];
-	
+
 	switch (self.gradientType) {
 		case kDKGradientTypeLinear:
 			[gradient drawFromPoint:sp toPoint:ep options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
 			break;
-			
-			
+
 		case kDKGradientTypeRadial:
 			[gradient drawFromCenter:sp radius:sr toCenter:ep radius:er options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
 			break;
-			
+
 		default:
 			break;
 	}
@@ -683,28 +662,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	  endingAtPoint:(NSPoint)ep
 		  endRadius:(CGFloat)er
 {
-	CGShadingRef shader;
-
-	switch ([self gradientType]) {
-	case kDKGradientTypeLinear:
-		shader = [self newLinearShaderForStartingPoint:sp
-											  endPoint:ep];
-		CGContextDrawShading(context, shader);
-		CGShadingRelease(shader);
-		break;
-
-	case kDKGradientTypeRadial:
-		shader = [self newRadialShaderForStartingPoint:sp
-										   startRadius:sr
-											  endPoint:ep
-											 endRadius:er];
-		CGContextDrawShading(context, shader);
-		CGShadingRelease(shader);
-		break;
-
-	default:
-		break;
-	}
+	[self fillStartingAtPoint:sp startRadius:sr endingAtPoint:ep endRadius:er];
 }
 
 #pragma mark -
@@ -994,7 +952,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 - (void)dealloc
 {
 	[self removeAllColors];
-	CGFunctionRelease(m_cbfunc);
 }
 
 - (instancetype)init
@@ -1002,11 +959,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	self = [super init];
 	if (self != nil) {
 		m_colorStops = [[NSMutableArray alloc] init];
-
-		// create the default shader stuff - the shader itself is made when
-		// the fill function is called
-
-		m_cbfunc = makeShaderFunction(self);
 
 		if (m_colorStops == nil) {
 			return nil;
@@ -1066,7 +1018,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	if (self != nil) {
 		[self setColorStops:[coder decodeObjectForKey:@"gradientStops"]];
 		m_extensionData = [[coder decodeObjectForKey:@"extension_data"] mutableCopy];
-		m_cbfunc = makeShaderFunction(self);
 
 		m_gradAngle = [coder decodeDoubleForKey:@"gradientAngle"];
 		m_gradType = [coder decodeIntegerForKey:@"gradientType"];
@@ -1159,12 +1110,9 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	[[self owner] colorStopDidChangeColor:self];
 }
 
-/** @brief Set the alpha of the colour associated with this stop
- @param alpha the alpha to set
- */
 - (void)setAlpha:(CGFloat)alpha
 {
-	[self setColor:[[self color] colorWithAlphaComponent:alpha]];
+	self.color = [self.color colorWithAlphaComponent:alpha];
 }
 
 #pragma mark -
@@ -1242,64 +1190,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 @end
 
 #pragma mark -
-
-#define qUseDirectComponents 1 // this makes a big difference - almost 5x faster
-#define qUseImpCaching 1 // this makes a tiny difference - just 4% faster
-
-static void shaderCallback(void* info, const CGFloat* in, CGFloat* out)
-{
-	// callback function simply vectors the callback to the object, which handles the actual work.
-
-	if (out == NULL || in == NULL)
-		return;
-
-#if qUseDirectComponents
-
-// here we use a number of optimisation tricks to extract maximum performance - caching the function pointer
-// and using raw rgb components and not NSColors
-#if qUseImpCaching
-	static void (*sfunc)(id, SEL, CGFloat, CGFloat*, BOOL) = nil;
-	static SEL ssel = nil;
-
-	if (sfunc == nil) {
-		ssel = @selector(private_colorAtValue:
-								   components:
-								 randomAccess:);
-		sfunc = (void (*)(id, SEL, CGFloat, CGFloat*, BOOL))[DKGradient instanceMethodForSelector : ssel];
-	}
-
-	sfunc((__bridge id)(info), ssel, *in, out, NO);
-#else
-	[(DKGradient*)info private_colorAtValue:*in
-								 components:out
-							   randomAccess:NO];
-#endif
-#else
-	// ol' faithful - very slow but sure.
-
-	DKGradient* gradient = (DKGradient*)info;
-
-	if (gradient != nil) {
-		CGFloat inValue = *in;
-
-		NSColor* Color = [gradient colorAtValue:inValue];
-
-		out[0] = [Color redComponent];
-		out[1] = [Color greenComponent];
-		out[2] = [Color blueComponent];
-		out[3] = [Color alphaComponent];
-	}
-#endif
-}
-
-static CGFunctionRef makeShaderFunction(DKGradient* object)
-{
-	static const CGFloat input_value_range[2] = { 0, 1 };
-	static const CGFloat output_value_ranges[8] = { 0, 1, 0, 1, 0, 1, 0, 1 };
-	static const CGFunctionCallbacks callbacks = { 0, shaderCallback, NULL };
-
-	return CGFunctionCreate((void*)object, 1, input_value_range, 4, output_value_ranges, &callbacks);
-}
 
 static inline double powerMap(double x, double y)
 {

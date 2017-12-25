@@ -41,7 +41,6 @@
 // instead, use double values with tgmath header included
 // If are really worried about the types.
 
-#ifdef __LP64__
 #define _CGFloatFabs(n) fabs(n)
 #define _CGFloatTrunc(n) trunc(n)
 #define _CGFloatLround(n) lround(n)
@@ -50,13 +49,3 @@
 #define _CGFloatExp(n) exp(n)
 #define _CGFloatSqrt(n) sqrt(n)
 #define _CGFloatLog(n) log(n)
-#else
-#define _CGFloatFabs(n) fabs(n)
-#define _CGFloatTrunc(n) trunc(n)
-#define _CGFloatLround(n) lround(n)
-#define _CGFloatFloor(n) floor(n)
-#define _CGFloatCeil(n) ceil(n)
-#define _CGFloatExp(n) exp(n)
-#define _CGFloatSqrt(n) sqrt(n)
-#define _CGFloatLog(n) log(n)
-#endif
