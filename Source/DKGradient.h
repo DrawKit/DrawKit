@@ -191,57 +191,30 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 // setting the angle
 
-/** @brief Sets the gradient's current angle in radians
- @param ang the desired angle in radians
+/** @brief The gradient's current angle in radians.
  */
-- (void)setAngle:(CGFloat)ang;
+@property (nonatomic) CGFloat angle;
 
-/** @brief Returns the gradient's current angle in radians
- @return angle expressed in radians
+/** @brief The gradient's current angle in degrees.
  */
-- (CGFloat)angle;
-
-@property CGFloat angle;
-
-/** @brief Sets the angle of the gradient to the given angle
- @param degrees the desired angle expressed in degrees
- */
-- (void)setAngleInDegrees:(CGFloat)degrees;
-
-/** @brief Returns the gradient's current angle in degrees
- @return angle expressed in degrees
- */
-- (CGFloat)angleInDegrees;
-- (void)setAngleWithoutNotifying:(CGFloat)ang;
-
 @property CGFloat angleInDegrees;
+
+- (void)setAngleWithoutNotifying:(CGFloat)ang;
 
 // setting gradient type, blending and interpolation settings
 
-/** @brief Sets the gradient's basic type
-
- Valid types are: kDKGradientTypeLinear and kDKGradientTypeRadial
- @param gt the type
+/** @brief The gradient's basic type.
+ 
+ Valid types are: \c kDKGradientTypeLinear and \c kDKGradientTypeRadial
  */
-- (void)setGradientType:(DKGradientType)gt;
-- (DKGradientType)gradientType;
-
-- (void)setGradientBlending:(DKGradientBlending)bt;
-/** @brief Gets the blending mode for the gradient
- @return the current blending mode
- */
-- (DKGradientBlending)gradientBlending;
-
 @property DKGradientType gradientType;
+
+/** @brief The blending mode of the gradient.
+ */
 @property (nonatomic) DKGradientBlending gradientBlending;
 
-- (void)setGradientInterpolation:(DKGradientInterpolation)intrp;
-
-/** @brief Returns the interpolation algorithm for the gradient
- @return the current interpolation
+/** @brief The interpolation algorithm of the gradient.
  */
-- (DKGradientInterpolation)gradientInterpolation;
-
 @property DKGradientInterpolation gradientInterpolation;
 
 // swatch images

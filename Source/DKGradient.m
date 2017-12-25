@@ -233,31 +233,25 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return [m_colorStops copy];
 }
 
-static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
-{
-#pragma unused(context)
-
-	CGFloat lp = [lh position];
-	CGFloat rp = [rh position];
-
-	//NSLog(@"positions: %f, %f", lp, rp );
-
-	if (lp < rp)
-		return NSOrderedAscending;
-	else if (lp > rp)
-		return NSOrderedDescending;
-	else
-		return NSOrderedSame;
-}
-
 /** @brief Sorts the Color stops into position order
 
  Stops are sorted in place
  */
 - (void)sortColorStops
 {
-	[m_colorStops sortUsingFunction:cmpColorStops
-							context:NULL];
+	[m_colorStops sortWithOptions:NSSortStable usingComparator:^NSComparisonResult(DKColorStop* lh, DKColorStop* rh) {
+		CGFloat lp = [lh position];
+		CGFloat rp = [rh position];
+		
+		//NSLog(@"positions: %f, %f", lp, rp );
+		
+		if (lp < rp)
+			return NSOrderedAscending;
+		else if (lp > rp)
+			return NSOrderedDescending;
+		else
+			return NSOrderedSame;
+	}];
 }
 
 /** @brief Reverses the order of all the Color stops so "inverting" the gradient
@@ -733,14 +727,6 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 														object:self];
 }
 
-/** @brief Returns the gradient's current angle in radians
- @return angle expressed in radians
- */
-- (CGFloat)angle
-{
-	return m_gradAngle;
-}
-
 @synthesize angle=m_gradAngle;
 
 /** @brief Sets the angle of the gradient to the given angle
@@ -792,13 +778,7 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 	}
 }
 
-/** @brief Returns the gradient's basic type
- @return the gradient's current basic type
- */
-- (DKGradientType)gradientType
-{
-	return m_gradType;
-}
+@synthesize gradientType=m_gradType;
 
 #pragma mark -
 
@@ -843,6 +823,8 @@ static NSInteger cmpColorStops(DKColorStop* lh, DKColorStop* rh, void* context)
 {
 	return m_interp;
 }
+
+@synthesize gradientInterpolation=m_interp;
 
 #pragma mark -
 
