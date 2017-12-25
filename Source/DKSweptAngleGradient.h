@@ -9,7 +9,7 @@
 
 typedef union {
 	unsigned int pixel;
-	struct
+	struct pix_units
 		{
 		unsigned char a;
 		unsigned char r;
@@ -29,11 +29,8 @@ typedef union {
 	BOOL m_ditherColours;
 }
 
-+ (DKGradient*)sweptAngleGradient;
-+ (DKGradient*)sweptAngleGradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2;
-
-- (void)setNumberOfAngularSegments:(NSInteger)ns;
-- (NSInteger)numberOfAngularSegments;
++ (DKSweptAngleGradient*)sweptAngleGradient;
++ (DKSweptAngleGradient*)sweptAngleGradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2;
 
 @property NSInteger numberOfAngularSegments;
 

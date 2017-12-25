@@ -39,16 +39,6 @@
 
 #pragma mark -
 
-- (void)setNumberOfAngularSegments:(NSInteger)ns
-{
-	m_sa_segments = ns;
-}
-
-- (NSInteger)numberOfAngularSegments
-{
-	return m_sa_segments;
-}
-
 - (void)preloadColours
 {
 	// creates a cache of colours representing the complete gradient preformatted in the pixel format of the image. This cache
