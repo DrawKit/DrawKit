@@ -616,6 +616,21 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return sGradientColorSpace;
 }
 
+- (NSGradient*)newNSGradient {
+	NSMutableArray *colArr = [[NSMutableArray alloc] initWithCapacity:m_colorStops.count];
+	CGFloat * stopsArr = calloc(m_colorStops.count, sizeof(CGFloat));
+	NSInteger i = 0;
+	for (DKColorStop *stop in m_colorStops) {
+		[colArr addObject:stop.color];
+		stopsArr[i++] = stop.position;
+	}
+	
+	NSGradient *grad = [[NSGradient alloc] initWithColors:colArr atLocations:stopsArr colorSpace:[NSColorSpace genericRGBColorSpace]];
+	free(stopsArr);
+
+	return grad;
+}
+
 /** @brief Sets up the CGShader for doing a linear gradient fill
 
  Caller is responsible for releasing the returned ref
@@ -645,6 +660,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 		  endRadius:(CGFloat)er
 {
 	CGShadingRef shader;
+	NSGradient *gradient = [self newNSGradient];
 
 	switch ([self gradientType]) {
 	case kDKGradientTypeLinear:
@@ -670,18 +686,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 #pragma mark -
 
-/** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
-
- While intended for internal use, this function can be called at any time if you wish
- the private version here is called internally. It does fewer checks and returns raw component
- values for performance. do not use from external code.
- @param val the proportion of the gradient ramp from start (0) to finish (1.0) 
- @return the Color corresponding to that position
- */
-
-/** @brief Returns the Color associated with this stop
- @return a Color value
- */
 - (NSColor*)colorAtValue:(CGFloat)val
 {
 	// public method to get colour at any point from 0->1 across the gradient. Note that this methiod allows arbitrary
@@ -814,14 +818,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientDidChange
 															object:self];
 	}
-}
-
-/** @brief Returns the interpolation algorithm for the gradient
- @return the current interpolation
- */
-- (DKGradientInterpolation)gradientInterpolation
-{
-	return m_interp;
 }
 
 @synthesize gradientInterpolation=m_interp;
@@ -1078,8 +1074,8 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 	[grad removeAllColors];
 
-	for (id stop in [self colorStops]) {
-		id stopCopy = [stop copy];
+	for (DKColorStop *stop in [self colorStops]) {
+		DKColorStop *stopCopy = [stop copy];
 		[grad addColorStop:stopCopy];
 	}
 

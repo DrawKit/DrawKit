@@ -184,8 +184,13 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @return the Color corresponding to that position
  */
 
-/** @brief Returns the Color associated with this stop
- @return a Color value
+/** @brief Returns the computed Color for the gradient ramp expressed as a value from 0 to 1.0
+ 
+ While intended for internal use, this function can be called at any time if you wish
+ the private version here is called internally. It does fewer checks and returns raw component
+ values for performance. do not use from external code.
+ @param val the proportion of the gradient ramp from start (0) to finish (1.0)
+ @return the Color corresponding to that position
  */
 - (NSColor*)colorAtValue:(CGFloat)val;
 
@@ -207,7 +212,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  
  Valid types are: \c kDKGradientTypeLinear and \c kDKGradientTypeRadial
  */
-@property DKGradientType gradientType;
+@property (nonatomic) DKGradientType gradientType;
 
 /** @brief The blending mode of the gradient.
  */
@@ -215,7 +220,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 /** @brief The interpolation algorithm of the gradient.
  */
-@property DKGradientInterpolation gradientInterpolation;
+@property (nonatomic) DKGradientInterpolation gradientInterpolation;
 
 // swatch images
 
@@ -247,13 +252,10 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 - (instancetype)initWithColor:(NSColor*)aColor at:(CGFloat)pos NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-/** @brief Set the Color associated with this stop
+/** @brief The Color associated with this stop.
  
  Colors are converted to calibrated RGB to permit shading calculations
- @param aColor the Color to set
  */
-- (void)setColor:(NSColor*)aColor;
-
 @property (nonatomic, strong) NSColor *color;
 
 /** @brief Set the alpha of the colour associated with this stop
@@ -261,18 +263,10 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  */
 - (void)setAlpha:(CGFloat)alpha;
 
-/** @brief Get the stop's relative position
- @return a value between 0 and 1
- */
-- (CGFloat)position;
-
-/** @brief Set the stop's relative position
+/** @brief The stop's relative position.
  
- Value is constrained between 0.0 and 1.0
- @param pos a vlue between 0 and 1
+ Value is constrained between 0.0 and 1.0.
  */
-- (void)setPosition:(CGFloat)pos;
-
 @property (nonatomic) CGFloat position;
 
 @end
