@@ -83,7 +83,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
  @param degrees angle in degrees
  @return gradient object
  */
-+ (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2 type:(NSInteger)gt angle:(CGFloat)degrees
++ (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2 type:(DKGradientType)gt angle:(CGFloat)degrees
 {
 	DKGradient* grad = [[DKGradient alloc] init];
 
@@ -581,9 +581,9 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 	//CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 	[self fillStartingAtPoint:sp
-			startRadius:sr
-		  endingAtPoint:ep
-			  endRadius:er];
+				  startRadius:sr
+				endingAtPoint:ep
+					endRadius:er];
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 
 #if qLogPerformanceMetrics

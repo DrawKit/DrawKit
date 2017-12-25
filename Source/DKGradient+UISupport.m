@@ -39,7 +39,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.90
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -68,7 +68,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.92
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -97,7 +97,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.77
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -116,7 +116,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.95
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -135,7 +135,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.90
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -154,7 +154,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.75
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -173,7 +173,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.83
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -191,7 +191,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.92
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }
@@ -210,7 +210,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.60
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
 	return grad;
 }

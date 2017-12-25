@@ -65,7 +65,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @param degrees angle in degrees
  @return gradient object
  */
-+ (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2 type:(NSInteger)gt angle:(CGFloat)degrees;
++ (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2 type:(DKGradientType)gt angle:(CGFloat)degrees;
 
 // modified copies:
 
@@ -175,9 +175,9 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @param er for radial fills, the radius of the end of the gradient
  */
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp
-		startRadius:(CGFloat)sr
-	  endingAtPoint:(NSPoint)ep
-		  endRadius:(CGFloat)er;
+	 startRadius:(CGFloat)sr
+   endingAtPoint:(NSPoint)ep
+	   endRadius:(CGFloat)er;
 
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
 		startRadius:(CGFloat)sr
