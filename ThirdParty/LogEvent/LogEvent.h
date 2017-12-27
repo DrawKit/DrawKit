@@ -179,7 +179,7 @@ extern "C" {
 
 /** @brief Override to use a nib name other than "Logging".
  */
-- (NSNibName)windowNibName;
+@property(nullable, copy, readonly) NSNibName windowNibName;
 
 - (IBAction)setZombiesAction:(nullable id) sender;
 

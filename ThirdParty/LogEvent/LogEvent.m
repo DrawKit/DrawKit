@@ -369,8 +369,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	NSMutableDictionary* eventTypes = [[NSMutableDictionary alloc] initWithCapacity:kNumStandardEventTypes];
 	
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-	unsigned i = 0;
-	for ( ; i < kNumStandardEventTypes; ++i)
+	for (NSUInteger i = 0 ; i < kNumStandardEventTypes; ++i)
 	{
 		NSString* eventKey = nil;
 		NSButton* eventButton = nil;
