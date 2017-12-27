@@ -35,6 +35,7 @@
 
 #import "LogEvent.h"
 #import <Foundation/NSDebug.h>
+#import <AppKit/AppKit.h>
 
 #pragma mark Constants (Not Localized)
        NSString*const kWheneverEvent		= @"LogWhenever";
@@ -584,7 +585,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 
 - (NSUInteger)retainCount
 {
-	return UINT_MAX; // Denotes an object, such as a singleton, that cannot be released.
+	return NSUIntegerMax; // Denotes an object, such as a singleton, that cannot be released.
 }
 
 - (oneway void)release

@@ -76,7 +76,8 @@
 #else /* defined(qUseLogEvent) */
 
 
-#import <AppKit/AppKit.h>
+#import <AppKit/NSWindowController.h>
+@class NSButton;
 
 
 #pragma mark -
