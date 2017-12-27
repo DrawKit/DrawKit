@@ -366,7 +366,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 #pragma mark -
 - (NSDictionary*)newEventTypes
 {
-	NSMutableDictionary* eventTypes = [[[NSMutableDictionary alloc] initWithCapacity:kNumStandardEventTypes] autorelease];
+	NSMutableDictionary* eventTypes = [[NSMutableDictionary alloc] initWithCapacity:kNumStandardEventTypes];
 	
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
 	unsigned i = 0;
@@ -456,7 +456,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 		[eventTypes setObject:eventButton forKey:eventKey];
 	}
 	// Method name begins with "new"; clients are responsible for releasing.
-	return [[NSDictionary alloc] initWithDictionary:eventTypes];
+	return [[NSDictionary alloc] initWithDictionary:[eventTypes autorelease]];
 }
 
 - (NSArray*)eventTypeNames

@@ -79,14 +79,18 @@
 #import <AppKit/NSWindowController.h>
 @class NSButton;
 
+NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark -
 #pragma mark Constants (Not Localized)
+/** @brief event types for conditional logging
+ */
 typedef NSString *LCEventType NS_EXTENSIBLE_STRING_ENUM;
 	// Standard event types for conditional logging
-extern LCEventType const kWheneverEvent; // I.e., Whenever we are logging anything
-	// Useful for logging an event that is always of interest when debugging, but not of interest when not debugging. For example, a caught exception or other failure of some kind.
-	// You will still use NSLog() to *always* log an event, regardless of whether you are debugging or not.
+/** I.e., Whenever we are logging anything
+ Useful for logging an event that is always of interest when debugging, but not of interest when not debugging. For example, a caught exception or other failure of some kind.
+ You will still use \c NSLog() to *always* log an event, regardless of whether you are debugging or not.*/
+extern LCEventType const kWheneverEvent;
 
 extern LCEventType const kUserEvent;     //!< E.g., IBActions and other user input
 extern LCEventType const kScriptEvent;   //!< E.g., Any reaction to an AppleScript event
@@ -122,12 +126,15 @@ extern NSString* const kUndoEvent;		//!< pertains to undo operations
 extern "C" {
 #endif
 
+	/** Returns \c YES when the message was actually logged out; \c NO otherwise. Useful for attempting to log for more than one type, but not <code>kWheneverEvent</code>.
+	 */
 	BOOL LogEvent(LCEventType eventType, NSString* format, ...) NS_FORMAT_FUNCTION(2,3);
-	// Returns YES when the message was actually logged out; NO otherwise. Useful for attempting to log for more than one type, but not kWheneverEvent.
 
 	BOOL IsAnyEventTypeBeingLogged(void);
 	void LogAppNameAndVersion(void);
-	void LogLoggingState(NSArray<LCEventType>* eventTypeNames); // Which also logs app name & version
+	/** @brief Which also logs app name & version.
+	 */
+	void LogLoggingState(NSArray<LCEventType>* eventTypeNames);
 
 #ifdef __cplusplus
 }
@@ -138,7 +145,7 @@ extern "C" {
 @interface LoggingController : NSWindowController
 {
 @private
-	NSDictionary*		mEventTypes;
+	NSDictionary<LCEventType,NSButton*>*mEventTypes;
 	BOOL				mIsNibLoaded;
 	
 	IBOutlet NSButton*	mUserActions;
@@ -155,24 +162,30 @@ extern "C" {
 	IBOutlet NSButton*	mZombiesCheckbox;
 }
 
-+ (LoggingController*)sharedLoggingController;
 @property (class, readonly, retain) LoggingController *sharedLoggingController;
 
 - (void)showLoggingWindow;
 
-- (NSDictionary*)newEventTypes NS_REQUIRES_SUPER; //!< Override if you wish to add more eventTypes; but message super.
-- (NSArray<LCEventType>*)eventTypeNames; //!< An array of the event type names (NSStrings).
+/** @brief Override if you wish to add more eventTypes; but message super.
+ */
+- (NSDictionary<LCEventType,NSButton*>*)newEventTypes NS_REQUIRES_SUPER NS_RETURNS_RETAINED;
+/** @brief An array of the event type names (NSStrings).
+ */
+@property (readonly, copy) NSArray<LCEventType> *eventTypeNames;
 
 /** All logging IBOutlets (NSButtons) have this as their action.
  */
-- (IBAction)logStateChanged:(id)sender;
+- (IBAction)logStateChanged:(nullable id)sender;
 
+/** @brief Override to use a nib name other than "Logging".
+ */
+- (NSNibName)windowNibName;
 
-- (NSString*)windowNibName; // Override to use a nib name other than "Logging".
-
-- (IBAction)setZombiesAction:(id) sender;
+- (IBAction)setZombiesAction:(nullable id) sender;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif /* defined(qUseLogEvent) */
 
