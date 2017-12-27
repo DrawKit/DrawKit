@@ -2094,7 +2094,7 @@ static NSRect s_oldBounds;
 	angle = [self angleInDegrees] * 10;
 	offset = [self offset];
 
-	cd ^= roundtol(loc.x) ^ roundtol(loc.y) ^ roundtol(size.width) ^ roundtol(size.height) ^ roundtol(angle) ^ roundtol(offset.width) ^ roundtol(offset.height);
+	cd ^= lround(loc.x) ^ lround(loc.y) ^ lround(size.width) ^ lround(size.height) ^ lround(angle) ^ lround(offset.width) ^ lround(offset.height);
 
 	return cd;
 }

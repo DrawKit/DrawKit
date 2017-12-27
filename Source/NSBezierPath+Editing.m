@@ -379,7 +379,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 			p[1] = p[2] = NSZeroPoint;
 			element = [self elementAtIndex:i
 						  associatedPoints:p];
-			ec = ((NSUInteger)element << 10) ^ roundtol(p[0].x) ^ roundtol(p[1].x) ^ roundtol(p[2].x) ^ roundtol(p[0].y) ^ roundtol(p[1].y) ^ roundtol(p[2].y);
+			ec = ((NSUInteger)element << 10) ^ lround(p[0].x) ^ lround(p[1].x) ^ lround(p[2].x) ^ lround(p[0].y) ^ lround(p[1].y) ^ lround(p[2].y);
 			cs ^= ec;
 		}
 	}

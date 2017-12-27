@@ -273,8 +273,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 		{
 			NSLog(@"***Failed to load %@.nib", nibName);
 			NSBeep();
-		}else
-		{
+		} else {
 			// Setup the window
 			NSWindow* window = [self window];
 			
@@ -446,7 +445,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 				break;
 			default:
-				NSAssert1(NO, @"Encountered invalid switch case (%u)", i);
+				NSAssert(NO, @"Encountered invalid switch case (%lu)", (NSUInteger)i);
 			break;
 		}
 		NSAssert(eventKey != nil, @"Expected valid eventKey");
