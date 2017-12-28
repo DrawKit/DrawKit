@@ -21,7 +21,7 @@
 	SEL mSelector;
 }
 
-+ (DKSelectorWrapper*)wrapperWithSelector:(nonnull SEL)aSelector;
++ (nonnull DKSelectorWrapper*)wrapperWithSelector:(nonnull SEL)aSelector;
 @property (readonly, nonnull) SEL selector;
 
 @end
@@ -781,7 +781,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 - (NSString *)debugDescription
 {
-	return [NSString stringWithFormat:@"<%@ %p> %@", self.className, self, NSStringFromSelector(mSelector)];
+	return [NSString stringWithFormat:@"<%@ %p>: %@", self.className, self, NSStringFromSelector(mSelector)];
 }
 
 @end
