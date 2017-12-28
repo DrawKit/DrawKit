@@ -34,8 +34,8 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 /** @brief A DKGradient encapsulates gradient/shading drawing.
 */
 @interface DKGradient : GCObservableObject <NSCoding, NSCopying> {
-	NSMutableArray* m_colorStops; // color stops
-	id m_extensionData; // additional supplementary data
+	NSMutableArray<DKColorStop*>* m_colorStops; // color stops
+	NSMutableDictionary *m_extensionData; // additional supplementary data
 	CGFloat m_gradAngle; // linear angle in radians
 	DKGradientType m_gradType; // type
 	DKGradientBlending m_blending; // method to blend colours
@@ -201,11 +201,11 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 // setting the angle
 
-/** @brief The gradient's current angle in radians.
+/** @brief The gradient's angle in radians.
  */
 @property (nonatomic) CGFloat angle;
 
-/** @brief The gradient's current angle in degrees.
+/** @brief The gradient's angle in degrees.
  */
 @property CGFloat angleInDegrees;
 

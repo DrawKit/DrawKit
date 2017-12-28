@@ -28,10 +28,10 @@
 struct intersectionInfo {
     double leftParameter, rightParameter;
     double leftParameterDistance, rightParameterDistance;
-    enum OAIntersectionAspect leftEntryAspect, leftExitAspect;
+    OAIntersectionAspect leftEntryAspect, leftExitAspect;
 };
 
-typedef struct {
+typedef struct OAdPoint {
     double x;
     double y;
 } OAdPoint;

@@ -76,13 +76,42 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 // setting class defaults:
 
+/** The class default span colour.
+ */
 @property (class, retain, null_resettable) NSColor *defaultSpanColour;
+/** @brief The class default division colour.
+ */
 @property (class, retain, null_resettable) NSColor *defaultDivisionColour;
+/** @brief The class default major colour.
+ */
 @property (class, retain, null_resettable) NSColor *defaultMajorColour;
+/** @brief Set the three class default colours based on a single theme colour.
+ 
+ The theme colour directly sets the span colour, the division colour is a lighter version, and the
+ major colour a darker version.
+ @param colour a colour
+ */
 + (void)setDefaultGridThemeColour:(NSColor*)colour;
 
+/** @brief Return a grid layer with default metric settings
+ 
+ The default metric grid has a 10mm span, 5 divisions per span (2mm) and 10 spans per major (100mm)
+ and the drawing units are "Centimetres"
+ @return a grid layer, autoreleased
+ */
 + (instancetype)standardMetricGridLayer;
+/** @brief Return a grid layer with default imperial settings
+ @return a grid layer, autoreleased
+ and the drawing units are "Inches"
+ */
 + (instancetype)standardImperialGridLayer;
+/** @brief Return a grid layer with default imperial PCB (printed circuit board) settings
+ 
+ The default PCB grid has a 1 inch span, 10 divisions per span (0.1") and 2 spans per major (2")
+ and the drawing units are "Inches". This grid is suitable for classic printed circuit layout
+ based on a 0.1" grid pitch.
+ @return a grid layer, autoreleased
+ */
 + (instancetype)standardImperialPCBGridLayer;
 
 // setting up the grid
@@ -90,8 +119,14 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (void)setMetricDefaults;
 - (void)setImperialDefaults;
 
-//! using the grid as the master grid for a drawing
-- (BOOL)isMasterGrid;
+// using the grid as the master grid for a drawing
+
+/** @brief Is this grid a master for the drawing?
+ 
+ By default the grid is a master. Typically a drawing will only use one grid, but some specialised
+ applications may wish to have other grids as well. To avoid confusion, those grids should arrange
+ to return \c NO here so that they are not used by mistake for general purpose drawing.
+ */
 @property (readonly, getter=isMasterGrid) BOOL masterGrid;
 
 // one-stop shop for setting grid, drawing and rulers in one hit:
@@ -109,7 +144,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @param steps the ruler step-up cycle (see NSRulerView), must be  1
  */
 - (void)setDistanceForUnitSpan:(CGFloat)conversionFactor
-				  drawingUnits:(DKDrawingUnit)units
+				  drawingUnits:(DKDrawingUnits)units
 						  span:(CGFloat)span
 					 divisions:(NSUInteger)divs
 						majors:(NSUInteger)majors
@@ -117,53 +152,37 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 // other settings:
 
-@property (readonly) CGFloat spanDistance;
-@property (readonly) CGFloat divisionDistance;
-@property (nonatomic) NSPoint zeroPoint;
-@property (readonly) NSUInteger divisions;
-@property (readonly) NSUInteger majors;
-@property (readonly) CGFloat spanMultiplier;
 
 /** @brief Returns the actual distance of one span in points
  
  The result is the unit distance.
  @return a float value
  */
-- (CGFloat)spanDistance;
+@property (readonly) CGFloat spanDistance;
 
-/** @brief Returns the actual distance, in points, between each division
- @return the distance in quartz points for one division.
- */
-- (CGFloat)divisionDistance;
-
-/** @brief Sets the location within the drawing where the grid considers zero to be (i.e. coordinate 0,0)
+/** @brief Returns the actual distance, in points, between each division.
  
- By default this is set to the upper, left corner of the drawing's interior
- @param zero a point in the drawing where zero is
+ the distance is in quartz points.
  */
-- (void)setZeroPoint:(NSPoint)zero;
+@property (readonly) CGFloat divisionDistance;
 
-/** @brief Returns the location within the drawing where the grid considers zero to be (i.e. coordinate 0,0)
+/** @brief The location within the drawing where the grid considers zero to be (i.e. coordinate 0,0).
  
- By default this is set to the upper, left corner of the drawing's interior
- @return a point in the drawing where zero is
- */
-- (NSPoint)zeroPoint;
+ By default this is set to the upper, left corner of the drawing's interior.
+*/
+@property (nonatomic) NSPoint zeroPoint;
 
-/** @brief Returns the number of divisions per span
- @return an integer value > 1
+/** @brief The number of divisions per span, an integer value > 1.
  */
-- (NSUInteger)divisions;
+@property (readonly) NSUInteger divisions;
 
-/** @brief Returns the number of spans per major
- @return an integer value
+/** @brief The number of spans per major.
  */
-- (NSUInteger)majors;
+@property (readonly) NSUInteger majors;
 
-/** @brief Returns the number of units of basic distance for one span
- @return a float value
+/** @brief The number of units of basic distance for one span.
  */
-- (CGFloat)spanMultiplier;
+@property (readonly) CGFloat spanMultiplier;
 
 // hiding elements of the grid
 
@@ -180,21 +199,12 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 // managing rulers and margins
 
+/** @brief The ruler step-up cycle.
+ 
+ The value must be > 1.
+ See \c NSRulerView for details about the ruler step-up cycle
+ */
 @property (nonatomic) NSUInteger rulerSteps;
-
-/** @brief Sets the ruler step-up cycle
- 
- See NSRulerView for details about the ruler step-up cycle
- @param steps an integer value that must be  1
- */
-- (void)setRulerSteps:(NSUInteger)steps;
-
-/** @brief Returns the ruler step-up cycle in use
- 
- See NSRulerView for details about the ruler step-up cycle
- @return an integer value > 1
- */
-- (NSUInteger)rulerSteps;
 
 /** @brief Set up the rulers of all views that have them so that they agree with the current grid
  
@@ -225,15 +235,15 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
-
 @property (nonatomic, strong) NSColor *spanColour;
+
 /**
  @brief the colour used to draw the divisions.
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
-
 @property (nonatomic, strong) NSColor *divisionColour;
+
 /**
  @brief The colour used to draw the majors.
  
@@ -241,40 +251,6 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  part of the grid, but it's up to you.
  */
 @property (nonatomic, strong) NSColor *majorColour;
-
-/** @brief Sets the colour used to draw the spans
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you. see setGridThemeColour:
- @param colour a colour
- */
-- (void)setSpanColour:(NSColor*)colour;
-
-/** @brief The colour used to draw the spans
- 
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you.
- @return a colour
- */
-- (NSColor*)spanColour;
-
-/** @brief Sets the colour used to draw the divisions
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you. see setGridThemeColour:
- @param colour a colour
- */
-- (void)setDivisionColour:(NSColor*)colour;
-- (NSColor*)divisionColour;
-
-/** @brief Sets the colour used to draw the majors
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you. see setGridThemeColour:
- @param colour a colour
- */
-- (void)setMajorColour:(NSColor*)colour;
-- (NSColor*)majorColour;
 
 /** @brief Sets the colours used to draw the grid as a whole
 

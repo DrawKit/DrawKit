@@ -93,12 +93,6 @@ static NSColor* sMajorColour = nil;
 	return sMajorColour;
 }
 
-/** @brief Set the three class default colours based on a single theme colour
-
- The theme colour directly sets the span colour, the division colour is a lighter version and the
- major colour a darker version.
- @param colour a colour
- */
 + (void)setDefaultGridThemeColour:(NSColor*)colour
 {
 	// sets up the three seperate grid colours based on the one theme colour passed. The colour itself is used for the span, a darker
@@ -111,22 +105,12 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark -
 
-/** @brief Return a grid layer with default metric settings
-
- The default metric grid has a 10mm span, 5 divisions per span (2mm) and 10 spans per major (100mm)
- and the drawing units are "Centimetres"
- @return a grid layer, autoreleased
- */
 + (DKGridLayer*)standardMetricGridLayer
 {
 	DKGridLayer* gl = [[self alloc] init];
 	return gl;
 }
 
-/** @brief Return a grid layer with default imperial settings
- @return a grid layer, autoreleased
- and the drawing units are "Inches"
- */
 + (DKGridLayer*)standardImperialGridLayer
 {
 	DKGridLayer* gl = [[self alloc] init];
@@ -134,18 +118,11 @@ static NSColor* sMajorColour = nil;
 	return gl;
 }
 
-/** @brief Return a grid layer with default imperial PCB (printed circuit board) settings
-
- The default PCB grid has a 1 inch span, 10 divisions per span (0.1") and 2 spans per major (2")
- and the drawing units are "Inches". This grid is suitable for classic printed circuit layout
- based on a 0.1" grid pitch.
- @return a grid layer, autoreleased
- */
 + (DKGridLayer*)standardImperialPCBGridLayer
 {
 	DKGridLayer* gl = [[self alloc] init];
 	[gl setDistanceForUnitSpan:kDKGridDrawingLayerImperialInterval
-				  drawingUnits:DKDrawingUnitInches
+				  drawingUnits:DKDrawingUnitsInches
 						  span:1.0
 					 divisions:10
 						majors:2
@@ -164,7 +141,7 @@ static NSColor* sMajorColour = nil;
 - (void)setMetricDefaults
 {
 	[self setDistanceForUnitSpan:kDKGridDrawingLayerMetricInterval
-					drawingUnits:DKDrawingUnitCentimetres
+					drawingUnits:DKDrawingUnitsCentimetres
 							span:1.0
 					   divisions:5
 						  majors:10
@@ -177,37 +154,18 @@ static NSColor* sMajorColour = nil;
 - (void)setImperialDefaults
 {
 	[self setDistanceForUnitSpan:kDKGridDrawingLayerImperialInterval
-					drawingUnits:DKDrawingUnitInches
+					drawingUnits:DKDrawingUnitsInches
 							span:1.0
 					   divisions:8
 						  majors:4
 					  rulerSteps:2];
 }
 
-/** @brief Is this grid a master for the drawing?
-
- By default the grid is a master. Typically a drawing will only use one grid, but some specialised
- applications may wish to have other grids as well. To avoid confusion, those grids should arrange
- to return NO here so that they are not used by mistake for general purpose drawing.
- @return YES
- */
 - (BOOL)isMasterGrid
 {
 	return YES;
 }
 
-/** @brief High-level method to set up the grid in its entirety with one method
-
- This also sets the drawing's setDrawingUnits:unitToPointsConversionFactor: method, so should be
- attached views so that there is a general agreement between all these parts. If the layer is locked
- this does nothing.
- @param conversionFactor the distance in points represented by a single span unit
- @param units a string giving the user-readable full name of the drawing units
- @param span the span distance in grid coordinates (typically 1.0)
- @param divs> the number of divisions per span, must be  1
- @param majors the number of spans per major
- @param steps> the ruler step-up cycle (see NSRulerView), must be  1
- */
 - (void)setDistanceForUnitSpan:(CGFloat)conversionFactor
 				  drawingUnits:(NSString*)units
 						  span:(CGFloat)span
@@ -246,9 +204,6 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark -
 
-/** @brief Returns the actual distance, in points, between each division
- @return the distance in quartz points for one division.
- */
 - (CGFloat)divisionDistance
 {
 	return ([self spanDistance] * mSpanMultiplier) / m_divisionsPerSpan;
@@ -276,11 +231,6 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark - getting grid info
 
-/** @brief Returns the actual distance of one span in points
-
- The result is the unit distance.
- @return a float value
- */
 - (CGFloat)spanDistance
 {
 	return [[self drawing] unitToPointsConversionFactor];
@@ -946,7 +896,7 @@ static NSColor* sMajorColour = nil;
 
  This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
  It does not prevent code from directly removing the layer.
- @return NO - typically grid layers shouldn't be deleted
+ @return \c NO - typically grid layers shouldn't be deleted
  */
 - (BOOL)layerMayBeDeleted
 {

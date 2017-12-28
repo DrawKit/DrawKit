@@ -30,8 +30,7 @@
 
 void OACGAddRoundedRect(CGContextRef context, NSRect rect, CGFloat topLeft, CGFloat topRight, CGFloat bottomLeft, CGFloat bottomRight);
 
-enum OAIntersectionAspect
-{
+typedef NS_ENUM(NSInteger, OAIntersectionAspect) {
     intersectionEntryLeft		= -1,	// Other path crosses from left to right
     intersectionEntryAt			= 0,    // Collinear or osculating
     intersectionEntryRight		= 1,	// Other path crosses from right to left
@@ -47,10 +46,8 @@ typedef struct OABezierPathPosition
 }
 OABezierPathPosition;
 
-typedef struct
-{
-    struct OABezierPathIntersectionHalf
-    {
+typedef struct OABezierPathIntersection {
+    struct OABezierPathIntersectionHalf {
         NSBezierPathSegmentIndex segment;
         double parameter;
         double parameterDistance;
@@ -58,11 +55,9 @@ typedef struct
         // So 'firstAspect' is the aspect of the other line where it crosses us at (parameter), and 'secondAspect' is the aspect at (parameter.parameterDistance).
         
         enum OAIntersectionAspect firstAspect, secondAspect;
-    }
-    left, right;
+    } left, right;
     NSPoint location;
-}
-OABezierPathIntersection;
+} OABezierPathIntersection;
 
 struct OABezierPathIntersectionList
 {
@@ -136,19 +131,17 @@ void				splitBezierCurveTo(const NSPoint *c, CGFloat t, NSPoint *l, NSPoint *r);
 
 // let's use a type for these structs - untyped structs are a PITA!
 
-typedef struct
-{
-    NSBezierPath *pathBeingWalked;      // The NSBezierPath we're iterating through
-    NSInteger elementCount;                   // [pathBeingWalked elementCount]
-    NSPoint startPoint;                 // first point of this subpath, for closepath
-    NSBezierPathElement what;           // the type of the current segment/element
-    NSPoint points[4];                  // point[0] is currentPoint (derived from previous element)
-    NSInteger currentElt;                     // index into pathBeingWalked of currently used element
-    BOOL possibleImplicitClosepath;     // Fake up a closepath if needed?
+typedef struct subpathWalkingState {
+    NSBezierPath *pathBeingWalked;      //!< The NSBezierPath we're iterating through
+    NSInteger elementCount;             //!< [pathBeingWalked elementCount]
+    NSPoint startPoint;                 //!< first point of this subpath, for closepath
+    NSBezierPathElement what;           //!< the type of the current segment/element
+    NSPoint points[4];                  //!< point[0] is currentPoint (derived from previous element)
+    NSInteger currentElt;               //!< index into pathBeingWalked of currently used element
+    BOOL possibleImplicitClosepath;     //!< Fake up a closepath if needed?
     
     // Note that if currentElt >= elementCount, then 'what' may be a faked-up closepath or other element not actually found in the NSBezierPath.
-}
-subpathWalkingState;
+} subpathWalkingState;
 
 @interface NSBezierPath (PrivateOAExtensions)
 

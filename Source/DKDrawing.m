@@ -66,17 +66,17 @@ NSString* kDKDrawingUnitAbbreviationsUserDefault = @"kDKDrawingUnitAbbreviations
 
 // drawing units:
 
-NSString *const DKDrawingUnitInches = @"inches";
-NSString *const DKDrawingUnitMillimetres = @"millimetres";
-NSString *const DKDrawingUnitCentimetres = @"centimetres";
-NSString *const DKDrawingUnitMetres = @"metres";
-NSString *const DKDrawingUnitKilometres = @"kilometres";
-NSString *const DKDrawingUnitPicas = @"picas";
-NSString *const DKDrawingUnitPixels = @"pixels";
-NSString *const DKDrawingUnitFeet = @"feet";
-NSString *const DKDrawingUnitYards = @"yards";
-NSString *const DKDrawingUnitPoints = @"points";
-NSString *const DKDrawingUnitMiles = @"miles";
+NSString *const DKDrawingUnitsInches = @"inches";
+NSString *const DKDrawingUnitsMillimetres = @"millimetres";
+NSString *const DKDrawingUnitsCentimetres = @"centimetres";
+NSString *const DKDrawingUnitsMetres = @"metres";
+NSString *const DKDrawingUnitsKilometres = @"kilometres";
+NSString *const DKDrawingUnitsPicas = @"picas";
+NSString *const DKDrawingUnitsPixels = @"pixels";
+NSString *const DKDrawingUnitsFeet = @"feet";
+NSString *const DKDrawingUnitsYards = @"yards";
+NSString *const DKDrawingUnitsPoints = @"points";
+NSString *const DKDrawingUnitsMiles = @"miles";
 
 #pragma mark Static vars
 
@@ -326,17 +326,17 @@ static id sDearchivingHelper = nil;
 	NSDictionary* abbrevs = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault];
 
 	if (abbrevs == nil) {
-		abbrevs = @{DKDrawingUnitInches: @"in.",
-					DKDrawingUnitMillimetres: @"mm",
-					DKDrawingUnitCentimetres: @"cm",
-					DKDrawingUnitMetres: @"m",
-					DKDrawingUnitKilometres: @"km",
-					DKDrawingUnitPicas: @"pc",
-					DKDrawingUnitPixels: @"px",
-					DKDrawingUnitFeet: @"ft.",
-					DKDrawingUnitYards: @"yd.",
-					DKDrawingUnitPoints: @"pt",
-					DKDrawingUnitMiles: @"mi"};
+		abbrevs = @{DKDrawingUnitsInches: @"in.",
+					DKDrawingUnitsMillimetres: @"mm",
+					DKDrawingUnitsCentimetres: @"cm",
+					DKDrawingUnitsMetres: @"m",
+					DKDrawingUnitsKilometres: @"km",
+					DKDrawingUnitsPicas: @"pc",
+					DKDrawingUnitsPixels: @"px",
+					DKDrawingUnitsFeet: @"ft.",
+					DKDrawingUnitsYards: @"yd.",
+					DKDrawingUnitsPoints: @"pt",
+					DKDrawingUnitsMiles: @"mi"};
 
 		[[NSUserDefaults standardUserDefaults] setObject:abbrevs
 												  forKey:kDKDrawingUnitAbbreviationsUserDefault];
@@ -429,7 +429,7 @@ static id sDearchivingHelper = nil;
 						 top:m
 					   right:m
 					  bottom:m];
-		[self setDrawingUnits:DKDrawingUnitCentimetres
+		[self setDrawingUnits:DKDrawingUnitsCentimetres
 			unitToPointsConversionFactor:kDKGridDrawingLayerMetricInterval];
 		mControllers = [[NSMutableSet alloc] init];
 

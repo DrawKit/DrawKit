@@ -14,7 +14,6 @@
 		   slideBack:(BOOL)slideBack
 			   event:(NSEvent*)event;
 
-/**  */
 - (void)dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent*)event;
 
 - (void)dragColor:(NSColor*)color swatchSize:(NSSize)size slideBack:(BOOL)slideBack event:(NSEvent*)event;
@@ -46,12 +45,19 @@
 @property CGFloat radialStartingRadius;
 @property CGFloat radialEndingRadius;
 
-- (BOOL)hasRadialSettings;
+/** return \c YES if there are valid radial settings.
+ */
 @property (readonly) BOOL hasRadialSettings;
 
+/** @brief Given a point \c p within \c rect this returns it mapped to a \c 0..1 interval.
+ */
 - (NSPoint)mapPoint:(NSPoint)p fromRect:(NSRect)rect;
+/** @brief Given a point \c p in \c 0..1 space, maps it to <code>rect</code>.
+ */
 - (NSPoint)mapPoint:(NSPoint)p toRect:(NSRect)rect;
 
+/** given a key to an old NSPoint based struct, this converts it to the new archiver-compatible storage
+ */
 - (void)convertOldKey:(NSString*)key;
 - (void)convertOldKeys;
 

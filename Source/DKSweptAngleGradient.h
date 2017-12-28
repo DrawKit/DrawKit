@@ -7,7 +7,7 @@
 #import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
-typedef union {
+typedef union pix_int {
 	unsigned int pixel;
 	struct pix_units
 		{

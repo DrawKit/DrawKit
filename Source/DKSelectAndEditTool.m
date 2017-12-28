@@ -219,8 +219,7 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 
 #define USE_CF_APPLIER_FOR_DRAGGING 1
 
-typedef struct
-	{
+typedef struct DKSelectAndEditDragInfo {
 	NSPoint p;
 	NSEvent* event;
 	BOOL multiDrag;

@@ -11,7 +11,6 @@
 
 @implementation NSView (DKGradientExtensions)
 
-/**  */
 - (void)dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent*)event
 {
 	NSSize size;
@@ -203,8 +202,6 @@
 #pragma mark -
 - (BOOL)hasRadialSettings
 {
-	// return YES if there are valid radial settings.
-
 	if (m_extensionData)
 		return ([m_extensionData valueForKey:@"radialstartingpoint.x"] != nil && [m_extensionData valueForKey:@"radialendingpoint.x"] != nil);
 
@@ -214,8 +211,6 @@
 #pragma mark -
 - (NSPoint)mapPoint:(NSPoint)p fromRect:(NSRect)rect
 {
-	// given a point <p> within <rect> this returns it mapped to a 0..1 interval
-
 	p.x = (p.x - rect.origin.x) / rect.size.width;
 	p.y = (p.y - rect.origin.y) / rect.size.height;
 
@@ -224,8 +219,6 @@
 
 - (NSPoint)mapPoint:(NSPoint)p toRect:(NSRect)rect
 {
-	// given a point <p> in 0..1 space, maps it to <rect>
-
 	p.x = (p.x * rect.size.width) + rect.origin.x;
 	p.y = (p.y * rect.size.height) + rect.origin.y;
 
@@ -235,7 +228,6 @@
 #pragma mark -
 - (void)convertOldKey:(NSString*)key
 {
-	// given a key to an old NSPoint based struct, this converts it to the new archiver-compatible storage
 	//	LogEvent_(kReactiveEvent, @"converting old key: %@ in %@", key, self );
 
 	NSPoint p = [[m_extensionData valueForKey:key] pointValue];
@@ -247,7 +239,7 @@
 - (void)convertOldKeys
 {
 	for (NSString *key in m_extensionData) {
-		id value = [m_extensionData valueForKey:key];
+		NSValue *value = [m_extensionData valueForKey:key];
 
 		if ([value isKindOfClass:[NSValue class]]) {
 			const char* ctyp = [value objCType];
@@ -275,7 +267,7 @@
 #pragma mark -
 - (float)floatForKey:(id)key
 {
-	return [[self objectForKey:key] doubleValue];
+	return [[self objectForKey:key] floatValue];
 }
 
 @end
