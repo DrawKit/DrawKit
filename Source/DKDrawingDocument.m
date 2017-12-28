@@ -41,6 +41,17 @@ NSString* kDKDocumentLevelsOfUndoDefaultsKey = @"kDKDocumentLevelsOfUndo";
 @implementation DKDrawingDocument
 #pragma mark As a DKDrawDocument
 
++ (void)initialize
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSMutableDictionary *defaultDict = [NSMutableDictionary dictionaryWithCapacity:1];
+		defaultDict[kDKDocumentLevelsOfUndoDefaultsKey] = @(DEFAULT_LEVELS_OF_UNDO);
+		
+		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
+	});
+}
+
 static NSMutableDictionary* sFileImportBindings = nil;
 static NSMutableDictionary* sFileExportBindings = nil;
 
@@ -761,6 +772,16 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	DKSelectorWrapper* wrapper = [[DKSelectorWrapper alloc] init];
 	wrapper->mSelector = aSelector;
 	return wrapper;
+}
+
+- (NSString *)description
+{
+	return NSStringFromSelector(mSelector);
+}
+
+- (NSString *)debugDescription
+{
+	return [NSString stringWithFormat:@"<%@ %p> %@", self.className, self, NSStringFromSelector(mSelector)];
 }
 
 @end

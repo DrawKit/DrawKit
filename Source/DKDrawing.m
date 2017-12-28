@@ -85,9 +85,19 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 @implementation DKDrawing
 #pragma mark As a DKDrawing
-//! Return the current version number of the framework.
 
-//!	A number formatted in 8-4-4 bit format representing the current version number
++ (void)initialize
+{
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		NSMutableDictionary *newDefs = [NSMutableDictionary dictionaryWithCapacity:3];
+		newDefs[kDKDrawingSnapToGridUserDefault] = @NO;
+		newDefs[kDKDrawingSnapToGuidesUserDefault] = @NO;
+		newDefs[kDKDrawingUnitAbbreviationsUserDefault] = @NO;
+
+		[[NSUserDefaults standardUserDefaults] registerDefaults:newDefs];
+	});
+}
 
 /** @brief Return the current version number of the framework
  @return a number formatted in 8-4-4 bit format representing the current version number
@@ -96,10 +106,6 @@ static id sDearchivingHelper = nil;
 {
 	return 0x0107;
 }
-
-//! Return the current release status of the framework.
-
-//! A string, either "alpha", "beta", "release candidate" or nil (final)
 
 /** @brief Return the current release status of the framework
  @return a string, either "alpha", "beta", "release candidate" or nil (final)
@@ -117,16 +123,16 @@ static id sDearchivingHelper = nil;
 + (NSString*)drawkitVersionString
 {
 	NSUInteger v = [self drawkitVersion];
-	unsigned char s = 0;
+	unichar s = 0;
 
 	NSString* status = [self drawkitReleaseStatus];
 
 	if ([status isEqualToString:@"beta"])
-		s = 'b';
+		s = 0x03B2;
 	else if ([status isEqualToString:@"alpha"])
-		s = 'a';
+		s = 0x03B1;
 
-	return [NSString stringWithFormat:@"%ld.%ld.%c%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)(v & 0x0F)];
+	return [NSString stringWithFormat:@"%ld.%ld.%C%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)(v & 0x0F)];
 }
 
 #pragma mark -

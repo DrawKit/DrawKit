@@ -186,7 +186,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 	if (scale == 0)
 		scale = 1.0;
 
-	NSMutableDictionary* options = [props mutableCopy];
+	NSMutableDictionary<NSString*,id>* options = [props mutableCopy];
 
 	[options setObject:@(dpi)
 				forKey:(NSString*)kCGImagePropertyDPIWidth];
@@ -221,7 +221,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 		[tiffInfo setObject:metaStr
 					 forKey:(NSString*)kCGImagePropertyTIFFDocumentName];
 
-	[tiffInfo setObject:[[NSDate date] description]
+    [tiffInfo setObject:[[NSDate date] description]
 				 forKey:(NSString*)kCGImagePropertyTIFFDateTime];
 
 	[options setObject:tiffInfo

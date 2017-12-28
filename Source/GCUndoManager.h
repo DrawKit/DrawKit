@@ -78,11 +78,11 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)beginUndoGrouping;
 - (void)endUndoGrouping;
 
-- (NSUInteger)groupingLevel;
+- (NSInteger)groupingLevel;
 - (BOOL)groupsByEvent;
 - (void)setGroupsByEvent:(BOOL)groupByEvent;
 
-@property (readonly) NSUInteger groupingLevel;
+@property (readonly) NSInteger groupingLevel;
 @property BOOL groupsByEvent;
 
 /** n.b. if this is changed while a callback is pending, the new modes won't take effect until

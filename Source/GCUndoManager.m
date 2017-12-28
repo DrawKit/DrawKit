@@ -204,7 +204,7 @@
 	return mEnableLevel >= 0;
 }
 
-- (NSUInteger)groupingLevel
+- (NSInteger)groupingLevel
 {
 #if CALCULATE_GROUPING_LEVEL
 	NSUInteger level = 0;
