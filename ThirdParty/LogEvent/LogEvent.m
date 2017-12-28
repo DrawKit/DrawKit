@@ -303,7 +303,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	{
 		[self loadNib];
 		
-		NSDictionary* eventTypes = [[self newEventTypes] autorelease];
+		NSDictionary* eventTypes = [self newEventTypes];
 		
 		NSAssert(eventTypes != nil, @"Expected valid eventTypes");
 		[self setEventTypes:eventTypes];
@@ -445,7 +445,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 				break;
 			default:
-				NSAssert(NO, @"Encountered invalid switch case (%lu)", (NSUInteger)i);
+				NSAssert(NO, @"Encountered invalid switch case (%lu)", (unsigned long)i);
 			break;
 		}
 		NSAssert(eventKey != nil, @"Expected valid eventKey");
@@ -453,8 +453,8 @@ void LogLoggingState(NSArray* eventTypeNames)
 		
 		[eventTypes setObject:eventButton forKey:eventKey];
 	}
-	// Method name begins with "new"; clients are responsible for releasing.
-	return [[NSDictionary alloc] initWithDictionary:[eventTypes autorelease]];
+
+	return [NSDictionary dictionaryWithDictionary:[eventTypes autorelease]];
 }
 
 - (NSArray*)eventTypeNames

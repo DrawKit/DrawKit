@@ -167,8 +167,10 @@ extern "C" {
 - (void)showLoggingWindow;
 
 /** @brief Override if you wish to add more eventTypes; but message super.
+ 
+ Marked with \c NS_RETURNS_NOT_RETAINED so you don't have to release the returned value.
  */
-- (NSDictionary<LCEventType,NSButton*>*)newEventTypes NS_REQUIRES_SUPER NS_RETURNS_RETAINED;
+- (NSDictionary<LCEventType,NSButton*>*)newEventTypes NS_REQUIRES_SUPER NS_RETURNS_NOT_RETAINED;
 /** @brief An array of the event type names (NSStrings).
  */
 @property (readonly, copy) NSArray<LCEventType> *eventTypeNames;

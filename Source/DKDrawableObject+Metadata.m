@@ -330,6 +330,10 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 
 - (void)removeMetadataForKey:(NSString*)key
 {
+	if (key == nil) {
+		NSAssert(key != nil, @"cannot use a nil metadata key");
+		return;
+	}
 #if USE_107_OR_LATER_SCHEMA
 	if ([[self class] metadataChangesAreUndoable]) {
 		DKMetadataItem* item = [self metadataItemForKey:key];
