@@ -417,13 +417,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	[[self drawing] replaceMatchingStylesFromSet:aSetOfStyles];
 
 	// n.b. all undos arising from this operation are discarded - there's no good reason to undo stuff that is really part
-	// of the initialisation
-
-	[[self undoManager] removeAllActions];
-
-	/// should the document be dirtied anyway? NO for now.
-
-	//[self updateChangeCount:NSChangeDone];
+	// of the initialisation. Now we just use [[self undoManager] disableUndoRegistration]
 }
 
 /** @brief Returns a name that can be used for a style registry category for this document
@@ -558,7 +552,9 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	// your document needs to be sensitive to the type, override this.
 
 	DKDrawing* dr = [self makeDefaultDrawing];
+		[[self undoManager] disableUndoRegistration];
 	[self setDrawing:dr];
+		[[self undoManager] enableUndoRegistration];
 	}
 	return self;
 }
@@ -599,6 +595,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 - (BOOL)readFromData:(NSData*)data ofType:(NSString*)typeName error:(NSError**)outError
 {
 	DKDrawing* theDrawing = nil;
+	[[self undoManager] disableUndoRegistration];
 
 	if (sFileImportBindings != nil) {
 		DKSelectorWrapper* wrapper = [sFileImportBindings objectForKey:typeName];
@@ -625,12 +622,14 @@ static NSMutableDictionary* sFileExportBindings = nil;
 			[self remergeStyles:stylesToMerge
 					readFromURL:nil];
 
+		[[self undoManager] enableUndoRegistration];
 		return YES;
 	} else {
 		if (outError)
 			*outError = [NSError errorWithDomain:NSCocoaErrorDomain
 											code:NSFileReadUnsupportedSchemeError
 										userInfo:nil];
+		[[self undoManager] enableUndoRegistration];
 		return NO;
 	}
 }

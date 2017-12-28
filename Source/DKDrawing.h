@@ -76,11 +76,11 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Return the current release status of the framework
  @return a string, either "alpha", "beta", "release candidate" or nil (final)
  */
-+ (NSString*)drawkitReleaseStatus;
++ (nullable NSString*)drawkitReleaseStatus;
 
 @property (class, readonly) NSUInteger drawkitVersion;
 @property (class, readonly, copy) NSString *drawkitVersionString;
-@property (class, readonly, copy) NSString *drawkitReleaseStatus;
+@property (class, readonly, copy, nullable) NSString *drawkitReleaseStatus;
 
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
 
