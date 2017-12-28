@@ -197,7 +197,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 
 	NSNumber* value;
 
-	NSMutableDictionary* tiffInfo = [NSMutableDictionary dictionary];
+	NSMutableDictionary<NSString*,id>* tiffInfo = [NSMutableDictionary dictionary];
 
 	value = [props objectForKey:NSImageCompressionMethod];
 	if (value != nil)
@@ -221,7 +221,7 @@ NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 		[tiffInfo setObject:metaStr
 					 forKey:(NSString*)kCGImagePropertyTIFFDocumentName];
 
-    [tiffInfo setObject:[[NSDate date] description]
+	[tiffInfo setObject:[NSDate date]
 				 forKey:(NSString*)kCGImagePropertyTIFFDateTime];
 
 	[options setObject:tiffInfo
