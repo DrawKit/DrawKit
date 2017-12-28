@@ -363,16 +363,11 @@ static DKDrawingTool* sGlobalTool = nil;
 	[self setAutomaticallyRevertsToSelectionTool:![self automaticallyRevertsToSelectionTool]];
 }
 
-/** @brief Return the undo manager
- @return the drawing's undo manager
- */
 - (id)undoManager
 {
 	return (id)[[self drawing] undoManager];
 }
 
-/** @brief Opens a new undo manager group if one has not already been opened
- */
 - (void)openUndoGroup
 {
 #if DK_ENABLE_UNDO_GROUPING
@@ -385,12 +380,6 @@ static DKDrawingTool* sGlobalTool = nil;
 #endif
 }
 
-/** @brief Closes the current undo manager group if one has been opened
-
- When the controller is set up to always open a group, this also deals with the bogus task bug in
- NSUndoManager, where opening and closig a group creates an empty undo task. If that case is detected,
- the erroneous task is removed from the stack by invoking undo while temporarily disabling the UM.
- */
 - (void)closeUndoGroup
 {
 #if DK_ENABLE_UNDO_GROUPING

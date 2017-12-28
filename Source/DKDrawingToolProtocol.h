@@ -66,7 +66,7 @@ NS_SWIFT_NAME(DKDrawingToolProtocol)
 
 /** @brief Draw the tool's graphic.
 
- Informally, a tool can also implement this, which will be called from \c DKToolController if the object does respond to it.
+ A tool can also implement this, which will be called from \c DKToolController if the object does respond to it.
  @param rect The rect being redrawn.
  @param aView The view that is doing the drawing.
  */

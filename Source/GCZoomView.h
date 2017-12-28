@@ -16,8 +16,8 @@
 
  @note
  this class doesn't bother to support NSCoding and thereby encoding the view zoom, because it usually isn't important for this
- value to persist. However, if your subclass wants to support coding, your initWithCoder method should reset _scale to 1.0. Otherwise
- it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
+ value to persist. However, if your subclass wants to support coding, your initWithCoder method should reset \c _scale to <code>1.0</code>. Otherwise
+ it will get initialized to \c 0.0 and \b NOTHING \b WILL \b BE \b DRAWN.
 */
 @interface GCZoomView : NSView {
 @private
@@ -29,54 +29,33 @@
 	DKRetriggerableTimer* mRT;
 }
 
-/** @brief Set whether scroll-wheel zooming is enabled
-
- Default is YES
- @param enable YES to enable, NO to disable
- */
-+ (void)setScrollwheelZoomEnabled:(BOOL)enable;
-
 /** @brief Return whether scroll-wheel zooming is enabled
-
- Default is YES
- @return YES to enable, NO to disable
+ 
+ \c YES to enable, \c NO to disable.
+ Default is <code>YES</code>
  */
-+ (BOOL)scrollwheelZoomEnabled;
-
 @property (class) BOOL scrollwheelZoomEnabled;
 
 /** @brief Set the modifier key(s) that will activate zooming using the scrollwheel
 
  Operating the given modifier keys along with the scroll wheel will zoom the view
  @param aMask a modifier key mask value
+ @deprecated This class method is misspelled. Use \c +setScrollwheelModifierKeyMask: instead.
  */
-+ (void)setScrollwheelModifierKeyMask:(NSEventModifierFlags)aMask;
 + (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask API_DEPRECATED_WITH_REPLACEMENT("setScrollwheelModifierKeyMask", macosx(10.0, 10.6));
 
 /** @brief Return the default zoom key mask used by new instances of this class
 
  Reads the value from the prefs. If not set or set to zero, defaults to option key.
- @return a modifier key mask value
+ Operating the given modifier keys along with the scroll wheel will zoom the view
  */
-+ (NSEventModifierFlags)scrollwheelModifierKeyMask;
-
 @property (class) NSEventModifierFlags scrollwheelModifierKeyMask;
-
-/** @brief Set whether view zooms in or out for a given scrollwheel rotation direction
-
- Default sense is to zoom in when scrollwheel is rotated towards the user. Some apps (e.g. Google Earth)
- use the opposite convention, which feels less natural but may become a defacto "standard".
- */
-+ (void)setScrollwheelInverted:(BOOL)inverted;
 
 /** @brief Return whether view zooms in or out for a given scrollwheel rotation direction
 
  Default sense is to zoom in when scrollwheel is rotated towards the user. Some apps (e.g. Google Earth)
  use the opposite convention, which feels less natural but may become a defacto "standard".
- @return whether scroll wheel inverted
  */
-+ (BOOL)scrollwheelInverted;
-
 @property (class) BOOL scrollwheelInverted;
 
 /** @brief Zoom in (scale up) by a factor of 2
@@ -143,8 +122,7 @@
 
 /** @brief Calculates the coordinates of the point that is visually centred in the view at the current scroll
  position and zoom.
- @return the visually centred point */
-- (NSPoint)centredPointInDocView;
+ */
 @property (readonly) NSPoint centredPointInDocView;
 
 /** @brief Scrolls the view so that the point ends up visually centred
@@ -153,6 +131,8 @@
 
 /** @brief The current view scale (zoom).
  
+ The zoom scale of the view (1.0 = 100%).
+
  All zooms bottleneck through here. Scale passed is pinned within the min and max limits.
  */
 @property (nonatomic) CGFloat scale;

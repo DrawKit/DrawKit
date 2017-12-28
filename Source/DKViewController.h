@@ -45,12 +45,12 @@ completed except for page breaks. Tool controllers for example can draw selectio
 */
 @interface DKViewController : NSObject {
 @private
-	NSView* __weak mViewRef; // weak ref to the view that is associated with this
-	DKDrawing* __weak mDrawingRef; // weak ref to the drawing that owns this
-	BOOL m_autoLayerSelect; // YES to allow mouse to activate layers automatically
-	BOOL mEnableDKMenus; // YES to enable all standard contextual menus provided by DK.
+	NSView* __weak mViewRef; //!< weak ref to the view that is associated with this
+	DKDrawing* __weak mDrawingRef; //!< weak ref to the drawing that owns this
+	BOOL m_autoLayerSelect; //!< YES to allow mouse to activate layers automatically
+	BOOL mEnableDKMenus; //!< YES to enable all standard contextual menus provided by DK.
 @protected
-	NSEvent* mDragEvent; // cached drag event for autoscroll to use
+	NSEvent* mDragEvent; //!< cached drag event for autoscroll to use
 }
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
@@ -63,17 +63,20 @@ completed except for page breaks. Tool controllers for example can draw selectio
  */
 - (instancetype)initWithView:(NSView*)aView NS_DESIGNATED_INITIALIZER;
 
-// fundamental objects in the controller's world
+// fundamental objects in the controller's world / establishing relationships:
 
-/** @brief Return the controller's view
- @return the controller's view
+/** @brief The view the controller is associated with.
+ 
+ You should not set this directly, it is called by the designated initializer.
  */
-- (NSView*)view;
+@property (nonatomic, weak) NSView *view;
 
-/** @brief Return the controller's drawing
- @return the controller's drawing
+/** @brief Set the drawing that the controller is attached to
+ 
+ DKDrawing objects own the controllers added to them. You should not set this directly - \c DKDrawing
+ calls this at the appropriate time when the controller is added.
  */
-- (DKDrawing*)drawing;
+@property (nonatomic, weak) DKDrawing *drawing;
 
 // updating the view from the drawing (refresh). Note that these are typically invoked via the DKDrawing,
 // so you should look there for similarly named methods that take simple types. The object type parameters
@@ -156,11 +159,10 @@ completed except for page breaks. Tool controllers for example can draw selectio
 
 // info about current view state
 
-/** @brief Return the current scale of the view
- @return a float value representing the view's zoom scale, 1.0 = 100%, 2.0 = 200% etc.
+/** @brief Return the current scale of the view.
+ 
+ A float value representing the view's zoom scale, 1.0 = 100%, 2.0 = 200% etc.
  */
-- (CGFloat)viewScale;
-
 @property (readonly) CGFloat viewScale;
 
 // handling mouse input events from the view
@@ -210,37 +212,31 @@ completed except for page breaks. Tool controllers for example can draw selectio
 - (void)rulerView:(NSRulerView*)aRulerView handleMouseDown:(NSEvent*)event;
 
 /** @brief Return the cursor to display when the mouse is in the view
- @return a cursor
  */
-- (NSCursor*)cursor;
+@property (readonly, retain) NSCursor *cursor;
 
 /** @brief Return the active cursor rect
 
- Defines the area in which -cursor will be displayed - outside this rect the arrow cursor is
+ Defines the area in which \c -cursor will be displayed - outside this rect the arrow cursor is
  displayed.
- @return a rect
  */
-- (NSRect)activeCursorRect;
-
 @property (readonly) NSRect activeCursorRect;
 
-/** @brief Set whether the standard contextual menus within DK are enabled or not
-
+/** @brief Set whether the standard contextual menus within DK are enabled or not.
+ 
  The default is to enable the menus - some apps may wish to turn off the standard menus altogether
  rather than overriding each point where they are set up.
- @param enable YES to enable the menus, NO to disable them
+ \c YES to enable the menus, \c NO to disable them.
  */
-- (void)setContextualMenusEnabled:(BOOL)enable;
-
-/** @brief Are the standard contextual menus within DK are enabled or not?
-
- The default is to enable the menus
- @return YES if standard contextual menus are enabled, NO if not
- */
-- (BOOL)contextualMenusEnabled;
-
 @property BOOL contextualMenusEnabled;
 
+/** @brief Build a menu for a right-click event.
+ 
+ This just defers to the active layer. If menus are disabled, returns nil. Note that locked layers
+ still receive this message - individual items may be sensitive to the lock state.
+ @param event the event
+ @return a menu, or nil
+ */
 - (NSMenu*)menuForEvent:(NSEvent*)event;
 
 // autoscrolling:
@@ -262,9 +258,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
 // layer info
 
 /** @brief Return the drawing's current active layer
- @return the active layer
  */
-- (DKLayer*)activeLayer;
 @property (readonly, weak) DKLayer *activeLayer;
 
 /** @brief Return the drawing's current active layer if it matches the given class, else nil
@@ -367,26 +361,6 @@ completed except for page breaks. Tool controllers for example can draw selectio
 - (IBAction)toggleGridVisible:(id)sender;
 - (IBAction)toggleGuidesVisible:(id)sender;
 - (IBAction)copyDrawing:(id)sender;
-
-// establishing relationships:
-
-/** @brief Set the drawing that the controller is attached to
-
- DKDrawing objects own the controllers added to them. You should not call this directly - DKDrawing
- calls this at the appropriate time when the controller is added.
- @param aDrawing the drawing object
- */
-- (void)setDrawing:(DKDrawing*)aDrawing;
-
-/** @brief Set the view that the controller is associated with
-
- You should not call this directly, it is called by the designated initializer
- @param aView the view
- */
-- (void)setView:(NSView*)aView;
-
-@property (nonatomic, weak) DKDrawing *drawing;
-@property (nonatomic, weak) NSView *view;
 
 @end
 

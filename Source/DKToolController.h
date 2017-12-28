@@ -66,21 +66,10 @@ tool's name and target first responder with this action.
 
  DK allows tools to be set per-view, per-document, or per-application. This is called the operating
  scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
- It is not expected that this will be called during the subsequent use of the app - though it is
- harmless to do so it's very likely to confuse the user.
- @param scope the operating scope for tools
- */
-+ (void)setDrawingToolOperatingScope:(DKDrawingToolScope)scope;
-
-/** @brief Return the operating scope for tools for this application
-
- DK allows tools to be set per-view, per-document, or per-application. This is called the operating
- scope. Generally your app should decide what is appropriate, set it at start up and stick to it.
  The default is per-document scope.
- @return the operating scope for tools
+ It is not expected that this will be set during the subsequent use of the app - though it is
+ harmless to do so it's very likely to confuse the user.
  */
-+ (DKDrawingToolScope)drawingToolOperatingScope;
-
 @property (class) DKDrawingToolScope drawingToolOperatingScope;
 
 /** @brief Set whether setting a tool will auto-activate a layer appropriate to the tool
@@ -88,44 +77,22 @@ tool's name and target first responder with this action.
  Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
  layers are searched top down until one is found that the tool validates, which is then made
  active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
- @param autoActivate YES to autoactivate, NO otherwise
  */
-+ (void)setToolsAutoActivateValidLayer:(BOOL)autoActivate;
-
-/** @brief Return whether setting a tool will auto-activate a layer appropriate to the tool
-
- Default is NO. If YES, when a tool is set but the active layer is not valid for the tool, the
- layers are searched top down until one is found that the tool validates, which is then made
- active. Layers which are locked, hidden or refuse active status are skipped. Persistent.
- @return YES if tools auto-activate appropriate layer, NO if not
- */
-+ (BOOL)toolsAutoActivateValidLayer;
-
 @property (class) BOOL toolsAutoActivateValidLayer;
 
-/** @brief Sets the current drawing tool
+/** @brief The current drawing tool.
 
  The tool is set locally, for the drawing or globally according to the current scope.
- @param aTool the tool to set
  */
-- (void)setDrawingTool:(DKDrawingTool*)aTool;
+@property (nonatomic, strong) DKDrawingTool *drawingTool;
 
 /** @brief Select the tool using its registered name
 
- Tools must be registered in the DKDrawingTool registry with the given name before you can use this
+ Tools must be registered in the \c DKDrawingTool registry with the given name before you can use this
  method to set them, otherwise an exception is thrown.
  @param name the registered name of the required tool
  */
 - (void)setDrawingToolWithName:(NSString*)name;
-
-/** @brief Return the current drawing tool
-
- The tool is set locally, for the drawing or globally according to the current scope.
- @return the current tool
- */
-- (DKDrawingTool*)drawingTool;
-
-@property (nonatomic, strong) DKDrawingTool *drawingTool;
 
 /** @brief Check if the tool can be set for the current active layer
 
@@ -138,20 +105,11 @@ tool's name and target first responder with this action.
  */
 - (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool;
 
-/** @brief Set whether the tool should automatically "spring back" to the selection tool after each application
-
- The default is YES
- @param reverts YES to spring back, NO to leave the present tool active after each use
- */
-- (void)setAutomaticallyRevertsToSelectionTool:(BOOL)reverts;
-
 /** @brief Whether the tool should automatically "spring back" to the selection tool after each application
 
  The default is YES
- @return YES to spring back, NO to leave the present tool active after each use
+ \c YES to spring back, \c NO to leave the present tool active after each use
  */
-- (BOOL)automaticallyRevertsToSelectionTool;
-
 @property (nonatomic) BOOL automaticallyRevertsToSelectionTool;
 
 /** @brief Select the tool using its registered name based on the title of a UI control, etc.
@@ -181,6 +139,9 @@ tool's name and target first responder with this action.
  */
 - (IBAction)toggleAutoRevertAction:(id)sender;
 
+/** @brief Return the undo manager
+ @return the drawing's undo manager
+ */
 - (id)undoManager;
 
 /** @brief Opens a new undo manager group if one has not already been opened

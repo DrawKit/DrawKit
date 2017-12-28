@@ -9,10 +9,10 @@
 
 @class DKDrawableObject, DKObjectOwnerLayer, DKShapeGroup;
 
-/** @brief these objects are never used to make a visible view.
+/** @brief These objects are never used to make a visible view.
 
-these objects are never used to make a visible view. Their only function is to allow parts of a drawing to be
- selectively written to a PDF. This is made by DKObjectDrawingLayer internally and is private to the DrawKit.
+ These objects are never used to make a visible view. Their only function is to allow parts of a drawing to be
+ selectively written to a PDF. This is made by \c DKObjectDrawingLayer internally and is private to the DrawKit.
 */
 @interface DKSelectionPDFView : DKDrawingView
 @end
