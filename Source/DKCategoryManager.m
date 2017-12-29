@@ -30,7 +30,7 @@ NSString* kDKCategoryManagerDidCreateNewCategory = @"kDKCategoryManagerDidCreate
 NSString* kDKCategoryManagerWillDeleteCategory = @"kDKCategoryManagerWillDeleteCategory";
 NSString* kDKCategoryManagerDidDeleteCategory = @"kDKCategoryManagerDidDeleteCategory";
 
-@interface DKCategoryManager (Private)
+@interface DKCategoryManager ()
 
 - (DKCategoryManagerMenuInfo*)findInfoForMenu:(NSMenu*)aMenu;
 

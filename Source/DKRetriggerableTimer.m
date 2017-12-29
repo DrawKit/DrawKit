@@ -6,7 +6,7 @@
 
 #import "DKRetriggerableTimer.h"
 
-@interface DKRetriggerableTimer (Private)
+@interface DKRetriggerableTimer ()
 
 - (void)timerCallback:(NSTimer*)timer;
 

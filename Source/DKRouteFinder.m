@@ -10,7 +10,7 @@ static CGFloat anneal(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger nc
 static void progressCallback(CGFloat iteration, CGFloat maxIterations, const void* context);
 static DKDirection directionOfAngle(const CGFloat angle);
 
-@interface DKRouteFinder (Private)
+@interface DKRouteFinder ()
 
 - (id)initWithArray:(NSArray<NSValue*>*)array;
 - (void)notifyProgress:(CGFloat)value;

@@ -19,7 +19,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	return (nodeIndex << 1) + 1;
 }
 
-@interface DKBSPObjectStorage (Private)
+@interface DKBSPObjectStorage ()
 
 - (void)setDepthAndLoadTree:(NSUInteger)aDepth;
 - (void)loadBSPTree;
@@ -318,30 +318,18 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 }
 
 /**  */
-- (void)setType:(DKLeafType)aType;
-- (DKLeafType)type;
+@property DKLeafType type;
 
-- (void)setLeafIndex:(NSUInteger)indx;
-- (NSUInteger)leafIndex;
+@property NSUInteger leafIndex;
 
-- (void)setOffset:(CGFloat)offset;
-- (CGFloat)offset;
+@property CGFloat offset;
 
 @end
 
 #pragma mark -
 
 @implementation DKBSPNode
-
-- (void)setType:(DKLeafType)aType
-{
-	mType = aType;
-}
-
-- (DKLeafType)type
-{
-	return mType;
-}
+@synthesize type=mType;
 
 - (void)setLeafIndex:(NSUInteger)indx
 {
@@ -367,7 +355,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 
 #pragma mark -
 
-@interface DKBSPIndexTree (Private)
+@interface DKBSPIndexTree ()
 
 - (void)partition:(NSRect)rect depth:(NSUInteger)depth index:(NSUInteger)indx;
 - (void)recursivelySearchWithRect:(NSRect)rect index:(NSUInteger)indx;

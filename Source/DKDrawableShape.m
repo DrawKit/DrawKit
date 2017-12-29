@@ -35,7 +35,7 @@ static NSColor* sInfoWindowColour = nil;
 static NSInteger sKnobMask = kDKDrawableShapeAllKnobs;
 static NSSize sTempSavedOffset;
 
-@interface DKDrawableShape (Private)
+@interface DKDrawableShape ()
 // private:
 
 - (NSRect)knobBounds;

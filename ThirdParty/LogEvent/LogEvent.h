@@ -103,8 +103,8 @@ extern LCEventType const kInfoEvent;     //!< E.g., Informational logging such a
 
 // new event types added by Graham Cox 
 
-extern NSString* const kKVOEvent;		//!< pertains to KVO adding or removing observers, which events lead to a very verbose log if enabled, therefore separate.
-extern NSString* const kUndoEvent;		//!< pertains to undo operations
+extern LCEventType const kKVOEvent;		//!< pertains to KVO adding or removing observers, which events lead to a very verbose log if enabled, therefore separate.
+extern LCEventType const kUndoEvent;		//!< pertains to undo operations
 
 //    Remember, you are not required to use all of the event types. They are intended
 // solely to make it easier to reduce the noise level in any given set of logged output.

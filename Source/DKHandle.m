@@ -13,7 +13,7 @@
 #import "DKQuartzCache.h"
 #import "NSColor+DKAdditions.h"
 
-@interface DKHandle (Private)
+@interface DKHandle ()
 
 + (NSString*)keyForKnobType:(DKKnobType)type;
 

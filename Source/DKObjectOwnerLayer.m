@@ -28,7 +28,7 @@ NSString* kDKLayerDidAddObject = @"kDKLayerDidAddObject";
 NSString* kDKLayerWillRemoveObject = @"kDKLayerWillRemoveObject";
 NSString* kDKLayerDidRemoveObject = @"kDKLayerDidRemoveObject";
 
-@interface DKObjectOwnerLayer (Private)
+@interface DKObjectOwnerLayer ()
 - (void)updateCache;
 - (void)invalidateCache;
 @end

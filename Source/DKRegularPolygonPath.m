@@ -11,11 +11,11 @@
 #import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
-#import "DKDrawkitMacros.h"
+#import "DKDrawKitMacros.h"
 #import "DKShapeGroup.h"
 #include <tgmath.h>
 
-@interface DKRegularPolygonPath (Private)
+@interface DKRegularPolygonPath ()
 
 - (NSBezierPath*)calculatePath;
 - (void)movePart:(NSInteger)pc toPoint:(NSPoint)mp constrainAngle:(BOOL)constrain;

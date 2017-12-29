@@ -148,7 +148,6 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 /** @brief Return total number of stored objects in container
  @return the number of objects
  */
-- (NSUInteger)count;
 @property (readonly) NSUInteger count;
 
 /** @brief Return the object for the given key, but do not remember it in the "recently used" list
@@ -175,9 +174,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 - (NSArray<NSString*>*)keysForObject:(ObjectType)obj;
 
 /** @brief Return a copy of the master dictionary
- @return the main dictionary
  */
-- (NSDictionary<NSString*,ObjectType>*)dictionary;
 @property (readonly, copy) NSDictionary<NSString*,ObjectType> *dictionary;
 
 // smartly merging objects:
@@ -190,7 +187,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return a set, possibly empty. The set contains those objects that already existed in the CM that should replace
  equivalent items in the supplied set.
  */
-- (NSSet*)mergeObjectsFromSet:(NSSet<ObjectType>*)aSet inCategories:(NSArray<DKCategoryName>*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
+- (NSSet<ObjectType>*)mergeObjectsFromSet:(NSSet<ObjectType>*)aSet inCategories:(NSArray<DKCategoryName>*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
 
 /** @brief Asks delegate to make decision about the merging of an object
 
@@ -306,9 +303,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 - (void)addDefaultCategories;
 
 /** @brief Return the default categories defined for this class or object
- @return an array of categories
  */
-- (NSArray<DKCategoryName>*)defaultCategories;
 @property (readonly, copy) NSArray<DKCategoryName> *defaultCategories;
 
 /** @brief Create a new category with the given name
@@ -391,15 +386,12 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 /** @brief Get a list of all categories
 
  The list is alphabetically sorted for the convenience of a user interface
- @return an array containg a list of all category names
  */
-- (NSArray<DKCategoryName>*)allCategories;
 @property (readonly, copy) NSArray<DKCategoryName>*allCategories;
 
 /** @brief Get the count of all categories
  @return the number of categories currently defined
  */
-- (NSUInteger)countOfCategories;
 @property (readonly) NSUInteger countOfCategories;
 
 /** @brief Get a list of all categories that contain a given key
@@ -418,7 +410,6 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  default cats. Subclasses can change this as they wish.
  @return an array containing a list of the reserved categories 
  */
-- (NSArray<DKCategoryName>*)reservedCategories;
 @property (readonly, copy) NSArray<DKCategoryName> *reservedCategories;
 
 /** @brief Test whether there is a category of the given name
@@ -486,7 +477,6 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
  Subclasses should override to change the filetype used for specific examples of this object
  */
-- (NSString*)fileType;
 @property (readonly, copy) NSString *fileType;
 
 /** @brief Discard all existing content, then reload from the archive data passed
@@ -538,7 +528,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (NSMenu*)categoriesMenuWithSelector:(SEL)sel target:(id)target options:(DKCategoryMenuOptions)options;
 
-/** @brief Sets the checkmarks in a menu of category names to reflect the presence of <key> in those categories
+/** @brief Sets the checkmarks in a menu of category names to reflect the presence of \c key in those categories
 
  Assumes that item names will be the category names. For localized names, you should handle the
  localization external to this class so that both category names and menu items use the same strings.

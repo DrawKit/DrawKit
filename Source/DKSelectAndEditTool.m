@@ -15,7 +15,7 @@
 #import "NSAffineTransform+DKAdditions.h"
 #import "DKUndoManager.h"
 
-@interface DKSelectAndEditTool (Private)
+@interface DKSelectAndEditTool ()
 
 - (void)setDraggedObjects:(NSArray*)objects;
 - (NSArray*)draggedObjects;

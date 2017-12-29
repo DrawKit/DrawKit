@@ -30,7 +30,7 @@ NSString* kDKTextAllowsInlineImagesDefaultsKey = @"DKTextAllowsInlineImages";
 
 static NSString* sDefault_string = @"Double-click to edit this text";
 
-@interface DKTextShape (Private)
+@interface DKTextShape ()
 
 /**  */
 - (DKTextAdornment*)makeTextAdornment;

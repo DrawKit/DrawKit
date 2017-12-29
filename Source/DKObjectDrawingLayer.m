@@ -41,7 +41,7 @@ static NSMutableDictionary* sSelectionBuffer = nil;
 -(IBAction)divideSelectedObjects:(id)sender;
 @end
 
-@interface DKObjectDrawingLayer (Private)
+@interface DKObjectDrawingLayer ()
 
 enum {
 	kObjectRemove,

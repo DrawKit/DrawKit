@@ -8,7 +8,7 @@
 
 NSString* kDKAuxiliaryMenusNibFile = @"DK_Auxiliary_Menus";
 
-@interface DKAuxiliaryMenus (Private)
+@interface DKAuxiliaryMenus ()
 
 - (id)initWithNibName:(NSString*)nib;
 

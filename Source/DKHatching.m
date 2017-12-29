@@ -10,7 +10,7 @@
 #import "NSBezierPath+Geometry.h"
 #import "DKRandom.h"
 
-@interface DKHatching (Private)
+@interface DKHatching ()
 
 - (void)invalidateRoughnessCache;
 

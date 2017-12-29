@@ -123,8 +123,6 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  to create another instance. Other class methods implictly reference the registry returned by this.
  @return the style registry used for all general purpose registration of styles in DK
  */
-+ (DKStyleRegistry*)sharedStyleRegistry;
-
 @property (class, readonly, strong) DKStyleRegistry *sharedStyleRegistry;
 
 /** @brief Return the style registerd with the given key

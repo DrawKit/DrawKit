@@ -55,7 +55,7 @@ typedef NS_OPTIONS(NSUInteger, DKObjectStorageOptions) {
 
 // insertion and deletion is observable using KVO
 
-- (NSUInteger)countOfObjects;
+@property (readonly) NSUInteger countOfObjects;
 - (__kindof id<DKStorableObject>)objectInObjectsAtIndex:(NSUInteger)indx; // KVC/KVO compliant
 - (NSArray<__kindof id<DKStorableObject>>*)objectsAtIndexes:(NSIndexSet*)set; // KVC/KVO compliant
 

@@ -22,7 +22,7 @@ static inline NSUInteger depthForObjectCount(NSUInteger n)
 //	return (nodeIndex << 1) + 1;
 //}
 
-@interface DKBSPDirectObjectStorage (Private)
+@interface DKBSPDirectObjectStorage ()
 
 - (void)sortObjectsByZ:(NSMutableArray*)objects;
 - (void)renumberObjectsFromIndex:(NSUInteger)indx;
@@ -428,7 +428,7 @@ static void unmarkFunc(const void* value, void* context)
 
 #pragma mark -
 
-@interface DKBSPDirectTree (Private)
+@interface DKBSPDirectTree (DKBSPIndexTreePrivate)
 
 // these are implemented by DKBSPIndexTree as private methods, re-prototyped here so
 // we can make use of them in this subclass

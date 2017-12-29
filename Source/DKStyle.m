@@ -55,7 +55,7 @@ static BOOL sShouldDrawShadows = YES;
 static BOOL sAntialias = YES;
 static BOOL sSubstitute = NO;
 
-@interface DKStyle (Private)
+@interface DKStyle ()
 
 - (NSSize)extraSpaceNeededIgnoringMitreLimit;
 

@@ -14,7 +14,7 @@
 
 #define DK_DRAW_GUIDES_IN_CLIP_VIEW 0
 
-@interface DKGuideLayer (Private)
+@interface DKGuideLayer ()
 
 /** @brief Moves a given guide to a new point
 

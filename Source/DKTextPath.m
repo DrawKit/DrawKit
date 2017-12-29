@@ -21,7 +21,7 @@
 #pragma mark Static Vars
 static NSString* sDefault_string = @"Double-click to edit this text";
 
-@interface DKTextPath (Private)
+@interface DKTextPath ()
 
 - (DKTextAdornment*)makeTextAdornment;
 - (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value;
