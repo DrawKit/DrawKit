@@ -30,16 +30,6 @@
 
 - (void)setUpExtensionData;
 
-- (void)setRadialStartingPoint:(NSPoint)p;
-- (void)setRadialEndingPoint:(NSPoint)p;
-- (void)setRadialStartingRadius:(CGFloat)rad;
-- (void)setRadialEndingRadius:(CGFloat)rad;
-
-- (NSPoint)radialStartingPoint;
-- (NSPoint)radialEndingPoint;
-- (CGFloat)radialStartingRadius;
-- (CGFloat)radialEndingRadius;
-
 @property NSPoint radialStartingPoint;
 @property NSPoint radialEndingPoint;
 @property CGFloat radialStartingRadius;
@@ -56,9 +46,11 @@
  */
 - (NSPoint)mapPoint:(NSPoint)p toRect:(NSRect)rect;
 
-/** given a key to an old NSPoint based struct, this converts it to the new archiver-compatible storage
+/** given a key to an old \c NSPoint based struct, this converts it to the new archiver-compatible storage.
  */
 - (void)convertOldKey:(NSString*)key;
+/** Converts all keys of an old NSPoint based struct to the new archiver-compatible storage.
+ */
 - (void)convertOldKeys;
 
 @end

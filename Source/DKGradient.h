@@ -84,9 +84,12 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 // setting up the Color stops
 
 - (DKColorStop*)addColor:(NSColor*)Color at:(CGFloat)pos;
+/** @brief Add a Color stop to the list of gradient Colors
+ @param stop the Colorstop to add
+ */
 - (void)addColorStop:(DKColorStop*)stop;
 
-/** @brief Removes the last Color from he list of Colors
+/** @brief Removes the last Color from the list of Colors
  */
 - (void)removeLastColor;
 
@@ -99,20 +102,10 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  */
 - (void)removeAllColors;
 
-/** @brief Sets the list of Color stops in the gradient
-
- A gradient needs a minimum of two Colors to be a gradient, but will function with one.
- @param stops an array of DKColorStop objects
- */
-- (void)setColorStops:(NSArray<DKColorStop*>*)stops;
-
 /** @brief Returns the list of Color stops in the gradient
 
  A gradient needs a minimum of two Colors to be a gradient, but will function with one.
- @return the array of DKColorStop (color + position) objects in the gradient
  */
-- (NSArray<DKColorStop*>*)colorStops;
-
 @property (copy) NSArray<DKColorStop*> *colorStops;
 
 /** @brief Sorts the Color stops into position order
@@ -134,7 +127,6 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  This also makes the stops array KVC compliant
  @return an integer, the number of Colors used to compute the gradient
  */
-- (NSUInteger)countOfColorStops;
 @property (readonly) NSUInteger countOfColorStops;
 
 /** @brief Returns the the indexed Color stop

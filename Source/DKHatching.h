@@ -41,10 +41,10 @@ doesn't change the cache.
 /** @brief Return the default hatching
 
  Be sure to copy the object if you intend to change its parameters.
- @return the default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
+ The default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
  apart with a width of 0.25 points.
  */
-+ (DKHatching*)defaultHatching;
+@property (class, readonly, retain) DKHatching *defaultHatching;
 
 /** @brief Return a hatching with e basic parameters given
 
@@ -84,27 +84,12 @@ doesn't change the cache.
  */
 - (void)hatchPath:(NSBezierPath*)path objectAngle:(CGFloat)oa;
 
-/** @brief Set the angle of the hatching
- @param radians the angle in radians
+/** @brief The angle of the hatching, in radians.
  */
-- (void)setAngle:(CGFloat)radians;
-
-/** @brief The angle of the hatching
- @return the angle in radians
- */
-- (CGFloat)angle;
-
-/** @brief Set the angle of the hatching in degrees
- @param degs the angle in degrees 
- */
-- (void)setAngleInDegrees:(CGFloat)degs;
-
-/** @brief The angle of the hatching in degrees
- @return the angle in degrees
- */
-- (CGFloat)angleInDegrees;
-
 @property (nonatomic) CGFloat angle;
+
+/** @brief The angle of the hatching in degrees.
+ */
 @property CGFloat angleInDegrees;
 @property BOOL angleIsRelativeToObject;
 
@@ -124,5 +109,10 @@ doesn't change the cache.
 @property (nonatomic) CGFloat wobblyness;
 
 - (void)invalidateCache;
+/**
+ this does the actual work of calculating the hatch. Given the rect, we build a series of lines at the origin in a square
+ based on the largest side of <rect> *~ sqrt(2). Then we transform the cache to the current angle. This is much simpler than
+ calculating where to start and end each line.
+*/
 - (void)calcHatchInRect:(NSRect)rect;
 @end

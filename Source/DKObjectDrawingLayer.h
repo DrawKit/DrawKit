@@ -46,11 +46,6 @@ selected state.
 
 // default settings:
 
-+ (void)setSelectionIsShownWhenInactive:(BOOL)visInactive;
-+ (BOOL)selectionIsShownWhenInactive;
-+ (void)setDefaultSelectionChangesAreUndoable:(BOOL)undoSel;
-+ (BOOL)defaultSelectionChangesAreUndoable;
-
 @property (class) BOOL selectionIsShownWhenInactive;
 @property (class) BOOL defaultSelectionChangesAreUndoable;
 
@@ -62,7 +57,7 @@ selected state.
  @param objects an array containing drawable objects which must not be already owned by another layer
  @return a new layer object containing the objects
  */
-+ (DKObjectDrawingLayer*)layerWithObjectsInArray:(NSArray*)objects;
++ (DKObjectDrawingLayer*)layerWithObjectsInArray:(NSArray<DKDrawableObject*>*)objects;
 
 // useful lists of objects:
 
@@ -73,9 +68,7 @@ selected state.
  Note that if the layer is locked as a whole, this always returns an empty list
  @return an array, objects that can be acted upon by a command as a set
  */
-- (NSArray<DKDrawableObject*>*)selectedAvailableObjects; // KVC/KVO compliant (read only)
-
-@property (readonly, copy) NSArray<DKDrawableObject*> *selectedAvailableObjects;
+@property (readonly, copy) NSArray<DKDrawableObject*> *selectedAvailableObjects; // KVC/KVO compliant (read only)
 
 /** @brief Returns the objects that are not locked, visible and selected and which have the given class
 
@@ -89,7 +82,6 @@ selected state.
  See comments for selectedAvailableObjects
  @return an array
  */
-- (NSArray<DKDrawableObject*>*)selectedVisibleObjects;
 @property (readonly, copy) NSArray<DKDrawableObject*> *selectedVisibleObjects;
 - (NSSet<DKDrawableObject*>*)selectedObjectsReturning:(NSInteger)answer toSelector:(SEL)selector;
 
@@ -108,7 +100,7 @@ selected state.
  where objects are ultimately going to be pasted back in to this or another layer.
  @return an array of objects. 
  */
-- (NSArray<DKDrawableObject*>*)duplicatedSelection;
+@property (readonly, copy) NSArray<DKDrawableObject*> *duplicatedSelection;
 
 /** @brief Returns the selected objects in their original stacking order.
 
@@ -124,8 +116,7 @@ selected state.
  If the layer itself is locked, returns 0
  @return the count
  */
-- (NSUInteger)countOfSelectedAvailableObjects; // KVC/KVO compliant
-@property (readonly) NSUInteger countOfSelectedAvailableObjects;
+@property (readonly) NSUInteger countOfSelectedAvailableObjects; // KVC/KVO compliant
 
 /** @brief Returns the indexed object
  @param indx the index of the required object
@@ -182,11 +173,8 @@ selected state.
 
 /** @brief Sets the selection to a given set of objects
 
- For interactive selections, exchangeSelectionWithObjectsInArray: is more appropriate and efficient
- @param sel a set of objects to select
+ For interactive selections, \c exchangeSelectionWithObjectsInArray: is more appropriate and efficient
  */
-- (void)setSelection:(NSSet<DKDrawableObject*>*)sel;
-- (NSSet<DKDrawableObject*>*)selection;
 @property (retain) NSSet<DKDrawableObject*> *selection;
 
 /** @brief If the selection consists of a single available object, return it. Otherwise nil.
@@ -195,7 +183,6 @@ selected state.
  meaningful. It is also used by the automatic invocation forwarding mechanism.
  @return the selected object if it's the only one and it's available
  */
-- (DKDrawableObject*)singleSelection;
 @property (readonly, retain) DKDrawableObject *singleSelection;
 
 /** @brief Return the number of items in the selection.
@@ -203,7 +190,6 @@ selected state.
  KVC compliant; returns 0 if the layer is locked or hidden.
  @return an integer, the countof selected objects
  */
-- (NSUInteger)countOfSelection;
 @property (readonly) NSUInteger countOfSelection;
 
 // selection operations:
@@ -288,16 +274,16 @@ selected state.
  */
 - (BOOL)isSelectedObject:(DKDrawableObject*)obj;
 
-/** @brief Query whether any objects are selected
- @return YES if there is at least one object selected, NO if none are
+/** @brief Query whether any objects are selected.
+ 
+ Is \c YES if there is at least one object selected, \c NO if none are.
  */
-- (BOOL)isSelectionNotEmpty;
 @property (readonly, getter=isSelectionNotEmpty) BOOL selectionNotEmpty;
 
-/** @brief Query whether there is exactly one object selected
- @return \c YES if one object selected, \c NO if none or more than one are
+/** @brief Query whether there is exactly one object selected.
+ 
+ Is \c YES if one object selected, \c NO if none or more than one are
  */
-- (BOOL)isSingleObjectSelected;
 @property (readonly, getter=isSingleObjectSelected) BOOL singleObjectSelected;
 
 /** @brief Query whether the selection contains any objects matching the given class
@@ -307,10 +293,9 @@ selected state.
 - (BOOL)selectionContainsObjectOfClass:(Class)c;
 
 /** @brief Return the overall area bounded by the objects in the selection
- @return the union of the bounds of all selected objects
+ 
+ Is the union of the bounds of all selected objects.
  */
-- (NSRect)selectionBounds;
-- (NSRect)selectionLogicalBounds;
 @property (readonly) NSRect selectionBounds;
 @property (readonly) NSRect selectionLogicalBounds;
 
@@ -319,14 +304,8 @@ selected state.
 /** @brief Set whether selection changes should be recorded for undo.
 
  Different apps may want to treat selection changes as undoable state changes or not.
- @param undoable YES to record selection changes, NO to not bother.
+ Is \c YES to record selection changes, \c NO to not bother.
  */
-- (void)setSelectionChangesAreUndoable:(BOOL)undoable;
-
-/** @brief Are selection changes undoable?
- @return \c YES if they are undoable, \c NO if not
- */
-- (BOOL)selectionChangesAreUndoable;
 @property BOOL selectionChangesAreUndoable;
 
 /** @brief Make a copy of the selection for a possible undo recording
@@ -347,9 +326,9 @@ selected state.
 - (void)commitSelectionUndoWithActionName:(NSString*)actionName;
 
 /** @brief Test whether the selection is now different from the recorded selection
- @return YES if the selection differs, NO if they are the same
+
+ Is \c YES if the selection differs, \c NO if they are the same.
  */
-- (BOOL)selectionHasChangedFromRecorded;
 @property (readonly) BOOL selectionHasChangedFromRecorded;
 
 // making images of the selected objects:
@@ -397,57 +376,28 @@ selected state.
 
 // options:
 
-/** @brief Sets whether selection highlights should be drawn on top of all other objects, or if they should be
+/** @brief Whether selection highlights should be drawn on top of all other objects, or if they should be
  drawn with the object at its current stacking position.
 
  Default is YES
- @param onTop YES to draw on top, NO to draw in situ
+ Is \c YES to draw on top, \c NO to draw in situ.
  */
-- (void)setDrawsSelectionHighlightsOnTop:(BOOL)onTop;
-
-/** @brief Draw selection highlights on top or in situ?
-
- Default is YES
- @return \c YES if drawn on top, \c NO in situ.
- */
-- (BOOL)drawsSelectionHighlightsOnTop;
 @property BOOL drawsSelectionHighlightsOnTop;
 
-/** @brief Sets whether a drag into this layer will target individual objects or not.
+/** @brief Whether a drag into this layer will target individual objects or not.
 
  If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
  the object itself will be passed the drop information. Default is YES.
- @param allow allow individual objects to receive drags
+ Is \c YES if objects can be targeted by drags.
  */
-- (void)setAllowsObjectsToBeTargetedByDrags:(BOOL)allow;
-
-/** @brief Returns whether a drag into this layer will target individual objects or not.
-
- If YES, the object under the mouse will highlight as a drag into the layer proceeds, and upon drop,
- the object itself will be passed the drop information. Default is YES.
- @return \c YES if objects can be targeted by drags
- */
-- (BOOL)allowsObjectsToBeTargetedByDrags;
-
 @property BOOL allowsObjectsToBeTargetedByDrags;
-
-
-/** @brief Sets whether the selection is actually shown or not.
-
- Normally the selection should be visible, but some tools might want to hide it temporarily
- at certain well-defined times, such as when dragging objects.
- @param vis YES to show the selection, NO to hide it
- */
-- (void)setSelectionVisible:(BOOL)vis;
 
 /** @brief Whether the selection is actually shown or not.
 
  Normally the selection should be visible, but some tools might want to hide it temporarily
  at certain well-defined times, such as when dragging objects.
- @return YES if the selection is visible, NO if hidden
+ Is \c YES if the selection is visible, \c NO if hidden.
  */
-- (BOOL)selectionVisible;
-
 @property BOOL selectionVisible;
 
 /**
@@ -455,10 +405,8 @@ selected state.
  defined by an object but to have it invoked on all objects that are able to respond in the
  current selection without having to implement the action in the layer. Formerly such actions were
  only forwarded if exactly one object was selected that could respond. See -forwardInvocation.
- @param autoForward YES to automatically forward, NO to only operate on a single selected object
+ Is \c YES to automatically forward, \c NO to only operate on a single selected object
  */
-- (void)setMultipleSelectionAutoForwarding:(BOOL)autoForward;
-- (BOOL)multipleSelectionAutoForwarding;
 @property BOOL multipleSelectionAutoForwarding;
 
 /** @brief Handle validation of menu items in a multiple selection when autoforwarding is enabled
@@ -478,14 +426,9 @@ selected state.
 
  By default the drag exclusion rect is set to the interior of the drawing. Dragging objects to the
  margins thus drags them "off" the drawing.
- @param aRect a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
+ Is a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
+ cause all drags to immediately be treated as DM drags.
  */
-- (void)setDragExclusionRect:(NSRect)aRect;
-
-/** @brief Gets the rect outside of which a mouse drag will drag the selection with the drag manager.
- @return a rect defining the area within which drags do not traigger DM operations
- */
-- (NSRect)dragExclusionRect;
 @property NSRect dragExclusionRect;
 
 /** @brief Initiates a drag of the selection to another document or app, or back to self.

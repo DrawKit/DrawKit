@@ -25,11 +25,7 @@ Paths are cached up to the maximum number set by the constant, after which least
 	NSMutableArray* mCacheList;
 }
 
-/**  */
-- (void)setRoughness:(CGFloat)roughness;
-- (CGFloat)roughness;
-
-@property CGFloat roughness;
+@property (nonatomic) CGFloat roughness;
 
 - (NSString*)pathKeyForPath:(NSBezierPath*)path;
 - (void)invalidateCache;

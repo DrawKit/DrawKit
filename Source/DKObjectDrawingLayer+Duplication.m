@@ -121,7 +121,7 @@
 	r = hypot(lb.size.width, lb.size.height) / 2.0;
 
 	radius = hypot(ocp.x - centre.x, ocp.y - centre.y);
-	incAngle = atanf(r / radius) * 2.0;
+	incAngle = atan(r / radius) * 2.0;
 
 	// how many fit in a circle?
 

@@ -359,7 +359,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 					if (angle < 0)
 						angle += 360.0;
 
-					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
+					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f°", rad, abbrUnits, angle]
 												   atPoint:nsp];
 				}
 			} else if (phase == 1) {
@@ -373,7 +373,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 					if (angle < 0)
 						angle = 360.0 + angle;
 
-					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f%C", rad, abbrUnits, angle, 0xB0]
+					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f°", rad, abbrUnits, angle]
 												   atPoint:nsp];
 				}
 			}
@@ -581,14 +581,14 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 		case kDKArcPathRotationKnobPart:
 			angle = [self angleInDegrees];
-			infoStr = [NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0];
+			infoStr = [NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f°", rad, abbrUnits, angle];
 			break;
 
 		default:
 			angle = RADIANS_TO_DEGREES(mEndAngle - mStartAngle);
 			if (angle < 0)
 				angle += 360.0;
-			infoStr = [NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f%C", rad, abbrUnits, angle, 0xB0];
+			infoStr = [NSString stringWithFormat:@"radius: %.2f%@\narc angle: %.1f°", rad, abbrUnits, angle];
 			break;
 		}
 

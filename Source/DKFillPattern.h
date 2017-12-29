@@ -29,42 +29,30 @@ just sets up the path clipping and calls the rendering method for each location 
 }
 
 /**  */
-+ (DKFillPattern*)defaultPattern;
-+ (DKFillPattern*)fillPatternWithImage:(NSImage*)image;
++ (instancetype)defaultPattern;
++ (instancetype)fillPatternWithImage:(NSImage*)image;
 
-- (void)setPatternAlternateOffset:(NSSize)altOffset;
-- (NSSize)patternAlternateOffset;
+/** @brief the vertical and horizontal offset of odd rows/columns to a proportion of the interval, [0...1]
+ */
+@property NSSize patternAlternateOffset;
 
 - (void)fillRect:(NSRect)rect;
 - (void)drawPatternInPath:(NSBezierPath*)aPath;
 
-- (void)setAngle:(CGFloat)radians;
-- (CGFloat)angle;
-- (void)setAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)angleInDegrees;
-
-- (void)setAngleIsRelativeToObject:(BOOL)relAngle;
-- (BOOL)angleIsRelativeToObject;
-
-- (void)setMotifAngle:(CGFloat)radians;
-- (CGFloat)motifAngle;
-- (void)setMotifAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)motifAngleInDegrees;
-- (void)setMotifAngleRandomness:(CGFloat)maRand;
-- (CGFloat)motifAngleRandomness;
-
-- (void)setMotifAngleIsRelativeToPattern:(BOOL)mrel;
-- (BOOL)motifAngleIsRelativeToPattern;
-
-- (void)setDrawingOfClippedElementsSupressed:(BOOL)suppress;
-- (BOOL)drawingOfClippedElementsSupressed;
-
-@property NSSize patternAlternateOffset;
 @property CGFloat angle;
+@property CGFloat angleInDegrees;
+
+@property BOOL angleIsRelativeToObject;
+
 @property CGFloat motifAngle;
 @property CGFloat motifAngleInDegrees;
-@property CGFloat motifAngleRandomness;
+@property (nonatomic) CGFloat motifAngleRandomness;
+
 @property BOOL motifAngleIsRelativeToPattern;
+
+/** setting this causes a test for intersection of the motif's bounds with the object's path. If there is an intersection, the motif is not drawn. This makes patterns
+ appear tidier for certain applications (such as GIS/mapping) but adds a substantial performance overhead. \c NO by default.
+ */
 @property BOOL drawingOfClippedElementsSupressed;
 
 @end

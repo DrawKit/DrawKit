@@ -150,10 +150,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 		dashes[i] = m_pattern[i];
 }
 
-- (NSInteger)count
-{
-	return m_count;
-}
+@synthesize count=m_count;
 
 - (void)setPhase:(CGFloat)ph
 {
@@ -195,28 +192,8 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 #pragma mark -
-- (void)setScalesToLineWidth:(BOOL)stlw
-{
-	m_scaleToLineWidth = stlw;
-}
-
-- (BOOL)scalesToLineWidth
-{
-	return m_scaleToLineWidth;
-}
-
-- (void)setIsBeingEdited:(BOOL)edit
-{
-	// an editor should set htis for the duration of an edit. It prevents certain properties being changed by rasterizers during the edit
-	// which can cause contention for those properties.
-
-	mEditing = edit;
-}
-
-- (BOOL)isBeingEdited
-{
-	return mEditing;
-}
+@synthesize scalesToLineWidth=m_scaleToLineWidth;
+@synthesize isBeingEdited=mEditing;
 
 #pragma mark -
 - (void)applyToPath:(NSBezierPath*)path

@@ -35,19 +35,12 @@ as well.
 	NSMutableArray<DKRasterizer*>* m_renderList;
 }
 
-/** @brief Set the contained objects to those in array
- 
- This method no longer attempts to try and manage observing of the objects. The observer must
+/** @brief The list of contained renderers.
+
+ The setter no longer attempts to try and manage observing of the objects. The observer must
  properly stop observing before this is called, or start observing after it is called when
  initialising from an archive.
- @param list a list of renderer objects
- */
-- (void)setRenderList:(NSArray<DKRasterizer*>*)list;
-
-/** @brief Get the list of contained renderers
- @return an array containing the list of renderers
- */
-- (NSArray<DKRasterizer*>*)renderList;
+*/
 @property (nonatomic, copy) NSArray<DKRasterizer*>* renderList;
 
 - (DKRastGroup*)root;
@@ -65,16 +58,31 @@ as well.
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)index;
 - (DKRasterizer*)rendererWithName:(NSString*)name;
 
-- (NSUInteger)countOfRenderList;
+/** @brief Returns the number of directly contained renderers
+ 
+ Doesn't count renderers owned by nested groups within this one
+ */
+@property (readonly) NSUInteger countOfRenderList;
 - (BOOL)containsRendererOfClass:(Class)cl;
 - (NSArray<DKRasterizer*>*)renderersOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
 
-- (BOOL)isValid;
-
-@property (readonly) NSUInteger countOfRenderList;
+/** @brief Determines whther the group will draw anything by finding if any contained renderer will draw anything.
+ Is \c YES if at least one contained renderer will draw something.
+ */
 @property (readonly, getter=isValid) BOOL valid;
 
+/** @brief Removes all renderers from this group except other groups
+ 
+ Specialist use - not generally for application use
+ */
 - (void)removeAllRenderers;
+/** @brief Removes all renderers of the given class, optionally traversing levels below this
+ 
+ Renderers must be an exact match for <class> - subclasses are not considered a match. This is
+ intended for specialist use and should not generally be used by application code
+ @param cl the renderer class to remove
+ @param subs if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
+ */
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs;
 
 // KVO compliant variants of the render list management methods, key = "renderList"

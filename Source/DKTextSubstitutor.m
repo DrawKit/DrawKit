@@ -29,16 +29,12 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 
 + (NSCharacterSet*)keyBreakingCharacterSet
 {
-	// returns the characters that will end an embedded key (which always starts with the delimiter string). Note that to permit
-	// key paths as keys, the '.' character is NOT included. This means that any dot is considered part of the key, not the surrounding text. As a
-	// special case, a final dot is removed from a key and pushed back to the surrounding text, so a single trailing dot does effectively end a key
-	// as long as it's followed by another breaking character or is last character on the line.
-
-	static NSMutableCharacterSet* cs = nil;
+	static NSCharacterSet* cs = nil;
 
 	if (cs == nil) {
-		cs = [NSMutableCharacterSet characterSetWithCharactersInString:@" ,;:?-()+=*{}[]\"\\<>|!'%/"];
-		[cs formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSMutableCharacterSet *cs2 = [NSMutableCharacterSet characterSetWithCharactersInString:@" ,;:?-()+=*{}[]\"\\<>|!'%/"];
+		[cs2 formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		cs = [cs2 copy];
 	}
 
 	return cs;
@@ -58,9 +54,10 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 {
 	// designated initializer
 
-	self = [super init];
-	if (self)
+	if (self = [super init]){
+		mKeys = [[NSMutableArray alloc] init];
 		[self setMasterString:aString];
+	}
 
 	return self;
 }

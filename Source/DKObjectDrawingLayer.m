@@ -1262,24 +1262,7 @@ enum {
 #pragma mark -
 #pragma mark - drag + drop
 
-/** @brief Sets the rect outside of which a mouse drag will drag the selection with the drag manager.
-
- By default the drag exclusion rect is set to the interior of the drawing. Dragging objects to the
- margins thus drags them "off" the drawing.
- @param aRect a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
- */
-- (void)setDragExclusionRect:(NSRect)aRect
-{
-	m_dragExcludeRect = aRect;
-}
-
-/** @brief Gets the rect outside of which a mouse drag will drag the selection with the drag manager.
- @return a rect defining the area within which drags do not traigger DM operations
- */
-- (NSRect)dragExclusionRect
-{
-	return m_dragExcludeRect;
-}
+@synthesize dragExclusionRect=m_dragExcludeRect;
 
 /** @brief Initiates a drag of the selection to another document or app, or back to self.
 

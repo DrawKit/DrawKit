@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
 
+@protocol DKArrowSrokeDimensioning;
+
 /** @brief arrow head kinds - each end can be specified independently:
  */
 typedef NS_ENUM(NSInteger, DKArrowHeadKind) {
@@ -106,7 +108,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 @property (nonatomic) DKDimensioningLineOptions dimensioningLineOptions;
 
-- (NSAttributedString*)dimensionTextForObject:(id)obj;
+- (NSAttributedString*)dimensionTextForObject:(id<DKArrowSrokeDimensioning>)obj;
 - (CGFloat)widthOfDimensionTextForObject:(id)obj;
 - (NSString*)toleranceTextForObject:(id)object;
 
@@ -123,7 +125,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
  If it does not respond, the rasterizer infers the values from the path length and its internal values.
  */
-@interface NSObject (DKArrowSrokeDimensioning)
+@protocol DKArrowSrokeDimensioning <NSObject>
 
 - (NSDictionary*)dimensionValuesForArrowStroke:(DKArrowStroke*)arrowStroke;
 

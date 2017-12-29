@@ -12,38 +12,9 @@
 @implementation DKZigZagFill
 #pragma mark As a DKZigZagFill
 
-/**  */
-- (void)setWavelength:(CGFloat)w
-{
-	mWavelength = w;
-}
-
-- (CGFloat)wavelength
-{
-	return mWavelength;
-}
-
-#pragma mark -
-- (void)setAmplitude:(CGFloat)amp
-{
-	mAmplitude = amp;
-}
-
-- (CGFloat)amplitude
-{
-	return mAmplitude;
-}
-
-#pragma mark -
-- (void)setSpread:(CGFloat)sp
-{
-	mSpread = sp;
-}
-
-- (CGFloat)spread
-{
-	return mSpread;
-}
+@synthesize wavelength=mWavelength;
+@synthesize amplitude=mAmplitude;
+@synthesize spread=mSpread;
 
 #pragma mark -
 #pragma mark As a GCObservableObject

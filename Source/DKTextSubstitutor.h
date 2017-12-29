@@ -24,7 +24,12 @@ This objects abstracts the text substitution task used by text adornments, et. a
 }
 
 @property (class, copy) NSString *delimiterString;
-@property (class, readonly, retain) NSCharacterSet *keyBreakingCharacterSet;
+/** returns the characters that will end an embedded key (which always starts with the delimiter string). Note that to permit
+ key paths as keys, the '.' character is \b not included. This means that any dot is considered part of the key, not the surrounding text. As a
+ special case, a final dot is removed from a key and pushed back to the surrounding text, so a single trailing dot does effectively end a key
+ as long as it's followed by another breaking character or is last character on the line.
+ */
+@property (class, readonly, copy) NSCharacterSet *keyBreakingCharacterSet;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithString:(NSString*)aString;

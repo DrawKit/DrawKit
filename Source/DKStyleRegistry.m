@@ -31,21 +31,6 @@ NSString* kDKStyleWasRemovedFromRegistryNotification = @"kDKDrawingStyleWasRemov
 NSString* kDKStyleWasEditedWhileRegisteredNotification = @"kDKStyleWasEditedWhileRegisteredNotifcation";
 
 #pragma mark -
-#pragma mark static functions
-
-static NSInteger SortKeysByReferredName(id a, id b, void* contextInfo)
-{
-	DKStyleRegistry* reg = (__bridge DKStyleRegistry*)contextInfo;
-
-	// a and b are keys in the registry - order them by the name of the styles they reference
-
-	NSString* nameA = [reg styleNameForKey:a];
-	NSString* nameB = [reg styleNameForKey:b];
-
-	return [nameA localisedCaseInsensitiveNumericCompare:nameB];
-}
-
-#pragma mark -
 #pragma mark special private category on DKStyle gives the registry extra privileges.
 
 @interface DKStyle (RegistrySpecialPrivileges)
@@ -88,7 +73,7 @@ static BOOL s_NoDKDefaults = NO;
 		id appDelegate = [NSApp delegate];
 
 		if (appDelegate && [appDelegate respondsToSelector:@selector(applicationWillReturnStyleRegistry)])
-			s_styleRegistry = [appDelegate applicationWillReturnStyleRegistry];
+			s_styleRegistry = [(id<DKStyleRegistrySubstitution>)appDelegate applicationWillReturnStyleRegistry];
 
 		// if still nil, make a default one
 
@@ -827,7 +812,15 @@ static BOOL s_NoDKDefaults = NO;
 				
 				readOK = YES;
 			}
-			
+		} else {
+			if (error) {
+				*error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:nil];
+			}
+		}
+	} else {
+		if (error) {
+			*error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:
+					  @{NSLocalizedFailureReasonErrorKey: @"File is empty."}];
 		}
 	}
 	
@@ -1004,8 +997,14 @@ static BOOL s_NoDKDefaults = NO;
 	NSAssert(catName != nil, @"cannot have a nil category name");
 
 	NSArray* keys = [self allKeysInCategory:catName];
-	return [keys sortedArrayUsingFunction:SortKeysByReferredName
-								  context:(__bridge void * _Nullable)(self)];
+	return [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull a, id  _Nonnull b) {
+		// a and b are keys in the registry - order them by the name of the styles they reference
+
+		NSString* nameA = [self styleNameForKey:a];
+		NSString* nameB = [self styleNameForKey:b];
+
+		return [nameA localisedCaseInsensitiveNumericCompare:nameB];
+	}];
 }
 
 /** @brief Return all of the names in a given category, sorted into some useful order

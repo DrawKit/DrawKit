@@ -214,15 +214,7 @@
 }
 
 #pragma mark -
-- (void)setAngle:(CGFloat)radians
-{
-	m_angle = radians;
-}
-
-- (CGFloat)angle
-{
-	return m_angle;
-}
+@synthesize angle=m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -239,25 +231,8 @@
 	return angle;
 }
 
-- (void)setAngleIsRelativeToObject:(BOOL)relAngle
-{
-	m_angleRelativeToObject = relAngle;
-}
-
-- (BOOL)angleIsRelativeToObject
-{
-	return m_angleRelativeToObject;
-}
-
-- (void)setMotifAngle:(CGFloat)radians
-{
-	m_motifAngle = radians;
-}
-
-- (CGFloat)motifAngle
-{
-	return m_motifAngle;
-}
+@synthesize angleIsRelativeToObject=m_angleRelativeToObject;
+@synthesize motifAngle=m_motifAngle;
 
 - (void)setMotifAngleInDegrees:(CGFloat)degrees
 {
@@ -274,15 +249,7 @@
 	return angle;
 }
 
-- (void)setMotifAngleIsRelativeToPattern:(BOOL)mrel
-{
-	m_motifAngleRelativeToPattern = mrel;
-}
-
-- (BOOL)motifAngleIsRelativeToPattern
-{
-	return m_motifAngleRelativeToPattern;
-}
+@synthesize motifAngleIsRelativeToPattern=m_motifAngleRelativeToPattern;
 
 - (void)setMotifAngleRandomness:(CGFloat)maRand
 {
@@ -298,23 +265,8 @@
 	}
 }
 
-- (CGFloat)motifAngleRandomness
-{
-	return mMotifAngleRandomness;
-}
-
-- (void)setDrawingOfClippedElementsSupressed:(BOOL)supress
-{
-	// setting this causes a test for intersection of the motif's bounds with the object's path. If there is an intersection, the motif is not drawn. This makes patterns
-	// appear tidier for certain applications (such as GIS/mapping) but adds a substantial performance overhead. Off by default.
-
-	m_noClippedElements = supress;
-}
-
-- (BOOL)drawingOfClippedElementsSupressed
-{
-	return m_noClippedElements;
-}
+@synthesize motifAngleRandomness=mMotifAngleRandomness;
+@synthesize drawingOfClippedElementsSupressed=m_noClippedElements;
 
 #pragma mark -
 #pragma mark As a DKPathDecorator

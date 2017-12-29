@@ -267,10 +267,6 @@
 	return nil;
 }
 
-/** @brief Removes all renderers from this group except other groups
-
- Specialist use - not generally for application use
- */
 - (void)removeAllRenderers
 {
 	for (DKRasterizer* rast in [self.renderList copy]) {
@@ -280,13 +276,6 @@
 	}
 }
 
-/** @brief Removes all renderers of the given class, optionally traversing levels below this
-
- Renderers must be an exact match for <class> - subclasses are not considered a match. This is
- intended for specialist use and should not generally be used by application code
- @param cl the renderer class to remove
- @param subs if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
- */
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs
 {
 	// removes any renderers of the given *exact* class from the group. If <subs> is YES, recurses down to any subgroups below.

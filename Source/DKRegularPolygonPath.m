@@ -265,7 +265,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 		case kDKRegularPolyRotationPart:
 			val = [self angleInDegrees];
-			infoStr = [NSString stringWithFormat:@"%.1f%C", val, 0xB0];
+			infoStr = [NSString stringWithFormat:@"%.1f°", val];
 			break;
 
 		case kDKRegularPolyTipSpreadPart:

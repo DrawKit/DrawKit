@@ -64,14 +64,13 @@ typedef NS_ENUM(NSInteger, DKBSPOperation) {
 	NSBezierPath* mDebugPath;
 }
 
-+ (Class)leafClass;
+@property (class, readonly) Class leafClass;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth NS_DESIGNATED_INITIALIZER;
 @property (readonly) NSSize canvasSize;
 
 - (void)setDepth:(NSUInteger)depth;
-- (NSUInteger)countOfLeaves;
 @property (readonly) NSUInteger countOfLeaves;
 
 - (void)insertItemIndex:(NSUInteger)idx withRect:(NSRect)rect;

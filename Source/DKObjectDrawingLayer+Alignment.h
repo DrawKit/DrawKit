@@ -51,18 +51,9 @@ This category implements object alignment features for DKObjectDrawingLayer
 
  The object is not retained as it should already be owned. A nil object can be set to mean that the
  topmost select object should be considered key.
- @param keyObject an object that is to be considered key for alignment ops
- */
-- (void)setKeyObject:(DKDrawableObject*)keyObject;
-
-/** @brief Returns the object as the master to be used for alignment operations, etc
-
  If no specific object is set (nil), then the first object in the selection is returned. If there's
- no selection, returns nil. 
- @return an object that is to be considered key for alignment ops
+ no selection, returns nil.
  */
-- (DKDrawableObject*)keyObject;
-
 @property (unsafe_unretained) DKDrawableObject *keyObject;
 
 /** @brief Aligns a set of objects

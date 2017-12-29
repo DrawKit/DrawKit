@@ -19,10 +19,7 @@
 	}
 }
 
-- (CGFloat)roughness
-{
-	return mRoughness;
-}
+@synthesize roughness=mRoughness;
 
 - (NSString*)pathKeyForPath:(NSBezierPath*)path
 {

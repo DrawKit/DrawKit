@@ -35,59 +35,40 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-/** @brief Returns the immediate container of this object, if owned by a group
- @return the object's container group, if any
+/** @brief The immediate container of this object.
+ 
+ This is a weak reference as the object is owned by its container. Generally the setter is called as
+ required when the object is added to a group, so should not be set by app code.
  */
-- (DKRastGroup*)container;
-
-/** @brief Sets the immediate container of this object
-
- This is a weak reference as the object is owned by its container. Generally this is called as
- required when the object is added to a group, so should not be used by app code
- @param container the objects's container - must be a group, or nil
- */
-- (void)setContainer:(DKRastGroup*)container;
-	
 @property (weak) DKRastGroup *container;
 
-/** @brief Set the name of the renderer
+/** @brief The name of the renderer.
  
  Named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
- @param name the name to give the renderer
  */
-- (void)setName:(NSString*)name;
-
-/** @brief Get the name of the renderer
- 
- Named renderers can be referred to in scripts or bound to in the UI
- @return the renderer's name
- */
-- (NSString*)name;
 @property (nonatomic, copy) NSString *name;
 
-- (NSString*)label;
+/** @brief Get the name or classname of the renderer.
+ 
+ Named renderers can be referred to in scripts or bound to in the UI.
+ @return the renderer's name or classname
+ */
 @property (readonly, copy/*, nonnull*/) NSString *label;
 
-- (BOOL)isValid;
 - (NSString*)styleScript;
 
+/** @brief Queries whether the renderer is valid, that is, it will draw something.
+ 
+ Used to optimize drawing - invalid renderers are skipped.
+ Is \c YES if the renderer will draw something, \c NO otherwise.
+ */
 @property (readonly, getter=isValid) BOOL valid;
 
-/** @brief Set whether the renderer is enabled or not
+/** @brief Whether the renderer is enabled or not
  
  Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
- larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
- @param enable \c YES to enable, \c NO to disable.
+ larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer.
  */
-- (void)setEnabled:(BOOL)enable;
-	
-/** @brief Query whether the renderer is enabled or not
- 
- Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
- larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
- @return \c YES if enabled, \c NO if not.
- */
-- (BOOL)enabled;
 @property BOOL enabled;
 
 /** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
@@ -96,11 +77,8 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 - (void)setClipping:(DKClippingOption)clipping;
 - (void)setClippingWithoutNotifying:(DKClippingOption)clipping;
 
-/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
- @return a DKClippingOption value
+/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side.
  */
-- (DKClippingOption)clipping;
-
 @property DKClippingOption clipping;
 
 /** @brief Returns the path to render given the object doing the rendering
@@ -123,8 +101,7 @@ extern NSNotificationName kDKRasterizerPropertyWillChange;
 extern NSNotificationName kDKRasterizerPropertyDidChange;
 extern NSString* kDKRasterizerChangedPropertyKey;
 
-/*!
- DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
+/*! @brief DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
  include DKStroke, DKFill, DKHatching, DKFillPattern, DKGradient, etc.
  
  A renderer is given an object and renders it according to its behaviour to the current context. It can

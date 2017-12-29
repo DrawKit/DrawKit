@@ -1380,7 +1380,7 @@ finish:
 					p.x += 4;
 					p.y -= 12;
 
-					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
+					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f°", rad, abbrUnits, angle]
 												   atPoint:nsp];
 				}
 			}

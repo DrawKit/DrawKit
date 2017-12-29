@@ -148,9 +148,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return stop;
 }
 
-/** @brief Add a Color stop to the list of gradient Colors
- @param stop the Colorstop to add
- */
 - (void)addColorStop:(DKColorStop*)stop
 {
 	if (![[self colorStops] containsObject:stop]) {
@@ -165,16 +162,11 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	}
 }
 
-/** @brief Removes the last Color from he list of Colors
- */
 - (void)removeLastColor
 {
 	[self removeColorStop:[m_colorStops lastObject]];
 }
 
-/** @brief Removes a Color stop from the list of Colors
- @param stop the stop to remove
- */
 - (void)removeColorStop:(DKColorStop*)stop
 {
 	if ([[self colorStops] containsObject:stop]) {
@@ -188,8 +180,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	}
 }
 
-/** @brief Removes all Colors from the list of Colors
- */
 - (void)removeAllColors
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillRemoveColorStop
@@ -579,7 +569,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 		[path addClip];
 
-	//CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+    //CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 	[self fillStartingAtPoint:sp
 				  startRadius:sr
 				endingAtPoint:ep

@@ -1460,7 +1460,7 @@ static NSSize sTempSavedOffset;
 			break;
 
 		case kDKShapeOperationRotate:
-			infoStr = [NSString stringWithFormat:@"%.1f%C", [self angleInDegrees], 0xB0]; // UTF-8 for degree symbol is 0xB0
+			infoStr = [NSString stringWithFormat:@"%.1f°", [self angleInDegrees]]; // UTF-8 for degree symbol is 0xB0
 			break;
 		}
 

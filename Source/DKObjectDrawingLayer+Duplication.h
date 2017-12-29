@@ -7,6 +7,7 @@
 #import <Cocoa/Cocoa.h>
 #import "DKObjectDrawingLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
 @class DKDrawableObject;
 
 /** @brief Some handy methods for implementing various kinds of object duplications.
@@ -26,7 +27,7 @@ Some handy methods for implementing various kinds of object duplications.
  @param rotCopies YES to rotate the copies so that they lie on the radial, NO to keep them at their original rotation
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray<DKDrawableObject*>*)polarDuplicate:(NSArray<DKDrawableObject*>*)objectsToDuplicate
+- (nullable NSArray<DKDrawableObject*>*)polarDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
 									   centre:(NSPoint)centre
 							   numberOfCopies:(NSInteger)nCopies
 							   incrementAngle:(CGFloat)incRadians
@@ -41,7 +42,7 @@ Some handy methods for implementing various kinds of object duplications.
  @param nCopies how many copies to make
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray<DKDrawableObject*>*)linearDuplicate:(NSArray<DKDrawableObject*>*)objectsToDuplicate
+- (nullable NSArray<DKDrawableObject*>*)linearDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
 										offset:(NSSize)offset
 								numberOfCopies:(NSInteger)nCopies;
 
@@ -54,7 +55,7 @@ Some handy methods for implementing various kinds of object duplications.
  @param centre the centre around which the object is located
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray<DKDrawableObject*>*)autoPolarDuplicate:(DKDrawableObject*)object
+- (nullable NSArray<DKDrawableObject*>*)autoPolarDuplicate:(DKDrawableObject*)object
 										   centre:(NSPoint)centre;
 
 /** @brief Duplicates one or more objects concentrically around a common centre
@@ -68,9 +69,11 @@ Some handy methods for implementing various kinds of object duplications.
  @param inset the amount each copy is inset or outset (-ve) by
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray<DKDrawableObject*>*)concentricDuplicate:(NSArray<DKDrawableObject*>*)objectsToDuplicate
+- (nullable NSArray<DKDrawableObject*>*)concentricDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
 											centre:(NSPoint)centre
 									numberOfCopies:(NSInteger)nCopies
 										   insetBy:(CGFloat)inset;
 
 @end
+
+NS_ASSUME_NONNULL_END

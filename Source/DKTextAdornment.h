@@ -68,11 +68,8 @@ other fixed content. See that class for details.
 - (NSTextStorage*)textToDraw:(id)object;
 - (NSTextStorage*)textForEditing;
 
-// placeholder text - shown if the adornment would otherwise draw nothing
-
-- (void)setPlaceholderString:(NSString*)str;
-- (NSString*)placeholderString;
-
+/** @brief placeholder text - shown if the adornment would otherwise draw nothing
+ */
 @property (copy) NSString *placeholderString;
 
 // text conversions:
@@ -83,9 +80,10 @@ other fixed content. See that class for details.
 
 // text layout:
 
-- (void)setVerticalAlignmentProportion:(CGFloat)prop;
-- (CGFloat)verticalAlignmentProportion;
-- (CGFloat)baselineOffset;
+/** @brief for proportional vertical text placement, this is the proportion 0..1 of the height
+ */
+@property (nonatomic) CGFloat verticalAlignmentProportion;
+@property (readonly) CGFloat baselineOffset;
 - (CGFloat)baselineOffsetForTextHeight:(CGFloat)height;
 - (CGFloat)verticalTextOffsetForObject:(id<DKRenderable>)object;
 - (NSRect)textLayoutRectForObject:(id<DKRenderable>)object;
@@ -93,11 +91,6 @@ other fixed content. See that class for details.
 /** @brief vertical text alignment
  */
 @property (nonatomic) DKVerticalTextAlignment verticalAlignment;
-
-/** @brief for proportional vertical text placement, this is the proportion 0..1 of the height
- */
-@property (nonatomic) CGFloat verticalAlignmentProportion;
-@property (readonly) CGFloat baselineOffset;
 
 /** @brief layout rect
  
@@ -117,9 +110,11 @@ other fixed content. See that class for details.
  */
 @property (nonatomic) CGFloat flowedTextPathInset;
 
-/** @brief independent text angle
+/** @brief Independent text angle, in radians.
  */
 @property (nonatomic) CGFloat angle;
+/** @brief Independent text angle, in degrees.
+ */
 @property CGFloat angleInDegrees;
 
 /** @brief \c YES to add the object's angle to the text angle
@@ -234,7 +229,7 @@ other fixed content. See that class for details.
  positioning text at the centroid, the object is not required to return the true centroid - it can be any point.
  In this mode text is laid out in one line centred on the point with no clipping.
  */
-@interface NSObject (TextLayoutProtocol)
+@protocol DKTextLayoutProtocol <DKRenderable>
 
 - (NSPoint)pointForTextLayout;
 

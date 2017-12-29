@@ -30,16 +30,11 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 - (void)setDashPattern:(CGFloat[])dashes count:(NSInteger)count;
 - (void)getDashPattern:(CGFloat[])dashes count:(NSInteger*)count;
-- (NSInteger)count;
-- (void)setPhase:(CGFloat)ph;
-- (void)setPhaseWithoutNotifying:(CGFloat)ph;
-- (CGFloat)phase;
-- (CGFloat)length;
-- (CGFloat)lengthAtIndex:(NSUInteger)indx;
-
 /** @brief The count of dashes.
  */
-@property (readonly) NSInteger count;
+@property (readonly) NSUInteger count;
+
+- (void)setPhaseWithoutNotifying:(CGFloat)ph;
 /** @brief The phase of the dash, ignoring any line width scaling.
  */
 @property (nonatomic) CGFloat phase;
@@ -47,14 +42,12 @@
  this returns the unscaled length, so the client needs to multiply the result by the line width if necessary.
  */
 @property (readonly) CGFloat length;
-
-- (void)setScalesToLineWidth:(BOOL)stlw;
-- (BOOL)scalesToLineWidth;
-
-- (void)setIsBeingEdited:(BOOL)edit;
-- (BOOL)isBeingEdited;
+- (CGFloat)lengthAtIndex:(NSUInteger)indx;
 
 @property BOOL scalesToLineWidth;
+/** an editor should set this for the duration of an edit. It prevents certain properties being changed by rasterizers during the edit
+ which can cause contention for those properties.
+ */
 @property BOOL isBeingEdited;
 
 - (void)applyToPath:(NSBezierPath*)path;

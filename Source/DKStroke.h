@@ -49,7 +49,7 @@ DKStyle can contains a list of strokes without limit.
 
 @property CGFloat lateralOffset;
 
-@property (strong) NSShadow *shadow;
+@property (copy) NSShadow *shadow;
 
 - (void)strokeRect:(NSRect)rect;
 - (void)applyAttributesToPath:(NSBezierPath*)path;

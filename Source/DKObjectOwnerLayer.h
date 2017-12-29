@@ -65,25 +65,15 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 	BOOL mShowStorageDebugging; // if YES, draws the debugging path for the storage on top (debugging feature only)
 }
 
-+ (void)setDefaultLayerCacheOption:(DKLayerCacheOption)option;
-+ (DKLayerCacheOption)defaultLayerCacheOption;
-
 @property (class) DKLayerCacheOption defaultLayerCacheOption;
 
 // setting the storage (n.b. storage is set by default, this is an advanced feature that you can ignore 99% of the time):
 
-+ (void)setStorageClass:(Class)aClass;
-+ (Class)storageClass;
-
 @property (class) Class storageClass;
-
-- (void)setStorage:(id<DKObjectStorage>)storage;
 
 /** @brief Returns the storage object for the layer
  @return a storage object
  */
-- (id<DKObjectStorage>)storage;
-
 @property (nonatomic, strong) id<DKObjectStorage> storage;
 
 // as a container for a DKDrawableObject:
@@ -93,32 +83,22 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  See DKDrawableObject which also implements this protocol
  @return self
  */
-- (DKObjectOwnerLayer*)layer;
-
 @property (readonly, strong) DKObjectOwnerLayer *layer;
 
 // the list of objects:
 
 /** @brief Sets the objects that this layer owns
- @param objs an array of DKDrawableObjects, or subclasses thereof
+ Is an array of DKDrawableObjects, or subclasses thereof
  */
-- (void)setObjects:(NSArray<DKDrawableObject*>*)objs; // KVC/KVO compliant
-
-/** @brief Returns all owned objects
- @return an array of the objects
- */
-- (NSArray<DKDrawableObject*>*)objects; // KVC/KVO compliant
+@property (nonatomic, copy) NSArray<DKDrawableObject*> *objects; // KVC/KVO compliant
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible
 
  If the layer itself is locked, returns the empty list
  @return an array of available objects
  */
-- (NSArray<DKDrawableObject*>*)availableObjects;
-
-@property (nonatomic, copy) NSArray<DKDrawableObject*> *objects;
 @property (readonly, copy) NSArray<DKDrawableObject*> *availableObjects;
-@property (readonly, copy) NSArray<DKDrawableObject*> *visibleObjects;
+
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible and that
  intersect the rect
@@ -137,12 +117,11 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (NSArray<DKDrawableObject*>*)availableObjectsOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
-/** @brief Returns objects that are visible to the user, but may be locked
+/** @brief Returns objects that are visible to the user, but may be locked.
 
- If the layer itself is not visible, returns nil
- @return an array of visible objects
+ If the layer itself is not visible, returns <code>nil</code>.
  */
-- (NSArray<DKDrawableObject*>*)visibleObjects;
+@property (readonly, copy) NSArray<DKDrawableObject*> *visibleObjects;
 
 /** @brief Returns objects that are visible to the user, intersect the rect, but may be locked
 
@@ -172,8 +151,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 // getting objects:
 
-- (NSUInteger)countOfObjects; // KVC/KVO compliant
-@property (readonly) NSUInteger countOfObjects;
+@property (readonly) NSUInteger countOfObjects; // KVC/KVO compliant
 
 /** @brief Returns the object at a given stacking position index
  @param indx the stacking position
@@ -183,14 +161,11 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 /** @brief Returns the topmost object
  @return the topmost object
  */
-- (DKDrawableObject*)topObject;
+@property (readonly, strong) DKDrawableObject* topObject;
 
 /** @brief Returns the bottom object
  @return the bottom object
  */
-- (DKDrawableObject*)bottomObject;
-
-@property (readonly, strong) DKDrawableObject* topObject;
 @property (readonly, strong) DKDrawableObject* bottomObject;
 
 /** @brief Returns the stacking position of the given object
@@ -435,7 +410,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  Returns the identity transform
  @return a transform
  */
-- (NSAffineTransform*)renderingTransform;
+@property (readonly, copy) NSAffineTransform *renderingTransform;
 
 /** @brief Modifies the objects by applying the given transform to each of them.
 
@@ -508,7 +483,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  implements selection overrides this to handle the selection also. Thus when pasting non-native
  objects, convert them to native objects and pass to this method in an array.
  */
-- (void)addObjects:(NSArray*)objects fromPasteboard:(NSPasteboard*)pb atDropLocation:(NSPoint)p;
+- (void)addObjects:(NSArray<DKDrawableObject*>*)objects fromPasteboard:(NSPasteboard*)pb atDropLocation:(NSPoint)p;
 
 /** @brief Detect whether the paste from the pasteboard is a new paste, or a repeat paste
 
@@ -520,46 +495,27 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (BOOL)updatePasteCountWithPasteboard:(NSPasteboard*)pb;
 
-/** @brief Return whether the paste offset will be recorded for the current drag operation
- @return YES if paste offset will be recorded, NO otherwise
+/** @brief Whether the paste offset will be recorded for the current drag operation.
+ @return \c YES if paste offset will be recorded, \c NO otherwise.
  */
-- (BOOL)isRecordingPasteOffset;
-
-/** @brief Set whether the paste offset will be recorded for the current drag operation
- @param record YES to record the offset
- */
-- (void)setRecordingPasteOffset:(BOOL)record;
-- (NSInteger)pasteCount;
-
 @property (getter=isRecordingPasteOffset) BOOL recordingPasteOffset;
-@property (readonly) NSInteger pasteCount;
 
-/** @brief Return the current point where pasted object will be positioned relative to
-
- See paste: for how this is used
- @return the paste origin
+/** @brief Return the current number of repeated pastes since the last new paste
+ 
+ The paste count is reset to 1 by a new paste, and incremented for each subsequent paste of the
+ same objects. This is used when calculating appropriate positioning for repeated pasting.
+ @return the current number of pastes since the last new paste
  */
-- (NSPoint)pasteOrigin;
+@property (readonly) NSInteger pasteCount;
 
 /** @brief Sets the current point where pasted object will be positioned relative to
 
  See paste: for how this is used
- @param po the desired paste origin.
  */
-- (void)setPasteOrigin:(NSPoint)po;
-
 @property (nonatomic) NSPoint pasteOrigin;
 
-/** @brief Returns the paste offset (distance between successively pasted objects)
- @return the paste offset as a NSSize
+/** @brief The paste offset (distance between successively pasted objects)
  */
-- (NSSize)pasteOffset;
-
-/** @brief Sets the paste offset (distance between successively pasted objects)
- @param offset the paste offset as a NSSize
- */
-- (void)setPasteOffset:(NSSize)offset;
-
 @property (nonatomic) NSSize pasteOffset;
 
 /** @brief Establish the paste offset - a value used to position items when pasting and duplicating
@@ -635,40 +591,17 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 // options:
 
-/** @brief Sets whether the layer permits editing of its objects
- @param editable YES to enable editing, NO to prevent it
- */
-- (void)setAllowsEditing:(BOOL)editable;
-
 /** @brief Does the layer permit editing of its objects?
 
  Locking and hiding the layer also disables editing
- @return YES if editing will take place, NO if it is prevented
+ Is \c YES if editing will take place, \c NO if it is prevented.
  */
-- (BOOL)allowsEditing;
-	
 @property (nonatomic) BOOL allowsEditing;
 
-/** @brief Sets whether the layer permits snapping to its objects
- @param snap YES to allow snapping
- */
-- (void)setAllowsSnapToObjects:(BOOL)snap;
-
 /** @brief Does the layer permit snapping to its objects?
- @return YES if snapping allowed
+ Is YES if snapping allowed.
  */
-- (BOOL)allowsSnapToObjects;
-
 @property BOOL allowsSnapToObjects;
-
-/** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
-
- Layers can cache their entire contents offscreen when they are inactive. This can boost
- drawing performance when there are many layers, or the layers have complex contents. When the
- layer is deactivated the cache is updated, on activation the "real" content is drawn.
- @param option the desired cache option
- */
-- (void)setLayerCacheOption:(DKLayerCacheOption)option;
 
 /** @brief Query whether the layer caches its content in an offscreen layer when not active
 
@@ -677,20 +610,11 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  layer is deactivated the cache is updated, on activation the "real" content is drawn.
  @return the current cache option
  */
-- (DKLayerCacheOption)layerCacheOption;
-
 @property (nonatomic) DKLayerCacheOption layerCacheOption;
 
-/** @brief Query whether the layer is currently highlighted for a drag (receive) operation
- @return YES if highlighted, NO otherwise
- */
-- (BOOL)isHighlightedForDrag;
-
 /** @brief Set whether the layer is currently highlighted for a drag (receive) operation
- @param highlight YES to highlight, NO otherwise
+ Is \c YES if highlighted, \c NO otherwise.
  */
-- (void)setHighlightedForDrag:(BOOL)highlight;
-
 @property (nonatomic, getter=isHighlightedForDrag) BOOL highlightedForDrag;
 
 /** @brief Draws the highlighting to indicate the layer is a drag target

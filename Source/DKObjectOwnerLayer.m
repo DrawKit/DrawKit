@@ -1134,7 +1134,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
  implements selection overrides this to handle the selection also. Thus when pasting non-native
  objects, convert them to native objects and pass to this method in an array.
  */
-- (void)addObjects:(NSArray*)objects fromPasteboard:(NSPasteboard*)pb atDropLocation:(NSPoint)p
+- (void)addObjects:(NSArray<DKDrawableObject*>*)objects fromPasteboard:(NSPasteboard*)pb atDropLocation:(NSPoint)p
 {
 #pragma unused(pb)
 
@@ -1241,68 +1241,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-/** @brief Return the current number of repeated pastes since the last new paste
-
- The paste count is reset to 1 by a new paste, and incremented for each subsequent paste of the
- same objects. This is used when calculating appropriate positioning for repeated pasting.
- @return the current number of pastes since the last new paste
- */
-- (NSInteger)pasteCount
-{
-	return mPasteCount;
-}
-
-/** @brief Return the current point where pasted object will be positioned relative to
-
- See paste: for how this is used
- @return the paste origin
- */
-- (NSPoint)pasteOrigin
-{
-	return m_pasteAnchor;
-}
-
-/** @brief Sets the current point where pasted object will be positioned relative to
-
- See paste: for how this is used
- @param po the desired paste origin.
- */
-- (void)setPasteOrigin:(NSPoint)po
-{
-	m_pasteAnchor = po;
-}
-
-/** @brief Return whether the paste offset will be recorded for the current drag operation
- @return YES if paste offset will be recorded, NO otherwise
- */
-- (BOOL)isRecordingPasteOffset
-{
-	return m_recordPasteOffset;
-}
-
-/** @brief Set whether the paste offset will be recorded for the current drag operation
- @param record YES to record the offset
- */
-- (void)setRecordingPasteOffset:(BOOL)record
-{
-	m_recordPasteOffset = record;
-}
-
-/** @brief Returns the paste offset (distance between successively pasted objects)
- @return the paste offset as a NSSize
- */
-- (NSSize)pasteOffset
-{
-	return m_pasteOffset;
-}
-
-/** @brief Sets the paste offset (distance between successively pasted objects)
- @param offset the paste offset as a NSSize
- */
-- (void)setPasteOffset:(NSSize)offset
-{
-	m_pasteOffset = offset;
-}
+@synthesize pasteCount=mPasteCount;
+@synthesize pasteOrigin=m_pasteAnchor;
+@synthesize recordingPasteOffset=m_recordPasteOffset;
+@synthesize pasteOffset=m_pasteOffset;
 
 /** @brief Sets the paste offset (distance between successively pasted objects)
  @param objects the list of objects that were moved
@@ -1509,16 +1451,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 #pragma mark -
 #pragma mark - options
 
-#if 0
-/** @brief Sets whether the layer permits editing of its objects
- @param editable YES to enable editing, NO to prevent it
- */
-- (void)setAllowsEditing:(BOOL)editable
-{
-	m_allowEditing = editable;
-}
-#endif
-
 /** @brief Does the layer permit editing of its objects?
 
  Locking and hiding the layer also disables editing
@@ -1530,63 +1462,8 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 }
 
 @synthesize allowsEditing=m_allowEditing;
-
-#if 0
-/** @brief Sets whether the layer permits snapping to its objects
- @param snap YES to allow snapping
- */
-- (void)setAllowsSnapToObjects:(BOOL)snap
-{
-	m_allowSnapToObjects = snap;
-}
-
-/** @brief Does the layer permit snapping to its objects?
- @return YES if snapping allowed
- */
-- (BOOL)allowsSnapToObjects
-{
-	return m_allowSnapToObjects;
-}
-#endif
-
 @synthesize allowsSnapToObjects=m_allowSnapToObjects;
-
-#if 0
-/** @brief Set whether the layer caches its content in an offscreen layer when not active, and how
-
- Layers can cache their entire contents offscreen when they are inactive. This can boost
- drawing performance when there are many layers, or the layers have complex contents. When the
- layer is deactivated the cache is updated, on activation the "real" content is drawn.
- @param option the desired cache option
- */
-- (void)setLayerCacheOption:(DKLayerCacheOption)option
-{
-	mLayerCachingOption = option;
-}
-
-/** @brief Query whether the layer caches its content in an offscreen layer when not active
-
- Layers can cache their entire contents offscreen when they are inactive. This can boost
- drawing performance when there are many layers, or the layers have complex contents. When the
- layer is deactivated the cache is updated, on activation the "real" content is drawn.
- @return the current cache option
- */
-- (DKLayerCacheOption)layerCacheOption
-{
-	return mLayerCachingOption;
-}
-#endif
 @synthesize layerCacheOption =mLayerCachingOption;
-
-#if 0
-/** @brief Query whether the layer is currently highlighted for a drag (receive) operation
- @return YES if highlighted, NO otherwise
- */
-- (BOOL)isHighlightedForDrag
-{
-	return m_inDragOp;
-}
-#endif
 
 /** @brief Set whether the layer is currently highlighted for a drag (receive) operation
  @param highlight YES to highlight, NO otherwise

@@ -1401,7 +1401,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			// but that's the intention of this setting
 
 			if ([object respondsToSelector:@selector(pointForTextLayout)]) {
-				NSPoint tp = [(NSObject*)object pointForTextLayout];
+				NSPoint tp = [(id<DKTextLayoutProtocol>)object pointForTextLayout];
 				[self drawText:str
 					centredAtPoint:tp];
 			}

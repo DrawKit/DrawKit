@@ -23,7 +23,7 @@ typedef NS_OPTIONS(NSUInteger, DKStyleMergeOptions) {
 
 /** values you can test for in result of compareStylesInSet:
  */
-enum {
+typedef NS_ENUM(NSInteger, DKStyleCompare) {
 	kDKStyleNotRegistered = 0,
 	kDKStyleIsOlder = 1,
 	kDKStyleUnchanged = 2,
@@ -243,7 +243,6 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 /** @brief Return the entire list of keys of the styles in the registry
  @return an array listing all of the keys in the registry
  */
-+ (NSArray<NSString*>*)registeredStyleKeys;
 @property (class, readonly, copy) NSArray<NSString*> *registeredStyleKeys;
 
 /** @brief Return data that can be saved to a file, etc. representing the registry
@@ -383,10 +382,10 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param path the full path of the file to write
  @param options merging options
  @param aDel an optional delegate object that can make a merge decision for each individual style object
+ @param error If \c NO was returned, this should be filled out.
  @return YES if the file was read and merged sucessfully, NO otherwise
  */
 - (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel error:(NSError**)error;
-
 
 - (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id<DKStyleRegistryDelegate>)aDel;
 
@@ -445,7 +444,7 @@ extern NSString* kDKStyleWasEditedWhileRegisteredNotification;
 
 @end
 
-@interface NSObject (DKStyleRegistrySubstitution)
+@protocol DKStyleRegistrySubstitution <NSApplicationDelegate>
 
 - (DKStyleRegistry*)applicationWillReturnStyleRegistry;
 
