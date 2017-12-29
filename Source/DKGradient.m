@@ -569,7 +569,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 		[path addClip];
 
-    //CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 	[self fillStartingAtPoint:sp
 				  startRadius:sr
 				endingAtPoint:ep
@@ -652,7 +651,19 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	  endingAtPoint:(NSPoint)ep
 		  endRadius:(CGFloat)er
 {
+	[NSGraphicsContext saveGraphicsState];
+	if (@available(macOS 10.10, *)) {
+		NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithCGContext:context flipped:NO];
+		[NSGraphicsContext setCurrentContext:ctx];
+	} else {
+		// Fallback on earlier versions
+		NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:NO];
+		[NSGraphicsContext setCurrentContext:ctx];
+	}
+	
 	[self fillStartingAtPoint:sp startRadius:sr endingAtPoint:ep endRadius:er];
+	
+	[NSGraphicsContext restoreGraphicsState];
 }
 
 #pragma mark -
