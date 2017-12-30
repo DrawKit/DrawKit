@@ -58,10 +58,11 @@ static DKToolRegistry* s_toolRegistry = nil;
  */
 + (DKToolRegistry*)sharedToolRegistry
 {
-	if (s_toolRegistry == nil) {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
 		s_toolRegistry = [[self alloc] init];
 		[s_toolRegistry registerStandardTools];
-	}
+	});
 
 	return s_toolRegistry;
 }
