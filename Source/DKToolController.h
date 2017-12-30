@@ -8,6 +8,8 @@
 #import "DKViewController.h"
 #import "DKDrawingToolProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawingTool, DKUndoManager;
 
 //! this type is used to set the scope of tools within a DK application:
@@ -92,7 +94,7 @@ tool's name and target first responder with this action.
  method to set them, otherwise an exception is thrown.
  @param name the registered name of the required tool
  */
-- (void)setDrawingToolWithName:(NSString*)name;
+- (void)setDrawingToolWithName:(DKToolName)name;
 
 /** @brief Check if the tool can be set for the current active layer
 
@@ -120,7 +122,7 @@ tool's name and target first responder with this action.
  but doesn't preclude you from using any other UI as you see fit.
  @param sender the sender of the action - it should implement -title (e.g. a button, menu item)
  */
-- (IBAction)selectDrawingToolByName:(id)sender;
+- (IBAction)selectDrawingToolByName:(nullable id)sender;
 
 /** @brief Select the tool using the represented object of a UI control, etc.
 
@@ -129,7 +131,7 @@ tool's name and target first responder with this action.
  represented object.
  @param sender the sender of the action - it should implement -representedObject (e.g. a button, menu item)
  */
-- (IBAction)selectDrawingToolByRepresentedObject:(id)sender;
+- (IBAction)selectDrawingToolByRepresentedObject:(nullable id)sender;
 
 /** @brief Toggle the state of the automatic tool "spring" behaviour.
 
@@ -137,12 +139,12 @@ tool's name and target first responder with this action.
  make a tool "sticky". Often this is done by double-clicking the tool button.
  @param sender the sender of the action
  */
-- (IBAction)toggleAutoRevertAction:(id)sender;
+- (IBAction)toggleAutoRevertAction:(nullable id)sender;
 
 /** @brief Return the undo manager
  @return the drawing's undo manager
  */
-- (id)undoManager;
+- (nullable id)undoManager;
 
 /** @brief Opens a new undo manager group if one has not already been opened
  */
@@ -171,3 +173,5 @@ extern NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey;
 // constants:
 
 extern DKToolName kDKStandardSelectionToolName;
+
+NS_ASSUME_NONNULL_END
