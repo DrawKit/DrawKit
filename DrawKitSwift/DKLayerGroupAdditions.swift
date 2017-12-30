@@ -34,5 +34,15 @@ extension DKLayerGroup {
 	/// - returns: A list of layers. May be empty.
 	public func layers<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool = false) -> [A] {
 		return __layers(of: cl, performDeepSearch: deep) as! [A]
-	}	
+	}
+	
+	/// Creates and adds a layer to the drawing.
+	///
+	/// `layerClass` must be a valid subclass of `DKLayer`, otherwise does nothing and `nil` is returned.
+	///
+	/// - parameter layerClass: The class of some kind of layer.
+	/// - returns: The layer created.
+	public func addNewLayer<A: DKLayer>(of layerClass: A.Type) -> A? {
+		return __addNewLayer(of: layerClass) as? A
+	}
 }

@@ -7,7 +7,6 @@
 //
 
 import DKDrawKit.DKDrawableObject
-import DKDrawKit.DKDrawableObject.Metadata
 
 extension DKDrawableObject {
 	public var userInfo: [String: Any] {

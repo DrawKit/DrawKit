@@ -29,8 +29,6 @@ typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 */
 @interface DKDrawableObject (Metadata) <DKMetadataStorable>
 
-+ (void)setMetadataChangesAreUndoable:(BOOL)undo;
-+ (BOOL)metadataChangesAreUndoable;
 @property (class) BOOL metadataChangesAreUndoable;
 
 - (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
@@ -84,7 +82,6 @@ typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 - (NSSize)sizeForKey:(NSString*)key;
 
 - (void)updateMetadataKeys;
-- (NSUInteger)metadataChecksum;
 @property (readonly) NSUInteger metadataChecksum;
 
 - (void)metadataWillChangeKey:(nullable NSString*)key;

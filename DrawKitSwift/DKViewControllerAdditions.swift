@@ -15,5 +15,4 @@ extension DKViewController {
 	public func activeLayer<A: DKLayer>(of aClass: A.Type) -> A? {
 		return __activeLayer(of: aClass) as? A
 	}
-
 }

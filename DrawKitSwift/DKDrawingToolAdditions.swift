@@ -9,7 +9,7 @@
 import DKDrawKit.DKDrawingTool
 
 extension DKDrawingTool {
-	public var keyboard: (equivalent: String, modifierFlags: UInt) {
+	public var keyboard: (equivalent: String, modifierFlags: NSEvent.ModifierFlags) {
 		get {
 			return (keyboardEquivalent ?? "", keyboardModifierFlags)
 		}

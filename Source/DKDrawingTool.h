@@ -33,7 +33,7 @@ considerations are outside the scope of DK itself.
 @interface DKDrawingTool : NSObject <DKDrawingTool> {
 @private
 	NSString* mKeyboardEquivalent;
-	NSUInteger mKeyboardModifiers;
+	NSEventModifierFlags mKeyboardModifiers;
 }
 
 /** @brief Does the tool ever implement undoable actions?
@@ -112,17 +112,15 @@ a string, the name this tool is registerd under, if any.
 // if a keyboard equivalent is set, the tool controller will set the tool if the keyboard equivalent is received in keyDown:
 // the tool must be registered for this to function.
 
-- (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSUInteger)flags;
-- (nullable NSString*)keyboardEquivalent;
+- (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSEventModifierFlags)flags;
+@property (readonly, copy, nullable) NSString *keyboardEquivalent;
 /** @brief Return the keyboard modifier flags that need to be down to select this tool using the keyboard modifier
  
- A *registered* tool can be looked up by keyboard equivalent. This is implemented by DKToolController
+ A \a registered tool can be looked up by keyboard equivalent. This is implemented by \c DKToolController
  in conjunction with this class.
- @return the modifier flags - may be 0 if no flags are needed
+ May be \c 0 if no flags are needed.
  */
-- (NSUInteger)keyboardModifierFlags;
-@property (readonly, copy, nullable) NSString *keyboardEquivalent;
-@property (readonly) NSUInteger keyboardModifierFlags;
+@property (readonly) NSEventModifierFlags keyboardModifierFlags;
 
 // drawing tools can optionally return arbitrary persistent data that DK will store in the prefs for it
 
