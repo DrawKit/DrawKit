@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol DKMetadataStorable <NSObject>
+
 @property (class, readwrite) BOOL metadataChangesAreUndoable;
 
 - (void)setupMetadata;
@@ -63,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-extern NSString* kDKMetadataWillChangeNotification;
-extern NSString* kDKMetadataDidChangeNotification;
+extern NSString* const kDKMetadataWillChangeNotification;
+extern NSString* const kDKMetadataDidChangeNotification;
 
 NS_ASSUME_NONNULL_END

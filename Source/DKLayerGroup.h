@@ -108,23 +108,22 @@ be upside-down. This class automatically reverses the stacking order in an archi
 - (NSArray<__kindof DKLayer*>*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups;
 
 
-/** @brief returns the hierarchical level of this group, i.e. how deeply nested it is.
+/** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is.
 
- @discussion the root group returns 0, next level is 1 and so on.
+ @discussion The root group returns 0, next level is 1 and so on.
  */
-- (NSUInteger)level;
 @property (readonly) NSUInteger level;
 
 // adding and removing layers
 
-/** @brief creates and adds a layer to the drawing
+/** @brief Creates and adds a layer to the drawing.
  
  @discussion \c layerClass must be a valid subclass of <code>DKLayer</code>, otherwise does nothing and \c nil is returned.
 
- @param layerClass the class of some kind of layer
- @return the layer created.
+ @param layerClass The class of some kind of layer.
+ @return The layer created.
  */
-- (nullable __kindof DKLayer*)addNewLayerOfClass:(Class)layerClass;
+- (nullable __kindof DKLayer*)addNewLayerOfClass:(Class)layerClass NS_REFINED_FOR_SWIFT;
 
 /** @brief Adds a layer to the group.
  

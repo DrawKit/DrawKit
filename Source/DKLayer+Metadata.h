@@ -19,20 +19,15 @@ typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
 
 /** @brief adds some convenience methods for standard meta data attached to a graphic object.
 
-adds some convenience methods for standard meta data attached to a graphic object. By default the metadata is just an uncomitted
-id, but using this sets it to be a mutable dictionary. You can then easily get and set values in that dictionary.
+ adds some convenience methods for standard meta data attached to a graphic object. By default the metadata is just an uncomitted
+ id, but using this sets it to be a mutable dictionary. You can then easily get and set values in that dictionary.
 */
 @interface DKLayer (Metadata) <DKMetadataStorable>
 
-+ (void)setMetadataChangesAreUndoable:(BOOL)undo;
-+ (BOOL)metadataChangesAreUndoable;
 @property (class) BOOL metadataChangesAreUndoable;
 
 - (void)setupMetadata;
 - (nullable NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
-- (DKLayerMetadataSchema)schema;
-- (nullable NSArray<NSString*>*)metadataKeys;
-
 @property (readonly) DKLayerMetadataSchema schema;
 @property (readonly, copy, nullable) NSArray<NSString*> *metadataKeys;
 
@@ -65,7 +60,6 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 - (NSSize)sizeForKey:(NSString*)key;
 
 - (void)updateMetadataKeys;
-- (NSUInteger)metadataChecksum;
 @property (readonly) NSUInteger metadataChecksum;
 
 /** Subclasses that want to prevent access to metadata for a layer can override this to return NO. Controllers that provide

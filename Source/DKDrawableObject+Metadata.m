@@ -10,8 +10,8 @@
 
 NSString* kDKMetaDataUserInfoKey = @"kDKMetaDataUserInfoKey";
 NSString* kDKMetaDataUserInfo107OrLaterKey = @"kDKMetaDataUserInfo107OrLaterKey";
-NSString* kDKMetadataWillChangeNotification = @"kDKMetadataWillChangeNotification";
-NSString* kDKMetadataDidChangeNotification = @"kDKMetadataDidChangeNotification";
+NSString* const kDKMetadataWillChangeNotification = @"kDKMetadataWillChangeNotification";
+NSString* const kDKMetadataDidChangeNotification = @"kDKMetadataDidChangeNotification";
 NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable";
 
 #define USE_107_OR_LATER_SCHEMA 1
