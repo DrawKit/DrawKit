@@ -170,8 +170,4 @@ extern NSString* kDKDidChangeToolAutoRevertStateNotification;
 
 extern NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey;
 
-// constants:
-
-extern DKToolName kDKStandardSelectionToolName;
-
 NS_ASSUME_NONNULL_END

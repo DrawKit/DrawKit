@@ -26,11 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
  Creates the registry if needed and installs the standard tools. For other tool collections
  you can instantiate a \c DKToolRegistry and add tools to it.
  */
-@property (class, readonly, retain) DKToolRegistry *sharedToolRegistry;
+@property (class, readonly, strong) DKToolRegistry *sharedToolRegistry;
 
 /** @brief Return a named tool from the registry
  @param name the name of the tool of interest
- @return the tool if found, or nil if not
+ @return The tool if found, or \c nil if not.
  */
 - (nullable __kindof DKDrawingTool*)drawingToolWithName:(DKToolName)name;
 
@@ -75,25 +75,25 @@ extern NSString* kDKDrawingToolWasRegisteredNotification;
 
 // standard tool name constants
 
-extern DKToolName kDKStandardSelectionToolName;
-extern DKToolName kDKStandardRectangleToolName;
-extern DKToolName kDKStandardOvalToolName;
-extern DKToolName kDKStandardRoundRectangleToolName;
-extern DKToolName kDKStandardRoundEndedRectangleToolName;
-extern DKToolName kDKStandardBezierPathToolName;
-extern DKToolName kDKStandardStraightLinePathToolName;
-extern DKToolName kDKStandardIrregularPolygonPathToolName;
-extern DKToolName kDKStandardRegularPolygonPathToolName;
-extern DKToolName kDKStandardFreehandPathToolName;
-extern DKToolName kDKStandardArcToolName;
-extern DKToolName kDKStandardWedgeToolName;
-extern DKToolName kDKStandardRingToolName;
-extern DKToolName kDKStandardSpeechBalloonToolName;
-extern DKToolName kDKStandardTextBoxToolName;
-extern DKToolName kDKStandardTextPathToolName;
-extern DKToolName kDKStandardAddPathPointToolName;
-extern DKToolName kDKStandardDeletePathPointToolName;
-extern DKToolName kDKStandardDeletePathSegmentToolName;
-extern DKToolName kDKStandardZoomToolName;
+extern DKToolName const kDKStandardSelectionToolName NS_SWIFT_NAME(DKToolName.standardSelection);
+extern DKToolName const kDKStandardRectangleToolName NS_SWIFT_NAME(DKToolName.standardRectangle);
+extern DKToolName const kDKStandardOvalToolName NS_SWIFT_NAME(DKToolName.standardOval);
+extern DKToolName const kDKStandardRoundRectangleToolName NS_SWIFT_NAME(DKToolName.standardRoundRectangle);
+extern DKToolName const kDKStandardRoundEndedRectangleToolName NS_SWIFT_NAME(DKToolName.standardRoundEndedRectangle);
+extern DKToolName const kDKStandardBezierPathToolName NS_SWIFT_NAME(DKToolName.standardBezierPath);
+extern DKToolName const kDKStandardStraightLinePathToolName NS_SWIFT_NAME(DKToolName.standardStraightLinePath);
+extern DKToolName const kDKStandardIrregularPolygonPathToolName NS_SWIFT_NAME(DKToolName.standardIrregularPolygonPath);
+extern DKToolName const kDKStandardRegularPolygonPathToolName NS_SWIFT_NAME(DKToolName.standardRegularPolygonPath);
+extern DKToolName const kDKStandardFreehandPathToolName NS_SWIFT_NAME(DKToolName.standardFreehandPath);
+extern DKToolName const kDKStandardArcToolName NS_SWIFT_NAME(DKToolName.standardArc);
+extern DKToolName const kDKStandardWedgeToolName NS_SWIFT_NAME(DKToolName.standardWedge);
+extern DKToolName const kDKStandardRingToolName NS_SWIFT_NAME(DKToolName.standardRing);
+extern DKToolName const kDKStandardSpeechBalloonToolName NS_SWIFT_NAME(DKToolName.standardSpeechBalloon);
+extern DKToolName const kDKStandardTextBoxToolName NS_SWIFT_NAME(DKToolName.standardTextBox);
+extern DKToolName const kDKStandardTextPathToolName NS_SWIFT_NAME(DKToolName.standardTextPath);
+extern DKToolName const kDKStandardAddPathPointToolName NS_SWIFT_NAME(DKToolName.standardAddPathPoint);
+extern DKToolName const kDKStandardDeletePathPointToolName NS_SWIFT_NAME(DKToolName.standardDeletePathPoint);
+extern DKToolName const kDKStandardDeletePathSegmentToolName NS_SWIFT_NAME(DKToolName.standardDeletePathSegment);
+extern DKToolName const kDKStandardZoomToolName NS_SWIFT_NAME(DKToolName.standardZoom);
 
 NS_ASSUME_NONNULL_END

@@ -25,26 +25,26 @@ NSString* kDKDrawingToolWasRegisteredNotification = @"kDKDrawingToolWasRegistere
 
 // standard tool names
 
-NSString* kDKStandardSelectionToolName = @"Select";
-NSString* kDKStandardRectangleToolName = @"Rectangle";
-NSString* kDKStandardOvalToolName = @"Oval";
-NSString* kDKStandardRoundRectangleToolName = @"Round Rectangle";
-NSString* kDKStandardRoundEndedRectangleToolName = @"Round End Rectangle";
-NSString* kDKStandardBezierPathToolName = @"Path";
-NSString* kDKStandardStraightLinePathToolName = @"Line";
-NSString* kDKStandardIrregularPolygonPathToolName = @"Polygon";
-NSString* kDKStandardRegularPolygonPathToolName = @"Regular Polygon";
-NSString* kDKStandardFreehandPathToolName = @"Freehand";
-NSString* kDKStandardArcToolName = @"Arc";
-NSString* kDKStandardWedgeToolName = @"Wedge";
-NSString* kDKStandardRingToolName = @"Ring";
-NSString* kDKStandardSpeechBalloonToolName = @"Speech Balloon";
-NSString* kDKStandardTextBoxToolName = @"Text";
-NSString* kDKStandardTextPathToolName = @"Text Path";
-NSString* kDKStandardAddPathPointToolName = @"Insert Path Point";
-NSString* kDKStandardDeletePathPointToolName = @"Delete Path Point";
-NSString* kDKStandardDeletePathSegmentToolName = @"Delete Path Segment";
-NSString* kDKStandardZoomToolName = @"Zoom";
+NSString* const kDKStandardSelectionToolName = @"Select";
+NSString* const kDKStandardRectangleToolName = @"Rectangle";
+NSString* const kDKStandardOvalToolName = @"Oval";
+NSString* const kDKStandardRoundRectangleToolName = @"Round Rectangle";
+NSString* const kDKStandardRoundEndedRectangleToolName = @"Round End Rectangle";
+NSString* const kDKStandardBezierPathToolName = @"Path";
+NSString* const kDKStandardStraightLinePathToolName = @"Line";
+NSString* const kDKStandardIrregularPolygonPathToolName = @"Polygon";
+NSString* const kDKStandardRegularPolygonPathToolName = @"Regular Polygon";
+NSString* const kDKStandardFreehandPathToolName = @"Freehand";
+NSString* const kDKStandardArcToolName = @"Arc";
+NSString* const kDKStandardWedgeToolName = @"Wedge";
+NSString* const kDKStandardRingToolName = @"Ring";
+NSString* const kDKStandardSpeechBalloonToolName = @"Speech Balloon";
+NSString* const kDKStandardTextBoxToolName = @"Text";
+NSString* const kDKStandardTextPathToolName = @"Text Path";
+NSString* const kDKStandardAddPathPointToolName = @"Insert Path Point";
+NSString* const kDKStandardDeletePathPointToolName = @"Delete Path Point";
+NSString* const kDKStandardDeletePathSegmentToolName = @"Delete Path Segment";
+NSString* const kDKStandardZoomToolName = @"Zoom";
 
 @implementation DKToolRegistry
 
