@@ -261,19 +261,14 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Returns the full name of the drawing's units
  @return a string
  */
-- (DKDrawingUnits)drawingUnits;
-- (NSString*)abbreviatedDrawingUnits;
+@property (readonly, copy) DKDrawingUnits drawingUnits;
+@property (readonly, copy) NSString *abbreviatedDrawingUnits;
 /** @brief Returns the number of Quartz units per basic drawing unit
  @return the conversion value
  */
-- (CGFloat)unitToPointsConversionFactor;
-- (CGFloat)effectiveUnitToPointsConversionFactor;
-- (void)synchronizeRulersWithUnits:(DKDrawingUnits)unitString;
-
-@property (readonly, copy) DKDrawingUnits drawingUnits;
-@property (readonly, copy) NSString *abbreviatedDrawingUnits;
 @property (readonly) CGFloat unitToPointsConversionFactor;
 @property (readonly) CGFloat effectiveUnitToPointsConversionFactor;
+- (void)synchronizeRulersWithUnits:(DKDrawingUnits)unitString;
 
 /** @} */
 /** @name setting the delegate */
@@ -388,34 +383,17 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name rendering the drawing:
  @{ */
 
-/** @brief Sets the background colour of the entire drawing
- 
- Default is white
- @param colour the colour to set for the drawing's background (paper) colour
- */
-- (void)setPaperColour:(nullable NSColor*)colour;
-
-/** @brief The curremt paper colour of the drawing
+/** @brief The current paper colour of the drawing.
  
  Default is white
  @return the current colour of the background (paper)
  */
-- (nullable NSColor*)paperColour;
-
 @property (nonatomic, strong, nullable) NSColor *paperColour;
 
-/** @brief Set whether the paper colour is printed or not
- 
- Default is NO
- @param printIt YES to include the paper colour when printing
- */
-- (void)setPaperColourIsPrinted:(BOOL)printIt;
 /** @brief Whether the paper colour is printed or not
  
  Default is NO
- @return YES if the paper colour is included when printing
  */
-- (BOOL)paperColourIsPrinted;
 @property BOOL paperColourIsPrinted;
 
 /** @} */
@@ -426,10 +404,8 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Returns the current active layer
  @return a DKLayer object, or subclass, which is the current active layer
  */
-- (nullable DKLayer*)activeLayer;
-- (nullable __kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
-
 @property (nonatomic, weak, readonly, nullable) DKLayer *activeLayer;
+- (nullable __kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @} */
 /** @name high level methods that help support a UI

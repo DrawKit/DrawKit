@@ -6,8 +6,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-// params for speech balloon shapes:
+NS_ASSUME_NONNULL_BEGIN
 
+/** params for speech balloon shapes:
+ */
 typedef NS_OPTIONS(NSUInteger, DKSpeechBalloonOption) {
 	kDKSpeechBalloonPointsLeft = 0,
 	kDKSpeechBalloonPointsRight = 1,
@@ -60,7 +62,7 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 + (NSBezierPath*)octagon;
 
 + (NSBezierPath*)star:(NSInteger)numberOfPoints innerDiameter:(CGFloat)diam;
-+ (NSBezierPath*)regularStar:(NSInteger)numberOfPoints;
++ (nullable NSBezierPath*)regularStar:(NSInteger)numberOfPoints;
 
 + (NSBezierPath*)cross;
 + (NSBezierPath*)diagonalCross;
@@ -69,7 +71,7 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 
 + (NSBezierPath*)roundRectSpeechBalloon:(DKSpeechBalloonOption)sbParams cornerRadius:(CGFloat)cr;
 + (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(DKSpeechBalloonOption)sbParams cornerRadius:(CGFloat)cr;
-+ (NSBezierPath*)ovalSpeechBalloon:(DKSpeechBalloonOption)sbParams;
++ (nullable NSBezierPath*)ovalSpeechBalloon:(DKSpeechBalloonOption)sbParams;
 
 + (NSBezierPath*)arrowhead;
 + (NSBezierPath*)arrowTailFeather;
@@ -90,3 +92,5 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 
 extern NSString* kDKSpeechBalloonType;
 extern NSString* kDKSpeechBalloonCornerRadius;
+
+NS_ASSUME_NONNULL_END

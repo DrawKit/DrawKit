@@ -497,11 +497,6 @@ static id sDearchivingHelper = nil;
 
 @synthesize drawingSize=m_size;
 
-/** @brief Sets the drawing's paper size and margins to be equal to the sizes stored in a NSPrintInfo object.
-
- Can be used to synchronise a drawing size to the settings for a printer
- @param printInfo a NSPrintInfo object, obtained from the printing system
- */
 - (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo
 {
 	NSAssert(printInfo != nil, @"unable to set drawing size - print info was nil");
@@ -512,14 +507,6 @@ static id sDearchivingHelper = nil;
 
 #pragma mark -
 
-/** @brief Sets the margins for the drawing
-
- The margins inset the drawing area within the \c papersize set
- @param l the left margin in Quartz units
- @param t the top margin in Quartz units
- @param r the right margin in Quartz units
- @param b the bottom margin in Quartz units
- */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b
 {
 	if (l != m_leftMargin || r != m_rightMargin || t != m_topMargin || b != m_bottomMargin) {
