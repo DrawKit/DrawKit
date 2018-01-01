@@ -468,7 +468,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 														performDeepSearch:YES]];
 	}
 
-	return layers;
+	return [layers copy];
 }
 
 /** @brief Returns an enumerator that can be used to iterate over the layers in top to bottom order
