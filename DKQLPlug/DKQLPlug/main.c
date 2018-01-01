@@ -46,12 +46,12 @@ typedef struct __QuickLookGeneratorPluginType {
 //  Forward declaration for the IUnknown implementation.
 //
 
-QLGenPlugIn	*AllocQuickLookGeneratorPluginType(CFUUIDRef inFactoryID);
-void		 DeallocQuickLookGeneratorPluginType(QLGenPlugIn *thisInstance);
-HRESULT		 QuickLookGeneratorQueryInterface(void *thisInstance,REFIID iid,LPVOID *ppv);
-void		*QuickLookGeneratorPluginFactory(CFAllocatorRef allocator,CFUUIDRef typeID);
-ULONG		 QuickLookGeneratorPluginAddRef(void *thisInstance);
-ULONG		 QuickLookGeneratorPluginRelease(void *thisInstance);
+static QLGenPlugIn	*AllocQuickLookGeneratorPluginType(CFUUIDRef inFactoryID);
+static void			 DeallocQuickLookGeneratorPluginType(QLGenPlugIn *thisInstance);
+static HRESULT		 QuickLookGeneratorQueryInterface(void *thisInstance, REFIID iid, LPVOID *ppv);
+extern void			*QuickLookGeneratorPluginFactory(CFAllocatorRef allocator, CFUUIDRef typeID);
+static ULONG		 QuickLookGeneratorPluginAddRef(void *thisInstance);
+static ULONG		 QuickLookGeneratorPluginRelease(void *thisInstance);
 
 // -----------------------------------------------------------------------------
 //  myInterfaceFtbl  definition

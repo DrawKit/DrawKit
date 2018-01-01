@@ -20,7 +20,7 @@
 	//[[NSColor clearColor] set];
 	//NSRectFill([self bounds]);
 
-	NSUInteger mask = (NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask);
+	NSEventModifierFlags mask = (NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask);
 	BOOL drawSelected = (([[NSApp currentEvent] modifierFlags] & mask) == mask);
 
 	DKObjectDrawingLayer* layer = (DKObjectDrawingLayer*)[[self controller] activeLayer];
