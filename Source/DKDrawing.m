@@ -325,7 +325,7 @@ static id sDearchivingHelper = nil;
 {
 	NSDictionary* abbrevs = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault];
 
-	if (abbrevs == nil) {
+	if (abbrevs == nil || ![abbrevs isKindOfClass:[NSDictionary class]]) {
 		abbrevs = @{DKDrawingUnitsInches: @"in.",
 					DKDrawingUnitsMillimetres: @"mm",
 					DKDrawingUnitsCentimetres: @"cm",

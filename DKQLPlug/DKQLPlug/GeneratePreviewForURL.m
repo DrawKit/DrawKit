@@ -40,14 +40,15 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		{
 			NSGraphicsContext *gc;
 			if (@available(macOS 10.10, *)) {
-				gc = [NSGraphicsContext graphicsContextWithCGContext:ctx flipped:NO];
+				gc = [NSGraphicsContext graphicsContextWithCGContext:ctx flipped:YES];
 			} else {
-				gc = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:NO];
+				gc = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:YES];
 			}
 			[NSGraphicsContext saveGraphicsState];
 			NSGraphicsContext.currentContext = gc;
 			NSRect frame = NSZeroRect;
 			frame.size = drawDat.drawing.drawingSize;
+			drawDat.drawing.gridLayer.shouldDrawToPrinter = YES;
 			
 			DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
 																  withLayer:drawDat];

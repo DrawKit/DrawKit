@@ -5,6 +5,7 @@
 #import <Foundation/Foundation.h>
 #import <DKDrawKit/DKDrawKit.h>
 
+#if 0
 static NSSize sizeConstrainedToSize(NSSize mainSize, NSSize constrainedSize)
 {
 	CGFloat mainRat = mainSize.width / mainSize.height;
@@ -23,7 +24,7 @@ static NSSize sizeConstrainedToSize(NSSize mainSize, NSSize constrainedSize)
 	}
 	
 	CGFloat bigConstrSize;
-	if (constrRat < 1) {
+	if (constrRat < mainRat) {
 		bigConstrSize = constrainedSize.width / mainSize.width;
 	} else {
 		bigConstrSize = constrainedSize.height / mainSize.height;
@@ -31,6 +32,34 @@ static NSSize sizeConstrainedToSize(NSSize mainSize, NSSize constrainedSize)
 	
 	
 	return NSMakeSize(bigConstrSize * mainSize.width, bigConstrSize * mainSize.height);
+}
+#endif
+
+static CGFloat scaleConstrainedFromSize(NSSize mainSize, NSSize constrainedSize)
+{
+	CGFloat mainRat = mainSize.width / mainSize.height;
+	CGFloat constrRat = constrainedSize.width / constrainedSize.height;
+	
+	if (mainSize.width < constrainedSize.width && mainSize.height < constrainedSize.height) {
+		return 1.0;
+	}
+	
+	if (NSEqualSizes(mainSize, constrainedSize)) {
+		return 1.0;
+	}
+	
+	if (mainRat == constrRat) {
+		return constrainedSize.width / mainSize.width;
+	}
+	
+	CGFloat bigConstrSize;
+	if (constrRat < mainRat) {
+		bigConstrSize = constrainedSize.width / mainSize.width;
+	} else {
+		bigConstrSize = constrainedSize.height / mainSize.height;
+	}
+	
+	return bigConstrSize;
 }
 
 /* -----------------------------------------------------------------------------
@@ -58,21 +87,14 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 			return noErr;
 		}
 		
-		CGSize aSize = QLThumbnailRequestGetMaximumSize(thumbnail);
-		aSize = sizeConstrainedToSize(drawDat.drawing.drawingSize, aSize);
-		
-		drawDat.drawing.drawingSize = aSize;
-		[drawDat finalizePriorToSaving];
-		if (QLThumbnailRequestIsCancelled(thumbnail)) {
+		NSSize imgSize = drawDat.drawing.drawingSize;
+
+		CGImageRef anImage = [drawDat CGImageWithResolution:72 hasAlpha:YES relativeScale:scaleConstrainedFromSize(imgSize, maxSize)];
+		if (anImage == NULL || QLThumbnailRequestIsCancelled(thumbnail)) {
 			return noErr;
 		}
 
-		NSData *pdfDat = [drawDat pdf];
-		if (QLThumbnailRequestIsCancelled(thumbnail)) {
-			return noErr;
-		}
-
-		QLThumbnailRequestSetImageWithData(thumbnail, (__bridge CFDataRef)(pdfDat), (__bridge CFDictionaryRef)@{(NSString*)kCGImageSourceTypeIdentifierHint: (NSString*)kUTTypePDF});
+		QLThumbnailRequestSetImage(thumbnail, anImage, NULL);
 	}
 
 	return noErr;
