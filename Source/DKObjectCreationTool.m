@@ -39,7 +39,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  @param shape a drawable object that can be created by the tool - typically a DKDrawableShape
  @param name the name of the tool to register this with
  */
-+ (void)registerDrawingToolForObject:(id<NSCopying>)shape withName:(NSString*)name
++ (void)registerDrawingToolForObject:(id<NSObject, NSCopying>)shape withName:(NSString*)name
 {
 	// creates a drawing tool for the given object and registers it with the name. This quickly allows you to make a tool
 	// for any object you already have, give it a name and use it to make more similar objects in the drawing.
@@ -85,7 +85,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  @param aPrototype an object that will be used as the tool's prototype - each new object created will
  @return the tool object
  */
-- (instancetype)initWithPrototypeObject:(id<NSCopying, NSObject>)aPrototype
+- (instancetype)initWithPrototypeObject:(id<NSObject, NSCopying>)aPrototype
 {
 	self = [super init];
 	if (self != nil) {
@@ -101,23 +101,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 #pragma mark -
 
-/** @brief Set the object to be copied when the tool created a new one
- @param aPrototype an object that will be used as the tool's prototype - each new object created will
- */
-- (void)setPrototype:(id<NSCopying, NSObject>)aPrototype
-{
-	NSAssert(aPrototype != nil, @"prototype object cannot be nil");
-
-	m_prototypeObject = aPrototype;
-}
-
-/** @brief Return the object to be copied when the tool creates a new one
- @return an object - each new object created will be a copy of this one.
- */
-- (id<NSCopying, NSObject>)prototype
-{
-	return m_prototypeObject;
-}
 @synthesize prototype=m_prototypeObject;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one

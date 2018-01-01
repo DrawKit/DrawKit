@@ -384,7 +384,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 /** @brief Returns the pending object, if any, in the layer
  @return the pending object, or nil
  */
-- (DKDrawableObject*)pendingObject;
+@property (readonly, strong) DKDrawableObject *pendingObject;
 
 // geometry:
 

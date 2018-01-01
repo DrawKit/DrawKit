@@ -110,15 +110,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  This sets the initial size and location of the group, and adjusts the position of each object so
  it is relative to the group, not the original drawing. It also sets the parent member of each object
  to the group so that the group's transform is applied when the objects are drawn.
- @param objects the set of objects to be grouped
  */
-- (void)setGroupObjects:(NSArray<DKDrawableObject*>*)objects;
-
-/** @brief Gets the list of objects contained by the group
- @return the list of contained objects
- */
-- (NSArray<DKDrawableObject*>*)groupObjects;
-
 @property (nonatomic, copy) NSArray<DKDrawableObject*> *groupObjects;
 
 /** @brief Computes the initial overall bounding rect of the constituent objects
@@ -146,7 +138,6 @@ For the normal case of grouping existing objects within a layer, this is not an 
 /** @brief Returns the original untransformed bounds of the grouped objects
  @return the original group bounds
  */
-- (NSRect)groupBoundingRect;
 @property (readonly) NSRect groupBoundingRect;
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
@@ -154,7 +145,6 @@ For the normal case of grouping existing objects within a layer, this is not an 
  The scale ratio is the ratio between the group's original bounds and its current size.
  @return the scale ratios
  */
-- (NSSize)groupScaleRatios;
 @property (readonly) NSSize groupScaleRatios;
 
 /** @brief Sets the current list of objects to the given objects
@@ -170,7 +160,6 @@ For the normal case of grouping existing objects within a layer, this is not an 
 
  This transform is used when drawing the group's contents
  @return a transform object */
-- (NSAffineTransform*)contentTransform;
 @property (readonly, copy) NSAffineTransform *contentTransform;
 
 /** @brief Returns a transform which is the accumulation of all the parent objects above this one.
@@ -179,7 +168,6 @@ For the normal case of grouping existing objects within a layer, this is not an 
  returned if the group is visually transforming the result, or a combination of the parents above
  and the content transform. Either way contained objects are oblivious and do the right thing.
  @return a transform object */
-- (NSAffineTransform*)renderingTransform;
 @property (readonly, copy) NSAffineTransform *renderingTransform;
 
 /** @brief Maps a point from the original container's coordinates to the equivalent group point

@@ -62,29 +62,26 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 /** @brief Return the current version number of the framework
- @return a number formatted in 8-4-4 bit format representing the current version number
+ 
+ Is a number formatted in 8-4-4 bit format representing the current version number
  */
-+ (NSUInteger)drawkitVersion;
+@property (class, readonly) NSUInteger drawkitVersion;
 
 /** @brief Return the current version number and release status as a preformatted string
 
  This is intended for occasional display, rather than testing for the framework version.
  @return a string, e.g. "1.0.b6"
  */
-+ (NSString*)drawkitVersionString;
+@property (class, readonly, copy) NSString *drawkitVersionString;
 
 /** @brief Return the current release status of the framework
  @return a string, either "alpha", "beta", "release candidate" or nil (final)
  */
-+ (nullable NSString*)drawkitReleaseStatus;
-
-@property (class, readonly) NSUInteger drawkitVersion;
-@property (class, readonly, copy) NSString *drawkitVersionString;
 @property (class, readonly, copy, nullable) NSString *drawkitReleaseStatus;
 
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
 
- As a convenience for users of DrawKit, if you set up a DKDrawingView in IB, and do nothing else,
+ As a convenience for users of DrawKit, if you set up a \c DKDrawingView in IB, and do nothing else,
  you'll get a fully working, prebuilt drawing system behind that view. This can be very handy for all
  sorts of uses. However, it is more usual to build the system the other way around - start with a
  drawing object within a document (say) and attach views to it. This gives you the flexibility to
@@ -107,17 +104,6 @@ NS_ASSUME_NONNULL_BEGIN
  replaced to provide the same functionality for application-specific classes.
  @return the dearchiving helper
  */
-+ (id)dearchivingHelper;
-
-/** @brief Replace the default dearchiving helper for deaerchiving a drawing
-
- This helper is a delegate of the dearchiver during dearchiving and translates older or obsolete
- classes into modern ones, etc. The default helper deals with older DrawKit classes, but can be
- replaced to provide the same functionality for application-specific classes.
- @param helper a suitable helper object
- */
-+ (void)setDearchivingHelper:(id)helper;
-
 @property (class, retain, null_resettable) id dearchivingHelper;
 
 /** @brief Returns a new drawing number by incrementing the current default seed value
@@ -154,21 +140,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // owner (document or view)
 
-/** @brief Returns the "owner" of this drawing.
-
- The owner is usually either a document, a window controller or a drawing view.
- @return the owner
- */
-- (nullable id)owner;
-
 /** @brief Sets the "owner" of this drawing.
 
  The owner is usually either a document, a window controller or a drawing view. It is not required to
  be set at all, though some higher-level conveniences may depend on it.
- @param owner the owner for this object
  */
-- (void)setOwner:(nullable id)owner;
-
 @property (weak, nullable) id owner;
 
 /** @name basic drawing parameters
@@ -197,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b NS_SWIFT_NAME(setMargins(left:top:right:bottom:));
 /** @brief Sets the margins from the margin values stored in a NSPrintInfo object
  
- SetDrawingSizeFromPrintInfo: will also call this for you
+ \c SetDrawingSizeFromPrintInfo: will also call this for you
  @param printInfo a NSPrintInfo object, obtained from the printing system
  */
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo;
@@ -218,38 +194,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief Sets whether the Y axis of the drawing is flipped
  
- Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
+ Drawings are typically flipped, \c YES is the default. This affects the \c -isFlipped return from a
  DKDrawingView. WARNING: drawings with flip set to NO may have issues at present as some lower level
  code is currently assuming a flipped view.
- @param flipped YES to have increase Y going down, NO for increasing Y going up
- */
-- (void)setFlipped:(BOOL)flipped;
-/** @brief Whether the Y axis of the drawing is flipped
  
- Drawings are typically flipped, \c YES is the default. This affects the -isFlipped return from a
- <code>DKDrawingView</code>
- @return \c YES to have increase Y going down, \c NO for increasing Y going up.
+ Is \c YES to have increase Y going down, \c NO for increasing Y going up.
  */
-- (BOOL)isFlipped;
-
 @property (nonatomic, getter=isFlipped) BOOL flipped;
 
 /** @brief Sets the destination colour space for the whole drawing
 
  Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- nil will use whatever is set in the colours used by the styles.
- @param cSpace the colour space 
+ \c nil will use whatever is set in the colours used by the styles.
  */
-- (void)setColourSpace:(nullable NSColorSpace*)cSpace;
-
-/** @brief Returns the colour space for the whole drawing
-
- Colours set by styles and so forth are converted to this colourspace when rendering. A value of
- nil will use whatever is set in the colours used by the styles.
- @return the colour space
- */
-- (nullable NSColorSpace*)colourSpace;
-
 @property (strong, nullable) NSColorSpace *colourSpace;
 
 /**
@@ -276,26 +233,15 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Sets the delegate
  
  See header for possible delegate methods
- @param aDelegate some delegate object
  */
-- (void)setDelegate:(nullable id<DKDrawingDelegate>)aDelegate;
-
-/** @brief Return the delegate
- 
- See header for possible delegate methods
- @return some delegate object
- */
-- (nullable id<DKDrawingDelegate>)delegate;
 @property (weak, nullable) id<DKDrawingDelegate> delegate;
 
 /** @name the drawing's view controllers
  @{ */
 
-- (NSSet<DKViewController*>*)controllers;
+@property (readonly, copy) NSSet<DKViewController*> *controllers;
 - (void)addController:(DKViewController*)aController;
 - (void)removeController:(DKViewController*)aController;
-
-@property (readonly, copy) NSSet<DKViewController*> *controllers;
 
 /** @brief Removes all controller from the drawing
 
@@ -322,9 +268,6 @@ NS_ASSUME_NONNULL_BEGIN
  Rasterizers are able to use a low quality drawing mode for rapid updates when DKDrawing detects
  the need for it. This flag allows that behaviour to be turned on or off.
  */
-- (void)setDynamicQualityModulationEnabled:(BOOL)qmEnabled;
-- (BOOL)dynamicQualityModulationEnabled;
-
 @property BOOL dynamicQualityModulationEnabled;
 
 /** @brief Advise whether drawing should be done in best quality or not
@@ -333,21 +276,11 @@ NS_ASSUME_NONNULL_BEGIN
  this is set while zooming, scrolling or other operations that require many rapid updates. Speed
  under these conditions can be improved by using bitmap caches, etc rather than drawing at best
  quality.
- @param quickAndDirty YES to offer low quality faster rendering
- */
-- (void)setLowRenderingQuality:(BOOL)quickAndDirty;
-
-/** @brief Advise whether drawing should be done in best quality or not
  
- Renderers in drawkit can query this flag to check if they can use a fast quick rendering method.
- this is set while zooming, scrolling or other operations that require many rapid updates. Speed
- under these conditions can be inmproved by using bitmap caches, etc rather than drawing at best
- quality.
- @return YES if low quality is an option
+ Set to \c YES to offer low quality faster rendering.
  */
-- (BOOL)lowRenderingQuality;
-
 @property BOOL lowRenderingQuality;
+
 - (void)checkIfLowQualityRequired;
 - (void)qualityTimerCallback:(NSTimer*)timer;
 @property NSTimeInterval lowQualityTriggerInterval;
@@ -361,23 +294,13 @@ NS_ASSUME_NONNULL_BEGIN
  The undoManager is retained. It is passed down to all levels that need undoable actions. The
  default is nil, so nothing will be undoable unless you set it. In a document-based app, the
  document's undoManager should be used. Otherwise, the view's or window's undoManager can be used.
- @param um the undo manager to use
  */
-- (void)setUndoManager:(nullable id)um;
-
-/** @brief Returns the undo manager for the drawing
- @return the currently used undo manager
- */
-- (nullable id)undoManager;
-
 @property (nonatomic, strong, nullable) id undoManager;
 
 /** @} */
 /** @name drawing meta-data:
  @{ */
 
-- (void)setDrawingInfo:(nullable NSMutableDictionary<NSString*,id>*)info;
-- (nullable NSMutableDictionary<NSString*,id>*)drawingInfo;
 @property (copy, nullable) NSMutableDictionary<NSString*,id> *drawingInfo NS_REFINED_FOR_SWIFT;
 
 /** @name rendering the drawing:
@@ -419,11 +342,6 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name interaction with grid and guides
  @{ */
 
-- (void)setSnapsToGrid:(BOOL)snaps;
-- (BOOL)snapsToGrid;
-- (void)setSnapsToGuides:(BOOL)snaps;
-- (BOOL)snapsToGuides;
-
 @property BOOL snapsToGrid;
 @property BOOL snapsToGuides;
 
@@ -433,7 +351,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSRect)snapRectToGuides:(NSRect)r includingCentres:(BOOL)cent;
 - (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)points;
 
-- (NSPoint)nudgeOffset;
 @property (readonly) NSPoint nudgeOffset;
 
 /** @brief Returns the master grid layer, if there is one
@@ -443,21 +360,18 @@ NS_ASSUME_NONNULL_BEGIN
  prevent themselves being considered for this role.
  @return the grid layer, or nil
  */
-- (nullable DKGridLayer*)gridLayer;
+@property (readonly, strong, nullable) DKGridLayer *gridLayer;
 
 /** @brief Returns the guide layer, if there is one
  
  Usually there will only be one guide layer, but if there is more than one this only finds the uppermost.
  @return the guide layer, or nil
  */
-- (nullable DKGuideLayer*)guideLayer;
+@property (readonly, strong, nullable) DKGuideLayer *guideLayer;
 - (CGFloat)convertLength:(CGFloat)len;
 - (NSPoint)convertPoint:(NSPoint)pt;
 - (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt;
 - (CGFloat)convertLengthFromDrawingToBase:(CGFloat)len;
-
-@property (readonly, strong, nullable) DKGridLayer *gridLayer;
-@property (readonly, strong, nullable) DKGuideLayer *guideLayer;
 
 /** @brief Convert a distance in quartz coordinates to the units established by the drawing grid
 
@@ -602,12 +516,14 @@ extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 /** @brief Saves the static class defaults for ALL classes in the drawing system
 
  Deprecated - no longer does anything
+ @deprecated no longer does anything
  */
 + (void)saveDefaults DEPRECATED_ATTRIBUTE;
 
 /** @brief Loads the static user defaults for all classes in the drawing system
 
  Deprecated - no longer does anything
+ @deprecated no longer does anything
  */
 + (void)loadDefaults DEPRECATED_ATTRIBUTE;
 

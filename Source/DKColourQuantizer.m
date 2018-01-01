@@ -84,7 +84,7 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 	return self;
 }
 
-- (NSUInteger)indexForRGB:(NSUInteger[])rgb
+- (NSUInteger)indexForRGB:(NSUInteger[3])rgb
 {
 	switch (m_nBits) {
 	case 3:
@@ -180,7 +180,7 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 
 static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 
-- (void)addNode:(NODE**)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
+- (void)addNode:(NODE*_Nullable*_Nonnull)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
 {
 
 	// If the node doesn't exist, create it.

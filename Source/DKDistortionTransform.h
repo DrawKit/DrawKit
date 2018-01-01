@@ -24,11 +24,11 @@ can be used in a similar way.
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithRect:(NSRect)rect NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithEnvelope:(NSPoint*)points NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithEnvelope:(NSPoint[4])points NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-- (void)setEnvelopePoints:(NSPoint*)points;
-- (void)getEnvelopePoints:(NSPoint*)points;
+- (void)setEnvelopePoints:(const NSPoint[4])points;
+- (void)getEnvelopePoints:(NSPoint[4])points;
 @property (readonly) NSRect bounds;
 
 - (void)offsetByX:(CGFloat)dx byY:(CGFloat)dy;

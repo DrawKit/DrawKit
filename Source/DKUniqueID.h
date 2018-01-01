@@ -14,7 +14,6 @@ One intended client for this is to assign unique registry keys to styles to solv
 */
 @interface DKUniqueID : NSObject
 
-/**  */
 + (NSString*)uniqueKey;
 
 @end

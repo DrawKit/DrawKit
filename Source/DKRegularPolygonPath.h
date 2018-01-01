@@ -46,7 +46,6 @@ a star shape (not used if the inner radius is -ve).
 - (IBAction)convertToPath:(nullable id)sender;
 - (IBAction)setNumberOfSidesWithTag:(nullable id)sender;
 
-- (BOOL)isStar;
 @property (readonly) BOOL isStar;
 
 @end

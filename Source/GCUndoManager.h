@@ -103,9 +103,6 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 // performing the undo or redo
 
-- (BOOL)canUndo;
-- (BOOL)canRedo;
-
 @property (readonly) BOOL canUndo;
 @property (readonly) BOOL canRedo;
 
@@ -113,26 +110,18 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)redo;
 - (void)undoNestedGroup;
 
-- (BOOL)isUndoing;
-- (BOOL)isRedoing;
-
 @property (readonly) BOOL isUndoing;
 @property (readonly) BOOL isRedoing;
 
 // undo menu management
 
 - (void)setActionName:(NSString*)actionName;
-- (NSString*)undoActionName;
-- (NSString*)redoActionName;
-- (NSString*)undoMenuItemTitle;
-- (NSString*)redoMenuItemTitle;
-- (NSString*)undoMenuTitleForUndoActionName:(NSString*)actionName;
-- (NSString*)redoMenuTitleForUndoActionName:(NSString*)actionName;
-
 @property (readonly, copy) NSString *undoActionName;
 @property (readonly, copy) NSString *redoActionName;
 @property (readonly, copy) NSString *undoMenuItemTitle;
 @property (readonly, copy) NSString *redoMenuItemTitle;
+- (NSString*)undoMenuTitleForUndoActionName:(NSString*)actionName;
+- (NSString*)redoMenuTitleForUndoActionName:(NSString*)actionName;
 
 // registering actions with the undo manager
 
@@ -160,14 +149,11 @@ The point of this is to provide an undo manager whose source is openly readable,
  remove existing empty groups. Used in -endUndoGrouping.
  */
 @property BOOL automaticallyDiscardsEmptyGroups;
-- (void)setAutomaticallyDiscardsEmptyGroups:(BOOL)autoDiscard;
-- (BOOL)automaticallyDiscardsEmptyGroups;
 
 // task coalescing (default = NO)
 
 - (void)enableUndoTaskCoalescing;
 - (void)disableUndoTaskCoalescing;
-- (BOOL)isUndoTaskCoalescingEnabled;
 @property (readonly, getter=isUndoTaskCoalescingEnabled) BOOL undoTaskCoalescingEnabled;
 
 /**
@@ -181,8 +167,6 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 // retaining targets
 
-- (void)setRetainsTargets:(BOOL)retainsTargets;
-- (BOOL)retainsTargets;
 @property BOOL retainsTargets;
 - (void)setNextTarget:(id)target;
 
@@ -194,7 +178,6 @@ The point of this is to provide an undo manager whose source is openly readable,
  provide some additional auxiliary undoable state, such as selection changes, which are not normally considered undoable
  in their own right.
  */
-- (NSUInteger)changeCount;
 @property (readonly) NSUInteger changeCount;
 - (void)resetChangeCount;
 
@@ -204,9 +187,6 @@ The point of this is to provide an undo manager whose source is openly readable,
  */
 @property (readonly, assign) GCUndoGroup *currentGroup;
 
-- (NSArray<GCUndoGroup*>*)undoStack;
-- (NSArray<GCUndoGroup*>*)redoStack;
-
 @property (readonly, retain) NSArray<GCUndoGroup*> *undoStack;
 @property (readonly, retain) NSArray<GCUndoGroup*> *redoStack;
 
@@ -214,8 +194,6 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (GCUndoGroup*)peekRedo;
 @property (readonly) NSUInteger numberOfUndoActions;
 @property (readonly) NSUInteger numberOfRedoActions;
-- (NSUInteger)numberOfUndoActions;
-- (NSUInteger)numberOfRedoActions;
 
 - (void)pushGroupOntoUndoStack:(GCUndoGroup*)aGroup;
 - (void)pushGroupOntoRedoStack:(GCUndoGroup*)aGroup;
@@ -230,10 +208,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)clearRedoStack;
 - (void)checkpoint;
 
-/** @abstract sets the current state of the undo manager - called internally, not for client use
+/** @abstract sets the current state of the undo manager - set internally, not for client use
  */
-- (void)setUndoManagerState:(GCUndoManagerState)aState;
-
 @property GCUndoManagerState undoManagerState;
 - (void)reset;
 

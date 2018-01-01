@@ -58,18 +58,6 @@ to attach arbitrary data to any drawable object.
 	BOOL m_unused_padding : 4; // not used - reserved
 }
 
-/** @brief Return whether an info floater is displayed when resizing an object
-
- Size info is width and height
- @return YES to show the info, NO to not show it */
-+ (BOOL)displaysSizeInfoWhenDragging;
-
-/** @brief Set whether an info floater is displayed when resizing an object
-
- Size info is width and height
- @param doesDisplay YES to show the info, NO to not show it */
-+ (void)setDisplaysSizeInfoWhenDragging:(BOOL)doesDisplay;
-
 /** @brief Whether an info floater is displayed when resizing an object.
 
  Size info is width and height.
@@ -219,6 +207,7 @@ to attach arbitrary data to any drawable object.
  The visible property is independent of the locked property, i.e. locked objects may be hidden & shown.
 */
 @property BOOL visible;
+
 /** @brief Is the object locked?
 
  Locked objects are visible but can't be edited.
@@ -255,12 +244,14 @@ to attach arbitrary data to any drawable object.
  Assumes that the owning layer is an object drawing layer (which is a reasonable assumption!)
 */
 @property (readonly, getter=isSelected) BOOL selected;
+
 /** @brief Get notified when the object is selected
 
  Subclasses can override to take action when they become selected (drawing the selection isn't
  part of this - the layer will do that). Overrides should generally invoke super.
  */
 - (void)objectDidBecomeSelected NS_REQUIRES_SUPER;
+
 /** @brief Get notified when an object is deselected
  
  Subclasses can override to take action when they are deselected
@@ -419,7 +410,6 @@ to attach arbitrary data to any drawable object.
 - (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects withExtraPadding:(NSSize)padding;
 
 - (nullable NSBezierPath*)renderingPath;
-- (BOOL)useLowQualityDrawing;
 @property (readonly) BOOL useLowQualityDrawing;
 
 /** @brief Return a number that changes when any aspect of the geometry changes. This can be used to detect
@@ -428,7 +418,7 @@ to attach arbitrary data to any drawable object.
  Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
  @return a number
  */
-- (NSUInteger)geometryChecksum;
+@property (readonly) NSUInteger geometryChecksum;
 
 // specialised drawing:
 
@@ -455,9 +445,8 @@ to attach arbitrary data to any drawable object.
 /** @brief Return the attached style
  @return the current style
  */
-- (nullable DKStyle*)style;
-
 @property (nonatomic, copy, nullable) DKStyle *style;
+
 - (void)styleWillChange:(NSNotification*)note;
 - (void)styleDidChange:(NSNotification*)note;
 @property (readonly, copy, nullable) NSSet<DKStyle*> *allStyles;
@@ -908,7 +897,6 @@ to attach arbitrary data to any drawable object.
  image can be used to speed up hit testing.
  @return an image of the object
  */
-- (NSImage*)cachedImage;
 @property (readonly, strong) NSImage *cachedImage;
 
 // pasteboard:

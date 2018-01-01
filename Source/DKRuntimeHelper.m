@@ -12,7 +12,6 @@
 
 @implementation DKRuntimeHelper
 
-/**  */
 + (NSArray*)allClasses
 {
 	return [self allClassesOfKind:[NSObject class]];

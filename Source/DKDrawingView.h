@@ -57,27 +57,15 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 + (void)pop;
 
 /** @brief Set the colour used to draw the page breaks
- @param colour the colour to draw page breaks with
  */
-+ (void)setPageBreakColour:(NSColor*)colour;
-
-/** @brief Get the colour used to draw the page breaks
- @return a colour
- */
-+ (NSColor*)pageBreakColour;
-
 @property (class, retain /*, null_resettable*/) NSColor *pageBreakColour;
 
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
- @return a colour
  */
-+ (NSColor*)backgroundColour;
 @property (class, readonly, copy) NSColor *backgroundColour;
 
 /** @brief Get the point for the initial mouse down that last opened a contextual menu
- @return a point in the drawing's coordinates
  */
-+ (NSPoint)pointForLastContextualMenuEvent;
 @property (class, readonly) NSPoint pointForLastContextualMenuEvent;
 
 /** @brief Return an image resource from the framework bundle
@@ -109,17 +97,9 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
 /** @brief Set the view's controller
 
- Do not call this directly - the controller will call it to set up the relationship at the right
+ Do not set this directly - the controller will call it to set up the relationship at the right
  time.
- @param aController the controller for this view
  */
-- (void)setController:(DKViewController*)aController;
-
-/** @brief Return the view's controller
- @return the controller
- */
-- (DKViewController*)controller;
-
 @property (weak) DKViewController *controller;
 
 /** @brief Sea new controller for this view
@@ -140,8 +120,6 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  method to get a view's drawing.
  @return a drawing object
  */
-- (DKDrawing*)drawing;
-
 @property (readonly, strong) DKDrawing *drawing;
 
 /** @brief Create an entire "back end" for the view
@@ -168,46 +146,24 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 /** @brief Sets whether the page breaks are shown or not
 
  Page breaks also need a valid printInfo object set
- @param pbVisible YES to show the page breaks, NO otherwise
+ Is \c YES to show the page breaks, \c NO otherwise.
  */
-- (void)setPageBreaksVisible:(BOOL)pbVisible;
-
-/** @brief Are page breaks vissble?
- @return YES if page breaks are visible
- */
-- (BOOL)pageBreaksVisible;
-
 @property (nonatomic) BOOL pageBreaksVisible;
 
 /** @brief Draw page breaks based on the page break print info */
 - (void)drawPageBreaks;
 
-/** @brief Set what kind of crop marks printed output includes
+/** @brief Set what kind of crop marks printed output includes.
 
  Default is no crop marks
- @param kind the kind of crop mark (including none)
  */
-- (void)setPrintCropMarkKind:(DKCropMarkKind)kind;
-
-/** @brief What sort of crop mark sare applied to printed output
-
- Default is no crop marks
- @return the crop mark kind
- */
-- (DKCropMarkKind)printCropMarkKind;
-
 @property (nonatomic) DKCropMarkKind printCropMarkKind;
 
 /** @brief Draws the crop marks if set to do so and the view is being printed */
 - (void)drawCropMarks;
 
-- (void)setPrintInfo:(NSPrintInfo*)printInfo;
-
-/** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations
- @return a NSPrintInfo object
+/** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations.
  */
-- (NSPrintInfo*)printInfo;
-
 @property (nonatomic, strong) NSPrintInfo *printInfo;
 
 - (void)set;
@@ -257,8 +213,6 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 /** @brief Return the current temporary text editing view
  @return the text editing view, or nil
  */
-- (NSTextView*)textEditingView;
-
 @property (readonly, strong) NSTextView *textEditingView;
 
 /** @brief Respond to frame size changes in the text editor view
@@ -276,8 +230,6 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  though if they do the old one is immediately ended anyway.
  @return YES if text editing is in progress, NO otherwise
  */
-- (BOOL)isTextBeingEdited;
-
 @property (readonly, getter=isTextBeingEdited) BOOL textBeingEdited;
 
 // ruler stuff

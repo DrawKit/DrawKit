@@ -40,9 +40,7 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
  @param cpc pointer to integer that receive the close path count*/
 - (void)getPathMoveToCount:(NSInteger*)mtc lineToCount:(NSInteger*)ltc curveToCount:(NSInteger*)ctc closePathCount:(NSInteger*)cpc;
 
-- (BOOL)isPathClosed;
 @property (readonly, getter=isPathClosed) BOOL pathClosed;
-- (NSUInteger)checksum;
 @property (readonly) NSUInteger checksum;
 
 - (BOOL)subpathContainingElementIsClosed:(NSInteger)element;

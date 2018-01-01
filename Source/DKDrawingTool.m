@@ -428,7 +428,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  @param str the key character (only the first character in the string is used)
  @param flags any additional modifier flags - can be 0
  */
-- (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSUInteger)flags
+- (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSEventModifierFlags)flags
 {
 	NSAssert(str != nil, @"attempt to set keyboard equivalent to nil string - string can be empty but not nil");
 

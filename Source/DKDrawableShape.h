@@ -67,21 +67,18 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
  The default is to use all knobs, but subclasses may want to override this for particular uses
  @return bitmask indicating which knobs are used
  */
-+ (NSInteger)knobMask;
-+ (void)setKnobMask:(NSInteger)knobMask;
-+ (void)setAngularConstraintAngle:(CGFloat)radians;
+@property (class) NSInteger knobMask;
+
+@property (class) CGFloat angularConstraintAngle;
 /** @brief Return the unit rect centred at the origin.
  
  This rect represents the bounds of all untransformed paths stored by a shape object.
  @return the unit rect, centred at the origin.
  */
 @property (class, readonly) NSRect unitRectAtOrigin;
-+ (void)setInfoWindowBackgroundColour:(NSColor*)colour;
 @property (class, strong) NSColor *infoWindowBackgroundColour;
 + (nullable NSCursor*)cursorForShapePartcode:(NSInteger)pc;
 
-@property (class) NSInteger knobMask;
-@property (class) CGFloat angularConstraintAngle;
 
 // convenient ways to create shapes for a path you have:
 
@@ -111,12 +108,9 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
 
 // path operations:
 
-- (void)setPath:(NSBezierPath*)path;
-- (NSBezierPath*)path;
 @property (strong) NSBezierPath *path;
 - (void)reshapePath;
 - (void)adoptPath:(NSBezierPath*)path;
-- (nullable NSBezierPath*)transformedPath;
 @property (readonly, copy, nullable) NSBezierPath *transformedPath;
 - (BOOL)canPastePathWithPasteboard:(NSPasteboard*)pb;
 

@@ -33,18 +33,11 @@ sets whether the image is scaled, tiled or drawn only once in a particular posit
 - (instancetype)initWithContentsOfFile:(NSString*)imagefile;
 
 @property (strong) NSImage *image;
-- (void)setImage:(NSImage*)image;
-- (NSImage*)image;
 
 @property CGFloat opacity;
-- (void)setOpacity:(CGFloat)op;
-- (CGFloat)opacity;
 
 @property DKImageCoverageFlags coverageMethod;
-- (void)setCoverageMethod:(DKImageCoverageFlags)cm;
-- (DKImageCoverageFlags)coverageMethod;
 
-- (NSRect)imageDestinationRect;
 @property (readonly) NSRect imageDestinationRect;
 
 @end

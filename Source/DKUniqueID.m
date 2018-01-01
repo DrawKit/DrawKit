@@ -8,7 +8,6 @@
 
 @implementation DKUniqueID
 
-/**  */
 + (NSString*)uniqueKey
 {
 	NSUUID *uuid = [NSUUID UUID];

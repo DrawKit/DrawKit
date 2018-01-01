@@ -92,7 +92,7 @@
 		for (id mo in objects) {
 			if (mo != object) {
 				ob = [mo apparentBounds];
-				alignOffset = calculateAlignmentOffset(mb, ob, align);
+				alignOffset = DKCalculateAlignmentOffset(mb, ob, align);
 				[mo offsetLocationByX:alignOffset.x
 								  byY:alignOffset.y];
 			}
@@ -640,7 +640,7 @@
  @param sr the second bounding rectangle
  @param alignment the type of alignment being applied
  @return an x and y offset */
-NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment)
+NSPoint DKCalculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment)
 {
 	NSPoint p = { 0, 0 };
 

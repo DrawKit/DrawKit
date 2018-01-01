@@ -335,8 +335,6 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
 /** @brief Return a list of all the registered styles' names, in alphabetical order
  @return a list of names
  */
-- (NSArray<NSString*>*)styleNames;
-
 @property (readonly, copy) NSArray<NSString*> *styleNames;
 
 /** @brief Return a list of the registered styles' names in the category, in alphabetical order

@@ -23,16 +23,15 @@ DKHandle is a base class for all handles, which are the knobs attached to shapes
 	NSColor* mColour;
 }
 
-+ (DKKnobType)type;
 @property (class, readonly) DKKnobType type;
 + (DKHandle*)handleForType:(DKKnobType)type size:(NSSize)size colour:(NSColor*)colour;
 + (void)setHandleClass:(Class)hClass forType:(DKKnobType)type;
 
-+ (NSColor*)fillColour;
-+ (NSColor*)strokeColour;
+@property (class, readonly, copy) NSColor *fillColour;
+@property (class, readonly, copy) NSColor *strokeColour;
 + (NSBezierPath*)pathWithSize:(NSSize)size;
-+ (CGFloat)strokeWidth;
-+ (CGFloat)scaleFactor;
+@property (class, readonly) CGFloat strokeWidth;
+@property (class, readonly) CGFloat scaleFactor;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithSize:(NSSize)size;

@@ -6,9 +6,10 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief generic interface and simple quantizer which performs uniform quantization.
 
-s
  Results with this quantizer are generally only barely acceptable - colours may be mapped
  to something grossly different from the original since this does not take any notice of
  the pixels actually used in the image, only the basic size of the RGB colour space it is given.
@@ -21,8 +22,8 @@ s
 	NSMutableArray<NSColor*>* m_cTable;
 }
 
-- (id)initWithBitmapImageRep:(NSBitmapImageRep*)rep maxColours:(NSUInteger)maxColours colourBits:(NSUInteger)nBits;
-- (NSUInteger)indexForRGB:(NSUInteger[])rgb;
+- (instancetype)initWithBitmapImageRep:(NSBitmapImageRep*)rep maxColours:(NSUInteger)maxColours colourBits:(NSUInteger)nBits;
+- (NSUInteger)indexForRGB:(NSUInteger[_Nonnull 3])rgb;
 - (NSColor*)colourForIndex:(NSUInteger)index;
 @property (readonly, strong) NSArray<NSColor*> *colourTable;
 @property (readonly) NSUInteger numberOfColours;
@@ -43,8 +44,8 @@ typedef struct _NODE {
 	NSUInteger nGreenSum; // Sum of green components
 	NSUInteger nBlueSum; // Sum of blue components
 	NSUInteger nAlphaSum; // Sum of alpha components
-	struct _NODE* pChild[8]; // Pointers to child nodes
-	struct _NODE* pNext; // Pointer to next reducible node
+	struct _NODE* _Nullable pChild[8]; // Pointers to child nodes
+	struct _NODE* _Nullable pNext; // Pointer to next reducible node
 	NSInteger indexValue; // for looking up RGB->index
 } NODE;
 
@@ -62,11 +63,13 @@ typedef struct _rgb_triple {
 	NSUInteger m_nOutputMaxColors;
 }
 
-- (void)addNode:(NODE**)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes;
-- (NODE*)createNodeAtLevel:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes;
-- (void)reduceTreeLeafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes;
-- (void)deleteTree:(NODE**)ppNode;
-- (void)paletteColour:(NODE*)pTree index:(NSUInteger*)pIndex colour:(rgb_triple[])rgb;
-- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[])rgb index:(NSInteger*)index;
+- (void)addNode:(NODE*_Nullable*_Nonnull)ppNode colour:(NSUInteger[_Nonnull 4])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE*_Nonnull*_Nonnull)redNodes;
+- (NODE*)createNodeAtLevel:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE*_Nonnull*_Nonnull)redNodes;
+- (void)reduceTreeLeafCount:(NSUInteger*)leafCount reducibleNodes:(NODE*_Nonnull*_Nonnull)redNodes;
+- (void)deleteTree:(NODE*_Nonnull*_Nullable)ppNode;
+- (void)paletteColour:(nullable NODE*)pTree index:(NSUInteger*)pIndex colour:(rgb_triple[_Nonnull])rgb;
+- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[_Nonnull])rgb index:(NSInteger*)index;
 
 @end
+
+NS_ASSUME_NONNULL_END

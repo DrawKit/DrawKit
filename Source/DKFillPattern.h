@@ -28,7 +28,9 @@ just sets up the path clipping and calls the rendering method for each location 
 	NSMutableArray* mMotifAngleRandCache;
 }
 
-/**  */
+/** return the default pattern , which is based on some image - unlikely to be really useful so might be
+ better to do something else here???
+ */
 + (instancetype)defaultPattern;
 + (instancetype)fillPatternWithImage:(NSImage*)image;
 

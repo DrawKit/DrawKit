@@ -34,14 +34,10 @@ content.
 // because Cocoa's notifications are sent too early. In that case you should respond to the notification directly and
 // extract the relevant DK objects working back from the window. It sucks, I know.
 
-- (nullable DKDrawingDocument*)currentDocument;
-- (nullable DKDrawing*)currentDrawing;
-- (nullable DKLayer*)currentActiveLayer;
 @property (readonly, retain, nullable) DKDrawingDocument *currentDocument;
 @property (readonly, retain, nullable) DKDrawing *currentDrawing;
 @property (readonly, retain, nullable) DKLayer *currentActiveLayer;
 
-- (nullable DKViewController*)currentMainViewController;
 @property (readonly, retain, nullable) DKViewController *currentMainViewController;
 
 @end

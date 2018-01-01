@@ -92,10 +92,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 /** @brief Return a list of types supported by styles for pasteboard operations
  @return an array listing the pasteboard types usable by DKStyle
  */
-+ (NSArray<NSPasteboardType>*)stylePasteboardTypes;
-+ (BOOL)canInitWithPasteboard:(NSPasteboard*)pb;
-
 @property (class, readonly, copy) NSArray<NSPasteboardType>*stylePasteboardTypes;
++ (BOOL)canInitWithPasteboard:(NSPasteboard*)pb;
 
 // pasted styles - separate non-persistent registry
 
@@ -113,17 +111,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  Sharing styles means that all object that share that style will change when a style property changes,
  regardless of any other state information, such as selection, layer owner, etc. Styles are set
  NOT to be shared by default.
- @param share YES to share styles, NO to return unique copies.
  */
-+ (void)setStylesAreSharableByDefault:(BOOL)share;
-
-/** @brief Query whether styles are generally shared or not
-
- Styles are set NOT to be shared by default.
- @return YES if styles are shared, NO if unique copies will be returned
- */
-+ (BOOL)stylesAreSharableByDefault;
-
 @property (class) BOOL stylesAreSharableByDefault;
 
 // shadows:
@@ -150,8 +138,6 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  in certain situations. Rasterizers that have a shadow property should check and honour this setting.
  @return YES to draw shadows, NO to suppress them
  */
-+ (BOOL)willDrawShadows;
-
 @property (class, readonly) BOOL willDrawShadows;
 
 // performance options:
@@ -159,17 +145,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 /** @brief Set whether drawing should be anti-aliased or not
 
  Default is YES. Turning off anti-aliasing can speed up drawing at the expense of quality.
- @param aa YES to anti-alias, NO to turn anti-aliasing off
+ Set to \c YES to anti-alias, \c NO to turn anti-aliasing off
  */
-+ (void)setShouldAntialias:(BOOL)aa;
-
-/** @brief Set whether drawing should be anti-aliased or not
-
- Default is YES. Turning off anti-aliasing can speed up drawing at the expense of quality.
- @return YES to anti-alias, NO to turn anti-aliasing off
- */
-+ (BOOL)shouldAntialias;
-
 @property (class) BOOL shouldAntialias;
 
 /** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
@@ -177,19 +154,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
  Default is NO. Typically this method causes a style to render a single simple stroke in place of
  its actual components. If the style has a simple stroke, it is used, otherwise a default one is used.
- @param substitute YES to substitute a faster placeholder style for complex styles
+ Set to \c YES to substitute a faster placeholder style for complex styles
  */
-+ (void)setShouldSubstitutePlaceholderStyle:(BOOL)substitute;
-
-/** @brief Set whether the style should substitute a simple placeholder when a style is complex and slow to
- render.
-
- Default is NO. Typically this method causes a style to render a single simple stroke in place of
- its actual components. If the style has a simple stroke, it is used, otherwise a default one is used.
- @return YES to substitute a faster placeholder style for complex styles
- */
-+ (BOOL)shouldSubstitutePlaceholderStyle;
-
 @property (class) BOOL shouldSubstitutePlaceholderStyle;
 
 // updating & notifying clients:
@@ -224,34 +190,21 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  This is for information only - do not base critical code on this value
  @return an unsigned integer, the number of clients using this style
  */
-- (NSUInteger)countOfClients;
 @property (readonly) NSUInteger countOfClients;
 
 // (text) attributes - basic support
 
-#if 0
 /** @brief Sets the text attributes dictionary
-
+ 
  Objects that display text can use a style's text attributes. This together with sharable styles
  allows text (labels in particular) to have their styling changed for a whole drawing. See also
  DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
- @param attrs a dictionary of text attributes */
-- (void)setTextAttributes:(NSDictionary<NSAttributedStringKey,id>*)attrs;
-
-/** @brief Returns the attributes dictionary
-
- Renderers are not considered attributes in this sense
- @return a dictionary of attributes
  */
-- (NSDictionary<NSAttributedStringKey,id>*)textAttributes;
-#endif
-
 @property (nonatomic, copy, nullable) NSDictionary<NSAttributedStringKey,id> *textAttributes;
 
 /** @brief Return wjether the style has any text attributes set
  @return YES if there are any text attributes
  */
-- (BOOL)hasTextAttributes;
 @property (readonly) BOOL hasTextAttributes;
 
 /** @brief Remove all of the style's current text attributes
@@ -267,15 +220,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
  Default is copied from class setting +shareStyles. Changing this flag is not undoable and does
  not inform clients. It does send a notification however.
- @param share YES to share among several objects, NO to make unique copies.
+ Set to \c YES to share among several objects, \c NO to make unique copies.
  */
-- (void)setStyleSharable:(BOOL)share;
-
-/** @brief Returns whether the style can be shared among multiple objects, or whether unique copies should be
- used.
- @return YES to share among several objects, NO to make unique copies.
- */
-- (BOOL)isStyleSharable;
 @property (nonatomic, getter=isStyleSharable) BOOL styleSharable;
 
 /** @brief Set whether style is locked (editable)

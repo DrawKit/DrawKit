@@ -7,8 +7,7 @@
 #import <Foundation/Foundation.h>
 
 /** @brief returns a random number between 0 and 1 */
-@interface DKRandom : NSObject {
-}
+@interface DKRandom : NSObject
 
 + (CGFloat)randomNumber;
 + (CGFloat)randomPositiveOrNegativeNumber;

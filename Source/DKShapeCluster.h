@@ -38,15 +38,7 @@ since the master object must be nominated when creating the cluster.
 /** @brief Sets the master object for the cluster
 
  The master object must already be one of the objects in the group, and it must be a shape
- @param master the master object
  */
-- (void)setMasterObject:(DKDrawableShape*)master;
-
-/** @brief What is the cluster's master object?
- @return the master object for this cluster
- */
-- (DKDrawableShape*)masterObject;
-
 @property (nonatomic, weak) DKDrawableShape *masterObject;
 
 @end

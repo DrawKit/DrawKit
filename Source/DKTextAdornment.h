@@ -75,7 +75,7 @@ other fixed content. See that class for details.
 // text conversions:
 
 - (NSBezierPath*)textAsPathForObject:(id)object;
-- (NSArray*)textPathsForObject:(id)object usedSize:(NSSize*)aSize;
+- (NSArray<NSBezierPath*>*)textPathsForObject:(id)object usedSize:(NSSize*)aSize;
 - (DKStyle*)styleFromTextAttributes;
 
 // text layout:

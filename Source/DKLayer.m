@@ -963,6 +963,8 @@ static NSArray* s_selectionColours = nil;
 		return [[self layerGroup] knobs];
 }
 
+@synthesize knobs=m_knobs;
+
 /** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
 
  In general it's best to scale the knobs otherwise they tend to overlap and become large at high

@@ -8,7 +8,6 @@
 
 @interface DKRuntimeHelper : NSObject
 
-/**  */
 + (NSArray<Class>*)allClasses;
 + (NSArray<Class>*)allClassesOfKind:(Class)aClass;
 + (NSArray<Class>*)allImmediateSubclassesOf:(Class)aClass;

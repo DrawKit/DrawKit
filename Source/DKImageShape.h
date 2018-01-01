@@ -82,15 +82,7 @@ A hotspot is added to allow the user to drag the image offset position around.
 /** @brief Sets the object's image
 
  The shape's path, size, angle, etc. are not changed by this method
- @param anImage an image to display in this shape.
  */
-- (void)setImage:(NSImage*)anImage;
-
-/** @brief Get the object's image
- @return the image
- */
-- (NSImage*)image;
-
 @property (retain) NSImage *image;
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
@@ -138,134 +130,58 @@ A hotspot is added to allow the user to drag the image offset position around.
 /** @brief Set the object's image key
 
  This is called by other methods as necessary. It currently simply retains the key.
- @param key the image's key
  */
-- (void)setImageKey:(NSString*)key;
-
-/** @brief Return the object's image key
- @return the image's key
- */
-- (NSString*)imageKey;
-
 @property (copy) NSString *imageKey;
-
-/** @brief Sets the image from data
-
- This method liases with the image manager so that the image key is correctly recorded or assigned
- as needed.
- @param data data containing image data 
- */
-- (void)setImageData:(NSData*)data;
 
 /** @brief Returns the image original data
 
+ This method liases with the image manager so that the image key is correctly recorded or assigned
+ as needed.
  This returns either the locally retained original data, or the data held by the image manager. In
  either case the data returned is the original data from which the image was created. If the image
  was set directly and not from data, and the key is unknown to the image manager, returns nil.
  @return data containing image data
  */
-- (NSData*)imageData;
-
 @property (copy) NSData*imageData;
 
 /** @brief Set the image's opacity
 
- The default is 1.0
- @param opacity an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
+ The default is 1.0.
+ An opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
  */
-- (void)setImageOpacity:(CGFloat)opacity;
-
-/** @brief Get the image's opacity
-
- Default is 1.0
- @return <opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
- */
-- (CGFloat)imageOpacity;
-
 @property CGFloat imageOpacity;
 
 /** @brief Set whether the image draws above or below the rendering done by the style
 
  Default is NO
- @param onTop YES to draw on top (after) the style, NO to draw below (before)
+ Set to \c YES to draw on top (after) the style, \c NO to draw below (before).
  */
-- (void)setImageDrawsOnTop:(BOOL)onTop;
-
-/** @brief Whether the image draws above or below the rendering done by the style
-
- Default is NO
- @return YES to draw on top (after) the style, NO to draw below (before)
- */
-- (BOOL)imageDrawsOnTop;
-
 @property BOOL imageDrawsOnTop;
 
 /** @brief Set the Quartz composition mode to use when compositing the image
 
- Default is NSCompositeSourceAtop
- @param op an NSCompositingOperation constant
+ Default is \c NSCompositeSourceAtop
  */
-- (void)setCompositingOperation:(NSCompositingOperation)op;
-
-/** @brief Get the Quartz composition mode to use when compositing the image
-
- Default is NSCompositeSourceAtop
- @return an NSCompositingOperation constant
- */
-- (NSCompositingOperation)compositingOperation;
-
 @property NSCompositingOperation compositingOperation;
 
 /** @brief Set the scale factor for the image
 
  This is not currently implemented - images scale to fit the bounds when in scale mode, and are
  drawn at their native size in crop mode.
- @param scale a scaling value, 1.0 = 100% 
  */
-- (void)setImageScale:(CGFloat)scale;
-
-/** @brief Get the scale factor for the image
-
- This is not currently implemented - images scale to fit the bounds when in scale mode, and are
- drawn at their native size in crop mode.
- @return the scale
- */
-- (CGFloat)imageScale;
-
 @property CGFloat imageScale;
 
 /** @brief Set the offset position for the image
 
  The default is 0,0. The value is the distance in points from the top, left corner of the shape's
  bounds to the top, left corner of the image
- @param imgoff the offset position 
  */
-- (void)setImageOffset:(NSPoint)imgoff;
-
-/** @brief Get the offset position for the image
-
- The default is 0,0. The value is the distance in points from the top, left corner of the shape's
- bounds to the top, left corner of the image
- @return the image offset
- */
-- (NSPoint)imageOffset;
-
 @property NSPoint imageOffset;
 
 /** @brief Set the display mode for the object - crop image or scale it
 
  The default is scale. 
- @param crop a mode value
  */
-- (void)setImageCroppingOptions:(DKImageCroppingOptions)crop;
-
-/** @brief Get the display mode for the object - crop image or scale it
-
- The default is scale. 
- @return a mode value
- */
-- (DKImageCroppingOptions)imageCroppingOptions;
-
 @property DKImageCroppingOptions imageCroppingOptions;
 
 // user actions

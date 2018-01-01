@@ -31,50 +31,22 @@ If the style is locked these do nothing.
 
 + (DKStyle*)styleWithDotDensity:(CGFloat)percent foreColour:(NSColor*)fore backColour:(NSColor*)back;
 
-- (nullable DKStroke*)stroke;
-- (nullable DKFill*)fill;
-
 @property (readonly, retain, nullable) DKStroke *stroke;
 @property (readonly, retain, nullable) DKFill *fill;
 
-- (void)setFillColour:(nullable NSColor*)fillColour;
-- (nullable NSColor*)fillColour;
-
 @property (retain, nullable) NSColor *fillColour;
-
-- (void)setStrokeColour:(nullable NSColor*)strokeColour;
-- (nullable NSColor*)strokeColour;
 
 @property (retain, nullable) NSColor *strokeColour;
 
-- (void)setStrokeWidth:(CGFloat)strokeWidth;
-- (CGFloat)strokeWidth;
-
 @property CGFloat strokeWidth;
-
-- (void)setStrokeDash:(nullable DKStrokeDash*)aDash;
-- (nullable DKStrokeDash*)strokeDash;
 
 @property (retain, nullable) DKStrokeDash *strokeDash;
 
-- (void)setStrokeLineCapStyle:(NSLineCapStyle)capStyle;
-- (NSLineCapStyle)strokeLineCapStyle;
-
 @property NSLineCapStyle strokeLineCapStyle;
-
-- (void)setStrokeLineJoinStyle:(NSLineJoinStyle)joinStyle;
-- (NSLineJoinStyle)strokeLineJoinStyle;
 
 @property NSLineJoinStyle strokeLineJoinStyle;
 
-- (void)setString:(nullable NSString*)aString;
-- (nullable NSString*)string;
-
 @property (nullable, copy) NSString *string;
-
-- (BOOL)hasImageComponent;
-- (void)setImageComponent:(nullable NSImage*)anImage;
-- (nullable NSImage*)imageComponent;
 
 @property (readonly) BOOL hasImageComponent;
 @property (retain, nullable) NSImage *imageComponent;

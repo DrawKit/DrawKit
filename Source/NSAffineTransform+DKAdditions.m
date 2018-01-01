@@ -8,7 +8,6 @@
 
 @implementation NSAffineTransform (DKAdditions)
 
-/**  */
 - (NSAffineTransform*)mapFrom:(NSRect)src to:(NSRect)dst
 {
 	NSAffineTransformStruct at;

@@ -933,6 +933,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 {
 	return mNewObjectPending;
 }
+@synthesize pendingObject=mNewObjectPending;
 
 #pragma mark -
 #pragma mark - geometry

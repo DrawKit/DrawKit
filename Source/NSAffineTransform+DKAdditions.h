@@ -12,7 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface NSAffineTransform (DKAdditions)
 
-/**  */
 - (NSAffineTransform*)mapFrom:(NSRect)src to:(NSRect)dst;
 - (NSAffineTransform*)mapFrom:(NSRect)src to:(NSRect)dst dstAngle:(CGFloat)radians;
 

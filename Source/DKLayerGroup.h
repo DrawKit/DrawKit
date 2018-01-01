@@ -311,13 +311,6 @@ be upside-down. This class automatically reverses the stacking order in an archi
  */
 - (void)hideAllExcept:(nullable DKLayer*)aLayer;
 
-/** @brief Returns \c YES if the receiver or any of its contained layers is hidden
-
- Recurses on any subgroups.
- @return \c YES if there are hidden layers below this, or this is hidden itself
- */
-- (BOOL)hasHiddenLayers;
-
 /** @brief Is \c YES if there are hidden layers below this, or this is hidden itself.
  @discussion Recurses on any subgroups.
  */

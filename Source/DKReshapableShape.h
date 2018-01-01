@@ -37,9 +37,6 @@
 }
 
 - (void)setShapeProvider:(id)provider selector:(SEL)selector;
-- (id)shapeProvider;
-- (SEL)shapeSelector;
-
 @property (nonatomic, readonly, strong) id shapeProvider;
 @property (nonatomic, readonly) SEL shapeSelector;
 

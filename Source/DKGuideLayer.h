@@ -36,16 +36,8 @@ the shift key down.
 
 // default snapping tolerance:
 
-/** @brief Sets the distance a point needs to be before it is snapped to a guide
- @param tol the distance in points
+/** @brief The distance a point needs to be before it is snapped to a guide
  */
-+ (void)setDefaultSnapTolerance:(CGFloat)tol;
-
-/** @brief Returns the distance a point needs to be before it is snapped to a guide
- @return the distance in points
- */
-+ (CGFloat)defaultSnapTolerance;
-
 @property (class) CGFloat defaultSnapTolerance;
 
 // adding and removing guides:
@@ -90,14 +82,12 @@ the shift key down.
 /** @brief Get all current guides
  @return an array of guide objects
  */
-- (NSArray<DKGuide*>*)guides;
+@property (readonly, copy) NSArray<DKGuide*> *guides;
 
-/** @brief Adds a set of guides to th elayer
+/** @brief Adds a set of guides to the elayer
  @param guides an array of guide objects
  */
 - (void)setGuides:(NSArray<DKGuide*>*)guides;
-
-@property (copy) NSArray<DKGuide*> *guides;
 
 // finding guides close to a given position
 
@@ -118,7 +108,6 @@ the shift key down.
  The guides returns are not in any particular order
  @return an array of DKGuide objects
  */
-- (NSArray<DKGuide*>*)verticalGuides;
 @property (readonly, strong) NSArray<DKGuide*>* verticalGuides;
 
 /** @brief Returns the list of horizontal guides
@@ -126,57 +115,27 @@ the shift key down.
  The guides returns are not in any particular order
  @return an array of DKGuide objects
  */
-- (NSArray<DKGuide*>*)horizontalGuides;
 @property (readonly, strong) NSArray<DKGuide*>* horizontalGuides;
 
 // setting a common colour for the guides:
 
-/** @brief Set the colour of all guides in this layer to a given colour
+/** @brief The layer's guide colour
 
- The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
- also each guide is able to have its own colour. This sets the colour for each guide to be the same
- so you may prefer to obtain a particular guide and set it individually.
- @param colour the colour to set
- */
-
-/** @brief Sets the guide's colour
-
- Note that this doesn't mark the guide for update - DKGuideLayer has a method for doing that.
- @param colour a colour 
- */
-- (void)setGuideColour:(NSColor*)colour;
-
-/** @brief Return the layer's guide colour
-
+ Note that setting this doesn't mark the guide for update - \c DKGuideLayer has a method for doing that.
  The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
  also each guide is able to have its own colour. This returns the selection colour, but if guides
  have their own colours this says nothing about them.
  @return a colour
  */
-
-/** @brief Returns the guide's colour
- @return a colour
- */
-- (NSColor*)guideColour;
-
 @property (strong) NSColor *guideColour;
 
+
 // set whether guides snap to grid or not
-
-/** @brief Set whether guids should snap to the grid by default or not
-
- The default is NO
- @param gridsnap YES to always snap guides to the grid, NO otherwise
- */
-- (void)setGuidesSnapToGrid:(BOOL)gridsnap;
 
 /** @brief Whether guids should snap to the grid by default or not
 
  The default is NO
- @return YES to always snap guides to the grid, NO otherwise
  */
-- (BOOL)guidesSnapToGrid;
-
 @property BOOL guidesSnapToGrid;
 
 // set the snapping tolerance for this layer
@@ -184,17 +143,7 @@ the shift key down.
 /** @brief Sets the distance a point needs to be before it is snapped to a guide
 
  The default value is determind by the class method of the same name
- @param tol the distance in points
  */
-- (void)setSnapTolerance:(CGFloat)tol;
-
-/** @brief Resturns the distance a point needs to be before it is snapped to a guide
-
- The default value is determind by the class method of the same name
- @return the distance in points
- */
-- (CGFloat)snapTolerance;
-
 @property CGFloat snapTolerance;
 
 // set whether the info window is displayed or not
@@ -202,37 +151,15 @@ the shift key down.
 /** @brief Set whether the info window should be displayed when dragging a guide
 
  Default is YES, display the window
- @param showsIt YES to display the window, NO otherwise
+ Set to \c YES to display the window, \c NO otherwise.
  */
-- (void)setShowsDragInfoWindow:(BOOL)showsIt;
-
-/** @brief Return whether the info window should be displayed when dragging a guide
-
- Default is YES, display the window
- @return YES to display the window, NO otherwise
- */
-- (BOOL)showsDragInfoWindow;
-
 @property BOOL showsDragInfoWindow;
 
 /** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
 
  Default is the same as the drawing's interior
- @param rect the rect
  */
-- (void)setGuideDeletionRect:(NSRect)rect;
-
-/** @brief The rect for which guides will be deleted if they are dragged outside of it
-
- Default is the same as the drawing's interior
- @return the rect
- */
-- (NSRect)guideDeletionRect;
-
 @property NSRect guideDeletionRect;
-
-- (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside;
-- (BOOL)guidesDrawnInEnclosingScrollview;
 
 @property (nonatomic) BOOL guidesDrawnInEnclosingScrollview;
 
@@ -327,31 +254,13 @@ the shift key down.
 }
 
 /** @brief Sets the position of the guide
- @param pos a position value in drawing coordinates
  */
-- (void)setGuidePosition:(CGFloat)pos;
-
-/** @brief Returns the position of the guide
- @return position value in drawing coordinates
- */
-- (CGFloat)guidePosition;
-
 @property CGFloat guidePosition;
 
 /** @brief Sets whether the guide is vertically oriented or horizontal
- @param vert YES for a vertical guide, NO for a horizontal guide
+ Set to \c YES for a vertical guide, \c NO for a horizontal guide.
  */
-- (void)setIsVerticalGuide:(BOOL)vert;
-
-/** @brief Returns whether the guide is vertically oriented or horizontal
- @return YES for a vertical guide, NO for a horizontal guide
- */
-- (BOOL)isVerticalGuide;
-
 @property BOOL isVerticalGuide;
-
-- (void)setGuideColour:(NSColor*)colour;
-- (NSColor*)guideColour;
 
 @property (strong) NSColor *guideColour;
 

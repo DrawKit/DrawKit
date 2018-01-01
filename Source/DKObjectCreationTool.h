@@ -67,17 +67,12 @@ You can also set up a style to be applied to all new objects initially as an ind
  */
 - (instancetype)initWithPrototypeObject:(id<NSCopying, NSObject>)aPrototype NS_DESIGNATED_INITIALIZER;
 
-/** @brief Set the object to be copied when the tool created a new one
- @param aPrototype an object that will be used as the tool's prototype - each new object created will
+/** @brief The object to be copied when the tool created a new one.
+ 
+ An object that will be used as the tool's prototype - each new object created will
+ be a copy of this one.
  */
-- (void)setPrototype:(id<NSCopying, NSObject>)aPrototype;
-
-/** @brief Return the object to be copied when the tool creates a new one
- @return an object - each new object created will be a copy of this one.
- */
-- (id<NSCopying, NSObject>)prototype;
-
-@property (nonatomic, strong) id<NSCopying, NSObject> prototype;
+@property (nonatomic, strong/* , nonnull */) id<NSCopying, NSObject> prototype;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
 
@@ -85,9 +80,6 @@ You can also set up a style to be applied to all new objects initially as an ind
  @return a new object based on the prototype.
  */
 - (id)objectFromPrototype;
-
-- (void)setStyle:(nullable DKStyle*)aStyle;
-- (nullable DKStyle*)style;
 
 @property (strong, nullable) DKStyle *style;
 

@@ -74,17 +74,11 @@ has a very low opacity should be used - the default style takes the system's hig
 
 // modes of operation:
 
-/** @brief Sets the tool's operation mode
+/** @brief The tool's operation mode.
 
  This is typically called automatically by the mouseDown method according to the context of the
  initial click.
- @param op the mode to enter */
-- (void)setOperationMode:(DKEditToolOperation)op;
-
-/** @brief Returns the tool's current operation mode
- @return the current operation mode */
-- (DKEditToolOperation)operationMode;
-
+ */
 @property DKEditToolOperation operationMode;
 
 // drawing the marquee (selection rect):
@@ -98,8 +92,6 @@ has a very low opacity should be used - the default style takes the system's hig
 
 /** @brief Returns the current marquee (selection rect)
  @return a rect */
-- (NSRect)marqueeRect;
-
 @property (readonly) NSRect marqueeRect;
 
 /** @brief Sets the current marquee (selection rect)
@@ -111,20 +103,11 @@ has a very low opacity should be used - the default style takes the system's hig
  */
 - (void)setMarqueeRect:(NSRect)marqueeRect inLayer:(DKLayer*)aLayer;
 
-/** @brief Set the drawing style for the marquee (selection rect)
-
+/** @brief The drawing style for the marquee (selection rect)
+ 
  If you replace the default style, take care that the style is generally fairly transparent,
  otherwise it will be hard to see what you are selecting!
- @param aStyle a style object */
-- (void)setMarqueeStyle:(DKStyle*)aStyle;
-
-/** @brief Set the drawing style for the marquee (selection rect)
-
- If you replace the default style, take care that the style is generally fairly transparent,
- otherwise it will be hard to see what you are selecting!
-  */
-- (DKStyle*)marqueeStyle;
-
+ */
 @property (retain) DKStyle *marqueeStyle;
 
 // setting up optional behaviours:
@@ -132,60 +115,28 @@ has a very low opacity should be used - the default style takes the system's hig
 /** @brief Set whether the selection highlight of objects should be supressed during a drag
 
  The default is <code>YES</code>. Hiding the selection can make positioning objects by eye more precise.
- @param hideSel \c YES to hide selections during a drag, \c NO to leave them visible */
-- (void)setSelectionShouldHideDuringDrag:(BOOL)hideSel;
-
-/** @brief Should the selection highlight of objects should be supressed during a drag?
-
- The default is YES. Hiding the selection can make positioning objects by eye more precise.
- @return YES to hide selections during a drag, NO to leave them visible */
-- (BOOL)selectionShouldHideDuringDrag;
-
-/** @brief Sets whether dragging moves all objects in the selection as a group, or only the one under the mouse
- 
- The default is <code>YES</code>.
- @param multi \c YES to drag all selected objects as a group, \c NO to drag just the one hit
- */
-- (void)setDragsAllObjectsInSelection:(BOOL)multi;
+ Is \c YES to hide selections during a drag, \c NO to leave them visible */
+@property BOOL selectionShouldHideDuringDrag;
 
 /** @brief Drags all objects as agroup?
  
  The default is <code>YES</code>.
- @return \c YES if all selected objects are dragged as a group, \c NO if only one is
+ Is \c YES if all selected objects are dragged as a group, \c NO if only one is
  */
-- (BOOL)dragsAllObjectsInSelection;
-
-/** @brief Sets whether option-drag copies the original object
- 
- The default is <code>YES</code>.
- @param dragCopy \c YES to allow option-drag to copy the object
- */
-- (void)setAllowsDirectDragCopying:(BOOL)dragCopy;
+@property BOOL dragsAllObjectsInSelection;
 
 /** @brief Whether option-drag copies the original object
  
  The default is <code>YES</code>.
  @return \c YES if option-drag will copy the object.
  */
-- (BOOL)allowsDirectDragCopying;
-
-@property BOOL selectionShouldHideDuringDrag;
-@property BOOL dragsAllObjectsInSelection;
 @property BOOL allowsDirectDragCopying;
-/** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
+
+/** @brief Whether a hit on a knob in a multiple selection drags the objects or drags the knob.
 
  The default is \c <code>NO</code>
- @param dragWithKnob \c YES to drag the selection, \c NO to change the selection and drag the knob
+ Is \c YES to drag the selection, \c NO to change the selection and drag the knob.
  */
-- (void)setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL)dragWithKnob;
-
-/** @brief Returns whether a hit on a knob in a multiple selection drags the objects or drags the knob
-
- The default is \c <code>NO</code>
- @return \c YES to drag the selection, \c NO to change the selection and drag the knob.
- */
-- (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob;
-
 @property BOOL dragsAllObjectsInSelectionWhenDraggingKnob;
 
 /** @brief Sets the number of selected objects at which a proxy drag is used rather than a live drag
@@ -196,19 +147,7 @@ has a very low opacity should be used - the default style takes the system's hig
  this gives a hugh performance gain for large numbers of objects - in fact it makes dragging of a lot
  of objects actually feasible. The default threshold is 50 objects. Setting this to 1 effectively
  makes proxy dragging operate at all times.
- @param numberOfObjects the number above which a proxy drag is used 
  */
-- (void)setProxyDragThreshold:(NSUInteger)numberOfObjects;
-
-/** @brief The number of selected objects at which a proxy drag is used rather than a live drag
-
- Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- a temporary image of the objects being dragged. A value of 0 will disable proxy dragging.
- @return the number above which a proxy drag is used
- */
-- (NSUInteger)proxyDragThreshold;
-
 @property NSUInteger proxyDragThreshold;
 
 // handling the selection
@@ -216,9 +155,9 @@ has a very low opacity should be used - the default style takes the system's hig
 /** @brief Implement selection changes for the current event (mouse down, typically)
 
  This method implements the 'standard' selection conventions for modifier keys as follows:
- 1. no modifiers - <targ> is selected if not already selected
- 2. + shift: <targ> is added to the existing selection
- 3. + command: the selected state of <targ> is flipped
+ 1. no modifiers - \c targ is selected if not already selected
+ 2. + shift: \c targ is added to the existing selection
+ 3. + command: the selected state of \c targ is flipped
  This method also sets the undo action name to indicate what change occurred - if selection
  changes are not considered undoable by the layer, these are simply ignored.
  @param targ the object that is being selected or deselected

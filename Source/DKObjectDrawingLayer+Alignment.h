@@ -215,4 +215,4 @@ static const DKAlignmentAlign kDKAlignmentVerticalAlignMask API_DEPRECATED_WITH_
  @param sr the second bounding rectangle
  @param alignment the type of alignment being applied
  @return an x and y offset */
-NSPoint calculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment);
+NSPoint DKCalculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment);

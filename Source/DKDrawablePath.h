@@ -75,16 +75,8 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
 
 // colour for feedback window:
 
-/** @brief Set the background colour to use for the info window displayed when interacting with paths
- @param colour the colour to use
+/** @brief The background colour to use for the info window displayed when interacting with paths
  */
-+ (void)setInfoWindowBackgroundColour:(NSColor*)colour;
-
-/** @brief Return the background colour to use for the info window displayed when interacting with paths
- @return the colour to use
- */
-+ (NSColor*)infoWindowBackgroundColour;
-
 @property (class, retain) NSColor *infoWindowBackgroundColour;
 
 /** @brief Set whether the default hit-detection behaviour is to prioritise on-path points or off-path points
@@ -93,20 +85,7 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  have priority, but an alternative approach is to have on-path points have priority, and the off-path
  points require the use of the command modifier key to be hit-detected. DK has previously always
  prioritised off-path points, but this setting allows you to change that for your app.
- @param priority if YES, on-path points have priority by default. 
  */
-+ (void)setDefaultOnPathHitDetectionPriority:(BOOL)priority;
-
-/** @brief Returns whether the default hit-detection behaviour is to prioritise on-path points or off-path points
-
- Affects hit-detection when on-path and off-path points are coincident. Normally off-path points
- have priority, but an alternative approach is to have on-path points have priority, and the off-path
- points require the use of the command modifier key to be hit-detected. DK has previously always
- prioritised off-path points, but this setting allows you to change that for your app.
- @return if YES, on-path points have priority by default
- */
-+ (BOOL)defaultOnPathHitDetectionPriority;
-
 @property (class) BOOL defaultOnPathHitDetectionPriority;
 
 - (instancetype)initWithBezierPath:(NSBezierPath*)aPath;
@@ -120,16 +99,8 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  */
 - (instancetype)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle;
 
-/** @brief Set the angle of constraint for new paths
- 
- @param radians the angle to constrain by; multiples of angle are used
+/** @brief Angle of constraint for new paths.
  */
-+ (void)setAngularConstraintAngle:(CGFloat)radians;
-
-/** @brief Angle of constraint for new paths
- */
-+ (CGFloat)angularConstraintAngle;
-
 @property (class) CGFloat angularConstraintAngle;
 
 /** @brief Should the angle of the path be constrained?
@@ -140,22 +111,18 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
 
 // setting the path & path info
 
-- (void)setPath:(NSBezierPath*)path;
-- (NSBezierPath*)path;
-- (void)drawControlPointsOfPath:(NSBezierPath*)path usingKnobs:(DKKnob*)knobs;
-
 @property (copy) NSBezierPath *path;
+- (void)drawControlPointsOfPath:(NSBezierPath*)path usingKnobs:(DKKnob*)knobs;
 
 /** @brief Return the length of the path
 
  Length is accurately computed by summing the segment distances.
  @return the path's length
  */
-- (CGFloat)length;
+@property (readonly) CGFloat length;
 - (CGFloat)lengthForPoint:(NSPoint)mp;
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol;
 
-@property (readonly) CGFloat length;
 
 
 /** @brief Return the length to display to the user of a path
@@ -166,12 +133,11 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  */
 - (CGFloat)infoLengthForPath:(NSBezierPath*)path;
 
-/** @brief Discover whether the path is open or closed
+/** @brief Discover whether the path is open or closed.
 
  A path is closed if it has a closePath element or its first and last points are coincident.
- @return YES if the path is closed, NO if open
+ @return \c YES if the path is closed, \c NO if open
  */
-- (BOOL)isPathClosed;
 @property (readonly, getter=isPathClosed) BOOL pathClosed;
 
 - (void)recordPathForUndo;
@@ -253,19 +219,12 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
 
 // creating paths
 
-@property DKDrawablePathCreationMode pathCreationMode;
-
-/** @brief Sets the "mode" of operation for creating new path objects
-
+/** @brief The "mode" of operation for creating new path objects.
+ 
  Paths are created by tools usually so this will be rarely needed. Pass 0 for the defalt mode which
  is to edit an existing path (once created all paths are logically the same)
- @param editPathMode a constant indicating how a new path should be constructed.
  */
-- (void)setPathCreationMode:(DKDrawablePathCreationMode)editPathMode;
-
-/** @brief Gets the "mode" of operation for creating new path objects
- */
-- (DKDrawablePathCreationMode)pathCreationMode;
+@property DKDrawablePathCreationMode pathCreationMode;
 
 /** @brief Test for the ending criterion of a path loop
 
@@ -283,15 +242,6 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  @return YES if the partcode is one of the endpoints, NO otherwise
  */
 - (BOOL)isOpenEndPoint:(NSInteger)partcode;
-
-/** @brief Set whether the object should extend its path or start from scratch
-
- When YES, this affects the starting partcode for the creation process. Normally paths are started
- from scratch, but if YES, this extends the existing path from its end if the path is open. The
- tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
- @param xtend \c YES to extend the path, \c NO for normal creation
- */
-- (void)setShouldExtendExistingPath:(BOOL)xtend;
 
 /** @brief Whether the object is extending its path or starting from scratch.
  
@@ -357,8 +307,6 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  @return a DKDrawableShape object, identical to this
  */
 - (DKDrawableShape*)makeShape;
-- (BOOL)canConvertToTrack;
-
 @property (readonly) BOOL canConvertToTrack;
 
 /** @brief Make a copy of the path but with a parallel offset

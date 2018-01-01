@@ -15,12 +15,8 @@
 @implementation DKFillPattern
 #pragma mark As a DKFillPattern
 
-/**  */
 + (DKFillPattern*)defaultPattern
 {
-	// return the default pattern , which is based on some image - unlikely to be really useful so might be
-	// better to do something else here???
-
 	return [[[self alloc] initWithImage:[NSImage imageNamed:@"Rect"]] autorelease];
 }
 

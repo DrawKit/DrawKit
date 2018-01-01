@@ -51,23 +51,15 @@
 	CGFloat mAlpha; // alpha value applied to layer as a whole
 }
 
-/** @brief Allows a list of colours to be set for supplying the selection colours
-
- The list is used to supply colours in rotation when new layers are instantiated
- @param listOfColours an array containing NSColor objects
- */
-+ (void)setSelectionColours:(NSArray<NSColor*>*)listOfColours;
-
 /** @brief Returns the list of colours used for supplying the selection colours
 
+ The list is used to supply colours in rotation when new layers are instantiated.
  If never specifically set, this returns a very simple list of basic colours which is what DK has
  traditionally used.
  @return an array containing NSColor objects
  */
-+ (NSArray<NSColor*>*)selectionColours;
-+ (NSColor*)selectionColourForIndex:(NSUInteger)index;
-
 @property (class, copy /*, null_resettable*/) NSArray<NSColor*> *selectionColours;
++ (NSColor*)selectionColourForIndex:(NSUInteger)index;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
@@ -80,7 +72,6 @@
  how this works
  @return the layer's owner drawing
  */
-- (DKDrawing*)drawing;
 @property (readonly, strong) DKDrawing *drawing;
 
 /** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
@@ -103,7 +94,6 @@
 /** @brief Obtains the undo manager that is handling undo for the drawing and hence, this layer
  @return the undo manager in use
  */
-- (NSUndoManager*)undoManager;
 @property (nonatomic, strong) NSUndoManager *undoManager;
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
@@ -119,15 +109,7 @@
 /** @brief Sets the group that the layer is contained in - called automatically when the layer is added to a group
 
  The group retains this, so the group isn't retained here
- @param group the group we belong to */
-- (void)setLayerGroup:(DKLayerGroup*)group;
-
-/** @brief Gets the group that the layer is contained in
-
- The layer's group might be the drawing itself, which is a group
- @return the layer's group */
-- (DKLayerGroup*)layerGroup;
-
+ */
 @property (weak) DKLayerGroup *layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
@@ -135,7 +117,6 @@
  If the layer isn't in a group yet, result is 0. This is intended for debugging mostly.
  @return an integer, the layer's index
  */
-- (NSUInteger)indexInGroup;
 @property (readonly) NSUInteger indexInGroup;
 
 /** @brief Determine whether a given group is the parent of this layer, or anywhere above it in the hierarchy
@@ -151,7 +132,6 @@
  Layers in the root group return 1. A layer's level is its group's level + 1
  @return the layer's level
  */
-- (NSUInteger)level;
 @property (readonly) NSUInteger level;
 
 // drawing:
@@ -173,7 +153,6 @@
  The default is NO, layers are considered to be transparent.
  @return whether to treat the layer as opaque or not
  */
-- (BOOL)isOpaque;
 @property (readonly, getter=isOpaque) BOOL opaque;
 
 /** @brief Flags the whole layer as needing redrawing
@@ -226,15 +205,7 @@
  Different layers may wish to have a different colour for selections to help the user tell which
  layer they are working in. The layer doesn't enforce this - it's up to objects to make use of
  this provided colour where necessary.
- @param colour the selection colour preference
  */
-- (void)setSelectionColour:(NSColor*)colour;
-
-/** @brief Returns the currently preferred selection colour for this layer
- @return the colour
- */
-- (NSColor*)selectionColour;
-
 @property (nonatomic, strong) NSColor *selectionColour;
 
 /** @brief Returns an image of the layer a the given size
@@ -276,36 +247,17 @@
 /** @brief Sets whether drawing is limited to the interior area or not
 
  Default is NO, so drawings show in the margins.
- @param clip \c YES to limit drawing to the interior, \c NO to allow drawing to be visible in the margins.
+ Set to \c YES to limit drawing to the interior, \c NO to allow drawing to be visible in the margins.
  */
-- (void)setClipsDrawingToInterior:(BOOL)clip;
-
-/** @brief Whether the drawing will be clipped to the interior or not
-
- Default is NO.
- @return \c YES if clipping, \c NO if not.
- */
-- (BOOL)clipsDrawingToInterior;
-
 @property (nonatomic) BOOL clipsDrawingToInterior;
 
 /** @brief Sets the alpha level for the layer
 
  Default is 1.0 (fully opaque objects). Note that alpha must be implemented by a layer's
- -drawRect:inView: method to have an actual effect, and unless compositing to a CGLayer or other
+ \c -drawRect:inView: method to have an actual effect, and unless compositing to a CGLayer or other
  graphics surface, may not have the expected effect (just setting the context's alpha before
  drawing renders each individual object with the given alpha, for example).
- @param alpha the alpha level, 0..1
  */
-- (void)setAlpha:(CGFloat)alpha;
-
-/** @brief Returns the alpha level for the layer as a whole
-
- Default is 1.0 (fully opaque objects)
- @return the current alpha level
- */
-- (CGFloat)alpha;
-
 @property (nonatomic) CGFloat alpha;
 
 // managing ruler markers:
@@ -316,71 +268,43 @@
 
 // states:
 
-/** @brief Sets whether the layer is locked or not
+/** @brief Whether the layer is locked or not
 
  A locked layer will be drawn but cannot be edited. In case the layer's appearance changes
  according to this state change, a refresh is performed.
- @param locked YES to lock, NO to unlock
+ Set to \c YES to lock, \c NO to unlock.
  */
-- (void)setLocked:(BOOL)locked;
+@property BOOL locked;
 
-/** @brief Returns whether the layer is locked or not
-
- Locked layers cannot be edited. Also returns YES if the layer belongs to a locked group
- @return YES if locked, NO if unlocked
- */
-- (BOOL)locked;
-
-/** @brief Sets whether the layer is visible or not
+/** @brief Whether the layer is visible or not.
 
  Invisible layers are neither drawn nor can be edited.
- @param visible YES to show the layer, NO to hide it
+ Also returns \c NO if the layer's group is not visible.
+ Set to \c YES to show the layer, \c NO to hide it.
  */
-- (void)setVisible:(BOOL)visible;
-
-/** @brief Is the layer visible?
-
- Also returns NO if the layer's group is not visible
- @return YES if visible, NO if not
- */
-- (BOOL)visible;
-
-@property BOOL locked;
 @property BOOL visible;
 
 /** @brief Is the layer the active layer?
  @return YES if the active layer, NO otherwise
  */
-- (BOOL)isActive;
+@property (readonly, getter=isActive) BOOL active;
 
 /** @brief Returns whether the layer is locked or hidden
 
  Locked or hidden layers cannot usually be edited.
- @return YES if locked or hidden, NO if unlocked and visible
+ Is \c YES if locked or hidden, \c NO if unlocked and visible
  */
-- (BOOL)lockedOrHidden;
-
-@property (readonly, getter=isActive) BOOL active;
 @property (readonly) BOOL lockedOrHidden;
 
 /** @brief Sets the user-readable name of the layer
 
  Layer names are a convenience for the user, and can be displayed by a user interface. The name is
  not significant internally. This copies the name passed for safety.
- @param name the layer's name
  */
-- (void)setLayerName:(NSString*)name;
-
-/** @brief Returns the layer's name
- @return the name
- */
-- (NSString*)layerName;
-
 @property (nonatomic, copy) NSString *layerName;
 
 // user info support
 
-- (void)setUserInfo:(NSMutableDictionary<NSString*,id>*)info;
 - (void)addUserInfo:(NSDictionary<NSString*,id>*)info;
 
 /** @brief Return the attached user info
@@ -390,8 +314,6 @@
  the object however.
  @return the user info
  */
-- (NSMutableDictionary<NSString*,id>*)userInfo;
-
 @property (copy) NSMutableDictionary<NSString*,id> *userInfo;
 
 /** @brief Return an item of user info
@@ -404,38 +326,25 @@
 /** @brief Returns the layer's unique key
  @return the unique key
  */
-- (NSString*)uniqueKey;
-
 @property (readonly, copy) NSString *uniqueKey;
 
 // print this layer?
 
-/** @brief Set whether this layer should be included in printed output
-
- Default is YES
- @param printIt YES to includethe layer, NO to skip it
- */
-- (void)setShouldDrawToPrinter:(BOOL)printIt;
-
-/** @brief Return whether the layer should be part of the printed output or not
+/** @brief Whether the layer should be part of the printed output or not
 
  Some layers won't want to be printed - guides for example. Override this to return NO if you
  don't want the layer to be printed. By default layers are printed.
- @return YES to draw to printer, NO to suppress drawing on the printer
+ Set to \c YES to draw to printer, \c NO to suppress drawing on the printer.
  */
-- (BOOL)shouldDrawToPrinter;
-
 @property BOOL shouldDrawToPrinter;
 
 // becoming/resigning active:
 
 /** @brief Returns whether the layer can become the active layer
 
- The default is YES. Layers may override this and return NO if they do not want to ever become active
- @return YES if the layer can become active, NO to not become active
+ The default is YES. Layers may override this and return \c NO if they do not want to ever become active
+ Is \c YES if the layer can become active, \c NO to not become active
  */
-- (BOOL)layerMayBecomeActive;
-
 @property (readonly) BOOL layerMayBecomeActive;
 
 /** @brief The layer was made the active layer by the owning drawing
@@ -458,8 +367,6 @@
  It does not prevent code from directly removing the layer.
  @return \c YES if layer can be deleted, override to return \c NO to prevent this
  */
-- (BOOL)layerMayBeDeleted;
-
 @property (readonly) BOOL layerMayBeDeleted;
 
 // mouse event handling:
@@ -546,8 +453,6 @@
  By default the cursor rect is the entire interior area.
  @return the cursor rect
  */
-- (NSRect)activeCursorRect;
-
 @property (readonly) NSRect activeCursorRect;
 
 /** @brief Allows a contextual menu to be built for the layer or its contents
@@ -562,37 +467,32 @@
 
 // supporting per-layer knob handling - default defers to the drawing as before
 
-/** @brief Sets the selection knob helper object used for this drawing and any objects within it
+/** @brief Returns the attached selection knobs helper object
  
  Selection appearance can be customised for this drawing by setting up the knobs object or subclassing
  it. This object is propagated down to all objects below this in the system to draw their selection.
  See also: -setSelectionColour, -selectionColour.
- @param knobs the knobs objects
- */
-- (void)setKnobs:(DKKnob*)knobs;
-/** @brief Returns the attached selection knobs helper object
- 
  If custom knobs have been set for the layer, they are returned. Otherwise, the knobs for the group
  or ultimately the drawing will be returned.
  @return the attached knobs object
  */
-- (DKKnob*)knobs;
-- (void)setKnobsShouldAdustToViewScale:(BOOL)ka API_DEPRECATED_WITH_REPLACEMENT("setKnobsShouldAdjustToViewScale", macosx(10.0, 10.6));
-/** @brief Return whether the drawing will scale its selection knobs to the view or not
- 
- The default setting is YES, knobs should adjust to scale.
- @return YES if knobs ar scaled, NO if not
- */
-- (BOOL)knobsShouldAdjustToViewScale;
+@property (nonatomic, strong) DKKnob *knobs;
 /** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
  
  In general it's best to scale the knobs otherwise they tend to overlap and become large at high
  zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
  @param ka YES to set knobs to scale, NO to fix their size.
+ @deprecated Method was misnamed, use \c -setKnobsShouldAdjustToViewScale instead.
  */
-- (void)setKnobsShouldAdjustToViewScale:(BOOL)ka;
+- (void)setKnobsShouldAdustToViewScale:(BOOL)ka API_DEPRECATED_WITH_REPLACEMENT("setKnobsShouldAdjustToViewScale", macosx(10.0, 10.6));
 
-@property (nonatomic, strong) DKKnob *knobs;
+/** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
+ 
+ The default setting is YES, knobs should adjust to scale.
+ In general it's best to scale the knobs otherwise they tend to overlap and become large at high
+ zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
+ Set to \c YES to set knobs to scale, \c NO to fix their size.
+ */
 @property (nonatomic) BOOL knobsShouldAdjustToViewScale;
 
 // pasteboard types for drag/drop etc:
@@ -603,7 +503,7 @@
  they can handle and also implement the necessary parts of the NSDraggingDestination protocol
  just as if they were a view.
  */
-- (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
+- (NSArray<NSPasteboardType>*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
 
 /** @brief Tests whether the pasteboard has any of the types the layer is interested in receiving for the given
  operation
@@ -620,14 +520,14 @@
  Override if your layer uses styles
  @return nil
  */
-- (NSSet*)allStyles;
+- (NSSet<DKStyle*>*)allStyles;
 
 /** @brief Return all of registered styles used by the layer
 
  Override if your layer uses styles
  @return nil
  */
-- (NSSet*)allRegisteredStyles;
+- (NSSet<DKStyle*>*)allRegisteredStyles;
 
 /** @brief Substitute styles with those in the given set
 
@@ -637,7 +537,7 @@
  the change to all sublayers.
  @param aSet a set of style objects
  */
-- (void)replaceMatchingStylesFromSet:(NSSet*)aSet;
+- (void)replaceMatchingStylesFromSet:(NSSet<DKStyle*>*)aSet;
 
 // info window utilities:
 

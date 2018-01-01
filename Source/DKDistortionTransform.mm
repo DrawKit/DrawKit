@@ -78,7 +78,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 	return self;
 }
 
-- (instancetype)initWithEnvelope:(NSPoint*)points
+- (instancetype)initWithEnvelope:(NSPoint[4])points
 {
 	self = [super init];
 	if (self != nil) {
@@ -90,7 +90,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 }
 
 #pragma mark -
-- (void)setEnvelopePoints:(NSPoint*)points
+- (void)setEnvelopePoints:(const NSPoint[4])points
 {
 	m_q[0] = points[0];
 	m_q[1] = points[1];
@@ -98,7 +98,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 	m_q[3] = points[3];
 }
 
-- (void)getEnvelopePoints:(NSPoint*)points
+- (void)getEnvelopePoints:(NSPoint[4])points
 {
 	points[0] = m_q[0];
 	points[1] = m_q[1];
