@@ -51,7 +51,7 @@
 	   NSString* const kKVOEvent			= @"LogInfoKVOEvents";
 		NSString* const kUndoEvent			= @"LogInfoUndoEvents";
 
-static const unsigned kNumStandardEventTypes = 10;
+static const NSUInteger kNumStandardEventTypes = 10;
 	// When adding new event types, don't forget to modify or override the -newEventTypes method.
 
 
@@ -304,7 +304,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	if (eventTypes != mEventTypes)
 	{
 		[mEventTypes release];
-		mEventTypes = [eventTypes retain];
+		mEventTypes = [eventTypes copy];
 	}
 	InitializePrefsForEventTypeNames();
 }

@@ -40,7 +40,6 @@ like this are one easy way to do it, but not the only way.
  Some applications might be set up to use a global undo stack instead of havin gone per document.
  @return the shared instance of the undo manager
  */
-+ (NSUndoManager*)sharedDrawkitUndoManager;
 @property (class, readonly, retain) NSUndoManager *sharedDrawkitUndoManager;
 
 /** @brief Establishes a mapping between a file type and a method that can import that file type
@@ -65,34 +64,17 @@ like this are one easy way to do it, but not the only way.
  */
 + (void)bindFileExportType:(NSString*)fileType toSelector:(SEL)aSelector;
 
-/** @brief Set the default levels of undo assigned to new documents
- @param levels the number of undo levels
- */
-+ (void)setDefaultLevelsOfUndo:(NSUInteger)levels;
-
-/** @brief Return the default levels of undo assigned to new documents
+/** @brief The default levels of undo assigned to new documents
 
  If the value wasn't found in the defaults, DEFAULT_LEVELS_OF_UNDO is returned
  @return the number of undo levels
  */
-+ (NSUInteger)defaultLevelsOfUndo;
-
 @property (class) NSUInteger defaultLevelsOfUndo;
 
-/** @brief Set the document's drawing object
+/** @brief The document's drawing object
 
  The document owns the drawing
- @param drwg a drawing object
  */
-- (void)setDrawing:(DKDrawing*)drwg;
-
-/** @brief Return the document's drawing object
-
- The document owns the drawing
- @return the document's drawing object
- */
-- (DKDrawing*)drawing;
-
 @property (nonatomic, strong) DKDrawing *drawing;
 
 /** @brief Return the document's main view
@@ -101,7 +83,6 @@ like this are one easy way to do it, but not the only way.
  isn't required to have an outlet to the main view but it makes setting everything up easier.
  @return the document's main view
  */
-- (DKDrawingView*)mainView;
 @property (readonly, weak) DKDrawingView *mainView;
 
 /** @brief Create a controller object to connect the given view to the document's drawing
@@ -130,7 +111,6 @@ like this are one easy way to do it, but not the only way.
  by some methods, most notably the -newLayerWithSelection method.
  @return the class of the default drawing layer
  */
-- (Class)classOfDefaultDrawingLayer;
 @property (unsafe_unretained, readonly) Class classOfDefaultDrawingLayer;
 
 /** @brief Return whether an info layer should be added to the default drawing.
@@ -138,13 +118,11 @@ like this are one easy way to do it, but not the only way.
  Subclasses can override this to return NO if they don't want the info layer
  @return YES, by default
  */
-- (BOOL)wantsInfoLayer;
 @property (readonly) BOOL wantsInfoLayer;
 
 /** @brief Returns all styles used by the document's drawing
  @return a set of all styles in the drawing
  */
-- (NSSet<DKStyle*>*)allStyles;
 @property (readonly, copy) NSSet<DKStyle*> *allStyles;
 
 /** @brief Returns all registered styles used by the document's drawing
@@ -154,7 +132,6 @@ like this are one easy way to do it, but not the only way.
  care that this is only called once after loading a document if it's the flagged styles you require.
  @return a set of all registered styles in the drawing
  */
-- (NSSet<DKStyle*>*)allRegisteredStyles;
 @property (readonly, copy) NSSet<DKStyle*> *allRegisteredStyles;
 
 /** @brief The first step in reconsolidating a newly opened document's registered styles with the current
@@ -179,27 +156,17 @@ like this are one easy way to do it, but not the only way.
 /** @brief Returns a name that can be used for a style registry category for this document
  @return a string - just the document's filename without the extension or other path components
  */
-- (NSString*)documentStyleCategoryName;
 @property (readonly, copy) NSString *documentStyleCategoryName;
 
 /** @brief Sets the main view's drawing tool to the given tool
 
+ This is a convenience for UI controllers to find the tool from the main view. If there are
+ multiple drawing views you'll need another approach
  This helps DKDrawingTool's -set method work even when a document window contains several views that
  can be first responder. First the -set method will act directly on first responder, or a responder
  further up the chain. If that fails to find a responder, it then looks for an active document that
  responds to this method.
- @param aTool a drawing tool object
  */
-- (void)setDrawingTool:(DKDrawingTool*)aTool;
-
-/** @brief Returns the main view's current drawing tool
-
- This is a convenience for UI controllers to find the tool from the main view. If there are
- multiple drawing views you'll need another approach
- @return a drawing tool object, if any
- */
-- (DKDrawingTool*)drawingTool;
-
 @property (strong) DKDrawingTool *drawingTool;
 
 /** @brief High-level method to add a new drawing layer to the document

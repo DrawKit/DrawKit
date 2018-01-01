@@ -665,7 +665,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
  */
 - (void)windowControllerDidLoadNib:(NSWindowController*)windowController
 {
-#pragma unused(windowController)
+	[super windowControllerDidLoadNib:windowController];
 
 	//Note - if you override this, be sure to call super's implementation to ensure the drawing/controller/view system is established
 
