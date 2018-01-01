@@ -148,21 +148,34 @@ extern "C" {
 	NSDictionary<LCEventType,NSButton*>*mEventTypes;
 	BOOL				mIsNibLoaded;
 	
-	IBOutlet NSButton*	mUserActions;
-	IBOutlet NSButton*	mScriptingActions;
-	IBOutlet NSButton*	mReactiveEvents;
-	IBOutlet NSButton*	mInterfaceEvents;
-	IBOutlet NSButton*	mFileInteraction;
-	IBOutlet NSButton*	mObjectLifetime;
-	IBOutlet NSButton*	mObjectChanges;
-	IBOutlet NSButton*	mMiscInfo;
-	IBOutlet NSButton*	mKVOInfo;
-	IBOutlet NSButton*	mUndoInfo;
+	NSButton*	mUserActions;
+	NSButton*	mScriptingActions;
+	NSButton*	mReactiveEvents;
+	NSButton*	mInterfaceEvents;
+	NSButton*	mFileInteraction;
+	NSButton*	mObjectLifetime;
+	NSButton*	mObjectChanges;
+	NSButton*	mMiscInfo;
+	NSButton*	mKVOInfo;
+	NSButton*	mUndoInfo;
 	
-	IBOutlet NSButton*	mZombiesCheckbox;
+	NSButton*	mZombiesCheckbox;
 }
 
 @property (class, readonly, retain) LoggingController *sharedLoggingController;
+
+@property (assign) IBOutlet NSButton*	userActions;
+@property (assign) IBOutlet NSButton*	scriptingActions;
+@property (assign) IBOutlet NSButton*	reactiveEvents;
+@property (assign) IBOutlet NSButton*	interfaceEvents;
+@property (assign) IBOutlet NSButton*	fileInteraction;
+@property (assign) IBOutlet NSButton*	objectLifetime;
+@property (assign) IBOutlet NSButton*	objectChanges;
+@property (assign) IBOutlet NSButton*	miscInfo;
+@property (assign) IBOutlet NSButton*	KVOInfo;
+@property (assign) IBOutlet NSButton*	undoInfo;
+
+@property (assign) IBOutlet NSButton*	zombiesCheckbox;
 
 - (void)showLoggingWindow;
 

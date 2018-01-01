@@ -1,28 +1,29 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13771" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9531"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13771"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="LoggingController">
             <connections>
-                <outlet property="mFileInteraction" destination="57" id="73"/>
-                <outlet property="mInterfaceEvents" destination="63" id="74"/>
-                <outlet property="mKVOInfo" destination="86" id="89"/>
-                <outlet property="mMiscInfo" destination="71" id="75"/>
-                <outlet property="mObjectChanges" destination="67" id="76"/>
-                <outlet property="mObjectLifetime" destination="65" id="77"/>
-                <outlet property="mReactiveEvents" destination="69" id="78"/>
-                <outlet property="mScriptingActions" destination="38" id="79"/>
-                <outlet property="mUndoInfo" destination="90" id="92"/>
-                <outlet property="mUserActions" destination="28" id="80"/>
-                <outlet property="mZombiesCheckbox" destination="98" id="100"/>
+                <outlet property="KVOInfo" destination="86" id="89"/>
+                <outlet property="fileInteraction" destination="57" id="73"/>
+                <outlet property="interfaceEvents" destination="63" id="74"/>
+                <outlet property="miscInfo" destination="71" id="75"/>
+                <outlet property="objectChanges" destination="67" id="76"/>
+                <outlet property="objectLifetime" destination="65" id="77"/>
+                <outlet property="reactiveEvents" destination="69" id="78"/>
+                <outlet property="scriptingActions" destination="38" id="79"/>
+                <outlet property="undoInfo" destination="90" id="92"/>
+                <outlet property="userActions" destination="28" id="80"/>
                 <outlet property="window" destination="8" id="33"/>
+                <outlet property="zombiesCheckbox" destination="98" id="100"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <window title="Logging" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="8" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
@@ -35,12 +36,12 @@
                 <subviews>
                     <imageView id="12">
                         <rect key="frame" x="12" y="329" width="48" height="48"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="52"/>
                     </imageView>
                     <button id="28">
                         <rect key="frame" x="75" y="225" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="User Actions" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="53">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -51,7 +52,7 @@
                     </button>
                     <textField verticalHuggingPriority="750" id="29">
                         <rect key="frame" x="65" y="352" width="271" height="17"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Logging for Technical Support" id="54">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -60,7 +61,7 @@
                     </textField>
                     <textField verticalHuggingPriority="750" id="30">
                         <rect key="frame" x="65" y="249" width="350" height="88"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" id="55">
                             <font key="font" metaFont="smallSystem"/>
                             <string key="title">If you are experiencing technical difficulties, you may be directed by our support staff to turn on one or more of the following types of logging and, if you again see the problem you originally reported, asked to submit a log file. There is no advantage to having logging turned on unless you are actively working with us to solve a particular problem.</string>
@@ -70,7 +71,7 @@
                     </textField>
                     <button id="38">
                         <rect key="frame" x="75" y="205" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Scripting Actions" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="56">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -81,7 +82,7 @@
                     </button>
                     <button id="57">
                         <rect key="frame" x="75" y="145" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="File Interaction" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="58">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -92,7 +93,7 @@
                     </button>
                     <button id="63">
                         <rect key="frame" x="75" y="165" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Interface Events" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="64">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -103,7 +104,7 @@
                     </button>
                     <button id="65">
                         <rect key="frame" x="75" y="125" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Object Lifetime" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="66">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -114,7 +115,7 @@
                     </button>
                     <button id="67">
                         <rect key="frame" x="75" y="105" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Object Changes" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="68">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -125,7 +126,7 @@
                     </button>
                     <button id="69">
                         <rect key="frame" x="75" y="185" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Reactive Events" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="70">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -136,7 +137,7 @@
                     </button>
                     <button id="71">
                         <rect key="frame" x="75" y="85" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Misc. Info" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="72">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -147,7 +148,7 @@
                     </button>
                     <button id="86">
                         <rect key="frame" x="75" y="65" width="160" height="18"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="KVO Info" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="87">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
@@ -169,7 +170,7 @@
                     </button>
                     <button verticalHuggingPriority="750" id="98">
                         <rect key="frame" x="70" y="13" width="199" height="28"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <buttonCell key="cell" type="push" title="Relaunch with Zombies..." bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="99">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="smallSystem"/>

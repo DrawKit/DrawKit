@@ -261,6 +261,18 @@ void LogLoggingState(NSArray* eventTypeNames)
 #pragma mark -
 @implementation LoggingController
 #pragma mark As a LoggingController
+@synthesize userActions=mUserActions;
+@synthesize scriptingActions=mScriptingActions;
+@synthesize reactiveEvents=mReactiveEvents;
+@synthesize interfaceEvents=mInterfaceEvents;
+@synthesize fileInteraction=mFileInteraction;
+@synthesize objectLifetime=mObjectLifetime;
+@synthesize objectChanges=mObjectChanges;
+@synthesize miscInfo=mMiscInfo;
+@synthesize KVOInfo=mKVOInfo;
+@synthesize undoInfo=mUndoInfo;
+@synthesize zombiesCheckbox=mZombiesCheckbox;
+
 - (void)loadNib
 {
 	// If the nib hasn't been loaded yet...
