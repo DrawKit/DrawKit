@@ -230,7 +230,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 /** @brief returns the uppermost layer matching class, if any
 
  @param cl The class of layer to seek.
- @param deep If <class>YES</class>, will search all subgroups below this one. If <code>NO</code>, only this level is searched
+ @param deep If <code>YES</code>, will search all subgroups below this one. If <code>NO</code>, only this level is searched.
  @return The uppermost layer of the given class, or <code>nil</code>.
  */
 - (nullable __kindof DKLayer*)firstLayerOfClass:(Class)cl performDeepSearch:(BOOL)deep NS_REFINED_FOR_SWIFT;
@@ -246,7 +246,7 @@ be upside-down. This class automatically reverses the stacking order in an archi
 /** @brief returns a list of layers of the given class
 
  @param cl The class of layer to seek.
- @param deep If <class>YES</class>, will search all subgroups below this one. If <code>NO</code>, only this level is searched
+ @param deep If <code>YES</code>, will search all subgroups below this one. If <code>NO</code>, only this level is searched
  @return A list of layers. May be empty.
  */
 - (NSArray<__kindof DKLayer*>*)layersOfClass:(Class)cl performDeepSearch:(BOOL)deep NS_REFINED_FOR_SWIFT;

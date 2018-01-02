@@ -118,7 +118,7 @@ NS_ASSUME_NONNULL_BEGIN
  display them in its info box.
  @return a mutable dictionary of standard drawing info
  */
-+ (NSMutableDictionary<NSString*,id>*)defaultDrawingInfo NS_REFINED_FOR_SWIFT;
+@property (class, readonly, copy) NSMutableDictionary<NSString*,id> *defaultDrawingInfo NS_REFINED_FOR_SWIFT;
 
 /** @brief Sets the abbreviation for the given drawing units string
 
@@ -301,6 +301,12 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name drawing meta-data:
  @{ */
 
+/** @brief The drawing info metadata of the drawing.
+ 
+ The drawing info contains whatever you want, but a number of standard fields are defined and can be
+ interpreted by a DKDrawingInfoLayer, if there is one. Note this inherits the storage from
+ DKLayer.
+ */
 @property (copy, nullable) NSMutableDictionary<NSString*,id> *drawingInfo NS_REFINED_FOR_SWIFT;
 
 /** @name rendering the drawing:

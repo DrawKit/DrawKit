@@ -60,6 +60,6 @@ extension DKDrawing {
 	/// its contents with your own info. A `DKDrawingInfoLayer` can interpret some of the standard values and
 	/// display them in its info box.
 	open class func defaultDrawingInfo() -> [String: Any] {
-		return __defaultDrawingInfo() as NSDictionary as! [String: Any]
+		return __defaultDrawingInfo as NSDictionary as! [String: Any]
 	}
 }
