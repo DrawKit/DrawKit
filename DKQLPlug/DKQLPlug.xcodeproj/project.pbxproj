@@ -269,7 +269,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = DKQLPlug/Info.plist;
 				INSTALL_PATH = /Library/QuickLook;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../../../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.DKQLPlug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = qlgenerator;
@@ -283,7 +283,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = DKQLPlug/Info.plist;
 				INSTALL_PATH = /Library/QuickLook;
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../../../../../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.DKQLPlug;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = qlgenerator;
