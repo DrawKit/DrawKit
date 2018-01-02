@@ -42,7 +42,11 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 				gc = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:YES];
 			}
 			[NSGraphicsContext saveGraphicsState];
+			NSAffineTransform *flipTrans = [[NSAffineTransform alloc] init];
+			[flipTrans scaleXBy:1 yBy:-1];
+			[flipTrans translateXBy:0 yBy:-drawDat.drawing.drawingSize.height];
 			NSGraphicsContext.currentContext = gc;
+			[flipTrans concat];
 			NSRect frame = NSZeroRect;
 			frame.size = drawDat.drawing.drawingSize;
 			drawDat.drawing.gridLayer.shouldDrawToPrinter = YES;
