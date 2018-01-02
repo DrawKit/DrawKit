@@ -54,12 +54,11 @@ extension DKDrawing {
 	}
 	
 	/// Returns a dictionary containing some standard drawing info attributes.
-	/// - returns: A dictionary of standard drawing info.
 	///
 	/// This is usually called by the drawing object itself when built new. Usually you'll want to replace
 	/// its contents with your own info. A `DKDrawingInfoLayer` can interpret some of the standard values and
 	/// display them in its info box.
-	open class func defaultDrawingInfo() -> [String: Any] {
+	open class var defaultDrawingInfo: [String: Any] {
 		return __defaultDrawingInfo as NSDictionary as! [String: Any]
 	}
 }

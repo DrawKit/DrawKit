@@ -1217,7 +1217,7 @@ finish:
 			if (!NSEqualPoints(p, lastPoint)) {
 				[path lineToPoint:p];
 #ifdef qUseCurveFit
-				[self setPath:curveFitPath(path, m_freehandEpsilon)];
+				[self setPath:DKCurveFitPath(path, m_freehandEpsilon)];
 #else
 				[self invalidateCache];
 				[self notifyVisualChange];
@@ -1874,7 +1874,7 @@ finish:
 {
 #pragma unused(sender)
 
-	[self setPath:smartCurveFitPath([self path], [self freehandSmoothing] * 4.0, 1.2)];
+	[self setPath:DKSmartCurveFitPath([self path], [self freehandSmoothing] * 4.0, 1.2)];
 	[[self undoManager] setActionName:NSLocalizedString(@"Smooth More", @"smooth more action name")];
 }
 #endif /* defined(qUseCurveFit) */
@@ -1916,7 +1916,7 @@ finish:
 			return;
 		NSSize ps = [originalPath bounds].size;
 		CGFloat epsilon = MIN( ps.width, ps.height ) / 1000.0;
-		NSBezierPath* newPath = smartCurveFitPath( originalPath, epsilon, kDKDefaultCornerThreshold );
+		NSBezierPath* newPath = DKSmartCurveFitPath( originalPath, epsilon, kDKDefaultCornerThreshold );
 		if (newPath != nil) {
 			[self setPath:newPath];
 			[[self undoManager] setActionName:NSLocalizedString(@"Curve Fit", @"undo action for Curve Fit")];

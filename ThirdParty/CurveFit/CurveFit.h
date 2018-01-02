@@ -26,7 +26,7 @@ extern "C"
  curve fit method in the bezier-utils lib. It then converts the result back to NSBezierPath form. Note - the caller is responsible for passing
  a flattened path.
  */
-extern NSBezierPath* curveFitPath(NSBezierPath* inPath, CGFloat epsilon);
+extern NSBezierPath* DKCurveFitPath(NSBezierPath* inPath, CGFloat epsilon);
 
 /** This curve fits a flattened path, but is much smarter about which parts of the path to curve fit and which to leave alone. It
  also properly deals with separate subpaths within the original path (holes).
@@ -34,7 +34,7 @@ extern NSBezierPath* curveFitPath(NSBezierPath* inPath, CGFloat epsilon);
  A line segment that is longer than a given threshhold is not curve-fitted, and sharp corners also define boundaries for curve
  segments. Existing curved segments are copied to the result without any changes.
  */
-extern NSBezierPath* smartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold);
+extern NSBezierPath* DKSmartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold);
 
 #ifdef __cplusplus
 }

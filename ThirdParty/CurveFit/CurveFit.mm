@@ -16,7 +16,7 @@
 
 
 
-NSBezierPath* curveFitPath(NSBezierPath* inPath, CGFloat epsilon)
+NSBezierPath* DKCurveFitPath(NSBezierPath* inPath, CGFloat epsilon)
 {
 	// given an input path in vector form (flattened), this converts it to the C++ data structure list of points and processes it via the
 	// curve fit method in the bezier-utils lib. It then converts the result back to NSBezierPath form. Note - the caller is responsible for passing
@@ -94,7 +94,7 @@ NSBezierPath* curveFitPath(NSBezierPath* inPath, CGFloat epsilon)
 }
 
 
-NSBezierPath* smartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold)
+NSBezierPath* DKSmartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold)
 {
 	// this curve fits a flattened path, but is much smarter about which parts of the path to curve fit and which to leave alone. It
 	// also properly deals with separate subpaths within the original path (holes).
@@ -129,7 +129,7 @@ NSBezierPath* smartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat c
 					
 					if ([temp elementCount] > 1 )
 					{
-						[result appendBezierPathRemovingInitialMoveToPoint:curveFitPath( temp, epsilon )];
+						[result appendBezierPathRemovingInitialMoveToPoint:DKCurveFitPath( temp, epsilon )];
 						[temp removeAllPoints];
 					}
 					[temp moveToPoint:ap[0]];
@@ -168,7 +168,7 @@ NSBezierPath* smartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat c
 						
 						if ([temp elementCount] > 1 )
 						{
-							[result appendBezierPathRemovingInitialMoveToPoint:curveFitPath( temp, epsilon )];
+							[result appendBezierPathRemovingInitialMoveToPoint:DKCurveFitPath( temp, epsilon )];
 						
 							// will now start a new temp path
 						
@@ -181,7 +181,7 @@ NSBezierPath* smartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat c
 				case NSCurveToBezierPathElement:
 					if ([temp elementCount] > 1 )
 					{
-						[result appendBezierPathRemovingInitialMoveToPoint:curveFitPath( temp, epsilon )];
+						[result appendBezierPathRemovingInitialMoveToPoint:DKCurveFitPath( temp, epsilon )];
 						[temp removeAllPoints];
 					}
 					[result curveToPoint:ap[2] controlPoint1:ap[0] controlPoint2:ap[1]];
@@ -192,7 +192,7 @@ NSBezierPath* smartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat c
 					if ([temp elementCount] > 1 )
 					{
 						[temp lineToPoint:firstPoint];
-						[result appendBezierPathRemovingInitialMoveToPoint:curveFitPath( temp, epsilon )];
+						[result appendBezierPathRemovingInitialMoveToPoint:DKCurveFitPath( temp, epsilon )];
 						[temp removeAllPoints];
 					}
 					[result closePath];
