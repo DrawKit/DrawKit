@@ -49,11 +49,6 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 - (void)testBSPStorage
 {
-	// unit test for the DKBSPDirectStorage object. This creates a standalone storage object, populates it with random objects, randomly adds, deletes and moves objects and verifies
-	// the integrity of the storage system.
-
-	NSLog(@"starting 'testBSPStorage'...");
-
 	srandomdev();
 
 	NSSize canvasSize = NSMakeSize(2000, 2000);
@@ -419,9 +414,9 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// do the brute force search first. These should be in the right z-order.
 
-			for (testStorableObject* tso in objects) {
-				if (NSIntersectsRect(retrievalRect, [tso bounds]))
-					[bruteForceSearchResults addObject:tso];
+			for (testStorableObject* tso1 in objects) {
+				if (NSIntersectsRect(retrievalRect, [tso1 bounds]))
+					[bruteForceSearchResults addObject:tso1];
 			}
 
 			// retrieve what should be the same objects the clever way:
@@ -492,9 +487,9 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// do the brute force search first. These should be in the right z-order.
 
-			for (testStorableObject* tso in objects) {
-				if (NSPointInRect(retrievalPoint, [tso bounds]))
-					[bruteForceSearchResults addObject:tso];
+			for (testStorableObject* tso1 in objects) {
+				if (NSPointInRect(retrievalPoint, [tso1 bounds]))
+					[bruteForceSearchResults addObject:tso1];
 			}
 
 			// retrieve what should be the same objects the clever way:
@@ -655,7 +650,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 			BOOL found = NO;
 			@autoreleasepool {
 
-				for (leafArray in leaves) {
+				for (NSArray *leafArray in leaves) {
 					if ([leafArray containsObject:tso]) {
 						found = YES;
 						break;
@@ -677,8 +672,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	foundCount = 0;
 
-	iter = [leaves objectEnumerator];
-	for (leafArray in leaves)) {
+	for (NSArray *leafArray in leaves) {
 		@autoreleasepool {
 
 			for (testStorableObject *tso in leafArray) {

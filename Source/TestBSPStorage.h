@@ -17,6 +17,9 @@ Unit Test for the BSP storage sub-system. This works by populating a storage ins
 */
 @interface TestBSPStorage : XCTestCase
 
+/** unit test for the \c DKBSPDirectStorage object. This creates a standalone storage object, populates it with random objects, randomly adds, deletes and moves objects and verifies
+ the integrity of the storage system.
+ */
 - (void)testBSPStorage;
 - (void)testIndexedBSPStorage;
 

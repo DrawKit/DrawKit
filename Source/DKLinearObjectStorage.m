@@ -62,7 +62,7 @@
 
 - (NSArray<id<DKStorableObject>>*)objects
 {
-	return mObjects;
+	return [mObjects copy];
 }
 
 - (NSUInteger)countOfObjects
