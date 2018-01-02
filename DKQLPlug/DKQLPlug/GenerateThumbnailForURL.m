@@ -87,6 +87,9 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 			return noErr;
 		}
 		
+		// Should not be needed: we didn't edit anything.
+		//[drawDat finalizePriorToSaving];
+		
 		NSSize imgSize = drawDat.drawing.drawingSize;
 
 		CGImageRef anImage = [drawDat CGImageWithResolution:72 hasAlpha:YES relativeScale:scaleConstrainedFromSize(imgSize, maxSize)];

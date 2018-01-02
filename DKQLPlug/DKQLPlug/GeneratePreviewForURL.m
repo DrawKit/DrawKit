@@ -33,9 +33,6 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		// Should not be needed: we didn't edit anything.
 		//[drawDat finalizePriorToSaving];
 
-		//TODO: use this?
-		//QLPreviewRequestCreatePDFContext
-		
 		CGContextRef ctx = QLPreviewRequestCreateContext(preview, drawDat.drawing.drawingSize, false, NULL);
 		{
 			NSGraphicsContext *gc;

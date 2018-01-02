@@ -7,7 +7,6 @@
 //
 //==============================================================================
 
-
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreFoundation/CFPlugInCOM.h>
 #include <CoreServices/CoreServices.h>
@@ -80,11 +79,11 @@ static QLGeneratorInterfaceStruct myInterfaceFtbl = {
 QLGenPlugIn *AllocQuickLookGeneratorPluginType(CFUUIDRef inFactoryID)
 {
 	QLGenPlugIn *theNewInstance = (QLGenPlugIn *)malloc(sizeof(QLGenPlugIn));
-	memset(theNewInstance,0,sizeof(QLGenPlugIn));
+	memset(theNewInstance, 0, sizeof(QLGenPlugIn));
 	
 	/* Point to the function table Malloc enough to store the stuff and copy the filler from myInterfaceFtbl over */
 	theNewInstance->conduitInterface = malloc(sizeof(QLGeneratorInterfaceStruct));
-	memcpy(theNewInstance->conduitInterface,&myInterfaceFtbl,sizeof(QLGeneratorInterfaceStruct));
+	memcpy(theNewInstance->conduitInterface, &myInterfaceFtbl, sizeof(QLGeneratorInterfaceStruct));
 	
 	/*  Retain and keep an open instance refcount for each factory. */
 	theNewInstance->factoryID = CFRetain(inFactoryID);
@@ -111,7 +110,7 @@ void DeallocQuickLookGeneratorPluginType(QLGenPlugIn *thisInstance)
 
 	/* Free the instance structure */
     free(thisInstance);
-    if (theFactoryID){
+    if (theFactoryID) {
         CFPlugInRemoveInstanceForFactory(theFactoryID);
         CFRelease(theFactoryID);
     }
@@ -184,8 +183,8 @@ void *QuickLookGeneratorPluginFactory(CFAllocatorRef allocator,CFUUIDRef typeID)
 	/* If correct type is being requested, allocate an
 	 * instance of kQLGeneratorTypeID and return the IUnknown interface.
 	 */
-	if (CFEqual(typeID,kQLGeneratorTypeID)){
-		CFUUIDRef uuid = CFUUIDCreateFromString(kCFAllocatorDefault,CFSTR(PLUGIN_ID));
+	if (CFEqual(typeID, kQLGeneratorTypeID)) {
+		CFUUIDRef uuid = CFUUIDCreateFromString(kCFAllocatorDefault, CFSTR(PLUGIN_ID));
 		QLGenPlugIn *result = AllocQuickLookGeneratorPluginType(uuid);
 		CFRelease(uuid);
 		return result;
@@ -193,4 +192,3 @@ void *QuickLookGeneratorPluginFactory(CFAllocatorRef allocator,CFUUIDRef typeID)
 	/* If the requested type is incorrect, return NULL. */
 	return NULL;
 }
-
