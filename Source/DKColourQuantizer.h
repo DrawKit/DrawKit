@@ -55,7 +55,10 @@ typedef struct _rgb_triple {
 	CGFloat b;
 } rgb_triple;
 
-/** @brief octree quantizer which does a much better job than DKColourQuantizer */
+/** @brief octree quantizer which does a much better job than DKColourQuantizer
+ 
+ This code is mostly a port of CQuantizer © 1996-1997 Jeff Prosise
+ */
 @interface DKOctreeQuantizer : DKColourQuantizer {
 	NODE* m_pTree;
 	NSUInteger m_nLeafCount;
@@ -64,11 +67,11 @@ typedef struct _rgb_triple {
 }
 
 - (void)addNode:(NODE*_Nullable*_Nonnull)ppNode colour:(NSUInteger[_Nonnull 4])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE*_Nonnull*_Nonnull)redNodes;
-- (NODE*)createNodeAtLevel:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE*_Nonnull*_Nonnull)redNodes;
+- (nullable NODE*)createNodeAtLevel:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE*_Nonnull*_Nonnull)redNodes;
 - (void)reduceTreeLeafCount:(NSUInteger*)leafCount reducibleNodes:(NODE*_Nonnull*_Nonnull)redNodes;
 - (void)deleteTree:(NODE*_Nonnull*_Nullable)ppNode;
 - (void)paletteColour:(nullable NODE*)pTree index:(NSUInteger*)pIndex colour:(rgb_triple[_Nonnull])rgb;
-- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[_Nonnull])rgb index:(NSInteger*)index;
+- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[_Nonnull 3])rgb index:(NSInteger*)index;
 
 @end
 

@@ -111,7 +111,7 @@ doesn't change the cache.
 - (void)invalidateCache;
 /**
  this does the actual work of calculating the hatch. Given the rect, we build a series of lines at the origin in a square
- based on the largest side of <rect> *~ sqrt(2). Then we transform the cache to the current angle. This is much simpler than
+ based on the largest side of <code>rect *~ sqrt(2)</code>. Then we transform the cache to the current angle. This is much simpler than
  calculating where to start and end each line.
 */
 - (void)calcHatchInRect:(NSRect)rect;

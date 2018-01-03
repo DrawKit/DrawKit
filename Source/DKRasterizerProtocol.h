@@ -64,7 +64,7 @@ NS_SWIFT_NAME(DKRasterizerProtocol)
 
 @property (readonly) NSSize extraSpaceNeeded;
 - (void)render:(id<DKRenderable>)object;
-- (void)renderPath:(NSBezierPath*)path;
+- (void)renderPath:(nullable NSBezierPath*)path;
 @property (readonly) BOOL isFill;
 
 @end

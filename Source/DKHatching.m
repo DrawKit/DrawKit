@@ -440,7 +440,6 @@
 - (void)dealloc
 {
 	[self invalidateCache];
-
 }
 
 - (instancetype)init

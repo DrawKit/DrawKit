@@ -535,7 +535,7 @@ static BOOL subsequent(struct OABezierPathIntersectionHalf *one, struct OABezier
     }
     
     if (listSize - intersectionCount > 8)
-        intersections = realloc(intersections, sizeof(*intersections) * (listSize = intersectionCount));
+        intersections = realloc(intersections, sizeof(*intersections) * (listSize + intersectionCount));
 
     return (struct OABezierPathIntersectionList){ intersectionCount, intersections };
 }

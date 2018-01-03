@@ -178,7 +178,7 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 
 @implementation DKOctreeQuantizer
 
-static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+static const NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 
 - (void)addNode:(NODE*_Nullable*_Nonnull)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
 {
@@ -189,6 +189,13 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 		*ppNode = [self createNodeAtLevel:level
 								leafCount:leafCount
 						   reducibleNodes:redNodes];
+
+	// If the node still doesn't exist, throw an exception
+
+	if (*ppNode == NULL) {
+		[NSException raise:NSInternalInconsistencyException format:@"CreateNode... failed: *ppNode was nil after creation."];
+		return;
+	}
 
 	// Update color	information	if it's	a leaf node.
 
@@ -315,7 +322,7 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 	}
 }
 
-- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[])rgb index:(NSInteger*)indx
+- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[3])rgb index:(NSInteger*)indx
 {
 	if (pTree->bIsLeaf) {
 		*indx = pTree->indexValue;
