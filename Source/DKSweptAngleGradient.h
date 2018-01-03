@@ -7,10 +7,11 @@
 #import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef union pix_int {
 	unsigned int pixel;
-	struct pix_units
-		{
+	struct pix_units {
 		unsigned char a;
 		unsigned char r;
 		unsigned char g;
@@ -39,3 +40,5 @@ typedef union pix_int {
 - (void)invalidateCache;
 
 @end
+
+NS_ASSUME_NONNULL_END

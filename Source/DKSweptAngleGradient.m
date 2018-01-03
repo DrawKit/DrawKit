@@ -206,7 +206,7 @@
 	CGContextTranslateCTM(context, rcp.x, rcp.y);
 	CGContextRotateCTM(context, sa);
 
-	CGContextDrawImage(context, *(CGRect*)&ir, m_sa_image);
+	CGContextDrawImage(context, NSRectToCGRect(ir), m_sa_image);
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
 
@@ -225,7 +225,7 @@
 		NSAssert(m_sa_img_width == 0, @"Expected init to zero");
 		NSAssert(!m_ditherColours, @"Expected init to NO");
 
-		[self setGradientType:kDKGradientSweptAngle];
+		[self setGradientType:kDKGradientTypeSweptAngle];
 	}
 	return self;
 }

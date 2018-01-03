@@ -46,9 +46,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 #pragma mark - simple gradient convenience methods
 
-/** @brief Returns an instance of the default gradient (simple linear black to white)
- @return autoreleased default gradient object
- */
 + (DKGradient*)defaultGradient
 {
 	DKGradient* grad = [[DKGradient alloc] init];
@@ -61,13 +58,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return grad;
 }
 
-/** @brief Returns a linear gradient from Color c1 to c2
-
- Gradient is linear and draws left to right c1 --> c2
- @param c1 the starting Color
- @param c2 the ending Color
- @return gradient object
- */
 + (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2
 {
 	return [self gradientWithStartingColor:c1
@@ -76,13 +66,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 									 angle:0.0];
 }
 
-/** @brief Returns a gradient from Color c1 to c2 with given type and angle
- @param c1 the starting Color
- @param c2 the ending Color
- @param type the gradient's type (linear or radial, etc)
- @param degrees angle in degrees
- @return gradient object
- */
 + (DKGradient*)gradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2 type:(DKGradientType)gt angle:(CGFloat)degrees
 {
 	DKGradient* grad = [[DKGradient alloc] init];
@@ -100,10 +83,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 #pragma mark -
 #pragma mark - modified copies
 
-/** @brief Creates a copy of the gradient but colorizies it by substituting the hue from <color>
- @param color donates its hue
- @return a new gradient, a copy of the receiver in every way except colourized by <color> 
- */
 - (DKGradient*)gradientByColorizingWithColor:(NSColor*)color
 {
 	DKGradient* copy = [self copy];
@@ -117,10 +96,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return copy;
 }
 
-/** @brief Creates a copy of the gradient but sets the alpha vealue of all stop colours to <alpha>
- @param alpha the desired alpha
- @return a new gradient, a copy of the receiver with requested alpha 
- */
 - (DKGradient*)gradientWithAlpha:(CGFloat)alpha
 {
 	DKGradient* copy = [self copy];
@@ -135,11 +110,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 #pragma mark -
 #pragma mark - setting up the Color stops
 
-/** @brief Add a Color to the list of gradient Colors
- @param Color the Color to add
- @param pos the position of the Color relative to the 0..1 interval representing the entire span
- @return the Colorstop object that was added
- */
 - (DKColorStop*)addColor:(NSColor*)Color at:(CGFloat)pos
 {
 	DKColorStop* stop = [[DKColorStop alloc] initWithColor:Color
@@ -221,10 +191,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return [m_colorStops copy];
 }
 
-/** @brief Sorts the Color stops into position order
-
- Stops are sorted in place
- */
 - (void)sortColorStops
 {
 	[m_colorStops sortWithOptions:NSSortStable usingComparator:^NSComparisonResult(DKColorStop* lh, DKColorStop* rh) {
@@ -242,10 +208,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	}];
 }
 
-/** @brief Reverses the order of all the Color stops so "inverting" the gradient
-
- Stop positions are changed, but Colors are not touched
- */
 - (void)reverseColorStops
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
@@ -262,22 +224,11 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 #pragma mark -
 #pragma mark - KVO compliant accessors
 
-/** @brief Returns the number of Color stops in the gradient
-
- This also makes the stops array KVC compliant
- @return an integer, the number of Colors used to compute the gradient
- */
 - (NSUInteger)countOfColorStops
 {
 	return [m_colorStops count];
 }
 
-/** @brief Returns the the indexed Color stop
-
- This also makes the stops array KVC compliant
- @param ix index number of the stop
- @return a Color stop
- */
 - (DKColorStop*)objectInColorStopsAtIndex:(NSUInteger)ix
 {
 	return [m_colorStops objectAtIndex:ix];
@@ -300,23 +251,11 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 #pragma mark -
 #pragma mark - a variety of ways to fill a path
 
-/** @brief Fills the rect using the gradient
-
- The fill will proceed as for a standard fill. A gradient that needs a starting point will assume
- the centre of the rect as that point when using this method.
- @param rect the rect to fill. 
- */
 - (void)fillRect:(NSRect)rect
 {
 	[self fillPath:[NSBezierPath bezierPathWithRect:rect]];
 }
 
-/** @brief Fills the path using the gradient
-
- The fill will proceed as for a standard fill. A gradient that needs a starting point will assume
- the centre of the path's bounds as that point when using this method.
- @param path the bezier path to fill. 
- */
 - (void)fillPath:(NSBezierPath*)path
 {
 	NSPoint cp;
@@ -328,10 +267,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 		centreOffset:NSZeroPoint];
 }
 
-/** @brief Fills the path using the gradient
- @param path the bezier path to fill
- @param co displacement from the centre for the start of a radial fill
- */
 - (void)fillPath:(NSBezierPath*)path centreOffset:(NSPoint)co
 {
 	NSRect pb = [path bounds];
@@ -466,27 +401,27 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 		switch (m_interp) {
 		default:
-		case kDKGradientInterpLinear:
+		case DKGradientInterpolationLinear:
 			break;
 
-		case kDKGradientInterpQuadratic:
+		case DKGradientInterpolationQuadratic:
 			p = powerMap(p, 2);
 			break;
 
-		case kDKGradientInterpCubic:
+		case DKGradientInterpolationCubic:
 			p = powerMap(p, 3);
 			break;
 
-		case kDKGradientInterpSinus:
+		case DKGradientInterpolationSinus:
 			p = sineMap(p, 1);
 			break;
 
-		case kDKGradientInterpSinus2:
+		case DKGradientInterpolationSinus2:
 			p = sineMap(p, 2);
 			break;
 		}
 
-		if (m_blending == kDKGradientRGBBlending) {
+		if (m_blending == DKGradientBlendingRGB) {
 			// access the stop's precached components directly for best speed:
 
 			CGFloat* ca;
@@ -499,7 +434,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 			components[1] = (cb[1] - ca[1]) * p + ca[1];
 			components[2] = (cb[2] - ca[2]) * p + ca[2];
 			components[3] = (cb[3] - ca[3]) * p + ca[3];
-		} else if (m_blending == kDKGradientHSBBlending) {
+		} else if (m_blending == DKGradientBlendingHSB) {
 			// blend in HSV space - this method almost entirely lifted from Chad Weider (thanks!)
 
 			CGFloat ca[4];
@@ -526,7 +461,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 			components[3] = (cb[3] - ca[3]) * p + ca[3];
 
 			transformHSV_RGB(components);
-		} else if (m_blending == kDKGradientAlphaBlending) {
+		} else if (m_blending == DKGradientBlendingAlpha) {
 			CGFloat* ca;
 			CGFloat* cb;
 
@@ -540,16 +475,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 #define qLogPerformanceMetrics 0
 
-/** @brief Fills the path using the gradient between two given points
-
- Radii are ignored for linear gradients. Angle is ignored by this method, if you call it directly
- (angle is used to calculate start and endpoints in other methods that call this)
- @param path the bezier path to fill
- @param sp the point where the gradient begins
- @param sr for radial fills, the radius of the start of the gradient
- @param ep the point where the gradient ends
- @param er for radial fills, the radius of the end of the gradient
- */
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp startRadius:(CGFloat)sr endingAtPoint:(NSPoint)ep endRadius:(CGFloat)er
 {
 	if ([path isEmpty] || [path bounds].size.width <= 0.0 || [path bounds].size.height <= 0.0)
@@ -806,11 +731,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 #pragma mark -
 
-/** @brief Returns an image of the current gradient for use in a UI, etc.
- @param size the desired image size
- @param showBorder YES to draw a border around the image, NO for no border
- @return an NSIMage containing the current gradient
- */
 - (NSImage*)swatchImageWithSize:(NSSize)size withBorder:(BOOL)showBorder
 {
 	NSImage* swatchImage = [[NSImage alloc] initWithSize:size];
@@ -829,11 +749,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return swatchImage;
 }
 
-/** @brief Returns an image of the current gradient for use in a UI, etc.
-
- Swatch has standard size and a border
- @return an NSImage containing the current gradient
- */
 - (NSImage*)standardSwatchImage
 {
 	return [self swatchImageWithSize:DKGradientSwatchSize
@@ -1065,11 +980,6 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 @implementation DKColorStop
 #pragma mark As a DKColorStop
 
-/** @brief Initialise the stop with a Color and position
- @param Color the initial Color value
- @param pos the relative position within the gradient, valid range = 0.0..1.0
- @return the stop
- */
 - (instancetype)initWithColor:(NSColor*)Color at:(CGFloat)pos
 {
 	self = [super init];
@@ -1114,6 +1024,11 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 - (void)setAlpha:(CGFloat)alpha
 {
 	self.color = [self.color colorWithAlphaComponent:alpha];
+}
+
+- (CGFloat)alpha
+{
+	return self.color.alphaComponent;
 }
 
 #pragma mark -
@@ -1206,9 +1121,9 @@ static inline double powerMap(double x, double y)
 static inline double sineMap(double x, double y)
 {
 	if (y < 0)
-		return sin(x * M_PI / 2.0 + 3.0 * M_PI / 2.0) + 1.0;
+		return sin(x * M_PI_2 + 3.0 * M_PI_2) + 1.0;
 	else
-		return sin(x * M_PI / 2.0);
+		return sin(x * M_PI_2);
 }
 
 static inline void transformHSV_RGB(CGFloat* components) //H,S,B -> R,G,B

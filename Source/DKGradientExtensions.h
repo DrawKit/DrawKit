@@ -8,6 +8,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSView (DKGradientExtensions)
 
 - (void)dragGradient:(DKGradient*)gradient swatchSize:(NSSize)size
@@ -71,3 +73,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

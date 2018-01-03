@@ -11,9 +11,18 @@ static void glossInterpolation(void* info, const CGFloat* input, CGFloat* output
 static CGFloat perceptualGlossFractionForColor(CGFloat* inputComponents);
 static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* outputComponents);
 
+typedef struct GlossParameters {
+	CGFloat color[4];
+	CGFloat caustic[4];
+	CGFloat expCoefficient;
+	CGFloat expScale;
+	CGFloat expOffset;
+	CGFloat initialWhite;
+	CGFloat finalWhite;
+} GlossParameters;
+
 @implementation DKGradient (UISupport)
 
-/**  */
 + (DKGradient*)aquaSelectedGradient
 {
 	// TODO: Are these still good values?
