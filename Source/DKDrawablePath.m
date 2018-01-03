@@ -27,7 +27,7 @@ NSString* kDKPathOnPathHitDetectionPriorityDefaultsKey = @"kDKPathOnPathHitDetec
 static CGFloat sAngleConstraint = 0.261799387799; // 15 degrees
 static NSColor* sInfoWindowColour = nil;
 
-@interface NSObject (DKSecretSelectors)
+@interface DKSecretSelectorsDrawablePath : NSObject
 -(IBAction)convertToTrack:(id)sender;
 @end
 

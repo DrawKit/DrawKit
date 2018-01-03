@@ -8,9 +8,9 @@
 #import "DKLayer+Metadata.h"
 #import "LogEvent.h"
 
-NSString* kDKExportPropertiesResolution = @"kDKExportPropertiesResolution";
-NSString* kDKExportedImageHasAlpha = @"kDKExportedImageHasAlpha";
-NSString* kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
+NSString* const kDKExportPropertiesResolution = @"kDKExportPropertiesResolution";
+NSString* const kDKExportedImageHasAlpha = @"kDKExportedImageHasAlpha";
+NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 
 @implementation DKDrawing (Export)
 

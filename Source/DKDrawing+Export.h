@@ -59,7 +59,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (nullable NSData*)JPEGDataWithProperties:(NSDictionary<NSString*,id>*)props;
+- (nullable NSData*)JPEGDataWithProperties:(NSDictionary<NSBitmapImageRepPropertyKey,id>*)props;
 
 /** @brief Returns TIFF data for the drawing.
  @param props various parameters and properties
@@ -67,7 +67,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (nullable NSData*)TIFFDataWithProperties:(NSDictionary<NSString*,id>*)props;
+- (nullable NSData*)TIFFDataWithProperties:(NSDictionary<NSBitmapImageRepPropertyKey,id>*)props;
 
 /** @brief Returns PNG data for the drawing.
  @param props various parameters and properties
@@ -75,7 +75,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (nullable NSData*)PNGDataWithProperties:(NSDictionary<NSString*,id>*)props;
+- (nullable NSData*)PNGDataWithProperties:(NSDictionary<NSBitmapImageRepPropertyKey,id>*)props;
 
 // convenience methods that set up the property dictionaries for you:
 
@@ -135,8 +135,8 @@ This uses Image I/O to perform the data encoding.
 
 @end
 
-extern NSString* kDKExportPropertiesResolution;
-extern NSString* kDKExportedImageHasAlpha;
-extern NSString* kDKExportedImageRelativeScale;
+extern NSBitmapImageRepPropertyKey const kDKExportPropertiesResolution;
+extern NSBitmapImageRepPropertyKey const kDKExportedImageHasAlpha;
+extern NSBitmapImageRepPropertyKey const kDKExportedImageRelativeScale;
 
 NS_ASSUME_NONNULL_END

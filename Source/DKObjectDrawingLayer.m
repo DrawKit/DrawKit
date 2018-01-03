@@ -32,7 +32,7 @@ NSString* kDKLayerKeyObjectDidChange = @"kDKLayerKeyObjectDidChange";
 static BOOL sSelVisWhenInactive = NO;
 static NSMutableDictionary* sSelectionBuffer = nil;
 
-@interface NSObject (DKSecretSelectors)
+@interface DKSecretSelectorsDrawingLayer : NSObject
 -(IBAction)unionSelectedObjects:(id)sender;
 -(IBAction)combineSelectedObjects:(id)sender;
 -(IBAction)diffSelectedObjects:(id)sender;
