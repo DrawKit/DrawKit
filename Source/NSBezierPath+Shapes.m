@@ -15,12 +15,8 @@ static const CGFloat sin60 = 0.8660254038;
 #pragma mark As a NSBezierPath
 #pragma mark - chains and sprockets
 
-/**  */
 + (NSBezierPath*)bezierPathWithStandardChainLink
 {
-	// returns the path of a standard roller chain link on a horizontal alignment with link centres of 1.0. Other variants are derived from this
-	// using transformations of this path.
-
 	NSBezierPath* path = [self bezierPath];
 	CGFloat r = 1.0 / 2.5;
 	NSPoint ep, cp1, cp2;
@@ -87,9 +83,6 @@ static const CGFloat sin60 = 0.8660254038;
 
 + (NSBezierPath*)bezierPathWithStandardChainLinkFromPoint:(NSPoint)a toPoint:(NSPoint)b
 {
-	// returns the path of a standard roller chain link linking a to b. The distance a-b also sets the dimensions of the link and of course
-	// its angle. The pin centres are aligned on a and b.
-
 	NSBezierPath* linkPath = [self bezierPathWithStandardChainLink];
 	NSAffineTransform* tfm = [NSAffineTransform transform];
 
@@ -109,9 +102,6 @@ static const CGFloat sin60 = 0.8660254038;
 
 + (NSBezierPath*)bezierPathWithSprocketPitch:(CGFloat)pitch numberOfTeeth:(NSInteger)teeth
 {
-	// returns a path representing a roller chain sprocket having the pitch and number of teeeth specified. The sprocket is centred at the
-	// origin and is sized as needed to accommodate the number of teeth required.
-
 	CGFloat toothAngle = M_PI / teeth;
 	CGFloat radius = pitch / (2 * sin(toothAngle));
 	CGFloat rollerRadius = pitch / 3.6;
@@ -188,8 +178,6 @@ static const CGFloat sin60 = 0.8660254038;
 #pragma mark - nuts and bolts
 + (NSBezierPath*)bezierPathWithThreadedBarOfLength:(CGFloat)length diameter:(CGFloat)dia threadPitch:(CGFloat)pitch options:(DKShapeOptions)options
 {
-	// path consists of zig-zags along the top and bottom edges with a 60° angle, optionally capped and with joining lines.
-
 	NSPoint p;
 	NSBezierPath* path = [self bezierPath];
 	CGFloat xIncrement = pitch * 0.5;
@@ -277,10 +265,6 @@ static const CGFloat sin60 = 0.8660254038;
 
 + (NSBezierPath*)bezierPathWithHexagonHeadSideViewOfHeight:(CGFloat)height diameter:(CGFloat)dia options:(DKShapeOptions)options
 {
-	// produces the side-on view of a hex head or nut. The diameter is the across-flats dimension: the diameter of the circle inscribed
-	// within the hexagon. The resulting path shows the head oriented with its peaks set north-south so the height returned is larger than
-	// the diameter by 2 * 1/sin 60.
-
 	CGFloat fh = dia / sin60;
 
 	NSRect br = NSMakeRect(0, fh * -0.5, height, fh);
@@ -355,9 +339,6 @@ static const CGFloat sin60 = 0.8660254038;
 
 + (NSBezierPath*)bezierPathWithCropMarksForRect:(NSRect)aRect length:(CGFloat)length extension:(CGFloat)ext
 {
-	// the path follows the edges of <aRect>, consisting of four pairs of lines that intersect at the corners. <length> sets the
-	// length of the mark along the rect edge and <ext> sets the overhang outside of the rect.
-
 	NSBezierPath* path = [NSBezierPath bezierPath];
 
 	[path moveToPoint:NSMakePoint(NSMinX(aRect) - ext, NSMinY(aRect))];

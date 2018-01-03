@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This category provides some basic methods for supporting interactive editing of a NSBezierPath object.
 
 This category provides some basic methods for supporting interactive editing of a NSBezierPath object. This can be more tricky
@@ -20,12 +22,15 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 */
 @interface NSBezierPath (DKEditing)
 
-+ (void)setConstraintAngle:(CGFloat)radians;
+@property (class) CGFloat constraintAngle;
 + (NSPoint)colinearPointForPoint:(NSPoint)p centrePoint:(NSPoint)q;
 + (NSPoint)colinearPointForPoint:(NSPoint)p centrePoint:(NSPoint)q radius:(CGFloat)r;
 + (NSInteger)point:(NSPoint)p inNSPointArray:(NSPoint*)array count:(NSInteger)count tolerance:(CGFloat)t;
+/** test the point \c p against a list of points <code>array</code>,<code>count</code> using the tolerance <code>t</code>>. Returns the index of
+ the point in the array "hit" by <code>p</code>, or \c NSNotFound if not hit.
+ */
 + (NSInteger)point:(NSPoint)p inNSPointArray:(NSPoint*)array count:(NSInteger)count tolerance:(CGFloat)t reverse:(BOOL)reverse;
-+ (void)colineariseVertex:(NSPoint[3])inPoints cpA:(NSPoint*)outCPA cpB:(NSPoint*)outCPB;
++ (void)colineariseVertex:(NSPoint[_Nonnull 3])inPoints cpA:(nullable NSPoint*)outCPA cpB:(nullable NSPoint*)outCPB;
 
 - (NSBezierPath*)bezierPathByRemovingTrailingElements:(NSInteger)numToRemove;
 - (NSBezierPath*)bezierPathByStrippingRedundantElements;
@@ -38,7 +43,7 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
  @param ltc pointer to integer that receive the line count
  @param ctc pointer to integer that receive the curve to count
  @param cpc pointer to integer that receive the close path count*/
-- (void)getPathMoveToCount:(NSInteger*)mtc lineToCount:(NSInteger*)ltc curveToCount:(NSInteger*)ctc closePathCount:(NSInteger*)cpc;
+- (void)getPathMoveToCount:(nullable NSInteger*)mtc lineToCount:(nullable NSInteger*)ltc curveToCount:(nullable NSInteger*)ctc closePathCount:(nullable NSInteger*)cpc;
 
 @property (readonly, getter=isPathClosed) BOOL pathClosed;
 @property (readonly) NSUInteger checksum;
@@ -66,7 +71,7 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 // note that all of these methods return a new path since NSBezierPath doesn't support deletion/insertion except by reconstructing a path.
 
 - (NSBezierPath*)deleteControlPointForPartcode:(NSInteger)pc;
-- (NSBezierPath*)insertControlPointAtPoint:(NSPoint)p tolerance:(CGFloat)tol type:(NSInteger)controlPointType;
+- (nullable NSBezierPath*)insertControlPointAtPoint:(NSPoint)p tolerance:(CGFloat)tol type:(NSInteger)controlPointType;
 
 - (NSPoint)nearestPointToPoint:(NSPoint)p tolerance:(CGFloat)tol;
 
@@ -75,8 +80,8 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 - (CGFloat)tangentAtStartOfSubpath:(NSInteger)elementIndex;
 - (CGFloat)tangentAtEndOfSubpath:(NSInteger)elementIndex;
 
-- (NSInteger)elementHitByPoint:(NSPoint)p tolerance:(CGFloat)tol tValue:(CGFloat*)t;
-- (NSInteger)elementHitByPoint:(NSPoint)p tolerance:(CGFloat)tol tValue:(CGFloat*)t nearestPoint:(NSPoint*)npp;
+- (NSInteger)elementHitByPoint:(NSPoint)p tolerance:(CGFloat)tol tValue:(nullable CGFloat*)t;
+- (NSInteger)elementHitByPoint:(NSPoint)p tolerance:(CGFloat)tol tValue:(nullable CGFloat*)t nearestPoint:(nullable NSPoint*)npp;
 - (NSInteger)elementBoundsContainsPoint:(NSPoint)p tolerance:(CGFloat)tol;
 
 // element bounding boxes - can reduce need to draw entire path when only a part is edited
@@ -90,3 +95,5 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 
 NSInteger partcodeForElement(const NSInteger element);
 NSInteger partcodeForElementControlPoint(const NSInteger element, const NSInteger controlPointIndex);
+
+NS_ASSUME_NONNULL_END

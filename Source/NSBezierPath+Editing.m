@@ -33,6 +33,11 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 	sAngleConstraint = radians;
 }
 
++ (CGFloat)constraintAngle
+{
+	return sAngleConstraint;
+}
+
 + (NSPoint)colinearPointForPoint:(NSPoint)p centrePoint:(NSPoint)q
 {
 	// returns the point opposite p from q in a straight line. The point p has the same radius as p-q.
@@ -64,9 +69,6 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 
 + (NSInteger)point:(NSPoint)p inNSPointArray:(NSPoint*)array count:(NSInteger)count tolerance:(CGFloat)t reverse:(BOOL)reverse
 {
-	// test the point <p> against a list of points <array>,<count> using the tolerance <t>. Returns the index of
-	// the point in the array "hit" by p, or NSNotFound if not hit.
-
 	NSInteger i;
 	NSRect r;
 
