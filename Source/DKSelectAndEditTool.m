@@ -186,19 +186,19 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 	if (isSelected && !invert && [self dragsAllObjectsInSelection])
 		return;
 
-	NSString* an = NSLocalizedString(@"Change Selection", @"undo string for change selecton");
+	NSString* an = NSLocalizedStringFromTableInBundle(@"Change Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for change selecton");
 
 	if (extended) {
 		[layer addObjectToSelection:targ];
-		an = NSLocalizedString(@"Add To Selection", @"undo string for add selection");
+		an = NSLocalizedStringFromTableInBundle(@"Add To Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for add selection");
 	} else {
 		if (invert) {
 			if (isSelected) {
 				[layer removeObjectFromSelection:targ];
-				an = NSLocalizedString(@"Remove From Selection", @"undo string for remove selection");
+				an = NSLocalizedStringFromTableInBundle(@"Remove From Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for remove selection");
 			} else {
 				[layer addObjectToSelection:targ];
-				an = NSLocalizedString(@"Add To Selection", @"undo string for add selection");
+				an = NSLocalizedStringFromTableInBundle(@"Add To Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for add selection");
 			}
 		} else
 			[layer replaceSelectionWithObject:targ];
@@ -480,14 +480,14 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	if (ph == kDKDragMouseDragged) {
 		if (multipleObjects) {
 			if (mDidCopyDragObjects)
-				[self setUndoAction:NSLocalizedString(@"Copy And Move Objects", @"undo string for copy and move (plural)")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Copy And Move Objects", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for copy and move (plural)")];
 			else
-				[self setUndoAction:NSLocalizedString(@"Move Multiple Objects", @"undo string for move multiple objects")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Move Multiple Objects", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for move multiple objects")];
 		} else {
 			if (mDidCopyDragObjects)
-				[self setUndoAction:NSLocalizedString(@"Copy And Move Object", @"undo string for copy and move (singular)")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Copy And Move Object", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for copy and move (singular)")];
 			else
-				[self setUndoAction:NSLocalizedString(@"Move Object", @"undo string for move single object")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Move Object", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for move single object")];
 		}
 	}
 
@@ -687,9 +687,9 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 			// the marquee hit nothing, so deselect everything
 
 			[odl deselectAll];
-			undoStr = NSLocalizedString(@"Deselect All", @"undo string for deselect all");
+			undoStr = NSLocalizedStringFromTableInBundle(@"Deselect All", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for deselect all");
 		} else
-			undoStr = NSLocalizedString(@"Change Selection", @"undo string for change selecton");
+			undoStr = NSLocalizedStringFromTableInBundle(@"Change Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for change selecton");
 
 		if ([odl selectionChangesAreUndoable]) {
 			[self setUndoAction:undoStr];

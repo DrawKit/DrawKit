@@ -1,0 +1,55 @@
+/* 
+  DKTools.strings
+  DrawKit
+
+  Created by C.W. Betts on 1/2/18.
+  Copyright © 2018 DrawKit. All rights reserved.
+*/
+
+/* undo string for add selection */
+"Add To Selection" = "Add To Selection";
+
+/* undo string for change selecton */
+"Change Selection" = "Change Selection";
+
+/* undo string for copy and move (singular) */
+"Copy And Move Object" = "Copy And Move Object";
+
+/* undo string for copy and move (plural) */
+"Copy And Move Objects" = "Copy And Move Objects";
+
+/* undo string for delete path point */
+"Delete Path Point" = "Delete Path Point";
+
+/* undo string for delete path segment */
+"Delete Path Segment" = "Delete Path Segment";
+
+/* undo string for deselect all */
+"Deselect All" = "Deselect All";
+
+/* undo string for insert path point */
+"Insert Path Point" = "Insert Path Point";
+
+/* undo string for move multiple objects */
+"Move Multiple Objects" = "Move Multiple Objects";
+
+/* undo string for move single object */
+"Move Object" = "Move Object";
+
+/* undo string for remove selection */
+"Remove From Selection" = "Remove From Selection";
+
+/* undo string for new object (type) */
+"New Empty Drawing Layer" = "New Empty Drawing Layer";
+"New Rectangle" = "New Rectangle";
+"New Oval" = "New Oval";
+"New Round Rectangle" = "New Round Rectangle";
+"New Round End Rectangle" = "New Round End Rectangle";
+"New Line" = "New Line";
+"New Polygon" = "New Polygon";
+"New Path" = "New Path";
+"New Freehand" = "New Freehand";
+"New Ring" = "New Ring";
+"New Text" = "New Text";
+"New Speech Balloon" = "New Speech Balloon";
+"New Arc" = "New Arc";

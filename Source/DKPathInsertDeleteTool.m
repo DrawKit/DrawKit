@@ -57,13 +57,13 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 {
 	switch ([self mode]) {
 	case kDKPathDeletePointMode:
-		return NSLocalizedString(@"Delete Path Point", @"undo string for delete path point");
+		return NSLocalizedStringFromTableInBundle(@"Delete Path Point", @"DKTools", [NSBundle bundleForClass:[DKPathInsertDeleteTool class]], @"undo string for delete path point");
 
 	case kDKPathInsertPointMode:
-		return NSLocalizedString(@"Insert Path Point", @"undo string for insert path point");
+		return NSLocalizedStringFromTableInBundle(@"Insert Path Point", @"DKTools", [NSBundle bundleForClass:[DKPathInsertDeleteTool class]], @"undo string for insert path point");
 
 	case kDKPathDeleteElementMode:
-		return NSLocalizedString(@"Delete Path Segment", @"undo string for delete path segment");
+		return NSLocalizedStringFromTableInBundle(@"Delete Path Segment", @"DKTools", [NSBundle bundleForClass:[DKPathInsertDeleteTool class]], @"undo string for delete path segment");
 
 	default:
 		return @"";

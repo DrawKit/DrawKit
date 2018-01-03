@@ -316,9 +316,14 @@ static DKStyle* sCreatedObjectsStyle = nil;
  */
 - (NSString*)actionName
 {
+#define NotLocalizedStringValue @"Old"
 	NSString* objectName = [self registeredName];
 	NSString* s = [NSString stringWithFormat:@"New %@", objectName];
-	return NSLocalizedString(s, @"undo string for new object (type)");
+	NSString *locAttempt1 = NSLocalizedStringWithDefaultValue(s, @"DKTools", [NSBundle bundleForClass:[DKObjectCreationTool class]], NotLocalizedStringValue, @"undo string for new object (type)");
+	if ([locAttempt1 isEqualToString:NotLocalizedStringValue]) {
+		locAttempt1 = NSLocalizedString(s, @"undo string for new object (type)");
+	}
+	return locAttempt1;
 }
 
 /** @brief Return the tool's cursor
