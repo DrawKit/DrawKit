@@ -75,7 +75,7 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 
 		clipr = [object bounds];
 
-		CGContextClipToMask(context, *(CGRect*)&clipr, mask);
+		CGContextClipToMask(context, NSRectToCGRect(clipr), mask);
 
 		//CGContextDrawImage( context, *(CGRect*)&clipr, mask );
 

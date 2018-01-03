@@ -30,7 +30,7 @@
 	if (flipped)
 		os.height = -os.height;
 
-	CGSize offset = CGSizeApplyAffineTransform(*(CGSize*)&os, ctm);
+	CGSize offset = CGSizeApplyAffineTransform(NSSizeToCGSize(os), ctm);
 	CGFloat blur = [self shadowBlurRadius] * unit.width;
 	CGColorRef colour = [[self shadowColor] newQuartzColor];
 

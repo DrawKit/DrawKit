@@ -1796,7 +1796,7 @@ static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, cons
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 	CGRect cbbox = CGContextGetClipBoundingBox(context);
 
-	NSBezierPath* cp = [NSBezierPath bezierPathWithRect:*(NSRect*)&cbbox];
+	NSBezierPath* cp = [NSBezierPath bezierPathWithRect:NSRectFromCGRect(cbbox)];
 	[cp appendBezierPath:self];
 	[cp setWindingRule:NSEvenOddWindingRule];
 	[cp addClip];
@@ -1818,15 +1818,15 @@ static void ConvertPathApplierFunction(void* info, const CGPathElement* element)
 		break;
 
 	case kCGPathElementAddQuadCurveToPoint:
-		[np curveToPoint:*(NSPoint*)&element->points[1]
-			controlPoint1:*(NSPoint*)&element->points[0]
-			controlPoint2:*(NSPoint*)&element->points[0]];
+		[np curveToPoint:NSPointFromCGPoint(element->points[1])
+			controlPoint1:NSPointFromCGPoint(element->points[0])
+			controlPoint2:NSPointFromCGPoint(element->points[0])];
 		break;
 
 	case kCGPathElementAddCurveToPoint:
-		[np curveToPoint:*(NSPoint*)&element->points[2]
-			controlPoint1:*(NSPoint*)&element->points[0]
-			controlPoint2:*(NSPoint*)&element->points[1]];
+		[np curveToPoint:NSPointFromCGPoint(element->points[2])
+			controlPoint1:NSPointFromCGPoint(element->points[0])
+			controlPoint2:NSPointFromCGPoint(element->points[1])];
 		break;
 
 	case kCGPathElementCloseSubpath:

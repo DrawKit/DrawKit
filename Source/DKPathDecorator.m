@@ -93,7 +93,7 @@
 	NSAssert(context != NULL, @"bad current context entering setUpCache");
 
 	NSSize iSize = [m_image size];
-	m_cache = CGLayerCreateWithContext(context, *(CGSize*)&iSize, NULL);
+	m_cache = CGLayerCreateWithContext(context, NSSizeToCGSize(iSize), NULL);
 
 	NSAssert1(m_cache != NULL, @"couldn't create the layer context for image; size = %@", NSStringFromSize(iSize));
 
