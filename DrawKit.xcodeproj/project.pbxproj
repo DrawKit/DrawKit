@@ -273,7 +273,7 @@
 		BFE7A2010E52FD9800626425 /* NSString+DKAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BFE7A1FF0E52FD9800626425 /* NSString+DKAdditions.m */; };
 		BFE7A2020E52FD9800626425 /* NSString+DKAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BFE7A2000E52FD9800626425 /* NSString+DKAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFEAEE700DAAD959002972BC /* DKSelectAndEditTool.h in Headers */ = {isa = PBXBuildFile; fileRef = BFEAEE6E0DAAD959002972BC /* DKSelectAndEditTool.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		BFEAEE710DAAD959002972BC /* DKSelectAndEditTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAEE6F0DAAD959002972BC /* DKSelectAndEditTool.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		BFEAEE710DAAD959002972BC /* DKSelectAndEditTool.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAEE6F0DAAD959002972BC /* DKSelectAndEditTool.m */; };
 		BFEAEEAB0DAB00BF002972BC /* DKToolController.h in Headers */ = {isa = PBXBuildFile; fileRef = BFEAEEA90DAB00BF002972BC /* DKToolController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BFEAEEAC0DAB00BF002972BC /* DKToolController.m in Sources */ = {isa = PBXBuildFile; fileRef = BFEAEEAA0DAB00BF002972BC /* DKToolController.m */; };
 		BFEAF6210DB30912002972BC /* DKRoughStroke.h in Headers */ = {isa = PBXBuildFile; fileRef = BFEAF61F0DB30912002972BC /* DKRoughStroke.h */; settings = {ATTRIBUTES = (Public, ); }; };

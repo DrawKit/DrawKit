@@ -79,7 +79,7 @@ has a very low opacity should be used - the default style takes the system's hig
  This is typically called automatically by the mouseDown method according to the context of the
  initial click.
  */
-@property DKEditToolOperation operationMode;
+@property (nonatomic) DKEditToolOperation operationMode;
 
 // drawing the marquee (selection rect):
 
@@ -108,7 +108,7 @@ has a very low opacity should be used - the default style takes the system's hig
  If you replace the default style, take care that the style is generally fairly transparent,
  otherwise it will be hard to see what you are selecting!
  */
-@property (retain) DKStyle *marqueeStyle;
+@property (nonatomic, retain/*, nonnull*/) DKStyle *marqueeStyle;
 
 // setting up optional behaviours:
 
@@ -168,7 +168,23 @@ has a very low opacity should be used - the default style takes the system's hig
 
 // dragging objects
 
-- (void)dragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph;
+/** @brief Handle the drag of objects, either singly or multiply
+ 
+ This drags one or more objects to the point <code>p</code>. It also is where the current state of the options
+ for hiding the selection and allowing multiple drags is implemented. The method also deals with
+ snapping during the drag - what happens is slightly different when one object is dragged as opposed
+ to several objects - in the latter case the relative spatial positions of the objects is fixed
+ rather than allowing each one to snap individually to the grid which is poor from a usability POV.
+ This also tests the drag against the layer's current "exclusion rect". If the drag leaves this rect,
+ a Drag Manager drag is invoked to allow the objects to be dragged to another document, layer or
+ application.
+ @param objects a list of objects to drag (may have only one item)
+ @param layer the layer in which the objects exist
+ @param p the current local point where the drag is
+ @param event the event
+ @param ph the drag phase - mouse down, dragged or up.
+ */
+- (void)dragObjectsAsGroup:(NSArray<DKDrawableObject*>*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph;
 
 /** @brief Prepare the proxy drag image for the given objects
 
