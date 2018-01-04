@@ -14,13 +14,13 @@
 //! clipping values:
 typedef NS_ENUM(NSInteger, DKClippingOption) {
 	kDKClippingNone = 0,
-	kDKClipOutsidePath = 1,
-	kDKClipInsidePath = 2
+	kDKClippingOutsidePath = 1,
+	kDKClippingInsidePath = 2
 };
 
 /** @brief Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
 
-Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
+ Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
 */
 @interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying> {
 @private
@@ -95,7 +95,7 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 
 @end
 
-extern NSString* kDKRasterizerPasteboardType;
+extern NSPasteboardType kDKRasterizerPasteboardType;
 
 extern NSNotificationName kDKRasterizerPropertyWillChange;
 extern NSNotificationName kDKRasterizerPropertyDidChange;
@@ -119,3 +119,7 @@ extern NSString* kDKRasterizerChangedPropertyKey;
 - (NSBezierPath*)renderer:(DKRasterizer*)aRenderer willRenderPath:(NSBezierPath*)aPath;
 
 @end
+
+
+static const DKClippingOption kDKClipOutsidePath API_DEPRECATED_WITH_REPLACEMENT("kDKClippingOutsidePath", macosx(10.0, 10.6)) = kDKClippingOutsidePath;
+static const DKClippingOption kDKClipInsidePath API_DEPRECATED_WITH_REPLACEMENT("kDKClippingInsidePath", macosx(10.0, 10.6)) = kDKClippingInsidePath;

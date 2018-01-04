@@ -23,8 +23,8 @@ content.
 - (void)selectedObjectDidChange:(NSNotification*)note;
 - (void)subSelectionDidChange:(NSNotification*)note;
 
-- (void)redisplayContentForSelection:(nullable NSArray*)selection;
-- (void)redisplayContentForSubSelection:(NSSet*)subsel ofObject:(DKDrawableObject*)object;
+- (void)redisplayContentForSelection:(nullable NSArray<DKDrawableObject*>*)selection;
+- (void)redisplayContentForSubSelection:(NSSet<DKDrawableObject*>*)subsel ofObject:(DKDrawableObject*)object;
 
 - (nullable id)selectedObjectForCurrentTarget;
 - (nullable id)selectedObjectForTargetWindow:(NSWindow*)window;

@@ -1,4 +1,4 @@
-framework module DKDrawKit {
+framework module DKDrawKit [extern_c] [system] /* declaring this as a system framework (eww) is the only way to make Swift see NSUIntegers as Ints. This is stupid. */ {
   umbrella header "DKDrawKit.h"
   config_macros qUseLogEvent
 
