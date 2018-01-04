@@ -68,7 +68,7 @@
 	self = [super init];
 	if (self != nil) {
 		[self setFilter:@"CIOpTile"]; //CIVortexDistortion
-		[self setClipping:kDKClipInsidePath];
+		[self setClipping:kDKClippingInsidePath];
 
 		if (m_filter == nil) {
 			return nil;
@@ -84,7 +84,7 @@
 {
 	NSSize es = [super extraSpaceNeeded];
 
-	if ([self clipping] != kDKClipInsidePath) {
+	if ([self clipping] != kDKClippingInsidePath) {
 		es.width += (CIIMAGE_PADDING * 2);
 		es.height += (CIIMAGE_PADDING * 2);
 	}

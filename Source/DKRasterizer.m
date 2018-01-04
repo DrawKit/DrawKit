@@ -36,14 +36,6 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	return rend;
 }
 
-/** @brief Returns the immediate container of this object, if owned by a group
- @return the object's container group, if any
- */
-- (DKRastGroup*)container
-{
-	return mContainerRef;
-}
-
 /** @brief Sets the immediate container of this object
 
  This is a weak reference as the object is owned by its container. Generally this is called as

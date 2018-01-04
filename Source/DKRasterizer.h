@@ -8,6 +8,8 @@
 #import "DKRasterizerProtocol.h"
 #import "GCObservableObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKRastGroup;
 @protocol DKRendererDelegate;
 
@@ -33,29 +35,34 @@ typedef NS_ENUM(NSInteger, DKClippingOption) {
 + (DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 /** @brief The immediate container of this object.
  
  This is a weak reference as the object is owned by its container. Generally the setter is called as
  required when the object is added to a group, so should not be set by app code.
  */
-@property (weak) DKRastGroup *container;
+@property (nonatomic, weak) DKRastGroup *container;
 
 /** @brief The name of the renderer.
  
  Named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
  */
-@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy, nullable) NSString *name;
 
 /** @brief Get the name or classname of the renderer.
  
  Named renderers can be referred to in scripts or bound to in the UI.
  @return the renderer's name or classname
  */
-@property (readonly, copy/*, nonnull*/) NSString *label;
+@property (readonly, copy, nonnull) NSString *label;
 
-- (NSString*)styleScript;
+/** @brief Return the equivalent style script for this renderer
+
+ Subclasses shold override this - the default method returns the object's description for debugging.
+ Is a string, representing the script that would create an equivalent renderer if parsed.
+ */
+@property (readonly, copy, nonnull) NSString *styleScript;
 
 /** @brief Queries whether the renderer is valid, that is, it will draw something.
  
@@ -123,3 +130,5 @@ extern NSString* kDKRasterizerChangedPropertyKey;
 
 static const DKClippingOption kDKClipOutsidePath API_DEPRECATED_WITH_REPLACEMENT("kDKClippingOutsidePath", macosx(10.0, 10.6)) = kDKClippingOutsidePath;
 static const DKClippingOption kDKClipInsidePath API_DEPRECATED_WITH_REPLACEMENT("kDKClippingInsidePath", macosx(10.0, 10.6)) = kDKClippingInsidePath;
+
+NS_ASSUME_NONNULL_END

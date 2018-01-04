@@ -465,7 +465,7 @@
 		// apply clipping, if any
 
 		if ([self clipping] != kDKClippingNone && path) {
-			if ([self clipping] == kDKClipOutsidePath) {
+			if ([self clipping] == kDKClippingOutsidePath) {
 				// clip to the area outside the path
 
 				[path addInverseClip];
