@@ -328,12 +328,32 @@ NS_ASSUME_NONNULL_BEGIN
 /** @} */
 /** @name active layer
  @{ */
+
+/** @brief Sets which layer is currently active.
+ 
+ The active layer is automatically linked from the first responder so it can receive commands
+ active state changes.
+ @param aLayer The layer to make the active layer, or \c nil to make no layer active.
+ @return \c YES if the active layer changed, \c NO if not.
+ */
 - (BOOL)setActiveLayer:(nullable DKLayer*)aLayer;
+/** @brief Sets which layer is currently active, optionally making this change undoable.
+ 
+ Normally active layer changes are not undoable as the active layer is not considered part of the
+ state of the data model. However some actions such as adding and removing layers should include
+ the active layer state as part of the undo, so that the user experience is pleasant.
+ @param aLayer The layer to make the active layer, or \c nil to make no layer active.
+ @return \c YES if the active layer changed, \c NO if not.
+ */
 - (BOOL)setActiveLayer:(nullable DKLayer*)aLayer withUndo:(BOOL)undo;
 /** @brief Returns the current active layer
  @return a DKLayer object, or subclass, which is the current active layer
  */
 @property (nonatomic, weak, readonly, nullable) DKLayer *activeLayer;
+/** @brief Returns the active layer if it matches the requested class
+ @param aClass the class of layer sought
+ @return the active layer if it matches the requested class, otherwise nil
+ */
 - (nullable __kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @} */

@@ -923,27 +923,12 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 #pragma mark - active layer
 
-/** @brief Sets which layer is currently active
-
- The active layer is automatically linked from the first responder so it can receive commands
- active state changes.
- @param aLayer the layer to make the active layer, or nil to make no layer active
- @return YES if the active layer changed, NO if not
- */
 - (BOOL)setActiveLayer:(DKLayer*)aLayer
 {
 	return [self setActiveLayer:aLayer
 					   withUndo:NO];
 }
 
-/** @brief Sets which layer is currently active, optionally making this change undoable
-
- Normally active layer changes are not undoable as the active layer is not considered part of the
- state of the data model. However some actions such as adding and removing layers should include
- the active layer state as part of the undo, so that the user experience is pleasant.
- @param aLayer the layer to make the active layer, or nil to make no layer active
- @return YES if the active layer changed, NO if not
- */
 - (BOOL)setActiveLayer:(DKLayer*)aLayer withUndo:(BOOL)undo
 {
 	// we already own this, so don't retain it
@@ -978,10 +963,6 @@ static id sDearchivingHelper = nil;
 
 @synthesize activeLayer=m_activeLayerRef;
 
-/** @brief Returns the active layer if it matches the requested class
- @param aClass the class of layer sought
- @return the active layer if it matches the requested class, otherwise nil
- */
 - (id)activeLayerOfClass:(Class)aClass
 {
 	if ([[self activeLayer] isKindOfClass:aClass])
