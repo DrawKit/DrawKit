@@ -6,6 +6,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DKRasterizer.h"
+#import "DKDashable.h"
 
 @class DKStrokeDash;
 

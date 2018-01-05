@@ -11,14 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class DKDrawableObject, DKUndoManager;
 
-//! swatch types that can be passed to -styleSwatchWithSize:type:
+//! swatch types that can be passed to \c -styleSwatchWithSize:type:
 typedef NS_ENUM(NSInteger, DKStyleSwatchType) {
 	kDKStyleSwatchAutomatic = -1,
 	kDKStyleSwatchRectanglePath = 0,
 	kDKStyleSwatchCurvePath = 1
 };
 
-//! options that can be passed to -derivedStyleWithPasteboard:withOptions:
+//! options that can be passed to \c -derivedStyleWithPasteboard:withOptions:
 typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 	kDKDerivedStyleDefault = 0,
 	kDKDerivedStyleForPathHint = 1,

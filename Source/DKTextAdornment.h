@@ -12,19 +12,19 @@
 
 /** @brief This renderer allows text to be an attribute of any object.
 
-This renderer allows text to be an attribute of any object.
-
-This renderer also implements text-on-a-path. To do this, set the layoutMode to kDKTextLayoutAlongPath. Some attributes are ignored in
-this mode such as angle and vertical alignment. However all textual attributes are honoured.
+ @discussion This renderer allows text to be an attribute of any object.
  
-Text adornments extensively cache information internally to speed drawing by avoiding recalculation of various things. The cache is a
-dictionary which can store many different cached items. The cache is invalidated by changes arising in the client object and in the
-state of internal data, and in addition the same cache is passed to text-on-path and other lower level methods which they use to avoid
-similar lengthy recalculations. The caching is transparent to client objects but may need to be taken into account if subclassing or
-using alternative helper objects, etc.
+ This renderer also implements text-on-a-path. To do this, set the layoutMode to kDKTextLayoutAlongPath. Some attributes are ignored in
+ this mode such as angle and vertical alignment. However all textual attributes are honoured.
+ 
+ Text adornments extensively cache information internally to speed drawing by avoiding recalculation of various things. The cache is a
+ dictionary which can store many different cached items. The cache is invalidated by changes arising in the client object and in the
+ state of internal data, and in addition the same cache is passed to text-on-path and other lower level methods which they use to avoid
+ similar lengthy recalculations. The caching is transparent to client objects but may need to be taken into account if subclassing or
+ using alternative helper objects, etc.
 
-The text content is stored and suplied by DKTextSubstitutor which is able to build strings by reading an object's metadata and combining it with
-other fixed content. See that class for details.
+ The text content is stored and suplied by \c DKTextSubstitutor which is able to build strings by reading an object's metadata and combining it with
+ other fixed content. See that class for details.
 */
 @interface DKTextAdornment : DKRasterizer <NSCoding, NSCopying> {
 @private
@@ -62,7 +62,7 @@ other fixed content. See that class for details.
 
 // the text:
 
-- (NSString*)string;
+@property (readonly, copy) NSString *string;
 - (void)setLabel:(id)anySortOfText;
 - (NSAttributedString*)label;
 - (NSTextStorage*)textToDraw:(id)object;

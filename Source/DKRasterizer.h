@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, DKClippingOption) {
 	DKClippingOption mClipping; // set path clipping to this
 }
 
-+ (DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
++ (nullable DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;

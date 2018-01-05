@@ -72,6 +72,11 @@
 	return (m_fillColour != nil || m_gradient != nil);
 }
 
++ (NSSet<NSString *> *)keyPathsForValuesAffectingIsValid
+{
+	return [NSSet setWithObjects:@"colour", @"gradient", nil];
+}
+
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
