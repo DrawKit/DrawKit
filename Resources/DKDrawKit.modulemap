@@ -99,6 +99,87 @@ framework module DKDrawKit [extern_c] [system] /* declaring this as a system fra
 		export *
 	}
 	
+	module DKAdditions {
+		module NSAffineTransform {
+			header "NSAffineTransform+DKAdditions.h"
+			export *
+		}
+		
+		explicit module NSAttributedString {
+			header "NSAttributedString+DKAdditions.h"
+			export *
+		}
+		
+		module NSBezierPath {
+			module Editing {
+				header "NSBezierPath+Editing.h"
+				export *
+			}
+			
+			module Geometry {
+				header "NSBezierPath+Geometry.h"
+				export *
+			}
+			
+			module Text {
+				header "NSBezierPath+Text.h"
+				export *
+			}
+			
+			explicit module Shapes {
+				requires !objc_arc
+				header "NSBezierPath+Shapes.h"
+				export *
+			}
+			
+			explicit module OAExtensions {
+				requires !objc_arc
+				header "NSBezierPath-OAExtensions.h"
+				export *
+			}
+			
+			export *
+		}
+		
+		module NSColor {
+			header "NSColor+DKAdditions.h"
+			export *
+		}
+		
+		module NSDictionary {
+			module DeepCopy {
+				header "NSDictionary+DeepCopy.h"
+				export *
+			}
+			export *
+		}
+		
+		module NSImage {
+			header "NSImage+DKAdditions.h"
+			export *
+		}
+		
+		module NSMutableArray {
+			header "NSMutableArray+DKAdditions.h"
+			export *
+		}
+		
+		module NSShadow {
+			module Scaling {
+				header "NSShadow+Scaling.h"
+				export *
+			}
+			export *
+		}
+		
+		module NSString {
+			header "NSString+DKAdditions.h"
+			export *
+		}
+		
+		export *
+	}
+	
   export *
   module * { export * }
   
@@ -109,12 +190,6 @@ framework module DKDrawKit [extern_c] [system] /* declaring this as a system fra
   
   module DKGradientExtensions {
 	  header "DKGradientExtensions.h"
-	  export *
-  }
-  
-  explicit module NSBezierPath_OAExtensions {
-	  requires !objc_arc
-	  header "NSBezierPath-OAExtensions.h"
 	  export *
   }
   
@@ -148,11 +223,6 @@ framework module DKDrawKit [extern_c] [system] /* declaring this as a system fra
 	  export *
   }
   
-  explicit module NSAttributedString_DKAdditions {
-	  header "NSAttributedString+DKAdditions.h"
-	  export *
-  }
-  
   explicit module DKUnarchivingHelper {
 	  header "DKUnarchivingHelper.h"
 	  export *
@@ -160,12 +230,6 @@ framework module DKDrawKit [extern_c] [system] /* declaring this as a system fra
   
   explicit module DKShapeCluster {
 	  header "DKShapeCluster.h"
-	  export *
-  }
-  
-  explicit module NSBezierPath_Shapes {
-	  requires !objc_arc
-	  header "NSBezierPath+Shapes.h"
 	  export *
   }
   
