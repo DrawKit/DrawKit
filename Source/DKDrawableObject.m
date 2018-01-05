@@ -1631,8 +1631,7 @@ static NSRect s_oldBounds;
 
 	if (!NSEqualSizes(size, NSZeroSize)) {
 		NSImage* image = [[NSImage alloc] initWithSize:size];
-		[image setFlipped:YES];
-		[image lockFocus];
+		[image lockFocusFlipped:YES];
 
 		[[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeSourceOver];
 		NSRect destRect = NSMakeRect(0, 0, size.width, size.height);
@@ -1641,7 +1640,6 @@ static NSRect s_oldBounds;
 					   fromRect:NSZeroRect
 					  withStyle:nil];
 		[image unlockFocus];
-		[image setFlipped:NO];
 
 		return image;
 	} else

@@ -689,7 +689,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	// render at high quality
 
 	[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-	[[self image] setFlipped:[[NSGraphicsContext currentContext] isFlipped]];
+	//[[self image] setFlipped:[[NSGraphicsContext currentContext] isFlipped]];
 
 	[[self image] drawInRect:ir
 					fromRect:NSZeroRect

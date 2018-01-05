@@ -211,8 +211,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		// by drawing into a temporary flipped image context, text will be right side up with its lines in the right order
 
 		NSImage* tempImage = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
-		[tempImage setFlipped:YES];
-		[tempImage lockFocus];
+		[tempImage lockFocusFlipped:YES];
 
 		[self drawText:str
 			   withObject:object

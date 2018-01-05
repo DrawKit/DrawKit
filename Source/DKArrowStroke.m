@@ -148,10 +148,9 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 	DKDrawablePath* temp = [DKDrawablePath drawablePathWithBezierPath:path];
 
-	[image setFlipped:YES];
 	// draw into image
 
-	[image lockFocus];
+	[image lockFocusFlipped:YES];
 	[self render:temp];
 	[image unlockFocus];
 	m_width = saved;

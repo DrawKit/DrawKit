@@ -734,10 +734,9 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 - (NSImage*)swatchImageWithSize:(NSSize)size withBorder:(BOOL)showBorder
 {
 	NSImage* swatchImage = [[NSImage alloc] initWithSize:size];
-	[swatchImage setFlipped:YES];
 	NSRect box = NSMakeRect(0.0, 0.0, size.width, size.height);
 
-	[swatchImage lockFocus];
+	[swatchImage lockFocusFlipped:YES];
 	[self fillRect:box];
 
 	if (showBorder) {

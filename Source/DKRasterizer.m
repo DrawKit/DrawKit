@@ -199,11 +199,11 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 		case kDKClippingNone:
 			break;
 
-		case kDKClipInsidePath:
+		case kDKClippingInsidePath:
 			[path addClip];
 			break;
 
-		case kDKClipOutsidePath:
+		case kDKClippingOutsidePath:
 			[path addInverseClip];
 			break;
 		}

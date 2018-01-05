@@ -360,8 +360,6 @@ static NSArray* s_selectionColours = nil;
 	NSImage* thumb = [[NSImage alloc] initWithSize:size];
 	NSRect tr, dr, dest;
 
-	[thumb setFlipped:[[self drawing] isFlipped]];
-
 	tr = NSMakeRect(0, 0, size.width, size.height);
 	dr = NSMakeRect(0, 0, drsize.width, drsize.height);
 
@@ -373,7 +371,7 @@ static NSArray* s_selectionColours = nil;
 	NSAffineTransform* tfm = [NSAffineTransform transform];
 	[tfm scaleBy:scale];
 
-	[thumb lockFocus];
+	[thumb lockFocusFlipped:[[self drawing] isFlipped]];
 	[[NSColor clearColor] set];
 	NSRectFill(tr);
 	[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];

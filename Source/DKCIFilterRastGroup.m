@@ -200,7 +200,7 @@
 		BOOL clip = [coder decodeBoolForKey:@"DKCIFilterRastGroup_clipsToPath"];
 
 		if (clip)
-			[self setClipping:kDKClipInsidePath];
+			[self setClipping:kDKClippingInsidePath];
 
 		if (m_filter == nil) {
 			return nil;

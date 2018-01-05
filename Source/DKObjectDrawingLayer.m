@@ -1040,13 +1040,12 @@ enum {
 	sb = [self selectionBounds];
 
 	img = [[NSImage alloc] initWithSize:sb.size];
-	[img setFlipped:[[self drawing] isFlipped]];
 
 	NSAffineTransform* tfm = [NSAffineTransform transform];
 	[tfm translateXBy:-sb.origin.x
 				  yBy:-sb.origin.y];
 
-	[img lockFocus];
+	[img lockFocusFlipped:[[self drawing] isFlipped]];
 	[tfm concat];
 	[self drawSelectedObjects];
 	[img unlockFocus];
