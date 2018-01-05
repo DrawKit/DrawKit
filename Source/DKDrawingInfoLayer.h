@@ -17,15 +17,15 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 
 /** @brief This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
 
-This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
+ This is a \c DKLayer subclass which is able to draw an information panel in a corner of the drawing.
 
-The info panel takes data from DKDrawing's metadata dictionary ind displays some of it - standard
-keys such as the drawing number, name of the draughtsman, creation and modification dates and so on.
+ The info panel takes data from DKDrawing's metadata dictionary ind displays some of it - standard
+ keys such as the drawing number, name of the draughtsman, creation and modification dates and so on.
 
-This can also directly edit the same information.
+ This can also directly edit the same information.
 
-This is not a very important class within DK, and mays apps will not want to use it, or to use it in
-modified form. It is provided as another example of how to implement layer subclasses as much as anything.
+ This is not a very important class within DK, and mays apps will not want to use it, or to use it in
+ modified form. It is provided as another example of how to implement layer subclasses as much as anything.
 */
 @interface DKDrawingInfoLayer : DKLayer <NSCoding> {
 	DKInfoBoxPlacement m_placement; // which corner is the panel placed in
@@ -34,8 +34,13 @@ modified form. It is provided as another example of how to implement layer subcl
 	BOOL m_drawBorder; // YES if a border is drawn around the drawing
 }
 
-// general settings:
+/** @name General Settings:
+ @brief General settings.
+ @{
+ */
 
+/** @brief The size of the drawing info box.
+ */
 @property (nonatomic) NSSize size;
 
 @property (nonatomic) DKInfoBoxPlacement placement;
@@ -44,11 +49,24 @@ modified form. It is provided as another example of how to implement layer subcl
 
 @property (nonatomic) BOOL drawsBorder;
 
-// internal stuff:
+/** @} */
 
+/** @name Internal Stuff:
+ @brief Internal stuff.
+ @{
+ */
+
+/** @brief Returns the bounds of the info box relative to the layer.
+ @discussion This will take into account the size, placement and margins of the drawing.
+ */
 @property (readonly) NSRect infoBoxRect;
+/** @brief Draws the info, labels, subdivisions, etc.
+ @discussion \c br is the bounds of the info box. The border and background are drawn by the time
+ this is called.
+ @param br The bounds of the info box.
+ */
 - (void)drawInfoInRect:(NSRect)br;
-- (NSDictionary*)attributesForDrawingInfoItem:(NSString*)key;
+- (NSDictionary<NSAttributedStringKey, id>*)attributesForDrawingInfoItem:(NSString*)key;
 - (void)drawString:(NSString*)str inRect:(NSRect)r withAttributes:(NSDictionary<NSAttributedStringKey, id>*)attr;
 
 - (NSAttributedString*)labelForDrawingInfoItem:(NSString*)key;
@@ -57,6 +75,8 @@ modified form. It is provided as another example of how to implement layer subcl
 
 - (NSString*)keyForEditableRegionUnderMouse:(NSPoint)p;
 - (void)textViewDidChangeSelection:(NSNotification*)aNotification;
+
+/** @} */
 
 @end
 

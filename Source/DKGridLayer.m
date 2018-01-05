@@ -133,11 +133,6 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark - one - stop shop for setting grid, drawing and rulers in one hit
 
-/** @brief Sets the grid to the standard metric default settings
-
- The default metric grid has a 10mm span, 5 divisions per span (2mm) and 10 spans per major (100mm)
- and the drawing units are "Centimetres"
- */
 - (void)setMetricDefaults
 {
 	[self setDistanceForUnitSpan:kDKGridDrawingLayerMetricInterval
@@ -148,9 +143,6 @@ static NSColor* sMajorColour = nil;
 					  rulerSteps:2];
 }
 
-/** @brief Sets the grid to the standard imperial default settings
- and the drawing units are "Inches"
- */
 - (void)setImperialDefaults
 {
 	[self setDistanceForUnitSpan:kDKGridDrawingLayerImperialInterval
@@ -770,12 +762,6 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark - user actions
 
-/** @brief Set the grid to one ofthe default grids
-
- [sender tag] is interpreted as a measurement system value; restores either the metric or imperial
- defaults. Not super-useful, but handy for quickly exploring alternative grids.
- @param sender the sender of the action
- */
 - (IBAction)setMeasurementSystemAction:(id)sender
 {
 	if (![self locked]) {

@@ -20,8 +20,8 @@ typedef NS_OPTIONS(NSUInteger, DKImageCoverageFlags) {
 
 /** @brief This layer type implements a single image overlay, for example for tracing a photograph in another layer.
 
-This layer type implements a single image overlay, for example for tracing a photograph in another layer. The coverage method
-sets whether the image is scaled, tiled or drawn only once in a particular position.
+ This layer type implements a single image overlay, for example for tracing a photograph in another layer. The coverage method
+ sets whether the image is scaled, tiled or drawn only once in a particular position.
 */
 @interface DKImageOverlayLayer : DKLayer <NSCoding> {
 	NSImage* m_image;
@@ -32,11 +32,11 @@ sets whether the image is scaled, tiled or drawn only once in a particular posit
 - (instancetype)initWithImage:(NSImage*)image;
 - (instancetype)initWithContentsOfFile:(NSString*)imagefile;
 
-@property (strong) NSImage *image;
+@property (nonatomic, strong) NSImage *image;
 
-@property CGFloat opacity;
+@property (nonatomic) CGFloat opacity;
 
-@property DKImageCoverageFlags coverageMethod;
+@property (nonatomic) DKImageCoverageFlags coverageMethod;
 
 @property (readonly) NSRect imageDestinationRect;
 

@@ -9,18 +9,19 @@
 
 @class DKGuide;
 
-/**
-A guide layer implements any number of horizontal and vertical guidelines and provides methods for snapping points and rectangles
-to them.
+/** @brief Implements horizontal and vertical guidelines.
+ 
+ @discussion A guide layer implements any number of horizontal and vertical guidelines and provides methods for snapping points and rectangles
+ to them.
 
-A drawing typically has one guide layer, though you are not limited to just one - however since DKDrawing will generally provide
-snapping to both guides and grid as a high-level method, having more than one guide layer can create ambiguities for the user
-unless your client code takes account of the possibility of multiple guide layers.
+ A drawing typically has one guide layer, though you are not limited to just one - however since DKDrawing will generally provide
+ snapping to both guides and grid as a high-level method, having more than one guide layer can create ambiguities for the user
+ unless your client code takes account of the possibility of multiple guide layers.
 
-The default snap tolerance for guides is 6 points.
+ The default snap tolerance for guides is 6 points.
 
-By default guides don't snap to the grid. You can force a guide to snap to the grid even if this setting is off by dragging with
-the shift key down.
+ By default guides don't snap to the grid. You can force a guide to snap to the grid even if this setting is off by dragging with
+ the shift key down.
 */
 @interface DKGuideLayer : DKLayer <NSCoding> {
 @private
@@ -40,7 +41,10 @@ the shift key down.
  */
 @property (class) CGFloat defaultSnapTolerance;
 
-// adding and removing guides:
+/** @name Adding and Removing Guides
+ @brief Adding and removing guides.
+ @{
+ */
 
 /** @brief Adds a guide to the layer
 
@@ -59,28 +63,27 @@ the shift key down.
  */
 - (void)removeAllGuides;
 
-/** @brief Creates a new vertical guide at the point p, adds it to the layer and returns it
+/** @brief Creates a new vertical guide at the point <code>p</code>, adds it to the layer and returns it
 
  This is a convenient way to add a guide interactively, for example when dragging one "off" a
- ruler. See DKViewController for an example client of this method. If the layer is locked this
- does nothing and returns nil.
- @param p a point local to the drawing
- @return the guide created, or nil
+ ruler. See \c DKViewController for an example client of this method. If the layer is locked this
+ does nothing and returns <code>nil</code>.
+ @param p A point local to the drawing.
+ @return The guide created, or <code>nil</code>.
  */
 - (DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
-/** @brief Creates a new horizontal guide at the point p, adds it to the layer and returns it
+/** @brief Creates a new horizontal guide at the point <code>p</code>, adds it to the layer and returns it
 
  This is a convenient way to add a guide interactively, for example when dragging one "off" a
- ruler. See DKViewController for an example client of this method. If the layer is locked this
- does nothing and returns nil.
- @param p a point local to the drawing
- @return the guide created, or nil
+ ruler. See \c DKViewController for an example client of this method. If the layer is locked this
+ does nothing and returns <code>nil</code>.
+ @param p A point local to the drawing.
+ @return The guide created, or <code>nil</code>.
  */
 - (DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
-/** @brief Get all current guides
- @return an array of guide objects
+/** @brief Get all current guides.
  */
 @property (readonly, copy) NSArray<DKGuide*> *guides;
 
@@ -88,6 +91,8 @@ the shift key down.
  @param guides an array of guide objects
  */
 - (void)setGuides:(NSArray<DKGuide*>*)guides;
+
+/** @} */
 
 // finding guides close to a given position
 
@@ -103,17 +108,15 @@ the shift key down.
  */
 - (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos;
 
-/** @brief Returns the list of vertical guides
+/** @brief Returns the list of vertical guides.
 
- The guides returns are not in any particular order
- @return an array of DKGuide objects
+ @discussion The guides returns are not in any particular order.
  */
 @property (readonly, strong) NSArray<DKGuide*>* verticalGuides;
 
-/** @brief Returns the list of horizontal guides
+/** @brief Returns the list of horizontal guides.
 
- The guides returns are not in any particular order
- @return an array of DKGuide objects
+ @discussion The guides returns are not in any particular order.
  */
 @property (readonly, strong) NSArray<DKGuide*>* horizontalGuides;
 
@@ -121,7 +124,7 @@ the shift key down.
 
 /** @brief The layer's guide colour
 
- Note that setting this doesn't mark the guide for update - \c DKGuideLayer has a method for doing that.
+ @discussion Note that setting this doesn't mark the guide for update - \c DKGuideLayer has a method for doing that.
  The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
  also each guide is able to have its own colour. This returns the selection colour, but if guides
  have their own colours this says nothing about them.
@@ -132,7 +135,7 @@ the shift key down.
 
 // set whether guides snap to grid or not
 
-/** @brief Whether guids should snap to the grid by default or not
+/** @brief Whether guids should snap to the grid by default or not.
 
  The default is NO
  */
@@ -163,7 +166,10 @@ the shift key down.
 
 @property (nonatomic) BOOL guidesDrawnInEnclosingScrollview;
 
-// snapping points and rects to the guides:
+/** @name Snapping Points and Rects:
+ @brief Snapping points and rects to the guides.
+ @{
+ */
 
 /** @brief Snap a given point to any nearest guides within the snap tolerance
 
@@ -217,6 +223,7 @@ the shift key down.
  */
 - (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh;
 
+/** @} */
 // redrawing the guides
 
 /** @brief Marks a partiuclar guide as needing to be readrawn
@@ -233,7 +240,10 @@ the shift key down.
  */
 - (NSRect)guideRect:(DKGuide*)guide;
 
-// user actions:
+/** @name User Actions
+ @brief User actions.
+ @{
+ */
 
 /** @brief High level action to remove all guides from the layer
 
@@ -242,6 +252,8 @@ the shift key down.
  @param sender the action's sender
  */
 - (IBAction)clearGuides:(id)sender;
+
+/** @} */
 
 @end
 

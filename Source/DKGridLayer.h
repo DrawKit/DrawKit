@@ -74,7 +74,10 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 	NSUInteger m_spansPerMajor; // the number of spans per major
 }
 
-// setting class defaults:
+/** @name Setting Class Defaults:
+ @brief Setting class defaults.
+ @{
+*/
 
 /** The class default span colour.
  */
@@ -92,6 +95,8 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @param colour a colour
  */
 + (void)setDefaultGridThemeColour:(NSColor*)colour;
+
+/** @} */
 
 /** @brief Return a grid layer with default metric settings
  
@@ -114,10 +119,24 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  */
 + (instancetype)standardImperialPCBGridLayer;
 
-// setting up the grid
+/** @name setting up the grid
+ @brief Setting up the grid.
+ @{
+*/
 
+/** @brief Sets the grid to the standard metric default settings
+ 
+ The default metric grid has a 10mm span, 5 divisions per span (2mm) and 10 spans per major (100mm)
+ and the drawing units are "Centimetres"
+ */
 - (void)setMetricDefaults;
+
+/** @brief Sets the grid to the standard imperial default settings
+ and the drawing units are "Inches"
+ */
 - (void)setImperialDefaults;
+ 
+/** @} */
 
 // using the grid as the master grid for a drawing
 
@@ -150,7 +169,10 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 						majors:(NSUInteger)majors
 					rulerSteps:(NSUInteger)steps;
 
-// other settings:
+/** @name other settings:
+ @brief Other settings.
+ @{
+ */
 
 
 /** @brief Returns the actual distance of one span in points
@@ -184,18 +206,18 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  */
 @property (readonly) CGFloat spanMultiplier;
 
-// hiding elements of the grid
+/** @} */
+
+/** @name Element Visibility:
+ @brief Hiding elements of the grid.
+ @{
+ */
 
 @property BOOL divisionsHidden;
 @property BOOL spansHidden;
 @property BOOL majorsHidden;
 
-- (void)setDivisionsHidden:(BOOL)hide;
-- (BOOL)divisionsHidden;
-- (void)setSpansHidden:(BOOL)hide;
-- (BOOL)spansHidden;
-- (void)setMajorsHidden:(BOOL)hide;
-- (BOOL)majorsHidden;
+/** @} */
 
 // managing rulers and margins
 
@@ -230,22 +252,19 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
 // colours for grid display
 
-/**
- @brief Colour used to draw the spans.
+/** @brief Colour used to draw the spans.
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
 @property (nonatomic, strong) NSColor *spanColour;
 
-/**
- @brief the colour used to draw the divisions.
+/** @brief the colour used to draw the divisions.
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
 @property (nonatomic, strong) NSColor *divisionColour;
 
-/**
- @brief The colour used to draw the majors.
+/** @brief The colour used to draw the majors.
  
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
@@ -263,7 +282,10 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (void)setGridThemeColour:(NSColor*)colour;
 - (NSColor*)themeColour;
 
-// converting between the base (Quartz) coordinate system and the grid
+/** @name Coordinate Conversion:
+ @brief Converting between the base (Quartz) coordinate system and the grid.
+ @{
+ */
 
 /** @brief Given a point in drawing coordinates, returns nearest grid intersection to that point
 
@@ -326,7 +348,12 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  */
 - (CGFloat)quartzDistanceForGridDistance:(CGFloat)gd;
 
-// private:
+/** @} */
+
+/** @name Private:
+ @brief Private methods.
+ @{
+ */
 
 /** @brief When the scale crosses the span threshold, the cache is invalidated and the span cycle adjusted
 
@@ -339,15 +366,21 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 - (void)createGridCacheInRect:(NSRect)r;
 - (void)drawBorderOutline:(DKDrawingView*)aView;
 
-// user actions
+/** @} */
+
+/** @name user actions
+ @{
+ */
 
 /** @brief Set the grid to one ofthe default grids
 
- [sender tag] is interpreted as a measurement system value; restores either the metric or imperial
+ <code>[sender tag]</code> is interpreted as a measurement system value; restores either the metric or imperial
  defaults. Not super-useful, but handy for quickly exploring alternative grids.
  @param sender the sender of the action
  */
 - (IBAction)setMeasurementSystemAction:(nullable id)sender;
+
+/** @} */
 
 @end
 
