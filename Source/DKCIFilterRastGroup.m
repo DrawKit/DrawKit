@@ -106,14 +106,13 @@
 
 	} else {
 		NSImage* image = [[NSImage alloc] initWithSize:imgRect.size];
-		[image setFlipped:YES];
 
 		NSAffineTransform* tfm = [NSAffineTransform transform];
 		[tfm translateXBy:extra.width - br.origin.x
 					  yBy:extra.height - br.origin.y];
 		//[tfm scaleXBy:1.0 yBy:-1.0];
 
-		[image lockFocus];
+		[image lockFocusFlipped:YES];
 		[tfm set];
 
 		DKClippingOption saveClipping = [self clipping];
@@ -136,11 +135,11 @@
 		case kDKClippingNone:
 			break;
 
-		case kDKClipInsidePath:
+		case kDKClippingInsidePath:
 			[path addClip];
 			break;
 
-		case kDKClipOutsidePath:
+		case kDKClippingOutsidePath:
 			[path addInverseClip];
 			break;
 		}

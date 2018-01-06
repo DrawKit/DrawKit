@@ -1032,8 +1032,6 @@ static BOOL sSubstitute = NO;
 	if (r.size.height < 10)
 		r.size.height = 10;
 
-	[image setFlipped:YES];
-
 	if (type == kDKStyleSwatchAutomatic) {
 		if ([self hasFill] || [self hasTextAttributes] || [self hasHatch] || [self countOfRenderList] == 0)
 			type = kDKStyleSwatchRectanglePath;
@@ -1064,7 +1062,7 @@ static BOOL sSubstitute = NO;
 	DKDrawableShape* od = [DKDrawableShape drawableShapeWithBezierPath:path
 															 withStyle:self];
 
-	[image lockFocus];
+	[image lockFocusFlipped:YES];
 
 	//[[NSColor clearColor] set];
 	//NSRectFill( br );

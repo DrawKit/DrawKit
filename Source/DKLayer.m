@@ -631,6 +631,11 @@ static NSArray* s_selectionColours = nil;
 	return [self locked] || ![self visible];
 }
 
++ (NSSet<NSString *> *)keyPathsForValuesAffectingLockedOrHidden
+{
+	return [NSSet setWithObjects:@"locked", @"visible", nil];
+}
+
 @synthesize uniqueKey=mLayerUniqueKey;
 
 #pragma mark -

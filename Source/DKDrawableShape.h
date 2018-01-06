@@ -116,11 +116,6 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
 
 // geometry:
 
-- (NSAffineTransform*)transform;
-- (NSAffineTransform*)transformIncludingParent;
-- (NSAffineTransform*)inverseTransform;
-- (NSPoint)locationIgnoringOffset;
-
 @property (readonly, copy) NSAffineTransform *transform;
 @property (readonly, copy) NSAffineTransform *transformIncludingParent;
 @property (readonly, copy) NSAffineTransform *inverseTransform;
@@ -137,13 +132,9 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
 - (void)resetBoundingBoxAndRotation;
 - (void)adjustToFitGrid:(DKGridLayer*)grid;
 
-- (BOOL)allowSizeKnobsToRotateShape;
 @property (readonly) BOOL allowSizeKnobsToRotateShape;
 
 // operation modes:
-
-- (void)setOperationMode:(DKShapeTransformOperation)mode;
-- (DKShapeTransformOperation)operationMode;
 
 @property (nonatomic) DKShapeTransformOperation operationMode;
 
@@ -167,7 +158,7 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
 // convert to editable path:
 
 - (DKDrawablePath*)makePath;
-- (NSArray*)breakApart;
+- (NSArray<DKDrawableShape*>*)breakApart;
 
 // user actions:
 

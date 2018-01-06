@@ -44,8 +44,6 @@
 	pt.x -= size.width / 2;
 	pt.y += size.height / 2;
 
-	[swatchImage setFlipped:NO];
-
 	[[NSCursor currentCursor] push];
 	[[NSCursor closedHandCursor] set];
 

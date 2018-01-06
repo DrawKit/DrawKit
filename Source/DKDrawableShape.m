@@ -2375,15 +2375,7 @@ static NSSize sTempSavedOffset;
 	}
 }
 
-/** @brief Returns the shape's current height and width
-
- Value returned is not reliable if the shape is grouped
- @return the shape's size
- */
-- (NSSize)size
-{
-	return m_scale;
-}
+@synthesize size=m_scale;
 
 - (NSAffineTransform*)transform
 {

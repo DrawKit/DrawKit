@@ -1283,7 +1283,6 @@ enum {
 
 	// set the image the other way up and make it a bit transparent
 
-	[image setFlipped:NO];
 	[image lockFocus];
 	[image drawAtPoint:NSZeroPoint
 			  fromRect:NSZeroRect
