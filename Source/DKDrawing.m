@@ -103,7 +103,13 @@ static id sDearchivingHelper = nil;
  */
 + (NSUInteger)drawkitVersion
 {
-	return 0x0108;
+#if DKDRAWKIT_MINOR > 0x0F
+#warning DKDRAWKIT_MINOR won't fit into drawkitVersion!
+#endif
+#if DKDRAWKIT_PATCH > 0x0F
+#warning DKDRAWKIT_PATCH won't fit into drawkitVersion!
+#endif
+	return DKDRAWKIT_MAJOR << 8 | (DKDRAWKIT_MINOR & 0x0F) << 4 | (DKDRAWKIT_PATCH & 0x0F);
 }
 
 /** @brief Return the current release status of the framework
@@ -111,7 +117,7 @@ static id sDearchivingHelper = nil;
  */
 + (NSString*)drawkitReleaseStatus
 {
-	return @"beta";
+	return @DKDRAWKIT_RELEASE;
 }
 
 /** @brief Return the current version number and release status as a preformatted string
@@ -126,11 +132,15 @@ static id sDearchivingHelper = nil;
 
 	NSString* status = [self drawkitReleaseStatus];
 
-	if ([status isEqualToString:@"beta"])
+	if ([status isEqualToString:@"beta"]) {
 		s = 0x03B2; // Greek beta symbol
-	else if ([status isEqualToString:@"alpha"])
+	} else if ([status isEqualToString:@"alpha"]) {
 		s = 0x03B1; // Greek alpha symbol
+	}
 
+	if (s == 0) {
+		return [NSString stringWithFormat:@"%ld.%ld.%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, (long)(v & 0x0F)];
+	}
 	return [NSString stringWithFormat:@"%ld.%ld.%C%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)(v & 0x0F)];
 }
 
