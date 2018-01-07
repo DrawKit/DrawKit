@@ -28,7 +28,7 @@
 
 	DKQuartzCache* cache = [[self alloc] initWithContext:[NSGraphicsContext currentContext]
 												 forRect:NSMakeRect(0, 0, [image size].width, [image size].height)];
-	[cache setFlipped:[image isFlipped]];
+	[cache setFlipped:NO];
 	[cache lockFocus];
 	[image drawAtPoint:NSZeroPoint
 			  fromRect:NSZeroRect
@@ -89,6 +89,11 @@
 
 @synthesize flipped=mFlipped;
 
+- (BOOL)flipped
+{
+	return [self isFlipped];
+}
+
 - (void)drawAtPoint:(NSPoint)point
 {
 	[self drawAtPoint:point
@@ -114,7 +119,7 @@
 
 - (void)lockFocus
 {
-	[self lockFocusFlipped:[self flipped]];
+	[self lockFocusFlipped:self.isFlipped];
 }
 
 - (void)lockFocusFlipped:(BOOL)flip
