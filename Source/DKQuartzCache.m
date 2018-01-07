@@ -114,13 +114,16 @@
 
 - (void)lockFocus
 {
-	// bracket drawing calls to establish what is cached by -lockFocus and -unlockFocus. The drawing must be done at {0,0}
+	[self lockFocusFlipped:[self flipped]];
+}
 
+- (void)lockFocusFlipped:(BOOL)flip
+{
 	NSAssert(mFocusLocked == NO, @"lockFocus called while already locked");
 
 	[NSGraphicsContext saveGraphicsState];
 	NSGraphicsContext* newContext = [NSGraphicsContext graphicsContextWithGraphicsPort:[self context]
-																			   flipped:[self flipped]];
+																			   flipped:flip];
 	[NSGraphicsContext setCurrentContext:newContext];
 
 	NSAffineTransform* transform = [NSAffineTransform transform];

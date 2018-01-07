@@ -214,11 +214,20 @@ NS_ASSUME_NONNULL_BEGIN
  @name setting the rulers to the grid
  @{ */
 
+/** @brief Sets the units and basic coordinate mapping factor
+ @param units a string which is the drawing units of the drawing, e.g. "millimetres"
+ @param conversionFactor how many Quartz points per basic unit?
+ */
 - (void)setDrawingUnits:(DKDrawingUnits)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
 /** @brief Returns the full name of the drawing's units
  @return a string
  */
 @property (readonly, copy) DKDrawingUnits drawingUnits;
+/** @brief Returns the abbreviation of the drawing's units
+ 
+ For those it knows about, it does a lookup. For unknown units, it uses the first two characters
+ and makes them lower case. The delegate can also elect to supply this string if it prefers.
+ */
 @property (readonly, copy) NSString *abbreviatedDrawingUnits;
 /** @brief Returns the number of Quartz units per basic drawing unit
  @return the conversion value

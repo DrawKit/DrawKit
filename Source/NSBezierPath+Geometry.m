@@ -26,10 +26,25 @@ static void ConvertPathApplierFunction(void* info, const CGPathElement* element)
 static CGFloat lengthOfBezier(const NSPoint bez[4], CGFloat acceptableError);
 static inline CGFloat distanceBetween(NSPoint a, NSPoint b);
 
-static void InterpolatePoints(const NSPoint* pointsIn, NSPoint* cp1, NSPoint* cp2, const CGFloat smooth_value);
-static NSPoint CornerPoint(const NSPoint* pointsIn, CGFloat offset, CGFloat miterLimit);
-static BOOL CornerArc(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* newPath);
-static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* newPath);
+/** given the vertices of the path v0..v2, this calculates \c cp1 and \c cp2 being the control points for the curve segments v0..v1 and v1..v2. i.e. this
+ calculates only half of the control points, but does so for two segments. The caller needs to accumulate \c cp1 until it has \c cp2 for the same segment
+ before it can add the curve segment.
+ */
+static void InterpolatePoints(const NSPoint pointsIn[3], NSPoint* cp1, NSPoint* cp2, const CGFloat smooth_value);
+/** given 3 points in <code>pointsIn</code>, this returns the point that bisects the angle between the vertices, and is extended to intercept the \c offset
+ parallel up to <code>miterLimit</code>. This is used to compute the correct location of a vertex for a parallel offset path.
+ for zero offset, result is simply second point.
+ The three points are three consecutive vertices from the original path.
+ */
+static NSPoint CornerPoint(const NSPoint pointsIn[3], CGFloat offset, CGFloat miterLimit);
+/** Returns an arc segment that is centred at the middle vertex having a radius of \c offset and a start point and end point such that the offset normals to the original
+ edges are joined by the arc. If the vertex is an inside bend, returns \c nil in which case the \c CornerPoint should be used.
+ */
+static BOOL CornerArc(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath* newPath);
+/** Appends a bevel segment that is centred at the middle vertex having a radius of \c offset and a start point and end point such that the offset normals to the original
+ edges are joined by the arc. If the vertex is an inside bend, returns \c nil in which case the \c CornerPoint should be used.
+ */
+static BOOL CornerBevel(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath* newPath);
 
 @interface NSBezierPath (Geometry_Private)
 - (NSBezierPath*)paralleloidPathWithOffset3:(CGFloat)delta lineJoinStyle:(NSLineJoinStyle)js;
@@ -42,8 +57,6 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 - (NSBezierPath*)scaledPath:(CGFloat)scale
 {
-	// returns a copy of the receiver scaled by <scale>, with the path's origin assumed to be at the centre of its bounds rect.
-
 	NSPoint cp = [self centreOfBounds];
 	return [self scaledPath:scale
 				 aboutPoint:cp];
@@ -51,8 +64,6 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 - (NSBezierPath*)scaledPath:(CGFloat)scale aboutPoint:(NSPoint)cp
 {
-	// This is like an inset or an outset operation. If scale is 1.0, self is returned.
-
 	if (scale == 1.0)
 		return self;
 	else {
@@ -74,18 +85,12 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 - (NSBezierPath*)rotatedPath:(CGFloat)angle
 {
-	// return a rotated copy of the receiver. The origin is taken as the centre of the path bounds.
-	// angle is a value in radians
-
 	return [self rotatedPath:angle
 				  aboutPoint:[self centreOfBounds]];
 }
 
 - (NSBezierPath*)rotatedPath:(CGFloat)angle aboutPoint:(NSPoint)cp
 {
-	// return a rotated copy of the receiver. The origin is taken as point <cp> relative to the original path.
-	// angle is a value in radians
-
 	if (angle == 0.0)
 		return self;
 	else {
@@ -100,15 +105,6 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 - (NSBezierPath*)insetPathBy:(CGFloat)amount
 {
-	// returns a scaled copy of the receiver, calculating the scale by adding <amount> to all edges of the bounds.
-	// since this can scale differently in x and y directions, this doesn't call the scale function but works
-	// very similarly.
-
-	// note that due to the mathematics of bezier curves, this may not produce exactly perfect results for some
-	// curves.
-
-	// +ve values of <amount> inset (shrink) the path, -ve values outset (grow) the shape.
-
 	if (amount == 0.0)
 		return self;
 	else {
@@ -187,10 +183,6 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 - (CGFloat)minimumCornerAngle
 {
-	// returns the smallest angle subtended by any segment join in the path. The largest value this can be is pi (180 degrees), the smallest is 0. The
-	// resultis in radians. Can be used to determine the necessary bounding rect of the path for a given stroke width and miter limit. For curve
-	// elements, the curvature is ignored and the element treated as a line segment.
-
 	CGFloat v, a = M_PI;
 	NSInteger i, m = [self elementCount] - 1;
 	NSBezierPathElement element, nextElement;
@@ -258,10 +250,6 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 
 - (NSBezierPath*)bezierPathByIteratingWithDelegate:(id)delegate contextInfo:(void*)contextInfo
 {
-	// this method allows a delegate to use the info from the receiver to build a new path element by element. This is a generic method that is intended to
-	// avoid the need to write these loops over and over. The delegate is passed the points of each element in an order that is easier to work with than
-	// the native list and also always includes the last point in a subpath.
-
 	NSAssert(delegate != nil, @"cannot operate with a nil delegate");
 
 	if (![delegate respondsToSelector:@selector(path:
@@ -346,11 +334,6 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 #pragma mark -
 - (NSBezierPath*)paralleloidPathWithOffset:(CGFloat)delta
 {
-	// returns a copy of the receiver modified by offsetting all of its control points by <delta> in the direction of the
-	// normal of the path at the location of the on-path control point. This will create a parallel-ish offset path that works
-	// for most non-pathological paths. Given that there is no known mathematically correct way to do this (for bezier curves), this works well enough in
-	// many practical situations. Positive delta moves the path below or to the right, -ve is up and left.
-
 	NSBezierPath* newPath = [NSBezierPath bezierPath];
 
 	if (![self isEmpty]) {
@@ -443,13 +426,8 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 	return newPath;
 }
 
-static NSPoint CornerPoint(const NSPoint* pointsIn, CGFloat offset, CGFloat miterLimit)
+static NSPoint CornerPoint(const NSPoint pointsIn[3], CGFloat offset, CGFloat miterLimit)
 {
-	// given 3 points in pointsIn, this returns the point that bisects the angle between the vertices, and is extended to intercept the <offset>
-	// parallel up to <miterLimit>. This is used to compute the correct location of a vertex for a parallel offset path.
-	// for zero offset, result is simply second point.
-	// The three points are three consecutive vertices from the original path.
-
 	if (offset == 0.0)
 		return pointsIn[1];
 
@@ -477,11 +455,8 @@ static NSPoint CornerPoint(const NSPoint* pointsIn, CGFloat offset, CGFloat mite
 	return rp;
 }
 
-static BOOL CornerArc(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* newPath)
+static BOOL CornerArc(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath* newPath)
 {
-	// returns an arc segment that is centred at the middle vertex having a radius of <offset> and a start point and end point such that the offset normals to the original
-	// edges are joined by the arc. If the vertex is an inside bend, returns nil in which case the CornerPoint should be used.
-
 	if (offset == 0.0)
 		return NO;
 
@@ -517,11 +492,8 @@ static BOOL CornerArc(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* new
 	return YES;
 }
 
-static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* newPath)
+static BOOL CornerBevel(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath* newPath)
 {
-	// appends a bevel segment that is centred at the middle vertex having a radius of <offset> and a start point and end point such that the offset normals to the original
-	// edges are joined by the arc. If the vertex is an inside bend, returns nil in which case the CornerPoint should be used.
-
 	if (offset == 0.0)
 		return NO;
 
@@ -969,12 +941,8 @@ static BOOL CornerBevel(const NSPoint* pointsIn, CGFloat offset, NSBezierPath* n
 	return newPath;
 }
 
-static void InterpolatePoints(const NSPoint* v, NSPoint* cp1, NSPoint* cp2, const CGFloat smooth_value)
+static void InterpolatePoints(const NSPoint v[3], NSPoint* cp1, NSPoint* cp2, const CGFloat smooth_value)
 {
-	// given the vertices of the path v0..v2, this calculates cp1 and cp2 being the control points for the curve segments v0..v1 and v1..v2. i.e. this
-	// calculates only half of the control points, but does so for two segments. The caller needs to accumulate cp1 until it has cp2 for the same segment
-	// before it can add the curve segment.
-
 	// calculate the midpoints of the two edges
 
 	CGFloat xc1 = (v[0].x + v[1].x) * 0.5; //(x0 + x1) / 2.0;
@@ -2151,8 +2119,6 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 							   withMaximumError:DEFAULT_TRIM_EPSILON];
 }
 
-/* Return an NSBezierPath corresponding to the part *after* the first
-   trimLength units of this NSBezierPath. */
 - (NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)trimLength withMaximumError:(CGFloat)maxError
 {
 	if (trimLength <= 0)
@@ -2247,8 +2213,6 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 
 - (NSBezierPath*)bezierPathByTrimmingFromBothEnds:(CGFloat)trimLength withMaximumError:(CGFloat)maxError
 {
-	// trims <trimLength> from both ends of the path, returning the shortened centre section
-
 	CGFloat rlen = [self length] - (trimLength * 2.0);
 	return [self bezierPathByTrimmingFromLength:trimLength
 									   toLength:rlen
@@ -2263,9 +2227,6 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 
 - (NSBezierPath*)bezierPathByTrimmingFromCentre:(CGFloat)trimLength withMaximumError:(CGFloat)maxError
 {
-	// removes a section <trimLength> long from the centre of the path. The returned path thus consists of two
-	// subpaths with a gap between them.
-
 	CGFloat centre = [self length] * 0.5;
 
 	NSBezierPath* temp1 = [self bezierPathByTrimmingToLength:centre - (trimLength * 0.5)
@@ -2287,9 +2248,6 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 
 - (NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)startLength toLength:(CGFloat)newLength withMaximumError:(CGFloat)maxError
 {
-	// returns a new path which is <newLength> long, starting at <startLength> on the receiver's path. If <newLength> exceeds the available length, the
-	// remainder of the path is returned. If <startLength> exceeds the length, returns nil.
-
 	NSBezierPath* temp = [self bezierPathByTrimmingFromLength:startLength
 											 withMaximumError:maxError];
 	return [temp bezierPathByTrimmingToLength:newLength
@@ -2298,8 +2256,6 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 
 #pragma mark -
 #pragma mark Arrow head utilities
-
-// Create an NSBezierPath containing an arrowhead for the start of this path
 
 - (NSBezierPath*)bezierPathWithArrowHeadForStartOfLength:(CGFloat)length angle:(CGFloat)angle closingPath:(BOOL)closeit
 {
@@ -2337,7 +2293,6 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 	return leftSide;
 }
 
-// Convenience function for obtaining arrow for the other end
 - (NSBezierPath*)bezierPathWithArrowHeadForEndOfLength:(CGFloat)length angle:(CGFloat)angle closingPath:(BOOL)closeit
 {
 	return [[self bezierPathByReversingPath] bezierPathWithArrowHeadForStartOfLength:length
@@ -2346,9 +2301,6 @@ static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
 }
 
 #pragma mark -
-/* Append a Bezier path, but if it starts with a -moveToPoint, then remove
-   it.  This is useful when manipulating trimmed path segments. */
-
 - (void)appendBezierPathRemovingInitialMoveToPoint:(NSBezierPath*)path
 {
 	NSInteger elements = [path elementCount];

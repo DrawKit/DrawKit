@@ -14,10 +14,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 // simple transformations
 
+/** @brief Returns a copy of the receiver scaled by <code>scale</code>, with the path's origin assumed to be at the centre of its bounds rect.
+ */
 - (NSBezierPath*)scaledPath:(CGFloat)scale;
+/** @brief Returns a copy of the receiver scaled by <code>scale</code>, with the path's origin at <code>cp</code>
+ 
+ This is like an inset or an outset operation. If scale is 1.0, self is returned.
+ */
 - (NSBezierPath*)scaledPath:(CGFloat)scale aboutPoint:(NSPoint)cp;
+/** Return a rotated copy of the receiver. The origin is taken as the centre of the path bounds.
+ \c angle is a value in radians.
+ @param angle The angle, in radians.
+ */
 - (NSBezierPath*)rotatedPath:(CGFloat)angle;
+/** return a rotated copy of the receiver. The origin is taken as point \c cp relative to the original path.
+ \c angle is a value in radians
+ */
 - (NSBezierPath*)rotatedPath:(CGFloat)angle aboutPoint:(NSPoint)cp;
+/** @Brief Returns a scaled copy of the receiver, calculating the scale by adding \c amount to all edges of the bounds.
+ 
+ @discussion Since this can scale differently in \a x and \a y directions, this doesn't call the scale function but works
+ very similarly.
+
+ Note that due to the mathematics of bezier curves, this may not produce exactly perfect results for some
+ curves.
+
+ Positive values of \c amount inset (shrink) the path, negative values outset (grow) the shape.
+ */
 - (NSBezierPath*)insetPathBy:(CGFloat)amount;
 - (NSBezierPath*)horizontallyFlippedPathAboutPoint:(NSPoint)cp;
 - (NSBezierPath*)verticallyFlippedPathAboutPoint:(NSPoint)cp;
@@ -25,12 +48,32 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, copy) NSBezierPath *verticallyFlippedPath;
 
 @property (readonly) NSPoint centreOfBounds;
+/** @brief returns the smallest angle subtended by any segment join in the path.
+ 
+ @discussion The largest value this can be is \a pi (180 degrees), the smallest is 0. The
+ result is in radians. Can be used to determine the necessary bounding rect of the path for a given stroke width and miter limit. For curve
+ elements, the curvature is ignored and the element treated as a line segment.
+ */
 @property (readonly) CGFloat minimumCornerAngle;
 
 // iterating over a path using a iteration delegate:
 
+/** @brief Allows a delegate to use the info to build a new path element by element.
+ 
+ @discussion This method allows a delegate to use the info from the receiver to build a new path element by element. This is a generic method that is intended to
+ avoid the need to write these loops over and over. The delegate is passed the points of each element in an order that is easier to work with than
+ the native list and also always includes the last point in a subpath.
+ */
 - (nullable NSBezierPath*)bezierPathByIteratingWithDelegate:(id<DKBezierElementIterationDelegate>)delegate contextInfo:(nullable void*)contextInfo;
 
+/** @brief returns a copy of the receiver modified by offsetting all of its control points by \c delta in the direction of the
+ normal of the path at the location of the on-path control point.
+ 
+ Returns a copy of the receiver modified by offsetting all of its control points by \c delta in the direction of the
+ normal of the path at the location of the on-path control point. This will create a parallel-ish offset path that works
+ for most non-pathological paths. Given that there is no known mathematically correct way to do this (for bezier curves), this works well enough in
+ many practical situations. Positive delta moves the path below or to the right, negative is up and left.
+ */
 - (NSBezierPath*)paralleloidPathWithOffset:(CGFloat)delta;
 - (NSBezierPath*)paralleloidPathWithOffset2:(CGFloat)delta;
 - (NSBezierPath*)paralleloidPathWithOffset22:(CGFloat)delta;
@@ -91,6 +134,8 @@ NS_ASSUME_NONNULL_BEGIN
 // path trimming
 
 @property (readonly) CGFloat length;
+/** @brief Estimate the total length of a bezier path
+ */
 - (CGFloat)lengthWithMaximumError:(CGFloat)maxError;
 - (CGFloat)lengthOfElement:(NSInteger)i;
 - (CGFloat)lengthOfPathFromElement:(NSInteger)startElement toElement:(NSInteger)endElement;
@@ -100,29 +145,61 @@ NS_ASSUME_NONNULL_BEGIN
 
 // trimming utilities - modified source originally from A J Houghton, see copyright notice below
 
+/** @brief Return an \c NSBezierPath corresponding to the first \c trimLength units
+ of this NSBezierPath. */
 - (NSBezierPath*)bezierPathByTrimmingToLength:(CGFloat)trimLength;
+/** @brief Return an \c NSBezierPath corresponding to the first \c trimLength units
+ of this NSBezierPath. */
 - (NSBezierPath*)bezierPathByTrimmingToLength:(CGFloat)trimLength withMaximumError:(CGFloat)maxError;
 
+/* @brief Return an \c NSBezierPath corresponding to the part \b after the first
+ \c trimLength units of this NSBezierPath. */
 - (NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)trimLength;
+/* @brief Return an \c NSBezierPath corresponding to the part \b after the first
+ \c trimLength units of this NSBezierPath. */
 - (NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)trimLength withMaximumError:(CGFloat)maxError;
 
+/** @brief Trims \c trimLength from both ends of the path, returning the shortened centre section.
+ */
 - (NSBezierPath*)bezierPathByTrimmingFromBothEnds:(CGFloat)trimLength;
+/** @brief Trims \c trimLength from both ends of the path, returning the shortened centre section.
+ */
 - (NSBezierPath*)bezierPathByTrimmingFromBothEnds:(CGFloat)trimLength withMaximumError:(CGFloat)maxError;
 
+/** @brief Removes a section \c trimLength long from the centre of the path. The returned path thus consists of two
+ subpaths with a gap between them.
+ */
 - (NSBezierPath*)bezierPathByTrimmingFromCentre:(CGFloat)trimLength;
+/** @brief Removes a section \c trimLength long from the centre of the path. The returned path thus consists of two
+ subpaths with a gap between them.
+ */
 - (NSBezierPath*)bezierPathByTrimmingFromCentre:(CGFloat)trimLength withMaximumError:(CGFloat)maxError;
 
-- (NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)startLength toLength:(CGFloat)newLength;
-- (NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)startLength toLength:(CGFloat)newLength withMaximumError:(CGFloat)maxError;
+/** @brief Returns a new path which is \c newLength long, starting at \c startLength on the receiver's path. If \c newLength exceeds the available length, the
+ remainder of the path is returned. If \c startLength exceeds the length, returns <code>nil</code>.
+ */
+- (nullable NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)startLength toLength:(CGFloat)newLength;
+/** @brief Returns a new path which is \c newLength long, starting at \c startLength on the receiver's path. If \c newLength exceeds the available length, the
+ remainder of the path is returned. If \c startLength exceeds the length, returns <code>nil</code>.
+ */
+- (nullable NSBezierPath*)bezierPathByTrimmingFromLength:(CGFloat)startLength toLength:(CGFloat)newLength withMaximumError:(CGFloat)maxError;
 
+/** @brief Create an \c NSBezierPath containing an arrowhead for the start of this path
+ */
 - (NSBezierPath*)bezierPathWithArrowHeadForStartOfLength:(CGFloat)length angle:(CGFloat)angle closingPath:(BOOL)closeit;
+/** @brief  Convenience method for obtaining arrow for the other end.
+ */
 - (NSBezierPath*)bezierPathWithArrowHeadForEndOfLength:(CGFloat)length angle:(CGFloat)angle closingPath:(BOOL)closeit;
 
+/** @brief Append a Bezier path, but if it starts with a <code>-moveToPoint</code>, then remove
+ it.
+ 
+ @discussion This is useful when manipulating trimmed path segments. */
 - (void)appendBezierPathRemovingInitialMoveToPoint:(NSBezierPath*)path;
 
 @end
 
-/** @brief informal protocol for iterating over the elements in a bezier path using bezierPathByIteratingWithDelegate:contextInfo:
+/** @brief Protocol for iterating over the elements in a bezier path using \c bezierPathByIteratingWithDelegate:contextInfo:
  */
 @protocol DKBezierElementIterationDelegate <NSObject>
 
@@ -138,7 +215,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)path:(NSBezierPath*)path // the new path that the delegate can build or modify from the information given
 	 elementIndex:(NSInteger)element // the element index
 			 type:(NSBezierPathElement)type // the element type
-		   points:(NSPoint*)p // list of associated points 0 = next point, 1 = cp1, 2 = cp2 (for curves), 3 = last point on subpath
+	  points:(NSPoint[_Nonnull 4])p // list of associated points 0 = next point, 1 = cp1, 2 = cp2 (for curves), 3 = last point on subpath
 	 subPathIndex:(NSInteger)spi // which subpath this is
 	subPathClosed:(BOOL)spClosed // is the subpath closed?
  contextInfo:(nullable void*)contextInfo; // the context info

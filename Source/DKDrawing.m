@@ -581,13 +581,6 @@ static id sDearchivingHelper = nil;
 	return pin;
 }
 
-/** @brief Sets whether the Y axis of the drawing is flipped
-
- Drawings are typically flipped, YES is the default. This affects the -isFlipped return from a
- DKDrawingView. WARNING: drawings with flip set to NO may have issues at present as some lower level
- code is currently assuming a flipped view.
- @param flipped YES to have increase Y going down, NO for increasing Y going up
- */
 - (void)setFlipped:(BOOL)flipped
 {
 	if (flipped != mFlipped) {
@@ -602,10 +595,6 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 #pragma mark - setting the rulers to the grid
 
-/** @brief Sets the units and basic coordinate mapping factor
- @param units a string which is the drawing units of the drawing, e.g. "millimetres"
- @param conversionFactor how many Quartz points per basic unit?
- */
 - (void)setDrawingUnits:(NSString*)units unitToPointsConversionFactor:(CGFloat)conversionFactor
 {
 	NSAssert(units != nil, @"cannot set drawing units to nil");
@@ -628,12 +617,6 @@ static id sDearchivingHelper = nil;
 
 @synthesize drawingUnits=m_units;
 
-/** @brief Returns the abbreviation of the drawing's units
-
- For those it knows about, it does a lookup. For unknown units, it uses the first two characters
- and makes them lower case. The delegate can also elect to supply this string if it prefers.
- @return a string
- */
 - (NSString*)abbreviatedDrawingUnits
 {
 	NSString* abbrev = nil;
