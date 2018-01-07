@@ -91,7 +91,11 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	[pdfRep drawInRect:destRect];
 
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
-		CGImageRef image = CGBitmapContextCreateImage([context graphicsPort]);
+		CGImageRef image = [bmRep CGImage];
+	if (image) {
+		return image;
+	}
+	image = CGBitmapContextCreateImage([context graphicsPort]);
 
 	return (CGImageRef)CFAutorelease(image);
 }
