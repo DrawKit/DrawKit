@@ -127,7 +127,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	NSNumber* value = [props objectForKey:NSImageCompressionFactor];
 	if (value == nil)
-		value = @0.67;
+		value = @0.67f;
 
 	[options setObject:value
 				forKey:(NSString*)kCGImageDestinationLossyCompressionQuality];

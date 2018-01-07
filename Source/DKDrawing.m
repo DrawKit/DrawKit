@@ -117,7 +117,20 @@ static id sDearchivingHelper = nil;
  */
 + (NSString*)drawkitReleaseStatus
 {
-	return @DKDRAWKIT_RELEASE;
+#ifndef DKDRAWKIT_RELEASE
+	return @"alpha";
+#elif DKDRAWKIT_RELEASE == 1
+	return @"alpha";
+#elif DKDRAWKIT_RELEASE == 2
+	return @"beta";
+#elif DKDRAWKIT_RELEASE == 3
+	return @"release candidate";
+#elif DKDRAWKIT_RELEASE == 4
+	return nil;
+#else
+#error unknown DKDRAWKIT_RELEASE type! Valid values are 1, 2, 3, and 4.
+	return nil;
+#endif
 }
 
 /** @brief Return the current version number and release status as a preformatted string
@@ -139,9 +152,9 @@ static id sDearchivingHelper = nil;
 	}
 
 	if (s == 0) {
-		return [NSString stringWithFormat:@"%ld.%ld.%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, (long)(v & 0x0F)];
+		return [NSString stringWithFormat:@"%ld.%ld.%ld", (long)((v & 0xFF00) >> 8), (long)((v & 0xF0) >> 4), (long)(v & 0x0F)];
 	}
-	return [NSString stringWithFormat:@"%ld.%ld.%C%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)(v & 0x0F)];
+	return [NSString stringWithFormat:@"%ld.%ld.%C%ld", (long)((v & 0xFF00) >> 8), (long)((v & 0xF0) >> 4), s, (long)(v & 0x0F)];
 }
 
 #pragma mark -
