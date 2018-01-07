@@ -201,13 +201,6 @@ static Class s_textEditorClass = Nil;
 
 @synthesize controller=mControllerRef;
 
-/** @brief Sea new controller for this view
-
- This is a convenience that allows a controller to be simply instantiated and passed in, replacing
- the existing controller. Note that -setController: does NOT achieve that. The drawing must
- already exist for this to work.
- @param newController the new controller
- */
 - (void)replaceControllerWithController:(DKViewController*)newController
 {
 	NSAssert([self drawing] != nil, @"cannot replace the controller as there is no drawing yet");
@@ -280,14 +273,6 @@ static Class s_textEditorClass = Nil;
 	NSAssert([mAutoDrawing undoManager] != nil, @"note - automatic drawing was created before an undo manager was available. Check your code!");
 }
 
-/** @brief Creates a controller for this view that can be added to a drawing
-
- Normally you wouldn't call this yourself unless you are building the entire DK system by hand rather
- than using DKDrawDocument or automatic drawing creation. You can override it to create different
- kinds of controller however. Th edefault controller is DKToolController so that DK provides you
- with a set of working drawing tools by default.
- @return a controller, an instance of DKViewController or one of its subclasses
- */
 - (DKViewController*)makeViewController
 {
 	DKToolController* aController = [[DKToolController alloc] initWithView:self];

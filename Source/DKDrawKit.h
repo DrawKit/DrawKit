@@ -6,6 +6,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+//! Project version number for DKDrawKit.
+FOUNDATION_EXPORT double DKDrawKitVersionNumber;
+
+//! Project version string for DKDrawKit.
+FOUNDATION_EXPORT const unsigned char DKDrawKitVersionString[];
+
 #import "DKDrawingView.h"
 #import "DKSelectionPDFView.h"
 #import "DKToolController.h"

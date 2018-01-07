@@ -90,10 +90,9 @@ static id sDearchivingHelper = nil;
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSMutableDictionary *newDefs = [NSMutableDictionary dictionaryWithCapacity:3];
-		newDefs[kDKDrawingSnapToGridUserDefault] = @NO;
-		newDefs[kDKDrawingSnapToGuidesUserDefault] = @NO;
-		newDefs[kDKDrawingUnitAbbreviationsUserDefault] = @NO;
+		NSDictionary *newDefs = @{kDKDrawingSnapToGridUserDefault: @NO,
+								  kDKDrawingSnapToGuidesUserDefault: @NO,
+								  kDKDrawingUnitAbbreviationsUserDefault: @NO};
 
 		[[NSUserDefaults standardUserDefaults] registerDefaults:newDefs];
 	});
@@ -104,7 +103,7 @@ static id sDearchivingHelper = nil;
  */
 + (NSUInteger)drawkitVersion
 {
-	return 0x0107;
+	return 0x0108;
 }
 
 /** @brief Return the current release status of the framework
@@ -128,9 +127,9 @@ static id sDearchivingHelper = nil;
 	NSString* status = [self drawkitReleaseStatus];
 
 	if ([status isEqualToString:@"beta"])
-		s = 0x03B2;
+		s = 0x03B2; // Greek beta symbol
 	else if ([status isEqualToString:@"alpha"])
-		s = 0x03B1;
+		s = 0x03B1; // Greek alpha symbol
 
 	return [NSString stringWithFormat:@"%ld.%ld.%C%ld", (long)(v & 0xFF00) >> 8, (long)(v & 0xF0) >> 4, s, (long)(v & 0x0F)];
 }

@@ -6,6 +6,8 @@
 
 #import "GCZoomView.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawing, DKLayer, DKViewController;
 
 typedef NSString *DKDrawingViewMarkerName NS_STRING_ENUM;
@@ -49,16 +51,16 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
 /** @brief Return the view currently drawing
 
- This is only valid during a drawRect: call - some internal parts of DK use this to obtain the
+ This is only valid during a \c drawRect: call - some internal parts of DK use this to obtain the
  view doing the drawing when they do not have a direct parameter to it.
  @return the current view that is drawing
  */
-+ (DKDrawingView*)currentlyDrawingView;
++ (nullable DKDrawingView*)currentlyDrawingView;
 + (void)pop;
 
 /** @brief Set the colour used to draw the page breaks
  */
-@property (class, retain /*, null_resettable*/) NSColor *pageBreakColour;
+@property (class, retain, null_resettable) NSColor *pageBreakColour;
 
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
  */
@@ -72,13 +74,13 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  @param name the image name
  @return the image, if available
  */
-+ (NSImage*)imageResourceNamed:(NSImageName)name;
++ (nullable NSImage*)imageResourceNamed:(NSImageName)name;
 
 /** @name Temporary Text Editor
  @brief Setting the class to use for the temporary text editor
  @{ */
 
-@property (class/*, null_resettable*/) Class classForTextEditor;
+@property (class, null_resettable) Class classForTextEditor;
 @property (class) BOOL textEditorAllowsTypingUndo;
 
 /** @} */
@@ -88,10 +90,10 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 /** @brief Creates a controller for this view that can be added to a drawing
 
  Normally you wouldn't call this yourself unless you are building the entire DK system by hand rather
- than using DKDrawDocument or automatic drawing creation. You can override it to create different
- kinds of controller however. Th edefault controller is DKToolController so that DK provides you
+ than using \c DKDrawDocument or automatic drawing creation. You can override it to create different
+ kinds of controller however. The default controller is \c DKToolController so that DK provides you
  with a set of working drawing tools by default.
- @return a controller, an instance of DKViewController or one of its subclasses
+ @return a controller, an instance of \c DKViewController or one of its subclasses.
  */
 - (DKViewController*)makeViewController;
 
@@ -102,10 +104,10 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 @property (weak) DKViewController *controller;
 
-/** @brief Sea new controller for this view
+/** @brief Set new controller for this view
 
  This is a convenience that allows a controller to be simply instantiated and passed in, replacing
- the existing controller. Note that -setController: does NOT achieve that. The drawing must
+ the existing controller. Note that using the \c controller setter does \b not achieve that. The drawing must
  already exist for this to work.
  @param newController the new controller
  */
@@ -115,12 +117,11 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
 /** @brief Return the drawing that the view will draw
 
- The drawing is obtained via the controller, and may be nil if the controller hasn't been added
+ The drawing is obtained via the controller, and may be \c nil if the controller hasn't been added
  to a drawing yet. Even when the view owns the drawing (for auto back-end) you should use this
  method to get a view's drawing.
- @return a drawing object
  */
-@property (readonly, strong) DKDrawing *drawing;
+@property (readonly, strong, nullable) DKDrawing *drawing;
 
 /** @brief Create an entire "back end" for the view
 
@@ -270,8 +271,8 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 /** @brief Show or hide the ruler.
  @param sender the action's sender
  */
-- (IBAction)toggleRuler:(id)sender;
-- (IBAction)toggleShowPageBreaks:(id)sender;
+- (IBAction)toggleRuler:(nullable id)sender;
+- (IBAction)toggleShowPageBreaks:(nullable id)sender;
 
 // window activations
 
@@ -310,3 +311,5 @@ extern DKDrawingViewMarkerName kDKDrawingViewHorizontalRightMarkerName;
 extern DKDrawingViewMarkerName kDKDrawingViewVerticalTopMarkerName;
 extern DKDrawingViewMarkerName kDKDrawingViewVerticalCentreMarkerName;
 extern DKDrawingViewMarkerName kDKDrawingViewVerticalBottomMarkerName;
+
+NS_ASSUME_NONNULL_END
