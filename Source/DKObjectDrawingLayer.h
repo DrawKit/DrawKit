@@ -264,6 +264,14 @@ selected state.
  @return YES if the selection changed, NO if it did not
  */
 - (BOOL)selectObjectsWithStyle:(DKStyle*)style;
+/** @brief Replaces the style of all objects that have a reference to \c style with <code>newStyle</code>, optionally selecting them.
+ 
+ The style is compared by key, so clones of the style are not considered a match
+ @param style The style to match.
+ @param newStyle The style to replace it with.
+ @param select If <code>YES</code>, also replace the selection with the affected objects.
+ @return \c YES if the selection changed, \c NO if it did not.
+ */
 - (BOOL)replaceStyle:(DKStyle*)style withStyle:(DKStyle*)newStyle selectingObjects:(BOOL)select;
 
 // useful selection tests:

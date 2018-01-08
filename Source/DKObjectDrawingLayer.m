@@ -799,14 +799,6 @@ enum {
 	return [self exchangeSelectionWithObjectsFromArray:[self objectsWithStyle:style]];
 }
 
-/** @brief Replaces the style of all objects that have a reference to <style> with <newStyle>, optionally selecting them
-
- The style is compared by key, so clones of the style are not considered a match
- @param style the style to match
- @param newStyle the style to replace it with
- @param selectObjects if YES, also replace the selection with the affected objects
- @return YES if the selection changed, NO if it did not
- */
 - (BOOL)replaceStyle:(DKStyle*)style withStyle:(DKStyle*)newStyle selectingObjects:(BOOL)selectObjects
 {
 	NSArray* matches = [self objectsWithStyle:style];
@@ -2188,15 +2180,15 @@ enum {
 
 				if (!drawSelected || [self drawsSelectionHighlightsOnTop]) {
 					
-					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
+					for (DKDrawableObject* obj in objectsToDraw) {
 						[obj drawContentWithSelectedState:NO];
-					}];
+					}
 					
 				} else {
 
-					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
+					for (DKDrawableObject* obj in objectsToDraw) {
 						[obj drawContentWithSelectedState:[self isSelectedObject:obj]];
-					}];
+					}
 
 				}
 

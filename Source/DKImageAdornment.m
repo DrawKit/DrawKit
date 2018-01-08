@@ -247,12 +247,12 @@
 
 		// draw the image
 		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-		[image setFlipped:YES];
 		[image drawInRect:destRect
 				 fromRect:NSZeroRect
 				operation:[self operation]
-				 fraction:[self opacity]];
-		[image setFlipped:NO];
+				 fraction:[self opacity]
+		   respectFlipped:YES
+					hints:nil];
 
 		// clean up
 
