@@ -62,63 +62,68 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	}
 }
 
-+ (NSString*)localizedDisplayNameForType:(DKMetadataType)type
++ (NSString*)nameForType:(DKMetadataType)type
 {
 	switch (type) {
-	case DKMetadataTypeString:
-		return NSLocalizedStringFromTableInBundle(@"String", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeInteger:
-		return NSLocalizedStringFromTableInBundle(@"Integer", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeReal:
-		return NSLocalizedStringFromTableInBundle(@"Real Number", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeUnsignedInt:
-		return NSLocalizedStringFromTableInBundle(@"Unsigned Integer", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeBoolean:
-		return NSLocalizedStringFromTableInBundle(@"Boolean", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeURL:
-		return NSLocalizedStringFromTableInBundle(@"URL", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeColour:
-		return NSLocalizedStringFromTableInBundle(@"Colour", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeData:
-		return NSLocalizedStringFromTableInBundle(@"Data", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeImageData:
-		return NSLocalizedStringFromTableInBundle(@"Image Data", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeDate:
-		return NSLocalizedStringFromTableInBundle(@"Date", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeImage:
-		return NSLocalizedStringFromTableInBundle(@"Image", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeAttributedString:
-		return NSLocalizedStringFromTableInBundle(@"Styled String", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeSize:
-		return NSLocalizedStringFromTableInBundle(@"Size", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypePoint:
-		return NSLocalizedStringFromTableInBundle(@"Point", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeRect:
-		return NSLocalizedStringFromTableInBundle(@"Rectangle", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataTypeUnknown:
-		return NSLocalizedStringFromTableInBundle(@"???", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	case DKMetadataMultipleTypesMarker:
-		return NSLocalizedStringFromTableInBundle(@"<multiple types>", @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
-
-	default:
-		return @"";
+		case DKMetadataTypeString:
+			return @"String";
+			
+		case DKMetadataTypeInteger:
+			return @"Integer";
+			
+		case DKMetadataTypeReal:
+			return @"Real Number";
+			
+		case DKMetadataTypeUnsignedInt:
+			return @"Unsigned Integer";
+			
+		case DKMetadataTypeBoolean:
+			return @"Boolean";
+			
+		case DKMetadataTypeURL:
+			return @"URL";
+			
+		case DKMetadataTypeColour:
+			return @"Colour";
+			
+		case DKMetadataTypeData:
+			return @"Data";
+			
+		case DKMetadataTypeImageData:
+			return @"Image Data";
+			
+		case DKMetadataTypeDate:
+			return @"Date";
+			
+		case DKMetadataTypeImage:
+			return @"Image";
+			
+		case DKMetadataTypeAttributedString:
+			return @"Styled String";
+			
+		case DKMetadataTypeSize:
+			return @"Size";
+			
+		case DKMetadataTypePoint:
+			return @"Point";
+			
+		case DKMetadataTypeRect:
+			return @"Rectangle";
+			
+		case DKMetadataTypeUnknown:
+			return @"???";
+			
+		case DKMetadataMultipleTypesMarker:
+			return @"<multiple types>";
+			
+		default:
+			return @"";
 	}
+}
+
++ (NSString*)localizedDisplayNameForType:(DKMetadataType)type
+{
+	return NSLocalizedStringFromTableInBundle([self nameForType:type], @"DKMetadata", [NSBundle bundleForClass:[self class]], nil);
 }
 
 + (DKMetadataItem*)metadataItemWithString:(NSString*)aString
@@ -269,10 +274,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 + (NSDictionary<NSString*,DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*,id>*)aDict
 {
-	// returns a dictionary of DKMetadataItems built by iterating the input dictionary and wrapping each object using metadataItemWithObject:
-	// this is designed as a way to convert existing dictionaries of attributes wholesale. If the dictionary already contains meta items, the
-	// result is effectively a copy of those items.
-
 	NSMutableDictionary* newDict = [NSMutableDictionary dictionary];
 
 	for (id key in aDict) {
@@ -291,9 +292,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 + (NSArray*)arrayOfMetadataItemsWithArray:(NSArray*)array
 {
-	// returns an array of DKMetadataItems built by iterating the input array and wrapping each object using metadataItemWithObject:
-	// this is designed as a way to convert existing arrays of attributes wholesale.
-
 	NSMutableArray* newArray = [NSMutableArray array];
 
 	for (id value in array) {
@@ -327,15 +325,13 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 + (BOOL)writeMetadataItems:(NSArray*)items forKeys:(NSArray*)keys toPasteboard:(NSPasteboard*)pb
 {
-	// convenience method for writing a set of items and keys to the pasteboard
-
 	NSAssert(pb != nil, @"cannot write to a nil pasteboard");
 	NSAssert([items count] == [keys count], @"count of items and keys do not match");
 
 	NSDictionary* dict = [NSDictionary dictionaryWithObjects:items
 													 forKeys:keys];
 	NSData* data = [NSKeyedArchiver archivedDataWithRootObject:dict];
-	[pb addTypes:@[DKMultipleMetadataItemsPBoardType, NSTabularTextPboardType, NSStringPboardType]
+	[pb addTypes:@[DKMultipleMetadataItemsPBoardType, NSPasteboardTypeTabularText, NSPasteboardTypeString]
 		   owner:self];
 
 	// add the items as TSV text for other apps to make use of
@@ -349,13 +345,13 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		[tabText appendString:@"\t"];
 		[tabText appendString:[item stringValue]];
 		[tabText appendString:@"\t"];
-		[tabText appendString:[item typeDisplayName]];
+		[tabText appendString:[item typeName]];
 		[tabText appendString:@"\t\r"];
 	}
 	[pb setString:tabText
-		  forType:NSTabularTextPboardType];
+		  forType:NSPasteboardTypeTabularText];
 	[pb setString:tabText
-		  forType:NSStringPboardType];
+		  forType:NSPasteboardTypeString];
 
 	return [pb setData:data
 			   forType:DKMultipleMetadataItemsPBoardType];
@@ -573,21 +569,27 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 @synthesize type=mType;
 
+- (NSString *)typeName
+{
+	return [[self class] nameForType:[self type]];
+}
+
 - (NSString*)typeDisplayName
+{
+	return [self localizedTypeDisplayName];
+}
+
+- (NSString*)localizedTypeDisplayName
 {
 	return [[self class] localizedDisplayNameForType:[self type]];
 }
 
+
 - (BOOL)isLossyConversionToType:(DKMetadataType)type
 {
-	// predicts if a conversion to <type> will succeed. Note that 'lossy' is somewhat vague - some conversions will succeed to an extent
-	// but will incur some loss. (e.g. attributed string -> string loses the attributes) but will return NO from here. This really predicts
-	// a complete failure to convert, i.e. the conversion is probably nonsensical. You might use this to disable conversions in a UI where
-	// a complete inability to convert would occur.
-
-	if (type == [self type])
+	if (type == [self type]) {
 		return NO;
-	else {
+	} else {
 		BOOL lossy = NO;
 		[self convertValue:[self value]
 					toType:type
@@ -599,9 +601,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 - (DKMetadataItem*)metadataItemWithType:(DKMetadataType)type
 {
-	// returns a new metadata item having the same value as the receiver, converted to <type>. If <type> is the current type, self is returned.
-	// Take care to ensure that this doesn't lead to inadvertent sharing of an item.
-
 	if (type == [self type])
 		return self;
 	else {
@@ -729,7 +728,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		*lossy = NO;
 
 	if ([inValue isKindOfClass:[[self class] classForType:type]]) {
-		// numbers are tricky, as they match on class type but not necessarily on what they actually encode. Thus NSNumbers are passed
+		// numbers are tricky, as they match one class type but not necessarily on what they actually encode. Thus NSNumbers are passed
 		// on to the cnversion routines regardless.
 
 		if (![inValue isKindOfClass:[NSNumber class]])
@@ -950,7 +949,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		}
 
 	default:
-			NSLog(@"an unknown type (%ld) was passed to DKMetadataItem <%@> for conversion, value = %@", (long)type, self, inValue);
+			NSLog(@"an unknown type (%ld) was passed to DKMetadataItem <%p> for conversion, value = %@", (long)type, self, inValue);
 		break;
 	}
 
@@ -1003,7 +1002,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	if (obj == self)
 		return YES;
 	else {
-		if ([obj isKindOfClass:[self class]]) {
+		if ([obj isKindOfClass:[DKMetadataItem class]]) {
 			if ([(DKMetadataItem*)obj type] == [self type])
 				return [[obj value] isEqual:[self value]];
 		}
@@ -1014,7 +1013,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 - (NSString*)description
 {
-	return [NSString stringWithFormat:@"%@ Type:%@ Value:%@", [super description], [self typeDisplayName], [self value]];
+	return [NSString stringWithFormat:@"%@ Type:%@ Value:%@", [super description], [self localizedTypeDisplayName], [self value]];
 }
 
 @end

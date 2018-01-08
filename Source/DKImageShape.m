@@ -69,20 +69,21 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 		self = [self initWithImage:image];
 
 		if (self != nil) {
-			NSString* urlType = [pboard availableTypeFromArray:@[NSFilenamesPboardType]];
+			NSString* urlType = [pboard availableTypeFromArray:@[(NSString*)kUTTypeFileURL]];
 
 			if (urlType != nil) {
-				NSArray* files = (NSArray*)[pboard propertyListForType:NSFilenamesPboardType];
+				NSArray* files = (NSArray*)[pboard propertyListForType:(NSString*)kUTTypeFileURL];
 
 				//	LogEvent_(kReactiveEvent, @"dropped files = %@", files);
 
-				NSString* path = [files objectAtIndex:0];
+				NSURL *url = [files objectAtIndex:0];
+				NSString* path = [url path];
 
 				// add this info to the metadata for the object
 
 				[self setString:path
 						 forKey:kDKOriginalFileMetadataKey];
-				[self setString:[[path lastPathComponent] stringByDeletingPathExtension]
+				[self setString:[[url lastPathComponent] stringByDeletingPathExtension]
 						 forKey:kDKOriginalNameMetadataKey];
 			}
 		}
@@ -476,7 +477,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 
 	BOOL result = NO;
 
-	[pb declareTypes:@[NSFileContentsPboardType, NSTIFFPboardType, NSPDFPboardType]
+	[pb declareTypes:@[NSFileContentsPboardType, NSPasteboardTypeTIFF, NSPasteboardTypePDF]
 			   owner:self];
 
 	NSData* imgData = [self imageData];
@@ -488,7 +489,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	if (image) {
 		imgData = [image TIFFRepresentation];
 		result |= [pb setData:imgData
-					  forType:NSTIFFPboardType];
+					  forType:NSPasteboardTypeTIFF];
 
 		// look for PDF data
 
@@ -496,7 +497,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 			if ([rep respondsToSelector:@selector(PDFRepresentation)]) {
 				imgData = [(NSPDFImageRep*)rep PDFRepresentation];
 				result |= [pb setData:imgData
-							  forType:NSPDFPboardType];
+							  forType:NSPasteboardTypePDF];
 				break;
 			}
 		}

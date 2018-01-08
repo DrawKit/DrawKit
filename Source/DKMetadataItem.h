@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 //! data types storable by a DKMetadataItem
 typedef NS_ENUM(NSInteger, DKMetadataType) {
 	DKMetadataTypeUnknown = -2,
@@ -63,6 +65,7 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 }
 
 + (Class)classForType:(DKMetadataType)type;
++ (NSString*)nameForType:(DKMetadataType)type;
 + (NSString*)localizedDisplayNameForType:(DKMetadataType)type;
 
 // convenience constructors
@@ -84,14 +87,25 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 + (instancetype)metadataItemWithRect:(NSRect)rect;
 + (instancetype)metadataItemWithObject:(id)value;
 
-+ (DKMetadataItem*)metadataItemWithPasteboard:(NSPasteboard*)pb;
++ (nullable DKMetadataItem*)metadataItemWithPasteboard:(NSPasteboard*)pb;
 
 // wholesale conversion
 
+/** @brief Returns a dictionary of <code>DKMetadataItem</code>s built by iterating the input dictionary and wrapping each object using \c metadataItemWithObject:
+ 
+ @discussion This is designed as a way to convert existing dictionaries of attributes wholesale. If the dictionary already contains meta items, the
+ result is effectively a copy of those items.
+ */
 + (NSDictionary<NSString*,DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*,id>*)aDict;
+/** @brief Returns an array of <code>DKMetadataItem</code>s built by iterating the input array and wrapping each object using metadataItemWithObject:
+ 
+@discussion This is designed as a way to convert existing arrays of attributes wholesale.
+ */
 + (NSArray<DKMetadataItem*>*)arrayOfMetadataItemsWithArray:(NSArray*)array;
-+ (NSDictionary<NSString*,DKMetadataItem*>*)metadataItemsWithPasteboard:(NSPasteboard*)pb;
++ (nullable NSDictionary<NSString*,DKMetadataItem*>*)metadataItemsWithPasteboard:(NSPasteboard*)pb;
 
+/** @brief Convenience method for writing a set of items and keys to the pasteboard.
+ */
 + (BOOL)writeMetadataItems:(NSArray<DKMetadataItem*>*)items forKeys:(NSArray<NSString*>*)keys toPasteboard:(NSPasteboard*)pb;
 
 // initializing various types of metadata item
@@ -117,37 +131,36 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 // set value, converting to current type as necessary
 
-/** sets the current value, always converting it to the current type, lossily maybe.*/
-- (void)setValue:(id)value;
-@property (nonatomic, strong) id value;
+/** @brief Sets the current value, always converting it to the current type, lossily maybe. */
+@property (nonatomic, copy, nullable) id value;
 
 - (void)takeObjectValueFrom:(id)sender;
-- (id)objectValue;
+@property (readonly, strong, nullable) id objectValue;
 
 /** set type, converting current value to the type as necessary. Type never mutates unless deliberately
  changed, unlike NSValue/NSNumber. This strictly preserves the original data type under editing operations.
 */
-- (void)setType:(DKMetadataType)type;
-- (DKMetadataType)type;
 @property (nonatomic) DKMetadataType type;
-@property (readonly, copy) NSString* typeDisplayName;
+@property (readonly, copy) NSString* typeName;
+@property (readonly, copy) NSString* typeDisplayName DEPRECATED_MSG_ATTRIBUTE("Use typeName or localizedTypeDisplayName");
+@property (readonly, copy) NSString* localizedTypeDisplayName;
 
+/** @brief Predicts if a conversion to \c type will succeed.
+ 
+ @discussion Note that 'lossy' is somewhat vague - some conversions will succeed to an extent
+ but will incur some loss. (e.g. attributed string -> string loses the attributes) but will return \c NO from here. This really predicts
+ a complete failure to convert, i.e. the conversion is probably nonsensical. You might use this to disable conversions in a UI where
+ a complete inability to convert would occur.
+ */
 - (BOOL)isLossyConversionToType:(DKMetadataType)type;
+/** @brief Returns a new metadata item having the same value as the receiver, converted to <code>type</code>.
+ 
+ @discussion If \c type is the current type, \c self is returned.
+ Take care to ensure that this doesn't lead to inadvertent sharing of an item.
+ */
 - (DKMetadataItem*)metadataItemWithType:(DKMetadataType)type;
 
 // convenient getters convert to indicated return type as necessary, possibly lossily
-
-- (NSString*)stringValue;
-- (NSAttributedString*)attributedStringValue;
-- (int)intValue;
-- (NSInteger)integerValue;
-- (float)floatValue;
-- (double)doubleValue;
-- (BOOL)boolValue;
-- (NSColor*)colourValue;
-- (NSSize)sizeValue;
-- (NSPoint)pointValue;
-- (NSRect)rectValue;
 
 @property (readonly, copy) NSString *stringValue;
 @property (readonly, copy) NSAttributedString *attributedStringValue;
@@ -166,8 +179,8 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 @end
 
-extern NSPasteboardType DKSingleMetadataItemPBoardType;
-extern NSPasteboardType DKMultipleMetadataItemsPBoardType;
+extern NSPasteboardType DKSingleMetadataItemPBoardType NS_SWIFT_NAME(NSPasteboardType.dkSingleMetadataItem);
+extern NSPasteboardType DKMultipleMetadataItemsPBoardType NS_SWIFT_NAME(NSPasteboardType.dkMultipleMetadataItem);
 
 //! objects can optionally implement any of the following to assist with additional conversions:
 @protocol DKMetadataItemConversions <NSObject>
@@ -187,3 +200,5 @@ extern NSPasteboardType DKMultipleMetadataItemsPBoardType;
 @property (readonly) NSPoint point;
 
 @end
+
+NS_ASSUME_NONNULL_END

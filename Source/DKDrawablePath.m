@@ -2018,8 +2018,8 @@ finish:
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-	return @[NSColorPboardType, NSStringPboardType, NSPDFPboardType, NSTIFFPboardType,
-									 NSFilenamesPboardType, kDKStylePasteboardType, kDKStyleKeyPasteboardType];
+	return @[NSPasteboardTypeColor, NSPasteboardTypeString, NSPasteboardTypePDF, NSPasteboardTypeTIFF,
+									 (NSString*)kUTTypeFileURL, kDKStylePasteboardType, kDKStyleKeyPasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given

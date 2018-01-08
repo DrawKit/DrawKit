@@ -1120,13 +1120,13 @@ enum {
 	// add image of selection in PDF format:
 	NSData* pdf = [self pdfDataOfSelectedObjects];
 	[pb setData:pdf
-		forType:NSPDFPboardType];
+		forType:NSPasteboardTypePDF];
 
 	// and TIFF format:
 
 	NSImage* si = [self imageOfSelectedObjects];
 	[pb setData:[si TIFFRepresentation]
-		forType:NSTIFFPboardType];
+		forType:NSPasteboardTypeTIFF];
 }
 
 #pragma mark -
@@ -1476,10 +1476,10 @@ enum {
 
 		NSString* action = ([objects count] == 1) ? NSLocalizedString(@"Paste Object", @"undo action for paste object") : NSLocalizedString(@"Paste Objects", @"undo action for paste objects");
 		[self commitSelectionUndoWithActionName:action];
-	} else if ([pb availableTypeFromArray:@[NSStringPboardType]] != nil) {
+	} else if ([pb availableTypeFromArray:@[NSPasteboardTypeString]] != nil) {
 		// pasting a string - add a text object
 
-		NSString* theString = [pb stringForType:NSStringPboardType];
+		NSString* theString = [pb stringForType:NSPasteboardTypeString];
 
 		if (theString != nil) {
 			DKTextShape* tShape = [DKTextShape textShapeWithString:theString

@@ -901,7 +901,7 @@ static BOOL sSubstitute = NO;
 
 	// text - if there is text on the pasteboard, set the text of an appropriate renderer, or add a text adornment
 
-	NSString* pbString = [pb stringForType:NSStringPboardType];
+	NSString* pbString = [pb stringForType:NSPasteboardTypeString];
 
 	if (pbString != nil) {
 		// look for renderers that can accept a string.  Currently this is only DKTextAdornment

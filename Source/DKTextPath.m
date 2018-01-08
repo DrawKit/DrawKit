@@ -64,7 +64,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 + (NSArray*)pastableTextTypes
 {
-	return @[NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType];
+	return @[NSPasteboardTypeRTF, NSPasteboardTypeRTFD, NSPasteboardTypeHTML, NSPasteboardTypeString];
 }
 
 + (DKStyle*)textPathDefaultStyle
@@ -105,16 +105,16 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 		NSAttributedString* str;
 
-		if ([pbtype isEqualToString:NSRTFPboardType])
+		if ([pbtype isEqualToString:NSPasteboardTypeRTF])
 			str = [[NSAttributedString alloc] initWithRTF:data
 									   documentAttributes:nil];
-		else if ([pbtype isEqualToString:NSRTFDPboardType])
+		else if ([pbtype isEqualToString:NSPasteboardTypeRTFD])
 			str = [[NSAttributedString alloc] initWithRTFD:data
 										documentAttributes:nil];
-		else if ([pbtype isEqualToString:NSHTMLPboardType])
+		else if ([pbtype isEqualToString:NSPasteboardTypeHTML])
 			str = [[NSAttributedString alloc] initWithHTML:data
 										documentAttributes:nil];
-		else if ([pbtype isEqualToString:NSStringPboardType])
+		else if ([pbtype isEqualToString:NSPasteboardTypeString])
 			str = [[NSAttributedString alloc] initWithString:[pb stringForType:pbtype]];
 		else
 			str = nil;
@@ -994,16 +994,16 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {
-	if ([pb addTypes:@[NSRTFPboardType, NSStringPboardType]
+	if ([pb addTypes:@[NSPasteboardTypeRTF, NSPasteboardTypeString]
 			   owner:self]) {
 		NSRange range = NSMakeRange(0, [[self text] length]);
 		NSData* rtfData = [[self text] RTFFromRange:range
 								 documentAttributes:@{}];
 
 		[pb setData:rtfData
-			forType:NSRTFPboardType];
+			forType:NSPasteboardTypeRTF];
 		[pb setString:[self string]
-			  forType:NSStringPboardType];
+			  forType:NSPasteboardTypeString];
 	}
 }
 

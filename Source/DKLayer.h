@@ -482,14 +482,14 @@
  In general it's best to scale the knobs otherwise they tend to overlap and become large at high
  zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
  @param ka YES to set knobs to scale, NO to fix their size.
- @deprecated Method was misnamed, use \c -setKnobsShouldAdjustToViewScale instead.
+ @deprecated Method was misspelled, use \c -setKnobsShouldAdjustToViewScale instead.
  */
 - (void)setKnobsShouldAdustToViewScale:(BOOL)ka API_DEPRECATED_WITH_REPLACEMENT("setKnobsShouldAdjustToViewScale", macosx(10.0, 10.6));
 
 /** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
  
  The default setting is YES, knobs should adjust to scale.
- In general it's best to scale the knobs otherwise they tend to overlap and become large at high
+ In general, it's best to scale the knobs, otherwise they tend to overlap and become large at high
  zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
  Set to \c YES to set knobs to scale, \c NO to fix their size.
  */

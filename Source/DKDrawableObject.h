@@ -967,7 +967,7 @@ enum {
 
 // constant strings:
 
-extern NSPasteboardType const kDKDrawableObjectPasteboardType;
+extern NSPasteboardType const kDKDrawableObjectPasteboardType NS_SWIFT_NAME(NSPasteboardType.dkDrawableObject);
 extern NSString* const kDKDrawableDidChangeNotification;
 extern NSString* const kDKDrawableStyleWillBeDetachedNotification;
 extern NSString* const kDKDrawableStyleWasAttachedNotification;

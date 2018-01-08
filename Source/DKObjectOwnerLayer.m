@@ -1708,15 +1708,15 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	// we can read any image format or a file containing one, or a string
 
 	if ((op & kDKAllReadableTypes) != 0) {
-		[types addObjectsFromArray:[NSImage imagePasteboardTypes]];
-		[types addObject:NSFilenamesPboardType];
-		[types addObject:NSStringPboardType];
+		[types addObjectsFromArray:[NSImage imageTypes]];
+		[types addObject:(NSString*)kUTTypeFileURL];
+		[types addObject:NSPasteboardTypeString];
 	}
 
 	// we can write PDF and TIFF image formats:
 
 	if ((op & kDKAllWritableTypes) != 0) {
-		[types addObjectsFromArray:@[NSPDFPboardType, NSTIFFPboardType]];
+		[types addObjectsFromArray:@[NSPasteboardTypePDF, NSPasteboardTypeTIFF]];
 	}
 
 	return types;
@@ -1886,10 +1886,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 		[[self undoManager] setActionName:NSLocalizedString(@"Drag and Drop Objects", @"undo string for drag/drop objects")];
 
 		result = YES;
-	} else if ([dt isEqualToString:NSStringPboardType]) {
+	} else if ([dt isEqualToString:NSPasteboardTypeString]) {
 		// create a text object to contain the dropped string
 
-		NSString* theString = [pb stringForType:NSStringPboardType];
+		NSString* theString = [pb stringForType:NSPasteboardTypeString];
 
 		if (theString != nil) {
 			DKTextShape* tShape = [DKTextShape textShapeWithString:theString

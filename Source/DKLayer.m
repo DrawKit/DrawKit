@@ -425,10 +425,10 @@ static NSArray* s_selectionColours = nil;
 {
 	NSAssert(pb != nil, @"Cannot write to a nil pasteboard");
 
-	[pb declareTypes:@[NSPDFPboardType]
+	[pb declareTypes:@[NSPasteboardTypePDF]
 			   owner:self];
 	return [pb setData:[self pdf]
-			   forType:NSPDFPboardType];
+			   forType:NSPasteboardTypePDF];
 }
 
 /** @brief Returns the layer's content as a transparent bitmap having the given DPI.

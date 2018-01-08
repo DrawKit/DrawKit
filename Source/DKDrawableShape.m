@@ -1793,8 +1793,8 @@ static NSSize sTempSavedOffset;
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-	return @[NSColorPboardType, NSPDFPboardType, NSTIFFPboardType, NSFilenamesPboardType,
-									 NSStringPboardType, kDKStyleKeyPasteboardType, kDKStylePasteboardType];
+	return @[NSPasteboardTypeColor, NSPasteboardTypePDF, NSPasteboardTypeTIFF, (NSString*)kUTTypeFileURL,
+									 NSPasteboardTypeString, kDKStyleKeyPasteboardType, kDKStylePasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given

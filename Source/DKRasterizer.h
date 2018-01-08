@@ -102,7 +102,7 @@ typedef NS_ENUM(NSInteger, DKClippingOption) {
 
 @end
 
-extern NSPasteboardType const kDKRasterizerPasteboardType;
+extern NSPasteboardType const kDKRasterizerPasteboardType NS_SWIFT_NAME(NSPasteboardType.dkRasterizer);
 
 extern NSNotificationName const kDKRasterizerPropertyWillChange;
 extern NSNotificationName const kDKRasterizerPropertyDidChange;
