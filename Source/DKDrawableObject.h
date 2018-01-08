@@ -206,13 +206,13 @@ to attach arbitrary data to any drawable object.
 
  The visible property is independent of the locked property, i.e. locked objects may be hidden & shown.
 */
-@property BOOL visible;
+@property (nonatomic) BOOL visible;
 
 /** @brief Is the object locked?
 
  Locked objects are visible but can't be edited.
 */
-@property BOOL locked;
+@property (nonatomic) BOOL locked;
 
 /** @brief Whether the object's location is locked or not.
 
@@ -967,22 +967,22 @@ enum {
 
 // constant strings:
 
-extern NSPasteboardType kDKDrawableObjectPasteboardType;
-extern NSString* kDKDrawableDidChangeNotification;
-extern NSString* kDKDrawableStyleWillBeDetachedNotification;
-extern NSString* kDKDrawableStyleWasAttachedNotification;
-extern NSString* kDKDrawableDoubleClickNotification;
-extern NSString* kDKDrawableSubselectionChangedNotification;
+extern NSPasteboardType const kDKDrawableObjectPasteboardType;
+extern NSString* const kDKDrawableDidChangeNotification;
+extern NSString* const kDKDrawableStyleWillBeDetachedNotification;
+extern NSString* const kDKDrawableStyleWasAttachedNotification;
+extern NSString* const kDKDrawableDoubleClickNotification;
+extern NSString* const kDKDrawableSubselectionChangedNotification;
 
 // keys for items in user info sent with notifications
 
-extern NSString* kDKDrawableOldStyleKey;
-extern NSString* kDKDrawableNewStyleKey;
-extern NSString* kDKDrawableClickedPointKey;
+extern NSString* const kDKDrawableOldStyleKey;
+extern NSString* const kDKDrawableNewStyleKey;
+extern NSString* const kDKDrawableClickedPointKey;
 
 // prefs keys
 
-extern NSString* kDKGhostColourPreferencesKey;
-extern NSString* kDKDragFeedbackEnabledPreferencesKey;
+extern NSString* const kDKGhostColourPreferencesKey;
+extern NSString* const kDKDragFeedbackEnabledPreferencesKey;
 
 NS_ASSUME_NONNULL_END

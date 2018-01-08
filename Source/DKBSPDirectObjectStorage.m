@@ -8,7 +8,7 @@
 
 // if this is set to 1, various iterations are done using the much faster CFArrayApplyFunction and CFArraySortValues methods
 
-#define USE_CF_APPLIER 1
+#define USE_CF_APPLIER 0
 
 // utility functions:
 
@@ -268,6 +268,7 @@ static inline NSUInteger depthForObjectCount(NSUInteger n)
 
 #pragma mark -
 
+#if USE_CF_APPLIER
 static NSComparisonResult zComparisonFunc(id<DKStorableObject> a, id<DKStorableObject> b, void* context)
 {
 #pragma unused(context)
@@ -282,6 +283,7 @@ static NSComparisonResult zComparisonFunc(id<DKStorableObject> a, id<DKStorableO
 	else
 		return NSOrderedSame;
 }
+#endif
 
 - (void)sortObjectsByZ:(NSMutableArray*)objects
 {
@@ -289,11 +291,21 @@ static NSComparisonResult zComparisonFunc(id<DKStorableObject> a, id<DKStorableO
 	if (objects)
 		CFArraySortValues((CFMutableArrayRef)objects, CFRangeMake(0, [objects count]), (CFComparatorFunction)zComparisonFunc, NULL);
 #else
-	[objects sortUsingFunction:zComparisonFunc
-					   context:NULL];
+	[objects sortUsingComparator:^NSComparisonResult(id<DKStorableObject> a, id<DKStorableObject> b) {
+		NSUInteger ia = [a index];
+		NSUInteger ib = [b index];
+		
+		if (ia < ib)
+			return NSOrderedAscending;
+		else if (ia > ib)
+			return NSOrderedDescending;
+		else
+			return NSOrderedSame;
+	}];
 #endif
 }
 
+#if USE_CF_APPLIER
 static void renumberFunc(const void* value, void* context)
 {
 	id<DKStorableObject> obj = (__bridge id<DKStorableObject>)value;
@@ -306,6 +318,7 @@ static void unmarkFunc(const void* value, void* context)
 #pragma unused(context)
 	[(__bridge id<DKStorableObject>)value setMarked:NO];
 }
+#endif
 
 - (void)renumberObjectsFromIndex:(NSUInteger)indx
 {
@@ -319,11 +332,8 @@ static void unmarkFunc(const void* value, void* context)
 #if USE_CF_APPLIER
 	CFArrayApplyFunction((CFArrayRef)[self objects], CFRangeMake(indx, [self countOfObjects] - indx), renumberFunc, &i);
 #else
-	id<DKStorableObject> obj;
-
-	for (i = indx; i < [self countOfObjects]; ++i) {
-		obj = [[self objects] objectAtIndex:i];
-		[obj setIndex:i];
+	for (id<DKStorableObject> obj in [self.objects subarrayWithRange:NSMakeRange(indx, [self countOfObjects] - indx)]) {
+		obj.index = i++;
 	}
 #endif
 }
@@ -334,11 +344,9 @@ static void unmarkFunc(const void* value, void* context)
 	if (objects)
 		CFArrayApplyFunction((CFArrayRef)objects, CFRangeMake(0, [objects count]), unmarkFunc, NULL);
 #else
-	NSEnumerator* iter = [objects objectEnumerator];
-	id<DKStorableObject> obj;
-
-	while ((obj = [iter nextObject]))
-		[obj setMarked:NO];
+	for (id<DKStorableObject> obj in objects) {
+		obj.marked = NO;
+	}
 #endif
 }
 
@@ -505,9 +513,7 @@ static void unmarkFunc(const void* value, void* context)
 	mOp = kDKOperationAccumulate;
 	[mFoundObjects removeAllObjects];
 
-	NSUInteger i;
-
-	for (i = 0; i < count; ++i)
+	for (NSUInteger i = 0; i < count; ++i)
 		[self recursivelySearchWithRect:rects[i]
 								  index:0];
 
@@ -604,10 +610,7 @@ static void addValueToFoundObjects(const void* value, void* context)
 #if USE_CF_APPLIER
 		CFArrayApplyFunction((CFArrayRef)leaf, CFRangeMake(0, [leaf count]), addValueToFoundObjects, (__bridge void *)(self));
 #else
-		NSEnumerator* iter = [leaf objectEnumerator];
-		id<DKStorableObject> anObject;
-
-		while ((anObject = [iter nextObject])) {
+		for (id<DKStorableObject> anObject in leaf) {
 			if (![anObject isMarked] && [anObject visible]) {
 				if ((mViewRef == nil && NSIntersectsRect([anObject bounds], mRect)) || [mViewRef needsToDrawRect:[anObject bounds]]) {
 					[anObject setMarked:YES];

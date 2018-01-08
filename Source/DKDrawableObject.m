@@ -29,20 +29,20 @@
 #endif
 
 #pragma mark Contants(Non - localized)
-NSString* kDKDrawableDidChangeNotification = @"kDKDrawableDidChangeNotification";
-NSString* kDKDrawableStyleWillBeDetachedNotification = @"kDKDrawableStyleWillBeDetachedNotification";
-NSString* kDKDrawableStyleWasAttachedNotification = @"kDKDrawableStyleWasAttachedNotification";
-NSString* kDKDrawableDoubleClickNotification = @"kDKDrawableDoubleClickNotification";
-NSString* kDKDrawableSubselectionChangedNotification = @"kDKDrawableSubselectionChangedNotification";
+NSString* const kDKDrawableDidChangeNotification = @"kDKDrawableDidChangeNotification";
+NSString* const kDKDrawableStyleWillBeDetachedNotification = @"kDKDrawableStyleWillBeDetachedNotification";
+NSString* const kDKDrawableStyleWasAttachedNotification = @"kDKDrawableStyleWasAttachedNotification";
+NSString* const kDKDrawableDoubleClickNotification = @"kDKDrawableDoubleClickNotification";
+NSString* const kDKDrawableSubselectionChangedNotification = @"kDKDrawableSubselectionChangedNotification";
 
-NSString* kDKDrawableOldStyleKey = @"old_style";
-NSString* kDKDrawableNewStyleKey = @"new_style";
-NSString* kDKDrawableClickedPointKey = @"click_point";
+NSString* const kDKDrawableOldStyleKey = @"old_style";
+NSString* const kDKDrawableNewStyleKey = @"new_style";
+NSString* const kDKDrawableClickedPointKey = @"click_point";
 
-NSString* kDKGhostColourPreferencesKey = @"kDKGhostColourPreferencesKey";
-NSString* kDKDragFeedbackEnabledPreferencesKey = @"kDKDragFeedbackEnabledPreferencesKey";
+NSString* const kDKGhostColourPreferencesKey = @"kDKGhostColourPreferencesKey";
+NSString* const kDKDragFeedbackEnabledPreferencesKey = @"kDKDragFeedbackEnabledPreferencesKey";
 
-NSString* kDKDrawableCachedImageKey = @"DKD_Cached_Img";
+NSString* const kDKDrawableCachedImageKey = @"DKD_Cached_Img";
 
 #pragma mark Static vars
 
@@ -344,62 +344,9 @@ static NSDictionary* s_interconversionTable = nil;
 #pragma mark -
 #pragma mark - as part of the DKStorableObject protocol
 
-/** @brief Where object storage stores the Z-index in the object itself, this is used to set it.
-
- Note that this doesn't allow the Z-index to be changed, but merely recorded. This method should only
- be used by storage methods internal to DK and not by external client code. See DKObjectStorageProtocol.h
- @param zIndex the desired Z value for the object
- */
-- (void)setIndex:(NSUInteger)zIndex
-{
-	mZIndex = zIndex;
-}
-
-- (NSUInteger)index
-{
-	return mZIndex;
-}
-
-/** @brief Returns the reference to the object's storage
-
- See DKObjectStorageProtocol.h
- @return the object's storage
- */
-- (id<DKObjectStorage>)storage
-{
-	return mStorageRef;
-}
-
-/** @brief Returns the reference to the object's storage
-
- See DKObjectStorageProtocol.h. Not for client code.
- @param storage the object's storage
- */
-- (void)setStorage:(id<DKObjectStorage>)storage
-{
-	mStorageRef = storage;
-}
+@synthesize index=mZIndex;
 @synthesize storage=mStorageRef;
-
-/** @brief Marks the object
-
- See DKObjectStorageProtocol.h. Not for client code.
- @param markIt a flag
- */
-- (void)setMarked:(BOOL)markIt
-{
-	mMarked = markIt;
-}
-
-/** @brief Marks the object
-
- See DKObjectStorageProtocol.h. Not for client code.
- @return a flag
- */
-- (BOOL)isMarked
-{
-	return mMarked;
-}
+@synthesize marked=mMarked;
 
 #pragma mark -
 #pragma mark - state
@@ -423,13 +370,7 @@ static NSDictionary* s_interconversionTable = nil;
 	}
 }
 
-/** @brief Is the object visible?
- @return YES if visible, NO if not
- */
-- (BOOL)visible
-{
-	return m_visible;
-}
+@synthesize visible=m_visible;
 
 /** @brief Sets whether the object is locked or not
 
@@ -445,14 +386,6 @@ static NSDictionary* s_interconversionTable = nil;
 		[self notifyStatusChange];
 		[[self undoManager] setActionName:locked ? NSLocalizedString(@"Lock", @"undo action for single object lock") : NSLocalizedString(@"Unlock", @"undo action for single object unlock")];
 	}
-}
-
-/** @brief Is the object locked?
- @return YES if locked, NO if not
- */
-- (BOOL)locked
-{
-	return m_locked;
 }
 
 @synthesize locked=m_locked;
