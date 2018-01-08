@@ -36,17 +36,17 @@
 
 // notification names
 
-NSString* kDKSelectionToolWillStartSelectionDrag = @"kDKSelectionToolWillStartSelectionDrag";
-NSString* kDKSelectionToolDidFinishSelectionDrag = @"kDKSelectionToolDidFinishSelectionDrag";
-NSString* kDKSelectionToolWillStartMovingObjects = @"kDKSelectionToolWillStartMovingObjects";
-NSString* kDKSelectionToolDidFinishMovingObjects = @"kDKSelectionToolDidFinishMovingObjects";
-NSString* kDKSelectionToolWillStartEditingObject = @"kDKSelectionToolWillStartEditingObject";
-NSString* kDKSelectionToolDidFinishEditingObject = @"kDKSelectionToolDidFinishEditingObject";
+NSString* const kDKSelectionToolWillStartSelectionDrag = @"kDKSelectionToolWillStartSelectionDrag";
+NSString* const kDKSelectionToolDidFinishSelectionDrag = @"kDKSelectionToolDidFinishSelectionDrag";
+NSString* const kDKSelectionToolWillStartMovingObjects = @"kDKSelectionToolWillStartMovingObjects";
+NSString* const kDKSelectionToolDidFinishMovingObjects = @"kDKSelectionToolDidFinishMovingObjects";
+NSString* const kDKSelectionToolWillStartEditingObject = @"kDKSelectionToolWillStartEditingObject";
+NSString* const kDKSelectionToolDidFinishEditingObject = @"kDKSelectionToolDidFinishEditingObject";
 
 // user info dict keys
 
-NSString* kDKSelectionToolTargetLayer = @"kDKSelectionToolTargetLayer";
-NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
+NSString* const kDKSelectionToolTargetLayer = @"kDKSelectionToolTargetLayer";
+NSString* const kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 
 @implementation DKSelectAndEditTool
 

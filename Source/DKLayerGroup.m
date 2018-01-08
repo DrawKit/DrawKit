@@ -10,11 +10,11 @@
 #import "LogEvent.h"
 
 #pragma mark Constants(Non - localized)
-NSString* kDKLayerGroupDidAddLayer = @"kDKLayerGroupDidAddLayer";
-NSString* kDKLayerGroupDidRemoveLayer = @"kDKLayerGroupDidRemoveLayer";
-NSString* kDKLayerGroupNumberOfLayersDidChange = @"kDKLayerGroupNumberOfLayersDidChange";
-NSString* kDKLayerGroupWillReorderLayers = @"kDKLayerGroupWillReorderLayers";
-NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
+NSString* const kDKLayerGroupDidAddLayer = @"kDKLayerGroupDidAddLayer";
+NSString* const kDKLayerGroupDidRemoveLayer = @"kDKLayerGroupDidRemoveLayer";
+NSString* const kDKLayerGroupNumberOfLayersDidChange = @"kDKLayerGroupNumberOfLayersDidChange";
+NSString* const kDKLayerGroupWillReorderLayers = @"kDKLayerGroupWillReorderLayers";
+NSString* const kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 
 #pragma mark -
 @implementation DKLayerGroup

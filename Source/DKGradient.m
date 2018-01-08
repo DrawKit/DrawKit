@@ -17,12 +17,12 @@
 #endif
 
 #pragma mark Contants(Non - localized)
-NSString* kDKNotificationGradientWillAddColorStop = @"kDKNotificationGradientWillAddColorStop";
-NSString* kDKNotificationGradientDidAddColorStop = @"kDKNotificationGradientDidAddColorStop";
-NSString* kDKNotificationGradientWillRemoveColorStop = @"kDKNotificationGradientWillRemoveColorStop";
-NSString* kDKNotificationGradientDidRemoveColorStop = @"kDKNotificationGradientDidRemoveColorStop";
-NSString* kDKNotificationGradientWillChange = @"kDKNotificationGradientWillChange";
-NSString* kDKNotificationGradientDidChange = @"kDKNotificationGradientDidChange";
+NSString* const kDKNotificationGradientWillAddColorStop = @"kDKNotificationGradientWillAddColorStop";
+NSString* const kDKNotificationGradientDidAddColorStop = @"kDKNotificationGradientDidAddColorStop";
+NSString* const kDKNotificationGradientWillRemoveColorStop = @"kDKNotificationGradientWillRemoveColorStop";
+NSString* const kDKNotificationGradientDidRemoveColorStop = @"kDKNotificationGradientDidRemoveColorStop";
+NSString* const kDKNotificationGradientWillChange = @"kDKNotificationGradientWillChange";
+NSString* const kDKNotificationGradientDidChange = @"kDKNotificationGradientDidChange";
 
 #pragma mark Static Vars
 

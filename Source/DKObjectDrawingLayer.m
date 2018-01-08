@@ -22,11 +22,11 @@
 
 #pragma mark Contants(Non - localized)
 
-NSString* kDKLayerDidReorderObjects = @"kDKLayerDidReorderObjects";
-NSString* kDKDrawableObjectPasteboardType = @"net.apptree.drawkit.drawable";
-NSString* kDKDrawableObjectInfoPasteboardType = @"kDKDrawableObjectInfoPasteboardType";
-NSString* kDKLayerSelectionDidChange = @"kDKLayerSelectionDidChange";
-NSString* kDKLayerKeyObjectDidChange = @"kDKLayerKeyObjectDidChange";
+NSString* const kDKLayerDidReorderObjects = @"kDKLayerDidReorderObjects";
+NSString* const kDKDrawableObjectPasteboardType = @"net.apptree.drawkit.drawable";
+NSString* const kDKDrawableObjectInfoPasteboardType = @"kDKDrawableObjectInfoPasteboardType";
+NSString* const kDKLayerSelectionDidChange = @"kDKLayerSelectionDidChange";
+NSString* const kDKLayerKeyObjectDidChange = @"kDKLayerKeyObjectDidChange";
 
 #pragma mark Static Vars
 static BOOL sSelVisWhenInactive = NO;

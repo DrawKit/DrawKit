@@ -46,7 +46,7 @@ The purpose of this class is to allow images to be archived much more efficientl
 
 @end
 
-extern NSPasteboardType kDKImageDataManagerPasteboardType;
+extern NSPasteboardType const kDKImageDataManagerPasteboardType;
 
 @interface NSData (Checksum)
 

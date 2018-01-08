@@ -42,20 +42,20 @@
 
 // attrbute keys in the -textAttributes dictionary for DKTextAdornment properties
 
-NSString* DKTextKnockoutColourAttributeName = @"DKTextKnockoutColourAttributeName";
-NSString* DKTextKnockoutDistanceAttributeName = @"DKTextKnockoutDistanceAttributeName";
-NSString* DKTextKnockoutStrokeColourAttributeName = @"DKTextKnockoutStrokeColourAttributeName";
-NSString* DKTextKnockoutStrokeWidthAttributeName = @"DKTextKnockoutStrokeWidthAttributeName";
-NSString* DKTextVerticalAlignmentAttributeName = @"DKTextVerticalAlignmentAttributeName";
-NSString* DKTextVerticalAlignmentProportionAttributeName = @"DKTextVerticalAlignmentProportionAttributeName";
-NSString* DKTextCapitalizationAttributeName = @"DKTextCapitalizationAttributeName";
+NSString* const DKTextKnockoutColourAttributeName = @"DKTextKnockoutColourAttributeName";
+NSString* const DKTextKnockoutDistanceAttributeName = @"DKTextKnockoutDistanceAttributeName";
+NSString* const DKTextKnockoutStrokeColourAttributeName = @"DKTextKnockoutStrokeColourAttributeName";
+NSString* const DKTextKnockoutStrokeWidthAttributeName = @"DKTextKnockoutStrokeWidthAttributeName";
+NSString* const DKTextVerticalAlignmentAttributeName = @"DKTextVerticalAlignmentAttributeName";
+NSString* const DKTextVerticalAlignmentProportionAttributeName = @"DKTextVerticalAlignmentProportionAttributeName";
+NSString* const DKTextCapitalizationAttributeName = @"DKTextCapitalizationAttributeName";
 
 // private keys in the text adornment cache
 
 //static NSString* kDKTextAdornmentLastClientSeenCacheKey		= @"DKTextAdornmentLastClientSeen";
-static NSString* kDKTextAdornmentMaskPathCacheKey = @"DKTextAdornmentMaskPath";
-static NSString* kDKTextAdornmentMaskObjectChecksumCacheKey = @"DKTextAdornmentMaskObjectChecksum";
-static NSString* kDKTextAdornmentMetadataChecksumCacheKey = @"DKTextAdornmentMetadataChecksum";
+static NSString* const kDKTextAdornmentMaskPathCacheKey = @"DKTextAdornmentMaskPath";
+static NSString* const kDKTextAdornmentMaskObjectChecksumCacheKey = @"DKTextAdornmentMaskObjectChecksum";
+static NSString* const kDKTextAdornmentMetadataChecksumCacheKey = @"DKTextAdornmentMetadataChecksum";
 
 @implementation DKTextAdornment
 

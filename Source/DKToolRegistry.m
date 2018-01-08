@@ -21,7 +21,7 @@
 
 // notifications
 
-NSString* kDKDrawingToolWasRegisteredNotification = @"kDKDrawingToolWasRegisteredNotification";
+NSString* const kDKDrawingToolWasRegisteredNotification = @"kDKDrawingToolWasRegisteredNotification";
 
 // standard tool names
 

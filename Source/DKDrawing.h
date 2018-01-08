@@ -479,43 +479,43 @@ NS_ASSUME_NONNULL_BEGIN
  @memberof DKDrawing
  @{ */
 
-extern NSNotificationName kDKDrawingActiveLayerWillChange;
-extern NSNotificationName kDKDrawingActiveLayerDidChange;
-extern NSNotificationName kDKDrawingWillChangeSize;
-extern NSNotificationName kDKDrawingDidChangeSize;
-extern NSNotificationName kDKDrawingUnitsWillChange;
-extern NSNotificationName kDKDrawingUnitsDidChange;
-extern NSNotificationName kDKDrawingWillChangeMargins;
-extern NSNotificationName kDKDrawingDidChangeMargins;
-extern NSNotificationName kDKDrawingWillBeSavedOrExported;
+extern NSNotificationName const kDKDrawingActiveLayerWillChange;
+extern NSNotificationName const kDKDrawingActiveLayerDidChange;
+extern NSNotificationName const kDKDrawingWillChangeSize;
+extern NSNotificationName const kDKDrawingDidChangeSize;
+extern NSNotificationName const kDKDrawingUnitsWillChange;
+extern NSNotificationName const kDKDrawingUnitsDidChange;
+extern NSNotificationName const kDKDrawingWillChangeMargins;
+extern NSNotificationName const kDKDrawingDidChangeMargins;
+extern NSNotificationName const kDKDrawingWillBeSavedOrExported;
 
 /** @}
  @name keys for standard drawing info items:
  @memberof DKDrawing
  @{ */
 
-extern NSString* kDKDrawingInfoUserInfoKey; /**< the key for the drawing info dictionary within the user info */
+extern NSString* const kDKDrawingInfoUserInfoKey; /**< the key for the drawing info dictionary within the user info */
 
-extern NSString* kDKDrawingInfoDrawingNumber; /**< data type NSString */
-extern NSString* kDKDrawingInfoDrawingNumberUnformatted; /**< data type NSNumber (integer) */
-extern NSString* kDKDrawingInfoDrawingRevision; /**< data type NSNumber (integer) */
-extern NSString* kDKDrawingInfoDrawingPrefix; /**< data type NSString */
-extern NSString* kDKDrawingInfoDraughter; /**< data type NSString */
-extern NSString* kDKDrawingInfoCreationDate; /**< data type NSDate */
-extern NSString* kDKDrawingInfoLastModificationDate; /**< data type NSDate */
-extern NSString* kDKDrawingInfoModificationHistory; /**< data type NSArray */
-extern NSString* kDKDrawingInfoOriginalFilename; /**< data type NSString */
-extern NSString* kDKDrawingInfoTitle; /**< data type NSString */
-extern NSString* kDKDrawingInfoDrawingDimensions; /**< data type NSSize */
-extern NSString* kDKDrawingInfoDimensionsUnits; /**< data type NSString */
-extern NSString* kDKDrawingInfoDimensionsShortUnits; /**< data type NSString */
+extern NSString* const kDKDrawingInfoDrawingNumber; /**< data type NSString */
+extern NSString* const kDKDrawingInfoDrawingNumberUnformatted; /**< data type NSNumber (integer) */
+extern NSString* const kDKDrawingInfoDrawingRevision; /**< data type NSNumber (integer) */
+extern NSString* const kDKDrawingInfoDrawingPrefix; /**< data type NSString */
+extern NSString* const kDKDrawingInfoDraughter; /**< data type NSString */
+extern NSString* const kDKDrawingInfoCreationDate; /**< data type NSDate */
+extern NSString* const kDKDrawingInfoLastModificationDate; /**< data type NSDate */
+extern NSString* const kDKDrawingInfoModificationHistory; /**< data type NSArray */
+extern NSString* const kDKDrawingInfoOriginalFilename; /**< data type NSString */
+extern NSString* const kDKDrawingInfoTitle; /**< data type NSString */
+extern NSString* const kDKDrawingInfoDrawingDimensions; /**< data type NSSize */
+extern NSString* const kDKDrawingInfoDimensionsUnits; /**< data type NSString */
+extern NSString* const kDKDrawingInfoDimensionsShortUnits; /**< data type NSString */
 
 /** @}
  @brief keys for user defaults items
  @{ */
-extern NSString* kDKDrawingSnapToGridUserDefault; /**< BOOL */
-extern NSString* kDKDrawingSnapToGuidesUserDefault; /**< BOOL */
-extern NSString* kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
+extern NSString* const kDKDrawingSnapToGridUserDefault; /**< BOOL */
+extern NSString* const kDKDrawingSnapToGuidesUserDefault; /**< BOOL */
+extern NSString* const kDKDrawingUnitAbbreviationsUserDefault; /**< NSDictionary */
 
 /** @} */
 

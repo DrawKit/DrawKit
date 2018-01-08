@@ -674,12 +674,12 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 #endif
 
-extern NSPasteboardType kDKDrawableObjectInfoPasteboardType;
-extern NSNotificationName kDKLayerDidReorderObjects;
+extern NSPasteboardType const kDKDrawableObjectInfoPasteboardType;
+extern NSNotificationName const kDKLayerDidReorderObjects;
 
-extern NSNotificationName kDKLayerWillAddObject;
-extern NSNotificationName kDKLayerDidAddObject;
-extern NSNotificationName kDKLayerWillRemoveObject;
-extern NSNotificationName kDKLayerDidRemoveObject;
+extern NSNotificationName const kDKLayerWillAddObject;
+extern NSNotificationName const kDKLayerDidAddObject;
+extern NSNotificationName const kDKLayerWillRemoveObject;
+extern NSNotificationName const kDKLayerDidRemoveObject;
 
 #define DEFAULT_PASTE_OFFSET 20

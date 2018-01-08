@@ -16,29 +16,29 @@
 
 #pragma mark Constants(Non - localized)
 
-NSString* kDKDrawingViewDidBeginTextEditing = @"kDKDrawingViewDidBeginTextEditing";
-NSString* kDKDrawingViewTextEditingContentsDidChange = @"kDKDrawingViewTextEditingContentsDidChange";
-NSString* kDKDrawingViewDidEndTextEditing = @"kDKDrawingViewDidEndTextEditing";
-NSString* kDKDrawingViewWillCreateAutoDrawing = @"kDKDrawingViewWillCreateAutoDrawing";
-NSString* kDKDrawingViewDidCreateAutoDrawing = @"kDKDrawingViewDidCreateAutoDrawing";
-NSString* kDKDrawingMouseDownLocation = @"kDKDrawingMouseDownLocation";
-NSString* kDKDrawingMouseDraggedLocation = @"kDKDrawingMouseDraggedLocation";
-NSString* kDKDrawingMouseUpLocation = @"kDKDrawingMouseUpLocation";
-NSString* kDKDrawingMouseMovedLocation = @"kDKDrawingMouseMovedLocation";
-NSString* kDKDrawingMouseLocationInView = @"kDKDrawingMouseLocationInView";
-NSString* kDKDrawingMouseLocationInDrawingUnits = @"kDKDrawingMouseLocationInDrawingUnits";
-NSString* kDKDrawingRulersVisibleDefaultPrefsKey = @"kDKDrawingRulersVisibleDefault";
-NSString* kDKTextEditorSmartQuotesPrefsKey = @"kDKTextEditorSmartQuotes";
-NSString* kDKDrawingViewRulersChanged = @"kDKDrawingViewRulersChanged";
+NSString* const kDKDrawingViewDidBeginTextEditing = @"kDKDrawingViewDidBeginTextEditing";
+NSString* const kDKDrawingViewTextEditingContentsDidChange = @"kDKDrawingViewTextEditingContentsDidChange";
+NSString* const kDKDrawingViewDidEndTextEditing = @"kDKDrawingViewDidEndTextEditing";
+NSString* const kDKDrawingViewWillCreateAutoDrawing = @"kDKDrawingViewWillCreateAutoDrawing";
+NSString* const kDKDrawingViewDidCreateAutoDrawing = @"kDKDrawingViewDidCreateAutoDrawing";
+NSString* const kDKDrawingMouseDownLocation = @"kDKDrawingMouseDownLocation";
+NSString* const kDKDrawingMouseDraggedLocation = @"kDKDrawingMouseDraggedLocation";
+NSString* const kDKDrawingMouseUpLocation = @"kDKDrawingMouseUpLocation";
+NSString* const kDKDrawingMouseMovedLocation = @"kDKDrawingMouseMovedLocation";
+NSString* const kDKDrawingMouseLocationInView = @"kDKDrawingMouseLocationInView";
+NSString* const kDKDrawingMouseLocationInDrawingUnits = @"kDKDrawingMouseLocationInDrawingUnits";
+NSString* const kDKDrawingRulersVisibleDefaultPrefsKey = @"kDKDrawingRulersVisibleDefault";
+NSString* const kDKTextEditorSmartQuotesPrefsKey = @"kDKTextEditorSmartQuotes";
+NSString* const kDKDrawingViewRulersChanged = @"kDKDrawingViewRulersChanged";
 
 // constant strings for ruler marker names
 
-NSString* kDKDrawingViewHorizontalLeftMarkerName = @"marker_h_left";
-NSString* kDKDrawingViewHorizontalCentreMarkerName = @"marker_h_centre";
-NSString* kDKDrawingViewHorizontalRightMarkerName = @"marker_h_right";
-NSString* kDKDrawingViewVerticalTopMarkerName = @"marker_v_top";
-NSString* kDKDrawingViewVerticalCentreMarkerName = @"marker_v_centre";
-NSString* kDKDrawingViewVerticalBottomMarkerName = @"marker_v_bottom";
+NSString* const kDKDrawingViewHorizontalLeftMarkerName = @"marker_h_left";
+NSString* const kDKDrawingViewHorizontalCentreMarkerName = @"marker_h_centre";
+NSString* const kDKDrawingViewHorizontalRightMarkerName = @"marker_h_right";
+NSString* const kDKDrawingViewVerticalTopMarkerName = @"marker_v_top";
+NSString* const kDKDrawingViewVerticalCentreMarkerName = @"marker_v_centre";
+NSString* const kDKDrawingViewVerticalBottomMarkerName = @"marker_v_bottom";
 
 #pragma mark Static Vars
 
@@ -46,7 +46,7 @@ static NSMutableArray* sDrawingViewStack = nil; // stack of view refs
 static NSColor* sPageBreakColour = nil;
 static NSPoint sLastContextMenuClick = { 0, 0 };
 
-NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
+NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 
 @interface DKDrawingView ()
 

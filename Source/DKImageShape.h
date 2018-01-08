@@ -251,6 +251,6 @@ A hotspot is added to allow the user to drag the image offset position around.
 
 // metadata keys for data installed by this object when created
 
-extern NSString* kDKOriginalFileMetadataKey;
-extern NSString* kDKOriginalImageDimensionsMetadataKey;
-extern NSString* kDKOriginalNameMetadataKey;
+extern NSString* const kDKOriginalFileMetadataKey;
+extern NSString* const kDKOriginalImageDimensionsMetadataKey;
+extern NSString* const kDKOriginalNameMetadataKey;

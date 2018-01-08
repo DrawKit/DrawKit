@@ -25,7 +25,7 @@
 
 #pragma mark constants
 
-NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
+NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 
 #pragma mark -
 @implementation DKDrawingTool

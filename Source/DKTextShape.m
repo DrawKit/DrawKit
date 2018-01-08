@@ -23,8 +23,8 @@
 #import "DKKnob.h"
 #import "DKDrawableShape+Utilities.h"
 
-NSString* kDKTextOverflowIndicatorDefaultsKey = @"DKTextOverflowIndicator";
-NSString* kDKTextAllowsInlineImagesDefaultsKey = @"DKTextAllowsInlineImages";
+NSString* const kDKTextOverflowIndicatorDefaultsKey = @"DKTextOverflowIndicator";
+NSString* const kDKTextAllowsInlineImagesDefaultsKey = @"DKTextAllowsInlineImages";
 
 #pragma mark Static Vars
 

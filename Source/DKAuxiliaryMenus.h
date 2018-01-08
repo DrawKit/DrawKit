@@ -34,4 +34,4 @@
 
 @end
 
-extern NSNibName kDKAuxiliaryMenusNibFile;
+extern NSNibName const kDKAuxiliaryMenusNibFile;

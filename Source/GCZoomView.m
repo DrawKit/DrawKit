@@ -17,12 +17,12 @@
 
 #pragma mark Constants(Non - localized)
 
-NSString* kDKDrawingViewDidChangeScale = @"kDKDrawingViewDidChangeScale";
-NSString* kDKDrawingViewWillChangeScale = @"kDKDrawingViewWillChangeScale";
+NSString* const kDKDrawingViewDidChangeScale = @"kDKDrawingViewDidChangeScale";
+NSString* const kDKDrawingViewWillChangeScale = @"kDKDrawingViewWillChangeScale";
 
-NSString* kDKScrollwheelModifierKeyMaskPreferenceKey = @"DK_SCROLLWHEEL_ZOOM_KEY_MASK";
-NSString* kDKDrawingDisableScrollwheelZoomPrefsKey = @"kDKDrawingDisableScrollwheelZoom";
-NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // typo here, please leave
+NSString* const kDKScrollwheelModifierKeyMaskPreferenceKey = @"DK_SCROLLWHEEL_ZOOM_KEY_MASK";
+NSString* const kDKDrawingDisableScrollwheelZoomPrefsKey = @"kDKDrawingDisableScrollwheelZoom";
+NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // typo here, please leave
 
 #pragma mark -
 @implementation GCZoomView

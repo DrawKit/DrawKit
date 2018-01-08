@@ -134,7 +134,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 #define kDKStandardArrowSwatchImageSize (NSMakeSize(80.0, 9.0))
 #define kDKStandardArrowSwatchStrokeWidth 3.0
 
-extern NSString* kDKPositiveToleranceKey;
-extern NSString* kDKNegativeToleranceKey;
-extern NSString* kDKDimensionValueKey;
-extern NSString* kDKDimensionUnitsKey;
+extern NSString* const kDKPositiveToleranceKey;
+extern NSString* const kDKNegativeToleranceKey;
+extern NSString* const kDKDimensionValueKey;
+extern NSString* const kDKDimensionUnitsKey;

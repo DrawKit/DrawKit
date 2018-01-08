@@ -316,5 +316,5 @@ Text shapes are shapes that draw text.
 
 #endif
 
-extern NSString* kDKTextOverflowIndicatorDefaultsKey;
-extern NSString* kDKTextAllowsInlineImagesDefaultsKey;
+extern NSString* const kDKTextOverflowIndicatorDefaultsKey;
+extern NSString* const kDKTextAllowsInlineImagesDefaultsKey;

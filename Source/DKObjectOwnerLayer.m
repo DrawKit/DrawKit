@@ -23,10 +23,10 @@
 
 // constants
 
-NSString* kDKLayerWillAddObject = @"kDKLayerWillAddObject";
-NSString* kDKLayerDidAddObject = @"kDKLayerDidAddObject";
-NSString* kDKLayerWillRemoveObject = @"kDKLayerWillRemoveObject";
-NSString* kDKLayerDidRemoveObject = @"kDKLayerDidRemoveObject";
+NSString* const kDKLayerWillAddObject = @"kDKLayerWillAddObject";
+NSString* const kDKLayerDidAddObject = @"kDKLayerDidAddObject";
+NSString* const kDKLayerWillRemoveObject = @"kDKLayerWillRemoveObject";
+NSString* const kDKLayerDidRemoveObject = @"kDKLayerDidRemoveObject";
 
 @interface DKObjectOwnerLayer ()
 - (void)updateCache;

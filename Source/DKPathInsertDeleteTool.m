@@ -10,9 +10,9 @@
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
 
-NSString* kDKInsertPathPointCursorImageName = @"Insert Path Point";
-NSString* kDKDeletePathPointCursorImageName = @"Delete Path Point";
-NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
+NSString* const kDKInsertPathPointCursorImageName = @"Insert Path Point";
+NSString* const kDKDeletePathPointCursorImageName = @"Delete Path Point";
+NSString* const kDKDeletePathElementCursorImageName = @"Delete Path Element";
 
 @implementation DKPathInsertDeleteTool
 #pragma mark As a DKPathInsertDeleteTool

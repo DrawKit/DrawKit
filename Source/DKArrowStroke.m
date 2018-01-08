@@ -17,10 +17,10 @@
 #pragma mark Static Vars
 static NSMutableDictionary* sDimLinesAttributes = nil;
 
-NSString* kDKPositiveToleranceKey = @"DKPositiveTolerance";
-NSString* kDKNegativeToleranceKey = @"DKNegativeTolerance";
-NSString* kDKDimensionValueKey = @"DKDimensionValue";
-NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
+NSString* const kDKPositiveToleranceKey = @"DKPositiveTolerance";
+NSString* const kDKNegativeToleranceKey = @"DKNegativeTolerance";
+NSString* const kDKDimensionValueKey = @"DKDimensionValue";
+NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 #pragma mark -
 @implementation DKArrowStroke

@@ -35,6 +35,6 @@ This tool is able to insert or delete on-path points from a path. If applied to 
 
 @end
 
-extern NSImageName kDKInsertPathPointCursorImageName;
-extern NSImageName kDKDeletePathPointCursorImageName;
-extern NSImageName kDKDeletePathElementCursorImageName;
+extern NSImageName const kDKInsertPathPointCursorImageName;
+extern NSImageName const kDKDeletePathPointCursorImageName;
+extern NSImageName const kDKDeletePathElementCursorImageName;

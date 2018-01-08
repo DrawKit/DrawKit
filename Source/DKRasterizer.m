@@ -9,10 +9,10 @@
 #import "LogEvent.h"
 #import "NSBezierPath+Geometry.h"
 
-NSString* kDKRasterizerPasteboardType = @"kDKRendererPasteboardType";
-NSString* kDKRasterizerPropertyWillChange = @"kDKRasterizerPropertyWillChange";
-NSString* kDKRasterizerPropertyDidChange = @"kDKRasterizerPropertyDidChange";
-NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
+NSString* const kDKRasterizerPasteboardType = @"kDKRendererPasteboardType";
+NSString* const kDKRasterizerPropertyWillChange = @"kDKRasterizerPropertyWillChange";
+NSString* const kDKRasterizerPropertyDidChange = @"kDKRasterizerPropertyDidChange";
+NSString* const kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 @implementation DKRasterizer
 #pragma mark As a DKRasterizer

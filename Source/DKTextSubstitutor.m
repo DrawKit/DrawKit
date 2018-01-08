@@ -9,7 +9,7 @@
 #import "NSString+DKAdditions.h"
 #import "LogEvent.h"
 
-NSString* kDKTextSubstitutorNewStringNotification = @"kDKTextSubstitutorNewStringNotification";
+NSString* const kDKTextSubstitutorNewStringNotification = @"kDKTextSubstitutorNewStringNotification";
 
 #define TS_LAZY_EVALUATION 1
 

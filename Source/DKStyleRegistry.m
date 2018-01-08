@@ -25,10 +25,10 @@ NSString* const kDKStyleCategoryRegistryDKDefaults = @"DrawKit Defaults";
 NSString* const kDKStyleCategoryRegistryTextStyles = @"Text Styles";
 
 
-NSString* kDKStyleRegistryDidFlagPossibleUIChange = @"kDKStyleRegistryDidFlagPossibleUIChange";
-NSString* kDKStyleWasRegisteredNotification = @"kDKDrawingStyleWasRegisteredNotification";
-NSString* kDKStyleWasRemovedFromRegistryNotification = @"kDKDrawingStyleWasRemovedFromRegistryNotification";
-NSString* kDKStyleWasEditedWhileRegisteredNotification = @"kDKStyleWasEditedWhileRegisteredNotifcation";
+NSString* const kDKStyleRegistryDidFlagPossibleUIChange = @"kDKStyleRegistryDidFlagPossibleUIChange";
+NSString* const kDKStyleWasRegisteredNotification = @"kDKDrawingStyleWasRegisteredNotification";
+NSString* const kDKStyleWasRemovedFromRegistryNotification = @"kDKDrawingStyleWasRemovedFromRegistryNotification";
+NSString* const kDKStyleWasEditedWhileRegisteredNotification = @"kDKStyleWasEditedWhileRegisteredNotifcation";
 
 #pragma mark -
 #pragma mark special private category on DKStyle gives the registry extra privileges.

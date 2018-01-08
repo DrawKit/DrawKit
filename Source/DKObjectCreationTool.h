@@ -96,7 +96,7 @@ You can also set up a style to be applied to all new objects initially as an ind
 
 #define kDKDefaultToolSwatchSize (NSMakeSize(64, 64))
 
-extern NSString* kDKDrawingToolWillMakeNewObjectNotification;
-extern NSNotificationName kDKDrawingToolCreatedObjectsStyleDidChange;
+extern NSNotificationName const kDKDrawingToolWillMakeNewObjectNotification;
+extern NSNotificationName const kDKDrawingToolCreatedObjectsStyleDidChange;
 
 NS_ASSUME_NONNULL_END

@@ -8,11 +8,11 @@
 #import "DKUndoManager.h"
 #import "LogEvent.h"
 
-NSString* kDKMetaDataUserInfoKey = @"kDKMetaDataUserInfoKey";
-NSString* kDKMetaDataUserInfo107OrLaterKey = @"kDKMetaDataUserInfo107OrLaterKey";
+NSString* const kDKMetaDataUserInfoKey = @"kDKMetaDataUserInfoKey";
+NSString* const kDKMetaDataUserInfo107OrLaterKey = @"kDKMetaDataUserInfo107OrLaterKey";
 NSString* const kDKMetadataWillChangeNotification = @"kDKMetadataWillChangeNotification";
 NSString* const kDKMetadataDidChangeNotification = @"kDKMetadataDidChangeNotification";
-NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable";
+NSString* const kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable";
 
 #define USE_107_OR_LATER_SCHEMA 1
 
@@ -627,7 +627,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 #pragma mark -
 #pragma mark Contants(Non - localized)
 
-NSString* kDKPrivateShapeOriginalText = @"Original Text";
+NSString* const kDKPrivateShapeOriginalText = @"Original Text";
 
 @implementation DKDrawableObject (DrawkitPrivateMetadata)
 

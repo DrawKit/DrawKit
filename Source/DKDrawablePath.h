@@ -416,4 +416,4 @@ enum {
 
 extern NSPoint gMouseForPathSnap;
 
-extern NSString* kDKPathOnPathHitDetectionPriorityDefaultsKey;
+extern NSString* const kDKPathOnPathHitDetectionPriorityDefaultsKey;

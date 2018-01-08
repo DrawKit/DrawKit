@@ -79,5 +79,5 @@ objects to the undo manager and vice versa, implementing undo for all keypaths d
 
 @end
 
-extern NSNotificationName kDKObserverRelayDidReceiveChange;
-extern NSString* kDKObservableKeyPath;
+extern NSNotificationName const kDKObserverRelayDidReceiveChange;
+extern NSString* const kDKObservableKeyPath;

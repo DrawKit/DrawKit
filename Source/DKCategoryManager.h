@@ -589,24 +589,24 @@ enum {
 
 // standard name for "All items" category:
 
-extern DKCategoryName kDKDefaultCategoryName;
+extern DKCategoryName const kDKDefaultCategoryName;
 
-extern DKCategoryName kDKRecentlyAddedUserString;
-extern DKCategoryName kDKRecentlyUsedUserString;
+extern DKCategoryName const kDKRecentlyAddedUserString;
+extern DKCategoryName const kDKRecentlyUsedUserString;
 
-extern NSNotificationName kDKCategoryManagerWillAddObject;
-extern NSNotificationName kDKCategoryManagerDidAddObject;
-extern NSNotificationName kDKCategoryManagerWillRemoveObject;
-extern NSNotificationName kDKCategoryManagerDidRemoveObject;
-extern NSNotificationName kDKCategoryManagerDidRenameCategory;
-extern NSNotificationName kDKCategoryManagerWillAddKeyToCategory;
-extern NSNotificationName kDKCategoryManagerDidAddKeyToCategory;
-extern NSNotificationName kDKCategoryManagerWillRemoveKeyFromCategory;
-extern NSNotificationName kDKCategoryManagerDidRemoveKeyFromCategory;
-extern NSNotificationName kDKCategoryManagerWillCreateNewCategory;
-extern NSNotificationName kDKCategoryManagerDidCreateNewCategory;
-extern NSNotificationName kDKCategoryManagerWillDeleteCategory;
-extern NSNotificationName kDKCategoryManagerDidDeleteCategory;
+extern NSNotificationName const kDKCategoryManagerWillAddObject;
+extern NSNotificationName const kDKCategoryManagerDidAddObject;
+extern NSNotificationName const kDKCategoryManagerWillRemoveObject;
+extern NSNotificationName const kDKCategoryManagerDidRemoveObject;
+extern NSNotificationName const kDKCategoryManagerDidRenameCategory;
+extern NSNotificationName const kDKCategoryManagerWillAddKeyToCategory;
+extern NSNotificationName const kDKCategoryManagerDidAddKeyToCategory;
+extern NSNotificationName const kDKCategoryManagerWillRemoveKeyFromCategory;
+extern NSNotificationName const kDKCategoryManagerDidRemoveKeyFromCategory;
+extern NSNotificationName const kDKCategoryManagerWillCreateNewCategory;
+extern NSNotificationName const kDKCategoryManagerDidCreateNewCategory;
+extern NSNotificationName const kDKCategoryManagerWillDeleteCategory;
+extern NSNotificationName const kDKCategoryManagerDidDeleteCategory;
 
 /*
 

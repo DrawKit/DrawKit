@@ -141,4 +141,4 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 
 // keys in the userInfo that can be used to pass additional information to the knob drawing methods
 
-extern NSString* kDKKnobPreferredHighlightColour; // references an NSColor
+extern NSString* const kDKKnobPreferredHighlightColour; // references an NSColor

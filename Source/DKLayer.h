@@ -613,7 +613,7 @@
 
 @end
 
-extern NSNotificationName kDKLayerLockStateDidChange;
-extern NSNotificationName kDKLayerVisibleStateDidChange;
-extern NSNotificationName kDKLayerNameDidChange;
-extern NSNotificationName kDKLayerSelectionHighlightColourDidChange;
+extern NSNotificationName const kDKLayerLockStateDidChange;
+extern NSNotificationName const kDKLayerVisibleStateDidChange;
+extern NSNotificationName const kDKLayerNameDidChange;
+extern NSNotificationName const kDKLayerSelectionHighlightColourDidChange;

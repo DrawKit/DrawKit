@@ -7,9 +7,9 @@
 #import "DKUnarchivingHelper.h"
 #import "LogEvent.h"
 
-NSString* kDKUnarchiverProgressStartedNotification = @"kDKUnarchiverProgressStartedNotification";
-NSString* kDKUnarchiverProgressContinuedNotification = @"kDKUnarchiverProgressContinuedNotification";
-NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFinishedNotification";
+NSString* const kDKUnarchiverProgressStartedNotification = @"kDKUnarchiverProgressStartedNotification";
+NSString* const kDKUnarchiverProgressContinuedNotification = @"kDKUnarchiverProgressContinuedNotification";
+NSString* const kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFinishedNotification";
 
 @implementation DKUnarchivingHelper
 

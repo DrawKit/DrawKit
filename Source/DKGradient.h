@@ -287,12 +287,12 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 // notifications sent by DKGradient:
 
-extern NSNotificationName kDKNotificationGradientWillAddColorStop;
-extern NSNotificationName kDKNotificationGradientDidAddColorStop;
-extern NSNotificationName kDKNotificationGradientWillRemoveColorStop;
-extern NSNotificationName kDKNotificationGradientDidRemoveColorStop;
-extern NSNotificationName kDKNotificationGradientWillChange;
-extern NSNotificationName kDKNotificationGradientDidChange;
+extern NSNotificationName const kDKNotificationGradientWillAddColorStop;
+extern NSNotificationName const kDKNotificationGradientDidAddColorStop;
+extern NSNotificationName const kDKNotificationGradientWillRemoveColorStop;
+extern NSNotificationName const kDKNotificationGradientDidRemoveColorStop;
+extern NSNotificationName const kDKNotificationGradientWillChange;
+extern NSNotificationName const kDKNotificationGradientDidChange;
 
 // Deprecated enum constants
 static const DKGradientInterpolation kDKGradientInterpLinear API_DEPRECATED_WITH_REPLACEMENT("DKGradientInterpolationLinear", macosx(10.0, 10.6)) = DKGradientInterpolationLinear;

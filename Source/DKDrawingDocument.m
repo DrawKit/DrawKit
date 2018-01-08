@@ -28,12 +28,12 @@
 
 #pragma mark Constants(Non - localized)
 
-NSString* kDKDrawingDocumentType = @"Drawing";
-NSString* kDKDrawingDocumentUTI = @"net.apptree.drawing";
-NSString* kDKDrawingDocumentXMLType = @"xml_drawing";
-NSString* kDKDrawingDocumentXMLUTI = @"net.apptree.xmldrawing";
+NSString* const kDKDrawingDocumentType = @"Drawing";
+NSString* const kDKDrawingDocumentUTI = @"net.apptree.drawing";
+NSString* const kDKDrawingDocumentXMLType = @"xml_drawing";
+NSString* const kDKDrawingDocumentXMLUTI = @"net.apptree.xmldrawing";
 
-NSString* kDKDocumentLevelsOfUndoDefaultsKey = @"kDKDocumentLevelsOfUndo";
+NSString* const kDKDocumentLevelsOfUndoDefaultsKey = @"kDKDocumentLevelsOfUndo";
 
 #define qGlobalUndoManager 0
 

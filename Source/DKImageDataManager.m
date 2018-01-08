@@ -8,7 +8,7 @@
 #import "DKUniqueID.h"
 #import "DKKeyedUnarchiver.h"
 
-NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrtype";
+NSString* const kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrtype";
 
 @interface DKImageDataManager ()
 

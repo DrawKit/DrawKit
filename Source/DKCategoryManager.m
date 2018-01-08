@@ -12,23 +12,23 @@
 #import "DKUnarchivingHelper.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKDefaultCategoryName = @"All Items";
-NSString* kDKRecentlyAddedUserString = @"Recently Added";
-NSString* kDKRecentlyUsedUserString = @"Recently Used";
+NSString* const kDKDefaultCategoryName = @"All Items";
+NSString* const kDKRecentlyAddedUserString = @"Recently Added";
+NSString* const kDKRecentlyUsedUserString = @"Recently Used";
 
-NSString* kDKCategoryManagerWillAddObject = @"kDKCategoryManagerWillAddObject";
-NSString* kDKCategoryManagerDidAddObject = @"kDKCategoryManagerDidAddObject";
-NSString* kDKCategoryManagerWillRemoveObject = @"kDKCategoryManagerWillRemoveObject";
-NSString* kDKCategoryManagerDidRemoveObject = @"kDKCategoryManagerDidRemoveObject";
-NSString* kDKCategoryManagerDidRenameCategory = @"kDKCategoryManagerDidRenameCategory";
-NSString* kDKCategoryManagerWillAddKeyToCategory = @"kDKCategoryManagerWillAddKeyToCategory";
-NSString* kDKCategoryManagerDidAddKeyToCategory = @"kDKCategoryManagerDidAddKeyToCategory";
-NSString* kDKCategoryManagerWillRemoveKeyFromCategory = @"kDKCategoryManagerWillRemoveKeyFromCategory";
-NSString* kDKCategoryManagerDidRemoveKeyFromCategory = @"kDKCategoryManagerDidRemoveKeyFromCategory";
-NSString* kDKCategoryManagerWillCreateNewCategory = @"kDKCategoryManagerWillCreateNewCategory";
-NSString* kDKCategoryManagerDidCreateNewCategory = @"kDKCategoryManagerDidCreateNewCategory";
-NSString* kDKCategoryManagerWillDeleteCategory = @"kDKCategoryManagerWillDeleteCategory";
-NSString* kDKCategoryManagerDidDeleteCategory = @"kDKCategoryManagerDidDeleteCategory";
+NSString* const kDKCategoryManagerWillAddObject = @"kDKCategoryManagerWillAddObject";
+NSString* const kDKCategoryManagerDidAddObject = @"kDKCategoryManagerDidAddObject";
+NSString* const kDKCategoryManagerWillRemoveObject = @"kDKCategoryManagerWillRemoveObject";
+NSString* const kDKCategoryManagerDidRemoveObject = @"kDKCategoryManagerDidRemoveObject";
+NSString* const kDKCategoryManagerDidRenameCategory = @"kDKCategoryManagerDidRenameCategory";
+NSString* const kDKCategoryManagerWillAddKeyToCategory = @"kDKCategoryManagerWillAddKeyToCategory";
+NSString* const kDKCategoryManagerDidAddKeyToCategory = @"kDKCategoryManagerDidAddKeyToCategory";
+NSString* const kDKCategoryManagerWillRemoveKeyFromCategory = @"kDKCategoryManagerWillRemoveKeyFromCategory";
+NSString* const kDKCategoryManagerDidRemoveKeyFromCategory = @"kDKCategoryManagerDidRemoveKeyFromCategory";
+NSString* const kDKCategoryManagerWillCreateNewCategory = @"kDKCategoryManagerWillCreateNewCategory";
+NSString* const kDKCategoryManagerDidCreateNewCategory = @"kDKCategoryManagerDidCreateNewCategory";
+NSString* const kDKCategoryManagerWillDeleteCategory = @"kDKCategoryManagerWillDeleteCategory";
+NSString* const kDKCategoryManagerDidDeleteCategory = @"kDKCategoryManagerDidDeleteCategory";
 
 @interface DKCategoryManager ()
 

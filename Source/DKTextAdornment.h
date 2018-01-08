@@ -241,10 +241,10 @@
 // be more portable especially when cutting and pasting styles between objects. These are placed alongside any Cocoa attributes defined in the
 // same dictionary.
 
-extern NSAttributedStringKey DKTextKnockoutColourAttributeName;
-extern NSAttributedStringKey DKTextKnockoutDistanceAttributeName;
-extern NSAttributedStringKey DKTextKnockoutStrokeColourAttributeName;
-extern NSAttributedStringKey DKTextKnockoutStrokeWidthAttributeName;
-extern NSAttributedStringKey DKTextVerticalAlignmentAttributeName;
-extern NSAttributedStringKey DKTextVerticalAlignmentProportionAttributeName;
-extern NSAttributedStringKey DKTextCapitalizationAttributeName;
+extern NSAttributedStringKey const DKTextKnockoutColourAttributeName;
+extern NSAttributedStringKey const DKTextKnockoutDistanceAttributeName;
+extern NSAttributedStringKey const DKTextKnockoutStrokeColourAttributeName;
+extern NSAttributedStringKey const DKTextKnockoutStrokeWidthAttributeName;
+extern NSAttributedStringKey const DKTextVerticalAlignmentAttributeName;
+extern NSAttributedStringKey const DKTextVerticalAlignmentProportionAttributeName;
+extern NSAttributedStringKey const DKTextCapitalizationAttributeName;

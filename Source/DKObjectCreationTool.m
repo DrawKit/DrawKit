@@ -15,8 +15,8 @@
 #import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKDrawingToolWillMakeNewObjectNotification = @"kDKDrawingToolWillMakeNewObjectNotification";
-NSString* kDKDrawingToolCreatedObjectsStyleDidChange = @"kDKDrawingToolCreatedObjectsStyleDidChange";
+NSString* const kDKDrawingToolWillMakeNewObjectNotification = @"kDKDrawingToolWillMakeNewObjectNotification";
+NSString* const kDKDrawingToolCreatedObjectsStyleDidChange = @"kDKDrawingToolCreatedObjectsStyleDidChange";
 
 #pragma mark Static Vars
 static DKStyle* sCreatedObjectsStyle = nil;

@@ -160,9 +160,9 @@
 
 #define kDKZoomingRetriggerPeriod 0.5
 
-extern NSNotificationName kDKDrawingViewWillChangeScale;
-extern NSNotificationName kDKDrawingViewDidChangeScale;
+extern NSNotificationName const kDKDrawingViewWillChangeScale;
+extern NSNotificationName const kDKDrawingViewDidChangeScale;
 
-extern NSString* kDKScrollwheelModifierKeyMaskPreferenceKey;
-extern NSString* kDKDrawingDisableScrollwheelZoomPrefsKey;
-extern NSString* kDKDrawingScrollwheelSensePrefsKey;
+extern NSString* const kDKScrollwheelModifierKeyMaskPreferenceKey;
+extern NSString* const kDKDrawingDisableScrollwheelZoomPrefsKey;
+extern NSString* const kDKDrawingScrollwheelSensePrefsKey;

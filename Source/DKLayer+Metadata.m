@@ -10,8 +10,8 @@
 
 #define USE_107_OR_LATER_SCHEMA 1
 
-NSString* kDKLayerMetadataUserInfoKey = @"kDKLayerMetadataUserInfoKey";
-NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUndoableChangesUserDefaultsKey";
+NSString* const kDKLayerMetadataUserInfoKey = @"kDKLayerMetadataUserInfoKey";
+NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUndoableChangesUserDefaultsKey";
 
 @implementation DKLayer (Metadata)
 #pragma mark As a DKLayer

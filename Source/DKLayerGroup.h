@@ -378,10 +378,10 @@ be upside-down. This class automatically reverses the stacking order in an archi
 
 @end
 
-extern NSNotificationName kDKLayerGroupDidAddLayer;
-extern NSNotificationName kDKLayerGroupDidRemoveLayer;
-extern NSNotificationName kDKLayerGroupNumberOfLayersDidChange;
-extern NSNotificationName kDKLayerGroupWillReorderLayers;
-extern NSNotificationName kDKLayerGroupDidReorderLayers;
+extern NSNotificationName const kDKLayerGroupDidAddLayer;
+extern NSNotificationName const kDKLayerGroupDidRemoveLayer;
+extern NSNotificationName const kDKLayerGroupNumberOfLayersDidChange;
+extern NSNotificationName const kDKLayerGroupWillReorderLayers;
+extern NSNotificationName const kDKLayerGroupDidReorderLayers;
 
 NS_ASSUME_NONNULL_END

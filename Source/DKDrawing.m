@@ -29,40 +29,40 @@
 
 // notifications:
 
-NSString* kDKDrawingActiveLayerWillChange = @"kDKDrawingActiveLayerWillChange";
-NSString* kDKDrawingActiveLayerDidChange = @"kDKDrawingActiveLayerDidChange";
-NSString* kDKDrawingWillChangeSize = @"kDKDrawingWillChangeSize";
-NSString* kDKDrawingDidChangeSize = @"kDKDrawingDidChangeSize";
-NSString* kDKDrawingUnitsWillChange = @"kDKDrawingUnitsWillChange";
-NSString* kDKDrawingUnitsDidChange = @"kDKDrawingUnitsDidChange";
-NSString* kDKDrawingWillChangeMargins = @"kDKDrawingWillChangeMargins";
-NSString* kDKDrawingDidChangeMargins = @"kDKDrawingDidChangeMargins";
-NSString* kDKDrawingWillBeSavedOrExported = @"kDKDrawingWillBeSavedOrExported";
+NSString* const kDKDrawingActiveLayerWillChange = @"kDKDrawingActiveLayerWillChange";
+NSString* const kDKDrawingActiveLayerDidChange = @"kDKDrawingActiveLayerDidChange";
+NSString* const kDKDrawingWillChangeSize = @"kDKDrawingWillChangeSize";
+NSString* const kDKDrawingDidChangeSize = @"kDKDrawingDidChangeSize";
+NSString* const kDKDrawingUnitsWillChange = @"kDKDrawingUnitsWillChange";
+NSString* const kDKDrawingUnitsDidChange = @"kDKDrawingUnitsDidChange";
+NSString* const kDKDrawingWillChangeMargins = @"kDKDrawingWillChangeMargins";
+NSString* const kDKDrawingDidChangeMargins = @"kDKDrawingDidChangeMargins";
+NSString* const kDKDrawingWillBeSavedOrExported = @"kDKDrawingWillBeSavedOrExported";
 
 // drawng info keys:
 
-NSString* kDKDrawingInfoUserInfoKey = @"kDKDrawingInfoUserInfoKey";
+NSString* const kDKDrawingInfoUserInfoKey = @"kDKDrawingInfoUserInfoKey";
 
-NSString* kDKDrawingInfoDrawingNumber = @"kDKDrawingInfoDrawingNumber";
-NSString* kDKDrawingInfoDrawingNumberUnformatted = @"kDKDrawingInfoDrawingNumberUnformatted";
-NSString* kDKDrawingInfoDrawingRevision = @"kDKDrawingInfoDrawingRevision";
-NSString* kDKDrawingInfoDrawingPrefix = @"kDKDrawingInfoDrawingPrefix";
+NSString* const kDKDrawingInfoDrawingNumber = @"kDKDrawingInfoDrawingNumber";
+NSString* const kDKDrawingInfoDrawingNumberUnformatted = @"kDKDrawingInfoDrawingNumberUnformatted";
+NSString* const kDKDrawingInfoDrawingRevision = @"kDKDrawingInfoDrawingRevision";
+NSString* const kDKDrawingInfoDrawingPrefix = @"kDKDrawingInfoDrawingPrefix";
 
-NSString* kDKDrawingInfoDraughter = @"kDKDrawingInfoDraughter";
-NSString* kDKDrawingInfoCreationDate = @"kDKDrawingInfoCreationDate";
-NSString* kDKDrawingInfoLastModificationDate = @"kDKDrawingInfoLastModificationDate";
-NSString* kDKDrawingInfoModificationHistory = @"kDKDrawingInfoModificationHistory";
-NSString* kDKDrawingInfoOriginalFilename = @"kDKDrawingInfoOriginalFilename";
-NSString* kDKDrawingInfoTitle = @"kDKDrawingInfoTitle";
-NSString* kDKDrawingInfoDrawingDimensions = @"kDKDrawingInfoDrawingDimensions";
-NSString* kDKDrawingInfoDimensionsUnits = @"kDKDrawingInfoDimensionsUnits";
-NSString* kDKDrawingInfoDimensionsShortUnits = @"kDKDrawingInfoDimensionsShortUnits";
+NSString* const kDKDrawingInfoDraughter = @"kDKDrawingInfoDraughter";
+NSString* const kDKDrawingInfoCreationDate = @"kDKDrawingInfoCreationDate";
+NSString* const kDKDrawingInfoLastModificationDate = @"kDKDrawingInfoLastModificationDate";
+NSString* const kDKDrawingInfoModificationHistory = @"kDKDrawingInfoModificationHistory";
+NSString* const kDKDrawingInfoOriginalFilename = @"kDKDrawingInfoOriginalFilename";
+NSString* const kDKDrawingInfoTitle = @"kDKDrawingInfoTitle";
+NSString* const kDKDrawingInfoDrawingDimensions = @"kDKDrawingInfoDrawingDimensions";
+NSString* const kDKDrawingInfoDimensionsUnits = @"kDKDrawingInfoDimensionsUnits";
+NSString* const kDKDrawingInfoDimensionsShortUnits = @"kDKDrawingInfoDimensionsShortUnits";
 
 // user default keys:
 
-NSString* kDKDrawingSnapToGridUserDefault = @"kDKDrawingSnapToGridUserDefault";
-NSString* kDKDrawingSnapToGuidesUserDefault = @"kDKDrawingSnapToGuidesUserDefault";
-NSString* kDKDrawingUnitAbbreviationsUserDefault = @"kDKDrawingUnitAbbreviations";
+NSString* const kDKDrawingSnapToGridUserDefault = @"kDKDrawingSnapToGridUserDefault";
+NSString* const kDKDrawingSnapToGuidesUserDefault = @"kDKDrawingSnapToGuidesUserDefault";
+NSString* const kDKDrawingUnitAbbreviationsUserDefault = @"kDKDrawingUnitAbbreviations";
 
 // drawing units:
 

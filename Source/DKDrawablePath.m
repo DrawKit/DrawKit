@@ -21,7 +21,7 @@
 #pragma mark Global Vars
 NSPoint gMouseForPathSnap = { 0, 0 };
 
-NSString* kDKPathOnPathHitDetectionPriorityDefaultsKey = @"kDKPathOnPathHitDetectionPriority";
+NSString* const kDKPathOnPathHitDetectionPriorityDefaultsKey = @"kDKPathOnPathHitDetectionPriority";
 
 #pragma mark Static Vars
 static CGFloat sAngleConstraint = 0.261799387799; // 15 degrees

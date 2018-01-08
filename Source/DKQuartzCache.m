@@ -62,7 +62,12 @@
 	self = [super init];
 	if (self) {
 		CGContextRef port = [context graphicsPort];
+#if defined(NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES) && NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES
+		// Ssh, CGSize and NSSize are the same on 64-bit Mac OS X.
+		CGSize cg_size = rect.size;
+#else
 		CGSize cg_size = CGSizeMake(NSWidth(rect), NSHeight(rect));
+#endif
 		mCGLayer = CGLayerCreateWithContext(port, cg_size, NULL);
 		mOrigin = rect.origin;
 		[self setFlipped:[context isFlipped]];

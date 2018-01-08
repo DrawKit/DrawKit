@@ -12,7 +12,7 @@
 
 #define USE_DK_HANDLES 1
 
-NSString* kDKKnobPreferredHighlightColour = @"kDKKnobPreferredHighlightColour";
+NSString* const kDKKnobPreferredHighlightColour = @"kDKKnobPreferredHighlightColour";
 
 static NSColor* sKnobColour = nil;
 static NSColor* sRotationColour = nil;

@@ -509,24 +509,24 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // pasteboard types:
 
-extern NSPasteboardType kDKStylePasteboardType NS_SWIFT_NAME(dkStyle);
-extern NSPasteboardType kDKStyleKeyPasteboardType NS_SWIFT_NAME(dkStyleKey);
+extern NSPasteboardType const kDKStylePasteboardType NS_SWIFT_NAME(dkStyle);
+extern NSPasteboardType const kDKStyleKeyPasteboardType NS_SWIFT_NAME(dkStyleKey);
 
 // notifications:
 
-extern NSString* kDKStyleWillChangeNotification;
-extern NSString* kDKStyleDidChangeNotification;
-extern NSString* kDKStyleTextAttributesDidChangeNotification;
-extern NSString* kDKStyleWasAttachedNotification;
-extern NSString* kDKStyleWillBeDetachedNotification;
-extern NSString* kDKStyleLockStateChangedNotification;
-extern NSString* kDKStyleSharableFlagChangedNotification;
-extern NSString* kDKStyleNameChangedNotification;
+extern NSString* const kDKStyleWillChangeNotification;
+extern NSString* const kDKStyleDidChangeNotification;
+extern NSString* const kDKStyleTextAttributesDidChangeNotification;
+extern NSString* const kDKStyleWasAttachedNotification;
+extern NSString* const kDKStyleWillBeDetachedNotification;
+extern NSString* const kDKStyleLockStateChangedNotification;
+extern NSString* const kDKStyleSharableFlagChangedNotification;
+extern NSString* const kDKStyleNameChangedNotification;
 
 // preferences keys
 
-extern NSString* kDKStyleDisplayPerformance_no_anti_aliasing;
-extern NSString* kDKStyleDisplayPerformance_no_shadows;
-extern NSString* kDKStyleDisplayPerformance_substitute_styles;
+extern NSString* const kDKStyleDisplayPerformance_no_anti_aliasing;
+extern NSString* const kDKStyleDisplayPerformance_no_shadows;
+extern NSString* const kDKStyleDisplayPerformance_substitute_styles;
 
 NS_ASSUME_NONNULL_END

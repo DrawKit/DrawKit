@@ -51,7 +51,7 @@ This objects abstracts the text substitution task used by text adornments, et. a
 
 @end
 
-extern NSString* kDKTextSubstitutorNewStringNotification;
+extern NSString* const kDKTextSubstitutorNewStringNotification;
 
 #define DEFAULT_DELIMITER_STRING @"%%"
 #define PADDING_DELIMITER '#'

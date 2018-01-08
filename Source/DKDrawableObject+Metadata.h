@@ -103,10 +103,10 @@ id, but using this sets it to be a mutable dictionary. You can then easily get a
 
 */
 
-extern NSString* kDKMetaDataUserInfoKey;
-extern NSString* kDKMetaDataUserInfo107OrLaterKey;
-extern NSString* kDKPrivateShapeOriginalText;
-extern NSString* kDKUndoableChangesUserDefaultsKey;
+extern NSString* const kDKMetaDataUserInfoKey;
+extern NSString* const kDKMetaDataUserInfo107OrLaterKey;
+extern NSString* const kDKPrivateShapeOriginalText;
+extern NSString* const kDKUndoableChangesUserDefaultsKey;
 
 @interface DKDrawableObject (DrawkitPrivateMetadata)
 

@@ -9,8 +9,8 @@
 #import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKSpeechBalloonType = @"kDKSpeechBalloonType";
-NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
+NSString* const kDKSpeechBalloonType = @"kDKSpeechBalloonType";
+NSString* const kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 
 #pragma mark -
 @implementation DKShapeFactory

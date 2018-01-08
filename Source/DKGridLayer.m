@@ -15,9 +15,9 @@
 #include <tgmath.h>
 
 #pragma mark Contants(Non - localized)
-NSString* kDKGridDrawingLayerStandardMetric = @"DK_std_metric";
-NSString* kDKGridDrawingLayerStandardImperial = @"DK_std_imperial";
-NSString* kDKGridDrawingLayerStandardImperialPCB = @"DK_std_imperial_pcb";
+NSString* const kDKGridDrawingLayerStandardMetric = @"DK_std_metric";
+NSString* const kDKGridDrawingLayerStandardImperial = @"DK_std_imperial";
+NSString* const kDKGridDrawingLayerStandardImperialPCB = @"DK_std_imperial_pcb";
 
 #pragma mark Static Vars
 static NSColor* sSpanColour = nil;

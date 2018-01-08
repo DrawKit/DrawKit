@@ -71,8 +71,8 @@ typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
 
 @end
 
-extern NSString* kDKLayerMetadataUserInfoKey;
-extern NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey;
+extern NSString* const kDKLayerMetadataUserInfoKey;
+extern NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey;
 
 @interface DKLayer (MetadataDeprecated)
 

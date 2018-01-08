@@ -11,7 +11,7 @@
 #import "DKGridLayer.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttributes";
+NSString* const kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttributes";
 
 #pragma mark -
 @implementation DKDrawingInfoLayer

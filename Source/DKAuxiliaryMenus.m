@@ -6,7 +6,7 @@
 
 #import "DKAuxiliaryMenus.h"
 
-NSString* kDKAuxiliaryMenusNibFile = @"DK_Auxiliary_Menus";
+NSString* const kDKAuxiliaryMenusNibFile = @"DK_Auxiliary_Menus";
 
 @interface DKAuxiliaryMenus ()
 

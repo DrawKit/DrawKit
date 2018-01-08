@@ -29,10 +29,20 @@ typedef NS_OPTIONS(NSUInteger, DKObjectStorageOptions) {
  */
 @protocol DKStorableObject <NSObject, NSCoding, NSCopying>
 
+/** @brief The reference to the object's storage
+ */
 @property (weak, readwrite) __kindof id<DKObjectStorage> storage;
 
+/** @brief Where object storage stores the Z-index in the object itself, this is used to set it.
+ 
+ Note that this doesn't allow the Z-index to be changed, but merely recorded. The setter should only
+ be used by storage methods internal to DK and not by external client code.
+ Is the desired Z value for the object.
+ */
 @property (nonatomic, readwrite) NSUInteger index;
 
+/** @brief Marks the object
+ */
 @property (readwrite, getter=isMarked) BOOL marked;
 
 @property (readonly) BOOL visible;

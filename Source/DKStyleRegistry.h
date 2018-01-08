@@ -428,10 +428,10 @@ extern DKStyleCategory const kDKStyleCategoryRegistryTextStyles;
 
 // notifications
 
-extern NSNotificationName kDKStyleRegistryDidFlagPossibleUIChange;
-extern NSString* kDKStyleWasRegisteredNotification;
-extern NSString* kDKStyleWasRemovedFromRegistryNotification;
-extern NSString* kDKStyleWasEditedWhileRegisteredNotification;
+extern NSNotificationName const kDKStyleRegistryDidFlagPossibleUIChange;
+extern NSString* const kDKStyleWasRegisteredNotification;
+extern NSString* const kDKStyleWasRemovedFromRegistryNotification;
+extern NSString* const kDKStyleWasEditedWhileRegisteredNotification;
 
 /** Protocol allows the delegate to decide which of a pair of styles should be used
  */

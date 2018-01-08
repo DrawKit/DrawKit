@@ -216,14 +216,14 @@ has a very low opacity should be used - the default style takes the system's hig
 
 // notifications:
 
-extern NSNotificationName kDKSelectionToolWillStartSelectionDrag;
-extern NSNotificationName kDKSelectionToolDidFinishSelectionDrag;
-extern NSNotificationName kDKSelectionToolWillStartMovingObjects;
-extern NSNotificationName kDKSelectionToolDidFinishMovingObjects;
-extern NSNotificationName kDKSelectionToolWillStartEditingObject;
-extern NSNotificationName kDKSelectionToolDidFinishEditingObject;
+extern NSNotificationName const kDKSelectionToolWillStartSelectionDrag;
+extern NSNotificationName const kDKSelectionToolDidFinishSelectionDrag;
+extern NSNotificationName const kDKSelectionToolWillStartMovingObjects;
+extern NSNotificationName const kDKSelectionToolDidFinishMovingObjects;
+extern NSNotificationName const kDKSelectionToolWillStartEditingObject;
+extern NSNotificationName const kDKSelectionToolDidFinishEditingObject;
 
 // keys for user info dictionary:
 
-extern NSString* kDKSelectionToolTargetLayer;
-extern NSString* kDKSelectionToolTargetObject;
+extern NSString* const kDKSelectionToolTargetLayer;
+extern NSString* const kDKSelectionToolTargetObject;

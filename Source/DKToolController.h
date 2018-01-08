@@ -162,12 +162,12 @@ tool's name and target first responder with this action.
 
 // notifications:
 
-extern NSString* kDKWillChangeToolNotification;
-extern NSString* kDKDidChangeToolNotification;
-extern NSString* kDKDidChangeToolAutoRevertStateNotification;
+extern NSString* const kDKWillChangeToolNotification;
+extern NSString* const kDKDidChangeToolNotification;
+extern NSString* const kDKDidChangeToolAutoRevertStateNotification;
 
 // defaults keys:
 
-extern NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey;
+extern NSString* const kDKDrawingToolAutoActivatesLayerDefaultsKey;
 
 NS_ASSUME_NONNULL_END

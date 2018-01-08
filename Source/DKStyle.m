@@ -25,27 +25,27 @@
 
 #pragma mark Contants(Non - localized)
 
-NSString* kDKStylePasteboardType = @"net.apptree.drawkit.style";
-NSString* kDKStyleKeyPasteboardType = @"net.apptree.drawkit.stylekey";
+NSString* const kDKStylePasteboardType = @"net.apptree.drawkit.style";
+NSString* const kDKStyleKeyPasteboardType = @"net.apptree.drawkit.stylekey";
 
-NSString* kDKStyleWillChangeNotification = @"kDKDrawingStyleWillChangeNotification";
-NSString* kDKStyleDidChangeNotification = @"kDKDrawingStyleDidChangeNotification";
-NSString* kDKStyleWasAttachedNotification = @"kDKDrawingStyleWasAttachedNotification";
-NSString* kDKStyleWillBeDetachedNotification = @"kDKDrawingStyleWillBeDetachedNotification";
-NSString* kDKStyleLockStateChangedNotification = @"kDKStyleLockStateChangedNotification";
-NSString* kDKStyleSharableFlagChangedNotification = @"kDKStyleSharableFlagChangedNotification";
-NSString* kDKStyleNameChangedNotification = @"kDKStyleNameChangedNotification";
-NSString* kDKStyleTextAttributesDidChangeNotification = @"kDKStyleTextAttributesDidChangeNotification";
+NSString* const kDKStyleWillChangeNotification = @"kDKDrawingStyleWillChangeNotification";
+NSString* const kDKStyleDidChangeNotification = @"kDKDrawingStyleDidChangeNotification";
+NSString* const kDKStyleWasAttachedNotification = @"kDKDrawingStyleWasAttachedNotification";
+NSString* const kDKStyleWillBeDetachedNotification = @"kDKDrawingStyleWillBeDetachedNotification";
+NSString* const kDKStyleLockStateChangedNotification = @"kDKStyleLockStateChangedNotification";
+NSString* const kDKStyleSharableFlagChangedNotification = @"kDKStyleSharableFlagChangedNotification";
+NSString* const kDKStyleNameChangedNotification = @"kDKStyleNameChangedNotification";
+NSString* const kDKStyleTextAttributesDidChangeNotification = @"kDKStyleTextAttributesDidChangeNotification";
 
-NSString* kDKStyleDisplayPerformance_no_anti_aliasing = @"kDKStyleDisplayPerformance_no_anti_aliasing";
-NSString* kDKStyleDisplayPerformance_no_shadows = @"kDKStyleDisplayPerformance_no_shadows";
-NSString* kDKStyleDisplayPerformance_substitute_styles = @"kDKStyleDisplayPerformance_substitute_styles";
+NSString* const kDKStyleDisplayPerformance_no_anti_aliasing = @"kDKStyleDisplayPerformance_no_anti_aliasing";
+NSString* const kDKStyleDisplayPerformance_no_shadows = @"kDKStyleDisplayPerformance_no_shadows";
+NSString* const kDKStyleDisplayPerformance_substitute_styles = @"kDKStyleDisplayPerformance_substitute_styles";
 
 // the fixed default styles need to have a predetermined (but still unique) key. We define them here.
 // Do not change or interpret these values.
 
-static NSString* kDKBasicStyleDefaultKey = @"1DFD6D8A-6C8B-4E4B-9186-90F64654F79F";
-static NSString* kDKBasicTrackStyleDefaultKey = @"6B1A0430-204A-4012-B96D-A4EE9890A2A3";
+static NSString* const kDKBasicStyleDefaultKey = @"1DFD6D8A-6C8B-4E4B-9186-90F64654F79F";
+static NSString* const kDKBasicTrackStyleDefaultKey = @"6B1A0430-204A-4012-B96D-A4EE9890A2A3";
 
 #pragma mark Static Vars
 

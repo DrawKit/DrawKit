@@ -389,8 +389,8 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 #define kDKGridDrawingLayerMetricInterval 28.346456692913 // 1cm, = 72 / 2.54
 #define kDKGridDrawingLayerImperialInterval 72.00 // 1 inch
 
-extern NSString* kDKGridDrawingLayerStandardMetric;
-extern NSString* kDKGridDrawingLayerStandardImperial;
-extern NSString* kDKGridDrawingLayerStandardImperialPCB;
+extern NSString* const kDKGridDrawingLayerStandardMetric;
+extern NSString* const kDKGridDrawingLayerStandardImperial;
+extern NSString* const kDKGridDrawingLayerStandardImperialPCB;
 
 NS_ASSUME_NONNULL_END

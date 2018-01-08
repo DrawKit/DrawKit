@@ -18,10 +18,10 @@
 
 #pragma mark Constants(Non - localized)
 
-NSString* kDKLayerLockStateDidChange = @"kDKLayerLockStateDidChange";
-NSString* kDKLayerVisibleStateDidChange = @"kDKLayerVisibleStateDidChange";
-NSString* kDKLayerNameDidChange = @"kDKLayerNameDidChange";
-NSString* kDKLayerSelectionHighlightColourDidChange = @"kDKLayerSelectionHighlightColourDidChange";
+NSString* const kDKLayerLockStateDidChange = @"kDKLayerLockStateDidChange";
+NSString* const kDKLayerVisibleStateDidChange = @"kDKLayerVisibleStateDidChange";
+NSString* const kDKLayerNameDidChange = @"kDKLayerNameDidChange";
+NSString* const kDKLayerSelectionHighlightColourDidChange = @"kDKLayerSelectionHighlightColourDidChange";
 
 #pragma mark Static Vars
 static NSInteger sLayerIndexSeed = 4;

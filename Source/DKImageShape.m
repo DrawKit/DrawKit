@@ -17,9 +17,9 @@
 
 #pragma mark Constants
 
-NSString* kDKOriginalFileMetadataKey = @"dk_original_file";
-NSString* kDKOriginalImageDimensionsMetadataKey = @"dk_image_original_dims";
-NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
+NSString* const kDKOriginalFileMetadataKey = @"dk_original_file";
+NSString* const kDKOriginalImageDimensionsMetadataKey = @"dk_image_original_dims";
+NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 
 @interface DKSecretSelectorsImageShape : NSObject
 -(IBAction)vectorize:(id)sender;

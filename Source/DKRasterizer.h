@@ -102,11 +102,11 @@ typedef NS_ENUM(NSInteger, DKClippingOption) {
 
 @end
 
-extern NSPasteboardType kDKRasterizerPasteboardType;
+extern NSPasteboardType const kDKRasterizerPasteboardType;
 
-extern NSNotificationName kDKRasterizerPropertyWillChange;
-extern NSNotificationName kDKRasterizerPropertyDidChange;
-extern NSString* kDKRasterizerChangedPropertyKey;
+extern NSNotificationName const kDKRasterizerPropertyWillChange;
+extern NSNotificationName const kDKRasterizerPropertyDidChange;
+extern NSString* const kDKRasterizerChangedPropertyKey;
 
 /*! @brief DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
  include DKStroke, DKFill, DKHatching, DKFillPattern, DKGradient, etc.

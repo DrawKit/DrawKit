@@ -16,11 +16,11 @@
 
 #pragma mark Contants(Non - localized)
 
-NSString* kDKWillChangeToolNotification = @"kDKWillChangeToolNotification";
-NSString* kDKDidChangeToolNotification = @"kDKDidChangeToolNotification";
-NSString* kDKDidChangeToolAutoRevertStateNotification = @"kDKDidChangeToolAutoRevertStateNotification";
+NSString* const kDKWillChangeToolNotification = @"kDKWillChangeToolNotification";
+NSString* const kDKDidChangeToolNotification = @"kDKDidChangeToolNotification";
+NSString* const kDKDidChangeToolAutoRevertStateNotification = @"kDKDidChangeToolAutoRevertStateNotification";
 
-NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActivatesLayer";
+NSString* const kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActivatesLayer";
 
 @interface DKToolController ()
 

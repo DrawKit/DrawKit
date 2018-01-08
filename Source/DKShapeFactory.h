@@ -90,7 +90,7 @@ protocol are used as shape providers. See DKReshapableShape for more details.
 
 // param keys for dictionary passed to provider methods:
 
-extern NSString* kDKSpeechBalloonType;
-extern NSString* kDKSpeechBalloonCornerRadius;
+extern NSString* const kDKSpeechBalloonType;
+extern NSString* const kDKSpeechBalloonCornerRadius;
 
 NS_ASSUME_NONNULL_END

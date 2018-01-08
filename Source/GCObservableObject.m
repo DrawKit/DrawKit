@@ -8,8 +8,8 @@
 #import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKObserverRelayDidReceiveChange = @"kDKObserverRelayDidReceiveChange";
-NSString* kDKObservableKeyPath = @"kDKObservableKeyPath";
+NSString* const kDKObserverRelayDidReceiveChange = @"kDKObserverRelayDidReceiveChange";
+NSString* const kDKObservableKeyPath = @"kDKObservableKeyPath";
 
 #pragma mark Static Vars
 static NSMutableDictionary* sActionNameRegistry = nil;
