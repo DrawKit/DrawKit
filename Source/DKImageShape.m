@@ -694,7 +694,9 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	[[self image] drawInRect:ir
 					fromRect:NSZeroRect
 				   operation:[self compositingOperation]
-					fraction:[self imageOpacity]];
+					fraction:[self imageOpacity]
+			  respectFlipped:YES
+					   hints:nil];
 
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }

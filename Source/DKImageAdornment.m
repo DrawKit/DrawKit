@@ -35,7 +35,6 @@
 {
 	m_image = image;
 
-	//[_image setFlipped:YES];
 	[m_image setCacheMode:NSImageCacheNever];
 }
 

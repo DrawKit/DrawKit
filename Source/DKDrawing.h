@@ -195,7 +195,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Sets whether the Y axis of the drawing is flipped
  
  Drawings are typically flipped, \c YES is the default. This affects the \c -isFlipped return from a
- DKDrawingView. WARNING: drawings with flip set to NO may have issues at present as some lower level
+ DKDrawingView. WARNING: drawings with flip set to \c NO may have issues at present as some lower level
  code is currently assuming a flipped view.
  
  Is \c YES to have increase Y going down, \c NO for increasing Y going up.
