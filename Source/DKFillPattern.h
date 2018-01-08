@@ -59,4 +59,4 @@ just sets up the path clipping and calls the rendering method for each location 
 
 @end
 
-extern NSNotificationName kDKDrawingViewDidChangeScale;
+// kDKDrawingViewDidChangeScale can now be found in GCZoomView.h
