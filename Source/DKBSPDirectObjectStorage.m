@@ -576,6 +576,7 @@ static void unmarkFunc(const void* value, void* context)
 	return self;
 }
 
+#if USE_CF_APPLIER
 static void addValueToFoundObjects(const void* value, void* context)
 {
 	id<DKStorableObject> obj = (__bridge id<DKStorableObject>)value;
@@ -592,6 +593,7 @@ static void addValueToFoundObjects(const void* value, void* context)
 		}
 	}
 }
+#endif
 
 - (void)operateOnLeaf:(id)leaf
 {
