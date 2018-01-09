@@ -179,8 +179,8 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 @end
 
-extern NSPasteboardType DKSingleMetadataItemPBoardType NS_SWIFT_NAME(NSPasteboardType.dkSingleMetadataItem);
-extern NSPasteboardType DKMultipleMetadataItemsPBoardType NS_SWIFT_NAME(NSPasteboardType.dkMultipleMetadataItem);
+extern NSPasteboardType DKSingleMetadataItemPBoardType NS_SWIFT_NAME(dkSingleMetadataItem);
+extern NSPasteboardType DKMultipleMetadataItemsPBoardType NS_SWIFT_NAME(dkMultipleMetadataItems);
 
 //! objects can optionally implement any of the following to assist with additional conversions:
 @protocol DKMetadataItemConversions <NSObject>

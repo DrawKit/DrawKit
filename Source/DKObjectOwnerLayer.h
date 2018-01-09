@@ -674,7 +674,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 #endif
 
-extern NSPasteboardType const kDKDrawableObjectInfoPasteboardType NS_SWIFT_NAME(NSPasteboardType.dkDrawableObjectInfo);
+extern NSPasteboardType const kDKDrawableObjectInfoPasteboardType NS_SWIFT_NAME(dkDrawableObjectInfo);
 extern NSNotificationName const kDKLayerDidReorderObjects;
 
 extern NSNotificationName const kDKLayerWillAddObject;

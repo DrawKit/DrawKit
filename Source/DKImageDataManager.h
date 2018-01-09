@@ -46,7 +46,7 @@ The purpose of this class is to allow images to be archived much more efficientl
 
 @end
 
-extern NSPasteboardType const kDKImageDataManagerPasteboardType NS_SWIFT_NAME(NSPasteboardType.dkImageDataManager);
+extern NSPasteboardType const kDKImageDataManagerPasteboardType NS_SWIFT_NAME(dkImageDataManager);
 
 @interface NSData (Checksum)
 
