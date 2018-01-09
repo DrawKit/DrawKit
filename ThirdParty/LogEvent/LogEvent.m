@@ -32,6 +32,9 @@
 
 #ifdef qUseLogEvent
 
+#if __has_feature(objc_arc)
+#error This file CAN NOT be built using ARC: the usage of singletons prevent this.
+#endif
 
 #import "LogEvent.h"
 #import <Foundation/NSDebug.h>
