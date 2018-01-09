@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKCategoryManagerMenuInfo;
 @protocol DKCategoryManagerMergeDelegate;
 @protocol DKCategoryManagerMenuItemDelegate;
@@ -76,9 +78,9 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  Subclasses will need to define this differently - used for merging.
  @param obj an object
  @return a key string */
-+ (NSString*)categoryManagerKeyForObject:(id)obj;
++ (nullable NSString*)categoryManagerKeyForObject:(id)obj;
 
-@property (class, retain) id dearchivingHelper;
+@property (class, retain, null_resettable) id dearchivingHelper;
 
 // initialization
 
@@ -99,7 +101,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 - (instancetype)initWithDictionary:(NSDictionary<NSString*,ObjectType>*)dict;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 // adding and retrieving objects
 
@@ -111,7 +113,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the name of the category to add it to, or nil for defaults only
  @param cg YES to create the category if it doesn't exist. NO not to do so
  */
-- (void)addObject:(ObjectType)obj forKey:(NSString*)name toCategory:(DKCategoryName)catName createCategory:(BOOL)cg;
+- (void)addObject:(ObjectType)obj forKey:(NSString*)name toCategory:(nullable DKCategoryName)catName createCategory:(BOOL)cg;
 
 /** @brief Add an object to the container, associating with a key and optionally a number of categories.
 
@@ -121,7 +123,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames the names of the categories to add it to, or nil for defaults
  @param cg YES to create the categories if they don't exist. NO not to do so
  */
-- (void)addObject:(ObjectType)obj forKey:(NSString*)name toCategories:(NSArray<DKCategoryName>*)catNames createCategories:(BOOL)cg;
+- (void)addObject:(ObjectType)obj forKey:(NSString*)name toCategories:(nullable NSArray<DKCategoryName>*)catNames createCategories:(BOOL)cg;
 
 /** @brief Remove an object from the container
 
@@ -187,7 +189,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return a set, possibly empty. The set contains those objects that already existed in the CM that should replace
  equivalent items in the supplied set.
  */
-- (NSSet<ObjectType>*)mergeObjectsFromSet:(NSSet<ObjectType>*)aSet inCategories:(NSArray<DKCategoryName>*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
+- (nullable NSSet<ObjectType>*)mergeObjectsFromSet:(NSSet<ObjectType>*)aSet inCategories:(NSArray<DKCategoryName>*)categories mergeOptions:(DKCatManagerMergeOptions)options mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
 
 /** @brief Asks delegate to make decision about the merging of an object
 
@@ -196,7 +198,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param aDelegate the delegate to ask
  @return an equivalent object or nil. May be the supplied object or another having an identical ID.
  */
-- (ObjectType)mergeObject:(ObjectType)obj mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate;
+- (nullable ObjectType)mergeObject:(ObjectType)obj mergeDelegate:(nullable id<DKCategoryManagerMergeDelegate>)aDelegate;
 
 // retrieving lists of objects by category
 
@@ -208,7 +210,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category name
  @return an array, the list of objects indicated by the category. May be empty.
  */
-- (NSArray<ObjectType>*)objectsInCategory:(DKCategoryName)catName;
+- (NSArray<ObjectType>*)objectsInCategory:(DKCategoryName)catName NS_REFINED_FOR_SWIFT;
 
 /** @brief Return all of the objects belonging to the given categories
 
@@ -218,7 +220,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catNames list of categories
  @return an array, the list of objects indicated by the categories. May be empty.
  */
-- (NSArray<ObjectType>*)objectsInCategories:(NSArray<DKCategoryName>*)catNames;
+- (NSArray<ObjectType>*)objectsInCategories:(NSArray<DKCategoryName>*)catNames NS_REFINED_FOR_SWIFT;
 
 /** @brief Return all of the keys in a given category
 
@@ -427,26 +429,26 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 /** @brief Query whether a given key is present in a particular category
  @param key the key
  @param catName the category name
- @return YES if the category contains <key>, NO if it doesn't
+ @return YES if the category contains <code>key</code>, NO if it doesn't
  */
 - (BOOL)key:(NSString*)key existsInCategory:(DKCategoryName)catName;
 
 // managing recent lists
 
-/** @brief Set whether the "recent;y added" list accepts new items or not
+/** @brief Set whether the "recently added" list accepts new items or not.
 
  This allows the recently added items to be temporarily disabled when bulk adding items to the
  manager. By default the recently added items list is enabled.
- @param enable YES to allow new items to be added, NO otherwise
+ @param enable \c YES to allow new items to be added, \c NO otherwise
  */
 - (void)setRecentlyAddedListEnabled:(BOOL)enable;
 
 /** @brief Add a key to one of the 'recent' lists
 
- Acceptable list IDs are kDKListRecentlyAdded and kDKListRecentlyUsed
- @param key the key to add
- @param whichList an identifier for the list in question
- @return return YES if the key was added, otherwise NO (i.e. if list already contains item) */
+ Acceptable list IDs are \c kDKListRecentlyAdded and \c kDKListRecentlyUsed
+ @param key The key to add.
+ @param whichList An identifier for the list in question.
+ @return return \c YES if the key was added, otherwise \c NO (i.e. if list already contains item) */
 - (BOOL)addKey:(NSString*)key toRecentList:(NSInteger)whichList;
 
 /** @brief Remove a key from one of the 'recent' lists
@@ -558,7 +560,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (NSMenu*)createMenuWithItemDelegate:(id<DKCategoryManagerMenuItemDelegate>)del isPopUpMenu:(BOOL)isPopUp;
 - (NSMenu*)createMenuWithItemDelegate:(id<DKCategoryManagerMenuItemDelegate>)del options:(DKCategoryMenuOptions)options;
-- (NSMenu*)createMenuWithItemDelegate:(id<DKCategoryManagerMenuItemDelegate>)del itemTarget:(id)target itemAction:(SEL)action options:(DKCategoryMenuOptions)options;
+- (NSMenu*)createMenuWithItemDelegate:(id<DKCategoryManagerMenuItemDelegate>)del itemTarget:(nullable id)target itemAction:(nullable SEL)action options:(DKCategoryMenuOptions)options;
 
 /** @brief Removes the menu from the list of managed menus
 
@@ -624,7 +626,7 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 
 @protocol DKCategoryManagerMenuItemDelegate <NSObject>
 
-- (void)menuItem:(NSMenuItem*)item wasAddedForObject:(id)object inCategory:(DKCategoryName)category;
+- (void)menuItem:(NSMenuItem*)item wasAddedForObject:(id)object inCategory:(nullable DKCategoryName)category;
 
 @end
 
@@ -654,9 +656,9 @@ that the object is a member of. This facilitates category-oriented lookups of ob
 }
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
-- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemTarget:(nullable id)target itemAction:(nullable SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id<DKCategoryManagerMenuItemDelegate>)delegate options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id<DKCategoryManagerMenuItemDelegate>)delegate itemTarget:(id)target itemAction:(SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCategoryManager:(DKCategoryManager*)mgr itemDelegate:(id<DKCategoryManagerMenuItemDelegate>)delegate itemTarget:(nullable id)target itemAction:(nullable SEL)selector options:(DKCategoryMenuOptions)options NS_DESIGNATED_INITIALIZER;
 
 - (NSMenu*)menu;
 
@@ -680,3 +682,5 @@ enum {
 	kDKCategoryManagerManagedMenuItemTag = -42,
 	kDKCategoryManagerRecentMenuItemTag = -43
 };
+
+NS_ASSUME_NONNULL_END

@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCategoryManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKStyle;
 @protocol DKStyleRegistryDelegate;
 
@@ -131,7 +133,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param styleID the unique key of the style. Styles return his value from - uniqueKey.
  @return the style if it exists in the registry, otherwise nil
  */
-+ (DKStyle*)styleForKey:(NSString*)styleID;
++ (nullable DKStyle*)styleForKey:(NSString*)styleID;
 
 /** @brief Return the style registerd with the given key
 
@@ -141,7 +143,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param styleID the unique key of the style. Styles return his value from - uniqueKey.
  @return the style if it exists in the registry, otherwise nil
  */
-+ (DKStyle*)styleForKeyAddingToRecentlyUsed:(NSString*)styleID;
++ (nullable DKStyle*)styleForKeyAddingToRecentlyUsed:(NSString*)styleID;
 
 // registering a style
 
@@ -164,7 +166,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param aStyle the style to register
  @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
  */
-+ (void)registerStyle:(DKStyle*)aStyle inCategories:(NSArray<DKStyleCategory>*)styleCategories;
++ (void)registerStyle:(DKStyle*)aStyle inCategories:(nullable NSArray<DKStyleCategory>*)styleCategories;
 
 /** @brief Register a list of styles with the registry
 
@@ -173,7 +175,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param styles an array of DKStyle objects to register
  @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
  */
-+ (void)registerStylesFromArray:(NSArray<DKStyle*>*)styles inCategories:(NSArray<DKStyleCategory>*)styleCategories;
++ (void)registerStylesFromArray:(NSArray<DKStyle*>*)styles inCategories:(nullable NSArray<DKStyleCategory>*)styleCategories;
 
 /** @brief Register a list of styles with the registry
 
@@ -185,7 +187,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
  @param ignoreDupes if YES, styles whose names are already known are skipped.
  */
-+ (void)registerStylesFromArray:(NSArray<DKStyle*>*)styles inCategories:(NSArray<DKStyleCategory>*)styleCategories ignoringDuplicateNames:(BOOL)ignoreDupes;
++ (void)registerStylesFromArray:(NSArray<DKStyle*>*)styles inCategories:(nullable NSArray<DKStyleCategory>*)styleCategories ignoringDuplicateNames:(BOOL)ignoreDupes;
 
 /** @brief Remove the style from the registry
 
@@ -223,7 +225,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @return a set of styles that should replace those with the same key in whatever structure made the call.
  can be nil if there is no need to do anything.
  */
-+ (NSSet<DKStyle*>*)mergeStyles:(NSSet<DKStyle*>*)styles inCategories:(NSArray<DKStyleCategory>*)styleCategories options:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel;
++ (nullable NSSet<DKStyle*>*)mergeStyles:(NSSet<DKStyle*>*)styles inCategories:(nullable NSArray<DKStyleCategory>*)styleCategories options:(DKStyleMergeOptions)options mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel;
 
 /** @brief Preflight a set of styles against the registry for a possible future merge operation
 
@@ -273,10 +275,10 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  adds them to the registry using the named category.
 
  The named color list must exist - see [NSColorList availableColorLists];
- @param name the name of a NSColorList
+ @param name the name of a \c NSColorList
  @param catName the name of the registry category - if nil, use the colorList name
  */
-+ (void)registerSolidColourFillsFromListNamed:(NSString*)name asCategory:(DKStyleCategory)catName;
++ (void)registerSolidColourFillsFromListNamed:(NSColorListName)name asCategory:(nullable DKStyleCategory)catName;
 
 /** @brief Creates a series of stroke styles having the solid colours given by the named NSColorList, and
  adds them to the registry using the named category.
@@ -285,7 +287,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param name the name of a NSColorList
  @param catName the name of the registry category - if nil, use the colorList name
  */
-+ (void)registerSolidColourStrokesFromListNamed:(NSString*)name asCategory:(DKStyleCategory)catName;
++ (void)registerSolidColourStrokesFromListNamed:(NSColorListName)name asCategory:(nullable DKStyleCategory)catName;
 
 /** @brief Sets whether DK defaults category containing the default styles shoul dbe registered when the
  registry is built or reset
@@ -309,8 +311,8 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param styleID the style's key
  @return the style's name
  */
-- (NSString*)styleNameForKey:(NSString*)styleID;
-- (DKStyle*)styleForKey:(NSString*)styleID;
+- (nullable NSString*)styleNameForKey:(NSString*)styleID;
+- (nullable DKStyle*)styleForKey:(NSString*)styleID;
 
 /** @brief Return the set of styles in the given categories
 
@@ -356,7 +358,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param errorPtr The error, if any, that occured
  @return \c YES if the file was saved sucessfully, \c NO otherwise
  */
-- (BOOL)writeToURL:(NSURL*)path options:(NSDataWritingOptions)writeOptionsMask error:(NSError**)errorPtr;
+- (BOOL)writeToURL:(NSURL*)path options:(NSDataWritingOptions)writeOptionsMask error:(NSError*_Nullable*_Nullable)errorPtr;
 
 /** @brief Merge the contents of a file into the registry
 
@@ -369,7 +371,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param aDel an optional delegate object that can make a merge decision for each individual style object 
  @return YES if the file was read and merged sucessfully, NO otherwise
  */
-- (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel;
+- (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel;
 
 /** @brief Merge the contents of a file into the registry
  
@@ -383,9 +385,9 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param error If \c NO was returned, this should be filled out.
  @return YES if the file was read and merged sucessfully, NO otherwise
  */
-- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel error:(NSError**)error;
+- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel error:(NSError*_Nullable*_Nullable)error;
 
-- (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id<DKStyleRegistryDelegate>)aDel;
+- (nullable DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel;
 
 /** @brief Set the registry empty
 
@@ -410,7 +412,7 @@ Cut/Paste: cut and paste of styles works independently of the registry, includin
  @param selector the action sent by each menu item
  @return a menu
  */
-- (NSMenu*)managedStylesMenuWithItemTarget:(id)target itemAction:(SEL)selector;
+- (NSMenu*)managedStylesMenuWithItemTarget:(nullable id)target itemAction:(nullable SEL)selector;
 
 @end
 
@@ -447,3 +449,5 @@ extern NSString* const kDKStyleWasEditedWhileRegisteredNotification;
 - (DKStyleRegistry*)applicationWillReturnStyleRegistry;
 
 @end
+
+NS_ASSUME_NONNULL_END

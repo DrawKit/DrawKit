@@ -32,7 +32,7 @@ NSString* const kDKCategoryManagerDidDeleteCategory = @"kDKCategoryManagerDidDel
 
 @interface DKCategoryManager ()
 
-- (DKCategoryManagerMenuInfo*)findInfoForMenu:(NSMenu*)aMenu;
+- (nullable DKCategoryManagerMenuInfo*)findInfoForMenu:(NSMenu*)aMenu;
 
 @end
 
@@ -469,14 +469,7 @@ static id sDearchivingHelper = nil;
 	return changedStyles;
 }
 
-/** @brief Asks delegate to make decision about the merging of an object
-
- Subclasses must override this to make use of it. Returning nil means use existing object.
- @param obj the object to consider
- @param aDelegate the delegate to ask
- @return an equivalent object or nil. May be the supplied object or another having an identical ID.
- */
-- (id)mergeObject:(id)obj mergeDelegate:(id)aDelegate
+- (id)mergeObject:(id)obj mergeDelegate:(id<DKCategoryManagerMergeDelegate>)aDelegate
 {
 	NSAssert(obj != nil, @"cannot merge - object was nil");
 

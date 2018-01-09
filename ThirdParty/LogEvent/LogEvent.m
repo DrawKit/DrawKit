@@ -41,18 +41,18 @@
 #import <AppKit/AppKit.h>
 
 #pragma mark Constants (Not Localized)
-       NSString*const kWheneverEvent		= @"LogWhenever";
+NSString*const kWheneverEvent		= @"LogWhenever";
 
-       NSString*const kUserEvent			= @"LogUserEvents";
-       NSString*const kScriptEvent			= @"LogScriptingEvents";
-       NSString*const kReactiveEvent		= @"LogReactiveEvents";
-       NSString*const kUIEvent				= @"LogInterfaceEvents";
-       NSString*const kFileEvent			= @"LogFileInteractionEvents";
-       NSString*const kLifeEvent			= @"LogObjectLifetimeEvents";
-       NSString*const kStateEvent			= @"LogObjectChangeEvents";
-       NSString*const kInfoEvent			= @"LogInfoEvents";
-	   NSString* const kKVOEvent			= @"LogInfoKVOEvents";
-		NSString* const kUndoEvent			= @"LogInfoUndoEvents";
+NSString*const kUserEvent			= @"LogUserEvents";
+NSString*const kScriptEvent			= @"LogScriptingEvents";
+NSString*const kReactiveEvent		= @"LogReactiveEvents";
+NSString*const kUIEvent				= @"LogInterfaceEvents";
+NSString*const kFileEvent			= @"LogFileInteractionEvents";
+NSString*const kLifeEvent			= @"LogObjectLifetimeEvents";
+NSString*const kStateEvent			= @"LogObjectChangeEvents";
+NSString*const kInfoEvent			= @"LogInfoEvents";
+NSString*const kKVOEvent			= @"LogInfoKVOEvents";
+NSString*const kUndoEvent			= @"LogInfoUndoEvents";
 
 static const NSUInteger kNumStandardEventTypes = 10;
 	// When adding new event types, don't forget to modify or override the -newEventTypes method.
