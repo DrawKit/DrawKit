@@ -519,29 +519,23 @@ void LogLoggingState(NSArray* eventTypeNames)
 {
 #pragma unused(sender)
 	
-	NSAlert* relaunchAlert = [NSAlert alertWithMessageText:@"Relaunch Ortelius?"
-											 defaultButton:@"Launch With Zombies"
-										   alternateButton:@"Cancel"
-											   otherButton:nil
-								 informativeTextWithFormat:@"Click to relaunch Ortelius with Zombies ON. Launching again from the Finder will disable zombies."];
+	NSAlert* relaunchAlert = [[NSAlert alloc] init];
+	relaunchAlert.messageText = @"Relaunch Ortelius?";
+	relaunchAlert.informativeText = @"Click to relaunch Ortelius with Zombies ON. Launching again from the Finder will disable zombies.";
+	[relaunchAlert addButtonWithTitle:@"Launch With Zombies"];
+	[relaunchAlert addButtonWithTitle:@"Cancel"];
 	
 	NSInteger result = [relaunchAlert runModal];
 	
-	if( result == NSAlertDefaultReturn )
-	{
-		FSRef fileRef;
+	if (result == NSAlertFirstButtonReturn) {
 		NSDictionary *environment = @{@"NSZombieEnabled": @"YES"};
-		NSString* execPath = [[NSBundle mainBundle] executablePath];
 		
-		const char* executablePath = [execPath fileSystemRepresentation];
+		[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[[NSBundle mainBundle] bundleURL] options:(NSWorkspaceLaunchDefault | NSWorkspaceLaunchNewInstance) configuration:@{NSWorkspaceLaunchConfigurationArguments: environment} error:NULL];
 		
-		FSPathMakeRef((UInt8*) executablePath, &fileRef, nil);
-		LSApplicationParameters appParameters = {0, kLSLaunchDefaults | kLSLaunchNewInstance, &fileRef, nil, (CFDictionaryRef)environment, nil, nil};
-		
-		LSOpenApplication(&appParameters, nil);
-		
+		// Don't worry about releasing relaunchAlert: the kernel will clean up when we exit.
 		[NSApp terminate: nil];
 	}
+	[relaunchAlert release];
 }
 
 
