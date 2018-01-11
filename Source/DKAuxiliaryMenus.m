@@ -15,7 +15,9 @@ NSString* const kDKAuxiliaryMenusNibFile = @"DK_Auxiliary_Menus";
 @end
 
 @implementation DKAuxiliaryMenus
-
+{
+	NSArray *nibs;
+}
 static DKAuxiliaryMenus* sAuxMenus = nil;
 
 + (DKAuxiliaryMenus*)auxiliaryMenus
@@ -62,12 +64,14 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 		}
 
 		mNib = tempNib;
+		NSArray *tmpArr;
 
-		if (![mNib instantiateNibWithOwner:self
-						   topLevelObjects:nil]) {
+		if (![mNib instantiateWithOwner:self
+						topLevelObjects:&tmpArr]) {
 			NSLog(@"failed to instantiate nib '%@' (name = '%@')", mNib, nib);
 			return nil;
 		}
+		nibs = tmpArr;
 	}
 
 	return self;

@@ -263,6 +263,9 @@ void LogLoggingState(NSArray* eventTypeNames)
 
 #pragma mark -
 @implementation LoggingController
+{
+	NSArray *nibs;
+}
 #pragma mark As a LoggingController
 @synthesize userActions=mUserActions;
 @synthesize scriptingActions=mScriptingActions;
@@ -282,13 +285,15 @@ void LogLoggingState(NSArray* eventTypeNames)
 	if (!mIsNibLoaded)
 	{
 		NSString* nibName = [self windowNibName];
+		NSArray *tmpArr = nil;
 		
 		NSAssert(nibName != nil, @"Expected valid nibName");
-		if (![NSBundle loadNibNamed:nibName owner:self])
+		if (![[NSBundle bundleForClass:[self class]] loadNibNamed:nibName owner:self topLevelObjects:&tmpArr])
 		{
 			NSLog(@"***Failed to load %@.nib", nibName);
 			NSBeep();
 		} else {
+			nibs = [tmpArr retain];
 			// Setup the window
 			NSWindow* window = [self window];
 			
@@ -580,6 +585,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 - (void)dealloc
 {
 	[mEventTypes release];
+	[nibs release];
 	
 	[super dealloc];
 	sSharedLoggingController = nil;
