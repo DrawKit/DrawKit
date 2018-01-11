@@ -6,8 +6,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-// internal undo manager state is one of these constants
+NS_ASSUME_NONNULL_BEGIN
 
+//! internal undo manager state is one of these constants
 typedef NS_ENUM(NSInteger, GCUndoManagerState) {
 	kGCUndoCollectingTasks = 0,
 	kGCUndoIsUndoing = 1,
@@ -78,10 +79,6 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)beginUndoGrouping;
 - (void)endUndoGrouping;
 
-- (NSInteger)groupingLevel;
-- (BOOL)groupsByEvent;
-- (void)setGroupsByEvent:(BOOL)groupByEvent;
-
 @property (readonly) NSInteger groupingLevel;
 @property BOOL groupsByEvent;
 
@@ -94,7 +91,6 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 - (void)enableUndoRegistration;
 - (void)disableUndoRegistration;
-- (BOOL)isUndoRegistrationEnabled;
 @property (readonly, getter=isUndoRegistrationEnabled) BOOL undoRegistrationEnabled;
 
 /** @brief setting the number of undos allowed before old ones are discarded
@@ -110,8 +106,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (void)redo;
 - (void)undoNestedGroup;
 
-@property (readonly) BOOL isUndoing;
-@property (readonly) BOOL isRedoing;
+@property (readonly, getter=isUndoing) BOOL undoing;
+@property (readonly, getter=isRedoing) BOOL redoing;
 
 // undo menu management
 
@@ -127,7 +123,7 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 - (id)prepareWithInvocationTarget:(id)target;
 - (void)forwardInvocation:(NSInvocation*)invocation;
-- (void)registerUndoWithTarget:(id)target selector:(SEL)selector object:(id)anObject;
+- (void)registerUndoWithTarget:(id)target selector:(SEL)selector object:(nullable id)anObject;
 
 // removing actions
 
@@ -190,8 +186,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 @property (readonly, retain) NSArray<GCUndoGroup*> *undoStack;
 @property (readonly, retain) NSArray<GCUndoGroup*> *redoStack;
 
-- (GCUndoGroup*)peekUndo;
-- (GCUndoGroup*)peekRedo;
+- (nullable GCUndoGroup*)peekUndo;
+- (nullable GCUndoGroup*)peekRedo;
 @property (readonly) NSUInteger numberOfUndoActions;
 @property (readonly) NSUInteger numberOfRedoActions;
 
@@ -202,8 +198,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 - (void)popUndoAndPerformTasks;
 - (void)popRedoAndPerformTasks;
-- (GCUndoGroup*)popUndo;
-- (GCUndoGroup*)popRedo;
+- (nullable GCUndoGroup*)popUndo;
+- (nullable GCUndoGroup*)popRedo;
 
 - (void)clearRedoStack;
 - (void)checkpoint;
@@ -252,9 +248,9 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 - (void)addTask:(GCUndoTask*)aTask;
 - (GCUndoTask*)taskAtIndex:(NSUInteger)indx;
-@property (readonly) GCConcreteUndoTask *lastTaskIfConcrete;
+@property (readonly, nullable) GCConcreteUndoTask *lastTaskIfConcrete;
 @property (readonly, retain) NSArray<GCUndoTask*> *tasks;
-- (NSArray*)tasksWithTarget:(id)target selector:(SEL)selector;
+- (NSArray<GCUndoTask*>*)tasksWithTarget:(nullable id)target selector:(nullable SEL)selector;
 /** return whether the group contains any actual tasks. If it only contains other empty groups, returns YES.
  */
 @property (readonly, getter=isEmpty) BOOL empty;
@@ -284,8 +280,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 - (instancetype)initWithInvocation:(NSInvocation*)inv NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(id)object;
 - (void)setTarget:(id)target retained:(BOOL)retainIt;
-- (id)target;
-- (SEL)selector;
+@property (readonly, unsafe_unretained) id target;
+@property (readonly) SEL selector;
 
 @end
 
@@ -305,3 +301,5 @@ The point of this is to provide an undo manager whose source is openly readable,
 		[NSException raise:NSInternalInconsistencyException format:(string), (param1), (param2)]; \
 	}
 #endif
+
+NS_ASSUME_NONNULL_END

@@ -1075,10 +1075,7 @@
 	mTargetRetained = retainIt;
 }
 
-- (id)target
-{
-	return mTarget;
-}
+@synthesize target=mTarget;
 
 - (SEL)selector
 {
