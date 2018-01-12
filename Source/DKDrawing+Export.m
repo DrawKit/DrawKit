@@ -33,6 +33,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 - (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha relativeScale:(CGFloat)relScale
 
 {
+	// TODO: migrate to bitmap drawing: PDF seems to drop transparency!
 	NSPDFImageRep* pdfRep = [NSPDFImageRep imageRepWithData:[self pdf]];
 
 	NSAssert(pdfRep != nil, @"couldn't create pdf image rep");
