@@ -223,12 +223,6 @@ static DKDrawingTool* sGlobalTool = nil;
 	}
 }
 
-/** @brief Select the tool using its registered name
-
- Tools must be registered in the DKDrawingTool registry with the given name before you can use this
- method to set them, otherwise an exception is thrown.
- @param name the registered name of the required tool
- */
 - (void)setDrawingToolWithName:(NSString*)name
 {
 	if (name != nil && [name length] > 0) {
@@ -314,27 +308,12 @@ static DKDrawingTool* sGlobalTool = nil;
 			  inView:[self view]];
 }
 
-/** @brief Select the tool using its registered name based on the title of a UI control, etc.
-
- This is a convenience for hooking up a UI for picking a tool. You can set the title of a button to
- be the tool's name and target first responder using this action, and it will select the tool if it
- has been registered using the name. This makes UI such as a palette of tools trivial to implement,
- but doesn't preclude you from using any other UI as you see fit.
- @param sender the sender of the action - it should implement -title (e.g. a button, menu item)
- */
 - (IBAction)selectDrawingToolByName:(id)sender
 {
 	NSString* toolName = [sender title];
 	[self setDrawingToolWithName:toolName];
 }
 
-/** @brief Select the tool using the represented object of a UI control, etc.
-
- This is a convenience for hooking up a UI for picking a tool. You can set the rep. object of a button to
- be the tool and target first responder using this action, and it will set the tool to the button's
- represented object.
- @param sender the sender of the action - it should implement -representedObject (e.g. a button, menu item)
- */
 - (IBAction)selectDrawingToolByRepresentedObject:(id)sender
 {
 	if (sender != nil && [sender respondsToSelector:@selector(representedObject)]) {

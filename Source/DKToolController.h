@@ -120,7 +120,7 @@ tool's name and target first responder with this action.
  be the tool's name and target first responder using this action, and it will select the tool if it
  has been registered using the name. This makes UI such as a palette of tools trivial to implement,
  but doesn't preclude you from using any other UI as you see fit.
- @param sender the sender of the action - it should implement -title (e.g. a button, menu item)
+ @param sender the sender of the action - it should implement \c -title (e.g. a button, menu item)
  */
 - (IBAction)selectDrawingToolByName:(nullable id)sender;
 
@@ -129,7 +129,7 @@ tool's name and target first responder with this action.
  This is a convenience for hooking up a UI for picking a tool. You can set the rep. object of a button to
  be the tool and target first responder using this action, and it will set the tool to the button's
  represented object.
- @param sender the sender of the action - it should implement -representedObject (e.g. a button, menu item)
+ @param sender the sender of the action - it should implement \c -representedObject (e.g. a button, menu item)
  */
 - (IBAction)selectDrawingToolByRepresentedObject:(nullable id)sender;
 
