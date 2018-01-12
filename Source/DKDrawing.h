@@ -298,11 +298,11 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name setting the undo manager:
  @{ */
 
-/** @brief Sets the undoManager that will be used for all undo actions that occur in this drawing.
+/** @brief The \c undoManager that will be used for all undo actions that occur in this drawing.
  
- The undoManager is retained. It is passed down to all levels that need undoable actions. The
+ The \c undoManager is retained. It is passed down to all levels that need undoable actions. The
  default is nil, so nothing will be undoable unless you set it. In a document-based app, the
- document's undoManager should be used. Otherwise, the view's or window's undoManager can be used.
+ document's \c undoManager should be used. Otherwise, the view's or window's \c undoManager can be used.
  */
 @property (nonatomic, strong, nullable) id undoManager;
 
