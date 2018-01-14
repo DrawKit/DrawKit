@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKRasterizer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKRastGroup;
 
 /** @brief A rendergroup is a single renderer which contains a list of other renderers.
@@ -41,7 +43,7 @@ as well.
  properly stop observing before this is called, or start observing after it is called when
  initialising from an archive.
 */
-@property (nonatomic, copy) NSArray<DKRasterizer*>* renderList;
+@property (nonatomic, copy, nullable) NSArray<DKRasterizer*>* renderList;
 
 - (DKRastGroup*)root;
 
@@ -56,7 +58,7 @@ as well.
 - (NSUInteger)indexOfRenderer:(DKRasterizer*)renderer;
 
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)index;
-- (DKRasterizer*)rendererWithName:(NSString*)name;
+- (nullable DKRasterizer*)rendererWithName:(NSString*)name;
 
 /** @brief Returns the number of directly contained renderers
  
@@ -64,7 +66,7 @@ as well.
  */
 @property (readonly) NSUInteger countOfRenderList;
 - (BOOL)containsRendererOfClass:(Class)cl;
-- (NSArray<DKRasterizer*>*)renderersOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
+- (nullable NSArray<DKRasterizer*>*)renderersOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
 
 /** @brief Determines whther the group will draw anything by finding if any contained renderer will draw anything.
  Is \c YES if at least one contained renderer will draw something.
@@ -92,3 +94,5 @@ as well.
 - (void)removeObjectFromRenderListAtIndex:(NSUInteger)indx;
 
 @end
+
+NS_ASSUME_NONNULL_END

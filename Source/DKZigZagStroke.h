@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface DKZigZagStroke : DKStroke <NSCoding, NSCopying> {
 @private
 	CGFloat mWavelength;
@@ -19,3 +21,5 @@
 @property CGFloat spread;
 
 @end
+
+NS_ASSUME_NONNULL_END

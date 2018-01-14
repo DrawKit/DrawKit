@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This subclass of \c NSLayoutManager captures the laid-out text in a bezier path which it creates.
 
  This subclass of \c NSLayoutManager captures the laid-out text in a bezier path which it creates.
@@ -19,3 +21,5 @@
 - (NSArray*)glyphPathsForContainer:(NSTextContainer*)container usedSize:(NSSize*)aSize;
 
 @end
+
+NS_ASSUME_NONNULL_END

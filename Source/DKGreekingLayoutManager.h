@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This layout manager subclass draws greeking rectangles instead of glyphs, either as entire line fragement rectangles or as glyph rectangles.
 
 This layout manager subclass draws greeking rectangles instead of glyphs, either as entire line fragement rectangles or as glyph rectangles.
@@ -23,3 +25,5 @@ This layout manager subclass draws greeking rectangles instead of glyphs, either
 @property (strong) NSColor *greekingColour;
 
 @end
+
+NS_ASSUME_NONNULL_END

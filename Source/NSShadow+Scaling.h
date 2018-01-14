@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_OPTIONS(NSUInteger, DKShadowDrawingOperation) {
 	kDKShadowDrawFill = (1 << 0),
 	kDKShadowDrawStroke = (1 << 1)
@@ -38,3 +40,5 @@ as you scale.
 - (void)drawApproximateShadowWithPath:(NSBezierPath*)path operation:(DKShadowDrawingOperation)op strokeWidth:(NSInteger)sw;
 
 @end
+
+NS_ASSUME_NONNULL_END

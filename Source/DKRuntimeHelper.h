@@ -6,6 +6,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface DKRuntimeHelper : NSObject
 
 + (NSArray<Class>*)allClasses;
@@ -14,6 +16,10 @@
 
 @end
 
+/** returns \c YES if \c aClass is an \c NSObject derivative, otherwise <code>NO</code>. It does this without invoking any methods on the class being tested.
+ */
 BOOL classIsNSObject(const Class aClass);
 BOOL classIsSubclassOfClass(const Class aClass, const Class subclass);
 BOOL classIsImmediateSubclassOfClass(const Class aClass, const Class subclass);
+
+NS_ASSUME_NONNULL_END

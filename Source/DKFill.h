@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKRasterizer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKGradient;
 
 /** @brief A renderer that implements a colour fill with optional shadow.
@@ -32,11 +34,11 @@ areas the solid fill will show through.
 + (DKFill*)fillWithPatternImage:(NSImage*)image;
 + (DKFill*)fillWithPatternImageNamed:(NSImageName)path;
 
-@property (strong) NSColor *colour;
+@property (strong, nullable) NSColor *colour;
 
-@property (strong) NSShadow *shadow;
+@property (strong, nullable) NSShadow *shadow;
 
-@property (nonatomic, strong) DKGradient *gradient;
+@property (nonatomic, strong, nullable) DKGradient *gradient;
 
 /** @brief Whether the gradient's angle is aligned with the rendered object's angle.
  Is \c YES if the gradient angle is based off the object's angle.
@@ -44,3 +46,5 @@ areas the solid fill will show through.
 @property BOOL tracksObjectAngle;
 
 @end
+
+NS_ASSUME_NONNULL_END

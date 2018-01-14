@@ -9,6 +9,8 @@
 #import "DKObjectStorageProtocol.h"
 #import "DKDrawableContainerProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawableObject, DKStyle;
 
 // caching options
@@ -129,7 +131,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param aRect the objects returned intersect this rect
  @return an array of visible objects
  */
-- (NSArray<DKDrawableObject*>*)visibleObjectsInRect:(NSRect)aRect;
+- (nullable NSArray<DKDrawableObject*>*)visibleObjectsInRect:(NSRect)aRect;
 
 /** @brief Returns objects that share the given style
 
@@ -140,12 +142,12 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (NSArray<DKDrawableObject*>*)objectsWithStyle:(DKStyle*)style NS_SWIFT_NAME(objectsWith(_:));
 
-/** @brief Returns objects that respond to the selector with the value <answer>
- <selector> a selector taking no parameters
+/** @brief Returns objects that respond to the selector with the value \c answer
 
- This is a very simple type of predicate test. Note - the method <selector> must not return
- anything larger than an int or it will be ignored and the result may be wrong.
- @return an array, objects that match the value of <answer>
+ This is a very simple type of predicate test. Note - the method \c selector must not return
+ anything larger than an \c NSInteger or it will be ignored and the result may be wrong.
+ @param selector A selector taking no parameters.
+ @return an array, objects that match the value of <code>answer</code>
  */
 - (NSArray<DKDrawableObject*>*)objectsReturning:(NSInteger)answer toSelector:(SEL)selector;
 
@@ -303,7 +305,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param aView the view being updated, if any (may be nil)
  @return an iterator
  */
-- (NSEnumerator<DKDrawableObject*>*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView;
+- (NSEnumerator<DKDrawableObject*>*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(nullable NSView*)aView;
 
 /** @brief Return an iterator that will enumerate the objects needing update
 
@@ -315,16 +317,16 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param options various flags that you can pass to modify behaviour:
  @return an iterator
  */
-- (NSEnumerator<DKDrawableObject*>*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
+- (NSEnumerator<DKDrawableObject*>*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(nullable NSView*)aView options:(DKObjectStorageOptions)options;
 
 /** @brief Return the objects needing update
 
- If the view is nil <rect> is used to determine inclusion.
+ If the view is nil \c rect is used to determine inclusion.
  @param rect the update rect as passed to a drawRect: method of a view
  @param aView the view being updated, if any (may be nil)
  @return an array, the objects needing update, in drawing order
  */
-- (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView;
+- (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(nullable NSView*)aView;
 
 /** @brief Return the objects needing update
 
@@ -334,14 +336,14 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param options various flags that you can pass to modify behaviour:
  @return an array, the objects needig update, in drawing order
  */
-- (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
+- (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(nullable NSView*)aView options:(DKObjectStorageOptions)options;
 
 // updating & drawing objects:
 
 - (void)drawable:(DKDrawableObject*)obj needsDisplayInRect:(NSRect)rect;
 - (void)drawVisibleObjects;
-- (NSImage*)imageOfObjects;
-- (NSData*)pdfDataOfObjects;
+- (nullable NSImage*)imageOfObjects;
+- (nullable NSData*)pdfDataOfObjects;
 
 // pending object - used during interactive creation of new objects
 
@@ -547,7 +549,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  @param part pointer to int, receives the partcode hit as a result of the test. Can be \c NULL to ignore
  @return the object hit, or \c nil if none
  */
-- (DKDrawableObject*)hitTest:(NSPoint)point partCode:(NSInteger*)part;
+- (nullable DKDrawableObject*)hitTest:(NSPoint)point partCode:(nullable NSInteger*)part;
 
 /** @brief Finds all objects touched by the given rect
 
@@ -627,13 +629,13 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
 
 /** @brief Sets the snapping state for the layer
  */
-- (IBAction)toggleSnapToObjects:(id)sender;
+- (IBAction)toggleSnapToObjects:(nullable id)sender;
 
 /** @brief Toggles whether the debugging path is overlaid afterdrawing the content.
 
  This is purely to assist with storage debugging and should not be invoked in production code.
  */
-- (IBAction)toggleShowStorageDebuggingPath:(id)sender;
+- (IBAction)toggleShowStorageDebuggingPath:(nullable id)sender;
 
 @end
 
@@ -683,3 +685,5 @@ extern NSNotificationName const kDKLayerWillRemoveObject;
 extern NSNotificationName const kDKLayerDidRemoveObject;
 
 #define DEFAULT_PASTE_OFFSET 20
+
+NS_ASSUME_NONNULL_END

@@ -49,7 +49,7 @@
 	if (m == 0)
 		return NSStringFromRange([self rangeValue]);
 
-	return nil;
+	return [self description];
 }
 
 @end

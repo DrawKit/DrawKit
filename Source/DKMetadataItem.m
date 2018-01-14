@@ -206,7 +206,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	// this should only be used when definitive type information is not known. This will attempt to infer the type from the object. It is
 	// mainly provided as a mechanism for migrating older metadata values to DKMetadataItem values.
 
-	if ([value isKindOfClass:[self class]])
+	if ([value isKindOfClass:[DKMetadataItem class]])
 		return [value copy];
 
 	if ([value isKindOfClass:[NSString class]])

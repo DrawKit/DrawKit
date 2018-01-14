@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief implements a deep copy of a dictionary and array.
 
 implements a deep copy of a dictionary and array. The keys are unchanged but each object is copied.
@@ -37,3 +39,5 @@ to retain the semantics of a normal copy, the object returned is not autorelease
 - (NSMutableArray<ObjectType>*)deepCopy NS_RETURNS_RETAINED;
 
 @end
+
+NS_ASSUME_NONNULL_END

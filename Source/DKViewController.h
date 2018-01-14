@@ -7,41 +7,43 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawing.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawingView, DKDrawing, DKLayer;
 
 // the controller class:
 
-/** @brief DKViewController is a basic controller class that sits between a DKDrawingView and the DKDrawing itself, which implements the data model.
+/** @brief A basic controller class that sits between a \c DKDrawingView and the \c DKDrawing itself, which implements the data model.
 
-DKViewController is a basic controller class that sits between a DKDrawingView and the DKDrawing itself, which implements the data model.
+ \c DKViewController is a basic controller class that sits between a \c DKDrawingView and the \c DKDrawing itself, which implements the data model.
 
-Its job is broadly divided into two areas, input and output.
+ Its job is broadly divided into two areas, input and output.
 
-When part of a drawing needs to be redisplayed in the view, the drawing will pass the area needing update to the controller, which will
-set that area for redisplay in the view, if appropriate. The view redisplays the content accordingly (it may call DKDrawing's drawRect:inView: method).
-Other subclasses of this might present the drawing differently - for example a layers palette could display the layers as a list in a tableview.
+ When part of a drawing needs to be redisplayed in the view, the drawing will pass the area needing update to the controller, which will
+ set that area for redisplay in the view, if appropriate. The view redisplays the content accordingly (it may call DKDrawing's drawRect:inView: method).
+ Other subclasses of this might present the drawing differently - for example a layers palette could display the layers as a list in a tableview.
 
-Each view of the drawing has one controller, so the drawing has a to-many relationship with its controllers, but each controller has a
-to-one relationship with the view.
+ Each view of the drawing has one controller, so the drawing has a to-many relationship with its controllers, but each controller has a
+ to-one relationship with the view.
 
-An important function of the controller is to receive user input from the view and direct it to the active layer in an appropriate way. This
-includes handling the "tool" that a user might select in an interface and applying it to the drawing. See DKToolController (a subclass of this).
-This also implements autoscrolling around the mouse down/up calls which by and large "just work". However if you override these methods you should
-call super to keep autoscrolling operative.
+ An important function of the controller is to receive user input from the view and direct it to the active layer in an appropriate way. This
+ includes handling the "tool" that a user might select in an interface and applying it to the drawing. See DKToolController (a subclass of this).
+ This also implements autoscrolling around the mouse down/up calls which by and large "just work". However if you override these methods you should
+ call \c super to keep autoscrolling operative.
 
-Ownership: drawings own the controllers which reference the view. Views keep a reference to their controllers. When a view is dealloc'd, its
-controller is removed from the drawing. The controller has weak references to both its view and the drawing - this permits a view to own a drawing
-without a retain cycle being introduced - whichever of the drawing or the view gets dealloc'd first, the view controller is also dealloc'd. A view can
-own a drawing in the special circumstance of a view creating the drawing automatically if none has been set up prior to the first call to -drawRect:
+ Ownership: drawings own the controllers which reference the view. Views keep a reference to their controllers. When a view is dealloc'd, its
+ controller is removed from the drawing. The controller has weak references to both its view and the drawing - this permits a view to own a drawing
+ without a retain cycle being introduced - whichever of the drawing or the view gets dealloc'd first, the view controller is also dealloc'd. A view can
+ own a drawing in the special circumstance of a view creating the drawing automatically if none has been set up prior to the first call to \c -drawRect:
 
-Flow of control: initially all messages that cannot be directly handled by DKDrawingView are forwarded to its controller. The controller can
-handle the message or pass it on to the active layer. This is the default behaviour - typically layer subclasses handle most of their own
-action messages and some handle their own mouse input. For most object layers, where a "tool" can be applied, the controller works with the tool
-to implement the desired behaviour within the target layer. The view and the controller both use invocation forwarding to push messages down
-into the DK system via the controller, the active layer, any selection within it, and finally the target object(s) there.
+ Flow of control: initially all messages that cannot be directly handled by DKDrawingView are forwarded to its controller. The controller can
+ handle the message or pass it on to the active layer. This is the default behaviour - typically layer subclasses handle most of their own
+ action messages and some handle their own mouse input. For most object layers, where a "tool" can be applied, the controller works with the tool
+ to implement the desired behaviour within the target layer. The view and the controller both use invocation forwarding to push messages down
+ into the DK system via the controller, the active layer, any selection within it, and finally the target object(s) there.
 
-A subclass of this can also implement drawRect: if it needs to, and can thus draw into its view. This is called after all other drawing has been
-completed except for page breaks. Tool controllers for example can draw selection rects, etc.
+ A subclass of this can also implement \c drawRect: if it needs to, and can thus draw into its view. This is called after all other drawing has been
+ completed except for page breaks. Tool controllers for example can draw selection rects, etc.
 */
 @interface DKViewController : NSObject {
 @private
@@ -58,8 +60,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
 // designated initializer
 
 /** @brief Initialize the controller
- @param aView the view object that this controller manages
- @return the controller object
+ @param aView The view object that this controller manages.
+ @return The controller object.
  */
 - (instancetype)initWithView:(NSView*)aView NS_DESIGNATED_INITIALIZER;
 
@@ -67,20 +69,24 @@ completed except for page breaks. Tool controllers for example can draw selectio
 
 /** @brief The view the controller is associated with.
  
- You should not set this directly, it is called by the designated initializer.
+ You should not set this directly, it is set by the designated initializer.
  */
-@property (nonatomic, weak) NSView *view;
+@property (nonatomic, weak, nullable) NSView *view;
 
 /** @brief Set the drawing that the controller is attached to
  
- DKDrawing objects own the controllers added to them. You should not set this directly - \c DKDrawing
- calls this at the appropriate time when the controller is added.
+ \c DKDrawing objects own the controllers added to them. You should not set this directly - \c DKDrawing
+ sets this at the appropriate time when the controller is added.
  */
-@property (nonatomic, weak) DKDrawing *drawing;
+@property (nonatomic, weak, nullable) DKDrawing *drawing;
 
-// updating the view from the drawing (refresh). Note that these are typically invoked via the DKDrawing,
-// so you should look there for similarly named methods that take simple types. The object type parameters
-// used here allow the drawing to invoke these methods efficiently across multiple controllers.
+/** @name Updating The View
+ @brief Updating the view from the drawing (refresh).
+ @discussion Updating the view from the drawing (refresh). Note that these are typically invoked via the
+ <code>DKDrawing</code>, so you should look there for similarly named methods that take simple types. The
+ object type parameters used here allow the drawing to invoke these methods efficiently across multiple
+ controllers.
+ @{ */
 
 /** @brief Mark the entire view for update
 
@@ -121,6 +127,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
  */
 - (void)updateViewRulerMarkersForRect:(NSValue*)rectValue;
 
+/** @} */
+
 /** @brief Hide the view's ruler markers
 
  This is called by the drawing - generally you shouldn't call it directly, but instead use the
@@ -155,7 +163,7 @@ completed except for page breaks. Tool controllers for example can draw selectio
  Override to make use of this - the normal view controller just ignores this
  @param object the object that changed
  */
-- (void)objectDidNotifyStatusChange:(id)object;
+- (void)objectDidNotifyStatusChange:(nullable id)object;
 
 // info about current view state
 
@@ -232,14 +240,15 @@ completed except for page breaks. Tool controllers for example can draw selectio
 
 /** @brief Build a menu for a right-click event.
  
- This just defers to the active layer. If menus are disabled, returns nil. Note that locked layers
+ This just defers to the active layer. If menus are disabled, returns <code>nil</code>. Note that locked layers
  still receive this message - individual items may be sensitive to the lock state.
- @param event the event
- @return a menu, or nil
+ @param event The event.
+ @return A menu, or \c nil
  */
-- (NSMenu*)menuForEvent:(NSEvent*)event;
+- (nullable NSMenu*)menuForEvent:(NSEvent*)event;
 
-// autoscrolling:
+/** @name autoscrolling:
+ @{ */
 
 /** @brief Start the autoscroll timer
 
@@ -255,9 +264,11 @@ completed except for page breaks. Tool controllers for example can draw selectio
 - (void)stopAutoscrolling;
 - (void)autoscrollTimerCallback:(NSTimer*)timer;
 
-// layer info
+/** @}
+ @name layer info
+ @{ */
 
-/** @brief Return the drawing's current active layer
+/** @brief The drawing's current active layer.
  */
 @property (readonly, weak) DKLayer *activeLayer;
 
@@ -265,32 +276,22 @@ completed except for page breaks. Tool controllers for example can draw selectio
  @param aClass a layer class
  @return the active layer if it matches the class, otherwise nil
  */
-- (DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
+- (nullable DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
 /** @brief Should a mouse down activate the layer it hits automatically?
-
+ 
  The default is YES
- @param acts YES to auto-activate a layer, NO to leave it to someone else
  */
-- (void)setActivatesLayersAutomatically:(BOOL)acts;
-
-/** @brief Should a mouse down activate the layer it hits automatically?
-
- The default is YES
- @return YES to auto-activate a layer, NO to leave it to someone else
- */
-- (BOOL)activatesLayersAutomatically;
-
 @property (nonatomic) BOOL activatesLayersAutomatically;
 
 /** @brief Which layer did the point hit?
 
  Test layers top-down. Each layer can decide for itself what constitutes a "hit". Typically a
  layer is hit when any object it contains is hit.
- @param p a point in local coordinates
- @return the topmost layer hit by the given point, else nil
+ @param p A point in local coordinates.
+ @return The topmost layer hit by the given point, else \c nil
  */
-- (DKLayer*)findLayer:(NSPoint)p;
+- (nullable DKLayer*)findLayer:(NSPoint)p;
 
 /** @brief A new layer is about to be activated
  @param aLayer the layer about to be activated
@@ -303,65 +304,104 @@ completed except for page breaks. Tool controllers for example can draw selectio
  able to receive. If you override this, call super to ensure dragging still operates correctly.
  @param aLayer the layer that was activated
  */
-- (void)activeLayerDidChangeToLayer:(DKLayer*)aLayer;
+- (void)activeLayerDidChangeToLayer:(nullable DKLayer*)aLayer;
 
 /** @brief If layers can be automatically activated, perform that switch
  @param event the initiating event - typically a mouseDown event.
  @return YES if a new layer was actually made active, NO if it remained the same */
 - (BOOL)autoActivateLayerWithEvent:(NSEvent*)event;
 
-// user actions for layer stacking
+/** @}
+ @name Layer Stacking
+ @brief User actions for layer stacking.
+ @{ */
 
 /** @brief Bring the active layer to the front of its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer to front.
  @param sender the sender of the action
  */
-- (IBAction)layerBringToFront:(id)sender;
+- (IBAction)layerBringToFront:(nullable id)sender;
 
 /** @brief Move the active layer 1 position forward within its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer forward.
  @param sender the sender of the action
  */
-- (IBAction)layerBringForward:(id)sender;
+- (IBAction)layerBringForward:(nullable id)sender;
 
 /** @brief Move the active layer to the back within its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer to the back.
  @param sender the sender of the action
  */
-- (IBAction)layerSendToBack:(id)sender;
+- (IBAction)layerSendToBack:(nullable id)sender;
 
 /** @brief Move the active layer 1 position towards the back within its group
 
  High-level method can be invoked directly from a menu. Undoably moves the layer backwards.
  @param sender the sender of the action
  */
-- (IBAction)layerSendBackward:(id)sender;
+- (IBAction)layerSendBackward:(nullable id)sender;
 
 /** @brief Hides all inactive layers and shows the active layer (if it's hidden)
 
  High-level method can be invoked directly from a menu.
  @param sender the sender of the action
  */
-- (IBAction)hideInactiveLayers:(id)sender;
+- (IBAction)hideInactiveLayers:(nullable id)sender;
 
 /** @brief Shows all layers
 
  High-level method can be invoked directly from a menu.
  @param sender the sender of the action
  */
-- (IBAction)showAllLayers:(id)sender;
+- (IBAction)showAllLayers:(nullable id)sender;
 
-// other user actions
+/** @}
+ @name Other User Actions
+ @brief Other user actions.
+ @{ */
 
-- (IBAction)toggleSnapToGrid:(id)sender;
-- (IBAction)toggleSnapToGuides:(id)sender;
-- (IBAction)toggleGridVisible:(id)sender;
-- (IBAction)toggleGuidesVisible:(id)sender;
-- (IBAction)copyDrawing:(id)sender;
+/** @brief Toggle whether snapping to grid is enabled
+ 
+ High-level method can be invoked directly from a menu. Flips the current state of snap to grid.
+ @param sender the sender of the action
+ */
+- (IBAction)toggleSnapToGrid:(nullable id)sender;
+
+/** @brief Toggle whether snapping to guides is enabled
+ 
+ High-level method can be invoked directly from a menu. Flips the current state of snap to guides.
+ @param sender the sender of the action
+ */
+- (IBAction)toggleSnapToGuides:(nullable id)sender;
+
+/** @brief Toggle whether the grid layer is visible
+ 
+ High-level method can be invoked directly from a menu. Flips the current state of grid visible.
+ @param sender the sender of the action
+ */
+- (IBAction)toggleGridVisible:(nullable id)sender;
+
+/** @brief Toggle whether the guide layer is visible
+ 
+ High-level method can be invoked directly from a menu. Flips the current state of guide visible.
+ @param sender the sender of the action
+ */
+- (IBAction)toggleGuidesVisible:(nullable id)sender;
+
+/** @brief Copies the entire drawing to the general pasteboard
+ 
+ High-level method can be invoked directly from a menu. Drawing is copied as a PDF.
+ @param sender the sender of the action
+ */
+- (IBAction)copyDrawing:(nullable id)sender;
+
+/** @} */
 
 @end
 
 #define kDKAutoscrollRate (1.0 / 20.0)
+
+NS_ASSUME_NONNULL_END

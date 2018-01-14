@@ -28,7 +28,7 @@
 	NSNib* mNib;
 }
 
-@property (class, readonly, retain) DKAuxiliaryMenus*auxiliaryMenus;
+@property (class, readonly, retain) DKAuxiliaryMenus *auxiliaryMenus;
 
 - (NSMenu*)copyMenuForClass:(Class)aClass;
 

@@ -19,8 +19,8 @@
 + (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(id)target selector:(SEL)action
 {
 	DKRetriggerableTimer* rt = [[self alloc] initWithPeriod:period];
-	[rt setAction:action];
-	[rt setTarget:target];
+	rt.action = action;
+	rt.target = target;
 
 	return rt;
 }

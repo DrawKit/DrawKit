@@ -237,13 +237,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return ao;
 }
 
-/** @brief Returns objects that respond to the selector with the value <answer>
- <selector> a selector taking no parameters
-
- This is a very simple type of predicate test. Note - the method <selector> must not return
- anything larger than an int or it will be ignored and the result may be wrong.
- @return an array, objects that match the value of <answer>
- */
 - (NSArray*)objectsReturning:(NSInteger)answer toSelector:(SEL)selector
 {
 	NSMutableArray* result = [NSMutableArray array];
@@ -691,15 +684,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 #endif
 
-/** @brief Return an iterator that will enumerate the objects needing update
-
- The iterator returned iterates in bottom-to-top order and includes only those objects that are
- visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
- still used to determine inclusion.
- @param rect the update rect as passed to a drawRect: method of a view
- @param aView the view being updated, if any (may be nil)
- @return an iterator
- */
 - (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView
 {
 	return [self objectEnumeratorForUpdateRect:rect
@@ -707,16 +691,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 									   options:0];
 }
 
-/** @brief Return an iterator that will enumerate the objects needing update
-
- The iterator returned iterates in bottom-to-top order and includes only those objects that are
- visible and whose bounds intersect the update region of the view. If the view is nil <rect> is
- still used to determine inclusion.
- @param rect the update rect as passed to a drawRect: method of a view
- @param aView the view being updated, if any (may be nil)
- @param options various flags that you can pass to modify behaviour:
- @return an iterator
- */
 - (NSEnumerator*)objectEnumeratorForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options
 {
 	return [[self objectsForUpdateRect:rect
@@ -724,13 +698,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 							   options:options] objectEnumerator];
 }
 
-/** @brief Return the objects needing update
-
- If the view is nil <rect> is used to determine inclusion.
- @param rect the update rect as passed to a drawRect: method of a view
- @param aView the view being updated, if any (may be nil)
- @return an array, the objects needing update, in drawing order
- */
 - (NSArray*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView
 {
 	return [self objectsForUpdateRect:rect
@@ -738,14 +705,6 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 							  options:0];
 }
 
-/** @brief Return the objects needing update
-
- If the view is nil <rect> is used to determine inclusion.
- @param rect the update rect as passed to a drawRect: method of a view
- @param aView the view being updated, if any (may be nil)
- @param options various flags that you can pass to modify behaviour:
- @return an array, the objects needig update, in drawing order
- */
 - (NSArray<DKDrawableObject*>*)objectsForUpdateRect:(NSRect)rect inView:(NSView*)aView options:(DKObjectStorageOptions)options
 {
 	return [[self storage] objectsIntersectingRect:rect

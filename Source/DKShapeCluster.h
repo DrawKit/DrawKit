@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKShapeGroup.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief A CLUSTER is a specialised form of group.
 
 A CLUSTER is a specialised form of group. The idea is to allow a set of shapes to be associated with a main "master" object
@@ -42,3 +44,5 @@ since the master object must be nominated when creating the cluster.
 @property (nonatomic, weak) DKDrawableShape *masterObject;
 
 @end
+
+NS_ASSUME_NONNULL_END

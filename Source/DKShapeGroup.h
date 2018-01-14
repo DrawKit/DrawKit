@@ -8,6 +8,8 @@
 #import "DKDrawableShape.h"
 #import "DKDrawableContainerProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKObjectDrawingLayer;
 
 /** caching options
@@ -67,7 +69,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  @param style a style object to apply to each new shape or path as it is created; pass nil to create
  @return a new group object consisting of a set of other objects built from the supplied paths
  */
-+ (DKShapeGroup*)groupWithBezierPaths:(NSArray<NSBezierPath*>*)paths objectType:(DKCreateGroupObjectType)type style:(DKStyle*)style;
++ (nullable DKShapeGroup*)groupWithBezierPaths:(NSArray<NSBezierPath*>*)paths objectType:(DKCreateGroupObjectType)type style:(DKStyle*)style;
 
 /** @brief Creates a group from a list of existing objects
 
@@ -210,11 +212,13 @@ For the normal case of grouping existing objects within a layer, this is not an 
  Undoably ungroups this and replaces itself in its layer by its contents
  @param sender the sender of the action
  */
-- (IBAction)ungroupObjects:(id)sender;
+- (IBAction)ungroupObjects:(nullable id)sender;
 
 /** @brief High-level call to toggle path clipping.
  @param sender the sender of the action
  */
-- (IBAction)toggleClipToPath:(id)sender;
+- (IBAction)toggleClipToPath:(nullable id)sender;
 
 @end
+
+NS_ASSUME_NONNULL_END

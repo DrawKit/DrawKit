@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief Higher-level wrapper for CGLayer, used to cache graphics in numerous places in DK.
 
 Higher-level wrapper for CGLayer, used to cache graphics in numerous places in DK.
@@ -43,3 +45,5 @@ Higher-level wrapper for CGLayer, used to cache graphics in numerous places in D
 - (void)unlockFocus;
 
 @end
+
+NS_ASSUME_NONNULL_END

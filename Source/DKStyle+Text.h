@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKStyle.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This adds text attributes to the DKStyle object.
 
 This adds text attributes to the DKStyle object. A DKTextShape makes use of styles with attached text attributes to style
@@ -44,3 +46,5 @@ the text it displays. Other objects that use text can make use of this as they w
 - (DKStyle*)drawingStyleFromTextAttributes;
 
 @end
+
+NS_ASSUME_NONNULL_END

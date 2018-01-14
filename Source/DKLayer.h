@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawing, DKDrawingView, DKLayerGroup, DKDrawableObject, DKKnob, DKStyle, GCInfoFloater;
 
 // generic layer class:
@@ -58,11 +60,11 @@
  traditionally used.
  @return an array containing NSColor objects
  */
-@property (class, copy /*, null_resettable*/) NSArray<NSColor*> *selectionColours;
-+ (NSColor*)selectionColourForIndex:(NSUInteger)index;
+@property (class, copy, null_resettable) NSArray<NSColor*> *selectionColours;
++ (nullable NSColor*)selectionColourForIndex:(NSUInteger)index;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 // owning drawing:
 
@@ -144,7 +146,7 @@
  @param rect the overall area being updated
  @param aView the view doing the rendering
  */
-- (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView;
+- (void)drawRect:(NSRect)rect inView:(nullable DKDrawingView*)aView;
 
 /** @brief Is the layer opaque or transparent?
 
@@ -206,7 +208,7 @@
  layer they are working in. The layer doesn't enforce this - it's up to objects to make use of
  this provided colour where necessary.
  */
-@property (nonatomic, strong) NSColor *selectionColour;
+@property (nonatomic, strong, nullable) NSColor *selectionColour;
 
 /** @brief Returns an image of the layer a the given size
 
@@ -320,7 +322,7 @@
  @param key the key to use to refer to the item
  @return the user info item
  */
-- (id)userInfoObjectForKey:(NSString*)key;
+- (nullable id)userInfoObjectForKey:(NSString*)key;
 - (void)setUserInfoObject:(id)obj forKey:(NSString*)key;
 
 /** @brief Returns the layer's unique key
@@ -398,7 +400,7 @@
  @param p the point to test
  @return the object hit, or nil
  */
-- (DKDrawableObject*)hitTest:(NSPoint)p;
+- (nullable DKDrawableObject*)hitTest:(NSPoint)p;
 
 /** @brief The mouse went down in this layer
 
@@ -438,7 +440,7 @@
  use the view parameter that is passed to you rather than use this.
  @return the currently "important" view
  */
-- (NSView*)currentView;
+- (nullable NSView*)currentView;
 
 /** @brief Returns the cursor to display while the mouse is over this layer while it's active
 
@@ -463,7 +465,7 @@
  @param view the view that received the original event
  @return a menu that will be displayed as a contextual menu
  */
-- (NSMenu*)menuForEvent:(NSEvent*)theEvent inView:(NSView*)view;
+- (nullable NSMenu*)menuForEvent:(NSEvent*)theEvent inView:(NSView*)view;
 
 // supporting per-layer knob handling - default defers to the drawing as before
 
@@ -503,7 +505,7 @@
  they can handle and also implement the necessary parts of the NSDraggingDestination protocol
  just as if they were a view.
  */
-- (NSArray<NSPasteboardType>*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
+- (nullable NSArray<NSPasteboardType>*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
 
 /** @brief Tests whether the pasteboard has any of the types the layer is interested in receiving for the given
  operation
@@ -520,14 +522,14 @@
  Override if your layer uses styles
  @return nil
  */
-- (NSSet<DKStyle*>*)allStyles;
+- (nullable NSSet<DKStyle*>*)allStyles;
 
 /** @brief Return all of registered styles used by the layer
 
  Override if your layer uses styles
  @return nil
  */
-- (NSSet<DKStyle*>*)allRegisteredStyles;
+- (nullable NSSet<DKStyle*>*)allRegisteredStyles;
 
 /** @brief Substitute styles with those in the given set
 
@@ -566,44 +568,44 @@
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)lockLayer:(id)sender;
+- (IBAction)lockLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)unlockLayer:(id)sender;
+- (IBAction)unlockLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)toggleLayerLock:(id)sender;
+- (IBAction)toggleLayerLock:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)showLayer:(id)sender;
+- (IBAction)showLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)hideLayer:(id)sender;
+- (IBAction)hideLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)toggleLayerVisible:(id)sender;
+- (IBAction)toggleLayerVisible:(nullable id)sender;
 
 /**
  Debugging method
  @param sender the sender of the action
  */
-- (IBAction)logDescription:(id)sender;
-- (IBAction)copy:(id)sender;
+- (IBAction)logDescription:(nullable id)sender;
+- (IBAction)copy:(nullable id)sender;
 
 @end
 
@@ -617,3 +619,5 @@ extern NSNotificationName const kDKLayerLockStateDidChange;
 extern NSNotificationName const kDKLayerVisibleStateDidChange;
 extern NSNotificationName const kDKLayerNameDidChange;
 extern NSNotificationName const kDKLayerSelectionHighlightColourDidChange;
+
+NS_ASSUME_NONNULL_END

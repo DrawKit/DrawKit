@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief DKRoughStroke is a stroke rasterizer that randomly varies the stroke width about its nominal set width by some factor.
 
 DKRoughStroke is a stroke rasterizer that randomly varies the stroke width about its nominal set width by some factor. The result is a rough stroke
@@ -29,8 +31,10 @@ Paths are cached up to the maximum number set by the constant, after which least
 
 - (NSString*)pathKeyForPath:(NSBezierPath*)path;
 - (void)invalidateCache;
-- (NSBezierPath*)roughPathFromPath:(NSBezierPath*)path;
+- (nullable NSBezierPath*)roughPathFromPath:(NSBezierPath*)path;
 
 @end
 
 #define kDKRoughPathCacheMaximumCapacity 99
+
+NS_ASSUME_NONNULL_END

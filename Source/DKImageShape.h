@@ -8,6 +8,8 @@
 #import "DKDrawableShape.h"
 #import "DKDrawableShape+Hotspots.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 //! option constants for crop or scale image
 typedef NS_OPTIONS(NSInteger, DKImageCroppingOptions) {
 	kDKImageScaleToPath = 0,
@@ -83,7 +85,7 @@ A hotspot is added to allow the user to drag the image offset position around.
 
  The shape's path, size, angle, etc. are not changed by this method
  */
-@property (retain) NSImage *image;
+@property (nonatomic, retain) NSImage *image;
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
 
@@ -192,12 +194,12 @@ A hotspot is added to allow the user to drag the image offset position around.
  directly to a menu item with a suitable tag set for example.
  @param sender the message sender
  */
-- (IBAction)selectCropOrScaleAction:(id)sender;
+- (IBAction)selectCropOrScaleAction:(nullable id)sender;
 
 /** @brief Toggle between image drawn on top and image drawn below the rest of the style
  @param sender the message sender
  */
-- (IBAction)toggleImageAboveAction:(id)sender;
+- (IBAction)toggleImageAboveAction:(nullable id)sender;
 
 /** @brief Copy the image directly to the pasteboard.
 
@@ -206,12 +208,12 @@ A hotspot is added to allow the user to drag the image offset position around.
  that's not appropriate, so this action allows you to extract the internal image.
  @param sender the message sender
  */
-- (IBAction)copyImage:(id)sender;
+- (IBAction)copyImage:(nullable id)sender;
 
 /** @brief Replace the shape's image with one from the pasteboard if possible.
  @param sender the message sender
  */
-- (IBAction)pasteImage:(id)sender;
+- (IBAction)pasteImage:(nullable id)sender;
 
 /** @brief Resizes the shape to exactly fit the image at its original size.
 
@@ -220,7 +222,7 @@ A hotspot is added to allow the user to drag the image offset position around.
  location remains the same. A side effect is to reset any offset, image offset, but not the angle.
  @param sender the message sender
  */
-- (IBAction)fitToImage:(id)sender;
+- (IBAction)fitToImage:(nullable id)sender;
 
 @end
 
@@ -254,3 +256,5 @@ A hotspot is added to allow the user to drag the image offset position around.
 extern NSString* const kDKOriginalFileMetadataKey;
 extern NSString* const kDKOriginalImageDimensionsMetadataKey;
 extern NSString* const kDKOriginalNameMetadataKey;
+
+NS_ASSUME_NONNULL_END
