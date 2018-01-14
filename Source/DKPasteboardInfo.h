@@ -6,9 +6,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This object is archived and added to the pasteboard when copying items within DK.
 
-This object is archived and added to the pasteboard when copying items within DK. It allows information about a paste to be determined without dearchiving the
+ This object is archived and added to the pasteboard when copying items within DK. It allows information about a paste to be determined without dearchiving the
  actual objects themselves, which is much more efficient for simply managing menus, etc.
  
  Presently this merely supplies the object count and a list of classes present and a count of each, but may be extended later
@@ -21,12 +23,12 @@ This object is archived and added to the pasteboard when copying items within DK
 }
 
 + (instancetype)pasteboardInfoForObjects:(NSArray*)objects NS_SWIFT_UNAVAILABLE("");
-+ (instancetype)pasteboardInfoWithData:(NSData*)data;
-+ (instancetype)pasteboardInfoWithPasteboard:(NSPasteboard*)pb;
++ (nullable instancetype)pasteboardInfoWithData:(NSData*)data;
++ (nullable instancetype)pasteboardInfoWithPasteboard:(NSPasteboard*)pb;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithObjectsInArray:(NSArray*)objects NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 @property (readonly) NSUInteger count;
 @property (readonly) NSRect bounds;
@@ -40,3 +42,5 @@ This object is archived and added to the pasteboard when copying items within DK
 - (BOOL)writeToPasteboard:(NSPasteboard*)pb;
 
 @end
+
+NS_ASSUME_NONNULL_END

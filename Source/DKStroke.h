@@ -8,6 +8,8 @@
 #import "DKRasterizer.h"
 #import "DKDashable.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKStrokeDash;
 
 /** @brief represents the stroke of a path, and can be added as an attribute of a DKStyle.
@@ -45,12 +47,12 @@ DKStyle can contains a list of strokes without limit.
 - (void)scaleWidthBy:(CGFloat)scale;
 @property (readonly) CGFloat allowance;
 
-@property (strong) DKStrokeDash *dash;
+@property (strong, nullable) DKStrokeDash *dash;
 - (void)setAutoDash;
 
 @property CGFloat lateralOffset;
 
-@property (copy) NSShadow *shadow;
+@property (copy, nullable) NSShadow *shadow;
 
 - (void)strokeRect:(NSRect)rect;
 - (void)applyAttributesToPath:(NSBezierPath*)path;
@@ -66,3 +68,5 @@ DKStyle can contains a list of strokes without limit.
 @property (readonly) NSSize extraSpaceNeededIgnoringMitreLimit;
 
 @end
+
+NS_ASSUME_NONNULL_END

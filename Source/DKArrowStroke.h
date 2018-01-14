@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol DKArrowSrokeDimensioning;
 
 /** @brief arrow head kinds - each end can be specified independently:
@@ -99,7 +101,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 - (NSImage*)arrowSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width;
 - (NSImage*)standardArrowSwatchImage;
 
-- (NSBezierPath*)arrowPathFromOriginalPath:(NSBezierPath*)inPath fromObject:(id)obj;
+- (nullable NSBezierPath*)arrowPathFromOriginalPath:(NSBezierPath*)inPath fromObject:(id)obj;
 
 // dimensioning lines:
 
@@ -108,7 +110,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 @property (nonatomic) DKDimensioningLineOptions dimensioningLineOptions;
 
-- (NSAttributedString*)dimensionTextForObject:(id<DKArrowSrokeDimensioning>)obj;
+- (nullable NSAttributedString*)dimensionTextForObject:(nullable id<DKArrowSrokeDimensioning>)obj;
 - (CGFloat)widthOfDimensionTextForObject:(id)obj;
 - (NSString*)toleranceTextForObject:(id)object;
 
@@ -138,3 +140,5 @@ extern NSString* const kDKPositiveToleranceKey;
 extern NSString* const kDKNegativeToleranceKey;
 extern NSString* const kDKDimensionValueKey;
 extern NSString* const kDKDimensionUnitsKey;
+
+NS_ASSUME_NONNULL_END

@@ -8,6 +8,8 @@
 #import "DKDrawablePath.h"
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKTextAdornment, DKDrawingView;
 
 /** @brief Very similar to a DKTextShape but based on a path and defaulting to text-on-a-path rendering.
@@ -51,7 +53,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 @property (readonly, copy) NSBezierPath *textPath;
 @property (readonly, copy) NSArray<NSBezierPath*> *textPathGlyphs;
-- (NSArray<NSBezierPath*>*)textPathGlyphsUsedSize:(NSSize*)textSize;
+- (NSArray<NSBezierPath*>*)textPathGlyphsUsedSize:(nullable NSSize*)textSize;
 - (DKDrawablePath*)makePathWithText;
 - (DKDrawableShape*)makeShapeWithText;
 - (DKShapeGroup*)makeShapeGroupWithText;
@@ -91,44 +93,46 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 // the internal adornment object:
 
-@property (nonatomic, strong) DKTextAdornment *textAdornment;
+@property (nonatomic, strong, nullable) DKTextAdornment *textAdornment;
 
 // user actions:
 
-- (IBAction)changeFont:(id)sender;
-- (IBAction)changeFontSize:(id)sender;
-- (IBAction)changeAttributes:(id)sender;
-- (IBAction)editText:(id)sender;
+- (IBAction)changeFont:(nullable id)sender;
+- (IBAction)changeFontSize:(nullable id)sender;
+- (IBAction)changeAttributes:(nullable id)sender;
+- (IBAction)editText:(nullable id)sender;
 
-- (IBAction)changeLayoutMode:(id)sender;
+- (IBAction)changeLayoutMode:(nullable id)sender;
 
-- (IBAction)alignLeft:(id)sender;
-- (IBAction)alignRight:(id)sender;
-- (IBAction)alignCenter:(id)sender;
-- (IBAction)alignJustified:(id)sender;
-- (IBAction)underline:(id)sender;
+- (IBAction)alignLeft:(nullable id)sender;
+- (IBAction)alignRight:(nullable id)sender;
+- (IBAction)alignCenter:(nullable id)sender;
+- (IBAction)alignJustified:(nullable id)sender;
+- (IBAction)underline:(nullable id)sender;
 
-- (IBAction)loosenKerning:(id)sender;
-- (IBAction)tightenKerning:(id)sender;
-- (IBAction)turnOffKerning:(id)sender;
-- (IBAction)useStandardKerning:(id)sender;
+- (IBAction)loosenKerning:(nullable id)sender;
+- (IBAction)tightenKerning:(nullable id)sender;
+- (IBAction)turnOffKerning:(nullable id)sender;
+- (IBAction)useStandardKerning:(nullable id)sender;
 
-- (IBAction)lowerBaseline:(id)sender;
-- (IBAction)raiseBaseline:(id)sender;
-- (IBAction)superscript:(id)sender;
-- (IBAction)subscript:(id)sender;
-- (IBAction)unscript:(id)ssender;
+- (IBAction)lowerBaseline:(nullable id)sender;
+- (IBAction)raiseBaseline:(nullable id)sender;
+- (IBAction)superscript:(nullable id)sender;
+- (IBAction)subscript:(nullable id)sender;
+- (IBAction)unscript:(nullable id)ssender;
 
-- (IBAction)verticalAlign:(id)sender;
-- (IBAction)convertToShape:(id)sender;
-- (IBAction)convertToShapeGroup:(id)sender;
-- (IBAction)convertToTextShape:(id)sender;
-- (IBAction)convertToPath:(id)sender;
+- (IBAction)verticalAlign:(nullable id)sender;
+- (IBAction)convertToShape:(nullable id)sender;
+- (IBAction)convertToShapeGroup:(nullable id)sender;
+- (IBAction)convertToTextShape:(nullable id)sender;
+- (IBAction)convertToPath:(nullable id)sender;
 
-- (IBAction)paste:(id)sender;
-- (IBAction)capitalize:(id)sender;
+- (IBAction)paste:(nullable id)sender;
+- (IBAction)capitalize:(nullable id)sender;
 
-- (IBAction)takeTextAlignmentFromSender:(id)sender;
-- (IBAction)takeTextVerticalAlignmentFromSender:(id)sender;
+- (IBAction)takeTextAlignmentFromSender:(nullable id)sender;
+- (IBAction)takeTextVerticalAlignmentFromSender:(nullable id)sender;
 
 @end
+
+NS_ASSUME_NONNULL_END

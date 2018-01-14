@@ -7,6 +7,8 @@
 #import <AppKit/NSImage.h>
 #import "DKDrawingTool.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawablePath;
 
 //! modes of operation for this tool:
@@ -38,3 +40,5 @@ This tool is able to insert or delete on-path points from a path. If applied to 
 extern NSImageName const kDKInsertPathPointCursorImageName;
 extern NSImageName const kDKDeletePathPointCursorImageName;
 extern NSImageName const kDKDeletePathElementCursorImageName;
+
+NS_ASSUME_NONNULL_END

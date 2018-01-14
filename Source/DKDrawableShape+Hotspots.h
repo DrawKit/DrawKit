@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawableShape.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKHotspot;
 @protocol DKHotspotDelegate;
 
@@ -35,8 +37,8 @@ typedef NS_ENUM(NSInteger, DKHotspotState) {
 - (void)setHotspots:(NSArray<DKHotspot*>*)spots;
 - (NSArray<DKHotspot*>*)hotspots;
 
-- (DKHotspot*)hotspotForPartCode:(NSInteger)pc;
-- (DKHotspot*)hotspotUnderMouse:(NSPoint)mp;
+- (nullable DKHotspot*)hotspotForPartCode:(NSInteger)pc;
+- (nullable DKHotspot*)hotspotUnderMouse:(NSPoint)mp;
 - (NSPoint)hotspotPointForPartcode:(NSInteger)pc;
 
 - (NSRect)hotspotRect:(DKHotspot*)hs;
@@ -59,11 +61,11 @@ enum {
 }
 
 - (instancetype)init;
-- (instancetype)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initHotspotWithOwner:(nullable DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(nullable id<DKHotspotDelegate>)delegate NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 @property (weak) DKDrawableShape *owner;
-- (void)setOwner:(DKDrawableShape*)shape withPartcode:(NSInteger)pc;
+- (void)setOwner:(nullable DKDrawableShape*)shape withPartcode:(NSInteger)pc;
 
 @property NSInteger partcode;
 
@@ -71,7 +73,7 @@ enum {
 
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state;
 
-@property (weak) id<DKHotspotDelegate> delegate;
+@property (weak, nullable) id<DKHotspotDelegate> delegate;
 
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view;
 - (void)continueMouseTracking:(NSEvent*)event inView:(NSView*)view;
@@ -91,3 +93,5 @@ enum {
 - (void)hotspot:(DKHotspot*)hs didEndTrackingWithEvent:(NSEvent*)event inView:(NSView*)view;
 
 @end
+
+NS_ASSUME_NONNULL_END

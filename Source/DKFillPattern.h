@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKPathDecorator.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
 
 This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
@@ -60,3 +62,5 @@ just sets up the path clipping and calls the rendering method for each location 
 @end
 
 // kDKDrawingViewDidChangeScale can now be found in GCZoomView.h
+
+NS_ASSUME_NONNULL_END

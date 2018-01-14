@@ -9,6 +9,8 @@
 /** @brief returns a random number between 0 and 1 */
 @interface DKRandom : NSObject
 
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+
 + (CGFloat)randomNumber;
 + (CGFloat)randomPositiveOrNegativeNumber;
 

@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawing, DKLayer, DKImageDataManager, DKDrawableObject, DKMetadataItem;
 
 /**
@@ -28,3 +30,4 @@
 
 @end
 
+NS_ASSUME_NONNULL_END

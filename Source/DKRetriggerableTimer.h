@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief Implements a one-shot timer that can be repeatedly extended (retriggered) preventing it timing out.
 
 Implements a one-shot timer that can be repeatedly extended (retriggered) preventing it timing out. When it does time out, it calls the
@@ -22,7 +24,7 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
 	__weak id mTarget;
 }
 
-+ (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(id)target selector:(SEL)action;
++ (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(nullable id)target selector:(nullable SEL)action;
 
 - (instancetype)initWithPeriod:(NSTimeInterval)period NS_DESIGNATED_INITIALIZER;
 - (instancetype)init;
@@ -31,7 +33,9 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
 
 - (void)retrigger;
 
-@property SEL action;
-@property (weak) id target;
+@property (nullable) SEL action;
+@property (weak, nullable) id target;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -64,7 +64,7 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 	DKMetadataType mType;
 }
 
-+ (Class)classForType:(DKMetadataType)type;
++ (nullable Class)classForType:(DKMetadataType)type;
 + (NSString*)nameForType:(DKMetadataType)type;
 + (NSString*)localizedDisplayNameForType:(DKMetadataType)type;
 
@@ -85,7 +85,7 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 + (instancetype)metadataItemWithSize:(NSSize)size;
 + (instancetype)metadataItemWithPoint:(NSPoint)point;
 + (instancetype)metadataItemWithRect:(NSRect)rect;
-+ (instancetype)metadataItemWithObject:(id)value;
++ (nullable instancetype)metadataItemWithObject:(id)value;
 
 + (nullable DKMetadataItem*)metadataItemWithPasteboard:(NSPasteboard*)pb;
 
@@ -111,7 +111,7 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 // initializing various types of metadata item
 
 - (instancetype)initWithType:(DKMetadataType)type NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithString:(NSString*)aString;
 - (instancetype)initWithInt:(int)anInteger;
 - (instancetype)initWithInteger:(NSInteger)anInteger;

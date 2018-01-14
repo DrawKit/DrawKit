@@ -234,13 +234,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the object's image
- @return the image
- */
-- (NSImage*)image
-{
-	return m_image;
-}
+@synthesize image=m_image;
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
 

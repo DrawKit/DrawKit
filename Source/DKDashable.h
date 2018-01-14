@@ -9,9 +9,10 @@
 #import <Cocoa/Cocoa.h>
 #import "DKStrokeDash.h"
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol DKDashable <NSObject>
-@property (nonatomic, strong) DKStrokeDash *dash;
+@property (nonatomic, strong, nullable) DKStrokeDash *dash;
 
 @property (nonatomic) CGFloat width;
 @property (nonatomic) NSLineCapStyle lineCapStyle;
@@ -19,3 +20,5 @@
 
 @property (strong) NSColor *colour;
 @end
+
+NS_ASSUME_NONNULL_END

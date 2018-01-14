@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKObjectDrawingLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKGridLayer;
 
 typedef NS_ENUM(NSInteger, DKAlignment) {
@@ -54,7 +56,7 @@ This category implements object alignment features for DKObjectDrawingLayer
  If no specific object is set (nil), then the first object in the selection is returned. If there's
  no selection, returns nil.
  */
-@property (unsafe_unretained) DKDrawableObject *keyObject;
+@property (unsafe_unretained, nullable) DKDrawableObject *keyObject;
 
 /** @brief Aligns a set of objects
 
@@ -150,57 +152,57 @@ This category implements object alignment features for DKObjectDrawingLayer
 /** @brief Aligns the selected objects on their left edges
  @param sender the action's sender
  */
-- (IBAction)alignLeftEdges:(id)sender;
+- (IBAction)alignLeftEdges:(nullable id)sender;
 
 /** @brief Aligns the selected objects on their right edges
  @param sender the action's sender
  */
-- (IBAction)alignRightEdges:(id)sender;
+- (IBAction)alignRightEdges:(nullable id)sender;
 
 /** @brief Aligns the selected objects on their horizontal centres
  @param sender the action's sender
  */
-- (IBAction)alignHorizontalCentres:(id)sender;
+- (IBAction)alignHorizontalCentres:(nullable id)sender;
 
 /** @brief Aligns the selected objects on their top edges
  @param sender the action's sender
  */
-- (IBAction)alignTopEdges:(id)sender;
+- (IBAction)alignTopEdges:(nullable id)sender;
 
 /** @brief Aligns the selected objects on their bottom edges
  @param sender the action's sender
  */
-- (IBAction)alignBottomEdges:(id)sender;
+- (IBAction)alignBottomEdges:(nullable id)sender;
 
 /** @brief Aligns the selected objects on their vertical centres
  @param sender the action's sender
  */
-- (IBAction)alignVerticalCentres:(id)sender;
+- (IBAction)alignVerticalCentres:(nullable id)sender;
 
 /** @brief Distributes the selected objects to equalize the vertical centres
  @param sender the action's sender
  */
-- (IBAction)distributeVerticalCentres:(id)sender;
+- (IBAction)distributeVerticalCentres:(nullable id)sender;
 
 /** @brief Distributes the selected objects to equalize the vertical space
  @param sender the action's sender
  */
-- (IBAction)distributeVerticalSpace:(id)sender;
+- (IBAction)distributeVerticalSpace:(nullable id)sender;
 
 /** @brief Distributes the selected objects to equalize the horizontal centres
  @param sender the action's sender
  */
-- (IBAction)distributeHorizontalCentres:(id)sender;
+- (IBAction)distributeHorizontalCentres:(nullable id)sender;
 
 /** @brief Distributes the selected objects to equalize the horizontal space
  @param sender the action's sender
  */
-- (IBAction)distributeHorizontalSpace:(id)sender;
+- (IBAction)distributeHorizontalSpace:(nullable id)sender;
 
-- (IBAction)alignEdgesToGrid:(id)sender;
-- (IBAction)alignLocationToGrid:(id)sender;
+- (IBAction)alignEdgesToGrid:(nullable id)sender;
+- (IBAction)alignLocationToGrid:(nullable id)sender;
 
-- (IBAction)assignKeyObject:(id)sender;
+- (IBAction)assignKeyObject:(nullable id)sender;
 
 @end
 
@@ -216,3 +218,5 @@ static const DKAlignmentAlign kDKAlignmentVerticalAlignMask API_DEPRECATED_WITH_
  @param alignment the type of alignment being applied
  @return an x and y offset */
 NSPoint DKCalculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment);
+
+NS_ASSUME_NONNULL_END

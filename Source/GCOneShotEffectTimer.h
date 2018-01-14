@@ -6,6 +6,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol GCOneShotDelegate;
 
 /** @brief This class wraps up a very simple piece of timer functionality.
@@ -53,3 +55,5 @@
 @end
 
 #define kDKStandardFadeTime 0.15
+
+NS_ASSUME_NONNULL_END

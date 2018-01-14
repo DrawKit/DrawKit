@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawingView.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawableObject, DKObjectOwnerLayer, DKShapeGroup;
 
 /** @brief These objects are never used to make a visible view.
@@ -23,8 +25,8 @@
 	__weak DKLayer* mLayerRef;
 }
 
-- (instancetype)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFrame:(NSRect)frame withLayer:(nullable DKLayer*)aLayer NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
 @end
 
@@ -32,7 +34,9 @@
 	__weak DKDrawableObject* mObjectRef;
 }
 
-- (instancetype)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithFrame:(NSRect)frame object:(nullable DKDrawableObject*)obj NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

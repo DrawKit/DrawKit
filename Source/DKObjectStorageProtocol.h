@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol DKObjectStorage;
 
 typedef NS_OPTIONS(NSUInteger, DKObjectStorageOptions) {
@@ -55,7 +57,7 @@ typedef NS_OPTIONS(NSUInteger, DKObjectStorageOptions) {
 // objects returned by these methods should be returned in bottom-to-top (drawing) Z-order unless the kDKZOrderMayBeRelaxed flag is set in which case
 // the order can be arbitrary. Z-order and object index are synonymous
 
-- (NSArray<__kindof id<DKStorableObject>>*)objectsIntersectingRect:(NSRect)aRect inView:(NSView*)aView options:(DKObjectStorageOptions)options;
+- (NSArray<__kindof id<DKStorableObject>>*)objectsIntersectingRect:(NSRect)aRect inView:(nullable NSView*)aView options:(DKObjectStorageOptions)options;
 - (NSArray<__kindof id<DKStorableObject>>*)objectsContainingPoint:(NSPoint)aPoint;
 - (NSArray<__kindof id<DKStorableObject>>*)objects;
 
@@ -90,4 +92,4 @@ typedef NS_OPTIONS(NSUInteger, DKObjectStorageOptions) {
 
 @end
 
-
+NS_ASSUME_NONNULL_END

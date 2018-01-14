@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
 This category of DKGradient supplies a number of prebuilt gradients that implement a variety of user-interface gradients
 as found in numerour apps, including Apple's own.
@@ -28,3 +30,5 @@ as found in numerour apps, including Apple's own.
 + (void)drawShinyGradientInRect:(NSRect)aRect withColour:(NSColor*)colour;
 
 @end
+
+NS_ASSUME_NONNULL_END

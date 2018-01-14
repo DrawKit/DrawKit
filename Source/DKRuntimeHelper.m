@@ -66,7 +66,7 @@
 
 	//	LogEvent_(kReactiveEvent, @"classes: %@", list);
 
-	return list;
+	return [[list copy] autorelease];
 }
 
 + (NSArray*)allImmediateSubclassesOf:(Class)aClass
@@ -118,15 +118,13 @@
 
 	//	LogEvent_(kReactiveEvent, @"classes: %@", list);
 
-	return list;
+	return [[list copy] autorelease];
 }
 
 @end
 
 BOOL classIsNSObject(const Class aClass)
 {
-	// returns YES if <aClass> is an NSObject derivative, otherwise NO. It does this without invoking any methods on the class being tested.
-
 	return classIsSubclassOfClass(aClass, [NSObject class]);
 }
 

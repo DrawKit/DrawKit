@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol DKRouteFinderProgressDelegate;
 
 typedef NS_ENUM(NSInteger, DKRouteAlgorithmType) {
@@ -53,15 +55,14 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 	DKDirection mDirection; // limit search for NN to this direction
 }
 
-+ (DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray<NSValue*>*)arrayOfPoints;
-+ (DKRouteFinder*)routeFinderWithObjects:(NSArray*)objects withValueForKey:(NSString*)key;
++ (nullable DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray<NSValue*>*)arrayOfPoints;
++ (nullable DKRouteFinder*)routeFinderWithObjects:(NSArray*)objects withValueForKey:(NSString*)key;
 + (NSArray*)sortedArrayOfObjects:(NSArray*)objects byShortestRouteForKey:(NSString*)key;
 @property (class) DKRouteAlgorithmType algorithm;
-+ (void)setAlgorithm:(DKRouteAlgorithmType)algType;
 
 - (NSArray<NSValue*>*)shortestRoute;
 - (NSArray<NSNumber*>*)shortestRouteOrder;
-- (NSArray*)sortedArrayFromArray:(NSArray*)anArray;
+- (nullable NSArray*)sortedArrayFromArray:(NSArray*)anArray;
 @property (readonly) CGFloat pathLength;
 @property (readonly) DKRouteAlgorithmType algorithm;
 
@@ -79,3 +80,5 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 - (void)routeFinder:(DKRouteFinder*)rf progressHasReached:(CGFloat)value;
 
 @end
+
+NS_ASSUME_NONNULL_END

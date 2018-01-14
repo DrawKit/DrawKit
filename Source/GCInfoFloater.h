@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
 This class provides a very simple tooltip-like window in which you can display a short piece of information, such
 as a single numeric value.
@@ -26,7 +28,7 @@ user interaction.
 - (void)setDoubleValue:(double)val;
 - (void)setStringValue:(NSString*)str;
 
-- (void)setFormat:(NSString*)fmt;
+- (void)setFormat:(nullable NSString*)fmt;
 - (void)setWindowOffset:(NSSize)offset;
 @property NSSize windowOffset;
 /** places the window just to the right and above the point \c p as expressed in the coordinate system of view <code>v</code>.
@@ -38,3 +40,5 @@ user interaction.
 - (void)hide;
 
 @end
+
+NS_ASSUME_NONNULL_END

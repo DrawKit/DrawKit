@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawableObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawableShape;
 @class DKKnob;
 
@@ -215,7 +217,7 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  @param distance the position from the start of the path to make the split
  @return a new path, being the section of the original path from <distance> to the end.
  */
-- (DKDrawablePath*)dividePathAtLength:(CGFloat)distance;
+- (nullable DKDrawablePath*)dividePathAtLength:(CGFloat)distance;
 
 // creating paths
 
@@ -323,14 +325,14 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  Undoably replaces itself in its current layer by the equivalent shape object
  @param sender the action's sender
  */
-- (IBAction)convertToShape:(id)sender;
+- (IBAction)convertToShape:(nullable id)sender;
 
 /** @brief Adds some random offset to every point on the path
 
  Just a fun effect
  @param sender the action's sender
  */
-- (IBAction)addRandomNoise:(id)sender;
+- (IBAction)addRandomNoise:(nullable id)sender;
 
 /** @brief Replaces the path with an outline of the path
 
@@ -340,13 +342,13 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  identical to the original. For complex styles you will lose a lot of information.
  @param sender the action's sender
  */
-- (IBAction)convertToOutline:(id)sender;
+- (IBAction)convertToOutline:(nullable id)sender;
 
 /** @brief Replaces the object with new objects, one for each subpath in the original
  @param sender the action's sender
  */
-- (IBAction)breakApart:(id)sender;
-- (IBAction)roughenPath:(id)sender;
+- (IBAction)breakApart:(nullable id)sender;
+- (IBAction)roughenPath:(nullable id)sender;
 
 /** @brief Tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
  this will have no effect. vector paths can benefit however.
@@ -354,7 +356,7 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  The current set smoothness value is used
  @param sender the action's sender
  */
-- (IBAction)smoothPath:(id)sender;
+- (IBAction)smoothPath:(nullable id)sender;
 
 /** @brief Tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
  this will have no effect. vector paths can benefit however.
@@ -362,21 +364,21 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  The current set smoothness value x4 is used
  @param sender the action's sender
  */
-- (IBAction)smoothPathMore:(id)sender;
+- (IBAction)smoothPathMore:(nullable id)sender;
 
 /** @brief Adds a copy of the receiver to the drawing with a parallel offset path
 
  This is really just a test of the algorithm
  @param sender the action's sender
  */
-- (IBAction)parallelCopy:(id)sender;
+- (IBAction)parallelCopy:(nullable id)sender;
 
 /** @brief Attempts to curve-fit the object's path
 
  The path might not change, depending on how it is made up
  @param sender the action's sender
  */
-- (IBAction)curveFit:(id)sender;
+- (IBAction)curveFit:(nullable id)sender;
 
 /** @brief Reverses the direction of the object's path
 
@@ -384,28 +386,28 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  will flip to the other end.
  @param sender the action's sender
  */
-- (IBAction)reversePath:(id)sender;
+- (IBAction)reversePath:(nullable id)sender;
 
 /** @brief Flips the path horizontally
 
  The path is flipped directly
  @param sender the action's sender
  */
-- (IBAction)toggleHorizontalFlip:(id)sender;
+- (IBAction)toggleHorizontalFlip:(nullable id)sender;
 
 /** @brief Flips the path vertically
 
  The path is flipped directly
  @param sender the action's sender
  */
-- (IBAction)toggleVerticalFlip:(id)sender;
+- (IBAction)toggleVerticalFlip:(nullable id)sender;
 
 /** @brief Closes the path if not already closed
 
  Paths created using the bezier tool are always left open by default
  @param sender the action's sender
  */
-- (IBAction)closePath:(id)sender;
+- (IBAction)closePath:(nullable id)sender;
 
 @end
 
@@ -417,3 +419,5 @@ enum {
 extern NSPoint gMouseForPathSnap;
 
 extern NSString* const kDKPathOnPathHitDetectionPriorityDefaultsKey;
+
+NS_ASSUME_NONNULL_END

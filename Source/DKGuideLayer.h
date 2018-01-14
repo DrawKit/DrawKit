@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKGuide;
 
 /** @brief Implements horizontal and vertical guidelines.
@@ -71,7 +73,7 @@
  @param p A point local to the drawing.
  @return The guide created, or <code>nil</code>.
  */
-- (DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p;
+- (nullable DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
 /** @brief Creates a new horizontal guide at the point <code>p</code>, adds it to the layer and returns it
 
@@ -81,7 +83,7 @@
  @param p A point local to the drawing.
  @return The guide created, or <code>nil</code>.
  */
-- (DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p;
+- (nullable DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
 /** @brief Get all current guides.
  */
@@ -100,13 +102,13 @@
  @param pos a verical coordinate value, in points
  @return the nearest guide to the given point that lies within the snap tolerance, or nil
  */
-- (DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos;
+- (nullable DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos;
 
 /** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
  @param pos a horizontal coordinate value, in points
  @return the nearest guide to the given point that lies within the snap tolerance, or nil
  */
-- (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos;
+- (nullable DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos;
 
 /** @brief Returns the list of vertical guides.
 
@@ -221,7 +223,7 @@
  @param gh if not NULL, receives the actual horizontal guide snapped to
  @return a size, being the offset between whichever point was snapped and its snapped position
  */
-- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh;
+- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints verticalGuide:(DKGuide*_Nullable*_Nullable)gv horizontalGuide:(DKGuide*_Nullable*_Nullable)gh;
 
 /** @} */
 // redrawing the guides
@@ -285,3 +287,5 @@
 - (void)drawInRect:(NSRect)rect lineWidth:(CGFloat)lw;
 
 @end
+
+NS_ASSUME_NONNULL_END

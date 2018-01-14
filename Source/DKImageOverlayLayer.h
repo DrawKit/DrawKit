@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 //! coverage method flags - can be combined to give different effects
 typedef NS_OPTIONS(NSUInteger, DKImageCoverageFlags) {
 	kDKDrawingImageCoverageNormal = 0,
@@ -41,3 +43,5 @@ typedef NS_OPTIONS(NSUInteger, DKImageCoverageFlags) {
 @property (readonly) NSRect imageDestinationRect;
 
 @end
+
+NS_ASSUME_NONNULL_END

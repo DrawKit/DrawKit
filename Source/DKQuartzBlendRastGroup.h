@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKRastGroup.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Simple render group subclass that applies the set blend mode to the context for all of the renderers it contains,
  yielding a wide range of available effects.
@@ -22,3 +24,5 @@
 @property (strong) NSImage *maskImage;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawableShape.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This subclass of DKDrawableShape implements a protocol for obtaining shapes dynamically from a shape provider.
 
  This subclass of \c DKDrawableShape implements a protocol for obtaining shapes dynamically from a shape provider. When
@@ -36,20 +38,22 @@
 	id m_optionalParam;
 }
 
-- (void)setShapeProvider:(id)provider selector:(SEL)selector;
-@property (nonatomic, readonly, strong) id shapeProvider;
-@property (nonatomic, readonly) SEL shapeSelector;
+- (void)setShapeProvider:(nullable id)provider selector:(nullable SEL)selector;
+@property (nonatomic, readonly, strong, nullable) id shapeProvider;
+@property (nonatomic, readonly, nullable) SEL shapeSelector;
 
-@property (nonatomic, strong) id optionalParameter;
+@property (nonatomic, strong, nullable) id optionalParameter;
 
-- (NSBezierPath*)providedShapeForRect:(NSRect)r;
+- (nullable NSBezierPath*)providedShapeForRect:(NSRect)r;
 
 @end
 
 //! the shape provider must have a method that conforms to the following prototype:
 //! - (NSBezierPath*)	someShapeInRect:(NSRect) r otherParameters:(id) object;
 //! this is actually called by a C function call internally, so the following is the real prototype:
-typedef NSBezierPath* (*shapeProviderFunction)(id, SEL, NSRect, id);
+typedef NSBezierPath*__nullable (*shapeProviderFunction)(id, SEL, NSRect, id __nullable);
 
 // the <otherParameters> part is optional but must be an object - for example an NSValue, NSNumber or NSDictionary are all valid, but
 // the provider and the providee need to informally agree on what to expect here.
+
+NS_ASSUME_NONNULL_END

@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 //! placement of info panel:
 typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 	kDKDrawingInfoPlaceBottomRight = 0,
@@ -66,14 +68,14 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
  @param br The bounds of the info box.
  */
 - (void)drawInfoInRect:(NSRect)br;
-- (NSDictionary<NSAttributedStringKey, id>*)attributesForDrawingInfoItem:(NSString*)key;
+- (nullable NSDictionary<NSAttributedStringKey, id>*)attributesForDrawingInfoItem:(NSString*)key;
 - (void)drawString:(NSString*)str inRect:(NSRect)r withAttributes:(NSDictionary<NSAttributedStringKey, id>*)attr;
 
-- (NSAttributedString*)labelForDrawingInfoItem:(NSString*)key;
+- (nullable NSAttributedString*)labelForDrawingInfoItem:(NSString*)key;
 - (NSRect)layoutRectForDrawingInfoItem:(NSString*)key inRect:(NSRect)bounds;
 - (NSRect)labelRectInRect:(NSRect)itemRect forLabel:(NSAttributedString*)ls;
 
-- (NSString*)keyForEditableRegionUnderMouse:(NSPoint)p;
+- (nullable NSString*)keyForEditableRegionUnderMouse:(NSPoint)p;
 - (void)textViewDidChangeSelection:(NSNotification*)aNotification;
 
 /** @} */
@@ -81,3 +83,5 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 @end
 
 extern NSString* const kDKDrawingInfoTextLabelAttributes;
+
+NS_ASSUME_NONNULL_END

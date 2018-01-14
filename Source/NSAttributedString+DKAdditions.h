@@ -8,6 +8,8 @@
 #import "DKCommonTypes.h"
 #import "DKBezierLayoutManager.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief These category methods perform high-level text layout.
 
 These category methods perform high-level text layout.
@@ -74,8 +76,8 @@ The second method is similar except that text is flowed into the layoutPath.
 - (void)convertFontsToHaveTrait:(NSFontTraitMask)traitMask;
 - (void)convertFontsToNotHaveTrait:(NSFontTraitMask)traitMask;
 
-- (void)changeFont:(id)sender;
-- (void)changeAttributes:(id)sender;
+- (void)changeFont:(nullable id)sender;
+- (void)changeAttributes:(nullable id)sender;
 
 @end
 
@@ -88,3 +90,5 @@ NSLayoutManager* sharedDrawingLayoutManager(void);
 /** @brief Supply a layout manager that can be used to capture text layout into a bezier path
  @return the shared layout manager instance */
 DKBezierLayoutManager* sharedCaptureLayoutManager(void);
+
+NS_ASSUME_NONNULL_END

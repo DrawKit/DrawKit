@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This objects performs distortion transformations on points and paths.
 
 This objects performs distortion transformations on points and paths. The four envelope points define a
@@ -24,11 +26,11 @@ can be used in a similar way.
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithRect:(NSRect)rect NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithEnvelope:(const NSPoint[4])points NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithEnvelope:(const NSPoint[_Nonnull 4])points NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-- (void)setEnvelopePoints:(in const NSPoint[4])points;
-- (void)getEnvelopePoints:(out NSPoint[4])points;
+- (void)setEnvelopePoints:(in const NSPoint[_Nonnull 4])points;
+- (void)getEnvelopePoints:(out NSPoint[_Nonnull 4])points;
 @property (readonly) NSRect bounds;
 
 - (void)offsetByX:(CGFloat)dx byY:(CGFloat)dy;
@@ -42,3 +44,5 @@ can be used in a similar way.
 - (NSBezierPath*)transformBezierPath:(NSBezierPath*)path;
 
 @end
+
+NS_ASSUME_NONNULL_END

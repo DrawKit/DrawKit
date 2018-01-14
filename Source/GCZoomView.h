@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKRetriggerableTimer;
 
 /** @brief This is a very general-purpose view class that provides some handy high-level methods for doing zooming.
@@ -61,29 +63,29 @@
 /** @brief Zoom in (scale up) by a factor of 2
  @param sender - the sender of the action
  */
-- (IBAction)zoomIn:(id)sender;
+- (IBAction)zoomIn:(nullable id)sender;
 
 /** @brief Zoom out (scale down) by a factor of 2
  @param sender - the sender of the action
  */
-- (IBAction)zoomOut:(id)sender;
+- (IBAction)zoomOut:(nullable id)sender;
 
 /** @brief Restore the zoom to 100%
  @param sender - the sender of the action
  */
-- (IBAction)zoomToActualSize:(id)sender;
+- (IBAction)zoomToActualSize:(nullable id)sender;
 
 /** @brief Zoom so that the entire extent of the enclosing frame is visible
  @param sender - the sender of the action
  */
-- (IBAction)zoomFitInWindow:(id)sender;
+- (IBAction)zoomFitInWindow:(nullable id)sender;
 
 /** @brief Takes the senders tag value as the desired percentage
  @param sender - the sender of the action
  */
-- (IBAction)zoomToPercentageWithTag:(id)sender;
-- (IBAction)zoomMax:(id)sender;
-- (IBAction)zoomMin:(id)sender;
+- (IBAction)zoomToPercentageWithTag:(nullable id)sender;
+- (IBAction)zoomMax:(nullable id)sender;
+- (IBAction)zoomMin:(nullable id)sender;
 
 /** @brief Zoom by the desired scaling factor
 
@@ -166,3 +168,5 @@ extern NSNotificationName const kDKDrawingViewDidChangeScale;
 extern NSString* const kDKScrollwheelModifierKeyMaskPreferenceKey;
 extern NSString* const kDKDrawingDisableScrollwheelZoomPrefsKey;
 extern NSString* const kDKDrawingScrollwheelSensePrefsKey;
+
+NS_ASSUME_NONNULL_END

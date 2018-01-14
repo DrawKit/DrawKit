@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKRastGroup.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief Captures the output of its contained renderers in an image
 
  This class implements a special rendergroup that captures the output of its contained renderers in an image, then
@@ -49,3 +51,5 @@
 /** @brief Draws the specified image representation using Core Image. */
 - (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
 @end
+
+NS_ASSUME_NONNULL_END

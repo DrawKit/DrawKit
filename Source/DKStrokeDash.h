@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface DKStrokeDash : NSObject <NSCoding, NSCopying> {
 @private
 	CGFloat m_pattern[8];
@@ -17,7 +19,7 @@
 
 /**  */
 + (DKStrokeDash*)defaultDash;
-+ (DKStrokeDash*)dashWithPattern:(CGFloat[])dashes count:(NSInteger)count;
++ (DKStrokeDash*)dashWithPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count;
 + (DKStrokeDash*)dashWithName:(NSString*)name;
 + (void)registerDash:(DKStrokeDash*)dash withName:(NSString*)name;
 + (NSArray<DKStrokeDash*>*)registeredDashes;
@@ -25,11 +27,11 @@
 
 + (DKStrokeDash*)equallySpacedDashToFitSize:(NSSize)aSize dashLength:(CGFloat)len;
 
-- (instancetype)initWithPattern:(CGFloat[])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-- (void)setDashPattern:(CGFloat[])dashes count:(NSInteger)count;
-- (void)getDashPattern:(CGFloat[])dashes count:(NSInteger*)count;
+- (void)setDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count;
+- (void)getDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger*)count;
 /** @brief The count of dashes.
  */
 @property (readonly) NSUInteger count;
@@ -71,3 +73,5 @@
 
 #define kDKStandardDashSwatchImageSize (NSMakeSize(80.0, 4.0))
 #define kDKStandardDashSwatchStrokeWidth 2.0
+
+NS_ASSUME_NONNULL_END

@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This category allows \c -stringValue to be called on a broader range of objects than standard - in fact any object.
 
 This category allows \c -stringValue to be called on a broader range of objects than standard - in fact any object.
@@ -64,3 +66,5 @@ The most useful is probably NSValue, since this will automatically use NSStringF
 - (NSString*)stringValue;
 
 @end
+
+NS_ASSUME_NONNULL_END

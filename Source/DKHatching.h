@@ -8,6 +8,8 @@
 #import "DKRasterizer.h"
 #import "DKDashable.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKStrokeDash;
 
 /** @brief This class provides a simple hatching fill for a path.
@@ -75,7 +77,7 @@ doesn't change the cache.
  @param density a density figure from 0 to 1
  @return a hatching instance having a dot pattern of the given density
  */
-+ (DKHatching*)hatchingWithDotDensity:(CGFloat)density;
++ (nullable DKHatching*)hatchingWithDotDensity:(CGFloat)density;
 
 - (void)hatchPath:(NSBezierPath*)path;
 
@@ -103,7 +105,7 @@ doesn't change the cache.
 
 @property (strong) NSColor *colour;
 
-@property (nonatomic, strong) DKStrokeDash *dash;
+@property (nonatomic, strong, nullable) DKStrokeDash *dash;
 - (void)setAutoDash;
 
 @property (nonatomic) CGFloat roughness;
@@ -117,3 +119,5 @@ doesn't change the cache.
 */
 - (void)calcHatchInRect:(NSRect)rect;
 @end
+
+NS_ASSUME_NONNULL_END

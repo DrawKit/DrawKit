@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKObjectOwnerLayer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKShapeGroup;
 
 /** @brief This layer adds the concept of selection to drawable objects as defined by DKObjectOwnerLayer.
@@ -175,7 +177,7 @@ selected state.
 
  For interactive selections, \c exchangeSelectionWithObjectsInArray: is more appropriate and efficient
  */
-@property (retain) NSSet<DKDrawableObject*> *selection;
+@property (copy, nullable) NSSet<DKDrawableObject*> *selection;
 
 /** @brief If the selection consists of a single available object, return it. Otherwise nil.
 
@@ -183,7 +185,7 @@ selected state.
  meaningful. It is also used by the automatic invocation forwarding mechanism.
  @return the selected object if it's the only one and it's available
  */
-@property (readonly, retain) DKDrawableObject *singleSelection;
+@property (readonly, retain, nullable) DKDrawableObject *singleSelection;
 
 /** @brief Return the number of items in the selection.
 
@@ -253,7 +255,7 @@ selected state.
 /** @brief Scrolls one or all views attached to the drawing so that the selection within this layer is visible
  @param aView if not nil, the view to scroll. If nil, scrolls all views
  */
-- (void)scrollToSelectionInView:(NSView*)aView;
+- (void)scrollToSelectionInView:(nullable NSView*)aView;
 
 // style operations on multiple items:
 
@@ -331,7 +333,7 @@ selected state.
  This will help keep code tidy.
  @param actionName undo menu string, or nil to use a preset name
  */
-- (void)commitSelectionUndoWithActionName:(NSString*)actionName;
+- (void)commitSelectionUndoWithActionName:(nullable NSString*)actionName;
 
 /** @brief Test whether the selection is now different from the recorded selection
 
@@ -492,101 +494,101 @@ selected state.
  Cuts the selection
  @param sender the action's sender
  */
-- (IBAction)cut:(id)sender;
+- (IBAction)cut:(nullable id)sender;
 
 /** @brief Perform a copy
 
  Copies the selection to the general pasteboard
  @param sender the action's sender
  */
-- (IBAction)copy:(id)sender;
+- (IBAction)copy:(nullable id)sender;
 
 /** @brief Perform a paste
 
  Pastes from the general pasteboard
  @param sender the action's sender
  */
-- (IBAction)paste:(id)sender;
+- (IBAction)paste:(nullable id)sender;
 
 /** @brief Performs a delete operation
  @param sender the action's sender
  */
-- (IBAction) delete:(id)sender;
+- (IBAction) delete:(nullable id)sender;
 
 /**
  Calls delete: when backspace key is typed
  @param sender the action's sender
  */
-- (IBAction)deleteBackward:(id)sender;
+- (IBAction)deleteBackward:(nullable id)sender;
 
 /** @brief Duplicates the selection
  @param sender the action's sender
  */
-- (IBAction)duplicate:(id)sender;
+- (IBAction)duplicate:(nullable id)sender;
 
 /** @brief Selects all objects
  @param sender the action's sender (in fact the view)
  */
-- (IBAction)selectAll:(id)sender;
+- (IBAction)selectAll:(nullable id)sender;
 
 /** @brief Deselects all objects in the selection
  @param sender the action's sender
  */
-- (IBAction)selectNone:(id)sender;
+- (IBAction)selectNone:(nullable id)sender;
 
 /** @brief Selects the objects not selected, deselects those that are ("inverts" selection)
  @param sender the action's sender
  */
-- (IBAction)selectOthers:(id)sender;
+- (IBAction)selectOthers:(nullable id)sender;
 
 /** @brief Brings the selected object forward
  @param sender the action's sender
  */
-- (IBAction)objectBringForward:(id)sender;
+- (IBAction)objectBringForward:(nullable id)sender;
 
 /** @brief Sends the selected object backward
  @param sender the action's sender
  */
-- (IBAction)objectSendBackward:(id)sender;
+- (IBAction)objectSendBackward:(nullable id)sender;
 
 /** @brief Brings the selected object to the front
  @param sender the action's sender
  */
-- (IBAction)objectBringToFront:(id)sender;
+- (IBAction)objectBringToFront:(nullable id)sender;
 
 /** @brief Sends the selected object to the back
  @param sender the action's sender
  */
-- (IBAction)objectSendToBack:(id)sender;
+- (IBAction)objectSendToBack:(nullable id)sender;
 
 /** @brief Locks all selected objects
  @param sender the action's sender
  */
-- (IBAction)lockObject:(id)sender;
+- (IBAction)lockObject:(nullable id)sender;
 
 /** @brief Unlocks all selected objects
  @param sender the action's sender
  */
-- (IBAction)unlockObject:(id)sender;
+- (IBAction)unlockObject:(nullable id)sender;
 
 /** @brief Shows all selected objects
  @param sender the action's sender
  */
-- (IBAction)showObject:(id)sender;
+- (IBAction)showObject:(nullable id)sender;
 
 /** @brief Hides all selected objects, then deselects all
 
  Caution: hiding the selection has usability implications!!
  @param sender the action's sender
  */
-- (IBAction)hideObject:(id)sender;
+- (IBAction)hideObject:(nullable id)sender;
 
 /** @brief Reveals any hidden objects, setting the selection to them
 
  Beeps if no objects were hidden
  @param sender the action's sender
  */
-- (IBAction)revealHiddenObjects:(id)sender;
+- (IBAction)revealHiddenObjects:(nullable id)sender;
 
 /** @brief Turns the selected objects into a group.
 
@@ -594,60 +596,60 @@ selected state.
  as a whole can be moved to any index - ungrouping replaces objects at that index.
  @param sender the action's sender
  */
-- (IBAction)groupObjects:(id)sender;
-- (IBAction)clusterObjects:(id)sender;
+- (IBAction)groupObjects:(nullable id)sender;
+- (IBAction)clusterObjects:(nullable id)sender;
 
 /** @brief Set the selected objects ghosted.
 
  Ghosted objects draw using an unobtrusive placeholder style
  @param sender the action's sender
  */
-- (IBAction)ghostObjects:(id)sender;
+- (IBAction)ghostObjects:(nullable id)sender;
 
 /** @brief Set the selected objects unghosted.
 
  Ghosted objects draw using an unobtrusive placeholder style
  @param sender the action's sender
  */
-- (IBAction)unghostObjects:(id)sender;
+- (IBAction)unghostObjects:(nullable id)sender;
 
 /** @brief Nudges the selected objects left by one unit
 
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
-- (IBAction)moveLeft:(id)sender;
+- (IBAction)moveLeft:(nullable id)sender;
 
 /** @brief Nudges the selected objects right by one unit
 
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
-- (IBAction)moveRight:(id)sender;
+- (IBAction)moveRight:(nullable id)sender;
 
 /** @brief Nudges the selected objects up by one unit
 
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
-- (IBAction)moveUp:(id)sender;
+- (IBAction)moveUp:(nullable id)sender;
 
 /** @brief Nudges the selected objects down by one unit
 
  The nudge amount is determined by the drawing's grid settings
  @param sender the action's sender (in fact the view)
  */
-- (IBAction)moveDown:(id)sender;
+- (IBAction)moveDown:(nullable id)sender;
 
 /** @brief Selects all objects having the same style as the single selected object
  @param sender the action's sender
  */
-- (IBAction)selectMatchingStyle:(id)sender;
+- (IBAction)selectMatchingStyle:(nullable id)sender;
 
 /** @brief Connects any paths sharing an end point into a single path
  @param sender the action's sender
  */
-- (IBAction)joinPaths:(id)sender;
+- (IBAction)joinPaths:(nullable id)sender;
 
 /** @brief Applies a style to the objects in the selection
 
@@ -655,7 +657,7 @@ selected state.
  by DKStyleRegistry, but can be arranged to be any object that can have a represented object.
  @param sender the action's sender
  */
-- (IBAction)applyStyle:(id)sender;
+- (IBAction)applyStyle:(nullable id)sender;
 
 @end
 
@@ -668,3 +670,5 @@ enum {
 
 extern NSNotificationName const kDKLayerSelectionDidChange;
 extern NSNotificationName const kDKLayerKeyObjectDidChange;
+
+NS_ASSUME_NONNULL_END
