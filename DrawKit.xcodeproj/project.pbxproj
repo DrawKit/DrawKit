@@ -422,7 +422,7 @@
 		96F5165C0B89DBBE0047BA96 /* DKDrawingTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDrawingTool.m; sourceTree = "<group>"; };
 		96F516B90B89DBE60047BA96 /* CurveFit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveFit.h; sourceTree = "<group>"; };
 		96F517DB0B8A8A300047BA96 /* DKDrawKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKDrawKit.h; path = Source/DKDrawKit.h; sourceTree = "<group>"; };
-		AA9159790D9DFECA00905699 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/Logging.xib; sourceTree = "<group>"; };
+		AA9159790D9DFECA00905699 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Logging.xib; sourceTree = "<group>"; };
 		AA91597A0D9DFECA00905699 /* LogEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogEvent.h; sourceTree = "<group>"; };
 		AA91597B0D9DFECA00905699 /* LogEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogEvent.m; sourceTree = "<group>"; };
 		BF0350310F3A93A20042C98B /* NSBezierPath+Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+Text.h"; sourceTree = "<group>"; };
@@ -1710,7 +1710,7 @@
 		AA9159780D9DFECA00905699 /* Logging.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AA9159790D9DFECA00905699 /* English */,
+				AA9159790D9DFECA00905699 /* en */,
 			);
 			name = Logging.xib;
 			sourceTree = "<group>";
