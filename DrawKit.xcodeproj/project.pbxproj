@@ -1751,6 +1751,7 @@
 				);
 				HEADER_SEARCH_PATHS = "ThirdParty/**";
 				INFOPLIST_FILE = Source/DrawKitInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../../..";
 				MODULEMAP_FILE = Resources/DKDrawKit.modulemap;
 				NSZombieEnabled = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.drawkit;
@@ -1792,6 +1793,7 @@
 				);
 				HEADER_SEARCH_PATHS = "ThirdParty/**";
 				INFOPLIST_FILE = Source/DrawKitInfo.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../../..";
 				MODULEMAP_FILE = Resources/DKDrawKit.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.drawkit;
 				PRODUCT_NAME = DKDrawKit;
@@ -1947,7 +1949,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = DrawKitSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../../..";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.DrawKitSwift;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
@@ -1986,7 +1988,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = DrawKitSwift/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks @loader_path/../../..";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.maddthesane.DrawKitSwift;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";

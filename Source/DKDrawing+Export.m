@@ -139,10 +139,6 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	DKViewController* vc = [pdfView makeViewController];
 	
 	[[self drawing] addController:vc];
-	
-	//NSData* pdfData = [pdfView dataWithPDFInsideRect:frame];
-	
-	//return pdfData;
 
 	NSAssert(relScale > 0, @"scale factor must be greater than zero");
 
