@@ -25,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *filter;
 
-@property (copy) NSDictionary<NSString*,id> *arguments;
+@property (copy, nullable) NSDictionary<NSString*,id> *arguments;
 
 - (void)invalidateCache;
 
@@ -33,10 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSImage (CoreImage)
 /** @brief Draws the specified image using Core Image. */
-- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments NS_DEPRECATED(10_4, 10_8, NA, NA);
+- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments NS_DEPRECATED(10_4, 10_8, NA, NA);
 
 /** @brief Draws the specified image using Core Image. */
-- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments;
 
 /** @brief Gets a bitmap representation of the image, or creates one if the image does not have any. */
 - (NSBitmapImageRep*)bitmapImageRepresentation;
@@ -46,10 +46,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSBitmapImageRep (CoreImage)
 /** @brief Draws the specified image representation using Core Image. */
-- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments NS_DEPRECATED(10_4, 10_8, NA, NA);
+- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments NS_DEPRECATED(10_4, 10_8, NA, NA);
 
 /** @brief Draws the specified image representation using Core Image. */
-- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments;
 @end
 
 NS_ASSUME_NONNULL_END

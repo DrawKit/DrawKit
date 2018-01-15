@@ -8,6 +8,8 @@
 #import "DKRasterizer.h"
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKStyle, DKTextSubstitutor;
 
 /** @brief This renderer allows text to be an attribute of any object.
@@ -74,8 +76,8 @@
 
 // text conversions:
 
-- (NSBezierPath*)textAsPathForObject:(id)object;
-- (NSArray<NSBezierPath*>*)textPathsForObject:(id)object usedSize:(NSSize*)aSize;
+- (nullable NSBezierPath*)textAsPathForObject:(id)object;
+- (nullable NSArray<NSBezierPath*>*)textPathsForObject:(id)object usedSize:(nullable NSSize*)aSize;
 - (DKStyle*)styleFromTextAttributes;
 
 // text layout:
@@ -161,8 +163,8 @@
 
 // text attributes:
 
-- (void)changeFont:(id)sender;
-- (void)changeAttributes:(id)sender;
+- (void)changeFont:(nullable id)sender;
+- (void)changeAttributes:(nullable id)sender;
 
 @property (strong) NSFont *font;
 
@@ -219,8 +221,8 @@
 
 @interface DKTextAdornment (Deprecated)
 
-- (void)setIdentifier:(NSString*)ident DEPRECATED_ATTRIBUTE;
-- (NSString*)identifier DEPRECATED_ATTRIBUTE;
+- (void)setIdentifier:(null_unspecified NSString*)ident DEPRECATED_ATTRIBUTE;
+- (null_unspecified NSString*)identifier DEPRECATED_ATTRIBUTE;
 
 @end
 
@@ -248,3 +250,5 @@ extern NSAttributedStringKey const DKTextKnockoutStrokeWidthAttributeName;
 extern NSAttributedStringKey const DKTextVerticalAlignmentAttributeName;
 extern NSAttributedStringKey const DKTextVerticalAlignmentProportionAttributeName;
 extern NSAttributedStringKey const DKTextCapitalizationAttributeName;
+
+NS_ASSUME_NONNULL_END

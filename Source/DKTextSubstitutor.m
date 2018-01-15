@@ -30,12 +30,12 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 + (NSCharacterSet*)keyBreakingCharacterSet
 {
 	static NSCharacterSet* cs = nil;
-
-	if (cs == nil) {
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
 		NSMutableCharacterSet *cs2 = [NSMutableCharacterSet characterSetWithCharactersInString:@" ,;:?-()+=*{}[]\"\\<>|!'%/"];
 		[cs2 formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		cs = [cs2 copy];
-	}
+	});
 
 	return cs;
 }
@@ -311,16 +311,17 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super init]) {
-	mKeys = [[NSMutableArray alloc] init];
-
-	// deal with earlier format
-
-	NSString* mStr = [coder decodeObjectForKey:@"DKOTextSubstitutor_masterString"];
-	if (mStr)
-		[self setString:mStr
-			withAttributes:nil];
-	else
-		[self setMasterString:[coder decodeObjectForKey:@"DKOTextSubstitutor_attributedString"]];
+		mKeys = [[NSMutableArray alloc] init];
+		
+		// deal with earlier format
+		
+		NSString* mStr = [coder decodeObjectForKey:@"DKOTextSubstitutor_masterString"];
+		if (mStr) {
+			[self setString:mStr
+			 withAttributes:nil];
+		} else {
+			[self setMasterString:[coder decodeObjectForKey:@"DKOTextSubstitutor_attributedString"]];
+		}
 	}
 
 	return self;
@@ -346,9 +347,10 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 + (NSCharacterSet*)validSubkeysCharacterSet
 {
 	static NSCharacterSet* sValidSubkeys = nil;
-
-	if (sValidSubkeys == nil)
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
 		sValidSubkeys = [NSCharacterSet characterSetWithCharactersInString:@"0123456789ULCEASulceas"];
+	});
 
 	return sValidSubkeys;
 }
@@ -520,7 +522,7 @@ static NSDictionary* s_abbreviationDict = nil;
 			result = padString;
 		}
 
-		return result;
+		return [result copy];
 	}
 }
 

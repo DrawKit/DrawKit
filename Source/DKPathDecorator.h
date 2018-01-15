@@ -8,6 +8,8 @@
 #import "DKRasterizer.h"
 #import "NSBezierPath+Text.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKQuartzCache;
 
 /** @brief This renderer draws the image along the path of another object spaced at <interval> distance.
@@ -41,12 +43,12 @@ This prefers PDF image representations where the image contains one, preserving 
 	NSMutableArray* mScaleRandCache;
 }
 
-+ (DKPathDecorator*)pathDecoratorWithImage:(NSImage*)image;
++ (DKPathDecorator*)pathDecoratorWithImage:(nullable NSImage*)image;
 
-- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithImage:(NSImage*)image NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithImage:(nullable NSImage*)image NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, strong) NSImage *image;
+@property (nonatomic, strong, nullable) NSImage *image;
 - (void)setUpCache;
 - (void)setPDFImageRep:(NSPDFImageRep*)rep;
 
@@ -86,3 +88,5 @@ enum {
 	kDKPathDecoratorClipOutsidePath = 1,
 	kDKPathDecoratorClipInsidePath = 2
 };
+
+NS_ASSUME_NONNULL_END

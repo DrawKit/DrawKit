@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief This objects abstracts the text substitution task used by text adornments, et.
 
 This objects abstracts the text substitution task used by text adornments, et. al. It allows strings of the form:
@@ -23,7 +25,7 @@ This objects abstracts the text substitution task used by text adornments, et. a
 	BOOL mNeedsToEvaluate;
 }
 
-@property (class, copy) NSString *delimiterString;
+@property (class, copy, nullable) NSString *delimiterString;
 /** returns the characters that will end an embedded key (which always starts with the delimiter string). Note that to permit
  key paths as keys, the '.' character is \b not included. This means that any dot is considered part of the key, not the surrounding text. As a
  special case, a final dot is removed from a key and pushed back to the surrounding text, so a single trailing dot does effectively end a key
@@ -38,16 +40,16 @@ This objects abstracts the text substitution task used by text adornments, et. a
 
 @property (nonatomic, strong) NSAttributedString *masterString;
 
-- (void)setString:(NSString*)aString withAttributes:(NSDictionary*)attrs;
-@property (readonly, copy) NSString*string;
+- (void)setString:(NSString*)aString withAttributes:(nullable NSDictionary<NSAttributedStringKey,id>*)attrs;
+@property (readonly, copy) NSString *string;
 
-@property (copy) NSDictionary<NSAttributedStringKey,id> *attributes;
+@property (copy, nullable) NSDictionary<NSAttributedStringKey,id> *attributes;
 
 - (void)processMasterString;
 - (NSArray<NSString*>*)allKeys;
 
-- (NSAttributedString*)substitutedStringWithObject:(id)anObject;
-- (NSString*)metadataStringFromObject:(id)object;
+- (nullable NSAttributedString*)substitutedStringWithObject:(id)anObject;
+- (nullable NSString*)metadataStringFromObject:(id)object;
 
 @end
 
@@ -65,7 +67,7 @@ extern NSString* const kDKTextSubstitutorNewStringNotification;
 }
 
 @property (class, readonly, retain) NSCharacterSet *validSubkeysCharacterSet;
-@property (class, copy) NSDictionary *abbreviationDictionary;
+@property (class, copy, nullable) NSDictionary *abbreviationDictionary;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithKey:(NSString*)key range:(NSRange)aRange NS_DESIGNATED_INITIALIZER;
@@ -80,3 +82,5 @@ extern NSString* const kDKTextSubstitutorNewStringNotification;
 @property (copy) NSString *paddingCharacter;
 
 @end
+
+NS_ASSUME_NONNULL_END

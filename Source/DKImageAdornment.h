@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKRasterizer.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawableObject, DKDrawing;
 
 //! fitting options:
@@ -36,7 +38,7 @@ This class allows any image to be part of the rendering tree.
 + (instancetype)imageAdornmentWithImage:(NSImage*)image;
 + (instancetype)imageAdornmentWithImageFromFile:(NSString*)path;
 
-@property (nonatomic, strong) NSImage *image;
+@property (nonatomic, strong, nullable) NSImage *image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing;
 @property (copy) NSString *imageKey;
@@ -59,3 +61,5 @@ This class allows any image to be part of the rendering tree.
 - (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -247,7 +247,6 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	NSSize niSize = [self logicalBounds].size;
 	NSImage* newImage = [[NSImage alloc] initWithSize:niSize];
 
-	if (newImage != nil) {
 		[self setCompositingOperation:NSCompositeCopy];
 		[newImage lockFocus];
 
@@ -263,7 +262,6 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		[self drawImage];
 		[newImage unlockFocus];
-	}
 
 	[self setCompositingOperation:savedOp];
 	return newImage;
