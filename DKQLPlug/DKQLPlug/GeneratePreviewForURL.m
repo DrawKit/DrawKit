@@ -1,3 +1,4 @@
+#include <tgmath.h>
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h>
 #include <QuickLook/QuickLook.h>
@@ -32,8 +33,12 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		
 		// Should not be needed: we didn't edit anything.
 		//[drawDat finalizePriorToSaving];
+		
+		NSSize aSize = drawDat.drawing.drawingSize;
+		aSize.width = ceil(aSize.width);
+		aSize.height = ceil(aSize.height);
 
-		CGContextRef ctx = QLPreviewRequestCreateContext(preview, drawDat.drawing.drawingSize, false, NULL);
+		CGContextRef ctx = QLPreviewRequestCreateContext(preview, aSize, true, NULL);
 		{
 			NSGraphicsContext *gc;
 			if (@available(macOS 10.10, *)) {
@@ -44,11 +49,11 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 			[NSGraphicsContext saveGraphicsState];
 			NSAffineTransform *flipTrans = [[NSAffineTransform alloc] init];
 			[flipTrans scaleXBy:1 yBy:-1];
-			[flipTrans translateXBy:0 yBy:-drawDat.drawing.drawingSize.height];
+			[flipTrans translateXBy:0 yBy:-aSize.height];
 			NSGraphicsContext.currentContext = gc;
 			[flipTrans concat];
 			NSRect frame = NSZeroRect;
-			frame.size = drawDat.drawing.drawingSize;
+			frame.size = aSize;
 			drawDat.drawing.gridLayer.shouldDrawToPrinter = YES;
 			
 			DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
