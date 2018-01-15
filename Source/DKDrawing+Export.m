@@ -6,11 +6,109 @@
 
 #import "DKDrawing+Export.h"
 #import "DKLayer+Metadata.h"
+#import "DKSelectionPDFView.h"
 #import "LogEvent.h"
 
 NSString* const kDKExportPropertiesResolution = @"kDKExportPropertiesResolution";
 NSString* const kDKExportedImageHasAlpha = @"kDKExportedImageHasAlpha";
 NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
+
+@interface DKGraphicsContextNoPrint: NSGraphicsContext
+
+- (instancetype)initWithCGContext:(CGContextRef)ctx;
+@end
+
+@implementation DKGraphicsContextNoPrint
+{
+	NSGraphicsContext *actualContext;
+}
+
+//The whole point of this class...
+- (BOOL)isDrawingToScreen
+{
+	return NO;
+}
+
+- (instancetype)initWithCGContext:(CGContextRef)ctx
+{
+	if (self = [super init]) {
+		actualContext = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:YES];
+		[actualContext setShouldAntialias:YES];
+		[actualContext setImageInterpolation:NSImageInterpolationHigh];
+	}
+	return self;
+}
+
+- (void)forwardInvocation:(NSInvocation*)invocation
+{
+	SEL aSelector = [invocation selector];
+	
+	if ([actualContext respondsToSelector:aSelector]) {
+		[invocation invokeWithTarget:actualContext];
+	} else
+		[self doesNotRecognizeSelector:aSelector];
+
+}
+
+- (NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector
+{
+	NSMethodSignature* sig = [super methodSignatureForSelector:aSelector];
+	
+	if (sig == nil) {
+		sig = [actualContext methodSignatureForSelector:aSelector];
+	}
+	
+	return sig;
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+	BOOL responds = [super respondsToSelector:aSelector];
+	
+	if (!responds) {
+		responds = [actualContext respondsToSelector:aSelector];
+	}
+	
+	return responds;
+}
+
+// Otherwise Cocoa complains
+- (void *)graphicsPort
+{
+	return actualContext.graphicsPort;
+}
+
+- (void)saveGraphicsState
+{
+	[actualContext saveGraphicsState];
+}
+
+- (void)restoreGraphicsState
+{
+	[actualContext restoreGraphicsState];
+}
+
+- (void)setImageInterpolation:(NSImageInterpolation)imageInterpolation
+{
+	actualContext.imageInterpolation = imageInterpolation;
+}
+
+- (NSImageInterpolation)imageInterpolation
+{
+	return actualContext.imageInterpolation;
+}
+
+- (void)setShouldAntialias:(BOOL)shouldAntialias
+{
+	actualContext.shouldAntialias = shouldAntialias;
+}
+
+- (BOOL)shouldAntialias
+{
+	return actualContext.shouldAntialias;
+}
+
+@end
 
 @implementation DKDrawing (Export)
 
@@ -31,16 +129,22 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 }
 
 - (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha relativeScale:(CGFloat)relScale
-
 {
-	// TODO: migrate to bitmap drawing: PDF seems to drop transparency!
-	NSPDFImageRep* pdfRep = [NSPDFImageRep imageRepWithData:[self pdf]];
+	[self finalizePriorToSaving];
+	NSRect frame = NSZeroRect;
+	frame.size = [[self drawing] drawingSize];
+	
+	DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
+														  withLayer:self];
+	DKViewController* vc = [pdfView makeViewController];
+	
+	[[self drawing] addController:vc];
+	
+	//NSData* pdfData = [pdfView dataWithPDFInsideRect:frame];
+	
+	//return pdfData;
 
-	NSAssert(pdfRep != nil, @"couldn't create pdf image rep");
 	NSAssert(relScale > 0, @"scale factor must be greater than zero");
-
-	if (pdfRep == nil)
-		return nil;
 
 	// create a bitmap rep of the requisite size.
 
@@ -49,34 +153,29 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	bmSize.width = ceil((bmSize.width * (CGFloat)dpi * relScale) / 72.0);
 	bmSize.height = ceil((bmSize.height * (CGFloat)dpi * relScale) / 72.0);
 
-	NSBitmapImageRep* bmRep;
+	CGContextRef bmCtx;
+	{
+	CGColorSpaceRef clrSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+	bmCtx = CGBitmapContextCreate(NULL, bmSize.width, bmSize.height, 8, bmSize.width*4, clrSpace, kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedLast);
+	CGColorSpaceRelease(clrSpace);
+	}
+	
+	CGContextClearRect(bmCtx, CGRectMake(0, 0, bmSize.width, bmSize.height));
+	
 
-	bmRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-													pixelsWide:bmSize.width
-													pixelsHigh:bmSize.height
-												 bitsPerSample:8
-											   samplesPerPixel:4
-													  hasAlpha:YES
-													  isPlanar:NO
-												colorSpaceName:NSCalibratedRGBColorSpace
-												   bytesPerRow:0
-												  bitsPerPixel:0];
+	LogEvent_(kInfoEvent, @"size = %@, dpi = %ld, ctx = %@", NSStringFromSize(bmSize), (long)dpi, bmCtx);
 
-	NSAssert(bmRep != nil, @"couldn't create bitmap for export");
-
-	if (bmRep == nil)
-		return nil;
-
-	LogEvent_(kInfoEvent, @"size = %@, dpi = %ld, rep = %@", NSStringFromSize(bmSize), (long)dpi, bmRep);
-
-	NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithBitmapImageRep:bmRep];
+	NSGraphicsContext* context = [[DKGraphicsContextNoPrint alloc] initWithCGContext:bmCtx];
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 		[NSGraphicsContext setCurrentContext : context];
 
+	NSAffineTransform *flipTrans = [[NSAffineTransform alloc] init];
+	//[flipTrans scaleXBy:1 yBy:-1];
+	[flipTrans translateXBy:0 yBy:bmSize.height - (bmSize.height * (((CGFloat)dpi * relScale) / 72.0))];
+	[flipTrans scaleXBy:(((CGFloat)dpi * relScale) / 72.0) yBy:(((CGFloat)dpi * relScale) / 72.0)];
 	[context setShouldAntialias:YES];
 	[context setImageInterpolation:NSImageInterpolationHigh];
-
 	NSRect destRect = NSZeroRect;
 	destRect.size = bmSize;
 
@@ -87,16 +186,15 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 		NSRectFill(destRect);
 	}
 
+	[flipTrans concat];
 	// draw the PDF rep into the bitmap rep.
 
-	[pdfRep drawInRect:destRect];
+	[pdfView drawRect:destRect];
+	//[pdfView displayRectIgnoringOpacity:destRect inContext:context];
 
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
-		CGImageRef image = [bmRep CGImage];
-	if (image) {
-		return image;
-	}
-	image = CGBitmapContextCreateImage([context graphicsPort]);
+		CGImageRef image = CGBitmapContextCreateImage(bmCtx);
+	pdfView = nil; // removes the controller
 
 	return (CGImageRef)CFAutorelease(image);
 }

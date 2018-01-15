@@ -54,7 +54,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 			[flipTrans concat];
 			NSRect frame = NSZeroRect;
 			frame.size = aSize;
-			drawDat.drawing.gridLayer.shouldDrawToPrinter = YES;
+			//drawDat.drawing.gridLayer.shouldDrawToPrinter = YES;
 			
 			DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
 																  withLayer:drawDat];
