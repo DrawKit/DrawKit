@@ -36,6 +36,9 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		
 #if 1
 		CGImageRef imgRef = [drawDat CGImageWithResolution:72 hasAlpha:YES];
+		if (imgRef == nil || QLPreviewRequestIsCancelled(preview)) {
+			return noErr;
+		}
 		CGContextRef ctx = QLPreviewRequestCreateContext(preview, CGSizeMake(CGImageGetWidth(imgRef), CGImageGetHeight(imgRef)), true, NULL);
 		
 		CGContextDrawImage(ctx, CGRectMake(0, 0, CGImageGetWidth(imgRef), CGImageGetHeight(imgRef)), imgRef);
