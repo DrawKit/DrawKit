@@ -20,7 +20,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		//NSDictionary *nsOptions = (__bridge NSDictionary*)options;
 		
 		DKDrawing *drawDat;
-		if ([nsUTI isEqualToString:kDKDrawingDocumentUTI]) {
+		if ([nsUTI isEqualToString:kDKDrawingDocumentUTI] || [nsUTI isEqualToString:kDKDrawingDocumentXMLUTI]) {
 			NSData *dat = [[NSData alloc] initWithContentsOfURL:nsURL];
 			if (dat == nil || QLPreviewRequestIsCancelled(preview)) {
 				return noErr;
@@ -36,10 +36,9 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		
 #if 1
 		NSData *dat = [drawDat TIFFDataWithProperties:@{kDKExportPropertiesResolution: @72,
-														NSImageCompressionMethod:@(NSTIFFCompressionLZW),
-														kDKExportedImageHasAlpha: @YES
-														}];
-		QLPreviewRequestSetDataRepresentation(preview, (__bridge CFDataRef)dat, kUTTypeTIFF, NULL);
+														NSImageCompressionMethod: @(NSTIFFCompressionLZW),
+														kDKExportedImageHasAlpha: @YES}];
+		QLPreviewRequestSetDataRepresentation(preview, (__bridge CFDataRef)dat, kUTTypeImage, NULL);
 #else
 		CGContextRef ctx = QLPreviewRequestCreateContext(preview, drawDat.drawing.drawingSize, false, NULL);
 		{

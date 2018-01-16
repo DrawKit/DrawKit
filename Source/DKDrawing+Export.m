@@ -156,7 +156,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	CGContextRef bmCtx;
 	{
-	CGColorSpaceRef clrSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+	CGColorSpaceRef clrSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
 	bmCtx = CGBitmapContextCreate(NULL, bmSize.width, bmSize.height, 8, bmSize.width*4, clrSpace, kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedLast);
 	CGColorSpaceRelease(clrSpace);
 	}
@@ -264,7 +264,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	CFRelease(destRef);
 
 	if (result) {
-		return data;
+		return [data copy];
 	} else {
 		return nil;
 	}
@@ -361,7 +361,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	CFRelease(destRef);
 
 	if (result) {
-		return data;
+		return [data copy];
 	} else {
 		return nil;
 	}
@@ -430,7 +430,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	CFRelease(destRef);
 
 	if (result) {
-		return data;
+		return [data copy];
 	} else {
 		return nil;
 	}

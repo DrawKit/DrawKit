@@ -76,7 +76,7 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 		//NSDictionary *nsOptions = (__bridge NSDictionary*)options;
 		
 		DKDrawing *drawDat;
-		if ([nsUTI isEqualToString:kDKDrawingDocumentUTI]) {
+		if ([nsUTI isEqualToString:kDKDrawingDocumentUTI] || [nsUTI isEqualToString:kDKDrawingDocumentXMLUTI]) {
 			NSData *dat = [[NSData alloc] initWithContentsOfURL:nsURL];
 			if (dat == nil || QLThumbnailRequestIsCancelled(thumbnail)) {
 				return noErr;
