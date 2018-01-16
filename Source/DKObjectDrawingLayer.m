@@ -2196,10 +2196,10 @@ enum {
 
 				if ([self drawsSelectionHighlightsOnTop] && drawSelected) {
 					
-					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
+					for (DKDrawableObject* obj in objectsToDraw) {
 						if ([self isSelectedObject:obj])
 							[obj drawSelectedState];
-					}];
+					}
 					
 				}
 			}
