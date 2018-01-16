@@ -35,10 +35,13 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		//[drawDat finalizePriorToSaving];
 		
 #if 1
-		NSData *dat = [drawDat TIFFDataWithProperties:@{kDKExportPropertiesResolution: @72,
-														NSImageCompressionMethod: @(NSTIFFCompressionLZW),
-														kDKExportedImageHasAlpha: @YES}];
-		QLPreviewRequestSetDataRepresentation(preview, (__bridge CFDataRef)dat, kUTTypeImage, NULL);
+		CGImageRef imgRef = [drawDat CGImageWithResolution:72 hasAlpha:YES];
+		CGContextRef ctx = QLPreviewRequestCreateContext(preview, CGSizeMake(CGImageGetWidth(imgRef), CGImageGetHeight(imgRef)), true, NULL);
+		
+		CGContextDrawImage(ctx, CGRectMake(0, 0, CGImageGetWidth(imgRef), CGImageGetHeight(imgRef)), imgRef);
+		
+		QLPreviewRequestFlushContext(preview, ctx);
+		CGContextRelease(ctx);
 #else
 		CGContextRef ctx = QLPreviewRequestCreateContext(preview, drawDat.drawing.drawingSize, false, NULL);
 		{
