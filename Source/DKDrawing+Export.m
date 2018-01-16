@@ -108,6 +108,11 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	return actualContext.shouldAntialias;
 }
 
+- (BOOL)isFlipped
+{
+	return actualContext.flipped;
+}
+
 @end
 
 @implementation DKDrawing (Export)
@@ -167,8 +172,8 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 		[NSGraphicsContext setCurrentContext : context];
 
 	NSAffineTransform *flipTrans = [[NSAffineTransform alloc] init];
-	//[flipTrans scaleXBy:1 yBy:-1];
-	[flipTrans translateXBy:0 yBy:bmSize.height - (bmSize.height * (((CGFloat)dpi * relScale) / 72.0))];
+	[flipTrans scaleXBy:1 yBy:-1];
+	[flipTrans translateXBy:0 yBy:-bmSize.height];
 	[flipTrans scaleXBy:(((CGFloat)dpi * relScale) / 72.0) yBy:(((CGFloat)dpi * relScale) / 72.0)];
 	[context setShouldAntialias:YES];
 	[context setImageInterpolation:NSImageInterpolationHigh];

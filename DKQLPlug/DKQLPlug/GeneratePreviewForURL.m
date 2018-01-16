@@ -34,11 +34,14 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		// Should not be needed: we didn't edit anything.
 		//[drawDat finalizePriorToSaving];
 		
-		NSSize aSize = drawDat.drawing.drawingSize;
-		aSize.width = ceil(aSize.width);
-		aSize.height = ceil(aSize.height);
-
-		CGContextRef ctx = QLPreviewRequestCreateContext(preview, aSize, true, NULL);
+#if 1
+		NSData *dat = [drawDat TIFFDataWithProperties:@{kDKExportPropertiesResolution: @72,
+														NSImageCompressionMethod:@(NSTIFFCompressionLZW),
+														kDKExportedImageHasAlpha: @YES
+														}];
+		QLPreviewRequestSetDataRepresentation(preview, (__bridge CFDataRef)dat, kUTTypeTIFF, NULL);
+#else
+		CGContextRef ctx = QLPreviewRequestCreateContext(preview, drawDat.drawing.drawingSize, false, NULL);
 		{
 			NSGraphicsContext *gc;
 			if (@available(macOS 10.10, *)) {
@@ -49,11 +52,11 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 			[NSGraphicsContext saveGraphicsState];
 			NSAffineTransform *flipTrans = [[NSAffineTransform alloc] init];
 			[flipTrans scaleXBy:1 yBy:-1];
-			[flipTrans translateXBy:0 yBy:-aSize.height];
+			[flipTrans translateXBy:0 yBy:-drawDat.drawing.drawingSize.height];
 			NSGraphicsContext.currentContext = gc;
 			[flipTrans concat];
 			NSRect frame = NSZeroRect;
-			frame.size = aSize;
+			frame.size = drawDat.drawing.drawingSize;
 			//drawDat.drawing.gridLayer.shouldDrawToPrinter = YES;
 			
 			DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
@@ -68,6 +71,7 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 		}
 		QLPreviewRequestFlushContext(preview, ctx);
 		CGContextRelease(ctx);
+#endif
 	}
 
 	return noErr;
