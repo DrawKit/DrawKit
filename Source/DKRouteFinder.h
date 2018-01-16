@@ -40,7 +40,7 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 */
 @interface DKRouteFinder : NSObject {
 @private
-	NSArray* mInput; // input list of NSPoint values
+	NSArray<NSValue*>* mInput; // input list of NSPoint values
 	DKRouteAlgorithmType mAlgorithm; // which algorithm to use
 	NSInteger* mOrder; // final sort order (1-based)
 	BOOL mCalculationDone; // flag whether the sort was run
@@ -60,8 +60,8 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 + (NSArray*)sortedArrayOfObjects:(NSArray*)objects byShortestRouteForKey:(NSString*)key;
 @property (class) DKRouteAlgorithmType algorithm;
 
-- (NSArray<NSValue*>*)shortestRoute;
-- (NSArray<NSNumber*>*)shortestRouteOrder;
+- (NSArray<NSValue*>*)shortestRoute NS_REFINED_FOR_SWIFT;
+- (NSArray<NSNumber*>*)shortestRouteOrder NS_REFINED_FOR_SWIFT;
 - (nullable NSArray*)sortedArrayFromArray:(NSArray*)anArray;
 @property (readonly) CGFloat pathLength;
 @property (readonly) DKRouteAlgorithmType algorithm;

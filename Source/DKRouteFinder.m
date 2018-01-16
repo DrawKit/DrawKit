@@ -95,7 +95,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 		[routeOrder addObject:num];
 	}
 
-	return routeOrder;
+	return [routeOrder copy];
 }
 
 - (NSArray*)sortedArrayFromArray:(NSArray*)anArray
