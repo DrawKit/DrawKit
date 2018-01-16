@@ -857,12 +857,11 @@ static BOOL s_NoDKDefaults = NO;
 
 		DKStyle* repStyle = aStyle;
 
-		if (aDel != nil && [aDel respondsToSelector:@selector(registry:
-														shouldReplaceStyle:
-																 withStyle:)])
+		if (aDel != nil && [aDel respondsToSelector:@selector(registry:shouldReplaceStyle:withStyle:)]) {
 			repStyle = [aDel registry:self
 				   shouldReplaceStyle:existingStyle
 							withStyle:aStyle];
+		}
 
 		// if the delegate returned the existing style, there's nothing to do except return it
 

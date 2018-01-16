@@ -25,7 +25,9 @@ extension DKDrawing {
 		return __firstActivateableLayer(of: cl) as? A
 	}
 
-	//- (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b;
+	/// Margins
+	///
+	/// Margins inset the drawing area within the `papersize` set.
 	public var margins: (left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat) {
 		get {
 			return (leftMargin, topMargin, rightMargin, bottomMargin)

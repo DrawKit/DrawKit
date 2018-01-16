@@ -229,13 +229,6 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param catName the category name
  @return an array, the list of keys indicated by the category. May be empty.
  */
-
-/** @brief Return all of the keys
-
- Returned objects are in no particular order. The keys are obtained by enumerating the categories
- because the master list contains case-modified keys that may not be matched with categories.
- @return an array, all keys (listed only once)
- */
 - (NSArray<NSString*>*)allKeysInCategory:(DKCategoryName)catName;
 
 /** @brief Return all of the keys in all given categories
@@ -245,12 +238,17 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @return an array, the union of keys in listed categories. May be empty.
  */
 - (NSArray<NSString*>*)allKeysInCategories:(NSArray<DKCategoryName>*)catNames;
-- (NSArray<NSString*>*)allKeys;
 
+/** @brief Return all of the keys
+ 
+ Returned objects are in no particular order. The keys are obtained by enumerating the categories
+ because the master list contains case-modified keys that may not be matched with categories.
+ @return an array, all keys (listed only once)
+ */
 @property (readonly, copy) NSArray<NSString*> *allKeys;
 
 /** @brief Return all of the objects
- @return an array, all objects (listed only once, in arbitrary order)
+ @return An array, all objects (listed only once, in arbitrary order).
  */
 - (NSArray<ObjectType>*)allObjects;
 
