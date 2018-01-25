@@ -136,7 +136,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString*)abbreviationForDrawingUnits:(DKDrawingUnits)fullString;
 
 /** @brief designated initializer */
-- (instancetype)initWithSize:(NSSize)size NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithSize:(NSSize)size;
 
 // owner (document or view)
 

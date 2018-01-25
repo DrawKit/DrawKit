@@ -965,7 +965,8 @@ enum {
 	kDKConvertToSubmenuTag = -55
 };
 
-// constant strings:
+/** @name Constant Strings
+ @{ */
 
 extern NSPasteboardType const kDKDrawableObjectPasteboardType NS_SWIFT_NAME(dkDrawableObject);
 extern NSString* const kDKDrawableDidChangeNotification;
@@ -974,15 +975,22 @@ extern NSString* const kDKDrawableStyleWasAttachedNotification;
 extern NSString* const kDKDrawableDoubleClickNotification;
 extern NSString* const kDKDrawableSubselectionChangedNotification;
 
-// keys for items in user info sent with notifications
+/** @}
+ @name Notification User Keys
+ @brief Keys for items in user info sent with notifications.
+ @{ */
 
 extern NSString* const kDKDrawableOldStyleKey;
 extern NSString* const kDKDrawableNewStyleKey;
 extern NSString* const kDKDrawableClickedPointKey;
 
-// prefs keys
+/** @}
+ @name Pref Keys
+ @{ */
 
 extern NSString* const kDKGhostColourPreferencesKey;
 extern NSString* const kDKDragFeedbackEnabledPreferencesKey;
+
+/** @} */
 
 NS_ASSUME_NONNULL_END

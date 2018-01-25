@@ -16,7 +16,7 @@ extension DKLayerGroup {
 		return __flattenedLayers(of: layerClass) as! [A]
 	}
 	
-	/// Returns the uppermost layer matching class, if any.
+	/// Returns the uppermost layer matching `class`, if any.
 	///
 	/// - parameter cl: The class of layer to seek.
 	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched.<br>
