@@ -7,8 +7,9 @@
 //
 
 import DKDrawKit.DKCategoryManager
+import DKDrawKit.DKStyleRegistry
 
-extension DKCategoryManager where ObjectType == DKStyle {
+extension DKStyleRegistry {
 	/// Return all of the objects belonging to a given category.
 	///
 	/// Returned objects are in no particular order, but do match the key order obtained by
@@ -16,12 +17,12 @@ extension DKCategoryManager where ObjectType == DKStyle {
 	/// be represented by a `nil`.
 	/// - parameter catName: The category name.
 	/// - returns: An array, the list of objects indicated by the category. May be empty.
-	public func objects(inCategory catName: DKCategoryName) -> [ObjectType?] {
-		return (__objects(inCategory: catName) as [AnyObject]).map({ (obj) -> ObjectType? in
+	public func objects(inCategory catName: DKCategoryName) -> [DKStyle?] {
+		return (__objects(inCategory: catName) as [AnyObject]).map({ (obj) -> DKStyle? in
 			if obj is NSNull {
 				return nil
 			}
-			return obj as? ObjectType
+			return obj as? DKStyle
 		})
 	}
 
@@ -32,12 +33,12 @@ extension DKCategoryManager where ObjectType == DKStyle {
 	/// be represented by a `nil`.
 	/// - parameter catNames: list of categories
 	/// - returns: An array, the list of objects indicated by the categories. May be empty.
-	public func objects(inCategories catNames: [DKCategoryName]) -> [ObjectType?] {
-		return (__objects(inCategories: catNames) as [AnyObject]).map({ (obj) -> ObjectType? in
+	public func objects(inCategories catNames: [DKCategoryName]) -> [DKStyle?] {
+		return (__objects(inCategories: catNames) as [AnyObject]).map({ (obj) -> DKStyle? in
 			if obj is NSNull {
 				return nil
 			}
-			return obj as? ObjectType
+			return obj as? DKStyle
 		})
 	}
 }

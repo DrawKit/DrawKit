@@ -12,7 +12,7 @@ extension DKObjectOwnerLayer {
 
 	/// Returns objects that are available to the user of the given class.
 	///
-	/// If the layer itself is locked, returns the empty list.
+	/// If the layer itself is locked, returns an empty list.
 	/// - parameter aClass: Class of the desired objects.
 	/// - returns: An array of available objects.
 	public func availableObjects<A: DKDrawableObject>(of aClass: A.Type) -> [A] {
