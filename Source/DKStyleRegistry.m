@@ -599,10 +599,6 @@ static BOOL s_NoDKDefaults = NO;
 	return [[self styleForKey:styleID] name];
 }
 
-/** @brief Return the style given its key
- @param styleID the style's key
- @return the style
- */
 - (DKStyle*)styleForKey:(NSString*)styleID
 {
 	return [self objectForKey:styleID];
@@ -685,11 +681,6 @@ static BOOL s_NoDKDefaults = NO;
 	return [names copy];
 }
 
-/** @brief Write the registry to a file
- @param path the full path of the file to write
- @param atom YES to save safely, NO to overwrite in place
- @return YES if the file was saved sucessfully, NO otherwise
- */
 - (BOOL)writeToFile:(NSString*)path atomically:(BOOL)atom
 {
 	NSAssert(path != nil, @"path can't be nil");
@@ -704,12 +695,6 @@ static BOOL s_NoDKDefaults = NO;
 	return result;
 }
 
-/** @brief Write the registry to a file
- @param path the full path of the file to write
- @param writeOptionsMask data writing flags.
- @param errorPtr The error, if any, that occured
- @return YES if the file was saved sucessfully, NO otherwise
- */
 - (BOOL)writeToURL:(NSURL*)path options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable * _Nullable)errorPtr
 {
 	NSAssert(path != nil, @"path can't be nil");
@@ -774,18 +759,7 @@ static BOOL s_NoDKDefaults = NO;
 	return readOK;
 }
 
-/** @brief Merge the contents of a file into the registry
- 
- Reads styles from the file at <path> into the registry. Styles are merged as indicated by the
- options, etc. The intention of this method is to load a file containing styles only - either to
- augment or replace the existing registry. It is not used when opening a drawing document.
- If the intention is to replace the reg, the caller should clear out the current one before calling this.
- @param path the full path of the file to write
- @param options merging options
- @param aDel an optional delegate object that can make a merge decision for each individual style object
- @return YES if the file was read and merged sucessfully, NO otherwise
- */
-- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id)aDel error:(NSError**)error
+- (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel error:(NSError**)error
 {
 	NSAssert(path != nil, @"cannot read file - path is nil");
 	
@@ -827,19 +801,6 @@ static BOOL s_NoDKDefaults = NO;
 	return readOK;
 }
 
-/** @brief Attempt to merge a style into the registry
-
- Given <aStyle>, and a registered style having the same key, this replaces the contents of the
- registered style with the contents of <aStyle>, provided they really are different objects. This
- is done when merging styles in from a document where initially copies of formerly registered
- styles exist. By replacing the contents, there is no need for clients that own the style to have
- to adopt the new style - instead they are just  notified of the change. The modified style is
- returned so that it can replace the temporary style in the specific document that is performing
- the merge - the document contains the only set of style clients that need actual new objects.
- @param aStyle a style object
- @param aDel an optional delegate object that can make a merge decision for each individual style object
- @return a style if the merge modified an existing one, otherwise nil
- */
 - (DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(id)aDel
 {
 	NSAssert(aStyle != nil, @"attempting to merge nil style");
