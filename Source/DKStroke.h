@@ -20,7 +20,7 @@ the strokes it is aware of in order when it is asked to stroke a path.
 
 DKStyle can contains a list of strokes without limit.
 */
-@interface DKStroke : DKRasterizer <NSCoding, NSCopying> {
+@interface DKStroke : DKRasterizer <NSCoding, NSCopying, DKDashable> {
 @private
 	NSColor* m_colour;
 	DKStrokeDash* m_dash;
@@ -43,11 +43,11 @@ DKStyle can contains a list of strokes without limit.
 
 @property (strong) NSColor *colour;
 
-@property CGFloat width;
+@property (nonatomic) CGFloat width;
 - (void)scaleWidthBy:(CGFloat)scale;
 @property (readonly) CGFloat allowance;
 
-@property (strong, nullable) DKStrokeDash *dash;
+@property (strong, nullable, nonatomic) DKStrokeDash *dash;
 - (void)setAutoDash;
 
 @property CGFloat lateralOffset;
@@ -57,9 +57,9 @@ DKStyle can contains a list of strokes without limit.
 - (void)strokeRect:(NSRect)rect;
 - (void)applyAttributesToPath:(NSBezierPath*)path;
 
-@property NSLineCapStyle lineCapStyle;
+@property (nonatomic) NSLineCapStyle lineCapStyle;
 
-@property NSLineJoinStyle lineJoinStyle;
+@property (nonatomic) NSLineJoinStyle lineJoinStyle;
 
 @property CGFloat miterLimit;
 
