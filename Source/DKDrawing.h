@@ -70,12 +70,12 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Return the current version number and release status as a preformatted string
 
  This is intended for occasional display, rather than testing for the framework version.
- @return a string, e.g. "1.0.b6"
+ @return A string, e.g. "1.0.b6"
  */
 @property (class, readonly, copy) NSString *drawkitVersionString;
 
 /** @brief Return the current release status of the framework
- @return a string, either "alpha", "beta", "release candidate" or nil (final)
+ @return A string, either "alpha", "beta", "release candidate" or nil (final).
  */
 @property (class, readonly, copy, nullable) NSString *drawkitReleaseStatus;
 
@@ -162,13 +162,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo;
 
-/** @brief Sets the margins for the drawing
+/** @brief Sets the margins for the drawing.
  
  The margins inset the drawing area within the \c papersize set.
- @param l the left margin in Quartz units.
- @param t the top margin in Quartz units.
- @param r the right margin in Quartz units.
- @param b the bottom margin in Quartz units.
+ @param l The left margin in Quartz units.
+ @param t The top margin in Quartz units.
+ @param r The right margin in Quartz units.
+ @param b The bottom margin in Quartz units.
  */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b NS_SWIFT_NAME(setMargins(left:top:right:bottom:));
 /** @brief Sets the margins from the margin values stored in a NSPrintInfo object
@@ -239,9 +239,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** @} */
 /** @name setting the delegate */
 
-/** @brief Sets the delegate
+/** @brief Sets the delegate.
  
- See header for possible delegate methods
+ See header for possible delegate methods.
  */
 @property (weak, nullable) id<DKDrawingDelegate> delegate;
 
@@ -252,9 +252,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addController:(DKViewController*)aController;
 - (void)removeController:(DKViewController*)aController;
 
-/** @brief Removes all controller from the drawing
+/** @brief Removes all controller from the drawing.
 
- Typically controllers are removed when necessary - there is little reason to call this yourself
+ Typically controllers are removed when necessary - there is little reason to call this yourself.
  */
 - (void)removeAllControllers;
 

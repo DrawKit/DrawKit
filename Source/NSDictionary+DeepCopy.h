@@ -10,11 +10,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief implements a deep copy of a dictionary and array.
 
-implements a deep copy of a dictionary and array. The keys are unchanged but each object is copied.
+ Implements a deep copy of a dictionary and array. The keys are unchanged but each object is copied.
 
-if the dictionary contains another dictionary or an array, it is also deep copied.
+ If the dictionary contains another dictionary or an array, it is also deep copied.
 
-to retain the semantics of a normal copy, the object returned is not autoreleased.
+ To retain the semantics of a normal copy, the object returned is not autoreleased.
 */
 @interface NSDictionary<KeyType, ObjectType> (DeepCopy)
 

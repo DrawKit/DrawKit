@@ -8,7 +8,7 @@
 
 @interface NSMutableArray<Object> (DKAdditions)
 
-/** adds objects from \c array to the receiver, but only those not already contained by it */
+/** @brief Adds objects from \c array to the receiver, but only those not already contained by it. */
 - (void)addUniqueObjectsFromArray:(nonnull NSArray<Object>*)array;
 
 @end

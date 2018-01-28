@@ -8,7 +8,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** params for speech balloon shapes:
+/** @brief Params for speech balloon shapes.
  */
 typedef NS_OPTIONS(NSUInteger, DKSpeechBalloonOption) {
 	kDKSpeechBalloonPointsLeft = 0,
@@ -26,21 +26,19 @@ typedef NS_OPTIONS(NSUInteger, DKSpeechBalloonOption) {
 
 /** @brief This class provides a number of standard shareable paths that can be utilsed by DKDrawableShape.
 
-This class provides a number of standard shareable paths that can be utilsed by DKDrawableShape. These are all
-bounded by the standard unit square 1.0 on each side and centered at the origin. The DKDrawableShape class
-provides rotation, scaling and offset for each shape that it draws.
+ This class provides a number of standard shareable paths that can be utilsed by DKDrawableShape. These are all
+ bounded by the standard unit square 1.0 on each side and centered at the origin. The DKDrawableShape class
+ provides rotation, scaling and offset for each shape that it draws.
 
-Note that for efficiency many of the path objects returned here are shared. That means that if you change a shape
-with the path editor you MUST copy it first.
+ Note that for efficiency many of the path objects returned here are shared. That means that if you change a shape
+ with the path editor you MUST copy it first.
 
-The other job of this class is to provide shapes for reshapable shapes on demand. In that case, an instance of
-the shape factory is used (usually sharedShapeFactory) and the instance methods which conform to the reshapable informal
-protocol are used as shape providers. See DKReshapableShape for more details.
+ The other job of this class is to provide shapes for reshapable shapes on demand. In that case, an instance of
+ the shape factory is used (usually sharedShapeFactory) and the instance methods which conform to the reshapable informal
+ protocol are used as shape providers. See \c DKReshapableShape for more details.
 */
 @interface DKShapeFactory : NSObject <NSCoding>
 
-/**  */
-+ (DKShapeFactory*)sharedShapeFactory;
 @property (class, readonly, retain) DKShapeFactory* sharedShapeFactory;
 
 @property (class, readonly) NSRect rectOfUnitSize;

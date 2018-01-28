@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 Very similar to a DKTextShape but based on a path and defaulting to text-on-a-path rendering. Has virtually identical public API to DKTextShape.
 */
-@interface DKTextPath : DKDrawablePath <NSCopying, NSCoding> {
+@interface DKTextPath : DKDrawablePath <NSCopying, NSCoding, NSTextViewDelegate> {
 @private
 	DKTextAdornment* mTextAdornment;
 	NSTextView* mEditorRef;

@@ -30,7 +30,7 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size);
 /** @brief Returns the smallest rect that encloses both a and b
 
  Unlike <code>NSUnionRect</code>, this is practical when either or both of the input rects have a zero
- width or height. For convenience, if either \c a or \c b is \b EXACTLY <code>NSZeroRect</code>, the other rect is
+ width or height. For convenience, if either \c a or \c b is \b exactly <code>NSZeroRect</code>, the other rect is
  returned, but in all other cases it correctly forms the union. While \c NSUnionRect might be
  considered mathematically correct, since a rect of zero width or height cannot "contain" anything
  in the set sense, what's more practically required for real geometry is to allow infinitely thin
@@ -44,6 +44,7 @@ NSRect UnionOfTwoRects(const NSRect a, const NSRect b);
  @param aSet a set of NSValues containing rect values
  @return the rectangle that encloses all rects */
 NSRect UnionOfRectsInSet(const NSSet<NSValue*>* aSet);
+
 /** @brief Returns the area that is different between two input rects, as a list of rects
  
  This can be used to optimize upates. If a and b are "before and after" rects of a visual change,
@@ -54,6 +55,7 @@ NSRect UnionOfRectsInSet(const NSSet<NSValue*>* aSet);
  @param b the second rect
  @return a set of rect NSValues */
 NSSet<NSValue*>* DifferenceOfTwoRects(const NSRect a, const NSRect b);
+
 /** @brief Subtracts \c b from <code>a</code>, returning the pieces left over.
  
  Subtracts \c b from <code>a</code>, returning the pieces left over. If \c a and \c b don't intersect the result is correct
@@ -68,6 +70,7 @@ BOOL AreSimilarRects(const NSRect a, const NSRect b, const CGFloat epsilon);
 CGFloat PointFromLine(const NSPoint inPoint, const NSPoint a, const NSPoint b);
 NSPoint NearestPointOnLine(const NSPoint inPoint, const NSPoint a, const NSPoint b);
 CGFloat RelPoint(const NSPoint inPoint, const NSPoint a, const NSPoint b);
+
 /** @brief returns the point in the line segment.
  
  Returns \c 0 if \c inPoint falls within the region defined by the line segment <code>a-b</code>, \c -1 if it's beyond the point <code>a</code>, \c 1 if beyond <code>b</code>. The "region" is an
@@ -80,12 +83,15 @@ NSPoint Interpolate(const NSPoint a, const NSPoint b, const CGFloat proportion);
 CGFloat LineLength(const NSPoint a, const NSPoint b);
 
 CGFloat SquaredLength(const NSPoint p);
+
 /** @brief Returns the difference of two points.
  */
 NSPoint DiffPoint(const NSPoint a, const NSPoint b);
+
 /** @brief Returns the square of the distance between two points.
  */
 CGFloat DiffPointSquaredLength(const NSPoint a, const NSPoint b);
+
 /** @brief Returns the sum of two points.
  */
 NSPoint SumPoint(const NSPoint a, const NSPoint b);
@@ -93,6 +99,7 @@ NSPoint SumPoint(const NSPoint a, const NSPoint b);
 /** @brief Returns the end point of a line given its <code>origin</code>, <code>length</code>, and \c angle relative to x axis.
  */
 NSPoint EndPoint(NSPoint origin, CGFloat angle, CGFloat length);
+
 /** @brief Returns the slope of a line given its end points, in radians.
  */
 CGFloat Slope(const NSPoint a, const NSPoint b);
@@ -100,11 +107,14 @@ CGFloat Slope(const NSPoint a, const NSPoint b);
 /** @brief Returns the angle formed between three points \c abc where \c b is the vertex.
  */
 CGFloat AngleBetween(const NSPoint a, const NSPoint b, const NSPoint c);
+
 CGFloat DotProduct(const NSPoint a, const NSPoint b);
+
 /** @brief Returns the intersecting point of two lines \c a and <code>b</code>, whose end points are passed in. If the lines are parallel,
  the result is undefined (NaN).
  */
 NSPoint Intersection(const NSPoint aa, const NSPoint ab, const NSPoint ba, const NSPoint bb);
+
 /** @brief Return the intersecting point of two lines SEGMENTS \c p1-p2 and <code>p3-p4</code>, whose end points are passed in.
  
  Return the intersecting point of two lines SEGMENTS \c p1-p2 and <code>p3-p4</code>, whose end points are passed in. If the lines are parallel,
@@ -116,15 +126,19 @@ NSPoint Intersection2(const NSPoint p1, const NSPoint p2, const NSPoint p3, cons
 /** @brief Relocates the rect so its centre is at <code>p</code>. Does not change the rect's size
  */
 NSRect CentreRectOnPoint(const NSRect inRect, const NSPoint p);
+
 /** @brief Given a point \c p within \c rect this returns it mapped to a 0..1 interval
  */
 NSPoint MapPointFromRect(const NSPoint p, const NSRect rect);
+
 /** @brief Given a point \c p in 0..1 space, maps it to <code>rect</code>.
  */
 NSPoint MapPointToRect(const NSPoint p, const NSRect rect);
+
 /** @brief Maps a point \c p in \c srcRect to the same relative location within <code>destRect</code>.
  */
 NSPoint MapPointFromRectToRect(const NSPoint p, const NSRect srcRect, const NSRect destRect);
+
 /** @brief Maps a rect from \c srcRect to the same relative position within <code>destRect</code>.
  */
 NSRect MapRectFromRectToRect(const NSRect inRect, const NSRect srcRect, const NSRect destRect);
@@ -135,10 +149,12 @@ NSRect MapRectFromRectToRect(const NSRect inRect, const NSRect srcRect, const NS
  keeps the original centre of the rect at the same point. Values <code>> 1</code> expand the rect, <code>< 1</code> shrink it.
  */
 NSRect ScaleRect(const NSRect inRect, const CGFloat scale);
+
 /** Returns a rect having the same aspect ratio as <code>inSize</code>>, scaled to fit within <code>fitRect</code>. The shorter side is centred
  within \c fitRect as appropriate
  */
 NSRect ScaledRectForSize(const NSSize inSize, NSRect const fitRect);
+
 /** @brief Centres \c r over <code>cr</code>, returning a rect the same size as <code>r</code>.
  */
 NSRect CentreRectInRect(const NSRect r, const NSRect cr);
@@ -150,6 +166,7 @@ NSBezierPath* RotatedRect(const NSRect r, const CGFloat radians);
  compensates the origin.
  */
 NSRect NormalizedRect(const NSRect r);
+
 /** @brief Returns a transform that will cause a rotation about the point given at the angle given.
  */
 NSAffineTransform* RotationTransform(const CGFloat radians, const NSPoint aboutPoint);
@@ -176,7 +193,7 @@ NSPoint Bezier(const NSPoint* v, const NSInteger degree, const double t, NSPoint
  */
 CGFloat BezierSlope(const NSPoint bez[_Nonnull 4], const CGFloat t);
 
-/** This point constant is arbitrary but it is intended to be very unlikely to arise by chance. It can be used to signal "not found" when
+/** @brief This point constant is arbitrary but it is intended to be very unlikely to arise by chance. It can be used to signal "not found" when
  returning a point value from a function.
  */
 extern const NSPoint NSNotFoundPoint;

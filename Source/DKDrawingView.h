@@ -83,9 +83,10 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 @property (class, null_resettable) Class classForTextEditor;
 @property (class) BOOL textEditorAllowsTypingUndo;
 
-/** @} */
-
-// the view's controller
+/** @}
+ @name The View's Controller
+ @brief The view's controller.
+ @{ */
 
 /** @brief Creates a controller for this view that can be added to a drawing
 
@@ -102,7 +103,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  Do not set this directly - the controller will call it to set up the relationship at the right
  time.
  */
-@property (weak) DKViewController *controller;
+@property (weak, nullable) DKViewController *controller;
 
 /** @brief Set new controller for this view
 
@@ -113,7 +114,9 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (void)replaceControllerWithController:(DKViewController*)newController;
 
-// automatic drawing info
+/** @}
+ @name Automatic Drawing Info
+ @{ */
 
 /** @brief Return the drawing that the view will draw
 
@@ -132,7 +135,10 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (void)createAutomaticDrawing;
 
-// drawing page breaks & crop marks
+/** @}
+ @name Drawing Page Breaks & Crop Marks
+ @brief Drawing page breaks and crop marks.
+ @{ */
 
 /** @brief Returns a path which represents all of the printed page rectangles
 
@@ -169,59 +175,62 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
 - (void)set;
 
-// editing text directly in the drawing:
+/** @}
+ @name Text Editing
+ @brief Editing text directly in the drawing.
+ @{ */
 
-/** @brief Start editing text in a box within the view
-
- When an object in the drawing wishes to allow the user to edit some text, it can use this utility
- to set up the editor. This creates a subview for text editing with the nominated text and the
- bounds rect given within the drawing. The text is installed, selected and activated. User actions
- then edit that text. When done, call endTextEditing. To get the text edited, call editedText
- before ending the mode. You can only set one item at a time to be editable.
- @param text the text to edit
- @param rect the position and size of the text box to edit within
- @param del a delegate object
- @return the temporary text view created to handle the job
- */
-- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del;
-
-/** @brief Start editing text in a box within the view
+/** @brief Start editing text in a box within the view.
 
  When an object in the drawing wishes to allow the user to edit some text, it can use this utility
  to set up the editor. This creates a subview for text editing with the nominated text and the
  bounds rect given within the drawing. The text is installed, selected and activated. User actions
  then edit that text. When done, call endTextEditing. To get the text edited, call editedText
  before ending the mode. You can only set one item at a time to be editable.
- @param text the text to edit
- @param rect the position and size of the text box to edit within
- @param del a delegate object
- @param drawBkGnd YES to draw a background, NO to have transparent text
- @return the temporary text view created to handle the job
+ @param text The text to edit.
+ @param rect The position and size of the text box to edit within.
+ @param del A delegate object.
+ @return The temporary text view created to handle the job.
  */
-- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del drawsBackground:(BOOL)drawBkGnd;
+- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id<NSTextViewDelegate>)del;
+
+/** @brief Start editing text in a box within the view.
+
+ When an object in the drawing wishes to allow the user to edit some text, it can use this utility
+ to set up the editor. This creates a subview for text editing with the nominated text and the
+ bounds rect given within the drawing. The text is installed, selected and activated. User actions
+ then edit that text. When done, call endTextEditing. To get the text edited, call editedText
+ before ending the mode. You can only set one item at a time to be editable.
+ @param text The text to edit.
+ @param rect The position and size of the text box to edit within.
+ @param del A delegate object.
+ @param drawBkGnd \c YES to draw a background, \c NO to have transparent text.
+ @return The temporary text view created to handle the job.
+ */
+- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id<NSTextViewDelegate>)del drawsBackground:(BOOL)drawBkGnd;
 
 /** @brief Stop the temporary text editing and get rid of the editing view
  */
 - (void)endTextEditing;
 
-/** @brief Return the text from the temporary editing view
+/** @brief Return the text from the temporary editing view.
 
- This must be called prior to calling -endTextEditing, because the storage is made empty at that time
- @return the text
+ This must be called prior to calling <code>-endTextEditing</code>, because the storage is made empty at that time
+ @return The text.
  */
 - (NSTextStorage*)editedText;
 
-/** @brief Return the current temporary text editing view
+/** @brief Return the current temporary text editing view.
  @return the text editing view, or nil
  */
-@property (readonly, strong) NSTextView *textEditingView;
+@property (readonly, strong, nullable) NSTextView *textEditingView;
 
-/** @brief Respond to frame size changes in the text editor view
+/** @brief Respond to frame size changes in the text editor view.
 
  This tidies up the display when the editor frame changes size. The frame can change
  during editing depending on how the client has configured it, but to prevent bits from being
  left behind when the frame is made smaller, this simply invalidates the previous frame rect.
- @param note the notification
+ @param note The notification.
  */
 - (void)editorFrameChangedNotification:(NSNotification*)note;
 
@@ -229,11 +238,13 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
  Clients should not generally start a text editing operation if there is already one in progress,
  though if they do the old one is immediately ended anyway.
- @return YES if text editing is in progress, NO otherwise
+ @return \c YES if text editing is in progress, \c NO otherwise.
  */
 @property (readonly, getter=isTextBeingEdited) BOOL textBeingEdited;
 
-// ruler stuff
+/** @}
+ @name ruler stuff
+ @{ */
 
 /** @brief Set a ruler marker to a given position
 
@@ -266,15 +277,23 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  @param mouse the current mouse poin tin local coordinates */
 - (void)updateRulerMouseTracking:(NSPoint)mouse;
 
-// user actions
+/** @}
+ @name User Actions
+ @{ */
 
 /** @brief Show or hide the ruler.
- @param sender the action's sender
+ @param sender The action's sender.
  */
 - (IBAction)toggleRuler:(nullable id)sender;
+
+/** @brief Show or hide the page breaks.
+ @param sender The action's sender.
+ */
 - (IBAction)toggleShowPageBreaks:(nullable id)sender;
 
-// window activations
+/** @}
+ @name Window Activations
+ @{ */
 
 /** @brief Invalidate the view when window active state changes.
 
@@ -284,6 +303,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  */
 - (void)windowActiveStateChanged:(NSNotification*)note;
 
+/** @} */
 @end
 
 extern NSNotificationName const kDKDrawingViewDidBeginTextEditing;

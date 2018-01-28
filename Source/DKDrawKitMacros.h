@@ -39,7 +39,7 @@
 // 64-bit float macros
 // Deprecated, do not use:
 // instead, use double values with tgmath header included
-// If are really worried about the types.
+// if you are really worried about the types.
 
 #define _CGFloatFabs(n) fabs(n)
 #define _CGFloatTrunc(n) trunc(n)

@@ -9,7 +9,6 @@
 
 @implementation NSObject (StringValue)
 
-/**  */
 - (NSString*)stringValue
 {
 	return NSStringFromClass([self class]);
@@ -117,7 +116,7 @@
 	if ([sv length] > 0)
 		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
 
-	return sv;
+	return [sv copy];
 }
 
 @end
@@ -126,7 +125,7 @@
 
 - (NSString*)stringValue
 {
-	return self;
+	return [self copy];
 }
 
 @end

@@ -396,9 +396,6 @@ static Class s_textEditorClass = Nil;
 
 @synthesize pageBreaksVisible=mPageBreaksVisible;
 
-/** @brief Show or hide the page breaks
- @param sender the action's sender
- */
 - (IBAction)toggleShowPageBreaks:(id)sender
 {
 #pragma unused(sender)

@@ -14,21 +14,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief DKDrawingTool is the semi-abstract base class for all types of drawing tool.
 
-DKDrawingTool is the semi-abstract base class for all types of drawing tool. The point of a tool is to act as a translator for basic mouse events and
-convert those events into meaningful operations on the target layer or object(s). One tool can be set at a time (see DKToolController) and
-establishes a "mode" of operation for handling mouse events.
+ DKDrawingTool is the semi-abstract base class for all types of drawing tool. The point of a tool is to act as a translator for basic mouse events and
+ convert those events into meaningful operations on the target layer or object(s). One tool can be set at a time (see DKToolController) and
+ establishes a "mode" of operation for handling mouse events.
 
-The tool also supplies a cursor for the view when that tool is selected.
+ The tool also supplies a cursor for the view when that tool is selected.
 
-A tool typically targets a layer or the objects within it. The calling sequence to a tool is coordinated by the DKToolController, targeting
-the current active layer. Tools can change the data content of the layer or not - for example a zoom zool would only change the scale of
-a view, not change any data.
+ A tool typically targets a layer or the objects within it. The calling sequence to a tool is coordinated by the DKToolController, targeting
+ the current active layer. Tools can change the data content of the layer or not - for example a zoom zool would only change the scale of
+ a view, not change any data.
 
-Tools should be considered to be controllers, and sit between the view and the drawing data model.
+ Tools should be considered to be controllers, and sit between the view and the drawing data model.
 
-Note: do not confuse "tools" as DK defines them with a palette of buttons or other UI - an application might implement an interface to
-select a tool in such a way, but the buttons are not tools. A button could store a tool as its representedObject however. These UI
-considerations are outside the scope of DK itself.
+ Note: do not confuse "tools" as DK defines them with a palette of buttons or other UI - an application might implement an interface to
+ select a tool in such a way, but the buttons are not tools. A button could store a tool as its representedObject however. These UI
+ considerations are outside the scope of DK itself.
 */
 @interface DKDrawingTool : NSObject <DKDrawingTool> {
 @private
@@ -57,63 +57,111 @@ considerations are outside the scope of DK itself.
  restore the styles associated with each tool when the app is next launched.
  */
 + (void)saveDefaults;
+
+/** @brief Return the first responder in the current responder chain able to respond to -setDrawingTool:
+ 
+ This searches upwards from the current first responder. If that fails, it also checks the
+ current document. Used by -set and other code that needs to know whether -set will succeed.
+ @return a responder, or nil
+ */
 + (nullable id)firstResponderAbleToSetTool;
 
-/** @brief Return the registry name for this tool
+/** @brief Return the registry name for this tool.
 
- If the tool isn't registered, returns nil
-a string, the name this tool is registerd under, if any.
+ If the tool isn't registered, returns <code>nil</code>.
+ Is a string, the name this tool is registerd under, if any.
  */
 @property (readonly, copy, nullable) DKToolName registeredName;
 
+/** @brief Handle the initial mouse down
+ 
+ Override this to get the call from DKObjectDrawingToolLayer after all other drawing has completed
+ @param aRect the rect being redrawn (not used)
+ @param aView the view that is doing the drawing
+ */
 - (void)drawRect:(NSRect)aRect inView:(NSView*)aView;
+
+/** @brief The state of the modifier keys changed
+ 
+ Override this to get notified when the modifier keys change state while your tool is set
+ @param event the Event.
+ @param layer The current layer that the tool is being applied to.
+ */
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer;
+
+/** @brief Return whether the target layer can be used by this tool.
+ 
+ This is called by the tool controller to determine if the set tool can actually be used in the
+ current layer. Override to reject any layers that can't be used with the tool. The default is to
+ reject all locked or hidden layers, though some tools may still be operable in such a case.
+ @param aLayer A layer object.
+ @return \c YES if the tool can be used with the given layer, \c NO otherwise.
+ */
 - (BOOL)isValidTargetLayer:(DKLayer*)aLayer;
 
 /** @brief Return whether the tool is some sort of object selection tool
 
  This method is used to assist the tool controller in making sensible decisions about certain
  automatic operations. Subclasses that implement a selection tool should override this to return YES.
- @return \c YES if the tool selects objects, \c NO otherwise
+ Is \c YES if the tool selects objects, \c NO otherwise
  */
 @property (readonly, getter=isSelectionTool) BOOL selectionTool;
 
-/** @brief Sets the tool as the current tool for the key view in the main window, if possible
+/** @brief Sets the tool as the current tool for the key view in the main window, if possible.
 
- This follows the \c -set approach that cocoa uses for many objects. It looks for the key view in the
+ This follows the \c -set approach that Cocoa uses for many objects. It looks for the key view in the
  main window. If it's a DKDrawingView that has a tool controller, it sets itself as the controller's
  current tool. This might be more convenient than other ways of setting a tool.
  */
 - (void)set;
 
-/** @brief Called when this tool is set by a tool controller
+/** @brief Called when this tool is set by a tool controller.
 
- Subclasses can make use of this message to prepare themselves when they are set if necessary
- @param aController the controller that set this tool
+ Subclasses can make use of this message to prepare themselves when they are set if necessary.
+ @param aController The controller that set this tool.
  */
 - (void)toolControllerDidSetTool:(DKToolController*)aController;
 
-/** @brief Called when this tool is about to be unset by a tool controller
+/** @brief Called when this tool is about to be unset by a tool controller.
 
  Subclasses can make use of this message to prepare themselves when they are unset if necessary, for
  example by finishing the work they were doing and cleaning up.
- @param aController the controller that set this tool
+ @param aController The controller that set this tool.
  */
 - (void)toolControllerWillUnsetTool:(DKToolController*)aController;
 
-/** @brief Called when this tool is unset by a tool controller
+/** @brief Called when this tool is unset by a tool controller.
 
- Subclasses can make use of this message to prepare themselves when they are unset if necessary
- @param aController the controller that set this tool
+ Subclasses can make use of this message to prepare themselves when they are unset if necessary.
+ @param aController The controller that set this tool.
  */
 - (void)toolControllerDidUnsetTool:(DKToolController*)aController;
+
+/** @brief Set a cursor if the given point is over something interesting.
+ 
+ Called by the tool controller when the mouse moves, this should determine whether a special cursor
+ needs to be set right now and set it. If no special cursor needs to be set, it should set the
+ current one for the tool. Override to implement this in specific tool classes.
+ @param mp The local mouse point.
+ @param obj The target object under the mouse, if any.
+ @param aLayer The active layer.
+ @param event The original event.
+ */
 - (void)setCursorForPoint:(NSPoint)mp targetObject:(DKDrawableObject*)obj inLayer:(DKLayer*)aLayer event:(NSEvent*)event;
 
 // if a keyboard equivalent is set, the tool controller will set the tool if the keyboard equivalent is received in keyDown:
 // the tool must be registered for this to function.
 
 - (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSEventModifierFlags)flags;
+
+/** @brief Return the keyboard equivalent character can be used to select this tool
+ 
+ A *registered* tool can be looked up by keyboard equivalent. This is implemented by \c DKToolController
+ in conjunction with this class. Returns \c nil if no equivalent has been set.
+ @return the key character (only the first character in the string is used)
+ */
 @property (readonly, copy, nullable) NSString *keyboardEquivalent;
+
 /** @brief Return the keyboard modifier flags that need to be down to select this tool using the keyboard modifier
  
  A \a registered tool can be looked up by keyboard equivalent. This is implemented by \c DKToolController
@@ -124,7 +172,14 @@ a string, the name this tool is registerd under, if any.
 
 // drawing tools can optionally return arbitrary persistent data that DK will store in the prefs for it
 
+/** @brief The tool can return arbitrary persistent data that will be stored in the prefs and returned on
+ the next launch.
+ @return data, or \c nil
+ */
 - (nullable NSData*)persistentData;
+
+/** @brief On launch, the data that was saved by the previous session will be reloaded
+ */
 - (void)shouldLoadPersistentData:(NSData*)data;
 
 @end

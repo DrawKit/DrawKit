@@ -18,26 +18,31 @@ typedef NS_OPTIONS(NSUInteger, DKAbbreviationOption) {
 
 - (NSComparisonResult)localisedCaseInsensitiveNumericCompare:(NSString*)anotherString;
 
-/** Remove all characters from the specified set
+/** @brief Remove all characters from the specified set
  */
 - (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSStringCompareOptions)mask;
-/** Remove all characters from the specified set
+
+/** @brief Remove all characters from the specified set
  */
 - (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet;
+
 - (NSString*)stringByRemovingCharacter:(unichar)character;
-/** Characters in \c charSet are replaced by <code>substitute</code>. The process is non-recursive, so if \c substitute contains characters from
+
+/** @brief Characters in \c charSet are replaced by <code>substitute</code>. The process is non-recursive, so if \c substitute contains characters from
  <code>charSet</code>, they will remain there.
  */
 - (NSString*)stringByReplacingCharactersInSet:(NSCharacterSet*)charSet withString:(NSString*)substitute;
 
-/** Returns a copy of the receiver with just the first character capitalized, ignoring all others. Thus, the rest of the string isn't necessarily forced to
+/** @brief Returns a copy of the receiver with just the first character capitalized, ignoring all others. Thus, the rest of the string isn't necessarily forced to
  lowercase.
  */
 @property (readonly, copy) NSString *stringByCapitalizingFirstCharacter;
-/** Returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
+
+/** @brief Returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
  */
 - (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOption)flags;
-/** Breaks a string into words. If any words are keys in the dictionary, the word is substituted by its value. Keys are case insensitive (dictionary should have lower case
+
+/** @brief Breaks a string into words. If any words are keys in the dictionary, the word is substituted by its value. Keys are case insensitive (dictionary should have lower case
  keys) and words are substituted with the verbatim value. If \c dictionary is <code>nil</code>, \c self is returned.
  */
 - (NSString*)stringByAbbreviatingWordsWithDictionary:(nullable NSDictionary<NSString*,NSString*>*)abbreviations;

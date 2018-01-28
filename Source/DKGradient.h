@@ -262,7 +262,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 /** @brief Initialise the stop with a Color and position.
  @param aColor The initial color value.
  @param pos The relative position within the gradient, valid range = 0.0..1.0
- @return the stop.
+ @return The stop.
  */
 - (instancetype)initWithColor:(NSColor*)aColor at:(CGFloat)pos NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;

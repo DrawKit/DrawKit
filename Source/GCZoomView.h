@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Return whether scroll-wheel zooming is enabled
  
  \c YES to enable, \c NO to disable.
- Default is <code>YES</code>
+ Default is <code>YES</code>.
  */
 @property (class) BOOL scrollwheelZoomEnabled;
 

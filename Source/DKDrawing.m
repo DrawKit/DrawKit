@@ -98,9 +98,6 @@ static id sDearchivingHelper = nil;
 	});
 }
 
-/** @brief Return the current version number of the framework
- @return a number formatted in 8-4-4 bit format representing the current version number
- */
 + (NSUInteger)drawkitVersion
 {
 #if DKDRAWKIT_MINOR > 0x0F
@@ -112,9 +109,6 @@ static id sDearchivingHelper = nil;
 	return DKDRAWKIT_MAJOR << 8 | (DKDRAWKIT_MINOR & 0x0F) << 4 | (DKDRAWKIT_PATCH & 0x0F);
 }
 
-/** @brief Return the current release status of the framework
- @return a string, either "alpha", "beta", "release candidate" or nil (final)
- */
 + (NSString*)drawkitReleaseStatus
 {
 #ifndef DKDRAWKIT_RELEASE
@@ -133,11 +127,6 @@ static id sDearchivingHelper = nil;
 #endif
 }
 
-/** @brief Return the current version number and release status as a preformatted string
-
- This is intended for occasional display, rather than testing for the framework version.
- @return a string, e.g. "1.0.b6"
- */
 + (NSString*)drawkitVersionString
 {
 	NSUInteger v = [self drawkitVersion];

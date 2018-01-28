@@ -27,7 +27,7 @@ typedef NS_OPTIONS(NSInteger, DKKnobType) {
 	kDKKnobTypeMask = 0xFFFF
 };
 
-//! an object that lays claim to own the knob class (e.g. DKLayer) needs to implement the following protocol:
+//! An object that lays claim to own the knob class (e.g. DKLayer) needs to implement the following protocol.
 @protocol DKKnobOwner <NSObject>
 
 - (CGFloat)knobsWantDrawingScale;
@@ -35,12 +35,12 @@ typedef NS_OPTIONS(NSInteger, DKKnobType) {
 
 @end
 
-//! constants that can be passed to pasteboardTypesForOperation:  OR together to combine types
+//! Constants that can be passed to \c pasteboardTypesForOperation:  OR together to combine types.
 typedef NS_OPTIONS(NSUInteger, DKPasteboardOperationType) {
-	kDKWritableTypesForCopy = (1 << 0), // return the types that are written for a cut or copy operation
-	kDKWritableTypesForDrag = (1 << 1), // return the types that are written for a drag operation (drag OUT)
-	kDKReadableTypesForPaste = (1 << 2), // return the types that can be received by a paste operation
-	kDKReadableTypesForDrag = (1 << 3), // return the types that can be received by a drag operation (drag IN)
+	kDKWritableTypesForCopy = (1 << 0), //!< return the types that are written for a cut or copy operation
+	kDKWritableTypesForDrag = (1 << 1), //!< return the types that are written for a drag operation (drag OUT)
+	kDKReadableTypesForPaste = (1 << 2), //!< return the types that can be received by a paste operation
+	kDKReadableTypesForDrag = (1 << 3), //!< return the types that can be received by a drag operation (drag IN)
 	kDKAllReadableTypes = kDKReadableTypesForDrag | kDKReadableTypesForPaste,
 	kDKAllWritableTypes = kDKWritableTypesForCopy | kDKWritableTypesForDrag,
 	kDKAllDragTypes = kDKReadableTypesForDrag | kDKWritableTypesForDrag,

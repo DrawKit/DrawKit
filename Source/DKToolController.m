@@ -260,15 +260,6 @@ static DKDrawingTool* sGlobalTool = nil;
 
 @synthesize drawingTool=mTool;
 
-/** @brief Check if the tool can be set for the current active layer
-
- Can be used to test whether a tool is able to be selected in the current context. There is no
- requirement to use this - you can set the drawing tool anyway and if an attempt to use it in
- an invalid layer is made, the tool controller will handle it anyway. A UI might want to use this
- to prevent the selection of a tool before it gets to that point however.
- @param aTool the propsed drawing tool
- @return YES if the tool can be applied to the current active layer, NO if not
- */
 - (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool
 {
 	NSAssert(aTool != nil, @"tool is nil in -canSetDrawingTool:");

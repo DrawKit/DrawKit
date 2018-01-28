@@ -107,12 +107,12 @@ action name when requested.
 @protocol DKToolDelegate <NSObject>
 @optional
 
-/** @brief Opens an undo group to receive subsequent undo tasks
+/** @brief Opens an undo group to receive subsequent undo tasks.
 
  This is needed to work around an NSUndoManager bug where empty groups create a bogus task on the stack.
  A group is only opened when a real task is coming. This isn't really very elegant right now - a
  better solution is sought, perhaps subclassing NSUndoManager itself.
- @param aTool the tool making the request */
+ @param aTool The tool making the request. */
 - (void)toolWillPerformUndoableAction:(id<DKDrawingTool>)aTool;
 - (void)toolDidPerformUndoableAction:(id<DKDrawingTool>)aTool;
 

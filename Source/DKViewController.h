@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  This is called by the drawing - generally you shouldn't call it directly, but instead use the
  similar drawing methods that take simple parameter types
- @param updateBoolValue an NSNumber containing a boolValue, YES to update, NO to not update
+ @param updateBoolValue an NSNumber containing a boolValue, \c YES to update, \c NO to not update
  */
 - (void)setViewNeedsDisplay:(NSNumber*)updateBoolValue;
 
@@ -100,7 +100,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  This is called by the drawing - generally you shouldn't call it directly, but instead use the
  similar drawing methods that take simple parameter types
- @param updateRectValue an NSValue containing a rectValue, the area to mark for update
+ @param updateRectValue An \c NSValue containing a rectValue, the area to mark for update
  */
 - (void)setViewNeedsDisplayInRect:(NSValue*)updateRectValue;
 

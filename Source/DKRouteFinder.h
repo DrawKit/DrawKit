@@ -66,7 +66,7 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 @property (readonly) CGFloat pathLength;
 @property (readonly) DKRouteAlgorithmType algorithm;
 
-@property (weak) id<DKRouteFinderProgressDelegate> progressDelegate;
+@property (weak, nullable) id<DKRouteFinderProgressDelegate> progressDelegate;
 
 @end
 

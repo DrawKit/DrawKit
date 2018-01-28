@@ -34,8 +34,6 @@
 	return self;
 }
 
-/* create a transform that proportionately scales bounds to a rectangle of height
-	centered distance units above a particular point.   */
 - (NSAffineTransform*)scaleBounds:(NSRect)bounds toHeight:(CGFloat)height centeredDistance:(CGFloat)distance abovePoint:(NSPoint)location
 {
 	NSRect dst = bounds;
@@ -48,20 +46,13 @@
 					  to:dst];
 }
 
-/* create a transform that proportionately scales bounds to a rectangle of height
-	centered distance units above the origin.   */
-
 - (NSAffineTransform*)scaleBounds:(NSRect)bounds toHeight:(CGFloat)height centeredAboveOrigin:(CGFloat)distance
 {
 	return [self scaleBounds:bounds
 					toHeight:height
-			centeredDistance:
-				distance
+			centeredDistance:distance
 				  abovePoint:NSMakePoint(0, 0)];
 }
-
-/* initialize the NSAffineTransform so it will flip the contents of bounds
-	vertically. */
 
 - (NSAffineTransform*)flipVertical:(NSRect)bounds
 {

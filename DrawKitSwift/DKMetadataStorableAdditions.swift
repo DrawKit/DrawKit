@@ -6,8 +6,8 @@
 //  Copyright © 2017 DrawKit. All rights reserved.
 //
 
-import DKDrawKit.DKMetadataStorable
 import DKDrawKit.DKMetadataItem
+import DKDrawKit.DKMetadataStorable
 
 extension DKMetadataStorable {
 	public var metadata: [String: DKMetadataItem] {

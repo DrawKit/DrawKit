@@ -40,7 +40,7 @@ The purpose of this class is to allow images to be archived much more efficientl
 - (void)setKey:(NSString*)key isInUse:(BOOL)inUse;
 - (BOOL)keyIsInUse:(NSString*)key;
 
-/** delete all data and associated keys for keys not in use
+/** @brief Delete all data and associated keys for keys not in use.
  */
 - (void)removeUnusedData;
 
@@ -50,7 +50,7 @@ extern NSPasteboardType const kDKImageDataManagerPasteboardType NS_SWIFT_NAME(dk
 
 @interface NSData (Checksum)
 
-/** the checksum is a weighted sum of the first 1024 bytes (or less) of the data XOR the length. This value should be reasonably unique for quickly comparing
+/** @brief The checksum is a weighted sum of the first 1024 bytes (or less) of the data XOR the length. This value should be reasonably unique for quickly comparing
  image data.
  */
 - (NSUInteger)checksum;

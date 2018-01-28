@@ -150,12 +150,6 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kDKDrawingToolUserDefaultsKey];
 }
 
-/** @brief Return the first responder in the current responder chain able to respond to -setDrawingTool:
-
- This searches upwards from the current first responder. If that fails, it also checks the
- current document. Used by -set and other code that needs to know whether -set will succeed.
- @return a responder, or nil
- */
 + (id)firstResponderAbleToSetTool
 {
 	NSResponder* firstResponder = [[NSApp mainWindow] firstResponder];
@@ -351,38 +345,18 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	return NO;
 }
 
-/** @brief Handle the initial mouse down
-
- Override this to get the call from DKObjectDrawingToolLayer after all other drawing has completed
- @param aRect the rect being redrawn (not used)
- @param aView the view that is doing the drawing
- */
 - (void)drawRect:(NSRect)aRect inView:(NSView*)aView
 {
 #pragma unused(aRect)
 #pragma unused(aView)
 }
 
-/** @brief The state of the modifier keys changed
-
- Override this to get notified when the modifier keys change state while your tool is set
- @param event the event
- @param layer the current layer that the tool is being applied to
- */
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer
 {
 #pragma unused(event)
 #pragma unused(layer)
 }
 
-/** @brief Return whether the target layer can be used by this tool
-
- This is called by the tool controller to determine if the set tool can actually be used in the
- current layer. Override to reject any layers that can't be used with the tool. The default is to
- reject all locked or hidden layers, though some tools may still be operable in such a case.
- @param aLayer a layer object
- @return YES if the tool can be used with the given layer, NO otherwise
- */
 - (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
 	return ![aLayer lockedOrHidden];
@@ -399,16 +373,6 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	return NO;
 }
 
-/** @brief Set a cursor if the given point is over something interesting
-
- Called by the tool controller when the mouse moves, this should determine whether a special cursor
- needs to be set right now and set it. If no special cursor needs to be set, it should set the
- current one for the tool. Override to implement this in specific tool classes.
- @param mp the local mouse point
- @param obj the target object under the mouse, if any
- @param aLayer the active layer
- @param event the original event
- */
 - (void)setCursorForPoint:(NSPoint)mp targetObject:(DKDrawableObject*)obj inLayer:(DKLayer*)aLayer event:(NSEvent*)event
 {
 #pragma unused(mp)
@@ -441,12 +405,6 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	mKeyboardModifiers = flags;
 }
 
-/** @brief Return the keyboard equivalent character can be used to select this tool
-
- A *registered* tool can be looked up by keyboard equivalent. This is implemented by DKToolController
- in conjunction with this class. Returns nil if no equivalent has been set.
- @return the key character (only the first character in the string is used)
- */
 - (NSString*)keyboardEquivalent
 {
 	if ([mKeyboardEquivalent length] > 0)
@@ -459,17 +417,11 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 
 #pragma mark -
 
-/** @brief The tool can return arbitrary persistent data that will be stored in the prefs and returned on
- the next launch.
- @return data, or nil
- */
 - (NSData*)persistentData
 {
 	return nil;
 }
 
-/** @brief On launch, the data that was saved by the previous session will be reloaded
- */
 - (void)shouldLoadPersistentData:(NSData*)data
 {
 #pragma unused(data)

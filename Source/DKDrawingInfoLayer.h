@@ -29,7 +29,7 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
  This is not a very important class within DK, and mays apps will not want to use it, or to use it in
  modified form. It is provided as another example of how to implement layer subclasses as much as anything.
 */
-@interface DKDrawingInfoLayer : DKLayer <NSCoding> {
+@interface DKDrawingInfoLayer : DKLayer <NSCoding, NSTextViewDelegate> {
 	DKInfoBoxPlacement m_placement; // which corner is the panel placed in
 	NSSize m_size; // the size of the panel
 	NSString* m_editingKeyRef; // which info key is being edited

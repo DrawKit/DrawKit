@@ -29,7 +29,7 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 
 /** @brief Set whether scroll-wheel zooming is enabled
 
- Default is YES
+ Default is \c YES
  @param enable YES to enable, NO to disable
  */
 + (void)setScrollwheelZoomEnabled:(BOOL)enable

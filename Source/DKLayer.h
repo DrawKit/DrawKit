@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  The group retains this, so the group isn't retained here
  */
-@property (weak) DKLayerGroup *layerGroup;
+@property (weak, nullable) DKLayerGroup *layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 
