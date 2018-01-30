@@ -9,9 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/**
-This category of DKGradient supplies a number of prebuilt gradients that implement a variety of user-interface gradients
-as found in numerour apps, including Apple's own.
+/** @brief This category of DKGradient supplies a number of prebuilt gradients that implement a variety of user-interface gradients
+ as found in numerous apps, including Apple's own.
 */
 @interface DKGradient (UISupport)
 

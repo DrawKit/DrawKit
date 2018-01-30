@@ -82,6 +82,6 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 
 @end
 
-extern NSString* const kDKDrawingInfoTextLabelAttributes;
+extern NSNotificationName const kDKDrawingInfoTextLabelAttributes;
 
 NS_ASSUME_NONNULL_END

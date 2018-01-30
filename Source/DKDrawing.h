@@ -171,25 +171,39 @@ NS_ASSUME_NONNULL_BEGIN
  @param b The bottom margin in Quartz units.
  */
 - (void)setMarginsLeft:(CGFloat)l top:(CGFloat)t right:(CGFloat)r bottom:(CGFloat)b NS_SWIFT_NAME(setMargins(left:top:right:bottom:));
+
 /** @brief Sets the margins from the margin values stored in a NSPrintInfo object
  
  \c SetDrawingSizeFromPrintInfo: will also call this for you
  @param printInfo a NSPrintInfo object, obtained from the printing system
  */
 - (void)setMarginsWithPrintInfo:(NSPrintInfo*)printInfo;
+
 /** @brief The width of the left margin.
  */
 @property (readonly) CGFloat leftMargin;
+
 /** @brief The width of the right margin.
  */
 @property (readonly) CGFloat rightMargin;
+
 /** @brief The width of the top margin.
  */
 @property (readonly) CGFloat topMargin;
+
 /** @brief The width of the bottom margin.
  */
 @property (readonly) CGFloat bottomMargin;
+
+/** @brief Returns the interior region of the drawing, within the margins
+ @return a rectangle, the interior area of the drawing (paper size less margins)
+ */
 @property (readonly) NSRect interior;
+
+/** @brief Constrains the point within the interior area of the drawing
+ @param p a point structure
+ @return a point, equal to p if p is within the interior, otherwise pinned to the nearest point within
+ */
 - (NSPoint)pinPointToInterior:(NSPoint)p;
 
 /** @brief Sets whether the Y axis of the drawing is flipped
@@ -219,21 +233,41 @@ NS_ASSUME_NONNULL_BEGIN
  @param conversionFactor how many Quartz points per basic unit?
  */
 - (void)setDrawingUnits:(DKDrawingUnits)units unitToPointsConversionFactor:(CGFloat)conversionFactor;
+
 /** @brief Returns the full name of the drawing's units
  @return a string
  */
 @property (readonly, copy) DKDrawingUnits drawingUnits;
+
 /** @brief Returns the abbreviation of the drawing's units
  
  For those it knows about, it does a lookup. For unknown units, it uses the first two characters
  and makes them lower case. The delegate can also elect to supply this string if it prefers.
  */
 @property (readonly, copy) NSString *abbreviatedDrawingUnits;
+
 /** @brief Returns the number of Quartz units per basic drawing unit
  @return the conversion value
  */
 @property (readonly) CGFloat unitToPointsConversionFactor;
+
+/** @brief Returns the number of Quartz units per basic drawing unit, as optionally determined by the delegate
+ 
+ This allows the delegate to return a different value for special requirements. If the delegate does
+ not respond, the normal conversion factor is returned. Note that DK currently doesn't use this
+ internally but app-level code may do if it further overlays a coordinate mapping on top of the
+ drawing's own.
+ @return the conversion value
+ */
 @property (readonly) CGFloat effectiveUnitToPointsConversionFactor;
+
+/** @brief Sets up the rulers for all attached views to a previously registered ruler state
+ 
+ DKGridLayer registers rulers to match its grid using the drawingUnits string returned by
+ this class as the registration key. If your drawing doesn't have a grid but does use the rulers,
+ you need to register the ruler setup yourself somewhere.
+ @param unitString the name of a previously registered ruler state
+ */
 - (void)synchronizeRulersWithUnits:(DKDrawingUnits)unitString;
 
 /** @} */
@@ -248,8 +282,27 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name the drawing's view controllers
  @{ */
 
+/** @brief Return the current controllers the drawing owns.
+ 
+ Controllers are in no particular order. The drawing object owns its controllers.
+ */
 @property (readonly, copy) NSSet<DKViewController*> *controllers;
+
+/** @brief Add a controller to the drawing
+ 
+ A controller is associated with a view, but must be added to the drawing to forge the connection
+ between the drawing and its views. The drawing owns the controller. DKDrawingDocument and the
+ automatic back-end set-up handle all of this for you - you only need this if you are building
+ the DK system entirely by hand.
+ @param aController the controller to add
+ */
 - (void)addController:(DKViewController*)aController;
+
+/** @brief Removes a controller from the drawing
+ 
+ Typically controllers are removed when necessary - there is little reason to call this yourself
+ @param aController the controller to remove
+ */
 - (void)removeController:(DKViewController*)aController;
 
 /** @brief Removes all controller from the drawing.
@@ -262,10 +315,36 @@ NS_ASSUME_NONNULL_BEGIN
  @name passing information to the views
  @{ */
 
+/** @brief Causes all cursor rectangles for all attached views to be recalculated. This forces any cursors
+ that may be in use to be updated.
+ */
 - (void)invalidateCursors;
+
+/** @brief Causes all attached views to scroll to show the rect, if necessary
+ 
+ Called for things like scroll to selection - all attached views may scroll if necessary. Note that
+ it is OK to directly call the view's methods if scrolling a single view is required - the drawing
+ isn't aware of any view's scroll position.
+ @param rect the rect to reveal
+ */
 - (void)scrollToRect:(NSRect)rect;
+
+/** @brief For the utility of contained objects, this ends any open text editing session without the object
+ needing to know which view is handling it.
+ 
+ If any attached view has started a temporary text editing mode, this method can be called to end
+ that mode and perform all necessary cleanup. This is useful if the object that requested the mode
+ no longer knows which view it asked to do the editing (and thus saves it the need to record the
+ view in question). Note that normally only one such view could have entered this mode, but this
+ will also recover from a situation (bug!) where more than one has a text editing operation mode open.
+ */
 - (void)exitTemporaryTextEditingMode;
 
+/** @brief Notifies all the controllers that an object within the drawing notified a status change
+ 
+ Status changes are non-visual changes that a view controller might want to know about
+ @param object the original object that sent the notification
+ */
 - (void)objectDidNotifyStatusChange:(id)object;
 
 /** @} */
@@ -290,6 +369,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property BOOL lowRenderingQuality;
 
+/** @brief Dynamically check if low or high quality should be used
+ 
+ Called from the drawing method, this starts or extends a timer which will set high quality after
+ a delay. Thus if rapid updates are happening, it will switch to low quality, and switch to high
+ quality after a delay.
+ */
 - (void)checkIfLowQualityRequired;
 - (void)qualityTimerCallback:(NSTimer*)timer;
 @property NSTimeInterval lowQualityTriggerInterval;
@@ -369,23 +454,109 @@ NS_ASSUME_NONNULL_BEGIN
 /** @name high level methods that help support a UI
  @{ */
 
+/** @brief Adds a layer to the drawing and optionally activates it
+ 
+ This method has the advantage over separate add + activate calls that the active layer change is
+ recorded by the undo stack, so it's the better one to use when adding layers via a UI since an
+ undo of the action will restore the UI to its previous state with respect to the active layer.
+ Normally changes to the active layer are not undoable.
+ @param aLayer a layer object to be added
+ @param activateIt if YES, the added layer will be made the active layer, NO will not change it
+ */
 - (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt;
+
+/** @brief Removes a layer from the drawing and optionally activates another one
+ 
+ This method is the inverse of the one above, used to help make UIs more usable by also including
+ undo for the active layer change. It is an error for \c anotherLayer to be equal to <code>aLayer</code>. As a
+ further UI convenience, if \c aLayer is the current active layer, and \c anotherLayer is <code>nil</code>, this
+ finds the topmost layer of the same class as \c aLayer and makes that active.
+ @param aLayer A layer object to be removed.
+ @param anotherLayer If not nil, this layer will be activated after removing the first one.
+ */
 - (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(nullable DKLayer*)anotherLayer;
+
+/** @brief Finds the first layer of the given class that can be activated.
+ 
+ Looks through all subgroups.
+ @param cl The class of layer to look for.
+ @return the first such layer that returns \c YES to <code>-layerMayBecomeActive</code>.
+ */
 - (nullable __kindof DKLayer*)firstActivateableLayerOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
 
 /** @} */
 /** @name interaction with grid and guides
  @{ */
 
-@property BOOL snapsToGrid;
-@property BOOL snapsToGuides;
+/** @brief Whether mouse actions within the drawing should snap to grid or not.
+ 
+ Actually snapping requires that objects call the \c snapToGrid: method for points that they are
+ processing while dragging the mouse, etc.
+ */
+@property (nonatomic) BOOL snapsToGrid;
 
+/** @brief Whether mouse actions within the drawing should snap to guides or not.
+ 
+ Actually snapping requires that objects call the \c snapToGuides: method for points and rects that they are
+ processing while dragging the mouse, etc.
+ */
+@property (nonatomic) BOOL snapsToGuides;
+
+/** @brief Moves a point to the nearest grid position if snapControl is different from current user setting,
+ otherwise returns it unchanged.
+ 
+ The grid layer actually performs the computation, if one exists. The <snapControl> parameter
+ usually comes from a modifer key such as control - if snapping is on it disables it, if off it
+ enables it. This flag is passed up from whatever mouse event is actually being handled.
+ @param p A point value within the drawing.
+ @param snapControl Inverts the applied state of the grid snapping setting.
+ @return A modified point located at the nearest grid intersection.
+ */
 - (NSPoint)snapToGrid:(NSPoint)p withControlFlag:(BOOL)snapControl;
+
+/** @brief Moves a point to the nearest grid position if snap is turned ON, otherwise returns it unchanged
+ 
+ The grid layer actually performs the computation, if one exists. If the control modifier key is down
+ grid snapping is temporarily disabled, so this modifier universally means don't snap for all drags.
+ Passing \c YES for \c ignore is intended for use by internal classes such as <code>DKGuideLayer</code>.
+ @param p a point value within the drawing
+ @param ignore If <code>YES</code>, the current state of <code>[self snapsToGrid]</code> is ignored.
+ @return A modified point located at the nearest grid intersection.
+ */
 - (NSPoint)snapToGrid:(NSPoint)p ignoringUserSetting:(BOOL)ignore;
+
+/** @brief Moves a point to a nearby guide position if snap is turned ON, otherwise returns it unchanged.
+ 
+ The guide layer actually performs the computation, if one exists.
+ @param p A point value within the drawing.
+ @return A modified point located at a nearby guide.
+ */
 - (NSPoint)snapToGuides:(NSPoint)p;
+
+/** @brief Snaps any edge (and optionally the centre) of a rect to any nearby guide
+ 
+ The guide layer itself implements the snapping calculations, if it exists.
+ @param r A proposed rectangle which might be the bounds of some object for example.
+ @param cent If YES, the centre point of the rect is also considered a candidadte for snapping, \c NO for
+ just the edges.
+ @return a rectangle, either the input rectangle or a rectangle of identical size offset to align with
+ one of the guides
+ */
 - (NSRect)snapRectToGuides:(NSRect)r includingCentres:(BOOL)cent;
+
+/** @brief Determines the snap offset for any of a list of points
+ 
+ The guide layer itself implements the snapping calculations, if it exists.
+ @param points an array containing NSValue objects with NSPoint values
+ @return An offset amount which is the distance to move one ofthe points to make it snap. This value can
+ usually be simply added to the current mouse point that is dragging the object
+ */
 - (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)points;
 
+/** @brief Returns the amount meant by a single press of any of the arrow keys
+ @discussion Is an x and y value representing how far each "nudge" should move an object. If there is a grid layer,
+ and snapping is on, this will be a grid interval. Otherwise it will be <code>1</code>.
+ */
 @property (readonly) NSPoint nudgeOffset;
 
 /** @brief Returns the master grid layer, if there is one

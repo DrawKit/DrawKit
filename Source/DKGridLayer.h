@@ -17,33 +17,33 @@ typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
 
 /** @brief This class is a layer that draws a grid like a piece of graph paper.
 
-This class is a layer that draws a grid like a piece of graph paper. In addition it can modify a point to lie at the intersection of
-any of its "squares" (for snap to grid, etc).
+ This class is a layer that draws a grid like a piece of graph paper. In addition it can modify a point to lie at the intersection of
+ any of its "squares" (for snap to grid, etc).
 
-The master interval is called the graph's span. It will be set to the actual number of coordinate units representing the main unit
-of the grid. For example, a 1cm grid has a span of ~28.35.
+ The master interval is called the graph's span. It will be set to the actual number of coordinate units representing the main unit
+ of the grid. For example, a 1cm grid has a span of ~28.35.
 
-The span is divided into an integral number of smaller divisions, for example 10 divisions of 1cm gives 1mm small squares.
+ The span is divided into an integral number of smaller divisions, for example 10 divisions of 1cm gives 1mm small squares.
 
-A integral number of spans is called the major interval. This is drawn in a darker colour and bolder width. For example you could
-highlight every 10cm by setting the spans per major to 10. The same style is also used to draw a border around the whole thing
-allowing for the set margins.
+ A integral number of spans is called the major interval. This is drawn in a darker colour and bolder width. For example you could
+ highlight every 10cm by setting the spans per major to 10. The same style is also used to draw a border around the whole thing
+ allowing for the set margins.
 
-Class methods exist to return a number of "standard" grids.
+ Class methods exist to return a number of "standard" grids.
 
-The spans, minor and major intervals are all drawn in different colours, but more typically you'll set a single "theme" colour which
-derives the three colours such that they form a coherent set.
+ The spans, minor and major intervals are all drawn in different colours, but more typically you'll set a single "theme" colour which
+ derives the three colours such that they form a coherent set.
 
-Grid Layers work with methods in DKDrawing to manage the rulers in an NSRulerView. Generally the rulers are set to align with the
-span interval of the grid and allow for the drawing's margins. Because a ruler's settings require a name, you need to set this up along
-with the grid's parameters. To help make this easy for a client application (that will probably want to present a user interface for
-setting this all up), the "one stop shop" method -setSpan:unitToPointsConversionFactor:measurementSystem:drawingUnits:divisions:majors:rulerSteps:
-will set up the grid AND the rulers provided the layer has already been added to a drawing. Due to limitations in NSRuler regarding its step up
-and step down ratios, this method also imposes similar limits on the span divisions.
+ Grid Layers work with methods in \c DKDrawing to manage the rulers in an NSRulerView. Generally the rulers are set to align with the
+ span interval of the grid and allow for the drawing's margins. Because a ruler's settings require a name, you need to set this up along
+ with the grid's parameters. To help make this easy for a client application (that will probably want to present a user interface for
+ setting this all up), the "one stop shop" method \c -setSpan:unitToPointsConversionFactor:measurementSystem:drawingUnits:divisions:majors:rulerSteps:
+ will set up the grid AND the rulers provided the layer has already been added to a drawing. Due to limitations in \c NSRuler regarding its step up
+ and step down ratios, this method also imposes similar limits on the span divisions.
 
-General-purpose "snap to grid" type methods are implemented by DKDrawing using the grid as a basis - the grid itself doesn't implement snapping.
+ General-purpose "snap to grid" type methods are implemented by \c DKDrawing using the grid as a basis - the grid itself doesn't implement snapping.
 
-Note: caching in a CGLayer is not recommended - the code is here but it doesn't draw nicely at high zooms. Turned off by default.
+ Note: caching in a \c CGLayer is not recommended - the code is here but it doesn't draw nicely at high zooms. Turned off by default.
 */
 @interface DKGridLayer : DKLayer <NSCoding> {
 @private
@@ -79,15 +79,18 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @{
 */
 
-/** The class default span colour.
+/** @brief The class default span colour.
  */
 @property (class, retain, null_resettable) NSColor *defaultSpanColour;
+
 /** @brief The class default division colour.
  */
 @property (class, retain, null_resettable) NSColor *defaultDivisionColour;
+
 /** @brief The class default major colour.
  */
 @property (class, retain, null_resettable) NSColor *defaultMajorColour;
+
 /** @brief Set the three class default colours based on a single theme colour.
  
  The theme colour directly sets the span colour, the division colour is a lighter version, and the
@@ -105,11 +108,13 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @return a grid layer, autoreleased
  */
 + (instancetype)standardMetricGridLayer;
+
 /** @brief Return a grid layer with default imperial settings
  @return a grid layer, autoreleased
  and the drawing units are "Inches"
  */
 + (instancetype)standardImperialGridLayer;
+
 /** @brief Return a grid layer with default imperial PCB (printed circuit board) settings
  
  The default PCB grid has a 1 inch span, 10 divisions per span (0.1") and 2 spans per major (2")
@@ -174,11 +179,10 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @{
  */
 
-
-/** @brief Returns the actual distance of one span in points
+/** @brief Returns the actual distance of one span in points.
  
  The result is the unit distance.
- @return a float value
+ @return A \c CGFloat value.
  */
 @property (readonly) CGFloat spanDistance;
 
@@ -224,11 +228,11 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 /** @brief The ruler step-up cycle.
  
  The value must be > 1.
- See \c NSRulerView for details about the ruler step-up cycle
+ See \c NSRulerView for details about the ruler step-up cycle.
  */
 @property (nonatomic) NSUInteger rulerSteps;
 
-/** @brief Set up the rulers of all views that have them so that they agree with the current grid
+/** @brief Set up the rulers of all views that have them so that they agree with the current grid.
  
  @discussion This method prepares the rulers to match to the current grid and drawing settings. It should be
  called once after changing the grid's parameters or the drawing units (which are set in the
@@ -238,7 +242,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  */
 - (void)synchronizeRulers;
 
-/** @brief Adjust the drawing margins to encompass an integral number of grid spans
+/** @brief Adjust the drawing margins to encompass an integral number of grid spans.
 
  This method alters the existing drawing margins such that a whole number of
  spans is spanned by the interior area of the drawing. The margins are only ever moved inwards (enlarged) by this
@@ -287,64 +291,64 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @{
  */
 
-/** @brief Given a point in drawing coordinates, returns nearest grid intersection to that point
+/** @brief Given a point in drawing coordinates, returns nearest grid intersection to that point.
 
  The intersection of the nearest division is returned, which is smaller than the span. This is
  a fundamental operation when snapping a point to the grid.
- @param p a point in the drawing
- @return a point, the nearest grid intersection to the point
+ @param p A point in the drawing.
+ @return A point, the nearest grid intersection to the point.
  */
 - (NSPoint)nearestGridIntersectionToPoint:(NSPoint)p;
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
- number of divisions
+ number of divisions.
 
  The returned size cannot be larger than the drawing's interior in either dimension.
- @param size a size value
- @return a size, the nearest whole number of divisions to the original size
+ @param size A size value.
+ @return A size, the nearest whole number of divisions to the original size.
  */
 - (NSSize)nearestGridIntegralToSize:(NSSize)size;
 
 /** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
- number of spans
+ number of spans.
 
  The returned size cannot be larger than the drawing's interior in either dimension. As spans are
  a coarser measure than divisions, the adjusted size might differ substantially from the input.
- @param size a size value
- @return a size, the nearest whole number of spans to the original size
+ @param size A size value.
+ @return A size, the nearest whole number of spans to the original size.
  */
 - (NSSize)nearestGridSpanIntegralToSize:(NSSize)size;
 
-/** @brief Given a point in drawing coordinates, returns the "real world" coordinate of the same point
+/** @brief Given a point in drawing coordinates, returns the "real world" coordinate of the same point.
 
- See also pointForGridLocation: which is the inverse operation
- @param pt a point local to the drawing
- @return a point giving the same position in terms of the grid's drawing units, etc.
+ See also \c pointForGridLocation: which is the inverse operation.
+ @param pt A point local to the drawing.
+ @return A point giving the same position in terms of the grid's drawing units, etc.
  */
 - (NSPoint)gridLocationForPoint:(NSPoint)pt;
 
-/** @brief Given a point in "real world" coordinates, returns the drawing coordinates of the same point
+/** @brief Given a point in "real world" coordinates, returns the drawing coordinates of the same point.
 
- See also gridLocationForPoint: which is the inverse operation
- @param gpt a point in terms of the grid's drawing units
- @return a point giving the same position in the drawing.
+ See also \c gridLocationForPoint: which is the inverse operation.
+ @param gpt A point in terms of the grid's drawing units.
+ @return A point giving the same position in the drawing.
  */
 - (NSPoint)pointForGridLocation:(NSPoint)gpt;
 
 /** @brief Given a distance value in drawing coordinates, returns the grid's "real world" equivalent
 
- See also quartzDistanceForGridDistance: which is the inverse operation. Note that the h and v
+ See also \c quartzDistanceForGridDistance: which is the inverse operation. Note that the \c h and \c v
  scales of a grid are assumed to be the same (in this implementtaion they always are).
- @param qd a distance given in drawing units (points)
- @return the distance in grid units
+ @param qd A distance given in drawing units (points).
+ @return The distance in grid units.
  */
 - (CGFloat)gridDistanceForQuartzDistance:(CGFloat)qd;
 
-/** @brief Given a distance value in the grid's "real world" coordinates, returns the quartz equivalent
+/** @brief Given a distance value in the grid's "real world" coordinates, returns the quartz equivalent.
 
- See also gridDistanceForQuartzDistance: which is the inverse operation
- @param gd a distance given in grid units
- @return the distance in quartz units
+ See also \c gridDistanceForQuartzDistance: which is the inverse operation.
+ @param gd A distance given in grid units.
+ @return The distance in quartz units.
  */
 - (CGFloat)quartzDistanceForGridDistance:(CGFloat)gd;
 
@@ -355,14 +359,25 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
  @{
  */
 
-/** @brief When the scale crosses the span threshold, the cache is invalidated and the span cycle adjusted
+/** @brief When the scale crosses the span threshold, the cache is invalidated and the span cycle adjusted.
 
  This permits dynamic display of the span grid based on the zoom factor. Currently only one
- threshold is used
- @param scale the view's current scale
+ threshold is used.
+ @param scale The view's current scale.
  */
 - (void)adjustSpanCycleForViewScale:(CGFloat)scale;
+
+/** @brief Removes the cached paths used to draw the grid when a grid parameter is changed
+ 
+ The grid is cached to help speed up drawing, and is only recalculated when necessary.
+ */
 - (void)invalidateCache;
+
+/** @brief Recreates the cached paths used to draw the grid when required
+ 
+ The grid is cached to help speed up drawing, and is only recalculated when necessary.
+ @param r the rect in which the grid is defined (typically the drawing interior)
+ */
 - (void)createGridCacheInRect:(NSRect)r;
 - (void)drawBorderOutline:(DKDrawingView*)aView;
 
@@ -376,7 +391,7 @@ Note: caching in a CGLayer is not recommended - the code is here but it doesn't 
 
  <code>[sender tag]</code> is interpreted as a measurement system value; restores either the metric or imperial
  defaults. Not super-useful, but handy for quickly exploring alternative grids.
- @param sender the sender of the action
+ @param sender The sender of the action.
  */
 - (IBAction)setMeasurementSystemAction:(nullable id)sender;
 

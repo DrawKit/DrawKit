@@ -55,11 +55,6 @@ be upside-down. This class automatically reverses the stacking order in an archi
 
 // layer list
 
-- (void)setLayers:(NSArray<DKLayer*>*)layers; // KVC/KVO compliant
-- (NSArray<DKLayer*>*)layers; // KVC/KVO compliant
-- (NSUInteger)countOfLayers; // KVC/KVO compliant
-- (NSUInteger)indexOfHighestOpaqueLayer;
-
 /** @brief The drawing's layers.
  @discussion Layers are usually added one at a time through some user interface, but this setter allows them to
  be set all at once, as when unarchiving. Not recorded for undo.

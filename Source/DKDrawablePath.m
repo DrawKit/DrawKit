@@ -386,26 +386,12 @@ static NSColor* sInfoWindowColour = nil;
 	return [[self path] length];
 }
 
-/** @brief Return the length along the path for a given point
-
- Points too far from the path return a value of -1. To be within range, the point needs to be within
- 4 x the widest stroke drawn by the style, or 4 points, whichever is larger.
- @param mp a point somewhere close to the path
- @return a distance along the path nearest to the point
- */
 - (CGFloat)lengthForPoint:(NSPoint)mp
 {
 	return [self lengthForPoint:mp
 					  tolerance:MAX(1, [[self style] maxStrokeWidth]) * 4];
 }
 
-/** @brief Return the length along the path for a given point
-
- Points too far from the path return a value of -1. The point needs to be <tol> or less from the path.
- @param mp a point somewhere close to the path
- @param tol the tolerance value
- @return a distance along the path nearest to the point
- */
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol
 {
 	return [[self path] distanceFromStartOfPathAtPoint:mp
@@ -509,15 +495,6 @@ static NSColor* sInfoWindowColour = nil;
 	return result;
 }
 
-/** @brief Joins open paths together at their ends
-
- This attempts to join either or both ends of the two paths if they are placed sufficiently
- closely. Usually the higher level join action at the layer level will be used.
- @param anotherPath another drawable path object like this one
- @param tol a value used to determine if the end points are placed sufficiently close to be joinable
- @param colin if YES, and the joined segments are curves, this adjusts the control points of the curve
- @return a join result value, indicating which end(s) were joined, if any
- */
 - (DKDrawablePathJoinResult)join:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol makeColinear:(BOOL)colin
 {
 	//	LogEvent_(kReactiveEvent, @"joining path, tolerance = %f", tol );

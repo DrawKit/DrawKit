@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef DKCategoryName DKStyleCategory NS_EXTENSIBLE_STRING_ENUM;
 
-/** options flags - control behaviour when styles from a document are merged with the registry
+/** @brief Options flags - control behaviour when styles from a document are merged with the registry.
  */
 typedef NS_OPTIONS(NSUInteger, DKStyleMergeOptions) {
 	kDKIgnoreUnsharedStyles = (1 << 0), //!< compatibility with old registry - styles with sharing off are ignored
@@ -23,7 +23,7 @@ typedef NS_OPTIONS(NSUInteger, DKStyleMergeOptions) {
 	kDKAddStylesAsNewVersions = (1 << 3) //!< styles with the same keys are copied and registered again (reg || doc)
 };
 
-/** values you can test for in result of compareStylesInSet:
+/** @brief Values you can test for in result of \c compareStylesInSet:
  */
 typedef NS_ENUM(NSInteger, DKStyleCompare) {
 	kDKStyleNotRegistered = 0,
@@ -119,29 +119,29 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
 
 // retrieving the registry and styles
 
-/** @brief Return the single global style registry object
+/** @brief Return the single global style registry object.
 
  A style registry isn't a true singleton but in general there would probably be never any reason
  to create another instance. Other class methods implictly reference the registry returned by this.
- @return the style registry used for all general purpose registration of styles in DK
+ @return the style registry used for all general purpose registration of styles in DK.
  */
 @property (class, readonly, strong) DKStyleRegistry *sharedStyleRegistry;
 
 /** @brief Return the style registerd with the given key.
 
- Styles returned by this method are not added to the "recently used" items list
+ Styles returned by this method are not added to the "recently used" items list.
  @param styleID The unique key of the style. Styles return this value from <code>-uniqueKey</code>.
  @return The style if it exists in the registry, otherwise <code>nil</code>.
  */
 + (nullable DKStyle*)styleForKey:(NSString*)styleID;
 
-/** @brief Return the style registerd with the given key
+/** @brief Return the style registerd with the given key.
 
  Styles returned by this method are added to the "recently used" items list - usually you will use
  this method when applying a registered style to an object in a real app so that you can make use
- of the "recently used" list
- @param styleID the unique key of the style. Styles return his value from - uniqueKey.
- @return the style if it exists in the registry, otherwise nil
+ of the "recently used" list.
+ @param styleID the unique key of the style. Styles return his value from <code>-uniqueKey</code>.
+ @return The style if it exists in the registry, otherwise <code>nil</code>
  */
 + (nullable DKStyle*)styleForKeyAddingToRecentlyUsed:(NSString*)styleID;
 
@@ -159,37 +159,37 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  */
 + (void)registerStyle:(DKStyle*)aStyle;
 
-/** @brief Register the style with the registry
+/** @brief Register the style with the registry.
 
- See notes for registerStyle:
+ See notes for \c registerStyle:
  if the categories do not exist they are created.
  @param aStyle the style to register
  @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
  */
 + (void)registerStyle:(DKStyle*)aStyle inCategories:(nullable NSArray<DKStyleCategory>*)styleCategories;
 
-/** @brief Register a list of styles with the registry
+/** @brief Register a list of styles with the registry.
 
- See notes for registerStyle:
- if the categories do not exist they are created.
- @param styles an array of DKStyle objects to register
- @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
+ See notes for \c registerStyle:
+ If the categories do not exist they are created.
+ @param styles An array of \c DKStyle objects to register.
+ @param styleCategories A list of one or more categories to list the style in (list of NSStrings).
  */
 + (void)registerStylesFromArray:(NSArray<DKStyle*>*)styles inCategories:(nullable NSArray<DKStyleCategory>*)styleCategories;
 
-/** @brief Register a list of styles with the registry
+/** @brief Register a list of styles with the registry.
 
- See notes for registerStyle:
- if the categories do not exist they are created. Note that the "recently added" list is temporarily
+ See notes for \c registerStyle:
+ If the categories do not exist, they are created. Note that the "recently added" list is temporarily
  disabled by this method, reflecting the intention that it is used for pre-registering a number of
  styles in bulk.
- @param styles an array of DKStyle objects to register
- @param styleCategories a list of one or more categories to list the style in (list of NSStrings)
- @param ignoreDupes if YES, styles whose names are already known are skipped.
+ @param styles An array of \c DKStyle objects to register.
+ @param styleCategories A list of one or more categories to list the style in (list of NSStrings).
+ @param ignoreDupes if <code>YES</code>, styles whose names are already known are skipped.
  */
 + (void)registerStylesFromArray:(NSArray<DKStyle*>*)styles inCategories:(nullable NSArray<DKStyleCategory>*)styleCategories ignoringDuplicateNames:(BOOL)ignoreDupes;
 
-/** @brief Remove the style from the registry
+/** @brief Remove the style from the registry.
 
  Removed styles are still retained by an objects using them, so they are not dealloced unless
  not in use by any clients at all.
@@ -212,14 +212,14 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  This method is for merging sets of styles read in with a document or file. The document will have
  already sorted the loaded styles into those which were formerly registered and those which were not
  - <styles> is the set that was. The doc may elect to create a category with the doc's name, this
- can be passed in <styleCategories>. The options dictate how the merge is to be done - either doc
+ can be passed in <code>styleCategories</code>. The options dictate how the merge is to be done - either doc
  styles dominate or reg styles dominate, or else the doc styles are copied and reregistered afresh.
  The returned set is the set that the document should use, and will need to replace styles in the
  document with a matching uniqueKey with those in the set (thus if the reg dominates, it can in
  this way update the document's contents). If the doc wishes to remove the category when it closes,
  it can do so using the category manager API.
- @param styles a set of one or more styles
- @param styleCategories a list of categories to add the styles to if they are added (one or more NSStrings)
+ @param styles A set of one or more styles.
+ @param styleCategories A list of categories to add the styles to if they are added (one or more NSStrings).
  @param options control flags for changing the preferred direction of merging, etc.
  @param aDel an optional delegate object that can make a merge decision for each individual style object
  @return a set of styles that should replace those with the same key in whatever structure made the call.
@@ -234,35 +234,35 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  the style's unique key. The values in the dictionary are NSNumbers indicating whether the style
  is older, the same, newer or unknown. The caller can use this info to make decisions about a merge
  before doing it, if they wish, or to present the info to the user.
- @param styles a set of styles
- @return a dictionary, listing for each style whether it is unknown, older, the same or newer than the
+ @param styles A set of styles.
+ @return A dictionary, listing for each style whether it is unknown, older, the same, or newer than the
  registry styles having the same keys.
  */
 + (NSDictionary<NSString*,NSNumber*>*)compareStylesInSet:(NSSet<DKStyle*>*)styles;
 
 // high-level data access
 
-/** @brief Return the entire list of keys of the styles in the registry
+/** @brief Return the entire list of keys of the styles in the registry.
  @return an array listing all of the keys in the registry
  */
 @property (class, readonly, copy) NSArray<NSString*> *registeredStyleKeys;
 
-/** @brief Return data that can be saved to a file, etc. representing the registry
- @return NSData of the entire registry
+/** @brief Return data that can be saved to a file, etc. representing the registry.
+ @return \c NSData of the entire registry.
  */
 + (NSData*)registeredStylesData;
 
-/** @brief Saves the registry to the current user defaults
+/** @brief Saves the registry to the current user defaults.
  */
 + (void)saveDefaults;
 
-/** @brief Loads the registry from the current user defaults
+/** @brief Loads the registry from the current user defaults.
 
- If used, this should be called early in the application launch sequence
+ If used, this should be called early in the application launch sequence.
  */
 + (void)loadDefaults;
 
-/** @brief Reset the registry back to a "first run" condition
+/** @brief Reset the registry back to a "first run" condition.
 
  This removes ALL styles from the registry, thereby unregistering them. It then starts over with
  the DK defaults. This puts the registry into the same state that it was in on the very first run
@@ -274,16 +274,16 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
 /** @brief Creates a series of fill styles having the solid colours given by the named NSColorList, and
  adds them to the registry using the named category.
 
- The named color list must exist - see [NSColorList availableColorLists];
- @param name the name of a \c NSColorList
- @param catName the name of the registry category - if nil, use the colorList name
+ The named color list must exist - see <code>-[NSColorList availableColorLists]</code>;
+ @param name The name of a \c NSColorList
+ @param catName The name of the registry category - if <code>nil</code>, use the \c colorList name.
  */
 + (void)registerSolidColourFillsFromListNamed:(NSColorListName)name asCategory:(nullable DKStyleCategory)catName;
 
 /** @brief Creates a series of stroke styles having the solid colours given by the named NSColorList, and
  adds them to the registry using the named category.
 
- The named color list must exist - see [NSColorList availableColorLists];
+ The named color list must exist - see <code>-[NSColorList availableColorLists]</code>;
  @param name the name of a NSColorList
  @param catName the name of the registry category - if nil, use the colorList name
  */
@@ -292,8 +292,8 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
 /** @brief Sets whether DK defaults category containing the default styles shoul dbe registered when the
  registry is built or reset
 
- See +resetRgistry
- @param noDKDefaults YES to turn OFF the defaults
+ See \c +resetRgistry
+ @param noDKDefaults \c YES to turn OFF the defaults.
  */
 + (void)setShouldNotAddDKDefaultCategory:(BOOL)noDKDefaults;
 
@@ -334,8 +334,8 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  Names of styles are changed when a style is registerd to avoid a collision with any already
  registered styles. Names are not keys and this doesn't guarantee uniqueness - it's merely a
  courtesy to the user.
- @param name a candidate name
- @return the same string if no collisiosn, or a modified copy if there was
+ @param name A candidate name.
+ @return The same string if no collisiosn, or a modified copy if there was.
  */
 - (NSString*)uniqueNameForName:(NSString*)name;
 
@@ -344,9 +344,9 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  */
 @property (readonly, copy) NSArray<NSString*> *styleNames;
 
-/** @brief Return a list of the registered styles' names in the category, in alphabetical order
- @param catName the name of a single category
- @return a list of names
+/** @brief Return a list of the registered styles' names in the category, in alphabetical order.
+ @param catName The name of a single category.
+ @return A list of names.
  */
 - (NSArray<NSString*>*)styleNamesInCategory:(DKStyleCategory)catName;
 
@@ -359,22 +359,22 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
 
 /** @brief Write the registry to a file.
  @param url The file url of the file to write.
- @param writeOptionsMask data writing flags.
- @param errorPtr The error, if any, that occured
+ @param writeOptionsMask Data writing flags.
+ @param errorPtr The error, if any, that occured.
  @return \c YES if the file was saved sucessfully, \c NO otherwise
  */
 - (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError*_Nullable*_Nullable)errorPtr;
 
 /** @brief Merge the contents of a file into the registry.
 
- Reads styles from the file at <path> into the registry. Styles are merged as indicated by the
+ Reads styles from the file at \c path into the registry. Styles are merged as indicated by the
  options, etc. The intention of this method is to load a file containing styles only - either to
  augment or replace the existing registry. It is not used when opening a drawing document.
  If the intention is to replace the reg, the caller should clear out the current one before calling this.
- @param path the full path of the file to write
- @param options merging options
- @param aDel an optional delegate object that can make a merge decision for each individual style object 
- @return YES if the file was read and merged sucessfully, NO otherwise
+ @param path The full path of the file to write.
+ @param options Merging options.
+ @param aDel An optional delegate object that can make a merge decision for each individual style object.
+ @return \c YES if the file was read and merged sucessfully, \c NO otherwise.
  */
 - (BOOL)readFromFile:(NSString*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel;
 
@@ -392,7 +392,7 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  */
 - (BOOL)readFromURL:(NSURL*)url mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel error:(NSError*_Nullable*_Nullable)error;
 
-/** @brief Attempt to merge a style into the registry
+/** @brief Attempt to merge a style into the registry.
  
  Given <code>aStyle</code>, and a registered style having the same key, this replaces the contents of the
  registered style with the contents of <code>aStyle</code>, provided they really are different objects. This
@@ -407,7 +407,7 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  */
 - (nullable DKStyle*)mergeFromStyle:(DKStyle*)aStyle mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel;
 
-/** @brief Set the registry empty
+/** @brief Set the registry empty.
 
  Removes all styles from the registry, clears the "recently added" and "recently used" lists, and
  removes all categories except the default category.
@@ -453,7 +453,7 @@ extern NSNotificationName const kDKStyleWasRegisteredNotification;
 extern NSNotificationName const kDKStyleWasRemovedFromRegistryNotification;
 extern NSNotificationName const kDKStyleWasEditedWhileRegisteredNotification;
 
-/** Protocol allows the delegate to decide which of a pair of styles should be used
+/** @brief Protocol allows the delegate to decide which of a pair of styles should be used
  */
 @protocol DKStyleRegistryDelegate <NSObject>
 @optional

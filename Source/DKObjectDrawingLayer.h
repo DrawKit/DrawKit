@@ -13,22 +13,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief This layer adds the concept of selection to drawable objects as defined by DKObjectOwnerLayer.
 
-This layer adds the concept of selection to drawable objects as defined by DKObjectOwnerLayer. Selected objects are held in the -selection
-list, which is a set (there is no order to selected objects per se - though sometimes the relative Z-stacking order of objects in the selection
-is needed, and the method -selectedObjectsPreservingStackingOrder et. al. will provide that.
+ This layer adds the concept of selection to drawable objects as defined by DKObjectOwnerLayer. Selected objects are held in the \c -selection
+ list, which is a set (there is no order to selected objects per se - though sometimes the relative Z-stacking order of objects in the selection
+ is needed, and the method \c -selectedObjectsPreservingStackingOrder et. al. will provide that.
 
-Note that for selection, the locked state of owned objects is ignored (because it is OK to select a locked object, just not to
-do anything with it except unlock it).
+ Note that for selection, the locked state of owned objects is ignored (because it is OK to select a locked object, just not to
+ do anything with it except unlock it).
 
-Commands directed at this layer are usually meant to to go to "the selection", either multiple or single objects.
+ Commands directed at this layer are usually meant to to go to "the selection", either multiple or single objects.
 
-This class provides no direct mouse handlers for actually changing the selection - typically the selection and other manipulation
-of objects in this layer is done through the agency of tools and a DKToolController.
+ This class provides no direct mouse handlers for actually changing the selection - typically the selection and other manipulation
+ of objects in this layer is done through the agency of tools and a DKToolController.
 
-The actual appearance of the selection is mainly down to the objects themselves, with some information supplied by the layer (for example
-the layer's selectionColour). Also, the layer's (or more typically the drawing's) DKKnob class is generally used by objects to display their
-selected state.
-*/
+ The actual appearance of the selection is mainly down to the objects themselves, with some information supplied by the layer (for example
+ the layer's selectionColour). Also, the layer's (or more typically the drawing's) DKKnob class is generally used by objects to display their
+ selected state.
+ */
 @interface DKObjectDrawingLayer : DKObjectOwnerLayer <NSCoding> {
 @private
 	NSMutableSet<DKDrawableObject*>* m_selection; // list of selected objects
@@ -79,10 +79,10 @@ selected state.
  */
 - (NSArray<__kindof DKDrawableObject*>*)selectedAvailableObjectsOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
-/** @brief Returns the objects that are visible and selected
+/** @brief Returns the objects that are visible and selected.
 
  See comments for selectedAvailableObjects
- @return an array
+ @return An array.
  */
 @property (readonly, copy) NSArray<DKDrawableObject*> *selectedVisibleObjects;
 - (NSSet<DKDrawableObject*>*)selectedObjectsReturning:(NSInteger)answer toSelector:(SEL)selector;

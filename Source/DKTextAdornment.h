@@ -115,6 +115,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Independent text angle, in radians.
  */
 @property (nonatomic) CGFloat angle;
+
 /** @brief Independent text angle, in degrees.
  */
 @property CGFloat angleInDegrees;
@@ -126,6 +127,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief \c YES to wrap into the text rect, \c NO for single line
  */
 @property (nonatomic) BOOL wrapsLines;
+
 /** @brief YES to allow unwrapped text to extend as much as it needs to horizontally
  */
 @property BOOL allowsTextToExtendHorizontally;
@@ -138,9 +140,11 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief stroke width for text knockout, if any (0 = none)
  */
 @property CGFloat textKnockoutStrokeWidth;
+
 /** @brief colour for text knockout, default = white
  */
 @property (strong) NSColor *textKnockoutColour;
+
 /** @brief colour for stroking the text knockout, default = black
  */
 @property (strong) NSColor *textKnockoutStrokeColour;
@@ -174,13 +178,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSColor *colour;
 
 @property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+
 /** @brief returns text attributes to be used when there is no text content at present. These will either be what was previously set or the class
  default.
 */
 @property (readonly, strong) NSDictionary<NSAttributedStringKey,id> *defaultTextAttributes;
+
 /** @brief asks whether a given attribute applies over the entire length of the string.
 */
 - (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attributeName;
+
 /** @brief asks whether all attributes apply over the whole length of the string
  */
 @property (readonly, getter=isHomogeneous) BOOL homogeneous;
@@ -239,7 +246,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define DEFAULT_BASELINE_OFFSET_MAX 16
 
-// these keys are used to access text adornment properties in the -textAttributes dictionary. Using this dictionary allows these settings to
+// these keys are used to access text adornment properties in the \c -textAttributes dictionary. Using this dictionary allows these settings to
 // be more portable especially when cutting and pasting styles between objects. These are placed alongside any Cocoa attributes defined in the
 // same dictionary.
 

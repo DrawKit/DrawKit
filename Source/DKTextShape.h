@@ -75,7 +75,7 @@ Text shapes are shapes that draw text.
 
  The default is usually "Double-click to edit this text"
  */
-@property (class, copy ) NSString *defaultTextString;
+@property (class, copy) NSString *defaultTextString;
 
 /** @brief Return the class of object to create as the shape's text adornment.
 
@@ -187,8 +187,8 @@ Text shapes are shapes that draw text.
  @return an array containing all of the individual glyph paths (i.e. each item in the array is one letter). */
 @property (readonly, copy) NSArray<NSBezierPath*> *textPathGlyphs;
 
-/** @brief Return the individual glyph paths in an array and the size used
- @param textSize receives the resulting sixe occupied by the text
+/** @brief Return the individual glyph paths in an array and the size used.
+ @param textSize Receives the resulting size occupied by the text.
  @return an array containing all of the individual glyph paths (i.e. each item in the array is one letter). */
 - (NSArray<NSBezierPath*>*)textPathGlyphsUsedSize:(nullable NSSize*)textSize;
 

@@ -514,15 +514,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the image's opacity
-
- Default is 1.0
- @return <opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
- */
-- (CGFloat)imageOpacity
-{
-	return m_opacity;
-}
+@synthesize imageOpacity=m_opacity;
 
 /** @brief Set whether the image draws above or below the rendering done by the style
 
@@ -538,15 +530,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Whether the image draws above or below the rendering done by the style
-
- Default is NO
- @return YES to draw on top (after) the style, NO to draw below (before)
- */
-- (BOOL)imageDrawsOnTop
-{
-	return m_drawnOnTop;
-}
+@synthesize imageDrawsOnTop=m_drawnOnTop;
 
 /** @brief Set the Quartz composition mode to use when compositing the image
 
@@ -562,15 +546,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the Quartz composition mode to use when compositing the image
-
- Default is NSCompositeSourceAtop
- @return an NSCompositingOperation constant
- */
-- (NSCompositingOperation)compositingOperation
-{
-	return m_op;
-}
+@synthesize compositingOperation=m_op;
 
 /** @brief Set the scale factor for the image
 
@@ -588,16 +564,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the scale factor for the image
-
- This is not currently implemented - images scale to fit the bounds when in scale mode, and are
- drawn at their native size in crop mode.
- @return the scale
- */
-- (CGFloat)imageScale
-{
-	return m_imageScale;
-}
+@synthesize imageScale=m_imageScale;
 
 /** @brief Set the offset position for the image
 
@@ -615,16 +582,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the offset position for the image
-
- The default is 0,0. The value is the distance in points from the top, left corner of the shape's
- bounds to the top, left corner of the image
- @return the image offset
- */
-- (NSPoint)imageOffset
-{
-	return m_imageOffset;
-}
+@synthesize imageOffset=m_imageOffset;
 
 /** @brief Set the display mode for the object - crop image or scale it
 
@@ -641,15 +599,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the display mode for the object - crop image or scale it
-
- The default is scale. 
- @return a mode value
- */
-- (DKImageCroppingOptions)imageCroppingOptions
-{
-	return mImageCropping;
-}
+@synthesize imageCroppingOptions=mImageCropping;
 
 #pragma mark -
 
@@ -1040,9 +990,6 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 				  forKey:@"DKImageShape_croppingOptions"];
 }
 
-/** @brief Dearchive the object
- @param coder a coder
- @return the object */
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");

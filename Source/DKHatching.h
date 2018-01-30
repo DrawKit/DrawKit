@@ -14,14 +14,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief This class provides a simple hatching fill for a path.
 
-This class provides a simple hatching fill for a path. It draws equally-spaced solid lines of a given thickness at a
-particular angle. Subclass for more sophisticated hatches.
+ This class provides a simple hatching fill for a path. It draws equally-spaced solid lines of a given thickness at a
+ particular angle. Subclass for more sophisticated hatches.
 
-Can be set as a fill style in a DKStyle object.
+ Can be set as a fill style in a DKStyle object.
 
-The hatch is cached in an NSBezierPath object based on the bounds of the path. If another path is hatched that is smaller
-than the cached size, it is not rebuilt. It is rebuilt if the angle or spacing changes or a bigger path is hatched. Linewidth also
-doesn't change the cache.
+ The hatch is cached in an NSBezierPath object based on the bounds of the path. If another path is hatched that is smaller
+ than the cached size, it is not rebuilt. It is rebuilt if the angle or spacing changes or a bigger path is hatched. Linewidth also
+ doesn't change the cache.
 */
 @interface DKHatching : DKRasterizer <NSCoding, NSCopying> {
 @private
@@ -41,7 +41,7 @@ doesn't change the cache.
 	CGFloat mWobblyness;
 }
 
-/** @brief Return the default hatching
+/** @brief Return the default hatching.
 
  Be sure to copy the object if you intend to change its parameters.
  The default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
@@ -49,9 +49,9 @@ doesn't change the cache.
  */
 @property (class, readonly, retain) DKHatching *defaultHatching;
 
-/** @brief Return a hatching with e basic parameters given
+/** @brief Return a hatching with e basic parameters given.
 
- The colour is set to black
+ The colour is set to black.
  @param w the line width of the lines
  @param spacing the line spacing
  @param angle the overall angle in radians
@@ -59,31 +59,31 @@ doesn't change the cache.
  */
 + (DKHatching*)hatchingWithLineWidth:(CGFloat)w spacing:(CGFloat)spacing angle:(CGFloat)angle;
 
-/** @brief Return a hatching which implements a dot pattern
+/** @brief Return a hatching which implements a dot pattern.
 
  The colour is set to black. The dot pattern is created using a dashed line at 45 degrees where
  the line and dash spacing is set to the dot pitch. The line width is the dot diameter and the
  rounded cap style is used. This is an efficient way to implement a dot pattern of a given density.
- @param pitch the spacing between the dots
- @param diameter the dot diameter
- @return a hatching instance having the given dot pattern
+ @param pitch The spacing between the dots.
+ @param diameter The dot diameter.
+ @return A hatching instance having the given dot pattern.
  */
 + (DKHatching*)hatchingWithDotPitch:(CGFloat)pitch diameter:(CGFloat)diameter;
 
-/** @brief Return a hatching which implements a dot pattern of given density
+/** @brief Return a hatching which implements a dot pattern of given density.
 
  Dots have a diameter of 2.0 points, and are spaced according to density. If density = 1, dots
  touch (spacing = 2.0), 0.5 = dots have a spacing of 4.0, etc. A density of 0 is not allowed.
- @param density a density figure from 0 to 1
- @return a hatching instance having a dot pattern of the given density
+ @param density A density figure from 0 to 1.
+ @return A hatching instance having a dot pattern of the given density.
  */
 + (nullable DKHatching*)hatchingWithDotDensity:(CGFloat)density;
 
 - (void)hatchPath:(NSBezierPath*)path;
 
-/** @brief Apply the hatching to the path with a given object angle
- @param path the path to fill
- @param oa the additional angle to apply, in radians
+/** @brief Apply the hatching to the path with a given object angle.
+ @param path The path to fill
+ @param oa The additional angle to apply, in radians.
  */
 - (void)hatchPath:(NSBezierPath*)path objectAngle:(CGFloat)oa;
 

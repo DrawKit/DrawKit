@@ -64,7 +64,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-extern NSString* const kDKMetadataWillChangeNotification;
-extern NSString* const kDKMetadataDidChangeNotification;
+extern NSNotificationName const kDKMetadataWillChangeNotification;
+extern NSNotificationName const kDKMetadataDidChangeNotification;
 
 NS_ASSUME_NONNULL_END

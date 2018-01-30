@@ -10,13 +10,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief This objects abstracts the text substitution task used by text adornments, et.
 
-This objects abstracts the text substitution task used by text adornments, et. al. It allows strings of the form:
+ This objects abstracts the text substitution task used by text adornments, et. al. It allows strings of the form:
  
  "This is fixed text %%sub1 more fixed text %%sub2 and so on..."
  
  Where %%sub1 and %%sub2 (where the word following %% represents a metadata key) are replaced by the metadata value keyed.
  
- A non-property key can also have further flags, called subKeys. These are . delimited single character attributes which invoke specific behaviours. By default these
+ A non-property key can also have further flags, called subKeys. These are "." delimited single character attributes which invoke specific behaviours. By default these
  are the digits 0-9 which extract the nth word from the original data, and the flags U, L and C which convert the data to upper, lower and capitalized strings respectively.
 */
 @interface DKTextSubstitutor : NSObject <NSCoding> {
@@ -26,6 +26,7 @@ This objects abstracts the text substitution task used by text adornments, et. a
 }
 
 @property (class, copy, nullable) NSString *delimiterString;
+
 /** returns the characters that will end an embedded key (which always starts with the delimiter string). Note that to permit
  key paths as keys, the '.' character is \b not included. This means that any dot is considered part of the key, not the surrounding text. As a
  special case, a final dot is removed from a key and pushed back to the surrounding text, so a single trailing dot does effectively end a key

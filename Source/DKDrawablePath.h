@@ -42,7 +42,7 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
 
 /** @brief DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
 
- DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
+ \c DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
 
  The path is rendered at its stored size, not transformed to its final size like DKDrawableShape. Thus this type of object doesn't
  maintain the concept of rotation or scale - it just is what it is.
@@ -122,7 +122,23 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  @return the path's length
  */
 @property (readonly) CGFloat length;
+
+/** @brief Return the length along the path for a given point
+ 
+ Points too far from the path return a value of -1. To be within range, the point needs to be within
+ 4 x the widest stroke drawn by the style, or 4 points, whichever is larger.
+ @param mp a point somewhere close to the path
+ @return a distance along the path nearest to the point
+ */
 - (CGFloat)lengthForPoint:(NSPoint)mp;
+
+/** @brief Return the length along the path for a given point
+ 
+ Points too far from the path return a value of -1. The point needs to be <tol> or less from the path.
+ @param mp a point somewhere close to the path
+ @param tol the tolerance value
+ @return a distance along the path nearest to the point
+ */
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol;
 
 
@@ -208,6 +224,16 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  @return a join result value, indicating which end(s) would be joined, if any
  */
 - (DKDrawablePathJoinResult)wouldJoin:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol;
+
+/** @brief Joins open paths together at their ends
+ 
+ This attempts to join either or both ends of the two paths if they are placed sufficiently
+ closely. Usually the higher level join action at the layer level will be used.
+ @param anotherPath another drawable path object like this one
+ @param tol a value used to determine if the end points are placed sufficiently close to be joinable
+ @param colin if YES, and the joined segments are curves, this adjusts the control points of the curve
+ @return a join result value, indicating which end(s) were joined, if any
+ */
 - (DKDrawablePathJoinResult)join:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol makeColinear:(BOOL)colin;
 
 /** @brief Splits a path into two paths at a specific point

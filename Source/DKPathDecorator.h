@@ -12,12 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class DKQuartzCache;
 
-/** @brief This renderer draws the image along the path of another object spaced at <interval> distance.
+/** @brief This renderer draws the image along the path of another object spaced at \c interval distance.
 
-This renderer draws the image along the path of another object spaced at \c interval distance. Each image is scaled by \c scale and is
-rotated to be normal to the path unless _normalToPath is NO.
+ This renderer draws the image along the path of another object spaced at \c interval distance. Each image is scaled by \c scale and is
+ rotated to be normal to the path unless \c _normalToPath is NO.
 
-This prefers PDF image representations where the image contains one, preserving resolution as the drawing is scaled.
+ This prefers PDF image representations where the image contains one, preserving resolution as the drawing is scaled.
 */
 @interface DKPathDecorator : DKRasterizer <NSCoding, NSCopying, DKBezierPlacement> {
 @private

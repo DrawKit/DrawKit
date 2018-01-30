@@ -33,11 +33,11 @@ typedef NS_ENUM(NSInteger, DKMetadataType) {
 DKMetadataItems are used to store metadata (attribute) values in user info dictionaries attached to various objects such as layers and
  drawables. Using a special wrapper preserves the type information under editing whereas using raw NSValue/NSNumber objects does not.
  
- Values passed to -setValue are always converted to the current type wherever possible. Conversely, using -setType converts the current value
+ Values passed to -setValue are always converted to the current type wherever possible. Conversely, using \c -setType converts the current value
  to that type where possible. A conversion is always attempted, so in some cases a nonsensical conversion will result in data loss, e.g.
- converting a URL to a colour. The -isLossyConversionToType: will return YES for lossy conversions, NO if the conversion will succeed.
+ converting a URL to a colour. The \c -isLossyConversionToType: will return \c YES for lossy conversions, \c NO if the conversion will succeed.
  
- <type> and <value> properties are KVO-observable, any other methods call these.
+ \c type and \c value properties are KVO-observable, any other methods call these.
   
  Values are stored in whatever class is appropriate to the type, viz:
  
@@ -97,6 +97,7 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
  result is effectively a copy of those items.
  */
 + (NSDictionary<NSString*,DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*,id>*)aDict;
+
 /** @brief Returns an array of <code>DKMetadataItem</code>s built by iterating the input array and wrapping each object using metadataItemWithObject:
  
 @discussion This is designed as a way to convert existing arrays of attributes wholesale.

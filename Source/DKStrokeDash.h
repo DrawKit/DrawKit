@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 	BOOL mEditing;
 }
 
-/**  */
 + (DKStrokeDash*)defaultDash;
 + (DKStrokeDash*)dashWithPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count;
 + (DKStrokeDash*)dashWithName:(NSString*)name;
@@ -32,14 +31,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 - (void)setDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count;
 - (void)getDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger*)count;
+
 /** @brief The count of dashes.
  */
 @property (readonly) NSUInteger count;
 
 - (void)setPhaseWithoutNotifying:(CGFloat)ph;
+
 /** @brief The phase of the dash, ignoring any line width scaling.
  */
 @property (nonatomic) CGFloat phase;
+
 /** returns the length of the dash pattern before it repeats. Note that if the pattern is scaled to the line width,
  this returns the unscaled length, so the client needs to multiply the result by the line width if necessary.
  */
@@ -47,6 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (CGFloat)lengthAtIndex:(NSUInteger)indx;
 
 @property BOOL scalesToLineWidth;
+
 /** an editor should set this for the duration of an edit. It prevents certain properties being changed by rasterizers during the edit
  which can cause contention for those properties.
  */

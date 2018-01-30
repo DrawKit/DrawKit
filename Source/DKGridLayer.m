@@ -27,17 +27,11 @@ static NSColor* sMajorColour = nil;
 @implementation DKGridLayer
 #pragma mark As a DKGridLayer
 
-/** @brief Set the class default span colour
- @param colour a colour
- */
 + (void)setDefaultSpanColour:(NSColor*)colour
 {
 	sSpanColour = colour;
 }
 
-/** @brief Return the class default span colour
- @return a colour
- */
 + (NSColor*)defaultSpanColour
 {
 	if (sSpanColour == nil)
@@ -49,17 +43,11 @@ static NSColor* sMajorColour = nil;
 	return sSpanColour;
 }
 
-/** @brief Set the class default division colour
- @param colour a colour
- */
 + (void)setDefaultDivisionColour:(NSColor*)colour
 {
 	sDivisionColour = colour;
 }
 
-/** @brief Return the class default division colour
- @return a colour
- */
 + (NSColor*)defaultDivisionColour
 {
 	if (sDivisionColour == nil)
@@ -71,17 +59,11 @@ static NSColor* sMajorColour = nil;
 	return sDivisionColour;
 }
 
-/** @brief Set the class default major colour
- @param colour a colour
- */
 + (void)setDefaultMajorColour:(NSColor*)colour
 {
 	sMajorColour = colour;
 }
 
-/** @brief Return the class default major colour
- @return a colour
- */
 + (NSColor*)defaultMajorColour
 {
 	if (sMajorColour == nil)
@@ -279,14 +261,6 @@ static NSColor* sMajorColour = nil;
 
 @synthesize rulerSteps=m_rulerStepUpCycle;
 
-/** @brief Set up the rulers of all views that have them so that they agree with the current grid
-
- This method prepares the rulers to match to the current grid and drawing settings. It should be
- called once after changing the grid's parameters or the drawing units (which are set in the
- drawing object). This registers the current settings using the drawing units name as a key.
- This requires a valid drawing as some parameters come from there and ruler view changes are
- actually implemented by the drawing.
- */
 - (void)synchronizeRulers
 {
 	NSString* units = [[self drawing] drawingUnits];
@@ -315,16 +289,6 @@ static NSColor* sMajorColour = nil;
 	[[self drawing] synchronizeRulersWithUnits:units];
 }
 
-/** @brief Adjust the drawing margins to encompass an integral number of grid spans
-
- This method alters the existing drawing margins such that a whole number of
- spans is spanned by the interior area of the drawing. The margins are only ever moved inwards (enlarged) by this
- method to ensure that the interior of a drawing always remains within the printable area of a
- printer (assuming margins were set by the printing parameters originally - not always the case).
- Note - from B5, this method changed to adjust all margins, not just centre the interior. The result
- is much nicer behaviour - you can set a very wide margin on one side for example and expect it to
- stay more or less where it is.
- */
 - (void)tweakDrawingMargins
 {
 	NSAssert([self drawing] != nil, @"must add grid layer to a drawing or group within one before tweaking margins");
@@ -363,12 +327,6 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark - colours for grid display
 
-/** @brief Sets the colour used to draw the spans
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you. see setGridThemeColour:
- @param colour a colour
- */
 - (void)setSpanColour:(NSColor*)colour
 {
 	if (![self locked]) {
@@ -379,12 +337,6 @@ static NSColor* sMajorColour = nil;
 
 @synthesize spanColour=m_spanColour;
 
-/** @brief Sets the colour used to draw the divisions
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you. see setGridThemeColour:
- @param colour a colour
- */
 - (void)setDivisionColour:(NSColor*)colour
 {
 	if (![self locked]) {
@@ -395,12 +347,6 @@ static NSColor* sMajorColour = nil;
 
 @synthesize divisionColour=m_divisionColour;
 
-/** @brief Sets the colour used to draw the majors
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you. see setGridThemeColour:
- @param colour a colour
- */
 - (void)setMajorColour:(NSColor*)colour
 {
 	if (![self locked]) {
@@ -411,14 +357,6 @@ static NSColor* sMajorColour = nil;
 
 @synthesize majorColour=m_majorColour;
 
-/** @brief Sets the colours used to draw the grid as a whole
-
- Typically a grid is set using a theme colour rather than setting individual colours for each
- part of the grid, but it's up to you. This sets the three separate colours based on lighter and
- darker variants of the passed colour. Note that it's usual to have some transparency (alpha) set
- for the theme colour.
- @param colour a colour
- */
 - (void)setGridThemeColour:(NSColor*)colour
 {
 	if (![self locked]) {
@@ -435,13 +373,6 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark - converting between base(Quartz) and the grid
 
-/** @brief Given a point in drawing coordinates, returns nearest grid intersection to that point
-
- The intersection of the nearest division is returned, which is smaller than the span. This is
- a fundamental operation when snapping a point to the grid.
- @param p a point in the drawing
- @return a point, the nearest grid intersection to the point
- */
 - (NSPoint)nearestGridIntersectionToPoint:(NSPoint)p
 {
 	CGFloat dd = [self divisionDistance];
@@ -462,13 +393,6 @@ static NSColor* sMajorColour = nil;
 	return p;
 }
 
-/** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
- number of divisions
-
- The returned size cannot be larger than the drawing's interior in either dimension.
- @param size a size value
- @return a size, the nearest whole number of divisions to the original size
- */
 - (NSSize)nearestGridIntegralToSize:(NSSize)size
 {
 	NSRect interior = [[self drawing] interior];
@@ -499,14 +423,6 @@ static NSColor* sMajorColour = nil;
 	return size;
 }
 
-/** @brief Given a width and height in drawing coordinates, returns the same adjusted to the nearest whole
- number of spans
-
- The returned size cannot be larger than the drawing's interior in either dimension. As spans are
- a coarser measure than divisions, the adjusted size might differ substantially from the input.
- @param size a size value
- @return a size, the nearest whole number of spans to the original size
- */
 - (NSSize)nearestGridSpanIntegralToSize:(NSSize)size
 {
 	NSRect interior = [[self drawing] interior];
@@ -537,12 +453,6 @@ static NSColor* sMajorColour = nil;
 	return size;
 }
 
-/** @brief Given a point in drawing coordinates, returns the "real world" coordinate of the same point
-
- See also pointForGridLocation: which is the inverse operation
- @param pt a point local to the drawing
- @return a point giving the same position in terms of the grid's drawing units, etc.
- */
 - (NSPoint)gridLocationForPoint:(NSPoint)pt
 {
 	NSPoint rp;
@@ -555,12 +465,6 @@ static NSColor* sMajorColour = nil;
 	return rp;
 }
 
-/** @brief Given a point in "real world" coordinates, returns the drawing coordinates of the same point
-
- See also gridLocationForPoint: which is the inverse operation
- @param pt a point in terms of the grid's drawing units
- @return a point giving the same position in the drawing.
- */
 - (NSPoint)pointForGridLocation:(NSPoint)gpt
 {
 	NSPoint rp;
@@ -573,13 +477,6 @@ static NSColor* sMajorColour = nil;
 	return rp;
 }
 
-/** @brief Given a distance value in drawing coordinates, returns the grid's "real world" equivalent
-
- See also quartzDistanceForGridDistance: which is the inverse operation. Note that the h and v
- scales of a grid are assumed to be the same (in this implementtaion they always are).
- @param qd a distance given in drawing units (points)
- @return the distance in grid units
- */
 - (CGFloat)gridDistanceForQuartzDistance:(CGFloat)qd
 {
 	// return the distance in grid terms of the quartz distance passed. Note - assumes h and v scaling is the same, which is usual.
@@ -587,12 +484,6 @@ static NSColor* sMajorColour = nil;
 	return qd / [self spanDistance];
 }
 
-/** @brief Given a distance value in the grid's "real world" coordinates, returns the quartz equivalent
-
- See also gridDistanceForQuartzDistance: which is the inverse operation
- @param gd a distance given in grid units
- @return the distance in quartz units
- */
 - (CGFloat)quartzDistanceForGridDistance:(CGFloat)gd
 {
 	return gd * [self spanDistance];
@@ -600,12 +491,6 @@ static NSColor* sMajorColour = nil;
 
 #pragma mark -
 
-/** @brief When the scale crosses the span threshold, the cache is invalidated and the span cycle adjusted
-
- This permits dynamic display of the span grid based on the zoom factor. Currently only one
- threshold is used
- @param scale the view's current scale
- */
 - (void)adjustSpanCycleForViewScale:(CGFloat)scale
 {
 	if (scale <= mSpanCycleChangeThreshold && mCachedViewScale > mSpanCycleChangeThreshold) {
@@ -622,10 +507,6 @@ static NSColor* sMajorColour = nil;
 	mCachedViewScale = scale;
 }
 
-/** @brief Removes the cached paths used to draw the grid when a grid parameter is changed
-
- The grid is cached to help speed up drawing, and is only recalculated when necessary.
- */
 - (void)invalidateCache
 {
 	m_divsCache = nil;
@@ -637,11 +518,6 @@ static NSColor* sMajorColour = nil;
 	m_cgl = nil;
 }
 
-/** @brief Recreates the cached paths used to draw the grid when required
-
- The grid is cached to help speed up drawing, and is only recalculated when necessary.
- @param r the rect in which the grid is defined (typically the drawing interior)
- */
 - (void)createGridCacheInRect:(NSRect)r
 {
 	CGFloat sp = NSMinX(r);

@@ -56,7 +56,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 /** @brief DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths.
 
- DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
+ \c DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
  arrowhead using the same colour as the stroke, thus seamlessly blending the head into the path. Where multiple
  strokes are used, the resulting effect should be correct when angles are kept the same and lengths are calculated
  from the stroke width.
@@ -75,7 +75,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 	DKDimensionToleranceOption mDimToleranceOptions;
 }
 
-@property (class, retain /*, null_resettable*/) NSDictionary<NSAttributedStringKey,id> *dimensioningLineTextAttributes;
+@property (class, retain, null_resettable) NSDictionary<NSAttributedStringKey,id> *dimensioningLineTextAttributes;
 @property (class, readonly, retain) DKArrowStroke *standardDimensioningLine;
 + (NSNumberFormatter*)defaultDimensionLineFormatter;
 

@@ -11,10 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
 
-This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
+ This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
 
-This subclasses DKPathDecorator which carries out the bulk of the work - it stores the image and caches it, this
-just sets up the path clipping and calls the rendering method for each location of the repeating pattern.
+ This subclasses \c DKPathDecorator which carries out the bulk of the work - it stores the image and caches it, this
+ just sets up the path clipping and calls the rendering method for each location of the repeating pattern.
 */
 @interface DKFillPattern : DKPathDecorator <NSCoding, NSCopying> {
 @private
@@ -30,7 +30,7 @@ just sets up the path clipping and calls the rendering method for each location 
 	NSMutableArray* mMotifAngleRandCache;
 }
 
-/** return the default pattern , which is based on some image - unlikely to be really useful so might be
+/** return the default pattern, which is based on some image - unlikely to be really useful so might be
  better to do something else here???
  */
 + (instancetype)defaultPattern;
@@ -54,7 +54,7 @@ just sets up the path clipping and calls the rendering method for each location 
 
 @property BOOL motifAngleIsRelativeToPattern;
 
-/** setting this causes a test for intersection of the motif's bounds with the object's path. If there is an intersection, the motif is not drawn. This makes patterns
+/** @brief setting this causes a test for intersection of the motif's bounds with the object's path. If there is an intersection, the motif is not drawn. This makes patterns
  appear tidier for certain applications (such as GIS/mapping) but adds a substantial performance overhead. \c NO by default.
  */
 @property BOOL drawingOfClippedElementsSupressed;

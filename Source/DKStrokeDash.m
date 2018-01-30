@@ -23,7 +23,6 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 @implementation DKStrokeDash
 #pragma mark As a DKStrokeDash
 
-/**  */
 + (DKStrokeDash*)defaultDash
 {
 	return [[DKStrokeDash alloc] init];

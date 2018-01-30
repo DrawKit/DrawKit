@@ -127,11 +127,6 @@ enum {
 	return ao;
 }
 
-/** @brief Returns the objects that are not locked, visible and selected and which have the given class
-
- See comments for selectedAvailableObjects
- @return an array, objects of the given class that can be acted upon by a command as a set
- */
 - (NSArray<__kindof DKDrawableObject*>*)selectedAvailableObjectsOfClass:(Class)aClass
 {
 	NSMutableArray* ao = [[NSMutableArray alloc] init];
