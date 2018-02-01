@@ -28,7 +28,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	return [[DKStrokeDash alloc] init];
 }
 
-+ (DKStrokeDash*)dashWithPattern:(CGFloat[])dashes count:(NSInteger)count
++ (DKStrokeDash*)dashWithPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
 	return [[DKStrokeDash alloc] initWithPattern:dashes
 											count:count];
@@ -105,9 +105,9 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 #pragma mark -
-- (instancetype)initWithPattern:(CGFloat[])dashes count:(NSInteger)count
+- (instancetype)initWithPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
-	//NSAssert((NSUInteger)(sizeof(dashes)) <= (NSUInteger)(8 * sizeof(CGFloat)), @"Expected dashes to be no more than 8 floats");
+	NSAssert(count < 8, @"Expected dashes to be no more than 8 floats");
 	self = [super init];
 	if (self != nil) {
 		[self setDashPattern:dashes
@@ -119,7 +119,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	return self;
 }
 
-- (void)setDashPattern:(CGFloat[])dashes count:(NSInteger)count
+- (void)setDashPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
 	//_count = MAX( 0, MIN( count, 8 ));
 

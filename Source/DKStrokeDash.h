@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 + (DKStrokeDash*)defaultDash;
-+ (DKStrokeDash*)dashWithPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count;
++ (DKStrokeDash*)dashWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count;
 + (DKStrokeDash*)dashWithName:(NSString*)name;
 + (void)registerDash:(DKStrokeDash*)dash withName:(NSString*)name;
 + (NSArray<DKStrokeDash*>*)registeredDashes;
@@ -26,10 +26,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (DKStrokeDash*)equallySpacedDashToFitSize:(NSSize)aSize dashLength:(CGFloat)len;
 
-- (instancetype)initWithPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-- (void)setDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger)count;
+- (void)setDashPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count;
 - (void)getDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger*)count;
 
 /** @brief The count of dashes.
