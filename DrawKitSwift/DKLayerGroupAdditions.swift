@@ -9,9 +9,9 @@
 import DKDrawKit.DKLayerGroup
 
 extension DKLayerGroup {
-	/// Returns all of the layers in this group and all groups below it having the given class
+	/// Returns all of the layers in this group and all groups below it having the given class.
 	/// - parameter layerClass: A class indicating the kind of layer of interest.
-	/// - returns: A list of matching layers.
+	/// - returns: A list of matching layers. May be empty.
 	public func flattenedLayers<A: DKLayer>(of layerClass: A.Type) -> [A] {
 		return __flattenedLayers(of: layerClass) as! [A]
 	}

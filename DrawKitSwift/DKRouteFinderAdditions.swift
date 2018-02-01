@@ -10,10 +10,12 @@ import DKDrawKit.DKRouteFinder
 
 
 extension DKRouteFinder {
+	/// Returns the original points reordered into the shortest route.
 	public func shortestRoute() -> [NSPoint] {
 		return __shortestRoute().map({$0.pointValue})
 	}
 	
+	/// Returns a list of integers which specifies the shortest route between the original points.
 	public func shortestRouteOrder() -> [Int] {
 		return __shortestRouteOrder().map({$0.intValue})
 	}

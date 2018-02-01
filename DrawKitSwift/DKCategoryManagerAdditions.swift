@@ -26,7 +26,7 @@ extension DKStyleRegistry {
 		})
 	}
 
-	/// @brief Return all of the objects belonging to the given categories
+	/// @brief Return all of the objects belonging to the given categories.
 	///
 	/// Returned objects are in no particular order, but do match the key order obtained by
 	/// `-allKeysInCategories:`. Should any key not exist (which should never normally occur), the entry will

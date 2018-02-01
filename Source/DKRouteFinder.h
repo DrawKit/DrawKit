@@ -60,8 +60,14 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 + (NSArray*)sortedArrayOfObjects:(NSArray*)objects byShortestRouteForKey:(NSString*)key;
 @property (class) DKRouteAlgorithmType algorithm;
 
+/** @brief returns the original points reordered into the shortest route.
+ */
 - (NSArray<NSValue*>*)shortestRoute NS_REFINED_FOR_SWIFT;
+
+/** @brief Returns a list of integers which specifies the shortest route between the original points.
+ */
 - (NSArray<NSNumber*>*)shortestRouteOrder NS_REFINED_FOR_SWIFT;
+
 - (nullable NSArray*)sortedArrayFromArray:(NSArray*)anArray;
 @property (readonly) CGFloat pathLength;
 @property (readonly) DKRouteAlgorithmType algorithm;
