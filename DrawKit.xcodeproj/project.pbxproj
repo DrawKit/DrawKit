@@ -25,6 +25,7 @@
 		5569BBB4200E9D3400DA0804 /* DKRouteFinderAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569BBB3200E9D3400DA0804 /* DKRouteFinderAdditions.swift */; };
 		559B4F741FFC994C0000156A /* DKTools.strings in Resources */ = {isa = PBXBuildFile; fileRef = 559B4F761FFC994C0000156A /* DKTools.strings */; };
 		55D8DB621FFEE79E00ECB542 /* DKDashable.h in Headers */ = {isa = PBXBuildFile; fileRef = 55D8DB611FFEE79D00ECB542 /* DKDashable.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		55E38A5C202530A80050F120 /* DKStrokeDashAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E38A5B202530A80050F120 /* DKStrokeDashAdditions.swift */; };
 		55EAFE5E200571FB00761661 /* DKCategoryManagerAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EAFE5D200571FB00761661 /* DKCategoryManagerAdditions.swift */; };
 		7633D31F1B7743570093DB40 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7633D31E1B7743570093DB40 /* LICENSE.txt */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -340,6 +341,7 @@
 		5569BBB3200E9D3400DA0804 /* DKRouteFinderAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKRouteFinderAdditions.swift; sourceTree = "<group>"; };
 		559B4F751FFC994C0000156A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DKTools.strings; sourceTree = "<group>"; };
 		55D8DB611FFEE79D00ECB542 /* DKDashable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDashable.h; sourceTree = "<group>"; };
+		55E38A5B202530A80050F120 /* DKStrokeDashAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKStrokeDashAdditions.swift; sourceTree = "<group>"; };
 		55EAFE5D200571FB00761661 /* DKCategoryManagerAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKCategoryManagerAdditions.swift; sourceTree = "<group>"; };
 		7633D31E1B7743570093DB40 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DrawKitInfo.plist; path = Source/DrawKitInfo.plist; sourceTree = SOURCE_ROOT; };
@@ -750,6 +752,7 @@
 				5523ED3F1FEAF8AB00639846 /* DKMetadataStorableAdditions.swift */,
 				55EAFE5D200571FB00761661 /* DKCategoryManagerAdditions.swift */,
 				5569BBB3200E9D3400DA0804 /* DKRouteFinderAdditions.swift */,
+				55E38A5B202530A80050F120 /* DKStrokeDashAdditions.swift */,
 			);
 			path = DrawKitSwift;
 			sourceTree = "<group>";
@@ -1529,6 +1532,7 @@
 				5523ED401FEAF8AB00639846 /* DKMetadataStorableAdditions.swift in Sources */,
 				5523ED121FE8933B00639846 /* DKDrawableObjectAdditions.swift in Sources */,
 				553CF0411FDDD312003E9342 /* DKLayerGroupAdditions.swift in Sources */,
+				55E38A5C202530A80050F120 /* DKStrokeDashAdditions.swift in Sources */,
 				5569BBB4200E9D3400DA0804 /* DKRouteFinderAdditions.swift in Sources */,
 				553CF0331FDDC398003E9342 /* DKDrawingAdditions.swift in Sources */,
 				553CF0431FDDE2A8003E9342 /* DKObjectOwnerLayerAdditions.swift in Sources */,
