@@ -9,7 +9,7 @@
 import DKDrawKit.DKStrokeDash
 
 public extension DKStrokeDash {
-	public var dashPattern: [CGFloat] {
+	public var pattern: [CGFloat] {
 		get {
 			var c = 0
 			var d = [CGFloat](repeating: 1, count: 8)
@@ -21,7 +21,7 @@ public extension DKStrokeDash {
 		}
 		set {
 			let count = min(newValue.count, 8)
-			setDashPattern(newValue, count: count)
+			setPattern(newValue, count: count)
 		}
 	}
 }

@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithString:(NSString*)aString;
 - (instancetype)initWithAttributedString:(NSAttributedString*)aString NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, strong) NSAttributedString *masterString;
 

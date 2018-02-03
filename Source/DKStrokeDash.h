@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
-- (void)setDashPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count;
+- (void)setDashPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_SWIFT_NAME(setPattern(_:count:));
 - (void)getDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger*)count;
 
 /** @brief The count of dashes.
