@@ -177,9 +177,9 @@ static BOOL s_NoDKDefaults = NO;
 	// add the style to the registry
 
 	[reg addObject:aStyle
-				  forKey:styleID
-			toCategories:styleCategories
-		createCategories:YES];
+			forKey:styleID
+	  toCategories:styleCategories
+  createCategories:YES];
 
 	LogEvent_(kStateEvent, @"registered new style %@; key = %@ '%@'", aStyle, [aStyle uniqueKey], [aStyle name]);
 
@@ -990,7 +990,7 @@ static BOOL s_NoDKDefaults = NO;
 /** @param obj an object being added
  @return the object's key for managing it within the registry
  */
-+ (NSString*)categoryManagerKeyForObject:(id)obj
++ (NSString*)categoryManagerKeyForObject:(DKStyle*)obj
 {
 	return [obj uniqueKey];
 }

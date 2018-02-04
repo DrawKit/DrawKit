@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
  than the cached size, it is not rebuilt. It is rebuilt if the angle or spacing changes or a bigger path is hatched. Linewidth also
  doesn't change the cache.
 */
-@interface DKHatching : DKRasterizer <NSCoding, NSCopying> {
+@interface DKHatching : DKRasterizer <NSCoding, NSCopying, DKDashable> {
 @private
 	NSBezierPath* m_cache;
 	NSBezierPath* mRoughenedCache;
