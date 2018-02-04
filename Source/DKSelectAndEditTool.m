@@ -352,6 +352,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 		p = [[layer drawing] snapToGrid:p
 						withControlFlag:controlKey];
 
+#if USE_GC_UNDO_MANAGER
 		DKUndoManager* um = (DKUndoManager*)[layer undoManager];
 
 		// set the undo manager to coalesce ABABABAB > AB instead of ABBBBBA > ABA
@@ -362,6 +363,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 			else if (ph == kDKDragMouseUp)
 				[um setCoalescingKind:kGCCoalesceLastTask];
 		}
+#endif
 	}
 
 	// if we have exceeded a non-zero proxy threshold, handle things using the proxy drag method instead.

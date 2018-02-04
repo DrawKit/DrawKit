@@ -30,6 +30,7 @@
 #else
 
 @implementation DKUndoManager
+@synthesize undoTaskCoalescingEnabled=mCoalescingEnabled;
 
 - (BOOL)enableUndoTaskCoalescing:(BOOL)enable
 {
@@ -41,25 +42,14 @@
 	return oldState;
 }
 
-- (BOOL)isUndoTaskCoalescingEnabled
-{
-	return mCoalescingEnabled;
-}
-
-- (NSUInteger)changeCount
-{
-	return mChangeCount;
-}
+@synthesize changeCount=mChangeCount;
 
 - (void)resetChangeCount
 {
 	mChangeCount = 0;
 }
 
-- (NSUInteger)numberOfTasksInLastGroup
-{
-	return mChangePerGroupCount;
-}
+@synthesize numberOfTasksInLastGroup=mChangePerGroupCount;
 
 - (void)enableSnowLeopardBackwardCompatibility:(BOOL)bcEnable
 {
@@ -77,7 +67,7 @@
 {
 	@try
 	{
-		LogEvent_(kInfoEvent, @"%@ %@ '%@' target = <%@ 0x%x>", [self isUndoing] ? @"undoing" : @"redoing", [self undoActionName], NSStringFromSelector([invocation selector]), NSStringFromClass([[invocation target] class]), [invocation target]);
+		LogEvent_(kInfoEvent, @"%@ %@ '%@' target = <%@ %p>", [self isUndoing] ? @"undoing" : @"redoing", [self undoActionName], NSStringFromSelector([invocation selector]), NSStringFromClass([[invocation target] class]), [invocation target]);
 
 		[invocation invoke];
 	}
@@ -101,7 +91,6 @@
 		isStupid = proxy != umExample;
 		hasTested = YES;
 
-		[umExample release];
 		/*
 		if( isStupid )
 			NSLog(@"This version of the OS has the stupid Snow Leopard Undo change");
@@ -128,12 +117,11 @@
 	mLastSelector = NULL;
 	mChangePerGroupCount = 0;
 
-#warning 64BIT: Check formatting arguments
-	NSLog(@"grouping level = %d", [self groupingLevel]);
+	NSLog(@"grouping level = %ld", (long)[self groupingLevel]);
 
 	[super beginUndoGrouping];
 
-	LogEvent_(kInfoEvent, @"%@ opened undo group, level = %d", self, [self groupingLevel]);
+	LogEvent_(kInfoEvent, @"%@ opened undo group, level = %ld", self, (long)[self groupingLevel]);
 }
 
 - (void)endUndoGrouping
@@ -141,19 +129,17 @@
 	mSkipTask = NO;
 	mLastSelector = NULL;
 
-#warning 64BIT: Check formatting arguments
-	NSLog(@"grouping level = %d", [self groupingLevel]);
+	NSLog(@"grouping level = %ld", (long)[self groupingLevel]);
 
 	[super endUndoGrouping];
 
-	LogEvent_(kInfoEvent, @"%@ closed undo group, level = %d, tasks submitted = %d", self, [self groupingLevel], [self numberOfTasksInLastGroup]);
+	LogEvent_(kInfoEvent, @"%@ closed undo group, level = %ld, tasks submitted = %lu", self, (long)[self groupingLevel], (unsigned long)[self numberOfTasksInLastGroup]);
 }
 
 - (id)prepareWithInvocationTarget:(id)target
 {
 	if (mEmulate105Behaviour) {
-		[mTarget release];
-		mTarget = [target retain];
+		mTarget = target;
 		mSkipTargetRef = target;
 		mSkipTask = YES;
 		return self;
@@ -174,7 +160,6 @@
 {
 	// if a deferred group is flagged, open it for real now as we have a task to put in it
 
-	[mTarget release];
 	mTarget = nil;
 
 	if ([self isUndoRegistrationEnabled]) {
@@ -183,13 +168,13 @@
 				//if the target and selector are the same return
 
 				if (target == mSkipTargetRef && mLastSelector == sel) {
-					LogEvent_(kInfoEvent, @"undo '%@' (discarded) group %d", NSStringFromSelector(sel), [self groupingLevel]);
+					LogEvent_(kInfoEvent, @"undo '%@' (discarded) group %ld", NSStringFromSelector(sel), (long)[self groupingLevel]);
 
 					return;
 				}
 			}
 
-			LogEvent_(kInfoEvent, @"undo '%@' (accepted) group %d", NSStringFromSelector(sel), [self groupingLevel]);
+			LogEvent_(kInfoEvent, @"undo '%@' (accepted) group %ld", NSStringFromSelector(sel), (long)[self groupingLevel]);
 
 			mSkipTargetRef = target;
 			mSkipTask = YES;
@@ -238,12 +223,6 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[mTarget release];
-	[super dealloc];
-}
-
 - (void)forwardInvocation:(NSInvocation*)invocation
 {
 	if (mCoalescingEnabled && !([self isUndoing] || [self isRedoing])) {
@@ -253,13 +232,13 @@
 			//if the target and selector are the same discard the invocation and return
 
 			if ((mLastTargetRef == mSkipTargetRef) && (mLastSelector == [invocation selector])) {
-				LogEvent_(kInfoEvent, @"undo invocation: [%@ %@] (discarded) group %d", NSStringFromClass([mSkipTargetRef class]), NSStringFromSelector([invocation selector]), [self groupingLevel]);
+				LogEvent_(kInfoEvent, @"undo invocation: [%@ %@] (discarded) group %ld", NSStringFromClass([mSkipTargetRef class]), NSStringFromSelector([invocation selector]), (long)[self groupingLevel]);
 
 				return;
 			}
 		}
 
-		LogEvent_(kInfoEvent, @"undo invocation: [%@ %@] (accepted) group %d", NSStringFromClass([mSkipTargetRef class]), NSStringFromSelector([invocation selector]), [self groupingLevel]);
+		LogEvent_(kInfoEvent, @"undo invocation: [%@ %@] (accepted) group %ld", NSStringFromClass([mSkipTargetRef class]), NSStringFromSelector([invocation selector]), (long)[self groupingLevel]);
 		mLastTargetRef = mSkipTargetRef;
 		mLastSelector = [invocation selector];
 	}

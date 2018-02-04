@@ -7,7 +7,7 @@
 #import <Foundation/Foundation.h>
 #import "GCUndoManager.h"
 
-#define USE_GC_UNDO_MANAGER 1
+#define USE_GC_UNDO_MANAGER 0
 
 #if USE_GC_UNDO_MANAGER
 
@@ -50,12 +50,12 @@
 }
 
 - (BOOL)enableUndoTaskCoalescing:(BOOL)enable;
-- (BOOL)isUndoTaskCoalescingEnabled;
+@property (readonly, getter=isUndoTaskCoalescingEnabled) BOOL undoTaskCoalescingEnabled;
 
-- (NSUInteger)changeCount;
+@property (readonly) NSUInteger changeCount;
 - (void)resetChangeCount;
 
-- (NSUInteger)numberOfTasksInLastGroup;
+@property (readonly) NSUInteger numberOfTasksInLastGroup;
 
 - (void)enableSnowLeopardBackwardCompatibility:(BOOL)slpEnable;
 - (void)invokeEmbeddedInvocation:(NSInvocation*)invocation;
