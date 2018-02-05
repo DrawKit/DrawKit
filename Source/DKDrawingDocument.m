@@ -55,11 +55,6 @@ NSString* const kDKDocumentLevelsOfUndoDefaultsKey = @"kDKDocumentLevelsOfUndo";
 static NSMutableDictionary* sFileImportBindings = nil;
 static NSMutableDictionary* sFileExportBindings = nil;
 
-/** @brief Returns an undo manager that can be shared by multiple documents
-
- Some applications might be set up to use a global undo stack instead of havin gone per document.
- @return the shared instance of the undo manager
- */
 + (NSUndoManager*)sharedDrawkitUndoManager
 {
 	static DKUndoManager* s_um = nil;
@@ -71,15 +66,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	return (NSUndoManager*)s_um;
 }
 
-/** @brief Establishes a mapping between a file type and a method that can import that file type
-
- The selector is used to build an invocation on the DKDrawing class to import the type. The app
- will generally provide the method as part of a category extending DKDrawing, and use this method
- to forge the binding between the two. This class will then invoke the category method as required
- without the need to modify or subclass this class.
- @param fileType a filetype or UTI string for a file type
- @param aSelector a class method of DKDrawing that can import the file type
- */
 + (void)bindFileImportType:(NSString*)fileType toSelector:(SEL)aSelector
 {
 	NSAssert(fileType != nil, @"cannot bind a nil fileType");
@@ -95,15 +81,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 		[sFileImportBindings removeObjectForKey:fileType];
 }
 
-/** @brief Establishes a mapping between a file type and a method that can export that file type
-
- The selector is used to build an invocation on the DKDrawing instance to export the type. The app
- will generally provide the method as part of a category extending DKDrawing, and use this method
- to forge the binding between the two. This class will then invoke the category method as required
- without the need to modify or subclass this class.
- @param fileType a filetype or UTI string for a file type
- @param selector a selector for the method that implements the file export
- */
 + (void)bindFileExportType:(NSString*)fileType toSelector:(SEL)aSelector
 {
 	NSAssert(fileType != nil, @"cannot bind a nil fileType");
@@ -119,20 +96,12 @@ static NSMutableDictionary* sFileExportBindings = nil;
 		[sFileExportBindings removeObjectForKey:fileType];
 }
 
-/** @brief Set the default levels of undo assigned to new documents
- @param levels the number of undo levels
- */
 + (void)setDefaultLevelsOfUndo:(NSUInteger)levels
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:levels
 											   forKey:kDKDocumentLevelsOfUndoDefaultsKey];
 }
 
-/** @brief Return the default levels of undo assigned to new documents
-
- If the value wasn't found in the defaults, DEFAULT_LEVELS_OF_UNDO is returned
- @return the number of undo levels
- */
 + (NSUInteger)defaultLevelsOfUndo
 {
 	NSUInteger levels = [[NSUserDefaults standardUserDefaults] integerForKey:kDKDocumentLevelsOfUndoDefaultsKey];
@@ -145,11 +114,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	return levels;
 }
 
-/** @brief Set the document's drawing object
-
- The document owns the drawing
- @param drwg a drawing object
- */
 - (void)setDrawing:(DKDrawing*)drwg
 {
 	// sets the drawing to <drwg>.
@@ -183,16 +147,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 @synthesize mainView=mMainDrawingView;
 
-/** @brief Create a controller object to connect the given view to the document's drawing
-
- Usually you won't call this yourself but you can override it to supply different types of controllers.
- The default supplies a general purpose drawing tool controller. Note that the relationship
- between the view and the controller is set up by this, but NOT the relationship between the drawing
- and the controller - the controller must be added to the drawing using -addController.
- (Other parts of this class handle that).
- @param aView the view the controller will be used with
- @return a new controller object
- */
 - (DKViewController*)makeControllerForView:(NSView*)aView
 {
 	NSAssert(aView != nil, @"attempt to make controller when view is nil");
@@ -255,11 +209,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	return [DKObjectDrawingLayer class];
 }
 
-/** @brief Return whether an info layer should be added to the default drawing.
-
- Subclasses can override this to return NO if they don't want the info layer
- @return YES, by default
- */
 - (BOOL)wantsInfoLayer
 {
 	return YES;
@@ -268,11 +217,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 #pragma mark -
 #pragma mark handy user actions
 
-/** @brief High-level method to add a new drawing layer to the document
-
- The added layer is made the active layer
- @param sender the sender of the message
- */
 - (IBAction)newDrawingLayer:(id)sender
 {
 #pragma unused(sender)
@@ -288,12 +232,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	[[self undoManager] setActionName:NSLocalizedString(@"New Layer", @"undo string for new layer")];
 }
 
-/** @brief High-level method to add a new drawing layer to the document and move the selected objects to it
-
- The added layer is made the active layer, the objects are added to the new layer and selected, and
- removed from their current layer.
- @param sender the sender of the message
- */
 - (IBAction)newLayerWithSelection:(id)sender
 {
 #pragma unused(sender)
@@ -335,11 +273,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	NSBeep();
 }
 
-/** @brief High-level method to delete the active layer from the drawing
-
- After this the active layer will be nil, and should be set to something before further use.
- @param sender the sender of the message
- */
 - (IBAction)deleteActiveLayer:(id)sender
 {
 #pragma unused(sender)
@@ -355,15 +288,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 #pragma mark -
 #pragma mark style remerging
 
-/** @brief The first step in reconsolidating a newly opened document's registered styles with the current
- style registry.
-
- You should override this to handle style remerging in a different way if you need to. The default
- implementation allows the current registry to update the document and also adds the document's
- name as a category to the current registry.
- @param stylesToMerge a set of styles loaded with the document that are flagged as having been registered
- @param url the url from whence the document was loaded (ignored by default)
- */
 - (void)remergeStyles:(NSSet*)stylesToMerge readFromURL:(NSURL*)url
 {
 #pragma unused(url)
@@ -411,12 +335,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 		[self replaceDocumentStylesWithMatchingStylesFromSet:changedStyles];
 }
 
-/** @brief The second step in reconsolidating a newly opened document's registered styles with the current
- style registry.
-
- This should only be called if the registry actually returned anything from the remerge operation
- @param aSetOfStyles the styles returned from the registry that should replace those in the document
- */
 - (void)replaceDocumentStylesWithMatchingStylesFromSet:(NSSet*)aSetOfStyles
 {
 	// this method is an imperative - when called, styles in the passed set that have a matching key with those in this document MUST
@@ -432,9 +350,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	// of the initialisation. Now we just use [[self undoManager] disableUndoRegistration]
 }
 
-/** @brief Returns a name that can be used for a style registry category for this document
- @return a string - just the document's filename without the extension or other path components
- */
 - (NSString*)documentStyleCategoryName
 {
 	// return the name of the category that this document creates in the style registry - by default it's just the name part of the URL.
@@ -442,21 +357,11 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	return [[[self fileURL] lastPathComponent] stringByDeletingPathExtension];
 }
 
-/** @brief Returns all styles used by the document's drawing
- @return a set of all styles in the drawing
- */
 - (NSSet*)allStyles
 {
 	return [[self drawing] allStyles];
 }
 
-/** @brief Returns all registered styles used by the document's drawing
-
- This method actually returns all styles flagged as formerly registered immediately after the
- document has been opened - all subsequent calls return the actual registered styles. Thus take
- care that this is only called once after loading a document if it's the flagged styles you require.
- @return a set of all registered styles in the drawing
- */
 - (NSSet*)allRegisteredStyles
 {
 	return [[self drawing] allRegisteredStyles];
@@ -486,11 +391,6 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	return [(id)[self mainView] drawingTool];
 }
 
-/** @brief Creates a view used to handle printing.
-
- This may be overridden to customise the print view. Called by printShowingPrintPanel:
- @return a view suitable for printing the document's drawing
- */
 - (DKDrawingView*)makePrintDrawingView
 {
 	NSRect fr = NSZeroRect;
