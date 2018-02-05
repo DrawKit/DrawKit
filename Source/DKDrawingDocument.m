@@ -63,9 +63,10 @@ static NSMutableDictionary* sFileExportBindings = nil;
 + (NSUndoManager*)sharedDrawkitUndoManager
 {
 	static DKUndoManager* s_um = nil;
-
-	if (s_um == nil)
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
 		s_um = [[DKUndoManager alloc] init];
+	});
 
 	return (NSUndoManager*)s_um;
 }

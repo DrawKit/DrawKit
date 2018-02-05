@@ -306,20 +306,10 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
 // undo:
 
-#if 0
 /** @brief Sets the undo manager that style changes will be recorded by
 
  The undo manager is not retained.
- @param undomanager the manager to use
  */
-- (void)setUndoManager:(NSUndoManager*)undomanager;
-
-/** @brief Returns the undo manager that style changes will be recorded by
- @return the style's current undo manager
- */
-- (NSUndoManager*)undoManager;
-#endif
-
 @property (weak, nullable) NSUndoManager *undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
