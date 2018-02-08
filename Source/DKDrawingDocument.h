@@ -145,7 +145,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param stylesToMerge A set of styles loaded with the document that are flagged as having been registered.
  @param url The url from whence the document was loaded (ignored by default).
  */
-- (void)remergeStyles:(NSSet<DKStyle*>*)stylesToMerge readFromURL:(NSURL*)url;
+- (void)remergeStyles:(NSSet<DKStyle*>*)stylesToMerge readFromURL:(nullable NSURL*)url;
 
 /** @brief The second step in reconsolidating a newly opened document's registered styles with the current
  style registry.
