@@ -150,11 +150,13 @@
 
 			return [super prepareWithInvocationTarget:target];
 		} else
-			return nil;
+			return [super prepareWithInvocationTarget:target];
 	}
 }
 
+#ifndef CONVERT_ALL_TO_NSINVOCATION
 #define CONVERT_ALL_TO_NSINVOCATION 1
+#endif
 
 - (void)registerUndoWithTarget:(id)target selector:(SEL)sel object:(id)parameter
 {
@@ -180,7 +182,7 @@
 			mSkipTask = YES;
 			mLastSelector = sel;
 
-#if CONVERT_ALL_TO_NSINVOCATION
+#if defined(CONVERT_ALL_TO_NSINVOCATION) && CONVERT_ALL_TO_NSINVOCATION
 			NSInvocation* inv = [NSInvocation invocationWithMethodSignature:[target methodSignatureForSelector:sel]];
 			[inv setSelector:sel];
 			[inv setTarget:target];
