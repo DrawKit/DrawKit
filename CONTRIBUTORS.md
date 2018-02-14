@@ -3,7 +3,7 @@
 - [Graham Cox](http://apptree.net/appcontact.htm)
 - [Graham Miln](http://miln.eu)
 - Jason Jobe
-- [MaddTheSane](https://github.com/MaddTheSane)
+- [C.W. Betts](https://github.com/MaddTheSane)
 - [Mediajon](https://github.com/Mediajon)
 - [Stephan Zehrer](http://www.stephan-zehrer.de)
 
