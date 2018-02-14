@@ -18,14 +18,13 @@
 
  This method no longer attempts to try and manage observing of the objects. The observer must
  properly stop observing before this is called, or start observing after it is called when
- initialising from an archive. 
+ initialising from an archive.
  @param list a list of renderer objects
  */
 - (void)setRenderList:(NSArray*)list
 {
 	if (list != [self renderList]) {
 		NSMutableArray* rl = [list mutableCopy];
-		[m_renderList release];
 		m_renderList = rl;
 
 		// set the container ref for each item in the list - when unarchiving newer files this is already done but
@@ -128,7 +127,7 @@
 	if (src >= [m_renderList count])
 		src = [m_renderList count] - 1;
 
-	DKRasterizer* moving = [[m_renderList objectAtIndex:src] retain];
+	DKRasterizer* moving = [m_renderList objectAtIndex:src];
 
 	[self removeObjectFromRenderListAtIndex:src];
 
@@ -137,12 +136,11 @@
 
 	[self insertObject:moving
 		inRenderListAtIndex:dest];
-	[moving release];
 }
 
 /** @brief Inserts a renderer into the group at the given index
  @param renderer the renderer to insert
- @param index the index where to insert it
+ @param indx the index where to insert it
  */
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
@@ -158,7 +156,7 @@
 }
 
 /** @brief Removes the renderer at the given index
- @param index the index to remove
+ @param indx the index to remove
  */
 - (void)removeRendererAtIndex:(NSUInteger)indx
 {
@@ -185,7 +183,7 @@
 #pragma mark -
 
 /** @brief Returns the rendere at the given index position
- @param index the index position of the renderer
+ @param indx the index position of the renderer
  @return the renderer at that position
  */
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)indx
@@ -199,12 +197,10 @@
  */
 - (DKRasterizer*)rendererWithName:(NSString*)name
 {
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
-
-	while ((rend = [iter nextObject])) {
-		if ([[rend name] isEqualToString:name])
+	for (DKRasterizer* rend in self.renderList) {
+		if ([[rend name] isEqualToString:name]) {
 			return rend;
+		}
 	}
 
 	return nil;
@@ -232,10 +228,7 @@
 - (BOOL)containsRendererOfClass:(Class)cl
 {
 	if ([self countOfRenderList] > 0) {
-		NSEnumerator* iter = [[self renderList] objectEnumerator];
-		id rend;
-
-		while ((rend = [iter nextObject])) {
+		for (id rend in [self renderList]) {
 			if ([rend isKindOfClass:cl]) // && [rend enabled]  // (should we skip disabled ones? causes some problems with KVO)
 				return YES;
 
@@ -257,10 +250,8 @@
 {
 	if ([self containsRendererOfClass:cl]) {
 		NSMutableArray* rl = [[NSMutableArray alloc] init];
-		NSEnumerator* iter = [[self renderList] objectEnumerator];
-		id rend;
 
-		while ((rend = [iter nextObject])) {
+		for (id rend in [self renderList]) {
 			if ([rend isKindOfClass:cl])
 				[rl addObject:rend];
 
@@ -270,47 +261,32 @@
 			}
 		}
 
-		return [rl autorelease];
+		return rl;
 	}
 
 	return nil;
 }
 
-/** @brief Removes all renderers from this group except other groups
-
- Specialist use - not generally for application use
- */
 - (void)removeAllRenderers
 {
-	NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
-	DKRasterizer* rast;
-
-	while ((rast = [iter nextObject])) {
-		if (![rast isKindOfClass:[self class]])
+	for (DKRasterizer* rast in [self.renderList copy]) {
+		if (![rast isKindOfClass:[self class]]) {
 			[self removeRenderer:rast];
+		}
 	}
 }
 
-/** @brief Removes all renderers of the given class, optionally traversing levels below this
-
- Renderers must be an exact match for <class> - subclasses are not considered a match. This is
- intended for specialist use and should not generally be used by application code
- @param cl the renderer class to remove
- @return <subs> if YES, traverses into subgroups and repeats the exercise there. NO to only examine this level.
- */
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs
 {
 	// removes any renderers of the given *exact* class from the group. If <subs> is YES, recurses down to any subgroups below.
 
-	NSEnumerator* iter = [[self renderList] reverseObjectEnumerator];
-	DKRasterizer* rast;
-
-	while ((rast = [iter nextObject])) {
-		if ([rast isMemberOfClass:cl])
+	for (DKRasterizer* rast in [self.renderList copy]) {
+		if ([rast isMemberOfClass:cl]) {
 			[self removeRenderer:rast];
-		else if (subs && [rast isKindOfClass:[self class]])
+		} else if (subs && [rast isKindOfClass:[self class]]) {
 			[(DKRastGroup*)rast removeRenderersOfClass:cl
 										   inSubgroups:subs];
+		}
 	}
 }
 
@@ -349,12 +325,10 @@
 	if ([self countOfRenderList] < 1)
 		return NO;
 
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
-
-	while ((rend = [iter nextObject])) {
-		if ([rend enabled] && [rend isValid])
+	for (DKRasterizer* rend in self.renderList) {
+		if ([rend enabled] && [rend isValid]) {
 			return YES;
+		}
 	}
 
 	// went through list and nothing was valid, so group isn't valid.
@@ -371,20 +345,17 @@
 	// with the correct syntax to indicate the full hierarchy and oredr ofthe renderers. The spec string can be used to construct a
 	// render group having the same properties.
 
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
-	NSMutableString* str;
-
-	str = [[NSMutableString alloc] init];
+	NSMutableString* str = [[NSMutableString alloc] init];
 
 	[str setString:@"{"];
 
-	while ((rend = [iter nextObject]))
+	for (DKRasterizer* rend in self.renderList) {
 		[str appendString:[rend styleScript]];
+	}
 
 	[str appendString:@"}"];
 
-	return [str autorelease];
+	return [str copy];
 }
 
 #pragma mark -
@@ -395,7 +366,7 @@
  */
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"renderList", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"renderList"]];
 }
 
 /** @brief Registers the action names for the observable properties published by the object
@@ -441,21 +412,14 @@
 #pragma mark -
 #pragma mark As an NSObject
 
-- (void)dealloc
-{
-	[m_renderList release];
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
 		m_renderList = [[NSMutableArray alloc] init];
 
 		if (m_renderList == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 
@@ -473,10 +437,7 @@
 	NSSize rs, accSize = NSZeroSize;
 
 	if ([self enabled]) {
-		NSEnumerator* iter = [[self renderList] objectEnumerator];
-		DKRasterizer* rend;
-
-		while ((rend = [iter nextObject])) {
+		for (DKRasterizer* rend in self.renderList) {
 			rs = [rend extraSpaceNeeded];
 
 			if (rs.width > accSize.width)
@@ -530,12 +491,10 @@
  */
 - (BOOL)isFill
 {
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rast;
-
-	while ((rast = [iter nextObject])) {
-		if ([rast isFill])
+	for (DKRasterizer* rast in [self renderList]) {
+		if ([rast isFill]) {
 			return YES;
+		}
 	}
 
 	return NO;
@@ -550,7 +509,7 @@
  */
 - (void)setValue:(id)val forNumericParameter:(NSInteger)pnum
 {
-	LogEvent_(kReactiveEvent, @"anonymous parameter #%d, value = %@", pnum, val);
+	LogEvent_(kReactiveEvent, @"anonymous parameter #%ld, value = %@", (long)pnum, val);
 
 	// if <val> conforms to the DKRasterizer protocol, we add it
 
@@ -571,7 +530,7 @@
 				 forKey:@"renderlist"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -590,7 +549,6 @@
 
 	NSArray* rl = [[self renderList] deepCopy];
 	[copy setRenderList:rl];
-	[rl release];
 
 	return copy;
 }
@@ -632,13 +590,12 @@
  */
 - (id)valueForUndefinedKey:(NSString*)key
 {
-	NSEnumerator* iter = [[self renderList] objectEnumerator];
-	DKRasterizer* rend;
 	Class classForKey = [self renderClassForKey:key];
 
-	while ((rend = [iter nextObject])) {
-		if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey]))
+	for (DKRasterizer *rend in self.renderList) {
+		if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey])) {
 			return rend;
+		}
 	}
 	return nil;
 }

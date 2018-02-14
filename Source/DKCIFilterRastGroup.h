@@ -4,7 +4,10 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKRastGroup.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /** @brief Captures the output of its contained renderers in an image
 
@@ -14,17 +17,15 @@
 */
 @interface DKCIFilterRastGroup : DKRastGroup <NSCoding, NSCopying> {
 	NSString* m_filter;
-	NSDictionary* m_arguments;
+	NSDictionary<NSString*,id>* m_arguments;
 	NSImage* m_cache;
 }
 
-+ (DKCIFilterRastGroup*)effectGroupWithFilter:(NSString*)filter;
++ (instancetype)effectGroupWithFilter:(NSString*)filter;
 
-- (void)setFilter:(NSString*)filter;
-- (NSString*)filter;
+@property (nonatomic, copy) NSString *filter;
 
-- (void)setArguments:(NSDictionary*)dict;
-- (NSDictionary*)arguments;
+@property (copy, nullable) NSDictionary<NSString*,id> *arguments;
 
 - (void)invalidateCache;
 
@@ -32,15 +33,23 @@
 
 @interface NSImage (CoreImage)
 /** @brief Draws the specified image using Core Image. */
-- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments;
+- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments NS_DEPRECATED(10_4, 10_8, NA, NA);
+
+/** @brief Draws the specified image using Core Image. */
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments;
 
 /** @brief Gets a bitmap representation of the image, or creates one if the image does not have any. */
 - (NSBitmapImageRep*)bitmapImageRepresentation;
 @end
 
-#define CIIMAGE_PADDING 32.0f
+#define CIIMAGE_PADDING 32.0
 
 @interface NSBitmapImageRep (CoreImage)
 /** @brief Draws the specified image representation using Core Image. */
-- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments;
+- (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments NS_DEPRECATED(10_4, 10_8, NA, NA);
+
+/** @brief Draws the specified image representation using Core Image. */
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(nullable NSDictionary<NSString*,id>*)arguments;
 @end
+
+NS_ASSUME_NONNULL_END

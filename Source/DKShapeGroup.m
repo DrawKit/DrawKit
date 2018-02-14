@@ -15,7 +15,7 @@
 #import "LogEvent.h"
 #import "DKDrawableObject+Metadata.h"
 
-@interface DKShapeGroup (Private)
+@interface DKShapeGroup ()
 - (void)invalidateCache;
 - (void)updateCache;
 - (void)drawUntransformedContent;
@@ -37,14 +37,12 @@
  @param style a style object to apply to each new shape or path as it is created; pass nil to create
  @return a new group object consisting of a set of other objects built from the supplied paths
  */
-+ (DKShapeGroup*)groupWithBezierPaths:(NSArray*)paths objectType:(NSInteger)type style:(DKStyle*)style
++ (DKShapeGroup*)groupWithBezierPaths:(NSArray*)paths objectType:(DKCreateGroupObjectType)type style:(DKStyle*)style
 {
 	NSMutableArray* objects = [NSMutableArray array];
-	NSEnumerator* iter = [paths objectEnumerator];
-	NSBezierPath* path;
-	DKDrawableObject* od;
 
-	while ((path = [iter nextObject])) {
+	for (NSBezierPath* path in paths) {
+		DKDrawableObject* od;
 		if (![path isEmpty] && !NSEqualSizes([path bounds].size, NSZeroSize)) {
 			if (type == kDKCreateGroupWithShapes)
 				od = [DKDrawableShape drawableShapeWithBezierPath:path];
@@ -77,7 +75,7 @@
 {
 	DKShapeGroup* group = [[DKShapeGroup alloc] initWithObjectsInArray:objects];
 
-	return [group autorelease];
+	return group;
 }
 
 /** @brief Filters array to remove objects whose class returns NO to isGroupable.
@@ -87,12 +85,11 @@
 + (NSArray*)objectsAvailableForGroupingFromArray:(NSArray*)array
 {
 	NSMutableArray* groupables = [NSMutableArray array];
-	NSEnumerator* iter = [array objectEnumerator];
-	DKDrawableObject* od;
 
-	while ((od = [iter nextObject])) {
-		if ([[od class] isGroupable])
+	for (DKDrawableObject* od in array) {
+		if ([[od class] isGroupable]) {
 			[groupables addObject:od];
+		}
 	}
 
 	return groupables;
@@ -111,18 +108,16 @@
  @param objects a list of drawable objects
  @return the group object
  */
-- (id)initWithObjectsInArray:(NSArray*)objects
+- (instancetype)initWithObjectsInArray:(NSArray*)objects
 {
 	self = [super init];
 	if (self != nil) {
 		[self setGroupObjects:objects];
 
 		if (m_objects == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
-	}
-	if (self != nil) {
+
 		NSBezierPath* path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
 		[self setPath:path];
 
@@ -162,22 +157,13 @@
 
 	NSPoint loc;
 
-	NSEnumerator* iter = [m_objects objectEnumerator];
-	DKDrawableObject* obj;
-
-	while ((obj = [iter nextObject])) {
+	for (DKDrawableObject *obj in m_objects) {
 		loc = [self convertPointFromContainer:[obj location]];
 		[obj setLocation:loc];
 	}
 }
 
-/** @brief Gets the list of objects contained by the group
- @return the list of contained objects
- */
-- (NSArray*)groupObjects
-{
-	return m_objects;
-}
+@synthesize groupObjects=m_objects;
 
 /** @brief Sets the current list of objects to the given objects
 
@@ -191,9 +177,7 @@
 										  selector:@selector(setObjects:)
 											object:m_objects];
 
-		[objects retain];
-		[m_objects release];
-		m_objects = objects;
+		m_objects = [objects copy];
 
 		[m_objects makeObjectsPerformSelector:@selector(groupWillAddObject:)
 								   withObject:self];
@@ -209,16 +193,14 @@
  is moved or resized - transforms are calculated by comparing the original bounds to the instantaneous
  size and position.
  @param objects the objects to be grouped */
-- (void)calcBoundingRectOfObjects:(NSArray*)objects
+- (void)calcBoundingRectOfObjects:(NSArray<DKDrawableObject*>*)objects
 {
 	NSRect bounds = NSZeroRect;
-	NSEnumerator* iter = [objects objectEnumerator];
-	DKDrawableObject* obj;
 
 	// WARNING!! Do NOT use NSUnionRect here - it doesn't work when bounds height or width is 0 as is the case with
 	// paths consisting of straight lines at orthogonal angles
 
-	while ((obj = [iter nextObject]))
+	for (DKDrawableObject* obj in objects)
 		bounds = UnionOfTwoRects(bounds, NormalizedRect([obj logicalBounds]));
 
 	mBounds = bounds;
@@ -235,13 +217,11 @@
  The result is the max of all the contained objects
  @return the extra space required
  */
-- (NSSize)extraSpaceNeededByObjects:(NSArray*)objects
+- (NSSize)extraSpaceNeededByObjects:(NSArray<DKDrawableObject*>*)objects
 {
-	NSEnumerator* iter = [objects objectEnumerator];
-	DKDrawableObject* obj;
 	NSSize extra, ms = NSMakeSize(0, 0);
 
-	while ((obj = [iter nextObject])) {
+	for (DKDrawableObject* obj in objects) {
 		extra = [obj extraSpaceNeeded];
 
 		if (extra.width > ms.width)
@@ -254,13 +234,7 @@
 	return ms;
 }
 
-/** @brief Returns the original untransformed bounds of the grouped objects
- @return the original group bounds
- */
-- (NSRect)groupBoundingRect
-{
-	return mBounds;
-}
+@synthesize groupBoundingRect=mBounds;
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
 
@@ -332,16 +306,13 @@
 
 - (void)drawGroupContent
 {
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableShape* od;
-
 	if (m_transformVisually) {
 		[NSGraphicsContext saveGraphicsState];
 		NSAffineTransform* tfm = [self contentTransform];
 		[tfm concat];
 	}
 
-	while ((od = [iter nextObject])) {
+	for (DKDrawableShape* od in self.groupObjects) {
 		if ([od visible]) {
 			[od setBeingHitTested:[self isBeingHitTested]];
 			[od drawContentWithSelectedState:NO];
@@ -357,18 +328,18 @@
 - (NSData*)				pdfDataOfObjects
 {
 	NSData* pdfData = nil;
-	
+ 
 	if([[self groupObjects] count] > 0 )
 	{
 		NSRect	fr = NSZeroRect;
-		
+ 
 		fr.size = [[self drawing] drawingSize];
-		
+ 
 		DKGroupPDFView*		pdfView = [[DKGroupPDFView alloc] initWithFrame:fr withGroup:self];
 		DKViewController*	vc = [pdfView makeViewController];
-		
+ 
 		[[self drawing] addController:vc];
-		
+ 
 		NSRect sr = mBounds;
 		pdfData = [pdfView dataWithPDFInsideRect:sr];
 		[pdfView release];
@@ -386,10 +357,7 @@
 	}
 }
 
-- (BOOL)clipContentToPath
-{
-	return mClipContentToPath;
-}
+@synthesize clipContentToPath=mClipContentToPath;
 
 - (void)setTransformsVisually:(BOOL)tv
 {
@@ -399,10 +367,7 @@
 	}
 }
 
-- (BOOL)transformsVisually
-{
-	return m_transformVisually;
-}
+@synthesize transformsVisually=m_transformVisually;
 
 #pragma mark -
 #pragma mark - content caching
@@ -415,10 +380,7 @@
 	}
 }
 
-- (DKGroupCacheOption)cacheOptions
-{
-	return mCacheOption;
-}
+@synthesize cacheOptions=mCacheOption;
 
 - (void)updateCache
 {
@@ -443,7 +405,7 @@
 #pragma mark -
 #pragma mark - ungrouping
 
-/** @brief Unpacks the group back into the nominated layer 
+/** @brief Unpacks the group back into the nominated layer
 
  Usually it's better to call the higher level ungroupObjects: action method which calls this. This
  method strives to preserve as much information about the objects as possible - e.g. their rotation
@@ -461,10 +423,8 @@
 
 	NSInteger groupIndex = [layer indexOfObject:self];
 
-	LogEvent_(kReactiveEvent, @"will ungroup %d objects, inserting at %d", [m_objects count], groupIndex);
+	LogEvent_(kReactiveEvent, @"will ungroup %lu objects, inserting at %ld", (unsigned long)[m_objects count], (long)groupIndex);
 
-	NSEnumerator* iter = [m_objects objectEnumerator];
-	DKDrawableObject* obj;
 	NSAffineTransform* tfm;
 	NSInteger insertIndex = groupIndex;
 
@@ -473,7 +433,7 @@
 	else
 		tfm = [self renderingTransform];
 
-	while ((obj = [iter nextObject])) {
+	for (DKDrawableObject* obj in m_objects) {
 		// set the object's container to the layer it will become part of, so its transform is not influenced
 		// by the group for the next step.
 
@@ -499,7 +459,6 @@
 
 	[layer didUngroupObjects:m_objects];
 
-	[m_objects release];
 	m_objects = nil;
 }
 
@@ -552,7 +511,7 @@
 
  Distortion operations cannot be applied to a group
  @param mode ignored */
-- (void)setOperationMode:(NSInteger)mode
+- (void)setOperationMode:(DKShapeTransformOperation)mode
 {
 #pragma unused(mode)
 }
@@ -570,13 +529,10 @@
 {
 	// return the union of all the contained objects' styles
 
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	NSSet* styles;
 	NSMutableSet* unionOfAllStyles = nil;
-	DKDrawableObject* dko;
 
-	while ((dko = [iter nextObject])) {
-		styles = [dko allStyles];
+	for (DKDrawableObject* dko in self.groupObjects) {
+		NSSet* styles = dko.allStyles;
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -588,20 +544,17 @@
 		}
 	}
 
-	return [unionOfAllStyles autorelease];
+	return unionOfAllStyles;
 }
 
 - (NSSet*)allRegisteredStyles
 {
 	// return the union of all the contained objects' registered styles
 
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	NSSet* styles;
 	NSMutableSet* unionOfAllStyles = nil;
-	DKDrawableObject* dko;
 
-	while ((dko = [iter nextObject])) {
-		styles = [dko allRegisteredStyles];
+	for (DKDrawableObject* dko in self.groupObjects) {
+		NSSet* styles = [dko allRegisteredStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -613,7 +566,7 @@
 		}
 	}
 
-	return [unionOfAllStyles autorelease];
+	return unionOfAllStyles;
 }
 
 - (void)replaceMatchingStylesFromSet:(NSSet*)aSet
@@ -772,23 +725,19 @@
 
 - (void)setGhosted:(BOOL)ghosted
 {
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableObject* obj;
-
-	while ((obj = [iter nextObject]))
+	for (DKDrawableObject* obj in self.groupObjects) {
 		[obj setGhosted:ghosted];
+	}
 
 	[self notifyVisualChange];
 }
 
 - (BOOL)isGhosted
 {
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableObject* obj;
-
-	while ((obj = [iter nextObject])) {
-		if ([obj isGhosted])
+	for (DKDrawableObject* obj in self.groupObjects) {
+		if ([obj isGhosted]) {
 			return YES;
+		}
 	}
 
 	return NO;
@@ -835,7 +784,7 @@
 #pragma mark -
 #pragma mark As an NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -851,8 +800,6 @@
 	[self invalidateCache];
 	[m_objects makeObjectsPerformSelector:@selector(setContainer:)
 							   withObject:nil];
-	[m_objects release];
-	[super dealloc];
 }
 
 #pragma mark -
@@ -919,7 +866,7 @@
 			   forKey:@"DKShapeGroup_clipContent"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -927,11 +874,9 @@
 		[self setObjects:[coder decodeObjectForKey:@"groupedobjects"]];
 
 		if (m_objects == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[[self path] appendBezierPathWithRect:[[self class] unitRectAtOrigin]];
 		mBounds = [coder decodeRectForKey:@"group_bounds"];
 
@@ -948,21 +893,17 @@
 	DKShapeGroup* copy = [super copyWithZone:zone];
 
 	NSMutableArray* objectsCopy = [[NSMutableArray alloc] init];
-	NSEnumerator* iter = [[self groupObjects] objectEnumerator];
-	DKDrawableShape* obj;
-	DKDrawableShape* copyOfObj;
 
 	// make a deep copy of the group's objects
 
-	while ((obj = [iter nextObject])) {
-		copyOfObj = [obj copyWithZone:zone];
+	for (DKDrawableShape* obj in self.groupObjects) {
+		DKDrawableShape* copyOfObj = [obj copyWithZone:zone];
 
 		[objectsCopy addObject:copyOfObj];
 		[copyOfObj setContainer:copy];
-		[copyOfObj release];
 	}
 
-	copy->m_objects = objectsCopy;
+	copy->m_objects = [objectsCopy copyWithZone:zone];
 	copy->mBounds = mBounds;
 	copy->mClipContentToPath = mClipContentToPath;
 

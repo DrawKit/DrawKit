@@ -8,12 +8,6 @@
 
 @implementation DKDrawing (Paper)
 
-/** @brief Returns the size (in Quartz drawing units) of an A0 piece of paper.
-
- Result may be passed directly to setDrawingSize:
- @param portrait YES if in portrait orientation, NO for landscape.
- @return the paper size
- */
 + (NSSize)isoA0PaperSize:(BOOL)portrait
 {
 	// A0 is defined as a sheet 1m^2 in area with sides of ratio 1:sqrt(2) which gives 841 x 1189 mm
@@ -31,12 +25,6 @@
 	return a0;
 }
 
-/** @brief Returns the size (in Quartz drawing units) of an A1 piece of paper.
-
- Result may be passed directly to setDrawingSize:
- @param portrait YES if in portrait orientation, NO for landscape.
- @return the paper size
- */
 + (NSSize)isoA1PaperSize:(BOOL)portrait
 {
 	NSSize a1 = [self isoA0PaperSize:!portrait];
@@ -49,12 +37,6 @@
 	return a1;
 }
 
-/** @brief Returns the size (in Quartz drawing units) of an A2 piece of paper.
-
- Result may be passed directly to setDrawingSize:
- @param portrait YES if in portrait orientation, NO for landscape.
- @return the paper size
- */
 + (NSSize)isoA2PaperSize:(BOOL)portrait
 {
 	NSSize a2 = [self isoA1PaperSize:!portrait];
@@ -67,12 +49,6 @@
 	return a2;
 }
 
-/** @brief Returns the size (in Quartz drawing units) of an A3 piece of paper.
-
- Result may be passed directly to setDrawingSize:
- @param portrait YES if in portrait orientation, NO for landscape.
- @return the paper size
- */
 + (NSSize)isoA3PaperSize:(BOOL)portrait
 {
 	NSSize a3 = [self isoA2PaperSize:!portrait];
@@ -85,12 +61,6 @@
 	return a3;
 }
 
-/** @brief Returns the size (in Quartz drawing units) of an A4 piece of paper.
-
- Result may be passed directly to setDrawingSize:
- @param portrait YES if in portrait orientation, NO for landscape.
- @return the paper size
- */
 + (NSSize)isoA4PaperSize:(BOOL)portrait
 {
 	NSSize a4 = [self isoA3PaperSize:!portrait];
@@ -103,12 +73,6 @@
 	return a4;
 }
 
-/** @brief Returns the size (in Quartz drawing units) of an A5 piece of paper.
-
- Result may be passed directly to setDrawingSize:
- @param portrait YES if in portrait orientation, NO for landscape.
- @return the paper size
- */
 + (NSSize)isoA5PaperSize:(BOOL)portrait
 {
 	NSSize a5 = [self isoA4PaperSize:!portrait];

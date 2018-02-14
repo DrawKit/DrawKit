@@ -15,6 +15,6 @@
 	NSBezierPath* mPath;
 }
 
-- (void)setBezierPath:(NSBezierPath*)aPath;
+@property (nonatomic, copy, nullable) NSBezierPath* bezierPath;
 
 @end

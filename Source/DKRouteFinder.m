@@ -10,9 +10,9 @@ static CGFloat anneal(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger nc
 static void progressCallback(CGFloat iteration, CGFloat maxIterations, const void* context);
 static DKDirection directionOfAngle(const CGFloat angle);
 
-@interface DKRouteFinder (Private)
+@interface DKRouteFinder ()
 
-- (id)initWithArray:(NSArray*)array;
+- (id)initWithArray:(NSArray<NSValue*>*)array;
 - (void)notifyProgress:(CGFloat)value;
 - (NSUInteger)nearestNeighbourInArray:(NSArray*)arrayOfPoint toPoint:(NSPoint)cvp inDirection:(DKDirection)direction;
 - (NSArray*)sortArrayUsingNearestNeighbour:(NSArray*)points;
@@ -36,13 +36,18 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	s_Algorithm = algType;
 }
 
++ (DKRouteAlgorithmType)algorithm
+{
+	return s_Algorithm;
+}
+
 + (DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray*)arrayOfPoints
 {
 	NSAssert(arrayOfPoints != nil, @"cannot operate on a nil array");
 
 	DKRouteFinder* tsp = [[self alloc] initWithArray:arrayOfPoints];
 
-	return [tsp autorelease];
+	return tsp;
 }
 
 + (DKRouteFinder*)routeFinderWithObjects:(NSArray*)objects withValueForKey:(NSString*)key
@@ -86,11 +91,11 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	NSNumber* num;
 
 	for (k = 1; k <= [mInput count]; ++k) {
-		num = [NSNumber numberWithInteger:mOrder[k] - 1];
+		num = @(mOrder[k] - 1);
 		[routeOrder addObject:num];
 	}
 
-	return routeOrder;
+	return [routeOrder copy];
 }
 
 - (NSArray*)sortedArrayFromArray:(NSArray*)anArray
@@ -141,11 +146,10 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	return mPathLength;
 }
 
-- (DKRouteAlgorithmType)algorithm
-{
-	return mAlgorithm;
-}
+@synthesize algorithm=mAlgorithm;
 
+@synthesize progressDelegate=mProgressDelegate;
+#if 0
 - (void)setProgressDelegate:(id)aDelegate
 {
 	// set a delegate that will be called with progress information as the route finder proceeds. Note that
@@ -154,11 +158,12 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 	mProgressDelegate = aDelegate;
 }
+#endif
 
 #pragma mark -
 #pragma mark - private methods
 
-- (id)initWithArray:(NSArray*)array
+- (instancetype)initWithArray:(NSArray*)array
 {
 	self = [super init];
 	if (self != nil) {
@@ -175,12 +180,11 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 		// anneal algorithm requires at least four.
 
 		if ([array count] < 4) {
-			[self autorelease];
 			return nil;
 		}
 
 		mCalculationDone = NO;
-		mInput = [array retain];
+		mInput = array;
 		mAnnealingSteps = kDKDefaultAnnealingSteps;
 
 		// prepare for the computation by allocating C arrays and populating them from the input.
@@ -190,26 +194,28 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 		mOrder = malloc(sizeof(NSInteger) * n);
 		NSInteger kludge = 1;
+#if defined(__LP64__) && __LP64__
+		memset_pattern8(mOrder, &kludge, sizeof(NSInteger) * n);
+#else
 		memset_pattern4(mOrder, &kludge, sizeof(NSInteger) * n);
+#endif
 
 		if ((mAlgorithm & kDKUseSimulatedAnnealing) != 0) {
 			mX = malloc(sizeof(CGFloat) * n);
 			mY = malloc(sizeof(CGFloat) * n);
 
 			NSInteger k = 0;
-			NSEnumerator* iter = [array objectEnumerator];
-			NSValue* val;
 
-			while ((val = [iter nextObject])) {
+			for (NSValue *val in array) {
 				++k; // preincrement, start loading arrays from 1
 
 				if (strcmp([val objCType], @encode(NSPoint)) == 0) {
 					mX[k] = [val pointValue].x;
 					mY[k] = [val pointValue].y;
 				} else {
-					[self autorelease];
 					[NSException raise:NSInternalInconsistencyException
 								format:@"NSValue passed did not contain NSPoint"];
+					return nil;
 				}
 
 				mOrder[k] = k;
@@ -222,9 +228,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 - (void)dealloc
 {
-	[mInput release];
-	[mVisited release];
-
 	if (mX)
 		free(mX);
 
@@ -233,8 +236,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 	if (mOrder)
 		free(mOrder);
-
-	[super dealloc];
 }
 
 - (void)notifyProgress:(CGFloat)value
@@ -261,7 +262,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	for (k = 0; k < [arrayOfPoint count]; ++k) {
 		p = [[arrayOfPoint objectAtIndex:k] pointValue];
 
-		dist = hypotf(p.x - cvp.x, p.y - cvp.y);
+		dist = hypot(p.x - cvp.x, p.y - cvp.y);
 
 		if (dist < shortestDistanceSoFar) {
 			// could be a candidate - check whether it falls within the direction limits
@@ -270,7 +271,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 				shortestDistanceSoFar = dist;
 				nn = k;
 			} else {
-				DKDirection ad = directionOfAngle(atan2f(p.y - cvp.y, p.x - cvp.x));
+				DKDirection ad = directionOfAngle(atan2(p.y - cvp.y, p.x - cvp.x));
 
 				if (ad == direction) {
 					shortestDistanceSoFar = dist;
@@ -362,7 +363,6 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 		mOrder[++k] = [points indexOfObject:[mVisited lastObject]] + 1;
 	} while ([workingList count] > 0);
 
-	[workingList release];
 	[self notifyProgress:1.0];
 
 	// mVisited is the sorted list of original points
@@ -381,7 +381,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 	while ((val = [iter nextObject])) {
 		pt = [val pointValue];
-		pl += hypotf(pt.x - pp.x, pt.y - pp.y);
+		pl += hypot(pt.x - pp.x, pt.y - pp.y);
 		pp = pt;
 	}
 
@@ -403,7 +403,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 		mCalculationDone = YES;
 
 		if ((mAlgorithm & kDKUseSimulatedAnnealing) != 0) {
-			anneal(mX, mY, mOrder, [mInput count], mAnnealingSteps, self);
+			anneal(mX, mY, mOrder, [mInput count], mAnnealingSteps, (__bridge const void *)(self));
 			mPathLength = [self pathLengthOfArray:[self shortestRoute]];
 		}
 
@@ -418,7 +418,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 void progressCallback(CGFloat iteration, CGFloat maxIterations, const void* context)
 {
-	DKRouteFinder* rf = (DKRouteFinder*)context;
+	DKRouteFinder* rf = (__bridge DKRouteFinder*)context;
 
 	if (rf != nil)
 		[rf notifyProgress:iteration / maxIterations];
@@ -428,8 +428,8 @@ static DKDirection directionOfAngle(const CGFloat angle)
 {
 	// given an angle in radians, returns its basic direction.
 
-	CGFloat fortyFiveDegrees = pi * 0.25f;
-	CGFloat oneThirtyFiveDegrees = pi * 0.75f;
+	CGFloat fortyFiveDegrees = M_PI_4;
+	CGFloat oneThirtyFiveDegrees = M_PI * 0.75;
 
 	if (angle >= -fortyFiveDegrees && angle < fortyFiveDegrees)
 		return kDirectionEast;
@@ -463,12 +463,14 @@ static void trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[]);
 
 NSInteger* ivector(long nl, long nh)
 {
-	NSInteger* v;
-
-	v = (NSInteger*)malloc((size_t)((nh - nl + 1 + NR_END) * sizeof(NSInteger)));
-	if (v != NULL)
+	NSInteger *v;
+	size_t vSize = ((nh - nl + 1 + NR_END) * sizeof(NSInteger));
+	
+	v = (NSInteger *)malloc(vSize);
+	if (v != NULL) {
+		memset(v, 0, vSize);
 		return v - nl + NR_END;
-	else
+	} else
 		return NULL;
 }
 
@@ -557,17 +559,17 @@ NSInteger irbit1(unsigned long* iseed)
 }
 
 /*
-This algorithm ﬁnds the shortest round-trip path to ncity cities whose coordinates are in the 
-arrays x[1..ncity], y[1..ncity]. The array iorder[1..ncity] speciﬁes the order in 
-which the cities are visited. On input, the elements of iorder may be set to any permutation 
-of the numbers 1 to ncity. This routine will return the best alternative path it can ﬁnd. 
+This algorithm ﬁnds the shortest round-trip path to ncity cities whose coordinates are in the
+arrays x[1..ncity], y[1..ncity]. The array iorder[1..ncity] speciﬁes the order in
+which the cities are visited. On input, the elements of iorder may be set to any permutation
+of the numbers 1 to ncity. This routine will return the best alternative path it can ﬁnd.
 
 function result is the final path length
 */
 
 #pragma mark -
 #define TFACTR 0.9 // Annealing schedule: reduce t by this factor on each step.
-#define ALEN(a, b, c, d) _CGFloatSqrt(((b) - (a)) * ((b) - (a)) + ((d) - (c)) * ((d) - (c)))
+#define ALEN(a, b, c, d) sqrt(((b) - (a)) * ((b) - (a)) + ((d) - (c)) * ((d) - (c)))
 
 CGFloat anneal(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NSInteger annealingSteps, const void* context)
 {
@@ -671,11 +673,11 @@ CGFloat anneal(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 }
 
 /*
-This function returns the value of the cost function for a proposed path reversal. ncity is the 
-number of cities, and arrays x[1..ncity], y[1..ncity] give the coordinates of these cities. 
-iorder[1..ncity] holds the present itinerary. The ﬁrst two values n[1] and n[2] of array 
-n give the starting and ending cities along the path segment which is to be reversed. On output, 
-de is the cost of making the reversal. The actual reversal is not performed by this routine. 
+This function returns the value of the cost function for a proposed path reversal. ncity is the
+number of cities, and arrays x[1..ncity], y[1..ncity] give the coordinates of these cities.
+iorder[1..ncity] holds the present itinerary. The ﬁrst two values n[1] and n[2] of array
+n give the starting and ending cities along the path segment which is to be reversed. On output,
+de is the cost of making the reversal. The actual reversal is not performed by this routine.
 */
 
 CGFloat revcst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -701,11 +703,11 @@ CGFloat revcst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 }
 
 /*
-This routine performs a path segment reversal. iorder[1..ncity] is an input array giving the 
-present itinerary. The vector n has as its ﬁrst four elements the ﬁrst and last cities n[1],n[2] 
-of the path segment to be reversed, and the two cities n[3] and n[4] that immediately 
-precede and follow this segment. n[3]and n[4] are found by function revcst. On output, 
-iorder[1..ncity] contains thesegment from n[1] t on[2] in reversed order. 
+This routine performs a path segment reversal. iorder[1..ncity] is an input array giving the
+present itinerary. The vector n has as its ﬁrst four elements the ﬁrst and last cities n[1],n[2]
+of the path segment to be reversed, and the two cities n[3] and n[4] that immediately
+precede and follow this segment. n[3]and n[4] are found by function revcst. On output,
+iorder[1..ncity] contains thesegment from n[1] t on[2] in reversed order.
 */
 
 void reverse(NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -724,12 +726,12 @@ void reverse(NSInteger iorder[], NSInteger ncity, NSInteger n[])
 }
 
 /*
-This routine returns the value of the cost function for a proposed path segment transport. ncity 
-is the number of cities, and arrays x[1..ncity] and y[1..ncity] give the city coordinates. 
-iorder[1..ncity] is an array giving the present itinerary. The ﬁrst three elements of array 
-n give the starting and ending cities of the path to be transported, and the point among the 
-remaining cities after which it is to be inserted. On output, de is the cost of the change. The 
-actual transport is not performed by this routine. 
+This routine returns the value of the cost function for a proposed path segment transport. ncity
+is the number of cities, and arrays x[1..ncity] and y[1..ncity] give the city coordinates.
+iorder[1..ncity] is an array giving the present itinerary. The ﬁrst three elements of array
+n give the starting and ending cities of the path to be transported, and the point among the
+remaining cities after which it is to be inserted. On output, de is the cost of the change. The
+actual transport is not performed by this routine.
 */
 
 CGFloat trncst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -759,13 +761,13 @@ CGFloat trncst(CGFloat x[], CGFloat y[], NSInteger iorder[], NSInteger ncity, NS
 	return de;
 }
 
-/* 
-This routine does the actual path transport, once metrop has approved. iorder[1..ncity] 
-is an input array giving the present itinerary. The array n has as its six elements the beginning 
-n[1] and end n[2] of the path to be transported, the adjacent cities n[3] and n[4] between 
-which the path is to be placed, and the cities n[5] and n[6] tha tprecede and follow the path. 
-n[4], n[5], and n[6] are calculated by function trncst. On output, iorder is modiﬁed to 
-reﬂect the movement of the path segment. 
+/*
+This routine does the actual path transport, once metrop has approved. iorder[1..ncity]
+is an input array giving the present itinerary. The array n has as its six elements the beginning
+n[1] and end n[2] of the path to be transported, the adjacent cities n[3] and n[4] between
+which the path is to be placed, and the cities n[5] and n[6] tha tprecede and follow the path.
+n[4], n[5], and n[6] are calculated by function trncst. On output, iorder is modiﬁed to
+reﬂect the movement of the path segment.
 */
 
 void trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[])
@@ -804,15 +806,15 @@ void trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[])
 }
 
 /*
-Metropolis algorithm. metrop returns a boolean variable that issues a verdict on whether 
-to accept a reconﬁguration that leads to a changed e in the objective function e. If de < 0, 
-metrop = 1(true), while if de > 0, metrop is only true with probability exp(-de/t), where 
-t is a temperature determined by the annealing schedule. 
+Metropolis algorithm. metrop returns a boolean variable that issues a verdict on whether
+to accept a reconﬁguration that leads to a changed e in the objective function e. If de < 0,
+metrop = 1(true), while if de > 0, metrop is only true with probability exp(-de/t), where
+t is a temperature determined by the annealing schedule.
 */
 
 NSInteger metrop(CGFloat de, CGFloat t)
 {
 	static long gljdum = 1;
 
-	return de < 0.0 || ran3(&gljdum) < _CGFloatExp(-de / t);
+	return de < 0.0 || ran3(&gljdum) < exp(-de / t);
 }

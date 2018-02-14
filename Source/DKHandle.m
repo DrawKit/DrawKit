@@ -13,7 +13,7 @@
 #import "DKQuartzCache.h"
 #import "NSColor+DKAdditions.h"
 
-@interface DKHandle (Private)
+@interface DKHandle ()
 
 + (NSString*)keyForKnobType:(DKKnobType)type;
 
@@ -96,7 +96,6 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 		if (inst != nil) {
 			[s_handleInstancesTable setObject:inst
 									   forKey:key];
-			[inst release];
 
 			//NSLog(@"added handle instance %@, key = %@, total instances = %d", inst, key, [s_handleInstancesTable count]);
 		}
@@ -148,13 +147,13 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 
 #pragma mark -
 
-- (id)initWithSize:(NSSize)size
+- (instancetype)initWithSize:(NSSize)size
 {
 	return [self initWithSize:size
 					   colour:nil];
 }
 
-- (id)initWithSize:(NSSize)size colour:(NSColor*)colour
+- (instancetype)initWithSize:(NSSize)size colour:(NSColor*)colour
 {
 	self = [super init];
 	if (self) {
@@ -171,22 +170,8 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 	return self;
 }
 
-- (NSSize)size
-{
-	return mSize;
-}
-
-- (void)setColour:(NSColor*)colour
-{
-	[colour retain];
-	[mColour release];
-	mColour = colour;
-}
-
-- (NSColor*)colour
-{
-	return mColour;
-}
+@synthesize size=mSize;
+@synthesize colour=mColour;
 
 - (void)drawAtPoint:(NSPoint)point
 {
@@ -197,7 +182,7 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 - (void)drawAtPoint:(NSPoint)point angle:(CGFloat)radians
 {
 	if (mCache == nil) {
-		mCache = [[DKQuartzCache cacheForCurrentContextWithSize:[self size]] retain];
+		mCache = [DKQuartzCache cacheForCurrentContextWithSize:[self size]];
 
 		[mCache lockFocus];
 
@@ -264,17 +249,10 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 
 + (NSString*)keyForKnobType:(DKKnobType)type
 {
-	return [NSString stringWithFormat:@"hnd_type_%d", type];
+	return [NSString stringWithFormat:@"hnd_type_%ld", (long)type];
 }
 
 #pragma mark -
 #pragma mark - as a NSObject
-
-- (void)dealloc
-{
-	[mCache release];
-	[mColour release];
-	[super dealloc];
-}
 
 @end

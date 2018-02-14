@@ -1,0 +1,250 @@
+framework module DKDrawKit [extern_c] [system] /* declaring this as a system framework (eww) is the only way to make Swift see NSUIntegers as Ints. This is stupid. */ {
+  umbrella header "DKDrawKit.h"
+  config_macros qUseLogEvent
+
+	module DKObjectDrawingLayer {
+		header "DKObjectDrawingLayer.h"
+
+		module Alignment {
+			header "DKObjectDrawingLayer+Alignment.h"
+			export *
+		}
+
+		module Duplication {
+			header "DKObjectDrawingLayer+Duplication.h"
+			export *
+		}
+
+		export *
+	}
+
+	module DKGradient {
+		header "DKGradient.h"
+		
+		module Extensions {
+			header "DKGradientExtensions.h"
+			export *
+		}
+		
+		module UISupport {
+			header "DKGradient+UISupport.h"
+			export *
+		}
+		
+		export *
+	}
+
+	module DKLayer {
+		header "DKLayer.h"
+		
+		module Metadata {
+			header "DKLayer+Metadata.h"
+			export *
+		}
+		
+		export *
+	}
+
+	module DKStyle {
+		header "DKStyle.h"
+		
+		module SimpleAccess {
+			header "DKStyle+SimpleAccess.h"
+			export *
+		}
+		
+		module Text {
+			header "DKStyle+Text.h"
+			export *
+		}
+		
+		export *
+	}
+	
+	module DKDrawing {
+		header "DKDrawing.h"
+		
+		module Export {
+			header "DKDrawing+Export.h"
+			export *
+		}
+		
+		module Paper {
+			header "DKDrawing+Paper.h"
+			export *
+		}
+		
+		export *
+	}
+	
+	module DKDrawableObject {
+		header "DKDrawableObject.h"
+		
+		module Metadata {
+			header "DKDrawableObject+Metadata.h"
+			export *
+		}
+		
+		export *
+	}
+	
+	module DKDrawableShape {
+		header "DKDrawableShape.h"
+		
+		module Hotspots {
+			header "DKDrawableShape+Hotspots.h"
+			export *
+		}
+		
+		export *
+	}
+	
+	module DKAdditions {
+		module NSAffineTransform {
+			header "NSAffineTransform+DKAdditions.h"
+			export *
+		}
+		
+		explicit module NSAttributedString {
+			header "NSAttributedString+DKAdditions.h"
+			export *
+		}
+		
+		module NSBezierPath {
+			module Editing {
+				header "NSBezierPath+Editing.h"
+				export *
+			}
+			
+			module Geometry {
+				header "NSBezierPath+Geometry.h"
+				export *
+			}
+			
+			module Text {
+				header "NSBezierPath+Text.h"
+				export *
+			}
+			
+			explicit module Shapes {
+				requires !objc_arc
+				header "NSBezierPath+Shapes.h"
+				export *
+			}
+			
+			explicit module OAExtensions {
+				requires !objc_arc
+				header "NSBezierPath-OAExtensions.h"
+				export *
+			}
+			
+			export *
+		}
+		
+		module NSColor {
+			header "NSColor+DKAdditions.h"
+			export *
+		}
+		
+		module NSDictionary {
+			module DeepCopy {
+				header "NSDictionary+DeepCopy.h"
+				export *
+			}
+			export *
+		}
+		
+		module NSImage {
+			header "NSImage+DKAdditions.h"
+			export *
+		}
+		
+		module NSMutableArray {
+			header "NSMutableArray+DKAdditions.h"
+			export *
+		}
+		
+		module NSShadow {
+			module Scaling {
+				header "NSShadow+Scaling.h"
+				export *
+			}
+			export *
+		}
+		
+		module NSString {
+			header "NSString+DKAdditions.h"
+			export *
+		}
+		
+		export *
+	}
+	
+  export *
+  module * { export * }
+  
+  explicit module LogEvent {
+	  header "LogEvent.h"
+	  export *
+  }
+  
+  module DKGradientExtensions {
+	  header "DKGradientExtensions.h"
+	  export *
+  }
+  
+  explicit module DKBezierLayoutManager {
+	  header "DKBezierLayoutManager.h"
+	  export *
+  }
+  
+  explicit module DKPasteboardInfo {
+	  header "DKPasteboardInfo.h"
+	  export *
+  }
+  
+  explicit module DKRuntimeHelper {
+	  header "DKRuntimeHelper.h"
+	  export *
+  }
+  
+  explicit module DKCropTool {
+	  header "DKCropTool.h"
+	  export *
+  }
+  
+  explicit module DKTextSubstitutor {
+	  header "DKTextSubstitutor.h"
+	  export *
+  }
+  
+  explicit module CurveFit {
+	  header "CurveFit.h"
+	  export *
+  }
+  
+  explicit module DKUnarchivingHelper {
+	  header "DKUnarchivingHelper.h"
+	  export *
+  }
+  
+  explicit module DKShapeCluster {
+	  header "DKShapeCluster.h"
+	  export *
+  }
+  
+  explicit module DKKeyedUnarchiver {
+	  header "DKKeyedUnarchiver.h"
+	  export *
+  }
+  
+  explicit module DKImageDataManager {
+	  header "DKImageDataManager.h"
+	  export *
+  }
+  
+  explicit module DKSweptAngleGradient {
+	  header "DKSweptAngleGradient.h"
+	  export *
+  }
+}

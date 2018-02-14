@@ -8,18 +8,19 @@
 
 #import "LogEvent.h"
 
-@interface GCOneShotEffectTimer (Private)
-
-- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id)del;
-- (void)setDelegate:(id)del;
-- (id)delegate;
+@interface GCOneShotEffectTimer ()
+{
+	__strong GCOneShotEffectTimer *selfRetained;
+}
+- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del;
+@property (strong) id<GCOneShotDelegate> delegate;
 - (void)osfx_callback:(NSTimer*)timer;
 
 @end
 
 @implementation GCOneShotEffectTimer
 
-+ (id)oneShotWithTime:(NSTimeInterval)t forDelegate:(id)del
++ (id)oneShotWithTime:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del
 {
 	GCOneShotEffectTimer* ft = [[GCOneShotEffectTimer alloc] initWithTimeInterval:t
 																	  forDelegate:del];
@@ -30,15 +31,15 @@
 	return ft;
 }
 
-+ (id)oneShotWithStandardFadeTimeForDelegate:(id)del
++ (id)oneShotWithStandardFadeTimeForDelegate:(id<GCOneShotDelegate>)del
 {
 	return [self oneShotWithTime:kDKStandardFadeTime
 					 forDelegate:del];
 }
 
-- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id)del
+- (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del
 {
-	[super init];
+	if (self = [super init]) {
 	[self setDelegate:del];
 
 	mTotal = t;
@@ -46,7 +47,7 @@
 	if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotWillBegin)])
 		[mDelegate oneShotWillBegin];
 
-	mTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 48.0f
+	mTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 48.0
 											  target:self
 											selector:@selector(osfx_callback:)
 											userInfo:nil
@@ -54,31 +55,18 @@
 	[[NSRunLoop currentRunLoop] addTimer:mTimer
 								 forMode:NSEventTrackingRunLoopMode];
 	mStart = [NSDate timeIntervalSinceReferenceDate];
-
+		selfRetained = self;
+	}
+	
 	return self;
 }
 
 - (void)dealloc
 {
 	[mTimer invalidate];
-	[mDelegate release];
-	[super dealloc];
 }
 
-- (void)setDelegate:(id)del
-{
-	// delegate is retained and released when one-shot completes. This allows some effects to work even
-	// though the original delegate might be released by the caller.
-
-	[del retain];
-	[mDelegate release];
-	mDelegate = del;
-}
-
-- (id)delegate
-{
-	return mDelegate;
-}
+@synthesize delegate=mDelegate;
 
 - (void)osfx_callback:(NSTimer*)timer
 {
@@ -94,7 +82,7 @@
 		if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotComplete)])
 			[mDelegate oneShotComplete];
 
-		[self release];
+		selfRetained = nil;
 	} else {
 		if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotHasReached:)])
 			[mDelegate oneShotHasReached:val];

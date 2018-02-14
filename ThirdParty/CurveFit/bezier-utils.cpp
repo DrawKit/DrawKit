@@ -123,7 +123,7 @@ bezier_fit_cubic(Point *bezier, Point const *data, int len, double error)
  * possible weedout of identical points and NaNs.
  *
  * \param max_beziers Maximum number of generated segments
- * \param Result array, must be large enough for n. segments * 4 elements.
+ * \param bezier Result array, must be large enough for n. segments * 4 elements.
  *
  * \return Number of segments generated, or -1 on error.
  */
@@ -192,7 +192,7 @@ copy_without_nans_or_adjacent_duplicates(Point const src[], unsigned src_len, Po
  * 
  * \pre data is uniqued, i.e. not exist i: data[i] == data[i + 1].
  * \param max_beziers Maximum number of generated segments
- * \param Result array, must be large enough for n. segments * 4 elements.
+ * \param split_points Result array, must be large enough for n. segments * 4 elements.
  */
 int
 bezier_fit_cubic_full(Point bezier[], int split_points[],
@@ -235,7 +235,7 @@ bezier_fit_cubic_full(Point bezier[], int split_points[],
     }
 
     /*  Parameterize points, and attempt to fit curve */
-    unsigned splitPoint;   /* Point to split point set at. */
+    unsigned splitPoint = 0;   /* Point to split point set at. */
     bool is_corner;
     {
         double *u = new double[len];

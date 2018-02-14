@@ -11,11 +11,21 @@ static void glossInterpolation(void* info, const CGFloat* input, CGFloat* output
 static CGFloat perceptualGlossFractionForColor(CGFloat* inputComponents);
 static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* outputComponents);
 
+typedef struct GlossParameters {
+	CGFloat color[4];
+	CGFloat caustic[4];
+	CGFloat expCoefficient;
+	CGFloat expScale;
+	CGFloat expOffset;
+	CGFloat initialWhite;
+	CGFloat finalWhite;
+} GlossParameters;
+
 @implementation DKGradient (UISupport)
 
-/**  */
 + (DKGradient*)aquaSelectedGradient
 {
+	// TODO: Are these still good values?
 	DKGradient* grad = [[DKGradient alloc] init];
 
 	[grad addColor:[NSColor colorWithCalibratedRed:0.58
@@ -38,9 +48,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.90
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)aquaNormalGradient
@@ -67,9 +77,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.92
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)aquaPressedGradient
@@ -96,9 +106,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.77
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)unifiedSelectedGradient
@@ -115,9 +125,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.95
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)unifiedNormalGradient
@@ -134,9 +144,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.90
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)unifiedPressedGradient
@@ -153,9 +163,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.75
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)unifiedDarkGradient
@@ -172,9 +182,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.83
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)sourceListSelectedGradient
@@ -190,9 +200,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.92
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (DKGradient*)sourceListUnselectedGradient
@@ -209,9 +219,9 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 											  blue:0.60
 											 alpha:1.00]
 				at:1.0];
-	[grad setAngleInDegrees:90];
+	grad.angle = M_PI_2;
 
-	return [grad autorelease];
+	return grad;
 }
 
 + (void)drawShinyGradientInRect:(NSRect)inRect withColour:(NSColor*)colour
@@ -228,7 +238,7 @@ static void perceptualCausticColorForColor(CGFloat* inputComponents, CGFloat* ou
 	GlossParameters params;
 
 	params.expCoefficient = EXP_COEFFICIENT;
-	params.expOffset = _CGFloatExp(-params.expCoefficient);
+	params.expOffset = exp(-params.expCoefficient);
 	params.expScale = 1.0 / (1.0 - params.expOffset);
 
 	NSColor* source = [colour colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
@@ -295,7 +305,7 @@ static void glossInterpolation(void* info, const CGFloat* input, CGFloat* output
 	CGFloat progress = *input;
 	if (progress < 0.5) {
 		progress = progress * 2.0;
-		progress = 1.0 - params->expScale * (_CGFloatExp(progress * -params->expCoefficient) - params->expOffset);
+		progress = 1.0 - params->expScale * (exp(progress * -params->expCoefficient) - params->expOffset);
 
 		CGFloat currentWhite = progress * (params->finalWhite - params->initialWhite) + params->initialWhite;
 
@@ -306,7 +316,7 @@ static void glossInterpolation(void* info, const CGFloat* input, CGFloat* output
 	} else {
 		progress = (progress - 0.5) * 2.0;
 
-		progress = params->expScale * (_CGFloatExp((1.0 - progress) * -params->expCoefficient) - params->expOffset);
+		progress = params->expScale * (exp((1.0 - progress) * -params->expCoefficient) - params->expOffset);
 
 		output[0] = params->color[0] * (1.0 - progress) + params->caustic[0] * progress;
 		output[1] = params->color[1] * (1.0 - progress) + params->caustic[1] * progress;

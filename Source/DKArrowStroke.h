@@ -4,11 +4,16 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
 
-// arrow head kinds - each end can be specified independently:
+NS_ASSUME_NONNULL_BEGIN
 
-typedef enum {
+@protocol DKArrowSrokeDimensioning;
+
+/** @brief arrow head kinds - each end can be specified independently:
+ */
+typedef NS_ENUM(NSInteger, DKArrowHeadKind) {
 	kDKArrowHeadNone = 0,
 	kDKArrowHeadStandard = 1,
 	kDKArrowHeadInflected = 2,
@@ -20,38 +25,38 @@ typedef enum {
 	kDKArrowHeadDimensionLineAndBar = 8,
 	kDKArrowHeadSquare = 9,
 	kDKArrowHeadDiamond = 10
-} DKArrowHeadKind;
+};
 
-// positioning of dimension label, or none:
-
-typedef enum {
+/** @brief positioning of dimension label, or none:
+ */
+typedef NS_ENUM(NSInteger, DKDimensioningLineOptions) {
 	kDKDimensionNone = 0,
 	kDKDimensionPlaceAboveLine = 1,
 	kDKDimensionPlaceInLine = 2,
 	kDKDimensionPlaceBelowLine = 3
-} DKDimensioningLineOptions;
+};
 
-// dimension kind - sets additional embellishments on the dimension text:
-
-typedef enum {
+/** @brief dimension kind - sets additional embellishments on the dimension text:
+ */
+typedef NS_ENUM(NSInteger, DKDimensionTextKind) {
 	kDKDimensionLinear = 0,
 	kDKDimensionDiameter = 1,
 	kDKDimensionRadius = 2,
 	kDKDimensionAngle = 3
-} DKDimensionTextKind;
+};
 
-// tolerance options:
-
-typedef enum {
+/** @brief tolerance options:
+ */
+typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 	kDKDimensionToleranceNotShown = 0,
 	kDKDimensionToleranceShown = 1
-} DKDimensionToleranceOption;
+};
 
 // the class:
 
 /** @brief DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths.
 
- DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
+ \c DKArrowStroke is a rasterizer that implements arrowheads on the ends of paths. The heads are drawn by filling the
  arrowhead using the same colour as the stroke, thus seamlessly blending the head into the path. Where multiple
  strokes are used, the resulting effect should be correct when angles are kept the same and lengths are calculated
  from the stroke width.
@@ -70,24 +75,19 @@ typedef enum {
 	DKDimensionToleranceOption mDimToleranceOptions;
 }
 
-+ (void)setDimensioningLineTextAttributes:(NSDictionary*)attrs;
-+ (NSDictionary*)dimensioningLineTextAttributes;
-+ (DKArrowStroke*)standardDimensioningLine;
+@property (class, retain, null_resettable) NSDictionary<NSAttributedStringKey,id> *dimensioningLineTextAttributes;
+@property (class, readonly, retain) DKArrowStroke *standardDimensioningLine;
 + (NSNumberFormatter*)defaultDimensionLineFormatter;
 
 // head kind at each end
 
-- (void)setArrowHeadAtStart:(DKArrowHeadKind)kind;
-- (void)setArrowHeadAtEnd:(DKArrowHeadKind)kind;
-- (DKArrowHeadKind)arrowHeadAtStart;
-- (DKArrowHeadKind)arrowHeadAtEnd;
+@property DKArrowHeadKind arrowHeadAtStart;
+@property DKArrowHeadKind arrowHeadAtEnd;
 
 // head widths and lengths (some head kinds may set these also)
 
-- (void)setArrowHeadWidth:(CGFloat)width;
-- (CGFloat)arrowHeadWidth;
-- (void)setArrowHeadLength:(CGFloat)length;
-- (CGFloat)arrowHeadLength;
+@property CGFloat arrowHeadWidth;
+@property CGFloat arrowHeadLength;
 
 - (void)standardArrowForStrokeWidth:(CGFloat)sw;
 
@@ -95,39 +95,31 @@ typedef enum {
 - (void)setOutlineColour:(NSColor*)colour width:(CGFloat)width;
 #endif
 
-- (void)setOutlineColour:(NSColor*)colour;
-- (NSColor*)outlineColour;
-- (void)setOutlineWidth:(CGFloat)width;
-- (CGFloat)outlineWidth;
+@property (copy) NSColor *outlineColour;
+@property CGFloat outlineWidth;
 
 - (NSImage*)arrowSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width;
 - (NSImage*)standardArrowSwatchImage;
 
-- (NSBezierPath*)arrowPathFromOriginalPath:(NSBezierPath*)inPath fromObject:(id)obj;
+- (nullable NSBezierPath*)arrowPathFromOriginalPath:(NSBezierPath*)inPath fromObject:(id)obj;
 
 // dimensioning lines:
 
-- (void)setFormatter:(NSNumberFormatter*)fmt;
-- (NSNumberFormatter*)formatter;
+@property (strong) NSNumberFormatter *formatter;
 - (void)setFormat:(NSString*)format;
 
-- (void)setDimensioningLineOptions:(DKDimensioningLineOptions)dimOps;
-- (DKDimensioningLineOptions)dimensioningLineOptions;
+@property (nonatomic) DKDimensioningLineOptions dimensioningLineOptions;
 
-- (NSAttributedString*)dimensionTextForObject:(id)obj;
+- (nullable NSAttributedString*)dimensionTextForObject:(nullable id<DKArrowSrokeDimensioning>)obj;
 - (CGFloat)widthOfDimensionTextForObject:(id)obj;
 - (NSString*)toleranceTextForObject:(id)object;
 
-- (void)setDimensionTextKind:(DKDimensionTextKind)kind;
-- (DKDimensionTextKind)dimensionTextKind;
+@property (nonatomic) DKDimensionTextKind dimensionTextKind;
 
-- (void)setDimensionToleranceOption:(DKDimensionToleranceOption)option;
-- (DKDimensionToleranceOption)dimensionToleranceOption;
+@property DKDimensionToleranceOption dimensionToleranceOption;
 
-- (void)setTextAttributes:(NSDictionary*)dict;
-- (NSDictionary*)textAttributes;
-- (void)setFont:(NSFont*)font;
-- (NSFont*)font;
+@property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+@property (strong) NSFont *font;
 
 @end
 
@@ -135,7 +127,7 @@ typedef enum {
 
  If it does not respond, the rasterizer infers the values from the path length and its internal values.
  */
-@interface NSObject (DKArrowSrokeDimensioning)
+@protocol DKArrowSrokeDimensioning <NSObject>
 
 - (NSDictionary*)dimensionValuesForArrowStroke:(DKArrowStroke*)arrowStroke;
 
@@ -144,7 +136,9 @@ typedef enum {
 #define kDKStandardArrowSwatchImageSize (NSMakeSize(80.0, 9.0))
 #define kDKStandardArrowSwatchStrokeWidth 3.0
 
-extern NSString* kDKPositiveToleranceKey;
-extern NSString* kDKNegativeToleranceKey;
-extern NSString* kDKDimensionValueKey;
-extern NSString* kDKDimensionUnitsKey;
+extern NSString* const kDKPositiveToleranceKey;
+extern NSString* const kDKNegativeToleranceKey;
+extern NSString* const kDKDimensionValueKey;
+extern NSString* const kDKDimensionUnitsKey;
+
+NS_ASSUME_NONNULL_END

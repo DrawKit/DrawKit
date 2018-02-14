@@ -16,19 +16,19 @@
 
 #pragma mark Contants(Non - localized)
 
-NSString* kDKWillChangeToolNotification = @"kDKWillChangeToolNotification";
-NSString* kDKDidChangeToolNotification = @"kDKDidChangeToolNotification";
-NSString* kDKDidChangeToolAutoRevertStateNotification = @"kDKDidChangeToolAutoRevertStateNotification";
+NSString* const kDKWillChangeToolNotification = @"kDKWillChangeToolNotification";
+NSString* const kDKDidChangeToolNotification = @"kDKDidChangeToolNotification";
+NSString* const kDKDidChangeToolAutoRevertStateNotification = @"kDKDidChangeToolAutoRevertStateNotification";
 
-NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActivatesLayer";
+NSString* const kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActivatesLayer";
 
-@interface DKToolController (Private)
+@interface DKToolController ()
 
 /** @brief Returns the drawing tool currently set for the given drawing
 
  This is used when the tool scope is per-document. In that case the tool is associated with the
  drawing, not the individual view.
- @param dwg a key for the drawing object
+ @param drawingKey a key for the drawing object
  @return the current tool set for the drawing
  */
 + (DKDrawingTool*)drawingToolForDrawing:(NSString*)drawingKey;
@@ -38,7 +38,7 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
  This is used when the tool scope is per-document. In that case the tool is associated with the
  document, not the individual view.
  @param tool the tool to set
- @param dwg a key for the drawing object
+ @param drawingKey a key for the drawing object
  */
 + (void)setDrawingTool:(DKDrawingTool*)tool forDrawing:(NSString*)drawingKey;
 
@@ -55,6 +55,8 @@ NSString* kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAutoActiv
  @param tool the tool to set
  */
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool;
+
+@property (class, retain) DKDrawingTool *globalDrawingTool;
 
 /** @brief Search for a layer usable with a given tool.
 
@@ -111,8 +113,6 @@ static DKDrawingTool* sGlobalTool = nil;
 
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool
 {
-	[tool retain];
-	[sGlobalTool release];
 	sGlobalTool = tool;
 }
 
@@ -181,7 +181,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	NSAssert(aTool != nil, @"attempt to set a nil tool");
 
 	if (aTool != [self drawingTool]) {
-		DKDrawingTool* oldTool = [[self drawingTool] retain];
+		DKDrawingTool* oldTool = [self drawingTool];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKWillChangeToolNotification
 															object:self];
@@ -189,8 +189,6 @@ static DKDrawingTool* sGlobalTool = nil;
 
 		switch ([[self class] drawingToolOperatingScope]) {
 		case kDKToolScopeLocalToView:
-			[aTool retain];
-			[mTool release];
 			mTool = aTool;
 			break;
 
@@ -211,8 +209,6 @@ static DKDrawingTool* sGlobalTool = nil;
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDidChangeToolNotification
 															object:self];
 
-		[oldTool release];
-
 		// check if the current layer is usable with the tool and the class enables auto-activation. If it does,
 		// find an alternative layer and make it active
 
@@ -227,16 +223,10 @@ static DKDrawingTool* sGlobalTool = nil;
 	}
 }
 
-/** @brief Select the tool using its registered name
-
- Tools must be registered in the DKDrawingTool registry with the given name before you can use this
- method to set them, otherwise an exception is thrown.
- @param name the registered name of the required tool
- */
 - (void)setDrawingToolWithName:(NSString*)name
 {
 	if (name != nil && [name length] > 0) {
-		DKDrawingTool* tool = [DKDrawingTool drawingToolWithName:name];
+		DKDrawingTool* tool = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:name];
 
 		LogEvent_(kStateEvent, @"tool controller selecting tool with name '%@', tool = %@", name, tool);
 
@@ -268,15 +258,8 @@ static DKDrawingTool* sGlobalTool = nil;
 	}
 }
 
-/** @brief Check if the tool can be set for the current active layer
+@synthesize drawingTool=mTool;
 
- Can be used to test whether a tool is able to be selected in the current context. There is no
- requirement to use this - you can set the drawing tool anyway and if an attempt to use it in
- an invalid layer is made, the tool controller will handle it anyway. A UI might want to use this
- to prevent the selection of a tool before it gets to that point however.
- @param aTool the propsed drawing tool
- @return YES if the tool can be applied to the current active layer, NO if not
- */
 - (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool
 {
 	NSAssert(aTool != nil, @"tool is nil in -canSetDrawingTool:");
@@ -300,15 +283,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	}
 }
 
-/** @brief Whether the tool should automatically "spring back" to the selection tool after each application
-
- The default is YES
- @return YES to spring back, NO to leave the present tool active after each use
- */
-- (BOOL)automaticallyRevertsToSelectionTool
-{
-	return mAutoRevert;
-}
+@synthesize automaticallyRevertsToSelectionTool=mAutoRevert;
 
 /** @brief Draw any tool graphic content into the view
  @param rect the update rect in the view
@@ -324,27 +299,12 @@ static DKDrawingTool* sGlobalTool = nil;
 			  inView:[self view]];
 }
 
-/** @brief Select the tool using its registered name based on the title of a UI control, etc.
-
- This is a convenience for hooking up a UI for picking a tool. You can set the title of a button to
- be the tool's name and target first responder using this action, and it will select the tool if it
- has been registered using the name. This makes UI such as a palette of tools trivial to implement,
- but doesn't preclude you from using any other UI as you see fit.
- @param sender the sender of the action - it should implement -title (e.g. a button, menu item)
- */
 - (IBAction)selectDrawingToolByName:(id)sender
 {
 	NSString* toolName = [sender title];
 	[self setDrawingToolWithName:toolName];
 }
 
-/** @brief Select the tool using the represented object of a UI control, etc.
-
- This is a convenience for hooking up a UI for picking a tool. You can set the rep. object of a button to
- be the tool and target first responder using this action, and it will set the tool to the button's
- represented object.
- @param sender the sender of the action - it should implement -representedObject (e.g. a button, menu item)
- */
 - (IBAction)selectDrawingToolByRepresentedObject:(id)sender
 {
 	if (sender != nil && [sender respondsToSelector:@selector(representedObject)]) {
@@ -373,16 +333,11 @@ static DKDrawingTool* sGlobalTool = nil;
 	[self setAutomaticallyRevertsToSelectionTool:![self automaticallyRevertsToSelectionTool]];
 }
 
-/** @brief Return the undo manager
- @return the drawing's undo manager
- */
 - (id)undoManager
 {
 	return (id)[[self drawing] undoManager];
 }
 
-/** @brief Opens a new undo manager group if one has not already been opened
- */
 - (void)openUndoGroup
 {
 #if DK_ENABLE_UNDO_GROUPING
@@ -395,12 +350,6 @@ static DKDrawingTool* sGlobalTool = nil;
 #endif
 }
 
-/** @brief Closes the current undo manager group if one has been opened
-
- When the controller is set up to always open a group, this also deals with the bogus task bug in
- NSUndoManager, where opening and closig a group creates an empty undo task. If that case is detected,
- the erroneous task is removed from the stack by invoking undo while temporarily disabling the UM.
- */
 - (void)closeUndoGroup
 {
 #if DK_ENABLE_UNDO_GROUPING
@@ -414,8 +363,8 @@ static DKDrawingTool* sGlobalTool = nil;
 
 		// clean up empty undo task if nothing was actually done (NSUndoManager bug workaround)
 		/*
-		NSInteger	groupLevel = [[self undoManager] groupingLevel];
-		NSUInteger	taskCount = [[self undoManager] numberOfTasksInLastGroup];
+		NSInteger    groupLevel = [[self undoManager] groupingLevel];
+		NSUInteger    taskCount = [[self undoManager] numberOfTasksInLastGroup];
 		
 		if( groupLevel == 0 && taskCount == 0 )
 		{
@@ -436,10 +385,7 @@ static DKDrawingTool* sGlobalTool = nil;
 {
 	NSAssert(tool != nil, @"tool passed to findEligibleLayer was nil");
 
-	NSEnumerator* iter = [[[self drawing] flattenedLayers] objectEnumerator];
-	DKLayer* layer;
-
-	while ((layer = [iter nextObject])) {
+	for (DKLayer* layer in [[self drawing] flattenedLayers]) {
 		if (![layer lockedOrHidden] && [layer layerMayBecomeActive] && [tool isValidTargetLayer:layer])
 			return layer;
 	}
@@ -457,14 +403,14 @@ static DKDrawingTool* sGlobalTool = nil;
  @param aView the view associated with the controller
  @return the controller object
  */
-- (id)initWithView:(NSView*)aView
+- (instancetype)initWithView:(NSView*)aView
 {
 	self = [super initWithView:aView];
 	if (self != nil) {
 		[self setAutomaticallyRevertsToSelectionTool:NO];
 	}
 
-	LogEvent_(kInfoEvent, @"created tool controller, current scope = %d", [[self class] drawingToolOperatingScope]);
+	LogEvent_(kInfoEvent, @"created tool controller, current scope = %ld", (long)[[self class] drawingToolOperatingScope]);
 
 	return self;
 }
@@ -486,10 +432,10 @@ static DKDrawingTool* sGlobalTool = nil;
 	if (aDrawing != nil && [self drawingTool] == nil) {
 		DKDrawingTool* se;
 
-		se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
+		se = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:kDKStandardSelectionToolName];
 
 		if (se == nil)
-			se = [[[DKSelectAndEditTool alloc] init] autorelease];
+			se = [[DKSelectAndEditTool alloc] init];
 
 		[self setDrawingTool:se];
 	}
@@ -586,8 +532,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	DKDrawingTool* ct = [self drawingTool];
 
 	if (event != mDragEvent) {
-		[mDragEvent release];
-		mDragEvent = [event retain];
+		mDragEvent = event;
 	}
 
 	if ([event clickCount] <= 1) {
@@ -676,15 +621,14 @@ static DKDrawingTool* sGlobalTool = nil;
 	if ([self automaticallyRevertsToSelectionTool] && ![ct isKindOfClass:[DKSelectAndEditTool class]]) {
 		DKDrawingTool* se;
 
-		se = [DKDrawingTool drawingToolWithName:kDKStandardSelectionToolName];
+		se = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:kDKStandardSelectionToolName];
 
 		if (se == nil)
-			se = [[[DKSelectAndEditTool alloc] init] autorelease];
+			se = [[DKSelectAndEditTool alloc] init];
 
 		[self setDrawingTool:se];
 	}
 
-	[mDragEvent release];
 	mDragEvent = nil;
 }
 
@@ -743,7 +687,7 @@ static DKDrawingTool* sGlobalTool = nil;
  */
 - (void)keyDown:(NSEvent*)event
 {
-	DKDrawingTool* tool = [DKDrawingTool drawingToolWithKeyboardEquivalent:event];
+	DKDrawingTool* tool = [[DKToolRegistry sharedToolRegistry] drawingToolWithKeyboardEquivalent:event];
 
 	if (tool) {
 		[self setAutomaticallyRevertsToSelectionTool:NO];
@@ -751,7 +695,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	} else {
 		@try
 		{
-			[[self view] interpretKeyEvents:[NSArray arrayWithObject:event]];
+			[[self view] interpretKeyEvents:@[event]];
 		}
 		@catch (NSException* excp)
 		{
@@ -807,14 +751,6 @@ static DKDrawingTool* sGlobalTool = nil;
 
 #pragma mark -
 #pragma mark - As an NSObject
-
-/** @brief Deallocate the controller
- */
-- (void)dealloc
-{
-	[mTool release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of NSMenuValidation protocol

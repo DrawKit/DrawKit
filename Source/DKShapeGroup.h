@@ -4,38 +4,48 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawableShape.h"
 #import "DKDrawableContainerProtocol.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKObjectDrawingLayer;
 
-// caching options
-
-typedef enum {
+/** caching options
+ */
+typedef NS_OPTIONS(NSUInteger, DKGroupCacheOption) {
 	kDKGroupCacheNone = 0,
 	kDKGroupCacheUsingPDF = (1 << 0),
 	kDKGroupCacheUsingCGLayer = (1 << 1)
-} DKGroupCacheOption;
+};
+
+/** Constants that can be passed as \c objectType to \c groupWithBezierPaths:objectType:style:
+ */
+typedef NS_ENUM(NSInteger, DKCreateGroupObjectType) {
+	kDKCreateGroupWithShapes = 0,
+	kDKCreateGroupWithPaths = 1
+};
 
 /** @brief This is a group objects that can group any number of shapes or paths.
 
-This is a group objects that can group any number of shapes or paths.
+ This is a group objects that can group any number of shapes or paths.
 
-It inherits from DKDrawableShape so that it gets the usual sizing and rotation behaviours.
+ It inherits from DKDrawableShape so that it gets the usual sizing and rotation behaviours.
 
-This operates by establishing its own coordinate system in which the objects are embedded. An informal protocol is used that allows a shape or
-path to obtain the transform of its "parent". When that parent is a group, the transform is manipulated such that the path is modified just
-prior to rendering to allow for the group's size, rotation, etc.
+ This operates by establishing its own coordinate system in which the objects are embedded. An informal protocol is used that allows a shape or
+ path to obtain the transform of its "parent". When that parent is a group, the transform is manipulated such that the path is modified just
+ prior to rendering to allow for the group's size, rotation, etc.
 
-Be aware of one "gotcha" with this class - a bit of a chicken-and-egg situation. When objects are grouped, they are offset to be local to the group's
-overall location. For grouping to be undoable, the objects being grouped need to have a valid container at the time this location offset is done,
-so that there is an undo manager available to record that change. If not they might end up in the wrong place when undoing the "group" command.
+ Be aware of one "gotcha" with this class - a bit of a chicken-and-egg situation. When objects are grouped, they are offset to be local to the group's
+ overall location. For grouping to be undoable, the objects being grouped need to have a valid container at the time this location offset is done,
+ so that there is an undo manager available to record that change. If not they might end up in the wrong place when undoing the "group" command.
 
-For the normal case of grouping existing objects within a layer, this is not an issue, but can be if you are programmatically creating groups.
+ For the normal case of grouping existing objects within a layer, this is not an issue, but can be if you are programmatically creating groups.
 */
 @interface DKShapeGroup : DKDrawableShape <NSCoding, NSCopying, DKDrawableContainer> {
 @private
-	NSArray* m_objects; // objects in the group
+	NSArray<__kindof DKDrawableObject*>* m_objects; // objects in the group
 	NSRect mBounds; // overall bounding rect of the group
 	BOOL m_transformVisually; // if YES, group transform is visual only (like SVG) otherwise it's genuine
 	CGLayerRef mContentCache; // used to cache content
@@ -59,7 +69,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  @param style a style object to apply to each new shape or path as it is created; pass nil to create
  @return a new group object consisting of a set of other objects built from the supplied paths
  */
-+ (DKShapeGroup*)groupWithBezierPaths:(NSArray*)paths objectType:(NSInteger)type style:(DKStyle*)style;
++ (nullable DKShapeGroup*)groupWithBezierPaths:(NSArray<NSBezierPath*>*)paths objectType:(DKCreateGroupObjectType)type style:(DKStyle*)style;
 
 /** @brief Creates a group from a list of existing objects
 
@@ -71,13 +81,13 @@ For the normal case of grouping existing objects within a layer, this is not an 
  @param objects a list of drawable objects
  @return a new group object consisting of the objects supplied
  */
-+ (DKShapeGroup*)groupWithObjects:(NSArray*)objects;
++ (DKShapeGroup*)groupWithObjects:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Filters array to remove objects whose class returns NO to isGroupable.
  @param array a list of drawable objects
  @return an array of the same objects less those that can't be grouped
  */
-+ (NSArray*)objectsAvailableForGroupingFromArray:(NSArray*)array;
++ (NSArray<DKDrawableObject*>*)objectsAvailableForGroupingFromArray:(NSArray<DKDrawableObject*>*)array;
 
 // setting up the group:
 
@@ -92,21 +102,18 @@ For the normal case of grouping existing objects within a layer, this is not an 
  @param objects a list of drawable objects
  @return the group object
  */
-- (id)initWithObjectsInArray:(NSArray*)objects;
+- (instancetype)initWithObjectsInArray:(NSArray<DKDrawableObject*>*)objects NS_DESIGNATED_INITIALIZER;
+
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
 
 /** @brief Sets up the group state from the original set of objects
 
  This sets the initial size and location of the group, and adjusts the position of each object so
  it is relative to the group, not the original drawing. It also sets the parent member of each object
  to the group so that the group's transform is applied when the objects are drawn.
- @param objects the set of objects to be grouped
  */
-- (void)setGroupObjects:(NSArray*)objects;
-
-/** @brief Gets the list of objects contained by the group
- @return the list of contained objects
- */
-- (NSArray*)groupObjects;
+@property (nonatomic, copy) NSArray<DKDrawableObject*> *groupObjects;
 
 /** @brief Computes the initial overall bounding rect of the constituent objects
 
@@ -115,7 +122,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  is moved or resized - transforms are calculated by comparing the original bounds to the instantaneous
  size and position.
  @param objects the objects to be grouped */
-- (void)calcBoundingRectOfObjects:(NSArray*)objects;
+- (void)calcBoundingRectOfObjects:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Computes the extra space needed for the objects
  @param objects the objects to be grouped
@@ -128,19 +135,19 @@ For the normal case of grouping existing objects within a layer, this is not an 
  The result is the max of all the contained objects
  @return the extra space required
  */
-- (NSSize)extraSpaceNeededByObjects:(NSArray*)objects;
+- (NSSize)extraSpaceNeededByObjects:(NSArray<DKDrawableObject*>*)objects;
 
 /** @brief Returns the original untransformed bounds of the grouped objects
  @return the original group bounds
  */
-- (NSRect)groupBoundingRect;
+@property (readonly) NSRect groupBoundingRect;
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
 
  The scale ratio is the ratio between the group's original bounds and its current size.
  @return the scale ratios
  */
-- (NSSize)groupScaleRatios;
+@property (readonly) NSSize groupScaleRatios;
 
 /** @brief Sets the current list of objects to the given objects
 
@@ -155,7 +162,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
 
  This transform is used when drawing the group's contents
  @return a transform object */
-- (NSAffineTransform*)contentTransform;
+@property (readonly, copy) NSAffineTransform *contentTransform;
 
 /** @brief Returns a transform which is the accumulation of all the parent objects above this one.
 
@@ -163,7 +170,7 @@ For the normal case of grouping existing objects within a layer, this is not an 
  returned if the group is visually transforming the result, or a combination of the parents above
  and the content transform. Either way contained objects are oblivious and do the right thing.
  @return a transform object */
-- (NSAffineTransform*)renderingTransform;
+@property (readonly, copy) NSAffineTransform *renderingTransform;
 
 /** @brief Maps a point from the original container's coordinates to the equivalent group point
 
@@ -180,16 +187,13 @@ For the normal case of grouping existing objects within a layer, this is not an 
 - (NSPoint)convertPointToContainer:(NSPoint)p;
 - (void)drawGroupContent;
 
-- (void)setClipContentToPath:(BOOL)clip;
-- (BOOL)clipContentToPath;
+@property (nonatomic) BOOL clipContentToPath;
 
-- (void)setTransformsVisually:(BOOL)tv;
-- (BOOL)transformsVisually;
+@property (nonatomic) BOOL transformsVisually;
 
 // caching:
 
-- (void)setCacheOptions:(DKGroupCacheOption)cacheOption;
-- (DKGroupCacheOption)cacheOptions;
+@property (nonatomic) DKGroupCacheOption cacheOptions;
 
 // ungrouping:
 
@@ -208,18 +212,13 @@ For the normal case of grouping existing objects within a layer, this is not an 
  Undoably ungroups this and replaces itself in its layer by its contents
  @param sender the sender of the action
  */
-- (IBAction)ungroupObjects:(id)sender;
+- (IBAction)ungroupObjects:(nullable id)sender;
 
 /** @brief High-level call to toggle path clipping.
  @param sender the sender of the action
  */
-- (IBAction)toggleClipToPath:(id)sender;
+- (IBAction)toggleClipToPath:(nullable id)sender;
 
 @end
 
-// constant that can be passed as <objectType> to groupWithBezierPaths:objectType:style:
-
-enum {
-	kDKCreateGroupWithShapes = 0,
-	kDKCreateGroupWithPaths = 1
-};
+NS_ASSUME_NONNULL_END

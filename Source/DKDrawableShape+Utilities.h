@@ -7,10 +7,12 @@
 #import <Cocoa/Cocoa.h>
 #import "DKDrawableShape.h"
 
-@interface DKDrawableShape (Utilities)
+NS_ASSUME_NONNULL_BEGIN
 
-// utilities for calculating regions within a shape and drawing images allowing
-// for scale, rotation, etc.
+/** Utilities for calculating regions within a shape and drawing images allowing
+ for scale, rotation, etc.
+ */
+@interface DKDrawableShape (Utilities)
 
 /** @brief Return a rectangular path with given size and origin
 
@@ -41,7 +43,7 @@
  @param pc the partcode that the path is positioned relative to
  @return a rectangular path transformed to the current true size, position and angle of the shape
  */
-- (NSBezierPath*)pathWithFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc;
+- (nullable NSBezierPath*)pathWithFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc;
 
 /** @brief Transforms a path to the final size and position relative to a partcode
 
@@ -49,13 +51,13 @@
  in such a way that the object's size and angle set the positioning and orientation of the path
  but not its actual size. This is useful for adding an adornment to the shape that is unscaled
  by the object, such as the text indicator shown by DKTextShape
- @param path the path to transform
+ @param inPath the path to transform
  @param size the final desired size of the rectangle
  @param offset an offset in absolute units from the nominated partcode position
  @param pc the partcode that the path is positioned relative to
  @return the transformed path
  */
-- (NSBezierPath*)path:(NSBezierPath*)inPath withFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc;
+- (nullable NSBezierPath*)path:(NSBezierPath*)inPath withFinalSize:(NSSize)size offsetBy:(NSPoint)offset fromPartcode:(NSInteger)pc;
 
 /** @brief Convert a point from relative coordinates to absolute coordinates
 
@@ -66,3 +68,5 @@
 - (NSPoint)pointForRelativeLocation:(NSPoint)relLoc;
 
 @end
+
+NS_ASSUME_NONNULL_END

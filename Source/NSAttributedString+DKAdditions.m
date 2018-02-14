@@ -33,7 +33,6 @@ NSLayoutManager* sharedDrawingLayoutManager(void)
 		[tc setWidthTracksTextView:NO];
 		[tc setHeightTracksTextView:NO];
 		[sharedLM addTextContainer:tc];
-		[tc release];
 
 		[sharedLM setUsesScreenFonts:NO];
 	} else
@@ -45,7 +44,7 @@ NSLayoutManager* sharedDrawingLayoutManager(void)
 
 /** @brief Supply a layout manager that can be used to capture text layout into a bezier path
  @return the shared layout manager instance */
-NSLayoutManager* sharedCaptureLayoutManager(void)
+DKBezierLayoutManager* sharedCaptureLayoutManager(void)
 {
 	static DKBezierLayoutManager* sharedLM = nil;
 	NSTextContainer* tc = nil;
@@ -57,12 +56,10 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		sharedLM = [[DKBezierLayoutManager alloc] init];
 
 		[tc setTextView:tv];
-		[tv release];
 
 		[tc setWidthTracksTextView:NO];
 		[tc setHeightTracksTextView:NO];
 		[sharedLM addTextContainer:tc];
-		[tc release];
 
 		[sharedLM setUsesScreenFonts:NO];
 	} else
@@ -74,27 +71,6 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
 @implementation NSAttributedString (DKAdditions)
 
-/** @brief Lays out the receiver then draws it to the destination
-
- This method is intended to be utilised by high-level text objects such as DKTextShape and
- DKTextAdornment. It both lays out and renders text in many different ways according to its
- parameters (and the string's attributes themselves). 
- @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
- @param layoutSize a size describing the text layout container. Text is laid out to fit into this size.
- @param radians an angle to which the text is rotated before being drawn to <destRect>
- */
-
-/** @brief Lays out the receiver then draws it to the destination
-
- This method is intended to be utilised by high-level text objects such as DKTextShape and
- DKTextAdornment. It both lays out and renders text in many different ways according to its
- parameters (and the string's attributes themselves). 
- @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
- @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
- @param radians an angle to which the text is rotated before being drawn to <destRect>
- @param vAlign whether the text is positioned at top, centre, bottom or at some value
- @param vPos proportion of srcRect given by interval 0..1 when vAlign is proportional
- */
 - (void)drawInRect:(NSRect)destRect withLayoutSize:(NSSize)layoutSize atAngle:(CGFloat)radians
 {
 	[self drawInRect:destRect
@@ -102,15 +78,6 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 			   atAngle:radians];
 }
 
-/** @brief Lays out the receiver then draws it to the destination
-
- This method is intended to be utilised by high-level text objects such as DKTextShape and
- DKTextAdornment. It both lays out and renders text in many different ways according to its
- parameters (and the string's attributes themselves). 
- @param destRect the final destination of the text. The text is scaled and translated to draw in this rect
- @param layoutPath a path describing the text layout container. Text is laid out to fit into this path.
- @param radians an angle to which the text is rotated before being drawn to <destRect>
- */
 - (void)drawInRect:(NSRect)destRect withLayoutPath:(NSBezierPath*)layoutPath atAngle:(CGFloat)radians
 {
 	[self drawInRect:destRect
@@ -121,10 +88,10 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 }
 
 - (void)drawInRect:(NSRect)destRect
-		 withLayoutPath:(NSBezierPath*)layoutPath
-				atAngle:(CGFloat)radians
-	verticalPositioning:(DKVerticalTextAlignment)vAlign
-		 verticalOffset:(CGFloat)vPos
+	withLayoutPath:(NSBezierPath*)layoutPath
+		   atAngle:(CGFloat)radians
+verticalPositioning:(DKVerticalTextAlignment)vAlign
+	verticalOffset:(CGFloat)vPos
 {
 	NSAssert(destRect.size.width > 0.0 && destRect.size.height >= 0.0, @"invalid destination rect for text layout");
 	NSAssert(layoutPath != nil, @"invalid layout path for text layout");
@@ -138,7 +105,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		NSSize textSize = [layoutPath bounds].size;
 		NSRect srcRect;
 		NSLayoutManager* layoutMgr = sharedDrawingLayoutManager();
-		DKBezierTextContainer* textContainer = [[layoutMgr textContainers] lastObject];
+		DKBezierTextContainer* textContainer = (id)[[layoutMgr textContainers] lastObject];
 
 		srcRect.size = textSize;
 		srcRect.origin = NSZeroPoint;
@@ -201,7 +168,6 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		[contents removeLayoutManager:layoutMgr];
 		[textContainer setBezierPath:nil];
 	}
-	[contents release];
 }
 
 - (NSSize)accurateSize
@@ -214,7 +180,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
 	if ([contents length] > 0) {
 		NSLayoutManager* layoutMgr = sharedDrawingLayoutManager();
-		DKBezierTextContainer* textContainer = [[layoutMgr textContainers] lastObject];
+		DKBezierTextContainer* textContainer = (id)[[layoutMgr textContainers] lastObject];
 
 		[textContainer setBezierPath:nil];
 		[textContainer setContainerSize:NSMakeSize(50000, 50000)];
@@ -227,7 +193,6 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 
 		[contents removeLayoutManager:layoutMgr];
 	}
-	[contents release];
 
 	return as;
 }
@@ -246,7 +211,7 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 		return YES;
 }
 
-- (BOOL)attributeIsHomogeneous:(NSString*)attrName
+- (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attrName
 {
 	// returns YES if the attribute named applies over the entire length of the string or the string is empty, NO otherwise (including if the attribute doesn't exist).
 
@@ -265,12 +230,10 @@ NSLayoutManager* sharedCaptureLayoutManager(void)
 {
 	// returns yes if the attributes listed in <attrs> are homogeneous, otherwise NO.
 
-	NSEnumerator* iter = [attrs keyEnumerator];
-	NSString* key;
-
-	while ((key = [iter nextObject])) {
-		if (![self attributeIsHomogeneous:key])
+	for (NSString *key in attrs) {
+		if (![self attributeIsHomogeneous:key]) {
 			return NO;
+		}
 	}
 
 	return YES;

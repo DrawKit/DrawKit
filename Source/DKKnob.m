@@ -12,7 +12,7 @@
 
 #define USE_DK_HANDLES 1
 
-NSString* kDKKnobPreferredHighlightColour = @"kDKKnobPreferredHighlightColour";
+NSString* const kDKKnobPreferredHighlightColour = @"kDKKnobPreferredHighlightColour";
 
 static NSColor* sKnobColour = nil;
 static NSColor* sRotationColour = nil;
@@ -26,9 +26,9 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 #pragma mark As a DKKnob
 
 /**  */
-+ (id)standardKnobs
++ (instancetype)standardKnobs
 {
-	return [[[DKKnob alloc] init] autorelease];
+	return [[DKKnob alloc] init];
 }
 
 #pragma mark -
@@ -43,10 +43,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	}
 }
 
-- (id<DKKnobOwner>)owner
-{
-	return m_ownerRef;
-}
+@synthesize owner=m_ownerRef;
 
 #pragma mark -
 #define FASTER_KNOB_DRAWING 1
@@ -83,7 +80,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 					  angle:radians];
 	}
 	return;
-#endif
+#else
 
 	CGFloat scale = 1.0;
 
@@ -118,7 +115,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 			// inset the bounds to allow for half the stroke width to take up that space
 
 			CGFloat strokeWidth = [self strokeWidthForKnobType:knobType];
-			fkr = NSInsetRect(fkr, cns.width / 16.0f, cns.height / 16.0f);
+			fkr = NSInsetRect(fkr, cns.width / 16.0, cns.height / 16.0);
 
 			if (radians != 0.0) {
 				NSAffineTransform* transform = RotationTransform(radians, p);
@@ -157,6 +154,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 			//[userInfo release];
 		}
 	}
+#endif
 }
 
 - (void)drawKnobAtPoint:(NSPoint)p ofType:(DKKnobType)knobType angle:(CGFloat)radians userInfo:(id)userInfo
@@ -167,6 +165,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 // skip this fancy stuff
 
 #if USE_DK_HANDLES
+#pragma unused(userInfo)
 	if ([[self owner] respondsToSelector:@selector(knobsWantDrawingActiveState)]) {
 		BOOL active = [[self owner] knobsWantDrawingActiveState];
 
@@ -182,7 +181,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 					  angle:radians];
 	}
 	return;
-#endif
+#else
 
 	CGFloat scale = 1.0;
 
@@ -217,7 +216,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 			// inset the bounds to allow for half the stroke width to take up that space
 
 			CGFloat strokeWidth = [self strokeWidthForKnobType:knobType];
-			fkr = NSInsetRect(fkr, cns.width / 16.0f, cns.height / 16.0f);
+			fkr = NSInsetRect(fkr, cns.width / 16.0, cns.height / 16.0);
 
 			if (radians != 0.0) {
 				NSAffineTransform* transform = RotationTransform(radians, p);
@@ -248,6 +247,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 					  userInfo:userInfo];
 		}
 	}
+#endif
 }
 
 - (void)drawControlBarFromPoint:(NSPoint)a toPoint:(NSPoint)b
@@ -283,7 +283,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 - (void)drawControlBarWithKnobsFromPoint:(NSPoint)a ofType:(DKKnobType)typeA toPoint:(NSPoint)b ofType:(DKKnobType)typeB
 {
-	CGFloat angle = atan2f(b.y - a.y, b.x - a.x);
+	CGFloat angle = atan2(b.y - a.y, b.x - a.x);
 
 	[self drawControlBarFromPoint:a
 						  toPoint:b];
@@ -368,44 +368,13 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 		return NO;
 }
 
-- (void)setControlBarColour:(NSColor*)clr
-{
-	[clr retain];
-	[mControlBarColour release];
-	mControlBarColour = clr;
-}
-
-- (NSColor*)controlBarColour
-{
-	return mControlBarColour;
-}
-
-- (void)setControlBarWidth:(CGFloat)width
-{
-	mControlBarWidth = width;
-}
-
-- (CGFloat)controlBarWidth
-{
-	return mControlBarWidth;
-}
-
-- (void)setScalingRatio:(CGFloat)scaleRatio
-{
-	mScaleRatio = scaleRatio;
-}
-
-- (CGFloat)scalingRatio
-{
-	return mScaleRatio;
-}
+@synthesize controlBarColour=mControlBarColour;
+@synthesize controlBarWidth=mControlBarWidth;
+@synthesize scalingRatio=mScaleRatio;
 
 #pragma mark -
 #pragma mark - low - level methods(mostly internal and overridable)
-- (void)setControlKnobSize:(NSSize)cks
-{
-	m_knobSize = cks;
-}
+@synthesize controlKnobSize=m_knobSize;
 
 - (void)setControlKnobSizeForViewScale:(CGFloat)scale
 {
@@ -421,11 +390,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	ns.width /= ff;
 	ns.height /= ff;
 	[self setControlKnobSize:ns];
-}
-
-- (NSSize)controlKnobSize
-{
-	return m_knobSize;
 }
 
 #pragma mark -
@@ -468,7 +432,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -489,17 +453,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	return self;
 }
 
-- (void)dealloc
-{
-	[mControlKnobColour release];
-	[mRotationKnobColour release];
-	[mControlOnPathPointColour release];
-	[mControlOffPathPointColour release];
-	[mControlBarColour release];
-	[super dealloc];
-}
-
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	[self setOwner:[coder decodeObjectForKey:@"DKKnob_ownerRef"]];
 	mScaleRatio = [coder decodeDoubleForKey:@"DKKnob_scaleRatio"];
@@ -563,8 +517,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 + (void)setControlKnobColour:(NSColor*)clr
 {
-	[clr retain];
-	[sKnobColour release];
 	sKnobColour = clr;
 }
 
@@ -581,8 +533,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 + (void)setRotationKnobColour:(NSColor*)clr
 {
-	[clr retain];
-	[sRotationColour release];
 	sRotationColour = clr;
 }
 
@@ -596,8 +546,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 + (void)setControlOnPathPointColour:(NSColor*)clr
 {
-	[clr retain];
-	[sPointColour release];
 	sPointColour = clr;
 }
 
@@ -611,8 +559,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 + (void)setControlOffPathPointColour:(NSColor*)clr
 {
-	[clr retain];
-	[sOffPointColour release];
 	sOffPointColour = clr;
 }
 
@@ -626,8 +572,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 + (void)setControlBarColour:(NSColor*)clr
 {
-	[clr retain];
-	[sBarColour release];
 	sBarColour = clr;
 }
 
@@ -664,8 +608,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	NSRect r;
 
 	r.size = [[self class] controlKnobSize];
-	r.origin.x = kp.x - (r.size.width * 0.5f);
-	r.origin.y = kp.y - (r.size.height * 0.5f);
+	r.origin.x = kp.x - (r.size.width * 0.5);
+	r.origin.y = kp.y - (r.size.height * 0.5);
 
 	return r;
 }
@@ -755,7 +699,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 	switch (knobType & kDKKnobTypeMask) {
 	case kDKCentreTargetKnobType:
-		strk = cns.width * 4.0f / 24.0f;
+		strk = cns.width * 4.0 / 24.0;
 		break;
 
 	case kDKRotationKnobType:
@@ -763,7 +707,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 		break;
 
 	default:
-		strk = cns.width / 8.0f;
+		strk = cns.width / 8.0;
 		break;
 	}
 
@@ -772,8 +716,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 - (void)setControlKnobColour:(NSColor*)clr
 {
-	[clr retain];
-	[mControlKnobColour release];
 	mControlKnobColour = clr;
 }
 
@@ -784,8 +726,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 - (void)setRotationKnobColour:(NSColor*)clr
 {
-	[clr retain];
-	[mRotationKnobColour release];
 	mRotationKnobColour = clr;
 }
 
@@ -796,8 +736,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 - (void)setControlOnPathPointColour:(NSColor*)clr
 {
-	[clr retain];
-	[mControlOnPathPointColour release];
 	mControlOnPathPointColour = clr;
 }
 
@@ -808,8 +746,6 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 
 - (void)setControlOffPathPointColour:(NSColor*)clr
 {
-	[clr retain];
-	[mControlOffPathPointColour release];
 	mControlOffPathPointColour = clr;
 }
 
@@ -833,7 +769,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	// inset the bounds to allow for half the stroke width to take up that space
 
 	CGFloat strokeWidth = [self strokeWidthForKnobType:knobType];
-	boundsRect = NSInsetRect(boundsRect, strokeWidth * 0.5f, strokeWidth * 0.5f);
+	boundsRect = NSInsetRect(boundsRect, strokeWidth * 0.5, strokeWidth * 0.5);
 
 	if (isRect) {
 		path = [NSBezierPath bezierPathWithRect:boundsRect];
@@ -847,8 +783,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 		path = [NSBezierPath bezierPath];
 		NSSize half;
 
-		half.width = boundsRect.size.width * 0.5f;
-		half.height = boundsRect.size.height * 0.5f;
+		half.width = boundsRect.size.width * 0.5;
+		half.height = boundsRect.size.height * 0.5;
 
 		p.y -= half.height;
 		[path moveToPoint:p];
@@ -939,7 +875,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	NSSize hs = [self controlKnobSize];
 	NSRect hr = NSMakeRect(kp.x, kp.y, hs.width, hs.height);
 
-	hr = NSOffsetRect(hr, -(hs.width * 0.5f), -(hs.height * 0.5f));
+	hr = NSOffsetRect(hr, -(hs.width * 0.5), -(hs.height * 0.5));
 
 	return hr;
 }

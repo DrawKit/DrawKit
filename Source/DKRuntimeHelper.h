@@ -4,17 +4,22 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface DKRuntimeHelper : NSObject
 
-/**  */
-+ (NSArray*)allClasses;
-+ (NSArray*)allClassesOfKind:(Class)aClass;
-+ (NSArray*)allImmediateSubclassesOf:(Class)aClass;
++ (NSArray<Class>*)allClasses;
++ (NSArray<Class>*)allClassesOfKind:(Class)aClass;
++ (NSArray<Class>*)allImmediateSubclassesOf:(Class)aClass;
 
 @end
 
+/** @brief Returns \c YES if \c aClass is an \c NSObject derivative, otherwise <code>NO</code>. It does this without invoking any methods on the class being tested.
+ */
 BOOL classIsNSObject(const Class aClass);
 BOOL classIsSubclassOfClass(const Class aClass, const Class subclass);
 BOOL classIsImmediateSubclassOfClass(const Class aClass, const Class subclass);
+
+NS_ASSUME_NONNULL_END

@@ -4,15 +4,17 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawablePath.h"
 
-// shape types this class supports:
+NS_ASSUME_NONNULL_BEGIN
 
-typedef enum {
+//! shape types this class supports:
+typedef NS_ENUM(NSInteger, DKArcPathType) {
 	kDKArcPathOpenArc = 0,
 	kDKArcPathWedge,
 	kDKArcPathCircle
-} DKArcPathType;
+};
 
 // the class:
 
@@ -25,26 +27,27 @@ typedef enum {
 	DKArcPathType mArcType;
 }
 
-- (void)setRadius:(CGFloat)rad;
-- (CGFloat)radius;
-
-- (void)setStartAngle:(CGFloat)sa;
-- (CGFloat)startAngle;
-
-- (void)setEndAngle:(CGFloat)ea;
-- (CGFloat)endAngle;
-
-/** @brief Sets the arc type, which affects the path geometry
- @param arcType the required type
+/** @brief The radius of the arc.
  */
-- (void)setArcType:(DKArcPathType)arcType;
+@property (nonatomic) CGFloat radius;
 
-/** @brief Returns the arc type, which affects the path geometry
- @return the current arc type
+/** @brief The starting angle, which is the more anti-clockwise point on the arc.
+ 
+ Angle is passed in DEGREES.
  */
-- (DKArcPathType)arcType;
+@property CGFloat startAngle;
 
-- (IBAction)convertToPath:(id)sender;
+/** @brief The ending angle, which is the more clockwise point on the arc.
+ 
+ Angle is passed in DEGREES.
+ */
+@property CGFloat endAngle;
+
+/** @brief The arc type, which affects the path geometry.
+ */
+@property (nonatomic) DKArcPathType arcType;
+
+- (IBAction)convertToPath:(nullable id)sender;
 
 @end
 
@@ -68,3 +71,5 @@ enum {
 enum {
 	kDKArcSimpleCreationMode = 7
 };
+
+NS_ASSUME_NONNULL_END

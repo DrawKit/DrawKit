@@ -26,8 +26,8 @@ static inline void VP(CGFloat* px, CGFloat* py, CGFloat x1, CGFloat y1, CGFloat 
 {
 	CGFloat d = MMul(x1 - x2, y1 - y2, x3 - x4, y3 - y4);
 
-	if (d == 0.0f)
-		d = 1.0f;
+	if (d == 0.0)
+		d = 1.0;
 
 	*px = MMul(MMul(x1, y1, x2, y2), x1 - x2, MMul(x3, y3, x4, y4), x3 - x4) / d;
 	*py = MMul(MMul(x1, y1, x2, y2), y1 - y2, MMul(x3, y3, x4, y4), y3 - y4) / d;
@@ -56,11 +56,11 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 {
 	DKDistortionTransform* dt = [[DKDistortionTransform alloc] initWithRect:rect];
 
-	return [dt autorelease];
+	return dt;
 }
 
 #pragma mark -
-- (id)initWithRect:(NSRect)rect
+- (instancetype)initWithRect:(NSRect)rect
 {
 	self = [super init];
 	if (self != nil) {
@@ -78,7 +78,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 	return self;
 }
 
-- (id)initWithEnvelope:(NSPoint*)points
+- (instancetype)initWithEnvelope:(const NSPoint[4])points
 {
 	self = [super init];
 	if (self != nil) {
@@ -90,7 +90,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 }
 
 #pragma mark -
-- (void)setEnvelopePoints:(NSPoint*)points
+- (void)setEnvelopePoints:(in const NSPoint[4])points
 {
 	m_q[0] = points[0];
 	m_q[1] = points[1];
@@ -98,7 +98,7 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 	m_q[3] = points[3];
 }
 
-- (void)getEnvelopePoints:(NSPoint*)points
+- (void)getEnvelopePoints:(out NSPoint[4])points
 {
 	points[0] = m_q[0];
 	points[1] = m_q[1];
@@ -267,12 +267,12 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 		}
 	}
 
-	return [newPath autorelease];
+	return newPath;
 }
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];

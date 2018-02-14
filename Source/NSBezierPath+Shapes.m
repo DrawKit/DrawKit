@@ -15,14 +15,10 @@ static const CGFloat sin60 = 0.8660254038;
 #pragma mark As a NSBezierPath
 #pragma mark - chains and sprockets
 
-/**  */
 + (NSBezierPath*)bezierPathWithStandardChainLink
 {
-	// returns the path of a standard roller chain link on a horizontal alignment with link centres of 1.0. Other variants are derived from this
-	// using transformations of this path.
-
 	NSBezierPath* path = [self bezierPath];
-	CGFloat r = 1.0 / 2.5f;
+	CGFloat r = 1.0 / 2.5;
 	NSPoint ep, cp1, cp2;
 
 	[path setWindingRule:NSEvenOddWindingRule];
@@ -87,14 +83,11 @@ static const CGFloat sin60 = 0.8660254038;
 
 + (NSBezierPath*)bezierPathWithStandardChainLinkFromPoint:(NSPoint)a toPoint:(NSPoint)b
 {
-	// returns the path of a standard roller chain link linking a to b. The distance a-b also sets the dimensions of the link and of course
-	// its angle. The pin centres are aligned on a and b.
-
 	NSBezierPath* linkPath = [self bezierPathWithStandardChainLink];
 	NSAffineTransform* tfm = [NSAffineTransform transform];
 
-	CGFloat slope = atan2f(b.y - a.y, b.x - a.x);
-	CGFloat length = hypotf(b.x - a.x, b.y - a.y);
+	CGFloat slope = atan2(b.y - a.y, b.x - a.x);
+	CGFloat length = hypot(b.x - a.x, b.y - a.y);
 
 	[tfm translateXBy:a.x
 				  yBy:a.y];
@@ -109,12 +102,9 @@ static const CGFloat sin60 = 0.8660254038;
 
 + (NSBezierPath*)bezierPathWithSprocketPitch:(CGFloat)pitch numberOfTeeth:(NSInteger)teeth
 {
-	// returns a path representing a roller chain sprocket having the pitch and number of teeeth specified. The sprocket is centred at the
-	// origin and is sized as needed to accommodate the number of teeth required.
-
-	CGFloat toothAngle = pi / teeth;
-	CGFloat radius = pitch / (2 * sinf(toothAngle));
-	CGFloat rollerRadius = pitch / 3.6f;
+	CGFloat toothAngle = M_PI / teeth;
+	CGFloat radius = pitch / (2 * sin(toothAngle));
+	CGFloat rollerRadius = pitch / 3.6;
 	CGFloat toothRadius = pitch - rollerRadius;
 
 	// make one tooth then copy it around the circle
@@ -122,14 +112,14 @@ static const CGFloat sin60 = 0.8660254038;
 	NSPoint rp1, rp2;
 	NSBezierPath* tooth = [NSBezierPath bezierPath];
 
-	rp1.x = radius * cosf(toothAngle);
-	rp1.y = radius * sinf(toothAngle);
-	rp2.x = radius * cosf(-toothAngle);
-	rp2.y = radius * sinf(-toothAngle);
+	rp1.x = radius * cos(toothAngle);
+	rp1.y = radius * sin(toothAngle);
+	rp2.x = radius * cos(-toothAngle);
+	rp2.y = radius * sin(-toothAngle);
 
 	// tooth root follows roller radius
 
-	CGFloat taDegrees = (toothAngle * 180.0) / pi;
+	CGFloat taDegrees = (toothAngle * 180.0) / M_PI;
 
 	[tooth appendBezierPathWithArcWithCenter:rp1
 									  radius:rollerRadius
@@ -140,7 +130,7 @@ static const CGFloat sin60 = 0.8660254038;
 	// flank of tooth follows the larger radius until it reaches the halfway point. The x3 here stops it slightly short so that
 	// the top edge of the tooth is flattened off a little
 
-	CGFloat endAngle = (cosf(pitch / (3 * toothRadius)) * 180.0) / pi;
+	CGFloat endAngle = (cos(pitch / (3 * toothRadius)) * 180.0) / M_PI;
 
 	[tooth appendBezierPathWithArcWithCenter:rp2
 									  radius:toothRadius
@@ -186,27 +176,25 @@ static const CGFloat sin60 = 0.8660254038;
 
 #pragma mark -
 #pragma mark - nuts and bolts
-+ (NSBezierPath*)bezierPathWithThreadedBarOfLength:(CGFloat)length diameter:(CGFloat)dia threadPitch:(CGFloat)pitch options:(NSUInteger)options
++ (NSBezierPath*)bezierPathWithThreadedBarOfLength:(CGFloat)length diameter:(CGFloat)dia threadPitch:(CGFloat)pitch options:(DKShapeOptions)options
 {
-	// path consists of zig-zags along the top and bottom edges with a 60° angle, optionally capped and with joining lines.
-
 	NSPoint p;
 	NSBezierPath* path = [self bezierPath];
-	CGFloat xIncrement = pitch * 0.5f;
+	CGFloat xIncrement = pitch * 0.5;
 	CGFloat yIncrement = pitch * sin60;
 	CGFloat phase = -1;
 
 	// draw the top side thread
 
 	p.x = 0;
-	p.y = (dia * -0.5f) + (yIncrement * 0.5f);
+	p.y = (dia * -0.5) + (yIncrement * 0.5);
 	[path moveToPoint:p];
 
 	while (p.x < (length - xIncrement)) {
 		p.x += xIncrement;
 		p.y += (phase * yIncrement);
 		[path lineToPoint:p];
-		phase *= -1.0f;
+		phase *= -1.0;
 	}
 
 	// length is rounded up to nearest whole multiple of pitch
@@ -226,7 +214,7 @@ static const CGFloat sin60 = 0.8660254038;
 		p.x -= xIncrement;
 		p.y += (phase * yIncrement);
 		[path lineToPoint:p];
-		phase *= -1.0f;
+		phase *= -1.0;
 	}
 
 	if (options & kThreadedBarLeftEndCapped)
@@ -248,12 +236,12 @@ static const CGFloat sin60 = 0.8660254038;
 {
 	NSPoint p, opp;
 	NSBezierPath* path = [self bezierPath];
-	CGFloat xIncrement = pitch * 0.5f;
+	CGFloat xIncrement = pitch * 0.5;
 	CGFloat yIncrement = pitch * sin60;
 	CGFloat phase = -1;
 
 	p.x = 0;
-	p.y = (dia * -0.5f) + (yIncrement * 0.5f);
+	p.y = (dia * -0.5) + (yIncrement * 0.5);
 	[path moveToPoint:p];
 
 	while (p.x < (length - xIncrement)) {
@@ -269,21 +257,17 @@ static const CGFloat sin60 = 0.8660254038;
 
 		[path moveToPoint:p];
 		[path lineToPoint:opp];
-		phase *= -1.0f;
+		phase *= -1.0;
 	}
 
 	return path;
 }
 
-+ (NSBezierPath*)bezierPathWithHexagonHeadSideViewOfHeight:(CGFloat)height diameter:(CGFloat)dia options:(NSUInteger)options
++ (NSBezierPath*)bezierPathWithHexagonHeadSideViewOfHeight:(CGFloat)height diameter:(CGFloat)dia options:(DKShapeOptions)options
 {
-	// produces the side-on view of a hex head or nut. The diameter is the across-flats dimension: the diameter of the circle inscribed
-	// within the hexagon. The resulting path shows the head oriented with its peaks set north-south so the height returned is larger than
-	// the diameter by 2 * 1/sin 60.
-
 	CGFloat fh = dia / sin60;
 
-	NSRect br = NSMakeRect(0, fh * -0.5f, height, fh);
+	NSRect br = NSMakeRect(0, fh * -0.5, height, fh);
 	NSBezierPath* path = [self bezierPathWithRect:br];
 
 	// cross lines
@@ -291,13 +275,13 @@ static const CGFloat sin60 = 0.8660254038;
 	NSPoint a, b;
 
 	a.x = 0;
-	a.y = b.y = dia / 4.0f;
+	a.y = b.y = dia / 4.0;
 	b.x = height;
 
 	[path moveToPoint:a];
 	[path lineToPoint:b];
 
-	a.y -= dia * 0.5f;
+	a.y -= dia * 0.5;
 	b.y = a.y;
 
 	[path moveToPoint:a];
@@ -318,7 +302,7 @@ static const CGFloat sin60 = 0.8660254038;
 							   headDiameter:(CGFloat)hdia
 								 headHeight:(CGFloat)hheight
 								shankLength:(CGFloat)shank
-									options:(NSUInteger)options
+									options:(DKShapeOptions)options
 {
 #pragma unused(options)
 
@@ -355,9 +339,6 @@ static const CGFloat sin60 = 0.8660254038;
 
 + (NSBezierPath*)bezierPathWithCropMarksForRect:(NSRect)aRect length:(CGFloat)length extension:(CGFloat)ext
 {
-	// the path follows the edges of <aRect>, consisting of four pairs of lines that intersect at the corners. <length> sets the
-	// length of the mark along the rect edge and <ext> sets the overhang outside of the rect.
-
 	NSBezierPath* path = [NSBezierPath bezierPath];
 
 	[path moveToPoint:NSMakePoint(NSMinX(aRect) - ext, NSMinY(aRect))];

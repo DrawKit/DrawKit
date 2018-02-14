@@ -8,6 +8,7 @@
 #import "DKDrawing.h"
 #import "DKObjectDrawingLayer.h"
 #import "DKShapeGroup.h"
+#import "DKViewController.h"
 
 @implementation DKSelectionPDFView
 
@@ -19,7 +20,7 @@
 	//[[NSColor clearColor] set];
 	//NSRectFill([self bounds]);
 
-	NSUInteger mask = (NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask);
+	NSEventModifierFlags mask = (NSAlternateKeyMask | NSShiftKeyMask | NSCommandKeyMask);
 	BOOL drawSelected = (([[NSApp currentEvent] modifierFlags] & mask) == mask);
 
 	DKObjectDrawingLayer* layer = (DKObjectDrawingLayer*)[[self controller] activeLayer];
@@ -36,7 +37,7 @@
 #pragma mark -
 @implementation DKLayerPDFView : DKDrawingView
 
-- (id)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer
+- (instancetype)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer
 {
 	self = [super initWithFrame:frame];
 	if (self != nil) {
@@ -44,6 +45,11 @@
 	}
 
 	return self;
+}
+
+- (instancetype)initWithFrame:(NSRect)frameRect
+{
+	return self = [self initWithFrame:frameRect withLayer:nil];
 }
 
 - (BOOL)isFlipped
@@ -70,13 +76,18 @@
 	}
 }
 
+- (instancetype)initWithCoder:(NSCoder *)decoder
+{
+	return self = [super initWithCoder:decoder];
+}
+
 @end
 
 #pragma mark -
 
 @implementation DKDrawablePDFView
 
-- (id)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj
+- (instancetype)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj
 {
 	self = [super initWithFrame:frame];
 	if (self != nil) {
@@ -84,6 +95,11 @@
 	}
 
 	return self;
+}
+
+-(instancetype)initWithFrame:(NSRect)frameRect
+{
+	return self = [self initWithFrame:frameRect object:nil];
 }
 
 - (BOOL)isFlipped
@@ -100,6 +116,11 @@
 
 	if (mObjectRef)
 		[mObjectRef drawContentWithSelectedState:NO];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)decoder
+{
+	return self = [super initWithCoder:decoder];
 }
 
 @end

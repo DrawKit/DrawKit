@@ -6,7 +6,7 @@
 
 #import "DKRetriggerableTimer.h"
 
-@interface DKRetriggerableTimer (Private)
+@interface DKRetriggerableTimer ()
 
 - (void)timerCallback:(NSTimer*)timer;
 
@@ -19,10 +19,10 @@
 + (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(id)target selector:(SEL)action
 {
 	DKRetriggerableTimer* rt = [[self alloc] initWithPeriod:period];
-	[rt setAction:action];
-	[rt setTarget:target];
+	rt.action = action;
+	rt.target = target;
 
-	return [rt autorelease];
+	return rt;
 }
 
 - (id)initWithPeriod:(NSTimeInterval)period
@@ -35,10 +35,7 @@
 	return self;
 }
 
-- (NSTimeInterval)period
-{
-	return mPeriod;
-}
+@synthesize period=mPeriod;
 
 - (void)retrigger
 {
@@ -54,25 +51,8 @@
 												 repeats:NO];
 }
 
-- (void)setAction:(SEL)action
-{
-	mAction = action;
-}
-
-- (SEL)action
-{
-	return mAction;
-}
-
-- (void)setTarget:(id)target
-{
-	mTarget = target;
-}
-
-- (id)target
-{
-	return mTarget;
-}
+@synthesize action=mAction;
+@synthesize target=mTarget;
 
 #pragma mark -
 
@@ -96,7 +76,6 @@
 - (void)dealloc
 {
 	[mTimer invalidate];
-	[super dealloc];
 }
 
 @end

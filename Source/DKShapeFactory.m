@@ -9,14 +9,13 @@
 #import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKSpeechBalloonType = @"kDKSpeechBalloonType";
-NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
+NSString* const kDKSpeechBalloonType = @"kDKSpeechBalloonType";
+NSString* const kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 
 #pragma mark -
 @implementation DKShapeFactory
 #pragma mark As a DKShapeFactory
 
-/**  */
 + (DKShapeFactory*)sharedShapeFactory
 {
 	static DKShapeFactory* sSharedShapeFactory = nil;
@@ -66,10 +65,10 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	// Make sure radius doesn't exceed a maximum size
 
 	if (radius >= (rect.size.height / 2))
-		radius = rect.size.height * 0.5f;
+		radius = rect.size.height * 0.5;
 
 	if (radius >= (rect.size.width / 2))
-		radius = rect.size.width * 0.5f;
+		radius = rect.size.width * 0.5;
 
 	// Make sure silly values simply lead to un-rounded corners:
 
@@ -124,10 +123,10 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	[path moveToPoint:p];
 
 	for (i = 0; i < numberOfSides; i++) {
-		angle = ((2 * pi * i) / numberOfSides);
+		angle = ((2 * M_PI * i) / numberOfSides);
 
-		p.x = radius * cosf(angle);
-		p.y = radius * sinf(angle);
+		p.x = radius * cos(angle);
+		p.y = radius * sin(angle);
 
 		[path lineToPoint:p];
 	}
@@ -207,14 +206,14 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	[path moveToPoint:p];
 
 	for (i = 0; i < (numberOfPoints * 2); i++) {
-		angle = ((pi * i) / numberOfPoints);
+		angle = ((M_PI * i) / numberOfPoints);
 
 		if ((i % 2) == 0) {
-			p.x = radius * cosf(angle);
-			p.y = radius * sinf(angle);
+			p.x = radius * cos(angle);
+			p.y = radius * sin(angle);
 		} else {
-			p.x = diam * cosf(angle) / 2.0;
-			p.y = diam * sinf(angle) / 2.0;
+			p.x = diam * cos(angle) / 2.0;
+			p.y = diam * sin(angle) / 2.0;
 		}
 
 		[path lineToPoint:p];
@@ -266,7 +265,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	if (innerDiameter > 1.0)
 		innerDiameter = 1.0;
 
-	CGFloat rad = innerDiameter * 0.5f;
+	CGFloat rad = innerDiameter * 0.5;
 	NSRect r = NSMakeRect(-rad, -rad, innerDiameter, innerDiameter);
 
 	[path appendBezierPathWithOvalInRect:r];
@@ -275,14 +274,14 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-+ (NSBezierPath*)roundRectSpeechBalloon:(NSInteger)sbParams cornerRadius:(CGFloat)cr
++ (NSBezierPath*)roundRectSpeechBalloon:(DKSpeechBalloonOption)sbParams cornerRadius:(CGFloat)cr
 {
 	return [self roundRectSpeechBalloonInRect:[self rectOfUnitSize]
 									   params:sbParams
 								 cornerRadius:cr];
 }
 
-+ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(NSInteger)sbParams cornerRadius:(CGFloat)cr
++ (NSBezierPath*)roundRectSpeechBalloonInRect:(NSRect)rect params:(DKSpeechBalloonOption)sbParams cornerRadius:(CGFloat)cr
 {
 	// speech ballon is a round rect with a straight spur going to one corner. The spur occupies 1/4 of the height or width of the
 	// overall bounds rectangle. The params set on which edge and which way the spur points.
@@ -306,10 +305,10 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	// Make sure radius doesn't exceed a maximum size
 
 	if (cr >= (mainRect.size.height / 2))
-		cr = _CGFloatTrunc(mainRect.size.height / 2) - 1;
+		cr = trunc(mainRect.size.height / 2) - 1;
 
 	if (cr >= (mainRect.size.width / 2))
-		cr = _CGFloatTrunc(mainRect.size.width / 2) - 1;
+		cr = trunc(mainRect.size.width / 2) - 1;
 
 	// Now draw our rectangle:
 	NSRect innerRect = NSInsetRect(mainRect, cr, cr); // Make rect with corners being centers of the corner circles.
@@ -403,7 +402,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	return path;
 }
 
-+ (NSBezierPath*)ovalSpeechBalloon:(NSInteger)sbParams
++ (NSBezierPath*)ovalSpeechBalloon:(DKSpeechBalloonOption)sbParams
 {
 #pragma unused(sbParams)
 
@@ -436,7 +435,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 {
 	// the rakeFactor is how far back the feather is swept - can be a value from 0..1
 
-	rakeFactor = LIMIT(rakeFactor, 0, 1) * 0.5f;
+	rakeFactor = LIMIT(rakeFactor, 0, 1) * 0.5;
 
 	NSBezierPath* feather = [NSBezierPath bezierPath];
 	NSPoint p = NSMakePoint(-0.5 + rakeFactor, 0);
@@ -557,13 +556,13 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 	// param is a dictionary containing the following parameters:
 	// key = kDKSpeechBalloonType, value = type flags (NSNumber as integer)
 	// key = kDKSpeechBalloonCornerRadius, value = radius (NSNumber as float)
-	NSInteger sbtype = kDKStandardSpeechBalloon;
+	DKSpeechBalloonOption sbtype = kDKStandardSpeechBalloon;
 	CGFloat radius = 16.0;
 
 	if ([param isKindOfClass:[NSDictionary class]]) {
 		NSDictionary* p = (NSDictionary*)param;
 
-		sbtype = [[p objectForKey:kDKSpeechBalloonType] integerValue];
+		sbtype = [[p objectForKey:kDKSpeechBalloonType] unsignedIntegerValue];
 		radius = [[p objectForKey:kDKSpeechBalloonCornerRadius] doubleValue];
 	}
 
@@ -575,7 +574,7 @@ NSString* kDKSpeechBalloonCornerRadius = @"kDKSpeechBalloonCornerRadius";
 #pragma mark -
 #pragma mark - As part of the NSCoding protocol
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 #pragma unused(coder)
 	return self;

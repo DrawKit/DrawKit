@@ -10,7 +10,7 @@
 #import "NSBezierPath+Geometry.h"
 #import "DKRandom.h"
 
-@interface DKHatching (Private)
+@interface DKHatching ()
 
 - (void)invalidateRoughnessCache;
 
@@ -51,7 +51,7 @@
 	[hatch setSpacing:spacing];
 	[hatch setAngle:angle];
 
-	return [hatch autorelease];
+	return hatch;
 }
 
 /** @brief Return a hatching which implements a dot pattern
@@ -67,7 +67,7 @@
 {
 	DKHatching* hatch = [self hatchingWithLineWidth:diameter
 											spacing:pitch
-											  angle:pi * 0.25];
+											  angle:M_PI_4];
 
 	CGFloat dashPattern[2];
 
@@ -124,7 +124,7 @@
 	if (m_cache) {
 		cr = [m_cache bounds];
 
-		if ((br.size.width * 1.5f) > cr.size.width || (br.size.height * 1.5f) > cr.size.height)
+		if ((br.size.width * 1.5) > cr.size.width || (br.size.height * 1.5) > cr.size.height)
 			[self invalidateCache];
 	}
 
@@ -158,7 +158,7 @@
 		else
 			[m_cache setLineDash:nil
 						   count:0
-						   phase:0.0f];
+						   phase:0.0];
 
 		[m_cache setLineCapStyle:[self lineCapStyle]];
 		[m_cache setLineJoinStyle:[self lineJoinStyle]];
@@ -187,7 +187,7 @@
 			NSBezierPath* roughHatch;
 
 			if (mRoughenedCache == nil)
-				mRoughenedCache = [[m_cache bezierPathWithRoughenedStrokeOutline:[self roughness] * [self width]] retain];
+				mRoughenedCache = [m_cache bezierPathWithRoughenedStrokeOutline:[self roughness] * [self width]];
 
 			if (oa != 0.0)
 				roughHatch = [xform transformBezierPath:mRoughenedCache];
@@ -223,13 +223,7 @@
 	}
 }
 
-/** @brief The angle of the hatching
- @return the angle in radians
- */
-- (CGFloat)angle
-{
-	return m_angle;
-}
+@synthesize angle=m_angle;
 
 /** @brief Set the angle of the hatching in degrees
  @param degs the angle in degrees 
@@ -247,20 +241,12 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
 
-- (void)setAngleIsRelativeToObject:(BOOL)rel
-{
-	m_angleRelativeToObject = rel;
-}
-
-- (BOOL)angleIsRelativeToObject
-{
-	return m_angleRelativeToObject;
-}
+@synthesize angleIsRelativeToObject=m_angleRelativeToObject;
 
 #pragma mark -
 - (void)setSpacing:(CGFloat)spacing
@@ -273,10 +259,7 @@
 	}
 }
 
-- (CGFloat)spacing
-{
-	return m_spacing;
-}
+@synthesize spacing=m_spacing;
 
 - (void)setLeadIn:(CGFloat)amount
 {
@@ -286,10 +269,7 @@
 	}
 }
 
-- (CGFloat)leadIn
-{
-	return m_leadIn;
-}
+@synthesize leadIn=m_leadIn;
 
 #pragma mark -
 - (void)setWidth:(CGFloat)width
@@ -298,10 +278,7 @@
 	[self invalidateRoughnessCache];
 }
 
-- (CGFloat)width
-{
-	return m_lineWidth;
-}
+@synthesize width=m_lineWidth;
 
 - (void)setLineCapStyle:(NSLineCapStyle)lcs
 {
@@ -309,10 +286,7 @@
 	[self invalidateRoughnessCache];
 }
 
-- (NSLineCapStyle)lineCapStyle
-{
-	return m_cap;
-}
+@synthesize lineCapStyle=m_cap;
 
 - (void)setLineJoinStyle:(NSLineJoinStyle)ljs
 {
@@ -320,37 +294,19 @@
 	[self invalidateRoughnessCache];
 }
 
-- (NSLineJoinStyle)lineJoinStyle
-{
-	return m_join;
-}
+@synthesize lineJoinStyle=m_join;
 
 #pragma mark -
-- (void)setColour:(NSColor*)colour
-{
-	[colour retain];
-	[m_hatchColour release];
-	m_hatchColour = colour;
-}
-
-- (NSColor*)colour
-{
-	return m_hatchColour;
-}
+@synthesize colour=m_hatchColour;
 
 #pragma mark -
 - (void)setDash:(DKStrokeDash*)dash
 {
-	[dash retain];
-	[m_hatchDash release];
 	m_hatchDash = dash;
 	[self invalidateRoughnessCache];
 }
 
-- (DKStrokeDash*)dash
-{
-	return m_hatchDash;
-}
+@synthesize dash=m_hatchDash;
 
 - (void)setAutoDash
 {
@@ -364,7 +320,6 @@
 				   count:2];
 
 	[self setDash:dash];
-	[dash release];
 }
 
 - (void)setRoughness:(CGFloat)amount
@@ -374,10 +329,7 @@
 	[self invalidateRoughnessCache];
 }
 
-- (CGFloat)roughness
-{
-	return mRoughness;
-}
+@synthesize roughness=mRoughness;
 
 - (void)setWobblyness:(CGFloat)wobble
 {
@@ -385,38 +337,30 @@
 	[self invalidateCache];
 }
 
-- (CGFloat)wobblyness
-{
-	return mWobblyness;
-}
+@synthesize wobblyness=mWobblyness;
 
 #pragma mark -
 - (void)invalidateCache
 {
-	[m_cache release];
 	m_cache = nil;
 	[self invalidateRoughnessCache];
 }
 
 - (void)calcHatchInRect:(NSRect)rect
 {
-	// this does the actual work of calculating the hatch. Given the rect, we build a series of lines at the origin in a square
-	// based on the largest side of <rect> *~ sqrt(2). Then we transform the cache to the current angle. This is much simpler than
-	// calculating where to start and end each line.
-
 	if (m_cache == nil) {
-		m_cache = [[NSBezierPath bezierPath] retain];
+		m_cache = [NSBezierPath bezierPath];
 
 		NSRect cr;
 
-		cr.size.width = cr.size.height = (MAX(rect.size.width, rect.size.height) * 1.5f);
-		cr.origin.x = cr.origin.y = (cr.size.width * -0.5f);
+		cr.size.width = cr.size.height = (MAX(rect.size.width, rect.size.height) * 1.5);
+		cr.origin.x = cr.origin.y = (cr.size.width * -0.5);
 
 		//LogEvent_(kReactiveEvent,  @"hatch origin rect = {%f, %f},{%f, %f}", cr.origin.x, cr.origin.y, cr.size.width, cr.size.height );
 
 		NSInteger i, m;
 
-		m = _CGFloatLround(cr.size.width / [self spacing]) + 1;
+		m = lround(cr.size.width / [self spacing]) + 1;
 		NSPoint a, b;
 
 		a.y = NSMinY(cr);
@@ -445,7 +389,6 @@
 
 - (void)invalidateRoughnessCache
 {
-	[mRoughenedCache release];
 	mRoughenedCache = nil;
 }
 
@@ -460,9 +403,9 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"angle", @"spacing",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"colour", @"angle", @"spacing",
 																							   @"width", @"dash", @"leadIn",
-																							   @"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness", nil]];
+																							   @"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness"]];
 }
 
 - (void)registerActionNames
@@ -496,14 +439,10 @@
 #pragma mark As an NSObject
 - (void)dealloc
 {
-	[m_hatchDash release];
-	[m_hatchColour release];
 	[self invalidateCache];
-
-	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -511,7 +450,7 @@
 
 		[self setLeadIn:0.0];
 		[self setSpacing:8.0];
-		[self setAngle:pi / 4.0]; //45 degrees
+		[self setAngle:M_PI_4]; //45 degrees
 		[self setWidth:0.25];
 
 		[self setLineCapStyle:NSButtLineCapStyle];
@@ -534,7 +473,7 @@
 			objectAngle:[obj angle]];
 	else
 		[self hatchPath:path
-			objectAngle:0.0f];
+			objectAngle:0.0];
 }
 
 #pragma mark -
@@ -602,7 +541,7 @@
 				 forKey:@"DKHatching_wobble"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

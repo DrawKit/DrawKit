@@ -34,7 +34,7 @@
 
 /** @brief Handle the mouse dragged event
  @param p the local point where the mouse has been dragged to
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -52,7 +52,7 @@
 
 /** @brief Handle the mouse up event
  @param p the local point where the mouse went up
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate

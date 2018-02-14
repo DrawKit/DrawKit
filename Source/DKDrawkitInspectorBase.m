@@ -46,10 +46,7 @@
 		NSArray* sel = [self selectedObjectForCurrentTarget];
 		[self redisplayContentForSelection:sel];
 
-		NSEnumerator* iter = [sel objectEnumerator];
-		id obj;
-
-		while ((obj = [iter nextObject]))
+		for (id obj in sel)
 			[[NSNotificationCenter defaultCenter] addObserver:self
 													 selector:@selector(subSelectionDidChange:)
 														 name:kDKDrawableSubselectionChangedNotification
@@ -185,11 +182,11 @@
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
 }
 
 - (void)windowDidLoad
 {
+	[super windowDidLoad];
 	[self redisplayContentForSelection:[self selectedObjectForCurrentTarget]];
 }
 
@@ -197,6 +194,7 @@
 #pragma mark As part of NSNibAwaking Protocol
 - (void)awakeFromNib
 {
+	[super awakeFromNib];
 	// sets up the notifications - call super if you override it
 
 	[[NSNotificationCenter defaultCenter] addObserver:self

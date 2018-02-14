@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKQuartzCache;
 
 /** @brief DKHandle is a base class for all handles, which are the knobs attached to shapes for interacting with them.
@@ -23,25 +25,27 @@ DKHandle is a base class for all handles, which are the knobs attached to shapes
 	NSColor* mColour;
 }
 
-+ (DKKnobType)type;
-+ (DKHandle*)handleForType:(DKKnobType)type size:(NSSize)size colour:(NSColor*)colour;
+@property (class, readonly) DKKnobType type;
++ (nullable DKHandle*)handleForType:(DKKnobType)type size:(NSSize)size colour:(nullable NSColor*)colour;
 + (void)setHandleClass:(Class)hClass forType:(DKKnobType)type;
 
-+ (NSColor*)fillColour;
-+ (NSColor*)strokeColour;
+@property (class, readonly, copy, nullable) NSColor *fillColour;
+@property (class, readonly, copy, nullable) NSColor *strokeColour;
 + (NSBezierPath*)pathWithSize:(NSSize)size;
-+ (CGFloat)strokeWidth;
-+ (CGFloat)scaleFactor;
+@property (class, readonly) CGFloat strokeWidth;
+@property (class, readonly) CGFloat scaleFactor;
 
-- (id)initWithSize:(NSSize)size;
-- (id)initWithSize:(NSSize)size colour:(NSColor*)colour;
-- (NSSize)size;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithSize:(NSSize)size;
+- (instancetype)initWithSize:(NSSize)size colour:(nullable NSColor*)colour NS_DESIGNATED_INITIALIZER;
+@property (readonly) NSSize size;
 
-- (void)setColour:(NSColor*)colour;
-- (NSColor*)colour;
+@property (strong, nullable) NSColor *colour;
 
 - (void)drawAtPoint:(NSPoint)point;
 - (void)drawAtPoint:(NSPoint)point angle:(CGFloat)radians;
 - (BOOL)hitTestPoint:(NSPoint)point inHandleAtPoint:(NSPoint)hp;
 
 @end
+
+NS_ASSUME_NONNULL_END

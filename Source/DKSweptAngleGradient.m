@@ -17,6 +17,7 @@
 #pragma mark -
 @implementation DKSweptAngleGradient
 #pragma mark As a DKSweptAngleGradient
+@synthesize numberOfAngularSegments=m_sa_segments;
 
 + (DKGradient*)sweptAngleGradient
 {
@@ -33,20 +34,10 @@
 	[sa addColor:c2
 			  at:1];
 
-	return [sa autorelease];
+	return sa;
 }
 
 #pragma mark -
-
-- (void)setNumberOfAngularSegments:(NSInteger)ns
-{
-	m_sa_segments = ns;
-}
-
-- (NSInteger)numberOfAngularSegments
-{
-	return m_sa_segments;
-}
 
 - (void)preloadColours
 {
@@ -90,8 +81,8 @@
 	// directly create a bitmap context of the desired size then convert it to an image - this is much easier than messing about with data
 	// providers, etc
 
-	width = MAX(1, (NSInteger)(rect.size.width * 1.5f));
-	height = MAX(1, (NSInteger)(rect.size.height * 1.5f));
+	width = MAX(1, (NSInteger)(rect.size.width * 1.5));
+	height = MAX(1, (NSInteger)(rect.size.height * 1.5));
 
 	NSUInteger bufferSize = 4 * width * (height + 1);
 	unsigned char* buffer;
@@ -119,15 +110,15 @@
 
 		cp.x *= 1.5;
 		cp.y *= 1.5;
-		twopi = 2 * pi;
+		twopi = 2 * M_PI;
 
-		unsigned long* p = (unsigned long*)buffer;
+		unsigned int* p = (unsigned int*)buffer;
 
 		for (y = 0; y < height; ++y) {
 			for (x = 0; x < width; ++x) {
 				// need to know angle of x,y relative to centre point which gives us an index into the colour table
 
-				angle = atan2f((CGFloat)y - cp.y, (CGFloat)x - cp.x) + pi;
+				angle = atan2((CGFloat)y - cp.y, (CGFloat)x - cp.x) + M_PI;
 				colour = (NSUInteger)((angle * (CGFloat)nColours) / twopi);
 
 				// add a bit of random dither to the colour
@@ -215,7 +206,7 @@
 	CGContextTranslateCTM(context, rcp.x, rcp.y);
 	CGContextRotateCTM(context, sa);
 
-	CGContextDrawImage(context, *(CGRect*)&ir, m_sa_image);
+	CGContextDrawImage(context, NSRectToCGRect(ir), m_sa_image);
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
 
@@ -234,7 +225,7 @@
 		NSAssert(m_sa_img_width == 0, @"Expected init to zero");
 		NSAssert(!m_ditherColours, @"Expected init to NO");
 
-		[self setGradientType:kDKGradientSweptAngle];
+		[self setGradientType:kDKGradientTypeSweptAngle];
 	}
 	return self;
 }
@@ -242,7 +233,6 @@
 - (void)dealloc
 {
 	[self invalidateCache];
-	[super dealloc];
 }
 
 @end

@@ -19,16 +19,13 @@
 										  copyItems:YES];
 #else
 	NSMutableDictionary* copy;
-	NSEnumerator* iter = [self keyEnumerator];
-	id key, cobj;
 
 	copy = [[NSMutableDictionary alloc] init];
 
-	while ((key = [iter nextObject])) {
-		cobj = [[self objectForKey:key] deepCopy];
+	for (id key in self) {
+		id cobj = [[self objectForKey:key] deepCopy];
 		[copy setObject:cobj
 				 forKey:key];
-		[cobj release];
 	}
 
 	return copy;
@@ -47,15 +44,12 @@
 								copyItems:YES];
 #else
 	NSMutableArray* copy;
-	NSEnumerator* iter = [self objectEnumerator];
-	id obj, cobj;
 
 	copy = [[NSMutableArray alloc] init];
 
-	while ((obj = [iter nextObject])) {
-		cobj = [obj deepCopy];
+	for (id obj in self) {
+		id cobj = [obj deepCopy];
 		[copy addObject:cobj];
-		[cobj release];
 	}
 
 	return copy;
@@ -84,15 +78,12 @@
 									   copyItems:YES];
 #else
 	NSMutableArray* copy;
-	NSEnumerator* iter = [self objectEnumerator];
-	id obj, cobj;
 
 	copy = [[NSMutableArray alloc] init];
 
-	while ((obj = [iter nextObject])) {
-		cobj = [obj deepCopy];
+	for (id obj in self) {
+		id cobj = [obj deepCopy];
 		[copy addObject:cobj];
-		[cobj release];
 	}
 
 	return copy;

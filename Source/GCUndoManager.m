@@ -16,7 +16,7 @@
 	id mNextTarget;
 }
 
-- (id)initWithUndoManager:(GCUndoManager*)um;
+- (instancetype)initWithUndoManager:(GCUndoManager*)um;
 - (void)forwardInvocation:(NSInvocation*)inv;
 - (NSMethodSignature*)methodSignatureForSelector:(SEL)selector;
 - (BOOL)respondsToSelector:(SEL)selector;
@@ -204,7 +204,7 @@
 	return mEnableLevel >= 0;
 }
 
-- (NSUInteger)groupingLevel
+- (NSInteger)groupingLevel
 {
 #if CALCULATE_GROUPING_LEVEL
 	NSUInteger level = 0;
@@ -221,21 +221,6 @@
 #else
 	return mGroupLevel;
 #endif
-}
-
-- (BOOL)groupsByEvent
-{
-	return mGroupsByEvent;
-}
-
-- (void)setGroupsByEvent:(BOOL)groupByEvent
-{
-	mGroupsByEvent = groupByEvent;
-}
-
-- (NSUInteger)levelsOfUndo
-{
-	return mLevelsOfUndo;
 }
 
 - (void)setLevelsOfUndo:(NSUInteger)levels
@@ -257,20 +242,9 @@
 	}
 }
 
-- (NSArray*)runLoopModes
-{
-	return mRunLoopModes;
-}
-
-- (void)setRunLoopModes:(NSArray*)modes
-{
-	[modes retain];
-	[mRunLoopModes release];
-	mRunLoopModes = modes;
-
-	// n.b. if this is changed while a callback is pending, the new modes won't take effect until
-	// the next event cycle.
-}
+@synthesize groupsByEvent=mGroupsByEvent;
+@synthesize levelsOfUndo=mLevelsOfUndo;
+@synthesize runLoopModes=mRunLoopModes;
 
 - (void)setActionName:(NSString*)actionName
 {
@@ -405,10 +379,8 @@
 		mIsRemovingTargets = YES;
 
 		NSArray* temp = [[self undoStack] copy];
-		NSEnumerator* iter = [temp objectEnumerator];
-		GCUndoGroup* task;
 
-		while ((task = [iter nextObject])) {
+		for (GCUndoGroup* task in temp) {
 			[task removeTasksWithTarget:target
 							undoManager:self];
 
@@ -422,9 +394,8 @@
 		[temp release];
 
 		temp = [[self redoStack] copy];
-		iter = [temp objectEnumerator];
 
-		while ((task = [iter nextObject])) {
+		for (GCUndoGroup* task in temp) {
 			[task removeTasksWithTarget:target
 							undoManager:self];
 
@@ -456,20 +427,7 @@
 #pragma mark -
 #pragma mark - additional API
 
-- (void)setAutomaticallyDiscardsEmptyGroups:(BOOL)autoDiscard
-{
-	// set whether empty groups are automatically discarded when the top level group is closed. Default is YES. Set to
-	// NO for NSUndoManager behaviour - could conceivably be used to trigger undo managed outside of the undo manager.
-	// However this behaviour is buggy for normal usage of the undo manager. Setting this from NO to YES does not
-	// remove existing empty groups. Used in -endUndoGrouping.
-
-	mAutoDeleteEmptyGroups = autoDiscard;
-}
-
-- (BOOL)automaticallyDiscardsEmptyGroups
-{
-	return mAutoDeleteEmptyGroups;
-}
+@synthesize automaticallyDiscardsEmptyGroups=mAutoDeleteEmptyGroups;
 
 - (void)enableUndoTaskCoalescing
 {
@@ -481,25 +439,8 @@
 	mCoalescing = NO;
 }
 
-- (BOOL)isUndoTaskCoalescingEnabled
-{
-	return mCoalescing;
-}
-
-- (void)setCoalescingKind:(GCUndoTaskCoalescingKind)kind
-{
-	// sets the behaviour for coalescing. kGCCoalesceLastTask (default) checks just the most recent task submitted, whereas
-	// kGCCoalesceAllMatchingTasks checks all in the current group. Last task is appropriate for property changes such as
-	// ABBBBBBA > ABA, where the last A needs to be included but the intermediate B's do not. The other kind is better for changes
-	// such as ABABABAB > AB where a repeated sequence is coalesced into a single example of the sequence.
-
-	mCoalKind = kind;
-}
-
-- (GCUndoTaskCoalescingKind)coalescingKind
-{
-	return mCoalKind;
-}
+@synthesize undoTaskCoalescingEnabled=mCoalescing;
+@synthesize coalescingKind=mCoalKind;
 
 - (void)setRetainsTargets:(BOOL)retainsTargets
 {
@@ -514,6 +455,7 @@
 {
 	return mRetainsTargets;
 }
+@synthesize retainsTargets=mRetainsTargets;
 
 - (void)setNextTarget:(id)target
 {
@@ -531,6 +473,8 @@
 
 	return mChangeCount;
 }
+
+@synthesize changeCount=mChangeCount;
 
 - (void)resetChangeCount
 {
@@ -583,12 +527,7 @@
 	return [[self redoStack] count];
 }
 
-- (GCUndoGroup*)currentGroup
-{
-	// return the currently open group, or nil if no group is open
-
-	return mOpenGroupRef;
-}
+@synthesize currentGroup=mOpenGroupRef;
 
 - (NSArray*)undoStack
 {
@@ -799,17 +738,7 @@
 														object:self];
 }
 
-- (GCUndoManagerState)undoManagerState
-{
-	return mState;
-}
-
-- (void)setUndoManagerState:(GCUndoManagerState)aState
-{
-	// sets the current state of the undo manager - called internally, not for client use
-
-	mState = aState;
-}
+@synthesize undoManagerState=mState;
 
 - (void)reset
 {
@@ -836,13 +765,11 @@
 
 	if ([self canUndo]) {
 		GCUndoGroup* topGroup = [self popUndo];
-		NSEnumerator* iter = [[topGroup tasks] objectEnumerator];
 		NSUInteger suffix = 0;
-		GCUndoTask* task;
 		GCUndoGroup* newTaskGroup;
 		NSString* selString;
 
-		while ((task = [iter nextObject])) {
+		for (GCUndoTask* task in [topGroup tasks]) {
 			newTaskGroup = [[GCUndoGroup alloc] init];
 			[newTaskGroup addTask:task];
 
@@ -861,7 +788,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -869,7 +796,7 @@
 		mRedoStack = [[NSMutableArray alloc] init];
 
 		mGroupsByEvent = YES;
-		mRunLoopModes = [[NSArray arrayWithObject:NSDefaultRunLoopMode] retain];
+		mRunLoopModes = [@[NSDefaultRunLoopMode] retain];
 		mAutoDeleteEmptyGroups = YES;
 		mCoalKind = kGCCoalesceLastTask;
 
@@ -922,16 +849,7 @@
 #pragma mark -
 
 @implementation GCUndoTask
-
-- (GCUndoGroup*)parentGroup
-{
-	return mGroupRef;
-}
-
-- (void)setParentGroup:(GCUndoGroup*)parent
-{
-	mGroupRef = parent;
-}
+@synthesize parentGroup=mGroupRef;
 
 - (void)perform
 {
@@ -985,11 +903,9 @@
 	if (target == nil && selector == NULL)
 		return [self tasks];
 
-	NSEnumerator* iter = [[self tasks] objectEnumerator];
-	GCUndoTask* task;
 	NSMutableArray* tasks = [NSMutableArray array];
 
-	while ((task = [iter nextObject])) {
+	for (GCUndoTask* task in [self tasks]) {
 		if ([task isKindOfClass:[GCConcreteUndoTask class]]) {
 			id targ = [(GCConcreteUndoTask*)task target];
 			SEL sel = [(GCConcreteUndoTask*)task selector];
@@ -1009,10 +925,7 @@
 	if ([[self tasks] count] == 0)
 		return YES;
 	else {
-		NSEnumerator* iter = [[self tasks] objectEnumerator];
-		GCUndoTask* task;
-
-		while ((task = [iter nextObject])) {
+		for (GCUndoTask* task in self.tasks) {
 			if ([task isKindOfClass:[self class]]) {
 				// is a group - is that one empty?
 
@@ -1032,10 +945,8 @@
 	// It also removes any subgroups that become empty as a result.
 
 	NSArray* temp = [[self tasks] copy];
-	NSEnumerator* iter = [temp objectEnumerator];
-	GCUndoTask* task;
 
-	while ((task = [iter nextObject])) {
+	for (GCUndoTask* task in temp) {
 		if ([task respondsToSelector:_cmd]) {
 			[(GCUndoGroup*)task removeTasksWithTarget:aTarget
 										  undoManager:um];
@@ -1051,19 +962,7 @@
 	[temp release];
 }
 
-- (void)setActionName:(NSString*)name
-{
-	// sets the group's action name. In general this is automatically handled by the owning undo manager
-
-	[name retain];
-	[mActionName release];
-	mActionName = name;
-}
-
-- (NSString*)actionName
-{
-	return mActionName;
-}
+@synthesize actionName=mActionName;
 
 #pragma mark -
 #pragma mark - as a GCUndoTask
@@ -1081,7 +980,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -1111,7 +1010,7 @@
 
 @implementation GCConcreteUndoTask
 
-- (id)initWithInvocation:(NSInvocation*)inv
+- (instancetype)initWithInvocation:(NSInvocation*)inv
 {
 	// designated initializer.
 	// If <inv> is nil the task is released and nil is returned.
@@ -1128,14 +1027,14 @@
 			mInvocation = [inv retain];
 		} else {
 			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 
 	return self;
 }
 
-- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)object
+- (instancetype)initWithTarget:(id)target selector:(SEL)selector object:(id)object
 {
 	// alternative initialiser for direct target/selector/object initialisation. Creates an invocation internally. If the UM is set not to retain
 	// its target, the target will be nil and subsequently set using -setTarget:
@@ -1176,10 +1075,7 @@
 	mTargetRetained = retainIt;
 }
 
-- (id)target
-{
-	return mTarget;
-}
+@synthesize target=mTarget;
 
 - (SEL)selector
 {
@@ -1202,7 +1098,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	[self autorelease];
 	return nil;

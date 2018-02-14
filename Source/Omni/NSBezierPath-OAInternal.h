@@ -7,6 +7,7 @@
 //
 // $Header: svn+ssh://source.omnigroup.com/Source/svn/Omni/tags/OmniSourceRelease/2008-03-20/OmniGroup/Frameworks/OmniAppKit/OpenStepExtensions.subproj/NSBezierPath-OAInternal.h 89482 2007-08-02 01:03:15Z kc $
 
+#import <Cocoa/Cocoa.h>
 #import "NSBezierPath-OAExtensions.h"
 
 //#import <OmniBase/assertions.h>
@@ -27,10 +28,10 @@
 struct intersectionInfo {
     double leftParameter, rightParameter;
     double leftParameterDistance, rightParameterDistance;
-    enum OAIntersectionAspect leftEntryAspect, leftExitAspect;
+    OAIntersectionAspect leftEntryAspect, leftExitAspect;
 };
 
-typedef struct {
+typedef struct OAdPoint {
     double x;
     double y;
 } OAdPoint;

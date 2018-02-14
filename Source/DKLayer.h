@@ -7,30 +7,32 @@
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawing, DKDrawingView, DKLayerGroup, DKDrawableObject, DKKnob, DKStyle, GCInfoFloater;
 
 // generic layer class:
 
-/** @brief drawing layers are lightweight objects which represent a layer.
+/** @brief Drawing layers are lightweight objects which represent a layer.
 
-drawing layers are lightweight objects which represent a layer. They are owned by a DKDrawing which manages the
-stacking order and invokes the drawRect: method as needed. The other state variables control whether the layer is
-visible, locked, etc.
-
-DKDrawing will not ever call a drawRect: on a layer that returns NO for visible.
-
-if isOpaque returns YES, layers that are stacked below this one will not be drawn, even if they are visible. isOpaque
-returns NO by default.
-
-locked layers should not be editable, but this must be enforced by subclasses, as this class contains no editing
-features. However, locked layers will never receive mouse event calls so generally this will be enough.
-
-As layers are retained by the drawing, this does not retain the drawing.
-
-By definition the bounds of the layer is the same as the bounds of the drawing.
+ Drawing layers are lightweight objects which represent a layer. They are owned by a DKDrawing which manages the
+ stacking order and invokes the drawRect: method as needed. The other state variables control whether the layer is
+ visible, locked, etc.
  
-DKLayer does not implement a dragging destination but some subclasses do. NSDraggingDestination is declared to
-indicate likely handling of drag and drop operations by a layer instance.
+ \c DKDrawing will not ever call a \c drawRect: on a layer that returns \c NO for visible.
+ 
+ If \c isOpaque returns YES, layers that are stacked below this one will not be drawn, even if they are visible. \c isOpaque
+ returns \c NO by default.
+ 
+ Locked layers should not be editable, but this must be enforced by subclasses, as this class contains no editing
+ features. However, locked layers will never receive mouse event calls so generally this will be enough.
+ 
+ As layers are retained by the drawing, this does not retain the drawing.
+ 
+ By definition the bounds of the layer is the same as the bounds of the drawing.
+ 
+ \c DKLayer does not implement a dragging destination but some subclasses do. \c NSDraggingDestination is declared to
+ indicate likely handling of drag and drop operations by a layer instance.
 */
 @interface DKLayer : NSObject <NSCoding, NSDraggingDestination, NSUserInterfaceValidations, DKKnobOwner> {
 @private
@@ -43,7 +45,7 @@ indicate likely handling of drag and drop operations by a layer instance.
 	BOOL m_printed; // is the layer drawn when printing?
 	BOOL mRulerMarkersEnabled; // YES to pass ruler marker updates to enclosing group, NO to ignore
 	GCInfoFloater* m_infoWindow; // info window instance that can be used by client objects as they wish
-	DKLayerGroup* m_groupRef; // group we are contained by (or drawing)
+	DKLayerGroup* __weak m_groupRef; // group we are contained by (or drawing)
 	BOOL m_clipToInterior; // YES to clip drawing to inside the interior region
 	NSMutableDictionary* mUserInfo; // metadata
 	NSUInteger mReserved[3]; // unused
@@ -51,21 +53,18 @@ indicate likely handling of drag and drop operations by a layer instance.
 	CGFloat mAlpha; // alpha value applied to layer as a whole
 }
 
-/** @brief Allows a list of colours to be set for supplying the selection colours
-
- The list is used to supply colours in rotation when new layers are instantiated
- @param listOfColours an array containing NSColor objects
- */
-+ (void)setSelectionColours:(NSArray*)listOfColours;
-
 /** @brief Returns the list of colours used for supplying the selection colours
 
+ The list is used to supply colours in rotation when new layers are instantiated.
  If never specifically set, this returns a very simple list of basic colours which is what DK has
  traditionally used.
  @return an array containing NSColor objects
  */
-+ (NSArray*)selectionColours;
-+ (NSColor*)selectionColourForIndex:(NSUInteger)index;
+@property (class, copy, null_resettable) NSArray<NSColor*> *selectionColours;
++ (nullable NSColor*)selectionColourForIndex:(NSUInteger)index;
+
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
 // owning drawing:
 
@@ -75,7 +74,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  how this works
  @return the layer's owner drawing
  */
-- (DKDrawing*)drawing;
+@property (readonly, strong) DKDrawing *drawing;
 
 /** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
  to update their references
@@ -97,7 +96,7 @@ indicate likely handling of drag and drop operations by a layer instance.
 /** @brief Obtains the undo manager that is handling undo for the drawing and hence, this layer
  @return the undo manager in use
  */
-- (NSUndoManager*)undoManager;
+@property (nonatomic, strong) NSUndoManager *undoManager;
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
 
@@ -112,21 +111,15 @@ indicate likely handling of drag and drop operations by a layer instance.
 /** @brief Sets the group that the layer is contained in - called automatically when the layer is added to a group
 
  The group retains this, so the group isn't retained here
- @param group the group we belong to */
-- (void)setLayerGroup:(DKLayerGroup*)group;
-
-/** @brief Gets the group that the layer is contained in
-
- The layer's group might be the drawing itself, which is a group
- @return the layer's group */
-- (DKLayerGroup*)layerGroup;
+ */
+@property (weak, nullable) DKLayerGroup *layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 
  If the layer isn't in a group yet, result is 0. This is intended for debugging mostly.
  @return an integer, the layer's index
  */
-- (NSUInteger)indexInGroup;
+@property (readonly) NSUInteger indexInGroup;
 
 /** @brief Determine whether a given group is the parent of this layer, or anywhere above it in the hierarchy
 
@@ -138,10 +131,10 @@ indicate likely handling of drag and drop operations by a layer instance.
 
 /** @brief Returns the hierarchical level of this layer, i.e. how deeply nested it is
 
- Layers in the root group return 1. A layer's level is its group's level + 1 
+ Layers in the root group return 1. A layer's level is its group's level + 1
  @return the layer's level
  */
-- (NSUInteger)level;
+@property (readonly) NSUInteger level;
 
 // drawing:
 
@@ -153,7 +146,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @param rect the overall area being updated
  @param aView the view doing the rendering
  */
-- (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView;
+- (void)drawRect:(NSRect)rect inView:(nullable DKDrawingView*)aView;
 
 /** @brief Is the layer opaque or transparent?
 
@@ -162,7 +155,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  The default is NO, layers are considered to be transparent.
  @return whether to treat the layer as opaque or not
  */
-- (BOOL)isOpaque;
+@property (readonly, getter=isOpaque) BOOL opaque;
 
 /** @brief Flags the whole layer as needing redrawing
 
@@ -186,7 +179,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  directly.
  @param setOfRects a set containing NSValues with rect values
  */
-- (void)setNeedsDisplayInRects:(NSSet*)setOfRects;
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects;
 
 /** @brief Marks several areas for update at once
 
@@ -195,7 +188,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @param setOfRects a set containing NSValues with rect values
  @param padding the width and height will be added to EACH rect before invalidating
  */
-- (void)setNeedsDisplayInRects:(NSSet*)setOfRects withExtraPadding:(NSSize)padding;
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects withExtraPadding:(NSSize)padding;
 
 /** @brief Called before the layer starts drawing its content
 
@@ -214,14 +207,8 @@ indicate likely handling of drag and drop operations by a layer instance.
  Different layers may wish to have a different colour for selections to help the user tell which
  layer they are working in. The layer doesn't enforce this - it's up to objects to make use of
  this provided colour where necessary.
- @param colour the selection colour preference
  */
-- (void)setSelectionColour:(NSColor*)colour;
-
-/** @brief Returns the currently preferred selection colour for this layer
- @return the colour
- */
-- (NSColor*)selectionColour;
+@property (nonatomic, strong, nullable) NSColor *selectionColour;
 
 /** @brief Returns an image of the layer a the given size
 
@@ -229,11 +216,10 @@ indicate likely handling of drag and drop operations by a layer instance.
  drawing, scaled to fit. Areas left outside of the drawn portion are transparent.
  @return an image of this layer only
  */
-
+- (NSImage*)thumbnailImageWithSize:(NSSize)size;
 /** @brief Returns an image of the layer at the default size
  @return an image of this layer only
  */
-- (NSImage*)thumbnailImageWithSize:(NSSize)size;
 - (NSImage*)thumbnail;
 
 /** @brief Returns the content of the layer as a pdf
@@ -263,101 +249,65 @@ indicate likely handling of drag and drop operations by a layer instance.
 /** @brief Sets whether drawing is limited to the interior area or not
 
  Default is NO, so drawings show in the margins.
- @param clip YES to limit drawing to the interior, NO to allow drawing to be visible in the margins.
+ Set to \c YES to limit drawing to the interior, \c NO to allow drawing to be visible in the margins.
  */
-- (void)setClipsDrawingToInterior:(BOOL)clip;
-
-/** @brief Whether the drawing will be clipped to the interior or not
-
- Default is NO.
- @return YES if clipping, NO if not.
- */
-- (BOOL)clipsDrawingToInterior;
+@property (nonatomic) BOOL clipsDrawingToInterior;
 
 /** @brief Sets the alpha level for the layer
 
  Default is 1.0 (fully opaque objects). Note that alpha must be implemented by a layer's
- -drawRect:inView: method to have an actual effect, and unless compositing to a CGLayer or other
+ \c -drawRect:inView: method to have an actual effect, and unless compositing to a CGLayer or other
  graphics surface, may not have the expected effect (just setting the context's alpha before
  drawing renders each individual object with the given alpha, for example).
- @param alpha the alpha level, 0..1
  */
-- (void)setAlpha:(CGFloat)alpha;
-
-/** @brief Returns the alpha level for the layer as a whole
-
- Default is 1.0 (fully opaque objects)
- @return the current alpha level
- */
-- (CGFloat)alpha;
+@property (nonatomic) CGFloat alpha;
 
 // managing ruler markers:
 
 - (void)updateRulerMarkersForRect:(NSRect)rect;
 - (void)hideRulerMarkers;
-- (void)setRulerMarkerUpdatesEnabled:(BOOL)enable;
-- (BOOL)rulerMarkerUpdatesEnabled;
+@property BOOL rulerMarkerUpdatesEnabled;
 
 // states:
 
-/** @brief Sets whether the layer is locked or not
+/** @brief Whether the layer is locked or not
 
  A locked layer will be drawn but cannot be edited. In case the layer's appearance changes
  according to this state change, a refresh is performed.
- @param locked YES to lock, NO to unlock
+ Set to \c YES to lock, \c NO to unlock.
  */
-- (void)setLocked:(BOOL)locked;
+@property BOOL locked;
 
-/** @brief Returns whether the layer is locked or not
-
- Locked layers cannot be edited. Also returns YES if the layer belongs to a locked group
- @return YES if locked, NO if unlocked
- */
-- (BOOL)locked;
-
-/** @brief Sets whether the layer is visible or not
+/** @brief Whether the layer is visible or not.
 
  Invisible layers are neither drawn nor can be edited.
- @param visible YES to show the layer, NO to hide it
+ Also returns \c NO if the layer's group is not visible.
+ Set to \c YES to show the layer, \c NO to hide it.
  */
-- (void)setVisible:(BOOL)visible;
-
-/** @brief Is the layer visible?
-
- Also returns NO if the layer's group is not visible
- @return YES if visible, NO if not
- */
-- (BOOL)visible;
+@property BOOL visible;
 
 /** @brief Is the layer the active layer?
  @return YES if the active layer, NO otherwise
  */
-- (BOOL)isActive;
+@property (readonly, getter=isActive) BOOL active;
 
 /** @brief Returns whether the layer is locked or hidden
 
  Locked or hidden layers cannot usually be edited.
- @return YES if locked or hidden, NO if unlocked and visible
+ Is \c YES if locked or hidden, \c NO if unlocked and visible
  */
-- (BOOL)lockedOrHidden;
+@property (readonly) BOOL lockedOrHidden;
 
 /** @brief Sets the user-readable name of the layer
 
  Layer names are a convenience for the user, and can be displayed by a user interface. The name is
  not significant internally. This copies the name passed for safety.
- @param name the layer's name
  */
-- (void)setLayerName:(NSString*)name;
-
-/** @brief Returns the layer's name
- @return the name
- */
-- (NSString*)layerName;
+@property (nonatomic, copy) NSString *layerName;
 
 // user info support
 
-- (void)setUserInfo:(NSMutableDictionary*)info;
-- (void)addUserInfo:(NSDictionary*)info;
+- (void)addUserInfo:(NSDictionary<NSString*,id>*)info;
 
 /** @brief Return the attached user info
 
@@ -366,45 +316,38 @@ indicate likely handling of drag and drop operations by a layer instance.
  the object however.
  @return the user info
  */
-- (NSMutableDictionary*)userInfo;
+@property (copy) NSMutableDictionary<NSString*,id> *userInfo;
 
 /** @brief Return an item of user info
  @param key the key to use to refer to the item
  @return the user info item
  */
-- (id)userInfoObjectForKey:(NSString*)key;
+- (nullable id)userInfoObjectForKey:(NSString*)key;
 - (void)setUserInfoObject:(id)obj forKey:(NSString*)key;
 
 /** @brief Returns the layer's unique key
  @return the unique key
  */
-- (NSString*)uniqueKey;
+@property (readonly, copy) NSString *uniqueKey;
 
 // print this layer?
 
-/** @brief Set whether this layer should be included in printed output
-
- Default is YES
- @param printIt YES to includethe layer, NO to skip it
- */
-- (void)setShouldDrawToPrinter:(BOOL)printIt;
-
-/** @brief Return whether the layer should be part of the printed output or not
+/** @brief Whether the layer should be part of the printed output or not
 
  Some layers won't want to be printed - guides for example. Override this to return NO if you
  don't want the layer to be printed. By default layers are printed.
- @return YES to draw to printer, NO to suppress drawing on the printer
+ Set to \c YES to draw to printer, \c NO to suppress drawing on the printer.
  */
-- (BOOL)shouldDrawToPrinter;
+@property BOOL shouldDrawToPrinter;
 
 // becoming/resigning active:
 
 /** @brief Returns whether the layer can become the active layer
 
- The default is YES. Layers may override this and return NO if they do not want to ever become active
- @return YES if the layer can become active, NO to not become active
+ The default is YES. Layers may override this and return \c NO if they do not want to ever become active
+ Is \c YES if the layer can become active, \c NO to not become active
  */
-- (BOOL)layerMayBecomeActive;
+@property (readonly) BOOL layerMayBecomeActive;
 
 /** @brief The layer was made the active layer by the owning drawing
 
@@ -424,9 +367,9 @@ indicate likely handling of drag and drop operations by a layer instance.
 
  This setting is intended to be checked by UI-level code to prevent deletion of layers within the UI.
  It does not prevent code from directly removing the layer.
- @return YES if layer can be deleted, override to return NO to prevent this
+ @return \c YES if layer can be deleted, override to return \c NO to prevent this
  */
-- (BOOL)layerMayBeDeleted;
+@property (readonly) BOOL layerMayBeDeleted;
 
 // mouse event handling:
 
@@ -457,7 +400,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @param p the point to test
  @return the object hit, or nil
  */
-- (DKDrawableObject*)hitTest:(NSPoint)p;
+- (nullable DKDrawableObject*)hitTest:(NSPoint)p;
 
 /** @brief The mouse went down in this layer
 
@@ -497,7 +440,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  use the view parameter that is passed to you rather than use this.
  @return the currently "important" view
  */
-- (NSView*)currentView;
+- (nullable NSView*)currentView;
 
 /** @brief Returns the cursor to display while the mouse is over this layer while it's active
 
@@ -512,7 +455,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  By default the cursor rect is the entire interior area.
  @return the cursor rect
  */
-- (NSRect)activeCursorRect;
+@property (readonly) NSRect activeCursorRect;
 
 /** @brief Allows a contextual menu to be built for the layer or its contents
 
@@ -522,14 +465,37 @@ indicate likely handling of drag and drop operations by a layer instance.
  @param view the view that received the original event
  @return a menu that will be displayed as a contextual menu
  */
-- (NSMenu*)menuForEvent:(NSEvent*)theEvent inView:(NSView*)view;
+- (nullable NSMenu*)menuForEvent:(NSEvent*)theEvent inView:(NSView*)view;
 
 // supporting per-layer knob handling - default defers to the drawing as before
 
-- (void)setKnobs:(DKKnob*)knobs;
-- (DKKnob*)knobs;
-- (void)setKnobsShouldAdustToViewScale:(BOOL)ka;
-- (BOOL)knobsShouldAdjustToViewScale;
+/** @brief Returns the attached selection knobs helper object
+ 
+ Selection appearance can be customised for this drawing by setting up the knobs object or subclassing
+ it. This object is propagated down to all objects below this in the system to draw their selection.
+ See also: -setSelectionColour, -selectionColour.
+ If custom knobs have been set for the layer, they are returned. Otherwise, the knobs for the group
+ or ultimately the drawing will be returned.
+ @return the attached knobs object
+ */
+@property (nonatomic, strong) DKKnob *knobs;
+/** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
+ 
+ In general it's best to scale the knobs otherwise they tend to overlap and become large at high
+ zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
+ @param ka YES to set knobs to scale, NO to fix their size.
+ @deprecated Method was misspelled, use \c -setKnobsShouldAdjustToViewScale instead.
+ */
+- (void)setKnobsShouldAdustToViewScale:(BOOL)ka API_DEPRECATED_WITH_REPLACEMENT("setKnobsShouldAdjustToViewScale", macosx(10.0, 10.6));
+
+/** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
+ 
+ The default setting is YES, knobs should adjust to scale.
+ In general, it's best to scale the knobs, otherwise they tend to overlap and become large at high
+ zoom factors, and vice versa. The knobs objects itself decides exactly how to perform the scaling.
+ Set to \c YES to set knobs to scale, \c NO to fix their size.
+ */
+@property (nonatomic) BOOL knobsShouldAdjustToViewScale;
 
 // pasteboard types for drag/drop etc:
 
@@ -539,7 +505,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  they can handle and also implement the necessary parts of the NSDraggingDestination protocol
  just as if they were a view.
  */
-- (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
+- (nullable NSArray<NSPasteboardType>*)pasteboardTypesForOperation:(DKPasteboardOperationType)op;
 
 /** @brief Tests whether the pasteboard has any of the types the layer is interested in receiving for the given
  operation
@@ -556,14 +522,14 @@ indicate likely handling of drag and drop operations by a layer instance.
  Override if your layer uses styles
  @return nil
  */
-- (NSSet*)allStyles;
+- (nullable NSSet<DKStyle*>*)allStyles;
 
 /** @brief Return all of registered styles used by the layer
 
  Override if your layer uses styles
  @return nil
  */
-- (NSSet*)allRegisteredStyles;
+- (nullable NSSet<DKStyle*>*)allRegisteredStyles;
 
 /** @brief Substitute styles with those in the given set
 
@@ -573,7 +539,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  the change to all sublayers.
  @param aSet a set of style objects
  */
-- (void)replaceMatchingStylesFromSet:(NSSet*)aSet;
+- (void)replaceMatchingStylesFromSet:(NSSet<DKStyle*>*)aSet;
 
 // info window utilities:
 
@@ -602,44 +568,44 @@ indicate likely handling of drag and drop operations by a layer instance.
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)lockLayer:(id)sender;
+- (IBAction)lockLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)unlockLayer:(id)sender;
+- (IBAction)unlockLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)toggleLayerLock:(id)sender;
+- (IBAction)toggleLayerLock:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)showLayer:(id)sender;
+- (IBAction)showLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)hideLayer:(id)sender;
+- (IBAction)hideLayer:(nullable id)sender;
 
 /**
  User interface level method can be linked to a menu or other appropriate UI widget
  @param sender the sender of the action
  */
-- (IBAction)toggleLayerVisible:(id)sender;
+- (IBAction)toggleLayerVisible:(nullable id)sender;
 
 /**
  Debugging method
  @param sender the sender of the action
  */
-- (IBAction)logDescription:(id)sender;
-- (IBAction)copy:(id)sender;
+- (IBAction)logDescription:(nullable id)sender;
+- (IBAction)copy:(nullable id)sender;
 
 @end
 
@@ -649,7 +615,9 @@ indicate likely handling of drag and drop operations by a layer instance.
 
 @end
 
-extern NSString* kDKLayerLockStateDidChange;
-extern NSString* kDKLayerVisibleStateDidChange;
-extern NSString* kDKLayerNameDidChange;
-extern NSString* kDKLayerSelectionHighlightColourDidChange;
+extern NSNotificationName const kDKLayerLockStateDidChange;
+extern NSNotificationName const kDKLayerVisibleStateDidChange;
+extern NSNotificationName const kDKLayerNameDidChange;
+extern NSNotificationName const kDKLayerSelectionHighlightColourDidChange;
+
+NS_ASSUME_NONNULL_END

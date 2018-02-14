@@ -4,14 +4,17 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawingView.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DKDrawableObject, DKObjectOwnerLayer, DKShapeGroup;
 
-/** @brief these objects are never used to make a visible view.
+/** @brief These objects are never used to make a visible view.
 
-these objects are never used to make a visible view. Their only function is to allow parts of a drawing to be
- selectively written to a PDF. This is made by DKObjectDrawingLayer internally and is private to the DrawKit.
+ These objects are never used to make a visible view. Their only function is to allow parts of a drawing to be
+ selectively written to a PDF. This is made by \c DKObjectDrawingLayer internally and is private to the DrawKit.
 */
 @interface DKSelectionPDFView : DKDrawingView
 @end
@@ -19,17 +22,21 @@ these objects are never used to make a visible view. Their only function is to a
 @class DKObjectOwnerLayer, DKShapeGroup;
 
 @interface DKLayerPDFView : DKDrawingView {
-	DKLayer* mLayerRef;
+	__weak DKLayer* mLayerRef;
 }
 
-- (id)initWithFrame:(NSRect)frame withLayer:(DKLayer*)aLayer;
+- (instancetype)initWithFrame:(NSRect)frame withLayer:(nullable DKLayer*)aLayer NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
 @end
 
 @interface DKDrawablePDFView : NSView {
-	DKDrawableObject* mObjectRef;
+	__weak DKDrawableObject* mObjectRef;
 }
 
-- (id)initWithFrame:(NSRect)frame object:(DKDrawableObject*)obj;
+- (instancetype)initWithFrame:(NSRect)frame object:(nullable DKDrawableObject*)obj NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder *)decoder NS_DESIGNATED_INITIALIZER;
 
 @end
+
+NS_ASSUME_NONNULL_END

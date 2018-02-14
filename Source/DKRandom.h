@@ -4,11 +4,12 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 /** @brief returns a random number between 0 and 1 */
-@interface DKRandom : NSObject {
-}
+@interface DKRandom : NSObject
+
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
 + (CGFloat)randomNumber;
 + (CGFloat)randomPositiveOrNegativeNumber;

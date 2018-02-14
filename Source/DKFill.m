@@ -19,7 +19,7 @@
 	DKFill* fill = [[DKFill alloc] init];
 	[fill setColour:colour];
 
-	return [fill autorelease];
+	return fill;
 }
 
 + (DKFill*)fillWithGradient:(DKGradient*)gradient
@@ -28,7 +28,7 @@
 
 	[fill setGradient:gradient];
 	[fill setColour:nil];
-	return [fill autorelease];
+	return fill;
 }
 
 + (DKFill*)fillWithPatternImage:(NSImage*)image
@@ -40,82 +40,30 @@
 
 + (DKFill*)fillWithPatternImageNamed:(NSString*)path
 {
-	NSImage* ip = [NSImage imageResourceNamed:path];
+	NSImage* ip = [NSImage imageNamed:path];
 
 	return [self fillWithPatternImage:ip];
 }
 
 #pragma mark -
-- (void)setColour:(NSColor*)colour
-{
-	//LogEvent_(kReactiveEvent, @"fill setting colour: %@", colour);
-
-	[colour retain];
-	[m_fillColour release];
-	m_fillColour = colour;
-}
-
-- (NSColor*)colour
-{
-	return m_fillColour;
-}
+@synthesize colour=m_fillColour;
 
 #pragma mark -
-- (void)setShadow:(NSShadow*)shadw
-{
-	[shadw retain];
-	[m_shadow release];
-	m_shadow = shadw;
-}
-
-- (NSShadow*)shadow
-{
-	return m_shadow;
-}
+@synthesize shadow=m_shadow;
 
 #pragma mark -
 - (void)setGradient:(DKGradient*)grad
 {
 	if (grad != [self gradient]) {
-		if (grad != nil) {
-			[grad retain];
-
-			// the gradient itself is observable, so inform the root object:
-			//[[[self container] root] observableWasAdded:grad];
-		}
-
-		if (m_gradient != nil) {
-			// stop observing the gradient object
-			//[[[self container] root] observableWillBeRemoved:m_gradient];
-			[m_gradient release];
-		}
 
 		m_gradient = grad;
 	}
 }
 
-- (DKGradient*)gradient
-{
-	return m_gradient;
-}
+@synthesize gradient=m_gradient;
 
 #pragma mark -
-
-/** @brief Sets whether the gradient's angle is aligned with the rendered object's angle
- @param toa YES if the gradient angle is based off the object's angle
- */
-- (void)setTracksObjectAngle:(BOOL)toa
-{
-	m_angleTracksObject = toa;
-}
-
-/** @brief Whether the gradient's angle is aligned with the rendered object's angle
- @return YES if the gradient angle is based off the object's angle
- */
-- (BOOL)tracksObjectAngle
-{
-	return m_angleTracksObject;
-}
+@synthesize tracksObjectAngle=m_angleTracksObject;
 
 #pragma mark -
 #pragma mark As a DKRasterizer
@@ -124,11 +72,16 @@
 	return (m_fillColour != nil || m_gradient != nil);
 }
 
++ (NSSet<NSString *> *)keyPathsForValuesAffectingIsValid
+{
+	return [NSSet setWithObjects:@"colour", @"gradient", nil];
+}
+
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"colour", @"shadow", @"tracksObjectAngle", @"gradient", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"colour", @"shadow", @"tracksObjectAngle", @"gradient"]];
 }
 
 - (void)registerActionNames
@@ -146,16 +99,8 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_gradient release];
-	[m_shadow release];
-	[m_fillColour release];
 
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -278,7 +223,7 @@
 			   forKey:@"fill_tracks_angle"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -301,11 +246,9 @@
 
 	NSShadow* shcopy = [[self shadow] copyWithZone:zone];
 	[copy setShadow:shcopy];
-	[shcopy release];
 
 	DKGradient* grcopy = [[self gradient] copyWithZone:zone];
 	[copy setGradient:grcopy];
-	[grcopy release];
 
 	[copy setTracksObjectAngle:[self tracksObjectAngle]];
 

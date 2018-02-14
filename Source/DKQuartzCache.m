@@ -12,14 +12,14 @@
 {
 	DKQuartzCache* cache = [[self alloc] initWithContext:[NSGraphicsContext currentContext]
 												 forRect:NSMakeRect(0, 0, size.width, size.height)];
-	return [cache autorelease];
+	return cache;
 }
 
 + (DKQuartzCache*)cacheForCurrentContextInRect:(NSRect)rect
 {
 	DKQuartzCache* cache = [[self alloc] initWithContext:[NSGraphicsContext currentContext]
 												 forRect:rect];
-	return [cache autorelease];
+	return cache;
 }
 
 + (DKQuartzCache*)cacheForImage:(NSImage*)image
@@ -28,7 +28,7 @@
 
 	DKQuartzCache* cache = [[self alloc] initWithContext:[NSGraphicsContext currentContext]
 												 forRect:NSMakeRect(0, 0, [image size].width, [image size].height)];
-	[cache setFlipped:[image isFlipped]];
+	[cache setFlipped:NO];
 	[cache lockFocus];
 	[image drawAtPoint:NSZeroPoint
 			  fromRect:NSZeroRect
@@ -36,7 +36,7 @@
 			  fraction:1.0];
 	[cache unlockFocus];
 
-	return [cache autorelease];
+	return cache;
 }
 
 + (DKQuartzCache*)cacheForImageRep:(NSImageRep*)imageRep
@@ -49,12 +49,12 @@
 	[imageRep drawAtPoint:NSZeroPoint];
 	[cache unlockFocus];
 
-	return [cache autorelease];
+	return cache;
 }
 
 #pragma mark -
 
-- (id)initWithContext:(NSGraphicsContext*)context forRect:(NSRect)rect
+- (instancetype)initWithContext:(NSGraphicsContext*)context forRect:(NSRect)rect
 {
 	NSAssert(context != nil, @"attempt to init cache with a nil context");
 	NSAssert(!NSEqualSizes(rect.size, NSZeroSize), @"cannot init cache with zero size");
@@ -62,7 +62,12 @@
 	self = [super init];
 	if (self) {
 		CGContextRef port = [context graphicsPort];
+#if defined(NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES) && NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES
+		// Ssh, CGSize and NSSize are the same on 64-bit Mac OS X.
+		CGSize cg_size = rect.size;
+#else
 		CGSize cg_size = CGSizeMake(NSWidth(rect), NSHeight(rect));
+#endif
 		mCGLayer = CGLayerCreateWithContext(port, cg_size, NULL);
 		mOrigin = rect.origin;
 		[self setFlipped:[context isFlipped]];
@@ -73,8 +78,13 @@
 
 - (NSSize)size
 {
+#if defined(NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES) && NSGEOMETRY_TYPES_SAME_AS_CGGEOMETRY_TYPES
+	// Ssh, CGSize and NSSize are the same on 64-bit Mac OS X.
+	return CGLayerGetSize(mCGLayer);
+#else
 	CGSize cg_size = CGLayerGetSize(mCGLayer);
 	return NSMakeSize(cg_size.width, cg_size.height);
+#endif
 }
 
 - (CGContextRef)context
@@ -82,14 +92,11 @@
 	return CGLayerGetContext(mCGLayer);
 }
 
-- (void)setFlipped:(BOOL)flipped
-{
-	mFlipped = flipped;
-}
+@synthesize flipped=mFlipped;
 
 - (BOOL)flipped
 {
-	return mFlipped;
+	return [self isFlipped];
 }
 
 - (void)drawAtPoint:(NSPoint)point
@@ -117,13 +124,16 @@
 
 - (void)lockFocus
 {
-	// bracket drawing calls to establish what is cached by -lockFocus and -unlockFocus. The drawing must be done at {0,0}
+	[self lockFocusFlipped:self.isFlipped];
+}
 
+- (void)lockFocusFlipped:(BOOL)flip
+{
 	NSAssert(mFocusLocked == NO, @"lockFocus called while already locked");
 
 	[NSGraphicsContext saveGraphicsState];
 	NSGraphicsContext* newContext = [NSGraphicsContext graphicsContextWithGraphicsPort:[self context]
-																			   flipped:[self flipped]];
+																			   flipped:flip];
 	[NSGraphicsContext setCurrentContext:newContext];
 
 	NSAffineTransform* transform = [NSAffineTransform transform];
@@ -151,7 +161,6 @@
 		[self unlockFocus];
 
 	CGLayerRelease(mCGLayer);
-	[super dealloc];
 }
 
 @end

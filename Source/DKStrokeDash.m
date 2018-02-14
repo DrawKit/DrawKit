@@ -23,16 +23,15 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 @implementation DKStrokeDash
 #pragma mark As a DKStrokeDash
 
-/**  */
 + (DKStrokeDash*)defaultDash
 {
-	return [[[DKStrokeDash alloc] init] autorelease];
+	return [[DKStrokeDash alloc] init];
 }
 
-+ (DKStrokeDash*)dashWithPattern:(CGFloat[])dashes count:(NSInteger)count
++ (DKStrokeDash*)dashWithPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
-	return [[[DKStrokeDash alloc] initWithPattern:dashes
-											count:count] autorelease];
+	return [[DKStrokeDash alloc] initWithPattern:dashes
+											count:count];
 }
 
 + (DKStrokeDash*)dashWithName:(NSString*)name
@@ -53,11 +52,10 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 {
 	NSMutableArray* list = [NSMutableArray array];
 	NSArray* keys = [[sDashDict allKeys] sortedArrayUsingSelector:@selector(compare:)];
-	NSEnumerator* iter = [keys objectEnumerator];
-	NSString* key;
 
-	while ((key = [iter nextObject]))
+	for (NSString *key in keys) {
 		[list addObject:[sDashDict valueForKey:key]];
+	}
 
 	return list;
 }
@@ -73,7 +71,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	NSUInteger a, b;
 	CGFloat hcf, rem, halfLen;
 
-	halfLen = len * 0.5f;
+	halfLen = len * 0.5;
 	a = (NSUInteger)floor(fabs(aSize.width));
 	b = (NSUInteger)floor(fabs(aSize.height));
 
@@ -82,7 +80,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 
 	//NSLog(@"size = %@, hcf = %f, rem = %f, halfLen = %f", NSStringFromSize(aSize), hcf, rem, halfLen);
 
-	if (rem > (hcf * 0.5f))
+	if (rem > (hcf * 0.5))
 		halfLen += (hcf - rem);
 	else
 		halfLen -= rem;
@@ -107,9 +105,9 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 #pragma mark -
-- (id)initWithPattern:(CGFloat[])dashes count:(NSInteger)count
+- (instancetype)initWithPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
-	NSAssert((NSUInteger)(sizeof(dashes)) <= (NSUInteger)(8 * sizeof(CGFloat)), @"Expected dashes to be no more than 8 floats");
+	NSAssert(count < 8, @"Expected dashes to be no more than 8 floats");
 	self = [super init];
 	if (self != nil) {
 		[self setDashPattern:dashes
@@ -121,7 +119,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	return self;
 }
 
-- (void)setDashPattern:(CGFloat[])dashes count:(NSInteger)count
+- (void)setDashPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
 	//_count = MAX( 0, MIN( count, 8 ));
 
@@ -151,10 +149,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 		dashes[i] = m_pattern[i];
 }
 
-- (NSInteger)count
-{
-	return m_count;
-}
+@synthesize count=m_count;
 
 - (void)setPhase:(CGFloat)ph
 {
@@ -171,10 +166,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	m_phase = LIMIT(ph, 0, [self length]);
 }
 
-- (CGFloat)phase
-{
-	return m_phase;
-}
+@synthesize phase=m_phase;
 
 - (CGFloat)length
 {
@@ -199,28 +191,8 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 #pragma mark -
-- (void)setScalesToLineWidth:(BOOL)stlw
-{
-	m_scaleToLineWidth = stlw;
-}
-
-- (BOOL)scalesToLineWidth
-{
-	return m_scaleToLineWidth;
-}
-
-- (void)setIsBeingEdited:(BOOL)edit
-{
-	// an editor should set htis for the duration of an edit. It prevents certain properties being changed by rasterizers during the edit
-	// which can cause contention for those properties.
-
-	mEditing = edit;
-}
-
-- (BOOL)isBeingEdited
-{
-	return mEditing;
-}
+@synthesize scalesToLineWidth=m_scaleToLineWidth;
+@synthesize isBeingEdited=mEditing;
 
 #pragma mark -
 - (void)applyToPath:(NSBezierPath*)path
@@ -277,7 +249,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	[path stroke];
 	[image unlockFocus];
 
-	return [image autorelease];
+	return image;
 }
 
 - (NSImage*)standardDashSwatchImage
@@ -350,7 +322,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 			  withName:@"default_6"];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -390,7 +362,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 			   forKey:@"scale_to_width"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];

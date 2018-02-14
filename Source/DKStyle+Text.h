@@ -4,7 +4,10 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKStyle.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /** @brief This adds text attributes to the DKStyle object.
 
@@ -13,8 +16,8 @@ the text it displays. Other objects that use text can make use of this as they w
 */
 @interface DKStyle (TextAdditions)
 
-+ (DKStyle*)defaultTextStyle;
-+ (DKStyle*)textStyleWithFont:(NSFont*)font;
++ (DKStyle*)defaultTextStyle NS_SWIFT_NAME(init(defaultTextStyle:));
++ (DKStyle*)textStyleWithFont:(NSFont*)font NS_SWIFT_NAME(init(textStyleWith:));
 
 /** @brief Returns the name and size of the font in a form that can be used as a style name
  @param font a font
@@ -22,25 +25,19 @@ the text it displays. Other objects that use text can make use of this as they w
  */
 + (NSString*)styleNameForFont:(NSFont*)font;
 
-- (void)setParagraphStyle:(NSParagraphStyle*)style;
-- (NSParagraphStyle*)paragraphStyle;
+@property (strong) NSParagraphStyle *paragraphStyle;
 
-- (void)setAlignment:(NSTextAlignment)align;
-- (NSTextAlignment)alignment;
+@property NSTextAlignment alignment;
 
-- (void)changeTextAttribute:(NSString*)attribute toValue:(id)val;
-- (NSString*)actionNameForTextAttribute:(NSString*)attribute;
+- (void)changeTextAttribute:(NSAttributedStringKey)attribute toValue:(id)val;
+- (NSString*)actionNameForTextAttribute:(NSAttributedStringKey)attribute;
 
-- (void)setFont:(NSFont*)font;
-- (NSFont*)font;
-- (void)setFontSize:(CGFloat)size;
-- (CGFloat)fontSize;
+@property (strong) NSFont *font;
+@property CGFloat fontSize;
 
-- (void)setTextColour:(NSColor*)aColour;
-- (NSColor*)textColour;
+@property (strong) NSColor *textColour;
 
-- (void)setUnderlined:(NSInteger)uval;
-- (NSInteger)underlined;
+@property NSUnderlineStyle underlined;
 - (void)toggleUnderlined;
 
 - (void)applyToText:(NSMutableAttributedString*)text;
@@ -49,3 +46,5 @@ the text it displays. Other objects that use text can make use of this as they w
 - (DKStyle*)drawingStyleFromTextAttributes;
 
 @end
+
+NS_ASSUME_NONNULL_END

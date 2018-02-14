@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
 This class provides a very simple tooltip-like window in which you can display a short piece of information, such
 as a single numeric value.
@@ -15,7 +17,7 @@ user interaction.
 */
 @interface GCInfoFloater : NSWindow {
 @private
-	NSControl* m_infoViewRef;
+	__unsafe_unretained NSControl* m_infoViewRef;
 	NSSize m_wOffset;
 }
 
@@ -26,8 +28,11 @@ user interaction.
 - (void)setDoubleValue:(double)val;
 - (void)setStringValue:(NSString*)str;
 
-- (void)setFormat:(NSString*)fmt;
-- (void)setWindowOffset:(NSSize)offset;
+- (void)setFormat:(nullable NSString*)fmt;
+@property NSSize windowOffset;
+
+/** places the window just to the right and above the point \c p as expressed in the coordinate system of view <code>v</code>.
+*/
 - (void)positionNearPoint:(NSPoint)p inView:(NSView*)v;
 - (void)positionAtScreenPoint:(NSPoint)sp;
 
@@ -35,3 +40,5 @@ user interaction.
 - (void)hide;
 
 @end
+
+NS_ASSUME_NONNULL_END

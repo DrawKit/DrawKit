@@ -8,14 +8,12 @@
 
 @implementation DKUniqueID
 
-/**  */
 + (NSString*)uniqueKey
 {
-	CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-	CFStringRef str = CFUUIDCreateString(kCFAllocatorDefault, uuid);
-	CFRelease(uuid);
+	NSUUID *uuid = [NSUUID UUID];
+	NSString *str = uuid.UUIDString;
 
-	return [(NSString*)str autorelease];
+	return str;
 }
 
 @end

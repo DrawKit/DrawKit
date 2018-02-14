@@ -23,10 +23,10 @@
 
 + (DKPathDecorator*)pathDecoratorWithImage:(NSImage*)image
 {
-	return [[[self alloc] initWithImage:image] autorelease];
+	return [[self alloc] initWithImage:image];
 }
 
-- (id)initWithImage:(NSImage*)image
+- (instancetype)initWithImage:(NSImage*)image
 {
 	self = [super init];
 	if (self != nil) {
@@ -48,31 +48,25 @@
 
 	// whatever happens the pdf rep is also released
 
-	[m_pdf release];
 	m_pdf = nil;
 
 	// remove any CGLayer cache so that next time the rasterizer is used it
 	// will be recreated using the new image
 
-	[mDKCache release];
 	mDKCache = nil;
 
-	[image retain];
-	[m_image release];
 	m_image = image;
 
 	if (m_image != nil) {
 		// get any PDF image rep and retain it for later quick access
 
 		NSArray* reps = [m_image representations];
-		NSEnumerator* iter = [reps objectEnumerator];
-		NSImageRep* rep;
 
 		//	LogEvent_(kInfoEvent, @"reps: %@", reps );
 
-		while ((rep = [iter nextObject])) {
+		for (NSImageRep* rep in reps) {
 			if ([rep isKindOfClass:[NSPDFImageRep class]]) {
-				m_pdf = [(NSPDFImageRep*)rep retain];
+				m_pdf = (NSPDFImageRep*)rep;
 
 				//	LogEvent_(kInfoEvent, @"PDF image cached");
 				break;
@@ -81,10 +75,7 @@
 	}
 }
 
-- (NSImage*)image
-{
-	return m_image;
-}
+@synthesize image=m_image;
 
 #define USE_DK_CACHE 1
 
@@ -93,9 +84,7 @@
 	NSAssert(m_image != nil, @"no image to create cache with");
 
 #if USE_DK_CACHE
-	if (mDKCache)
-		[mDKCache release];
-	mDKCache = [[DKQuartzCache cacheForImage:[self image]] retain];
+	mDKCache = [DKQuartzCache cacheForImage:[self image]];
 #else
 	NSAssert(m_cache == nil, @"expected cache to be NULL");
 
@@ -104,7 +93,7 @@
 	NSAssert(context != NULL, @"bad current context entering setUpCache");
 
 	NSSize iSize = [m_image size];
-	m_cache = CGLayerCreateWithContext(context, *(CGSize*)&iSize, NULL);
+	m_cache = CGLayerCreateWithContext(context, NSSizeToCGSize(iSize), NULL);
 
 	NSAssert1(m_cache != NULL, @"couldn't create the layer context for image; size = %@", NSStringFromSize(iSize));
 
@@ -150,7 +139,6 @@
 
 		[image addRepresentation:rep];
 		[self setImage:image];
-		[image release];
 	}
 }
 
@@ -162,10 +150,7 @@
 	m_scale = scale;
 }
 
-- (CGFloat)scale
-{
-	return m_scale;
-}
+@synthesize scale=m_scale;
 
 - (void)setScaleRandomness:(CGFloat)scRand
 {
@@ -181,52 +166,15 @@
 	}
 }
 
-- (CGFloat)scaleRandomness
-{
-	return mScaleRandomness;
-}
+@synthesize scaleRandomness=mScaleRandomness;
 
 #pragma mark -
-- (void)setInterval:(CGFloat)interval
-{
-	m_interval = interval;
-}
-
-- (CGFloat)interval
-{
-	return m_interval;
-}
+@synthesize interval=m_interval;
 
 #pragma mark -
-- (void)setLeaderDistance:(CGFloat)leader
-{
-	m_leader = leader;
-}
-
-- (CGFloat)leaderDistance
-{
-	return m_leader;
-}
-
-- (void)setLateralOffset:(CGFloat)loff
-{
-	mLateralOffset = loff;
-}
-
-- (CGFloat)lateralOffset
-{
-	return mLateralOffset;
-}
-
-- (void)setLateralOffsetAlternates:(BOOL)alts
-{
-	mAlternateLateralOffsets = alts;
-}
-
-- (BOOL)lateralOffsetAlternates
-{
-	return mAlternateLateralOffsets;
-}
+@synthesize leaderDistance=m_leader;
+@synthesize lateralOffset=mLateralOffset;
+@synthesize lateralOffsetAlternates=mAlternateLateralOffsets;
 
 - (void)setWobblyness:(CGFloat)wobble
 {
@@ -242,42 +190,14 @@
 	}
 }
 
-- (CGFloat)wobblyness
-{
-	return mWobblyness;
-}
+@synthesize wobblyness=mWobblyness;
 
 #pragma mark -
-- (void)setNormalToPath:(BOOL)norml
-{
-	m_normalToPath = norml;
-}
-
-- (BOOL)normalToPath
-{
-	return m_normalToPath;
-}
+@synthesize normalToPath=m_normalToPath;
 
 #pragma mark -
-- (void)setLeadInLength:(CGFloat)linLength
-{
-	m_leadInLength = linLength;
-}
-
-- (void)setLeadOutLength:(CGFloat)loutLength
-{
-	m_leadOutLength = loutLength;
-}
-
-- (CGFloat)leadInLength
-{
-	return m_leadInLength;
-}
-
-- (CGFloat)leadOutLength
-{
-	return m_leadOutLength;
-}
+@synthesize leadInLength=m_leadInLength;
+@synthesize leadOutLength=m_leadOutLength;
 
 #pragma mark -
 - (void)setLeadInAndOutLengthProportion:(CGFloat)proportion
@@ -288,38 +208,24 @@
 		m_leadInLength = m_leadOutLength = 0.0;
 }
 
-- (CGFloat)leadInAndOutLengthProportion
-{
-	return m_liloProportion;
-}
+@synthesize leadInAndOutLengthProportion=m_liloProportion;
 
 - (CGFloat)rampFunction:(CGFloat)val
 {
 	// return a value in 0..1 given a value in 0..1 which is used to set the curvature of the leadin and lead out ramps
 	// (for a linear ramp, return val)
 
-	return 0.5 * (1 - cosf(fmod(val, 1.0) * pi));
+	return 0.5 * (1 - cos(fmod(val, 1.0) * M_PI));
 }
 
 #pragma mark -
-- (void)setUsesChainMethod:(BOOL)chain
-{
-	// experimental: allows use of "chain" callback which emulates links more accurately than image drawing - but really this ought to be
-	// pushed out into another more specialised class.
-
-	m_useChainMethod = chain;
-}
-
-- (BOOL)usesChainMethod
-{
-	return m_useChainMethod;
-}
+@synthesize usesChainMethod=m_useChainMethod;
 
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"scale", @"interval",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"scale", @"interval",
 																							   @"normalToPath", @"image",
 																							   @"leaderDistance",
 																							   @"leadInAndOutLengthProportion",
@@ -327,8 +233,7 @@
 																							   @"lateralOffset",
 																							   @"lateralOffsetAlternates",
 																							   @"wobblyness",
-																							   @"scaleRandomness",
-																							   nil]];
+																							   @"scaleRandomness"]];
 }
 
 - (void)registerActionNames
@@ -360,17 +265,7 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_pdf release];
-	[m_image release];
-	[mDKCache release];
-	[mWobbleCache release];
-	[mScaleRandCache release];
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	// default init method has no image - one needs to be added to get something rendered
 
@@ -412,10 +307,10 @@
 		// this has no effect except if the alternating flag is also set it flips every other image.
 
 		if ((mPlacementCount & 1) && mAlternateLateralOffsets)
-			slope += pi;
+			slope += M_PI;
 
-		CGFloat dx = mLateralOffset * cosf(slope + HALF_PI);
-		CGFloat dy = mLateralOffset * sinf(slope + HALF_PI);
+		CGFloat dx = mLateralOffset * cos(slope + HALF_PI);
+		CGFloat dy = mLateralOffset * sin(slope + HALF_PI);
 		NSPoint wobblePoint = NSZeroPoint;
 
 		if ([self wobblyness] > 0.0) {
@@ -441,7 +336,7 @@
 				randScale = [[mScaleRandCache objectAtIndex:mPlacementCount] doubleValue];
 			else {
 				randScale = 1.0 + ([DKRandom randomPositiveOrNegativeNumber] * [self scaleRandomness]);
-				[mScaleRandCache addObject:[NSNumber numberWithDouble:randScale]];
+				[mScaleRandCache addObject:@(randScale)];
 			}
 		}
 
@@ -532,7 +427,7 @@
 		NSSize ss = [[self image] size];
 
 		CGFloat max = MAX(ss.width, ss.height) * [self scale];
-		CGFloat xtra = hypotf(max, max);
+		CGFloat xtra = hypot(max, max);
 
 		es.width += (xtra / 2.0) + ABS(mLateralOffset);
 		es.height += (xtra / 2.0) + ABS(mLateralOffset);
@@ -570,7 +465,7 @@
 		// apply clipping, if any
 
 		if ([self clipping] != kDKClippingNone && path) {
-			if ([self clipping] == kDKClipOutsidePath) {
+			if ([self clipping] == kDKClippingOutsidePath) {
 				// clip to the area outside the path
 
 				[path addInverseClip];
@@ -651,7 +546,7 @@
 				 forKey:@"DKPathDecorator_scaleRandomness"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -699,11 +594,9 @@
 	if (m_pdf) {
 		NSPDFImageRep* pdfCopy = [m_pdf copyWithZone:zone];
 		[dc setPDFImageRep:pdfCopy];
-		[pdfCopy release];
 	} else {
 		NSImage* imgCopy = [[self image] copyWithZone:zone];
 		[dc setImage:imgCopy];
-		[imgCopy release];
 	}
 
 	[dc setScale:[self scale]];

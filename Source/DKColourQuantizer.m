@@ -77,15 +77,14 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 		m_cTable = [[NSMutableArray alloc] init];
 
 		if (m_cTable == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 
 	return self;
 }
 
-- (NSUInteger)indexForRGB:(NSUInteger[])rgb
+- (NSUInteger)indexForRGB:(NSUInteger[3])rgb
 {
 	switch (m_nBits) {
 	case 3:
@@ -145,9 +144,9 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 				break;
 			}
 
-			r = (CGFloat)rgb[0] / 255.0f;
-			g = (CGFloat)rgb[1] / 255.0f;
-			b = (CGFloat)rgb[2] / 255.0f;
+			r = (CGFloat)rgb[0] / 255.0;
+			g = (CGFloat)rgb[1] / 255.0;
+			b = (CGFloat)rgb[2] / 255.0;
 
 			[m_cTable addObject:[NSColor colorWithCalibratedRed:r
 														  green:g
@@ -159,10 +158,7 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 	return m_cTable;
 }
 
-- (NSInteger)numberOfColours
-{
-	return m_maxColours;
-}
+@synthesize numberOfColours=m_maxColours;
 
 #pragma mark -
 - (void)analyse:(NSBitmapImageRep*)rep
@@ -175,12 +171,6 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_cTable release];
-
-	[super dealloc];
-}
 
 @end
 
@@ -188,9 +178,9 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 
 @implementation DKOctreeQuantizer
 
-static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
+static const NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 
-- (void)addNode:(NODE**)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
+- (void)addNode:(NODE*_Nullable*_Nonnull)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
 {
 
 	// If the node doesn't exist, create it.
@@ -199,6 +189,13 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 		*ppNode = [self createNodeAtLevel:level
 								leafCount:leafCount
 						   reducibleNodes:redNodes];
+
+	// If the node still doesn't exist, throw an exception
+
+	if (*ppNode == NULL) {
+		[NSException raise:NSInternalInconsistencyException format:@"CreateNode... failed: *ppNode was nil after creation."];
+		return;
+	}
 
 	// Update color	information	if it's	a leaf node.
 
@@ -303,7 +300,7 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 {
 	if (pTree) {
 		if (pTree->bIsLeaf) {
-			CGFloat divs = ((CGFloat)(pTree->nPixelCount) * 255.0f); //(float) m_maxColours);
+			CGFloat divs = ((CGFloat)(pTree->nPixelCount) * 255.0); //(float) m_maxColours);
 
 			rgb[*pindex].r = (CGFloat)(pTree->nRedSum) / divs;
 			rgb[*pindex].g = (CGFloat)(pTree->nGreenSum) / divs;
@@ -325,7 +322,7 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 	}
 }
 
-- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[])rgb index:(NSInteger*)indx
+- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[3])rgb index:(NSInteger*)indx
 {
 	if (pTree->bIsLeaf) {
 		*indx = pTree->indexValue;
@@ -429,8 +426,7 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 		NSAssert(m_pTree == NULL, @"Expected init to zero");
 		NSAssert(m_nLeafCount == 0, @"Expected init to zero");
 
-		NSInteger i = 0;
-		for (; i < 9; ++i) {
+		for (NSInteger i = 0; i < 9; ++i) {
 			m_pReducibleNodes[i] = NULL;
 		}
 
@@ -440,10 +436,7 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 	return self;
 }
 
-- (NSInteger)numberOfColours
-{
-	return m_nLeafCount;
-}
+@synthesize numberOfColours=m_nLeafCount;
 
 #pragma mark -
 #pragma mark As an NSObject
@@ -452,8 +445,6 @@ static NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 	if (m_pTree != NULL) {
 		[self deleteTree:&m_pTree];
 	}
-
-	[super dealloc];
 }
 
 @end

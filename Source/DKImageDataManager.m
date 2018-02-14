@@ -8,10 +8,13 @@
 #import "DKUniqueID.h"
 #import "DKKeyedUnarchiver.h"
 
-NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrtype";
+NSString* const kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrtype";
 
-@interface DKImageDataManager (Private)
+@interface DKImageDataManager ()
 
+/** hash list maps hash (or checksum) -> key, so is inverse to repository. As it can be built from the repo, it is safer to do this following dearchiving
+ rather than archive the hash list itself. Earlier versions did archive the hash list but that data can be ignored.
+*/
 - (void)buildHashList;
 
 @end
@@ -98,7 +101,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 	// create and return the image
 
-	return [[[NSImage alloc] initWithData:imageData] autorelease];
+	return [[NSImage alloc] initWithData:imageData];
 }
 
 - (NSImage*)makeImageWithPasteboard:(NSPasteboard*)pb key:(NSString**)key
@@ -107,7 +110,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	// uses that. Otherwise it extracts the data and proceeds conventionally.
 
 	NSData* imageData = nil;
-	NSString* privateType = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKImageDataManagerPasteboardType]];
+	NSString* privateType = [pb availableTypeFromArray:@[kDKImageDataManagerPasteboardType]];
 
 	if (privateType) {
 		// could be already cached by this - may not be, because it could have come from a different document, but will be here if the same
@@ -120,7 +123,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 			if (key != NULL)
 				*key = theKey;
 
-			return [[[NSImage alloc] initWithData:imageData] autorelease];
+			return [[NSImage alloc] initWithData:imageData];
 		}
 	}
 
@@ -161,7 +164,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	NSData* imageData = [self imageDataForKey:key];
 
 	if (imageData)
-		return [[[NSImage alloc] initWithData:imageData] autorelease];
+		return [[NSImage alloc] initWithData:imageData];
 	else
 		return nil;
 }
@@ -171,17 +174,18 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	if ([self hasImageDataForKey:key]) {
 		NSInteger useCount = [[mKeyUsage objectForKey:key] integerValue];
 
-		if (inUse)
+		if (inUse) {
 			++useCount;
-		else
+		} else {
 			--useCount;
+		}
 
 		// protect against over-decrementing
 
 		if (useCount < 0)
 			useCount = 0;
 
-		[mKeyUsage setObject:[NSNumber numberWithInteger:useCount]
+		[mKeyUsage setObject:@(useCount)
 					  forKey:key];
 	}
 }
@@ -195,31 +199,21 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 {
 	// delete all data and associated keys for keys not in use
 
-	NSArray* keys = [[self allKeys] copy];
-	NSEnumerator* iter = [keys objectEnumerator];
-	NSString* key;
+	NSArray<NSString*>* keys = [[self allKeys] copy];
 
-	while ((key = [iter nextObject])) {
-		if (![self keyIsInUse:key])
+	for (NSString *key in keys) {
+		if (![self keyIsInUse:key]) {
 			[self removeKey:key];
+		}
 	}
-
-	[keys release];
 }
 
 - (void)buildHashList
 {
-	// hash list maps hash (or checksum) -> key, so is inverse to repository. As it can be built from the repo, it is safer to do this following dearchiving
-	// rather than archive the hash list itself. Earlier versions did archive the hash list but that data can be ignored.
-
 	[mHashList removeAllObjects];
 
-	NSEnumerator* iter = [mRepository keyEnumerator];
-	NSString* key;
-	NSData* data;
-
-	while ((key = [iter nextObject])) {
-		data = [mRepository objectForKey:key];
+	for (NSString *key in mRepository) {
+		NSData* data = [mRepository objectForKey:key];
 		[mHashList setObject:key
 					  forKey:[data checksumString]];
 	}
@@ -227,7 +221,7 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 #pragma mark -
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -239,23 +233,16 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 	return self;
 }
 
-- (void)dealloc
-{
-	[mRepository release];
-	[mHashList release];
-	[mKeyUsage release];
-	[super dealloc];
-}
-
 - (void)encodeWithCoder:(NSCoder*)coder
 {
 	[coder encodeObject:mRepository
 				 forKey:@"DKImageDataManager_repo"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
-	mRepository = [[coder decodeObjectForKey:@"DKImageDataManager_repo"] retain];
+	if (self = [super init]) {
+	mRepository = [[coder decodeObjectForKey:@"DKImageDataManager_repo"] mutableCopy];
 	mHashList = [[NSMutableDictionary alloc] init];
 
 	// hash list is built from repository, so there is no need to archive it.
@@ -271,7 +258,8 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 	if ([coder respondsToSelector:@selector(setImageManager:)])
 		[(DKKeyedUnarchiver*)coder setImageManager:self];
-
+	}
+	
 	return self;
 }
 
@@ -288,9 +276,6 @@ NSString* kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrty
 
 - (NSUInteger)checksum
 {
-	// the checksum is a weighted sum of the first 1024 bytes (or less) of the data XOR the length. This value should be reasonably unique for quickly comparing
-	// image data.
-
 	NSUInteger sum = 0, weight = 0;
 	unsigned char* p = (unsigned char*)[self bytes];
 	NSInteger bc = MIN((NSInteger)[self length], 1024);

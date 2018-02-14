@@ -19,20 +19,8 @@
 		mModeModifierMask = 0;
 }
 
-- (BOOL)zoomsOut
-{
-	return mMode;
-}
-
-- (void)setModeModifierMask:(NSUInteger)msk
-{
-	mModeModifierMask = msk;
-}
-
-- (NSUInteger)modeModifierMask
-{
-	return mModeModifierMask;
-}
+@synthesize zoomsOut=mMode;
+@synthesize modeModifierMask=mModeModifierMask;
 
 #pragma mark - As a DKDrawingTool
 
@@ -60,7 +48,7 @@
 
 /** @brief Handle the mouse dragged event
  @param p the local point where the mouse has been dragged to
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -80,7 +68,7 @@
 
 /** @brief Handle the mouse up event
  @param p the local point where the mouse went up
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -183,13 +171,13 @@
 
 	NSCursor* curs = [[NSCursor alloc] initWithImage:img
 											 hotSpot:NSMakePoint(12, 12)];
-	return [curs autorelease];
+	return curs;
 }
 
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {

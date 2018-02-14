@@ -4,7 +4,10 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawing.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /** @brief This category provides methods for exporting drawings in a variety of formats, such as TIFF, JPEG and PNG.
 
@@ -30,15 +33,23 @@ This uses Image I/O to perform the data encoding.
 
 /** @brief Creates the initial bitmap image that the various bitmap formats are created from.
 
- Returned ref is autoreleased. The image always has an alpha channel, but the <hasAlpha> flag will
- paint the background in the paper colour if hasAlpha is NO.
+ Returned ref is autoreleased. The image always has an alpha channel, but the \c hasAlpha flag will
+ paint the background in the paper colour if \c hasAlpha is NO.
+ @param dpi the resolution of the image in dots per inch.
+ @param hasAlpha specifies whether the image is painted in the background paper colour or not.
+ @return a CG image that is used to generate the export image formats
+ */
+- (nullable CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha CF_RETURNS_NOT_RETAINED;
+/** @brief Creates the initial bitmap image that the various bitmap formats are created from.
+ 
+ Returned ref is autoreleased. The image always has an alpha channel, but the \c hasAlpha flag will
+ paint the background in the paper colour if \c hasAlpha is NO.
  @param dpi the resolution of the image in dots per inch.
  @param hasAlpha specifies whether the image is painted in the background paper colour or not.
  @param relScale scaling factor, 1.0 = actual size, 0.5 = half size, etc.
  @return a CG image that is used to generate the export image formats
  */
-- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha;
-- (CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha relativeScale:(CGFloat)relScale;
+- (nullable CGImageRef)CGImageWithResolution:(NSInteger)dpi hasAlpha:(BOOL)hasAlpha relativeScale:(CGFloat)relScale CF_RETURNS_NOT_RETAINED;
 
 // convert to various formats:
 
@@ -48,7 +59,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (NSData*)JPEGDataWithProperties:(NSDictionary*)props;
+- (nullable NSData*)JPEGDataWithProperties:(NSDictionary<NSBitmapImageRepPropertyKey,id>*)props;
 
 /** @brief Returns TIFF data for the drawing.
  @param props various parameters and properties
@@ -56,7 +67,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (NSData*)TIFFDataWithProperties:(NSDictionary*)props;
+- (nullable NSData*)TIFFDataWithProperties:(NSDictionary<NSBitmapImageRepPropertyKey,id>*)props;
 
 /** @brief Returns PNG data for the drawing.
  @param props various parameters and properties
@@ -64,7 +75,7 @@ This uses Image I/O to perform the data encoding.
  DrawKit properties that control the data generation. Users may find the convenience methods
  below easier to use for many typical situations.
  */
-- (NSData*)PNGDataWithProperties:(NSDictionary*)props;
+- (nullable NSData*)PNGDataWithProperties:(NSDictionary<NSBitmapImageRepPropertyKey,id>*)props;
 
 // convenience methods that set up the property dictionaries for you:
 
@@ -76,7 +87,7 @@ This uses Image I/O to perform the data encoding.
  @param progressive YES if the data is progressive, NO otherwise
  @return JPEG data
  */
-- (NSData*)JPEGDataWithResolution:(NSInteger)dpi quality:(CGFloat)quality progressive:(BOOL)progressive;
+- (nullable NSData*)JPEGDataWithResolution:(NSInteger)dpi quality:(CGFloat)quality progressive:(BOOL)progressive;
 
 /** @brief Returns TIFF data for the drawing or nil if there was a problem
 
@@ -85,15 +96,24 @@ This uses Image I/O to perform the data encoding.
  @param compType a valid TIFF compression type (see NSBitMapImageRep.h)
  @return TIFF data
  */
-- (NSData*)TIFFDataWithResolution:(NSInteger)dpi compressionType:(NSTIFFCompression)compType;
-- (NSData*)PNGDataWithResolution:(NSInteger)dpi gamma:(CGFloat)gamma interlaced:(BOOL)interlaced;
+- (nullable NSData*)TIFFDataWithResolution:(NSInteger)dpi compressionType:(NSTIFFCompression)compType;
+
+/** @brief Returns PNG data for the drawing or nil if there was a problem
+ 
+ This is a convenience wrapper around the dictionary-based methods above
+ @param dpi the resolution in dots per inch
+ @param gamma the gamma value 0..1
+ @param interlaced YES to interlace the image, NO otherwise
+ @return PNG data
+ */
+- (nullable NSData*)PNGDataWithResolution:(NSInteger)dpi gamma:(CGFloat)gamma interlaced:(BOOL)interlaced;
 
 /** @brief Returns JPEG data for the drawing at 50% actual size, with 50% quality
 
  Useful for e.g. generating QuickLook thumbnails
  @return JPEG data
  */
-- (NSData*)thumbnailData;
+- (nullable NSData*)thumbnailData;
 
 // another approach - get an array of bitmaps from each layer
 
@@ -103,7 +123,7 @@ This uses Image I/O to perform the data encoding.
  @param dpi the desired resolution in dots per inch.
  @return an array of bitmaps
  */
-- (NSArray*)layerBitmapsWithDPI:(NSUInteger)dpi;
+- (NSArray<NSBitmapImageRep*>*)layerBitmapsWithDPI:(NSUInteger)dpi;
 
 /** @brief Returns TIFF data
 
@@ -111,10 +131,12 @@ This uses Image I/O to perform the data encoding.
  @param dpi the desired resolution in dots per inch.
  @return TIFF data
  */
-- (NSData*)multipartTIFFDataWithResolution:(NSUInteger)dpi;
+- (nullable NSData*)multipartTIFFDataWithResolution:(NSUInteger)dpi;
 
 @end
 
-extern NSString* kDKExportPropertiesResolution;
-extern NSString* kDKExportedImageHasAlpha;
-extern NSString* kDKExportedImageRelativeScale;
+extern NSBitmapImageRepPropertyKey const kDKExportPropertiesResolution;
+extern NSBitmapImageRepPropertyKey const kDKExportedImageHasAlpha;
+extern NSBitmapImageRepPropertyKey const kDKExportedImageRelativeScale;
+
+NS_ASSUME_NONNULL_END

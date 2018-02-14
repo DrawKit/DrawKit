@@ -6,16 +6,18 @@
 
 #import "DKAuxiliaryMenus.h"
 
-NSString* kDKAuxiliaryMenusNibFile = @"DK_Auxiliary_Menus";
+NSString* const kDKAuxiliaryMenusNibFile = @"DK_Auxiliary_Menus";
 
-@interface DKAuxiliaryMenus (Private)
+@interface DKAuxiliaryMenus ()
 
 - (id)initWithNibName:(NSString*)nib;
 
 @end
 
 @implementation DKAuxiliaryMenus
-
+{
+	NSArray *nibs;
+}
 static DKAuxiliaryMenus* sAuxMenus = nil;
 
 + (DKAuxiliaryMenus*)auxiliaryMenus
@@ -58,27 +60,21 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 		}
 
 		if (tempNib == nil) {
-			[self autorelease];
 			return nil;
 		}
 
 		mNib = tempNib;
+		NSArray *tmpArr;
 
-		if (![mNib instantiateNibWithOwner:self
-						   topLevelObjects:nil]) {
+		if (![mNib instantiateWithOwner:self
+						topLevelObjects:&tmpArr]) {
 			NSLog(@"failed to instantiate nib '%@' (name = '%@')", mNib, nib);
-			[self autorelease];
 			return nil;
 		}
+		nibs = tmpArr;
 	}
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[mNib release];
-	[super dealloc];
 }
 
 @end

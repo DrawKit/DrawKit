@@ -11,16 +11,17 @@
 #import "DKStyle.h"
 #import "DKStyleRegistry.h"
 #import "DKToolController.h"
+#import "DKToolRegistry.h"
 #import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKDrawingToolWillMakeNewObjectNotification = @"kDKDrawingToolWillMakeNewObjectNotification";
-NSString* kDKDrawingToolCreatedObjectsStyleDidChange = @"kDKDrawingToolCreatedObjectsStyleDidChange";
+NSString* const kDKDrawingToolWillMakeNewObjectNotification = @"kDKDrawingToolWillMakeNewObjectNotification";
+NSString* const kDKDrawingToolCreatedObjectsStyleDidChange = @"kDKDrawingToolCreatedObjectsStyleDidChange";
 
 #pragma mark Static Vars
 static DKStyle* sCreatedObjectsStyle = nil;
 
-@interface DKObjectCreationTool (Private)
+@interface DKObjectCreationTool ()
 
 - (BOOL)finishCreation:(DKToolController*)controller;
 
@@ -38,7 +39,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  @param shape a drawable object that can be created by the tool - typically a DKDrawableShape
  @param name the name of the tool to register this with
  */
-+ (void)registerDrawingToolForObject:(id<NSCopying>)shape withName:(NSString*)name
++ (void)registerDrawingToolForObject:(id<NSObject, NSCopying>)shape withName:(NSString*)name
 {
 	// creates a drawing tool for the given object and registers it with the name. This quickly allows you to make a tool
 	// for any object you already have, give it a name and use it to make more similar objects in the drawing.
@@ -46,10 +47,9 @@ static DKStyle* sCreatedObjectsStyle = nil;
 	NSAssert(shape != nil, @"trying to make a tool for nil shape");
 
 	id cpy = [shape copyWithZone:nil];
-	DKObjectCreationTool* dt = [[[DKObjectCreationTool alloc] initWithPrototypeObject:cpy] autorelease];
-	[cpy release];
+	DKObjectCreationTool* dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:cpy];
 
-	[DKDrawingTool registerDrawingTool:dt
+	[[DKToolRegistry sharedToolRegistry] registerDrawingTool:dt
 							  withName:name];
 }
 
@@ -63,8 +63,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 	if (![aStyle isEqualToStyle:sCreatedObjectsStyle]) {
 		//NSLog(@"setting style for created objects = '%@'", [aStyle name]);
 
-		[aStyle retain];
-		[sCreatedObjectsStyle release];
 		sCreatedObjectsStyle = aStyle;
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolCreatedObjectsStyleDidChange
 															object:self];
@@ -87,7 +85,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  @param aPrototype an object that will be used as the tool's prototype - each new object created will
  @return the tool object
  */
-- (id)initWithPrototypeObject:(id<NSObject>)aPrototype
+- (instancetype)initWithPrototypeObject:(id<NSObject, NSCopying>)aPrototype
 {
 	self = [super init];
 	if (self != nil) {
@@ -95,8 +93,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		[self setStylePickupEnabled:YES];
 
 		if (m_prototypeObject == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -104,25 +101,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 #pragma mark -
 
-/** @brief Set the object to be copied when the tool created a new one
- @param aPrototype an object that will be used as the tool's prototype - each new object created will
- */
-- (void)setPrototype:(id<NSObject>)aPrototype
-{
-	NSAssert(aPrototype != nil, @"prototype object cannot be nil");
-
-	[aPrototype retain];
-	[m_prototypeObject release];
-	m_prototypeObject = aPrototype;
-}
-
-/** @brief Return the object to be copied when the tool creates a new one
- @return an object - each new object created will be a copy of this one.
- */
-- (id)prototype
-{
-	return m_prototypeObject;
-}
+@synthesize prototype=m_prototypeObject;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
 
@@ -134,7 +113,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingToolWillMakeNewObjectNotification
 														object:self];
 
-	id obj = [[[self prototype] copy] autorelease];
+	id obj = [(NSObject*)[self prototype] copy];
 
 	NSAssert(obj != nil, @"couldn't create new object from prototype");
 
@@ -150,7 +129,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 - (void)setStyle:(DKStyle*)aStyle
 {
-	// sets the style for the prototype (an dhence subsequently created objects). This setting is overridden by
+	// sets the style for the prototype (and hence subsequently created objects). This setting is overridden by
 	// a style set for the class as a whole.
 
 	if ([[self prototype] respondsToSelector:_cmd])
@@ -167,15 +146,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		return [(DKDrawableObject*)[self prototype] style];
 }
 
-- (void)setStylePickupEnabled:(BOOL)pickup
-{
-	mEnableStylePickup = pickup;
-}
-
-- (BOOL)stylePickupEnabled
-{
-	return mEnableStylePickup;
-}
+@synthesize stylePickupEnabled=mEnableStylePickup;
 
 #pragma mark -
 
@@ -186,7 +157,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  */
 - (NSImage*)image
 {
-	return [[self prototype] swatchImageWithSize:kDKDefaultToolSwatchSize];
+	return [(id)[self prototype] swatchImageWithSize:kDKDefaultToolSwatchSize];
 }
 
 /** @brief Complete the object creation cleanly
@@ -210,7 +181,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		}
 		@catch (NSException* e)
 		{
-			[m_protoObject release];
 			m_protoObject = nil;
 		}
 
@@ -226,7 +196,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 			[[layer undoManager] removeAllActionsWithTarget:m_protoObject];
 
-			[m_protoObject release];
 			m_protoObject = nil;
 
 			// turn undo back on
@@ -249,7 +218,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 			LogEvent_(kReactiveEvent, @"object OK - committed to layer");
 
-			[m_protoObject release];
 			m_protoObject = nil;
 
 			result = YES;
@@ -261,14 +229,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 #pragma mark -
 #pragma mark As an NSObject
-
-/** @brief Deallocate the tool
- */
-- (void)dealloc
-{
-	[m_prototypeObject release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark - As a DKDrawingTool
@@ -356,9 +316,14 @@ static DKStyle* sCreatedObjectsStyle = nil;
  */
 - (NSString*)actionName
 {
+#define NotLocalizedStringValue @"Old"
 	NSString* objectName = [self registeredName];
 	NSString* s = [NSString stringWithFormat:@"New %@", objectName];
-	return NSLocalizedString(s, @"undo string for new object (type)");
+	NSString *locAttempt1 = NSLocalizedStringWithDefaultValue(s, @"DKTools", [NSBundle bundleForClass:[DKObjectCreationTool class]], NotLocalizedStringValue, @"undo string for new object (type)");
+	if ([locAttempt1 isEqualToString:NotLocalizedStringValue]) {
+		locAttempt1 = NSLocalizedString(s, @"undo string for new object (type)");
+	}
+	return locAttempt1;
 }
 
 /** @brief Return the tool's cursor
@@ -411,7 +376,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		// because this tool creates new objects, ignore the <obj> parameter and just make a new one
 
 		if (m_protoObject == nil)
-			m_protoObject = [[self objectFromPrototype] retain];
+			m_protoObject = [self objectFromPrototype];
 
 		NSAssert(m_protoObject != nil, @"creation tool couldn't create object from prototype");
 
@@ -456,7 +421,6 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		}
 		@catch (NSException* excp)
 		{
-			[m_protoObject release];
 			m_protoObject = nil;
 
 			[[layer undoManager] enableUndoRegistration];
@@ -474,7 +438,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
  Keep dragging out the object
  @param p the local point where the mouse has been dragged to
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -500,7 +464,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
  re-enabling undo. Invalid objects are simply discarded. The delegate is called to signal an undoable
  task is about to be made.
  @param p the local point where the mouse went up
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate

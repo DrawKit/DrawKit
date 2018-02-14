@@ -9,7 +9,6 @@
 
 @implementation NSObject (StringValue)
 
-/**  */
 - (NSString*)stringValue
 {
 	return NSStringFromClass([self class]);
@@ -49,7 +48,7 @@
 	if (m == 0)
 		return NSStringFromRange([self rangeValue]);
 
-	return nil;
+	return [self description];
 }
 
 @end
@@ -79,7 +78,7 @@
 	if ([sv length] > 0)
 		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
 
-	return [sv autorelease];
+	return sv;
 }
 
 @end
@@ -90,10 +89,8 @@
 {
 	NSMutableString* sv = [[NSMutableString alloc] init];
 	id object;
-	id key;
-	NSEnumerator* iter = [[self allKeys] objectEnumerator];
 
-	while ((key = [iter nextObject])) {
+	for (id key in self) {
 		object = [self objectForKey:key];
 		[sv appendString:[NSString stringWithFormat:@"%@: %@\n", key, [object stringValue]]];
 	}
@@ -101,7 +98,7 @@
 	if ([sv length] > 0)
 		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
 
-	return [sv autorelease];
+	return sv;
 }
 
 @end
@@ -111,17 +108,15 @@
 - (NSString*)stringValue
 {
 	NSMutableString* sv = [[NSMutableString alloc] init];
-	id object;
-	NSEnumerator* iter = [self objectEnumerator];
 
-	while ((object = [iter nextObject])) {
+	for (id object in self) {
 		[sv appendString:[NSString stringWithFormat:@"%@\n", [object stringValue]]];
 	}
 
 	if ([sv length] > 0)
 		[sv deleteCharactersInRange:NSMakeRange([sv length] - 1, 1)];
 
-	return [sv autorelease];
+	return [sv copy];
 }
 
 @end
@@ -130,7 +125,7 @@
 
 - (NSString*)stringValue
 {
-	return self;
+	return [self copy];
 }
 
 @end

@@ -7,23 +7,23 @@
 #import <Cocoa/Cocoa.h>
 #import "DKLinearObjectStorage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKBSPIndexTree;
 
 /// node types
-
-typedef enum {
+typedef NS_ENUM(NSInteger, DKLeafType) {
 	kNodeHorizontal,
 	kNodeVertical,
 	kNodeLeaf
-} DKLeafType;
+};
 
 /// tree operations
-
-typedef enum {
+typedef NS_ENUM(NSInteger, DKBSPOperation) {
 	kDKOperationInsert,
 	kDKOperationDelete,
 	kDKOperationAccumulate
-} DKBSPOperation;
+};
 
 /** @brief The actual storage object.
 
@@ -66,20 +66,21 @@ typedef enum {
 	NSBezierPath* mDebugPath;
 }
 
-+ (Class)leafClass;
+@property (class, readonly) Class leafClass;
 
-- (id)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth;
-- (NSSize)canvasSize;
+- (instancetype)init UNAVAILABLE_ATTRIBUTE;
+- (instancetype)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth NS_DESIGNATED_INITIALIZER;
+@property (readonly) NSSize canvasSize;
 
 - (void)setDepth:(NSUInteger)depth;
-- (NSUInteger)countOfLeaves;
+@property (readonly) NSUInteger countOfLeaves;
 
 - (void)insertItemIndex:(NSUInteger)idx withRect:(NSRect)rect;
 - (void)removeItemIndex:(NSUInteger)idx withRect:(NSRect)rect;
 
-- (NSIndexSet*)itemsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count;
-- (NSIndexSet*)itemsIntersectingRect:(NSRect)rect;
-- (NSIndexSet*)itemsIntersectingPoint:(NSPoint)point;
+- (nullable NSIndexSet*)itemsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count;
+- (nullable NSIndexSet*)itemsIntersectingRect:(NSRect)rect;
+- (nullable NSIndexSet*)itemsIntersectingPoint:(NSPoint)point;
 
 - (void)shiftIndexesStartingAtIndex:(NSUInteger)startIndex by:(NSInteger)delta;
 
@@ -90,3 +91,5 @@ typedef enum {
 #define kDKBSPSlack 48
 #define kDKMinimumDepth 10U
 #define kDKMaximumDepth 0U // set 0 for no limit
+
+NS_ASSUME_NONNULL_END

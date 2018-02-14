@@ -15,20 +15,18 @@
 {
 	NSMutableArray* temp = [NSMutableArray array];
 	NSEnumerator* iter;
-	id<DKStorableObject> obj;
-	NSRect bounds;
 
 	if (options & kDKReverseOrder)
 		iter = [[self objects] reverseObjectEnumerator];
 	else
 		iter = [[self objects] objectEnumerator];
 
-	while ((obj = [iter nextObject])) {
+	for (id<DKStorableObject> obj in iter) {
 		if ((options & kDKIncludeInvisible) || [obj visible]) {
-			if (options & kDKIgnoreUpdateRect)
+			if (options & kDKIgnoreUpdateRect) {
 				[temp addObject:obj];
-			else {
-				bounds = [obj bounds];
+			} else {
+				NSRect bounds = [obj bounds];
 
 				// if a view was passed, use -needsToDrawRect, otherwise intersection with <rect>
 
@@ -52,22 +50,19 @@
 								 options:0];
 }
 
-- (void)setObjects:(NSArray*)objects
+- (void)setObjects:(NSArray<id<DKStorableObject>>*)objects
 {
-	LogEvent_(kReactiveEvent, @"storage setting %d objects %@", [objects count], self);
+	LogEvent_(kReactiveEvent, @"storage setting %lu objects %@", (unsigned long)[objects count], self);
 
-	[objects retain];
-	[mObjects release];
 	mObjects = [objects mutableCopy];
-	[objects release];
 
 	[mObjects makeObjectsPerformSelector:@selector(setStorage:)
 							  withObject:self];
 }
 
-- (NSArray*)objects
+- (NSArray<id<DKStorableObject>>*)objects
 {
-	return mObjects;
+	return [mObjects copy];
 }
 
 - (NSUInteger)countOfObjects
@@ -167,11 +162,9 @@
 	NSUInteger old = [self indexOfObject:obj];
 
 	if (old != indx) {
-		[obj retain];
 		[mObjects removeObject:obj];
 		[mObjects insertObject:obj
 					   atIndex:indx];
-		[obj release];
 	}
 }
 
@@ -198,7 +191,7 @@
 #pragma mark -
 #pragma mark - as implementor of the NSCoding protocol
 
-- (id)initWithCoder:(NSCoder*)aCoder
+- (instancetype)initWithCoder:(NSCoder*)aCoder
 {
 	// b6: for backward comptibility only
 
@@ -221,7 +214,7 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self) {
@@ -235,8 +228,6 @@
 {
 	[[self objects] makeObjectsPerformSelector:@selector(setStorage:)
 									withObject:nil];
-	[mObjects release];
-	[super dealloc];
 }
 
 @end

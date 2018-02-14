@@ -17,11 +17,11 @@
 
 + (DKCIFilterRastGroup*)effectGroupWithFilter:(NSString*)filter
 {
-	DKCIFilterRastGroup* fg = [[DKCIFilterRastGroup alloc] init];
+	DKCIFilterRastGroup* fg = [[self alloc] init];
 
 	[fg setFilter:filter];
 
-	return [fg autorelease];
+	return fg;
 }
 
 #pragma mark -
@@ -29,37 +29,19 @@
 {
 	LogEvent_(kStateEvent, @"setting fx filter: %@", filter);
 
-	if (filter != [self filter]) {
-		[filter retain];
-		[m_filter release];
-		m_filter = filter;
+	if (![filter isEqualToString:self.filter]) {
+		m_filter = [filter copy];
 
 		[self invalidateCache];
 	}
 }
 
-- (NSString*)filter
-{
-	return m_filter;
-}
-
-#pragma mark -
-- (void)setArguments:(NSDictionary*)dict
-{
-	[dict retain];
-	[m_arguments release];
-	m_arguments = dict;
-}
-
-- (NSDictionary*)arguments
-{
-	return m_arguments;
-}
+@synthesize filter=m_filter;
+@synthesize arguments=m_arguments;
 
 #pragma mark -
 - (void)invalidateCache
 {
-	[m_cache release];
 	m_cache = nil;
 }
 
@@ -67,7 +49,7 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"filter", @"arguments", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"filter", @"arguments"]];
 }
 
 - (void)registerActionNames
@@ -81,25 +63,15 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_cache release];
-	[m_arguments release];
-	[m_filter release];
-
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
 		[self setFilter:@"CIOpTile"]; //CIVortexDistortion
-		[self setClipping:kDKClipInsidePath];
+		[self setClipping:kDKClippingInsidePath];
 
 		if (m_filter == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 
@@ -112,7 +84,7 @@
 {
 	NSSize es = [super extraSpaceNeeded];
 
-	if ([self clipping] != kDKClipInsidePath) {
+	if ([self clipping] != kDKClippingInsidePath) {
 		es.width += (CIIMAGE_PADDING * 2);
 		es.height += (CIIMAGE_PADDING * 2);
 	}
@@ -134,14 +106,13 @@
 
 	} else {
 		NSImage* image = [[NSImage alloc] initWithSize:imgRect.size];
-		[image setFlipped:YES];
 
 		NSAffineTransform* tfm = [NSAffineTransform transform];
 		[tfm translateXBy:extra.width - br.origin.x
 					  yBy:extra.height - br.origin.y];
 		//[tfm scaleXBy:1.0 yBy:-1.0];
 
-		[image lockFocus];
+		[image lockFocusFlipped:YES];
 		[tfm set];
 
 		DKClippingOption saveClipping = [self clipping];
@@ -164,11 +135,11 @@
 		case kDKClippingNone:
 			break;
 
-		case kDKClipInsidePath:
+		case kDKClippingInsidePath:
 			[path addClip];
 			break;
 
-		case kDKClipOutsidePath:
+		case kDKClippingOutsidePath:
 			[path addInverseClip];
 			break;
 		}
@@ -187,20 +158,18 @@
 
 			NSPoint pp;
 
-			pp.x = imgRect.size.width * 0.5f + ([object offset].width * [object size].width);
-			pp.y = imgRect.size.height * 0.5f + ([object offset].height * [object size].height);
+			pp.x = imgRect.size.width * 0.5 + ([object offset].width * [object size].width);
+			pp.y = imgRect.size.height * 0.5 + ([object offset].height * [object size].height);
 
 			[args setObject:[CIVector vectorWithX:pp.x
 												Y:pp.y]
 					 forKey:@"inputCenter"];
 		}
 
-		[image drawAtPoint:imgRect.origin
-				   fromRect:fr
-			coreImageFilter:[self filter]
-				  arguments:args];
-		[args release];
-		[image release];
+		[image drawInRect:imgRect
+				 fromRect:fr
+		  coreImageFilter:[self filter]
+				arguments:args];
 
 		RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 	}
@@ -219,7 +188,7 @@
 				 forKey:@"arguments"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -230,11 +199,10 @@
 		BOOL clip = [coder decodeBoolForKey:@"DKCIFilterRastGroup_clipsToPath"];
 
 		if (clip)
-			[self setClipping:kDKClipInsidePath];
+			[self setClipping:kDKClippingInsidePath];
 
 		if (m_filter == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -250,7 +218,6 @@
 
 	NSDictionary* args = [[self arguments] deepCopy];
 	[copy setArguments:args];
-	[args release];
 
 	return copy;
 }
@@ -262,22 +229,15 @@
 #pragma mark As an NSImage
 - (NSBitmapImageRep*)bitmapImageRepresentation
 {
-	NSImageRep* rep;
-	NSEnumerator* e;
-	Class bitmapImageRep;
+	Class bitmapImageRep = [NSBitmapImageRep class];
 
-	bitmapImageRep = [NSBitmapImageRep class];
-	e = [[self representations] objectEnumerator];
-
-	while ((rep = [e nextObject]) != nil) {
-		if ([rep isKindOfClass:bitmapImageRep])
-			break;
+	for (NSImageRep* rep in [self representations]) {
+		if ([rep isKindOfClass:bitmapImageRep]) {
+			return (NSBitmapImageRep*)rep;
+		}
 	}
 
-	if (!rep)
-		rep = [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
-
-	return (NSBitmapImageRep*)rep;
+	return [NSBitmapImageRep imageRepWithData:[self TIFFRepresentation]];
 }
 
 - (void)drawAtPoint:(NSPoint)point fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments
@@ -296,10 +256,32 @@
 			[self drawAtPoint:point
 					 fromRect:fromRect
 					operation:NSCompositeSourceOver
-					 fraction:1.0f];
+					 fraction:1.0];
 
 	}
 }
+
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments
+{
+	NSBitmapImageRep* rep;
+	
+	@autoreleasepool {
+		
+		if (filterName) {
+			rep = [self bitmapImageRepresentation];
+			[rep drawInRect:inrect
+				   fromRect:fromRect
+			coreImageFilter:filterName
+				  arguments:arguments];
+		} else {
+			[self drawInRect:inrect
+					fromRect:fromRect
+				   operation:NSCompositeSourceOver
+					fraction:1.0];
+		}
+	}
+}
+
 
 @end
 
@@ -337,16 +319,16 @@
 					   "gt_noRenderPadding" in the argument dictionary. */
 					fromRect.origin.x -= CIIMAGE_PADDING;
 					fromRect.origin.y -= CIIMAGE_PADDING;
-					fromRect.size.width += CIIMAGE_PADDING * 2.0f;
-					fromRect.size.height += CIIMAGE_PADDING * 2.0f;
+					fromRect.size.width += CIIMAGE_PADDING * 2.0;
+					fromRect.size.height += CIIMAGE_PADDING * 2.0;
 					point.x -= CIIMAGE_PADDING;
 					point.y -= CIIMAGE_PADDING;
 				}
 
 				ciContext = [[NSGraphicsContext currentContext] CIContext];
 				[ciContext drawImage:after
-							 atPoint:*(CGPoint*)(&point)
-							fromRect:*(CGRect*)(&fromRect)];
+							 atPoint:NSPointToCGPoint(point)
+							fromRect:NSRectToCGRect(fromRect)];
 			}
 		}
 		@catch (NSException* e)
@@ -355,9 +337,58 @@
 		}
 		@finally
 		{
-			[before release];
+			before = nil;
 		}
 
+	}
+}
+
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
+{
+	CIFilter* filter;
+	CIImage* before = nil;
+	CIImage* after;
+	CIContext* ciContext;
+	
+	@autoreleasepool {
+		@try {
+			before = [[CIImage alloc] initWithBitmapImageRep:self];
+			if (before) {
+				filter = [CIFilter filterWithName:filterName];
+				[filter setDefaults];
+				if (arguments)
+					[filter setValuesForKeysWithDictionary:arguments];
+				[filter setValue:before
+						  forKey:@"inputImage"];
+			} else
+				filter = nil;
+			
+			after = [filter valueForKey:@"outputImage"];
+			if (after) {
+				if (![[arguments objectForKey:@"gt_noRenderPadding"] boolValue]) {
+					/* Add a wide berth to the bounds -- the padding can be turned
+					 off by passing an NSNumber with a YES value in the argument
+					 "gt_noRenderPadding" in the argument dictionary. */
+					fromRect.origin.x -= CIIMAGE_PADDING;
+					fromRect.origin.y -= CIIMAGE_PADDING;
+					fromRect.size.width += CIIMAGE_PADDING * 2.0;
+					fromRect.size.height += CIIMAGE_PADDING * 2.0;
+					inrect.origin.x -= CIIMAGE_PADDING;
+					inrect.origin.y -= CIIMAGE_PADDING;
+					inrect.size.width += CIIMAGE_PADDING * 2.0;
+					inrect.size.height += CIIMAGE_PADDING * 2.0;
+				}
+				
+				ciContext = [[NSGraphicsContext currentContext] CIContext];
+				[ciContext drawImage:after
+							  inRect:NSRectToCGRect(inrect)
+							fromRect:NSRectToCGRect(fromRect)];
+			}
+		} @catch (NSException* e) {
+			LogEvent_(kWheneverEvent, @"exception encountered during core image filtering: %@", e);
+		} @finally {
+			before = nil;
+		}
 	}
 }
 

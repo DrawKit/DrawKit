@@ -22,17 +22,26 @@
 
 #pragma mark Contants(Non - localized)
 
-NSString* kDKLayerDidReorderObjects = @"kDKLayerDidReorderObjects";
-NSString* kDKDrawableObjectPasteboardType = @"net.apptree.drawkit.drawable";
-NSString* kDKDrawableObjectInfoPasteboardType = @"kDKDrawableObjectInfoPasteboardType";
-NSString* kDKLayerSelectionDidChange = @"kDKLayerSelectionDidChange";
-NSString* kDKLayerKeyObjectDidChange = @"kDKLayerKeyObjectDidChange";
+NSString* const kDKLayerDidReorderObjects = @"kDKLayerDidReorderObjects";
+NSString* const kDKDrawableObjectPasteboardType = @"net.apptree.drawkit.drawable";
+NSString* const kDKDrawableObjectInfoPasteboardType = @"kDKDrawableObjectInfoPasteboardType";
+NSString* const kDKLayerSelectionDidChange = @"kDKLayerSelectionDidChange";
+NSString* const kDKLayerKeyObjectDidChange = @"kDKLayerKeyObjectDidChange";
 
 #pragma mark Static Vars
 static BOOL sSelVisWhenInactive = NO;
 static NSMutableDictionary* sSelectionBuffer = nil;
 
-@interface DKObjectDrawingLayer (Private)
+@interface DKSecretSelectorsDrawingLayer : NSObject
+-(IBAction)unionSelectedObjects:(id)sender;
+-(IBAction)combineSelectedObjects:(id)sender;
+-(IBAction)diffSelectedObjects:(id)sender;
+-(IBAction)intersectionSelectedObjects:(id)sender;
+-(IBAction)xorSelectedObjects:(id)sender;
+-(IBAction)divideSelectedObjects:(id)sender;
+@end
+
+@interface DKObjectDrawingLayer ()
 
 enum {
 	kObjectRemove,
@@ -89,7 +98,7 @@ enum {
 	DKObjectDrawingLayer* newLayer = [[self alloc] init];
 	[newLayer addObjectsFromArray:objects];
 
-	return [newLayer autorelease];
+	return newLayer;
 }
 
 #pragma mark -
@@ -108,35 +117,29 @@ enum {
 
 	if (![self lockedOrHidden] && [self countOfSelection] > 0) {
 		NSEnumerator* iter = [[self availableObjectsInRect:[self selectionBounds]] objectEnumerator];
-		DKDrawableObject* od;
 
-		while ((od = [iter nextObject])) {
-			if ([self isSelectedObject:od])
+		for (DKDrawableObject* od in iter) {
+			if ([self isSelectedObject:od]) {
 				[ao addObject:od];
+			}
 		}
 	}
-	return [ao autorelease];
+	return ao;
 }
 
-/** @brief Returns the objects that are not locked, visible and selected and which have the given class
-
- See comments for selectedAvailableObjects
- @return an array, objects of the given class that can be acted upon by a command as a set
- */
-- (NSArray*)selectedAvailableObjectsOfClass:(Class)aClass
+- (NSArray<__kindof DKDrawableObject*>*)selectedAvailableObjectsOfClass:(Class)aClass
 {
 	NSMutableArray* ao = [[NSMutableArray alloc] init];
 
 	if (![self lockedOrHidden] && [self countOfSelection] > 0) {
 		NSEnumerator* iter = [[self availableObjectsInRect:[self selectionBounds]] objectEnumerator];
-		DKDrawableObject* od;
 
-		while ((od = [iter nextObject])) {
+		for (DKDrawableObject* od in iter) {
 			if ([self isSelectedObject:od] && [od isKindOfClass:aClass])
 				[ao addObject:od];
 		}
 	}
-	return [ao autorelease];
+	return ao;
 }
 
 /** @brief Returns the objects that are visible and selected
@@ -144,20 +147,20 @@ enum {
  See comments for selectedAvailableObjects
  @return an array
  */
-- (NSArray*)selectedVisibleObjects
+- (NSArray<DKDrawableObject*>*)selectedVisibleObjects
 {
 	NSMutableArray* ao = [[NSMutableArray alloc] init];
 
 	if ([self visible] && [self countOfSelection] > 0) {
 		NSEnumerator* iter = [[self visibleObjectsInRect:[self selectionBounds]] objectEnumerator];
-		DKDrawableObject* od;
 
-		while ((od = [iter nextObject])) {
-			if ([self isSelectedObject:od])
+		for (DKDrawableObject* od in iter) {
+			if ([self isSelectedObject:od]) {
 				[ao addObject:od];
+			}
 		}
 	}
-	return [ao autorelease];
+	return ao;
 }
 
 /** @brief Returns objects that respond to the selector with the value <answer>
@@ -170,12 +173,10 @@ enum {
  */
 - (NSSet*)selectedObjectsReturning:(NSInteger)answer toSelector:(SEL)selector
 {
-	NSEnumerator* iter = [[self selection] objectEnumerator];
 	NSMutableSet* result = [NSMutableSet set];
-	id o;
 	NSInteger rval;
 
-	while ((o = [iter nextObject])) {
+	for (id o in [self selection]) {
 		if ([o respondsToSelector:selector]) {
 			rval = 0;
 
@@ -204,15 +205,14 @@ enum {
  @param selector any selector
  @return an array, objects in the selection that do respond to the given selector
  */
-- (NSSet*)selectedObjectsRespondingToSelector:(SEL)selector
+- (NSSet<DKDrawableObject*>*)selectedObjectsRespondingToSelector:(SEL)selector
 {
-	NSEnumerator* iter = [[self selection] objectEnumerator];
 	NSMutableSet* result = [NSMutableSet set];
-	id o;
 
-	while ((o = [iter nextObject])) {
-		if ([o respondsToSelector:selector] && [o visible] && ![o locked])
+	for (id o in self.selection) {
+		if ([o respondsToSelector:selector] && [o visible] && ![o locked]) {
 			[result addObject:o];
+		}
 	}
 
 	//LogEvent_( kInfoEvent, @"%d objects (of %d) respond to selector '%@'", [result count], [[self selection] count], NSStringFromSelector( selector ));
@@ -224,24 +224,21 @@ enum {
 
  The result maintains the stacking order of the original objects, but the objects do not belong to
  where objects are ultimately going to be pasted back in to this or another layer.
- @return an array of objects. 
+ @return an array of objects.
  */
-- (NSArray*)duplicatedSelection
+- (NSArray<DKDrawableObject*>*)duplicatedSelection
 {
 	NSMutableArray* arr;
-	NSEnumerator* iter = [[self selectedObjectsPreservingStackingOrder] objectEnumerator];
-	DKDrawableObject* od;
 	DKDrawableObject* odc;
 
 	arr = [[NSMutableArray alloc] init];
 
-	while ((od = [iter nextObject])) {
+	for (DKDrawableObject* od in self.selectedObjectsPreservingStackingOrder) {
 		odc = [od copy];
 		[arr addObject:odc];
-		[odc release];
 	}
 
-	return [arr autorelease];
+	return arr;
 }
 
 /** @brief Returns the selected objects in their original stacking order.
@@ -251,18 +248,18 @@ enum {
  an empty array.
  @return an array, the selected objects in their original order
  */
-- (NSArray*)selectedObjectsPreservingStackingOrder
+- (NSArray<DKDrawableObject*>*)selectedObjectsPreservingStackingOrder
 {
 	NSMutableArray* arr = [NSMutableArray array];
 
 	if ([self countOfSelection] > 0 && ![self lockedOrHidden]) {
-		NSEnumerator* iter = [[self objectsForUpdateRect:[self selectionBounds]
-												  inView:nil] objectEnumerator];
-		DKDrawableObject* obj;
+		NSArray* updObjs = [self objectsForUpdateRect:[self selectionBounds]
+											   inView:nil];
 
-		while ((obj = [iter nextObject])) {
-			if ([self isSelectedObject:obj])
+		for (DKDrawableObject* obj in updObjs) {
+			if ([self isSelectedObject:obj]) {
 				[arr addObject:obj];
+			}
 		}
 	}
 	return arr;
@@ -280,12 +277,10 @@ enum {
 	NSUInteger cc = 0;
 
 	if (![self lockedOrHidden]) {
-		NSEnumerator* iter = [[self selection] objectEnumerator];
-		DKDrawableObject* od;
-
-		while ((od = [iter nextObject])) {
-			if ([od visible] && ![od locked])
+		for (DKDrawableObject* od in self.selection) {
+			if ([od visible] && ![od locked]) {
 				++cc;
+			}
 		}
 	}
 	return cc;
@@ -329,11 +324,9 @@ enum {
  */
 - (void)setSelectedObjectsLocked:(BOOL)lock
 {
-	NSEnumerator* iter = [[self selection] objectEnumerator];
-	DKDrawableObject* od;
-
-	while ((od = [iter nextObject]))
+	for (DKDrawableObject* od in self.selection) {
 		[od setLocked:lock];
+	}
 }
 
 /** @brief Hides or shows all of the objects in the selection
@@ -346,10 +339,7 @@ enum {
 {
 	// sets the visible state of all objects in the selection to <visible>
 
-	NSEnumerator* iter = [[self selection] objectEnumerator];
-	DKDrawableObject* od;
-
-	while ((od = [iter nextObject]))
+	for (DKDrawableObject* od in self.selection)
 		[od setVisible:visible];
 }
 
@@ -358,11 +348,9 @@ enum {
  */
 - (BOOL)setHiddenObjectsVisible
 {
-	NSEnumerator* iter = [[self objects] objectEnumerator];
-	DKDrawableObject* od;
 	NSMutableSet* hidden = [NSMutableSet set];
 
-	while ((od = [iter nextObject])) {
+	for (DKDrawableObject* od in self.objects) {
 		if (![od visible]) {
 			[od setVisible:YES];
 			[hidden addObject:od];
@@ -395,12 +383,10 @@ enum {
 	NSArray* arr = [self selectedAvailableObjects];
 
 	if (([arr count] > 0) && ((dx != 0.0) || (dy != 0.0))) {
-		NSEnumerator* iter = [arr objectEnumerator];
-		DKDrawableObject* od;
-
-		while ((od = [iter nextObject]))
+		for (DKDrawableObject* od in arr) {
 			[od offsetLocationByX:dx
 							  byY:dy];
+		}
 
 		return YES;
 	} else
@@ -432,7 +418,6 @@ enum {
 			[m_selection makeObjectsPerformSelector:@selector(objectIsNoLongerSelected)];
 
 			NSMutableSet* temp = [sel mutableCopy];
-			[m_selection release];
 			m_selection = temp;
 			mSelBoundsCached = NSZeroRect;
 
@@ -453,7 +438,7 @@ enum {
  */
 - (NSSet*)selection
 {
-	return [self lockedOrHidden] ? nil : [[m_selection copy] autorelease];
+	return [self lockedOrHidden] ? nil : [m_selection copy];
 }
 
 /** @brief If the selection consists of a single available object, return it. Otherwise nil.
@@ -540,11 +525,9 @@ enum {
 	if ([objs count] > 0) {
 		[self setRulerMarkerUpdatesEnabled:NO];
 
-		NSEnumerator* iter = [objs objectEnumerator];
-		DKDrawableObject* o;
-
-		while ((o = [iter nextObject]))
+		for (DKDrawableObject* o in objs) {
 			[self addObjectToSelection:o];
+		}
 
 		[[self layerGroup] updateRulerMarkersForRect:[self selectionLogicalBounds]];
 		[self setRulerMarkerUpdatesEnabled:YES];
@@ -559,7 +542,7 @@ enum {
 {
 	NSAssert(obj != nil, @"attempt to replace selection with nil");
 
-	return [self exchangeSelectionWithObjectsFromArray:[NSArray arrayWithObject:obj]];
+	return [self exchangeSelectionWithObjectsFromArray:@[obj]];
 }
 
 /** @brief Remove a single object from the selection
@@ -644,12 +627,10 @@ enum {
 
 				// check that if any objects in the new set refuse the selection, that they are not included
 
-				NSEnumerator* iter = [sel objectEnumerator];
-				DKDrawableObject* od;
-
-				while ((od = [iter nextObject])) {
-					if ([od objectMayBecomeSelected])
+				for (DKDrawableObject* od in sel) {
+					if ([od objectMayBecomeSelected]) {
 						[newSel addObject:od];
+					}
 				}
 
 				if (![m_selection isEqualToSet:newSel]) {
@@ -667,7 +648,6 @@ enum {
 
 					[newSel makeObjectsPerformSelector:@selector(objectDidBecomeSelected)];
 					[newSel makeObjectsPerformSelector:@selector(notifyVisualChange)];
-					[oldSel release];
 
 					mSelBoundsCached = NSZeroRect;
 					[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerSelectionDidChange
@@ -814,22 +794,13 @@ enum {
 	return [self exchangeSelectionWithObjectsFromArray:[self objectsWithStyle:style]];
 }
 
-/** @brief Replaces the style of all objects that have a reference to <style> with <newStyle>, optionally selecting them
-
- The style is compared by key, so clones of the style are not considered a match
- @param style the style to match
- @param newStyle the style to replace it with
- @param select if YES, also replace the selection with the affected objects
- @return YES if the selection changed, NO if it did not
- */
 - (BOOL)replaceStyle:(DKStyle*)style withStyle:(DKStyle*)newStyle selectingObjects:(BOOL)selectObjects
 {
 	NSArray* matches = [self objectsWithStyle:style];
-	NSEnumerator* iter = [matches objectEnumerator];
-	DKDrawableObject* o;
 
-	while ((o = [iter nextObject]))
+	for (DKDrawableObject* o in matches) {
 		[o setStyle:newStyle];
+	}
 
 	if (selectObjects)
 		return [self exchangeSelectionWithObjectsFromArray:matches];
@@ -871,12 +842,10 @@ enum {
  */
 - (BOOL)selectionContainsObjectOfClass:(Class)c
 {
-	NSEnumerator* iter = [[self selection] objectEnumerator];
-	id o;
-
-	while ((o = [iter nextObject])) {
-		if ([o isKindOfClass:c])
+	for (id o in self.selection) {
+		if ([o isKindOfClass:c]) {
 			return YES;
+		}
 	}
 
 	return NO;
@@ -893,11 +862,9 @@ enum {
 	mSelBoundsCached = NSZeroRect;
 
 	if ([self isSelectionNotEmpty]) {
-		DKDrawableObject* od;
-		NSEnumerator* iter = [[self selection] objectEnumerator];
-
-		while ((od = [iter nextObject]))
+		for (DKDrawableObject* od in self.selection) {
 			mSelBoundsCached = UnionOfTwoRects(mSelBoundsCached, [od bounds]);
+		}
 	}
 	return mSelBoundsCached;
 }
@@ -907,11 +874,9 @@ enum {
 	NSRect lbr = NSZeroRect;
 
 	if ([self isSelectionNotEmpty]) {
-		DKDrawableObject* od;
-		NSEnumerator* iter = [[self selection] objectEnumerator];
-
-		while ((od = [iter nextObject]))
+		for (DKDrawableObject* od in self.selection) {
 			lbr = UnionOfTwoRects(lbr, [od logicalBounds]);
+		}
 	}
 	return lbr;
 }
@@ -945,7 +910,6 @@ enum {
 - (void)recordSelectionForUndo
 {
 	if (m_selectionUndo) {
-		[m_selectionUndo release];
 		m_selectionUndo = nil;
 	}
 
@@ -955,9 +919,9 @@ enum {
 	if ([[self undoManager] respondsToSelector:@selector(changeCount)])
 		mUndoCount = [(DKUndoManager*)[self undoManager] changeCount];
 
-	m_selectionUndo = [[self selection] retain];
+	m_selectionUndo = [self selection];
 
-	LogEvent_(kReactiveEvent, @"recorded selection for possible undo, count = %d", mUndoCount);
+	LogEvent_(kReactiveEvent, @"recorded selection for possible undo, count = %lu", (unsigned long)mUndoCount);
 }
 
 /** @brief Sends the recorded selection state to the undo manager and tags it with the given action name
@@ -1008,7 +972,6 @@ enum {
 
 		// done with the recorded selection, so get rid of it
 
-		[m_selectionUndo release];
 		m_selectionUndo = nil;
 	}
 }
@@ -1044,11 +1007,10 @@ enum {
 - (void)drawSelectedObjectsWithSelectionState:(BOOL)selected
 {
 	NSArray* sel = [self selectedObjectsPreservingStackingOrder];
-	NSEnumerator* iter = [sel objectEnumerator];
-	DKDrawableObject* od;
 
-	while ((od = [iter nextObject]))
+	for (DKDrawableObject* od in sel) {
 		[od drawContentWithSelectedState:selected];
+	}
 }
 
 /** @brief Creates an image of the selected objects
@@ -1065,18 +1027,17 @@ enum {
 	sb = [self selectionBounds];
 
 	img = [[NSImage alloc] initWithSize:sb.size];
-	[img setFlipped:[[self drawing] isFlipped]];
 
 	NSAffineTransform* tfm = [NSAffineTransform transform];
 	[tfm translateXBy:-sb.origin.x
 				  yBy:-sb.origin.y];
 
-	[img lockFocus];
+	[img lockFocusFlipped:[[self drawing] isFlipped]];
 	[tfm concat];
 	[self drawSelectedObjects];
 	[img unlockFocus];
 
-	return [img autorelease];
+	return img;
 }
 
 /** @brief Creates a PDF representation of the selected objects
@@ -1101,7 +1062,6 @@ enum {
 
 	NSRect sr = [self selectionBounds];
 	NSData* pdfData = [pdfView dataWithPDFInsideRect:sr];
-	[pdfView release];
 
 	return pdfData;
 }
@@ -1155,15 +1115,13 @@ enum {
 	// add image of selection in PDF format:
 	NSData* pdf = [self pdfDataOfSelectedObjects];
 	[pb setData:pdf
-		forType:NSPDFPboardType];
+		forType:NSPasteboardTypePDF];
 
 	// and TIFF format:
 
 	NSImage* si = [self imageOfSelectedObjects];
 	[pb setData:[si TIFFRepresentation]
-		forType:NSTIFFPboardType];
-
-	[dataTypes release];
+		forType:NSPasteboardTypeTIFF];
 }
 
 #pragma mark -
@@ -1259,19 +1217,17 @@ enum {
  This also tries to intelligently set the state of the item. If some objects set the state one way
  and others to another state, this will automatically set the mixed state. While the menu item
  itself is enabled if any object enabled it, the mixed state indicates that the outcome of the
- operation is likely to vary for different objects. 
+ operation is likely to vary for different objects.
  @param item the menu item to validate
  @return YES if at least one of the objects enabled the item, NO otherwise
  */
 - (BOOL)multipleSelectionValidatedMenuItem:(NSMenuItem*)item
 {
-	NSEnumerator* iter = [[self selection] objectEnumerator];
-	DKDrawableObject* obj;
-	NSInteger menuItemState = NSOffState;
+	NSControlStateValue menuItemState = NSOffState;
 	BOOL hadFirst = NO;
 	BOOL valid = NO;
 
-	while ((obj = [iter nextObject])) {
+	for (DKDrawableObject* obj in self.selection) {
 		if ([obj validateMenuItem:item]) {
 			valid = YES;
 
@@ -1292,24 +1248,7 @@ enum {
 #pragma mark -
 #pragma mark - drag + drop
 
-/** @brief Sets the rect outside of which a mouse drag will drag the selection with the drag manager.
-
- By default the drag exclusion rect is set to the interior of the drawing. Dragging objects to the
- margins thus drags them "off" the drawing.
- @param aRect a rectangle - drags inside this rect do not cause a DM operation. Can be empty to
- */
-- (void)setDragExclusionRect:(NSRect)aRect
-{
-	m_dragExcludeRect = aRect;
-}
-
-/** @brief Gets the rect outside of which a mouse drag will drag the selection with the drag manager.
- @return a rect defining the area within which drags do not traigger DM operations
- */
-- (NSRect)dragExclusionRect
-{
-	return m_dragExcludeRect;
-}
+@synthesize dragExclusionRect=m_dragExcludeRect;
 
 /** @brief Initiates a drag of the selection to another document or app, or back to self.
 
@@ -1331,7 +1270,6 @@ enum {
 
 	// set the image the other way up and make it a bit transparent
 
-	[image setFlipped:NO];
 	[image lockFocus];
 	[image drawAtPoint:NSZeroPoint
 			  fromRect:NSZeroRect
@@ -1347,7 +1285,7 @@ enum {
 	// save a temporary list of the objects being dragged so that if they are dragged back into the same layer,
 	// the originals can be removed.
 
-	m_objectsPendingDrag = [[self selectedObjectsPreservingStackingOrder] retain];
+	m_objectsPendingDrag = [self selectedObjectsPreservingStackingOrder];
 	[self setSelectedObjectsVisible:NO];
 
 	[view dragImage:image
@@ -1478,11 +1416,11 @@ enum {
 		if ( isContextMenu )
 		{
 			// figure out the bottom left corner of the pasted objects
-			
+		 
 			NSRect ur = [DKDrawableObject unionOfBoundsOfDrawablesInArray:objects];
-			cp.x -= ur.size.width * 0.5f;
-			cp.y += ur.size.height * 0.5f;
-			
+			cp.x -= ur.size.width * 0.5;
+			cp.y += ur.size.height * 0.5;
+		 
 			[super addObjects:objects fromPasteboard:pb atDropLocation:cp];
 			[self exchangeSelectionWithObjectsFromArray:objects];
 		}
@@ -1533,20 +1471,20 @@ enum {
 
 		NSString* action = ([objects count] == 1) ? NSLocalizedString(@"Paste Object", @"undo action for paste object") : NSLocalizedString(@"Paste Objects", @"undo action for paste objects");
 		[self commitSelectionUndoWithActionName:action];
-	} else if ([pb availableTypeFromArray:[NSArray arrayWithObject:NSStringPboardType]] != nil) {
+	} else if ([pb availableTypeFromArray:@[NSPasteboardTypeString]] != nil) {
 		// pasting a string - add a text object
 
-		NSString* theString = [pb stringForType:NSStringPboardType];
+		NSString* theString = [pb stringForType:NSPasteboardTypeString];
 
 		if (theString != nil) {
 			DKTextShape* tShape = [DKTextShape textShapeWithString:theString
 															inRect:NSMakeRect(0, 0, 200, 100)];
 			[tShape fitToText:self];
 
-			cp.x -= [tShape size].width * 0.5f;
-			cp.y += [tShape size].height * 0.5f;
+			cp.x -= [tShape size].width * 0.5;
+			cp.y += [tShape size].height * 0.5;
 
-			objects = [NSArray arrayWithObject:tShape];
+			objects = @[tShape];
 			[self addObjects:objects
 				fromPasteboard:pb
 				atDropLocation:cp];
@@ -1560,13 +1498,11 @@ enum {
 		NSImage* image = [[NSImage alloc] initWithPasteboard:pb];
 		DKImageShape* imshape = [[DKImageShape alloc] initWithImage:image];
 
-		[image release];
 
-		objects = [NSArray arrayWithObject:imshape];
-		[imshape release];
+		objects = @[imshape];
 
-		cp.x -= [imshape size].width * 0.5f;
-		cp.y += [imshape size].height * 0.5f;
+		cp.x -= [imshape size].width * 0.5;
+		cp.y += [imshape size].height * 0.5;
 
 		[self addObjects:objects
 			fromPasteboard:pb
@@ -1869,8 +1805,6 @@ enum {
 			[self replaceSelectionWithObject:group];
 			[self commitSelectionUndoWithActionName:NSLocalizedString(@"Group", @"undo string for grouping")];
 		}
-
-		[group release];
 	}
 }
 
@@ -1910,11 +1844,9 @@ enum {
 #pragma unused(sender)
 
 	if (![self lockedOrHidden]) {
-		NSEnumerator* iter = [[self selection] objectEnumerator];
-		DKDrawableObject* od;
-
-		while ((od = [iter nextObject]))
+		for (DKDrawableObject* od in self.selection) {
 			[od setGhosted:YES];
+		}
 
 		[[self undoManager] setActionName:NSLocalizedString(@"Ghost Objects", @"undo name for ghost object")];
 	}
@@ -1930,11 +1862,9 @@ enum {
 #pragma unused(sender)
 
 	if (![self lockedOrHidden]) {
-		NSEnumerator* iter = [[self selection] objectEnumerator];
-		DKDrawableObject* od;
-
-		while ((od = [iter nextObject]))
+		for (DKDrawableObject* od in self.selection) {
 			[od setGhosted:NO];
+		}
 
 		[[self undoManager] setActionName:NSLocalizedString(@"Unghost Objects", @"undo name for unghost object")];
 	}
@@ -2037,8 +1967,6 @@ enum {
 {
 	if (![self lockedOrHidden]) {
 		NSArray* sp = [self selectedAvailableObjectsOfClass:[DKDrawablePath class]];
-		NSEnumerator* iter = [sp objectEnumerator];
-		DKDrawablePath* path;
 		DKDrawablePath* a = nil;
 		NSInteger joinsMade = 0;
 
@@ -2056,7 +1984,7 @@ enum {
 
 		[self recordSelectionForUndo];
 
-		while ((path = [iter nextObject])) {
+		for (DKDrawablePath* path in sp) {
 			// first path is "master" and dictates style etc of result
 
 			if (a == nil)
@@ -2113,13 +2041,12 @@ enum {
 	// objects so that the user is better able to manipulate a control knob that lies on top of another object.
 
 	NSEnumerator* iter;
-	DKDrawableObject* o;
 	NSInteger pc;
 
 	if ([self drawsSelectionHighlightsOnTop]) {
 		iter = [[self selectedObjectsPreservingStackingOrder] reverseObjectEnumerator];
 
-		while ((o = [iter nextObject])) {
+		for (DKDrawableObject* o in iter) {
 			pc = [o hitPart:point];
 
 			if (pc != kDKDrawingEntireObjectPart && pc != kDKDrawingNoPart) {
@@ -2138,7 +2065,7 @@ enum {
 /** @brief Removes an object from the layer
 
  If the object is selected, it is removed from the selection
- @param index the index at which the object should be removed
+ @param indx the index at which the object should be removed
  */
 - (void)removeObjectFromObjectsAtIndex:(NSUInteger)indx
 {
@@ -2157,7 +2084,7 @@ enum {
 /** @brief Replaces an object in the layer with another
 
  If index is selected, new object replaces the object in the selection
- @param index the index at which the object should be exchanged
+ @param indx the index at which the object should be exchanged
  @param obj the object that will replace the item at index
  */
 - (void)replaceObjectInObjectsAtIndex:(NSUInteger)indx withObject:(DKDrawableObject*)obj
@@ -2226,7 +2153,7 @@ enum {
 
 /** @brief Draws the layer and its contents on demand
 
- Called by the drawing when necessary to update the views. 
+ Called by the drawing when necessary to update the views.
  @param rect the area being updated
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
@@ -2248,15 +2175,15 @@ enum {
 
 				if (!drawSelected || [self drawsSelectionHighlightsOnTop]) {
 					
-					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
+					for (DKDrawableObject* obj in objectsToDraw) {
 						[obj drawContentWithSelectedState:NO];
-					}];
+					}
 					
 				} else {
 
-					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
+					for (DKDrawableObject* obj in objectsToDraw) {
 						[obj drawContentWithSelectedState:[self isSelectedObject:obj]];
-					}];
+					}
 
 				}
 
@@ -2264,10 +2191,10 @@ enum {
 
 				if ([self drawsSelectionHighlightsOnTop] && drawSelected) {
 					
-					[objectsToDraw enumerateObjectsUsingBlock:^(DKDrawableObject* obj,NSUInteger __unused inIndex,BOOL* __unused outShouldStop) {
+					for (DKDrawableObject* obj in objectsToDraw) {
 						if ([self isSelectedObject:obj])
 							[obj drawSelectedState];
-					}];
+					}
 					
 				}
 			}
@@ -2381,7 +2308,6 @@ enum {
 					keyEquivalent:@""] setTarget:self];
 
 			[item setSubmenu:am];
-			[am release];
 		}
 	} else {
 		item = [contextmenu addItemWithTitle:NSLocalizedString(@"Paste", @"menu item for Paste")
@@ -2391,7 +2317,7 @@ enum {
 		[item setTag:kDKPasteCommandContextualMenuTag];
 	}
 
-	return [contextmenu autorelease];
+	return contextmenu;
 }
 
 - (void)setLayerGroup:(DKLayerGroup*)aGroup
@@ -2434,11 +2360,9 @@ enum {
 		// append all the types from the object classes we can accept:
 
 		NSArray* eligibleClasses = [DKRuntimeHelper allClassesOfKind:[DKDrawableObject class]];
-		NSEnumerator* iter = [eligibleClasses objectEnumerator];
-		Class class;
-		NSArray* dragTypes;
 
-		while ((class = [iter nextObject])) {
+		for (Class class in eligibleClasses) {
+			NSArray* dragTypes;
 			if ([class respondsToSelector:@selector(pasteboardTypesForOperation:)])
 				dragTypes = [class pasteboardTypesForOperation:op];
 			else
@@ -2449,7 +2373,7 @@ enum {
 		}
 	}
 
-	return [types autorelease];
+	return types;
 }
 
 - (void)logDescription:(id)sender
@@ -2476,7 +2400,7 @@ enum {
 		// see if what's being dragged is our native type - if so, don't try and target an individual object.
 
 		NSPasteboard* pb = [sender draggingPasteboard];
-		NSString* availableType = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKDrawableObjectPasteboardType]];
+		NSString* availableType = [pb availableTypeFromArray:@[kDKDrawableObjectPasteboardType]];
 
 		if (availableType != nil) {
 			[self deselectAll];
@@ -2541,7 +2465,6 @@ enum {
 				// delete the objects held in the temporary drag list, as we have dragged them to self
 
 				[self removeObjectsInArray:m_objectsPendingDrag];
-				[m_objectsPendingDrag release];
 				m_objectsPendingDrag = nil;
 			}
 		}
@@ -2568,13 +2491,10 @@ enum {
 	// if the pending drag list still exists, re-show all the objects in it
 
 	if (m_objectsPendingDrag != nil) {
-		NSEnumerator* iter = [m_objectsPendingDrag objectEnumerator];
-		DKDrawableObject* dko;
-
-		while ((dko = [iter nextObject]))
+		for (DKDrawableObject* dko in m_objectsPendingDrag) {
 			[dko setVisible:YES];
+		}
 
-		[m_objectsPendingDrag release];
 		m_objectsPendingDrag = nil;
 	}
 }
@@ -2586,11 +2506,6 @@ enum {
 	//	LogEvent_(kReactiveEvent, @"dealloc - DKObjectDrawingLayer");
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	[m_selectionUndo release];
-	[m_selection release];
-
-	[super dealloc];
 }
 
 /** @brief Allows actions to be retargeted on single selected objects directly
@@ -2603,7 +2518,6 @@ enum {
 - (void)forwardInvocation:(NSInvocation*)invocation
 {
 	SEL aSelector = [invocation selector];
-	DKDrawableObject* od;
 
 	if ([self multipleSelectionAutoForwarding]) {
 		NSSet* responders = [self selectedObjectsRespondingToSelector:aSelector];
@@ -2614,16 +2528,16 @@ enum {
 			// isolation.
 
 			[self beginBufferingSelectionChanges];
-			NSEnumerator* iter = [responders objectEnumerator];
 
-			while ((od = [iter nextObject]))
+			for (DKDrawableObject* od in responders) {
 				[invocation invokeWithTarget:od];
+			}
 
 			[self endBufferingSelectionChanges];
 		} else
 			[self doesNotRecognizeSelector:aSelector];
 	} else {
-		od = [self singleSelection];
+		DKDrawableObject* od = [self singleSelection];
 
 		if ([od visible] && [od respondsToSelector:aSelector])
 			[invocation invokeWithTarget:od];
@@ -2632,7 +2546,7 @@ enum {
 	}
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -2643,8 +2557,7 @@ enum {
 		m_allowDragTargeting = YES;
 
 		if (m_selection == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -2696,7 +2609,7 @@ enum {
 			   forKey:@"DKObjectDrawingLayer_allowDragTargets"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	//	LogEvent_(kFileEvent, @"decoding object drawing layer %@", self);
@@ -2718,8 +2631,7 @@ enum {
 			[self setAllowsObjectsToBeTargetedByDrags:YES];
 
 		if (m_selection == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 

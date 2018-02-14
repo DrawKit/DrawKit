@@ -4,7 +4,11 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKObjectDrawingLayer.h"
+
+NS_ASSUME_NONNULL_BEGIN
+@class DKDrawableObject;
 
 /** @brief Some handy methods for implementing various kinds of object duplications.
 
@@ -18,16 +22,16 @@ Some handy methods for implementing various kinds of object duplications.
  same types, styles, etc.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
  @param centre the location of the centre around which the copies are arranged
- @param numberOfCopies how many copies to make
- @param incrementAngle the angle in radians between each copy
- @param rotateCopies YES to rotate the copies so that they lie on the radial, NO to keep them at their original rotation
+ @param nCopies how many copies to make
+ @param incRadians the angle in radians between each copy
+ @param rotCopies YES to rotate the copies so that they lie on the radial, NO to keep them at their original rotation
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)polarDuplicate:(NSArray*)objectsToDuplicate
-					centre:(NSPoint)centre
-			numberOfCopies:(NSInteger)nCopies
-			incrementAngle:(CGFloat)incRadians
-			  rotateCopies:(BOOL)rotCopies;
+- (nullable NSArray<DKDrawableObject*>*)polarDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
+									   centre:(NSPoint)centre
+							   numberOfCopies:(NSInteger)nCopies
+							   incrementAngle:(CGFloat)incRadians
+								 rotateCopies:(BOOL)rotCopies;
 
 /** @brief Duplicates one or more objects linearly
 
@@ -35,12 +39,12 @@ Some handy methods for implementing various kinds of object duplications.
  same types, styles, etc.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
  @param offset each copy is offset this much from the last
- @param numberOfCopies how many copies to make
+ @param nCopies how many copies to make
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)linearDuplicate:(NSArray*)objectsToDuplicate
-					 offset:(NSSize)offset
-			 numberOfCopies:(NSInteger)nCopies;
+- (nullable NSArray<DKDrawableObject*>*)linearDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
+										offset:(NSSize)offset
+								numberOfCopies:(NSInteger)nCopies;
 
 /** @brief Automatically polar duplicates object to fit a circle exactly
 
@@ -51,8 +55,8 @@ Some handy methods for implementing various kinds of object duplications.
  @param centre the centre around which the object is located
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)autoPolarDuplicate:(DKDrawableObject*)object
-						centre:(NSPoint)centre;
+- (nullable NSArray<DKDrawableObject*>*)autoPolarDuplicate:(DKDrawableObject*)object
+										   centre:(NSPoint)centre;
 
 /** @brief Duplicates one or more objects concentrically around a common centre
 
@@ -61,13 +65,15 @@ Some handy methods for implementing various kinds of object duplications.
  paths don't implement setSize: and their location is at their top, left.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
  @param centre the location of the centre around which the copies are arranged
- @param numberOfCopies how many copies to make
- @param insetBy the amount each copy is inset or outset (-ve) by 
+ @param nCopies how many copies to make
+ @param inset the amount each copy is inset or outset (-ve) by
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
-- (NSArray*)concentricDuplicate:(NSArray*)objectsToDuplicate
-						 centre:(NSPoint)centre
-				 numberOfCopies:(NSInteger)nCopies
-						insetBy:(CGFloat)inset;
+- (nullable NSArray<DKDrawableObject*>*)concentricDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
+											centre:(NSPoint)centre
+									numberOfCopies:(NSInteger)nCopies
+										   insetBy:(CGFloat)inset;
 
 @end
+
+NS_ASSUME_NONNULL_END

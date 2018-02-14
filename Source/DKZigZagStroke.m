@@ -20,38 +20,19 @@
 	mWavelength = w;
 }
 
-- (CGFloat)wavelength
-{
-	return mWavelength;
-}
+@synthesize wavelength=mWavelength;
 
 #pragma mark -
-- (void)setAmplitude:(CGFloat)amp
-{
-	mAmplitude = amp;
-}
-
-- (CGFloat)amplitude
-{
-	return mAmplitude;
-}
+@synthesize amplitude=mAmplitude;
 
 #pragma mark -
-- (void)setSpread:(CGFloat)sp
-{
-	mSpread = sp;
-}
-
-- (CGFloat)spread
-{
-	return mSpread;
-}
+@synthesize spread=mSpread;
 
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"wavelength", @"amplitude", @"spread", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"wavelength", @"amplitude", @"spread"]];
 }
 
 - (void)registerActionNames
@@ -67,7 +48,7 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -129,14 +110,14 @@
 				 forKey:@"spread"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
 	if (self != nil) {
-		[self setWavelength:[coder decodeDoubleForKey:@"wavelength"]];
-		[self setAmplitude:[coder decodeDoubleForKey:@"amplitude"]];
-		[self setSpread:[coder decodeDoubleForKey:@"spread"]];
+		self.wavelength = [coder decodeDoubleForKey:@"wavelength"];
+		self.amplitude = [coder decodeDoubleForKey:@"amplitude"];
+		self.spread = [coder decodeDoubleForKey:@"spread"];
 	}
 	return self;
 }
@@ -147,9 +128,9 @@
 {
 	DKZigZagStroke* copy = [super copyWithZone:zone];
 
-	[copy setWavelength:[self wavelength]];
-	[copy setAmplitude:[self amplitude]];
-	[copy setSpread:[self spread]];
+	copy.wavelength = self.wavelength;
+	copy.amplitude = self.amplitude;
+	copy.spread = self.spread;
 
 	return copy;
 }

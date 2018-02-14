@@ -6,58 +6,61 @@
 
 #import <Cocoa/Cocoa.h>
 
-/** @brief This category allows -stringValue to be called on a broader range of objects than standard - in fact any object.
+NS_ASSUME_NONNULL_BEGIN
 
-This category allows -stringValue to be called on a broader range of objects than standard - in fact any object.
+/** @brief This category allows \c -stringValue to be called on a broader range of objects than standard - in fact any object.
 
-The most useful is probably NSValue, since this will automatically use NSStringFromRect/Point/Size etc.
+ This category allows \c -stringValue to be called on a broader range of objects than standard - in fact any object.
+
+ The most useful is probably NSValue, since this will automatically use NSStringFromRect/Point/Size etc.
 */
 @interface NSObject (StringValue)
 
-/**  */
-- (NSString*)stringValue;
-- (NSString*)address;
+@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString *address;
 
 @end
 
 @interface NSValue (StringValue)
 
-- (NSString*)stringValue;
+@property (readonly, copy) NSString *stringValue;
 
 @end
 
 @interface NSColor (StringValue)
 
-- (NSString*)stringValue;
+@property (readonly, copy) NSString *stringValue;
 
 @end
 
 @interface NSArray (StringValue)
 
-- (NSString*)stringValue;
+@property (readonly, copy) NSString *stringValue;
 
 @end
 
 @interface NSDictionary (StringValue)
 
-- (NSString*)stringValue;
+@property (readonly, copy) NSString *stringValue;
 
 @end
 
 @interface NSSet (StringValue)
 
-- (NSString*)stringValue;
+@property (readonly, copy) NSString *stringValue;
 
 @end
 
 @interface NSString (StringValue)
 
-- (NSString*)stringValue;
+@property (readonly, copy) NSString *stringValue;
 
 @end
 
 @interface NSDate (StringValue)
 
-- (NSString*)stringValue;
+@property (readonly, copy) NSString *stringValue;
 
 @end
+
+NS_ASSUME_NONNULL_END

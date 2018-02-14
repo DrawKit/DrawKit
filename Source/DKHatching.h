@@ -4,22 +4,26 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKRasterizer.h"
+#import "DKDashable.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DKStrokeDash;
 
 /** @brief This class provides a simple hatching fill for a path.
 
-This class provides a simple hatching fill for a path. It draws equally-spaced solid lines of a given thickness at a
-particular angle. Subclass for more sophisticated hatches.
+ This class provides a simple hatching fill for a path. It draws equally-spaced solid lines of a given thickness at a
+ particular angle. Subclass for more sophisticated hatches.
 
-Can be set as a fill style in a DKStyle object.
+ Can be set as a fill style in a DKStyle object.
 
-The hatch is cached in an NSBezierPath object based on the bounds of the path. If another path is hatched that is smaller
-than the cached size, it is not rebuilt. It is rebuilt if the angle or spacing changes or a bigger path is hatched. Linewidth also
-doesn't change the cache.
+ The hatch is cached in an NSBezierPath object based on the bounds of the path. If another path is hatched that is smaller
+ than the cached size, it is not rebuilt. It is rebuilt if the angle or spacing changes or a bigger path is hatched. Linewidth also
+ doesn't change the cache.
 */
-@interface DKHatching : DKRasterizer <NSCoding, NSCopying> {
+@interface DKHatching : DKRasterizer <NSCoding, NSCopying, DKDashable> {
 @private
 	NSBezierPath* m_cache;
 	NSBezierPath* mRoughenedCache;
@@ -37,17 +41,17 @@ doesn't change the cache.
 	CGFloat mWobblyness;
 }
 
-/** @brief Return the default hatching
+/** @brief Return the default hatching.
 
  Be sure to copy the object if you intend to change its parameters.
- @return the default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
+ The default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
  apart with a width of 0.25 points.
  */
-+ (DKHatching*)defaultHatching;
+@property (class, readonly, retain) DKHatching *defaultHatching;
 
-/** @brief Return a hatching with e basic parameters given
+/** @brief Return a hatching with e basic parameters given.
 
- The colour is set to black
+ The colour is set to black.
  @param w the line width of the lines
  @param spacing the line spacing
  @param angle the overall angle in radians
@@ -55,81 +59,65 @@ doesn't change the cache.
  */
 + (DKHatching*)hatchingWithLineWidth:(CGFloat)w spacing:(CGFloat)spacing angle:(CGFloat)angle;
 
-/** @brief Return a hatching which implements a dot pattern
+/** @brief Return a hatching which implements a dot pattern.
 
  The colour is set to black. The dot pattern is created using a dashed line at 45 degrees where
  the line and dash spacing is set to the dot pitch. The line width is the dot diameter and the
  rounded cap style is used. This is an efficient way to implement a dot pattern of a given density.
- @param pitch the spacing between the dots
- @param diameter the dot diameter
- @return a hatching instance having the given dot pattern
+ @param pitch The spacing between the dots.
+ @param diameter The dot diameter.
+ @return A hatching instance having the given dot pattern.
  */
 + (DKHatching*)hatchingWithDotPitch:(CGFloat)pitch diameter:(CGFloat)diameter;
 
-/** @brief Return a hatching which implements a dot pattern of given density
+/** @brief Return a hatching which implements a dot pattern of given density.
 
  Dots have a diameter of 2.0 points, and are spaced according to density. If density = 1, dots
  touch (spacing = 2.0), 0.5 = dots have a spacing of 4.0, etc. A density of 0 is not allowed.
- @param density a density figure from 0 to 1
- @return a hatching instance having a dot pattern of the given density
+ @param density A density figure from 0 to 1.
+ @return A hatching instance having a dot pattern of the given density.
  */
-+ (DKHatching*)hatchingWithDotDensity:(CGFloat)density;
++ (nullable DKHatching*)hatchingWithDotDensity:(CGFloat)density;
 
 - (void)hatchPath:(NSBezierPath*)path;
 
-/** @brief Apply the hatching to the path with a given object angle
- @param path the path to fill
- @param oa the additional angle to apply, in radians
+/** @brief Apply the hatching to the path with a given object angle.
+ @param path The path to fill
+ @param oa The additional angle to apply, in radians.
  */
 - (void)hatchPath:(NSBezierPath*)path objectAngle:(CGFloat)oa;
 
-/** @brief Set the angle of the hatching
- @param radians the angle in radians
+/** @brief The angle of the hatching, in radians.
  */
-- (void)setAngle:(CGFloat)radians;
+@property (nonatomic) CGFloat angle;
 
-/** @brief The angle of the hatching
- @return the angle in radians
+/** @brief The angle of the hatching in degrees.
  */
-- (CGFloat)angle;
+@property CGFloat angleInDegrees;
+@property BOOL angleIsRelativeToObject;
 
-/** @brief Set the angle of the hatching in degrees
- @param degs the angle in degrees 
- */
-- (void)setAngleInDegrees:(CGFloat)degs;
+@property (nonatomic) CGFloat spacing;
+@property (nonatomic) CGFloat leadIn;
 
-/** @brief The angle of the hatching in degrees
- @return the angle in degrees
- */
-- (CGFloat)angleInDegrees;
-- (void)setAngleIsRelativeToObject:(BOOL)rel;
-- (BOOL)angleIsRelativeToObject;
+@property (nonatomic) CGFloat width;
+@property (nonatomic) NSLineCapStyle lineCapStyle;
+@property (nonatomic) NSLineJoinStyle lineJoinStyle;
 
-- (void)setSpacing:(CGFloat)spacing;
-- (CGFloat)spacing;
-- (void)setLeadIn:(CGFloat)amount;
-- (CGFloat)leadIn;
+@property (strong) NSColor *colour;
 
-- (void)setWidth:(CGFloat)width;
-- (CGFloat)width;
-- (void)setLineCapStyle:(NSLineCapStyle)lcs;
-- (NSLineCapStyle)lineCapStyle;
-- (void)setLineJoinStyle:(NSLineJoinStyle)ljs;
-- (NSLineJoinStyle)lineJoinStyle;
-
-- (void)setColour:(NSColor*)colour;
-- (NSColor*)colour;
-
-- (void)setDash:(DKStrokeDash*)dash;
-- (DKStrokeDash*)dash;
+@property (nonatomic, strong, nullable) DKStrokeDash *dash;
 - (void)setAutoDash;
 
-- (void)setRoughness:(CGFloat)amount;
-- (CGFloat)roughness;
-- (void)setWobblyness:(CGFloat)wobble;
-- (CGFloat)wobblyness;
+@property (nonatomic) CGFloat roughness;
+@property (nonatomic) CGFloat wobblyness;
 
 - (void)invalidateCache;
+/**
+ this does the actual work of calculating the hatch. Given the rect, we build a series of lines at the origin in a square
+ based on the largest side of <code>rect *~ sqrt(2)</code>. Then we transform the cache to the current angle. This is much simpler than
+ calculating where to start and end each line.
+*/
 - (void)calcHatchInRect:(NSRect)rect;
-
 @end
+
+NS_ASSUME_NONNULL_END

@@ -16,29 +16,29 @@
 
 #pragma mark Constants(Non - localized)
 
-NSString* kDKDrawingViewDidBeginTextEditing = @"kDKDrawingViewDidBeginTextEditing";
-NSString* kDKDrawingViewTextEditingContentsDidChange = @"kDKDrawingViewTextEditingContentsDidChange";
-NSString* kDKDrawingViewDidEndTextEditing = @"kDKDrawingViewDidEndTextEditing";
-NSString* kDKDrawingViewWillCreateAutoDrawing = @"kDKDrawingViewWillCreateAutoDrawing";
-NSString* kDKDrawingViewDidCreateAutoDrawing = @"kDKDrawingViewDidCreateAutoDrawing";
-NSString* kDKDrawingMouseDownLocation = @"kDKDrawingMouseDownLocation";
-NSString* kDKDrawingMouseDraggedLocation = @"kDKDrawingMouseDraggedLocation";
-NSString* kDKDrawingMouseUpLocation = @"kDKDrawingMouseUpLocation";
-NSString* kDKDrawingMouseMovedLocation = @"kDKDrawingMouseMovedLocation";
-NSString* kDKDrawingMouseLocationInView = @"kDKDrawingMouseLocationInView";
-NSString* kDKDrawingMouseLocationInDrawingUnits = @"kDKDrawingMouseLocationInDrawingUnits";
-NSString* kDKDrawingRulersVisibleDefaultPrefsKey = @"kDKDrawingRulersVisibleDefault";
-NSString* kDKTextEditorSmartQuotesPrefsKey = @"kDKTextEditorSmartQuotes";
-NSString* kDKDrawingViewRulersChanged = @"kDKDrawingViewRulersChanged";
+NSString* const kDKDrawingViewDidBeginTextEditing = @"kDKDrawingViewDidBeginTextEditing";
+NSString* const kDKDrawingViewTextEditingContentsDidChange = @"kDKDrawingViewTextEditingContentsDidChange";
+NSString* const kDKDrawingViewDidEndTextEditing = @"kDKDrawingViewDidEndTextEditing";
+NSString* const kDKDrawingViewWillCreateAutoDrawing = @"kDKDrawingViewWillCreateAutoDrawing";
+NSString* const kDKDrawingViewDidCreateAutoDrawing = @"kDKDrawingViewDidCreateAutoDrawing";
+NSString* const kDKDrawingMouseDownLocation = @"kDKDrawingMouseDownLocation";
+NSString* const kDKDrawingMouseDraggedLocation = @"kDKDrawingMouseDraggedLocation";
+NSString* const kDKDrawingMouseUpLocation = @"kDKDrawingMouseUpLocation";
+NSString* const kDKDrawingMouseMovedLocation = @"kDKDrawingMouseMovedLocation";
+NSString* const kDKDrawingMouseLocationInView = @"kDKDrawingMouseLocationInView";
+NSString* const kDKDrawingMouseLocationInDrawingUnits = @"kDKDrawingMouseLocationInDrawingUnits";
+NSString* const kDKDrawingRulersVisibleDefaultPrefsKey = @"kDKDrawingRulersVisibleDefault";
+NSString* const kDKTextEditorSmartQuotesPrefsKey = @"kDKTextEditorSmartQuotes";
+NSString* const kDKDrawingViewRulersChanged = @"kDKDrawingViewRulersChanged";
 
 // constant strings for ruler marker names
 
-NSString* kDKDrawingViewHorizontalLeftMarkerName = @"marker_h_left";
-NSString* kDKDrawingViewHorizontalCentreMarkerName = @"marker_h_centre";
-NSString* kDKDrawingViewHorizontalRightMarkerName = @"marker_h_right";
-NSString* kDKDrawingViewVerticalTopMarkerName = @"marker_v_top";
-NSString* kDKDrawingViewVerticalCentreMarkerName = @"marker_v_centre";
-NSString* kDKDrawingViewVerticalBottomMarkerName = @"marker_v_bottom";
+NSString* const kDKDrawingViewHorizontalLeftMarkerName = @"marker_h_left";
+NSString* const kDKDrawingViewHorizontalCentreMarkerName = @"marker_h_centre";
+NSString* const kDKDrawingViewHorizontalRightMarkerName = @"marker_h_right";
+NSString* const kDKDrawingViewVerticalTopMarkerName = @"marker_v_top";
+NSString* const kDKDrawingViewVerticalCentreMarkerName = @"marker_v_centre";
+NSString* const kDKDrawingViewVerticalBottomMarkerName = @"marker_v_bottom";
 
 #pragma mark Static Vars
 
@@ -46,13 +46,15 @@ static NSMutableArray* sDrawingViewStack = nil; // stack of view refs
 static NSColor* sPageBreakColour = nil;
 static NSPoint sLastContextMenuClick = { 0, 0 };
 
-NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
+NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 
-@interface DKDrawingView (Private)
+@interface DKDrawingView ()
 
+#if 0
 + (void)secondaryThreadEntryPoint:(id)obj;
 + (BOOL)secondaryThreadShouldRun;
 + (void)signalSecondaryThreadShouldDrawInRect:(NSRect)rect withView:(DKDrawingView*)aView;
+#endif
 
 /** @brief Broadcast the current mouse position in both native and drawing coordinates.
 
@@ -77,6 +79,7 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 - (NSDictionary*)rulerMarkerInfo;
 
+@property (copy) NSDictionary *rulerMarkerInfo;
 @end
 
 #pragma mark -
@@ -119,8 +122,6 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (void)setPageBreakColour:(NSColor*)colour
 {
-	[colour retain];
-	[sPageBreakColour release];
 	sPageBreakColour = colour;
 }
 
@@ -130,7 +131,7 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
 + (NSColor*)pageBreakColour
 {
 	if (sPageBreakColour == nil) {
-		sPageBreakColour = [[[NSColor cyanColor] colorWithAlphaComponent:0.75] retain];
+		sPageBreakColour = [[NSColor cyanColor] colorWithAlphaComponent:0.75];
 	}
 
 	return sPageBreakColour;
@@ -161,9 +162,8 @@ NSString* kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping";
  */
 + (NSImage*)imageResourceNamed:(NSString*)name
 {
-	NSString* path = [[NSBundle bundleForClass:self] pathForImageResource:name];
-	NSImage* image = [[NSImage alloc] initByReferencingFile:path];
-	return [image autorelease];
+	NSImage* image = [[NSBundle bundleForClass:self] imageForResource:name];
+	return image;
 }
 
 #pragma mark -
@@ -199,32 +199,8 @@ static Class s_textEditorClass = Nil;
 #pragma mark -
 #pragma mark - the view's controller
 
-/** @brief Set the view's controller
+@synthesize controller=mControllerRef;
 
- Do not call this directly - the controller will call it to set up the relationship at the right
- time.
- @param aController the controller for this view
- */
-- (void)setController:(DKViewController*)aController
-{
-	mControllerRef = aController;
-}
-
-/** @brief Return the view's controller
- @return the controller
- */
-- (DKViewController*)controller
-{
-	return mControllerRef;
-}
-
-/** @brief Sea new controller for this view
-
- This is a convenience that allows a controller to be simply instantiated and passed in, replacing
- the existing controller. Note that -setController: does NOT achieve that. The drawing must
- already exist for this to work.
- @param newController the new controller
- */
 - (void)replaceControllerWithController:(DKViewController*)newController
 {
 	NSAssert([self drawing] != nil, @"cannot replace the controller as there is no drawing yet");
@@ -271,8 +247,7 @@ static Class s_textEditorClass = Nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillCreateAutoDrawing
 														object:self];
 
-	[DKDrawing loadDefaults];
-	mAutoDrawing = [[DKDrawing defaultDrawingWithSize:viewSize] retain];
+	mAutoDrawing = [DKDrawing defaultDrawingWithSize:viewSize];
 	m_didCreateDrawing = YES;
 	[mAutoDrawing setOwner:self];
 
@@ -298,18 +273,10 @@ static Class s_textEditorClass = Nil;
 	NSAssert([mAutoDrawing undoManager] != nil, @"note - automatic drawing was created before an undo manager was available. Check your code!");
 }
 
-/** @brief Creates a controller for this view that can be added to a drawing
-
- Normally you wouldn't call this yourself unless you are building the entire DK system by hand rather
- than using DKDrawDocument or automatic drawing creation. You can override it to create different
- kinds of controller however. Th edefault controller is DKToolController so that DK provides you
- with a set of working drawing tools by default.
- @return a controller, an instance of DKViewController or one of its subclasses
- */
 - (DKViewController*)makeViewController
 {
 	DKToolController* aController = [[DKToolController alloc] initWithView:self];
-	return [aController autorelease];
+	return aController;
 }
 
 #pragma mark -
@@ -340,7 +307,7 @@ static Class s_textEditorClass = Nil;
 			ps.width = ds.width;
 	} else {
 		ps.width -= ([[self printInfo] leftMargin] + [[self printInfo] rightMargin]);
-		pagesAcross = MAX(1, _CGFloatFloor(ds.width / ps.width));
+		pagesAcross = MAX(1, floor(ds.width / ps.width));
 		if (fmod(ds.width, ps.width) > 2.0)
 			++pagesAcross;
 	}
@@ -352,7 +319,7 @@ static Class s_textEditorClass = Nil;
 			ps.height = ds.height;
 	} else {
 		ps.height -= ([[self printInfo] topMargin] + [[self printInfo] bottomMargin]);
-		pagesDown = MAX(1, _CGFloatFloor(ds.height / ps.height));
+		pagesDown = MAX(1, floor(ds.height / ps.height));
 		if (fmod(ds.height, ps.height) > 2.0)
 			++pagesDown;
 	}
@@ -407,20 +374,12 @@ static Class s_textEditorClass = Nil;
  */
 - (void)setPrintInfo:(NSPrintInfo*)pbpi
 {
-	[pbpi retain];
-	[mPrintInfo release];
 	mPrintInfo = pbpi;
 
 	[self setNeedsDisplay:YES];
 }
 
-/** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations
- @return a NSPrintInfo object
- */
-- (NSPrintInfo*)printInfo
-{
-	return mPrintInfo;
-}
+@synthesize printInfo=mPrintInfo;
 
 /** @brief Sets whether the page breaks are shown or not
 
@@ -435,17 +394,8 @@ static Class s_textEditorClass = Nil;
 	}
 }
 
-/** @brief Are page breaks vissble?
- @return YES if page breaks are visible
- */
-- (BOOL)pageBreaksVisible
-{
-	return mPageBreaksVisible;
-}
+@synthesize pageBreaksVisible=mPageBreaksVisible;
 
-/** @brief Show or hide the page breaks
- @param sender the action's sender
- */
 - (IBAction)toggleShowPageBreaks:(id)sender
 {
 #pragma unused(sender)
@@ -465,15 +415,7 @@ static Class s_textEditorClass = Nil;
 	}
 }
 
-/** @brief What sort of crop mark sare applied to printed output
-
- Default is no crop marks
- @return the crop mark kind
- */
-- (DKCropMarkKind)printCropMarkKind
-{
-	return mCropMarkKind;
-}
+@synthesize printCropMarkKind=mCropMarkKind;
 
 /** @brief Draws the crop marks if set to do so and the view is being printed */
 - (void)drawCropMarks
@@ -557,7 +499,6 @@ static Class s_textEditorClass = Nil;
 #if USE_STORAGE_REPLACEMENT
 	NSTextStorage* textStorage = [[NSTextStorage alloc] initWithAttributedString:text];
 	[lm replaceTextStorage:textStorage];
-	[textStorage release];
 #else
 	NSRange textRange = NSMakeRange(0, [[m_textEditViewRef textStorage] length]);
 
@@ -665,13 +606,7 @@ static Class s_textEditorClass = Nil;
 	return [[m_textEditViewRef layoutManager] textStorage];
 }
 
-/** @brief Return the current temporary text editing view
- @return the text editing view, or nil
- */
-- (NSTextView*)textEditingView
-{
-	return m_textEditViewRef;
-}
+@synthesize textEditingView=m_textEditViewRef;
 
 /** @brief Respond to frame size changes in the text editor view
 
@@ -686,16 +621,7 @@ static Class s_textEditorClass = Nil;
 	mEditorFrame = [[note object] frame];
 }
 
-/** @brief Is the text editor visible and active?
-
- Clients should not generally start a text editing operation if there is already one in progress,
- though if they do the old one is immediately ended anyway.
- @return YES if text editing is in progress, NO otherwise
- */
-- (BOOL)isTextBeingEdited
-{
-	return mTextEditViewInUse;
-}
+@synthesize textBeingEdited=mTextEditViewInUse;
 
 #pragma mark -
 #pragma mark - ruler stuff
@@ -788,7 +714,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewHorizontalLeftMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalCentreMarkerName];
@@ -800,7 +725,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewHorizontalCentreMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewHorizontalRightMarkerName];
@@ -812,7 +736,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewHorizontalRightMarkerName];
-			[rm release];
 		}
 
 		rv = [sv verticalRulerView];
@@ -826,7 +749,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewVerticalTopMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalCentreMarkerName];
@@ -838,7 +760,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewVerticalCentreMarkerName];
-			[rm release];
 		}
 
 		markerImg = [[self class] imageResourceNamed:kDKDrawingViewVerticalBottomMarkerName];
@@ -850,7 +771,6 @@ static Class s_textEditorClass = Nil;
 			[rv addMarker:rm];
 			[markerInfo setObject:rm
 						   forKey:kDKDrawingViewVerticalBottomMarkerName];
-			[rm release];
 		}
 
 		[self setRulerMarkerInfo:markerInfo];
@@ -909,17 +829,7 @@ static Class s_textEditorClass = Nil;
 														object:self];
 }
 
-- (void)setRulerMarkerInfo:(NSDictionary*)dict
-{
-	[dict retain];
-	[mRulerMarkersDict release];
-	mRulerMarkersDict = dict;
-}
-
-- (NSDictionary*)rulerMarkerInfo
-{
-	return mRulerMarkersDict;
-}
+@synthesize rulerMarkerInfo=mRulerMarkersDict;
 
 #pragma mark -
 #pragma mark - monitoring the mouse location
@@ -1146,7 +1056,7 @@ static Class s_textEditorClass = Nil;
 	if ([[self controller] respondsToSelector:@selector(keyDown:)])
 		[(NSResponder*)[self controller] keyDown:event];
 	else
-		[self interpretKeyEvents:[NSArray arrayWithObject:event]];
+		[self interpretKeyEvents:@[event]];
 }
 
 /** @brief Handle the mouse down event
@@ -1286,17 +1196,11 @@ static Class s_textEditorClass = Nil;
 	}
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[mPrintInfo release];
-	[mRulerMarkersDict release];
-	[m_textEditViewRef release];
 
 	// if the view automatically created its own "back-end", release all of that now - the drawing owns the controllers so
 	// they are also disposed of.
 
-	if (m_didCreateDrawing && mAutoDrawing != nil)
-		[mAutoDrawing release];
 
-	[super dealloc];
 }
 
 /** @brief Forward an invocation to the active layer if it implements it

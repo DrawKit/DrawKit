@@ -1,6 +1,6 @@
 /*
  *  CurveFit.h
-///  DrawKit ©2005-2008 Apptree.net
+///  DrawKit Â©2005-2008 Apptree.net
  *
  *  Created by graham on 05/11/2006.
  *  Copyright 2006 Apptree.net. All rights reserved.
@@ -13,6 +13,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -20,8 +22,19 @@ extern "C"
 
 // curve fit vector paths using bezier curve fitting:
 
-NSBezierPath*		curveFitPath(NSBezierPath* inPath, float epsilon);
-NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, float epsilon, float cornerAngleThreshold );
+/** Given an input path in vector form (flattened), this converts it to the C++ data structure list of points and processes it via the
+ curve fit method in the bezier-utils lib. It then converts the result back to NSBezierPath form. Note - the caller is responsible for passing
+ a flattened path.
+ */
+extern NSBezierPath* DKCurveFitPath(NSBezierPath* inPath, CGFloat epsilon);
+
+/** This curve fits a flattened path, but is much smarter about which parts of the path to curve fit and which to leave alone. It
+ also properly deals with separate subpaths within the original path (holes).
+
+ A line segment that is longer than a given threshhold is not curve-fitted, and sharp corners also define boundaries for curve
+ segments. Existing curved segments are copied to the result without any changes.
+ */
+extern NSBezierPath* DKSmartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, CGFloat cornerAngleThreshold);
 
 #ifdef __cplusplus
 }
@@ -35,6 +48,8 @@ NSBezierPath*		smartCurveFitPath( NSBezierPath* inPath, float epsilon, float cor
 #endif
 
 
-#define kDKDefaultCornerThreshold		(pi / 6)
+#define kDKDefaultCornerThreshold		(M_PI / 6)
+
+NS_ASSUME_NONNULL_END
 
 #endif /* defined(qUseCurveFit) */

@@ -4,14 +4,17 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKPathDecorator.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /** @brief This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
 
-This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
+ This object represents a pattern consisting of a repeated motif spaced out at intervals within a larger shape.
 
-This subclasses DKPathDecorator which carries out the bulk of the work - it stores the image and caches it, this
-just sets up the path clipping and calls the rendering method for each location of the repeating pattern.
+ This subclasses \c DKPathDecorator which carries out the bulk of the work - it stores the image and caches it, this
+ just sets up the path clipping and calls the rendering method for each location of the repeating pattern.
 */
 @interface DKFillPattern : DKPathDecorator <NSCoding, NSCopying> {
 @private
@@ -27,37 +30,37 @@ just sets up the path clipping and calls the rendering method for each location 
 	NSMutableArray* mMotifAngleRandCache;
 }
 
-/**  */
-+ (DKFillPattern*)defaultPattern;
-+ (DKFillPattern*)fillPatternWithImage:(NSImage*)image;
+/** return the default pattern, which is based on some image - unlikely to be really useful so might be
+ better to do something else here???
+ */
++ (instancetype)defaultPattern;
++ (instancetype)fillPatternWithImage:(NSImage*)image;
 
-- (void)setPatternAlternateOffset:(NSSize)altOffset;
-- (NSSize)patternAlternateOffset;
+/** @brief the vertical and horizontal offset of odd rows/columns to a proportion of the interval, [0...1]
+ */
+@property NSSize patternAlternateOffset;
 
 - (void)fillRect:(NSRect)rect;
 - (void)drawPatternInPath:(NSBezierPath*)aPath;
 
-- (void)setAngle:(CGFloat)radians;
-- (CGFloat)angle;
-- (void)setAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)angleInDegrees;
+@property CGFloat angle;
+@property CGFloat angleInDegrees;
 
-- (void)setAngleIsRelativeToObject:(BOOL)relAngle;
-- (BOOL)angleIsRelativeToObject;
+@property BOOL angleIsRelativeToObject;
 
-- (void)setMotifAngle:(CGFloat)radians;
-- (CGFloat)motifAngle;
-- (void)setMotifAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)motifAngleInDegrees;
-- (void)setMotifAngleRandomness:(CGFloat)maRand;
-- (CGFloat)motifAngleRandomness;
+@property CGFloat motifAngle;
+@property CGFloat motifAngleInDegrees;
+@property (nonatomic) CGFloat motifAngleRandomness;
 
-- (void)setMotifAngleIsRelativeToPattern:(BOOL)mrel;
-- (BOOL)motifAngleIsRelativeToPattern;
+@property BOOL motifAngleIsRelativeToPattern;
 
-- (void)setDrawingOfClippedElementsSupressed:(BOOL)suppress;
-- (BOOL)drawingOfClippedElementsSupressed;
+/** @brief setting this causes a test for intersection of the motif's bounds with the object's path. If there is an intersection, the motif is not drawn. This makes patterns
+ appear tidier for certain applications (such as GIS/mapping) but adds a substantial performance overhead. \c NO by default.
+ */
+@property BOOL drawingOfClippedElementsSupressed;
 
 @end
 
-extern NSString* kDKDrawingViewDidChangeScale;
+// kDKDrawingViewDidChangeScale can now be found in GCZoomView.h
+
+NS_ASSUME_NONNULL_END

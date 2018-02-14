@@ -4,53 +4,54 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawableObject.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DKDrawableShape;
 @class DKKnob;
 
-// editing modes:
+//! editing modes:
+typedef NS_ENUM(NSInteger, DKDrawablePathCreationMode) {
+	kDKPathCreateModeEditExisting = 0, //!< normal operation - just move points on the existing path
+	kDKPathCreateModeLineCreate = 1, //!< create a straight line between two points
+	kDKPathCreateModeBezierCreate = 2, //!< create a curved path point by point
+	kDKPathCreateModePolygonCreate = 3, //!< create an irreglar polygon pont by point (multiple lines)
+	kDKPathCreateModeFreehandCreate = 4, //!< create a curve path by dragging freehand
+	kDKPathCreateModeArcSegment = 5, //!< create an arc section
+	kDKPathCreateModeWedgeSegment = 6 //!< create a wedge section
+};
 
-typedef enum {
-	kDKPathCreateModeEditExisting = 0, // normal operation - just move points on the existing path
-	kDKPathCreateModeLineCreate = 1, // create a straight line between two points
-	kDKPathCreateModeBezierCreate = 2, // create a curved path point by point
-	kDKPathCreateModePolygonCreate = 3, // create an irreglar polygon pont by point (multiple lines)
-	kDKPathCreateModeFreehandCreate = 4, // create a curve path by dragging freehand
-	kDKPathCreateModeArcSegment = 5, // create an arc section
-	kDKPathCreateModeWedgeSegment = 6 // create a wedge section
-} DKDrawablePathCreationMode;
-
-typedef enum {
+typedef NS_ENUM(NSInteger, DKDrawablePathJoinResult) {
 	kDKPathNoJoin = 0,
 	kDKPathOtherPathWasAppended = 1,
 	kDKPathOtherPathWasPrepended = 2,
 	kDKPathBothEndsJoined = 3
-} DKDrawablePathJoinResult;
+};
 
-// path point types that can be passed to pathInsertPointAt:ofType:
-
-typedef enum {
-	kDKPathPointTypeAuto = 0, // insert whatever the hit element is already using
-	kDKPathPointTypeLine = 1, // insert a line segment
-	kDKPathPointTypeCurve = 2, // insert a curve segment
-	kDKPathPointTypeInverseAuto = 3, // insert the opposite of whatever hit element is already using
-} DKDrawablePathInsertType;
+//! path point types that can be passed to pathInsertPointAt:ofType:
+typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
+	kDKPathPointTypeAuto = 0, //!< insert whatever the hit element is already using
+	kDKPathPointTypeLine = 1, //!< insert a line segment
+	kDKPathPointTypeCurve = 2, //!< insert a curve segment
+	kDKPathPointTypeInverseAuto = 3, //!< insert the opposite of whatever hit element is already using
+};
 
 // the class:
 
 /** @brief DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
 
-DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
+ \c DKDrawablePath is a drawable object that renders a path such as a line or curve (bezigon).
 
-The path is rendered at its stored size, not transformed to its final size like DKDrawableShape. Thus this type of object doesn't
-maintain the concept of rotation or scale - it just is what it is.
+ The path is rendered at its stored size, not transformed to its final size like DKDrawableShape. Thus this type of object doesn't
+ maintain the concept of rotation or scale - it just is what it is.
 */
 @interface DKDrawablePath : DKDrawableObject <NSCoding, NSCopying, NSDraggingDestination> {
 @private
 	NSBezierPath* m_path;
 	NSBezierPath* m_undoPath;
-	NSInteger m_editPathMode;
+	DKDrawablePathCreationMode m_editPathMode;
 	CGFloat m_freehandEpsilon;
 	BOOL m_extending;
 }
@@ -63,7 +64,7 @@ maintain the concept of rotation or scale - it just is what it is.
  @param path the path to use
  @return a new drawable path object which has the path supplied
  */
-+ (DKDrawablePath*)drawablePathWithBezierPath:(NSBezierPath*)path;
++ (instancetype)drawablePathWithBezierPath:(NSBezierPath*)path;
 
 /** @brief Creates a drawable path object for an existing NSBezierPath and style
 
@@ -72,19 +73,13 @@ maintain the concept of rotation or scale - it just is what it is.
  @param aStyle a style to apply to the path
  @return a new drawable path object which has the path supplied
  */
-+ (DKDrawablePath*)drawablePathWithBezierPath:(NSBezierPath*)path withStyle:(DKStyle*)aStyle;
++ (instancetype)drawablePathWithBezierPath:(NSBezierPath*)path withStyle:(DKStyle*)aStyle;
 
 // colour for feedback window:
 
-/** @brief Set the background colour to use for the info window displayed when interacting with paths
- @param colour the colour to use
+/** @brief The background colour to use for the info window displayed when interacting with paths
  */
-+ (void)setInfoWindowBackgroundColour:(NSColor*)colour;
-
-/** @brief Return the background colour to use for the info window displayed when interacting with paths
- @return the colour to use
- */
-+ (NSColor*)infoWindowBackgroundColour;
+@property (class, retain) NSColor *infoWindowBackgroundColour;
 
 /** @brief Set whether the default hit-detection behaviour is to prioritise on-path points or off-path points
 
@@ -92,21 +87,10 @@ maintain the concept of rotation or scale - it just is what it is.
  have priority, but an alternative approach is to have on-path points have priority, and the off-path
  points require the use of the command modifier key to be hit-detected. DK has previously always
  prioritised off-path points, but this setting allows you to change that for your app.
- @param priority if YES, on-path points have priority by default. 
  */
-+ (void)setDefaultOnPathHitDetectionPriority:(BOOL)priority;
+@property (class) BOOL defaultOnPathHitDetectionPriority;
 
-/** @brief Returns whether the default hit-detection behaviour is to prioritise on-path points or off-path points
-
- Affects hit-detection when on-path and off-path points are coincident. Normally off-path points
- have priority, but an alternative approach is to have on-path points have priority, and the off-path
- points require the use of the command modifier key to be hit-detected. DK has previously always
- prioritised off-path points, but this setting allows you to change that for your app.
- @return if YES, on-path points have priority by default
- */
-+ (BOOL)defaultOnPathHitDetectionPriority;
-
-- (id)initWithBezierPath:(NSBezierPath*)aPath;
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath;
 
 /** @brief Initialises a drawable path object from an existing path with the given style
 
@@ -115,17 +99,11 @@ maintain the concept of rotation or scale - it just is what it is.
  @param aStyle the style to use
  @return the drawable path object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle;
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle;
 
-/** @brief Set the angle of constraint for new paths
- 
- @param radians the angle to constrain by; multiples of angle are used
+/** @brief Angle of constraint for new paths.
  */
-+ (void)setAngularConstraintAngle:(CGFloat)radians;
-
-/** @brief Angle of constraint for new paths
- */
-+ (CGFloat)angularConstraintAngle;
+@property (class) CGFloat angularConstraintAngle;
 
 /** @brief Should the angle of the path be constrained?
  
@@ -135,8 +113,7 @@ maintain the concept of rotation or scale - it just is what it is.
 
 // setting the path & path info
 
-- (void)setPath:(NSBezierPath*)path;
-- (NSBezierPath*)path;
+@property (copy) NSBezierPath *path;
 - (void)drawControlPointsOfPath:(NSBezierPath*)path usingKnobs:(DKKnob*)knobs;
 
 /** @brief Return the length of the path
@@ -144,9 +121,27 @@ maintain the concept of rotation or scale - it just is what it is.
  Length is accurately computed by summing the segment distances.
  @return the path's length
  */
-- (CGFloat)length;
+@property (readonly) CGFloat length;
+
+/** @brief Return the length along the path for a given point
+ 
+ Points too far from the path return a value of -1. To be within range, the point needs to be within
+ 4 x the widest stroke drawn by the style, or 4 points, whichever is larger.
+ @param mp a point somewhere close to the path
+ @return a distance along the path nearest to the point
+ */
 - (CGFloat)lengthForPoint:(NSPoint)mp;
+
+/** @brief Return the length along the path for a given point
+ 
+ Points too far from the path return a value of -1. The point needs to be <tol> or less from the path.
+ @param mp a point somewhere close to the path
+ @param tol the tolerance value
+ @return a distance along the path nearest to the point
+ */
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol;
+
+
 
 /** @brief Return the length to display to the user of a path
  
@@ -156,12 +151,12 @@ maintain the concept of rotation or scale - it just is what it is.
  */
 - (CGFloat)infoLengthForPath:(NSBezierPath*)path;
 
-/** @brief Discover whether the path is open or closed
+/** @brief Discover whether the path is open or closed.
 
  A path is closed if it has a closePath element or its first and last points are coincident.
- @return YES if the path is closed, NO if open
+ @return \c YES if the path is closed, \c NO if open
  */
-- (BOOL)isPathClosed;
+@property (readonly, getter=isPathClosed) BOOL pathClosed;
 
 - (void)recordPathForUndo;
 - (NSBezierPath*)undoPath;
@@ -184,7 +179,7 @@ maintain the concept of rotation or scale - it just is what it is.
  is only one subpath (common) then the result will have just one entry.
  @return an array of DKDrawablePath objects
  */
-- (NSArray*)breakApart;
+- (NSArray<DKDrawablePath*>*)breakApart;
 
 /** @brief Delete the point from the path with the given part code
 
@@ -229,6 +224,16 @@ maintain the concept of rotation or scale - it just is what it is.
  @return a join result value, indicating which end(s) would be joined, if any
  */
 - (DKDrawablePathJoinResult)wouldJoin:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol;
+
+/** @brief Joins open paths together at their ends
+ 
+ This attempts to join either or both ends of the two paths if they are placed sufficiently
+ closely. Usually the higher level join action at the layer level will be used.
+ @param anotherPath another drawable path object like this one
+ @param tol a value used to determine if the end points are placed sufficiently close to be joinable
+ @param colin if YES, and the joined segments are curves, this adjusts the control points of the curve
+ @return a join result value, indicating which end(s) were joined, if any
+ */
 - (DKDrawablePathJoinResult)join:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol makeColinear:(BOOL)colin;
 
 /** @brief Splits a path into two paths at a specific point
@@ -238,21 +243,16 @@ maintain the concept of rotation or scale - it just is what it is.
  @param distance the position from the start of the path to make the split
  @return a new path, being the section of the original path from <distance> to the end.
  */
-- (DKDrawablePath*)dividePathAtLength:(CGFloat)distance;
+- (nullable DKDrawablePath*)dividePathAtLength:(CGFloat)distance;
 
 // creating paths
 
-/** @brief Sets the "mode" of operation for creating new path objects
-
+/** @brief The "mode" of operation for creating new path objects.
+ 
  Paths are created by tools usually so this will be rarely needed. Pass 0 for the defalt mode which
  is to edit an existing path (once created all paths are logically the same)
- @param editPathMode a constant indicating how a new path should be constructed.
  */
-- (void)setPathCreationMode:(DKDrawablePathCreationMode)editPathMode;
-
-/** @brief Gets the "mode" of operation for creating new path objects
- */
-- (DKDrawablePathCreationMode)pathCreationMode;
+@property DKDrawablePathCreationMode pathCreationMode;
 
 /** @brief Test for the ending criterion of a path loop
 
@@ -271,14 +271,13 @@ maintain the concept of rotation or scale - it just is what it is.
  */
 - (BOOL)isOpenEndPoint:(NSInteger)partcode;
 
-/** @brief Set whether the object should extend its path or start from scratch
-
- When YES, this affects the starting partcode for the creation process. Normally paths are started
- from scratch, but if YES, this extends the existing path from its end if the path is open. The
+/** @brief Whether the object is extending its path or starting from scratch.
+ 
+ When <code>YES</code>, this affects the starting partcode for the creation process. Normally paths are started
+ from scratch, but if <code>YES</code>, this extends the existing path from its end if the path is open. The
  tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
- @param xtend YES to extend the path, NO for normal creation
- */
-- (void)setShouldExtendExistingPath:(BOOL)xtend;
+*/
+@property BOOL shouldExtendExistingPath;
 
 /** @brief Event loop for creating a curved path point by point
 
@@ -320,18 +319,12 @@ maintain the concept of rotation or scale - it just is what it is.
 - (void)pathCreationLoopDidEnd;
 - (NSEvent*)postMouseUpAtPoint:(NSPoint)p;
 
-/** @brief Set the smoothness of paths created in freehand mode
-
+/** @brief The smoothness of paths created in freehand mode.
+ 
  The bigger the number, the smoother but less accurate the path. The value is the distance in
- base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20
- @param fs a smoothness value
+ base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20.
  */
-- (void)setFreehandSmoothing:(CGFloat)fs;
-
-/** @brief Get the smoothness valueof paths created in freehand mode
- @return the smoothness value
- */
-- (CGFloat)freehandSmoothing;
+@property CGFloat freehandSmoothing;
 
 // converting to other types
 
@@ -342,7 +335,7 @@ maintain the concept of rotation or scale - it just is what it is.
  @return a DKDrawableShape object, identical to this
  */
 - (DKDrawableShape*)makeShape;
-- (BOOL)canConvertToTrack;
+@property (readonly) BOOL canConvertToTrack;
 
 /** @brief Make a copy of the path but with a parallel offset
  @param distance the distance from the original that the path is offset (negative forupward displacement)
@@ -358,14 +351,14 @@ maintain the concept of rotation or scale - it just is what it is.
  Undoably replaces itself in its current layer by the equivalent shape object
  @param sender the action's sender
  */
-- (IBAction)convertToShape:(id)sender;
+- (IBAction)convertToShape:(nullable id)sender;
 
 /** @brief Adds some random offset to every point on the path
 
  Just a fun effect
  @param sender the action's sender
  */
-- (IBAction)addRandomNoise:(id)sender;
+- (IBAction)addRandomNoise:(nullable id)sender;
 
 /** @brief Replaces the path with an outline of the path
 
@@ -375,13 +368,13 @@ maintain the concept of rotation or scale - it just is what it is.
  identical to the original. For complex styles you will lose a lot of information.
  @param sender the action's sender
  */
-- (IBAction)convertToOutline:(id)sender;
+- (IBAction)convertToOutline:(nullable id)sender;
 
 /** @brief Replaces the object with new objects, one for each subpath in the original
  @param sender the action's sender
  */
-- (IBAction)breakApart:(id)sender;
-- (IBAction)roughenPath:(id)sender;
+- (IBAction)breakApart:(nullable id)sender;
+- (IBAction)roughenPath:(nullable id)sender;
 
 /** @brief Tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
  this will have no effect. vector paths can benefit however.
@@ -389,7 +382,7 @@ maintain the concept of rotation or scale - it just is what it is.
  The current set smoothness value is used
  @param sender the action's sender
  */
-- (IBAction)smoothPath:(id)sender;
+- (IBAction)smoothPath:(nullable id)sender;
 
 /** @brief Tries to smooth a path by curve fitting. If the path is already made up from bezier elements,
  this will have no effect. vector paths can benefit however.
@@ -397,21 +390,21 @@ maintain the concept of rotation or scale - it just is what it is.
  The current set smoothness value x4 is used
  @param sender the action's sender
  */
-- (IBAction)smoothPathMore:(id)sender;
+- (IBAction)smoothPathMore:(nullable id)sender;
 
 /** @brief Adds a copy of the receiver to the drawing with a parallel offset path
 
  This is really just a test of the algorithm
  @param sender the action's sender
  */
-- (IBAction)parallelCopy:(id)sender;
+- (IBAction)parallelCopy:(nullable id)sender;
 
 /** @brief Attempts to curve-fit the object's path
 
  The path might not change, depending on how it is made up
  @param sender the action's sender
  */
-- (IBAction)curveFit:(id)sender;
+- (IBAction)curveFit:(nullable id)sender;
 
 /** @brief Reverses the direction of the object's path
 
@@ -419,37 +412,38 @@ maintain the concept of rotation or scale - it just is what it is.
  will flip to the other end.
  @param sender the action's sender
  */
-- (IBAction)reversePath:(id)sender;
+- (IBAction)reversePath:(nullable id)sender;
 
 /** @brief Flips the path horizontally
 
  The path is flipped directly
  @param sender the action's sender
  */
-- (IBAction)toggleHorizontalFlip:(id)sender;
+- (IBAction)toggleHorizontalFlip:(nullable id)sender;
 
 /** @brief Flips the path vertically
 
  The path is flipped directly
  @param sender the action's sender
  */
-- (IBAction)toggleVerticalFlip:(id)sender;
+- (IBAction)toggleVerticalFlip:(nullable id)sender;
 
 /** @brief Closes the path if not already closed
 
  Paths created using the bezier tool are always left open by default
  @param sender the action's sender
  */
-- (IBAction)closePath:(id)sender;
+- (IBAction)closePath:(nullable id)sender;
 
 @end
 
-// special partcode value used to mean snap to the nearest point on the path itself:
-
 enum {
+	//! special partcode value used to mean snap to the nearest point on the path itself:
 	kDKSnapToNearestPathPointPartcode = -99
 };
 
 extern NSPoint gMouseForPathSnap;
 
-extern NSString* kDKPathOnPathHitDetectionPriorityDefaultsKey;
+extern NSString* const kDKPathOnPathHitDetectionPriorityDefaultsKey;
+
+NS_ASSUME_NONNULL_END

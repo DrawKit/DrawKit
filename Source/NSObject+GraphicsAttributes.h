@@ -13,6 +13,6 @@
 - (id)initWithExpression:(DKExpression*)expr;
 - (void)setValue:(id)val forNumericParameter:(NSInteger)pnum;
 
-- (NSImage*)imageResourceNamed:(NSString*)name;
+//- (NSImage*)imageResourceNamed:(NSString*)name;
 
 @end

@@ -35,7 +35,7 @@ static NSColor* sInfoWindowColour = nil;
 static NSInteger sKnobMask = kDKDrawableShapeAllKnobs;
 static NSSize sTempSavedOffset;
 
-@interface DKDrawableShape (Private)
+@interface DKDrawableShape ()
 // private:
 
 - (NSRect)knobBounds;
@@ -85,6 +85,11 @@ static NSSize sTempSavedOffset;
 	sAngleConstraint = radians;
 }
 
++ (CGFloat)angularConstraintAngle
+{
+	return sAngleConstraint;
+}
+
 /** @brief Return the unit rect centred at the origin
 
  This rect represents the bounds of all untransformed paths stored by a shape object
@@ -103,9 +108,12 @@ static NSSize sTempSavedOffset;
  */
 + (void)setInfoWindowBackgroundColour:(NSColor*)colour
 {
-	[colour retain];
-	[sInfoWindowColour release];
 	sInfoWindowColour = colour;
+}
+
++ (NSColor *)infoWindowBackgroundColour
+{
+	return sInfoWindowColour;
 }
 
 /** @brief Return a cursor for the given partcode
@@ -166,7 +174,6 @@ static NSSize sTempSavedOffset;
 			if (curs != nil) {
 				[cursorCache setObject:curs
 								forKey:key];
-				[curs release];
 			}
 		} else {
 			// in the event of the image not being available, cache the arrow cursor
@@ -191,7 +198,7 @@ static NSSize sTempSavedOffset;
  */
 + (DKDrawableShape*)drawableShapeWithRect:(NSRect)aRect
 {
-	return [[[self alloc] initWithRect:aRect] autorelease];
+	return [[self alloc] initWithRect:aRect];
 }
 
 /** @brief Create an oval shape object with the rect given
@@ -203,7 +210,7 @@ static NSSize sTempSavedOffset;
  */
 + (DKDrawableShape*)drawableShapeWithOvalInRect:(NSRect)aRect
 {
-	return [[[self alloc] initWithOvalInRect:aRect] autorelease];
+	return [[self alloc] initWithOvalInRect:aRect];
 }
 
 /** @brief Create a shape object with the canonical path given
@@ -218,7 +225,7 @@ static NSSize sTempSavedOffset;
 	NSAssert(NSEqualRects([path bounds], [self unitRectAtOrigin]), @"path bounds must be canonical!");
 
 	DKDrawableShape* shape = [[self alloc] initWithCanonicalBezierPath:path];
-	return [shape autorelease];
+	return shape;
 }
 
 /** @brief Create a shape object with the path given
@@ -244,7 +251,7 @@ static NSSize sTempSavedOffset;
 {
 	DKDrawableShape* shape = [[self alloc] initWithBezierPath:path
 											   rotatedToAngle:angle];
-	return [shape autorelease];
+	return shape;
 }
 
 /** @brief Create a shape object with the given path and style
@@ -274,7 +281,7 @@ static NSSize sTempSavedOffset;
 	DKDrawableShape* shape = [[self alloc] initWithBezierPath:path
 											   rotatedToAngle:angle
 														style:aStyle];
-	return [shape autorelease];
+	return shape;
 }
 
 #pragma mark -
@@ -286,7 +293,7 @@ static NSSize sTempSavedOffset;
  @param aRect a rectangle
  @return the initialized object
  */
-- (id)initWithRect:(NSRect)aRect
+- (instancetype)initWithRect:(NSRect)aRect
 {
 	return [self initWithRect:aRect
 						style:[DKStyle defaultStyle]];
@@ -298,7 +305,7 @@ static NSSize sTempSavedOffset;
  @param aRect the bounding rect for an oval
  @return the initialized object
  */
-- (id)initWithOvalInRect:(NSRect)aRect
+- (instancetype)initWithOvalInRect:(NSRect)aRect
 {
 	return [self initWithOvalInRect:aRect
 							  style:[DKStyle defaultStyle]];
@@ -311,7 +318,7 @@ static NSSize sTempSavedOffset;
  @param path the canonical path, that is, one having a bounds rect of size 1.0 centred at the origin
  @return the initialized object
  */
-- (id)initWithCanonicalBezierPath:(NSBezierPath*)path
+- (instancetype)initWithCanonicalBezierPath:(NSBezierPath*)path
 {
 	return [self initWithCanonicalBezierPath:path
 									   style:[DKStyle defaultStyle]];
@@ -321,10 +328,10 @@ static NSSize sTempSavedOffset;
 
  The resulting shape is located at the centre of the path and the size is set to the width and height
  of the path's bounds. The angle is zero.
- @param path a path
+ @param aPath a path
  @return the initialized object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath
 {
 	return [self initWithBezierPath:aPath
 					 rotatedToAngle:0.0];
@@ -338,14 +345,14 @@ static NSSize sTempSavedOffset;
  @param angle the intial rotation angle of the shape, in radians.
  @return the initialized object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle
 {
 	return [self initWithBezierPath:aPath
 					 rotatedToAngle:angle
 							  style:[DKStyle defaultStyle]];
 }
 
-- (id)initWithRect:(NSRect)aRect style:(DKStyle*)aStyle
+- (instancetype)initWithRect:(NSRect)aRect style:(DKStyle*)aStyle
 {
 	self = [self initWithStyle:aStyle];
 	if (self != nil) {
@@ -359,7 +366,7 @@ static NSSize sTempSavedOffset;
 	return self;
 }
 
-- (id)initWithOvalInRect:(NSRect)aRect style:(DKStyle*)aStyle
+- (instancetype)initWithOvalInRect:(NSRect)aRect style:(DKStyle*)aStyle
 {
 	self = [self initWithStyle:aStyle];
 	if (self != nil) {
@@ -376,7 +383,7 @@ static NSSize sTempSavedOffset;
 	return self;
 }
 
-- (id)initWithCanonicalBezierPath:(NSBezierPath*)path style:(DKStyle*)aStyle
+- (instancetype)initWithCanonicalBezierPath:(NSBezierPath*)path style:(DKStyle*)aStyle
 {
 	NSAssert(path != nil, @"can't initialize with a nil path");
 
@@ -395,14 +402,14 @@ static NSSize sTempSavedOffset;
 	return self;
 }
 
-- (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
 {
 	return [self initWithBezierPath:aPath
 					 rotatedToAngle:0.0
 							  style:aStyle];
 }
 
-- (id)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle style:(DKStyle*)style
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath rotatedToAngle:(CGFloat)angle style:(DKStyle*)style
 {
 	NSAssert(aPath != nil, @"attempt to initialise shape with a nil path");
 
@@ -415,8 +422,9 @@ static NSSize sTempSavedOffset;
 		br = [aPath bounds];
 	}
 
-	if (br.size.width <= 0.0 || br.size.height <= 0.0)
+	if (br.size.width <= 0.0 || br.size.height <= 0.0) {
 		return nil;
+	}
 
 	self = [self initWithRect:br
 						style:style];
@@ -463,8 +471,6 @@ static NSSize sTempSavedOffset;
 									  selector:@selector(setPath:)
 										object:m_path];
 
-	[path retain];
-	[m_path release];
 	m_path = path;
 	[self notifyVisualChange];
 	[self notifyGeometryChange:oldBounds];
@@ -484,9 +490,11 @@ static NSSize sTempSavedOffset;
 	return pth;
 }
 
+@synthesize path=m_path;
+
 /** @brief Fetch a new path definition following a resize of the shape
- @return none
- Notes:
+
+ @discussion
  some shapes will need to be reshaped when their size changes. An example would be a round-cornered rect where the corners
  are expected to remain at a fixed radius whatever the shape's overall size. This means that the path needs to be reshaped
  so that the final size of the shape is used to compute the path, which is then transformed back to the internally stored
@@ -632,9 +640,9 @@ static NSSize sTempSavedOffset;
 	NSPoint oo = [self knobPoint:kDKDrawableShapeOriginTarget];
 
 	CGFloat rotationKnobAngle = [self knobAngleFromOrigin:kDKDrawableShapeRotationHandle];
-	CGFloat angle = atan2f(rp.y - oo.y, rp.x - oo.x) - rotationKnobAngle;
+	CGFloat angle = atan2(rp.y - oo.y, rp.x - oo.x) - rotationKnobAngle;
 
-	CGFloat dist = hypotf(rp.x - oo.x, rp.y - oo.y);
+	CGFloat dist = hypot(rp.x - oo.x, rp.y - oo.y);
 
 	if (constrain) {
 		CGFloat rem = fmod(angle, sAngleConstraint);
@@ -652,8 +660,8 @@ static NSSize sTempSavedOffset;
 
 	CGFloat ta = angle + rotationKnobAngle;
 
-	sTempRotationPt.x = oo.x + (dist * cosf(ta));
-	sTempRotationPt.y = oo.y + (dist * sinf(ta));
+	sTempRotationPt.x = oo.x + (dist * cos(ta));
+	sTempRotationPt.y = oo.y + (dist * sin(ta));
 
 	mBoundsCache = NSZeroRect;
 	[self notifyVisualChange];
@@ -664,7 +672,6 @@ static NSSize sTempSavedOffset;
  @param p the point that the knob should be moved to
  @param rotate YES to allow any knob to rotate the shape, NO if only the rotate knob has this privilege
  @param constrain YES to constrain appropriately, NO for free movement
- @return none
  angle may be affected. If the knob is a sizing knob, a constrain of YES maintains the current aspect
  ratio. If a rotate, the angle is constrained to that set by the angular constraint value. The shape's
  offset also affects this - operation are performed relative to it, so it's necessary to set the offset
@@ -713,18 +720,18 @@ static NSSize sTempSavedOffset;
 		// rotation
 
 		if (rotate)
-			[self setAngle:atan2f(dy, dx) - ka];
+			[self setAngle:atan2(dy, dx) - ka];
 
 		// scaling
 
 		// normalise the mouse point by cancelling out any overall rotation.
 
-		CGFloat pa = atan2f(dy, dx) - [self angle];
-		CGFloat radius = hypotf(dx, dy);
+		CGFloat pa = atan2(dy, dx) - [self angle];
+		CGFloat radius = hypot(dx, dy);
 		CGFloat ndx, ndy;
 
-		ndx = radius * cosf(pa);
-		ndy = radius * sinf(pa);
+		ndx = radius * cos(pa);
+		ndy = radius * sin(pa);
 
 		// whether we are adjusting the scale width, height or both depends on which knob we have hit
 
@@ -846,7 +853,6 @@ static NSSize sTempSavedOffset;
 
 	[self setAngle:0.0];
 	[self adoptPath:path];
-	[path release];
 }
 
 /** @brief Adjusts location and size so that the corners lie on grid intersections if possible
@@ -1036,7 +1042,7 @@ static NSSize sTempSavedOffset;
 	dy = p.y - [self location].y;
 	dx = p.x - [self location].x;
 
-	return atan2f(dy, dx) - [self angle];
+	return atan2(dy, dx) - [self angle];
 }
 
 /** @brief Draws a single knob, given its partcode
@@ -1289,7 +1295,7 @@ static NSSize sTempSavedOffset;
 }
 
 /** @brief Allows the distortion transform to be adjusted interactively
- @param partcode a knob partcode for the distortion envelope private to the class
+ @param partCode a knob partcode for the distortion envelope private to the class
  @param p the point where the knob should be moved to.
  */
 - (void)moveDistortionKnob:(NSInteger)partCode toPoint:(NSPoint)p
@@ -1454,7 +1460,7 @@ static NSSize sTempSavedOffset;
 			break;
 
 		case kDKShapeOperationRotate:
-			infoStr = [NSString stringWithFormat:@"%.1f%C", [self angleInDegrees], 0xB0]; // UTF-8 for degree symbol is 0xB0
+			infoStr = [NSString stringWithFormat:@"%.1f°", [self angleInDegrees]]; // UTF-8 for degree symbol is 0xB0
 			break;
 		}
 
@@ -1474,7 +1480,7 @@ static NSSize sTempSavedOffset;
  Switches between normal location, scaling and rotation operations, and those involving the
  distortion transform (shearing, free distort, perpective).
  */
-- (void)setOperationMode:(NSInteger)mode
+- (void)setOperationMode:(DKShapeTransformOperation)mode
 {
 	if (mode != m_opMode) {
 		[[[self undoManager] prepareWithInvocationTarget:self] setOperationMode:m_opMode];
@@ -1493,10 +1499,12 @@ static NSSize sTempSavedOffset;
 	}
 }
 
+@synthesize operationMode=m_opMode;
+
 /** @brief Returns the current operation mode
  @return ops mode
  */
-- (NSInteger)operationMode
+- (DKShapeTransformOperation)operationMode
 {
 	return m_opMode;
 }
@@ -1514,8 +1522,6 @@ static NSSize sTempSavedOffset;
 - (void)setDistortionTransform:(DKDistortionTransform*)dt
 {
 	if (dt != m_distortTransform) {
-		[dt retain];
-		[m_distortTransform release];
 		m_distortTransform = dt;
 
 		[self notifyVisualChange];
@@ -1525,13 +1531,7 @@ static NSSize sTempSavedOffset;
 	}
 }
 
-/** @brief Return the current distortion transform
- @return the distortion transform if there is one, or nil otherwise
- */
-- (DKDistortionTransform*)distortionTransform
-{
-	return m_distortTransform;
-}
+@synthesize distortionTransform=m_distortTransform;
 
 #pragma mark -
 #pragma mark - convert to editable path
@@ -1551,8 +1551,6 @@ static NSSize sTempSavedOffset;
 
 	[dp setUserInfo:[self userInfo]];
 
-	[path release];
-
 	return dp;
 }
 
@@ -1568,17 +1566,14 @@ static NSSize sTempSavedOffset;
 	// returns one object in the array which is equivalent to a copy.
 
 	NSArray* subpaths = [[self renderingPath] subPaths];
-	NSEnumerator* iter = [subpaths objectEnumerator];
-	NSBezierPath* pp;
 	NSMutableArray* newObjects;
-	DKDrawableShape* dp;
 
 	newObjects = [[NSMutableArray alloc] init];
 
-	while ((pp = [iter nextObject])) {
+	for (NSBezierPath* pp in subpaths) {
 		if (![pp isEmpty]) {
-			dp = [[self class] drawableShapeWithBezierPath:pp
-											rotatedToAngle:[self angle]];
+			DKDrawableShape* dp = [[self class] drawableShapeWithBezierPath:pp
+															 rotatedToAngle:[self angle]];
 
 			[dp setStyle:[self style]];
 			[dp setUserInfo:[self userInfo]];
@@ -1586,7 +1581,7 @@ static NSSize sTempSavedOffset;
 		}
 	}
 
-	return [newObjects autorelease];
+	return newObjects;
 }
 
 #pragma mark -
@@ -1613,10 +1608,8 @@ static NSSize sTempSavedOffset;
 	[layer addObject:po
 			 atIndex:myIndex];
 	[layer replaceSelectionWithObject:po];
-	[self retain];
 	[layer removeObject:self];
 	[layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Path", @"undo string for convert to path")];
-	[self release];
 }
 
 /** @brief Set the rotation angle to zero
@@ -1739,7 +1732,7 @@ static NSSize sTempSavedOffset;
 
 - (BOOL)canPastePathWithPasteboard:(NSPasteboard*)pb
 {
-	NSString* type = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKDrawableObjectInfoPasteboardType]];
+	NSString* type = [pb availableTypeFromArray:@[kDKDrawableObjectInfoPasteboardType]];
 	if (type) {
 		DKPasteboardInfo* info = [DKPasteboardInfo pasteboardInfoWithPasteboard:pb];
 		return [info count] == 1;
@@ -1800,8 +1793,8 @@ static NSSize sTempSavedOffset;
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-	return [NSArray arrayWithObjects:NSColorPboardType, NSPDFPboardType, NSTIFFPboardType, NSFilenamesPboardType,
-									 NSStringPboardType, kDKStyleKeyPasteboardType, kDKStylePasteboardType, nil];
+	return @[NSPasteboardTypeColor, NSPasteboardTypePDF, NSPasteboardTypeTIFF, (NSString*)kUTTypeFileURL,
+									 NSPasteboardTypeString, kDKStyleKeyPasteboardType, kDKStylePasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -1811,15 +1804,14 @@ static NSSize sTempSavedOffset;
  @param aStyle the initial style for the object
  @return the object
  */
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super initWithStyle:aStyle];
 	if (self != nil) {
-		m_path = [[NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]] retain];
+		m_path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
 
 		if (m_path == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -1848,7 +1840,7 @@ static NSSize sTempSavedOffset;
 		// also make a small allowance for the rotation of the shape - this allows for the
 		// hypoteneuse of corners
 
-		CGFloat f = ABS(sinf([self angle] * 2)) * ([[self style] maxStrokeWidth] * 0.36);
+		CGFloat f = ABS(sin([self angle] * 2)) * ([[self style] maxStrokeWidth] * 0.36);
 
 		r = NSInsetRect(r, -f, -f);
 	}
@@ -1876,7 +1868,7 @@ static NSSize sTempSavedOffset;
 			// also make a small allowance for the rotation of the shape - this allows for the
 			// hypoteneuse of corners
 
-			CGFloat f = ABS(sinf([self angle] * 1.0)) * (MAX([[self style] maxStrokeWidth] * 0.5f, 1.0) * 0.25);
+			CGFloat f = ABS(sin([self angle] * 1.0)) * (MAX([[self style] maxStrokeWidth] * 0.5, 1.0) * 0.25);
 			mBoundsCache = NSInsetRect(r, -(as.width + f), -(as.height + f));
 		}
 	}
@@ -2383,15 +2375,7 @@ static NSSize sTempSavedOffset;
 	}
 }
 
-/** @brief Returns the shape's current height and width
-
- Value returned is not reliable if the shape is grouped
- @return the shape's size
- */
-- (NSSize)size
-{
-	return m_scale;
-}
+@synthesize size=m_scale;
 
 - (NSAffineTransform*)transform
 {
@@ -2459,7 +2443,6 @@ static NSSize sTempSavedOffset;
 	} else
 		[self setSize:NSZeroSize];
 
-	[path release];
 }
 
 - (void)setStyle:(DKStyle*)aStyle
@@ -2559,7 +2542,7 @@ static NSSize sTempSavedOffset;
 		}
 	}
 
-	return [pts autorelease];
+	return pts;
 }
 
 /** @brief Return whether the object was valid following creation
@@ -2581,14 +2564,6 @@ static NSSize sTempSavedOffset;
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_distortTransform release];
-	[m_customHotSpots release];
-	[m_path release];
-
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -2614,7 +2589,7 @@ static NSSize sTempSavedOffset;
 				 forKey:@"dt"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	//	LogEvent_(kFileEvent, @"decoding drawable shape %@", self);
@@ -2646,7 +2621,6 @@ static NSSize sTempSavedOffset;
 
 	DKDistortionTransform* dfm = [[self distortionTransform] copy];
 	[copy setDistortionTransform:dfm];
-	[dfm release];
 
 	[copy setAngle:[self angle]];
 	[copy setSize:[self size]];
@@ -2655,7 +2629,6 @@ static NSSize sTempSavedOffset;
 
 	NSArray* hots = [[self hotspots] deepCopy];
 	[copy setHotspots:hots];
-	[hots release];
 
 	return copy;
 }

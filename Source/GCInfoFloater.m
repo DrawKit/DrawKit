@@ -8,16 +8,20 @@
 #import "GCOneShotEffectTimer.h"
 #import "NSColor+DKAdditions.h"
 
+@interface GCInfoFloater () <GCOneShotDelegate>
+
+@end
+
 @implementation GCInfoFloater
 #pragma mark As a GCInfoFloater
 
 /**  */
 + (GCInfoFloater*)infoFloater
 {
-	GCInfoFloater* fi = [[[GCInfoFloater alloc] initWithContentRect:NSZeroRect
+	GCInfoFloater* fi = [[GCInfoFloater alloc] initWithContentRect:NSZeroRect
 														  styleMask:NSBorderlessWindowMask
 															backing:NSBackingStoreBuffered
-															  defer:YES] autorelease];
+															  defer:YES];
 
 	// note - because windows are all sent a -close message at quit time, set it
 	// not to be released at that time, otherwise the release from the autorelease pool
@@ -29,8 +33,8 @@
 }
 
 #pragma mark -
-- (id)initWithContentRect:(NSRect)contentRect
-				styleMask:(NSUInteger)styleMask
+- (instancetype)initWithContentRect:(NSRect)contentRect
+				styleMask:(NSWindowStyleMask)styleMask
 				  backing:(NSBackingStoreType)bufferingType
 					defer:(BOOL)deferCreation
 {
@@ -41,7 +45,7 @@
 	if (self != nil) {
 		// add a control view that displays the actual info value
 
-		NSTextField* di = [[[NSTextField alloc] initWithFrame:contentRect] autorelease];
+		NSTextField* di = [[NSTextField alloc] initWithFrame:contentRect];
 
 		if (di != nil) {
 			//[di setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -63,11 +67,9 @@
 		[self setFormat:@",0.000"];
 
 		if (m_infoViewRef == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[self setBackgroundColor:[NSColor colorWithDeviceRed:1.0
 													   green:1.0
 														blue:0.6
@@ -130,17 +132,13 @@
 		if ([m_infoViewRef formatter] == nil) {
 			NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
 			[m_infoViewRef setFormatter:formatter];
-			[formatter release];
 		}
 
 		[[m_infoViewRef formatter] setFormat:fmt];
 	}
 }
 
-- (void)setWindowOffset:(NSSize)offset
-{
-	m_wOffset = offset;
-}
+@synthesize windowOffset=m_wOffset;
 
 - (void)positionNearPoint:(NSPoint)p inView:(NSView*)v
 {
@@ -149,7 +147,10 @@
 	p = [v convertPoint:p
 				 toView:nil];
 
-	NSPoint gp = [[v window] convertBaseToScreen:p];
+	NSRect prect;
+	prect.origin = p;
+	prect.size = NSMakeSize(1, 1);
+	NSPoint gp = [[v window] convertRectToScreen:prect].origin;
 
 	gp.x += m_wOffset.width;
 	gp.y += m_wOffset.height;

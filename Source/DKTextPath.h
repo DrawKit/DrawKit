@@ -4,8 +4,11 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawablePath.h"
 #import "DKCommonTypes.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DKTextAdornment, DKDrawingView;
 
@@ -13,7 +16,7 @@
 
 Very similar to a DKTextShape but based on a path and defaulting to text-on-a-path rendering. Has virtually identical public API to DKTextShape.
 */
-@interface DKTextPath : DKDrawablePath <NSCopying, NSCoding> {
+@interface DKTextPath : DKDrawablePath <NSCopying, NSCoding, NSTextViewDelegate> {
 @private
 	DKTextAdornment* mTextAdornment;
 	NSTextView* mEditorRef;
@@ -22,20 +25,19 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 // convenience constructors:
 
-+ (DKTextPath*)textPathWithString:(NSString*)str onPath:(NSBezierPath*)aPath;
++ (instancetype)textPathWithString:(NSString*)str onPath:(NSBezierPath*)aPath;
 
 // class defaults:
 
-+ (void)setDefaultTextString:(NSString*)str;
-+ (NSString*)defaultTextString;
-+ (Class)textAdornmentClass;
+@property (class, copy) NSString *defaultTextString;
+@property (class, readonly) Class textAdornmentClass;
 
 /** @brief Return a list of types we can paste in priority order.
 
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
  @return a list of types
  */
-+ (NSArray*)pastableTextTypes;
+@property (class, readonly, retain) NSArray<NSPasteboardType> *pastableTextTypes;
 + (DKStyle*)textPathDefaultStyle;
 
 // the text:
@@ -49,13 +51,13 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 // conversion to path/shape with text path:
 
-- (NSBezierPath*)textPath;
-- (NSArray*)textPathGlyphs;
-- (NSArray*)textPathGlyphsUsedSize:(NSSize*)textSize;
+@property (readonly, copy) NSBezierPath *textPath;
+@property (readonly, copy) NSArray<NSBezierPath*> *textPathGlyphs;
+- (NSArray<NSBezierPath*>*)textPathGlyphsUsedSize:(nullable NSSize*)textSize;
 - (DKDrawablePath*)makePathWithText;
 - (DKDrawableShape*)makeShapeWithText;
 - (DKShapeGroup*)makeShapeGroupWithText;
-- (DKStyle*)styleWithTextAttributes;
+@property (readonly, retain) DKStyle *styleWithTextAttributes;
 
 /** @brief Creates a style that is the current style + any text attributes
 
@@ -63,81 +65,74 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
  attributes. When cutting or copying the object's style, this is what should be used.
  @return a new style object
  */
-- (DKStyle*)syntheticStyle;
+@property (readonly, retain) DKStyle *syntheticStyle;
 
 // text attributes - accesses the internal adornment object
 
-- (NSDictionary*)textAttributes;
-
-- (void)setFont:(NSFont*)font;
-- (NSFont*)font;
-- (void)setFontSize:(CGFloat)size;
-- (CGFloat)fontSize;
-- (void)setTextColour:(NSColor*)colour;
-- (NSColor*)textColour;
+@property (readonly, copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+@property (retain) NSFont *font;
+@property CGFloat fontSize;
+@property (retain) NSColor *textColour;
 
 - (void)scaleTextBy:(CGFloat)factor;
 
 // paragraph style attributes:
 
-- (void)setVerticalAlignment:(DKVerticalTextAlignment)align;
-- (DKVerticalTextAlignment)verticalAlignment;
-- (void)setVerticalAlignmentProportion:(CGFloat)prop;
-- (CGFloat)verticalAlignmentProportion;
-- (void)setParagraphStyle:(NSParagraphStyle*)ps;
-- (NSParagraphStyle*)paragraphStyle;
-- (NSTextAlignment)alignment;
+@property DKVerticalTextAlignment verticalAlignment;
+@property CGFloat verticalAlignmentProportion;
+@property (strong) NSParagraphStyle *paragraphStyle;
+@property (readonly) NSTextAlignment alignment;
 
-- (void)setLayoutMode:(DKTextLayoutMode)mode;
-- (DKTextLayoutMode)layoutMode;
+@property DKTextLayoutMode layoutMode;
 
 // editing the text:
 
 - (void)startEditingInView:(DKDrawingView*)view;
 - (void)endEditing;
-- (BOOL)isEditing;
+@property (readonly,getter=isEditing) BOOL editing;
 
 // the internal adornment object:
 
-- (DKTextAdornment*)textAdornment;
-- (void)setTextAdornment:(DKTextAdornment*)adornment;
+@property (nonatomic, strong, nullable) DKTextAdornment *textAdornment;
 
 // user actions:
 
-- (IBAction)changeFont:(id)sender;
-- (IBAction)changeFontSize:(id)sender;
-- (IBAction)changeAttributes:(id)sender;
-- (IBAction)editText:(id)sender;
+- (IBAction)changeFont:(nullable id)sender;
+- (IBAction)changeFontSize:(nullable id)sender;
+- (IBAction)changeAttributes:(nullable id)sender;
+- (IBAction)editText:(nullable id)sender;
 
-- (IBAction)changeLayoutMode:(id)sender;
+- (IBAction)changeLayoutMode:(nullable id)sender;
 
-- (IBAction)alignLeft:(id)sender;
-- (IBAction)alignRight:(id)sender;
-- (IBAction)alignCenter:(id)sender;
-- (IBAction)alignJustified:(id)sender;
-- (IBAction)underline:(id)sender;
+- (IBAction)alignLeft:(nullable id)sender;
+- (IBAction)alignRight:(nullable id)sender;
+- (IBAction)alignCenter:(nullable id)sender;
+- (IBAction)alignJustified:(nullable id)sender;
+- (IBAction)underline:(nullable id)sender;
 
-- (IBAction)loosenKerning:(id)sender;
-- (IBAction)tightenKerning:(id)sender;
-- (IBAction)turnOffKerning:(id)sender;
-- (IBAction)useStandardKerning:(id)sender;
+- (IBAction)loosenKerning:(nullable id)sender;
+- (IBAction)tightenKerning:(nullable id)sender;
+- (IBAction)turnOffKerning:(nullable id)sender;
+- (IBAction)useStandardKerning:(nullable id)sender;
 
-- (IBAction)lowerBaseline:(id)sender;
-- (IBAction)raiseBaseline:(id)sender;
-- (IBAction)superscript:(id)sender;
-- (IBAction)subscript:(id)sender;
-- (IBAction)unscript:(id)ssender;
+- (IBAction)lowerBaseline:(nullable id)sender;
+- (IBAction)raiseBaseline:(nullable id)sender;
+- (IBAction)superscript:(nullable id)sender;
+- (IBAction)subscript:(nullable id)sender;
+- (IBAction)unscript:(nullable id)ssender;
 
-- (IBAction)verticalAlign:(id)sender;
-- (IBAction)convertToShape:(id)sender;
-- (IBAction)convertToShapeGroup:(id)sender;
-- (IBAction)convertToTextShape:(id)sender;
-- (IBAction)convertToPath:(id)sender;
+- (IBAction)verticalAlign:(nullable id)sender;
+- (IBAction)convertToShape:(nullable id)sender;
+- (IBAction)convertToShapeGroup:(nullable id)sender;
+- (IBAction)convertToTextShape:(nullable id)sender;
+- (IBAction)convertToPath:(nullable id)sender;
 
-- (IBAction)paste:(id)sender;
-- (IBAction)capitalize:(id)sender;
+- (IBAction)paste:(nullable id)sender;
+- (IBAction)capitalize:(nullable id)sender;
 
-- (IBAction)takeTextAlignmentFromSender:(id)sender;
-- (IBAction)takeTextVerticalAlignmentFromSender:(id)sender;
+- (IBAction)takeTextAlignmentFromSender:(nullable id)sender;
+- (IBAction)takeTextVerticalAlignmentFromSender:(nullable id)sender;
 
 @end
+
+NS_ASSUME_NONNULL_END

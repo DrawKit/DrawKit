@@ -11,7 +11,7 @@
 
 static inline NSUInteger depthForObjectCount(NSUInteger n)
 {
-	return (n > 0 ? MAX((NSUInteger)_CGFloatCeil(_CGFloatLog((CGFloat)n)) / _CGFloatLog(2.0f), kDKMinimumDepth) : 0);
+	return (n > 0 ? MAX((NSUInteger)ceil(log((CGFloat)n)) / log(2.0), kDKMinimumDepth) : 0);
 }
 
 static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
@@ -19,7 +19,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	return (nodeIndex << 1) + 1;
 }
 
-@interface DKBSPObjectStorage (Private)
+@interface DKBSPObjectStorage ()
 
 - (void)setDepthAndLoadTree:(NSUInteger)aDepth;
 - (void)loadBSPTree;
@@ -71,16 +71,16 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	// weed out any false positives which we don't need to draw. This is fairly common when the depth is low and the canvas isn't
 	// very finely divided. As depth increases this effect is diminished
 
-	NSEnumerator* iter = [[[self objects] objectsAtIndexes:indexes] objectEnumerator];
-	id<DKStorableObject> obj;
 	NSMutableArray* array = [NSMutableArray array];
 
-	while ((obj = [iter nextObject])) {
+	for (id<DKStorableObject> obj in [[self objects] objectsAtIndexes:indexes]) {
 		if (aView) {
-			if ([aView needsToDrawRect:[obj bounds]])
+			if ([aView needsToDrawRect:[obj bounds]]) {
 				[array addObject:obj];
-		} else if (NSIntersectsRect(aRect, [obj bounds]))
+			}
+		} else if (NSIntersectsRect(aRect, [obj bounds])) {
 			[array addObject:obj];
+		}
 	}
 
 	//NSLog(@"returning %d object(s)", [array count]);
@@ -94,11 +94,9 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 
 	//NSLog(@"indexes returned for hit: %@", indexes );
 
-	NSEnumerator* iter = [[[self objects] objectsAtIndexes:indexes] objectEnumerator];
-	id<DKStorableObject> obj;
 	NSMutableArray* array = [NSMutableArray array];
 
-	while ((obj = [iter nextObject])) {
+	for (id<DKStorableObject> obj in [[self objects] objectsAtIndexes:indexes]) {
 		if (NSPointInRect(aPoint, [obj bounds]))
 			[array addObject:obj];
 	}
@@ -232,8 +230,6 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	// is first created, and whenever the canvas size changes.
 
 	if (!NSEqualSizes(size, [mTree canvasSize])) {
-		[mTree release];
-
 		NSUInteger depth = (mTreeDepth == 0 ? depthForObjectCount([self countOfObjects]) : mTreeDepth);
 		mTree = [[DKBSPIndexTree alloc] initWithCanvasSize:size
 													 depth:MAX(depth, kDKMinimumDepth)];
@@ -251,14 +247,13 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 
 - (void)loadBSPTree
 {
-	NSEnumerator* iter = [[self objects] objectEnumerator];
-	id<DKStorableObject> obj;
 	NSUInteger k = 0;
 
-	while ((obj = [iter nextObject])) {
-		if ([obj visible])
+	for (id<DKStorableObject> obj in self.objects) {
+		if ([obj visible]) {
 			[mTree insertItemIndex:k
 						  withRect:[obj bounds]];
+		}
 
 		++k;
 	}
@@ -294,25 +289,20 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 #pragma mark -
 #pragma mark - as implementor of the NSCoding protocol
 
-- (id)initWithCoder:(NSCoder*)aCoder
+- (instancetype)initWithCoder:(NSCoder*)aCoder
 {
 	// this method is here solely to support backward compatibility with b5; storage is no longer archived.
 
-	[super initWithCoder:aCoder];
+	if (self = [super initWithCoder:aCoder]) {
 	mTreeDepth = [aCoder decodeIntegerForKey:@"DKBSPObjectStorage_treeDepth"];
 	[self setCanvasSize:[aCoder decodeSizeForKey:@"DKBSPObjectStorage_canvasSize"]];
+	}
 
 	return self;
 }
 
 #pragma mark -
 #pragma mark - as a NSObject
-
-- (void)dealloc
-{
-	[mTree release];
-	[super dealloc];
-}
 
 @end
 
@@ -328,30 +318,18 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 }
 
 /**  */
-- (void)setType:(DKLeafType)aType;
-- (DKLeafType)type;
+@property DKLeafType type;
 
-- (void)setLeafIndex:(NSUInteger)indx;
-- (NSUInteger)leafIndex;
+@property NSUInteger leafIndex;
 
-- (void)setOffset:(CGFloat)offset;
-- (CGFloat)offset;
+@property CGFloat offset;
 
 @end
 
 #pragma mark -
 
 @implementation DKBSPNode
-
-- (void)setType:(DKLeafType)aType
-{
-	mType = aType;
-}
-
-- (DKLeafType)type
-{
-	return mType;
-}
+@synthesize type=mType;
 
 - (void)setLeafIndex:(NSUInteger)indx
 {
@@ -377,7 +355,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 
 #pragma mark -
 
-@interface DKBSPIndexTree (Private)
+@interface DKBSPIndexTree ()
 
 - (void)partition:(NSRect)rect depth:(NSUInteger)depth index:(NSUInteger)indx;
 - (void)recursivelySearchWithRect:(NSRect)rect index:(NSUInteger)indx;
@@ -398,7 +376,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	return [NSMutableIndexSet class];
 }
 
-- (id)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth
+- (instancetype)initWithCanvasSize:(NSSize)size depth:(NSUInteger)depth
 {
 	self = [super init];
 	if (self) {
@@ -414,10 +392,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	return self;
 }
 
-- (NSSize)canvasSize
-{
-	return mCanvasSize;
-}
+@synthesize canvasSize=mCanvasSize;
 
 // a.k.a "initialize"
 
@@ -435,7 +410,6 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	for (i = 0; i < nodeCount; ++i) {
 		DKBSPNode* node = [[DKBSPNode alloc] init];
 		[mNodes addObject:node];
-		[node release];
 	}
 
 	[self allocateLeaves:(1 << depth)];
@@ -447,7 +421,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 			  depth:depth
 			  index:0];
 
-	LogEvent_(kInfoEvent, @"%@ <%p> (re)inited BSP, size = %@, depth = %d, nodes = %d, leaves = %d", NSStringFromClass([self class]), self, NSStringFromSize(mCanvasSize), depth, [mNodes count], [mLeaves count]);
+	LogEvent_(kInfoEvent, @"%@ <%p> (re)inited BSP, size = %@, depth = %lu, nodes = %lu, leaves = %lu", NSStringFromClass([self class]), self, NSStringFromSize(mCanvasSize), (unsigned long)depth, (unsigned long)[mNodes count], (unsigned long)[mLeaves count]);
 }
 
 - (void)insertItemIndex:(NSUInteger)idx withRect:(NSRect)rect
@@ -532,10 +506,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	// when an item is inserted or removed from the main array, all indexes above it will change. This method keeps the tree in synch by
 	// incrementing or decrementing the stored indices to match.
 
-	NSEnumerator* iter = [mLeaves objectEnumerator];
-	NSMutableIndexSet* leafSet;
-
-	while ((leafSet = [iter nextObject]))
+	for (NSMutableIndexSet* leafSet in mLeaves)
 		[leafSet shiftIndexesStartingAtIndex:startIndex
 										  by:delta];
 }
@@ -576,13 +547,13 @@ static NSUInteger sLeafCount = 0;
 
 		if ([node type] == kNodeHorizontal) {
 			type = kNodeVertical;
-			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect), NSHeight(rect) * 0.5f);
+			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect), NSHeight(rect) * 0.5);
 			rb = NSMakeRect(NSMinX(rect), NSMaxY(ra), NSWidth(rect), NSHeight(rect) - NSHeight(ra));
 			oa = NSMidX(ra);
 			ob = NSMidX(rb);
 		} else {
 			type = kNodeHorizontal;
-			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect) * 0.5f, NSHeight(rect));
+			ra = NSMakeRect(NSMinX(rect), NSMinY(rect), NSWidth(rect) * 0.5, NSHeight(rect));
 			rb = NSMakeRect(NSMaxX(ra), NSMinY(rect), NSWidth(rect) - NSWidth(ra), NSHeight(rect));
 			oa = NSMidY(ra);
 			ob = NSMidY(rb);
@@ -754,31 +725,17 @@ static NSUInteger sLeafCount = 0;
 	for (i = 0; i < howMany; ++i) {
 		id leaf = [[[[self class] leafClass] alloc] init];
 		[mLeaves addObject:leaf];
-		[leaf release];
 	}
 }
 
 - (void)removeIndex:(NSUInteger)indx
 {
-	NSEnumerator* iter = [mLeaves objectEnumerator];
-	NSMutableIndexSet* is;
-
-	while ((is = [iter nextObject]))
+	for (NSMutableIndexSet* is in mLeaves)
 		[is removeIndex:indx];
 }
 
 #pragma mark -
 #pragma mark - as a NSObject
-
-- (void)dealloc
-{
-	[mNodes release];
-	[mLeaves release];
-	[mResults release];
-	[mDebugPath release];
-
-	[super dealloc];
-}
 
 - (NSString*)description
 {

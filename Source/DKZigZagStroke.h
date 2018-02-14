@@ -4,7 +4,10 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKStroke.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface DKZigZagStroke : DKStroke <NSCoding, NSCopying> {
 @private
@@ -13,14 +16,10 @@
 	CGFloat mSpread;
 }
 
-/**  */
-- (void)setWavelength:(CGFloat)w;
-- (CGFloat)wavelength;
-
-- (void)setAmplitude:(CGFloat)amp;
-- (CGFloat)amplitude;
-
-- (void)setSpread:(CGFloat)sp;
-- (CGFloat)spread;
+@property (nonatomic) CGFloat wavelength;
+@property CGFloat amplitude;
+@property CGFloat spread;
 
 @end
+
+NS_ASSUME_NONNULL_END

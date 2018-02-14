@@ -11,7 +11,6 @@
 
 @implementation NSView (DKGradientExtensions)
 
-/**  */
 - (void)dragStandardSwatchGradient:(DKGradient*)gradient slideBack:(BOOL)slideBack event:(NSEvent*)event
 {
 	NSSize size;
@@ -45,8 +44,6 @@
 	pt.x -= size.width / 2;
 	pt.y += size.height / 2;
 
-	[swatchImage setFlipped:NO];
-
 	[[NSCursor currentCursor] push];
 	[[NSCursor closedHandCursor] set];
 
@@ -70,7 +67,7 @@
 										   withBorder:YES];
 
 	NSPasteboard* pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-	[pboard declareTypes:[NSArray arrayWithObject:NSColorPboardType]
+	[pboard declareTypes:@[NSColorPboardType]
 				   owner:self];
 	[color writeToPasteboard:pboard];
 
@@ -107,7 +104,7 @@
 	[swatchImage unlockFocus];
 	[[NSGraphicsContext currentContext] restoreGraphicsState];
 
-	return [swatchImage autorelease];
+	return swatchImage;
 }
 
 @end
@@ -203,8 +200,6 @@
 #pragma mark -
 - (BOOL)hasRadialSettings
 {
-	// return YES if there are valid radial settings.
-
 	if (m_extensionData)
 		return ([m_extensionData valueForKey:@"radialstartingpoint.x"] != nil && [m_extensionData valueForKey:@"radialendingpoint.x"] != nil);
 
@@ -214,8 +209,6 @@
 #pragma mark -
 - (NSPoint)mapPoint:(NSPoint)p fromRect:(NSRect)rect
 {
-	// given a point <p> within <rect> this returns it mapped to a 0..1 interval
-
 	p.x = (p.x - rect.origin.x) / rect.size.width;
 	p.y = (p.y - rect.origin.y) / rect.size.height;
 
@@ -224,8 +217,6 @@
 
 - (NSPoint)mapPoint:(NSPoint)p toRect:(NSRect)rect
 {
-	// given a point <p> in 0..1 space, maps it to <rect>
-
 	p.x = (p.x * rect.size.width) + rect.origin.x;
 	p.y = (p.y * rect.size.height) + rect.origin.y;
 
@@ -235,7 +226,6 @@
 #pragma mark -
 - (void)convertOldKey:(NSString*)key
 {
-	// given a key to an old NSPoint based struct, this converts it to the new archiver-compatible storage
 	//	LogEvent_(kReactiveEvent, @"converting old key: %@ in %@", key, self );
 
 	NSPoint p = [[m_extensionData valueForKey:key] pointValue];
@@ -246,16 +236,11 @@
 
 - (void)convertOldKeys
 {
-	NSEnumerator* iter = [[m_extensionData allKeys] objectEnumerator];
-	NSString* key;
-	id value;
-	const char* ctyp;
-
-	while ((key = [iter nextObject])) {
-		value = [m_extensionData valueForKey:key];
+	for (NSString *key in m_extensionData) {
+		NSValue *value = [m_extensionData valueForKey:key];
 
 		if ([value isKindOfClass:[NSValue class]]) {
-			ctyp = [value objCType];
+			const char* ctyp = [value objCType];
 
 			if (strcmp(ctyp, @encode(NSPoint)) == 0)
 				[self convertOldKey:key];
@@ -268,14 +253,6 @@
 #pragma mark -
 @implementation NSDictionary (StructEncoding)
 
-- (void)setPoint:(NSPoint)p forKey:(id)key
-{
-	[self setFloat:p.x
-			forKey:[key stringByAppendingString:@".x"]];
-	[self setFloat:p.y
-			forKey:[key stringByAppendingString:@".y"]];
-}
-
 - (NSPoint)pointForKey:(id)key
 {
 	NSPoint p;
@@ -286,15 +263,29 @@
 }
 
 #pragma mark -
-- (void)setFloat:(float)f forKey:(id)key
-{
-	[self setValue:[NSNumber numberWithDouble:f]
-			forKey:key];
-}
-
 - (float)floatForKey:(id)key
 {
-	return [[self valueForKey:key] doubleValue];
+	return [[self objectForKey:key] floatValue];
+}
+
+@end
+
+#pragma mark -
+@implementation NSMutableDictionary (StructEncoding)
+
+- (void)setPoint:(NSPoint)p forKey:(id)key
+{
+	[self setFloat:p.x
+			forKey:[key stringByAppendingString:@".x"]];
+	[self setFloat:p.y
+			forKey:[key stringByAppendingString:@".y"]];
+}
+
+#pragma mark -
+- (void)setFloat:(float)f forKey:(id)key
+{
+	[self setObject:@(f)
+			 forKey:key];
 }
 
 @end

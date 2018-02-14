@@ -32,25 +32,29 @@
 
 #ifdef qUseLogEvent
 
+#if __has_feature(objc_arc)
+#error This file CAN NOT be built using ARC: the usage of singletons prevent this.
+#endif
 
 #import "LogEvent.h"
 #import <Foundation/NSDebug.h>
+#import <AppKit/AppKit.h>
 
 #pragma mark Constants (Not Localized)
-       NSString*const kWheneverEvent		= @"LogWhenever";
+NSString*const kWheneverEvent		= @"LogWhenever";
 
-       NSString*const kUserEvent			= @"LogUserEvents";
-       NSString*const kScriptEvent			= @"LogScriptingEvents";
-       NSString*const kReactiveEvent		= @"LogReactiveEvents";
-       NSString*const kUIEvent				= @"LogInterfaceEvents";
-       NSString*const kFileEvent			= @"LogFileInteractionEvents";
-       NSString*const kLifeEvent			= @"LogObjectLifetimeEvents";
-       NSString*const kStateEvent			= @"LogObjectChangeEvents";
-       NSString*const kInfoEvent			= @"LogInfoEvents";
-	   NSString* const kKVOEvent			= @"LogInfoKVOEvents";
-		NSString* const kUndoEvent			= @"LogInfoUndoEvents";
+NSString*const kUserEvent			= @"LogUserEvents";
+NSString*const kScriptEvent			= @"LogScriptingEvents";
+NSString*const kReactiveEvent		= @"LogReactiveEvents";
+NSString*const kUIEvent				= @"LogInterfaceEvents";
+NSString*const kFileEvent			= @"LogFileInteractionEvents";
+NSString*const kLifeEvent			= @"LogObjectLifetimeEvents";
+NSString*const kStateEvent			= @"LogObjectChangeEvents";
+NSString*const kInfoEvent			= @"LogInfoEvents";
+NSString*const kKVOEvent			= @"LogInfoKVOEvents";
+NSString*const kUndoEvent			= @"LogInfoUndoEvents";
 
-static const unsigned kNumStandardEventTypes = 10;
+static const NSUInteger kNumStandardEventTypes = 10;
 	// When adding new event types, don't forget to modify or override the -newEventTypes method.
 
 
@@ -78,14 +82,10 @@ void InitializePrefsForEventTypeNames(void)
 		NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
 		
 		assert(eventTypeNames != nil);
-		unsigned count = [eventTypeNames count];
+		NSUInteger count = [eventTypeNames count];
 		NSMutableDictionary* defaultPrefs = [NSMutableDictionary dictionaryWithCapacity:count];
-		NSNumber* defaultLoggingState = [NSNumber numberWithBool:NO];
-		
-		NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
-		assert(typeNameEnumerator != nil);
-		NSString* typeName;
-		while ((typeName = [typeNameEnumerator nextObject]) != nil)
+		NSNumber* defaultLoggingState = @NO;
+		for (NSString *typeName in eventTypeNames)
 		{
 			assert(defaultPrefs != nil);
 			assert(defaultLoggingState != nil);
@@ -104,7 +104,7 @@ void InitializePrefsForEventTypeNames(void)
 	}
 }
 
-#ifndef NDEBUG
+#ifdef NDEBUG
 BOOL IsValidEventType(NSString* eventType)
 {
 	BOOL isValidType = NO;
@@ -120,11 +120,8 @@ BOOL IsValidEventType(NSString* eventType)
 		NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
 		
 		assert(eventTypeNames != nil);
-		NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
 		
-		assert(typeNameEnumerator != nil);
-		NSString* typeName;
-		while ((typeName = [typeNameEnumerator nextObject]) != nil)
+		for (NSString* typeName in eventTypeNames)
 		{
 			assert(eventType != nil);
 			assert(typeName != nil);
@@ -188,12 +185,9 @@ BOOL IsAnyEventTypeBeingLogged(void)
 	NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
 	
 	assert(eventTypeNames != nil);
-	NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 	
-	assert(typeNameEnumerator != nil);
-	NSString* typeName;
-	while ((typeName = [typeNameEnumerator nextObject]) != nil)
+	for (NSString *typeName in eventTypeNames)
 	{
 		assert(userPrefs != nil);
 		assert(typeName != nil);
@@ -258,11 +252,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 	
 	assert(eventTypeNames != nil);
-	NSEnumerator* typeNameEnumerator = [eventTypeNames objectEnumerator];
-	
-	assert(typeNameEnumerator != nil);
-	NSString* typeName;
-	while ((typeName = [typeNameEnumerator nextObject]) != nil)
+	for (NSString* typeName in eventTypeNames)
 	{
 		assert(typeName != nil);
 		assert(userPrefs != nil);
@@ -273,21 +263,37 @@ void LogLoggingState(NSArray* eventTypeNames)
 
 #pragma mark -
 @implementation LoggingController
+{
+	NSArray *nibs;
+}
 #pragma mark As a LoggingController
+@synthesize userActions=mUserActions;
+@synthesize scriptingActions=mScriptingActions;
+@synthesize reactiveEvents=mReactiveEvents;
+@synthesize interfaceEvents=mInterfaceEvents;
+@synthesize fileInteraction=mFileInteraction;
+@synthesize objectLifetime=mObjectLifetime;
+@synthesize objectChanges=mObjectChanges;
+@synthesize miscInfo=mMiscInfo;
+@synthesize KVOInfo=mKVOInfo;
+@synthesize undoInfo=mUndoInfo;
+@synthesize zombiesCheckbox=mZombiesCheckbox;
+
 - (void)loadNib
 {
 	// If the nib hasn't been loaded yet...
 	if (!mIsNibLoaded)
 	{
 		NSString* nibName = [self windowNibName];
+		NSArray *tmpArr = nil;
 		
 		NSAssert(nibName != nil, @"Expected valid nibName");
-		if (![NSBundle loadNibNamed:nibName owner:self])
+		if (![[NSBundle bundleForClass:[self class]] loadNibNamed:nibName owner:self topLevelObjects:&tmpArr])
 		{
 			NSLog(@"***Failed to load %@.nib", nibName);
 			NSBeep();
-		}else
-		{
+		} else {
+			nibs = [tmpArr retain];
 			// Setup the window
 			NSWindow* window = [self window];
 			
@@ -306,7 +312,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	if (eventTypes != mEventTypes)
 	{
 		[mEventTypes release];
-		mEventTypes = [eventTypes retain];
+		mEventTypes = [eventTypes copy];
 	}
 	InitializePrefsForEventTypeNames();
 }
@@ -317,7 +323,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 	{
 		[self loadNib];
 		
-		NSDictionary* eventTypes = [[self newEventTypes] autorelease];
+		NSDictionary* eventTypes = [self newEventTypes];
 		
 		NSAssert(eventTypes != nil, @"Expected valid eventTypes");
 		[self setEventTypes:eventTypes];
@@ -358,11 +364,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 		NSDictionary* eventTypes = [self eventTypes];
 		
 		NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-		NSEnumerator* keyEnumerator = [eventTypes keyEnumerator];
-		
-		NSAssert(keyEnumerator != nil, @"Expected valid keyEnumerator");
-		NSString* eventKey;
-		while ((eventKey = [keyEnumerator nextObject]) != nil)
+		for (NSString* eventKey in eventTypes)
 		{
 			NSAssert(eventKey != nil, @"Expected valid eventKey");
 			NSButton* eventButton = [eventTypes objectForKey:eventKey];
@@ -383,11 +385,10 @@ void LogLoggingState(NSArray* eventTypeNames)
 #pragma mark -
 - (NSDictionary*)newEventTypes
 {
-	NSMutableDictionary* eventTypes = [[[NSMutableDictionary alloc] initWithCapacity:kNumStandardEventTypes] autorelease];
+	NSMutableDictionary* eventTypes = [[NSMutableDictionary alloc] initWithCapacity:kNumStandardEventTypes];
 	
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-	unsigned i = 0;
-	for ( ; i < kNumStandardEventTypes; ++i)
+	for (NSUInteger i = 0 ; i < kNumStandardEventTypes; ++i)
 	{
 		NSString* eventKey = nil;
 		NSButton* eventButton = nil;
@@ -464,7 +465,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 				break;
 			default:
-				NSAssert1(NO, @"Encountered invalid switch case (%u)", i);
+				NSAssert(NO, @"Encountered invalid switch case (%lu)", (unsigned long)i);
 			break;
 		}
 		NSAssert(eventKey != nil, @"Expected valid eventKey");
@@ -472,8 +473,8 @@ void LogLoggingState(NSArray* eventTypeNames)
 		
 		[eventTypes setObject:eventButton forKey:eventKey];
 	}
-	// Method name begins with "new"; clients are responsible for releasing.
-	return [[NSDictionary alloc] initWithDictionary:eventTypes];
+
+	return [NSDictionary dictionaryWithDictionary:[eventTypes autorelease]];
 }
 
 - (NSArray*)eventTypeNames
@@ -498,17 +499,13 @@ void LogLoggingState(NSArray* eventTypeNames)
 	NSDictionary* eventTypes = [self eventTypes];
 	
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-	NSEnumerator* keyEnumerator = [eventTypes keyEnumerator];
-	
-	NSAssert(keyEnumerator != nil, @"Expected valid keyEnumerator");
-	NSString* eventKey;
-	while ((eventKey = [keyEnumerator nextObject]) != nil)
+	for (NSString* eventKey in eventTypes)
 	{
 		NSAssert(eventKey != nil, @"Expected valid eventKey");
 		NSButton* eventButton = [eventTypes objectForKey:eventKey];
 		
 		NSAssert(eventButton != nil, @"Expected valid eventButton");
-		int buttonState = [eventButton state];
+		NSControlStateValue buttonState = [eventButton state];
 		
 		if (buttonState == NSOnState)
 		{
@@ -530,29 +527,23 @@ void LogLoggingState(NSArray* eventTypeNames)
 {
 #pragma unused(sender)
 	
-	NSAlert* relaunchAlert = [NSAlert alertWithMessageText:@"Relaunch Ortelius?"
-											 defaultButton:@"Launch With Zombies"
-										   alternateButton:@"Cancel"
-											   otherButton:nil
-								 informativeTextWithFormat:@"Click to relaunch Ortelius with Zombies ON. Launching again from the Finder will disable zombies."];
+	NSAlert* relaunchAlert = [[NSAlert alloc] init];
+	relaunchAlert.messageText = @"Relaunch Ortelius?";
+	relaunchAlert.informativeText = @"Click to relaunch Ortelius with Zombies ON. Launching again from the Finder will disable zombies.";
+	[relaunchAlert addButtonWithTitle:@"Launch With Zombies"];
+	[relaunchAlert addButtonWithTitle:@"Cancel"];
 	
 	NSInteger result = [relaunchAlert runModal];
 	
-	if( result == NSAlertDefaultReturn )
-	{
-		FSRef fileRef;
-		NSDictionary *environment = [NSDictionary dictionaryWithObject: @"YES" forKey: @"NSZombieEnabled"];
-		NSString* execPath = [[NSBundle mainBundle] executablePath];
+	if (result == NSAlertFirstButtonReturn) {
+		NSDictionary *environment = @{@"NSZombieEnabled": @"YES"};
 		
-		const char* executablePath = [execPath UTF8String];
+		[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[[NSBundle mainBundle] bundleURL] options:(NSWorkspaceLaunchDefault | NSWorkspaceLaunchNewInstance) configuration:@{NSWorkspaceLaunchConfigurationArguments: environment} error:NULL];
 		
-		FSPathMakeRef((UInt8*) executablePath, &fileRef, nil);
-		LSApplicationParameters appParameters = {0, kLSLaunchDefaults | kLSLaunchNewInstance, &fileRef, nil, (CFDictionaryRef)environment, nil, nil};
-		
-		LSOpenApplication(&appParameters, nil);
-		
+		// Don't worry about releasing relaunchAlert: the kernel will clean up when we exit.
 		[NSApp terminate: nil];
 	}
+	[relaunchAlert release];
 }
 
 
@@ -594,6 +585,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 - (void)dealloc
 {
 	[mEventTypes release];
+	[nibs release];
 	
 	[super dealloc];
 	sSharedLoggingController = nil;
@@ -606,7 +598,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 
 - (NSUInteger)retainCount
 {
-	return UINT_MAX; // Denotes an object, such as a singleton, that cannot be released.
+	return NSUIntegerMax; // Denotes an object, such as a singleton, that cannot be released.
 }
 
 - (oneway void)release

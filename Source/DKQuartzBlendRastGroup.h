@@ -4,11 +4,14 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKRastGroup.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
-Simple render group subclass that applies the set blend mode to the context for all of the renderers it contains,
-yielding a wide range of available effects.
+ Simple render group subclass that applies the set blend mode to the context for all of the renderers it contains,
+ yielding a wide range of available effects.
 */
 @interface DKQuartzBlendRastGroup : DKRastGroup <NSCoding, NSCopying> {
 	CGBlendMode m_blendMode;
@@ -16,13 +19,10 @@ yielding a wide range of available effects.
 	NSImage* m_maskImage;
 }
 
-- (void)setBlendMode:(CGBlendMode)mode;
-- (CGBlendMode)blendMode;
-
-- (void)setAlpha:(CGFloat)alpha;
-- (CGFloat)alpha;
-
-- (void)setMaskImage:(NSImage*)image;
-- (NSImage*)maskImage;
+@property CGBlendMode blendMode;
+@property CGFloat alpha;
+@property (strong) NSImage *maskImage;
 
 @end
+
+NS_ASSUME_NONNULL_END

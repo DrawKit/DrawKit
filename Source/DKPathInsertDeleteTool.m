@@ -10,9 +10,9 @@
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
 
-NSString* kDKInsertPathPointCursorImageName = @"Insert Path Point";
-NSString* kDKDeletePathPointCursorImageName = @"Delete Path Point";
-NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
+NSString* const kDKInsertPathPointCursorImageName = @"Insert Path Point";
+NSString* const kDKDeletePathPointCursorImageName = @"Delete Path Point";
+NSString* const kDKDeletePathElementCursorImageName = @"Delete Path Element";
 
 @implementation DKPathInsertDeleteTool
 #pragma mark As a DKPathInsertDeleteTool
@@ -22,7 +22,7 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 	DKPathInsertDeleteTool* tool = [[DKPathInsertDeleteTool alloc] init];
 
 	[tool setMode:kDKPathDeletePointMode];
-	return [tool autorelease];
+	return tool;
 }
 
 + (DKDrawingTool*)pathInsertionTool
@@ -30,7 +30,7 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 	DKPathInsertDeleteTool* tool = [[DKPathInsertDeleteTool alloc] init];
 
 	[tool setMode:kDKPathInsertPointMode];
-	return [tool autorelease];
+	return tool;
 }
 
 + (DKDrawingTool*)pathElementDeletionTool
@@ -38,20 +38,12 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 	DKPathInsertDeleteTool* tool = [[DKPathInsertDeleteTool alloc] init];
 
 	[tool setMode:kDKPathDeleteElementMode];
-	return [tool autorelease];
+	return tool;
 }
 
 #pragma mark -
 
-- (void)setMode:(DKPathToolMode)m
-{
-	m_mode = m;
-}
-
-- (DKPathToolMode)mode
-{
-	return m_mode;
-}
+@synthesize mode=m_mode;
 
 #pragma mark -
 #pragma mark - As part of DKDrawingTool Protocol
@@ -65,13 +57,13 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 {
 	switch ([self mode]) {
 	case kDKPathDeletePointMode:
-		return NSLocalizedString(@"Delete Path Point", @"undo string for delete path point");
+		return NSLocalizedStringFromTableInBundle(@"Delete Path Point", @"DKTools", [NSBundle bundleForClass:[DKPathInsertDeleteTool class]], @"undo string for delete path point");
 
 	case kDKPathInsertPointMode:
-		return NSLocalizedString(@"Insert Path Point", @"undo string for insert path point");
+		return NSLocalizedStringFromTableInBundle(@"Insert Path Point", @"DKTools", [NSBundle bundleForClass:[DKPathInsertDeleteTool class]], @"undo string for insert path point");
 
 	case kDKPathDeleteElementMode:
-		return NSLocalizedString(@"Delete Path Segment", @"undo string for delete path segment");
+		return NSLocalizedStringFromTableInBundle(@"Delete Path Segment", @"DKTools", [NSBundle bundleForClass:[DKPathInsertDeleteTool class]], @"undo string for delete path segment");
 
 	default:
 		return @"";
@@ -102,7 +94,7 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 
 	NSCursor* curs = [[NSCursor alloc] initWithImage:img
 											 hotSpot:NSMakePoint(1, 1)];
-	return [curs autorelease];
+	return curs;
 }
 
 - (NSInteger)mouseDownAtPoint:(NSPoint)p targetObject:(DKDrawableObject*)obj layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
@@ -122,7 +114,7 @@ NSString* kDKDeletePathElementCursorImageName = @"Delete Path Element";
 
 		pc = [obj hitPart:p];
 
-		LogEvent_(kUserEvent, @"insert/delete tool got mouse down, target = %@, mode = %d, partcode = %d", obj, m_mode, pc);
+		LogEvent_(kUserEvent, @"insert/delete tool got mouse down, target = %@, mode = %ld, partcode = %ld", obj, (long)m_mode, (long)pc);
 
 		// if the pc was not an on-path point and we are deleting, the operation won't work so return 0
 

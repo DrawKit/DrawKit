@@ -4,11 +4,11 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
-@interface NSMutableArray (DKAdditions)
+@interface NSMutableArray<Object> (DKAdditions)
 
-/**  */
-- (void)addUniqueObjectsFromArray:(NSArray*)array;
+/** @brief Adds objects from \c array to the receiver, but only those not already contained by it. */
+- (void)addUniqueObjectsFromArray:(nonnull NSArray<Object>*)array;
 
 @end

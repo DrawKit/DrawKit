@@ -9,6 +9,7 @@
 #import "DKDrawing.h"
 #import "DKKnob.h"
 #import "LogEvent.h"
+#import "DKObjectOwnerLayer.h"
 
 @implementation DKDrawableShape (Hotspots)
 #pragma mark As a DKDrawableShape
@@ -31,7 +32,6 @@
 
 - (void)setHotspots:(NSArray*)spots
 {
-	[m_customHotSpots release];
 	m_customHotSpots = [spots mutableCopy];
 
 	[m_customHotSpots makeObjectsPerformSelector:@selector(setOwner:)
@@ -46,12 +46,10 @@
 #pragma mark -
 - (DKHotspot*)hotspotForPartCode:(NSInteger)pc
 {
-	NSEnumerator* iter = [[self hotspots] objectEnumerator];
-	DKHotspot* hs;
-
-	while ((hs = [iter nextObject])) {
-		if ([hs partcode] == pc)
+	for (DKHotspot* hs in self.hotspots) {
+		if ([hs partcode] == pc) {
 			return hs;
+		}
 	}
 
 	return nil; // not found
@@ -59,12 +57,10 @@
 
 - (DKHotspot*)hotspotUnderMouse:(NSPoint)mp
 {
-	NSEnumerator* iter = [[self hotspots] objectEnumerator];
-	DKHotspot* hs;
-
-	while ((hs = [iter nextObject])) {
-		if (NSPointInRect(mp, [self hotspotRect:hs]))
+	for (DKHotspot* hs in self.hotspots) {
+		if (NSPointInRect(mp, [self hotspotRect:hs])) {
 			return hs;
+		}
 	}
 
 	return nil; // not found
@@ -106,12 +102,8 @@
 
 - (void)drawHotspotsInState:(DKHotspotState)state
 {
-	NSEnumerator* iter = [[self hotspots] objectEnumerator];
-	DKHotspot* hs;
-	NSPoint p;
-
-	while ((hs = [iter nextObject])) {
-		p = [self convertPointFromRelativeLocation:[hs relativeLocation]];
+	for (DKHotspot* hs in self.hotspots) {
+		NSPoint p = [self convertPointFromRelativeLocation:[hs relativeLocation]];
 		[hs drawHotspotAtPoint:p
 					   inState:state];
 	}
@@ -122,7 +114,7 @@
 #pragma mark -
 @implementation DKHotspot
 #pragma mark As a DKHotspot
-- (id)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate
+- (instancetype)initHotspotWithOwner:(DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(id)delegate
 {
 	self = [super init];
 	if (self != nil) {
@@ -134,18 +126,14 @@
 		[self setDelegate:delegate];
 
 		if (m_owner == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
 }
 
 #pragma mark -
-- (void)setOwner:(DKDrawableShape*)shape
-{
-	m_owner = shape;
-}
+@synthesize owner=m_owner;
 
 - (void)setOwner:(DKDrawableShape*)shape withPartcode:(NSInteger)pc
 {
@@ -153,32 +141,9 @@
 	[self setPartcode:pc];
 }
 
-- (DKDrawableShape*)owner
-{
-	return m_owner;
-}
-
 #pragma mark -
-- (void)setPartcode:(NSInteger)pc
-{
-	m_partcode = pc;
-}
-
-- (NSInteger)partcode
-{
-	return m_partcode;
-}
-
-#pragma mark -
-- (void)setRelativeLocation:(NSPoint)rloc
-{
-	m_relLoc = rloc;
-}
-
-- (NSPoint)relativeLocation
-{
-	return m_relLoc;
-}
+@synthesize partcode=m_partcode;
+@synthesize relativeLocation=m_relLoc;
 
 #pragma mark -
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state
@@ -188,20 +153,12 @@
 }
 
 #pragma mark -
-- (void)setDelegate:(id)delegate
-{
-	m_delegate = delegate;
-}
-
-- (id)delegate
-{
-	return m_delegate;
-}
+@synthesize delegate=m_delegate;
 
 #pragma mark -
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view
 {
-	LogEvent_(kReactiveEvent, @"hotspot started tracking, partcode = %d", m_partcode);
+	LogEvent_(kReactiveEvent, @"hotspot started tracking, partcode = %ld", (long)m_partcode);
 
 	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:
 																   willBeginTrackingWithEvent:
@@ -225,7 +182,7 @@
 
 - (void)endMouseTracking:(NSEvent*)event inView:(NSView*)view
 {
-	LogEvent_(kReactiveEvent, @"hotspot stopped tracking, partcode = %d", m_partcode);
+	LogEvent_(kReactiveEvent, @"hotspot stopped tracking, partcode = %ld", (long)m_partcode);
 
 	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:
 																   didEndTrackingWithEvent:
@@ -233,6 +190,14 @@
 		[[self delegate] hotspot:self
 			didEndTrackingWithEvent:event
 							 inView:view];
+}
+
+#pragma mark -
+#pragma mark As an NSObject
+
+- (instancetype)init
+{
+	return self = [self initHotspotWithOwner:nil partcode:0 delegate:nil];
 }
 
 #pragma mark -
@@ -250,7 +215,7 @@
 							forKey:@"delegate"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];
@@ -261,8 +226,7 @@
 		m_delegate = [coder decodeObjectForKey:@"delegate"];
 
 		if (m_owner == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -275,8 +239,8 @@
 #pragma unused(zone)
 
 	DKHotspot* copy = [[DKHotspot alloc] init];
-	[copy setRelativeLocation:m_relLoc];
-	[copy setPartcode:m_partcode];
+	copy.relativeLocation=m_relLoc;
+	copy.partcode=m_partcode;
 
 	return copy;
 }

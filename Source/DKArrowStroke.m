@@ -17,10 +17,10 @@
 #pragma mark Static Vars
 static NSMutableDictionary* sDimLinesAttributes = nil;
 
-NSString* kDKPositiveToleranceKey = @"DKPositiveTolerance";
-NSString* kDKNegativeToleranceKey = @"DKNegativeTolerance";
-NSString* kDKDimensionValueKey = @"DKDimensionValue";
-NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
+NSString* const kDKPositiveToleranceKey = @"DKPositiveTolerance";
+NSString* const kDKNegativeToleranceKey = @"DKNegativeTolerance";
+NSString* const kDKDimensionValueKey = @"DKDimensionValue";
+NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 #pragma mark -
 @implementation DKArrowStroke
@@ -28,7 +28,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 + (void)setDimensioningLineTextAttributes:(NSDictionary*)attrs
 {
 	NSMutableDictionary* temp = [attrs mutableCopy];
-	[sDimLinesAttributes release];
 	sDimLinesAttributes = temp;
 }
 
@@ -50,7 +49,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 		[ps setAlignment:NSCenterTextAlignment];
 		[sDimLinesAttributes setObject:ps
 								forKey:NSParagraphStyleAttributeName];
-		[ps release];
 	}
 
 	return sDimLinesAttributes;
@@ -92,53 +90,17 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[fmt setTextAttributesForPositiveValues:attrs];
 	[fmt setTextAttributesForNegativeValues:attrs];
 	[fmt setTextAttributesForZero:attrs];
-	[attrs release];
 
-	return [fmt autorelease];
+	return fmt;
 }
 
 #pragma mark -
-- (void)setArrowHeadAtStart:(DKArrowHeadKind)sa
-{
-	mArrowHeadAtStart = sa;
-}
-
-- (void)setArrowHeadAtEnd:(DKArrowHeadKind)se
-{
-	mArrowHeadAtEnd = se;
-}
-
-- (DKArrowHeadKind)arrowHeadAtStart
-{
-	return mArrowHeadAtStart;
-}
-
-- (DKArrowHeadKind)arrowHeadAtEnd
-{
-	return mArrowHeadAtEnd;
-}
+@synthesize arrowHeadAtStart=mArrowHeadAtStart;
+@synthesize arrowHeadAtEnd=mArrowHeadAtEnd;
 
 #pragma mark -
-
-- (void)setArrowHeadWidth:(CGFloat)width
-{
-	m_arrowWidth = width;
-}
-
-- (CGFloat)arrowHeadWidth
-{
-	return m_arrowWidth;
-}
-
-- (void)setArrowHeadLength:(CGFloat)length
-{
-	m_arrowLength = length;
-}
-
-- (CGFloat)arrowHeadLength
-{
-	return m_arrowLength;
-}
+@synthesize arrowHeadWidth=m_arrowWidth;
+@synthesize arrowHeadLength=m_arrowLength;
 
 #pragma mark -
 - (void)standardArrowForStrokeWidth:(CGFloat)sw
@@ -162,27 +124,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 }
 #endif
 
-- (void)setOutlineColour:(NSColor*)colour
-{
-	[colour retain];
-	[m_outlineColour release];
-	m_outlineColour = colour;
-}
-
-- (NSColor*)outlineColour
-{
-	return m_outlineColour;
-}
-
-- (void)setOutlineWidth:(CGFloat)width
-{
-	m_outlineWidth = width;
-}
-
-- (CGFloat)outlineWidth
-{
-	return m_outlineWidth;
-}
+@synthesize outlineColour=m_outlineColour;
+@synthesize outlineWidth=m_outlineWidth;
 
 #pragma mark -
 - (NSImage*)arrowSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width
@@ -205,15 +148,14 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 	DKDrawablePath* temp = [DKDrawablePath drawablePathWithBezierPath:path];
 
-	[image setFlipped:YES];
 	// draw into image
 
-	[image lockFocus];
+	[image lockFocusFlipped:YES];
 	[self render:temp];
 	[image unlockFocus];
 	m_width = saved;
 
-	return [image autorelease];
+	return image;
 }
 
 - (NSImage*)standardArrowSwatchImage
@@ -320,8 +262,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 		// this arrowhead is curved to match the actual curvature of the path at the place where the arrow heads will go
 		// angle in degrees is half the atan(y/x)
 
-		CGFloat degrees = (atan2f([self arrowHeadWidth], [self arrowHeadLength]) * 90.0) / pi;
-		CGFloat hyp = hypotf([self arrowHeadWidth], [self arrowHeadLength]);
+		CGFloat degrees = (atan2([self arrowHeadWidth], [self arrowHeadLength]) * 90.0) / M_PI;
+		CGFloat hyp = hypot([self arrowHeadWidth], [self arrowHeadLength]);
 
 		NSBezierPath* headPath;
 
@@ -337,7 +279,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 		if (kind == kDKArrowHeadDimensionLineAndBar) {
 			// add the bar
 
-			NSBezierPath* barPath = [NSBezierPath bezierPathWithRect:NSMakeRect(-0.25f, [self arrowHeadWidth] * -0.75f, 0.5f, [self arrowHeadWidth] * 1.5)];
+			NSBezierPath* barPath = [NSBezierPath bezierPathWithRect:NSMakeRect(-0.25, [self arrowHeadWidth] * -0.75, 0.5, [self arrowHeadWidth] * 1.5)];
 
 			CGFloat slope;
 			NSPoint ep;
@@ -415,7 +357,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 				// flipped heads point the other way
 
 				if (flip)
-					slope += pi;
+					slope += M_PI;
 
 				NSAffineTransform* scl = [NSAffineTransform transform];
 
@@ -558,15 +500,15 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			switch ([self dimensioningLineOptions]) {
 			default:
 			case kDKDimensionPlaceAboveLine:
-				dy = 2.0f + ([self width] / 2);
+				dy = 2.0 + ([self width] / 2);
 				break;
 
 			case kDKDimensionPlaceBelowLine:
-				dy = -lineHeight - ([self width] / 2) - 2.0f;
+				dy = -lineHeight - ([self width] / 2) - 2.0;
 				break;
 
 			case kDKDimensionPlaceInLine:
-				dy = lineHeight * -0.5f;
+				dy = lineHeight * -0.5;
 				break;
 			}
 
@@ -577,7 +519,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 				[shaft appendBezierPath:textPath];
 		}
 	}
-	[shaftCopy release];
 
 	return shaft;
 }
@@ -585,17 +526,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 #pragma mark -
 #pragma mark - dimensioning lines
 
-- (void)setFormatter:(NSNumberFormatter*)fmt
-{
-	[fmt retain];
-	[m_dims_formatter release];
-	m_dims_formatter = fmt;
-}
-
-- (NSNumberFormatter*)formatter
-{
-	return m_dims_formatter;
-}
+@synthesize formatter=m_dims_formatter;
 
 - (void)setFormat:(NSString*)format
 {
@@ -612,10 +543,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	}
 }
 
-- (DKDimensioningLineOptions)dimensioningLineOptions
-{
-	return mDimensionOptions;
-}
+
+@synthesize dimensioningLineOptions=mDimensionOptions;
 
 - (NSAttributedString*)dimensionTextForObject:(id)obj
 {
@@ -629,13 +558,12 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			lengthOfPath = [obj convertLength:lengthOfPath];
 
 		if ([self formatter]) {
-			dimText = [[self formatter] attributedStringForObjectValue:[NSNumber numberWithDouble:lengthOfPath]
+			dimText = [[self formatter] attributedStringForObjectValue:@(lengthOfPath)
 												 withDefaultAttributes:[[self class] dimensioningLineTextAttributes]];
 		} else {
 			dimstr = [NSString stringWithFormat:@"%.2f", lengthOfPath];
 			dimText = [[NSAttributedString alloc] initWithString:dimstr
 													  attributes:[[self class] dimensioningLineTextAttributes]];
-			[dimText autorelease];
 		}
 
 		if ([self dimensionToleranceOption] != kDKDimensionToleranceNotShown) {
@@ -646,8 +574,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			NSAttributedString* temp = [[NSAttributedString alloc] initWithString:tolText
 																	   attributes:attrs];
 			[str appendAttributedString:temp];
-			[temp release];
-			dimText = [str autorelease];
+			dimText = str;
 		}
 	}
 
@@ -701,7 +628,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			break;
 
 		case kDKDimensionDiameter:
-			prefix = [NSString stringWithFormat:@"%C", 0x2300]; // unicode 'diameter' symbol
+			prefix = @"\u2300"; // unicode 'diameter' symbol
 			break;
 
 		case kDKDimensionRadius:
@@ -719,20 +646,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	}
 }
 
-- (DKDimensionTextKind)dimensionTextKind
-{
-	return mDimTextKind;
-}
-
-- (void)setDimensionToleranceOption:(DKDimensionToleranceOption)option
-{
-	mDimToleranceOptions = option;
-}
-
-- (DKDimensionToleranceOption)dimensionToleranceOption
-{
-	return mDimToleranceOptions;
-}
+@synthesize dimensionTextKind=mDimTextKind;
+@synthesize dimensionToleranceOption=mDimToleranceOptions;
 
 - (void)setTextAttributes:(NSDictionary*)dict
 {
@@ -752,7 +667,6 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[dict setObject:font
 			 forKey:NSFontAttributeName];
 	[self setTextAttributes:dict];
-	[dict release];
 }
 
 - (NSFont*)font
@@ -774,7 +688,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"arrowHeadAtStart",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"arrowHeadAtStart",
 																							   @"arrowHeadAtEnd",
 																							   @"arrowHeadWidth",
 																							   @"arrowHeadLength",
@@ -784,8 +698,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 																							   @"textAttributes",
 																							   @"formatter",
 																							   @"dimensionTextKind",
-																							   @"dimensionToleranceOption",
-																							   nil]];
+																							   @"dimensionToleranceOption"]];
 }
 
 - (void)registerActionNames
@@ -818,15 +731,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 
 #pragma mark -
 #pragma mark As an NSObject
-
-- (void)dealloc
-{
-	[m_dims_formatter release];
-
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -861,8 +766,8 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 			NSAttributedString* str = [self dimensionTextForObject:nil];
 			NSSize strSize = [str size];
 
-			es.height = MAX(es.width, strSize.height * 0.7f);
-			es.width = MAX(es.height, strSize.height * 0.7f);
+			es.height = MAX(es.width, strSize.height * 0.7);
+			es.width = MAX(es.height, strSize.height * 0.7);
 		}
 
 		return es;
@@ -926,7 +831,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 				  forKey:@"DKArrowStroke_dimToleranceOption"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -970,7 +875,7 @@ NSString* kDKDimensionUnitsKey = @"DKDimensionUnits";
 	[copy setArrowHeadLength:[self arrowHeadLength]];
 	[copy setDimensioningLineOptions:[self dimensioningLineOptions]];
 
-	NSNumberFormatter* fc = [[[self formatter] copy] autorelease];
+	NSNumberFormatter* fc = [[self formatter] copy];
 	[copy setFormatter:fc];
 
 	[copy setOutlineColour:[self outlineColour]];

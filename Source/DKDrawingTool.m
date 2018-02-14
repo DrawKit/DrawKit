@@ -25,7 +25,7 @@
 
 #pragma mark constants
 
-NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
+NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 
 #pragma mark -
 @implementation DKDrawingTool
@@ -114,14 +114,11 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	NSDictionary* toolInfo = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingToolUserDefaultsKey];
 
 	if (toolInfo) {
-		NSEnumerator* iter = [toolInfo keyEnumerator];
-		NSString* key;
-
-		while ((key = [iter nextObject])) {
+		for (NSString *key in toolInfo) {
 			NSData* data = [toolInfo objectForKey:key];
 
 			if (data) {
-				DKDrawingTool* tool = [self drawingToolWithName:key];
+				DKDrawingTool* tool = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:key];
 				[tool shouldLoadPersistentData:data];
 			}
 		}
@@ -136,11 +133,9 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 + (void)saveDefaults
 {
 	NSMutableDictionary* toolInfo = [NSMutableDictionary dictionary];
-	NSEnumerator* iter = [[self toolNames] objectEnumerator];
-	NSString* key;
 
-	while ((key = [iter nextObject])) {
-		DKDrawingTool* tool = [self drawingToolWithName:key];
+	for (NSString* key in [[DKToolRegistry sharedToolRegistry] toolNames]) {
+		DKDrawingTool* tool = [[DKToolRegistry sharedToolRegistry] drawingToolWithName:key];
 		NSData* pd = [tool persistentData];
 
 		if (pd)
@@ -155,12 +150,6 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 		[[NSUserDefaults standardUserDefaults] removeObjectForKey:kDKDrawingToolUserDefaultsKey];
 }
 
-/** @brief Return the first responder in the current responder chain able to respond to -setDrawingTool:
-
- This searches upwards from the current first responder. If that fails, it also checks the
- current document. Used by -set and other code that needs to know whether -set will succeed.
- @return a responder, or nil
- */
 + (id)firstResponderAbleToSetTool
 {
 	NSResponder* firstResponder = [[NSApp mainWindow] firstResponder];
@@ -320,7 +309,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 
  Override to do something useful
  @param p the local point where the mouse has been dragged to
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -339,7 +328,7 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  Override to do something useful
  tools usually return YES, tools that operate the user interface such as a zoom tool typically return NO
  @param p the local point where the mouse went up
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -356,38 +345,18 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	return NO;
 }
 
-/** @brief Handle the initial mouse down
-
- Override this to get the call from DKObjectDrawingToolLayer after all other drawing has completed
- @param aRect the rect being redrawn (not used)
- @param aView the view that is doing the drawing
- */
 - (void)drawRect:(NSRect)aRect inView:(NSView*)aView
 {
 #pragma unused(aRect)
 #pragma unused(aView)
 }
 
-/** @brief The state of the modifier keys changed
-
- Override this to get notified when the modifier keys change state while your tool is set
- @param event the event
- @param layer the current layer that the tool is being applied to
- */
 - (void)flagsChanged:(NSEvent*)event inLayer:(DKLayer*)layer
 {
 #pragma unused(event)
 #pragma unused(layer)
 }
 
-/** @brief Return whether the target layer can be used by this tool
-
- This is called by the tool controller to determine if the set tool can actually be used in the
- current layer. Override to reject any layers that can't be used with the tool. The default is to
- reject all locked or hidden layers, though some tools may still be operable in such a case.
- @param aLayer a layer object
- @return YES if the tool can be used with the given layer, NO otherwise
- */
 - (BOOL)isValidTargetLayer:(DKLayer*)aLayer
 {
 	return ![aLayer lockedOrHidden];
@@ -404,16 +373,6 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	return NO;
 }
 
-/** @brief Set a cursor if the given point is over something interesting
-
- Called by the tool controller when the mouse moves, this should determine whether a special cursor
- needs to be set right now and set it. If no special cursor needs to be set, it should set the
- current one for the tool. Override to implement this in specific tool classes.
- @param mp the local mouse point
- @param obj the target object under the mouse, if any
- @param alayer the active layer
- @param event the original event
- */
 - (void)setCursorForPoint:(NSPoint)mp targetObject:(DKDrawableObject*)obj inLayer:(DKLayer*)aLayer event:(NSEvent*)event
 {
 #pragma unused(mp)
@@ -433,23 +392,19 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
  @param str the key character (only the first character in the string is used)
  @param flags any additional modifier flags - can be 0
  */
-- (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSUInteger)flags
+- (void)setKeyboardEquivalent:(NSString*)str modifierFlags:(NSEventModifierFlags)flags
 {
 	NSAssert(str != nil, @"attempt to set keyboard equivalent to nil string - string can be empty but not nil");
 
-	[str retain];
-	[mKeyboardEquivalent release];
-	mKeyboardEquivalent = str;
+	if (str.length > 0) {
+		mKeyboardEquivalent = [str substringWithRange:NSMakeRange(0, 1)];
+	} else {
+		mKeyboardEquivalent = @"";
+	}
 
 	mKeyboardModifiers = flags;
 }
 
-/** @brief Return the keyboard equivalent character can be used to select this tool
-
- A *registered* tool can be looked up by keyboard equivalent. This is implemented by DKToolController
- in conjunction with this class. Returns nil if no equivalent has been set.
- @return the key character (only the first character in the string is used)
- */
 - (NSString*)keyboardEquivalent
 {
 	if ([mKeyboardEquivalent length] > 0)
@@ -458,30 +413,15 @@ NSString* kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 		return nil;
 }
 
-/** @brief Return the keyboard modifier flags that need to be down to select this tool using the keyboard modifier
-
- A *registered* tool can be looked up by keyboard equivalent. This is implemented by DKToolController
- in conjunction with this class.
- @return the modifier flags - may be 0 if no flags are needed
- */
-- (NSUInteger)keyboardModifierFlags
-{
-	return mKeyboardModifiers;
-}
+@synthesize keyboardModifierFlags=mKeyboardModifiers;
 
 #pragma mark -
 
-/** @brief The tool can return arbitrary persistent data that will be stored in the prefs and returned on
- the next launch.
- @return data, or nil
- */
 - (NSData*)persistentData
 {
 	return nil;
 }
 
-/** @brief On launch, the data that was saved by the previous session will be reloaded
- */
 - (void)shouldLoadPersistentData:(NSData*)data
 {
 #pragma unused(data)

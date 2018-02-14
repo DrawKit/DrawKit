@@ -1,0 +1,58 @@
+/* 
+  DKMetadata.strings
+  DrawKit
+
+  Created by C.W. Betts on 12/19/17.
+  Copyright © 2017 DrawKit. All rights reserved.
+*/
+
+/* No comment provided by engineer. */
+"<multiple types>" = "<multiple types>";
+
+/* No comment provided by engineer. */
+"???" = "???";
+
+/* No comment provided by engineer. */
+"Boolean" = "Boolean";
+
+/* No comment provided by engineer. */
+"Colour" = "Colour";
+
+/* No comment provided by engineer. */
+"Data" = "Data";
+
+/* No comment provided by engineer. */
+"Date" = "Date";
+
+/* No comment provided by engineer. */
+"Image" = "Image";
+
+/* No comment provided by engineer. */
+"Image Data" = "Image Data";
+
+/* No comment provided by engineer. */
+"Integer" = "Integer";
+
+/* No comment provided by engineer. */
+"Point" = "Point";
+
+/* No comment provided by engineer. */
+"Real Number" = "Real Number";
+
+/* No comment provided by engineer. */
+"Rectangle" = "Rectangle";
+
+/* No comment provided by engineer. */
+"Size" = "Size";
+
+/* No comment provided by engineer. */
+"String" = "String";
+
+/* No comment provided by engineer. */
+"Styled String" = "Styled String";
+
+/* No comment provided by engineer. */
+"Unsigned Integer" = "Unsigned Integer";
+
+/* No comment provided by engineer. */
+"URL" = "URL";

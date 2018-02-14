@@ -13,23 +13,14 @@
 
 - (void)setShapeProvider:(id)provider selector:(SEL)selector
 {
-	[provider retain];
-	[m_shapeProvider release];
 	m_shapeProvider = provider;
 	m_shapeSelector = selector;
 
 	//LogEvent_(kReactiveEvent, @"selector = '%@'", [NSString stringWithCString:sel_getName( selector )]);
 }
 
-- (id)shapeProvider
-{
-	return m_shapeProvider;
-}
-
-- (SEL)shapeSelector
-{
-	return m_shapeSelector;
-}
+@synthesize shapeProvider=m_shapeProvider;
+@synthesize shapeSelector=m_shapeSelector;
 
 #pragma mark -
 - (void)setOptionalParameter:(id)objParam
@@ -39,8 +30,6 @@
 	// Typically it would be an NSNumber or a dictionary of multiple parameters.
 
 	if (objParam != m_optionalParam) {
-		[objParam retain];
-		[m_optionalParam release];
 		m_optionalParam = objParam;
 
 		// allow a change of param to force an update of the shape:
@@ -49,10 +38,7 @@
 	}
 }
 
-- (id)optionalParameter
-{
-	return m_optionalParam;
-}
+@synthesize optionalParameter=m_optionalParam;
 
 #pragma mark -
 - (NSBezierPath*)providedShapeForRect:(NSRect)r
@@ -96,8 +82,8 @@
 
 		// canonical  rect is centred at origin
 
-		r.origin.x -= r.size.width * 0.5f;
-		r.origin.y -= r.size.height * 0.5f;
+		r.origin.x -= r.size.width * 0.5;
+		r.origin.y -= r.size.height * 0.5;
 
 		// need to set up rect so that widths and heights are always +ve
 
@@ -129,7 +115,6 @@
 
 				[self setPath:p];
 			}
-			[p release];
 		}
 	}
 }
@@ -141,13 +126,6 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_shapeProvider release];
-	[m_optionalParam release];
-
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -164,7 +142,7 @@
 				 forKey:@"optparam"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

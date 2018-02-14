@@ -7,6 +7,8 @@
 #import <Cocoa/Cocoa.h>
 #import "DKBSPObjectStorage.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKBSPDirectTree;
 
 /**
@@ -27,7 +29,7 @@
 }
 
 - (void)setTreeDepth:(NSUInteger)aDepth;
-- (id)tree;
+- (DKBSPDirectTree*)tree;
 - (NSBezierPath*)debugStorageDivisions;
 
 @end
@@ -41,19 +43,21 @@
 	id<DKStorableObject> mObj;
 	NSMutableArray* mFoundObjects;
 	NSUInteger mObjectCount;
-	NSView* mViewRef;
+	__weak NSView* mViewRef;
 	NSRect mRect;
 }
 
 - (void)insertItem:(id<DKStorableObject>)obj withRect:(NSRect)rect;
 - (void)removeItem:(id<DKStorableObject>)obj withRect:(NSRect)rect;
 - (void)removeAllObjects;
-- (NSUInteger)count;
+@property (readonly) NSUInteger count;
 
 // tree returns mutable results so that they can be sorted in place without needing to be copied
 
-- (NSMutableArray*)objectsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count inView:aView;
-- (NSMutableArray*)objectsIntersectingRect:(NSRect)rect;
-- (NSMutableArray*)objectsIntersectingPoint:(NSPoint)point;
+- (nullable NSMutableArray*)objectsIntersectingRects:(const NSRect*)rects count:(NSUInteger)count inView:(NSView*)aView;
+- (nullable NSMutableArray*)objectsIntersectingRect:(NSRect)rect;
+- (nullable NSMutableArray*)objectsIntersectingPoint:(NSPoint)point;
 
 @end
+
+NS_ASSUME_NONNULL_END

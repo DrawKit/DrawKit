@@ -7,28 +7,8 @@
 #import "DKGreekingLayoutManager.h"
 
 @implementation DKGreekingLayoutManager
-
-- (void)setGreeking:(DKGreeking)greeking
-{
-	mGreeking = greeking;
-}
-
-- (DKGreeking)greeking
-{
-	return mGreeking;
-}
-
-- (void)setGreekingColour:(NSColor*)aColour
-{
-	[aColour retain];
-	[mGreekingColour release];
-	mGreekingColour = aColour;
-}
-
-- (NSColor*)greekingColour
-{
-	return mGreekingColour;
-}
+@synthesize greeking=mGreeking;
+@synthesize greekingColour=mGreekingColour;
 
 #pragma mark - as a NSLayoutManager
 
@@ -122,10 +102,5 @@
 	return self;
 }
 
-- (void)dealloc
-{
-	[mGreekingColour release];
-	[super dealloc];
-}
 
 @end

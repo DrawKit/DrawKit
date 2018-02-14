@@ -6,13 +6,17 @@
 
 #import "GCZoomView.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawing, DKLayer, DKViewController;
 
-typedef enum {
+typedef NSString *DKDrawingViewMarkerName NS_STRING_ENUM;
+
+typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 	DKCropMarksNone = 0,
 	DKCropMarksCorners = 1,
 	DKCropMarksEdges = 2
-} DKCropMarkKind;
+};
 
 /** @brief DKDrawingView is the visible "front end" for the DKDrawing architecture.
 
@@ -37,7 +41,7 @@ typedef enum {
 	BOOL mPageBreaksVisible; /**< YES if page breaks are drawn in the view */
 	NSPrintInfo* mPrintInfo; /**< print info used to draw page breaks and paginate, etc */
 	DKCropMarkKind mCropMarkKind; /**< what kind of crop marks to add to the printed output */
-	DKViewController* mControllerRef; /**< the view's controller (weak ref) */
+	DKViewController* __weak mControllerRef; /**< the view's controller (weak ref) */
 	DKDrawing* mAutoDrawing; /**< the drawing we created automatically (if we did so - typically nil for doc-based apps) */
 	BOOL m_didCreateDrawing; /**< YES if the window built the back end itself */
 	NSRect mEditorFrame; /**< tracks current frame of text editor */
@@ -47,96 +51,82 @@ typedef enum {
 
 /** @brief Return the view currently drawing
 
- This is only valid during a drawRect: call - some internal parts of DK use this to obtain the
+ This is only valid during a \c drawRect: call - some internal parts of DK use this to obtain the
  view doing the drawing when they do not have a direct parameter to it.
  @return the current view that is drawing
  */
-+ (DKDrawingView*)currentlyDrawingView;
++ (nullable DKDrawingView*)currentlyDrawingView;
 + (void)pop;
 
 /** @brief Set the colour used to draw the page breaks
- @param colour the colour to draw page breaks with
  */
-+ (void)setPageBreakColour:(NSColor*)colour;
-
-/** @brief Get the colour used to draw the page breaks
- @return a colour
- */
-+ (NSColor*)pageBreakColour;
+@property (class, retain, null_resettable) NSColor *pageBreakColour;
 
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
- @return a colour
  */
-+ (NSColor*)backgroundColour;
+@property (class, readonly, copy) NSColor *backgroundColour;
 
 /** @brief Get the point for the initial mouse down that last opened a contextual menu
- @return a point in the drawing's coordinates
  */
-+ (NSPoint)pointForLastContextualMenuEvent;
+@property (class, readonly) NSPoint pointForLastContextualMenuEvent;
 
 /** @brief Return an image resource from the framework bundle
  @param name the image name
  @return the image, if available
  */
-+ (NSImage*)imageResourceNamed:(NSString*)name;
++ (nullable NSImage*)imageResourceNamed:(NSImageName)name;
 
 /** @name Temporary Text Editor
  @brief Setting the class to use for the temporary text editor
  @{ */
 
-+ (Class)classForTextEditor;
-+ (void)setClassForTextEditor:(Class)aClass;
-+ (void)setTextEditorAllowsTypingUndo:(BOOL)allowUndo;
-+ (BOOL)textEditorAllowsTypingUndo;
+@property (class, null_resettable) Class classForTextEditor;
+@property (class) BOOL textEditorAllowsTypingUndo;
 
-/** @} */
-
-// the view's controller
+/** @}
+ @name The View's Controller
+ @brief The view's controller.
+ @{ */
 
 /** @brief Creates a controller for this view that can be added to a drawing
 
  Normally you wouldn't call this yourself unless you are building the entire DK system by hand rather
- than using DKDrawDocument or automatic drawing creation. You can override it to create different
- kinds of controller however. Th edefault controller is DKToolController so that DK provides you
+ than using \c DKDrawDocument or automatic drawing creation. You can override it to create different
+ kinds of controller however. The default controller is \c DKToolController so that DK provides you
  with a set of working drawing tools by default.
- @return a controller, an instance of DKViewController or one of its subclasses
+ @return a controller, an instance of \c DKViewController or one of its subclasses.
  */
 - (DKViewController*)makeViewController;
 
 /** @brief Set the view's controller
 
- Do not call this directly - the controller will call it to set up the relationship at the right
+ Do not set this directly - the controller will call it to set up the relationship at the right
  time.
- @param aController the controller for this view
  */
-- (void)setController:(DKViewController*)aController;
+@property (weak, nullable) DKViewController *controller;
 
-/** @brief Return the view's controller
- @return the controller
- */
-- (DKViewController*)controller;
-
-/** @brief Sea new controller for this view
+/** @brief Set new controller for this view
 
  This is a convenience that allows a controller to be simply instantiated and passed in, replacing
- the existing controller. Note that -setController: does NOT achieve that. The drawing must
+ the existing controller. Note that using the \c controller setter does \b not achieve that. The drawing must
  already exist for this to work.
  @param newController the new controller
  */
 - (void)replaceControllerWithController:(DKViewController*)newController;
 
-// automatic drawing info
+/** @}
+ @name Automatic Drawing Info
+ @{ */
 
 /** @brief Return the drawing that the view will draw
 
- The drawing is obtained via the controller, and may be nil if the controller hasn't been added
+ The drawing is obtained via the controller, and may be \c nil if the controller hasn't been added
  to a drawing yet. Even when the view owns the drawing (for auto back-end) you should use this
  method to get a view's drawing.
- @return a drawing object
  */
-- (DKDrawing*)drawing;
+@property (readonly, strong, nullable) DKDrawing *drawing;
 
-/** @brief Create an entire "back end" for the view 
+/** @brief Create an entire "back end" for the view
 
  Normally you create a drawing, and add layers to it. However, you can also let the view create the
  drawing back-end for you. This will occur when the view is asked to draw and there is no back end. This method
@@ -145,7 +135,10 @@ typedef enum {
  */
 - (void)createAutomaticDrawing;
 
-// drawing page breaks & crop marks
+/** @}
+ @name Drawing Page Breaks & Crop Marks
+ @brief Drawing page breaks and crop marks.
+ @{ */
 
 /** @brief Returns a path which represents all of the printed page rectangles
 
@@ -160,97 +153,84 @@ typedef enum {
 /** @brief Sets whether the page breaks are shown or not
 
  Page breaks also need a valid printInfo object set
- @param pbVisible YES to show the page breaks, NO otherwise
+ Is \c YES to show the page breaks, \c NO otherwise.
  */
-- (void)setPageBreaksVisible:(BOOL)pbVisible;
-
-/** @brief Are page breaks vissble?
- @return YES if page breaks are visible
- */
-- (BOOL)pageBreaksVisible;
+@property (nonatomic) BOOL pageBreaksVisible;
 
 /** @brief Draw page breaks based on the page break print info */
 - (void)drawPageBreaks;
 
-/** @brief Set what kind of crop marks printed output includes
+/** @brief Set what kind of crop marks printed output includes.
 
  Default is no crop marks
- @param kind the kind of crop mark (including none)
  */
-- (void)setPrintCropMarkKind:(DKCropMarkKind)kind;
-
-/** @brief What sort of crop mark sare applied to printed output
-
- Default is no crop marks
- @return the crop mark kind
- */
-- (DKCropMarkKind)printCropMarkKind;
+@property (nonatomic) DKCropMarkKind printCropMarkKind;
 
 /** @brief Draws the crop marks if set to do so and the view is being printed */
 - (void)drawCropMarks;
 
-- (void)setPrintInfo:(NSPrintInfo*)printInfo;
-
-/** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations
- @return a NSPrintInfo object
+/** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations.
  */
-- (NSPrintInfo*)printInfo;
+@property (nonatomic, strong) NSPrintInfo *printInfo;
 
 - (void)set;
 
-// editing text directly in the drawing:
+/** @}
+ @name Text Editing
+ @brief Editing text directly in the drawing.
+ @{ */
 
-/** @brief Start editing text in a box within the view
-
- When an object in the drawing wishes to allow the user to edit some text, it can use this utility
- to set up the editor. This creates a subview for text editing with the nominated text and the
- bounds rect given within the drawing. The text is installed, selected and activated. User actions
- then edit that text. When done, call endTextEditing. To get the text edited, call editedText
- before ending the mode. You can only set one item at a time to be editable.
- @param text the text to edit
- @param rect the position and size of the text box to edit within
- @param del a delegate object
- @return the temporary text view created to handle the job
- */
-- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del;
-
-/** @brief Start editing text in a box within the view
+/** @brief Start editing text in a box within the view.
 
  When an object in the drawing wishes to allow the user to edit some text, it can use this utility
  to set up the editor. This creates a subview for text editing with the nominated text and the
  bounds rect given within the drawing. The text is installed, selected and activated. User actions
  then edit that text. When done, call endTextEditing. To get the text edited, call editedText
  before ending the mode. You can only set one item at a time to be editable.
- @param text the text to edit
- @param rect the position and size of the text box to edit within
- @param del a delegate object
- @param drawBkGnd YES to draw a background, NO to have transparent text
- @return the temporary text view created to handle the job
+ @param text The text to edit.
+ @param rect The position and size of the text box to edit within.
+ @param del A delegate object.
+ @return The temporary text view created to handle the job.
  */
-- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id)del drawsBackground:(BOOL)drawBkGnd;
+- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id<NSTextViewDelegate>)del;
+
+/** @brief Start editing text in a box within the view.
+
+ When an object in the drawing wishes to allow the user to edit some text, it can use this utility
+ to set up the editor. This creates a subview for text editing with the nominated text and the
+ bounds rect given within the drawing. The text is installed, selected and activated. User actions
+ then edit that text. When done, call endTextEditing. To get the text edited, call editedText
+ before ending the mode. You can only set one item at a time to be editable.
+ @param text The text to edit.
+ @param rect The position and size of the text box to edit within.
+ @param del A delegate object.
+ @param drawBkGnd \c YES to draw a background, \c NO to have transparent text.
+ @return The temporary text view created to handle the job.
+ */
+- (NSTextView*)editText:(NSAttributedString*)text inRect:(NSRect)rect delegate:(id<NSTextViewDelegate>)del drawsBackground:(BOOL)drawBkGnd;
 
 /** @brief Stop the temporary text editing and get rid of the editing view
  */
 - (void)endTextEditing;
 
-/** @brief Return the text from the temporary editing view
+/** @brief Return the text from the temporary editing view.
 
- This must be called prior to calling -endTextEditing, because the storage is made empty at that time
- @return the text
+ This must be called prior to calling <code>-endTextEditing</code>, because the storage is made empty at that time
+ @return The text.
  */
 - (NSTextStorage*)editedText;
 
-/** @brief Return the current temporary text editing view
+/** @brief Return the current temporary text editing view.
  @return the text editing view, or nil
  */
-- (NSTextView*)textEditingView;
+@property (readonly, strong, nullable) NSTextView *textEditingView;
 
-/** @brief Respond to frame size changes in the text editor view
+/** @brief Respond to frame size changes in the text editor view.
 
  This tidies up the display when the editor frame changes size. The frame can change
  during editing depending on how the client has configured it, but to prevent bits from being
  left behind when the frame is made smaller, this simply invalidates the previous frame rect.
- @param note the notification
+ @param note The notification.
  */
 - (void)editorFrameChangedNotification:(NSNotification*)note;
 
@@ -258,11 +238,13 @@ typedef enum {
 
  Clients should not generally start a text editing operation if there is already one in progress,
  though if they do the old one is immediately ended anyway.
- @return YES if text editing is in progress, NO otherwise
+ @return \c YES if text editing is in progress, \c NO otherwise.
  */
-- (BOOL)isTextBeingEdited;
+@property (readonly, getter=isTextBeingEdited) BOOL textBeingEdited;
 
-// ruler stuff
+/** @}
+ @name ruler stuff
+ @{ */
 
 /** @brief Set a ruler marker to a given position
 
@@ -295,15 +277,23 @@ typedef enum {
  @param mouse the current mouse poin tin local coordinates */
 - (void)updateRulerMouseTracking:(NSPoint)mouse;
 
-// user actions
+/** @}
+ @name User Actions
+ @{ */
 
 /** @brief Show or hide the ruler.
- @param sender the action's sender
+ @param sender The action's sender.
  */
-- (IBAction)toggleRuler:(id)sender;
-- (IBAction)toggleShowPageBreaks:(id)sender;
+- (IBAction)toggleRuler:(nullable id)sender;
 
-// window activations
+/** @brief Show or hide the page breaks.
+ @param sender The action's sender.
+ */
+- (IBAction)toggleShowPageBreaks:(nullable id)sender;
+
+/** @}
+ @name Window Activations
+ @{ */
 
 /** @brief Invalidate the view when window active state changes.
 
@@ -313,30 +303,33 @@ typedef enum {
  */
 - (void)windowActiveStateChanged:(NSNotification*)note;
 
+/** @} */
 @end
 
-extern NSString* kDKDrawingViewDidBeginTextEditing;
-extern NSString* kDKDrawingViewTextEditingContentsDidChange;
-extern NSString* kDKDrawingViewDidEndTextEditing;
-extern NSString* kDKDrawingViewWillCreateAutoDrawing;
-extern NSString* kDKDrawingViewDidCreateAutoDrawing;
+extern NSNotificationName const kDKDrawingViewDidBeginTextEditing;
+extern NSNotificationName const kDKDrawingViewTextEditingContentsDidChange;
+extern NSNotificationName const kDKDrawingViewDidEndTextEditing;
+extern NSNotificationName const kDKDrawingViewWillCreateAutoDrawing;
+extern NSNotificationName const kDKDrawingViewDidCreateAutoDrawing;
 
-extern NSString* kDKDrawingMouseDownLocation;
-extern NSString* kDKDrawingMouseDraggedLocation;
-extern NSString* kDKDrawingMouseUpLocation;
-extern NSString* kDKDrawingMouseMovedLocation;
-extern NSString* kDKDrawingViewRulersChanged;
+extern NSNotificationName const kDKDrawingMouseDownLocation;
+extern NSNotificationName const kDKDrawingMouseDraggedLocation;
+extern NSNotificationName const kDKDrawingMouseUpLocation;
+extern NSNotificationName const kDKDrawingMouseMovedLocation;
+extern NSNotificationName const kDKDrawingViewRulersChanged;
 
-extern NSString* kDKDrawingMouseLocationInView;
-extern NSString* kDKDrawingMouseLocationInDrawingUnits;
+extern NSString* const kDKDrawingMouseLocationInView;
+extern NSString* const kDKDrawingMouseLocationInDrawingUnits;
 
-extern NSString* kDKDrawingRulersVisibleDefaultPrefsKey;
-extern NSString* kDKTextEditorSmartQuotesPrefsKey;
-extern NSString* kDKTextEditorUndoesTypingPrefsKey;
+extern NSString* const kDKDrawingRulersVisibleDefaultPrefsKey;
+extern NSString* const kDKTextEditorSmartQuotesPrefsKey;
+extern NSString* const kDKTextEditorUndoesTypingPrefsKey;
 
-extern NSString* kDKDrawingViewHorizontalLeftMarkerName;
-extern NSString* kDKDrawingViewHorizontalCentreMarkerName;
-extern NSString* kDKDrawingViewHorizontalRightMarkerName;
-extern NSString* kDKDrawingViewVerticalTopMarkerName;
-extern NSString* kDKDrawingViewVerticalCentreMarkerName;
-extern NSString* kDKDrawingViewVerticalBottomMarkerName;
+extern DKDrawingViewMarkerName const kDKDrawingViewHorizontalLeftMarkerName;
+extern DKDrawingViewMarkerName const kDKDrawingViewHorizontalCentreMarkerName;
+extern DKDrawingViewMarkerName const kDKDrawingViewHorizontalRightMarkerName;
+extern DKDrawingViewMarkerName const kDKDrawingViewVerticalTopMarkerName;
+extern DKDrawingViewMarkerName const kDKDrawingViewVerticalCentreMarkerName;
+extern DKDrawingViewMarkerName const kDKDrawingViewVerticalBottomMarkerName;
+
+NS_ASSUME_NONNULL_END

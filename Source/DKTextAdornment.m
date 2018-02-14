@@ -24,7 +24,7 @@
 #import "DKTextSubstitutor.h"
 #import "DKGreekingLayoutManager.h"
 
-@interface DKTextAdornment (Private)
+@interface DKTextAdornment ()
 
 - (void)drawText:(NSTextStorage*)contents withObject:(id<DKRenderable>)obj withPath:(NSBezierPath*)path;
 - (void)drawText:(NSTextStorage*)contents withObject:(id<DKRenderable>)obj withPath:(NSBezierPath*)path layoutManager:(NSLayoutManager*)lm;
@@ -42,20 +42,20 @@
 
 // attrbute keys in the -textAttributes dictionary for DKTextAdornment properties
 
-NSString* DKTextKnockoutColourAttributeName = @"DKTextKnockoutColourAttributeName";
-NSString* DKTextKnockoutDistanceAttributeName = @"DKTextKnockoutDistanceAttributeName";
-NSString* DKTextKnockoutStrokeColourAttributeName = @"DKTextKnockoutStrokeColourAttributeName";
-NSString* DKTextKnockoutStrokeWidthAttributeName = @"DKTextKnockoutStrokeWidthAttributeName";
-NSString* DKTextVerticalAlignmentAttributeName = @"DKTextVerticalAlignmentAttributeName";
-NSString* DKTextVerticalAlignmentProportionAttributeName = @"DKTextVerticalAlignmentProportionAttributeName";
-NSString* DKTextCapitalizationAttributeName = @"DKTextCapitalizationAttributeName";
+NSString* const DKTextKnockoutColourAttributeName = @"DKTextKnockoutColourAttributeName";
+NSString* const DKTextKnockoutDistanceAttributeName = @"DKTextKnockoutDistanceAttributeName";
+NSString* const DKTextKnockoutStrokeColourAttributeName = @"DKTextKnockoutStrokeColourAttributeName";
+NSString* const DKTextKnockoutStrokeWidthAttributeName = @"DKTextKnockoutStrokeWidthAttributeName";
+NSString* const DKTextVerticalAlignmentAttributeName = @"DKTextVerticalAlignmentAttributeName";
+NSString* const DKTextVerticalAlignmentProportionAttributeName = @"DKTextVerticalAlignmentProportionAttributeName";
+NSString* const DKTextCapitalizationAttributeName = @"DKTextCapitalizationAttributeName";
 
 // private keys in the text adornment cache
 
 //static NSString* kDKTextAdornmentLastClientSeenCacheKey		= @"DKTextAdornmentLastClientSeen";
-static NSString* kDKTextAdornmentMaskPathCacheKey = @"DKTextAdornmentMaskPath";
-static NSString* kDKTextAdornmentMaskObjectChecksumCacheKey = @"DKTextAdornmentMaskObjectChecksum";
-static NSString* kDKTextAdornmentMetadataChecksumCacheKey = @"DKTextAdornmentMetadataChecksum";
+static NSString* const kDKTextAdornmentMaskPathCacheKey = @"DKTextAdornmentMaskPath";
+static NSString* const kDKTextAdornmentMaskObjectChecksumCacheKey = @"DKTextAdornmentMaskObjectChecksum";
+static NSString* const kDKTextAdornmentMetadataChecksumCacheKey = @"DKTextAdornmentMetadataChecksum";
 
 @implementation DKTextAdornment
 
@@ -70,7 +70,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[dkt setLabel:anySortOfText];
 	[dkt applyNonCocoaTextAttributes:[[dkt textSubstitutor] attributes]];
 
-	return [dkt autorelease];
+	return dkt;
 }
 
 + (NSDictionary*)defaultTextAttributes
@@ -89,7 +89,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		[ps setAlignment:NSCenterTextAlignment];
 		[dta setObject:ps
 				forKey:NSParagraphStyleAttributeName];
-		[ps release];
 
 		NSColor* tc = [NSColor blackColor];
 		[dta setObject:tc
@@ -127,7 +126,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	if ([anySortOfText isKindOfClass:[NSAttributedString class]]) {
 		NSAttributedString* as = [anySortOfText copy];
 		[[self textSubstitutor] setMasterString:as];
-		[as release];
 	} else if ([anySortOfText isKindOfClass:[NSString class]]) {
 		NSDictionary* attributes = [self textAttributes];
 
@@ -135,8 +133,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		// default attributes locally so that a non-empty string will use the current attributes instead of the class defaults.
 
 		if ([anySortOfText length] < 1) {
-			[attributes retain];
-			[mDefaultAttributes release];
 			mDefaultAttributes = attributes;
 		}
 
@@ -161,20 +157,10 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (NSTextStorage*)textForEditing
 {
 	NSTextStorage* edText = [[NSTextStorage alloc] initWithAttributedString:[self label]];
-	return [edText autorelease];
+	return edText;
 }
 
-- (void)setPlaceholderString:(NSString*)str
-{
-	[str retain];
-	[mPlaceholder release];
-	mPlaceholder = str;
-}
-
-- (NSString*)placeholderString
-{
-	return mPlaceholder;
-}
+@synthesize placeholderString=mPlaceholder;
 
 #pragma mark -
 - (NSBezierPath*)textAsPathForObject:(id)object
@@ -219,21 +205,19 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		return [path bezierPathWithTextOnPath:str
 									  yOffset:baseOffset];
 	} else {
-		DKBezierLayoutManager* captureLM = (DKBezierLayoutManager*)sharedCaptureLayoutManager();
+		DKBezierLayoutManager* captureLM = sharedCaptureLayoutManager();
 		[[captureLM textPath] removeAllPoints];
 
 		// by drawing into a temporary flipped image context, text will be right side up with its lines in the right order
 
 		NSImage* tempImage = [[NSImage alloc] initWithSize:NSMakeSize(1, 1)];
-		[tempImage setFlipped:YES];
-		[tempImage lockFocus];
+		[tempImage lockFocusFlipped:YES];
 
 		[self drawText:str
 			   withObject:object
 				 withPath:path
 			layoutManager:captureLM];
 		[tempImage unlockFocus];
-		[tempImage release];
 
 		// get the text path and position it aligned with the object
 
@@ -242,7 +226,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		NSAffineTransform* tfm = [self textTransformForObject:object];
 		[newPath transformUsingAffineTransform:tfm];
 
-		return [newPath autorelease];
+		return newPath;
 	}
 }
 
@@ -272,7 +256,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		return [path bezierPathsWithGlyphsOnPath:str
 										 yOffset:[self baselineOffset]];
 	} else {
-		DKBezierLayoutManager* captureLM = (DKBezierLayoutManager*)sharedCaptureLayoutManager();
+		DKBezierLayoutManager* captureLM = sharedCaptureLayoutManager();
 		NSTextContainer* container = [[captureLM textContainers] lastObject];
 
 		[self drawText:str
@@ -314,7 +298,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		[shad setShadowOffset:offset];
 
 		[fill setShadow:shad];
-		[shad release];
 	}
 	[styl addRenderer:fill];
 
@@ -329,7 +312,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		[styl addRenderer:stroke];
 	}
 
-	return [styl autorelease];
+	return styl;
 }
 
 #pragma mark -
@@ -341,10 +324,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKVerticalTextAlignment)verticalAlignment
-{
-	return m_vertAlign;
-}
+@synthesize verticalAlignment=m_vertAlign;
 
 - (void)setVerticalAlignmentProportion:(CGFloat)prop
 {
@@ -352,10 +332,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (CGFloat)verticalAlignmentProportion
-{
-	return mVerticalPosition;
-}
+@synthesize verticalAlignmentProportion=mVerticalPosition;
 
 #pragma mark -
 - (void)setLayoutMode:(DKTextLayoutMode)mode
@@ -366,10 +343,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKTextLayoutMode)layoutMode
-{
-	return m_layoutMode;
-}
+@synthesize layoutMode=m_layoutMode;
 
 - (void)setFlowedTextPathInset:(CGFloat)inset
 {
@@ -377,10 +351,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (CGFloat)flowedTextPathInset
-{
-	return mFlowedTextPathInset;
-}
+@synthesize flowedTextPathInset=mFlowedTextPathInset;
 
 #pragma mark -
 - (void)setAngle:(CGFloat)angle
@@ -389,10 +360,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (CGFloat)angle
-{
-	return m_angle;
-}
+@synthesize angle=m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -404,7 +372,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
@@ -416,10 +384,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-- (BOOL)appliesObjectAngle
-{
-	return m_applyObjectAngle;
-}
+@synthesize appliesObjectAngle=m_applyObjectAngle;
 
 #pragma mark -
 - (void)setWrapsLines:(BOOL)wraps
@@ -430,20 +395,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (BOOL)wrapsLines
-{
-	return m_wrapLines;
-}
-
-- (void)setAllowsTextToExtendHorizontally:(BOOL)hExtends
-{
-	mAllowIndefiniteWidth = hExtends;
-}
-
-- (BOOL)allowsTextToExtendHorizontally
-{
-	return mAllowIndefiniteWidth;
-}
+@synthesize wrapsLines=m_wrapLines;
+@synthesize allowsTextToExtendHorizontally=mAllowIndefiniteWidth;
 
 - (void)setTextKnockoutDistance:(CGFloat)distance
 {
@@ -451,44 +404,10 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[mTACache removeObjectForKey:kDKTextAdornmentMaskPathCacheKey];
 }
 
-- (CGFloat)textKnockoutDistance
-{
-	return mTextKnockoutDistance;
-}
-
-- (void)setTextKnockoutStrokeWidth:(CGFloat)width
-{
-	mTextKnockoutStrokeWidth = width;
-}
-
-- (CGFloat)textKnockoutStrokeWidth
-{
-	return mTextKnockoutStrokeWidth;
-}
-
-- (void)setTextKnockoutColour:(NSColor*)colour
-{
-	[colour retain];
-	[mTextKnockoutColour release];
-	mTextKnockoutColour = colour;
-}
-
-- (NSColor*)textKnockoutColour
-{
-	return mTextKnockoutColour;
-}
-
-- (void)setTextKnockoutStrokeColour:(NSColor*)colour
-{
-	[colour retain];
-	[mTextKnockoutStrokeColour release];
-	mTextKnockoutStrokeColour = colour;
-}
-
-- (NSColor*)textKnockoutStrokeColour
-{
-	return mTextKnockoutStrokeColour;
-}
+@synthesize textKnockoutDistance=mTextKnockoutDistance;
+@synthesize textKnockoutStrokeWidth=mTextKnockoutStrokeWidth;
+@synthesize textKnockoutColour=mTextKnockoutColour;
+@synthesize textKnockoutStrokeColour=mTextKnockoutStrokeColour;
 
 - (void)setCapitalization:(DKTextCapitalization)cap
 {
@@ -498,43 +417,11 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKTextCapitalization)capitalization
-{
-	return mCapitalization;
-}
-
-- (void)setGreeking:(DKGreeking)greeking
-{
-	// greeking is a text rendition method that substitutes simple rectangles for the actual drawn glyphs. It can be used to render extremely small point text
-	// more quickly, or to give an impression of text. It is rarely used, but can be handy for hit-testing where the exact glyphs are not required and don't work
-	// well when rendered using scaling to small bitmap contexts (as when hit-testing).
-
-	// currently the greeking setting is considered temporary so isn't archived or exported as an observable property
-
-	mGreeking = greeking;
-}
-
-- (DKGreeking)greeking
-{
-	return mGreeking;
-}
+@synthesize capitalization=mCapitalization;
+@synthesize greeking=mGreeking;
 
 #pragma mark -
-- (void)setTextRect:(NSRect)rect
-{
-	// the textRect defines a rect relative to the shape's original path bounds that the text is laid out in. If you pass NSZeroRect (the default), the text
-	// is laid out using the shape's bounds. This additional rect gives you the flexibility to modify the text layout to anywhere within the shape. Note the
-	// coordinate system it uses is transformed by the shape's transform - so if you wanted to lay the text out in half the shape's width, the rect's width
-	// would be 0.5. Similarly, to offset the text halfway across, its origin would be 0. This means this rect maintains its correct effect no matter how
-	// the shape is scaled or rotated, and it does the thing you expect. Otherwise it would have to be recalculated for every new shape size.
-
-	m_textRect = rect;
-}
-
-- (NSRect)textRect
-{
-	return m_textRect;
-}
+@synthesize textRect=m_textRect;
 
 #pragma mark -
 - (void)changeTextAttribute:(NSString*)attribute toValue:(id)val
@@ -642,7 +529,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		}
 
 		[self setLabel:ms];
-		[ms release];
 	}
 }
 
@@ -679,7 +565,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[modAttrs removeObjectForKey:DKTextVerticalAlignmentAttributeName];
 
 	[[self textSubstitutor] setAttributes:modAttrs];
-	[modAttrs release];
 
 	[self applyNonCocoaTextAttributes:attrs];
 }
@@ -698,25 +583,25 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	// add all DK-specific attributes that are really properties of the adornment. This conveniently allows these attributes to be copied and pasted to other
 	// text and saved in styles.
 
-	[attrs setObject:[NSNumber numberWithInteger:[self capitalization]]
+	[attrs setObject:@([self capitalization])
 			  forKey:DKTextCapitalizationAttributeName];
 
 	if ([self textKnockoutColour])
 		[attrs setObject:[self textKnockoutColour]
 				  forKey:DKTextKnockoutColourAttributeName];
-	[attrs setObject:[NSNumber numberWithDouble:[self textKnockoutDistance]]
+	[attrs setObject:@([self textKnockoutDistance])
 			  forKey:DKTextKnockoutDistanceAttributeName];
 
 	if ([self textKnockoutStrokeColour])
 		[attrs setObject:[self textKnockoutStrokeColour]
 				  forKey:DKTextKnockoutStrokeColourAttributeName];
 
-	[attrs setObject:[NSNumber numberWithDouble:[self textKnockoutStrokeWidth]]
+	[attrs setObject:@([self textKnockoutStrokeWidth])
 			  forKey:DKTextKnockoutStrokeWidthAttributeName];
-	[attrs setObject:[NSNumber numberWithInteger:[self verticalAlignment]]
+	[attrs setObject:@([self verticalAlignment])
 			  forKey:DKTextVerticalAlignmentAttributeName];
 
-	return [attrs autorelease];
+	return attrs;
 }
 
 - (NSDictionary*)defaultTextAttributes
@@ -730,7 +615,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		return mDefaultAttributes;
 }
 
-- (BOOL)attributeIsHomogeneous:(NSString*)attributeName
+- (BOOL)attributeIsHomogeneous:(NSAttributedStringKey)attributeName
 {
 	// asks whether a given attribute applies over the entire length of the string.
 
@@ -802,7 +687,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 	[mps setAlignment:align];
 	[self setParagraphStyle:mps];
-	[mps release];
 }
 
 - (NSTextAlignment)alignment
@@ -837,7 +721,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	// width value is a percentage of font size, see docs for NSStrokeWidthAttributeName
 
 	[self changeTextAttribute:NSStrokeWidthAttributeName
-					  toValue:[NSNumber numberWithDouble:aWidth]];
+					  toValue:@(aWidth)];
 }
 
 - (CGFloat)outlineWidth
@@ -848,7 +732,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setUnderlines:(NSInteger)under
 {
 	[self changeTextAttribute:NSUnderlineStyleAttributeName
-					  toValue:[NSNumber numberWithInteger:under]];
+					  toValue:@(under)];
 }
 
 - (NSInteger)underlines
@@ -859,7 +743,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setKerning:(CGFloat)kernValue
 {
 	[self changeTextAttribute:NSKernAttributeName
-					  toValue:[NSNumber numberWithDouble:kernValue]];
+					  toValue:@(kernValue)];
 }
 
 - (CGFloat)kerning
@@ -870,7 +754,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setBaseline:(CGFloat)baseLine
 {
 	[self changeTextAttribute:NSBaselineOffsetAttributeName
-					  toValue:[NSNumber numberWithDouble:baseLine]];
+					  toValue:@(baseLine)];
 }
 
 - (CGFloat)baseline
@@ -881,7 +765,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)setSuperscriptAttribute:(NSInteger)amount
 {
 	[self changeTextAttribute:NSSuperscriptAttributeName
-					  toValue:[NSNumber numberWithInteger:amount]];
+					  toValue:@(amount)];
 }
 
 - (NSInteger)superscriptAttribute
@@ -950,8 +834,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 														name:kDKTextSubstitutorNewStringNotification
 													  object:nil];
 
-		[subs retain];
-		[mSubstitutor release];
 		mSubstitutor = subs;
 
 		if (mSubstitutor)
@@ -962,15 +844,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-- (DKTextSubstitutor*)textSubstitutor
-{
-	return mSubstitutor;
-}
-
-- (BOOL)allTextWasFitted
-{
-	return mLastLayoutFittedAllText;
-}
+@synthesize textSubstitutor=mSubstitutor;
+@synthesize allTextWasFitted=mLastLayoutFittedAllText;
 
 - (void)invalidateCache
 {
@@ -1004,7 +879,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		NSAttributedString* placeholder = [[NSAttributedString alloc] initWithString:[self placeholderString]
 																		  attributes:[self textAttributes]];
 		[ttd appendAttributedString:placeholder];
-		[placeholder release];
 	}
 	// capitalize the text according to our capitalization setting:
 
@@ -1037,15 +911,13 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			   forKey:NSStrokeColorAttributeName];
 		[ta setObject:[[object class] ghostColour]
 			   forKey:NSForegroundColorAttributeName];
-		[ta setObject:[NSNumber numberWithDouble:1.5f]
+		[ta setObject:@1.5
 			   forKey:NSStrokeWidthAttributeName];
 		[str setAttributes:ta
 					 range:NSMakeRange(0, [str length])];
-		[ta release];
 	}
-	[ttd release];
 
-	return [str autorelease];
+	return str;
 }
 
 - (NSAffineTransform*)textTransformForObject:(id<DKRenderable>)obj
@@ -1128,7 +1000,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	if ([contents length] > 0) {
 		NSSize osize = obj ? [obj size] : [path bounds].size;
 
-		DKBezierTextContainer* bc = [[lm textContainers] lastObject];
+		DKBezierTextContainer* bc = (id)[[lm textContainers] lastObject];
 
 		if ([self layoutMode] == kDKTextLayoutFlowedInPath) {
 			// if the text angle is rel to the object, the layout path should be the unrotated path
@@ -1233,7 +1105,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		// text height is used so that the text is centred on the path exactly. dy will be typically slightly negative.
 		// <height> is the distance between the top of the characters and the baseline (i.e. the xHeight)
 
-		dy = (height * -0.5f);
+		dy = (height * -0.5);
 		break;
 
 	default:
@@ -1268,7 +1140,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 		NSSize oSize = [object size];
 		NSLayoutManager* lm = sharedDrawingLayoutManager();
-		DKBezierTextContainer* bc = [[lm textContainers] lastObject];
+		DKBezierTextContainer* bc = (id)[[lm textContainers] lastObject];
 
 		if ([self allowsTextToExtendHorizontally])
 			oSize.width = 50000;
@@ -1336,8 +1208,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	NSSize bboxSize = [contents size];
 	NSPoint origin;
 
-	origin.x = p.x - (bboxSize.width * 0.5f);
-	origin.y = p.y - (bboxSize.height * 0.5f);
+	origin.x = p.x - (bboxSize.width * 0.5);
+	origin.y = p.y - (bboxSize.height * 0.5);
 
 	[contents drawAtPoint:origin];
 
@@ -1375,7 +1247,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 		if (geoCheck != cs) {
 			[mTACache removeObjectForKey:kDKTextAdornmentMaskPathCacheKey];
-			[mTACache setObject:[NSNumber numberWithInteger:geoCheck]
+			[mTACache setObject:@(geoCheck)
 						 forKey:kDKTextAdornmentMaskObjectChecksumCacheKey];
 		}
 
@@ -1394,7 +1266,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			// distance is doubled to give effective strokewidth for calculating the outline path
 
 			CGFloat fontHeight = [[self font] pointSize];
-			CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 50.0f;
+			CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 50.0;
 
 			[textPath setLineJoinStyle:NSRoundLineJoinStyle];
 			[textPath setLineCapStyle:NSRoundLineCapStyle];
@@ -1440,11 +1312,10 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		[tc setWidthTracksTextView:NO];
 		[tc setHeightTracksTextView:NO];
 		[glm addTextContainer:tc];
-		[tc release];
 
 		[glm setUsesScreenFonts:NO];
 
-		return [glm autorelease];
+		return glm;
 	}
 }
 
@@ -1464,7 +1335,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		// add in the current lineheight to both width and height. As we are only interested in the lineheight, we just use
 		// some dummy text in conjunction with our current attributes
 
-		NSInteger opts = NSStringDrawingUsesFontLeading | NSStringDrawingDisableScreenFontSubstitution | NSStringDrawingUsesDeviceMetrics | NSStringDrawingOneShot;
+		NSStringDrawingOptions opts = NSStringDrawingUsesFontLeading | NSStringDrawingDisableScreenFontSubstitution | NSStringDrawingUsesDeviceMetrics | NSStringDrawingOneShot;
 
 		NSSize textBoxSize = NSMakeSize(1000, 200);
 
@@ -1485,7 +1356,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 	if ([self textKnockoutDistance] > 0) {
 		CGFloat fontHeight = [[self font] pointSize];
-		CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 100.0f;
+		CGFloat dist = ([self textKnockoutDistance] * fontHeight) / 100.0;
 
 		es.width += dist;
 		es.height += dist;
@@ -1511,7 +1382,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		cs = [(id)object metadataChecksum];
 		if (cs != ccs) {
 			[self invalidateCache];
-			[mTACache setObject:[NSNumber numberWithInteger:ccs]
+			[mTACache setObject:@(ccs)
 						 forKey:kDKTextAdornmentMetadataChecksumCacheKey];
 		}
 
@@ -1529,7 +1400,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			// but that's the intention of this setting
 
 			if ([object respondsToSelector:@selector(pointForTextLayout)]) {
-				NSPoint tp = [(NSObject*)object pointForTextLayout];
+				NSPoint tp = [(id<DKTextLayoutProtocol>)object pointForTextLayout];
 				[self drawText:str
 					centredAtPoint:tp];
 			}
@@ -1606,11 +1477,11 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"label", @"identifier", @"angle", @"wrapsLines",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"label", @"identifier", @"angle", @"wrapsLines",
 																							   @"appliesObjectAngle", @"verticalAlignment", @"font", @"colour", @"alignment", @"capitalization", @"baseline", @"superscriptAttribute", @"kerning",
 																							   @"paragraphStyle", @"layoutMode", @"flowedTextPathInset", @"allowsTextToExtendHorizontally", @"verticalAlignmentProportion",
 																							   @"outlineColour", @"outlineWidth", @"textKnockoutDistance", @"textKnockoutColour", @"textKnockoutStrokeWidth", @"textKnockoutStrokeColour",
-																							   @"placeholderString", nil]];
+																							   @"placeholderString"]];
 }
 
 - (void)registerActionNames
@@ -1659,16 +1530,9 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[mTACache release];
-	[mSubstitutor release];
-	[mTextKnockoutColour release];
-	[mTextKnockoutStrokeColour release];
-	[mPlaceholder release];
-	[mDefaultAttributes release];
-	[super dealloc];
 }
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1678,9 +1542,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		[self setFlowedTextPathInset:3];
 
 		mTACache = [[NSMutableDictionary alloc] init];
-	}
 
-	if (self != nil) {
 		mSubstitutor = [[DKTextSubstitutor alloc] init];
 
 		[self setLabel:[[self class] defaultLabel]];
@@ -1739,7 +1601,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 				 forKey:@"DKTextAdornment_placeholder"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -1760,7 +1622,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 			DKTextSubstitutor* subs = [[DKTextSubstitutor alloc] init];
 			[self setTextSubstitutor:subs];
-			[subs release];
 
 			// reading the label may read an attributed string which will set the text attributes for all text
 
@@ -1788,7 +1649,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			[master appendFormat:@"%@%@", [DKTextSubstitutor delimiterString], ident];
 			[[self textSubstitutor] setString:master
 							   withAttributes:nil];
-			[master release];
 
 			LogEvent_(kInfoEvent, @"%@ migrated identifier '%@' to substitution model", self, ident);
 		}
@@ -1823,7 +1683,6 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 	NSAttributedString* label = [[self label] copyWithZone:zone];
 	[copy setLabel:label];
-	[label release];
 
 	[copy setVerticalAlignment:[self verticalAlignment]];
 	[copy setAngle:[self angle]];

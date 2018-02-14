@@ -7,35 +7,27 @@
 #import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
-/**
-This category of DKGradient supplies a number of prebuilt gradients that implement a variety of user-interface gradients
-as found in numerour apps, including Apple's own.
+NS_ASSUME_NONNULL_BEGIN
+
+/** @brief This category of DKGradient supplies a number of prebuilt gradients that implement a variety of user-interface gradients
+ as found in numerous apps, including Apple's own.
 */
 @interface DKGradient (UISupport)
 
-+ (DKGradient*)aquaSelectedGradient;
-+ (DKGradient*)aquaNormalGradient;
-+ (DKGradient*)aquaPressedGradient;
+@property (class, readonly, copy) DKGradient* aquaSelectedGradient;
+@property (class, readonly, copy) DKGradient* aquaNormalGradient;
+@property (class, readonly, copy) DKGradient* aquaPressedGradient;
 
-+ (DKGradient*)unifiedSelectedGradient;
-+ (DKGradient*)unifiedNormalGradient;
-+ (DKGradient*)unifiedPressedGradient;
-+ (DKGradient*)unifiedDarkGradient;
+@property (class, readonly, copy) DKGradient* unifiedSelectedGradient;
+@property (class, readonly, copy) DKGradient* unifiedNormalGradient;
+@property (class, readonly, copy) DKGradient* unifiedPressedGradient;
+@property (class, readonly, copy) DKGradient* unifiedDarkGradient;
 
-+ (DKGradient*)sourceListSelectedGradient;
-+ (DKGradient*)sourceListUnselectedGradient;
+@property (class, readonly, copy) DKGradient* sourceListSelectedGradient;
+@property (class, readonly, copy) DKGradient* sourceListUnselectedGradient;
 
 + (void)drawShinyGradientInRect:(NSRect)aRect withColour:(NSColor*)colour;
 
 @end
 
-typedef struct
-	{
-	CGFloat color[4];
-	CGFloat caustic[4];
-	CGFloat expCoefficient;
-	CGFloat expScale;
-	CGFloat expOffset;
-	CGFloat initialWhite;
-	CGFloat finalWhite;
-} GlossParameters;
+NS_ASSUME_NONNULL_END

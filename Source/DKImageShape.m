@@ -17,11 +17,15 @@
 
 #pragma mark Constants
 
-NSString* kDKOriginalFileMetadataKey = @"dk_original_file";
-NSString* kDKOriginalImageDimensionsMetadataKey = @"dk_image_original_dims";
-NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
+NSString* const kDKOriginalFileMetadataKey = @"dk_original_file";
+NSString* const kDKOriginalImageDimensionsMetadataKey = @"dk_image_original_dims";
+NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 
-@interface DKImageShape (Private)
+@interface DKSecretSelectorsImageShape : NSObject
+-(IBAction)vectorize:(id)sender;
+@end
+
+@interface DKImageShape ()
 
 /** @brief Return a transform that can be used to position, size and rotate the image to the shape
 
@@ -53,33 +57,33 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param pboard a pasteboard
  @return the objet if it was successfully initialized, or nil
  */
-- (id)initWithPasteboard:(NSPasteboard*)pboard
+- (instancetype)initWithPasteboard:(NSPasteboard*)pboard
 {
 	NSImage* image = nil;
 	if ([NSImage canInitWithPasteboard:pboard]) {
-		image = [[[NSImage alloc] initWithPasteboard:pboard] autorelease];
+		image = [[NSImage alloc] initWithPasteboard:pboard];
 	}
 	if (image == nil) {
-		[self autorelease];
-		self = nil;
+		return nil;
 	} else {
 		self = [self initWithImage:image];
 
 		if (self != nil) {
-			NSString* urlType = [pboard availableTypeFromArray:[NSArray arrayWithObject:NSFilenamesPboardType]];
+			NSString* urlType = [pboard availableTypeFromArray:@[(NSString*)kUTTypeFileURL]];
 
 			if (urlType != nil) {
-				NSArray* files = (NSArray*)[pboard propertyListForType:NSFilenamesPboardType];
+				NSArray* files = (NSArray*)[pboard propertyListForType:(NSString*)kUTTypeFileURL];
 
 				//	LogEvent_(kReactiveEvent, @"dropped files = %@", files);
 
-				NSString* path = [files objectAtIndex:0];
+				NSURL *url = [files objectAtIndex:0];
+				NSString* path = [url path];
 
 				// add this info to the metadata for the object
 
 				[self setString:path
 						 forKey:kDKOriginalFileMetadataKey];
-				[self setString:[[path lastPathComponent] stringByDeletingPathExtension]
+				[self setString:[[url lastPathComponent] stringByDeletingPathExtension]
 						 forKey:kDKOriginalNameMetadataKey];
 			}
 		}
@@ -95,7 +99,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param anImage a valid image object
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImage:(NSImage*)anImage
+- (instancetype)initWithImage:(NSImage*)anImage
 {
 	NSAssert(anImage != nil, @"cannot init with a nil image");
 
@@ -118,11 +122,9 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 													   delegate:self];
 		mImageOffsetPartcode = [self addHotspot:hs];
 		[hs setRelativeLocation:NSZeroPoint];
-		[hs release];
 
 		if (m_image == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 
@@ -137,7 +139,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param imageData image data of some kind
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImageData:(NSData*)imageData
+- (instancetype)initWithImageData:(NSData*)imageData
 {
 	NSAssert(imageData != nil, @"cannot initialise with nil data");
 
@@ -145,13 +147,11 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 	if (image) {
 		self = [self initWithImage:image];
-		[image release];
 
 		if (self)
 			[self setImageData:imageData];
 	} else {
-		[self autorelease];
-		self = nil;
+		return nil;
 	}
 
 	return self;
@@ -163,11 +163,12 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param imageName the name of an image
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithImageNamed:(NSString*)imageName
+- (instancetype)initWithImageNamed:(NSString*)imageName
 {
-	[self initWithImage:[NSImage imageNamed:imageName]];
+	if (self = [self initWithImage:[NSImage imageNamed:imageName]]) {
 	[self setString:imageName
 			 forKey:kDKOriginalNameMetadataKey];
+	}
 
 	return self;
 }
@@ -179,7 +180,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  @param filepath the path to an image file on disk
  @return the object if it was successfully initialized, or nil
  */
-- (id)initWithContentsOfFile:(NSString*)filepath
+- (instancetype)initWithContentsOfFile:(NSString*)filepath
 {
 	NSAssert(filepath != nil, @"path was nil");
 
@@ -195,8 +196,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 					 forKey:kDKOriginalNameMetadataKey];
 		}
 	} else {
-		[self autorelease];
-		self = nil;
+		return nil;
 	}
 	return self;
 }
@@ -217,8 +217,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 										  selector:@selector(setImage:)
 											object:[self image]];
 
-		[anImage retain];
-		[m_image release];
 		m_image = anImage;
 
 		[m_image setCacheMode:NSImageCacheNever];
@@ -227,7 +225,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		// setting the image nils the key. Callers that know there is a key should use setImageWithKey:coder: instead.
 
-		[mImageKey release];
 		mImageKey = nil;
 
 		// record image size in metadata
@@ -237,13 +234,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the object's image
- @return the image
- */
-- (NSImage*)image
-{
-	return m_image;
-}
+@synthesize image=m_image;
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
 
@@ -256,14 +247,13 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	NSSize niSize = [self logicalBounds].size;
 	NSImage* newImage = [[NSImage alloc] initWithSize:niSize];
 
-	if (newImage != nil) {
 		[self setCompositingOperation:NSCompositeCopy];
 		[newImage lockFocus];
 
 		CGFloat dx, dy;
 
-		dx = niSize.width * 0.5f;
-		dy = niSize.height * 0.5f;
+		dx = niSize.width * 0.5;
+		dy = niSize.height * 0.5;
 
 		NSAffineTransform* tfm = [NSAffineTransform transform];
 		[tfm translateXBy:-([self location].x - dx)
@@ -272,10 +262,9 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		[self drawImage];
 		[newImage unlockFocus];
-	}
 
 	[self setCompositingOperation:savedOp];
-	return [newImage autorelease];
+	return newImage;
 }
 
 /** @brief Set the object's image from image data in the drawing's image data manager
@@ -302,7 +291,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 			NSImage* image = [dm makeImageForKey:key];
 
 			if (image) {
-				[key retain];
 				[self setImage:image]; // releases key and sets it to nil
 				mImageKey = key;
 			}
@@ -310,6 +298,8 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
+@synthesize imageKey=mImageKey;
+#if 0
 /** @brief Set the object's image key
 
  This is called by other methods as necessary. It currently simply retains the key.
@@ -317,8 +307,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  */
 - (void)setImageKey:(NSString*)key
 {
-	[key retain];
-	[mImageKey release];
 	mImageKey = key;
 }
 
@@ -329,6 +317,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 {
 	return mImageKey;
 }
+#endif
 
 /** @brief Transfer the image key when the object is added to a new container
 
@@ -356,8 +345,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 			NSString* key = [newIM keyForImageData:imageData];
 
 			if (key) {
-				imageData = [[newIM imageDataForKey:key] retain];
-				[mOriginalImageData release];
+				imageData = [newIM imageDataForKey:key];
 				mOriginalImageData = imageData;
 				[self setImageKey:key];
 
@@ -386,8 +374,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
  */
 - (void)setImageData:(NSData*)data
 {
-	[data retain];
-	[mOriginalImageData release];
 	mOriginalImageData = data;
 
 	// link up with the image manager - if it already knows the data it will return a key for it, otherwise a new key
@@ -406,7 +392,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	} else {
 		image = [[NSImage alloc] initWithData:data];
 		[self setImage:image];
-		[image release];
 	}
 }
 
@@ -420,7 +405,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 - (NSData*)imageData
 {
 	if (mOriginalImageData == nil)
-		mOriginalImageData = [[[[self container] imageManager] imageDataForKey:[self imageKey]] retain];
+		mOriginalImageData = [[[self container] imageManager] imageDataForKey:[self imageKey]];
 
 	return mOriginalImageData;
 }
@@ -449,8 +434,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 			// keep a local reference to the data if possible
 
 			NSData* imgData = [dm imageDataForKey:newKey];
-			[imgData retain];
-			[mOriginalImageData release];
 			mOriginalImageData = imgData;
 
 			[self setImage:image];
@@ -465,7 +448,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 		if (image != nil) {
 			[self setImage:image];
-			[image release];
 
 			return YES;
 		}
@@ -487,7 +469,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 	BOOL result = NO;
 
-	[pb declareTypes:[NSArray arrayWithObjects:NSFileContentsPboardType, NSTIFFPboardType, NSPDFPboardType, nil]
+	[pb declareTypes:@[NSFileContentsPboardType, NSPasteboardTypeTIFF, NSPasteboardTypePDF]
 			   owner:self];
 
 	NSData* imgData = [self imageData];
@@ -499,18 +481,15 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	if (image) {
 		imgData = [image TIFFRepresentation];
 		result |= [pb setData:imgData
-					  forType:NSTIFFPboardType];
+					  forType:NSPasteboardTypeTIFF];
 
 		// look for PDF data
 
-		NSEnumerator* iter = [[image representations] objectEnumerator];
-		NSImageRep* rep;
-
-		while ((rep = [iter nextObject])) {
+		for (NSImageRep* rep in image.representations) {
 			if ([rep respondsToSelector:@selector(PDFRepresentation)]) {
 				imgData = [(NSPDFImageRep*)rep PDFRepresentation];
 				result |= [pb setData:imgData
-							  forType:NSPDFPboardType];
+							  forType:NSPasteboardTypePDF];
 				break;
 			}
 		}
@@ -535,15 +514,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the image's opacity
-
- Default is 1.0
- @return <opacity> an opacity value from 0.0 (fully transparent) to 1.0 (fully opaque)
- */
-- (CGFloat)imageOpacity
-{
-	return m_opacity;
-}
+@synthesize imageOpacity=m_opacity;
 
 /** @brief Set whether the image draws above or below the rendering done by the style
 
@@ -559,15 +530,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Whether the image draws above or below the rendering done by the style
-
- Default is NO
- @return YES to draw on top (after) the style, NO to draw below (before)
- */
-- (BOOL)imageDrawsOnTop
-{
-	return m_drawnOnTop;
-}
+@synthesize imageDrawsOnTop=m_drawnOnTop;
 
 /** @brief Set the Quartz composition mode to use when compositing the image
 
@@ -583,15 +546,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the Quartz composition mode to use when compositing the image
-
- Default is NSCompositeSourceAtop
- @return an NSCompositingOperation constant
- */
-- (NSCompositingOperation)compositingOperation
-{
-	return m_op;
-}
+@synthesize compositingOperation=m_op;
 
 /** @brief Set the scale factor for the image
 
@@ -609,16 +564,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the scale factor for the image
-
- This is not currently implemented - images scale to fit the bounds when in scale mode, and are
- drawn at their native size in crop mode.
- @return the scale
- */
-- (CGFloat)imageScale
-{
-	return m_imageScale;
-}
+@synthesize imageScale=m_imageScale;
 
 /** @brief Set the offset position for the image
 
@@ -636,16 +582,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the offset position for the image
-
- The default is 0,0. The value is the distance in points from the top, left corner of the shape's
- bounds to the top, left corner of the image
- @return the image offset
- */
-- (NSPoint)imageOffset
-{
-	return m_imageOffset;
-}
+@synthesize imageOffset=m_imageOffset;
 
 /** @brief Set the display mode for the object - crop image or scale it
 
@@ -662,15 +599,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-/** @brief Get the display mode for the object - crop image or scale it
-
- The default is scale. 
- @return a mode value
- */
-- (DKImageCroppingOptions)imageCroppingOptions
-{
-	return mImageCropping;
-}
+@synthesize imageCroppingOptions=mImageCropping;
 
 #pragma mark -
 
@@ -703,12 +632,14 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 	// render at high quality
 
 	[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-	[[self image] setFlipped:[[NSGraphicsContext currentContext] isFlipped]];
+	//[[self image] setFlipped:[[NSGraphicsContext currentContext] isFlipped]];
 
 	[[self image] drawInRect:ir
 					fromRect:NSZeroRect
 				   operation:[self compositingOperation]
-					fraction:[self imageOpacity]];
+					fraction:[self imageOpacity]
+			  respectFlipped:YES
+					   hints:nil];
 
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
@@ -895,7 +826,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 }
 
 /** @brief Add contextual menu items pertaining to the current object's context
- @param themenu a menu object to add items to
+ @param theMenu a menu object to add items to
  @return YES
  */
 - (BOOL)populateContextualMenu:(NSMenu*)theMenu
@@ -939,16 +870,6 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 
 #pragma mark -
 #pragma mark As an NSObject
-
-/** @brief Deallocates the object
- */
-- (void)dealloc
-{
-	[m_image release];
-	[mImageKey release];
-	[mOriginalImageData release];
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of the DKHotspotDelegate protocol
@@ -1069,10 +990,7 @@ NSString* kDKOriginalNameMetadataKey = @"dk_original_name";
 				  forKey:@"DKImageShape_croppingOptions"];
 }
 
-/** @brief Dearchive the object
- @param coder a coder
- @return the object */
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

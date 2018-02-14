@@ -4,63 +4,89 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKRasterizerProtocol.h"
 #import "GCObservableObject.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKRastGroup;
+@protocol DKRendererDelegate;
 
-// clipping values:
-
-typedef enum {
+//! clipping values:
+typedef NS_ENUM(NSInteger, DKClippingOption) {
 	kDKClippingNone = 0,
-	kDKClipOutsidePath = 1,
-	kDKClipInsidePath = 2
-} DKClippingOption;
+	kDKClippingOutsidePath = 1,
+	kDKClippingInsidePath = 2
+};
 
 /** @brief Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
 
-Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
+ Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
 */
 @interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying> {
 @private
-	DKRastGroup* mContainerRef; // group that contains this
+	DKRastGroup* __weak mContainerRef; // group that contains this
 	NSString* m_name; // optional name
 	BOOL m_enabled; // YES if actually drawn
 	DKClippingOption mClipping; // set path clipping to this
 }
 
-+ (DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
++ (nullable DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
 
-/** @brief Returns the immediate container of this object, if owned by a group
- @return the object's container group, if any
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
+
+/** @brief The immediate container of this object.
+ 
+ This is a weak reference as the object is owned by its container. Generally the setter is called as
+ required when the object is added to a group, so should not be set by app code.
  */
-- (DKRastGroup*)container;
+@property (nonatomic, weak) DKRastGroup *container;
 
-/** @brief Sets the immediate container of this object
-
- This is a weak reference as the object is owned by its container. Generally this is called as
- required when the object is added to a group, so should not be used by app code
- @param container the objects's container - must be a group, or nil
+/** @brief The name of the renderer.
+ 
+ Named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
  */
-- (void)setContainer:(DKRastGroup*)container;
+@property (nonatomic, copy, nullable) NSString *name;
 
-- (void)setName:(NSString*)name;
-- (NSString*)name;
-- (NSString*)label;
+/** @brief Get the name or classname of the renderer.
+ 
+ Named renderers can be referred to in scripts or bound to in the UI.
+ @return the renderer's name or classname
+ */
+@property (readonly, copy, nonnull) NSString *label;
 
-- (BOOL)isValid;
-- (NSString*)styleScript;
+/** @brief Return the equivalent style script for this renderer
 
-- (void)setEnabled:(BOOL)enable;
-- (BOOL)enabled;
+ Subclasses shold override this - the default method returns the object's description for debugging.
+ Is a string, representing the script that would create an equivalent renderer if parsed.
+ */
+@property (readonly, copy, nonnull) NSString *styleScript;
 
+/** @brief Queries whether the renderer is valid, that is, it will draw something.
+ 
+ Used to optimize drawing - invalid renderers are skipped.
+ Is \c YES if the renderer will draw something, \c NO otherwise.
+ */
+@property (readonly, getter=isValid) BOOL valid;
+
+/** @brief Whether the renderer is enabled or not
+ 
+ Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
+ larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer.
+ */
+@property BOOL enabled;
+
+/** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
+ @param clipping a DKClippingOption value
+ */
 - (void)setClipping:(DKClippingOption)clipping;
 - (void)setClippingWithoutNotifying:(DKClippingOption)clipping;
 
-/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
- @return a DKClippingOption value
+/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side.
  */
-- (DKClippingOption)clipping;
+@property DKClippingOption clipping;
 
 /** @brief Returns the path to render given the object doing the rendering
 
@@ -76,14 +102,13 @@ Renderers can now have a delegate attached which is able to modify behaviours su
 
 @end
 
-extern NSString* kDKRasterizerPasteboardType;
+extern NSPasteboardType const kDKRasterizerPasteboardType NS_SWIFT_NAME(dkRasterizer);
 
-extern NSString* kDKRasterizerPropertyWillChange;
-extern NSString* kDKRasterizerPropertyDidChange;
-extern NSString* kDKRasterizerChangedPropertyKey;
+extern NSNotificationName const kDKRasterizerPropertyWillChange;
+extern NSNotificationName const kDKRasterizerPropertyDidChange;
+extern NSString* const kDKRasterizerChangedPropertyKey;
 
-/*
- DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
+/*! @brief DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
  include DKStroke, DKFill, DKHatching, DKFillPattern, DKGradient, etc.
  
  A renderer is given an object and renders it according to its behaviour to the current context. It can
@@ -96,9 +121,14 @@ extern NSString* kDKRasterizerChangedPropertyKey;
  of a shape when a set of rendering operations is applied to it.
 
 */
-
-@interface NSObject (DKRendererDelegate)
+@protocol DKRendererDelegate <NSObject>
 
 - (NSBezierPath*)renderer:(DKRasterizer*)aRenderer willRenderPath:(NSBezierPath*)aPath;
 
 @end
+
+
+static const DKClippingOption kDKClipOutsidePath API_DEPRECATED_WITH_REPLACEMENT("kDKClippingOutsidePath", macosx(10.0, 10.6)) = kDKClippingOutsidePath;
+static const DKClippingOption kDKClipInsidePath API_DEPRECATED_WITH_REPLACEMENT("kDKClippingInsidePath", macosx(10.0, 10.6)) = kDKClippingInsidePath;
+
+NS_ASSUME_NONNULL_END

@@ -14,7 +14,7 @@
 
 #define DK_DRAW_GUIDES_IN_CLIP_VIEW 0
 
-@interface DKGuideLayer (Private)
+@interface DKGuideLayer ()
 
 /** @brief Moves a given guide to a new point
 
@@ -122,13 +122,11 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos
 {
-	NSEnumerator* iter = [[self verticalGuides] objectEnumerator];
-	DKGuide* guide;
 	DKGuide* nearestGuide = nil;
 	CGFloat nearestDistance = 10000, distance;
 
-	while ((guide = [iter nextObject])) {
-		distance = _CGFloatFabs(pos - [guide guidePosition]);
+	for (DKGuide* guide in [self verticalGuides]) {
+		distance = fabs(pos - [guide guidePosition]);
 
 		if (distance < [self snapTolerance] && distance < nearestDistance) {
 			nearestDistance = distance;
@@ -145,13 +143,11 @@ static BOOL sWasInside = NO;
  */
 - (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos
 {
-	NSEnumerator* iter = [[self horizontalGuides] objectEnumerator];
-	DKGuide* guide;
 	DKGuide* nearestGuide = nil;
 	CGFloat nearestDistance = 10000, distance;
 
-	while ((guide = [iter nextObject])) {
-		distance = _CGFloatFabs(pos - [guide guidePosition]);
+	for (DKGuide* guide in [self horizontalGuides]) {
+		distance = fabs(pos - [guide guidePosition]);
 
 		if (distance < [self snapTolerance] && distance < nearestDistance) {
 			nearestDistance = distance;
@@ -184,25 +180,7 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-/** @brief Set whether guids should snap to the grid by default or not
-
- The default is NO
- @param gridsnap YES to always snap guides to the grid, NO otherwise
- */
-- (void)setGuidesSnapToGrid:(BOOL)gridsnap
-{
-	m_snapToGrid = gridsnap;
-}
-
-/** @brief Whether guids should snap to the grid by default or not
-
- The default is NO
- @return YES to always snap guides to the grid, NO otherwise
- */
-- (BOOL)guidesSnapToGrid
-{
-	return m_snapToGrid;
-}
+@synthesize guidesSnapToGrid=m_snapToGrid;
 
 #pragma mark -
 
@@ -332,13 +310,11 @@ static BOOL sWasInside = NO;
  */
 - (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh
 {
-	NSEnumerator* iter = [arrayOfPoints objectEnumerator];
-	NSValue* v;
 	NSPoint p;
 	NSSize result = NSZeroSize;
 	DKGuide* guide;
 
-	while ((v = [iter nextObject])) {
+	for (NSValue* v in arrayOfPoints) {
 		p = [v pointValue];
 
 		if (result.height == 0) {
@@ -372,25 +348,7 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-/** @brief Sets the distance a point needs to be before it is snapped to a guide
-
- The default value is determind by the class method of the same name
- @param tol the distance in points
- */
-- (void)setSnapTolerance:(CGFloat)tol
-{
-	m_snapTolerance = tol;
-}
-
-/** @brief Resturns the distance a point needs to be before it is snapped to a guide
-
- The default value is determind by the class method of the same name
- @return the distance in points
- */
-- (CGFloat)snapTolerance
-{
-	return m_snapTolerance;
-}
+@synthesize snapTolerance=m_snapTolerance;
 
 #pragma mark -
 
@@ -451,7 +409,6 @@ static BOOL sWasInside = NO;
 		[guide setGuidePosition:p.x];
 		[guide setIsVerticalGuide:YES];
 		[self addGuide:guide];
-		[guide release];
 
 		// the layer is made active & visible so that the user gets the layer's cursor feedback and can reposition the guide if
 		// it ends up not quite where they intended.
@@ -484,7 +441,6 @@ static BOOL sWasInside = NO;
 		[guide setGuidePosition:p.y];
 		[guide setIsVerticalGuide:NO];
 		[self addGuide:guide];
-		[guide release];
 
 		// the layer is made active and visible so that the user gets the layer's cursor feedback and can reposition the guide if
 		// it ends up not quite where they intended.
@@ -506,7 +462,7 @@ static BOOL sWasInside = NO;
 {
 	NSMutableArray* ga = [[self horizontalGuides] mutableCopy];
 	[ga addObjectsFromArray:[self verticalGuides]];
-	return [ga autorelease];
+	return ga;
 }
 
 /** @brief Adds a set of guides to th elayer
@@ -516,10 +472,7 @@ static BOOL sWasInside = NO;
 {
 	NSAssert(guides != nil, @"can't set guides from nil array");
 
-	NSEnumerator* iter = [guides objectEnumerator];
-	DKGuide* guide;
-
-	while ((guide = [iter nextObject])) {
+	for (DKGuide* guide in guides) {
 		if ([guide isKindOfClass:[DKGuide class]])
 			[self addGuide:guide];
 	}
@@ -596,45 +549,8 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-/** @brief Set whether the info window should be displayed when dragging a guide
-
- Default is YES, display the window
- @param showsIt YES to display the window, NO otherwise
- */
-- (void)setShowsDragInfoWindow:(BOOL)showsIt
-{
-	m_showDragInfo = showsIt;
-}
-
-/** @brief Return whether the info window should be displayed when dragging a guide
-
- Default is YES, display the window
- @return YES to display the window, NO otherwise
- */
-- (BOOL)showsDragInfoWindow
-{
-	return m_showDragInfo;
-}
-
-/** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
-
- Default is the same as the drawing's interior
- @param rect the rect
- */
-- (void)setGuideDeletionRect:(NSRect)rect
-{
-	mGuideDeletionZone = rect;
-}
-
-/** @brief The rect for which guides will be deleted if they are dragged outside of it
-
- Default is the same as the drawing's interior
- @return the rect
- */
-- (NSRect)guideDeletionRect
-{
-	return mGuideDeletionZone;
-}
+@synthesize showsDragInfoWindow=m_showDragInfo;
+@synthesize guideDeletionRect=mGuideDeletionZone;
 
 - (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside
 {
@@ -642,10 +558,7 @@ static BOOL sWasInside = NO;
 	[self setNeedsDisplay:YES];
 }
 
-- (BOOL)guidesDrawnInEnclosingScrollview
-{
-	return mDrawGuidesInClipView;
-}
+@synthesize guidesDrawnInEnclosingScrollview=mDrawGuidesInClipView;
 
 #pragma mark -
 
@@ -721,12 +634,9 @@ static BOOL sWasInside = NO;
  */
 - (void)drawRect:(NSRect)rect inView:(DKDrawingView*)aView
 {
-	NSEnumerator* iter;
-	DKGuide* guide;
 	CGFloat savedLineWidth, lineWidth = ([aView scale] < 1.0) ? 1.0 : (2.0 / [aView scale]);
 
 	savedLineWidth = [NSBezierPath defaultLineWidth];
-	iter = [[self guides] objectEnumerator];
 
 #if DK_DRAW_GUIDES_IN_CLIP_VIEW
 	NSClipView* clipView = [[aView enclosingScrollView] contentView];
@@ -741,7 +651,7 @@ static BOOL sWasInside = NO;
 		NSRect br = [clipView bounds];
 		[NSBezierPath clipRect:br];
 
-		while ((guide = [iter nextObject])) {
+		for (DKGuide* guide in self.guides) {
 			NSRect gr = [self guideRectOfGuide:guide
 					forEnclosingClipViewOfView:aView];
 
@@ -782,7 +692,7 @@ static BOOL sWasInside = NO;
 	{
 		[NSBezierPath setDefaultLineWidth:lineWidth];
 
-		while ((guide = [iter nextObject])) {
+		for (DKGuide* guide in self.guides) {
 			if (aView == nil || [aView needsToDrawRect:[self guideRect:guide]])
 				[guide drawInRect:rect
 						lineWidth:lineWidth];
@@ -941,7 +851,10 @@ static BOOL sWasInside = NO;
 		if (!NSIntersectsRect(gr, ir)) {
 			[self removeGuide:m_dragGuideRef];
 
-			NSPoint animLoc = [[event window] convertBaseToScreen:[event locationInWindow]];
+			NSRect aRect;
+			aRect.origin = [event locationInWindow];
+			aRect.size = NSMakeSize(1, 1);
+			NSPoint animLoc = [[event window] convertRectToScreen:aRect].origin;
 			NSShowAnimationEffect(NSAnimationEffectDisappearingItemDefault, animLoc, NSZeroSize, nil, nil, NULL);
 		}
 
@@ -1036,7 +949,7 @@ static BOOL sWasInside = NO;
 
 	if (![self locked]) {
 		if (menu == nil)
-			menu = [[[NSMenu alloc] initWithTitle:@"DK_GuideLayerContextualMenu"] autorelease]; // title never seen
+			menu = [[NSMenu alloc] initWithTitle:@"DK_GuideLayerContextualMenu"]; // title never seen
 
 		NSMenuItem* item = [menu addItemWithTitle:NSLocalizedString(@"Clear Guides", nil)
 										   action:@selector(clearGuides:)
@@ -1057,13 +970,6 @@ static BOOL sWasInside = NO;
 
 /** @brief Deallocates the guide layer
  */
-- (void)dealloc
-{
-	[m_hGuides release];
-	[m_vGuides release];
-
-	[super dealloc];
-}
 
 /** @brief Initializes the guide layer
 
@@ -1074,7 +980,7 @@ static BOOL sWasInside = NO;
 /** @brief Initializes the guide
  @return the guide
  */
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1086,11 +992,9 @@ static BOOL sWasInside = NO;
 		[self setSelectionColour:[NSColor orangeColor]];
 
 		if (m_hGuides == nil || m_vGuides == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
-	}
-	if (self != nil) {
+
 		[self setLayerName:NSLocalizedString(@"Guides", @"default name for guide layer")];
 	}
 	return self;
@@ -1118,7 +1022,7 @@ static BOOL sWasInside = NO;
 			   forKey:@"DKGuideLayer_deletionRect"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -1135,8 +1039,7 @@ static BOOL sWasInside = NO;
 		[self setGuideDeletionRect:dr];
 
 		if (m_hGuides == nil || m_vGuides == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -1165,49 +1068,9 @@ static BOOL sWasInside = NO;
 @implementation DKGuide
 #pragma mark As a DKGuide
 
-/** @brief Sets the position of the guide
- @param pos a position value in drawing coordinates
- */
-- (void)setGuidePosition:(CGFloat)pos
-{
-	m_position = pos;
-}
-
-/** @brief Returns the position of the guide
- @return position value in drawing coordinates
- */
-- (CGFloat)guidePosition
-{
-	return m_position;
-}
-
-/** @brief Sets whether the guide is vertically oriented or horizontal
- @param vert YES for a vertical guide, NO for a horizontal guide
- */
-- (void)setIsVerticalGuide:(BOOL)vert
-{
-	m_isVertical = vert;
-}
-
-/** @brief Returns whether the guide is vertically oriented or horizontal
- @return YES for a vertical guide, NO for a horizontal guide
- */
-- (BOOL)isVerticalGuide
-{
-	return m_isVertical;
-}
-
-- (void)setGuideColour:(NSColor*)colour
-{
-	[colour retain];
-	[m_colour release];
-	m_colour = colour;
-}
-
-- (NSColor*)guideColour
-{
-	return m_colour;
-}
+@synthesize guidePosition=m_position;
+@synthesize isVerticalGuide=m_isVertical;
+@synthesize guideColour=m_colour;
 
 /** @brief Draws the guide
 
@@ -1238,15 +1101,14 @@ static BOOL sWasInside = NO;
 #pragma mark -
 #pragma mark As an NSObject
 
-- (id)init
+- (instancetype)init
 {
 	if ((self = [super init]) != nil) {
 		m_position = 0.0;
 		m_isVertical = NO;
 		[self setGuideColour:[NSColor cyanColor]];
 		if (m_colour == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -1264,7 +1126,7 @@ static BOOL sWasInside = NO;
 				 forKey:@"guide_colour"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	if ((self = [super init]) != nil) {
@@ -1280,5 +1142,6 @@ static BOOL sWasInside = NO;
 	}
 	return self;
 }
+
 
 @end

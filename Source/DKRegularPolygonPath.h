@@ -4,7 +4,10 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKDrawablePath.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
 Implements a regular polygon and variations of it (stars and other similar shapes)
@@ -30,25 +33,20 @@ a star shape (not used if the inner radius is -ve).
 - (void)setNumberOfSides:(NSInteger)sides;
 - (CGFloat)numberOfSides;
 
-- (void)setRadius:(CGFloat)rad;
-- (CGFloat)radius;
+@property (nonatomic) CGFloat radius;
 
-- (void)setInnerRadius:(CGFloat)innerRad;
-- (CGFloat)innerRadius;
+@property (nonatomic) CGFloat innerRadius;
 
-- (void)setTipSpread:(CGFloat)spread;
-- (CGFloat)tipSpread;
+@property (nonatomic) CGFloat tipSpread;
 
-- (void)setValleySpread:(CGFloat)spread;
-- (CGFloat)valleySpread;
+@property (nonatomic) CGFloat valleySpread;
 
-- (void)setShowsSpreadControls:(BOOL)showControls;
-- (BOOL)showsSpreadControls;
+@property (nonatomic) BOOL showsSpreadControls;
 
-- (IBAction)convertToPath:(id)sender;
-- (IBAction)setNumberOfSidesWithTag:(id)sender;
+- (IBAction)convertToPath:(nullable id)sender;
+- (IBAction)setNumberOfSidesWithTag:(nullable id)sender;
 
-- (BOOL)isStar;
+@property (readonly) BOOL isStar;
 
 @end
 
@@ -65,3 +63,5 @@ enum {
 enum {
 	kDKRegularPolyCreationMode = 7
 };
+
+NS_ASSUME_NONNULL_END

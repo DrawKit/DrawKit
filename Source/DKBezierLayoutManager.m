@@ -7,11 +7,7 @@
 #import "DKBezierLayoutManager.h"
 
 @implementation DKBezierLayoutManager
-
-- (NSBezierPath*)textPath
-{
-	return mPath;
-}
+@synthesize textPath=mPath;
 
 - (NSArray*)glyphPathsForContainer:(NSTextContainer*)container usedSize:(NSSize*)aSize
 {
@@ -109,7 +105,7 @@
 }
 
 - (void)drawUnderlineForGlyphRange:(NSRange)glyphRange
-					 underlineType:(NSInteger)underlineVal
+					 underlineType:(NSUnderlineStyle)underlineVal
 					baselineOffset:(CGFloat)baselineOffset
 				  lineFragmentRect:(NSRect)lineRect
 			lineFragmentGlyphRange:(NSRange)lineGlyphRange
@@ -121,7 +117,7 @@
 }
 
 - (void)drawStrikethroughForGlyphRange:(NSRange)glyphRange
-					 strikethroughType:(NSInteger)strikethroughVal
+					 strikethroughType:(NSUnderlineStyle)strikethroughVal
 						baselineOffset:(CGFloat)baselineOffset
 					  lineFragmentRect:(NSRect)lineRect
 				lineFragmentGlyphRange:(NSRange)lineGlyphRange
@@ -134,19 +130,13 @@
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self)
 		mPath = [[NSBezierPath alloc] init];
 
 	return self;
-}
-
-- (void)dealloc
-{
-	[mPath release];
-	[super dealloc];
 }
 
 @end

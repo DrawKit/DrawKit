@@ -4,7 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 @class DKImageDataManager;
 
@@ -18,10 +18,10 @@ This class works identically to NSKeyedUnarchiver in every way, except that it c
 */
 @interface DKKeyedUnarchiver : NSKeyedUnarchiver {
 @private
-	DKImageDataManager* mImageManagerRef;
+	DKImageDataManager* __unsafe_unretained mImageManagerRef;
 }
 
-- (void)setImageManager:(DKImageDataManager*)imgMgr;
-- (DKImageDataManager*)imageManager;
+// not retained because we know that it's retained by the drawing and the lifetime of the dearchiver is limited.
+@property (unsafe_unretained, nullable) DKImageDataManager *imageManager;
 
 @end

@@ -14,11 +14,19 @@
 #import "LogEvent.h"
 #import "NSAffineTransform+DKAdditions.h"
 #import "DKUndoManager.h"
+#import "DKToolController.h"
 
-@interface DKSelectAndEditTool (Private)
+#if __has_feature(objc_arc)
+#define ARCRETAIN(__xArg) __xArg
+#define ARCRELEASE(__xArg)
+#else
+#define ARCRETAIN(__xArg) [__xArg retain]
+#define ARCRELEASE(__xArg) [__xArg release]
+#endif
 
-- (void)setDraggedObjects:(NSArray*)objects;
-- (NSArray*)draggedObjects;
+@interface DKSelectAndEditTool ()
+
+@property (readwrite, copy) NSArray *draggedObjects;
 - (void)proxyDragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph;
 - (BOOL)finishUsingToolInLayer:(DKObjectDrawingLayer*)odl delegate:(id)aDel event:(NSEvent*)event;
 
@@ -28,17 +36,17 @@
 
 // notification names
 
-NSString* kDKSelectionToolWillStartSelectionDrag = @"kDKSelectionToolWillStartSelectionDrag";
-NSString* kDKSelectionToolDidFinishSelectionDrag = @"kDKSelectionToolDidFinishSelectionDrag";
-NSString* kDKSelectionToolWillStartMovingObjects = @"kDKSelectionToolWillStartMovingObjects";
-NSString* kDKSelectionToolDidFinishMovingObjects = @"kDKSelectionToolDidFinishMovingObjects";
-NSString* kDKSelectionToolWillStartEditingObject = @"kDKSelectionToolWillStartEditingObject";
-NSString* kDKSelectionToolDidFinishEditingObject = @"kDKSelectionToolDidFinishEditingObject";
+NSString* const kDKSelectionToolWillStartSelectionDrag = @"kDKSelectionToolWillStartSelectionDrag";
+NSString* const kDKSelectionToolDidFinishSelectionDrag = @"kDKSelectionToolDidFinishSelectionDrag";
+NSString* const kDKSelectionToolWillStartMovingObjects = @"kDKSelectionToolWillStartMovingObjects";
+NSString* const kDKSelectionToolDidFinishMovingObjects = @"kDKSelectionToolDidFinishMovingObjects";
+NSString* const kDKSelectionToolWillStartEditingObject = @"kDKSelectionToolWillStartEditingObject";
+NSString* const kDKSelectionToolDidFinishEditingObject = @"kDKSelectionToolDidFinishEditingObject";
 
 // user info dict keys
 
-NSString* kDKSelectionToolTargetLayer = @"kDKSelectionToolTargetLayer";
-NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
+NSString* const kDKSelectionToolTargetLayer = @"kDKSelectionToolTargetLayer";
+NSString* const kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 
 @implementation DKSelectAndEditTool
 
@@ -75,15 +83,10 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 {
 	mOperationMode = op;
 
-	LogEvent_(kInfoEvent, @"select tool set op mode = %d", op);
+	LogEvent_(kInfoEvent, @"select tool set op mode = %ld", (long)op);
 }
 
-/** @brief Returns the tool's current operation mode
- @return the current operation mode */
-- (DKEditToolOperation)operationMode
-{
-	return mOperationMode;
-}
+@synthesize operationMode=mOperationMode;
 
 #pragma mark -
 #pragma mark - drawing the marquee(selection rect):
@@ -101,12 +104,7 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 	}
 }
 
-/** @brief Returns the current marquee (selection rect)
- @return a rect */
-- (NSRect)marqueeRect
-{
-	return mMarqueeRect;
-}
+@synthesize marqueeRect=mMarqueeRect;
 
 /** @brief Sets the current marquee (selection rect)
 
@@ -132,6 +130,7 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 	}
 }
 
+#if 0
 /** @brief Set the drawing style for the marquee (selection rect)
 
  If you replace the default style, take care that the style is generally fairly transparent,
@@ -145,124 +144,18 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 	[mMarqueeStyle release];
 	mMarqueeStyle = aStyle;
 }
+#endif
 
-/** @brief Set the drawing style for the marquee (selection rect)
-
- If you replace the default style, take care that the style is generally fairly transparent,
- otherwise it will be hard to see what you are selecting!
- @param aStyle a style object */
-- (DKStyle*)marqueeStyle
-{
-	return mMarqueeStyle;
-}
+@synthesize marqueeStyle=mMarqueeStyle;
 
 #pragma mark -
 #pragma mark - setting options for the tool
 
-/** @brief Set whether the selection highlight of objects should be supressed during a drag
-
- The default is YES. Hiding the selection can make positioning objects by eye more precise.
- @param hideSel YES to hide selections during a drag, NO to leave them visible */
-- (void)setSelectionShouldHideDuringDrag:(BOOL)hideSel
-{
-	mHideSelectionOnDrag = hideSel;
-}
-
-/** @brief Should the selection highlight of objects should be supressed during a drag?
-
- The default is YES. Hiding the selection can make positioning objects by eye more precise.
- @return YES to hide selections during a drag, NO to leave them visible */
-- (BOOL)selectionShouldHideDuringDrag
-{
-	return mHideSelectionOnDrag;
-}
-
-/** @brief Sets whether dragging moves all objects in the selection as a group, or only the one under the mouse
-
- The default is YES.
- @param multi YES to drag all selected objects as a group, NO to drag just the one hit
- */
-- (void)setDragsAllObjectsInSelection:(BOOL)multi
-{
-	mAllowMultiObjectDrag = multi;
-}
-
-/** @brief Drags all objects as agroup?
-
- The default is YES
- @return YES if all selected objects are dragged as a group, NO if only one is
- */
-- (BOOL)dragsAllObjectsInSelection
-{
-	return mAllowMultiObjectDrag;
-}
-
-/** @brief Sets whether option-drag copies the original object
-
- The default is YES
- @param dragCopy YES to allow option-drag to copy the object
- */
-- (void)setAllowsDirectDragCopying:(BOOL)dragCopy
-{
-	mAllowDirectCopying = dragCopy;
-}
-
-/** @brief Whether option-drag copies the original object
-
- The default is YES
- @return YES if option-drag will copy the object
- */
-- (BOOL)allowsDirectDragCopying
-{
-	return mAllowDirectCopying;
-}
-
-/** @brief Sets whether a hit on a knob in a multiple selection drags the objects or drags the knob
-
- The default is NO
- @param dragWithKnob YES to drag the selection, NO to change the selection and drag the knob
- */
-- (void)setDragsAllObjectsInSelectionWhenDraggingKnob:(BOOL)dragWithKnob
-{
-	mAllowMultiObjectKnobDrag = dragWithKnob;
-}
-
-/** @brief Returns whether a hit on a knob in a multiple selection drags the objects or drags the knob
-
- The default is NO
- @return YES to drag the selection, NO to change the selection and drag the knob
- */
-- (BOOL)dragsAllObjectsInSelectionWhenDraggingKnob
-{
-	return mAllowMultiObjectKnobDrag;
-}
-
-/** @brief Sets the number of selected objects at which a proxy drag is used rather than a live drag
-
- Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- a temporary image of the objects being dragged. A value of 0 will disable proxy dragging. Note that
- this gives a hugh performance gain for large numbers of objects - in fact it makes dragging of a lot
- of objects actually feasible. The default threshold is 50 objects. Setting this to 1 effectively
- makes proxy dragging operate at all times.
- @param numberOfObjects the number above which a proxy drag is used 
- */
-- (void)setProxyDragThreshold:(NSUInteger)numberOfObjects
-{
-	mProxyDragThreshold = numberOfObjects;
-}
-
-/** @brief The number of selected objects at which a proxy drag is used rather than a live drag
-
- Dragging large numbers of objects can be unacceptably slow due to the very high numbers of view updates
- it entails. By setting a threshold, this tool can use a much faster (but less realistic) drag using
- a temporary image of the objects being dragged. A value of 0 will disable proxy dragging.
- @return the number above which a proxy drag is used
- */
-- (NSUInteger)proxyDragThreshold
-{
-	return mProxyDragThreshold;
-}
+@synthesize selectionShouldHideDuringDrag=mHideSelectionOnDrag;
+@synthesize dragsAllObjectsInSelection=mAllowMultiObjectDrag;
+@synthesize allowsDirectDragCopying=mAllowDirectCopying;
+@synthesize dragsAllObjectsInSelectionWhenDraggingKnob=mAllowMultiObjectKnobDrag;
+@synthesize proxyDragThreshold=mProxyDragThreshold;
 
 #pragma mark -
 #pragma mark - changing the selection and dragging
@@ -293,19 +186,19 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 	if (isSelected && !invert && [self dragsAllObjectsInSelection])
 		return;
 
-	NSString* an = NSLocalizedString(@"Change Selection", @"undo string for change selecton");
+	NSString* an = NSLocalizedStringFromTableInBundle(@"Change Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for change selecton");
 
 	if (extended) {
 		[layer addObjectToSelection:targ];
-		an = NSLocalizedString(@"Add To Selection", @"undo string for add selection");
+		an = NSLocalizedStringFromTableInBundle(@"Add To Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for add selection");
 	} else {
 		if (invert) {
 			if (isSelected) {
 				[layer removeObjectFromSelection:targ];
-				an = NSLocalizedString(@"Remove From Selection", @"undo string for remove selection");
+				an = NSLocalizedStringFromTableInBundle(@"Remove From Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for remove selection");
 			} else {
 				[layer addObjectToSelection:targ];
-				an = NSLocalizedString(@"Add To Selection", @"undo string for add selection");
+				an = NSLocalizedStringFromTableInBundle(@"Add To Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for add selection");
 			}
 		} else
 			[layer replaceSelectionWithObject:targ];
@@ -318,11 +211,14 @@ NSString* kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
 }
 
 // if this is set, CFArrayApplyFunction is used to update the objects rather than an enumerator
-
+#if __has_feature(objc_arc)
+#define USE_CF_APPLIER_FOR_DRAGGING 0
+#else
 #define USE_CF_APPLIER_FOR_DRAGGING 1
+#endif
 
-typedef struct
-	{
+#if defined(USE_CF_APPLIER_FOR_DRAGGING) && USE_CF_APPLIER_FOR_DRAGGING
+typedef struct DKSelectAndEditDragInfo {
 	NSPoint p;
 	NSEvent* event;
 	BOOL multiDrag;
@@ -397,24 +293,9 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 		[[(DKDrawableObject*)obj class] setDisplaysSizeInfoWhenDragging:saveShowsInfo];
 	}
 }
+#endif
 
-/** @brief Handle the drag of objects, either singly or multiply
-
- This drags one or more objects to the point <p>. It also is where the current state of the options
- for hiding the selection and allowing multiple drags is implemented. The method also deals with
- snapping during the drag - what happens is slightly different when one object is dragged as opposed
- to several objects - in the latter case the relative spatial positions of the objects is fixed
- rather than allowing each one to snap individually to the grid which is poor from a usability POV.
- This also tests the drag against the layer's current "exclusion rect". If the drag leaves this rect,
- a Drag Manager drag is invoked to allow the objects to be dragged to another document, layer or
- application.
- @param objects a list of objects to drag (may have only one item)
- @param layer the layer in which the objects exist
- @param p the current local point where the drag is
- @param event the event
- @param ph the drag phase - mouse down, dragged or up.
- */
-- (void)dragObjectsAsGroup:(NSArray*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph
+- (void)dragObjectsAsGroup:(NSArray<DKDrawableObject*>*)objects inLayer:(DKObjectDrawingLayer*)layer toPoint:(NSPoint)p event:(NSEvent*)event dragPhase:(DKEditToolDragPhase)ph
 {
 	NSAssert(objects != nil, @"attempt to drag with nil array");
 	NSAssert([objects count] > 0, @"attempt to drag with empty array");
@@ -471,6 +352,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 		p = [[layer drawing] snapToGrid:p
 						withControlFlag:controlKey];
 
+#if USE_GC_UNDO_MANAGER
 		DKUndoManager* um = (DKUndoManager*)[layer undoManager];
 
 		// set the undo manager to coalesce ABABABAB > AB instead of ABBBBBA > ABA
@@ -481,6 +363,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 			else if (ph == kDKDragMouseUp)
 				[um setCoalescingKind:kGCCoalesceLastTask];
 		}
+#endif
 	}
 
 	// if we have exceeded a non-zero proxy threshold, handle things using the proxy drag method instead.
@@ -493,7 +376,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 							dragPhase:ph];
 	} else {
 
-#if USE_CF_APPLIER_FOR_DRAGGING
+#if defined(USE_CF_APPLIER_FOR_DRAGGING) && USE_CF_APPLIER_FOR_DRAGGING
 		_dragInfo dragInfo;
 
 		dragInfo.p = p;
@@ -518,49 +401,78 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 		}
 
 #else
-		NSEnumerator* iter = [objects objectEnumerator];
-		DKDrawableObject* o;
-		BOOL saveSnap = NO;
-		BOOL saveShowsInfo = NO;
+		switch (ph) {
+		case kDKDragMouseDown:
+			for (DKDrawableObject *obj in objects) {
+				BOOL saveSnap = NO, saveShowsInfo = NO;
+				
+				if (multipleObjects) {
+					saveSnap = [obj mouseSnappingEnabled];
+					obj.mouseSnappingEnabled = NO;
 
-		while ((o = [iter nextObject])) {
-			if (multipleObjects) {
-				saveSnap = [o mouseSnappingEnabled];
-				[o setMouseSnappingEnabled:NO];
+					saveShowsInfo = [[obj class] displaysSizeInfoWhenDragging];
+					[[obj class] setDisplaysSizeInfoWhenDragging:NO];
+				}
 
-				saveShowsInfo = [[o class] displaysSizeInfoWhenDragging];
-				[[o class] setDisplaysSizeInfoWhenDragging:NO];
+				[obj mouseDownAtPoint:p
+							   inPart:kDKDrawingEntireObjectPart
+								event:event];
+				
+				if (multipleObjects) {
+					obj.mouseSnappingEnabled = saveSnap;
+					[[obj class] setDisplaysSizeInfoWhenDragging:saveShowsInfo];
+				}
 			}
+			break;
 
-			switch (ph) {
-			case kDKDragMouseDown:
-				[o mouseDownAtPoint:p
-							  inPart:kDKDrawingEntireObjectPart
-							   event:event];
-				[o notifyVisualChange];
-				break;
+		case kDKDragMouseDragged:
+			for (DKDrawableObject *obj in objects) {
+				BOOL saveSnap = NO, saveShowsInfo = NO;
+				
+				if (multipleObjects) {
+					saveSnap = [obj mouseSnappingEnabled];
+					obj.mouseSnappingEnabled = NO;
 
-			case kDKDragMouseDragged:
-				[o mouseDraggedAtPoint:p
-								 inPart:kDKDrawingEntireObjectPart
-								  event:event];
-				break;
+					saveShowsInfo = [[obj class] displaysSizeInfoWhenDragging];
+					[[obj class] setDisplaysSizeInfoWhenDragging:NO];
+				}
+				
+				[obj mouseDraggedAtPoint:p
+								  inPart:kDKDrawingEntireObjectPart
+								   event:event];
+				if (multipleObjects) {
+					obj.mouseSnappingEnabled = saveSnap;
+					[[obj class] setDisplaysSizeInfoWhenDragging:saveShowsInfo];
+				}
+			}
+			break;
 
-			case kDKDragMouseUp:
-				[o mouseUpAtPoint:p
-							inPart:kDKDrawingEntireObjectPart
-							 event:event];
-				[o notifyVisualChange];
-				break;
+		case kDKDragMouseUp:
+			for (DKDrawableObject *obj in objects) {
+				BOOL saveSnap = NO, saveShowsInfo = NO;
+
+				if (multipleObjects) {
+					saveSnap = [obj mouseSnappingEnabled];
+					obj.mouseSnappingEnabled = NO;
+					
+					saveShowsInfo = [[obj class] displaysSizeInfoWhenDragging];
+					[[obj class] setDisplaysSizeInfoWhenDragging:NO];
+				}
+
+				[obj mouseUpAtPoint:p
+							 inPart:kDKDrawingEntireObjectPart
+							  event:event];
+				[obj notifyVisualChange];
+
+				if (multipleObjects) {
+					obj.mouseSnappingEnabled = saveSnap;
+					[[obj class] setDisplaysSizeInfoWhenDragging:saveShowsInfo];
+				}
+			}
+			break;
 
 			default:
 				break;
-			}
-
-			if (multipleObjects) {
-				[o setMouseSnappingEnabled:saveSnap];
-				[[o class] setDisplaysSizeInfoWhenDragging:saveShowsInfo];
-			}
 		}
 #endif
 	}
@@ -570,14 +482,14 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	if (ph == kDKDragMouseDragged) {
 		if (multipleObjects) {
 			if (mDidCopyDragObjects)
-				[self setUndoAction:NSLocalizedString(@"Copy And Move Objects", @"undo string for copy and move (plural)")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Copy And Move Objects", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for copy and move (plural)")];
 			else
-				[self setUndoAction:NSLocalizedString(@"Move Multiple Objects", @"undo string for move multiple objects")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Move Multiple Objects", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for move multiple objects")];
 		} else {
 			if (mDidCopyDragObjects)
-				[self setUndoAction:NSLocalizedString(@"Copy And Move Object", @"undo string for copy and move (singular)")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Copy And Move Object", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for copy and move (singular)")];
 			else
-				[self setUndoAction:NSLocalizedString(@"Move Object", @"undo string for move single object")];
+				[self setUndoAction:NSLocalizedStringFromTableInBundle(@"Move Object", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for move single object")];
 		}
 	}
 
@@ -614,9 +526,14 @@ static void dragFunction_mouseUp(const void* obj, void* context)
  */
 - (void)setUndoAction:(NSString*)action
 {
+#if __has_feature(objc_arc)
+	mUndoAction = [action copy];
+#else
 	[action retain];
 	[mUndoAction release];
-	mUndoAction = action;
+	mUndoAction = [action copy];
+	[action release];
+#endif
 }
 
 #define SHOW_DRAG_PROXY_BOUNDARY 0
@@ -676,8 +593,8 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	switch (ph) {
 	case kDKDragMouseDown: {
 		if (mProxyDragImage == nil) {
-			mProxyDragImage = [[self prepareDragImage:objects
-											  inLayer:layer] retain];
+			mProxyDragImage = ARCRETAIN([self prepareDragImage:objects
+													   inLayer:layer]);
 
 			offset.width = p.x - NSMinX([layer selectionBounds]);
 			offset.height = p.y - NSMinY([layer selectionBounds]);
@@ -696,10 +613,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 
 			[[layer undoManager] disableUndoRegistration];
 
-			NSEnumerator* iter = [objects objectEnumerator];
-			DKDrawableObject* obj;
-
-			while ((obj = [iter nextObject]))
+			for (DKDrawableObject* obj in objects)
 				[obj setVisible:NO];
 
 			[[layer undoManager] enableUndoRegistration];
@@ -718,7 +632,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	} break;
 
 	case kDKDragMouseUp: {
-		[mProxyDragImage release];
+		ARCRELEASE(mProxyDragImage);
 		mProxyDragImage = nil;
 		[layer setNeedsDisplayInRect:mProxyDragDestRect];
 
@@ -729,10 +643,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 		dx = p.x - anchor.x;
 		dy = p.y - anchor.y;
 
-		NSEnumerator* iter = [objects objectEnumerator];
-		DKDrawableObject* obj;
-
-		while ((obj = [iter nextObject])) {
+		for (DKDrawableObject* obj in objects) {
 			[obj offsetLocationByX:dx
 							   byY:dy];
 
@@ -748,17 +659,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	}
 }
 
-- (void)setDraggedObjects:(NSArray*)objects
-{
-	[objects retain];
-	[mDraggedObjects release];
-	mDraggedObjects = objects;
-}
-
-- (NSArray*)draggedObjects
-{
-	return mDraggedObjects;
-}
+@synthesize draggedObjects=mDraggedObjects;
 
 - (BOOL)finishUsingToolInLayer:(DKObjectDrawingLayer*)odl delegate:(id)aDel event:(NSEvent*)event
 {
@@ -772,7 +673,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	default:
 		break;
 
-	case kDKEditToolSelectionMode:
+	case kDKEditToolSelectionMode: {
 		[self setMarqueeRect:NSRectFromTwoPoints(mAnchorPoint, mLastPoint)
 					 inLayer:odl];
 
@@ -788,9 +689,9 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 			// the marquee hit nothing, so deselect everything
 
 			[odl deselectAll];
-			undoStr = NSLocalizedString(@"Deselect All", @"undo string for deselect all");
+			undoStr = NSLocalizedStringFromTableInBundle(@"Deselect All", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for deselect all");
 		} else
-			undoStr = NSLocalizedString(@"Change Selection", @"undo string for change selecton");
+			undoStr = NSLocalizedStringFromTableInBundle(@"Change Selection", @"DKTools", [NSBundle bundleForClass:[DKSelectAndEditTool class]], @"undo string for change selecton");
 
 		if ([odl selectionChangesAreUndoable]) {
 			[self setUndoAction:undoStr];
@@ -811,6 +712,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKSelectionToolDidFinishSelectionDrag
 															object:self
 														  userInfo:userInfoDict];
+	}
 		break;
 
 	case kDKEditToolMoveObjectsMode:
@@ -911,6 +813,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	LogEvent_(kUserEvent, @"S/E tool mouse down, target = %@, layer = %@, pt = %@", obj, layer, NSStringFromPoint(p));
 
 	NSDictionary* userInfoDict = [NSDictionary dictionaryWithObjectsAndKeys:layer, kDKSelectionToolTargetLayer, obj, kDKSelectionToolTargetObject, nil];
+
 
 	if (![self isValidTargetLayer:layer]) {
 		// if the layer kind is not an object layer, the tool cannot be applied so set its mode to invalid
@@ -1038,12 +941,12 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 
  The delegate may be called to signal that an undoable task is about to be created at certain times.
  @param p the local point where the mouse has been dragged to
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
  */
-- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id)aDel
+- (void)mouseDraggedToPoint:(NSPoint)p partCode:(NSInteger)pc layer:(DKLayer*)layer event:(NSEvent*)event delegate:(id<DKToolDelegate>)aDel
 {
 	BOOL extended = (([event modifierFlags] & NSShiftKeyMask) != 0);
 	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)layer;
@@ -1115,7 +1018,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 
  The delegate may be called to signal that an undoable task is about to be created at certain times.
  @param p the local point where the mouse went up
- @param partCode the partcode returned by the mouseDown method
+ @param pc the partcode returned by the mouseDown method
  @param layer the layer in which the tool is being applied
  @param event the original event
  @param aDel an optional delegate
@@ -1216,7 +1119,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
  current one for the tool.
  @param mp the local mouse point
  @param obj the target object under the mouse, if any
- @param alayer the active layer
+ @param aLayer the active layer
  @param event the original event
  */
 - (void)setCursorForPoint:(NSPoint)mp targetObject:(DKDrawableObject*)obj inLayer:(DKLayer*)aLayer event:(NSEvent*)event
@@ -1314,7 +1217,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 /** @brief Initialize the tool (designated initializer)
  @return the tool object
  */
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -1328,6 +1231,7 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	return self;
 }
 
+#if !__has_feature(objc_arc)
 /** @brief Deallocate the tool
  */
 - (void)dealloc
@@ -1337,5 +1241,6 @@ static void dragFunction_mouseUp(const void* obj, void* context)
 	[mDraggedObjects release];
 	[super dealloc];
 }
+#endif
 
 @end

@@ -9,10 +9,10 @@
 #import "LogEvent.h"
 #import "NSBezierPath+Geometry.h"
 
-NSString* kDKRasterizerPasteboardType = @"kDKRendererPasteboardType";
-NSString* kDKRasterizerPropertyWillChange = @"kDKRasterizerPropertyWillChange";
-NSString* kDKRasterizerPropertyDidChange = @"kDKRasterizerPropertyDidChange";
-NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
+NSString* const kDKRasterizerPasteboardType = @"kDKRendererPasteboardType";
+NSString* const kDKRasterizerPropertyWillChange = @"kDKRasterizerPropertyWillChange";
+NSString* const kDKRasterizerPropertyDidChange = @"kDKRasterizerPropertyDidChange";
+NSString* const kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 @implementation DKRasterizer
 #pragma mark As a DKRasterizer
@@ -24,7 +24,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	NSAssert(pb != nil, @"expected a non-nil pasteboard");
 
 	DKRasterizer* rend = nil;
-	NSString* typeString = [pb availableTypeFromArray:[NSArray arrayWithObject:kDKRasterizerPasteboardType]];
+	NSString* typeString = [pb availableTypeFromArray:@[kDKRasterizerPasteboardType]];
 
 	if (typeString != nil) {
 		NSData* data = [pb dataForType:typeString];
@@ -34,14 +34,6 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	}
 
 	return rend;
-}
-
-/** @brief Returns the immediate container of this object, if owned by a group
- @return the object's container group, if any
- */
-- (DKRastGroup*)container
-{
-	return mContainerRef;
 }
 
 /** @brief Sets the immediate container of this object
@@ -59,30 +51,11 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	mContainerRef = container;
 }
 
+@synthesize container=mContainerRef;
+
 #pragma mark -
 
-/** @brief Set the name of the renderer
-
- Named renderers can be referred to in scripts or bound to in the UI. The name is copied for safety.
- @param name the name to give the renderer
- */
-- (void)setName:(NSString*)name
-{
-	NSString* nameCopy = [name copy];
-
-	[m_name release];
-	m_name = nameCopy;
-}
-
-/** @brief Get the name of the renderer
-
- Named renderers can be referred to in scripts or bound to in the UI
- @return the renderer's name
- */
-- (NSString*)name
-{
-	return m_name;
-}
+@synthesize name = m_name;
 
 /** @brief Get the name or classname of the renderer
 
@@ -121,47 +94,12 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 #pragma mark -
 
-/** @brief Set whether the renderer is enabled or not
-
- Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
- larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
- @param enable YES to enable, NO to disable
- */
-- (void)setEnabled:(BOOL)enable
-{
-	m_enabled = enable;
-}
-
-/** @brief Query whether the renderer is enabled or not
-
- Disabled renderers won't draw anything, so this can be used to temporarily turn off part of a
- larget set of renderers (in a style, say) from the UI, but without actually deleting the renderer
- @return YES if enabled, NO if not
- */
-- (BOOL)enabled
-{
-	return m_enabled;
-}
-
-/** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
- @param clipping a DKClippingOption value
- */
-- (void)setClipping:(DKClippingOption)clipping
-{
-	mClipping = clipping;
-}
+@synthesize enabled=m_enabled;
+@synthesize clipping=mClipping;
 
 - (void)setClippingWithoutNotifying:(DKClippingOption)clipping
 {
 	mClipping = clipping;
-}
-
-/** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side
- @return a DKClippingOption value
- */
-- (DKClippingOption)clipping
-{
-	return mClipping;
 }
 
 #pragma mark -
@@ -186,7 +124,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 	NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
 
 	if (data != nil) {
-		[pb declareTypes:[NSArray arrayWithObject:kDKRasterizerPasteboardType]
+		[pb declareTypes:@[kDKRasterizerPasteboardType]
 				   owner:self];
 		return [pb setData:data
 				   forType:kDKRasterizerPasteboardType];
@@ -199,7 +137,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [NSArray arrayWithObjects:@"name", @"enabled", @"clipping", nil];
+	return @[@"name", @"enabled", @"clipping"];
 }
 
 - (NSString*)actionNameForKeyPath:(NSString*)keypath changeKind:(NSKeyValueChange)kind
@@ -216,13 +154,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_name release];
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -267,11 +199,11 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 		case kDKClippingNone:
 			break;
 
-		case kDKClipInsidePath:
+		case kDKClippingInsidePath:
 			[path addClip];
 			break;
 
-		case kDKClipOutsidePath:
+		case kDKClippingOutsidePath:
 			[path addInverseClip];
 			break;
 		}
@@ -319,7 +251,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 				  forKey:@"DKRasterizer_clipping"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super init];
@@ -358,8 +290,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 {
 	LogEvent_(kKVOEvent, @"%@ about to change '%@'", self, key);
 
-	NSDictionary* info = [NSDictionary dictionaryWithObject:key
-													 forKey:kDKRasterizerChangedPropertyKey];
+	NSDictionary* info = @{kDKRasterizerChangedPropertyKey: key};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyWillChange
 														object:self
 													  userInfo:info];
@@ -382,8 +313,7 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 {
 	[super didChangeValueForKey:key];
 
-	NSDictionary* info = [NSDictionary dictionaryWithObject:key
-													 forKey:kDKRasterizerChangedPropertyKey];
+	NSDictionary* info = @{kDKRasterizerChangedPropertyKey: key};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyDidChange
 														object:self
 													  userInfo:info];

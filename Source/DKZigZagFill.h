@@ -4,6 +4,7 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKFill.h"
 
 @interface DKZigZagFill : DKFill <NSCoding, NSCopying> {
@@ -13,14 +14,8 @@
 	CGFloat mSpread;
 }
 
-/**  */
-- (void)setWavelength:(CGFloat)w;
-- (CGFloat)wavelength;
-
-- (void)setAmplitude:(CGFloat)amp;
-- (CGFloat)amplitude;
-
-- (void)setSpread:(CGFloat)sp;
-- (CGFloat)spread;
+@property CGFloat wavelength;
+@property CGFloat amplitude;
+@property CGFloat spread;
 
 @end

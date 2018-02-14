@@ -4,27 +4,31 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DKGuide;
 
-/**
-A guide layer implements any number of horizontal and vertical guidelines and provides methods for snapping points and rectangles
-to them.
+/** @brief Implements horizontal and vertical guidelines.
+ 
+ @discussion A guide layer implements any number of horizontal and vertical guidelines and provides methods for snapping points and rectangles
+ to them.
 
-A drawing typically has one guide layer, though you are not limited to just one - however since DKDrawing will generally provide
-snapping to both guides and grid as a high-level method, having more than one guide layer can create ambiguities for the user
-unless your client code takes account of the possibility of multiple guide layers.
+ A drawing typically has one guide layer, though you are not limited to just one - however since DKDrawing will generally provide
+ snapping to both guides and grid as a high-level method, having more than one guide layer can create ambiguities for the user
+ unless your client code takes account of the possibility of multiple guide layers.
 
-The default snap tolerance for guides is 6 points.
+ The default snap tolerance for guides is 6 points.
 
-By default guides don't snap to the grid. You can force a guide to snap to the grid even if this setting is off by dragging with
-the shift key down.
+ By default guides don't snap to the grid. You can force a guide to snap to the grid even if this setting is off by dragging with
+ the shift key down.
 */
 @interface DKGuideLayer : DKLayer <NSCoding> {
 @private
-	NSMutableArray* m_hGuides; // the list of horizontal guides
-	NSMutableArray* m_vGuides; // the list of vertical guides
+	NSMutableArray<DKGuide*>* m_hGuides; // the list of horizontal guides
+	NSMutableArray<DKGuide*>* m_vGuides; // the list of vertical guides
 	BOOL m_snapToGrid; // YES if snap to grid is enabled
 	BOOL m_showDragInfo; // YES if dragging a guide displays the floating info window
 	DKGuide* m_dragGuideRef; // the current guide being dragged
@@ -35,17 +39,14 @@ the shift key down.
 
 // default snapping tolerance:
 
-/** @brief Sets the distance a point needs to be before it is snapped to a guide
- @param tol the distance in points
+/** @brief The distance a point needs to be before it is snapped to a guide
  */
-+ (void)setDefaultSnapTolerance:(CGFloat)tol;
+@property (class) CGFloat defaultSnapTolerance;
 
-/** @brief Returns the distance a point needs to be before it is snapped to a guide
- @return the distance in points
+/** @name Adding and Removing Guides
+ @brief Adding and removing guides.
+ @{
  */
-+ (CGFloat)defaultSnapTolerance;
-
-// adding and removing guides:
 
 /** @brief Adds a guide to the layer
 
@@ -64,35 +65,36 @@ the shift key down.
  */
 - (void)removeAllGuides;
 
-/** @brief Creates a new vertical guide at the point p, adds it to the layer and returns it
+/** @brief Creates a new vertical guide at the point <code>p</code>, adds it to the layer and returns it
 
  This is a convenient way to add a guide interactively, for example when dragging one "off" a
- ruler. See DKViewController for an example client of this method. If the layer is locked this
- does nothing and returns nil.
- @param p a point local to the drawing
- @return the guide created, or nil
+ ruler. See \c DKViewController for an example client of this method. If the layer is locked this
+ does nothing and returns <code>nil</code>.
+ @param p A point local to the drawing.
+ @return The guide created, or <code>nil</code>.
  */
-- (DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p;
+- (nullable DKGuide*)createVerticalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
-/** @brief Creates a new horizontal guide at the point p, adds it to the layer and returns it
+/** @brief Creates a new horizontal guide at the point <code>p</code>, adds it to the layer and returns it
 
  This is a convenient way to add a guide interactively, for example when dragging one "off" a
- ruler. See DKViewController for an example client of this method. If the layer is locked this
- does nothing and returns nil.
- @param p a point local to the drawing
- @return the guide created, or nil
+ ruler. See \c DKViewController for an example client of this method. If the layer is locked this
+ does nothing and returns <code>nil</code>.
+ @param p A point local to the drawing.
+ @return The guide created, or <code>nil</code>.
  */
-- (DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p;
+- (nullable DKGuide*)createHorizontalGuideAndBeginDraggingFromPoint:(NSPoint)p;
 
-/** @brief Get all current guides
- @return an array of guide objects
+/** @brief Get all current guides.
  */
-- (NSArray*)guides;
+@property (readonly, copy) NSArray<DKGuide*> *guides;
 
-/** @brief Adds a set of guides to th elayer
+/** @brief Adds a set of guides to the elayer
  @param guides an array of guide objects
  */
-- (void)setGuides:(NSArray*)guides;
+- (void)setGuides:(NSArray<DKGuide*>*)guides;
+
+/** @} */
 
 // finding guides close to a given position
 
@@ -100,124 +102,76 @@ the shift key down.
  @param pos a verical coordinate value, in points
  @return the nearest guide to the given point that lies within the snap tolerance, or nil
  */
-- (DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos;
+- (nullable DKGuide*)nearestVerticalGuideToPosition:(CGFloat)pos;
 
 /** @brief Locates the nearest guide to the given position, if position is within the snap tolerance
  @param pos a horizontal coordinate value, in points
  @return the nearest guide to the given point that lies within the snap tolerance, or nil
  */
-- (DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos;
+- (nullable DKGuide*)nearestHorizontalGuideToPosition:(CGFloat)pos;
 
-/** @brief Returns the list of vertical guides
+/** @brief Returns the list of vertical guides.
 
- The guides returns are not in any particular order
- @return an array of DKGuide objects
+ @discussion The guides returns are not in any particular order.
  */
-- (NSArray*)verticalGuides;
+@property (readonly, strong) NSArray<DKGuide*>* verticalGuides;
 
-/** @brief Returns the list of horizontal guides
+/** @brief Returns the list of horizontal guides.
 
- The guides returns are not in any particular order
- @return an array of DKGuide objects
+ @discussion The guides returns are not in any particular order.
  */
-- (NSArray*)horizontalGuides;
+@property (readonly, strong) NSArray<DKGuide*>* horizontalGuides;
 
 // setting a common colour for the guides:
 
-/** @brief Set the colour of all guides in this layer to a given colour
+/** @brief The layer's guide colour
 
- The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
- also each guide is able to have its own colour. This sets the colour for each guide to be the same
- so you may prefer to obtain a particular guide and set it individually.
- @param colour the colour to set
- */
-
-/** @brief Sets the guide's colour
-
- Note that this doesn't mark the guide for update - DKGuideLayer has a method for doing that.
- @param colour a colour 
- */
-- (void)setGuideColour:(NSColor*)colour;
-
-/** @brief Return the layer's guide colour
-
+ @discussion Note that setting this doesn't mark the guide for update - \c DKGuideLayer has a method for doing that.
  The guide colour is actually synonymous with the "selection" colour inherited from DKLayer, but
  also each guide is able to have its own colour. This returns the selection colour, but if guides
  have their own colours this says nothing about them.
  @return a colour
  */
+@property (strong) NSColor *guideColour;
 
-/** @brief Returns the guide's colour
- @return a colour
- */
-- (NSColor*)guideColour;
 
 // set whether guides snap to grid or not
 
-/** @brief Set whether guids should snap to the grid by default or not
+/** @brief Whether guids should snap to the grid by default or not.
 
  The default is NO
- @param gridsnap YES to always snap guides to the grid, NO otherwise
  */
-- (void)setGuidesSnapToGrid:(BOOL)gridsnap;
-
-/** @brief Whether guids should snap to the grid by default or not
-
- The default is NO
- @return YES to always snap guides to the grid, NO otherwise
- */
-- (BOOL)guidesSnapToGrid;
+@property BOOL guidesSnapToGrid;
 
 // set the snapping tolerance for this layer
 
 /** @brief Sets the distance a point needs to be before it is snapped to a guide
 
  The default value is determind by the class method of the same name
- @param tol the distance in points
  */
-- (void)setSnapTolerance:(CGFloat)tol;
-
-/** @brief Resturns the distance a point needs to be before it is snapped to a guide
-
- The default value is determind by the class method of the same name
- @return the distance in points
- */
-- (CGFloat)snapTolerance;
+@property CGFloat snapTolerance;
 
 // set whether the info window is displayed or not
 
 /** @brief Set whether the info window should be displayed when dragging a guide
 
  Default is YES, display the window
- @param showsIt YES to display the window, NO otherwise
+ Set to \c YES to display the window, \c NO otherwise.
  */
-- (void)setShowsDragInfoWindow:(BOOL)showsIt;
-
-/** @brief Return whether the info window should be displayed when dragging a guide
-
- Default is YES, display the window
- @return YES to display the window, NO otherwise
- */
-- (BOOL)showsDragInfoWindow;
+@property BOOL showsDragInfoWindow;
 
 /** @brief Sets a rect for which guides will be deleted if they are dragged outside of it
 
  Default is the same as the drawing's interior
- @param rect the rect
  */
-- (void)setGuideDeletionRect:(NSRect)rect;
+@property NSRect guideDeletionRect;
 
-/** @brief The rect for which guides will be deleted if they are dragged outside of it
+@property (nonatomic) BOOL guidesDrawnInEnclosingScrollview;
 
- Default is the same as the drawing's interior
- @return the rect
+/** @name Snapping Points and Rects:
+ @brief Snapping points and rects to the guides.
+ @{
  */
-- (NSRect)guideDeletionRect;
-
-- (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside;
-- (BOOL)guidesDrawnInEnclosingScrollview;
-
-// snapping points and rects to the guides:
 
 /** @brief Snap a given point to any nearest guides within the snap tolerance
 
@@ -255,7 +209,7 @@ the shift key down.
  @param arrayOfPoints a list of NSValue object containing pointValues 
  @return a size, being the offset between whichever point was snapped and its snapped position
  */
-- (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints;
+- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints;
 
 /** @brief Snaps any of a list of points to any nearest guides within the snap tolerance
 
@@ -269,8 +223,9 @@ the shift key down.
  @param gh if not NULL, receives the actual horizontal guide snapped to
  @return a size, being the offset between whichever point was snapped and its snapped position
  */
-- (NSSize)snapPointsToGuide:(NSArray*)arrayOfPoints verticalGuide:(DKGuide**)gv horizontalGuide:(DKGuide**)gh;
+- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints verticalGuide:(DKGuide*_Nullable*_Nullable)gv horizontalGuide:(DKGuide*_Nullable*_Nullable)gh;
 
+/** @} */
 // redrawing the guides
 
 /** @brief Marks a partiuclar guide as needing to be readrawn
@@ -287,7 +242,10 @@ the shift key down.
  */
 - (NSRect)guideRect:(DKGuide*)guide;
 
-// user actions:
+/** @name User Actions
+ @brief User actions.
+ @{
+ */
 
 /** @brief High level action to remove all guides from the layer
 
@@ -297,10 +255,11 @@ the shift key down.
  */
 - (IBAction)clearGuides:(id)sender;
 
+/** @} */
+
 @end
 
-// each guide is implemented by an instance of DKGuide:
-
+/** @brief each guide is implemented by an instance of DKGuide: */
 @interface DKGuide : NSObject <NSCoding> {
 @private
 	CGFloat m_position;
@@ -309,27 +268,15 @@ the shift key down.
 }
 
 /** @brief Sets the position of the guide
- @param pos a position value in drawing coordinates
  */
-- (void)setGuidePosition:(CGFloat)pos;
-
-/** @brief Returns the position of the guide
- @return position value in drawing coordinates
- */
-- (CGFloat)guidePosition;
+@property CGFloat guidePosition;
 
 /** @brief Sets whether the guide is vertically oriented or horizontal
- @param vert YES for a vertical guide, NO for a horizontal guide
+ Set to \c YES for a vertical guide, \c NO for a horizontal guide.
  */
-- (void)setIsVerticalGuide:(BOOL)vert;
+@property BOOL isVerticalGuide;
 
-/** @brief Returns whether the guide is vertically oriented or horizontal
- @return YES for a vertical guide, NO for a horizontal guide
- */
-- (BOOL)isVerticalGuide;
-
-- (void)setGuideColour:(NSColor*)colour;
-- (NSColor*)guideColour;
+@property (strong) NSColor *guideColour;
 
 /** @brief Draws the guide
 
@@ -340,3 +287,5 @@ the shift key down.
 - (void)drawInRect:(NSRect)rect lineWidth:(CGFloat)lw;
 
 @end
+
+NS_ASSUME_NONNULL_END

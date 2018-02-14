@@ -8,8 +8,8 @@
 #import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKObserverRelayDidReceiveChange = @"kDKObserverRelayDidReceiveChange";
-NSString* kDKObservableKeyPath = @"kDKObservableKeyPath";
+NSString* const kDKObserverRelayDidReceiveChange = @"kDKObserverRelayDidReceiveChange";
+NSString* const kDKObservableKeyPath = @"kDKObservableKeyPath";
 
 #pragma mark Static Vars
 static NSMutableDictionary* sActionNameRegistry = nil;
@@ -29,7 +29,6 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 		sd = [[NSMutableDictionary alloc] init];
 		[sActionNameRegistry setObject:sd
 								forKey:className];
-		[sd release];
 	}
 
 	[sd setObject:na
@@ -54,7 +53,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	// subclasses to simply append their own keypaths without caring if there are already any paths defined
 	// by its superclass.
 
-	return [NSArray array];
+	return @[];
 }
 
 #pragma mark -
@@ -104,10 +103,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 	LogEvent_(kKVOEvent, @"%@ is adding the observer %@ for keypaths %@", [self description], [object description], keypaths);
 
-	NSEnumerator* iter = [keypaths objectEnumerator];
-	NSString* kp;
-
-	while ((kp = [iter nextObject]))
+	for (NSString *kp in keypaths)
 		[self addObserver:object
 			   forKeyPath:kp
 				  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
@@ -120,10 +116,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 	LogEvent_(kKVOEvent, @"%@ is removing the observer %@ for keypaths %@", [self description], [object description], keypaths);
 
-	NSEnumerator* iter = [keypaths objectEnumerator];
-	NSString* kp;
-
-	while ((kp = [iter nextObject]))
+	for (NSString* kp in keypaths)
 		[self removeObserver:object
 				  forKeyPath:kp];
 }
@@ -183,7 +176,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 		[s replaceCharactersInRange:range
 						  withString:NSLocalizedString(chStr, @"")];
 
-		return [s autorelease];
+		return s;
 	} else
 		return an;
 }
@@ -210,13 +203,10 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	NSArray* observables = [[self class] observableKeyPaths];
 
 	if (observables && [observables count] > 0) {
-		NSEnumerator* iter = [observables objectEnumerator];
-		NSString* keyPath;
 		NSMutableDictionary* changeDict = [NSMutableDictionary dictionary];
-		id value;
 
-		while ((keyPath = [iter nextObject])) {
-			value = [self valueForKeyPath:keyPath];
+		for (NSString *keyPath in observables) {
+			id value = [self valueForKeyPath:keyPath];
 
 			// allow nil to be sent as a legitimate value by passing it as NSNull
 
@@ -235,13 +225,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_oldArrayValues release];
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -271,7 +255,6 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 			[m_oldArrayValues setObject:old
 								 forKey:key];
-			[old release];
 		}
 	}
 
@@ -285,15 +268,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 #pragma mark -
 @implementation GCObserverUndoRelay
 #pragma mark As a GCObserverUndoRelay
-- (void)setUndoManager:(NSUndoManager*)um
-{
-	m_um = um;
-}
-
-- (NSUndoManager*)undoManager
-{
-	return m_um;
-}
+@synthesize undoManager=m_um;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object
@@ -356,7 +331,6 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKObserverRelayDidReceiveChange
 														object:object
 													  userInfo:changeDict];
-	[changeDict release];
 }
 
 @end

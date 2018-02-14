@@ -21,13 +21,17 @@
 #pragma mark Global Vars
 NSPoint gMouseForPathSnap = { 0, 0 };
 
-NSString* kDKPathOnPathHitDetectionPriorityDefaultsKey = @"kDKPathOnPathHitDetectionPriority";
+NSString* const kDKPathOnPathHitDetectionPriorityDefaultsKey = @"kDKPathOnPathHitDetectionPriority";
 
 #pragma mark Static Vars
 static CGFloat sAngleConstraint = 0.261799387799; // 15 degrees
 static NSColor* sInfoWindowColour = nil;
 
-@interface DKDrawablePath (Private)
+@interface DKSecretSelectorsDrawablePath : NSObject
+-(IBAction)convertToTrack:(id)sender;
+@end
+
+@interface DKDrawablePath ()
 
 /**  */
 - (void)showLengthInfo:(CGFloat)dist atPoint:(NSPoint)p;
@@ -64,7 +68,7 @@ static NSColor* sInfoWindowColour = nil;
 {
 	DKDrawablePath* dp = [[self alloc] initWithBezierPath:path];
 
-	return [dp autorelease];
+	return dp;
 }
 
 //*********************************************************************************************************************
@@ -80,7 +84,7 @@ static NSColor* sInfoWindowColour = nil;
 {
 	DKDrawablePath* dp = [[self alloc] initWithBezierPath:path
 													style:aStyle];
-	return [dp autorelease];
+	return dp;
 }
 
 //*********************************************************************************************************************
@@ -90,8 +94,6 @@ static NSColor* sInfoWindowColour = nil;
  */
 + (void)setInfoWindowBackgroundColour:(NSColor*)colour
 {
-	[colour retain];
-	[sInfoWindowColour release];
 	sInfoWindowColour = colour;
 }
 
@@ -144,7 +146,7 @@ static NSColor* sInfoWindowColour = nil;
  @param aPath the path to use
  @return the drawable path object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath
 {
 	self = [self init];
 	if (self != nil) {
@@ -161,7 +163,7 @@ static NSColor* sInfoWindowColour = nil;
  @param aStyle the style to use
  @return the drawable path object
  */
-- (id)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
+- (instancetype)initWithBezierPath:(NSBezierPath*)aPath style:(DKStyle*)aStyle
 {
 	self = [self initWithStyle:aStyle];
 	if (self) {
@@ -192,10 +194,8 @@ static NSColor* sInfoWindowColour = nil;
 		[[self undoManager] registerUndoWithTarget:self
 										  selector:@selector(setPath:)
 											object:oldPath];
-		[oldPath release];
 
-		[m_path release];
-		m_path = [path retain];
+		m_path = path;
 
 		[self notifyVisualChange];
 		[self notifyGeometryChange:oldBounds];
@@ -386,26 +386,12 @@ static NSColor* sInfoWindowColour = nil;
 	return [[self path] length];
 }
 
-/** @brief Return the length along the path for a given point
-
- Points too far from the path return a value of -1. To be within range, the point needs to be within
- 4 x the widest stroke drawn by the style, or 4 points, whichever is larger.
- @param mp a point somewhere close to the path
- @return a distance along the path nearest to the point
- */
 - (CGFloat)lengthForPoint:(NSPoint)mp
 {
 	return [self lengthForPoint:mp
 					  tolerance:MAX(1, [[self style] maxStrokeWidth]) * 4];
 }
 
-/** @brief Return the length along the path for a given point
-
- Points too far from the path return a value of -1. The point needs to be <tol> or less from the path.
- @param mp a point somewhere close to the path
- @param tol the tolerance value
- @return a distance along the path nearest to the point
- */
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol
 {
 	return [[self path] distanceFromStartOfPathAtPoint:mp
@@ -420,7 +406,6 @@ static NSColor* sInfoWindowColour = nil;
 
 - (void)recordPathForUndo
 {
-	[m_undoPath release];
 	m_undoPath = [[self path] copy];
 }
 
@@ -431,7 +416,6 @@ static NSColor* sInfoWindowColour = nil;
 
 - (void)clearUndoPath
 {
-	[m_undoPath release];
 	m_undoPath = nil;
 }
 
@@ -450,7 +434,6 @@ static NSColor* sInfoWindowColour = nil;
 
 	[path appendBezierPath:[anotherPath path]];
 	[self setPath:path];
-	[path release];
 }
 
 /** @brief Preflights a potential join to determine if the join would be made
@@ -483,7 +466,7 @@ static NSColor* sInfoWindowColour = nil;
 
 	for (j = 0; j < 2; ++j) {
 		for (k = 0; k < 2; ++k) {
-			dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+			dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 			if (dist <= tol) {
 				// found points close enough to join. One path may need reversing to accomplish it.
@@ -499,7 +482,7 @@ static NSColor* sInfoWindowColour = nil;
 				k = (k == 0) ? 1 : 0;
 				j = (j == 0) ? 1 : 0;
 
-				dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+				dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 				if (dist <= tol)
 					result = kDKPathBothEndsJoined;
@@ -512,15 +495,6 @@ static NSColor* sInfoWindowColour = nil;
 	return result;
 }
 
-/** @brief Joins open paths together at their ends
-
- This attempts to join either or both ends of the two paths if they are placed sufficiently
- closely. Usually the higher level join action at the layer level will be used.
- @param anotherPath another drawable path object like this one
- @param tol a value used to determine if the end points are placed sufficiently close to be joinable
- @param colin if YES, and the joined segments are curves, this adjusts the control points of the curve
- @return a join result value, indicating which end(s) were joined, if any
- */
 - (DKDrawablePathJoinResult)join:(DKDrawablePath*)anotherPath tolerance:(CGFloat)tol makeColinear:(BOOL)colin
 {
 	//	LogEvent_(kReactiveEvent, @"joining path, tolerance = %f", tol );
@@ -546,7 +520,7 @@ static NSColor* sInfoWindowColour = nil;
 
 	for (j = 0; j < 2; ++j) {
 		for (k = 0; k < 2; ++k) {
-			dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+			dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 			if (dist <= tol) {
 				// found points close enough to join. One path may need reversing to accomplish it.
@@ -603,7 +577,7 @@ static NSColor* sInfoWindowColour = nil;
 				k = (k == 0) ? 1 : 0;
 				j = (j == 0) ? 1 : 0;
 
-				dist = hypotf(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
+				dist = hypot(p2[j].x - p1[k].x, p2[j].y - p1[k].y);
 
 				if (dist <= tol) {
 					[newPath closePath];
@@ -635,7 +609,6 @@ static NSColor* sInfoWindowColour = nil;
 				}
 
 				[self setPath:newPath];
-				[newPath release];
 
 				return result;
 			}
@@ -657,14 +630,12 @@ static NSColor* sInfoWindowColour = nil;
 	// returns one object in the array which is equivalent to a copy.
 
 	NSArray* subpaths = [[self path] subPaths];
-	NSEnumerator* iter = [subpaths objectEnumerator];
-	NSBezierPath* pp;
 	NSMutableArray* newObjects;
 	DKDrawablePath* dp;
 
 	newObjects = [[NSMutableArray alloc] init];
 
-	while ((pp = [iter nextObject])) {
+	for (NSBezierPath* pp in subpaths) {
 		if (![pp isEmpty]) {
 			dp = [[self class] drawablePathWithBezierPath:pp];
 
@@ -674,7 +645,7 @@ static NSColor* sInfoWindowColour = nil;
 		}
 	}
 
-	return [newObjects autorelease];
+	return newObjects;
 }
 
 /** @brief Splits a path into two paths at a specific point
@@ -705,7 +676,7 @@ static NSColor* sInfoWindowColour = nil;
 			[path addUserInfo:[self userInfo]];
 			[path setGhosted:[self isGhosted]];
 
-			return [path autorelease];
+			return path;
 		}
 	}
 
@@ -714,23 +685,7 @@ static NSColor* sInfoWindowColour = nil;
 
 #pragma mark -
 
-/** @brief Sets the "mode" of operation for creating new path objects
-
- Paths are created by tools usually so this will be rarely needed. Pass 0 for the defalt mode which
- is to edit an existing path (once created all paths are logically the same)
- @param editPathMode a constant indicating how a new path should be constructed.
- */
-- (void)setPathCreationMode:(DKDrawablePathCreationMode)editPathMode
-{
-	m_editPathMode = editPathMode;
-}
-
-/** @brief Gets the "mode" of operation for creating new path objects
- */
-- (DKDrawablePathCreationMode)pathCreationMode
-{
-	return m_editPathMode;
-}
+@synthesize pathCreationMode = m_editPathMode;
 
 #pragma mark -
 
@@ -968,17 +923,17 @@ finish:
 		if (constrain) {
 			// slope of line is forced to be on 15 degree intervals
 
-			CGFloat angle = atan2f(p.y - ip.y, p.x - ip.x);
+			CGFloat angle = atan2(p.y - ip.y, p.x - ip.x);
 			CGFloat rem = fmod(angle, angleConstraint);
-			CGFloat radius = hypotf(p.x - ip.x, p.y - ip.y);
+			CGFloat radius = hypot(p.x - ip.x, p.y - ip.y);
 
 			if (rem > angleConstraint / 2.0)
 				angle += (angleConstraint - rem);
 			else
 				angle -= rem;
 
-			p.x = ip.x + (radius * cosf(angle));
-			p.y = ip.y + (radius * sinf(angle));
+			p.x = ip.x + (radius * cos(angle));
+			p.y = ip.y + (radius * sin(angle));
 		}
 
 		switch ([theEvent type]) {
@@ -1129,17 +1084,17 @@ finish:
 		if (constrain) {
 			// slope of line is forced to be on 15 degree intervals
 
-			CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
+			CGFloat angle = atan2(p.y - lp.y, p.x - lp.x);
 			CGFloat rem = fmod(angle, sAngleConstraint);
-			CGFloat radius = hypotf(p.x - lp.x, p.y - lp.y);
+			CGFloat radius = hypot(p.x - lp.x, p.y - lp.y);
 
 			if (rem > sAngleConstraint / 2.0)
 				angle += (sAngleConstraint - rem);
 			else
 				angle -= rem;
 
-			p.x = lp.x + (radius * cosf(angle));
-			p.y = lp.y + (radius * sinf(angle));
+			p.x = lp.x + (radius * cos(angle));
+			p.y = lp.y + (radius * sin(angle));
 		}
 
 		switch ([theEvent type]) {
@@ -1239,7 +1194,7 @@ finish:
 			if (!NSEqualPoints(p, lastPoint)) {
 				[path lineToPoint:p];
 #ifdef qUseCurveFit
-				[self setPath:curveFitPath(path, m_freehandEpsilon)];
+				[self setPath:DKCurveFitPath(path, m_freehandEpsilon)];
 #else
 				[self invalidateCache];
 				[self notifyVisualChange];
@@ -1296,7 +1251,7 @@ finish:
 	DKStyle* savedStyle = nil;
 	NSString* abbrUnits = [[self drawing] abbreviatedDrawingUnits];
 
-	savedStyle = [[self style] retain];
+	savedStyle = [self style];
 	[self setStyle:[DKStyle styleWithFillColour:nil
 								   strokeColour:[NSColor redColor]
 									strokeWidth:2.0]];
@@ -1333,17 +1288,17 @@ finish:
 		if (constrain) {
 			// slope of line is forced to be on 15¬¨¬®‚Äö√†√ª intervals
 
-			CGFloat angle = atan2f(p.y - lp.y, p.x - lp.x);
+			CGFloat angle = atan2(p.y - lp.y, p.x - lp.x);
 			CGFloat rem = fmod(angle, sAngleConstraint);
-			CGFloat rad = hypotf(p.x - lp.x, p.y - lp.y);
+			CGFloat rad = hypot(p.x - lp.x, p.y - lp.y);
 
 			if (rem > sAngleConstraint / 2.0)
 				angle += (sAngleConstraint - rem);
 			else
 				angle -= rem;
 
-			p.x = lp.x + (rad * cosf(angle));
-			p.y = lp.y + (rad * sinf(angle));
+			p.x = lp.x + (rad * cos(angle));
+			p.y = lp.y + (rad * sin(angle));
 		}
 
 		switch ([theEvent type]) {
@@ -1352,8 +1307,8 @@ finish:
 				// set radius as the distance from this click to the centre, and the
 				// start angle based on the slope of this line
 
-				radius = hypotf(p.x - centre.x, p.y - centre.y);
-				startAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
+				radius = hypot(p.x - centre.x, p.y - centre.y);
+				startAngle = (atan2(p.y - centre.y, p.x - centre.x) * 180.0) / M_PI;
 				++phase; // now setting the arc
 			} else
 				loop = NO;
@@ -1365,7 +1320,7 @@ finish:
 			if (phase == 0) {
 				[path setControlPoint:p
 						  forPartcode:partcode];
-				radius = hypotf(p.x - centre.x, p.y - centre.y);
+				radius = hypot(p.x - centre.x, p.y - centre.y);
 
 				if ([[self class] displaysSizeInfoWhenDragging]) {
 					CGFloat rad = [[self drawing] convertLength:radius];
@@ -1376,7 +1331,7 @@ finish:
 												   atPoint:nsp];
 				}
 			} else if (phase == 1) {
-				endAngle = (atan2f(p.y - centre.y, p.x - centre.x) * 180.0) / pi;
+				endAngle = (atan2(p.y - centre.y, p.x - centre.x) * 180.0) / M_PI;
 
 				[self setStyle:savedStyle];
 				[path removeAllPoints];
@@ -1402,7 +1357,7 @@ finish:
 					p.x += 4;
 					p.y -= 12;
 
-					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f%C", rad, abbrUnits, angle, 0xB0]
+					[[self layer] showInfoWindowWithString:[NSString stringWithFormat:@"radius: %.2f%@\nangle: %.1f°", rad, abbrUnits, angle]
 												   atPoint:nsp];
 				}
 			}
@@ -1426,7 +1381,6 @@ finish:
 
 	[self setPathCreationMode:kDKPathCreateModeEditExisting];
 	[self setStyle:savedStyle];
-	[savedStyle release];
 	[self notifyVisualChange];
 
 	[view mouseUp:theEvent];
@@ -1510,17 +1464,7 @@ finish:
 	return NO;
 }
 
-/** @brief Set whether the object should extend its path or start from scratch
-
- When YES, this affects the starting partcode for the creation process. Normally paths are started
- from scratch, but if YES, this extends the existing path from its end if the path is open. The
- tool that coordinates the creation of new objects is reposnsible for managing this appropriately.
- @param xtend YES to extend the path, NO for normal creation
- */
-- (void)setShouldExtendExistingPath:(BOOL)xtend
-{
-	m_extending = xtend;
-}
+@synthesize shouldExtendExistingPath=m_extending;
 
 /** @brief Conditionally display the length info feedback window
 
@@ -1668,24 +1612,7 @@ finish:
 
 #pragma mark -
 
-/** @brief Set the smoothness of paths created in freehand mode
-
- The bigger the number, the smoother but less accurate the path. The value is the distance in
- base units that a point has to be to the path to be considered a fit. Typical values are between 1 and 20
- @param fs a smoothness value
- */
-- (void)setFreehandSmoothing:(CGFloat)fs
-{
-	m_freehandEpsilon = fs;
-}
-
-/** @brief Get the smoothness valueof paths created in freehand mode
- @return the smoothness value
- */
-- (CGFloat)freehandSmoothing
-{
-	return m_freehandEpsilon;
-}
+@synthesize freehandSmoothing=m_freehandEpsilon;
 
 #pragma mark -
 
@@ -1697,7 +1624,7 @@ finish:
  */
 - (DKDrawableShape*)makeShape
 {
-	NSBezierPath* mp = [[[self path] copy] autorelease];
+	NSBezierPath* mp = [[self path] copy];
 
 	Class shapeClass = [DKDrawableObject classForConversionRequestFor:[DKDrawableShape class]];
 
@@ -1731,7 +1658,7 @@ finish:
 		[newPath setPath:np];
 	}
 
-	return [newPath autorelease];
+	return newPath;
 }
 
 #pragma mark -
@@ -1779,7 +1706,7 @@ finish:
 	// just for fun,this adds a little random offset to every control point on the path. For some paths (such as text) this produces
 	// a fairly interesting effect.
 
-	[self setPath:[[self path] bezierPathByRandomisingPoints:0.0f]];
+	[self setPath:[[self path] bezierPathByRandomisingPoints:0.0]];
 	[[self undoManager] setActionName:NSLocalizedString(@"Add Randomness", @"undo string for path add random")];
 }
 
@@ -1820,7 +1747,7 @@ finish:
 		DKStyle* newStyle = [DKStyle styleWithFillColour:[stroke colour]
 											strokeColour:strokeColour];
 
-		stroke = [[newStyle renderersOfClass:[DKStroke class]] lastObject];
+		stroke = (DKStroke*)[[newStyle renderersOfClass:[DKStroke class]] lastObject];
 
 		if (stroke)
 			[stroke setWidth:sw];
@@ -1843,12 +1770,10 @@ finish:
 	DKObjectDrawingLayer* odl = (DKObjectDrawingLayer*)[self layer];
 
 	if (odl && [broken count] > 1) {
-		NSEnumerator* iter = [broken objectEnumerator];
-		DKDrawableObject* obj;
-
-		while ((obj = [iter nextObject]))
+		for (DKDrawableObject* obj in broken) {
 			[obj willBeAddedAsSubstituteFor:self
 									toLayer:odl];
+		}
 
 		[odl recordSelectionForUndo];
 		[odl addObjectsFromArray:broken];
@@ -1889,7 +1814,7 @@ finish:
 		DKStyle* newStyle = [DKStyle styleWithFillColour:[stroke colour]
 											strokeColour:strokeColour];
 
-		stroke = [[newStyle renderersOfClass:[DKStroke class]] lastObject];
+		stroke = (DKStroke*)[[newStyle renderersOfClass:[DKStroke class]] lastObject];
 
 		if (stroke)
 			[stroke setWidth:sw];
@@ -1926,7 +1851,7 @@ finish:
 {
 #pragma unused(sender)
 
-	[self setPath:smartCurveFitPath([self path], [self freehandSmoothing] * 4.0, 1.2)];
+	[self setPath:DKSmartCurveFitPath([self path], [self freehandSmoothing] * 4.0, 1.2)];
 	[[self undoManager] setActionName:NSLocalizedString(@"Smooth More", @"smooth more action name")];
 }
 #endif /* defined(qUseCurveFit) */
@@ -1948,7 +1873,7 @@ finish:
 	if (odl) {
 		[odl recordSelectionForUndo];
 		[odl addObject:newPath];
-		[odl exchangeSelectionWithObjectsFromArray:[NSArray arrayWithObject:newPath]];
+		[odl exchangeSelectionWithObjectsFromArray:@[newPath]];
 		[odl commitSelectionUndoWithActionName:NSLocalizedString(@"Parallel Copy", @"undo string for parallel copy")];
 	}
 }
@@ -1968,7 +1893,7 @@ finish:
 			return;
 		NSSize ps = [originalPath bounds].size;
 		CGFloat epsilon = MIN( ps.width, ps.height ) / 1000.0;
-		NSBezierPath* newPath = smartCurveFitPath( originalPath, epsilon, kDKDefaultCornerThreshold );
+		NSBezierPath* newPath = DKSmartCurveFitPath( originalPath, epsilon, kDKDefaultCornerThreshold );
 		if (newPath != nil) {
 			[self setPath:newPath];
 			[[self undoManager] setActionName:NSLocalizedString(@"Curve Fit", @"undo action for Curve Fit")];
@@ -2050,7 +1975,6 @@ finish:
 		NSBezierPath* path = [[self path] copy];
 		[path closePath];
 		[self setPath:path];
-		[path release];
 		[[self undoManager] setActionName:NSLocalizedString(@"Close Path", nil)];
 	}
 }
@@ -2071,8 +1995,8 @@ finish:
 + (NSArray*)pasteboardTypesForOperation:(DKPasteboardOperationType)op
 {
 #pragma unused(op)
-	return [NSArray arrayWithObjects:NSColorPboardType, NSStringPboardType, NSPDFPboardType, NSTIFFPboardType,
-									 NSFilenamesPboardType, kDKStylePasteboardType, kDKStyleKeyPasteboardType, nil];
+	return @[NSPasteboardTypeColor, NSPasteboardTypeString, NSPasteboardTypePDF, NSPasteboardTypeTIFF,
+									 (NSString*)kUTTypeFileURL, kDKStylePasteboardType, kDKStyleKeyPasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -2082,7 +2006,7 @@ finish:
  @param aStyle the initial style for the object
  @return the object
  */
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super initWithStyle:aStyle];
 	if (self) {
@@ -2123,7 +2047,7 @@ finish:
 	NSRect kr = [[[self layer] knobs] controlKnobRectAtPoint:NSZeroPoint
 													  ofType:kDKOnPathKnobType];
 
-	CGFloat kbs = kr.size.width * 0.5f;
+	CGFloat kbs = kr.size.width * 0.5;
 	r = NSInsetRect([[self renderingPath] controlPointBounds], -kbs, -kbs);
 
 	// factor in style allowance
@@ -2497,7 +2421,7 @@ finish:
  */
 - (NSBezierPath*)renderingPath
 {
-	NSBezierPath* rPath = [[[self path] copy] autorelease];
+	NSBezierPath* rPath = [[self path] copy];
 	NSAffineTransform* parentTransform = [self containerTransform];
 
 	if (parentTransform)
@@ -2559,7 +2483,7 @@ finish:
 		}
 	}
 
-	return [pts autorelease];
+	return pts;
 }
 
 /** @brief Sets the path's bounds to be updated
@@ -2618,7 +2542,6 @@ finish:
 	NSBezierPath* path = [[self path] copy];
 	[path transformUsingAffineTransform:aTransform];
 	[self setPath:path];
-	[path release];
 }
 
 /** @brief Apply the transform to the object
@@ -2633,14 +2556,7 @@ finish:
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_path release];
-	[m_undoPath release];
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	return [self initWithStyle:[DKStyle styleWithFillColour:nil
 											   strokeColour:[NSColor blackColor]
@@ -2659,7 +2575,7 @@ finish:
 				 forKey:@"freehand_smoothing"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	self = [super initWithCoder:coder];
 	if (self != nil) {
@@ -2677,7 +2593,6 @@ finish:
 	NSBezierPath* pc = [[self path] copyWithZone:zone];
 
 	[copy setPath:pc];
-	[pc release];
 
 	[copy setPathCreationMode:[self pathCreationMode]];
 

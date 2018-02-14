@@ -16,9 +16,7 @@
 				  locale:[NSLocale currentLocale]];
 }
 
-/* Remove all characters from the specified set */
-
-- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSUInteger)mask
+- (NSString*)stringByRemovingCharactersInSet:(NSCharacterSet*)charSet options:(NSStringCompareOptions)mask
 {
 	NSRange range;
 	NSMutableString* newString = [NSMutableString string];
@@ -61,9 +59,6 @@
 
 - (NSString*)stringByReplacingCharactersInSet:(NSCharacterSet*)charSet withString:(NSString*)substitute
 {
-	//characters in <charSet> are replaced by <substitute>. The process is non-recursive, so if <substitute> contains characters from
-	// <charSet>, they will remain there.
-
 	NSRange range;
 	NSMutableString* newString = [NSMutableString string];
 	NSUInteger len = [self length];
@@ -94,10 +89,7 @@
 
 - (NSString*)stringByCapitalizingFirstCharacter
 {
-	// returns a copy of the receiver with just the first character capitalized, ignoring all others. Thus, the rest of the string isn't necessarily forced to
-	// lowercase.
-
-	NSMutableString* sc = [[self mutableCopy] autorelease];
+	NSMutableString* sc = [self mutableCopy];
 
 	if ([self length] > 0)
 		[sc replaceCharactersInRange:NSMakeRange(0, 1)
@@ -106,18 +98,14 @@
 	return sc;
 }
 
-- (NSString*)stringByAbbreviatingWithOptions:(NSUInteger)flags
+- (NSString*)stringByAbbreviatingWithOptions:(DKAbbreviationOption)flags
 {
-	// returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
-
 	NSArray* words = [self componentsSeparatedByString:@" "];
-	NSEnumerator* iter = [words objectEnumerator];
 	NSMutableString* result = [NSMutableString string];
-	NSString* word;
 	unichar chr;
 	BOOL addPeriods = flags & kDKAbbreviationOptionAddPeriods;
 
-	while ((word = [iter nextObject])) {
+	for (NSString *word in words) {
 		if (flags & kDKAbbreviationOptionAmpersand) {
 			if ([[word lowercaseString] isEqualToString:@"and"]) {
 				[result appendString:@"&"];
@@ -139,19 +127,14 @@
 
 - (NSString*)stringByAbbreviatingWordsWithDictionary:(NSDictionary*)abbreviations
 {
-	// breaks a string into words. If any words are keys in the dictionary, the word is substituted by its value. Keys are case insensitive (dictionary should have lower case
-	// keys) and words are substituted with the verbatim value. If dictionary is nil, self is returned.
-
 	if (abbreviations == nil)
 		return self;
 
 	NSArray* words = [self componentsSeparatedByString:@" "];
 	NSMutableString* result = [NSMutableString string];
-	NSEnumerator* iter = [words objectEnumerator];
-	NSString* word;
 	NSString* newWord;
 
-	while ((word = [iter nextObject])) {
+	for (__strong NSString* word in words) {
 		newWord = [abbreviations objectForKey:[word lowercaseString]];
 
 		if (newWord)
@@ -162,11 +145,6 @@
 	[result deleteCharactersInRange:NSMakeRange([result length] - 1, 1)];
 
 	return result;
-}
-
-- (NSString*)stringValue
-{
-	return self;
 }
 
 @end

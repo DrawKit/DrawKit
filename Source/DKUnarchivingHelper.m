@@ -7,9 +7,9 @@
 #import "DKUnarchivingHelper.h"
 #import "LogEvent.h"
 
-NSString* kDKUnarchiverProgressStartedNotification = @"kDKUnarchiverProgressStartedNotification";
-NSString* kDKUnarchiverProgressContinuedNotification = @"kDKUnarchiverProgressContinuedNotification";
-NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFinishedNotification";
+NSString* const kDKUnarchiverProgressStartedNotification = @"kDKUnarchiverProgressStartedNotification";
+NSString* const kDKUnarchiverProgressContinuedNotification = @"kDKUnarchiverProgressContinuedNotification";
+NSString* const kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFinishedNotification";
 
 @implementation DKUnarchivingHelper
 
@@ -18,10 +18,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 	mCount = 0;
 }
 
-- (NSUInteger)numberOfObjectsDecoded
-{
-	return mCount;
-}
+@synthesize numberOfObjectsDecoded=mCount;
 
 - (id)unarchiver:(NSKeyedUnarchiver*)unarchiver didDecodeObject:(id)object
 {
@@ -30,7 +27,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 	// this method tracks the number of objects decoded and also sends notifications about the dearchiving progress, allowing a dearchiving
 	// to drive a progress bar, etc. The notification is delivered on the main thread in case this is being invoked by a thread.
 
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:mCount], @"count", object, @"decoded_object", nil];
+	NSDictionary* userInfo = @{@"count": @(mCount), @"decoded_object": object};
 	NSNotification* note;
 
 	if (mCount == 0)
@@ -55,7 +52,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 {
 #pragma unused(unarchiver)
 
-	NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInteger:mCount], @"count", nil];
+	NSDictionary* userInfo = @{@"count": @(mCount)};
 	NSNotification* note = [NSNotification notificationWithName:kDKUnarchiverProgressFinishedNotification
 														 object:self
 													   userInfo:userInfo];
@@ -64,7 +61,7 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 														waitUntilDone:[NSThread isMainThread]];
 }
 
-- (Class)unarchiver:(NSKeyedUnarchiver*)unarchiver cannotDecodeObjectOfClassName:(NSString*)name originalClasses:(NSArray*)classNames
+- (Class)unarchiver:(NSKeyedUnarchiver*)unarchiver cannotDecodeObjectOfClassName:(NSString*)name originalClasses:(NSArray<NSString*>*)classNames
 {
 #pragma unused(unarchiver)
 #pragma unused(classNames)
@@ -118,13 +115,12 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 
 		NSString* classname = [classNames objectAtIndex:indx++];
 
-		// substitute DKNullObject for NSObject. Because NSOBject does not respond to -initWithCoder:, returning it will throw
+		// substitute DKNullObject for NSObject. Because NSObject does not respond to -initWithCoder:, returning it will throw
 		// an exception aborting dearchiving. The DKNullObject does nothing except provide a dummy initWithCoder method.
 
 		if ([classname isEqualToString:@"NSObject"]) {
 			classname = @"DKNullObject";
-			[mLastClassnameSubstituted release];
-			mLastClassnameSubstituted = [name retain];
+			mLastClassnameSubstituted = name;
 		}
 
 		theClass = NSClassFromString(classname);
@@ -138,36 +134,17 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 	return theClass;
 }
 
-- (NSString*)lastClassnameSubstituted
-{
-	return mLastClassnameSubstituted;
-}
+@synthesize lastClassnameSubstituted=mLastClassnameSubstituted;
 
-- (void)dealloc
-{
-	[mLastClassnameSubstituted release];
-	[super dealloc];
-}
 
 @end
 
 #pragma mark -
 
 @implementation DKNullObject
+@synthesize substitutionClassname=mSubstitutedForClassname;
 
-- (void)setSubstitutionClassname:(NSString*)classname
-{
-	[classname retain];
-	[mSubstitutedForClassname release];
-	mSubstitutedForClassname = classname;
-}
-
-- (NSString*)substitutionClassname
-{
-	return mSubstitutedForClassname;
-}
-
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	// make a note of the class name that this was substituted for. This may aid in debugging.
 
@@ -184,11 +161,6 @@ NSString* kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgressFin
 #pragma unused(coder)
 }
 
-- (void)dealloc
-{
-	[mSubstitutedForClassname release];
-	[super dealloc];
-}
 
 - (NSString*)description
 {

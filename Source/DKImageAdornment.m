@@ -15,36 +15,30 @@
 
 @implementation DKImageAdornment
 #pragma mark As a DKImageAdornment
-+ (DKImageAdornment*)imageAdornmentWithImage:(NSImage*)image
++ (instancetype)imageAdornmentWithImage:(NSImage*)image
 {
 	DKImageAdornment* gir = [[self alloc] init];
 
 	[gir setImage:image];
 
-	return [gir autorelease];
+	return gir;
 }
 
-+ (DKImageAdornment*)imageAdornmentWithImageFromFile:(NSString*)path
++ (instancetype)imageAdornmentWithImageFromFile:(NSString*)path
 {
-	NSImage* image = [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+	NSImage* image = [[NSImage alloc] initWithContentsOfFile:path];
 	return [self imageAdornmentWithImage:image];
 }
 
 #pragma mark -
 - (void)setImage:(NSImage*)image
 {
-	[image retain];
-	[m_image release];
 	m_image = image;
 
-	//[_image setFlipped:YES];
 	[m_image setCacheMode:NSImageCacheNever];
 }
 
-- (NSImage*)image
-{
-	return m_image;
-}
+@synthesize image=m_image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing
 {
@@ -55,29 +49,8 @@
 	[self setImageKey:key];
 }
 
-- (void)setImageKey:(NSString*)key
-{
-	[key retain];
-	[mImageKey release];
-	mImageKey = key;
-}
-
-- (NSString*)imageKey
-{
-	return mImageKey;
-}
-
-- (void)setImageIdentifier:(NSString*)imageID
-{
-	[imageID retain];
-	[m_imageIdentifier release];
-	m_imageIdentifier = imageID;
-}
-
-- (NSString*)imageIdentifier
-{
-	return m_imageIdentifier;
-}
+@synthesize imageKey=mImageKey;
+@synthesize imageIdentifier=m_imageIdentifier;
 
 #pragma mark -
 - (void)setScale:(CGFloat)scale
@@ -85,10 +58,7 @@
 	m_scale = LIMIT(scale, 0.2, 8.0);
 }
 
-- (CGFloat)scale
-{
-	return m_scale;
-}
+@synthesize scale=m_scale;
 
 #pragma mark -
 - (void)setOpacity:(CGFloat)opacity
@@ -96,32 +66,13 @@
 	m_opacity = LIMIT(opacity, 0.0, 1.0);
 }
 
-- (CGFloat)opacity
-{
-	return m_opacity;
-}
+@synthesize opacity=m_opacity;
 
 #pragma mark -
-- (void)setOrigin:(NSPoint)origin
-{
-	m_origin = origin;
-}
-
-- (NSPoint)origin
-{
-	return m_origin;
-}
+@synthesize origin=m_origin;
 
 #pragma mark -
-- (void)setAngle:(CGFloat)angle
-{
-	m_angle = angle;
-}
-
-- (CGFloat)angle
-{
-	return m_angle;
-}
+@synthesize angle=m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -133,32 +84,16 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
 
 #pragma mark -
-- (void)setOperation:(NSCompositingOperation)op
-{
-	m_op = op;
-}
-
-- (NSCompositingOperation)operation
-{
-	return m_op;
-}
+@synthesize operation=m_op;
 
 #pragma mark -
-- (void)setFittingOption:(DKImageFittingOption)fopt
-{
-	m_fittingOption = fopt;
-}
-
-- (DKImageFittingOption)fittingOption
-{
-	return m_fittingOption;
-}
+@synthesize fittingOption=m_fittingOption;
 
 #pragma mark -
 - (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject
@@ -226,7 +161,7 @@
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:
-										   [NSArray arrayWithObjects:@"image", @"opacity", @"scale", @"fittingOption", @"angle", @"operation", nil]];
+										   @[@"image", @"opacity", @"scale", @"fittingOption", @"angle", @"operation"]];
 }
 
 - (void)registerActionNames
@@ -249,16 +184,7 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_imageIdentifier release];
-	[m_image release];
-	[mImageKey release];
-
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -320,12 +246,12 @@
 
 		// draw the image
 		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
-		[image setFlipped:YES];
 		[image drawInRect:destRect
 				 fromRect:NSZeroRect
 				operation:[self operation]
-				 fraction:[self opacity]];
-		[image setFlipped:NO];
+				 fraction:[self opacity]
+		   respectFlipped:YES
+					hints:nil];
 
 		// clean up
 
@@ -365,7 +291,7 @@
 				 forKey:@"ident"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

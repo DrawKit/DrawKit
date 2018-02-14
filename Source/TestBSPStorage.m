@@ -49,11 +49,6 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 - (void)testBSPStorage
 {
-	// unit test for the DKBSPDirectStorage object. This creates a standalone storage object, populates it with random objects, randomly adds, deletes and moves objects and verifies
-	// the integrity of the storage system.
-
-	NSLog(@"starting 'testBSPStorage'...");
-
 	srandomdev();
 
 	NSSize canvasSize = NSMakeSize(2000, 2000);
@@ -64,8 +59,8 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	DKBSPDirectTree* tree = [testStorage tree];
 
-	STAssertNotNil(tree, @"failed to create the internal tree instance");
-	STAssertTrue(NSEqualSizes([tree canvasSize], canvasSize), @"tree canvas size does not match set size (%@)", NSStringFromSize([tree canvasSize]));
+	XCTAssertNotNil(tree, @"failed to create the internal tree instance");
+	XCTAssertTrue(NSEqualSizes([tree canvasSize], canvasSize), @"tree canvas size does not match set size (%@)", NSStringFromSize([tree canvasSize]));
 
 	// populate with a fairly large number of initial random objects, whose bounds are assigned randomly but wrapped within the set canvas size.
 
@@ -76,9 +71,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	NSUInteger v, u = NUMBER_OF_MAIN_TESTS;
 
 	for (v = 0; v < u; ++v) {
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-		NSLog(@" =========  beginning main test loop, #%d =========", v);
+		NSLog(@" =========  beginning main test loop, #%lu =========", (unsigned long)v);
 
 		[self deletionTest:testStorage];
 		[self verifyRenumbering:testStorage];
@@ -169,8 +162,8 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	DKBSPIndexTree* tree = [testStorage tree];
 
-	STAssertNotNil(tree, @"failed to create the internal tree instance");
-	STAssertTrue(NSEqualSizes([tree canvasSize], canvasSize), @"tree canvas size does not match set size (%@)", NSStringFromSize([tree canvasSize]));
+	XCTAssertNotNil(tree, @"failed to create the internal tree instance");
+	XCTAssertTrue(NSEqualSizes([tree canvasSize], canvasSize), @"tree canvas size does not match set size (%@)", NSStringFromSize([tree canvasSize]));
 
 	// populate with a fairly large number of initial random objects, whose bounds are assigned randomly but wrapped within the set canvas size.
 
@@ -181,9 +174,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	NSUInteger v, u = NUMBER_OF_MAIN_TESTS;
 
 	for (v = 0; v < u; ++v) {
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-		NSLog(@" =========  beginning main test loop, #%d =========", v);
+		NSLog(@" =========  beginning main test loop, #%lu =========", (unsigned long)v);
 
 		[self deletionTest:testStorage];
 		[self verifyIndexedStorageIntegrity:testStorage];
@@ -267,17 +258,15 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 			 inObjectsAtIndex:i];
 		[tso release];
 
-		STAssertEqualObjects([tso storage], storage, @"storage back pointer was not correctly assigned");
+		XCTAssertEqualObjects([tso storage], storage, @"storage back pointer was not correctly assigned");
 
 		if ([storage isKindOfClass:[DKBSPDirectObjectStorage class]])
-			STAssertEquals([tso index], i, @"storage index was incorrectly assigned (should be %d, was %d)", i, [tso index]);
+			XCTAssertEqual([tso index], i, @"storage index was incorrectly assigned (should be %lu, was %lu)", (unsigned long)i, (unsigned long)[tso index]);
 	}
 
-	STAssertEquals([storage countOfObjects], m, @"total number of objects stored was mismatched (was %d, should be %d)", [storage countOfObjects], m);
+	XCTAssertEqual([storage countOfObjects], m, @"total number of objects stored was mismatched (was %lu, should be %lu)", (unsigned long)[storage countOfObjects], (unsigned long)m);
 
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-	NSLog(@"%d objects added to storage", m);
+	NSLog(@"%lu objects added to storage", (unsigned long)m);
 }
 
 - (void)deletionTest:(id<DKObjectStorage>)storage
@@ -297,7 +286,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	NSUInteger numberToDelete = [remIndexSet count];
 	[storage removeObjectsAtIndexes:remIndexSet];
 
-	STAssertEquals([storage countOfObjects], m - numberToDelete, @"deletion failed - number of objects remaining = %d, should be %d", [storage countOfObjects], m - numberToDelete);
+	XCTAssertEqual([storage countOfObjects], m - numberToDelete, @"deletion failed - number of objects remaining = %lu, should be %lu", (unsigned long)[storage countOfObjects], (unsigned long)(m - numberToDelete));
 
 	[remIndexSet release];
 }
@@ -336,16 +325,14 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 		}
 	}
 
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-	NSLog(@"insertion test, %d objects with indexes: %@", [insertObjects count], remIndexSet);
+	NSLog(@"insertion test, %lu objects with indexes: %@", (unsigned long)[insertObjects count], remIndexSet);
 	[storage insertObjects:insertObjects
 				 atIndexes:remIndexSet];
 
 	m += [insertObjects count];
 	[insertObjects release];
 
-	STAssertEquals(m, [storage countOfObjects], @"count of objects mismatched, expected %d, got %d", m, [storage countOfObjects]);
+	XCTAssertEqual(m, [storage countOfObjects], @"count of objects mismatched, expected %lu, got %lu", (unsigned long)m, (unsigned long)[storage countOfObjects]);
 
 	[remIndexSet release];
 }
@@ -379,12 +366,12 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 									withObject:tso];
 
 		if ([storage isKindOfClass:[DKBSPDirectObjectStorage class]]) {
-			STAssertEquals([orig index], [tso index], @"replacement object index mismatch, expected %d, got %d", [orig index], [tso index]);
-			STAssertEquals(ix, [tso index], @"replacement object index mismatch, expected %d, got %d", ix, [tso index]);
+			XCTAssertEqual([orig index], [tso index], @"replacement object index mismatch, expected %lu, got %lu", (unsigned long)[orig index], (unsigned long)[tso index]);
+			XCTAssertEqual(ix, [tso index], @"replacement object index mismatch, expected %lu, got %lu", (unsigned long)ix, (unsigned long)[tso index]);
 		}
 
-		STAssertEqualObjects([tso storage], storage, @"storage back-pointer incorrect after replacement (%@)", [tso storage]);
-		STAssertNil([orig storage], @"replaced object does not have a nil back-pointer");
+		XCTAssertEqualObjects([tso storage], storage, @"storage back-pointer incorrect after replacement (%@)", [tso storage]);
+		XCTAssertNil([orig storage], @"replaced object does not have a nil back-pointer");
 
 		[orig release];
 		[tso release];
@@ -413,16 +400,12 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			retrievalRect = NSIntersectionRect(retrievalRect, NSMakeRect(0, 0, canvasSize.width, canvasSize.height));
 
-	#warning 64BIT: Check formatting arguments
-	#warning 64BIT: Check formatting arguments
-			NSLog(@"retrieval test %d, rect = %@", i, NSStringFromRect(retrievalRect));
+			NSLog(@"retrieval test %lu, rect = %@", (unsigned long)i, NSStringFromRect(retrievalRect));
 
 			// move some of the objects to random new locations for some of the tests
 
 			if ((i % MOVE_OBJECTS_FOR_TEST_MOD) == 0 && i > 0) {
-	#warning 64BIT: Check formatting arguments
-	#warning 64BIT: Check formatting arguments
-				NSLog(@"repositioning objects for test #%d", i);
+				NSLog(@"repositioning objects for test #%lu", (unsigned long)i);
 				[self repositioningTest:storage
 							 canvasSize:canvasSize];
 			}
@@ -431,10 +414,9 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// do the brute force search first. These should be in the right z-order.
 
-			NSEnumerator* iter = [objects objectEnumerator];
-			while ((tso = [iter nextObject])) {
-				if (NSIntersectsRect(retrievalRect, [tso bounds]))
-					[bruteForceSearchResults addObject:tso];
+			for (testStorableObject* tso1 in objects) {
+				if (NSIntersectsRect(retrievalRect, [tso1 bounds]))
+					[bruteForceSearchResults addObject:tso1];
 			}
 
 			// retrieve what should be the same objects the clever way:
@@ -445,7 +427,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// now check they are what they should be:
 
-			STAssertEquals([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %d, bsp = %d", [bruteForceSearchResults count], [bspResults count]);
+			XCTAssertEqual([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %lu, bsp = %lu", (unsigned long)[bruteForceSearchResults count], (unsigned long)[bspResults count]);
 
 			// check each object is the same
 
@@ -457,8 +439,8 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 				bruteObject = [bruteForceSearchResults objectAtIndex:j];
 				tso = [bspResults objectAtIndex:j];
 
-				STAssertEqualObjects(bruteObject, tso, @"objects at index %d do not match - bf = %@, bsp = %@", j, bruteObject, tso);
-				STAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %d", j);
+				XCTAssertEqualObjects(bruteObject, tso, @"objects at index %lu do not match - bf = %@, bsp = %@", (unsigned long)j, bruteObject, tso);
+				XCTAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %lu", (unsigned long)j);
 			}
 
 		}
@@ -471,7 +453,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	bspResults = [storage objectsIntersectingRect:retrievalRect
 										   inView:nil
 										  options:0];
-	STAssertEquals([bspResults count], [objects count], @"object count mismatched when retrieving using the whole canvas size (expected %d, got %d)", [objects count], [bspResults count]);
+	XCTAssertEqual([bspResults count], [objects count], @"object count mismatched when retrieving using the whole canvas size (expected %lu, got %lu)", (unsigned long)[objects count], (unsigned long)[bspResults count]);
 
 	[bruteForceSearchResults release];
 }
@@ -491,16 +473,12 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 			t = randomFloat(0, canvasSize.height);
 			NSPoint retrievalPoint = NSMakePoint(l, t);
 
-	#warning 64BIT: Check formatting arguments
-	#warning 64BIT: Check formatting arguments
-			NSLog(@"point retrieval test %d, pt = %@", i, NSStringFromPoint(retrievalPoint));
+			NSLog(@"point retrieval test %lu, pt = %@", (unsigned long)i, NSStringFromPoint(retrievalPoint));
 
 			// move some of the objects to random new locations for some of the tests
 
 			if ((i % MOVE_OBJECTS_FOR_TEST_MOD) == 0 && i > 0) {
-	#warning 64BIT: Check formatting arguments
-	#warning 64BIT: Check formatting arguments
-				NSLog(@"repositioning objects for test #%d", i);
+				NSLog(@"repositioning objects for test #%lu", (unsigned long)i);
 				[self repositioningTest:storage
 							 canvasSize:canvasSize];
 			}
@@ -509,10 +487,9 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// do the brute force search first. These should be in the right z-order.
 
-			NSEnumerator* iter = [objects objectEnumerator];
-			while ((tso = [iter nextObject])) {
-				if (NSPointInRect(retrievalPoint, [tso bounds]))
-					[bruteForceSearchResults addObject:tso];
+			for (testStorableObject* tso1 in objects) {
+				if (NSPointInRect(retrievalPoint, [tso1 bounds]))
+					[bruteForceSearchResults addObject:tso1];
 			}
 
 			// retrieve what should be the same objects the clever way:
@@ -521,7 +498,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 			// now check they are what they should be:
 
-			STAssertEquals([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %d, bsp = %d", [bruteForceSearchResults count], [bspResults count]);
+			XCTAssertEqual([bspResults count], [bruteForceSearchResults count], @"object counts do not match, brute force = %lu, bsp = %lu", (unsigned long)[bruteForceSearchResults count], (unsigned long)[bspResults count]);
 
 			// check each object is the same
 
@@ -533,8 +510,8 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 				bruteObject = [bruteForceSearchResults objectAtIndex:j];
 				tso = [bspResults objectAtIndex:j];
 
-				STAssertEqualObjects(bruteObject, tso, @"objects at index %d do not match - bf = %@, bsp = %@", j, bruteObject, tso);
-				STAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %d", j);
+				XCTAssertEqualObjects(bruteObject, tso, @"objects at index %lu do not match - bf = %@, bsp = %@", (unsigned long)j, bruteObject, tso);
+				XCTAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %lu", (unsigned long)j);
 			}
 
 		}
@@ -564,15 +541,15 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 			tso = [objects objectAtIndex:r];
 
 			if ([storage isKindOfClass:[DKBSPDirectObjectStorage class]])
-				STAssertEquals([tso index], r, @"before repositioning index was incorrect - expected %d, got %d (%@)", r, [tso index], tso);
+				XCTAssertEqual([tso index], r, @"before repositioning index was incorrect - expected %lu, got %lu (%@)", (unsigned long)r, (unsigned long)[tso index], tso);
 
 			[tso setBounds:newBounds];
 
 			if ([storage isKindOfClass:[DKBSPDirectObjectStorage class]])
-				STAssertEquals([tso index], r, @"after repositioning index was incorrect - expected %d, got %d", r, [tso index]);
+				XCTAssertEqual([tso index], r, @"after repositioning index was incorrect - expected %lu, got %lu", (unsigned long)r, (unsigned long)[tso index]);
 
-			STAssertEqualObjects([tso storage], storage, @"after repositioning storage was incorrect, got %@", [tso storage]);
-			STAssertTrue(NSEqualRects(newBounds, [tso bounds]), @"bounds mismatch, should be %@", NSStringFromRect(newBounds));
+			XCTAssertEqualObjects([tso storage], storage, @"after repositioning storage was incorrect, got %@", [tso storage]);
+			XCTAssertTrue(NSEqualRects(newBounds, [tso bounds]), @"bounds mismatch, should be %@", NSStringFromRect(newBounds));
 		}
 	}
 }
@@ -598,9 +575,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	m = MIN([srcIndexes count], [destIndexes count]);
 
-#warning 64BIT: Check formatting arguments
-#warning 64BIT: Check formatting arguments
-	NSLog(@"performing reordering test (%d objects). Src indexes = %@", m, srcIndexes);
+	NSLog(@"performing reordering test (%lu objects). Src indexes = %@", (unsigned long)m, srcIndexes);
 
 	ix = [srcIndexes firstIndex];
 	dx = [destIndexes firstIndex];
@@ -609,13 +584,13 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 		tso = [storage objectInObjectsAtIndex:ix];
 
 		if ([storage isKindOfClass:[DKBSPDirectObjectStorage class]])
-			STAssertEquals([tso index], ix, @"object index was incorrect before reordering - expected %d, was %d (%@)", ix, [tso index], tso);
+			XCTAssertEqual([tso index], ix, @"object index was incorrect before reordering - expected %lu, was %lu (%@)", (unsigned long)ix, (unsigned long)[tso index], tso);
 
 		[storage moveObject:tso
 					toIndex:dx];
 
 		if ([storage isKindOfClass:[DKBSPDirectObjectStorage class]])
-			STAssertEquals([tso index], dx, @"object index was incorrect after reordering - expected %d, was %d (original = %d, %@)", dx, [tso index], ix, tso);
+			XCTAssertEqual([tso index], dx, @"object index was incorrect after reordering - expected %lu, was %lu (original = %lu, %@)", (unsigned long)dx, (unsigned long)[tso index], (unsigned long)ix, tso);
 
 		ix = [srcIndexes indexGreaterThanIndex:ix];
 		dx = [destIndexes indexGreaterThanIndex:dx];
@@ -637,7 +612,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	for (i = 0; i < m; ++i) {
 		tso = [storage objectInObjectsAtIndex:i];
 
-		STAssertEquals([tso index], i, @"renumbering error - index = %d, stored index = %d", i, [tso index]);
+		XCTAssertEqual([tso index], i, @"renumbering error - index = %lu, stored index = %lu", (unsigned long)i, (unsigned long)[tso index]);
 	}
 }
 
@@ -647,42 +622,35 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	NSLog(@"checking storage integrity...");
 
-	NSEnumerator* iter = [[storage objects] objectEnumerator];
-	testStorableObject* tso;
-	NSArray* leafArray, *leaves = [[storage tree] leaves];
+	NSArray *leaves = [[storage tree] leaves];
 	NSUInteger foundCount = 0;
 
-	while ((tso = [iter nextObject])) {
+	for (testStorableObject* tso in storage.objects) {
 		@autoreleasepool {
-			NSEnumerator* leafEnum = [leaves objectEnumerator];
-
-			while ((leafArray = [leafEnum nextObject])) {
+			for (NSArray* leafArray in leaves) {
 				if ([leafArray containsObject:tso]) {
 					foundCount++;
 					break;
 				}
 			}
-			STAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
-			STAssertEqualObjects([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage (%@)", tso);
+			XCTAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
+			XCTAssertEqualObjects([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage (%@)", tso);
 
 		}
 	}
 
-	STAssertEquals(foundCount, [storage countOfObjects], @"number of objects in tree is not equal to number in linear storage, expected %d, got %d", [storage countOfObjects], foundCount);
+	XCTAssertEqual(foundCount, [storage countOfObjects], @"number of objects in tree is not equal to number in linear storage, expected %lu, got %lu", (unsigned long)[storage countOfObjects], (unsigned long)foundCount);
 
 	// if not equal, try and find out where the problem is...
 
 	if (foundCount != [storage countOfObjects]) {
-		iter = [[storage objects] objectEnumerator];
 		NSUInteger linIndex = 0;
 
-		while ((tso = [iter nextObject])) {
+		for (testStorableObject *tso in storage.objects) {
+			BOOL found = NO;
 			@autoreleasepool {
 
-				NSEnumerator* leafEnum = [leaves objectEnumerator];
-				BOOL found = NO;
-
-				while ((leafArray = [leafEnum nextObject])) {
+				for (NSArray *leafArray in leaves) {
 					if ([leafArray containsObject:tso]) {
 						found = YES;
 						break;
@@ -692,7 +660,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 			}
 
 			if (!found) {
-				NSLog(@"first object not found in tree is: %@ (index = %d, bounds = %@, array index = %d)", tso, [tso index], NSStringFromRect([tso bounds]), linIndex);
+				NSLog(@"first object not found in tree is: %@ (index = %lu, bounds = %@, array index = %lu)", tso, (unsigned long)[tso index], NSStringFromRect([tso bounds]), (unsigned long)linIndex);
 				break;
 			}
 
@@ -704,15 +672,13 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	foundCount = 0;
 
-	iter = [leaves objectEnumerator];
-	while ((leafArray = [iter nextObject])) {
+	for (NSArray *leafArray in leaves) {
 		@autoreleasepool {
 
-			NSEnumerator* leafIter = [leafArray objectEnumerator];
-			while ((tso = [leafIter nextObject])) {
-				STAssertTrue([[storage objects] containsObject:tso], @"an object was present in the tree but not in the linear array: %@ (leaf index = %d)", tso, foundCount);
-				STAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
-				STAssertEquals([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage");
+			for (testStorableObject *tso in leafArray) {
+				XCTAssertTrue([[storage objects] containsObject:tso], @"an object was present in the tree but not in the linear array: %@ (leaf index = %lu)", tso, (unsigned long)foundCount);
+				XCTAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
+				XCTAssertEqual([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage");
 			}
 			++foundCount;
 
@@ -745,7 +711,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	for (i = 0; i < [objects count]; ++i) {
 		tso = [objects objectAtIndex:i];
 
-		STAssertEquals([tso index], ix, @"mismatch of object index in spotcheck, expected %d, got %d (%@)", ix, [tso index], tso);
+		XCTAssertEqual([tso index], ix, @"mismatch of object index in spotcheck, expected %lu, got %lu (%@)", (unsigned long)ix, (unsigned long)[tso index], tso);
 
 		ix = [remIndexSet indexGreaterThanIndex:ix];
 	}
@@ -759,21 +725,19 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	DKBSPIndexTree* tree = [storage tree];
 	NSArray* leaves = [tree leaves];
-	NSIndexSet* leaf;
 	NSArray* objs = [storage objects];
 	NSMutableIndexSet* allIndexes = [[NSMutableIndexSet alloc] init];
 	NSUInteger minIndex, maxIndex;
 
-	NSEnumerator* iter = [leaves objectEnumerator];
-	while ((leaf = [iter nextObject])) {
+	for (NSIndexSet *leaf in leaves) {
 		minIndex = [leaf firstIndex];
 		maxIndex = [leaf lastIndex];
 
 		if (minIndex != NSNotFound)
-			STAssertTrue(minIndex < [objs count], @"a leaf index is out of range. Index = %d", minIndex);
+			XCTAssertTrue(minIndex < [objs count], @"a leaf index is out of range. Index = %lu", (unsigned long)minIndex);
 
 		if (maxIndex != NSNotFound)
-			STAssertTrue(maxIndex < [objs count], @"a leaf index is out of range. Index = %d", maxIndex);
+			XCTAssertTrue(maxIndex < [objs count], @"a leaf index is out of range. Index = %lu", (unsigned long)maxIndex);
 
 		[allIndexes addIndexes:leaf];
 	}
@@ -784,8 +748,8 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	maxIndex = [allIndexes lastIndex];
 
 	if ([objs count] > 0) {
-		STAssertEquals(minIndex, 0U, @"the lowest index in the tree is not 0");
-		STAssertEquals(maxIndex, [objs count] - 1, @"the highest index in the tree is not the count -1");
+		XCTAssertEqual(minIndex, 0U, @"the lowest index in the tree is not 0");
+		XCTAssertEqual(maxIndex, [objs count] - 1, @"the highest index in the tree is not the count -1");
 	}
 }
 

@@ -11,7 +11,7 @@
 #import "DKGridLayer.h"
 
 #pragma mark Contants(Non - localized)
-NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttributes";
+NSString* const kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttributes";
 
 #pragma mark -
 @implementation DKDrawingInfoLayer
@@ -27,10 +27,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-- (NSSize)size
-{
-	return m_size;
-}
+@synthesize size=m_size;
 
 #pragma mark -
 - (void)setPlacement:(DKInfoBoxPlacement)placement
@@ -41,10 +38,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-- (DKInfoBoxPlacement)placement
-{
-	return m_placement;
-}
+@synthesize placement=m_placement;
 
 #pragma mark -
 - (void)setBackgroundColour:(NSColor*)colour
@@ -66,10 +60,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	}
 }
 
-- (BOOL)drawsBorder
-{
-	return m_drawBorder;
-}
+@synthesize drawsBorder=m_drawBorder;
 
 #pragma mark -
 - (NSRect)infoBoxRect
@@ -210,17 +201,17 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 	NSMutableDictionary* ad = nil;
 
 	if ([key isEqualToString:kDKDrawingInfoDrawingNumber]) {
-		ad = [[[NSMutableDictionary alloc] init] autorelease];
+		ad = [[NSMutableDictionary alloc] init];
 		[ad setObject:[NSFont fontWithName:@"Helvetica"
 									  size:24]
 			   forKey:NSFontAttributeName];
 	} else if ([key isEqualToString:kDKDrawingInfoDrawingRevision]) {
-		ad = [[[NSMutableDictionary alloc] init] autorelease];
+		ad = [[NSMutableDictionary alloc] init];
 		[ad setObject:[NSFont fontWithName:@"Helvetica"
 									  size:24]
 			   forKey:NSFontAttributeName];
 	} else if ([key isEqualToString:kDKDrawingInfoTextLabelAttributes]) {
-		ad = [[[NSMutableDictionary alloc] init] autorelease];
+		ad = [[NSMutableDictionary alloc] init];
 		[ad setObject:[NSFont fontWithName:@"Helvetica"
 									  size:7]
 			   forKey:NSFontAttributeName];
@@ -238,7 +229,6 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 																 attributes:attr];
 
 		[as drawInRect:NSOffsetRect(r, 4, 2)];
-		[as release];
 	}
 }
 
@@ -267,7 +257,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		s = [[NSAttributedString alloc] initWithString:NSLocalizedString(@"mods:", @"drawing info modification history label")
 											attributes:attr];
 
-	return [s autorelease];
+	return s;
 }
 
 - (NSRect)layoutRectForDrawingInfoItem:(NSString*)key inRect:(NSRect)bounds
@@ -321,11 +311,9 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 
 	NSDictionary* di = [[self drawing] drawingInfo];
 	NSArray* keys = [di allKeys];
-	NSEnumerator* iter = [keys reverseObjectEnumerator];
-	NSString* key;
 	NSRect r, br = [self infoBoxRect];
 
-	while ((key = [iter nextObject])) {
+	for (NSString *key in [keys reverseObjectEnumerator]) {
 		r = [self layoutRectForDrawingInfoItem:key
 										inRect:br];
 
@@ -437,7 +425,6 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 									inRect:NSOffsetRect(fr, -1.5, 2.5)
 								  delegate:self];
 			m_editingKeyRef = key;
-			[str autorelease];
 		} else {
 			[[self drawing] exitTemporaryTextEditingMode];
 			m_editingKeyRef = nil;
@@ -447,7 +434,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -458,8 +445,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		NSAssert(m_editingKeyRef == nil, @"Expected init to zero");
 		[self setBackgroundColour:[NSColor whiteColor]];
 		m_drawBorder = YES;
-	}
-	if (self != nil) {
+
 		[self setLayerName:NSLocalizedString(@"Info", @"default name for info layer")];
 	}
 	return self;
@@ -480,7 +466,7 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 			   forKey:@"drawBorder"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -489,8 +475,6 @@ NSString* kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAttribute
 		[self setSize:[coder decodeSizeForKey:@"infoBoxSize"]];
 		NSAssert(m_editingKeyRef == nil, @"Expected init to zero");
 		[self setDrawsBorder:[coder decodeBoolForKey:@"drawBorder"]];
-	}
-	if (self != nil) {
 	}
 	return self;
 }

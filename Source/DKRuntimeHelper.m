@@ -12,7 +12,6 @@
 
 @implementation DKRuntimeHelper
 
-/**  */
 + (NSArray*)allClasses
 {
 	return [self allClassesOfKind:[NSObject class]];
@@ -39,13 +38,10 @@
 
 	NSMutableArray* list = [NSMutableArray array];
 
-	Class* buffer = NULL;
-	Class cl;
-
-	NSInteger i, numClasses = objc_getClassList(NULL, 0);
+	int numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
-		buffer = malloc(sizeof(Class) * numClasses);
+		Class *buffer = malloc(sizeof(Class) * numClasses);
 
 		NSAssert(buffer != nil, @"couldn't allocate the buffer");
 
@@ -53,8 +49,8 @@
 
 		// go through the list and carefully check whether the class can respond to isSubclassOfClass: - if so, add it to the list.
 
-		for (i = 0; i < numClasses; ++i) {
-			cl = buffer[i];
+		for (NSInteger i = 0; i < numClasses; ++i) {
+			Class cl = buffer[i];
 
 			if (classIsSubclassOfClass(cl, aClass))
 				[list addObject:cl];
@@ -70,7 +66,7 @@
 
 	//	LogEvent_(kReactiveEvent, @"classes: %@", list);
 
-	return list;
+	return [[list copy] autorelease];
 }
 
 + (NSArray*)allImmediateSubclassesOf:(Class)aClass
@@ -94,7 +90,7 @@
 	Class* buffer = NULL;
 	Class cl;
 
-	NSInteger i, numClasses = objc_getClassList(NULL, 0);
+	int i, numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
 		buffer = malloc(sizeof(Class) * numClasses);
@@ -122,15 +118,13 @@
 
 	//	LogEvent_(kReactiveEvent, @"classes: %@", list);
 
-	return list;
+	return [[list copy] autorelease];
 }
 
 @end
 
 BOOL classIsNSObject(const Class aClass)
 {
-	// returns YES if <aClass> is an NSObject derivative, otherwise NO. It does this without invoking any methods on the class being tested.
-
 	return classIsSubclassOfClass(aClass, [NSObject class]);
 }
 

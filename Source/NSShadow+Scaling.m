@@ -30,7 +30,7 @@
 	if (flipped)
 		os.height = -os.height;
 
-	CGSize offset = CGSizeApplyAffineTransform(*(CGSize*)&os, ctm);
+	CGSize offset = CGSizeApplyAffineTransform(NSSizeToCGSize(os), ctm);
 	CGFloat blur = [self shadowBlurRadius] * unit.width;
 	CGColorRef colour = [[self shadowColor] newQuartzColor];
 
@@ -45,8 +45,8 @@
 {
 	NSSize offset;
 
-	offset.width = dist * cosf(radians);
-	offset.height = dist * sinf(radians);
+	offset.width = dist * cos(radians);
+	offset.height = dist * sin(radians);
 
 	[self setShadowOffset:offset];
 }
@@ -60,7 +60,7 @@
 - (CGFloat)shadowAngle
 {
 	NSSize offset = [self shadowOffset];
-	return atan2f(offset.height, offset.width);
+	return atan2(offset.height, offset.width);
 }
 
 - (CGFloat)shadowAngleInDegrees
@@ -68,7 +68,7 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self shadowAngle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
@@ -79,8 +79,8 @@
 {
 	NSSize offset;
 
-	offset.width = [self distance] * cosf(radians);
-	offset.height = [self distance] * sinf(radians);
+	offset.width = [self distance] * cos(radians);
+	offset.height = [self distance] * sin(radians);
 
 	[self setShadowOffset:offset];
 }
@@ -98,7 +98,7 @@
 - (CGFloat)angle
 {
 	NSSize offset = [self shadowOffset];
-	return atan2f(offset.height, offset.width);
+	return atan2(offset.height, offset.width);
 }
 
 - (CGFloat)angleInDegrees
@@ -106,7 +106,7 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
@@ -116,8 +116,8 @@
 	NSSize offset;
 	CGFloat radians = [self angle];
 
-	offset.width = distance * cosf(radians);
-	offset.height = distance * sinf(radians);
+	offset.width = distance * cos(radians);
+	offset.height = distance * sin(radians);
 
 	[self setShadowOffset:offset];
 }
@@ -125,7 +125,7 @@
 - (CGFloat)distance
 {
 	NSSize offset = [self shadowOffset];
-	return hypotf(offset.width, offset.height);
+	return hypot(offset.width, offset.height);
 }
 
 - (CGFloat)extraSpace

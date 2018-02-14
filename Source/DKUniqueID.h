@@ -4,17 +4,18 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 
 /** @brief Utility class generates totally unique keys using CFUUID.
 
-Utility class generates totally unique keys using CFUUID. The keys are guaranteed unique across time, space and different machines.
+ Utility class generates totally unique keys using CFUUID. The keys are guaranteed unique across time, space and different machines.
 
-One intended client for this is to assign unique registry keys to styles to solve the registry merge problem.
+ One intended client for this is to assign unique registry keys to styles to solve the registry merge problem.
 */
 @interface DKUniqueID : NSObject
 
-/**  */
-+ (NSString*)uniqueKey;
+- (nonnull instancetype)init UNAVAILABLE_ATTRIBUTE;
+
++ (nonnull NSString*)uniqueKey;
 
 @end

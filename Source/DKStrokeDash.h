@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface DKStrokeDash : NSObject <NSCoding, NSCopying> {
 @private
 	CGFloat m_pattern[8];
@@ -15,30 +17,43 @@
 	BOOL mEditing;
 }
 
-/**  */
 + (DKStrokeDash*)defaultDash;
-+ (DKStrokeDash*)dashWithPattern:(CGFloat[])dashes count:(NSInteger)count;
++ (DKStrokeDash*)dashWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count;
 + (DKStrokeDash*)dashWithName:(NSString*)name;
 + (void)registerDash:(DKStrokeDash*)dash withName:(NSString*)name;
-+ (NSArray*)registeredDashes;
++ (NSArray<DKStrokeDash*>*)registeredDashes;
+@property (class, readonly, copy) NSArray<DKStrokeDash*> *registeredDashes;
 
 + (DKStrokeDash*)equallySpacedDashToFitSize:(NSSize)aSize dashLength:(CGFloat)len;
 
-- (id)initWithPattern:(CGFloat[])dashes count:(NSInteger)count;
-- (void)setDashPattern:(CGFloat[])dashes count:(NSInteger)count;
-- (void)getDashPattern:(CGFloat[])dashes count:(NSInteger*)count;
-- (NSInteger)count;
-- (void)setPhase:(CGFloat)ph;
+- (instancetype)initWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
+- (instancetype)init NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (void)setDashPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_SWIFT_NAME(setPattern(_:count:));
+- (void)getDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger*)count;
+
+/** @brief The count of dashes.
+ */
+@property (readonly) NSUInteger count;
+
 - (void)setPhaseWithoutNotifying:(CGFloat)ph;
-- (CGFloat)phase;
-- (CGFloat)length;
+
+/** @brief The phase of the dash, ignoring any line width scaling.
+ */
+@property (nonatomic) CGFloat phase;
+
+/** returns the length of the dash pattern before it repeats. Note that if the pattern is scaled to the line width,
+ this returns the unscaled length, so the client needs to multiply the result by the line width if necessary.
+ */
+@property (readonly) CGFloat length;
 - (CGFloat)lengthAtIndex:(NSUInteger)indx;
 
-- (void)setScalesToLineWidth:(BOOL)stlw;
-- (BOOL)scalesToLineWidth;
+@property BOOL scalesToLineWidth;
 
-- (void)setIsBeingEdited:(BOOL)edit;
-- (BOOL)isBeingEdited;
+/** an editor should set this for the duration of an edit. It prevents certain properties being changed by rasterizers during the edit
+ which can cause contention for those properties.
+ */
+@property BOOL isBeingEdited;
 
 - (void)applyToPath:(NSBezierPath*)path;
 - (void)applyToPath:(NSBezierPath*)path withPhase:(CGFloat)phase;
@@ -50,8 +65,8 @@
 
 @interface DKStrokeDash (Deprecated)
 
-+ (void)saveDefaults;
-+ (void)loadDefaults;
++ (void)saveDefaults DEPRECATED_ATTRIBUTE;
++ (void)loadDefaults DEPRECATED_ATTRIBUTE;
 
 @end
 
@@ -61,3 +76,5 @@
 
 #define kDKStandardDashSwatchImageSize (NSMakeSize(80.0, 4.0))
 #define kDKStandardDashSwatchStrokeWidth 2.0
+
+NS_ASSUME_NONNULL_END

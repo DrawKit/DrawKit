@@ -4,17 +4,19 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <AppKit/NSImage.h>
 #import "DKDrawingTool.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DKDrawablePath;
 
-// modes of operation for this tool:
-
-typedef enum {
+//! modes of operation for this tool:
+typedef NS_ENUM(NSInteger, DKPathToolMode) {
 	kDKPathDeletePointMode = 0,
 	kDKPathInsertPointMode = 1,
 	kDKPathDeleteElementMode = 2
-} DKPathToolMode;
+};
 
 /** @brief This tool is able to insert or delete on-path points from a path.
 
@@ -24,18 +26,19 @@ This tool is able to insert or delete on-path points from a path. If applied to 
 @private
 	DKPathToolMode m_mode;
 	BOOL m_performedAction;
-	DKDrawablePath* mTargetRef;
+	__weak DKDrawablePath* mTargetRef;
 }
 
 + (DKDrawingTool*)pathDeletionTool;
 + (DKDrawingTool*)pathInsertionTool;
 + (DKDrawingTool*)pathElementDeletionTool;
 
-- (void)setMode:(DKPathToolMode)m;
-- (DKPathToolMode)mode;
+@property DKPathToolMode mode;
 
 @end
 
-extern NSString* kDKInsertPathPointCursorImageName;
-extern NSString* kDKDeletePathPointCursorImageName;
-extern NSString* kDKDeletePathElementCursorImageName;
+extern NSImageName const kDKInsertPathPointCursorImageName;
+extern NSImageName const kDKDeletePathPointCursorImageName;
+extern NSImageName const kDKDeletePathElementCursorImageName;
+
+NS_ASSUME_NONNULL_END

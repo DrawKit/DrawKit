@@ -33,3 +33,8 @@
 
 #define qUseLogEvent
 // To use the LogEvent conditional logging, consult LogEvent.h to ensure licensing compliance and uncomment the above definition. If you do not define the above constant, the event logging will be dropped out of DrawKit.
+
+#ifdef __cplusplus
+#include <iostream>
+#include <cmath>
+#endif

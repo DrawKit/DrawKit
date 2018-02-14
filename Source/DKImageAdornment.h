@@ -4,17 +4,19 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKRasterizer.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DKDrawableObject, DKDrawing;
 
-// fitting options:
-
-typedef enum {
-	kDKScaleToFitBounds = 0, // scale setting ignored - image will fill bounds
-	kDKScaleToFitPreservingAspectRatio = 1, // scale setting ignored - image will fit bounds with original aspect ratio preserved
-	kDKClipToBounds = 2 // scales according to setting, but clipped to object's path if size exceeds it
-} DKImageFittingOption;
+//! fitting options:
+typedef NS_ENUM(NSInteger, DKImageFittingOption) {
+	kDKScaleToFitBounds = 0, //!< scale setting ignored - image will fill bounds
+	kDKScaleToFitPreservingAspectRatio = 1, //!< scale setting ignored - image will fit bounds with original aspect ratio preserved
+	kDKClipToBounds = 2 //!< scales according to setting, but clipped to object's path if size exceeds it
+};
 
 /** @brief This class allows any image to be part of the rendering tree.
 
@@ -33,39 +35,31 @@ This class allows any image to be part of the rendering tree.
 	NSString* m_imageIdentifier;
 }
 
-+ (DKImageAdornment*)imageAdornmentWithImage:(NSImage*)image;
-+ (DKImageAdornment*)imageAdornmentWithImageFromFile:(NSString*)path;
++ (instancetype)imageAdornmentWithImage:(NSImage*)image;
++ (instancetype)imageAdornmentWithImageFromFile:(NSString*)path;
 
-- (void)setImage:(NSImage*)image;
-- (NSImage*)image;
+@property (nonatomic, strong, nullable) NSImage *image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing;
-- (void)setImageKey:(NSString*)key;
-- (NSString*)imageKey;
+@property (copy) NSString *imageKey;
 
-- (void)setImageIdentifier:(NSString*)imageID;
-- (NSString*)imageIdentifier;
+@property (copy) NSString *imageIdentifier;
 
-- (void)setScale:(CGFloat)scale;
-- (CGFloat)scale;
+@property (nonatomic) CGFloat scale;
 
-- (void)setOpacity:(CGFloat)opacity;
-- (CGFloat)opacity;
+@property (nonatomic) CGFloat opacity;
 
-- (void)setOrigin:(NSPoint)origin;
-- (NSPoint)origin;
+@property NSPoint origin;
 
-- (void)setAngle:(CGFloat)angle;
-- (CGFloat)angle;
-- (void)setAngleInDegrees:(CGFloat)degrees;
-- (CGFloat)angleInDegrees;
+@property CGFloat angle;
+@property CGFloat angleInDegrees;
 
-- (void)setOperation:(NSCompositingOperation)op;
-- (NSCompositingOperation)operation;
+@property NSCompositingOperation operation;
 
-- (void)setFittingOption:(DKImageFittingOption)fopt;
-- (DKImageFittingOption)fittingOption;
+@property DKImageFittingOption fittingOption;
 
 - (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject;
 
 @end
+
+NS_ASSUME_NONNULL_END

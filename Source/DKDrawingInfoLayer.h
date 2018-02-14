@@ -4,64 +4,84 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
 
-// placement of info panel:
+NS_ASSUME_NONNULL_BEGIN
 
-typedef enum {
+//! placement of info panel:
+typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 	kDKDrawingInfoPlaceBottomRight = 0,
 	kDKDrawingInfoPlaceBottomLeft = 1,
 	kDKDrawingInfoPlaceTopLeft = 2,
 	kDKDrawingInfoPlaceTopRight = 3
-} DKInfoBoxPlacement;
+};
 
 /** @brief This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
 
-This is a DKLayer subclass which is able to draw an information panel in a corner of the drawing.
+ This is a \c DKLayer subclass which is able to draw an information panel in a corner of the drawing.
 
-The info panel takes data from DKDrawing's metadata dictionary ind displays some of it - standard
-keys such as the drawing number, name of the draughtsman, creation and modification dates and so on.
+ The info panel takes data from DKDrawing's metadata dictionary ind displays some of it - standard
+ keys such as the drawing number, name of the draughtsman, creation and modification dates and so on.
 
-This can also directly edit the same information.
+ This can also directly edit the same information.
 
-This is not a very important class within DK, and mays apps will not want to use it, or to use it in
-modified form. It is provided as another example of how to implement layer subclasses as much as anything.
+ This is not a very important class within DK, and mays apps will not want to use it, or to use it in
+ modified form. It is provided as another example of how to implement layer subclasses as much as anything.
 */
-@interface DKDrawingInfoLayer : DKLayer <NSCoding> {
+@interface DKDrawingInfoLayer : DKLayer <NSCoding, NSTextViewDelegate> {
 	DKInfoBoxPlacement m_placement; // which corner is the panel placed in
 	NSSize m_size; // the size of the panel
 	NSString* m_editingKeyRef; // which info key is being edited
 	BOOL m_drawBorder; // YES if a border is drawn around the drawing
 }
 
-// general settings:
+/** @name General Settings:
+ @brief General settings.
+ @{
+ */
 
-- (void)setSize:(NSSize)size;
-- (NSSize)size;
+/** @brief The size of the drawing info box.
+ */
+@property (nonatomic) NSSize size;
 
-- (void)setPlacement:(DKInfoBoxPlacement)placement;
-- (DKInfoBoxPlacement)placement;
+@property (nonatomic) DKInfoBoxPlacement placement;
 
-- (void)setBackgroundColour:(NSColor*)colour;
-- (NSColor*)backgroundColour;
+@property (strong) NSColor *backgroundColour;
 
-- (void)setDrawsBorder:(BOOL)border;
-- (BOOL)drawsBorder;
+@property (nonatomic) BOOL drawsBorder;
 
-// internal stuff:
+/** @} */
 
-- (NSRect)infoBoxRect;
+/** @name Internal Stuff:
+ @brief Internal stuff.
+ @{
+ */
+
+/** @brief Returns the bounds of the info box relative to the layer.
+ @discussion This will take into account the size, placement and margins of the drawing.
+ */
+@property (readonly) NSRect infoBoxRect;
+/** @brief Draws the info, labels, subdivisions, etc.
+ @discussion \c br is the bounds of the info box. The border and background are drawn by the time
+ this is called.
+ @param br The bounds of the info box.
+ */
 - (void)drawInfoInRect:(NSRect)br;
-- (NSDictionary*)attributesForDrawingInfoItem:(NSString*)key;
-- (void)drawString:(NSString*)str inRect:(NSRect)r withAttributes:(NSDictionary*)attr;
+- (nullable NSDictionary<NSAttributedStringKey, id>*)attributesForDrawingInfoItem:(NSString*)key;
+- (void)drawString:(NSString*)str inRect:(NSRect)r withAttributes:(NSDictionary<NSAttributedStringKey, id>*)attr;
 
-- (NSAttributedString*)labelForDrawingInfoItem:(NSString*)key;
+- (nullable NSAttributedString*)labelForDrawingInfoItem:(NSString*)key;
 - (NSRect)layoutRectForDrawingInfoItem:(NSString*)key inRect:(NSRect)bounds;
 - (NSRect)labelRectInRect:(NSRect)itemRect forLabel:(NSAttributedString*)ls;
 
-- (NSString*)keyForEditableRegionUnderMouse:(NSPoint)p;
+- (nullable NSString*)keyForEditableRegionUnderMouse:(NSPoint)p;
 - (void)textViewDidChangeSelection:(NSNotification*)aNotification;
+
+/** @} */
 
 @end
 
-extern NSString* kDKDrawingInfoTextLabelAttributes;
+extern NSNotificationName const kDKDrawingInfoTextLabelAttributes;
+
+NS_ASSUME_NONNULL_END

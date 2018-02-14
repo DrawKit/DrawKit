@@ -6,18 +6,20 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKRetriggerableTimer;
 
 /** @brief This is a very general-purpose view class that provides some handy high-level methods for doing zooming.
 
-This is a very general-purpose view class that provides some handy high-level methods for doing zooming. Simply hook up
-the action methods to suitable menu commands and away you go. The stuff you draw within drawRect: doesn't need to know or
-care abut the zoom of the view - you can just draw as usual and it works.
+ This is a very general-purpose view class that provides some handy high-level methods for doing zooming. Simply hook up
+ the action methods to suitable menu commands and away you go. The stuff you draw within drawRect: doesn't need to know or
+ care abut the zoom of the view - you can just draw as usual and it works.
 
-@note
-this class doesn't bother to support NSCoding and thereby encoding the view zoom, because it usually isn't important for this
-value to persist. However, if your subclass wants to support coding, your initWithCoder method should reset _scale to 1.0. Otherwise
-it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
+ @note
+ this class doesn't bother to support NSCoding and thereby encoding the view zoom, because it usually isn't important for this
+ value to persist. However, if your subclass wants to support coding, your initWithCoder method should reset \c _scale to <code>1.0</code>. Otherwise
+ it will get initialized to \c 0.0 and \b NOTHING \b WILL \b BE \b DRAWN.
 */
 @interface GCZoomView : NSView {
 @private
@@ -29,75 +31,61 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 	DKRetriggerableTimer* mRT;
 }
 
-/** @brief Set whether scroll-wheel zooming is enabled
-
- Default is YES
- @param enable YES to enable, NO to disable
- */
-+ (void)setScrollwheelZoomEnabled:(BOOL)enable;
-
 /** @brief Return whether scroll-wheel zooming is enabled
-
- Default is YES
- @return YES to enable, NO to disable
+ 
+ \c YES to enable, \c NO to disable.
+ Default is <code>YES</code>.
  */
-+ (BOOL)scrollwheelZoomEnabled;
+@property (class) BOOL scrollwheelZoomEnabled;
 
 /** @brief Set the modifier key(s) that will activate zooming using the scrollwheel
 
  Operating the given modifier keys along with the scroll wheel will zoom the view
  @param aMask a modifier key mask value
+ @deprecated This class method is misspelled. Use \c +setScrollwheelModifierKeyMask: instead.
  */
-+ (void)setScrollwheelModiferKeyMask:(NSUInteger)aMask;
++ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask API_DEPRECATED_WITH_REPLACEMENT("setScrollwheelModifierKeyMask", macosx(10.0, 10.6));
 
 /** @brief Return the default zoom key mask used by new instances of this class
 
  Reads the value from the prefs. If not set or set to zero, defaults to option key.
- @return a modifier key mask value
+ Operating the given modifier keys along with the scroll wheel will zoom the view
  */
-+ (NSUInteger)scrollwheelModifierKeyMask;
-
-/** @brief Set whether view zooms in or out for a given scrollwheel rotation direction
-
- Default sense is to zoom in when scrollwheel is rotated towards the user. Some apps (e.g. Google Earth)
- use the opposite convention, which feels less natural but may become a defacto "standard".
- */
-+ (void)setScrollwheelInverted:(BOOL)inverted;
+@property (class) NSEventModifierFlags scrollwheelModifierKeyMask;
 
 /** @brief Return whether view zooms in or out for a given scrollwheel rotation direction
 
  Default sense is to zoom in when scrollwheel is rotated towards the user. Some apps (e.g. Google Earth)
  use the opposite convention, which feels less natural but may become a defacto "standard".
- @return whether scroll wheel inverted
  */
-+ (BOOL)scrollwheelInverted;
+@property (class) BOOL scrollwheelInverted;
 
 /** @brief Zoom in (scale up) by a factor of 2
  @param sender - the sender of the action
  */
-- (IBAction)zoomIn:(id)sender;
+- (IBAction)zoomIn:(nullable id)sender;
 
 /** @brief Zoom out (scale down) by a factor of 2
  @param sender - the sender of the action
  */
-- (IBAction)zoomOut:(id)sender;
+- (IBAction)zoomOut:(nullable id)sender;
 
 /** @brief Restore the zoom to 100%
  @param sender - the sender of the action
  */
-- (IBAction)zoomToActualSize:(id)sender;
+- (IBAction)zoomToActualSize:(nullable id)sender;
 
 /** @brief Zoom so that the entire extent of the enclosing frame is visible
  @param sender - the sender of the action
  */
-- (IBAction)zoomFitInWindow:(id)sender;
+- (IBAction)zoomFitInWindow:(nullable id)sender;
 
 /** @brief Takes the senders tag value as the desired percentage
  @param sender - the sender of the action
  */
-- (IBAction)zoomToPercentageWithTag:(id)sender;
-- (IBAction)zoomMax:(id)sender;
-- (IBAction)zoomMin:(id)sender;
+- (IBAction)zoomToPercentageWithTag:(nullable id)sender;
+- (IBAction)zoomMax:(nullable id)sender;
+- (IBAction)zoomMin:(nullable id)sender;
 
 /** @brief Zoom by the desired scaling factor
 
@@ -119,7 +107,7 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
 /** @brief Zooms so that the passed rect fills the view
 
  The centre of the rect is centred in the view. In general this should be used for a zoom IN to a
- specific smaller rectange. <aRect> is in current view coordinates. This is good for a dragged rect
+ specific smaller rectange. \c aRect is in current view coordinates. This is good for a dragged rect
  zoom tool.
  @param aRect - a rect
  */
@@ -129,28 +117,27 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  @param factor - relative zoom factor
  @param p a point within the view that should be scrolled to the centre of the zoomed view. */
 - (void)zoomViewByFactor:(CGFloat)factor andCentrePoint:(NSPoint)p;
+/** @brief Converts the scrollwheel delta value into a zoom factor and performs the zoom.
+ @param delta - scrollwheel delta value
+ @param cp a point within the view that should be scrolled to the centre of the zoomed view. */
 - (void)zoomWithScrollWheelDelta:(CGFloat)delta toCentrePoint:(NSPoint)cp;
 
 /** @brief Calculates the coordinates of the point that is visually centred in the view at the current scroll
  position and zoom.
- @return the visually centred point */
-- (NSPoint)centredPointInDocView;
+ */
+@property (readonly) NSPoint centredPointInDocView;
 
 /** @brief Scrolls the view so that the point ends up visually centred
  @param aPoint the desired centre point */
 - (void)scrollPointToCentre:(NSPoint)aPoint;
 
-/** @brief Zooms the view to the given scale
+/** @brief The current view scale (zoom).
+ 
+ The zoom scale of the view (1.0 = 100%).
 
  All zooms bottleneck through here. Scale passed is pinned within the min and max limits.
- @param sc - the desired scale
  */
-- (void)setScale:(CGFloat)sc;
-
-/** @brief Returns the current view scale (zoom)
- @return the current scale
- */
-- (CGFloat)scale;
+@property (nonatomic) CGFloat scale;
 
 /** @brief Returns whether the scale is being changed
 
@@ -161,35 +148,25 @@ it will get initialized to 0.0 and NOTHING WILL BE DRAWN.
  but reverts to a higher quality when things settle.
  @return YES if the scale is changing, NO if not
  */
-- (BOOL)isChangingScale;
+@property (readonly, getter=isChangingScale) BOOL changingScale;
 
-/** @brief Sets the minimum permitted view scale (zoom)
- @param scmin the minimum scale
+/** @brief The minimum permitted view scale (zoom).
  */
-- (void)setMinimumScale:(CGFloat)scmin;
+@property CGFloat minimumScale;
 
-/** @brief Returns the minimum permitted view scale (zoom)
- @return the minimum scale
+/** @brief The maximum permitted view scale (zoom).
  */
-- (CGFloat)minimumScale;
-
-/** @brief Sets the maximum permitted view scale (zoom)
- @param scmax the maximum scale
- */
-- (void)setMaximumScale:(CGFloat)scmax;
-
-/** @brief Returns the maximum permitted view scale (zoom)
- @return the maximum scale
- */
-- (CGFloat)maximumScale;
+@property CGFloat maximumScale;
 
 @end
 
 #define kDKZoomingRetriggerPeriod 0.5
 
-extern NSString* kDKDrawingViewWillChangeScale;
-extern NSString* kDKDrawingViewDidChangeScale;
+extern NSNotificationName const kDKDrawingViewWillChangeScale;
+extern NSNotificationName const kDKDrawingViewDidChangeScale;
 
-extern NSString* kDKScrollwheelModifierKeyMaskPreferenceKey;
-extern NSString* kDKDrawingDisableScrollwheelZoomPrefsKey;
-extern NSString* kDKDrawingScrollwheelSensePrefsKey;
+extern NSString* const kDKScrollwheelModifierKeyMaskPreferenceKey;
+extern NSString* const kDKDrawingDisableScrollwheelZoomPrefsKey;
+extern NSString* const kDKDrawingScrollwheelSensePrefsKey;
+
+NS_ASSUME_NONNULL_END

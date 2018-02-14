@@ -21,7 +21,7 @@
 #pragma mark Static Vars
 static NSString* sDefault_string = @"Double-click to edit this text";
 
-@interface DKTextPath (Private)
+@interface DKTextPath ()
 
 - (DKTextAdornment*)makeTextAdornment;
 - (void)changeKeyPath:(NSString*)keypath ofObject:(id)object toValue:(id)value;
@@ -34,19 +34,17 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 + (DKTextPath*)textPathWithString:(NSString*)str onPath:(NSBezierPath*)aPath
 {
-	DKTextPath* te = [[DKTextPath alloc] initWithBezierPath:aPath
-													  style:[self textPathDefaultStyle]];
+	DKTextPath* te = [[self alloc] initWithBezierPath:aPath
+												style:[self textPathDefaultStyle]];
 
 	[te setText:str];
 
-	return [te autorelease];
+	return te;
 }
 
 + (void)setDefaultTextString:(NSString*)str
 {
-	[str retain];
-	[sDefault_string release];
-	sDefault_string = str;
+	sDefault_string = [str copy];
 }
 
 + (NSString*)defaultTextString
@@ -66,7 +64,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 + (NSArray*)pastableTextTypes
 {
-	return [NSArray arrayWithObjects:NSRTFPboardType, NSRTFDPboardType, NSHTMLPboardType, NSStringPboardType, nil];
+	return @[NSPasteboardTypeRTF, NSPasteboardTypeRTFD, NSPasteboardTypeHTML, NSPasteboardTypeString];
 }
 
 + (DKStyle*)textPathDefaultStyle
@@ -107,16 +105,16 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 		NSAttributedString* str;
 
-		if ([pbtype isEqualToString:NSRTFPboardType])
+		if ([pbtype isEqualToString:NSPasteboardTypeRTF])
 			str = [[NSAttributedString alloc] initWithRTF:data
 									   documentAttributes:nil];
-		else if ([pbtype isEqualToString:NSRTFDPboardType])
+		else if ([pbtype isEqualToString:NSPasteboardTypeRTFD])
 			str = [[NSAttributedString alloc] initWithRTFD:data
 										documentAttributes:nil];
-		else if ([pbtype isEqualToString:NSHTMLPboardType])
+		else if ([pbtype isEqualToString:NSPasteboardTypeHTML])
 			str = [[NSAttributedString alloc] initWithHTML:data
 										documentAttributes:nil];
-		else if ([pbtype isEqualToString:NSStringPboardType])
+		else if ([pbtype isEqualToString:NSPasteboardTypeString])
 			str = [[NSAttributedString alloc] initWithString:[pb stringForType:pbtype]];
 		else
 			str = nil;
@@ -125,8 +123,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 			[self setText:[str string]];
 		else
 			[self setText:str];
-
-		[str release];
 	}
 }
 
@@ -230,7 +226,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 		[currentStyle setTextAttributes:ta];
 
-		return [currentStyle autorelease];
+		return currentStyle;
 	}
 }
 
@@ -398,10 +394,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	return (mEditorRef != nil);
 }
 
-- (DKTextAdornment*)textAdornment
-{
-	return mTextAdornment;
-}
+@synthesize textAdornment=mTextAdornment;
 
 #pragma mark -
 
@@ -603,10 +596,8 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		[layer addObject:so
 				 atIndex:myIndex];
 		[layer replaceSelectionWithObject:so];
-		[self retain];
 		[layer removeObject:self];
 		[layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Shape", @"undo string for convert text to shape")];
-		[self release];
 	} else
 		NSBeep();
 }
@@ -625,10 +616,8 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		[layer addObject:so
 				 atIndex:myIndex];
 		[layer replaceSelectionWithObject:so];
-		[self retain];
 		[layer removeObject:self];
 		[layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Shape Group", @"undo string for convert text to group")];
-		[self release];
 	} else
 		NSBeep();
 }
@@ -655,10 +644,8 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		[layer addObject:so
 				 atIndex:myIndex];
 		[layer replaceSelectionWithObject:so];
-		[self retain];
 		[layer removeObject:self];
 		[layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Path", @"undo string for convert text to path")];
-		[self release];
 	} else
 		NSBeep();
 }
@@ -725,7 +712,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	[adorn setLayoutMode:kDKTextLayoutAlongPath];
 	[adorn setAlignment:NSJustifiedTextAlignment];
 
-	return [adorn autorelease];
+	return adorn;
 }
 
 - (void)setTextAdornment:(DKTextAdornment*)adornment
@@ -733,12 +720,11 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	if (adornment != mTextAdornment) {
 		if (mTextAdornment) {
 			[mTextAdornment tearDownKVOForObserver:self];
-			[mTextAdornment release];
 			mTextAdornment = nil;
 		}
 
 		if (adornment) {
-			mTextAdornment = [adornment retain];
+			mTextAdornment = adornment;
 			// debug - test greeking
 			//[mTextAdornment setGreeking:kDKGreekingByGlyphRectangle];
 			[mTextAdornment setUpKVOForObserver:self];
@@ -770,7 +756,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 			[newAdHocStyle setName:[NSString stringWithFormat:@"%@*", newname]];
 
 		[self setStyle:newAdHocStyle];
-		[newAdHocStyle release];
 	}
 }
 
@@ -838,7 +823,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		else
 			[[[self layer] selectionColour] set];
 		[moreText fill];
-		[moreText release];
 	}
 
 	[super drawSelectedState];
@@ -902,7 +886,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	[[theMenu addItemWithTitle:NSLocalizedString(@"Font", @"menu item for Font")
 						action:nil
 				 keyEquivalent:@""] setSubmenu:fm];
-	[fm release];
 
 	[theMenu addItem:[NSMenuItem separatorItem]];
 
@@ -963,7 +946,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 					   keyEquivalent:@""];
 
 	[item setSubmenu:convert];
-	[convert release];
 	[item setTag:kDKConvertToSubmenuTag];
 
 	[super populateContextualMenu:theMenu];
@@ -973,7 +955,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 #pragma mark -
 #pragma mark - as a DKDrawableObject
 
-- (id)initWithStyle:(DKStyle*)aStyle
+- (instancetype)initWithStyle:(DKStyle*)aStyle
 {
 	self = [super initWithStyle:aStyle];
 	if (self != nil) {
@@ -1012,23 +994,23 @@ static NSString* sDefault_string = @"Double-click to edit this text";
  */
 - (void)writeSupplementaryDataToPasteboard:(NSPasteboard*)pb
 {
-	if ([pb addTypes:[NSArray arrayWithObjects:NSRTFPboardType, NSStringPboardType, nil]
+	if ([pb addTypes:@[NSPasteboardTypeRTF, NSPasteboardTypeString]
 			   owner:self]) {
 		NSRange range = NSMakeRange(0, [[self text] length]);
 		NSData* rtfData = [[self text] RTFFromRange:range
-								 documentAttributes:[NSDictionary dictionary]];
+								 documentAttributes:@{}];
 
 		[pb setData:rtfData
-			forType:NSRTFPboardType];
+			forType:NSPasteboardTypeRTF];
 		[pb setString:[self string]
-			  forType:NSStringPboardType];
+			  forType:NSPasteboardTypeString];
 	}
 }
 
 #pragma mark -
 #pragma mark - as a NSObject
 
-- (id)init
+- (instancetype)init
 {
 	return [self initWithStyle:[[self class] textPathDefaultStyle]];
 }
@@ -1037,7 +1019,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 {
 	[self endEditing];
 	[self setTextAdornment:nil];
-	[super dealloc];
 }
 
 - (void)observeValueForKeyPath:(NSString*)keypath ofObject:(id)object change:(NSDictionary*)change context:(void*)context
@@ -1102,7 +1083,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 				 forKey:@"DKTextPath_textAdornment"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -1122,7 +1103,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 	DKTextAdornment* ta = [[self textAdornment] copyWithZone:zone];
 	[copy setTextAdornment:ta];
-	[ta release];
 
 	return copy;
 }

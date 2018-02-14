@@ -17,19 +17,19 @@
 
 #pragma mark Constants(Non - localized)
 
-NSString* kDKDrawingViewDidChangeScale = @"kDKDrawingViewDidChangeScale";
-NSString* kDKDrawingViewWillChangeScale = @"kDKDrawingViewWillChangeScale";
+NSString* const kDKDrawingViewDidChangeScale = @"kDKDrawingViewDidChangeScale";
+NSString* const kDKDrawingViewWillChangeScale = @"kDKDrawingViewWillChangeScale";
 
-NSString* kDKScrollwheelModifierKeyMaskPreferenceKey = @"DK_SCROLLWHEEL_ZOOM_KEY_MASK";
-NSString* kDKDrawingDisableScrollwheelZoomPrefsKey = @"kDKDrawingDisableScrollwheelZoom";
-NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // typo here, please leave
+NSString* const kDKScrollwheelModifierKeyMaskPreferenceKey = @"DK_SCROLLWHEEL_ZOOM_KEY_MASK";
+NSString* const kDKDrawingDisableScrollwheelZoomPrefsKey = @"kDKDrawingDisableScrollwheelZoom";
+NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // typo here, please leave
 
 #pragma mark -
 @implementation GCZoomView
 
 /** @brief Set whether scroll-wheel zooming is enabled
 
- Default is YES
+ Default is \c YES
  @param enable YES to enable, NO to disable
  */
 + (void)setScrollwheelZoomEnabled:(BOOL)enable
@@ -53,10 +53,15 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
  Operating the given modifier keys along with the scroll wheel will zoom the view
  @param aMask a modifier key mask value
  */
-+ (void)setScrollwheelModiferKeyMask:(NSUInteger)aMask
++ (void)setScrollwheelModifierKeyMask:(NSEventModifierFlags)aMask
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:aMask
 											   forKey:kDKScrollwheelModifierKeyMaskPreferenceKey];
+}
+
++ (void)setScrollwheelModiferKeyMask:(NSEventModifierFlags)aMask
+{
+	self.scrollwheelModifierKeyMask = aMask;
 }
 
 /** @brief Return the default zoom key mask used by new instances of this class
@@ -64,9 +69,9 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
  Reads the value from the prefs. If not set or set to zero, defaults to option key.
  @return a modifier key mask value
  */
-+ (NSUInteger)scrollwheelModifierKeyMask
++ (NSEventModifierFlags)scrollwheelModifierKeyMask
 {
-	NSUInteger mask = [[NSUserDefaults standardUserDefaults] integerForKey:kDKScrollwheelModifierKeyMaskPreferenceKey];
+	NSEventModifierFlags mask = [[NSUserDefaults standardUserDefaults] integerForKey:kDKScrollwheelModifierKeyMaskPreferenceKey];
 
 	if (mask == 0)
 		mask = NSAlternateKeyMask;
@@ -135,6 +140,20 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 {
 #pragma unused(sender)
 
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		NSRect ssfr = sv.frame;
+		
+		NSRect fr = [self frame];
+		
+		CGFloat sx, sy;
+		
+		sx = ssfr.size.width / fr.size.width;
+		sy = ssfr.size.height / fr.size.height;
+
+		[self zoomViewToAbsoluteScale:MIN(sx, sy)];
+		return;
+	}
 	// zooms the view to fit within the current window (command/action)
 	NSRect sfr = [[self superview] frame];
 	[self zoomViewToFitRect:sfr];
@@ -146,7 +165,7 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 - (IBAction)zoomToPercentageWithTag:(id)sender
 {
 	NSInteger tag = [sender tag];
-	CGFloat ns = (CGFloat)tag / 100.0f;
+	CGFloat ns = (CGFloat)tag / 100.0;
 
 	[self zoomViewToAbsoluteScale:ns];
 }
@@ -300,6 +319,18 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
  */
 - (void)setScale:(CGFloat)sc
 {
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillChangeScale
+															object:self];
+
+		sv.animator.magnification = sc;
+		
+		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidChangeScale
+															object:self];
+		return;
+	}
 	if (sc < [self minimumScale])
 		sc = [self minimumScale];
 
@@ -334,58 +365,57 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 	}
 }
 
-/** @brief Returns the current view scale (zoom)
- @return the current scale
- */
 - (CGFloat)scale
 {
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		
+		return sv.magnification;
+	}
 	return m_scale;
 }
 
-/** @brief Returns whether the scale is being changed
+@synthesize scale=m_scale;
+@synthesize changingScale=mIsChangingScale;
+@synthesize minimumScale=mMinScale;
+@synthesize maximumScale=mMaxScale;
 
- This property can be used to detect whether the user is rapidly changing the scale, for example using
- the scrollwheel. When a scrollwheel change starts, this is set to YES and a timer is run which is
- retriggered by further events. If it times out, this resets to NO. It can be used as one part of a
- drawing strategy where rapid changes temporarily use a lower quality drawing mechanism for performance,
- but reverts to a higher quality when things settle.
- @return YES if the scale is changing, NO if not
- */
-- (BOOL)isChangingScale
-{
-	return mIsChangingScale;
-}
-
-/** @brief Sets the minimum permitted view scale (zoom)
- @param scmin the minimum scale
- */
-- (void)setMinimumScale:(CGFloat)scmin
-{
-	mMinScale = scmin;
-}
-
-/** @brief Returns the minimum permitted view scale (zoom)
- @return the minimum scale
- */
 - (CGFloat)minimumScale
 {
-	return mMinScale;
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		return sv.minMagnification;
+	} else {
+		return mMinScale;
+	}
 }
 
-/** @brief Sets the maximum permitted view scale (zoom)
- @param scmax the maximum scale
- */
-- (void)setMaximumScale:(CGFloat)scmax
+- (void)setMinimumScale:(CGFloat)scmin
 {
-	mMaxScale = scmax;
+	mMinScale=scmin;
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		sv.minMagnification = scmin;
+	}
 }
 
-/** @brief Returns the maximum permitted view scale (zoom)
- @return the maximum scale
- */
 - (CGFloat)maximumScale
 {
-	return mMaxScale;
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		return sv.maxMagnification;
+	} else {
+		return mMaxScale;
+	}
+}
+
+- (void)setMaximumScale:(CGFloat)scmax
+{
+	mMaxScale=scmax;
+	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
+		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		sv.maxMagnification = scmax;
+	}
 }
 
 #pragma mark -
@@ -435,7 +465,7 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 #pragma mark -
 #pragma mark As an NSView
 
-- (id)initWithFrame:(NSRect)frame
+- (instancetype)initWithFrame:(NSRect)frame
 {
 	self = [super initWithFrame:frame];
 	if (self != nil) {
@@ -443,14 +473,14 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 		mMinScale = 0.025;
 		mMaxScale = 250.0;
 
-		mRT = [[DKRetriggerableTimer retriggerableTimerWithPeriod:kDKZoomingRetriggerPeriod
+		mRT = [DKRetriggerableTimer retriggerableTimerWithPeriod:kDKZoomingRetriggerPeriod
 														   target:self
-														 selector:@selector(stopScaleChange)] retain];
+														 selector:@selector(stopScaleChange)];
 	}
 	return self;
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if ((self = [super initWithCoder:coder])) {
 		if ([self respondsToSelector:@selector(setTranslatesAutoresizingMaskIntoConstraints:)]) {
@@ -461,17 +491,21 @@ NSString* kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense"; // 
 		mMinScale = 0.025;
 		mMaxScale = 250.0;
 
-		mRT = [[DKRetriggerableTimer retriggerableTimerWithPeriod:kDKZoomingRetriggerPeriod
+		mRT = [DKRetriggerableTimer retriggerableTimerWithPeriod:kDKZoomingRetriggerPeriod
 														   target:self
-														 selector:@selector(stopScaleChange)] retain];
+														 selector:@selector(stopScaleChange)];
 	}
 	return self;
 }
 
-- (void)dealloc
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
-	[mRT release];
-	[super dealloc];
+	[super viewWillMoveToSuperview:newSuperview];
+	if ([newSuperview.superview isKindOfClass:[NSScrollView self]]) {
+		NSScrollView *sv = (NSScrollView*)newSuperview.superview;
+		sv.maxMagnification=mMaxScale;
+		sv.minMagnification=mMinScale;
+	}
 }
 
 #pragma mark -

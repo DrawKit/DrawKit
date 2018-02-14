@@ -4,11 +4,13 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
 
-// coverage method flags - can be combined to give different effects
+NS_ASSUME_NONNULL_BEGIN
 
-typedef enum {
+//! coverage method flags - can be combined to give different effects
+typedef NS_OPTIONS(NSUInteger, DKImageCoverageFlags) {
 	kDKDrawingImageCoverageNormal = 0,
 	kDKDrawingImageCoverageHorizontallyCentred = 1,
 	kDKDrawingImageCoverageHorizontallyStretched = 2,
@@ -16,12 +18,12 @@ typedef enum {
 	kDKDrawingImageCoverageVerticallyCentred = 32,
 	kDKDrawingImageCoverageVerticallyStretched = 64,
 	kDKDrawingImageCoverageVerticallyTiled = 128,
-} DKImageCoverageFlags;
+};
 
 /** @brief This layer type implements a single image overlay, for example for tracing a photograph in another layer.
 
-This layer type implements a single image overlay, for example for tracing a photograph in another layer. The coverage method
-sets whether the image is scaled, tiled or drawn only once in a particular position.
+ This layer type implements a single image overlay, for example for tracing a photograph in another layer. The coverage method
+ sets whether the image is scaled, tiled or drawn only once in a particular position.
 */
 @interface DKImageOverlayLayer : DKLayer <NSCoding> {
 	NSImage* m_image;
@@ -29,18 +31,17 @@ sets whether the image is scaled, tiled or drawn only once in a particular posit
 	DKImageCoverageFlags m_coverageMethod;
 }
 
-- (id)initWithImage:(NSImage*)image;
-- (id)initWithContentsOfFile:(NSString*)imagefile;
+- (instancetype)initWithImage:(NSImage*)image;
+- (instancetype)initWithContentsOfFile:(NSString*)imagefile;
 
-- (void)setImage:(NSImage*)image;
-- (NSImage*)image;
+@property (nonatomic, strong) NSImage *image;
 
-- (void)setOpacity:(CGFloat)op;
-- (CGFloat)opacity;
+@property (nonatomic) CGFloat opacity;
 
-- (void)setCoverageMethod:(DKImageCoverageFlags)cm;
-- (DKImageCoverageFlags)coverageMethod;
+@property (nonatomic) DKImageCoverageFlags coverageMethod;
 
-- (NSRect)imageDestinationRect;
+@property (readonly) NSRect imageDestinationRect;
 
 @end
+
+NS_ASSUME_NONNULL_END

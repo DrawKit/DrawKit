@@ -18,10 +18,10 @@
 
 #pragma mark Constants(Non - localized)
 
-NSString* kDKLayerLockStateDidChange = @"kDKLayerLockStateDidChange";
-NSString* kDKLayerVisibleStateDidChange = @"kDKLayerVisibleStateDidChange";
-NSString* kDKLayerNameDidChange = @"kDKLayerNameDidChange";
-NSString* kDKLayerSelectionHighlightColourDidChange = @"kDKLayerSelectionHighlightColourDidChange";
+NSString* const kDKLayerLockStateDidChange = @"kDKLayerLockStateDidChange";
+NSString* const kDKLayerVisibleStateDidChange = @"kDKLayerVisibleStateDidChange";
+NSString* const kDKLayerNameDidChange = @"kDKLayerNameDidChange";
+NSString* const kDKLayerSelectionHighlightColourDidChange = @"kDKLayerSelectionHighlightColourDidChange";
 
 #pragma mark Static Vars
 static NSInteger sLayerIndexSeed = 4;
@@ -39,9 +39,7 @@ static NSArray* s_selectionColours = nil;
  */
 + (void)setSelectionColours:(NSArray*)listOfColours
 {
-	[listOfColours retain];
-	[s_selectionColours release];
-	s_selectionColours = listOfColours;
+	s_selectionColours = [listOfColours copy];
 }
 
 /** @brief Returns the list of colours used for supplying the selection colours
@@ -55,6 +53,7 @@ static NSArray* s_selectionColours = nil;
 	if (s_selectionColours == nil) {
 		NSMutableArray* list = [NSMutableArray array];
 
+		const
 		static CGFloat colours[][3] = { { 0.5, 0.9, 1 }, // light blue
 										{ 1, 0, 0 }, // red
 										{ 0, 1, 0 }, // green
@@ -81,9 +80,9 @@ static NSArray* s_selectionColours = nil;
 /** @brief Returns a colour that can be used as the selection colour for a layer
 
  This simply returns a colour looked up in a table. It provides a default
- selection colour for new layers - you can change the layer's selection colour to whatever you like - 
+ selection colour for new layers - you can change the layer's selection colour to whatever you like -
  this just provides a default
- @param index a positive number
+ @param indx a positive number
  @return a colour
  */
 + (NSColor*)selectionColourForIndex:(NSUInteger)indx
@@ -168,23 +167,7 @@ static NSArray* s_selectionColours = nil;
 #pragma mark -
 #pragma mark - layer group hierarchy
 
-/** @brief Sets the group that the layer is contained in - called automatically when the layer is added to a group
-
- The group retains this, so the group isn't retained here
- @param group the group we belong to */
-- (void)setLayerGroup:(DKLayerGroup*)group
-{
-	m_groupRef = group;
-}
-
-/** @brief Gets the group that the layer is contained in
-
- The layer's group might be the drawing itself, which is a group
- @return the layer's group */
-- (DKLayerGroup*)layerGroup
-{
-	return m_groupRef;
-}
+@synthesize layerGroup=m_groupRef;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 
@@ -214,7 +197,7 @@ static NSArray* s_selectionColours = nil;
 
 /** @brief Returns the hierarchical level of this layer, i.e. how deeply nested it is
 
- Layers in the root group return 1. A layer's level is its group's level + 1 
+ Layers in the root group return 1. A layer's level is its group's level + 1
  @return the layer's level
  */
 - (NSUInteger)level
@@ -329,12 +312,10 @@ static NSArray* s_selectionColours = nil;
 - (void)setSelectionColour:(NSColor*)colour
 {
 	if (![self locked] && ![colour isEqual:[self selectionColour]]) {
-		LogEvent_(kReactiveEvent, @"<%@ 0x%x> setting selection colour: %@", NSStringFromClass([self class]), self, colour);
+		LogEvent_(kReactiveEvent, @"<%@ %p> setting selection colour: %@", NSStringFromClass([self class]), self, colour);
 
 		[[[self undoManager] prepareWithInvocationTarget:self] setSelectionColour:[self selectionColour]];
 
-		[colour retain];
-		[m_selectionColour release];
 		m_selectionColour = colour;
 		[self setNeedsDisplay:YES];
 
@@ -351,13 +332,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Returns the currently preferred selection colour for this layer
- @return the colour
- */
-- (NSColor*)selectionColour
-{
-	return m_selectionColour;
-}
+@synthesize selectionColour=m_selectionColour;
 
 #pragma mark -
 
@@ -385,8 +360,6 @@ static NSArray* s_selectionColours = nil;
 	NSImage* thumb = [[NSImage alloc] initWithSize:size];
 	NSRect tr, dr, dest;
 
-	[thumb setFlipped:[[self drawing] isFlipped]];
-
 	tr = NSMakeRect(0, 0, size.width, size.height);
 	dr = NSMakeRect(0, 0, drsize.width, drsize.height);
 
@@ -398,7 +371,7 @@ static NSArray* s_selectionColours = nil;
 	NSAffineTransform* tfm = [NSAffineTransform transform];
 	[tfm scaleBy:scale];
 
-	[thumb lockFocus];
+	[thumb lockFocusFlipped:[[self drawing] isFlipped]];
 	[[NSColor clearColor] set];
 	NSRectFill(tr);
 	[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
@@ -412,7 +385,7 @@ static NSArray* s_selectionColours = nil;
 
 	[thumb unlockFocus];
 
-	return [thumb autorelease];
+	return thumb;
 }
 
 - (NSImage*)thumbnail
@@ -437,7 +410,7 @@ static NSArray* s_selectionColours = nil;
 	[[self drawing] addController:vc];
 
 	NSData* pdfData = [pdfView dataWithPDFInsideRect:frame];
-	[pdfView release]; // removes the controller
+	pdfView = nil; // removes the controller
 
 	return pdfData;
 }
@@ -452,10 +425,10 @@ static NSArray* s_selectionColours = nil;
 {
 	NSAssert(pb != nil, @"Cannot write to a nil pasteboard");
 
-	[pb declareTypes:[NSArray arrayWithObject:NSPDFPboardType]
+	[pb declareTypes:@[NSPasteboardTypePDF]
 			   owner:self];
 	return [pb setData:[self pdf]
-			   forType:NSPDFPboardType];
+			   forType:NSPasteboardTypePDF];
 }
 
 /** @brief Returns the layer's content as a transparent bitmap having the given DPI.
@@ -517,7 +490,7 @@ static NSArray* s_selectionColours = nil;
 
 	RESTORE_GRAPHICS_CONTEXT
 
-	return [rep autorelease];
+	return rep;
 }
 
 /** @brief Sets whether drawing is limited to the interior area or not
@@ -539,15 +512,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Whether the drawing will be clipped to the interior or not
-
- Default is NO.
- @return YES if clipping, NO if not.
- */
-- (BOOL)clipsDrawingToInterior
-{
-	return m_clipToInterior;
-}
+@synthesize clipsDrawingToInterior=m_clipToInterior;
 
 /** @brief Sets the alpha level for the layer
 
@@ -567,15 +532,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Returns the alpha level for the layer as a whole
-
- Default is 1.0 (fully opaque objects)
- @return the current alpha level
- */
-- (CGFloat)alpha
-{
-	return mAlpha;
-}
+@synthesize alpha=mAlpha;
 
 - (void)updateRulerMarkersForRect:(NSRect)rect
 {
@@ -589,15 +546,7 @@ static NSArray* s_selectionColours = nil;
 		[[self layerGroup] hideRulerMarkers];
 }
 
-- (void)setRulerMarkerUpdatesEnabled:(BOOL)enable
-{
-	mRulerMarkersEnabled = enable;
-}
-
-- (BOOL)rulerMarkerUpdatesEnabled
-{
-	return mRulerMarkersEnabled;
-}
+@synthesize rulerMarkerUpdatesEnabled=mRulerMarkersEnabled;
 
 #pragma mark -
 #pragma mark - states
@@ -662,6 +611,8 @@ static NSArray* s_selectionColours = nil;
 	return m_visible && ([self layerGroup] == nil || [[self layerGroup] visible]);
 }
 
+@synthesize visible=m_visible;
+
 /** @brief Is the layer the active layer?
  @return YES if the active layer, NO otherwise
  */
@@ -680,13 +631,12 @@ static NSArray* s_selectionColours = nil;
 	return [self locked] || ![self visible];
 }
 
-/** @brief Returns the layer's unique key
- @return the unique key
- */
-- (NSString*)uniqueKey
++ (NSSet<NSString *> *)keyPathsForValuesAffectingLockedOrHidden
 {
-	return mLayerUniqueKey;
+	return [NSSet setWithObjects:@"locked", @"visible", nil];
 }
+
+@synthesize uniqueKey=mLayerUniqueKey;
 
 #pragma mark -
 
@@ -703,7 +653,6 @@ static NSArray* s_selectionColours = nil;
 
 		NSString* nameCopy = [name copy];
 
-		[m_name release];
 		m_name = nameCopy;
 
 		LogEvent_(kStateEvent, @"layer's name was set to '%@'", m_name);
@@ -716,13 +665,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-/** @brief Returns the layer's name
- @return the name
- */
-- (NSString*)layerName
-{
-	return m_name;
-}
+@synthesize layerName=m_name;
 
 #pragma mark -
 #pragma mark - user info
@@ -736,9 +679,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setUserInfo:(NSMutableDictionary*)info
 {
-	[info retain];
-	[mUserInfo release];
-	mUserInfo = info;
+	mUserInfo = [info mutableCopy];
 }
 
 /** @brief Add a dictionary of metadata to the object
@@ -754,7 +695,6 @@ static NSArray* s_selectionColours = nil;
 	NSDictionary* deepCopy = [info deepCopy];
 
 	[mUserInfo addEntriesFromDictionary:deepCopy];
-	[deepCopy release];
 }
 
 /** @brief Return the attached user info
@@ -797,26 +737,7 @@ static NSArray* s_selectionColours = nil;
 #pragma mark -
 #pragma mark - print this layer ?
 
-/** @brief Set whether this layer should be included in printed output
-
- Default is YES
- @param printIt YES to includethe layer, NO to skip it
- */
-- (void)setShouldDrawToPrinter:(BOOL)printIt
-{
-	m_printed = printIt;
-}
-
-/** @brief Return whether the layer should be part of the printed output or not
-
- Some layers won't want to be printed - guides for example. Override this to return NO if you
- don't want the layer to be printed. By default layers are printed.
- @return YES to draw to printer, NO to suppress drawing on the printer
- */
-- (BOOL)shouldDrawToPrinter
-{
-	return m_printed;
-}
+@synthesize shouldDrawToPrinter=m_printed;
 
 #pragma mark -
 #pragma mark - becoming / resigning active
@@ -1026,8 +947,6 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setKnobs:(DKKnob*)knobs
 {
-	[knobs retain];
-	[m_knobs release];
 	m_knobs = knobs;
 
 	[m_knobs setOwner:self];
@@ -1047,6 +966,8 @@ static NSArray* s_selectionColours = nil;
 		return [[self layerGroup] knobs];
 }
 
+@synthesize knobs=m_knobs;
+
 /** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
 
  In general it's best to scale the knobs otherwise they tend to overlap and become large at high
@@ -1055,7 +976,7 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setKnobsShouldAdustToViewScale:(BOOL)ka
 {
-	m_knobsAdjustToScale = ka;
+	self.knobsShouldAdjustToViewScale = ka;
 }
 
 /** @brief Return whether the drawing will scale its selection knobs to the view or not
@@ -1070,6 +991,8 @@ static NSArray* s_selectionColours = nil;
 	else
 		return NO;
 }
+
+@synthesize knobsShouldAdjustToViewScale=m_knobsAdjustToScale;
 
 #pragma mark -
 #pragma mark - pasteboard / drag and drop support
@@ -1157,7 +1080,7 @@ static NSArray* s_selectionColours = nil;
 - (void)showInfoWindowWithString:(NSString*)str atPoint:(NSPoint)p
 {
 	if (m_infoWindow == nil) {
-		m_infoWindow = [[GCInfoFloater infoFloater] retain];
+		m_infoWindow = [GCInfoFloater infoFloater];
 		[m_infoWindow setFormat:nil];
 		[m_infoWindow setBackgroundColor:[self selectionColour]];
 		[m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
@@ -1175,7 +1098,7 @@ static NSArray* s_selectionColours = nil;
 - (void)setInfoWindowBackgroundColour:(NSColor*)colour
 {
 	if (m_infoWindow == nil) {
-		m_infoWindow = [[GCInfoFloater infoFloater] retain];
+		m_infoWindow = [GCInfoFloater infoFloater];
 		[m_infoWindow setFormat:nil];
 		[m_infoWindow setBackgroundColor:[self selectionColour]];
 		[m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
@@ -1299,29 +1222,21 @@ static NSArray* s_selectionColours = nil;
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[self undoManager] removeAllActionsWithTarget:self];
-
-	[m_infoWindow release];
-	[m_knobs release];
-	[m_selectionColour release];
-	[m_name release];
-	[mUserInfo release];
-	[mLayerUniqueKey release];
-	[super dealloc];
 }
 
 /** @brief Designated initializer for base class of all layers
 
  A layer must be added to a group (and ultimately a drawing, which is a group) before it can be used */
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
 		[self setVisible:YES];
 		[self setLocked:NO];
-		[self setKnobsShouldAdustToViewScale:YES];
+		[self setKnobsShouldAdjustToViewScale:YES];
 		[self setShouldDrawToPrinter:YES];
 		[self setSelectionColour:[[self class] selectionColourForIndex:sLayerIndexSeed++]];
-		mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
+		mLayerUniqueKey = [DKUniqueID uniqueKey];
 		mRulerMarkersEnabled = YES;
 		mAlpha = 1.0;
 	}
@@ -1366,12 +1281,12 @@ static NSArray* s_selectionColours = nil;
 			   forKey:@"DKLayer_disableRulerMarkerUpdates"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	LogEvent_(kFileEvent, @"decoding layer %@", self);
 
-	self = [self init];
+	self = [super init];
 	if (self) {
 		[self setLayerGroup:[coder decodeObjectForKey:@"group"]];
 		[self setLayerName:[coder decodeObjectForKey:@"name"]];
@@ -1382,7 +1297,7 @@ static NSArray* s_selectionColours = nil;
 			[self setSelectionColour:selColour];
 
 		[self setKnobs:[coder decodeObjectForKey:@"DKLayer_knobs"]];
-		[self setKnobsShouldAdustToViewScale:YES];
+		[self setKnobsShouldAdjustToViewScale:YES];
 
 		[self setVisible:[coder decodeBoolForKey:@"visible"]];
 		// Check older files for presence of flag - if not there, assume YES
@@ -1395,7 +1310,7 @@ static NSArray* s_selectionColours = nil;
 		[self setClipsDrawingToInterior:[coder decodeBoolForKey:@"DKLayer_clipToInterior"]];
 		[self setUserInfo:[coder decodeObjectForKey:@"DKLayer_userInfo"]];
 
-		mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
+		mLayerUniqueKey = [DKUniqueID uniqueKey];
 
 		// alpha was added in 1.0.7 - if not present, default to 1.0
 
@@ -1461,7 +1376,6 @@ static NSArray* s_selectionColours = nil;
 												  action:[anItem action]
 										   keyEquivalent:@""];
 	BOOL oldResult = [self validateMenuItem:temp];
-	[temp release];
 
 	return oldResult;
 }

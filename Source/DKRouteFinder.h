@@ -6,18 +6,22 @@
 
 #import <Cocoa/Cocoa.h>
 
-typedef enum {
+NS_ASSUME_NONNULL_BEGIN
+
+@protocol DKRouteFinderProgressDelegate;
+
+typedef NS_ENUM(NSInteger, DKRouteAlgorithmType) {
 	kDKUseSimulatedAnnealing = 1,
 	kDKUseNearestNeighbour = 2
-} DKRouteAlgorithmType;
+};
 
-typedef enum {
+typedef NS_ENUM(NSInteger, DKDirection) {
 	kDirectionEast = 0,
 	kDirectionSouth = 1,
 	kDirectionWest = 2,
 	kDirectionNorth = 3,
 	kDirectionAny = -1
-} DKDirection;
+};
 
 /** @brief This object implements an heuristic solution to the travelling salesman problem.
 
@@ -36,43 +40,51 @@ resolves to an NSPoint return value, and is given by <key>. The result is a new 
 */
 @interface DKRouteFinder : NSObject {
 @private
-	NSArray* mInput; // input list of NSPoint values
+	NSArray<NSValue*>* mInput; // input list of NSPoint values
 	DKRouteAlgorithmType mAlgorithm; // which algorithm to use
 	NSInteger* mOrder; // final sort order (1-based)
 	BOOL mCalculationDone; // flag whether the sort was run
-	id mProgressDelegate; // a progress delegate, if any
+	id<DKRouteFinderProgressDelegate> __weak mProgressDelegate; // a progress delegate, if any
 	// for SA
 	CGFloat* mX; // for SA, list of input x coordinates
 	CGFloat* mY; // for SA, list of input y coordinates
 	NSInteger mAnnealingSteps; // for SA, the number of steps in the outer loop
 	CGFloat mPathLength; // the path length
 	// for NN
-	NSMutableArray* mVisited; // for NN, the list of visited points in visit order
+	NSMutableArray<NSValue*>* mVisited; // for NN, the list of visited points in visit order
 	DKDirection mDirection; // limit search for NN to this direction
 }
 
-+ (DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray*)arrayOfPoints;
-+ (DKRouteFinder*)routeFinderWithObjects:(NSArray*)objects withValueForKey:(NSString*)key;
++ (nullable DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray<NSValue*>*)arrayOfPoints;
++ (nullable DKRouteFinder*)routeFinderWithObjects:(NSArray*)objects withValueForKey:(NSString*)key;
 + (NSArray*)sortedArrayOfObjects:(NSArray*)objects byShortestRouteForKey:(NSString*)key;
-+ (void)setAlgorithm:(DKRouteAlgorithmType)algType;
+@property (class) DKRouteAlgorithmType algorithm;
 
-- (NSArray*)shortestRoute;
-- (NSArray*)shortestRouteOrder;
-- (NSArray*)sortedArrayFromArray:(NSArray*)anArray;
-- (CGFloat)pathLength;
-- (DKRouteAlgorithmType)algorithm;
+/** @brief returns the original points reordered into the shortest route.
+ */
+- (NSArray<NSValue*>*)shortestRoute NS_REFINED_FOR_SWIFT;
 
-- (void)setProgressDelegate:(id)aDelegate;
+/** @brief Returns a list of integers which specifies the shortest route between the original points.
+ */
+- (NSArray<NSNumber*>*)shortestRouteOrder NS_REFINED_FOR_SWIFT;
+
+- (nullable NSArray*)sortedArrayFromArray:(NSArray*)anArray;
+@property (readonly) CGFloat pathLength;
+@property (readonly) DKRouteAlgorithmType algorithm;
+
+@property (weak, nullable) id<DKRouteFinderProgressDelegate> progressDelegate;
 
 @end
 
 #define kDKDefaultAnnealingSteps 100
 
-// informal protocol that an object can implement to be called back as the route finding progresses.
-// <value> is in the range 0..1
-
-@interface NSObject (DKRouteFinderProgressDelegate)
+/** Protocol that an object can implement to be called back as the route finding progresses.
+ <value> is in the range 0..1
+ */
+@protocol DKRouteFinderProgressDelegate <NSObject>
 
 - (void)routeFinder:(DKRouteFinder*)rf progressHasReached:(CGFloat)value;
 
 @end
+
+NS_ASSUME_NONNULL_END

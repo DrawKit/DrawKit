@@ -12,7 +12,7 @@
 #pragma mark As a DKImageOverlayLayer
 
 /**  */
-- (id)initWithImage:(NSImage*)image
+- (instancetype)initWithImage:(NSImage*)image
 {
 	self = [self init];
 	if (self != nil) {
@@ -21,33 +21,28 @@
 		[self setCoverageMethod:kDKDrawingImageCoverageNormal];
 
 		if (m_image == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 
 	return self;
 }
 
-- (id)initWithContentsOfFile:(NSString*)imagefile
+- (instancetype)initWithContentsOfFile:(NSString*)imagefile
 {
-	NSImage* img = [[[NSImage alloc] initWithContentsOfFile:imagefile] autorelease];
+	NSImage* img = [[NSImage alloc] initWithContentsOfFile:imagefile];
 	return [self initWithImage:img];
 }
 
 #pragma mark -
 - (void)setImage:(NSImage*)image
 {
-	[image retain];
-	[m_image release];
 	m_image = image;
+	// TODO: Remove setFlipped. See what's impacted if it is removed.
 	[m_image setFlipped:YES];
 }
 
-- (NSImage*)image
-{
-	return m_image;
-}
+@synthesize image=m_image;
 
 #pragma mark -
 - (void)setOpacity:(CGFloat)op
@@ -58,10 +53,7 @@
 	}
 }
 
-- (CGFloat)opacity
-{
-	return m_opacity;
-}
+@synthesize opacity=m_opacity;
 
 #pragma mark -
 - (void)setCoverageMethod:(DKImageCoverageFlags)cm
@@ -72,10 +64,7 @@
 	}
 }
 
-- (DKImageCoverageFlags)coverageMethod
-{
-	return m_coverageMethod;
-}
+@synthesize coverageMethod=m_coverageMethod;
 
 #pragma mark -
 - (NSRect)imageDestinationRect
@@ -134,12 +123,12 @@
 			NSInteger h, v, x, y;
 
 			if (cm & kDKDrawingImageCoverageHorizontallyTiled)
-				h = 1 + _CGFloatTrunc(ds.width / ri.size.width);
+				h = 1 + trunc(ds.width / ri.size.width);
 			else
 				h = 1;
 
 			if (cm & kDKDrawingImageCoverageVerticallyTiled)
-				v = 1 + _CGFloatTrunc(ds.height / ri.size.height);
+				v = 1 + trunc(ds.height / ri.size.height);
 			else
 				v = 1;
 
@@ -167,12 +156,6 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_image release];
-
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -189,7 +172,7 @@
 				  forKey:@"coveragemethod"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
@@ -199,8 +182,7 @@
 		[self setCoverageMethod:[coder decodeIntegerForKey:@"coveragemethod"]];
 
 		if (m_image == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;

@@ -10,45 +10,20 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 
 @implementation DKQuartzBlendRastGroup
 #pragma mark As a DKQuartzBlendRastGroup
-- (void)setBlendMode:(CGBlendMode)mode
-{
-	m_blendMode = mode;
-}
 
-- (CGBlendMode)blendMode
-{
-	return m_blendMode;
-}
+@synthesize blendMode=m_blendMode;
 
 #pragma mark -
-- (void)setAlpha:(CGFloat)alpha
-{
-	m_alpha = alpha;
-}
-
-- (CGFloat)alpha
-{
-	return m_alpha;
-}
+@synthesize alpha=m_alpha;
 
 #pragma mark -
-- (void)setMaskImage:(NSImage*)image
-{
-	[image retain];
-	[m_maskImage release];
-	m_maskImage = image;
-}
-
-- (NSImage*)maskImage
-{
-	return m_maskImage;
-}
+@synthesize maskImage=m_maskImage;
 
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"blendMode", @"alpha", @"maskImage", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"blendMode", @"alpha", @"maskImage"]];
 }
 
 - (void)registerActionNames
@@ -64,14 +39,7 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_maskImage release];
-
-	[super dealloc];
-}
-
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -107,7 +75,7 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 
 		clipr = [object bounds];
 
-		CGContextClipToMask(context, *(CGRect*)&clipr, mask);
+		CGContextClipToMask(context, NSRectToCGRect(clipr), mask);
 
 		//CGContextDrawImage( context, *(CGRect*)&clipr, mask );
 
@@ -133,12 +101,12 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 				 forKey:@"mask_image"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];
 	if (self != nil) {
-		[self setBlendMode:[coder decodeIntegerForKey:@"blend_mode"]];
+		[self setBlendMode:[coder decodeIntForKey:@"blend_mode"]];
 		[self setAlpha:[coder decodeDoubleForKey:@"alpha"]];
 		[self setMaskImage:[coder decodeObjectForKey:@"mask_image"]];
 	}

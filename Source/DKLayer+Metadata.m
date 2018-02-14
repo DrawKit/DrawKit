@@ -6,11 +6,12 @@
 
 #import "DKLayer+Metadata.h"
 #import "LogEvent.h"
+#import "DKLayerGroup.h"
 
 #define USE_107_OR_LATER_SCHEMA 1
 
-NSString* kDKLayerMetadataUserInfoKey = @"kDKLayerMetadataUserInfoKey";
-NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUndoableChangesUserDefaultsKey";
+NSString* const kDKLayerMetadataUserInfoKey = @"kDKLayerMetadataUserInfoKey";
+NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUndoableChangesUserDefaultsKey";
 
 @implementation DKLayer (Metadata)
 #pragma mark As a DKLayer
@@ -80,7 +81,6 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 		item = [item copy];
 		[[self metadata] setObject:item
 							forKey:[key lowercaseString]];
-		[item release];
 
 		[self metadataDidChangeKey:key];
 	}
@@ -131,7 +131,6 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 				DKMetadataItem* oldItem = [item copy];
 				[[[self undoManager] prepareWithInvocationTarget:self] setMetadataItem:oldItem
 																				forKey:key];
-				[oldItem release];
 			}
 
 			[self metadataWillChangeKey:key];
@@ -147,7 +146,6 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 		if ([[self class] metadataChangesAreUndoable]) {
 			NSDictionary* mdCopy = [[self metadata] copy];
 			[[[self undoManager] prepareWithInvocationTarget:self] setMetadata:mdCopy];
-			[mdCopy release];
 		}
 
 #if USE_107_OR_LATER_SCHEMA
@@ -179,7 +177,6 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 #else
 	[self setUserInfo:md];
 #endif
-	[md release];
 	[self metadataDidChangeKey:nil];
 }
 
@@ -242,6 +239,9 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 
 - (void)removeMetadataForKey:(NSString*)key
 {
+	if (key == nil) {
+		return;
+	}
 #if USE_107_OR_LATER_SCHEMA
 	if ([[self class] metadataChangesAreUndoable]) {
 		DKMetadataItem* item = [self metadataItemForKey:key];
@@ -265,7 +265,7 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 }
 
 #pragma mark -
-- (void)setFloatValue:(float)val forKey:(NSString*)key
+- (void)setFloatValue:(CGFloat)val forKey:(NSString*)key
 {
 #if USE_107_OR_LATER_SCHEMA
 	[self setMetadataItem:[DKMetadataItem metadataItemWithReal:val]
@@ -285,7 +285,7 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 #endif
 }
 
-- (void)setIntValue:(int)val forKey:(NSString*)key
+- (void)setIntValue:(NSInteger)val forKey:(NSString*)key
 {
 #if USE_107_OR_LATER_SCHEMA
 	[self setMetadataItem:[DKMetadataItem metadataItemWithInteger:val]
@@ -378,8 +378,7 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -389,8 +388,7 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -424,7 +422,6 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 	metaDict = [[DKMetadataItem dictionaryOfMetadataItemsWithDictionary:metaDict] mutableCopy];
 	[self setUserInfoObject:metaDict
 					 forKey:kDKLayerMetadataUserInfoKey];
-	[metaDict release];
 #else
 
 	// just ensure all keys are lowercase
@@ -450,11 +447,9 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 	NSMutableArray* array = [[[self metadata] allKeys] mutableCopy];
 	[array sortUsingSelector:@selector(compare:)];
 
-	NSEnumerator* iter = [array objectEnumerator];
-	NSString* key;
 	id value;
 
-	while ((key = [iter nextObject])) {
+	for (NSString *key in array) {
 #if USE_107_OR_LATER_SCHEMA
 		value = [[self metadataItemForKey:key] value];
 #else
@@ -463,7 +458,6 @@ NSString* kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetadataUnd
 		cs ^= [key hash] ^ [value hash];
 	}
 
-	[array release];
 
 	if ([self layerGroup])
 		cs ^= [[self layerGroup] metadataChecksum];

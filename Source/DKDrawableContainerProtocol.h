@@ -6,13 +6,21 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DKDrawing, DKLayer, DKImageDataManager, DKDrawableObject, DKMetadataItem;
 
+/**
+ 
+ Objects that claim ownership of a \c DKDrawableObject must formally implement this protocol.
+ 
+ This includes DKObjectOwnerLayer, DKShapeGroup
+ */
 @protocol DKDrawableContainer <NSObject>
 
 - (DKDrawing*)drawing;
 - (DKLayer*)layer;
-- (NSAffineTransform*)renderingTransform;
+@property (readonly, copy) NSAffineTransform *renderingTransform;
 - (DKImageDataManager*)imageManager;
 - (NSUInteger)indexOfObject:(DKDrawableObject*)obj;
 
@@ -22,11 +30,4 @@
 
 @end
 
-/*
-
-Objects that claim ownership of a DKDrawableObject must formally implement this protocol.
- 
-This includes DKObjectOwnerLayer, DKShapeGroup
-
-
-*/
+NS_ASSUME_NONNULL_END

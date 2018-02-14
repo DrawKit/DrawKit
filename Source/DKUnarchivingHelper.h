@@ -6,17 +6,19 @@
 
 #import <Cocoa/Cocoa.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /** @brief this helper is used when unarchiving to translate class names from older files to their modern equivalents
 */
-@interface DKUnarchivingHelper : NSObject {
+@interface DKUnarchivingHelper : NSObject <NSKeyedUnarchiverDelegate> {
 	NSUInteger mCount;
 	NSString* mLastClassnameSubstituted;
 }
 
 - (void)reset;
-- (NSUInteger)numberOfObjectsDecoded;
+@property (readonly) NSUInteger numberOfObjectsDecoded;
 
-- (NSString*)lastClassnameSubstituted;
+@property (readonly, copy, nullable) NSString *lastClassnameSubstituted;
 
 @end
 
@@ -28,11 +30,12 @@ if a substitution would return NSObject, return this insead, which provides a st
 	NSString* mSubstitutedForClassname;
 }
 
-- (void)setSubstitutionClassname:(NSString*)classname;
-- (NSString*)substitutionClassname;
+@property (copy, nullable) NSString *substitutionClassname;
 
 @end
 
-extern NSString* kDKUnarchiverProgressStartedNotification;
-extern NSString* kDKUnarchiverProgressContinuedNotification;
-extern NSString* kDKUnarchiverProgressFinishedNotification;
+extern NSString* const kDKUnarchiverProgressStartedNotification;
+extern NSString* const kDKUnarchiverProgressContinuedNotification;
+extern NSString* const kDKUnarchiverProgressFinishedNotification;
+
+NS_ASSUME_NONNULL_END

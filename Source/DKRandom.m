@@ -20,7 +20,7 @@
 		seed = 1;
 	}
 	CGFloat randomNum = (CGFloat)random();
-	randomNum /= (randomNum < 0) ? -2147483647.0f : 2147483647.0f;
+	randomNum /= (randomNum < 0) ? -2147483647.0 : 2147483647.0;
 
 	return randomNum;
 }

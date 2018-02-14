@@ -4,12 +4,14 @@
  @copyright MPL2; see LICENSE.txt
 */
 
+#import <Cocoa/Cocoa.h>
 #import "DKGradient.h"
 
-typedef union {
-	unsigned long pixel;
-	struct
-		{
+NS_ASSUME_NONNULL_BEGIN
+
+typedef union pix_int {
+	unsigned int pixel;
+	struct pix_units {
 		unsigned char a;
 		unsigned char r;
 		unsigned char g;
@@ -28,14 +30,15 @@ typedef union {
 	BOOL m_ditherColours;
 }
 
-+ (DKGradient*)sweptAngleGradient;
-+ (DKGradient*)sweptAngleGradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2;
++ (DKSweptAngleGradient*)sweptAngleGradient;
++ (DKSweptAngleGradient*)sweptAngleGradientWithStartingColor:(NSColor*)c1 endingColor:(NSColor*)c2;
 
-- (void)setNumberOfAngularSegments:(NSInteger)ns;
-- (NSInteger)numberOfAngularSegments;
+@property NSInteger numberOfAngularSegments;
 
 - (void)preloadColours;
 - (void)createGradientImageWithRect:(NSRect)rect;
 - (void)invalidateCache;
 
 @end
+
+NS_ASSUME_NONNULL_END

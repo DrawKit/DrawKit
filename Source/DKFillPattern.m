@@ -15,12 +15,8 @@
 @implementation DKFillPattern
 #pragma mark As a DKFillPattern
 
-/**  */
 + (DKFillPattern*)defaultPattern
 {
-	// return the default pattern , which is based on some image - unlikely to be really useful so might be
-	// better to do something else here???
-
 	return [[[self alloc] initWithImage:[NSImage imageNamed:@"Rect"]] autorelease];
 }
 
@@ -71,7 +67,7 @@
 	cp.y = NSMidY(rect);
 
 	CGFloat max = MAX(NSWidth(rect), NSHeight(rect));
-	rect.size.width = rect.size.height = max * 1.4142f;
+	rect.size.width = rect.size.height = max * 1.4142;
 	rect = CentreRectOnPoint(rect, cp);
 
 	NSSize mb = [[self image] size];
@@ -169,8 +165,8 @@
 					if (mPlacementCount < [mMotifAngleRandCache count])
 						ra = [[mMotifAngleRandCache objectAtIndex:mPlacementCount] doubleValue];
 					else {
-						ra = [DKRandom randomPositiveOrNegativeNumber] * 2.0 * pi * [self motifAngleRandomness];
-						[mMotifAngleRandCache addObject:[NSNumber numberWithDouble:ra]];
+						ra = [DKRandom randomPositiveOrNegativeNumber] * 2.0 * M_PI * [self motifAngleRandomness];
+						[mMotifAngleRandCache addObject:@(ra)];
 					}
 					tempAngle = mangle;
 					tempAngle += ra;
@@ -191,8 +187,8 @@
 
 					// tp is inside the path but not all of the image's bounds may be, so need to do full intersection test
 
-					motifBounds.origin.x = tp.x - motifBounds.size.width * 0.5f;
-					motifBounds.origin.y = tp.y - motifBounds.size.height * 0.5f;
+					motifBounds.origin.x = tp.x - motifBounds.size.width * 0.5;
+					motifBounds.origin.y = tp.y - motifBounds.size.height * 0.5;
 
 					// uses Omni's code to perform the detection - returns as soon as it has an answer
 
@@ -214,15 +210,7 @@
 }
 
 #pragma mark -
-- (void)setAngle:(CGFloat)radians
-{
-	m_angle = radians;
-}
-
-- (CGFloat)angle
-{
-	return m_angle;
-}
+@synthesize angle=m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -234,30 +222,13 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self angle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
 
-- (void)setAngleIsRelativeToObject:(BOOL)relAngle
-{
-	m_angleRelativeToObject = relAngle;
-}
-
-- (BOOL)angleIsRelativeToObject
-{
-	return m_angleRelativeToObject;
-}
-
-- (void)setMotifAngle:(CGFloat)radians
-{
-	m_motifAngle = radians;
-}
-
-- (CGFloat)motifAngle
-{
-	return m_motifAngle;
-}
+@synthesize angleIsRelativeToObject=m_angleRelativeToObject;
+@synthesize motifAngle=m_motifAngle;
 
 - (void)setMotifAngleInDegrees:(CGFloat)degrees
 {
@@ -269,20 +240,12 @@
 	CGFloat angle = RADIANS_TO_DEGREES([self motifAngle]);
 
 	if (angle < 0)
-		angle += 360.0f;
+		angle += 360.0;
 
 	return angle;
 }
 
-- (void)setMotifAngleIsRelativeToPattern:(BOOL)mrel
-{
-	m_motifAngleRelativeToPattern = mrel;
-}
-
-- (BOOL)motifAngleIsRelativeToPattern
-{
-	return m_motifAngleRelativeToPattern;
-}
+@synthesize motifAngleIsRelativeToPattern=m_motifAngleRelativeToPattern;
 
 - (void)setMotifAngleRandomness:(CGFloat)maRand
 {
@@ -298,27 +261,12 @@
 	}
 }
 
-- (CGFloat)motifAngleRandomness
-{
-	return mMotifAngleRandomness;
-}
-
-- (void)setDrawingOfClippedElementsSupressed:(BOOL)supress
-{
-	// setting this causes a test for intersection of the motif's bounds with the object's path. If there is an intersection, the motif is not drawn. This makes patterns
-	// appear tidier for certain applications (such as GIS/mapping) but adds a substantial performance overhead. Off by default.
-
-	m_noClippedElements = supress;
-}
-
-- (BOOL)drawingOfClippedElementsSupressed
-{
-	return m_noClippedElements;
-}
+@synthesize motifAngleRandomness=mMotifAngleRandomness;
+@synthesize drawingOfClippedElementsSupressed=m_noClippedElements;
 
 #pragma mark -
 #pragma mark As a DKPathDecorator
-- (id)initWithImage:(NSImage*)image
+- (instancetype)initWithImage:(NSImage*)image
 {
 	self = [super initWithImage:image];
 	if (self != nil) {
@@ -336,10 +284,10 @@
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"angle",
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"angle",
 																							   @"patternAlternateOffset", @"angleIsRelativeToObject",
 																							   @"motifAngle", @"motifAngleIsRelativeToPattern", @"drawingOfClippedElementsSupressed",
-																							   @"motifAngleRandomness", nil]];
+																							   @"motifAngleRandomness"]];
 }
 
 - (void)registerActionNames
@@ -363,7 +311,7 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -439,7 +387,7 @@
 				 forKey:@"DKFillPattern_motifAngleRandomness"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

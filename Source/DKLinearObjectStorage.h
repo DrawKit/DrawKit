@@ -19,7 +19,7 @@ Basic storage class stores objects in a standard array. For many uses this will 
 */
 @interface DKLinearObjectStorage : NSObject <DKObjectStorage, NSCoding> {
 @private
-	NSMutableArray* mObjects;
+	NSMutableArray<id<DKStorableObject>>* mObjects;
 }
 
 @end

@@ -8,11 +8,11 @@
 #import "DKUndoManager.h"
 #import "LogEvent.h"
 
-NSString* kDKMetaDataUserInfoKey = @"kDKMetaDataUserInfoKey";
-NSString* kDKMetaDataUserInfo107OrLaterKey = @"kDKMetaDataUserInfo107OrLaterKey";
-NSString* kDKMetadataWillChangeNotification = @"kDKMetadataWillChangeNotification";
-NSString* kDKMetadataDidChangeNotification = @"kDKMetadataDidChangeNotification";
-NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable";
+NSString* const kDKMetaDataUserInfoKey = @"kDKMetaDataUserInfoKey";
+NSString* const kDKMetaDataUserInfo107OrLaterKey = @"kDKMetaDataUserInfo107OrLaterKey";
+NSString* const kDKMetadataWillChangeNotification = @"kDKMetadataWillChangeNotification";
+NSString* const kDKMetadataDidChangeNotification = @"kDKMetadataDidChangeNotification";
+NSString* const kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable";
 
 #define USE_107_OR_LATER_SCHEMA 1
 
@@ -98,7 +98,6 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 		item = [item copy];
 		[[self metadata] setObject:item
 							forKey:[key lowercaseString]];
-		[item release];
 
 		[self notifyVisualChange];
 		[self metadataDidChangeKey:key];
@@ -134,16 +133,14 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 	// returns an array of metadata items for the keys listed in <keyArray>. The returned order matches that of the keyArray.
 
 	NSMutableArray* result = [NSMutableArray arrayWithCapacity:[keyArray count]];
-	NSEnumerator* iter = [keyArray objectEnumerator];
-	NSString* key;
-	DKMetadataItem* item;
 
-	while ((key = [iter nextObject])) {
-		item = [self metadataItemForKey:key
-					 limitToLocalSearch:local];
+	for (NSString* key in keyArray) {
+		DKMetadataItem* item = [self metadataItemForKey:key
+									 limitToLocalSearch:local];
 
-		if (item)
+		if (item) {
 			[result addObject:item];
+		}
 	}
 	return result;
 }
@@ -184,7 +181,6 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 				DKMetadataItem* oldItem = [item copy];
 				[[[self undoManager] prepareWithInvocationTarget:self] setMetadataItem:oldItem
 																				forKey:key];
-				[oldItem release];
 			}
 
 			[self metadataWillChangeKey:key];
@@ -233,16 +229,37 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 					const char* dataType = [oldValue objCType];
 					NSNumber* newValue;
 
-					if (strcmp(dataType, @encode(CGFloat)) == 0)
-						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
-					else if (strcmp(dataType, @encode(double)) == 0)
-						newValue = [NSNumber numberWithDouble:[obj doubleValue]];
-					else if (strcmp(dataType, @encode(NSInteger)) == 0)
-						newValue = [NSNumber numberWithInteger:[obj integerValue]];
-					else if (strcmp(dataType, @encode(BOOL)) == 0)
-						newValue = [NSNumber numberWithBool:[obj integerValue]];
-					else
+					if (strcmp(dataType, @encode(CGFloat)) == 0) {
+						newValue = @([obj doubleValue]);
+					} else if (strcmp(dataType, @encode(double)) == 0) {
+						newValue = @([obj doubleValue]);
+					} else if (strcmp(dataType, @encode(float)) == 0) {
+						newValue = @([obj floatValue]);
+					} else if (strcmp(dataType, @encode(long)) == 0) {
+						newValue = @([obj longValue]);
+					} else if (strcmp(dataType, @encode(unsigned long)) == 0) {
+						newValue = @([obj unsignedLongValue]);
+					} else if (strcmp(dataType, @encode(NSInteger)) == 0) {
+						newValue = @([obj integerValue]);
+					} else if (strcmp(dataType, @encode(NSUInteger)) == 0) {
+						newValue = @([obj unsignedIntegerValue]);
+					} else if (strcmp(dataType, @encode(long long)) == 0) {
+						newValue = @([obj longLongValue]);
+					} else if (strcmp(dataType, @encode(unsigned long long)) == 0) {
+						newValue = @([obj unsignedLongLongValue]);
+					} else if (strcmp(dataType, @encode(int)) == 0) {
+						newValue = @([obj intValue]);
+					} else if (strcmp(dataType, @encode(short)) == 0) {
+						newValue = @([obj intValue]);
+					} else if (strcmp(dataType, @encode(unsigned int)) == 0) {
+						newValue = @([obj unsignedIntValue]);
+					} else if (strcmp(dataType, @encode(unsigned short)) == 0) {
+						newValue = @([obj unsignedIntValue]);
+					} else if (strcmp(dataType, @encode(BOOL)) == 0) {
+						newValue = @((BOOL)([obj integerValue] != 0));
+					} else {
 						newValue = obj;
+					}
 
 					obj = newValue;
 				}
@@ -313,6 +330,10 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 
 - (void)removeMetadataForKey:(NSString*)key
 {
+	if (key == nil) {
+		NSAssert(key != nil, @"cannot use a nil metadata key");
+		return;
+	}
 #if USE_107_OR_LATER_SCHEMA
 	if ([[self class] metadataChangesAreUndoable]) {
 		DKMetadataItem* item = [self metadataItemForKey:key];
@@ -342,7 +363,6 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 		if ([[self class] metadataChangesAreUndoable]) {
 			NSDictionary* mdCopy = [[self metadata] copy];
 			[[[self undoManager] prepareWithInvocationTarget:self] setMetadata:mdCopy];
-			[mdCopy release];
 		}
 
 #if USE_107_OR_LATER_SCHEMA
@@ -375,12 +395,11 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 	[self setUserInfoObject:md
 					 forKey:kDKMetaDataUserInfoKey];
 #endif
-	[md release];
 	[self metadataDidChangeKey:nil];
 }
 
 #pragma mark -
-- (void)setFloatValue:(float)val forKey:(NSString*)key
+- (void)setFloatValue:(CGFloat)val forKey:(NSString*)key
 {
 #if USE_107_OR_LATER_SCHEMA
 	[self setMetadataItem:[DKMetadataItem metadataItemWithReal:val]
@@ -400,7 +419,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 #endif
 }
 
-- (void)setIntValue:(int)val forKey:(NSString*)key
+- (void)setIntValue:(NSInteger)val forKey:(NSString*)key
 {
 #if USE_107_OR_LATER_SCHEMA
 	[self setMetadataItem:[DKMetadataItem metadataItemWithInteger:val]
@@ -522,7 +541,6 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 		metaDict = [[DKMetadataItem dictionaryOfMetadataItemsWithDictionary:metaDict] mutableCopy];
 		[self setUserInfoObject:metaDict
 						 forKey:kDKMetaDataUserInfo107OrLaterKey];
-		[metaDict release];
 #else
 		[self setUserInfoObject:metaDict
 						 forKey:kDKMetaDataUserInfoKey];
@@ -553,7 +571,6 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 		[[self userInfo] removeObjectForKey:kDKMetaDataUserInfoKey];
 		[self setUserInfoObject:metaDict
 						 forKey:kDKMetaDataUserInfo107OrLaterKey];
-		[metaDict release];
 	}
 #endif
 }
@@ -568,11 +585,8 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 	NSMutableArray* array = [[[self metadata] allKeys] mutableCopy];
 	[array sortUsingSelector:@selector(compare:)];
 
-	NSEnumerator* iter = [array objectEnumerator];
-	NSString* key;
-	id value;
-
-	while ((key = [iter nextObject])) {
+	for (NSString* key in array) {
+		id value;
 #if USE_107_OR_LATER_SCHEMA
 		value = [[self metadataItemForKey:key] value];
 #else
@@ -581,7 +595,6 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 		cs ^= [key hash] ^ [value hash];
 	}
 
-	[array release];
 
 	if ([self container])
 		cs ^= [(id)[self container] metadataChecksum];
@@ -593,8 +606,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -604,8 +616,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = [NSDictionary dictionaryWithObject:[key lowercaseString]
-											   forKey:@"key"];
+		userInfo = @{@"key": [key lowercaseString]};
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -616,7 +627,7 @@ NSString* kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUndoable"
 #pragma mark -
 #pragma mark Contants(Non - localized)
 
-NSString* kDKPrivateShapeOriginalText = @"Original Text";
+NSString* const kDKPrivateShapeOriginalText = @"Original Text";
 
 @implementation DKDrawableObject (DrawkitPrivateMetadata)
 

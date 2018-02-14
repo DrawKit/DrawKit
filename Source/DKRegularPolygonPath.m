@@ -11,10 +11,11 @@
 #import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
-#import "DKDrawkitMacros.h"
+#import "DKDrawKitMacros.h"
+#import "DKShapeGroup.h"
 #include <tgmath.h>
 
-@interface DKRegularPolygonPath (Private)
+@interface DKRegularPolygonPath ()
 
 - (NSBezierPath*)calculatePath;
 - (void)movePart:(NSInteger)pc toPoint:(NSPoint)mp constrainAngle:(BOOL)constrain;
@@ -60,10 +61,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)radius
-{
-	return mOuterRadius;
-}
+@synthesize radius=mOuterRadius;
 
 - (void)setInnerRadius:(CGFloat)innerRad
 {
@@ -76,10 +74,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)innerRadius
-{
-	return mInnerRadius;
-}
+@synthesize innerRadius=mInnerRadius;
 
 - (void)setTipSpread:(CGFloat)spread
 {
@@ -92,10 +87,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)tipSpread
-{
-	return mTipSpread;
-}
+@synthesize tipSpread=mTipSpread;
 
 - (void)setValleySpread:(CGFloat)spread
 {
@@ -108,10 +100,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (CGFloat)valleySpread
-{
-	return mValleySpread;
-}
+@synthesize valleySpread=mValleySpread;
 
 - (void)setShowsSpreadControls:(BOOL)showControls
 {
@@ -121,10 +110,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-- (BOOL)showsSpreadControls
-{
-	return mShowSpreadControls;
-}
+@synthesize showsSpreadControls=mShowSpreadControls;
 
 #pragma mark - private
 
@@ -136,7 +122,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	BOOL hadFirstPoint = NO, isStar = NO;
 	CGFloat pa, lpa, tip, valley, halfPi;
 
-	halfPi = pi * 0.5f;
+	halfPi = M_PI_2;
 	p = fp = pp = NSZeroPoint;
 	lpa = 0;
 
@@ -169,23 +155,23 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 				if (isStar) {
 					if ((i & 1) == 0) {
-						cp1.x = pp.x + valley * cosf(lpa + halfPi);
-						cp1.y = pp.y + valley * sinf(lpa + halfPi);
+						cp1.x = pp.x + valley * cos(lpa + halfPi);
+						cp1.y = pp.y + valley * sin(lpa + halfPi);
 
-						cp2.x = p.x + tip * cosf(pa - halfPi);
-						cp2.y = p.y + tip * sinf(pa - halfPi);
+						cp2.x = p.x + tip * cos(pa - halfPi);
+						cp2.y = p.y + tip * sin(pa - halfPi);
 					} else {
-						cp1.x = pp.x + tip * cosf(lpa + halfPi);
-						cp1.y = pp.y + tip * sinf(lpa + halfPi);
+						cp1.x = pp.x + tip * cos(lpa + halfPi);
+						cp1.y = pp.y + tip * sin(lpa + halfPi);
 
-						cp2.x = p.x + valley * cosf(pa - halfPi);
-						cp2.y = p.y + valley * sinf(pa - halfPi);
+						cp2.x = p.x + valley * cos(pa - halfPi);
+						cp2.y = p.y + valley * sin(pa - halfPi);
 					}
 				} else {
-					cp1.x = pp.x + tip * cosf(lpa + halfPi);
-					cp1.y = pp.y + tip * sinf(lpa + halfPi);
-					cp2.x = p.x + tip * cosf(pa - halfPi);
-					cp2.y = p.y + tip * sinf(pa - halfPi);
+					cp1.x = pp.x + tip * cos(lpa + halfPi);
+					cp1.y = pp.y + tip * sin(lpa + halfPi);
+					cp2.x = p.x + tip * cos(pa - halfPi);
+					cp2.y = p.y + tip * sin(pa - halfPi);
 				}
 
 				[path curveToPoint:p
@@ -209,8 +195,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 - (void)movePart:(NSInteger)pc toPoint:(NSPoint)mp constrainAngle:(BOOL)constrain
 {
-	CGFloat rad = hypotf(mp.x - mCentre.x, mp.y - mCentre.y);
-	CGFloat angle = atan2f(mp.y - mCentre.y, mp.x - mCentre.x);
+	CGFloat rad = hypot(mp.x - mCentre.x, mp.y - mCentre.y);
+	CGFloat angle = atan2(mp.y - mCentre.y, mp.x - mCentre.x);
 
 	if (constrain) {
 		CGFloat rem = fmod(angle, sAngleConstraint);
@@ -257,7 +243,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	// return the instantaneous angle of the vertex for the given partcode
 
 	NSPoint vp = [self pointForPartcode:pc];
-	return atan2f(vp.y - [self location].y, vp.x - [self location].x);
+	return atan2(vp.y - [self location].y, vp.x - [self location].x);
 }
 
 - (void)updateInfoForPartcode:(NSInteger)pc atPoint:(NSPoint)p
@@ -279,7 +265,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 		case kDKRegularPolyRotationPart:
 			val = [self angleInDegrees];
-			infoStr = [NSString stringWithFormat:@"%.1f%C", val, 0xB0];
+			infoStr = [NSString stringWithFormat:@"%.1f°", val];
 			break;
 
 		case kDKRegularPolyTipSpreadPart:
@@ -396,7 +382,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 					  userInfo:nil];
 
 		if ([self showsSpreadControls]) {
-			NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor yellowColor], kDKKnobPreferredHighlightColour, nil];
+			NSDictionary* options = @{kDKKnobPreferredHighlightColour: [NSColor yellowColor]};
 
 			kp = [self pointForPartcode:kDKRegularPolyTipSpreadPart];
 			[knobs drawKnobAtPoint:kp
@@ -456,7 +442,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 		kp = [self pointForPartcode:pc];
 		kr.origin = kp;
-		kr = NSOffsetRect(kr, tol * -0.5f, tol * -0.5f);
+		kr = NSOffsetRect(kr, tol * -0.5, tol * -0.5);
 
 		if (NSPointInRect(pt, kr))
 			return pc;
@@ -510,7 +496,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 	default: {
 		NSInteger i = pc - kDKRegularPolyFirstVertexPart;
-		angle = ((2 * pi * i) / [self numberOfSides]) + [self angle];
+		angle = ((2 * M_PI * i) / [self numberOfSides]) + [self angle];
 
 		if ((mInnerRadius >= 0.0) && (i & 1) == 1)
 			radius *= [self innerRadius];
@@ -519,8 +505,8 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 
 	NSPoint kp;
 
-	kp.x = mCentre.x + (cosf(angle) * radius);
-	kp.y = mCentre.y + (sinf(angle) * radius);
+	kp.x = mCentre.x + (cos(angle) * radius);
+	kp.y = mCentre.y + (sin(angle) * radius);
 
 	return kp;
 }
@@ -640,7 +626,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	NSRect pb = [[self path] bounds];
 	NSRect kr;
 
-	CGFloat tol = [[[self layer] knobs] controlKnobSize].width * 0.71f;
+	CGFloat tol = [[[self layer] knobs] controlKnobSize].width * 0.71;
 	kr.size = NSMakeSize(tol, tol);
 
 	NSSize ex = [super extraSpaceNeeded];
@@ -695,7 +681,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	radSize = [aTransform transformSize:radSize];
 
 	[self setLocation:loc];
-	[self setRadius:hypotf(radSize.width, radSize.height) / _CGFloatSqrt(2.0f)];
+	[self setRadius:hypot(radSize.width, radSize.height) / M_SQRT2];
 	[self setAngle:[self angle] + [aGroup angle]];
 }
 
@@ -742,7 +728,6 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 							  action:NULL
 					   keyEquivalent:@""];
 	[item setSubmenu:sidesMenu];
-	[sidesMenu release];
 
 	[[theMenu addItemWithTitle:NSLocalizedString(@"Convert To Path", @"menu item for convert to path")
 						action:@selector(convertToPath:)
@@ -763,7 +748,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 /** @brief Designated initialiser
  @return the object
  */
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -831,9 +816,9 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
  @param coder the coder
  @return the object
  */
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
-	[super initWithCoder:coder];
+	if (self = [super initWithCoder:coder]) {
 	[self setRadius:[coder decodeDoubleForKey:@"DKRegularPoly_outerRadius"]];
 	[self setInnerRadius:[coder decodeDoubleForKey:@"DKRegularPoly_innerRadius"]];
 	[self setTipSpread:[coder decodeDoubleForKey:@"DKRegularPoly_tipSpread"]];
@@ -842,6 +827,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	[self setNumberOfSides:[coder decodeIntegerForKey:@"DKRegularPoly_numberOfSides"]];
 	[self setLocation:[coder decodePointForKey:@"DKRegularPoly_location"]];
 	[self setShowsSpreadControls:[coder decodeBoolForKey:@"DKRegularPoly_showSpreadControls"]];
+	}
 
 	return self;
 }

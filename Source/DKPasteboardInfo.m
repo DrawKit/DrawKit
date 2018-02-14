@@ -8,13 +8,14 @@
 #import "DKGeometryUtilities.h"
 #import "DKLayer.h"
 #import "LogEvent.h"
+#import "DKObjectOwnerLayer.h"
 
 @implementation DKPasteboardInfo
 
 + (DKPasteboardInfo*)pasteboardInfoForObjects:(NSArray*)objects
 {
 	DKPasteboardInfo* info = [[self alloc] initWithObjectsInArray:objects];
-	return [info autorelease];
+	return info;
 }
 
 + (DKPasteboardInfo*)pasteboardInfoWithData:(NSData*)data
@@ -39,7 +40,7 @@
 		return nil;
 }
 
-- (id)initWithObjectsInArray:(NSArray*)objects
+- (instancetype)initWithObjectsInArray:(NSArray*)objects
 {
 	self = [super init];
 	if (self) {
@@ -48,13 +49,11 @@
 		// make a list of all the different classes and their counts.
 
 		NSMutableDictionary* clDict = [NSMutableDictionary dictionary];
-		NSEnumerator* iter = [objects objectEnumerator];
-		id obj;
 		NSString* classname;
 		NSNumber* count;
 		NSRect br = NSZeroRect;
 
-		while ((obj = [iter nextObject])) {
+		for (id obj in objects) {
 			br = UnionOfTwoRects(br, [obj bounds]);
 
 			// record count for each class
@@ -63,15 +62,15 @@
 			count = [clDict objectForKey:classname];
 
 			if (count == nil)
-				count = [NSNumber numberWithInteger:1];
+				count = @1;
 			else
-				count = [NSNumber numberWithInteger:[count integerValue] + 1];
+				count = @([count integerValue] + 1);
 
 			[clDict setObject:count
 					   forKey:classname];
 
 			if (mOriginatingLayerKey == nil)
-				mOriginatingLayerKey = [[(DKLayer*)[obj layer] uniqueKey] retain];
+				mOriginatingLayerKey = [(DKLayer*)[obj layer] uniqueKey];
 		}
 
 		mClassInfo = [clDict copy];
@@ -83,30 +82,16 @@
 	return self;
 }
 
-- (NSUInteger)count
-{
-	return mCount;
-}
-
-- (NSRect)bounds
-{
-	return mBoundingRect;
-}
-
-- (NSDictionary*)classInfo
-{
-	return mClassInfo;
-}
+@synthesize count=mCount;
+@synthesize bounds=mBoundingRect;
+@synthesize classInfo=mClassInfo;
 
 - (NSUInteger)countOfClass:(Class)aClass
 {
 	return [[[self classInfo] objectForKey:NSStringFromClass(aClass)] integerValue];
 }
 
-- (NSString*)keyOfOriginatingLayer
-{
-	return mOriginatingLayerKey;
-}
+@synthesize keyOfOriginatingLayer=mOriginatingLayerKey;
 
 - (NSData*)data
 {
@@ -124,12 +109,14 @@
 
 #pragma mark -
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
+	if (self = [super init]) {
 	mCount = [coder decodeIntegerForKey:@"DKPasteboardInfo_count"];
-	mClassInfo = [[coder decodeObjectForKey:@"DKPasteboardInfo_classInfo"] retain];
+	mClassInfo = [coder decodeObjectForKey:@"DKPasteboardInfo_classInfo"];
 	mBoundingRect = [coder decodeRectForKey:@"DKPasteboardInfo_boundsRect"];
-	mOriginatingLayerKey = [[coder decodeObjectForKey:@"DKPasteboardInfo_originatingLayerKey"] retain];
+	mOriginatingLayerKey = [coder decodeObjectForKey:@"DKPasteboardInfo_originatingLayerKey"];
+	}
 	return self;
 }
 
@@ -143,13 +130,6 @@
 			   forKey:@"DKPasteboardInfo_boundsRect"];
 	[coder encodeObject:[self keyOfOriginatingLayer]
 				 forKey:@"DKPasteboardInfo_originatingLayerKey"];
-}
-
-- (void)dealloc
-{
-	[mClassInfo release];
-	[mOriginatingLayerKey release];
-	[super dealloc];
 }
 
 @end

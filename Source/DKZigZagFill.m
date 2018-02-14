@@ -12,44 +12,15 @@
 @implementation DKZigZagFill
 #pragma mark As a DKZigZagFill
 
-/**  */
-- (void)setWavelength:(CGFloat)w
-{
-	mWavelength = w;
-}
-
-- (CGFloat)wavelength
-{
-	return mWavelength;
-}
-
-#pragma mark -
-- (void)setAmplitude:(CGFloat)amp
-{
-	mAmplitude = amp;
-}
-
-- (CGFloat)amplitude
-{
-	return mAmplitude;
-}
-
-#pragma mark -
-- (void)setSpread:(CGFloat)sp
-{
-	mSpread = sp;
-}
-
-- (CGFloat)spread
-{
-	return mSpread;
-}
+@synthesize wavelength=mWavelength;
+@synthesize amplitude=mAmplitude;
+@synthesize spread=mSpread;
 
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
-	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:[NSArray arrayWithObjects:@"wavelength", @"amplitude", @"spread", nil]];
+	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"wavelength", @"amplitude", @"spread"]];
 }
 
 - (void)registerActionNames
@@ -65,7 +36,7 @@
 
 #pragma mark -
 #pragma mark As an NSObject
-- (id)init
+- (instancetype)init
 {
 	self = [super init];
 	if (self != nil) {
@@ -144,7 +115,7 @@
 				 forKey:@"spread"];
 }
 
-- (id)initWithCoder:(NSCoder*)coder
+- (instancetype)initWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	self = [super initWithCoder:coder];

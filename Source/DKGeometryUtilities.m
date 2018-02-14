@@ -14,12 +14,6 @@
 
 const NSPoint NSNotFoundPoint = { -10000000.2, -999999.6 };
 
-/** @brief Forms a rectangle from any two corner points
-
- The rect is normalised, in that the relative positions of a and b do not affect the result - the
- rect always extends in the positive x and y directions.
- @param a, b a pair of points
- @return the rectangle formed by a and b at the opposite corners */
 NSRect NSRectFromTwoPoints(const NSPoint a, const NSPoint b)
 {
 	NSRect r;
@@ -42,22 +36,12 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size)
 	NSRect r;
 
 	r.size = size;
-	r.origin.x = p.x - (size.width * 0.5f);
-	r.origin.y = p.y - (size.height * 0.5f);
+	r.origin.x = p.x - (size.width * 0.5);
+	r.origin.y = p.y - (size.height * 0.5);
 
 	return r;
 }
 
-/** @brief Returns the smallest rect that encloses both a and b
-
- Unlike NSUnionRect, this is practical when either or both of the input rects have a zero
- width or height. For convenience, if either a or b is EXACTLY NSZeroRect, the other rect is
- returned, but in all other cases it correctly forms the union. While NSUnionRect might be
- considered mathematically correct, since a rect of zero width or height cannot "contain" anything
- in the set sense, what's more practically required for real geometry is to allow infinitely thin
- lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
- @param a, b a pair of rects
- @return the rectangle that encloses a and b */
 NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
 {
 	if (NSEqualRects(a, NSZeroRect))
@@ -76,29 +60,16 @@ NSRect UnionOfTwoRects(const NSRect a, const NSRect b)
 	}
 }
 
-/** @brief Returns the smallest rect that encloses all rects in the set
- @param aSet a set of NSValues containing rect values
- @return the rectangle that encloses all rects */
 NSRect UnionOfRectsInSet(const NSSet* aSet)
 {
-	NSEnumerator* iter = [aSet objectEnumerator];
-	NSValue* val;
 	NSRect ur = NSZeroRect;
 
-	while ((val = [iter nextObject]))
+	for (NSValue* val in aSet)
 		ur = UnionOfTwoRects(ur, [val rectValue]);
 
 	return ur;
 }
 
-/** @brief Returns the area that is different between two input rects, as a list of rects
-
- This can be used to optimize upates. If a and b are "before and after" rects of a visual change,
- the resulting list is the area to update assuming that nothing changed in the common area,
- which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
- the result contains a and b.
- @param a, b a pair of rects
- @return an array of rect NSValues */
 NSSet* DifferenceOfTwoRects(const NSRect a, const NSRect b)
 {
 	NSMutableSet* result = [NSMutableSet set];
@@ -121,7 +92,7 @@ NSSet* DifferenceOfTwoRects(const NSRect a, const NSRect b)
 		}
 	}
 
-	return result;
+	return [result copy];
 }
 
 NSSet* SubtractTwoRects(const NSRect a, const NSRect b)
@@ -190,13 +161,13 @@ CGFloat PointFromLine(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 {
 	NSPoint cp = NearestPointOnLine(inPoint, a, b);
 
-	return hypotf((inPoint.x - cp.x), (inPoint.y - cp.y));
+	return hypot((inPoint.x - cp.x), (inPoint.y - cp.y));
 }
 
 /**  */
 NSPoint NearestPointOnLine(const NSPoint inPoint, const NSPoint a, const NSPoint b)
 {
-	CGFloat mag = hypotf((b.x - a.x), (b.y - a.y));
+	CGFloat mag = hypot((b.x - a.x), (b.y - a.y));
 
 	if (mag > 0.0) {
 		CGFloat u = (((inPoint.x - a.x) * (b.x - a.x)) + ((inPoint.y - a.y) * (b.y - a.y))) / (mag * mag);
@@ -222,7 +193,7 @@ NSInteger PointInLineSegment(const NSPoint inPoint, const NSPoint a, const NSPoi
 	// returns 0 if <inPoint> falls within the region defined by the line segment a-b, -1 if it's beyond the point a, 1 if beyond b. The "region" is an
 	// infinite plane defined by all possible lines parallel to a-b.
 
-	CGFloat mag = hypotf((b.x - a.x), (b.y - a.y));
+	CGFloat mag = hypot((b.x - a.x), (b.y - a.y));
 
 	if (mag > 0.0) {
 		CGFloat u = (((inPoint.x - a.x) * (b.x - a.x)) + ((inPoint.y - a.y) * (b.y - a.y))) / (mag * mag);
@@ -252,8 +223,8 @@ NSPoint BisectLine(const NSPoint a, const NSPoint b)
 {
 	NSPoint p;
 
-	p.x = (a.x + b.x) * 0.5f;
-	p.y = (a.y + b.y) * 0.5f;
+	p.x = (a.x + b.x) * 0.5;
+	p.y = (a.y + b.y) * 0.5;
 	return p;
 }
 
@@ -269,7 +240,7 @@ NSPoint Interpolate(const NSPoint a, const NSPoint b, const CGFloat proportion)
 
 CGFloat LineLength(const NSPoint a, const NSPoint b)
 {
-	return hypotf(b.x - a.x, b.y - a.y);
+	return hypot(b.x - a.x, b.y - a.y);
 }
 
 #pragma mark -
@@ -316,8 +287,8 @@ NSPoint EndPoint(NSPoint origin, CGFloat angle, CGFloat length)
 
 	NSPoint ep;
 
-	ep.x = origin.x + (cosf(angle) * length);
-	ep.y = origin.y + (sinf(angle) * length);
+	ep.x = origin.x + (cos(angle) * length);
+	ep.y = origin.y + (sin(angle) * length);
 	return ep;
 }
 
@@ -325,7 +296,7 @@ CGFloat Slope(const NSPoint a, const NSPoint b)
 {
 	// returns the slope of a line given its end points, in radians
 
-	return atan2f(b.y - a.y, b.x - a.x);
+	return atan2(b.y - a.y, b.x - a.x);
 }
 
 CGFloat AngleBetween(const NSPoint a, const NSPoint b, const NSPoint c)
@@ -396,8 +367,8 @@ NSRect CentreRectOnPoint(const NSRect inRect, const NSPoint p)
 
 	NSRect r = inRect;
 
-	r.origin.x = p.x - (inRect.size.width * 0.5f);
-	r.origin.y = p.y - (inRect.size.height * 0.5f);
+	r.origin.x = p.x - (inRect.size.width * 0.5);
+	r.origin.y = p.y - (inRect.size.height * 0.5);
 	return r;
 }
 
@@ -645,7 +616,7 @@ static NSInteger FindRoots(NSPoint* w, NSInteger degree, double* t, NSInteger de
 	NSInteger i;
 	NSPoint Left[6], Right[6]; // control polygons
 	NSInteger left_count, right_count;
-	double left_t[6], right_t[6];
+	double left_t[6]={0}, right_t[6]={0};
 
 	switch (CrossingCount(w, degree)) {
 	default:
@@ -851,7 +822,7 @@ static double ComputeXIntercept(NSPoint* v, NSInteger degree)
 NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[4], double* tValue)
 {
 	NSPoint* w; // Ctl pts for 5th-degree eqn
-	double t_candidate[5]; // Possible roots
+	double t_candidate[5] = {0}; // Possible roots
 	NSInteger n_solutions; // Number of roots found
 	double t; // Parameter value of closest pt
 

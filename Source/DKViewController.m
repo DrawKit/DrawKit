@@ -9,6 +9,7 @@
 #import "DKDrawingView.h"
 #import "DKGuideLayer.h"
 #import "LogEvent.h"
+#import "DKGridLayer.h"
 
 #pragma mark Static Vars
 
@@ -19,11 +20,7 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark - As a DKViewController
 #pragma mark - designated initializer
 
-/** @brief Initialize the controller
- @param aView the view object that this controller manages
- @return the controller object
- */
-- (id)initWithView:(NSView*)aView
+- (instancetype)initWithView:(NSView*)aView
 {
 	NSAssert(aView != nil, @"can't initialize a controller for nil view");
 
@@ -40,52 +37,22 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - fundamental objects in the controller's world
 
-/** @brief Return the controller's view
- @return the controller's view
- */
-- (NSView*)view
-{
-	return mViewRef;
-}
-
-/** @brief Return the controller's drawing
- @return the controller's drawing
- */
-- (DKDrawing*)drawing
-{
-	return mDrawingRef;
-}
+@synthesize view=mViewRef;
+@synthesize drawing=mDrawingRef;
 
 #pragma mark -
 #pragma mark - updating the view from the drawing(refresh)
 
-/** @brief Mark the entire view for update
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- @param updateBoolValue an NSNumber containing a boolValue, YES to update, NO to not update
- */
 - (void)setViewNeedsDisplay:(NSNumber*)updateBoolValue
 {
 	[[self view] setNeedsDisplay:[updateBoolValue boolValue]];
 }
 
-/** @brief Mark part of the view for update
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- @param updateRectValue an NSValue containing a rectValue, the area to mark for update
- */
 - (void)setViewNeedsDisplayInRect:(NSValue*)updateRectValue
 {
 	[[self view] setNeedsDisplayInRect:[updateRectValue rectValue]];
 }
 
-/** @brief Notify that the drawing has had its size changed
-
- The view's bounds and frame are adjusted to enclose the full drawing size and the view is updated
- @param drawingSizeValue an NSValue containing a sizeValue
- */
 - (void)drawingDidChangeToSize:(NSValue*)drawingSizeValue
 {
 	// adjust the bounds to the size given, and the frame too, allowing for the current scale.
@@ -100,23 +67,11 @@ static NSTimer* s_autoscrollTimer = nil;
 	[[self view] setNeedsDisplay:YES];
 }
 
-/** @brief Scroll the view so that the given area is visible
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- @param rectValue an NSValue containing a rectValue, the rect to scroll into view
- */
 - (void)scrollViewToRect:(NSValue*)rectValue
 {
 	[[self view] scrollRectToVisible:[rectValue rectValue]];
 }
 
-/** @brief Set the ruler markers to the given rect
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- @param rectValue an NSValue containing a rectValue, the rect to move ruler markers to
- */
 - (void)updateViewRulerMarkersForRect:(NSValue*)rectValue
 {
 	NSRect rect = [rectValue rectValue];
@@ -143,22 +98,11 @@ static NSTimer* s_autoscrollTimer = nil;
 		[self hideViewRulerMarkers];
 }
 
-/** @brief Hide the view's ruler markers
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- */
 - (void)hideViewRulerMarkers
 {
 	[self updateViewRulerMarkersForRect:[NSValue valueWithRect:NSMakeRect(-10000, -10000, 0, 0)]];
 }
 
-/** @brief Set the rulers to match the unit string
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- @param unitString a string used to look up the previously established ruler settings
- */
 - (void)synchronizeViewRulersWithUnits:(NSString*)unitString
 {
 	id grid = [[self drawing] gridLayer];
@@ -183,31 +127,16 @@ static NSTimer* s_autoscrollTimer = nil;
 	}
 }
 
-/** @brief Invalidate the cursor rects for the view
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- */
 - (void)invalidateCursors
 {
 	[[[self view] window] invalidateCursorRectsForView:[self view]];
 }
 
-/** @brief Stop any text editing that may be taking place in the view
-
- This is called by the drawing - generally you shouldn't call it directly, but instead use the
- similar drawing methods that take simple parameter types
- */
 - (void)exitTemporaryTextEditingMode
 {
 	[(DKDrawingView*)[self view] endTextEditing];
 }
 
-/** @brief An object in the drawing notified a status (rather than visual) change
-
- Override to make use of this - the normal view controller just ignores this
- @param object the object that changed
- */
 - (void)objectDidNotifyStatusChange:(id)object
 {
 #pragma unused(object)
@@ -216,9 +145,6 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - info about current view state
 
-/** @brief Return the current scale of the view
- @return a float value representing the view's zoom scale, 1.0 = 100%, 2.0 = 200% etc.
- */
 - (CGFloat)viewScale
 {
 	if ([[self view] isKindOfClass:[DKDrawingView class]])
@@ -230,13 +156,6 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - handling mouse input events from the view
 
-/** @brief Handle the mouse down event
-
- If set to activate layers automatically, this will do so if the mouse hit something. It also starts
- a timer for autoscrolling, so if you override this, call super to get autoscrolling, or call
- startAutoscrolling on mouseDown.
- @param event the event
- */
 - (void)mouseDown:(NSEvent*)event
 {
 	// if set to activate layers automatically, find the hit layer and activate it
@@ -255,9 +174,6 @@ static NSTimer* s_autoscrollTimer = nil;
 	}
 }
 
-/** @brief Handle the mouse dragged event
- @param event the event
- */
 - (void)mouseDragged:(NSEvent*)event
 {
 	if (![[self activeLayer] lockedOrHidden])
@@ -265,12 +181,6 @@ static NSTimer* s_autoscrollTimer = nil;
 								  inView:[self view]];
 }
 
-/** @brief Handle the mouse up event
-
- This stops the autoscrolling. If you override it, call super or stopAutoscrolling to ensure auto-
- scrolling works as intended.
- @param event the event
- */
 - (void)mouseUp:(NSEvent*)event
 {
 	if (![[self activeLayer] lockedOrHidden])
@@ -282,33 +192,17 @@ static NSTimer* s_autoscrollTimer = nil;
 	[self stopAutoscrolling];
 }
 
-/** @brief Handle the mouse moved event
-
- The basic controller ignores this - override to use it. DKDrawingView turns on mouse moved events
- by default but other view types may not.
- @param event the event
- */
 - (void)mouseMoved:(NSEvent*)event
 {
 #pragma unused(event)
 }
 
-/** @brief Handle the flags changed event
- @param event the event
- */
 - (void)flagsChanged:(NSEvent*)event
 {
 	if ([[self activeLayer] respondsToSelector:@selector(flagsChanged:)])
 		[[self activeLayer] flagsChanged:event];
 }
 
-/** @brief Respond to a mouse-down in one of the view's rulers
-
- This implements the dragging of a guide "off' a ruler and into place in the drawing's guide layer.
- If there is no guide layer it does nothing. This keeps control during the drag and invokes
- @param aRulerView the ruler view that started the event
- @param event the event
- */
 - (void)rulerView:(NSRulerView*)aRulerView handleMouseDown:(NSEvent*)event
 {
 	// this is our cue to create a new guide, if the drawing has a guide layer.
@@ -364,20 +258,11 @@ static NSTimer* s_autoscrollTimer = nil;
 
 #pragma mark -
 
-/** @brief Return the cursor to display when the mouse is in the view
- @return a cursor
- */
 - (NSCursor*)cursor
 {
 	return [[self activeLayer] cursor];
 }
 
-/** @brief Return the active cursor rect
-
- Defines the area in which -cursor will be displayed - outside this rect the arrow cursor is
- displayed.
- @return a rect
- */
 - (NSRect)activeCursorRect
 {
 	return [[self activeLayer] activeCursorRect];
@@ -385,35 +270,8 @@ static NSTimer* s_autoscrollTimer = nil;
 
 #pragma mark -
 #pragma mark - contextual menu support
+@synthesize contextualMenusEnabled=mEnableDKMenus;
 
-/** @brief Set whether the standard contextual menus within DK are enabled or not
-
- The default is to enable the menus - some apps may wish to turn off the standard menus altogether
- rather than overriding each point where they are set up.
- @param enable YES to enable the menus, NO to disable them
- */
-- (void)setContextualMenusEnabled:(BOOL)enable
-{
-	mEnableDKMenus = enable;
-}
-
-/** @brief Are the standard contextual menus within DK are enabled or not?
-
- The default is to enable the menus
- @return YES if standard contextual menus are enabled, NO if not
- */
-- (BOOL)contextualMenusEnabled
-{
-	return mEnableDKMenus;
-}
-
-/** @brief Build a menu for a right-click event
-
- This just defers to the active layer. If menus are disabled, returns nil. Note that locked layers
- still receive this message - individual items may be sensitive to the lock state.
- @param event the event
- @return a menu, or nil
- */
 - (NSMenu*)menuForEvent:(NSEvent*)event
 {
 	if ([self contextualMenusEnabled] && [[self activeLayer] visible])
@@ -426,11 +284,6 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - timer stuff for autoscrolling
 
-/** @brief Start the autoscroll timer
-
- Starts a timer running at 20fps which will cause autscrolling as long as the mouse is outside
- the view. Normally autoscrolling should start on mouse down and stop on mouse up.
- */
 - (void)startAutoscrolling
 {
 	if (s_autoscrollTimer != nil)
@@ -448,21 +301,12 @@ static NSTimer* s_autoscrollTimer = nil;
 								 forMode:NSEventTrackingRunLoopMode];
 }
 
-/** @brief Stop the autoscroll timer
-
- Normally autoscrolling should start on mouse down and stop on mouse up.
- */
 - (void)stopAutoscrolling
 {
 	[s_autoscrollTimer invalidate];
 	s_autoscrollTimer = nil;
 }
 
-/** @brief Handles autoscrolling
-
- Autscrolls the view if the mouse is outside it during a drag, then invokes the controller's
- @param timer the timer
- */
 - (void)autoscrollTimerCallback:(NSTimer*)timer
 {
 #pragma unused(timer)
@@ -493,50 +337,18 @@ static NSTimer* s_autoscrollTimer = nil;
 	return [[self drawing] activeLayer];
 }
 
-/** @brief Return the drawing's current active layer if it matches the given class, else nil
- @param aClass a layer class
- @return the active layer if it matches the class, otherwise nil
- */
 - (id)activeLayerOfClass:(Class)aClass
 {
 	return [[self drawing] activeLayerOfClass:aClass];
 }
 
-/** @brief Should a mouse down activate the layer it hits automatically?
+@synthesize activatesLayersAutomatically=m_autoLayerSelect;
 
- The default is YES	
- @param acts YES to auto-activate a layer, NO to leave it to someone else
- */
-- (void)setActivatesLayersAutomatically:(BOOL)acts
-{
-	m_autoLayerSelect = acts;
-}
-
-/** @brief Should a mouse down activate the layer it hits automatically?
-
- The default is YES	
- @return YES to auto-activate a layer, NO to leave it to someone else
- */
-- (BOOL)activatesLayersAutomatically
-{
-	return m_autoLayerSelect;
-}
-
-/** @brief Which layer did the point hit?
-
- Test layers top-down. Each layer can decide for itself what constitutes a "hit". Typically a
- layer is hit when any object it contains is hit.
- @param p a point in local coordinates 
- @return the topmost layer hit by the given point, else nil
- */
 - (DKLayer*)findLayer:(NSPoint)p
 {
 	return [[self drawing] findLayerForPoint:p];
 }
 
-/** @brief A new layer is about to be activated
- @param aLayer the layer about to be activated 
- */
 - (void)activeLayerWillChangeToLayer:(DKLayer*)aLayer
 {
 #pragma unused(aLayer)
@@ -545,12 +357,6 @@ static NSTimer* s_autoscrollTimer = nil;
 	// layer can be obtained using [self activeLayer];
 }
 
-/** @brief A new layer was activated
-
- The default method sets up the drag types for the view based on what drag types the layer is
- able to receive. If you override this, call super to ensure dragging still operates correctly.
- @param aLayer the layer that was activated 
- */
 - (void)activeLayerDidChangeToLayer:(DKLayer*)aLayer
 {
 	// when the active layer changes, register the drag types it declares with our view, so that the view
@@ -566,9 +372,6 @@ static NSTimer* s_autoscrollTimer = nil;
 		[[self view] registerForDraggedTypes:types];
 }
 
-/** @brief If layers can be automatically activated, perform that switch
- @param event the initiating event - typically a mouseDown event. 
- @return YES if a new layer was actually made active, NO if it remained the same */
 - (BOOL)autoActivateLayerWithEvent:(NSEvent*)event
 {
 	if ([self activatesLayersAutomatically]) {
@@ -590,11 +393,6 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - user actions for layer stacking
 
-/** @brief Bring the active layer to the front of its group
-
- High-level method can be invoked directly from a menu. Undoably moves the layer to front.
- @param sender the sender of the action 
- */
 - (IBAction)layerBringToFront:(id)sender
 {
 #pragma unused(sender)
@@ -606,11 +404,6 @@ static NSTimer* s_autoscrollTimer = nil;
 	[[[self drawing] undoManager] setActionName:NSLocalizedString(@"Bring Layer To Front", @"undo string for layer bring front")];
 }
 
-/** @brief Move the active layer 1 position forward within its group
-
- High-level method can be invoked directly from a menu. Undoably moves the layer forward.
- @param sender the sender of the action 
- */
 - (IBAction)layerBringForward:(id)sender
 {
 #pragma unused(sender)
@@ -622,11 +415,6 @@ static NSTimer* s_autoscrollTimer = nil;
 	[[[self drawing] undoManager] setActionName:NSLocalizedString(@"Bring Layer Forwards", @"undo string for layer bring forwards")];
 }
 
-/** @brief Move the active layer to the back within its group
-
- High-level method can be invoked directly from a menu. Undoably moves the layer to the back.
- @param sender the sender of the action 
- */
 - (IBAction)layerSendToBack:(id)sender
 {
 #pragma unused(sender)
@@ -638,11 +426,6 @@ static NSTimer* s_autoscrollTimer = nil;
 	[[[self drawing] undoManager] setActionName:NSLocalizedString(@"Send Layer To Back", @"undo string for layer send back")];
 }
 
-/** @brief Move the active layer 1 position towards the back within its group
-
- High-level method can be invoked directly from a menu. Undoably moves the layer backwards.
- @param sender the sender of the action 
- */
 - (IBAction)layerSendBackward:(id)sender
 {
 #pragma unused(sender)
@@ -656,22 +439,12 @@ static NSTimer* s_autoscrollTimer = nil;
 
 #pragma mark -
 
-/** @brief Hides all inactive layers and shows the active layer (if it's hidden)
-
- High-level method can be invoked directly from a menu.
- @param sender the sender of the action 
- */
 - (IBAction)hideInactiveLayers:(id)sender
 {
 #pragma unused(sender)
 	[[self drawing] hideAllExcept:[self activeLayer]];
 }
 
-/** @brief Shows all layers
-
- High-level method can be invoked directly from a menu.
- @param sender the sender of the action 
- */
 - (IBAction)showAllLayers:(id)sender
 {
 #pragma unused(sender)
@@ -681,11 +454,6 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - user actions pertaining to standard object layers
 
-/** @brief Toggle whether snapping to grid is enabled
-
- High-level method can be invoked directly from a menu. Flips the current state of snap to grid.
- @param sender the sender of the action 
- */
 - (IBAction)toggleSnapToGrid:(id)sender
 {
 #pragma unused(sender)
@@ -693,11 +461,6 @@ static NSTimer* s_autoscrollTimer = nil;
 	[[self drawing] setSnapsToGrid:![[self drawing] snapsToGrid]];
 }
 
-/** @brief Toggle whether snapping to guides is enabled
-
- High-level method can be invoked directly from a menu. Flips the current state of snap to guides.
- @param sender the sender of the action 
- */
 - (IBAction)toggleSnapToGuides:(id)sender
 {
 #pragma unused(sender)
@@ -705,22 +468,12 @@ static NSTimer* s_autoscrollTimer = nil;
 	[[self drawing] setSnapsToGuides:![[self drawing] snapsToGuides]];
 }
 
-/** @brief Toggle whether the grid layer is visible
-
- High-level method can be invoked directly from a menu. Flips the current state of grid visible.
- @param sender the sender of the action 
- */
 - (IBAction)toggleGridVisible:(id)sender
 {
 #pragma unused(sender)
 	[[[self drawing] gridLayer] setVisible:![[[self drawing] gridLayer] visible]];
 }
 
-/** @brief Toggle whether the guide layer is visible
-
- High-level method can be invoked directly from a menu. Flips the current state of guide visible.
- @param sender the sender of the action 
- */
 - (IBAction)toggleGuidesVisible:(id)sender
 {
 #pragma unused(sender)
@@ -729,11 +482,6 @@ static NSTimer* s_autoscrollTimer = nil;
 
 #pragma mark -
 
-/** @brief Copies the entire drawing to the general pasteboard
-
- High-level method can be invoked directly from a menu. Drawing is copied as a PDF.
- @param sender the sender of the action 
- */
 - (IBAction)copyDrawing:(id)sender
 {
 #pragma unused(sender)
@@ -807,7 +555,6 @@ static NSTimer* s_autoscrollTimer = nil;
 	}
 
 	mDrawingRef = nil;
-	[super dealloc];
 }
 
 /** @brief Forward an invocation to the active layer if it implements it
