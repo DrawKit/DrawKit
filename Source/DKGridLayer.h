@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
  span interval of the grid and allow for the drawing's margins. Because a ruler's settings require a name, you need to set this up along
  with the grid's parameters. To help make this easy for a client application (that will probably want to present a user interface for
  setting this all up), the "one stop shop" method \c -setSpan:unitToPointsConversionFactor:measurementSystem:drawingUnits:divisions:majors:rulerSteps:
- will set up the grid AND the rulers provided the layer has already been added to a drawing. Due to limitations in \c NSRuler regarding its step up
+ will set up the grid \b and the rulers provided the layer has already been added to a drawing. Due to limitations in \c NSRuler regarding its step up
  and step down ratios, this method also imposes similar limits on the span divisions.
 
  General-purpose "snap to grid" type methods are implemented by \c DKDrawing using the grid as a basis - the grid itself doesn't implement snapping.
