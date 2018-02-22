@@ -147,12 +147,6 @@
 	}
 }
 
-/** @brief Aligns a set of objects so their locations lie on a grid intersection
-
- Does not resize the objects
- @param objects the objects to align
- @param grid the grid to use
- */
 - (void)alignObjectLocation:(NSArray<DKDrawableObject*>*)objects toGrid:(DKGridLayer*)grid
 {
 	NSAssert(grid != nil, @"grid parameter is nil");
@@ -165,14 +159,6 @@
 
 #pragma mark -
 
-/** @brief Computes the amount of space available for a vertical distribution operation
-
- The list of objects must be sorted into order of their vertical location.
- The space is the total distance between the top and bottom objects, minus the sum of the heights
- of the objects in between
- @param objects the objects to align
- @return the total space available for distribution in the vertical direction
- */
 - (CGFloat)totalVerticalSpace:(NSArray<DKDrawableObject*>*)objects
 {
 	CGFloat span, sumHeight = 0.0;
@@ -190,14 +176,6 @@
 	return span - sumHeight;
 }
 
-/** @brief Computes the amount of space available for a horizontal distribution operation
-
- The list of objects must be sorted into order of their horizontal location.
- The space is the total distance between the leftmost and rightmost objects, minus the sum of the widths
- of the objects in between
- @param objects the objects to align
- @return the total space available for distribution in the horizontal direction
- */
 - (CGFloat)totalHorizontalSpace:(NSArray<DKDrawableObject*>*)objects
 {
 	CGFloat span, sumWidth = 0.0;
@@ -217,10 +195,6 @@
 
 #pragma mark -
 
-/** @brief Sorts a set of objects into order of their vertical location
- @param objects the objects to sort
- @return a copy of the array sorted into vertical order
- */
 - (NSArray*)objectsSortedByVerticalPosition:(NSArray<DKDrawableObject*>*)objects
 {
 	LogEvent_(kReactiveEvent, @"sorting objects into vertical order");
@@ -243,10 +217,6 @@
 	return na;
 }
 
-/** @brief Sorts a set of objects into order of their horizontal location
- @param objects the objects to sort
- @return a copy of the array sorted into horizontal order
- */
 - (NSArray*)objectsSortedByHorizontalPosition:(NSArray<DKDrawableObject*>*)objects
 {
 	LogEvent_(kReactiveEvent, @"sorting objects into horizontal order");
@@ -271,14 +241,6 @@
 
 #pragma mark -
 
-/** @brief Distributes a set of objects
-
- Normally this is called by the higher level alignObjects: methods when a distribution alignment is
- detected
- @param objects the objects to distribute
- @param align the distribution required
- @return YES if the operation could be performed, NO otherwise
- */
 - (BOOL)distributeObjects:(NSArray<DKDrawableObject*>*)objects withAlignment:(DKAlignmentAlign)align
 {
 	// distribute the objects - this is usually called from the alignment method as needed - calling it directly will
@@ -429,12 +391,6 @@
 
 #pragma mark -
 
-/** @brief Returns the minimum number of objects needed to enable the user interface item
-
- Call this from a generic validateMenuItem method for the layer as a whole
- @param item the user interface item to validate
- @return number of objects needed for validation. If the item isn't a known alignment command, returns 0
- */
 - (NSUInteger)alignmentMenuItemRequiredObjects:(id<NSValidatedUserInterfaceItem>)item
 {
 	SEL action = [item action];
@@ -452,9 +408,6 @@
 #pragma mark -
 #pragma mark - user actions
 
-/** @brief Aligns the selected objects on their left edges
- @param sender the action's sender
- */
 - (IBAction)alignLeftEdges:(id)sender
 {
 #pragma unused(sender)
@@ -466,9 +419,6 @@
 	}
 }
 
-/** @brief Aligns the selected objects on their right edges
- @param sender the action's sender
- */
 - (IBAction)alignRightEdges:(id)sender
 {
 #pragma unused(sender)
@@ -480,9 +430,6 @@
 	}
 }
 
-/** @brief Aligns the selected objects on their horizontal centres
- @param sender the action's sender
- */
 - (IBAction)alignHorizontalCentres:(id)sender
 {
 #pragma unused(sender)
@@ -496,9 +443,6 @@
 
 #pragma mark -
 
-/** @brief Aligns the selected objects on their top edges
- @param sender the action's sender
- */
 - (IBAction)alignTopEdges:(id)sender
 {
 #pragma unused(sender)
@@ -510,9 +454,6 @@
 	}
 }
 
-/** @brief Aligns the selected objects on their bottom edges
- @param sender the action's sender
- */
 - (IBAction)alignBottomEdges:(id)sender
 {
 #pragma unused(sender)
@@ -524,9 +465,6 @@
 	}
 }
 
-/** @brief Aligns the selected objects on their vertical centres
- @param sender the action's sender
- */
 - (IBAction)alignVerticalCentres:(id)sender
 {
 #pragma unused(sender)
@@ -540,9 +478,6 @@
 
 #pragma mark -
 
-/** @brief Distributes the selected objects to equalize the vertical centres
- @param sender the action's sender
- */
 - (IBAction)distributeVerticalCentres:(id)sender
 {
 #pragma unused(sender)
@@ -554,9 +489,6 @@
 	}
 }
 
-/** @brief Distributes the selected objects to equalize the vertical space
- @param sender the action's sender
- */
 - (IBAction)distributeVerticalSpace:(id)sender
 {
 #pragma unused(sender)
@@ -570,9 +502,6 @@
 
 #pragma mark -
 
-/** @brief Distributes the selected objects to equalize the horizontal centres
- @param sender the action's sender
- */
 - (IBAction)distributeHorizontalCentres:(id)sender
 {
 #pragma unused(sender)
@@ -584,9 +513,6 @@
 	}
 }
 
-/** @brief Distributes the selected objects to equalize the horizontal space
- @param sender the action's sender
- */
 - (IBAction)distributeHorizontalSpace:(id)sender
 {
 #pragma unused(sender)
@@ -635,11 +561,6 @@
 
 #pragma mark -
 
-/** @brief Returns an offset indicating the distance sr needs to be moved to give the chosen alignment with mr
- @param mr the first bounding rectangle
- @param sr the second bounding rectangle
- @param alignment the type of alignment being applied
- @return an x and y offset */
 NSPoint DKCalculateAlignmentOffset(NSRect mr, NSRect sr, DKAlignmentAlign alignment)
 {
 	NSPoint p = { 0, 0 };

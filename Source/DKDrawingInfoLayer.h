@@ -6,6 +6,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DKLayer.h"
+#import "DKDrawing.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -71,8 +72,14 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 - (nullable NSDictionary<NSAttributedStringKey, id>*)attributesForDrawingInfoItem:(NSString*)key;
 - (void)drawString:(NSString*)str inRect:(NSRect)r withAttributes:(NSDictionary<NSAttributedStringKey, id>*)attr;
 
-- (nullable NSAttributedString*)labelForDrawingInfoItem:(NSString*)key;
-- (NSRect)layoutRectForDrawingInfoItem:(NSString*)key inRect:(NSRect)bounds;
+/** @brief returns the infobox label for the given drawing info item. The string is localisable.
+*/
+- (nullable NSAttributedString*)labelForDrawingInfoItem:(DKDrawingInfoKey)key;
+
+/** @brief Returns the rect within \c bounds that the given item is to be laid out in. This rect will also be framed so add margins etc
+ for positioning text as required.
+ */
+- (NSRect)layoutRectForDrawingInfoItem:(DKDrawingInfoKey)key inRect:(NSRect)bounds;
 - (NSRect)labelRectInRect:(NSRect)itemRect forLabel:(NSAttributedString*)ls;
 
 - (nullable NSString*)keyForEditableRegionUnderMouse:(NSPoint)p;
@@ -82,6 +89,6 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 
 @end
 
-extern NSNotificationName const kDKDrawingInfoTextLabelAttributes;
+extern NSString *const kDKDrawingInfoTextLabelAttributes;
 
 NS_ASSUME_NONNULL_END

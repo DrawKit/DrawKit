@@ -42,9 +42,9 @@ extension DKDrawing {
 	/// The drawing info contains whatever you want, but a number of standard fields are defined and can be
 	/// interpreted by a `DKDrawingInfoLayer`, if there is one. Note this inherits the storage from
 	/// `DKLayer`.
-	public var drawingInfo: [String: Any]? {
+	public var drawingInfo: [DKDrawingInfoKey: Any]? {
 		get {
-			return __drawingInfo as NSDictionary? as? [String: Any]
+			return __drawingInfo as NSDictionary? as? [DKDrawingInfoKey: Any]
 		}
 		set {
 			if let nv = newValue {
@@ -60,7 +60,7 @@ extension DKDrawing {
 	/// This is usually called by the drawing object itself when built new. Usually you'll want to replace
 	/// its contents with your own info. A `DKDrawingInfoLayer` can interpret some of the standard values and
 	/// display them in its info box.
-	open class var defaultDrawingInfo: [String: Any] {
-		return __defaultDrawingInfo as NSDictionary as! [String: Any]
+	open class var defaultDrawingInfo: [DKDrawingInfoKey: Any] {
+		return __defaultDrawingInfo as NSDictionary as! [DKDrawingInfoKey: Any]
 	}
 }

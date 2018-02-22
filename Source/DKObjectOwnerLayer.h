@@ -574,7 +574,7 @@ application needs.
  called except internally to manage the auto paste repeat. It may either increment or reset the
  paste count. It also sets the paste origin to the origin of the pasted objects' bounds.
  @param pb The pasteboard in question.
- @return \c YES if this is a new paste, \c NO if a repeat
+ @return \c YES if this is a new paste, \c NO if a repeat.
  */
 - (BOOL)updatePasteCountWithPasteboard:(NSPasteboard*)pb;
 
@@ -592,7 +592,7 @@ application needs.
 
 /** @brief The current point where pasted objects will be positioned relative to.
 
- See \c paste: for how this is used
+ See \c paste: for how this is used.
  */
 @property (nonatomic) NSPoint pasteOrigin;
 

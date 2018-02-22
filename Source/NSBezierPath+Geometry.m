@@ -320,12 +320,12 @@ static BOOL CornerBevel(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath*
 		// let the delegate do its thing with the info:
 
 		[delegate path:newPath
-			 elementIndex:i
-					 type:element
-				   points:rp
-			 subPathIndex:spi
-			subPathClosed:spc
-			  contextInfo:contextInfo];
+		  elementIndex:i
+				  type:element
+				points:rp
+		  subPathIndex:spi
+		 subPathClosed:spc
+		   contextInfo:contextInfo];
 	}
 
 	return newPath;
