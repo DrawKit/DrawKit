@@ -99,7 +99,7 @@ framework module DKDrawKit [extern_c] [system] /* declaring this as a system fra
 		export *
 	}
 	
-	module DKAdditions {
+	explicit module DKAdditions {
 		module NSAffineTransform {
 			header "NSAffineTransform+DKAdditions.h"
 			export *
@@ -127,7 +127,6 @@ framework module DKDrawKit [extern_c] [system] /* declaring this as a system fra
 			}
 			
 			explicit module Shapes {
-				requires !objc_arc
 				header "NSBezierPath+Shapes.h"
 				export *
 			}
