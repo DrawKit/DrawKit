@@ -504,14 +504,14 @@ extern NSPasteboardType const kDKStyleKeyPasteboardType NS_SWIFT_NAME(dkStyleKey
 
 // notifications:
 
-extern NSString* const kDKStyleWillChangeNotification;
-extern NSString* const kDKStyleDidChangeNotification;
-extern NSString* const kDKStyleTextAttributesDidChangeNotification;
-extern NSString* const kDKStyleWasAttachedNotification;
-extern NSString* const kDKStyleWillBeDetachedNotification;
-extern NSString* const kDKStyleLockStateChangedNotification;
-extern NSString* const kDKStyleSharableFlagChangedNotification;
-extern NSString* const kDKStyleNameChangedNotification;
+extern NSNotificationName const kDKStyleWillChangeNotification;
+extern NSNotificationName const kDKStyleDidChangeNotification;
+extern NSNotificationName const kDKStyleTextAttributesDidChangeNotification;
+extern NSNotificationName const kDKStyleWasAttachedNotification;
+extern NSNotificationName const kDKStyleWillBeDetachedNotification;
+extern NSNotificationName const kDKStyleLockStateChangedNotification;
+extern NSNotificationName const kDKStyleSharableFlagChangedNotification;
+extern NSNotificationName const kDKStyleNameChangedNotification;
 
 // preferences keys
 

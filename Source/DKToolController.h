@@ -163,9 +163,9 @@ typedef NS_ENUM(NSInteger, DKDrawingToolScope) {
 /** @name Notifications
  @{ */
 
-extern NSString* const kDKWillChangeToolNotification;
-extern NSString* const kDKDidChangeToolNotification;
-extern NSString* const kDKDidChangeToolAutoRevertStateNotification;
+extern NSNotificationName const kDKWillChangeToolNotification;
+extern NSNotificationName const kDKDidChangeToolNotification;
+extern NSNotificationName const kDKDidChangeToolAutoRevertStateNotification;
 
 /** @}
  @name Default Keys

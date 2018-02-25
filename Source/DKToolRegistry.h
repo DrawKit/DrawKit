@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // notifications
 
-extern NSString* const kDKDrawingToolWasRegisteredNotification;
+extern NSNotificationName const kDKDrawingToolWasRegisteredNotification;
 
 // standard tool name constants
 

@@ -34,8 +34,8 @@ if a substitution would return NSObject, return this insead, which provides a st
 
 @end
 
-extern NSString* const kDKUnarchiverProgressStartedNotification;
-extern NSString* const kDKUnarchiverProgressContinuedNotification;
-extern NSString* const kDKUnarchiverProgressFinishedNotification;
+extern NSNotificationName const kDKUnarchiverProgressStartedNotification;
+extern NSNotificationName const kDKUnarchiverProgressContinuedNotification;
+extern NSNotificationName const kDKUnarchiverProgressFinishedNotification;
 
 NS_ASSUME_NONNULL_END

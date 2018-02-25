@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-extern NSString* const kDKTextSubstitutorNewStringNotification;
+extern NSNotificationName const kDKTextSubstitutorNewStringNotification;
 
 #define DEFAULT_DELIMITER_STRING @"%%"
 #define PADDING_DELIMITER '#'
