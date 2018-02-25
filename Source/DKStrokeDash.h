@@ -17,11 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 	BOOL mEditing;
 }
 
-+ (DKStrokeDash*)defaultDash;
-+ (DKStrokeDash*)dashWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count;
-+ (DKStrokeDash*)dashWithName:(NSString*)name;
++ (DKStrokeDash*)defaultDash NS_SWIFT_UNAVAILABLE("Use `init()` instead");
++ (DKStrokeDash*)dashWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_SWIFT_UNAVAILABLE("Use `init(pattern:count:)` instead");
++ (nullable DKStrokeDash*)dashWithName:(NSString*)name;
 + (void)registerDash:(DKStrokeDash*)dash withName:(NSString*)name;
-+ (NSArray<DKStrokeDash*>*)registeredDashes;
 @property (class, readonly, copy) NSArray<DKStrokeDash*> *registeredDashes;
 
 + (DKStrokeDash*)equallySpacedDashToFitSize:(NSSize)aSize dashLength:(CGFloat)len;
@@ -42,7 +41,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic) CGFloat phase;
 
-/** returns the length of the dash pattern before it repeats. Note that if the pattern is scaled to the line width,
+/** @brief Returns the length of the dash pattern before it repeats.
+ 
+ Note that if the pattern is scaled to the line width,
  this returns the unscaled length, so the client needs to multiply the result by the line width if necessary.
  */
 @property (readonly) CGFloat length;
@@ -50,12 +51,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property BOOL scalesToLineWidth;
 
-/** an editor should set this for the duration of an edit. It prevents certain properties being changed by rasterizers during the edit
+/** An editor should set this for the duration of an edit. It prevents certain properties being changed by rasterizers during the edit
  which can cause contention for those properties.
  */
 @property BOOL isBeingEdited;
 
 - (void)applyToPath:(NSBezierPath*)path;
+/** @brief Applies the stroke to <code>path</code>.
+ @discussion If scales to line width, use path's line width to multiply each element of the pattern.
+ */
 - (void)applyToPath:(NSBezierPath*)path withPhase:(CGFloat)phase;
 
 - (NSImage*)dashSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width;
