@@ -13,3 +13,5 @@ ColumnLimit: 0
 
 # Detect C++ version
 Standard: Auto
+
+SpacesInContainerLiterals: false

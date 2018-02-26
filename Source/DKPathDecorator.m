@@ -6,16 +6,16 @@
 
 #import "DKPathDecorator.h"
 
+#import "DKDrawKitMacros.h"
 #import "DKDrawing.h"
 #import "DKDrawingView.h"
+#import "DKGeometryUtilities.h"
+#import "DKQuartzCache.h"
+#import "DKRandom.h"
 #import "LogEvent.h"
 #import "NSBezierPath+Geometry.h"
-#import "NSBezierPath+Text.h"
 #import "NSBezierPath+Shapes.h"
-#import "DKGeometryUtilities.h"
-#import "DKDrawKitMacros.h"
-#import "DKRandom.h"
-#import "DKQuartzCache.h"
+#import "NSBezierPath+Text.h"
 #include <tgmath.h>
 
 @implementation DKPathDecorator
@@ -75,7 +75,7 @@
 	}
 }
 
-@synthesize image=m_image;
+@synthesize image = m_image;
 
 #define USE_DK_CACHE 1
 
@@ -104,8 +104,9 @@
 	// draw the pdf or image into the layer context
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		NSGraphicsContext* cc = [NSGraphicsContext graphicsContextWithGraphicsPort:context
-																		   flipped:[m_image isFlipped]];
+		NSGraphicsContext* cc
+		= [NSGraphicsContext graphicsContextWithGraphicsPort:context
+													 flipped:[m_image isFlipped]];
 
 	NSAssert(cc != nil, @"NSGraphicsContext object was nil in setUpCache");
 
@@ -150,7 +151,7 @@
 	m_scale = scale;
 }
 
-@synthesize scale=m_scale;
+@synthesize scale = m_scale;
 
 - (void)setScaleRandomness:(CGFloat)scRand
 {
@@ -166,15 +167,15 @@
 	}
 }
 
-@synthesize scaleRandomness=mScaleRandomness;
+@synthesize scaleRandomness = mScaleRandomness;
 
 #pragma mark -
-@synthesize interval=m_interval;
+@synthesize interval = m_interval;
 
 #pragma mark -
-@synthesize leaderDistance=m_leader;
-@synthesize lateralOffset=mLateralOffset;
-@synthesize lateralOffsetAlternates=mAlternateLateralOffsets;
+@synthesize leaderDistance = m_leader;
+@synthesize lateralOffset = mLateralOffset;
+@synthesize lateralOffsetAlternates = mAlternateLateralOffsets;
 
 - (void)setWobblyness:(CGFloat)wobble
 {
@@ -190,14 +191,14 @@
 	}
 }
 
-@synthesize wobblyness=mWobblyness;
+@synthesize wobblyness = mWobblyness;
 
 #pragma mark -
-@synthesize normalToPath=m_normalToPath;
+@synthesize normalToPath = m_normalToPath;
 
 #pragma mark -
-@synthesize leadInLength=m_leadInLength;
-@synthesize leadOutLength=m_leadOutLength;
+@synthesize leadInLength = m_leadInLength;
+@synthesize leadOutLength = m_leadOutLength;
 
 #pragma mark -
 - (void)setLeadInAndOutLengthProportion:(CGFloat)proportion
@@ -208,7 +209,7 @@
 		m_leadInLength = m_leadOutLength = 0.0;
 }
 
-@synthesize leadInAndOutLengthProportion=m_liloProportion;
+@synthesize leadInAndOutLengthProportion = m_liloProportion;
 
 - (CGFloat)rampFunction:(CGFloat)val
 {
@@ -219,21 +220,21 @@
 }
 
 #pragma mark -
-@synthesize usesChainMethod=m_useChainMethod;
+@synthesize usesChainMethod = m_useChainMethod;
 
 #pragma mark -
 #pragma mark As a GCObservableObject
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"scale", @"interval",
-																							   @"normalToPath", @"image",
-																							   @"leaderDistance",
-																							   @"leadInAndOutLengthProportion",
-																							   @"usesChainMethod",
-																							   @"lateralOffset",
-																							   @"lateralOffsetAlternates",
-																							   @"wobblyness",
-																							   @"scaleRandomness"]];
+		@"normalToPath", @"image",
+		@"leaderDistance",
+		@"leadInAndOutLengthProportion",
+		@"usesChainMethod",
+		@"lateralOffset",
+		@"lateralOffsetAlternates",
+		@"wobblyness",
+		@"scaleRandomness"]];
 }
 
 - (void)registerActionNames

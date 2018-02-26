@@ -51,7 +51,7 @@ NSString* const kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedProperty
 	mContainerRef = container;
 }
 
-@synthesize container=mContainerRef;
+@synthesize container = mContainerRef;
 
 #pragma mark -
 
@@ -94,8 +94,8 @@ NSString* const kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedProperty
 
 #pragma mark -
 
-@synthesize enabled=m_enabled;
-@synthesize clipping=mClipping;
+@synthesize enabled = m_enabled;
+@synthesize clipping = mClipping;
 
 - (void)setClippingWithoutNotifying:(DKClippingOption)clipping
 {
@@ -290,7 +290,7 @@ NSString* const kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedProperty
 {
 	LogEvent_(kKVOEvent, @"%@ about to change '%@'", self, key);
 
-	NSDictionary* info = @{kDKRasterizerChangedPropertyKey: key};
+	NSDictionary* info = @{ kDKRasterizerChangedPropertyKey: key };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyWillChange
 														object:self
 													  userInfo:info];
@@ -313,7 +313,7 @@ NSString* const kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedProperty
 {
 	[super didChangeValueForKey:key];
 
-	NSDictionary* info = @{kDKRasterizerChangedPropertyKey: key};
+	NSDictionary* info = @{ kDKRasterizerChangedPropertyKey: key };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKRasterizerPropertyDidChange
 														object:self
 													  userInfo:info];

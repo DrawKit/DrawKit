@@ -92,7 +92,7 @@
 	return CGLayerGetContext(mCGLayer);
 }
 
-@synthesize flipped=mFlipped;
+@synthesize flipped = mFlipped;
 
 - (BOOL)flipped
 {

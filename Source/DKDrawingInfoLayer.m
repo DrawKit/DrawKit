@@ -27,7 +27,7 @@ NSString* const kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAtt
 	}
 }
 
-@synthesize size=m_size;
+@synthesize size = m_size;
 
 #pragma mark -
 - (void)setPlacement:(DKInfoBoxPlacement)placement
@@ -38,7 +38,7 @@ NSString* const kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAtt
 	}
 }
 
-@synthesize placement=m_placement;
+@synthesize placement = m_placement;
 
 #pragma mark -
 - (void)setBackgroundColour:(NSColor*)colour
@@ -60,7 +60,7 @@ NSString* const kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAtt
 	}
 }
 
-@synthesize drawsBorder=m_drawBorder;
+@synthesize drawsBorder = m_drawBorder;
 
 #pragma mark -
 - (NSRect)infoBoxRect
@@ -313,7 +313,7 @@ NSString* const kDKDrawingInfoTextLabelAttributes = @"kDKDrawingInfoTextLabelAtt
 	NSArray* keys = [di allKeys];
 	NSRect r, br = [self infoBoxRect];
 
-	for (NSString *key in [keys reverseObjectEnumerator]) {
+	for (NSString* key in [keys reverseObjectEnumerator]) {
 		r = [self layoutRectForDrawingInfoItem:key
 										inRect:br];
 

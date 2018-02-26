@@ -201,12 +201,12 @@
 
 	NSMutableArray* na = [objects mutableCopy];
 
-	[na sortUsingComparator:^NSComparisonResult(DKDrawableObject *_Nonnull a, DKDrawableObject *_Nonnull b) {
+	[na sortUsingComparator:^NSComparisonResult(DKDrawableObject* _Nonnull a, DKDrawableObject* _Nonnull b) {
 		CGFloat ya, yb;
-		
+
 		ya = [a location].y;
 		yb = [b location].y;
-		
+
 		if (ya < yb)
 			return NSOrderedAscending;
 		else if (ya > yb)
@@ -223,12 +223,12 @@
 
 	NSMutableArray* na = [objects mutableCopy];
 
-	[na sortUsingComparator:^NSComparisonResult(DKDrawableObject *_Nonnull a, DKDrawableObject *_Nonnull b) {
+	[na sortUsingComparator:^NSComparisonResult(DKDrawableObject* _Nonnull a, DKDrawableObject* _Nonnull b) {
 		CGFloat xa, xb;
-		
+
 		xa = [a location].x;
 		xb = [b location].x;
-		
+
 		if (xa < xb)
 			return NSOrderedAscending;
 		else if (xa > xb)

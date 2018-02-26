@@ -4,12 +4,12 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "NSBezierPath+Text.h"
-#import "NSBezierPath+Geometry.h"
-#import "NSBezierPath+Editing.h"
-#import "DKGeometryUtilities.h"
-#import "NSShadow+Scaling.h"
 #import "DKBezierLayoutManager.h"
+#import "DKGeometryUtilities.h"
+#import "NSBezierPath+Editing.h"
+#import "NSBezierPath+Geometry.h"
+#import "NSBezierPath+Text.h"
+#import "NSShadow+Scaling.h"
 #include <tgmath.h>
 
 @interface NSBezierPath (TextOnPathPrivate)
@@ -63,7 +63,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	if (s_TOPTextAttributes == nil) {
 		NSFont* font = [NSFont fontWithName:@"Helvetica"
 									   size:12.0];
-		s_TOPTextAttributes = @{NSFontAttributeName: font};
+		s_TOPTextAttributes = @{ NSFontAttributeName: font };
 	}
 
 	return s_TOPTextAttributes;
@@ -280,10 +280,10 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	NSAssert(lm != nil, @"cannot proceed without a valid layout manager");
 
 	if (![helperObject respondsToSelector:@selector(layoutManager:
-											  willPlaceGlyphAtIndex:
-														 atLocation:
-														  pathAngle:
-															yOffset:)])
+													willPlaceGlyphAtIndex:
+													atLocation:
+													pathAngle:
+													yOffset:)])
 		[NSException raise:NSInternalInconsistencyException
 					format:@"The helper object does not implement the TextOnPathPlacement informal protocol"];
 
@@ -294,7 +294,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	[para setLineBreakMode:NSLineBreakByClipping];
 
 	if (para) {
-		NSDictionary* attrs = @{NSParagraphStyleAttributeName: para};
+		NSDictionary* attrs = @{ NSParagraphStyleAttributeName: para };
 		[str addAttributes:attrs
 					 range:NSMakeRange(0, [str length])];
 	}
@@ -391,7 +391,6 @@ static NSDictionary* s_TOPTextAttributes = nil;
 									  pathAngle:angle
 										yOffset:dy];
 				}
-
 			}
 		}
 
@@ -458,7 +457,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 			kernAmount = kernLimit;
 	}
 
-	NSDictionary* kernAttributes = @{NSKernAttributeName: @(kernAmount)};
+	NSDictionary* kernAttributes = @{ NSKernAttributeName: @(kernAmount) };
 	NSRange charRange = [lm characterRangeForGlyphRange:glyphRange
 									   actualGlyphRange:NULL];
 	[text addAttributes:kernAttributes
@@ -555,14 +554,14 @@ static NSDictionary* s_TOPTextAttributes = nil;
 						  atIndex:0
 				   effectiveRange:NULL]; // UL thickness taken from first character on line regardless
 	NSInteger ulAttribute = [[str attribute:NSUnderlineStyleAttributeName
-										atIndex:range.location
-								 effectiveRange:NULL] integerValue];
+									atIndex:range.location
+							 effectiveRange:NULL] integerValue];
 	CGFloat ulOffset, ulThickness = [font underlineThickness];
 	CGFloat start, length, grot;
 	NSBezierPath* ulp;
 
-// see if the path we need is cached, in which case we can avoid recomputing it. Because there could be several different paths that apply to ranges,
-// the cache key is generated from the various parameters
+	// see if the path we need is cached, in which case we can avoid recomputing it. Because there could be several different paths that apply to ranges,
+	// the cache key is generated from the various parameters
 
 	NSString* pathKey = [NSString stringWithFormat:@"DKUnderlinePath_%@_%.2f", NSStringFromRange(range), dy];
 	ulp = [cache objectForKey:pathKey];
@@ -583,7 +582,8 @@ static NSDictionary* s_TOPTextAttributes = nil;
 
 		NSUInteger glyphIndex = [tempLM glyphIndexForCharacterAtIndex:range.location];
 		ulOffset = [[tempLM typesetter] baselineOffsetInLayoutManager:tempLM
-														   glyphIndex:glyphIndex] * -0.5;
+														   glyphIndex:glyphIndex]
+			* -0.5;
 
 		// if the underline metrics aren't set for the font, use an average of those for Times + Helvetica for the same point size. According to Apple that's what
 		// they do, though it's not clear if just a value of 0 is considered bad, as there are discrepancies with certain fonts.
@@ -680,14 +680,14 @@ static NSDictionary* s_TOPTextAttributes = nil;
 						  atIndex:0
 				   effectiveRange:NULL];
 	NSInteger ulAttribute = [[str attribute:NSStrikethroughStyleAttributeName
-										atIndex:range.location
-								 effectiveRange:NULL] integerValue];
+									atIndex:range.location
+							 effectiveRange:NULL] integerValue];
 	CGFloat start, length;
 	CGFloat xHeight = [font xHeight];
 	CGFloat ulThickness = [font underlineThickness];
 	NSBezierPath* ulp;
 
-// see if we can reuse a previously cached path here
+	// see if we can reuse a previously cached path here
 
 	NSString* pathKey = [NSString stringWithFormat:@"DKStrikethroughPath_%@_%.2f", NSStringFromRange(range), dy];
 	ulp = [cache objectForKey:pathKey];
@@ -938,10 +938,10 @@ static NSDictionary* s_TOPTextAttributes = nil;
 - (NSArray*)placeObjectsOnPathAtInterval:(CGFloat)interval factoryObject:(id<DKBezierPlacement>)object userInfo:(void*)userInfo
 {
 	if (![object respondsToSelector:@selector(placeObjectAtPoint:
-														  onPath:
-														position:
-														   slope:
-														userInfo:)])
+											  onPath:
+											  position:
+											  slope:
+											  userInfo:)])
 		[NSException raise:NSInvalidArgumentException
 					format:@"Factory object %@ does not implement the required protocol", object];
 
@@ -1039,9 +1039,7 @@ static NSDictionary* s_TOPTextAttributes = nil;
 					  yBy:p.y];
 		[tfm rotateByRadians:slope];
 
-		if (taperDel && [taperDel respondsToSelector:@selector(taperFactorAtDistance:
-																			  onPath:
-																			ofLength:)]) {
+		if (taperDel && [taperDel respondsToSelector:@selector(taperFactorAtDistance:onPath:ofLength:)]) {
 			CGFloat normalisedDistance = [taperDel taperFactorAtDistance:distance
 																  onPath:self
 																ofLength:length];
@@ -1074,10 +1072,10 @@ static NSDictionary* s_TOPTextAttributes = nil;
 {
 
 	if (![object respondsToSelector:@selector(placeLinkFromPoint:
-														 toPoint:
-														  onPath:
-													  linkNumber:
-														userInfo:)])
+											  toPoint:
+											  onPath:
+											  linkNumber:
+											  userInfo:)])
 		[NSException raise:NSInvalidArgumentException
 					format:@"Factory object %@ does not implement the required protocol", object];
 
@@ -1138,9 +1136,9 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	NSAssert(object != nil, @"can't move a nil object");
 
 	if (![object respondsToSelector:@selector(moveObjectTo:
-												  position:
-													 slope:
-												  userInfo:)])
+											  position:
+											  slope:
+											  userInfo:)])
 		[NSException raise:NSInvalidArgumentException
 					format:@"Moved object %@ does not implement the required protocol", object];
 
@@ -1588,9 +1586,9 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 
 @implementation DKTextOnPathMetricsHelper
 
-@synthesize characterRange=mCharacterRange;
-@synthesize length=mLength;
-@synthesize position=mStartPosition;
+@synthesize characterRange = mCharacterRange;
+@synthesize length = mLength;
+@synthesize position = mStartPosition;
 
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy
 {
@@ -1609,7 +1607,8 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 			mLength = [lm locationForGlyphAtIndex:glyphIndex].x - mStartPosition;
 		else
 			mLength = NSMaxX([lm lineFragmentUsedRectForGlyphAtIndex:glyphIndex - 1
-													  effectiveRange:NULL]) - mStartPosition;
+													  effectiveRange:NULL])
+				- mStartPosition;
 	}
 }
 
@@ -1631,9 +1630,9 @@ static NSInteger SortPointsHorizontally(NSValue* value1, NSValue* value2, void* 
 	return self;
 }
 
-@synthesize glyphIndex=mGlyphIndex;
-@synthesize slope=mSlope;
-@synthesize point=mPoint;
+@synthesize glyphIndex = mGlyphIndex;
+@synthesize slope = mSlope;
+@synthesize point = mPoint;
 
 @end
 

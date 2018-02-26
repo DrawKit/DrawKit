@@ -5,24 +5,24 @@
 */
 
 #import "DKTextAdornment.h"
-#import "DKDrawableObject+Metadata.h"
-#import "DKObjectOwnerLayer.h"
-#import "LogEvent.h"
-#import "NSBezierPath+Text.h"
-#import "NSBezierPath+Geometry.h"
-#import "DKDrawableShape.h"
-#import "NSObject+StringValue.h"
-#import "DKBezierTextContainer.h"
 #import "DKBezierLayoutManager.h"
-#import "DKShapeGroup.h"
-#import "NSAttributedString+DKAdditions.h"
+#import "DKBezierTextContainer.h"
 #import "DKDrawKitMacros.h"
-#import "DKShapeFactory.h"
-#import "DKStyle.h"
+#import "DKDrawableObject+Metadata.h"
+#import "DKDrawableShape.h"
 #import "DKFill.h"
-#import "DKStroke.h"
-#import "DKTextSubstitutor.h"
 #import "DKGreekingLayoutManager.h"
+#import "DKObjectOwnerLayer.h"
+#import "DKShapeFactory.h"
+#import "DKShapeGroup.h"
+#import "DKStroke.h"
+#import "DKStyle.h"
+#import "DKTextSubstitutor.h"
+#import "LogEvent.h"
+#import "NSAttributedString+DKAdditions.h"
+#import "NSBezierPath+Geometry.h"
+#import "NSBezierPath+Text.h"
+#import "NSObject+StringValue.h"
 
 @interface DKTextAdornment ()
 
@@ -160,7 +160,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	return edText;
 }
 
-@synthesize placeholderString=mPlaceholder;
+@synthesize placeholderString = mPlaceholder;
 
 #pragma mark -
 - (NSBezierPath*)textAsPathForObject:(id)object
@@ -324,7 +324,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-@synthesize verticalAlignment=m_vertAlign;
+@synthesize verticalAlignment = m_vertAlign;
 
 - (void)setVerticalAlignmentProportion:(CGFloat)prop
 {
@@ -332,7 +332,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-@synthesize verticalAlignmentProportion=mVerticalPosition;
+@synthesize verticalAlignmentProportion = mVerticalPosition;
 
 #pragma mark -
 - (void)setLayoutMode:(DKTextLayoutMode)mode
@@ -343,7 +343,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-@synthesize layoutMode=m_layoutMode;
+@synthesize layoutMode = m_layoutMode;
 
 - (void)setFlowedTextPathInset:(CGFloat)inset
 {
@@ -351,7 +351,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-@synthesize flowedTextPathInset=mFlowedTextPathInset;
+@synthesize flowedTextPathInset = mFlowedTextPathInset;
 
 #pragma mark -
 - (void)setAngle:(CGFloat)angle
@@ -360,7 +360,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-@synthesize angle=m_angle;
+@synthesize angle = m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -384,7 +384,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[self invalidateCache];
 }
 
-@synthesize appliesObjectAngle=m_applyObjectAngle;
+@synthesize appliesObjectAngle = m_applyObjectAngle;
 
 #pragma mark -
 - (void)setWrapsLines:(BOOL)wraps
@@ -395,8 +395,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-@synthesize wrapsLines=m_wrapLines;
-@synthesize allowsTextToExtendHorizontally=mAllowIndefiniteWidth;
+@synthesize wrapsLines = m_wrapLines;
+@synthesize allowsTextToExtendHorizontally = mAllowIndefiniteWidth;
 
 - (void)setTextKnockoutDistance:(CGFloat)distance
 {
@@ -404,10 +404,10 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	[mTACache removeObjectForKey:kDKTextAdornmentMaskPathCacheKey];
 }
 
-@synthesize textKnockoutDistance=mTextKnockoutDistance;
-@synthesize textKnockoutStrokeWidth=mTextKnockoutStrokeWidth;
-@synthesize textKnockoutColour=mTextKnockoutColour;
-@synthesize textKnockoutStrokeColour=mTextKnockoutStrokeColour;
+@synthesize textKnockoutDistance = mTextKnockoutDistance;
+@synthesize textKnockoutStrokeWidth = mTextKnockoutStrokeWidth;
+@synthesize textKnockoutColour = mTextKnockoutColour;
+@synthesize textKnockoutStrokeColour = mTextKnockoutStrokeColour;
 
 - (void)setCapitalization:(DKTextCapitalization)cap
 {
@@ -417,11 +417,11 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-@synthesize capitalization=mCapitalization;
-@synthesize greeking=mGreeking;
+@synthesize capitalization = mCapitalization;
+@synthesize greeking = mGreeking;
 
 #pragma mark -
-@synthesize textRect=m_textRect;
+@synthesize textRect = m_textRect;
 
 #pragma mark -
 - (void)changeTextAttribute:(NSString*)attribute toValue:(id)val
@@ -844,8 +844,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	}
 }
 
-@synthesize textSubstitutor=mSubstitutor;
-@synthesize allTextWasFitted=mLastLayoutFittedAllText;
+@synthesize textSubstitutor = mSubstitutor;
+@synthesize allTextWasFitted = mLastLayoutFittedAllText;
 
 - (void)invalidateCache
 {
@@ -1376,8 +1376,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	// check the cache for the last client of this renderer. If it's not the same one, any cached information can't be reliable
 	// so the cache must be invalidated. For TAs associated with text objects, the client object will invariably be the same one.
 
-	@try
-	{
+	@try {
 		NSUInteger cs, ccs = [[mTACache objectForKey:kDKTextAdornmentMetadataChecksumCacheKey] integerValue];
 		cs = [(id)object metadataChecksum];
 		if (cs != ccs) {
@@ -1406,7 +1405,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			}
 		} else {
 			SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-				NSBezierPath* path = [self renderingPathForObject:object];
+				NSBezierPath* path
+				= [self renderingPathForObject:object];
 
 			if ([self layoutMode] == kDKTextLayoutAlongReversedPath)
 				path = [path bezierPathByReversingPath];
@@ -1462,8 +1462,7 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 		}
 	}
-	@catch (NSException* exception)
-	{
+	@catch (NSException* exception) {
 		// an exception while rendering is bad news - this logs the exception and disabled the rasterizer in an effort to avoid a spiral of errors. Any
 		// problems found should be properly inverstigated
 
@@ -1478,10 +1477,10 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"label", @"identifier", @"angle", @"wrapsLines",
-																							   @"appliesObjectAngle", @"verticalAlignment", @"font", @"colour", @"alignment", @"capitalization", @"baseline", @"superscriptAttribute", @"kerning",
-																							   @"paragraphStyle", @"layoutMode", @"flowedTextPathInset", @"allowsTextToExtendHorizontally", @"verticalAlignmentProportion",
-																							   @"outlineColour", @"outlineWidth", @"textKnockoutDistance", @"textKnockoutColour", @"textKnockoutStrokeWidth", @"textKnockoutStrokeColour",
-																							   @"placeholderString"]];
+		@"appliesObjectAngle", @"verticalAlignment", @"font", @"colour", @"alignment", @"capitalization", @"baseline", @"superscriptAttribute", @"kerning",
+		@"paragraphStyle", @"layoutMode", @"flowedTextPathInset", @"allowsTextToExtendHorizontally", @"verticalAlignmentProportion",
+		@"outlineColour", @"outlineWidth", @"textKnockoutDistance", @"textKnockoutColour", @"textKnockoutStrokeWidth", @"textKnockoutStrokeColour",
+		@"placeholderString"]];
 }
 
 - (void)registerActionNames

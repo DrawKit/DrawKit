@@ -4,12 +4,12 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "DKStyle+SimpleAccess.h"
 #import "DKFill.h"
-#import "DKStroke.h"
 #import "DKHatching.h"
-#import "DKTextAdornment.h"
 #import "DKImageAdornment.h"
+#import "DKStroke.h"
+#import "DKStyle+SimpleAccess.h"
+#import "DKTextAdornment.h"
 
 @implementation DKStyle (SimpleAccess)
 

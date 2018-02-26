@@ -7,6 +7,6 @@
 #import "DKKeyedUnarchiver.h"
 
 @implementation DKKeyedUnarchiver
-@synthesize imageManager=mImageManagerRef;
+@synthesize imageManager = mImageManagerRef;
 
 @end

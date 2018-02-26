@@ -7,8 +7,8 @@
 #import "DKPasteboardInfo.h"
 #import "DKGeometryUtilities.h"
 #import "DKLayer.h"
-#import "LogEvent.h"
 #import "DKObjectOwnerLayer.h"
+#import "LogEvent.h"
 
 @implementation DKPasteboardInfo
 
@@ -82,16 +82,16 @@
 	return self;
 }
 
-@synthesize count=mCount;
-@synthesize bounds=mBoundingRect;
-@synthesize classInfo=mClassInfo;
+@synthesize count = mCount;
+@synthesize bounds = mBoundingRect;
+@synthesize classInfo = mClassInfo;
 
 - (NSUInteger)countOfClass:(Class)aClass
 {
 	return [[[self classInfo] objectForKey:NSStringFromClass(aClass)] integerValue];
 }
 
-@synthesize keyOfOriginatingLayer=mOriginatingLayerKey;
+@synthesize keyOfOriginatingLayer = mOriginatingLayerKey;
 
 - (NSData*)data
 {
@@ -112,10 +112,10 @@
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super init]) {
-	mCount = [coder decodeIntegerForKey:@"DKPasteboardInfo_count"];
-	mClassInfo = [coder decodeObjectForKey:@"DKPasteboardInfo_classInfo"];
-	mBoundingRect = [coder decodeRectForKey:@"DKPasteboardInfo_boundsRect"];
-	mOriginatingLayerKey = [coder decodeObjectForKey:@"DKPasteboardInfo_originatingLayerKey"];
+		mCount = [coder decodeIntegerForKey:@"DKPasteboardInfo_count"];
+		mClassInfo = [coder decodeObjectForKey:@"DKPasteboardInfo_classInfo"];
+		mBoundingRect = [coder decodeRectForKey:@"DKPasteboardInfo_boundsRect"];
+		mOriginatingLayerKey = [coder decodeObjectForKey:@"DKPasteboardInfo_originatingLayerKey"];
 	}
 	return self;
 }

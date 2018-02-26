@@ -5,8 +5,8 @@
 */
 
 #import "DKCropTool.h"
-#import "DKObjectDrawingLayer.h"
 #import "DKGeometryUtilities.h"
+#import "DKObjectDrawingLayer.h"
 
 @implementation DKCropTool
 

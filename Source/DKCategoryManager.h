@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol DKCategoryManagerMergeDelegate;
 @protocol DKCategoryManagerMenuItemDelegate;
 
-typedef NSString *DKCategoryName NS_EXTENSIBLE_STRING_ENUM;
+typedef NSString* DKCategoryName NS_EXTENSIBLE_STRING_ENUM;
 
 // menu creation options:
 typedef NS_OPTIONS(NSUInteger, DKCategoryMenuOptions) {
@@ -39,9 +39,10 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  informed of the changes and in turn update the menus to match by adding or deleting menu items. This is necessary because when the CM grows to a significant number
  of items, rebuilding the menus is very time-consuming. This way performance is much better.
 */
-@interface DKCategoryManager<__covariant ObjectType> : NSObject <NSCoding, NSCopying> {
+@interface DKCategoryManager <__covariant ObjectType> : NSObject <NSCoding, NSCopying>
+{
 @private
-	NSMutableDictionary<NSString*,ObjectType>* m_masterList;
+	NSMutableDictionary<NSString*, ObjectType>* m_masterList;
 	NSMutableDictionary<DKCategoryName, NSMutableArray<ObjectType>*>* m_categories;
 	NSMutableArray<ObjectType>* m_recentlyAdded;
 	NSMutableArray<ObjectType>* m_recentlyUsed;
@@ -56,7 +57,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  Convenience method. Initial categories only consist of "All Items"
  @return A category manager object.
  */
-@property (class, readonly, strong) DKCategoryManager *categoryManager;
+@property (class, readonly, strong) DKCategoryManager* categoryManager;
 
 /** @brief Returns a new category manager object based on an existing dictionary
 
@@ -64,11 +65,11 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict An existign dictionary.
  @return A category manager object.
  */
-+ (DKCategoryManager<ObjectType>*)categoryManagerWithDictionary:(NSDictionary<NSString*,ObjectType>*)dict;
++ (DKCategoryManager<ObjectType>*)categoryManagerWithDictionary:(NSDictionary<NSString*, ObjectType>*)dict;
 
 /** @brief Return the default categories defined for this class.
  @return an array of categories */
-@property (class, readonly, copy) NSArray<DKCategoryName> *defaultCategories;
+@property (class, readonly, copy) NSArray<DKCategoryName>* defaultCategories;
 
 /** @brief Given an object, return a key that can be used to store it in the category manager.
 
@@ -96,10 +97,10 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  @param dict Dictionary containing a set of objects and keys.
  @return The category manager object.
  */
-- (instancetype)initWithDictionary:(NSDictionary<NSString*,ObjectType>*)dict;
+- (instancetype)initWithDictionary:(NSDictionary<NSString*, ObjectType>*)dict;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
 
 /** @}
  @name adding and retrieving objects
@@ -180,7 +181,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
 /** @brief Return a copy of the master dictionary.
  */
-@property (readonly, copy) NSDictionary<NSString*,ObjectType> *dictionary;
+@property (readonly, copy) NSDictionary<NSString*, ObjectType>* dictionary;
 
 /** @}
  @name Smartly Merging Objects
@@ -252,12 +253,12 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  because the master list contains case-modified keys that may not be matched with categories.
  @return An array, all keys (listed only once).
  */
-@property (readonly, copy) NSArray<NSString*> *allKeys;
+@property (readonly, copy) NSArray<NSString*>* allKeys;
 
 /** @brief Return all of the objects.
  @return An array, all objects (listed only once, in arbitrary order).
  */
-@property (readonly, copy) NSArray<ObjectType> *allObjects;
+@property (readonly, copy) NSArray<ObjectType>* allObjects;
 
 /** @brief Return all of the keys in a given category, sorted into some useful order.
 
@@ -285,14 +286,14 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
  When setting, replaces the recently added items with new items, up to the current max.
 */
-@property (nonatomic, strong) NSArray<ObjectType> *recentlyAddedItems;
+@property (nonatomic, strong) NSArray<ObjectType>* recentlyAddedItems;
 
 /** @brief Return the list of recently used items.
 
  Returned objects are in order of use, most recent first.
  @return An array, the list of keys recently used.
  */
-@property (readonly, nonatomic, strong) NSArray<ObjectType> *recentlyUsedItems;
+@property (readonly, nonatomic, strong) NSArray<ObjectType>* recentlyUsedItems;
 
 /** @}
  @name Category Management
@@ -307,7 +308,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
 /** @brief Return the default categories defined for this class or object.
  */
-@property (readonly, copy) NSArray<DKCategoryName> *defaultCategories;
+@property (readonly, copy) NSArray<DKCategoryName>* defaultCategories;
 
 /** @brief Create a new category with the given name.
 
@@ -393,7 +394,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
  The list is alphabetically sorted for the convenience of a user interface.
  */
-@property (readonly, copy) NSArray<DKCategoryName>*allCategories;
+@property (readonly, copy) NSArray<DKCategoryName>* allCategories;
 
 /** @brief Get the count of all categories.
  */
@@ -422,7 +423,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  The default implementation returns the same as the default categories, thus reserving all
  default cats. Subclasses can change this as they wish.
  */
-@property (readonly, copy) NSArray<DKCategoryName> *reservedCategories;
+@property (readonly, copy) NSArray<DKCategoryName>* reservedCategories;
 
 /** @brief Test whether there is a category of the given name.
  @param catName The category name.
@@ -484,7 +485,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 /** @brief Archives the container to a data object (for saving, etc).
  @return a data object, the archive of the container
  */
-@property (readonly, copy) NSData *data;
+@property (readonly, copy) NSData* data;
 
 /** @brief Archives the container to a data object (for saving, etc).
  @param format The property list format to use for the data.
@@ -496,7 +497,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
 
  Subclasses should override to change the filetype used for specific examples of this object
  */
-@property (readonly, copy) NSString *fileType;
+@property (readonly, copy) NSString* fileType;
 
 /** @brief Discard all existing content, then reload from the archive data passed
  @param data data, being an archive earlier obtained using -data

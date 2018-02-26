@@ -90,8 +90,7 @@
 			// If no tasks were submitted, no bogus empty undo task remains on the stack. In addition no closure notification is sent
 			// so as far as the client is concerned, it just never happened.
 
-			@try
-			{
+			@try {
 				if ([self automaticallyDiscardsEmptyGroups] && [[self currentGroup] isEmpty]) {
 					if ([self isUndoing])
 						[self popRedo];
@@ -105,12 +104,10 @@
 																		object:self];
 				}
 			}
-			@catch (NSException* excp)
-			{
+			@catch (NSException* excp) {
 				NSLog(@"an exception occurred while closing an undo group - ignored: %@", excp);
 			}
-			@finally
-			{
+			@finally {
 				//NSLog(@"top level group closed: %@", mOpenGroupRef);
 
 				mOpenGroupRef = nil;
@@ -242,9 +239,9 @@
 	}
 }
 
-@synthesize groupsByEvent=mGroupsByEvent;
-@synthesize levelsOfUndo=mLevelsOfUndo;
-@synthesize runLoopModes=mRunLoopModes;
+@synthesize groupsByEvent = mGroupsByEvent;
+@synthesize levelsOfUndo = mLevelsOfUndo;
+@synthesize runLoopModes = mRunLoopModes;
 
 - (void)setActionName:(NSString*)actionName
 {
@@ -427,7 +424,7 @@
 #pragma mark -
 #pragma mark - additional API
 
-@synthesize automaticallyDiscardsEmptyGroups=mAutoDeleteEmptyGroups;
+@synthesize automaticallyDiscardsEmptyGroups = mAutoDeleteEmptyGroups;
 
 - (void)enableUndoTaskCoalescing
 {
@@ -439,8 +436,8 @@
 	mCoalescing = NO;
 }
 
-@synthesize undoTaskCoalescingEnabled=mCoalescing;
-@synthesize coalescingKind=mCoalKind;
+@synthesize undoTaskCoalescingEnabled = mCoalescing;
+@synthesize coalescingKind = mCoalKind;
 
 - (void)setRetainsTargets:(BOOL)retainsTargets
 {
@@ -455,7 +452,7 @@
 {
 	return mRetainsTargets;
 }
-@synthesize retainsTargets=mRetainsTargets;
+@synthesize retainsTargets = mRetainsTargets;
 
 - (void)setNextTarget:(id)target
 {
@@ -474,7 +471,7 @@
 	return mChangeCount;
 }
 
-@synthesize changeCount=mChangeCount;
+@synthesize changeCount = mChangeCount;
 
 - (void)resetChangeCount
 {
@@ -527,7 +524,7 @@
 	return [[self redoStack] count];
 }
 
-@synthesize currentGroup=mOpenGroupRef;
+@synthesize currentGroup = mOpenGroupRef;
 
 - (NSArray*)undoStack
 {
@@ -622,18 +619,15 @@
 
 		//NSLog(@"------ undoing ------");
 
-		@try
-		{
+		@try {
 			[group perform];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			NSLog(@"an exception occurred while performing Undo - undo manager will be cleaned up: %@", excp);
 
 			@throw;
 		}
-		@finally
-		{
+		@finally {
 			// by default copy the action name to the top of the redo stack - client code might
 			// change it but if not at least it's set to the same name initially. Safe because this
 			// was called between begin/end group, and that method has added an empty group to the
@@ -665,18 +659,15 @@
 
 		//NSLog(@"------ redoing ------");
 
-		@try
-		{
+		@try {
 			[group perform];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			NSLog(@"an exception occurred while performing Redo - undo manager will be cleaned up: %@", excp);
 
 			@throw;
 		}
-		@finally
-		{
+		@finally {
 			// by default copy the action name to the top of the undo stack - client code might
 			// change it but if not at least it's set to the same name initially
 
@@ -738,7 +729,7 @@
 														object:self];
 }
 
-@synthesize undoManagerState=mState;
+@synthesize undoManagerState = mState;
 
 - (void)reset
 {
@@ -849,7 +840,7 @@
 #pragma mark -
 
 @implementation GCUndoTask
-@synthesize parentGroup=mGroupRef;
+@synthesize parentGroup = mGroupRef;
 
 - (void)perform
 {
@@ -962,7 +953,7 @@
 	[temp release];
 }
 
-@synthesize actionName=mActionName;
+@synthesize actionName = mActionName;
 
 #pragma mark -
 #pragma mark - as a GCUndoTask
@@ -1075,7 +1066,7 @@
 	mTargetRetained = retainIt;
 }
 
-@synthesize target=mTarget;
+@synthesize target = mTarget;
 
 - (SEL)selector
 {

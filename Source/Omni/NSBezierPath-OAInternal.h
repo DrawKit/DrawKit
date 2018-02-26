@@ -12,9 +12,8 @@
 
 //#import <OmniBase/assertions.h>
 
-#define OmniAppKit_EXTERN               extern
-#define OmniAppKit_PRIVATE_EXTERN       __private_extern__
-
+#define OmniAppKit_EXTERN extern
+#define OmniAppKit_PRIVATE_EXTERN __private_extern__
 
 /*
  The two curves which participate in an intersection are arbitrarily termed "left" and "right". (This is easy to confuse with the more literal left and right,
@@ -24,30 +23,27 @@
  with the left curve start with "left...", though, which leads to this somewhat odd name.
 */
 
-
 struct intersectionInfo {
-    double leftParameter, rightParameter;
-    double leftParameterDistance, rightParameterDistance;
-    OAIntersectionAspect leftEntryAspect, leftExitAspect;
+	double leftParameter, rightParameter;
+	double leftParameterDistance, rightParameterDistance;
+	OAIntersectionAspect leftEntryAspect, leftExitAspect;
 };
 
 typedef struct OAdPoint {
-    double x;
-    double y;
+	double x;
+	double y;
 } OAdPoint;
 
-#define MAX_INTERSECTIONS_WITH_LINE 3       // The maximum number of intersections between a cubic curve and a line
-#define MAX_INTERSECTIONS_PER_ELT_PAIR 16   // Maximum intersections between two cubic curves (an overestimate; 9 is the real number)
+#define MAX_INTERSECTIONS_WITH_LINE 3 // The maximum number of intersections between a cubic curve and a line
+#define MAX_INTERSECTIONS_PER_ELT_PAIR 16 // Maximum intersections between two cubic curves (an overestimate; 9 is the real number)
 
-OmniAppKit_EXTERN void _parameterizeLine(NSPoint *coefficients, NSPoint startPoint, NSPoint endPoint);
-OmniAppKit_EXTERN void _parameterizeCurve(NSPoint *coefficients, NSPoint startPoint, NSPoint endPoint, NSPoint controlPoint1, NSPoint controlPoint2);
-OmniAppKit_EXTERN NSInteger intersectionsBetweenLineAndLine(const NSPoint *l1, const NSPoint *l2, struct intersectionInfo *results);
-OmniAppKit_EXTERN NSInteger intersectionsBetweenCurveAndLine(const NSPoint *c, const NSPoint *a, struct intersectionInfo *results);
-OmniAppKit_EXTERN NSInteger intersectionsBetweenCurveAndCurve(const NSPoint *c1coefficients, const NSPoint *c2coefficients, struct intersectionInfo *results);
-OmniAppKit_EXTERN NSInteger intersectionsBetweenCurveAndSelf(const NSPoint *coefficients, struct intersectionInfo *results);
+OmniAppKit_EXTERN void _parameterizeLine(NSPoint* coefficients, NSPoint startPoint, NSPoint endPoint);
+OmniAppKit_EXTERN void _parameterizeCurve(NSPoint* coefficients, NSPoint startPoint, NSPoint endPoint, NSPoint controlPoint1, NSPoint controlPoint2);
+OmniAppKit_EXTERN NSInteger intersectionsBetweenLineAndLine(const NSPoint* l1, const NSPoint* l2, struct intersectionInfo* results);
+OmniAppKit_EXTERN NSInteger intersectionsBetweenCurveAndLine(const NSPoint* c, const NSPoint* a, struct intersectionInfo* results);
+OmniAppKit_EXTERN NSInteger intersectionsBetweenCurveAndCurve(const NSPoint* c1coefficients, const NSPoint* c2coefficients, struct intersectionInfo* results);
+OmniAppKit_EXTERN NSInteger intersectionsBetweenCurveAndSelf(const NSPoint* coefficients, struct intersectionInfo* results);
 
 // Happy fun arbitrary constants.
 #define EPSILON 1e-10
 #define FLATNESS 2e-5
-
-

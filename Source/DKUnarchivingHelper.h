@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)reset;
 @property (readonly) NSUInteger numberOfObjectsDecoded;
 
-@property (readonly, copy, nullable) NSString *lastClassnameSubstituted;
+@property (readonly, copy, nullable) NSString* lastClassnameSubstituted;
 
 @end
 
@@ -30,7 +30,7 @@ if a substitution would return NSObject, return this insead, which provides a st
 	NSString* mSubstitutedForClassname;
 }
 
-@property (copy, nullable) NSString *substitutionClassname;
+@property (copy, nullable) NSString* substitutionClassname;
 
 @end
 

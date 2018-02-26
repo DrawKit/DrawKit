@@ -4,8 +4,8 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import <XCTest/XCTest.h>
 #import <DKDrawKit/DKBSPDirectObjectStorage.h>
+#import <XCTest/XCTest.h>
 
 /** @brief Unit Test for the BSP storage sub-system.
 

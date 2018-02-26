@@ -6,9 +6,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
+#import "DKDrawableContainerProtocol.h"
 #import "DKObjectStorageProtocol.h"
 #import "DKRasterizerProtocol.h"
-#import "DKDrawableContainerProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -95,7 +95,7 @@ NS_ASSUME_NONNULL_BEGIN
  The ghost colour is persistent, stored using the \c kDKGhostColourPreferencesKey key.
  The default is light gray.
  */
-@property (class, retain, null_resettable) NSColor *ghostColour;
+@property (class, retain, null_resettable) NSColor* ghostColour;
 
 /** @}
  @name Pasteboard Types
@@ -140,7 +140,7 @@ NS_ASSUME_NONNULL_BEGIN
  which simply passes through the requested type unchanged. The dictionary consists of the base class
  as a string, and returns the class to use in place of that type.
  */
-@property (class, copy, nullable) NSDictionary<NSString*,Class> *interconversionTable;
+@property (class, copy, nullable) NSDictionary<NSString*, Class>* interconversionTable;
 
 /** @brief Return the class to use in place of the given class when performing a conversion.
 
@@ -184,15 +184,15 @@ NS_ASSUME_NONNULL_BEGIN
  This returns the layer even if container isn't the layer, by recursing up the tree as needed
  @return the containing layer
  */
-@property (readonly, strong) DKObjectOwnerLayer *layer;
+@property (readonly, strong) DKObjectOwnerLayer* layer;
 /** @brief Returns the drawing that owns this object's layer
  @return the drawing
  */
-@property (readonly, strong) DKDrawing *drawing;
+@property (readonly, strong) DKDrawing* drawing;
 /** @brief Returns the undo manager used to handle undoable actions for this object
  @return the undo manager in use
  */
-@property (readonly, strong, nullable) NSUndoManager *undoManager;
+@property (readonly, strong, nullable) NSUndoManager* undoManager;
 
 /** @brief The immediate parent of this object.
 
@@ -311,7 +311,7 @@ NS_ASSUME_NONNULL_BEGIN
  \c kDKDrawableSubselectionChangedNotification should be sent when this changes.
  @return a set containing the selection within the object. May be empty, nil or contain self.
  */
-@property (readonly, copy) NSSet<DKDrawableObject*> *subSelection;
+@property (readonly, copy) NSSet<DKDrawableObject*>* subSelection;
 
 /** @}
  @name Add/Remove Layer Notification
@@ -482,7 +482,7 @@ NS_ASSUME_NONNULL_BEGIN
  It's important to call the inherited method if you override this, as objects generally need to
  subscribe to a style's notifications, and a style needs to know when it is attached to objects.
  */
-@property (nonatomic, copy, nullable) DKStyle *style;
+@property (nonatomic, copy, nullable) DKStyle* style;
 
 /** @brief Called when the attached style is about to change.
  */
@@ -500,7 +500,7 @@ NS_ASSUME_NONNULL_BEGIN
  one style.
  @return A set, containing the object's style.
  */
-@property (readonly, copy, nullable) NSSet<DKStyle*> *allStyles;
+@property (readonly, copy, nullable) NSSet<DKStyle*>* allStyles;
 
 /** @brief Return all registered styles used by this object
  
@@ -514,7 +514,7 @@ NS_ASSUME_NONNULL_BEGIN
  <code>DKDrawingDocument</code>).
  @return A set, containing the object's style if it is registerd or flagged for remerge.
  */
-@property (readonly, copy, nullable) NSSet<DKStyle*> *allRegisteredStyles;
+@property (readonly, copy, nullable) NSSet<DKStyle*>* allRegisteredStyles;
 
 /** @brief Replace the object's style from any in th egiven set that have the same ID.
  
@@ -625,14 +625,14 @@ NS_ASSUME_NONNULL_BEGIN
 
  Override for real transforms - the default merely returns the identity matrix
  @return A transform. */
-@property (readonly, copy) NSAffineTransform *transform;
+@property (readonly, copy) NSAffineTransform* transform;
 
 /** @brief Return the container's transform.
 
  The container transform must be taken into account for rendering this object, as it accounts for
  groups and other possible containers.
  @return A transform. */
-@property (readonly, copy) NSAffineTransform *containerTransform;
+@property (readonly, copy) NSAffineTransform* containerTransform;
 
 /** @brief Apply the transform to the object
 
@@ -777,7 +777,7 @@ NS_ASSUME_NONNULL_BEGIN
 // NSPoints
 /** @brief Return an array of \c NSPoint values representing points that can be snapped to guides.
  */
-@property (readonly, copy) NSArray<NSValue*> *snappingPoints;
+@property (readonly, copy) NSArray<NSValue*>* snappingPoints;
 
 /** @brief Return an array of \c NSPoint values representing points that can be snapped to guides.
 
@@ -1004,14 +1004,14 @@ NS_ASSUME_NONNULL_BEGIN
  The dictionary replaces the current user info. To merge with any existing user info, use \c addUserInfo:
  @param info A dictionary containing anything you wish.
  */
-- (void)setUserInfo:(NSDictionary<NSString*,id>*)info NS_REFINED_FOR_SWIFT;
+- (void)setUserInfo:(NSDictionary<NSString*, id>*)info NS_REFINED_FOR_SWIFT;
 
 /** @brief Add a dictionary of metadata to the object.
  
  \c info is merged with the existing content of the user info.
  @param info A dictionary containing anything you wish.
  */
-- (void)addUserInfo:(NSDictionary<NSString*,id>*)info;
+- (void)addUserInfo:(NSDictionary<NSString*, id>*)info;
 
 /** @brief Return the attached user info.
 
@@ -1020,7 +1020,7 @@ NS_ASSUME_NONNULL_BEGIN
  the object however.
  @return The user info.
  */
-- (NSMutableDictionary<NSString*,id>*)userInfo NS_REFINED_FOR_SWIFT;
+- (NSMutableDictionary<NSString*, id>*)userInfo NS_REFINED_FOR_SWIFT;
 
 /** @brief Return an item of user info.
  @param key The key to use to refer to the item.
@@ -1052,7 +1052,7 @@ NS_ASSUME_NONNULL_BEGIN
  image can be used to speed up hit testing.
  @return an image of the object
  */
-@property (readonly, strong) NSImage *cachedImage;
+@property (readonly, strong) NSImage* cachedImage;
 
 /** @}
  @name Pasteboard

@@ -5,14 +5,14 @@
 */
 
 #import "DKArcPath.h"
+#import "DKDrawKitMacros.h"
 #import "DKDrawableShape.h"
 #import "DKDrawing.h"
-#import "DKStyle.h"
 #import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
-#import "LogEvent.h"
-#import "DKDrawKitMacros.h"
 #import "DKShapeGroup.h"
+#import "DKStyle.h"
+#import "LogEvent.h"
 #include <tgmath.h>
 
 @interface DKArcPath ()
@@ -54,7 +54,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-@synthesize radius=mRadius;
+@synthesize radius = mRadius;
 
 /** @brief Sets the starting angle, which is the more anti-clockwise point on the arc
 
@@ -121,7 +121,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-@synthesize arcType=mArcType;
+@synthesize arcType = mArcType;
 
 - (void)calculatePath
 {
@@ -620,7 +620,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	return mCentre;
 }
 
-@synthesize location=mCentre;
+@synthesize location = mCentre;
 
 /** @brief Move the object to a given location within the drawing
 
@@ -835,11 +835,11 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super initWithCoder:coder]) {
-	mStartAngle = [coder decodeDoubleForKey:@"DKArcPath_startAngle"];
-	mEndAngle = [coder decodeDoubleForKey:@"DKArcPath_endAngle"];
-	mRadius = [coder decodeDoubleForKey:@"DKArcPath_radius"];
-	[self setArcType:[coder decodeIntegerForKey:@"DKArcPath_arcType"]];
-	[self setLocation:[coder decodePointForKey:@"DKArcPath_location"]];
+		mStartAngle = [coder decodeDoubleForKey:@"DKArcPath_startAngle"];
+		mEndAngle = [coder decodeDoubleForKey:@"DKArcPath_endAngle"];
+		mRadius = [coder decodeDoubleForKey:@"DKArcPath_radius"];
+		[self setArcType:[coder decodeIntegerForKey:@"DKArcPath_arcType"]];
+		[self setLocation:[coder decodePointForKey:@"DKArcPath_location"]];
 	}
 
 	return self;

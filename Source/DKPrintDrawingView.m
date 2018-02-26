@@ -25,7 +25,7 @@
 
 #pragma mark -
 #pragma mark As an NSView
-/*
+	/*
 - (BOOL)			knowsPageRange:(NSRangePointer) rng
 {
 	int		pagesAcross, pagesDown;

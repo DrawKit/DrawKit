@@ -5,23 +5,23 @@
 */
 
 #import "DKDrawableObject.h"
+#import "DKAuxiliaryMenus.h"
+#import "DKDrawKitMacros.h"
+#import "DKDrawableContainerProtocol.h"
+#import "DKDrawableObject+Metadata.h"
 #import "DKDrawing.h"
-#import "DKStyle.h"
-#import "DKKnob.h"
-#import "DKObjectDrawingLayer.h"
-#import "NSDictionary+DeepCopy.h"
 #import "DKGeometryUtilities.h"
+#import "DKKnob.h"
+#import "DKObjectDrawingLayer+Alignment.h"
+#import "DKObjectDrawingLayer.h"
+#import "DKPasteboardInfo.h"
+#import "DKSelectionPDFView.h"
+#import "DKStyle.h"
 #import "LogEvent.h"
 #import "NSAffineTransform+DKAdditions.h"
-#import "DKDrawKitMacros.h"
-#import "NSColor+DKAdditions.h"
 #import "NSBezierPath+Combinatorial.h"
-#import "DKDrawableObject+Metadata.h"
-#import "DKDrawableContainerProtocol.h"
-#import "DKObjectDrawingLayer+Alignment.h"
-#import "DKAuxiliaryMenus.h"
-#import "DKSelectionPDFView.h"
-#import "DKPasteboardInfo.h"
+#import "NSColor+DKAdditions.h"
+#import "NSDictionary+DeepCopy.h"
 
 #ifdef qIncludeGraphicDebugging
 #import "DKDrawingView.h"
@@ -47,7 +47,7 @@ NSString* const kDKDrawableCachedImageKey = @"DKD_Cached_Img";
 #pragma mark Static vars
 
 static NSColor* s_ghostColour = nil;
-static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
+static NSDictionary<NSString*, Class>* s_interconversionTable = nil;
 
 #pragma mark -
 @implementation DKDrawableObject
@@ -214,7 +214,7 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 	return [[self drawing] undoManager];
 }
 
-@synthesize container=mContainerRef;
+@synthesize container = mContainerRef;
 
 - (void)setContainer:(id<DKDrawableContainer>)aContainer
 {
@@ -247,9 +247,9 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 #pragma mark -
 #pragma mark - as part of the DKStorableObject protocol
 
-@synthesize index=mZIndex;
-@synthesize storage=mStorageRef;
-@synthesize marked=mMarked;
+@synthesize index = mZIndex;
+@synthesize storage = mStorageRef;
+@synthesize marked = mMarked;
 
 #pragma mark -
 #pragma mark - state
@@ -268,7 +268,7 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 	}
 }
 
-@synthesize visible=m_visible;
+@synthesize visible = m_visible;
 
 - (void)setLocked:(BOOL)locked
 {
@@ -281,7 +281,7 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 	}
 }
 
-@synthesize locked=m_locked;
+@synthesize locked = m_locked;
 
 - (void)setLocationLocked:(BOOL)lockLocation
 {
@@ -293,8 +293,8 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 	}
 }
 
-@synthesize locationLocked=mLocationLocked;
-@synthesize mouseSnappingEnabled=m_snapEnable;
+@synthesize locationLocked = mLocationLocked;
+@synthesize mouseSnappingEnabled = m_snapEnable;
 
 - (void)setGhosted:(BOOL)ghosted
 {
@@ -308,10 +308,10 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 	}
 }
 
-@synthesize ghosted=mGhosted;
-@synthesize trackingMouse=m_inMouseOp;
-@synthesize mouseDragOffset=m_mouseOffset;
-@synthesize mouseHasMovedSinceStartOfTracking=m_mouseEverMoved;
+@synthesize ghosted = mGhosted;
+@synthesize trackingMouse = m_inMouseOp;
+@synthesize mouseDragOffset = m_mouseOffset;
+@synthesize mouseHasMovedSinceStartOfTracking = m_mouseEverMoved;
 
 #pragma mark -
 
@@ -427,7 +427,6 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 		}
 
 #endif
-
 	}
 }
 
@@ -441,12 +440,10 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 	if ([self isGhosted])
 		[self drawGhostedContent];
 	else if (aStyle && ([aStyle countOfRenderList] > 0 || [aStyle hasTextAttributes])) {
-		@try
-		{
+		@try {
 			[aStyle render:self];
 		}
-		@catch (id exc)
-		{
+		@catch (id exc) {
 			// exceptions arising within style renderings can cause havoc with the drawing state. To try and gracefully exit,
 			// the rogue object is hidden after logging the problem. This is meant as a last resort to keep the document working -
 			// styles may need to handle exceptions more gracefully internally. Any such logs must be investigated.
@@ -561,7 +558,7 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 		return;
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		[NSBezierPath clipRect : destRect];
+		[NSBezierPath clipRect:destRect];
 
 	// compute the necessary transform to perform the scaling and translation from srcRect to destRect.
 
@@ -661,7 +658,7 @@ static NSDictionary<NSString*,Class>* s_interconversionTable = nil;
 	}
 }
 
-@synthesize style=m_style;
+@synthesize style = m_style;
 
 static NSRect s_oldBounds;
 
@@ -1081,12 +1078,12 @@ static NSRect s_oldBounds;
 				CGContextSetShouldAntialias(bm, NO);
 				CGContextSetShouldSmoothFonts(bm, NO);
 				bitmapContext = [NSGraphicsContext graphicsContextWithGraphicsPort:bm
-																			flipped:YES];
+																		   flipped:YES];
 				[bitmapContext setShouldAntialias:NO];
 			}
 
 			SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-				[NSGraphicsContext setCurrentContext : bitmapContext];
+				[NSGraphicsContext setCurrentContext:bitmapContext];
 			byte[0] = 0;
 
 			// flag that hit-testing is taking place - drawing methods may use quick-and-dirty rendering for better performance.
@@ -1119,7 +1116,8 @@ static NSRect s_oldBounds;
 			mIsHitTesting = NO;
 
 			RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
-				hit = (byte[0] != 0);
+				hit
+				= (byte[0] != 0);
 		}
 	}
 
@@ -1135,7 +1133,7 @@ static NSRect s_oldBounds;
 		return NO;
 }
 
-@synthesize beingHitTested=mIsHitTesting;
+@synthesize beingHitTested = mIsHitTesting;
 
 #pragma mark -
 #pragma mark - basic event handling
@@ -1464,16 +1462,16 @@ static NSRect s_oldBounds;
 - (NSString*)description
 {
 	return [NSString stringWithFormat:@"%@ size: %@, loc: %@, angle: %.4f, offset: %@, locked: %@, style: %@, container: %p, storage: %@, user info:%@",
-									  [super description],
-									  NSStringFromSize([self size]),
-									  NSStringFromPoint([self location]),
-									  [self angle],
-									  NSStringFromSize([self offset]),
-									  [self locked] ? @"YES" : @"NO",
-									  [self style],
-									  [self container],
-									  [self storage],
-									  [self userInfo]];
+					 [super description],
+					 NSStringFromSize([self size]),
+					 NSStringFromPoint([self location]),
+					 [self angle],
+					 NSStringFromSize([self offset]),
+					 [self locked] ? @"YES" : @"NO",
+					 [self style],
+					 [self container],
+					 [self storage],
+					 [self userInfo]];
 }
 
 #pragma mark -

@@ -25,26 +25,26 @@ NS_ASSUME_NONNULL_BEGIN
 	BOOL mNeedsToEvaluate;
 }
 
-@property (class, copy, nullable) NSString *delimiterString;
+@property (class, copy, nullable) NSString* delimiterString;
 
 /** returns the characters that will end an embedded key (which always starts with the delimiter string). Note that to permit
  key paths as keys, the '.' character is \b not included. This means that any dot is considered part of the key, not the surrounding text. As a
  special case, a final dot is removed from a key and pushed back to the surrounding text, so a single trailing dot does effectively end a key
  as long as it's followed by another breaking character or is last character on the line.
  */
-@property (class, readonly, copy) NSCharacterSet *keyBreakingCharacterSet;
+@property (class, readonly, copy) NSCharacterSet* keyBreakingCharacterSet;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithString:(NSString*)aString;
 - (instancetype)initWithAttributedString:(NSAttributedString*)aString NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, strong) NSAttributedString *masterString;
+@property (nonatomic, strong) NSAttributedString* masterString;
 
-- (void)setString:(NSString*)aString withAttributes:(nullable NSDictionary<NSAttributedStringKey,id>*)attrs;
-@property (readonly, copy) NSString *string;
+- (void)setString:(NSString*)aString withAttributes:(nullable NSDictionary<NSAttributedStringKey, id>*)attrs;
+@property (readonly, copy) NSString* string;
 
-@property (copy, nullable) NSDictionary<NSAttributedStringKey,id> *attributes;
+@property (copy, nullable) NSDictionary<NSAttributedStringKey, id>* attributes;
 
 - (void)processMasterString;
 - (NSArray<NSString*>*)allKeys;
@@ -67,20 +67,20 @@ extern NSNotificationName const kDKTextSubstitutorNewStringNotification;
 	NSString* mPadCharacter;
 }
 
-@property (class, readonly, retain) NSCharacterSet *validSubkeysCharacterSet;
-@property (class, copy, nullable) NSDictionary *abbreviationDictionary;
+@property (class, readonly, retain) NSCharacterSet* validSubkeysCharacterSet;
+@property (class, copy, nullable) NSDictionary* abbreviationDictionary;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 - (instancetype)initWithKey:(NSString*)key range:(NSRange)aRange NS_DESIGNATED_INITIALIZER;
 
-@property (readonly, copy) NSString *key;
+@property (readonly, copy) NSString* key;
 @property (readonly) NSRange range;
 @property (readonly, getter=isPropertyKeyPath) BOOL propertyKeyPath;
-@property (readonly, copy) NSArray<NSString*> *subKeys;
+@property (readonly, copy) NSArray<NSString*>* subKeys;
 - (NSString*)stringByApplyingSubkeysToString:(NSString*)inString;
 
 @property (nonatomic) NSUInteger padding;
-@property (copy) NSString *paddingCharacter;
+@property (copy) NSString* paddingCharacter;
 
 @end
 

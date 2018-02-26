@@ -115,17 +115,18 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
 
  Cut/Paste: cut and paste of styles works independently of the registry, including dealing with shared styles. See DKStyle for more info.
 */
-@interface DKStyleRegistry : DKCategoryManager<DKStyle*> <DKCategoryManagerMenuItemDelegate>
+@interface DKStyleRegistry : DKCategoryManager <DKStyle*>
+<DKCategoryManagerMenuItemDelegate>
 
-// retrieving the registry and styles
+	// retrieving the registry and styles
 
-/** @brief Return the single global style registry object.
+	/** @brief Return the single global style registry object.
 
  A style registry isn't a true singleton but in general there would probably be never any reason
  to create another instance. Other class methods implictly reference the registry returned by this.
  @return the style registry used for all general purpose registration of styles in DK.
  */
-@property (class, readonly, strong) DKStyleRegistry *sharedStyleRegistry;
+	@property(class, readonly, strong) DKStyleRegistry* sharedStyleRegistry;
 
 /** @brief Return the style registerd with the given key.
 
@@ -238,14 +239,14 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  @return A dictionary, listing for each style whether it is unknown, older, the same, or newer than the
  registry styles having the same keys.
  */
-+ (NSDictionary<NSString*,NSNumber*>*)compareStylesInSet:(NSSet<DKStyle*>*)styles;
++ (NSDictionary<NSString*, NSNumber*>*)compareStylesInSet:(NSSet<DKStyle*>*)styles;
 
 // high-level data access
 
 /** @brief Return the entire list of keys of the styles in the registry.
  @return an array listing all of the keys in the registry
  */
-@property (class, readonly, copy) NSArray<NSString*> *registeredStyleKeys;
+@property (class, readonly, copy) NSArray<NSString*>* registeredStyleKeys;
 
 /** @brief Return data that can be saved to a file, etc. representing the registry.
  @return \c NSData of the entire registry.
@@ -342,7 +343,7 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
 /** @brief Return a list of all the registered styles' names, in alphabetical order
  @return a list of names
  */
-@property (readonly, copy) NSArray<NSString*> *styleNames;
+@property (readonly, copy) NSArray<NSString*>* styleNames;
 
 /** @brief Return a list of the registered styles' names in the category, in alphabetical order.
  @param catName The name of a single category.
@@ -363,7 +364,7 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  @param errorPtr The error, if any, that occured.
  @return \c YES if the file was saved sucessfully, \c NO otherwise
  */
-- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError*_Nullable*_Nullable)errorPtr;
+- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError* _Nullable* _Nullable)errorPtr;
 
 /** @brief Merge the contents of a file into the registry.
 
@@ -390,7 +391,7 @@ typedef NS_ENUM(NSInteger, DKStyleCompare) {
  @param error If \c NO was returned, this should be filled out.
  @return \c YES if the file was read and merged sucessfully, \c NO otherwise.
  */
-- (BOOL)readFromURL:(NSURL*)url mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel error:(NSError*_Nullable*_Nullable)error;
+- (BOOL)readFromURL:(NSURL*)url mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(nullable id<DKStyleRegistryDelegate>)aDel error:(NSError* _Nullable* _Nullable)error;
 
 /** @brief Attempt to merge a style into the registry.
  

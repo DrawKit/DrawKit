@@ -5,12 +5,12 @@
 */
 
 #import "DKStroke.h"
-#import "DKStyle.h"
-#import "DKStrokeDash.h"
-#import "NSBezierPath+Geometry.h"
-#import "NSShadow+Scaling.h"
 #import "DKDrawableObject.h"
 #import "DKDrawing.h"
+#import "DKStrokeDash.h"
+#import "DKStyle.h"
+#import "NSBezierPath+Geometry.h"
+#import "NSShadow+Scaling.h"
 
 @implementation DKStroke
 #pragma mark As a DKStroke
@@ -50,10 +50,10 @@
 }
 
 #pragma mark -
-@synthesize colour=m_colour;
+@synthesize colour = m_colour;
 
 #pragma mark -
-@synthesize width=m_width;
+@synthesize width = m_width;
 
 - (void)scaleWidthBy:(CGFloat)scale
 {
@@ -93,7 +93,7 @@
 }
 
 #pragma mark -
-@synthesize dash=m_dash;
+@synthesize dash = m_dash;
 
 - (void)setAutoDash
 {
@@ -110,10 +110,10 @@
 }
 
 #pragma mark -
-@synthesize lateralOffset=mLateralOffset;
+@synthesize lateralOffset = mLateralOffset;
 
 #pragma mark -
-@synthesize shadow=m_shadow;
+@synthesize shadow = m_shadow;
 
 #pragma mark -
 - (void)strokeRect:(NSRect)rect
@@ -139,9 +139,9 @@
 }
 
 #pragma mark -
-@synthesize lineCapStyle=m_cap;
-@synthesize lineJoinStyle=m_join;
-@synthesize miterLimit=m_mitreLimit;
+@synthesize lineCapStyle = m_cap;
+@synthesize lineJoinStyle = m_join;
+@synthesize miterLimit = m_mitreLimit;
 
 #pragma mark -
 - (void)setTrimLength:(CGFloat)tl
@@ -153,7 +153,7 @@
 	m_trimLength = tl;
 }
 
-@synthesize trimLength=m_trimLength;
+@synthesize trimLength = m_trimLength;
 
 - (NSSize)extraSpaceNeededIgnoringMitreLimit
 {
@@ -178,8 +178,8 @@
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"colour", @"width", @"dash",
-																							   @"shadow", @"lineCapStyle", @"lineJoinStyle",
-																							   @"lateralOffset", @"trimLength"]];
+		@"shadow", @"lineCapStyle", @"lineJoinStyle",
+		@"lateralOffset", @"trimLength"]];
 }
 
 - (void)registerActionNames

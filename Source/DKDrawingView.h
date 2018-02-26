@@ -10,7 +10,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class DKDrawing, DKLayer, DKViewController;
 
-typedef NSString *DKDrawingViewMarkerName NS_STRING_ENUM;
+typedef NSString* DKDrawingViewMarkerName NS_STRING_ENUM;
 
 typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 	DKCropMarksNone = 0,
@@ -60,11 +60,11 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
 /** @brief Set the colour used to draw the page breaks
  */
-@property (class, retain, null_resettable) NSColor *pageBreakColour;
+@property (class, retain, null_resettable) NSColor* pageBreakColour;
 
 /** @brief Return the colour used to draw the background area of the scrollview outside the drawing area
  */
-@property (class, readonly, copy) NSColor *backgroundColour;
+@property (class, readonly, copy) NSColor* backgroundColour;
 
 /** @brief Get the point for the initial mouse down that last opened a contextual menu
  */
@@ -103,7 +103,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  Do not set this directly - the controller will call it to set up the relationship at the right
  time.
  */
-@property (weak, nullable) DKViewController *controller;
+@property (weak, nullable) DKViewController* controller;
 
 /** @brief Set new controller for this view
 
@@ -124,7 +124,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
  to a drawing yet. Even when the view owns the drawing (for auto back-end) you should use this
  method to get a view's drawing.
  */
-@property (readonly, strong, nullable) DKDrawing *drawing;
+@property (readonly, strong, nullable) DKDrawing* drawing;
 
 /** @brief Create an entire "back end" for the view
 
@@ -171,7 +171,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 
 /** @brief Return the print info to use for drawing the page breaks, paginating and general printing operations.
  */
-@property (nonatomic, strong) NSPrintInfo *printInfo;
+@property (nonatomic, strong) NSPrintInfo* printInfo;
 
 - (void)set;
 
@@ -223,7 +223,7 @@ typedef NS_ENUM(NSInteger, DKCropMarkKind) {
 /** @brief Return the current temporary text editing view.
  @return the text editing view, or nil
  */
-@property (readonly, strong, nullable) NSTextView *textEditingView;
+@property (readonly, strong, nullable) NSTextView* textEditingView;
 
 /** @brief Respond to frame size changes in the text editor view.
 

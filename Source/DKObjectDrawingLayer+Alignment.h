@@ -55,7 +55,7 @@ typedef NS_OPTIONS(NSUInteger, DKAlignmentAlign) {
  If no specific object is set (<code>nil</code>), then the first object in the selection is returned. If there's
  no selection, returns <code>nil</code>.
  */
-@property (unsafe_unretained, nullable) DKDrawableObject *keyObject;
+@property (unsafe_unretained, nullable) DKDrawableObject* keyObject;
 
 /** @brief Aligns a set of objects.
 

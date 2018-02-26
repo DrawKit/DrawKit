@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKViewController.h"
 #import "DKDrawingToolProtocol.h"
+#import "DKViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, DKDrawingToolScope) {
 
  The tool is set locally for the drawing, or globally according to the current scope.
  */
-@property (nonatomic, strong) DKDrawingTool *drawingTool;
+@property (nonatomic, strong) DKDrawingTool* drawingTool;
 
 /** @brief Select the tool using its registered name
 

@@ -60,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
  traditionally used.
  @return an array containing NSColor objects
  */
-@property (class, copy, null_resettable) NSArray<NSColor*> *selectionColours;
+@property (class, copy, null_resettable) NSArray<NSColor*>* selectionColours;
 + (nullable NSColor*)selectionColourForIndex:(NSUInteger)index;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
  how this works
  @return the layer's owner drawing
  */
-@property (readonly, strong) DKDrawing *drawing;
+@property (readonly, strong) DKDrawing* drawing;
 
 /** @brief Called when the drawing's undo manager is changed - this gives objects that cache the UM a chance
  to update their references
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Obtains the undo manager that is handling undo for the drawing and hence, this layer
  @return the undo manager in use
  */
-@property (nonatomic, strong) NSUndoManager *undoManager;
+@property (nonatomic, strong) NSUndoManager* undoManager;
 
 /** @brief Notifies the layer that it or a group containing it was added to a drawing.
 
@@ -112,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  The group retains this, so the group isn't retained here
  */
-@property (weak, nullable) DKLayerGroup *layerGroup;
+@property (weak, nullable) DKLayerGroup* layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 
@@ -208,7 +208,7 @@ NS_ASSUME_NONNULL_BEGIN
  layer they are working in. The layer doesn't enforce this - it's up to objects to make use of
  this provided colour where necessary.
  */
-@property (nonatomic, strong, nullable) NSColor *selectionColour;
+@property (nonatomic, strong, nullable) NSColor* selectionColour;
 
 /** @brief Returns an image of the layer a the given size
 
@@ -303,11 +303,11 @@ NS_ASSUME_NONNULL_BEGIN
  Layer names are a convenience for the user, and can be displayed by a user interface. The name is
  not significant internally. This copies the name passed for safety.
  */
-@property (nonatomic, copy) NSString *layerName;
+@property (nonatomic, copy) NSString* layerName;
 
 // user info support
 
-- (void)addUserInfo:(NSDictionary<NSString*,id>*)info;
+- (void)addUserInfo:(NSDictionary<NSString*, id>*)info;
 
 /** @brief Return the attached user info
 
@@ -316,7 +316,7 @@ NS_ASSUME_NONNULL_BEGIN
  the object however.
  @return the user info
  */
-@property (copy) NSMutableDictionary<NSString*,id> *userInfo;
+@property (copy) NSMutableDictionary<NSString*, id>* userInfo;
 
 /** @brief Return an item of user info
  @param key the key to use to refer to the item
@@ -328,7 +328,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Returns the layer's unique key
  @return the unique key
  */
-@property (readonly, copy) NSString *uniqueKey;
+@property (readonly, copy) NSString* uniqueKey;
 
 // print this layer?
 
@@ -478,7 +478,7 @@ NS_ASSUME_NONNULL_BEGIN
  or ultimately the drawing will be returned.
  @return the attached knobs object
  */
-@property (nonatomic, strong) DKKnob *knobs;
+@property (nonatomic, strong) DKKnob* knobs;
 /** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
  
  In general it's best to scale the knobs otherwise they tend to overlap and become large at high

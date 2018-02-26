@@ -34,11 +34,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (DKFill*)fillWithPatternImage:(NSImage*)image;
 + (DKFill*)fillWithPatternImageNamed:(NSImageName)path;
 
-@property (strong, nullable) NSColor *colour;
+@property (strong, nullable) NSColor* colour;
 
-@property (strong, nullable) NSShadow *shadow;
+@property (strong, nullable) NSShadow* shadow;
 
-@property (nonatomic, strong, nullable) DKGradient *gradient;
+@property (nonatomic, strong, nullable) DKGradient* gradient;
 
 /** @brief Whether the gradient's angle is aligned with the rendered object's angle.
  Is \c YES if the gradient angle is based off the object's angle.

@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  Note that if the layer is locked as a whole, this always returns an empty list
  @return an array, objects that can be acted upon by a command as a set
  */
-@property (readonly, copy) NSArray<DKDrawableObject*> *selectedAvailableObjects; // KVC/KVO compliant (read only)
+@property (readonly, copy) NSArray<DKDrawableObject*>* selectedAvailableObjects; // KVC/KVO compliant (read only)
 
 /** @brief Returns the objects that are not locked, visible and selected and which have the given class
 
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  See comments for selectedAvailableObjects
  @return An array.
  */
-@property (readonly, copy) NSArray<DKDrawableObject*> *selectedVisibleObjects;
+@property (readonly, copy) NSArray<DKDrawableObject*>* selectedVisibleObjects;
 - (NSSet<DKDrawableObject*>*)selectedObjectsReturning:(NSInteger)answer toSelector:(SEL)selector;
 
 /** @brief Returns objects that respond to the selector <selector>
@@ -102,7 +102,7 @@ NS_ASSUME_NONNULL_BEGIN
  where objects are ultimately going to be pasted back in to this or another layer.
  @return an array of objects. 
  */
-@property (readonly, copy) NSArray<DKDrawableObject*> *duplicatedSelection;
+@property (readonly, copy) NSArray<DKDrawableObject*>* duplicatedSelection;
 
 /** @brief Returns the selected objects in their original stacking order.
 
@@ -177,7 +177,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  For interactive selections, \c exchangeSelectionWithObjectsInArray: is more appropriate and efficient
  */
-@property (copy, nullable) NSSet<DKDrawableObject*> *selection;
+@property (copy, nullable) NSSet<DKDrawableObject*>* selection;
 
 /** @brief If the selection consists of a single available object, return it. Otherwise nil.
 
@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
  meaningful. It is also used by the automatic invocation forwarding mechanism.
  @return the selected object if it's the only one and it's available
  */
-@property (readonly, retain, nullable) DKDrawableObject *singleSelection;
+@property (readonly, retain, nullable) DKDrawableObject* singleSelection;
 
 /** @brief Return the number of items in the selection.
 

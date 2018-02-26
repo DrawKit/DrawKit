@@ -4,12 +4,12 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "NSBezierPath+Geometry.h"
 #import "DKDrawKitMacros.h"
 #import "DKGeometryUtilities.h"
 #import "DKRandom.h"
 #import "LogEvent.h"
 #import "NSBezierPath+Editing.h"
+#import "NSBezierPath+Geometry.h"
 
 // define this to use Omni methods for finding points on paths, etc. Note - I have discovered that these methods, though probably faster, are quite innaccurate
 // and the innaccuracy worsens with longer paths (accumulative rounding error). So if your paths are likely to exceed 1000 points in length, it's better to use
@@ -253,12 +253,12 @@ static BOOL CornerBevel(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath*
 	NSAssert(delegate != nil, @"cannot operate with a nil delegate");
 
 	if (![delegate respondsToSelector:@selector(path:
-										   elementIndex:
-												   type:
-												 points:
-										   subPathIndex:
-										  subPathClosed:
-											contextInfo:)])
+												elementIndex:
+												type:
+												points:
+												subPathIndex:
+												subPathClosed:
+												contextInfo:)])
 		return nil;
 
 	if ([self isEmpty])
@@ -320,12 +320,12 @@ static BOOL CornerBevel(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath*
 		// let the delegate do its thing with the info:
 
 		[delegate path:newPath
-		  elementIndex:i
-				  type:element
-				points:rp
-		  subPathIndex:spi
-		 subPathClosed:spc
-		   contextInfo:contextInfo];
+			 elementIndex:i
+					 type:element
+				   points:rp
+			 subPathIndex:spi
+			subPathClosed:spc
+			  contextInfo:contextInfo];
 	}
 
 	return newPath;
@@ -1367,7 +1367,7 @@ static void InterpolatePoints(const NSPoint v[3], NSPoint* cp1, NSPoint* cp2, co
 	NSAssert(ctx != nil, @"no context for -strokedPath");
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		[NSGraphicsContext setCurrentContext : ctx];
+		[NSGraphicsContext setCurrentContext:ctx];
 
 	CGContextRef context = [self setQuartzPath];
 
@@ -1505,8 +1505,8 @@ static void InterpolatePoints(const NSPoint v[3], NSPoint* cp1, NSPoint* cp2, co
 
 			case NSCurveToBezierPathElement:
 				CGPathAddCurveToPoint(path, NULL, points[0].x, points[0].y,
-									  points[1].x, points[1].y,
-									  points[2].x, points[2].y);
+					points[1].x, points[1].y,
+					points[2].x, points[2].y);
 				break;
 
 			case NSClosePathBezierPathElement:
@@ -1867,7 +1867,7 @@ static inline CGFloat distanceBetween(NSPoint a, NSPoint b)
 
 // Length of a curve
 static CGFloat lengthOfBezier(const NSPoint bez[4],
-							  CGFloat acceptableError)
+	CGFloat acceptableError)
 {
 	CGFloat polyLen = 0.0;
 	CGFloat chordLen = distanceBetween(bez[0], bez[3]);
@@ -1883,7 +1883,7 @@ static CGFloat lengthOfBezier(const NSPoint bez[4],
 		NSPoint left[4], right[4];
 		subdivideBezier(bez, left, right);
 		retLen = (lengthOfBezier(left, acceptableError)
-				  + lengthOfBezier(right, acceptableError));
+			+ lengthOfBezier(right, acceptableError));
 	} else {
 		retLen = 0.5 * (polyLen + chordLen);
 	}
@@ -1893,10 +1893,10 @@ static CGFloat lengthOfBezier(const NSPoint bez[4],
 
 // Split a curve at a specific length
 static CGFloat subdivideBezierAtLength(const NSPoint bez[4],
-									   NSPoint bez1[4],
-									   NSPoint bez2[4],
-									   CGFloat length,
-									   CGFloat acceptableError)
+	NSPoint bez1[4],
+	NSPoint bez2[4],
+	CGFloat length,
+	CGFloat acceptableError)
 {
 	CGFloat top = 1.0, bottom = 0.0;
 	CGFloat t, prevT;

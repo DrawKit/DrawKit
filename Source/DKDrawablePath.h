@@ -79,7 +79,7 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
 
 /** @brief The background colour to use for the info window displayed when interacting with paths
  */
-@property (class, retain) NSColor *infoWindowBackgroundColour;
+@property (class, retain) NSColor* infoWindowBackgroundColour;
 
 /** @brief Set whether the default hit-detection behaviour is to prioritise on-path points or off-path points
 
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
 
 // setting the path & path info
 
-@property (copy) NSBezierPath *path;
+@property (copy) NSBezierPath* path;
 - (void)drawControlPointsOfPath:(NSBezierPath*)path usingKnobs:(DKKnob*)knobs;
 
 /** @brief Return the length of the path
@@ -140,8 +140,6 @@ typedef NS_ENUM(NSInteger, DKDrawablePathInsertType) {
  @return a distance along the path nearest to the point
  */
 - (CGFloat)lengthForPoint:(NSPoint)mp tolerance:(CGFloat)tol;
-
-
 
 /** @brief Return the length to display to the user of a path
  

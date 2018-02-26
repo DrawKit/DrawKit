@@ -30,7 +30,7 @@
 #else
 
 @implementation DKUndoManager
-@synthesize undoTaskCoalescingEnabled=mCoalescingEnabled;
+@synthesize undoTaskCoalescingEnabled = mCoalescingEnabled;
 
 - (BOOL)enableUndoTaskCoalescing:(BOOL)enable
 {
@@ -42,14 +42,14 @@
 	return oldState;
 }
 
-@synthesize changeCount=mChangeCount;
+@synthesize changeCount = mChangeCount;
 
 - (void)resetChangeCount
 {
 	mChangeCount = 0;
 }
 
-@synthesize numberOfTasksInLastGroup=mChangePerGroupCount;
+@synthesize numberOfTasksInLastGroup = mChangePerGroupCount;
 
 - (void)enableSnowLeopardBackwardCompatibility:(BOOL)bcEnable
 {
@@ -65,14 +65,12 @@
 
 - (void)invokeEmbeddedInvocation:(NSInvocation*)invocation
 {
-	@try
-	{
+	@try {
 		LogEvent_(kInfoEvent, @"%@ %@ '%@' target = <%@ %p>", [self isUndoing] ? @"undoing" : @"redoing", [self undoActionName], NSStringFromSelector([invocation selector]), NSStringFromClass([[invocation target] class]), [invocation target]);
 
 		[invocation invoke];
 	}
-	@catch (NSException* excp)
-	{
+	@catch (NSException* excp) {
 		NSLog(@"an exception occurred while invoking an undo task - ignored (task = %@, exception = %@)", invocation, excp);
 	}
 }

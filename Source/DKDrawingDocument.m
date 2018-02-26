@@ -5,16 +5,16 @@
 */
 
 #import "DKDrawingDocument.h"
-#import "DKUndoManager.h"
-#import "DKDrawing.h"
 #import "DKDrawing+Paper.h"
-#import "DKViewController.h"
+#import "DKDrawing.h"
+#import "DKDrawingInfoLayer.h"
 #import "DKGridLayer.h"
 #import "DKGuideLayer.h"
 #import "DKObjectDrawingLayer.h"
 #import "DKPrintDrawingView.h"
 #import "DKStyleRegistry.h"
-#import "DKDrawingInfoLayer.h"
+#import "DKUndoManager.h"
+#import "DKViewController.h"
 #import "LogEvent.h"
 
 @interface DKSelectorWrapper : NSObject {
@@ -45,9 +45,9 @@ NSString* const kDKDocumentLevelsOfUndoDefaultsKey = @"kDKDocumentLevelsOfUndo";
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSMutableDictionary *defaultDict = [NSMutableDictionary dictionaryWithCapacity:1];
+		NSMutableDictionary* defaultDict = [NSMutableDictionary dictionaryWithCapacity:1];
 		defaultDict[kDKDocumentLevelsOfUndoDefaultsKey] = @(DEFAULT_LEVELS_OF_UNDO);
-		
+
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
 	});
 }
@@ -118,7 +118,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 {
 	// sets the drawing to <drwg>.
 
-	 // also removes and releases all existing controllers
+	// also removes and releases all existing controllers
 	m_drawing = drwg;
 	[m_drawing setOwner:self];
 
@@ -141,11 +141,11 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	LogEvent_(kReactiveEvent, @"undo mgr = %@", [self undoManager]);
 }
 
-@synthesize drawing=m_drawing;
+@synthesize drawing = m_drawing;
 
 #pragma mark -
 
-@synthesize mainView=mMainDrawingView;
+@synthesize mainView = mMainDrawingView;
 
 - (DKViewController*)makeControllerForView:(NSView*)aView
 {
@@ -460,12 +460,12 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	if (self = [super initWithType:typeName
 							 error:outError]) {
 
-	// create a default drawing. Note that the fileType is ignored. It creates the default drawing regardless of type - if
-	// your document needs to be sensitive to the type, override this.
+		// create a default drawing. Note that the fileType is ignored. It creates the default drawing regardless of type - if
+		// your document needs to be sensitive to the type, override this.
 
-	DKDrawing* dr = [self makeDefaultDrawing];
+		DKDrawing* dr = [self makeDefaultDrawing];
 		[[self undoManager] disableUndoRegistration];
-	[self setDrawing:dr];
+		[self setDrawing:dr];
 		[[self undoManager] enableUndoRegistration];
 	}
 	return self;
@@ -572,9 +572,9 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 	LogEvent_(kReactiveEvent, @"window controller did load nib; dwg = %@, view = %@", [self drawing], [self mainView]);
 
-// after instantiation from a nib, this hooks up the main view through a controller to the drawing. Note - to test
-// automatic back-end creation, this can be temporarily commented out - it leaves the view unconnected so that it will
-// create its own back end when it is first asked to draw.
+	// after instantiation from a nib, this hooks up the main view through a controller to the drawing. Note - to test
+	// automatic back-end creation, this can be temporarily commented out - it leaves the view unconnected so that it will
+	// create its own back end when it is first asked to draw.
 
 #ifndef qTestAutoBackendCreation
 
@@ -664,7 +664,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 #pragma mark - As a DKSelectorWrapper
 
 @implementation DKSelectorWrapper
-@synthesize selector=mSelector;
+@synthesize selector = mSelector;
 
 + (DKSelectorWrapper*)wrapperWithSelector:(SEL)aSelector
 {
@@ -675,12 +675,12 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	return wrapper;
 }
 
-- (NSString *)description
+- (NSString*)description
 {
 	return NSStringFromSelector(mSelector);
 }
 
-- (NSString *)debugDescription
+- (NSString*)debugDescription
 {
 	return [NSString stringWithFormat:@"<%@ %p>: %@", self.className, self, NSStringFromSelector(mSelector)];
 }

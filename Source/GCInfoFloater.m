@@ -19,9 +19,9 @@
 + (GCInfoFloater*)infoFloater
 {
 	GCInfoFloater* fi = [[GCInfoFloater alloc] initWithContentRect:NSZeroRect
-														  styleMask:NSBorderlessWindowMask
-															backing:NSBackingStoreBuffered
-															  defer:YES];
+														 styleMask:NSBorderlessWindowMask
+														   backing:NSBackingStoreBuffered
+															 defer:YES];
 
 	// note - because windows are all sent a -close message at quit time, set it
 	// not to be released at that time, otherwise the release from the autorelease pool
@@ -34,9 +34,9 @@
 
 #pragma mark -
 - (instancetype)initWithContentRect:(NSRect)contentRect
-				styleMask:(NSWindowStyleMask)styleMask
-				  backing:(NSBackingStoreType)bufferingType
-					defer:(BOOL)deferCreation
+						  styleMask:(NSWindowStyleMask)styleMask
+							backing:(NSBackingStoreType)bufferingType
+							  defer:(BOOL)deferCreation
 {
 	self = [super initWithContentRect:contentRect
 							styleMask:styleMask
@@ -138,7 +138,7 @@
 	}
 }
 
-@synthesize windowOffset=m_wOffset;
+@synthesize windowOffset = m_wOffset;
 
 - (void)positionNearPoint:(NSPoint)p inView:(NSView*)v
 {

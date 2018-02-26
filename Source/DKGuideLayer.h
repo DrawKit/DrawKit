@@ -87,7 +87,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief Get all current guides.
  */
-@property (readonly, copy) NSArray<DKGuide*> *guides;
+@property (readonly, copy) NSArray<DKGuide*>* guides;
 
 /** @brief Adds a set of guides to the elayer
  @param guides an array of guide objects
@@ -132,8 +132,7 @@ NS_ASSUME_NONNULL_BEGIN
  have their own colours this says nothing about them.
  @return a colour
  */
-@property (strong) NSColor *guideColour;
-
+@property (strong) NSColor* guideColour;
 
 // set whether guides snap to grid or not
 
@@ -223,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param gh if not NULL, receives the actual horizontal guide snapped to
  @return a size, being the offset between whichever point was snapped and its snapped position
  */
-- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints verticalGuide:(DKGuide*_Nullable*_Nullable)gv horizontalGuide:(DKGuide*_Nullable*_Nullable)gh;
+- (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)arrayOfPoints verticalGuide:(DKGuide* _Nullable* _Nullable)gv horizontalGuide:(DKGuide* _Nullable* _Nullable)gh;
 
 /** @} */
 // redrawing the guides
@@ -276,7 +275,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property BOOL isVerticalGuide;
 
-@property (strong) NSColor *guideColour;
+@property (strong) NSColor* guideColour;
 
 /** @brief Draws the guide
 

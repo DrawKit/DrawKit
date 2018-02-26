@@ -85,7 +85,7 @@ The point of this is to provide an undo manager whose source is openly readable,
 /** n.b. if this is changed while a callback is pending, the new modes won't take effect until
  the next event cycle.
  */
-@property (copy) NSArray<NSRunLoopMode> *runLoopModes;
+@property (copy) NSArray<NSRunLoopMode>* runLoopModes;
 
 // enabling undo registration
 
@@ -112,10 +112,10 @@ The point of this is to provide an undo manager whose source is openly readable,
 // undo menu management
 
 - (void)setActionName:(NSString*)actionName;
-@property (readonly, copy) NSString *undoActionName;
-@property (readonly, copy) NSString *redoActionName;
-@property (readonly, copy) NSString *undoMenuItemTitle;
-@property (readonly, copy) NSString *redoMenuItemTitle;
+@property (readonly, copy) NSString* undoActionName;
+@property (readonly, copy) NSString* redoActionName;
+@property (readonly, copy) NSString* undoMenuItemTitle;
+@property (readonly, copy) NSString* redoMenuItemTitle;
 - (NSString*)undoMenuTitleForUndoActionName:(NSString*)actionName;
 - (NSString*)redoMenuTitleForUndoActionName:(NSString*)actionName;
 
@@ -181,10 +181,10 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 /** @brief return the currently open group, or \c nil if no group is open
  */
-@property (readonly, assign) GCUndoGroup *currentGroup;
+@property (readonly, assign) GCUndoGroup* currentGroup;
 
-@property (readonly, retain) NSArray<GCUndoGroup*> *undoStack;
-@property (readonly, retain) NSArray<GCUndoGroup*> *redoStack;
+@property (readonly, retain) NSArray<GCUndoGroup*>* undoStack;
+@property (readonly, retain) NSArray<GCUndoGroup*>* redoStack;
 
 - (nullable GCUndoGroup*)peekUndo;
 - (nullable GCUndoGroup*)peekRedo;
@@ -228,7 +228,7 @@ The point of this is to provide an undo manager whose source is openly readable,
 	GCUndoGroup* mGroupRef;
 }
 
-@property (assign) GCUndoGroup *parentGroup;
+@property (assign) GCUndoGroup* parentGroup;
 - (void)perform;
 
 @end
@@ -248,8 +248,8 @@ The point of this is to provide an undo manager whose source is openly readable,
 
 - (void)addTask:(GCUndoTask*)aTask;
 - (GCUndoTask*)taskAtIndex:(NSUInteger)indx;
-@property (readonly, nullable) GCConcreteUndoTask *lastTaskIfConcrete;
-@property (readonly, retain) NSArray<GCUndoTask*> *tasks;
+@property (readonly, nullable) GCConcreteUndoTask* lastTaskIfConcrete;
+@property (readonly, retain) NSArray<GCUndoTask*>* tasks;
 - (NSArray<GCUndoTask*>*)tasksWithTarget:(nullable id)target selector:(nullable SEL)selector;
 /** return whether the group contains any actual tasks. If it only contains other empty groups, returns YES.
  */
@@ -260,7 +260,7 @@ The point of this is to provide an undo manager whose source is openly readable,
  
  In general, setting this is automatically handled by the owning undo manager.
  */
-@property (copy) NSString *actionName;
+@property (copy) NSString* actionName;
 
 @end
 

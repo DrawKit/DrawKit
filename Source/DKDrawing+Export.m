@@ -13,14 +13,13 @@ NSString* const kDKExportPropertiesResolution = @"kDKExportPropertiesResolution"
 NSString* const kDKExportedImageHasAlpha = @"kDKExportedImageHasAlpha";
 NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale";
 
-@interface DKGraphicsContextNoPrint: NSGraphicsContext
+@interface DKGraphicsContextNoPrint : NSGraphicsContext
 
 - (instancetype)initWithCGContext:(CGContextRef)ctx;
 @end
 
-@implementation DKGraphicsContextNoPrint
-{
-	NSGraphicsContext *actualContext;
+@implementation DKGraphicsContextNoPrint {
+	NSGraphicsContext* actualContext;
 }
 
 //The whole point of this class...
@@ -42,38 +41,37 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 - (void)forwardInvocation:(NSInvocation*)invocation
 {
 	SEL aSelector = [invocation selector];
-	
+
 	if ([actualContext respondsToSelector:aSelector]) {
 		[invocation invokeWithTarget:actualContext];
 	} else
 		[self doesNotRecognizeSelector:aSelector];
-
 }
 
 - (NSMethodSignature*)methodSignatureForSelector:(SEL)aSelector
 {
 	NSMethodSignature* sig = [super methodSignatureForSelector:aSelector];
-	
+
 	if (sig == nil) {
 		sig = [actualContext methodSignatureForSelector:aSelector];
 	}
-	
+
 	return sig;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
 {
 	BOOL responds = [super respondsToSelector:aSelector];
-	
+
 	if (!responds) {
 		responds = [actualContext respondsToSelector:aSelector];
 	}
-	
+
 	return responds;
 }
 
 // Otherwise Cocoa complains
-- (void *)graphicsPort
+- (void*)graphicsPort
 {
 	return actualContext.graphicsPort;
 }
@@ -138,11 +136,11 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	[self finalizePriorToSaving];
 	NSRect frame = NSZeroRect;
 	frame.size = [[self drawing] drawingSize];
-	
+
 	DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
 														  withLayer:self];
 	DKViewController* vc = [pdfView makeViewController];
-	
+
 	[[self drawing] addController:vc];
 
 	NSAssert(relScale > 0, @"scale factor must be greater than zero");
@@ -156,22 +154,21 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	CGContextRef bmCtx;
 	{
-	CGColorSpaceRef clrSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
-	bmCtx = CGBitmapContextCreate(NULL, bmSize.width, bmSize.height, 8, bmSize.width*4, clrSpace, kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedLast);
-	CGColorSpaceRelease(clrSpace);
+		CGColorSpaceRef clrSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+		bmCtx = CGBitmapContextCreate(NULL, bmSize.width, bmSize.height, 8, bmSize.width * 4, clrSpace, kCGBitmapByteOrder32Host | kCGImageAlphaPremultipliedLast);
+		CGColorSpaceRelease(clrSpace);
 	}
-	
+
 	CGContextClearRect(bmCtx, CGRectMake(0, 0, bmSize.width, bmSize.height));
-	
 
 	LogEvent_(kInfoEvent, @"size = %@, dpi = %ld, ctx = %@", NSStringFromSize(bmSize), (long)dpi, bmCtx);
 
 	NSGraphicsContext* context = [[DKGraphicsContextNoPrint alloc] initWithCGContext:bmCtx];
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		[NSGraphicsContext setCurrentContext : context];
+		[NSGraphicsContext setCurrentContext:context];
 
-	NSAffineTransform *flipTrans = [[NSAffineTransform alloc] init];
+	NSAffineTransform* flipTrans = [[NSAffineTransform alloc] init];
 	[flipTrans scaleXBy:1 yBy:-1];
 	[flipTrans translateXBy:0 yBy:-bmSize.height];
 	[flipTrans scaleXBy:(((CGFloat)dpi * relScale) / 72.0) yBy:(((CGFloat)dpi * relScale) / 72.0)];
@@ -194,7 +191,8 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	//[pdfView displayRectIgnoringOpacity:destRect inContext:context];
 
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
-		CGImageRef image = CGBitmapContextCreateImage(bmCtx);
+		CGImageRef image
+		= CGBitmapContextCreateImage(bmCtx);
 	pdfView = nil; // removes the controller
 
 	return (CGImageRef)CFAutorelease(image);
@@ -238,7 +236,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	value = [props objectForKey:NSImageProgressive];
 	if (value != nil)
-		[options setObject:@{(NSString*)kCGImagePropertyJFIFIsProgressive: value}
+		[options setObject:@{ (NSString*)kCGImagePropertyJFIFIsProgressive: value }
 					forKey:(NSString*)kCGImagePropertyJFIFDictionary];
 
 	// generate the bitmap image at the required size
@@ -254,7 +252,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	// encode it to data using Image I/O
 
-	NSMutableData *data = [[NSMutableData alloc] init];
+	NSMutableData* data = [[NSMutableData alloc] init];
 	CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypeJPEG, 1, NULL);
 
 	CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
@@ -290,7 +288,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	if (scale == 0)
 		scale = 1.0;
 
-	NSMutableDictionary<NSString*,id>* options = [props mutableCopy];
+	NSMutableDictionary<NSString*, id>* options = [props mutableCopy];
 
 	[options setObject:@(dpi)
 				forKey:(NSString*)kCGImagePropertyDPIWidth];
@@ -301,7 +299,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	NSNumber* value;
 
-	NSMutableDictionary<NSString*,id>* tiffInfo = [NSMutableDictionary dictionary];
+	NSMutableDictionary<NSString*, id>* tiffInfo = [NSMutableDictionary dictionary];
 
 	value = [props objectForKey:NSImageCompressionMethod];
 	if (value != nil)
@@ -351,7 +349,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	// encode it to data using Image I/O
 
-	NSMutableData *data = [[NSMutableData alloc] init];
+	NSMutableData* data = [[NSMutableData alloc] init];
 	CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypeTIFF, 1, NULL);
 
 	CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
@@ -398,12 +396,12 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	value = [props objectForKey:NSImageInterlaced];
 	if (value != nil)
-		[options setObject:@{(NSString*)kCGImagePropertyPNGInterlaceType: value}
+		[options setObject:@{ (NSString*)kCGImagePropertyPNGInterlaceType: value }
 					forKey:(NSString*)kCGImagePropertyPNGDictionary];
 
 	value = [props objectForKey:kDKExportedImageHasAlpha];
 	BOOL hasAlpha = YES;
-	
+
 	if (value != nil)
 		hasAlpha = [value boolValue];
 
@@ -420,7 +418,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	// encode it to data using Image I/O
 
-	NSMutableData *data = [[NSMutableData alloc] init];
+	NSMutableData* data = [[NSMutableData alloc] init];
 	CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypePNG, 1, NULL);
 
 	CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
@@ -449,9 +447,9 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
  */
 - (NSData*)JPEGDataWithResolution:(NSInteger)dpi quality:(CGFloat)quality progressive:(BOOL)progressive
 {
-	NSDictionary* props = @{kDKExportPropertiesResolution: @(dpi),
-							NSImageCompressionFactor: @(quality),
-							NSImageProgressive: @(progressive)};
+	NSDictionary* props = @{ kDKExportPropertiesResolution: @(dpi),
+		NSImageCompressionFactor: @(quality),
+		NSImageProgressive: @(progressive) };
 
 	return [self JPEGDataWithProperties:props];
 }
@@ -465,8 +463,8 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
  */
 - (NSData*)TIFFDataWithResolution:(NSInteger)dpi compressionType:(NSTIFFCompression)compType
 {
-	NSDictionary* props = @{kDKExportPropertiesResolution: @(dpi),
-							NSImageCompressionMethod:@(compType)};
+	NSDictionary* props = @{ kDKExportPropertiesResolution: @(dpi),
+		NSImageCompressionMethod: @(compType) };
 
 	return [self TIFFDataWithProperties:props];
 }
@@ -481,9 +479,9 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
  */
 - (NSData*)PNGDataWithResolution:(NSInteger)dpi gamma:(CGFloat)gamma interlaced:(BOOL)interlaced
 {
-	NSDictionary* props = @{kDKExportPropertiesResolution: @(dpi),
-							NSImageGamma: @(gamma),
-							NSImageInterlaced: @(interlaced)};
+	NSDictionary* props = @{ kDKExportPropertiesResolution: @(dpi),
+		NSImageGamma: @(gamma),
+		NSImageInterlaced: @(interlaced) };
 
 	return [self PNGDataWithProperties:props];
 }
@@ -495,10 +493,10 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
  */
 - (NSData*)thumbnailData
 {
-	NSDictionary* props = @{kDKExportPropertiesResolution: @72,
-							NSImageCompressionFactor: @0.5,
-							NSImageProgressive: @YES,
-							kDKExportedImageRelativeScale: @0.5};
+	NSDictionary* props = @{ kDKExportPropertiesResolution: @72,
+		NSImageCompressionFactor: @0.5,
+		NSImageProgressive: @YES,
+		kDKExportedImageRelativeScale: @0.5 };
 
 	return [self JPEGDataWithProperties:props];
 }

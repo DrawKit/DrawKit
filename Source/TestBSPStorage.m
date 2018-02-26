@@ -380,7 +380,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 - (void)retrievalTest:(id<DKObjectStorage>)storage canvasSize:(NSSize)canvasSize
 {
-	NSArray* objects = [storage objects], *bspResults;
+	NSArray *objects = [storage objects], *bspResults;
 	NSMutableArray* bruteForceSearchResults = [[NSMutableArray alloc] init];
 	testStorableObject* tso;
 	NSUInteger i;
@@ -442,7 +442,6 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 				XCTAssertEqualObjects(bruteObject, tso, @"objects at index %lu do not match - bf = %@, bsp = %@", (unsigned long)j, bruteObject, tso);
 				XCTAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %lu", (unsigned long)j);
 			}
-
 		}
 	}
 
@@ -513,7 +512,6 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 				XCTAssertEqualObjects(bruteObject, tso, @"objects at index %lu do not match - bf = %@, bsp = %@", (unsigned long)j, bruteObject, tso);
 				XCTAssertFalse([tso isMarked], @"retrieved object still has marked flag set, index = %lu", (unsigned long)j);
 			}
-
 		}
 	}
 
@@ -622,7 +620,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	NSLog(@"checking storage integrity...");
 
-	NSArray *leaves = [[storage tree] leaves];
+	NSArray* leaves = [[storage tree] leaves];
 	NSUInteger foundCount = 0;
 
 	for (testStorableObject* tso in storage.objects) {
@@ -635,7 +633,6 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 			}
 			XCTAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
 			XCTAssertEqualObjects([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage (%@)", tso);
-
 		}
 	}
 
@@ -646,17 +643,16 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	if (foundCount != [storage countOfObjects]) {
 		NSUInteger linIndex = 0;
 
-		for (testStorableObject *tso in storage.objects) {
+		for (testStorableObject* tso in storage.objects) {
 			BOOL found = NO;
 			@autoreleasepool {
 
-				for (NSArray *leafArray in leaves) {
+				for (NSArray* leafArray in leaves) {
 					if ([leafArray containsObject:tso]) {
 						found = YES;
 						break;
 					}
 				}
-
 			}
 
 			if (!found) {
@@ -672,16 +668,15 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 
 	foundCount = 0;
 
-	for (NSArray *leafArray in leaves) {
+	for (NSArray* leafArray in leaves) {
 		@autoreleasepool {
 
-			for (testStorableObject *tso in leafArray) {
+			for (testStorableObject* tso in leafArray) {
 				XCTAssertTrue([[storage objects] containsObject:tso], @"an object was present in the tree but not in the linear array: %@ (leaf index = %lu)", tso, (unsigned long)foundCount);
 				XCTAssertNotNil([tso storage], @"a storage back-pointer was nil (%@)", tso);
 				XCTAssertEqual([tso storage], storage, @"a storage back-pointer wasn't pointing to the storage");
 			}
 			++foundCount;
-
 		}
 	}
 }
@@ -729,7 +724,7 @@ static NSUInteger randomUnsigned(NSUInteger minVal, NSUInteger maxVal)
 	NSMutableIndexSet* allIndexes = [[NSMutableIndexSet alloc] init];
 	NSUInteger minIndex, maxIndex;
 
-	for (NSIndexSet *leaf in leaves) {
+	for (NSIndexSet* leaf in leaves) {
 		minIndex = [leaf firstIndex];
 		maxIndex = [leaf lastIndex];
 

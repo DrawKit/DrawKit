@@ -158,7 +158,7 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 	return m_cTable;
 }
 
-@synthesize numberOfColours=m_maxColours;
+@synthesize numberOfColours = m_maxColours;
 
 #pragma mark -
 - (void)analyse:(NSBitmapImageRep*)rep
@@ -180,7 +180,7 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 
 static const NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x01 };
 
-- (void)addNode:(NODE*_Nullable*_Nonnull)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
+- (void)addNode:(NODE* _Nullable* _Nonnull)ppNode colour:(NSUInteger[])rgb level:(NSUInteger)level leafCount:(NSUInteger*)leafCount reducibleNodes:(NODE**)redNodes
 {
 
 	// If the node doesn't exist, create it.
@@ -212,7 +212,7 @@ static const NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x
 		NSInteger nIndex = (((rgb[0] & mask[level]) >> shift) << 2) | (((rgb[1] & mask[level]) >> shift) << 1) | ((rgb[2] & mask[level]) >> shift);
 
 		[self addNode:&((*ppNode)->pChild[nIndex])
-					colour:rgb
+					  colour:rgb
 					 level:level + 1
 				 leafCount:leafCount
 			reducibleNodes:redNodes];
@@ -436,7 +436,7 @@ static const NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x
 	return self;
 }
 
-@synthesize numberOfColours=m_nLeafCount;
+@synthesize numberOfColours = m_nLeafCount;
 
 #pragma mark -
 #pragma mark As an NSObject

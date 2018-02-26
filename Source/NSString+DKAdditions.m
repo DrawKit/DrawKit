@@ -105,7 +105,7 @@
 	unichar chr;
 	BOOL addPeriods = flags & kDKAbbreviationOptionAddPeriods;
 
-	for (NSString *word in words) {
+	for (NSString* word in words) {
 		if (flags & kDKAbbreviationOptionAmpersand) {
 			if ([[word lowercaseString] isEqualToString:@"and"]) {
 				[result appendString:@"&"];

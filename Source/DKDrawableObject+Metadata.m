@@ -285,15 +285,13 @@ NSString* const kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUnd
 	// the container also implements this, the container is searched and so on until a non-confoming container is hit,
 	// at which point the search gives up and returns nil.
 
-	@try
-	{
+	@try {
 		if ([key length] > 1 && [[key substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"$"]) {
 			NSString* keyPath = [key substringFromIndex:1];
 			return [self valueForKeyPath:keyPath];
 		}
 	}
-	@catch (...)
-	{
+	@catch (...) {
 		// exceptions usually mean valueForUndefinedKey: was invoked, which we can ignore.
 
 		return @"";
@@ -595,7 +593,6 @@ NSString* const kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUnd
 		cs ^= [key hash] ^ [value hash];
 	}
 
-
 	if ([self container])
 		cs ^= [(id)[self container] metadataChecksum];
 
@@ -606,7 +603,7 @@ NSString* const kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUnd
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = @{@"key": [key lowercaseString]};
+		userInfo = @{ @"key": [key lowercaseString] };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -616,7 +613,7 @@ NSString* const kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUnd
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = @{@"key": [key lowercaseString]};
+		userInfo = @{ @"key": [key lowercaseString] };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification
 														object:self
 													  userInfo:userInfo];

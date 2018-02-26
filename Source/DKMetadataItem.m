@@ -65,59 +65,59 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 + (NSString*)nameForType:(DKMetadataType)type
 {
 	switch (type) {
-		case DKMetadataTypeString:
-			return @"String";
-			
-		case DKMetadataTypeInteger:
-			return @"Integer";
-			
-		case DKMetadataTypeReal:
-			return @"Real Number";
-			
-		case DKMetadataTypeUnsignedInt:
-			return @"Unsigned Integer";
-			
-		case DKMetadataTypeBoolean:
-			return @"Boolean";
-			
-		case DKMetadataTypeURL:
-			return @"URL";
-			
-		case DKMetadataTypeColour:
-			return @"Colour";
-			
-		case DKMetadataTypeData:
-			return @"Data";
-			
-		case DKMetadataTypeImageData:
-			return @"Image Data";
-			
-		case DKMetadataTypeDate:
-			return @"Date";
-			
-		case DKMetadataTypeImage:
-			return @"Image";
-			
-		case DKMetadataTypeAttributedString:
-			return @"Styled String";
-			
-		case DKMetadataTypeSize:
-			return @"Size";
-			
-		case DKMetadataTypePoint:
-			return @"Point";
-			
-		case DKMetadataTypeRect:
-			return @"Rectangle";
-			
-		case DKMetadataTypeUnknown:
-			return @"???";
-			
-		case DKMetadataMultipleTypesMarker:
-			return @"<multiple types>";
-			
-		default:
-			return @"";
+	case DKMetadataTypeString:
+		return @"String";
+
+	case DKMetadataTypeInteger:
+		return @"Integer";
+
+	case DKMetadataTypeReal:
+		return @"Real Number";
+
+	case DKMetadataTypeUnsignedInt:
+		return @"Unsigned Integer";
+
+	case DKMetadataTypeBoolean:
+		return @"Boolean";
+
+	case DKMetadataTypeURL:
+		return @"URL";
+
+	case DKMetadataTypeColour:
+		return @"Colour";
+
+	case DKMetadataTypeData:
+		return @"Data";
+
+	case DKMetadataTypeImageData:
+		return @"Image Data";
+
+	case DKMetadataTypeDate:
+		return @"Date";
+
+	case DKMetadataTypeImage:
+		return @"Image";
+
+	case DKMetadataTypeAttributedString:
+		return @"Styled String";
+
+	case DKMetadataTypeSize:
+		return @"Size";
+
+	case DKMetadataTypePoint:
+		return @"Point";
+
+	case DKMetadataTypeRect:
+		return @"Rectangle";
+
+	case DKMetadataTypeUnknown:
+		return @"???";
+
+	case DKMetadataMultipleTypesMarker:
+		return @"<multiple types>";
+
+	default:
+		return @"";
 	}
 }
 
@@ -272,7 +272,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	return nil;
 }
 
-+ (NSDictionary<NSString*,DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*,id>*)aDict
++ (NSDictionary<NSString*, DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*, id>*)aDict
 {
 	NSMutableDictionary* newDict = [NSMutableDictionary dictionary];
 
@@ -338,7 +338,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 
 	NSMutableString* tabText = [NSMutableString string];
 
-	for (NSString *key in keys) {
+	for (NSString* key in keys) {
 		DKMetadataItem* item = [dict objectForKey:key];
 
 		[tabText appendString:[key uppercaseString]];
@@ -388,7 +388,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	if (self) {
 		[self assignValue:@(anInteger)];
 	}
-	
+
 	return self;
 }
 
@@ -541,7 +541,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	[self assignValue:[self valueWithCurrentType:value]];
 }
 
-@synthesize value=mValue;
+@synthesize value = mValue;
 
 - (void)takeObjectValueFrom:(id)sender
 {
@@ -567,9 +567,9 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	}
 }
 
-@synthesize type=mType;
+@synthesize type = mType;
 
-- (NSString *)typeName
+- (NSString*)typeName
 {
 	return [[self class] nameForType:[self type]];
 }
@@ -583,7 +583,6 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 {
 	return [[self class] localizedDisplayNameForType:[self type]];
 }
-
 
 - (BOOL)isLossyConversionToType:(DKMetadataType)type
 {
@@ -949,7 +948,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 		}
 
 	default:
-			NSLog(@"an unknown type (%ld) was passed to DKMetadataItem <%p> for conversion, value = %@", (long)type, self, inValue);
+		NSLog(@"an unknown type (%ld) was passed to DKMetadataItem <%p> for conversion, value = %@", (long)type, self, inValue);
 		break;
 	}
 

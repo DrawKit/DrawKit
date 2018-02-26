@@ -6,10 +6,10 @@
 
 #import "DKCIFilterRastGroup.h"
 
-#import "LogEvent.h"
-#import "NSDictionary+DeepCopy.h"
 #import "DKDrawableObject.h"
+#import "LogEvent.h"
 #import "NSBezierPath+Geometry.h"
+#import "NSDictionary+DeepCopy.h"
 #import <QuartzCore/QuartzCore.h>
 
 @implementation DKCIFilterRastGroup
@@ -36,8 +36,8 @@
 	}
 }
 
-@synthesize filter=m_filter;
-@synthesize arguments=m_arguments;
+@synthesize filter = m_filter;
+@synthesize arguments = m_arguments;
 
 #pragma mark -
 - (void)invalidateCache
@@ -167,9 +167,9 @@
 		}
 
 		[image drawInRect:imgRect
-				 fromRect:fr
-		  coreImageFilter:[self filter]
-				arguments:args];
+				   fromRect:fr
+			coreImageFilter:[self filter]
+				  arguments:args];
 
 		RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 	}
@@ -257,22 +257,21 @@
 					 fromRect:fromRect
 					operation:NSCompositeSourceOver
 					 fraction:1.0];
-
 	}
 }
 
 - (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary*)arguments
 {
 	NSBitmapImageRep* rep;
-	
+
 	@autoreleasepool {
-		
+
 		if (filterName) {
 			rep = [self bitmapImageRepresentation];
 			[rep drawInRect:inrect
-				   fromRect:fromRect
-			coreImageFilter:filterName
-				  arguments:arguments];
+					   fromRect:fromRect
+				coreImageFilter:filterName
+					  arguments:arguments];
 		} else {
 			[self drawInRect:inrect
 					fromRect:fromRect
@@ -281,7 +280,6 @@
 		}
 	}
 }
-
 
 @end
 
@@ -298,8 +296,7 @@
 	@autoreleasepool {
 		before = nil;
 
-		@try
-		{
+		@try {
 			before = [[CIImage alloc] initWithBitmapImageRep:self];
 			if (before) {
 				filter = [CIFilter filterWithName:filterName];
@@ -331,25 +328,22 @@
 							fromRect:NSRectToCGRect(fromRect)];
 			}
 		}
-		@catch (NSException* e)
-		{
+		@catch (NSException* e) {
 			LogEvent_(kWheneverEvent, @"exception encountered during core image filtering: %@", e);
 		}
-		@finally
-		{
+		@finally {
 			before = nil;
 		}
-
 	}
 }
 
-- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*,id>*)arguments;
+- (void)drawInRect:(NSRect)inrect fromRect:(NSRect)fromRect coreImageFilter:(NSString*)filterName arguments:(NSDictionary<NSString*, id>*)arguments;
 {
 	CIFilter* filter;
 	CIImage* before = nil;
 	CIImage* after;
 	CIContext* ciContext;
-	
+
 	@autoreleasepool {
 		@try {
 			before = [[CIImage alloc] initWithBitmapImageRep:self];
@@ -362,7 +356,7 @@
 						  forKey:@"inputImage"];
 			} else
 				filter = nil;
-			
+
 			after = [filter valueForKey:@"outputImage"];
 			if (after) {
 				if (![[arguments objectForKey:@"gt_noRenderPadding"] boolValue]) {
@@ -378,7 +372,7 @@
 					inrect.size.width += CIIMAGE_PADDING * 2.0;
 					inrect.size.height += CIIMAGE_PADDING * 2.0;
 				}
-				
+
 				ciContext = [[NSGraphicsContext currentContext] CIContext];
 				[ciContext drawImage:after
 							  inRect:NSRectToCGRect(inrect)

@@ -5,8 +5,8 @@
 */
 
 #import "DKLayerGroup.h"
-#import "DKDrawing.h"
 #import "DKDrawKitMacros.h"
+#import "DKDrawing.h"
 #import "LogEvent.h"
 
 #pragma mark Constants(Non - localized)
@@ -206,7 +206,7 @@ NSString* const kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers"
 		DKLayer* layer = [[layerClass alloc] init];
 
 		[self addLayer:layer];
-		 // retained by self
+		// retained by self
 
 		return layer;
 	} else
@@ -812,7 +812,7 @@ NSString* const kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers"
 
 		SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 			if ([self clipsDrawingToInterior])
-					[NSBezierPath clipRect : [[self drawing] interior]];
+				[NSBezierPath clipRect:[[self drawing] interior]];
 
 		NSUInteger bottom;
 		NSInteger n;
@@ -825,8 +825,7 @@ NSString* const kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers"
 			layer = [self objectInLayersAtIndex:n];
 
 			if ([layer visible] && !(printing && ![layer shouldDrawToPrinter])) {
-				@try
-				{
+				@try {
 					[NSGraphicsContext saveGraphicsState];
 
 					if ([layer clipsDrawingToInterior])
@@ -837,12 +836,10 @@ NSString* const kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers"
 							 inView:aView];
 					[layer endDrawing];
 				}
-				@catch (id exc)
-				{
+				@catch (id exc) {
 					NSLog(@"exception while drawing layer %@ [%ld of %ld in group %@](%@ - ignored)", layer, (long)n, (long)[self countOfLayers], self, exc);
 				}
-				@finally
-				{
+				@finally {
 					[NSGraphicsContext restoreGraphicsState];
 				}
 			}
@@ -932,7 +929,7 @@ NSString* const kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers"
 	NSMutableSet* unionOfAllStyles = nil;
 
 	for (DKLayer* layer in iter) {
-		NSSet *styles = [layer allStyles];
+		NSSet* styles = [layer allStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary
@@ -958,7 +955,7 @@ NSString* const kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers"
 	NSMutableSet* unionOfAllStyles = nil;
 
 	for (DKLayer* layer in iter) {
-		NSSet *styles = [layer allRegisteredStyles];
+		NSSet* styles = [layer allRegisteredStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary

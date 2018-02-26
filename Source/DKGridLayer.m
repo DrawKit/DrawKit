@@ -5,13 +5,12 @@
 */
 
 #import "DKGridLayer.h"
+#import "DKDrawKitMacros.h"
 #import "DKDrawing.h"
+#import "DKDrawingView.h"
+#import "LogEvent.h"
 #import "NSBezierPath+Geometry.h"
 #import "NSColor+DKAdditions.h"
-#import "DKDrawKitMacros.h"
-#import "DKDrawingView.h"
-#import "NSColor+DKAdditions.h"
-#import "LogEvent.h"
 #include <tgmath.h>
 
 #pragma mark Contants(Non - localized)
@@ -201,7 +200,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-@synthesize zeroPoint=m_zeroDatum;
+@synthesize zeroPoint = m_zeroDatum;
 
 #pragma mark - getting grid info
 
@@ -210,9 +209,9 @@ static NSColor* sMajorColour = nil;
 	return [[self drawing] unitToPointsConversionFactor];
 }
 
-@synthesize divisions=m_divisionsPerSpan;
-@synthesize majors=m_spansPerMajor;
-@synthesize spanMultiplier=mSpanMultiplier;
+@synthesize divisions = m_divisionsPerSpan;
+@synthesize majors = m_spansPerMajor;
+@synthesize spanMultiplier = mSpanMultiplier;
 
 - (void)setDivisionsHidden:(BOOL)hide
 {
@@ -259,7 +258,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-@synthesize rulerSteps=m_rulerStepUpCycle;
+@synthesize rulerSteps = m_rulerStepUpCycle;
 
 - (void)synchronizeRulers
 {
@@ -335,7 +334,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-@synthesize spanColour=m_spanColour;
+@synthesize spanColour = m_spanColour;
 
 - (void)setDivisionColour:(NSColor*)colour
 {
@@ -345,7 +344,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-@synthesize divisionColour=m_divisionColour;
+@synthesize divisionColour = m_divisionColour;
 
 - (void)setMajorColour:(NSColor*)colour
 {
@@ -355,7 +354,7 @@ static NSColor* sMajorColour = nil;
 	}
 }
 
-@synthesize majorColour=m_majorColour;
+@synthesize majorColour = m_majorColour;
 
 - (void)setGridThemeColour:(NSColor*)colour
 {

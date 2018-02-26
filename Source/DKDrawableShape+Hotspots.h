@@ -64,7 +64,7 @@ enum {
 - (instancetype)initHotspotWithOwner:(nullable DKDrawableShape*)shape partcode:(NSInteger)pc delegate:(nullable id<DKHotspotDelegate>)delegate NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 
-@property (weak, nullable) DKDrawableShape *owner;
+@property (weak, nullable) DKDrawableShape* owner;
 - (void)setOwner:(nullable DKDrawableShape*)shape withPartcode:(NSInteger)pc;
 
 @property NSInteger partcode;

@@ -5,9 +5,9 @@
 */
 
 #import "DKObjectCreationTool.h"
-#import "DKObjectDrawingLayer.h"
 #import "DKDrawablePath.h"
 #import "DKDrawing.h"
+#import "DKObjectDrawingLayer.h"
 #import "DKStyle.h"
 #import "DKStyleRegistry.h"
 #import "DKToolController.h"
@@ -50,7 +50,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 	DKObjectCreationTool* dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:cpy];
 
 	[[DKToolRegistry sharedToolRegistry] registerDrawingTool:dt
-							  withName:name];
+													withName:name];
 }
 
 /** @brief Set a style to be used for subsequently created objects
@@ -101,7 +101,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 #pragma mark -
 
-@synthesize prototype=m_prototypeObject;
+@synthesize prototype = m_prototypeObject;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
 
@@ -146,7 +146,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		return [(DKDrawableObject*)[self prototype] style];
 }
 
-@synthesize stylePickupEnabled=mEnableStylePickup;
+@synthesize stylePickupEnabled = mEnableStylePickup;
 
 #pragma mark -
 
@@ -171,16 +171,14 @@ static DKStyle* sCreatedObjectsStyle = nil;
 		DKObjectOwnerLayer* layer = (DKObjectOwnerLayer*)[controller activeLayer];
 
 		// let the object know we are finishing, whether it is valid or not
-		@try
-		{
+		@try {
 			[m_protoObject mouseUpAtPoint:mLastPoint
 								   inPart:mPartcode
 									event:[NSApp currentEvent]];
 			[m_protoObject creationTool:self
 				 willEndCreationAtPoint:mLastPoint];
 		}
-		@catch (NSException* e)
-		{
+		@catch (NSException* e) {
 			m_protoObject = nil;
 		}
 
@@ -254,8 +252,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 {
 	NSAssert(data != nil, @"data was nil");
 
-	@try
-	{
+	@try {
 		DKStyle* aStyle = [NSKeyedUnarchiver unarchiveObjectWithData:data];
 
 		if (aStyle) {
@@ -277,8 +274,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 			[self setStyle:aStyle];
 		}
 	}
-	@catch (NSException* excp)
-	{
+	@catch (NSException* excp) {
 		NSLog(@"Tool '%@' was unable to load the style - will use default. Exception: %@", [self registeredName], excp);
 
 		// ignore exception
@@ -319,7 +315,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 #define NotLocalizedStringValue @"Old"
 	NSString* objectName = [self registeredName];
 	NSString* s = [NSString stringWithFormat:@"New %@", objectName];
-	NSString *locAttempt1 = NSLocalizedStringWithDefaultValue(s, @"DKTools", [NSBundle bundleForClass:[DKObjectCreationTool class]], NotLocalizedStringValue, @"undo string for new object (type)");
+	NSString* locAttempt1 = NSLocalizedStringWithDefaultValue(s, @"DKTools", [NSBundle bundleForClass:[DKObjectCreationTool class]], NotLocalizedStringValue, @"undo string for new object (type)");
 	if ([locAttempt1 isEqualToString:NotLocalizedStringValue]) {
 		locAttempt1 = NSLocalizedString(s, @"undo string for new object (type)");
 	}
@@ -384,8 +380,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 
 		[[layer undoManager] disableUndoRegistration];
 
-		@try
-		{
+		@try {
 			// the object is initially added as a pending object - this allows it to be created without making undo tasks for
 			// the layer being added to. If the creation subsequently fails, the pending object can be discarded and the layer state
 			// remains as it was before.
@@ -419,8 +414,7 @@ static DKStyle* sCreatedObjectsStyle = nil;
 									 inPart:mPartcode
 									  event:event];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			m_protoObject = nil;
 
 			[[layer undoManager] enableUndoRegistration];

@@ -11,7 +11,7 @@
 
 + (CGFloat)randomNumber
 {
-// returns a random value between 0 and 1.
+	// returns a random value between 0 and 1.
 
 	static unsigned long seed = 0;
 

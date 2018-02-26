@@ -6,8 +6,8 @@
 
 #import "DKStyleRegistry.h"
 
-#import "DKStyle.h"
 #import "DKStyle+Text.h"
+#import "DKStyle.h"
 #import "DKUniqueID.h"
 #import "LogEvent.h"
 #import "NSString+DKAdditions.h"
@@ -23,7 +23,6 @@ NSString* const kDKStyleCategoryLibraryStyles = @"All User Styles";
 NSString* const kDKStyleCategoryTemporaryDocument = @"Temporary Document";
 NSString* const kDKStyleCategoryRegistryDKDefaults = @"DrawKit Defaults";
 NSString* const kDKStyleCategoryRegistryTextStyles = @"Text Styles";
-
 
 NSString* const kDKStyleRegistryDidFlagPossibleUIChange = @"kDKStyleRegistryDidFlagPossibleUIChange";
 NSString* const kDKStyleWasRegisteredNotification = @"kDKDrawingStyleWasRegisteredNotification";
@@ -177,9 +176,9 @@ static BOOL s_NoDKDefaults = NO;
 	// add the style to the registry
 
 	[reg addObject:aStyle
-			forKey:styleID
-	  toCategories:styleCategories
-  createCategories:YES];
+				  forKey:styleID
+			toCategories:styleCategories
+		createCategories:YES];
 
 	LogEvent_(kStateEvent, @"registered new style %@; key = %@ '%@'", aStyle, [aStyle uniqueKey], [aStyle name]);
 
@@ -378,11 +377,11 @@ static BOOL s_NoDKDefaults = NO;
  @return a dictionary, listing for each style whether it is unknown, older, the same or newer than the
  registry styles having the same keys.
  */
-+ (NSDictionary<NSString*,NSNumber*>*)compareStylesInSet:(NSSet*)styles
++ (NSDictionary<NSString*, NSNumber*>*)compareStylesInSet:(NSSet*)styles
 {
 	NSAssert(styles != nil, @"can't preflight a nil set");
 
-	NSMutableDictionary<NSString*,NSNumber*>* info = [NSMutableDictionary dictionary];
+	NSMutableDictionary<NSString*, NSNumber*>* info = [NSMutableDictionary dictionary];
 
 	for (DKStyle* style in styles) {
 		NSNumber* infoValue;
@@ -695,27 +694,26 @@ static BOOL s_NoDKDefaults = NO;
 	return result;
 }
 
-- (BOOL)writeToURL:(NSURL*)path options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable * _Nullable)errorPtr
+- (BOOL)writeToURL:(NSURL*)path options:(NSDataWritingOptions)writeOptionsMask error:(NSError* _Nullable* _Nullable)errorPtr
 {
 	NSAssert(path != nil, @"path can't be nil");
-	
+
 	BOOL result = NO;
-	
+
 	NSData* data = [self data];
 	if (data == nil) {
 		if (errorPtr) {
 			*errorPtr = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:nil];
 		}
-		
+
 		return NO;
 	}
-	
+
 	if (data != nil)
 		result = [data writeToURL:path options:writeOptionsMask error:errorPtr];
-	
+
 	return result;
 }
-
 
 /** @brief Merge the contents of a file into the registry
 
@@ -752,7 +750,6 @@ static BOOL s_NoDKDefaults = NO;
 
 				readOK = YES;
 			}
-
 		}
 	}
 
@@ -762,28 +759,28 @@ static BOOL s_NoDKDefaults = NO;
 - (BOOL)readFromURL:(NSURL*)path mergeOptions:(DKStyleMergeOptions)options mergeDelegate:(id<DKStyleRegistryDelegate>)aDel error:(NSError**)error
 {
 	NSAssert(path != nil, @"cannot read file - path is nil");
-	
+
 	BOOL readOK = NO;
 	NSData* styleData = [NSData dataWithContentsOfURL:path options:0 error:error];
 	if (!styleData) {
 		return NO;
 	}
-	
+
 	if (styleData != nil && [styleData length] > 0) {
 		// because we are merging the file, a temporary registry object is created and that is used to populate the "real" one.
-		
+
 		DKStyleRegistry* regTemp = [[DKStyleRegistry alloc] initWithData:styleData];
-		
+
 		if (regTemp != nil) {
 			for (DKStyle* style in regTemp.allObjects) {
 				NSArray* cats = [regTemp categoriesContainingKey:[style uniqueKey]];
 				NSSet* styles = [NSSet setWithObject:style];
-				
+
 				[[self class] mergeStyles:styles
 							 inCategories:cats
 								  options:options
 							mergeDelegate:aDel];
-				
+
 				readOK = YES;
 			}
 		} else {
@@ -793,11 +790,13 @@ static BOOL s_NoDKDefaults = NO;
 		}
 	} else {
 		if (error) {
-			*error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileReadCorruptFileError userInfo:
-					  @{NSLocalizedFailureReasonErrorKey: @"File is empty."}];
+			*error = [NSError errorWithDomain:NSCocoaErrorDomain
+										 code:NSFileReadCorruptFileError
+									 userInfo:
+										 @{ NSLocalizedFailureReasonErrorKey: @"File is empty." }];
 		}
 	}
-	
+
 	return readOK;
 }
 
@@ -915,7 +914,7 @@ static BOOL s_NoDKDefaults = NO;
 	if ([self styleForKey:key] == style) {
 		[self updateMenusForKey:key];
 
-		NSDictionary* userInfo = @{@"style": style};
+		NSDictionary* userInfo = @{ @"style": style };
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasEditedWhileRegisteredNotification
 															object:self
 														  userInfo:userInfo];
@@ -957,7 +956,7 @@ static BOOL s_NoDKDefaults = NO;
 	NSAssert(catName != nil, @"cannot have a nil category name");
 
 	NSArray* keys = [self allKeysInCategory:catName];
-	return [keys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull a, id  _Nonnull b) {
+	return [keys sortedArrayUsingComparator:^NSComparisonResult(id _Nonnull a, id _Nonnull b) {
 		// a and b are keys in the registry - order them by the name of the styles they reference
 
 		NSString* nameA = [self styleNameForKey:a];

@@ -5,22 +5,22 @@
 */
 
 #import "DKStyle.h"
-#import "DKStyleRegistry.h"
+#import "DKDrawablePath.h"
+#import "DKDrawableShape.h"
 #import "DKFill.h"
 #import "DKFillPattern.h"
-#import "DKHatching.h"
-#import "DKRoughStroke.h"
-#import "DKTextAdornment.h"
+#import "DKGeometryUtilities.h"
 #import "DKGradient.h"
+#import "DKHatching.h"
+#import "DKImageAdornment.h"
+#import "DKRoughStroke.h"
+#import "DKStyleRegistry.h"
+#import "DKTextAdornment.h"
+#import "DKUndoManager.h"
+#import "DKUniqueID.h"
 #import "LogEvent.h"
 #import "NSColor+DKAdditions.h"
 #import "NSDictionary+DeepCopy.h"
-#import "DKUndoManager.h"
-#import "DKUniqueID.h"
-#import "DKImageAdornment.h"
-#import "DKDrawablePath.h"
-#import "DKDrawableShape.h"
-#import "DKGeometryUtilities.h"
 #import "NSImage+DKAdditions.h"
 
 #pragma mark Contants(Non - localized)
@@ -412,7 +412,7 @@ static BOOL sSubstitute = NO;
 
 	//LogEvent_(kReactiveEvent, @"style %@ attached to object %@", self, toObject );
 
-	NSDictionary* userInfo = @{@"style": self};
+	NSDictionary* userInfo = @{ @"style": self };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWasAttachedNotification
 														object:toObject
 													  userInfo:userInfo];
@@ -433,7 +433,7 @@ static BOOL sSubstitute = NO;
 {
 	//LogEvent_(kReactiveEvent, @"style %@ removed from object %@", self, fromObject );
 
-	NSDictionary* userInfo = @{@"style": self};
+	NSDictionary* userInfo = @{ @"style": self };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKStyleWillBeDetachedNotification
 														object:fromObject
 													  userInfo:userInfo];
@@ -455,7 +455,7 @@ static BOOL sSubstitute = NO;
 }
 #endif
 
-@synthesize countOfClients=m_clientCount;
+@synthesize countOfClients = m_clientCount;
 
 #pragma mark -
 #pragma mark - (text) attributes - basic support
@@ -479,7 +479,7 @@ static BOOL sSubstitute = NO;
 	}
 }
 
-@synthesize textAttributes=m_textAttributes;
+@synthesize textAttributes = m_textAttributes;
 
 /** @brief Return wjether the style has any text attributes set
  @return YES if there are any text attributes
@@ -547,7 +547,7 @@ static BOOL sSubstitute = NO;
 	return m_locked;
 }
 #endif
-@synthesize locked=m_locked;
+@synthesize locked = m_locked;
 
 #pragma mark -
 #pragma mark - registry info
@@ -588,7 +588,7 @@ static BOOL sSubstitute = NO;
 	return [m_uniqueKey copy];
 }
 #else
-@synthesize uniqueKey=m_uniqueKey;
+@synthesize uniqueKey = m_uniqueKey;
 #endif
 
 /** @brief Sets the unique key of the style
@@ -624,7 +624,7 @@ static BOOL sSubstitute = NO;
 	m_mergeFlag = NO;
 }
 
-@synthesize lastModificationTimestamp=m_lastModTime;
+@synthesize lastModificationTimestamp = m_lastModTime;
 
 /** @brief Is this style the same as <aStyle>?
 
@@ -645,7 +645,7 @@ static BOOL sSubstitute = NO;
 #pragma mark -
 #pragma mark - undo
 
-@synthesize undoManager=m_undoManagerRef;
+@synthesize undoManager = m_undoManagerRef;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object
@@ -1364,12 +1364,10 @@ static BOOL sSubstitute = NO;
 
 			m_renderClientRef = object;
 
-			@try
-			{
+			@try {
 				[super render:object];
 			}
-			@catch (NSException* exception)
-			{
+			@catch (NSException* exception) {
 				// exceptions thrown during drawing can cause a lot of problems that multiply a minor bug into a major one.
 				// Each renderer should ideally take steps to catch an yexceptions and deal with them appropriately - if it does not
 				// this catch will log the problem, but NOT rethrown, so higher level drawing code doesn't see the exception. If you
@@ -1378,7 +1376,6 @@ static BOOL sSubstitute = NO;
 				NSLog(@"An exception occurred while rendering the style - PLEASE FIX - %@. Exception = %@", self, exception);
 			}
 			m_renderClientRef = nil;
-
 		}
 	}
 }
@@ -1612,7 +1609,7 @@ static BOOL sSubstitute = NO;
 
 	if (wasChanged && !([[self undoManager] isUndoing] || [[self undoManager] isRedoing])) {
 		if ([object respondsToSelector:@selector(actionNameForKeyPath:
-														   changeKind:)])
+												 changeKind:)])
 			[[self undoManager] setActionName:[object actionNameForKeyPath:keypath
 																changeKind:ch]];
 		else

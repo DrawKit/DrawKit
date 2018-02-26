@@ -5,14 +5,14 @@
 */
 
 #import "DKRegularPolygonPath.h"
+#import "DKDrawKitMacros.h"
 #import "DKDrawableShape.h"
 #import "DKDrawing.h"
-#import "DKStyle.h"
 #import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
-#import "LogEvent.h"
-#import "DKDrawKitMacros.h"
 #import "DKShapeGroup.h"
+#import "DKStyle.h"
+#import "LogEvent.h"
 #include <tgmath.h>
 
 @interface DKRegularPolygonPath ()
@@ -61,7 +61,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-@synthesize radius=mOuterRadius;
+@synthesize radius = mOuterRadius;
 
 - (void)setInnerRadius:(CGFloat)innerRad
 {
@@ -74,7 +74,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-@synthesize innerRadius=mInnerRadius;
+@synthesize innerRadius = mInnerRadius;
 
 - (void)setTipSpread:(CGFloat)spread
 {
@@ -87,7 +87,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-@synthesize tipSpread=mTipSpread;
+@synthesize tipSpread = mTipSpread;
 
 - (void)setValleySpread:(CGFloat)spread
 {
@@ -100,7 +100,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-@synthesize valleySpread=mValleySpread;
+@synthesize valleySpread = mValleySpread;
 
 - (void)setShowsSpreadControls:(BOOL)showControls
 {
@@ -110,7 +110,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 	}
 }
 
-@synthesize showsSpreadControls=mShowSpreadControls;
+@synthesize showsSpreadControls = mShowSpreadControls;
 
 #pragma mark - private
 
@@ -382,7 +382,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 					  userInfo:nil];
 
 		if ([self showsSpreadControls]) {
-			NSDictionary* options = @{kDKKnobPreferredHighlightColour: [NSColor yellowColor]};
+			NSDictionary* options = @{ kDKKnobPreferredHighlightColour: [NSColor yellowColor] };
 
 			kp = [self pointForPartcode:kDKRegularPolyTipSpreadPart];
 			[knobs drawKnobAtPoint:kp
@@ -819,14 +819,14 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super initWithCoder:coder]) {
-	[self setRadius:[coder decodeDoubleForKey:@"DKRegularPoly_outerRadius"]];
-	[self setInnerRadius:[coder decodeDoubleForKey:@"DKRegularPoly_innerRadius"]];
-	[self setTipSpread:[coder decodeDoubleForKey:@"DKRegularPoly_tipSpread"]];
-	[self setValleySpread:[coder decodeDoubleForKey:@"DKRegularPoly_valleySpread"]];
-	[self setAngle:[coder decodeDoubleForKey:@"DKRegularPoly_angle"]];
-	[self setNumberOfSides:[coder decodeIntegerForKey:@"DKRegularPoly_numberOfSides"]];
-	[self setLocation:[coder decodePointForKey:@"DKRegularPoly_location"]];
-	[self setShowsSpreadControls:[coder decodeBoolForKey:@"DKRegularPoly_showSpreadControls"]];
+		[self setRadius:[coder decodeDoubleForKey:@"DKRegularPoly_outerRadius"]];
+		[self setInnerRadius:[coder decodeDoubleForKey:@"DKRegularPoly_innerRadius"]];
+		[self setTipSpread:[coder decodeDoubleForKey:@"DKRegularPoly_tipSpread"]];
+		[self setValleySpread:[coder decodeDoubleForKey:@"DKRegularPoly_valleySpread"]];
+		[self setAngle:[coder decodeDoubleForKey:@"DKRegularPoly_angle"]];
+		[self setNumberOfSides:[coder decodeIntegerForKey:@"DKRegularPoly_numberOfSides"]];
+		[self setLocation:[coder decodePointForKey:@"DKRegularPoly_location"]];
+		[self setShowsSpreadControls:[coder decodeBoolForKey:@"DKRegularPoly_showSpreadControls"]];
 	}
 
 	return self;

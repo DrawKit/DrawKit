@@ -5,13 +5,13 @@
 */
 
 #import "DKArrowStroke.h"
-#import "DKStyle.h"
 #import "DKDrawablePath.h"
+#import "DKShapeFactory.h"
 #import "DKStrokeDash.h"
+#import "DKStyle.h"
+#import "NSBezierPath+Editing.h"
 #import "NSBezierPath+Geometry.h"
 #import "NSBezierPath+Text.h"
-#import "NSBezierPath+Editing.h"
-#import "DKShapeFactory.h"
 #import "NSShadow+Scaling.h"
 
 #pragma mark Static Vars
@@ -95,12 +95,12 @@ NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 }
 
 #pragma mark -
-@synthesize arrowHeadAtStart=mArrowHeadAtStart;
-@synthesize arrowHeadAtEnd=mArrowHeadAtEnd;
+@synthesize arrowHeadAtStart = mArrowHeadAtStart;
+@synthesize arrowHeadAtEnd = mArrowHeadAtEnd;
 
 #pragma mark -
-@synthesize arrowHeadWidth=m_arrowWidth;
-@synthesize arrowHeadLength=m_arrowLength;
+@synthesize arrowHeadWidth = m_arrowWidth;
+@synthesize arrowHeadLength = m_arrowLength;
 
 #pragma mark -
 - (void)standardArrowForStrokeWidth:(CGFloat)sw
@@ -124,8 +124,8 @@ NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 }
 #endif
 
-@synthesize outlineColour=m_outlineColour;
-@synthesize outlineWidth=m_outlineWidth;
+@synthesize outlineColour = m_outlineColour;
+@synthesize outlineWidth = m_outlineWidth;
 
 #pragma mark -
 - (NSImage*)arrowSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width
@@ -526,7 +526,7 @@ NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 #pragma mark -
 #pragma mark - dimensioning lines
 
-@synthesize formatter=m_dims_formatter;
+@synthesize formatter = m_dims_formatter;
 
 - (void)setFormat:(NSString*)format
 {
@@ -543,8 +543,7 @@ NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 	}
 }
 
-
-@synthesize dimensioningLineOptions=mDimensionOptions;
+@synthesize dimensioningLineOptions = mDimensionOptions;
 
 - (NSAttributedString*)dimensionTextForObject:(id)obj
 {
@@ -618,7 +617,7 @@ NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 	if (kind != [self dimensionTextKind]) {
 		mDimTextKind = kind;
 
-		NSString* prefix = @"", *suffix = @"";
+		NSString *prefix = @"", *suffix = @"";
 
 		// the text kind really just sets various prefixes and suffixes in the formatter
 
@@ -646,8 +645,8 @@ NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 	}
 }
 
-@synthesize dimensionTextKind=mDimTextKind;
-@synthesize dimensionToleranceOption=mDimToleranceOptions;
+@synthesize dimensionTextKind = mDimTextKind;
+@synthesize dimensionToleranceOption = mDimToleranceOptions;
 
 - (void)setTextAttributes:(NSDictionary*)dict
 {
@@ -689,16 +688,16 @@ NSString* const kDKDimensionUnitsKey = @"DKDimensionUnits";
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"arrowHeadAtStart",
-																							   @"arrowHeadAtEnd",
-																							   @"arrowHeadWidth",
-																							   @"arrowHeadLength",
-																							   @"dimensioningLineOptions",
-																							   @"outlineColour",
-																							   @"outlineWidth",
-																							   @"textAttributes",
-																							   @"formatter",
-																							   @"dimensionTextKind",
-																							   @"dimensionToleranceOption"]];
+		@"arrowHeadAtEnd",
+		@"arrowHeadWidth",
+		@"arrowHeadLength",
+		@"dimensioningLineOptions",
+		@"outlineColour",
+		@"outlineWidth",
+		@"textAttributes",
+		@"formatter",
+		@"dimensionTextKind",
+		@"dimensionToleranceOption"]];
 }
 
 - (void)registerActionNames

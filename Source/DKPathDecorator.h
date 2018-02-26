@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 - (instancetype)initWithImage:(nullable NSImage*)image NS_DESIGNATED_INITIALIZER;
 
-@property (nonatomic, strong, nullable) NSImage *image;
+@property (nonatomic, strong, nullable) NSImage* image;
 - (void)setUpCache;
 - (void)setPDFImageRep:(NSPDFImageRep*)rep;
 

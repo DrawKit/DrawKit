@@ -19,9 +19,9 @@ The purpose of this class is to allow images to be archived much more efficientl
 */
 @interface DKImageDataManager : NSObject <NSCoding> {
 @private
-	NSMutableDictionary<NSString*,NSData*>* mRepository;
-	NSMutableDictionary<NSString*,NSString*>* mHashList;
-	NSMutableDictionary<NSString*,NSNumber*>* mKeyUsage;
+	NSMutableDictionary<NSString*, NSData*>* mRepository;
+	NSMutableDictionary<NSString*, NSString*>* mHashList;
+	NSMutableDictionary<NSString*, NSNumber*>* mKeyUsage;
 }
 
 - (nullable NSData*)imageDataForKey:(NSString*)key;
@@ -29,12 +29,12 @@ The purpose of this class is to allow images to be archived much more efficientl
 - (BOOL)hasImageDataForKey:(NSString*)key;
 - (NSString*)generateKey;
 - (nullable NSString*)keyForImageData:(NSData*)imageData;
-@property (readonly, copy) NSArray<NSString*> *allKeys;
+@property (readonly, copy) NSArray<NSString*>* allKeys;
 - (void)removeKey:(NSString*)key;
 
-- (nullable NSImage*)makeImageWithData:(NSData*)imageData key:(NSString* _Nullable __autoreleasing*_Nullable)key;
-- (nullable NSImage*)makeImageWithPasteboard:(NSPasteboard*)pb key:(NSString* _Nullable __autoreleasing*_Nullable)key;
-- (nullable NSImage*)makeImageWithContentsOfURL:(NSURL*)url key:(NSString* _Nullable __autoreleasing*_Nullable)key;
+- (nullable NSImage*)makeImageWithData:(NSData*)imageData key:(NSString* _Nullable __autoreleasing* _Nullable)key;
+- (nullable NSImage*)makeImageWithPasteboard:(NSPasteboard*)pb key:(NSString* _Nullable __autoreleasing* _Nullable)key;
+- (nullable NSImage*)makeImageWithContentsOfURL:(NSURL*)url key:(NSString* _Nullable __autoreleasing* _Nullable)key;
 - (nullable NSImage*)makeImageForKey:(NSString*)key;
 
 - (void)setKey:(NSString*)key isInUse:(BOOL)inUse;

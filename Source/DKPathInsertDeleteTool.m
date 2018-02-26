@@ -43,7 +43,7 @@ NSString* const kDKDeletePathElementCursorImageName = @"Delete Path Element";
 
 #pragma mark -
 
-@synthesize mode=m_mode;
+@synthesize mode = m_mode;
 
 #pragma mark -
 #pragma mark - As part of DKDrawingTool Protocol

@@ -5,8 +5,8 @@
 */
 
 #import "NSBezierPath+Combinatorial.h"
-#import "NSBezierPath-OAExtensions.h"
 #import "NSBezierPath+Geometry.h"
+#import "NSBezierPath-OAExtensions.h"
 
 @interface NSBezierPath (CombinatorialPrivate)
 
@@ -59,7 +59,7 @@
 			break;
 		}
 		[blob fill];
-// label it so we can see the order
+		// label it so we can see the order
 
 		NSString* str = [NSString stringWithFormat:@"%ld", (long)i];
 		[str drawAtPoint:blobRect.origin
@@ -274,7 +274,7 @@
 
 	// first renormalize both contributing paths
 
-	NSBezierPath* leftPath, *rightPath;
+	NSBezierPath *leftPath, *rightPath;
 
 	leftPath = [self renormalizePath];
 	rightPath = [path renormalizePath];
@@ -436,7 +436,7 @@
 
 	// normalize
 
-	NSBezierPath* left, *right;
+	NSBezierPath *left, *right;
 
 	left = [self renormalizePath];
 	right = [path renormalizePath];

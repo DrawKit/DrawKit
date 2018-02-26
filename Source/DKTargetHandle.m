@@ -5,8 +5,8 @@
 */
 
 #import "DKTargetHandle.h"
-#import "NSBezierPath+Geometry.h"
 #import "DKGeometryUtilities.h"
+#import "NSBezierPath+Geometry.h"
 
 @implementation DKTargetHandle
 

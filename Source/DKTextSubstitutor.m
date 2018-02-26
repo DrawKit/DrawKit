@@ -6,8 +6,8 @@
 
 #import "DKTextSubstitutor.h"
 #import "DKDrawableObject+Metadata.h"
-#import "NSString+DKAdditions.h"
 #import "LogEvent.h"
+#import "NSString+DKAdditions.h"
 
 NSString* const kDKTextSubstitutorNewStringNotification = @"kDKTextSubstitutorNewStringNotification";
 
@@ -32,7 +32,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	static NSCharacterSet* cs = nil;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSMutableCharacterSet *cs2 = [NSMutableCharacterSet characterSetWithCharactersInString:@" ,;:?-()+=*{}[]\"\\<>|!'%/"];
+		NSMutableCharacterSet* cs2 = [NSMutableCharacterSet characterSetWithCharactersInString:@" ,;:?-()+=*{}[]\"\\<>|!'%/"];
 		[cs2 formUnionWithCharacterSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		cs = [cs2 copy];
 	});
@@ -54,7 +54,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 {
 	// designated initializer
 
-	if (self = [super init]){
+	if (self = [super init]) {
 		mKeys = [[NSMutableArray alloc] init];
 		[self setMasterString:aString];
 	}
@@ -69,8 +69,8 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 
 		mMasterString = master;
 
-// for lazy evaluation, do not process the string immediately. Instead this will be done when the substitutor is asked to
-// perform its first substitution. This is only flagged if the actual string content has changed.
+		// for lazy evaluation, do not process the string immediately. Instead this will be done when the substitutor is asked to
+		// perform its first substitution. This is only flagged if the actual string content has changed.
 
 #if TS_LAZY_EVALUATION
 		if (![oldString isEqualToString:[master string]]) {
@@ -89,7 +89,7 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	}
 }
 
-@synthesize masterString=mMasterString;
+@synthesize masterString = mMasterString;
 
 - (void)setString:(NSString*)aString withAttributes:(NSDictionary*)attrs
 {
@@ -307,18 +307,17 @@ static NSString* sDelimiter = DEFAULT_DELIMITER_STRING;
 	return self;
 }
 
-
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super init]) {
 		mKeys = [[NSMutableArray alloc] init];
-		
+
 		// deal with earlier format
-		
+
 		NSString* mStr = [coder decodeObjectForKey:@"DKOTextSubstitutor_masterString"];
 		if (mStr) {
 			[self setString:mStr
-			 withAttributes:nil];
+				withAttributes:nil];
 		} else {
 			[self setMasterString:[coder decodeObjectForKey:@"DKOTextSubstitutor_attributedString"]];
 		}
@@ -429,8 +428,8 @@ static NSDictionary* s_abbreviationDict = nil;
 	return self;
 }
 
-@synthesize key=mKey;
-@synthesize range=mRange;
+@synthesize key = mKey;
+@synthesize range = mRange;
 
 - (BOOL)isPropertyKeyPath
 {
@@ -440,7 +439,7 @@ static NSDictionary* s_abbreviationDict = nil;
 	return [firstCharacter isEqualToString:@"$"];
 }
 
-@synthesize subKeys=mSubKeys;
+@synthesize subKeys = mSubKeys;
 
 - (NSString*)stringByApplyingSubkeysToString:(NSString*)inString
 {
@@ -494,7 +493,7 @@ static NSDictionary* s_abbreviationDict = nil;
 		// apply any abbreviations (e.g. 'St.' for 'Street', etc)
 
 		if (abbreviate)
-			result = (id)[result stringByAbbreviatingWordsWithDictionary : [[self class] abbreviationDictionary]];
+			result = (id)[result stringByAbbreviatingWordsWithDictionary:[[self class] abbreviationDictionary]];
 
 		// apply capitalization flag:
 
@@ -506,7 +505,7 @@ static NSDictionary* s_abbreviationDict = nil;
 			else if ([capFlag isEqualToString:@"C"])
 				result = (id)[result capitalizedString];
 			else if ([capFlag isEqualToString:@"A"])
-				result = (id)[result stringByAbbreviatingWithOptions : kDKAbbreviationOptionAddPeriods | kDKAbbreviationOptionAmpersand];
+				result = (id)[result stringByAbbreviatingWithOptions:kDKAbbreviationOptionAddPeriods | kDKAbbreviationOptionAmpersand];
 		}
 
 		// apply any prefix padding - default is no padding
@@ -533,8 +532,8 @@ static NSDictionary* s_abbreviationDict = nil;
 	mPadLength = MIN(20U, padLength);
 }
 
-@synthesize padding=mPadLength;
-@synthesize paddingCharacter=mPadCharacter;
+@synthesize padding = mPadLength;
+@synthesize paddingCharacter = mPadCharacter;
 
 #pragma mark -
 
@@ -542,6 +541,5 @@ static NSDictionary* s_abbreviationDict = nil;
 {
 	return [NSString stringWithFormat:@"key:%@ range = %@", mKey, NSStringFromRange(mRange)];
 }
-
 
 @end

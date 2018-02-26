@@ -19,13 +19,13 @@
 	}
 }
 
-@synthesize roughness=mRoughness;
+@synthesize roughness = mRoughness;
 
 - (NSString*)pathKeyForPath:(NSBezierPath*)path
 {
-// form a simple hash from the path's size, length and current stroke width. Note that the precision is deliberately set to just 1 decimal
-// place so that minor rounding errors when doing path transforms don't generate different keys. Do not rely on this format, or attempt
-// to interpret it.
+	// form a simple hash from the path's size, length and current stroke width. Note that the precision is deliberately set to just 1 decimal
+	// place so that minor rounding errors when doing path transforms don't generate different keys. Do not rely on this format, or attempt
+	// to interpret it.
 
 	return [NSString stringWithFormat:@"%.1f.%.1f.%.1f.%.1f", [path bounds].size.width, [path bounds].size.height, [path length], [self width]];
 }
@@ -142,7 +142,6 @@
 #pragma mark -
 #pragma mark As a NSObject
 
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 
@@ -164,9 +163,9 @@
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super initWithCoder:coder]) {
-	mPathCache = [[NSMutableDictionary alloc] init];
-	mCacheList = [[NSMutableArray alloc] init];
-	[self setRoughness:[coder decodeDoubleForKey:@"DKRoughStroke_roughness"]];
+		mPathCache = [[NSMutableDictionary alloc] init];
+		mCacheList = [[NSMutableArray alloc] init];
+		[self setRoughness:[coder decodeDoubleForKey:@"DKRoughStroke_roughness"]];
 	}
 
 	return self;

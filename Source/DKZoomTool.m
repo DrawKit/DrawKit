@@ -5,9 +5,9 @@
 */
 
 #import "DKZoomTool.h"
-#import "DKLayer.h"
 #import "DKDrawingView.h"
 #import "DKGeometryUtilities.h"
+#import "DKLayer.h"
 
 @implementation DKZoomTool
 
@@ -19,8 +19,8 @@
 		mModeModifierMask = 0;
 }
 
-@synthesize zoomsOut=mMode;
-@synthesize modeModifierMask=mModeModifierMask;
+@synthesize zoomsOut = mMode;
+@synthesize modeModifierMask = mModeModifierMask;
 
 #pragma mark - As a DKDrawingTool
 

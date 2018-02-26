@@ -7,9 +7,9 @@
 #import "DKViewController.h"
 #import "DKDrawing.h"
 #import "DKDrawingView.h"
+#import "DKGridLayer.h"
 #import "DKGuideLayer.h"
 #import "LogEvent.h"
-#import "DKGridLayer.h"
 
 #pragma mark Static Vars
 
@@ -37,8 +37,8 @@ static NSTimer* s_autoscrollTimer = nil;
 #pragma mark -
 #pragma mark - fundamental objects in the controller's world
 
-@synthesize view=mViewRef;
-@synthesize drawing=mDrawingRef;
+@synthesize view = mViewRef;
+@synthesize drawing = mDrawingRef;
 
 #pragma mark -
 #pragma mark - updating the view from the drawing(refresh)
@@ -270,7 +270,7 @@ static NSTimer* s_autoscrollTimer = nil;
 
 #pragma mark -
 #pragma mark - contextual menu support
-@synthesize contextualMenusEnabled=mEnableDKMenus;
+@synthesize contextualMenusEnabled = mEnableDKMenus;
 
 - (NSMenu*)menuForEvent:(NSEvent*)event
 {
@@ -342,7 +342,7 @@ static NSTimer* s_autoscrollTimer = nil;
 	return [[self drawing] activeLayerOfClass:aClass];
 }
 
-@synthesize activatesLayersAutomatically=m_autoLayerSelect;
+@synthesize activatesLayersAutomatically = m_autoLayerSelect;
 
 - (DKLayer*)findLayer:(NSPoint)p
 {

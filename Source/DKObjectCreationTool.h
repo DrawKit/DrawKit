@@ -57,7 +57,7 @@ You can also set up a style to be applied to all new objects initially as an ind
  */
 + (nullable DKStyle*)styleForCreatedObjects;
 
-@property (class, retain, nullable) DKStyle *styleForCreatedObjects;
+@property (class, retain, nullable) DKStyle* styleForCreatedObjects;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
@@ -72,7 +72,7 @@ You can also set up a style to be applied to all new objects initially as an ind
  An object that will be used as the tool's prototype - each new object created will
  be a copy of this one.
  */
-@property (nonatomic, strong/* , nonnull */) id<NSCopying, NSObject> prototype;
+@property (nonatomic, strong /* , nonnull */) id<NSCopying, NSObject> prototype;
 
 /** @brief Return a new object copied from the prototype, but with the current class style if there is one
 
@@ -81,7 +81,7 @@ You can also set up a style to be applied to all new objects initially as an ind
  */
 - (id)objectFromPrototype;
 
-@property (strong, nullable) DKStyle *style;
+@property (strong, nullable) DKStyle* style;
 
 @property BOOL stylePickupEnabled;
 

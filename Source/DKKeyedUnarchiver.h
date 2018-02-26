@@ -22,6 +22,6 @@ This class works identically to NSKeyedUnarchiver in every way, except that it c
 }
 
 // not retained because we know that it's retained by the drawing and the lifetime of the dearchiver is limited.
-@property (unsafe_unretained, nullable) DKImageDataManager *imageManager;
+@property (unsafe_unretained, nullable) DKImageDataManager* imageManager;
 
 @end

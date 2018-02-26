@@ -8,8 +8,8 @@
 
 #import "DKDrawing.h"
 #import "DKKnob.h"
-#import "LogEvent.h"
 #import "DKObjectOwnerLayer.h"
+#import "LogEvent.h"
 
 @implementation DKDrawableShape (Hotspots)
 #pragma mark As a DKDrawableShape
@@ -133,7 +133,7 @@
 }
 
 #pragma mark -
-@synthesize owner=m_owner;
+@synthesize owner = m_owner;
 
 - (void)setOwner:(DKDrawableShape*)shape withPartcode:(NSInteger)pc
 {
@@ -142,8 +142,8 @@
 }
 
 #pragma mark -
-@synthesize partcode=m_partcode;
-@synthesize relativeLocation=m_relLoc;
+@synthesize partcode = m_partcode;
+@synthesize relativeLocation = m_relLoc;
 
 #pragma mark -
 - (void)drawHotspotAtPoint:(NSPoint)p inState:(DKHotspotState)state
@@ -153,16 +153,14 @@
 }
 
 #pragma mark -
-@synthesize delegate=m_delegate;
+@synthesize delegate = m_delegate;
 
 #pragma mark -
 - (void)startMouseTracking:(NSEvent*)event inView:(NSView*)view
 {
 	LogEvent_(kReactiveEvent, @"hotspot started tracking, partcode = %ld", (long)m_partcode);
 
-	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:
-																   willBeginTrackingWithEvent:
-																					   inView:)])
+	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:willBeginTrackingWithEvent:inView:)])
 		[[self delegate] hotspot:self
 			willBeginTrackingWithEvent:event
 								inView:view];
@@ -172,9 +170,7 @@
 {
 	//	LogEvent_(kReactiveEvent, @"hotspot continued tracking, partcode = %d", m_partcode );
 
-	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:
-																   isTrackingWithEvent:
-																				inView:)])
+	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:isTrackingWithEvent:inView:)])
 		[[self delegate] hotspot:self
 			 isTrackingWithEvent:event
 						  inView:view];
@@ -184,9 +180,7 @@
 {
 	LogEvent_(kReactiveEvent, @"hotspot stopped tracking, partcode = %ld", (long)m_partcode);
 
-	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:
-																   didEndTrackingWithEvent:
-																					inView:)])
+	if ([self delegate] && [[self delegate] respondsToSelector:@selector(hotspot:didEndTrackingWithEvent:inView:)])
 		[[self delegate] hotspot:self
 			didEndTrackingWithEvent:event
 							 inView:view];
@@ -239,8 +233,8 @@
 #pragma unused(zone)
 
 	DKHotspot* copy = [[DKHotspot alloc] init];
-	copy.relativeLocation=m_relLoc;
-	copy.partcode=m_partcode;
+	copy.relativeLocation = m_relLoc;
+	copy.partcode = m_partcode;
 
 	return copy;
 }

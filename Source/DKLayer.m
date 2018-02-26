@@ -5,15 +5,15 @@
 */
 
 #import "DKLayer.h"
-#import "DKKnob.h"
 #import "DKDrawing.h"
 #import "DKDrawingView.h"
-#import "DKSelectionPDFView.h"
 #import "DKGeometryUtilities.h"
+#import "DKKnob.h"
+#import "DKLayer+Metadata.h"
+#import "DKSelectionPDFView.h"
+#import "DKUniqueID.h"
 #import "GCInfoFloater.h"
 #import "LogEvent.h"
-#import "DKLayer+Metadata.h"
-#import "DKUniqueID.h"
 #import "NSDictionary+DeepCopy.h"
 
 #pragma mark Constants(Non - localized)
@@ -53,13 +53,12 @@ static NSArray* s_selectionColours = nil;
 	if (s_selectionColours == nil) {
 		NSMutableArray* list = [NSMutableArray array];
 
-		const
-		static CGFloat colours[][3] = { { 0.5, 0.9, 1 }, // light blue
-										{ 1, 0, 0 }, // red
-										{ 0, 1, 0 }, // green
-										{ 0, 0.7, 0.7 }, // cyanish
-										{ 1, 0, 1 }, // magenta
-										{ 1, 0.5, 0 } }; // orange
+		const static CGFloat colours[][3] = { { 0.5, 0.9, 1 }, // light blue
+			{ 1, 0, 0 }, // red
+			{ 0, 1, 0 }, // green
+			{ 0, 0.7, 0.7 }, // cyanish
+			{ 1, 0, 1 }, // magenta
+			{ 1, 0.5, 0 } }; // orange
 
 		NSInteger i;
 
@@ -167,7 +166,7 @@ static NSArray* s_selectionColours = nil;
 #pragma mark -
 #pragma mark - layer group hierarchy
 
-@synthesize layerGroup=m_groupRef;
+@synthesize layerGroup = m_groupRef;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 
@@ -332,7 +331,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-@synthesize selectionColour=m_selectionColour;
+@synthesize selectionColour = m_selectionColour;
 
 #pragma mark -
 
@@ -480,7 +479,7 @@ static NSArray* s_selectionColours = nil;
 
 	SAVE_GRAPHICS_CONTEXT
 
-	[NSGraphicsContext setCurrentContext:context];
+		[NSGraphicsContext setCurrentContext:context];
 
 	// focus on the image and draw the content
 
@@ -512,7 +511,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-@synthesize clipsDrawingToInterior=m_clipToInterior;
+@synthesize clipsDrawingToInterior = m_clipToInterior;
 
 /** @brief Sets the alpha level for the layer
 
@@ -532,7 +531,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-@synthesize alpha=mAlpha;
+@synthesize alpha = mAlpha;
 
 - (void)updateRulerMarkersForRect:(NSRect)rect
 {
@@ -546,7 +545,7 @@ static NSArray* s_selectionColours = nil;
 		[[self layerGroup] hideRulerMarkers];
 }
 
-@synthesize rulerMarkerUpdatesEnabled=mRulerMarkersEnabled;
+@synthesize rulerMarkerUpdatesEnabled = mRulerMarkersEnabled;
 
 #pragma mark -
 #pragma mark - states
@@ -611,7 +610,7 @@ static NSArray* s_selectionColours = nil;
 	return m_visible && ([self layerGroup] == nil || [[self layerGroup] visible]);
 }
 
-@synthesize visible=m_visible;
+@synthesize visible = m_visible;
 
 /** @brief Is the layer the active layer?
  @return YES if the active layer, NO otherwise
@@ -631,12 +630,12 @@ static NSArray* s_selectionColours = nil;
 	return [self locked] || ![self visible];
 }
 
-+ (NSSet<NSString *> *)keyPathsForValuesAffectingLockedOrHidden
++ (NSSet<NSString*>*)keyPathsForValuesAffectingLockedOrHidden
 {
 	return [NSSet setWithObjects:@"locked", @"visible", nil];
 }
 
-@synthesize uniqueKey=mLayerUniqueKey;
+@synthesize uniqueKey = mLayerUniqueKey;
 
 #pragma mark -
 
@@ -665,7 +664,7 @@ static NSArray* s_selectionColours = nil;
 	}
 }
 
-@synthesize layerName=m_name;
+@synthesize layerName = m_name;
 
 #pragma mark -
 #pragma mark - user info
@@ -737,7 +736,7 @@ static NSArray* s_selectionColours = nil;
 #pragma mark -
 #pragma mark - print this layer ?
 
-@synthesize shouldDrawToPrinter=m_printed;
+@synthesize shouldDrawToPrinter = m_printed;
 
 #pragma mark -
 #pragma mark - becoming / resigning active
@@ -966,7 +965,7 @@ static NSArray* s_selectionColours = nil;
 		return [[self layerGroup] knobs];
 }
 
-@synthesize knobs=m_knobs;
+@synthesize knobs = m_knobs;
 
 /** @brief Sets whether selection knobs should scale to compensate for the view scale. default is YES.
 
@@ -992,7 +991,7 @@ static NSArray* s_selectionColours = nil;
 		return NO;
 }
 
-@synthesize knobsShouldAdjustToViewScale=m_knobsAdjustToScale;
+@synthesize knobsShouldAdjustToViewScale = m_knobsAdjustToScale;
 
 #pragma mark -
 #pragma mark - pasteboard / drag and drop support

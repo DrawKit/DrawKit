@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKLayer.h"
 #import "DKDrawing.h"
+#import "DKLayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -81,15 +81,15 @@ typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
 
 /** @brief The class default span colour.
  */
-@property (class, retain, null_resettable) NSColor *defaultSpanColour;
+@property (class, retain, null_resettable) NSColor* defaultSpanColour;
 
 /** @brief The class default division colour.
  */
-@property (class, retain, null_resettable) NSColor *defaultDivisionColour;
+@property (class, retain, null_resettable) NSColor* defaultDivisionColour;
 
 /** @brief The class default major colour.
  */
-@property (class, retain, null_resettable) NSColor *defaultMajorColour;
+@property (class, retain, null_resettable) NSColor* defaultMajorColour;
 
 /** @brief Set the three class default colours based on a single theme colour.
  
@@ -140,7 +140,7 @@ typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
  and the drawing units are "Inches"
  */
 - (void)setImperialDefaults;
- 
+
 /** @} */
 
 // using the grid as the master grid for a drawing
@@ -260,20 +260,20 @@ typedef NS_ENUM(NSInteger, DKGridMeasurementSystem) {
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
-@property (nonatomic, strong) NSColor *spanColour;
+@property (nonatomic, strong) NSColor* spanColour;
 
 /** @brief the colour used to draw the divisions.
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
-@property (nonatomic, strong) NSColor *divisionColour;
+@property (nonatomic, strong) NSColor* divisionColour;
 
 /** @brief The colour used to draw the majors.
  
  @discussion Typically a grid is set using a theme colour rather than setting individual colours for each
  part of the grid, but it's up to you.
  */
-@property (nonatomic, strong) NSColor *majorColour;
+@property (nonatomic, strong) NSColor* majorColour;
 
 /** @brief Sets the colours used to draw the grid as a whole
 

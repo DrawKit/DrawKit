@@ -12,9 +12,9 @@
 @implementation DKZigZagFill
 #pragma mark As a DKZigZagFill
 
-@synthesize wavelength=mWavelength;
-@synthesize amplitude=mAmplitude;
-@synthesize spread=mSpread;
+@synthesize wavelength = mWavelength;
+@synthesize amplitude = mAmplitude;
+@synthesize spread = mSpread;
 
 #pragma mark -
 #pragma mark As a GCObservableObject

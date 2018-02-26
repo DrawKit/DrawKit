@@ -6,7 +6,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSMutableArray<Object> (DKAdditions)
+@interface NSMutableArray <Object> (DKAdditions)
 
 /** @brief Adds objects from \c array to the receiver, but only those not already contained by it. */
 - (void)addUniqueObjectsFromArray:(nonnull NSArray<Object>*)array;

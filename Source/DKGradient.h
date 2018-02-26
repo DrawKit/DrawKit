@@ -37,7 +37,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 */
 @interface DKGradient : GCObservableObject <NSCoding, NSCopying> {
 	NSMutableArray<DKColorStop*>* m_colorStops; // color stops
-	NSMutableDictionary *m_extensionData; // additional supplementary data
+	NSMutableDictionary* m_extensionData; // additional supplementary data
 	CGFloat m_gradAngle; // linear angle in radians
 	DKGradientType m_gradType; // type
 	DKGradientBlending m_blending; // method to blend colours
@@ -108,7 +108,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
  A gradient needs a minimum of two colors to be a gradient, but will function with one.
  */
-@property (copy) NSArray<DKColorStop*> *colorStops;
+@property (copy) NSArray<DKColorStop*>* colorStops;
 
 /** @brief Sorts the color stops into position order.
 
@@ -175,9 +175,9 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @param er For radial fills, the radius of the end of the gradient.
  */
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp
-	 startRadius:(CGFloat)sr
-   endingAtPoint:(NSPoint)ep
-	   endRadius:(CGFloat)er;
+		startRadius:(CGFloat)sr
+	  endingAtPoint:(NSPoint)ep
+		  endRadius:(CGFloat)er;
 
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
 		startRadius:(CGFloat)sr
@@ -271,7 +271,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  
  Colors are converted to calibrated RGB to permit shading calculations.
  */
-@property (nonatomic, strong) NSColor *color;
+@property (nonatomic, strong) NSColor* color;
 
 /** @brief The alpha of the colour associated with this stop.
  */

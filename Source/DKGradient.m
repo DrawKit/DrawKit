@@ -36,7 +36,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 #pragma mark -
 @interface DKColorStop ()
 
-@property (weak) DKGradient *owner;
+@property (weak) DKGradient* owner;
 
 @end
 
@@ -193,26 +193,27 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 - (void)sortColorStops
 {
-	[m_colorStops sortWithOptions:NSSortStable usingComparator:^NSComparisonResult(DKColorStop* lh, DKColorStop* rh) {
-		CGFloat lp = [lh position];
-		CGFloat rp = [rh position];
-		
-		//NSLog(@"positions: %f, %f", lp, rp );
-		
-		if (lp < rp)
-			return NSOrderedAscending;
-		else if (lp > rp)
-			return NSOrderedDescending;
-		else
-			return NSOrderedSame;
-	}];
+	[m_colorStops sortWithOptions:NSSortStable
+				  usingComparator:^NSComparisonResult(DKColorStop* lh, DKColorStop* rh) {
+					  CGFloat lp = [lh position];
+					  CGFloat rp = [rh position];
+
+					  //NSLog(@"positions: %f, %f", lp, rp );
+
+					  if (lp < rp)
+						  return NSOrderedAscending;
+					  else if (lp > rp)
+						  return NSOrderedDescending;
+					  else
+						  return NSOrderedSame;
+				  }];
 }
 
 - (void)reverseColorStops
 {
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKNotificationGradientWillChange
 														object:self];
-	for (DKColorStop *stop in self.colorStops) {
+	for (DKColorStop* stop in self.colorStops) {
 		stop.position = 1.0 - stop.position;
 	}
 
@@ -501,7 +502,8 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 
 #if qLogPerformanceMetrics
-		NSTimeInterval elapsed = [NSDate timeIntervalSinceReferenceDate] - startTime;
+		NSTimeInterval elapsed
+		= [NSDate timeIntervalSinceReferenceDate] - startTime;
 	total += elapsed;
 	average = total / count;
 
@@ -531,16 +533,17 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	return sGradientColorSpace;
 }
 
-- (NSGradient*)newNSGradient {
-	NSMutableArray *colArr = [[NSMutableArray alloc] initWithCapacity:m_colorStops.count];
-	CGFloat * stopsArr = calloc(m_colorStops.count, sizeof(CGFloat));
+- (NSGradient*)newNSGradient
+{
+	NSMutableArray* colArr = [[NSMutableArray alloc] initWithCapacity:m_colorStops.count];
+	CGFloat* stopsArr = calloc(m_colorStops.count, sizeof(CGFloat));
 	NSInteger i = 0;
-	for (DKColorStop *stop in m_colorStops) {
+	for (DKColorStop* stop in m_colorStops) {
 		[colArr addObject:stop.color];
 		stopsArr[i++] = stop.position;
 	}
-	
-	NSGradient *grad = [[NSGradient alloc] initWithColors:colArr atLocations:stopsArr colorSpace:[NSColorSpace genericRGBColorSpace]];
+
+	NSGradient* grad = [[NSGradient alloc] initWithColors:colArr atLocations:stopsArr colorSpace:[NSColorSpace genericRGBColorSpace]];
 	free(stopsArr);
 
 	return grad;
@@ -553,22 +556,21 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 			  endingAtPoint:(NSPoint)ep
 				  endRadius:(CGFloat)er
 {
-	NSGradient *gradient = [self newNSGradient];
+	NSGradient* gradient = [self newNSGradient];
 
 	switch (self.gradientType) {
-		case kDKGradientTypeLinear:
-			[gradient drawFromPoint:sp toPoint:ep options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
-			break;
+	case kDKGradientTypeLinear:
+		[gradient drawFromPoint:sp toPoint:ep options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
+		break;
 
-		case kDKGradientTypeRadial:
-			[gradient drawFromCenter:sp radius:sr toCenter:ep radius:er options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
-			break;
+	case kDKGradientTypeRadial:
+		[gradient drawFromCenter:sp radius:sr toCenter:ep radius:er options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
+		break;
 
-		default:
-			break;
+	default:
+		break;
 	}
 }
-
 
 #pragma mark -
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
@@ -578,16 +580,16 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 {
 	[NSGraphicsContext saveGraphicsState];
 	if (@available(macOS 10.10, *)) {
-		NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithCGContext:context flipped:NO];
+		NSGraphicsContext* ctx = [NSGraphicsContext graphicsContextWithCGContext:context flipped:NO];
 		[NSGraphicsContext setCurrentContext:ctx];
 	} else {
 		// Fallback on earlier versions
-		NSGraphicsContext *ctx = [NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:NO];
+		NSGraphicsContext* ctx = [NSGraphicsContext graphicsContextWithGraphicsPort:context flipped:NO];
 		[NSGraphicsContext setCurrentContext:ctx];
 	}
-	
+
 	[self fillStartingAtPoint:sp startRadius:sr endingAtPoint:ep endRadius:er];
-	
+
 	[NSGraphicsContext restoreGraphicsState];
 }
 
@@ -638,7 +640,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 														object:self];
 }
 
-@synthesize angle=m_gradAngle;
+@synthesize angle = m_gradAngle;
 
 /** @brief Sets the angle of the gradient to the given angle
  @param degrees the desired angle expressed in degrees
@@ -689,7 +691,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	}
 }
 
-@synthesize gradientType=m_gradType;
+@synthesize gradientType = m_gradType;
 
 #pragma mark -
 
@@ -709,7 +711,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	}
 }
 
-@synthesize gradientBlending=m_blending;
+@synthesize gradientBlending = m_blending;
 
 #pragma mark -
 
@@ -727,7 +729,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	}
 }
 
-@synthesize gradientInterpolation=m_interp;
+@synthesize gradientInterpolation = m_interp;
 
 #pragma mark -
 
@@ -963,8 +965,8 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 	[grad removeAllColors];
 
-	for (DKColorStop *stop in [self colorStops]) {
-		DKColorStop *stopCopy = [stop copy];
+	for (DKColorStop* stop in [self colorStops]) {
+		DKColorStop* stopCopy = [stop copy];
 		[grad addColorStop:stopCopy];
 	}
 
@@ -996,7 +998,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 
 #pragma mark -
 
-@synthesize color=mColor;
+@synthesize color = mColor;
 
 /** @brief Set the Color associated with this stop
 
@@ -1047,7 +1049,7 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 }
 
 #pragma mark -
-@synthesize owner=m_ownerRef;
+@synthesize owner = m_ownerRef;
 
 #pragma mark -
 #pragma mark As an NSObject

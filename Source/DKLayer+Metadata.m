@@ -5,8 +5,8 @@
 */
 
 #import "DKLayer+Metadata.h"
-#import "LogEvent.h"
 #import "DKLayerGroup.h"
+#import "LogEvent.h"
 
 #define USE_107_OR_LATER_SCHEMA 1
 
@@ -378,7 +378,7 @@ NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetad
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = @{@"key": [key lowercaseString]};
+		userInfo = @{ @"key": [key lowercaseString] };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataWillChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -388,7 +388,7 @@ NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetad
 {
 	NSDictionary* userInfo = nil;
 	if (key)
-		userInfo = @{@"key": [key lowercaseString]};
+		userInfo = @{ @"key": [key lowercaseString] };
 	[[NSNotificationCenter defaultCenter] postNotificationName:kDKMetadataDidChangeNotification
 														object:self
 													  userInfo:userInfo];
@@ -449,7 +449,7 @@ NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetad
 
 	id value;
 
-	for (NSString *key in array) {
+	for (NSString* key in array) {
 #if USE_107_OR_LATER_SCHEMA
 		value = [[self metadataItemForKey:key] value];
 #else
@@ -457,7 +457,6 @@ NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetad
 #endif
 		cs ^= [key hash] ^ [value hash];
 	}
-
 
 	if ([self layerGroup])
 		cs ^= [[self layerGroup] metadataChecksum];

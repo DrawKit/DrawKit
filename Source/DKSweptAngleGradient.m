@@ -17,7 +17,7 @@
 #pragma mark -
 @implementation DKSweptAngleGradient
 #pragma mark As a DKSweptAngleGradient
-@synthesize numberOfAngularSegments=m_sa_segments;
+@synthesize numberOfAngularSegments = m_sa_segments;
 
 + (DKGradient*)sweptAngleGradient
 {

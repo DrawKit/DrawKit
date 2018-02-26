@@ -5,24 +5,24 @@
 */
 
 #import "DKDrawableShape.h"
+#import "DKDistortionTransform.h"
+#import "DKDrawKitMacros.h"
 #import "DKDrawablePath.h"
 #import "DKDrawableShape+Hotspots.h"
 #import "DKDrawing.h"
-#import "DKStyle.h"
-#import "DKStroke.h"
-#import "DKDistortionTransform.h"
+#import "DKGeometryUtilities.h"
+#import "DKGridLayer.h"
 #import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
-#import "GCInfoFloater.h"
-#import "DKGeometryUtilities.h"
-#import "LogEvent.h"
-#import "NSBezierPath+Geometry.h"
-#import "NSBezierPath+Editing.h"
-#import "NSDictionary+DeepCopy.h"
-#import "DKGridLayer.h"
-#import "DKShapeGroup.h"
-#import "DKDrawKitMacros.h"
 #import "DKPasteboardInfo.h"
+#import "DKShapeGroup.h"
+#import "DKStroke.h"
+#import "DKStyle.h"
+#import "GCInfoFloater.h"
+#import "LogEvent.h"
+#import "NSBezierPath+Editing.h"
+#import "NSBezierPath+Geometry.h"
+#import "NSDictionary+DeepCopy.h"
 #include <tgmath.h>
 
 #pragma mark Static Vars
@@ -111,7 +111,7 @@ static NSSize sTempSavedOffset;
 	sInfoWindowColour = colour;
 }
 
-+ (NSColor *)infoWindowBackgroundColour
++ (NSColor*)infoWindowBackgroundColour
 {
 	return sInfoWindowColour;
 }
@@ -490,7 +490,7 @@ static NSSize sTempSavedOffset;
 	return pth;
 }
 
-@synthesize path=m_path;
+@synthesize path = m_path;
 
 /** @brief Fetch a new path definition following a resize of the shape
 
@@ -983,8 +983,8 @@ static NSSize sTempSavedOffset;
 - (NSInteger)partcodeOppositeKnob:(NSInteger)knobPartCode
 {
 	static NSInteger pc[] = { kDKDrawableShapeRightHandle, kDKDrawableShapeBottomHandle, kDKDrawableShapeLeftHandle, kDKDrawableShapeTopHandle,
-							  kDKDrawableShapeBottomRightHandle, kDKDrawableShapeBottomLeftHandle,
-							  kDKDrawableShapeTopRightHandle, kDKDrawableShapeTopLeftHandle };
+		kDKDrawableShapeBottomRightHandle, kDKDrawableShapeBottomLeftHandle,
+		kDKDrawableShapeTopRightHandle, kDKDrawableShapeTopLeftHandle };
 
 	if (knobPartCode > kDKDrawableShapeBottomRightHandle)
 		return knobPartCode;
@@ -1443,7 +1443,7 @@ static NSSize sTempSavedOffset;
 {
 	if ([[self class] displaysSizeInfoWhenDragging]) {
 		NSString* infoStr;
-		NSString* fmt1, *fmt2;
+		NSString *fmt1, *fmt2;
 		NSArray* fmt3;
 
 		switch (op) {
@@ -1499,7 +1499,7 @@ static NSSize sTempSavedOffset;
 	}
 }
 
-@synthesize operationMode=m_opMode;
+@synthesize operationMode = m_opMode;
 
 /** @brief Returns the current operation mode
  @return ops mode
@@ -1531,7 +1531,7 @@ static NSSize sTempSavedOffset;
 	}
 }
 
-@synthesize distortionTransform=m_distortTransform;
+@synthesize distortionTransform = m_distortTransform;
 
 #pragma mark -
 #pragma mark - convert to editable path
@@ -1794,7 +1794,7 @@ static NSSize sTempSavedOffset;
 {
 #pragma unused(op)
 	return @[NSPasteboardTypeColor, NSPasteboardTypePDF, NSPasteboardTypeTIFF, (NSString*)kUTTypeFileURL,
-									 NSPasteboardTypeString, kDKStyleKeyPasteboardType, kDKStylePasteboardType];
+		NSPasteboardTypeString, kDKStyleKeyPasteboardType, kDKStylePasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -1951,7 +1951,6 @@ static NSSize sTempSavedOffset;
 				}
 			}
 		}
-
 	}
 }
 
@@ -2375,7 +2374,7 @@ static NSSize sTempSavedOffset;
 	}
 }
 
-@synthesize size=m_scale;
+@synthesize size = m_scale;
 
 - (NSAffineTransform*)transform
 {
@@ -2442,7 +2441,6 @@ static NSSize sTempSavedOffset;
 		[self adoptPath:path];
 	} else
 		[self setSize:NSZeroSize];
-
 }
 
 - (void)setStyle:(DKStyle*)aStyle
@@ -2529,8 +2527,8 @@ static NSSize sTempSavedOffset;
 	NSMutableArray* pts = [[NSMutableArray alloc] init];
 	NSPoint p;
 	NSInteger j[] = { kDKDrawableShapeLeftHandle, kDKDrawableShapeTopHandle, kDKDrawableShapeRightHandle,
-					  kDKDrawableShapeBottomHandle, kDKDrawableShapeTopLeftHandle, kDKDrawableShapeTopRightHandle,
-					  kDKDrawableShapeBottomLeftHandle, kDKDrawableShapeBottomRightHandle, kDKDrawableShapeOriginTarget };
+		kDKDrawableShapeBottomHandle, kDKDrawableShapeTopLeftHandle, kDKDrawableShapeTopRightHandle,
+		kDKDrawableShapeBottomLeftHandle, kDKDrawableShapeBottomRightHandle, kDKDrawableShapeOriginTarget };
 	NSInteger i;
 
 	for (i = 0; i < 9; ++i) {

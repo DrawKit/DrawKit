@@ -5,10 +5,10 @@
 */
 
 #import "DKKnob.h"
-#import "DKGeometryUtilities.h"
-#import "NSBezierPath+Geometry.h"
 #import "DKDrawingView.h"
+#import "DKGeometryUtilities.h"
 #import "DKHandle.h"
+#import "NSBezierPath+Geometry.h"
 
 #define USE_DK_HANDLES 1
 
@@ -43,7 +43,7 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	}
 }
 
-@synthesize owner=m_ownerRef;
+@synthesize owner = m_ownerRef;
 
 #pragma mark -
 #define FASTER_KNOB_DRAWING 1
@@ -60,8 +60,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 {
 	NSAssert(knobType != 0, @"knob type can't be zero");
 
-// query the owner to find out whether we're active and what the scale is. If there's no owner set,
-// skip this fancy stuff
+	// query the owner to find out whether we're active and what the scale is. If there's no owner set,
+	// skip this fancy stuff
 
 #if USE_DK_HANDLES
 	if ([[self owner] respondsToSelector:@selector(knobsWantDrawingActiveState)]) {
@@ -104,8 +104,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	CGFloat screenSize = cns.width * scale;
 
 	if (screenSize >= 1.0) {
-// as a special case for optimised drawing, the square knob type is drawn by a faster method. Also,
-// control point knobs are drawn this way too, which speeds up that case also.
+	// as a special case for optimised drawing, the square knob type is drawn by a faster method. Also,
+	// control point knobs are drawn this way too, which speeds up that case also.
 
 #ifdef FASTER_KNOB_DRAWING
 		if ((knobType & kDKKnobTypeMask) == kDKBoundingRectKnobType || (knobType & kDKKnobTypeMask) == kDKControlPointKnobType) {
@@ -161,8 +161,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 {
 	NSAssert(knobType != 0, @"knob type can't be zero");
 
-// query the owner to find out whether we're active and what the scale is. If there's no owner set,
-// skip this fancy stuff
+	// query the owner to find out whether we're active and what the scale is. If there's no owner set,
+	// skip this fancy stuff
 
 #if USE_DK_HANDLES
 #pragma unused(userInfo)
@@ -205,8 +205,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	CGFloat screenSize = cns.width * scale;
 
 	if (screenSize >= 1.0) {
-// as a special case for optimised drawing, the square knob type is drawn by a faster method. Also,
-// control point knobs are drawn this way too, which speeds up that case also.
+	// as a special case for optimised drawing, the square knob type is drawn by a faster method. Also,
+	// control point knobs are drawn this way too, which speeds up that case also.
 
 #ifdef FASTER_KNOB_DRAWING
 		if ((knobType & kDKKnobTypeMask) == kDKBoundingRectKnobType || (knobType & kDKKnobTypeMask) == kDKControlPointKnobType) {
@@ -368,13 +368,13 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 		return NO;
 }
 
-@synthesize controlBarColour=mControlBarColour;
-@synthesize controlBarWidth=mControlBarWidth;
-@synthesize scalingRatio=mScaleRatio;
+@synthesize controlBarColour = mControlBarColour;
+@synthesize controlBarWidth = mControlBarWidth;
+@synthesize scalingRatio = mScaleRatio;
 
 #pragma mark -
 #pragma mark - low - level methods(mostly internal and overridable)
-@synthesize controlKnobSize=m_knobSize;
+@synthesize controlKnobSize = m_knobSize;
 
 - (void)setControlKnobSizeForViewScale:(CGFloat)scale
 {

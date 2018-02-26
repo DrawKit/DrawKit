@@ -6,10 +6,10 @@
 
 #import "DKDrawkitInspectorBase.h"
 #import "DKDrawableObject.h"
-#import "DKDrawingDocument.h"
 #import "DKDrawing.h"
-#import "DKObjectDrawingLayer.h"
+#import "DKDrawingDocument.h"
 #import "DKDrawingView.h"
+#import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
 
 @implementation DKDrawkitInspectorBase

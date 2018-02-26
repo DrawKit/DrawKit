@@ -5,12 +5,12 @@
 */
 
 #import "DKGuideLayer.h"
-#import "DKDrawingView.h"
 #import "DKDrawing.h"
+#import "DKDrawingView.h"
 #import "DKGridLayer.h"
+#import "DKUndoManager.h"
 #import "GCInfoFloater.h"
 #import "NSColor+DKAdditions.h"
-#import "DKUndoManager.h"
 
 #define DK_DRAW_GUIDES_IN_CLIP_VIEW 0
 
@@ -180,7 +180,7 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-@synthesize guidesSnapToGrid=m_snapToGrid;
+@synthesize guidesSnapToGrid = m_snapToGrid;
 
 #pragma mark -
 
@@ -348,7 +348,7 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-@synthesize snapTolerance=m_snapTolerance;
+@synthesize snapTolerance = m_snapTolerance;
 
 #pragma mark -
 
@@ -549,8 +549,8 @@ static BOOL sWasInside = NO;
 
 #pragma mark -
 
-@synthesize showsDragInfoWindow=m_showDragInfo;
-@synthesize guideDeletionRect=mGuideDeletionZone;
+@synthesize showsDragInfoWindow = m_showDragInfo;
+@synthesize guideDeletionRect = mGuideDeletionZone;
 
 - (void)setGuidesDrawnInEnclosingScrollview:(BOOL)drawOutside
 {
@@ -558,7 +558,7 @@ static BOOL sWasInside = NO;
 	[self setNeedsDisplay:YES];
 }
 
-@synthesize guidesDrawnInEnclosingScrollview=mDrawGuidesInClipView;
+@synthesize guidesDrawnInEnclosingScrollview = mDrawGuidesInClipView;
 
 #pragma mark -
 
@@ -646,7 +646,7 @@ static BOOL sWasInside = NO;
 
 		SAVE_GRAPHICS_CONTEXT
 
-		[clipView lockFocus];
+			[clipView lockFocus];
 
 		NSRect br = [clipView bounds];
 		[NSBezierPath clipRect:br];
@@ -1068,9 +1068,9 @@ static BOOL sWasInside = NO;
 @implementation DKGuide
 #pragma mark As a DKGuide
 
-@synthesize guidePosition=m_position;
-@synthesize isVerticalGuide=m_isVertical;
-@synthesize guideColour=m_colour;
+@synthesize guidePosition = m_position;
+@synthesize isVerticalGuide = m_isVertical;
+@synthesize guideColour = m_colour;
 
 /** @brief Draws the guide
 
@@ -1142,6 +1142,5 @@ static BOOL sWasInside = NO;
 	}
 	return self;
 }
-
 
 @end

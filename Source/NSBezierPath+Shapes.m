@@ -4,8 +4,8 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "NSBezierPath+Shapes.h"
 #import "NSBezierPath+Geometry.h"
+#import "NSBezierPath+Shapes.h"
 
 #pragma mark Constants(Non - localized)
 //static const CGFloat deg60 = 1.0471975512;

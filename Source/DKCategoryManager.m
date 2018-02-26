@@ -5,11 +5,11 @@
 */
 
 #import "DKCategoryManager.h"
-#import "NSDictionary+DeepCopy.h"
+#import "DKUnarchivingHelper.h"
 #import "LogEvent.h"
+#import "NSDictionary+DeepCopy.h"
 #import "NSMutableArray+DKAdditions.h"
 #import "NSString+DKAdditions.h"
-#import "DKUnarchivingHelper.h"
 
 #pragma mark Contants(Non - localized)
 NSString* const kDKDefaultCategoryName = @"All Items";
@@ -56,7 +56,7 @@ NSString* const kDKCategoryManagerDidDeleteCategory = @"kDKCategoryManagerDidDel
 
 - (void)addCategory:(DKCategoryName)newCategory;
 - (void)removeCategory:(DKCategoryName)oldCategory;
-- (void)renameCategoryWithInfo:(NSDictionary<NSString*,DKCategoryName>*)info;
+- (void)renameCategoryWithInfo:(NSDictionary<NSString*, DKCategoryName>*)info;
 - (void)addKey:(NSString*)aKey;
 - (void)addRecentlyAddedOrUsedKey:(NSString*)aKey;
 - (void)syncRecentlyUsedMenuForKey:(NSString*)aKey;
@@ -74,7 +74,6 @@ enum {
 	kDKCategoryManagerManagedMenuItemTag = -42,
 	kDKCategoryManagerRecentMenuItemTag = -43
 };
-
 
 @interface DKCategoryManager ()
 
@@ -426,9 +425,7 @@ static id sDearchivingHelper = nil;
 
 	id newObj = nil;
 
-	if (aDelegate && [aDelegate respondsToSelector:@selector(categoryManager:
-														 shouldReplaceObject:
-																  withObject:)]) {
+	if (aDelegate && [aDelegate respondsToSelector:@selector(categoryManager:shouldReplaceObject:withObject:)]) {
 		id existingObject = [self objectForKey:[[self class] categoryManagerKeyForObject:obj]];
 
 		if (existingObject == nil || existingObject == obj)
@@ -451,7 +448,7 @@ static id sDearchivingHelper = nil;
 {
 	NSMutableArray* keys = [[NSMutableArray alloc] init];
 
-	for (NSString *s in [self allKeysInCategory:catName])
+	for (NSString* s in [self allKeysInCategory:catName])
 		[keys addObject:[s lowercaseString]];
 
 	return [m_masterList objectsForKeys:keys
@@ -462,7 +459,7 @@ static id sDearchivingHelper = nil;
 {
 	NSMutableArray* keys = [[NSMutableArray alloc] init];
 
-	for (NSString *s in [self allKeysInCategories:catNames])
+	for (NSString* s in [self allKeysInCategories:catNames])
 		[keys addObject:[s lowercaseString]];
 
 	return [m_masterList objectsForKeys:keys
@@ -562,7 +559,7 @@ static id sDearchivingHelper = nil;
 		//	LogEvent_(kStateEvent,  @"adding new category '%@'", catName );
 
 		NSMutableArray* cat = [[NSMutableArray alloc] init];
-		NSDictionary* info = @{@"category_name": catName};
+		NSDictionary* info = @{ @"category_name": catName };
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillCreateNewCategory
 															object:self
@@ -582,7 +579,7 @@ static id sDearchivingHelper = nil;
 
 - (void)addCategories:(NSArray*)catNames
 {
-	for (NSString *catName in catNames)
+	for (NSString* catName in catNames)
 		[self addCategory:catName];
 }
 
@@ -591,7 +588,7 @@ static id sDearchivingHelper = nil;
 	//	LogEvent_(kStateEvent, @"removing category '%@'", catName );
 
 	if ([m_categories objectForKey:catName]) {
-		NSDictionary* info = @{@"category_name": catName};
+		NSDictionary* info = @{ @"category_name": catName };
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKCategoryManagerWillDeleteCategory
 															object:self
@@ -622,7 +619,8 @@ static id sDearchivingHelper = nil;
 
 		// update menu item title:
 
-		NSDictionary* info = @{@"old_name": catName, @"new_name": newname};
+		NSDictionary* info = @{ @"old_name": catName,
+			@"new_name": newname };
 		[mMenusList makeObjectsPerformSelector:@selector(renameCategoryWithInfo:)
 									withObject:info];
 
@@ -731,7 +729,7 @@ static id sDearchivingHelper = nil;
 
 - (void)fixUpCategories
 {
-	for (NSString *key in [self allKeys]) {
+	for (NSString* key in [self allKeys]) {
 		if ([self objectForKey:key] == nil)
 			[self removeKeyFromAllCategories:key];
 	}
@@ -800,7 +798,7 @@ static id sDearchivingHelper = nil;
 
 	catList = [[NSMutableArray alloc] init];
 
-	for (NSString *catName in [m_categories allKeys]) {
+	for (NSString* catName in [m_categories allKeys]) {
 		NSArray* cat = [self allKeysInCategory:catName];
 
 		if ([cat containsObject:key])
@@ -1177,25 +1175,25 @@ static id sDearchivingHelper = nil;
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super init]) {
-	m_masterList = [coder decodeObjectForKey:@"master"];
-	m_categories = [coder decodeObjectForKey:@"categories"];
-	m_recentlyAdded = [coder decodeObjectForKey:@"recent_add"];
-	m_recentlyUsed = [coder decodeObjectForKey:@"recent_use"];
+		m_masterList = [coder decodeObjectForKey:@"master"];
+		m_categories = [coder decodeObjectForKey:@"categories"];
+		m_recentlyAdded = [coder decodeObjectForKey:@"recent_add"];
+		m_recentlyUsed = [coder decodeObjectForKey:@"recent_use"];
 
-	m_maxRecentlyAddedItems = [coder decodeIntegerForKey:@"maxadd"];
-	m_maxRecentlyUsedItems = [coder decodeIntegerForKey:@"maxuse"];
-	mRecentlyAddedEnabled = YES;
+		m_maxRecentlyAddedItems = [coder decodeIntegerForKey:@"maxadd"];
+		m_maxRecentlyUsedItems = [coder decodeIntegerForKey:@"maxuse"];
+		mRecentlyAddedEnabled = YES;
 
-	mMenusList = [[NSMutableArray alloc] init];
+		mMenusList = [[NSMutableArray alloc] init];
 
-	if (m_masterList == nil
-		|| m_categories == nil
-		|| m_recentlyAdded == nil
-		|| m_recentlyUsed == nil) {
-		return nil;
+		if (m_masterList == nil
+			|| m_categories == nil
+			|| m_recentlyAdded == nil
+			|| m_recentlyUsed == nil) {
+			return nil;
+		}
 	}
-	}
-	
+
 	return self;
 }
 
@@ -1438,9 +1436,7 @@ static id sDearchivingHelper = nil;
 					[childItem setTarget:mTargetRef];
 					[childItem setRepresentedObject:repObject];
 
-					if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-																						 wasAddedForObject:
-																								inCategory:)])
+					if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:wasAddedForObject:inCategory:)])
 						[mCallbackTargetRef menuItem:childItem
 								   wasAddedForObject:repObject
 										  inCategory:cat];
@@ -1499,7 +1495,7 @@ static id sDearchivingHelper = nil;
 
 			NSArray* items = [[raSub itemArray] copy];
 
-			for (NSMenuItem *item in items) {
+			for (NSMenuItem* item in items) {
 				NSArray* allKeys = [mCatManagerRef keysForObject:[item representedObject]];
 
 				// if there are no keys, the object can't be known to the cat mgr, so delete it from the menu now
@@ -1530,9 +1526,7 @@ static id sDearchivingHelper = nil;
 					[childItem setRepresentedObject:repObject];
 					[childItem setTarget:mTargetRef];
 
-					if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-																						 wasAddedForObject:
-																								inCategory:)])
+					if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:wasAddedForObject:inCategory:)])
 						[mCallbackTargetRef menuItem:childItem
 								   wasAddedForObject:repObject
 										  inCategory:nil];
@@ -1669,9 +1663,7 @@ static id sDearchivingHelper = nil;
 
 				NSString* oldTitle = [item title];
 
-				if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-																					 wasAddedForObject:
-																							inCategory:)])
+				if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:wasAddedForObject:inCategory:)])
 					[mCallbackTargetRef menuItem:item
 							   wasAddedForObject:repObject
 									  inCategory:catName];
@@ -1738,9 +1730,7 @@ static id sDearchivingHelper = nil;
 										 action:0
 								  keyEquivalent:@""];
 
-		if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-																			 wasAddedForObject:
-																					inCategory:)])
+		if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:wasAddedForObject:inCategory:)])
 			[mCallbackTargetRef menuItem:parentItem
 					   wasAddedForObject:self
 							  inCategory:nil];
@@ -1883,9 +1873,7 @@ static id sDearchivingHelper = nil;
 		id repObject = [mCatManagerRef objectForKey:key];
 		[childItem setRepresentedObject:repObject];
 
-		if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:
-																			 wasAddedForObject:
-																					inCategory:)])
+		if (mCallbackTargetRef && [mCallbackTargetRef respondsToSelector:@selector(menuItem:wasAddedForObject:inCategory:)])
 			[mCallbackTargetRef menuItem:childItem
 					   wasAddedForObject:repObject
 							  inCategory:nil];

@@ -19,8 +19,8 @@
 	//LogEvent_(kReactiveEvent, @"selector = '%@'", [NSString stringWithCString:sel_getName( selector )]);
 }
 
-@synthesize shapeProvider=m_shapeProvider;
-@synthesize shapeSelector=m_shapeSelector;
+@synthesize shapeProvider = m_shapeProvider;
+@synthesize shapeSelector = m_shapeSelector;
 
 #pragma mark -
 - (void)setOptionalParameter:(id)objParam
@@ -38,14 +38,14 @@
 	}
 }
 
-@synthesize optionalParameter=m_optionalParam;
+@synthesize optionalParameter = m_optionalParam;
 
 #pragma mark -
 - (NSBezierPath*)providedShapeForRect:(NSRect)r
 {
 	shapeProviderFunction sp;
 
-	sp = (shapeProviderFunction)[[self shapeProvider] methodForSelector : [self shapeSelector]];
+	sp = (shapeProviderFunction)[[self shapeProvider] methodForSelector:[self shapeSelector]];
 
 	if (sp)
 		return sp([self shapeProvider], [self shapeSelector], r, [self optionalParameter]);
@@ -119,7 +119,7 @@
 	}
 }
 
-/*- (void)		parentGeometryChanged
+	/*- (void)		parentGeometryChanged
 {
 	[self reshapePath];
 }*/

@@ -5,19 +5,19 @@
 */
 
 #import "DKToolRegistry.h"
-#import "DKObjectCreationTool.h"
+#import "DKArcPath.h"
+#import "DKCropTool.h"
 #import "DKDrawablePath.h"
-#import "DKReshapableShape.h"
+#import "DKObjectCreationTool.h"
 #import "DKPathInsertDeleteTool.h"
+#import "DKRegularPolygonPath.h"
+#import "DKReshapableShape.h"
+#import "DKSelectAndEditTool.h"
 #import "DKShapeFactory.h"
+#import "DKStyle.h"
+#import "DKTextPath.h"
 #import "DKTextShape.h"
 #import "DKZoomTool.h"
-#import "DKSelectAndEditTool.h"
-#import "DKCropTool.h"
-#import "DKArcPath.h"
-#import "DKStyle.h"
-#import "DKRegularPolygonPath.h"
-#import "DKTextPath.h"
 
 // notifications
 
@@ -110,7 +110,7 @@ static DKToolRegistry* s_toolRegistry = nil;
 
 		//NSLog(@"looking for tool with keyboard equivalent, string = '%@', modifers = %d", [keyEvent charactersIgnoringModifiers], [keyEvent modifierFlags]);
 
-		for (NSString *name in mToolsReg) {
+		for (NSString* name in mToolsReg) {
 			DKDrawingTool* tool = [mToolsReg objectForKey:name];
 
 			keyEquivalent = [tool keyboardEquivalent];
@@ -166,7 +166,7 @@ static DKToolRegistry* s_toolRegistry = nil;
 	DKReshapableShape* rss = [[trueClass alloc] init];
 	[rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
 				 selector:@selector(roundRectInRect:
-										   objParam:)];
+									objParam:)];
 	[rss setOptionalParameter:@16.0];
 	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
 	[self registerDrawingTool:dt
@@ -177,7 +177,7 @@ static DKToolRegistry* s_toolRegistry = nil;
 	rss = [[trueClass alloc] init];
 	[rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
 				 selector:@selector(roundEndedRect:
-										  objParam:)];
+									objParam:)];
 	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
 	[self registerDrawingTool:dt
 					 withName:kDKStandardRoundEndedRectangleToolName];
@@ -187,7 +187,7 @@ static DKToolRegistry* s_toolRegistry = nil;
 	rss = [[trueClass alloc] init];
 	[rss setShapeProvider:[DKShapeFactory sharedShapeFactory]
 				 selector:@selector(speechBalloonInRect:
-											   objParam:)];
+									objParam:)];
 	dt = [[DKObjectCreationTool alloc] initWithPrototypeObject:rss];
 	[self registerDrawingTool:dt
 					 withName:kDKStandardSpeechBalloonToolName];

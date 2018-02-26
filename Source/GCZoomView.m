@@ -141,13 +141,13 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 #pragma unused(sender)
 
 	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
-		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		NSScrollView* sv = (NSScrollView*)[[self superview] superview];
 		NSRect ssfr = sv.frame;
-		
+
 		NSRect fr = [self frame];
-		
+
 		CGFloat sx, sy;
-		
+
 		sx = ssfr.size.width / fr.size.width;
 		sy = ssfr.size.height / fr.size.height;
 
@@ -320,13 +320,13 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 - (void)setScale:(CGFloat)sc
 {
 	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
-		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
-		
+		NSScrollView* sv = (NSScrollView*)[[self superview] superview];
+
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewWillChangeScale
 															object:self];
 
 		sv.animator.magnification = sc;
-		
+
 		[[NSNotificationCenter defaultCenter] postNotificationName:kDKDrawingViewDidChangeScale
 															object:self];
 		return;
@@ -368,22 +368,22 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 - (CGFloat)scale
 {
 	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
-		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
-		
+		NSScrollView* sv = (NSScrollView*)[[self superview] superview];
+
 		return sv.magnification;
 	}
 	return m_scale;
 }
 
-@synthesize scale=m_scale;
-@synthesize changingScale=mIsChangingScale;
-@synthesize minimumScale=mMinScale;
-@synthesize maximumScale=mMaxScale;
+@synthesize scale = m_scale;
+@synthesize changingScale = mIsChangingScale;
+@synthesize minimumScale = mMinScale;
+@synthesize maximumScale = mMaxScale;
 
 - (CGFloat)minimumScale
 {
 	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
-		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		NSScrollView* sv = (NSScrollView*)[[self superview] superview];
 		return sv.minMagnification;
 	} else {
 		return mMinScale;
@@ -392,9 +392,9 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 
 - (void)setMinimumScale:(CGFloat)scmin
 {
-	mMinScale=scmin;
+	mMinScale = scmin;
 	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
-		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		NSScrollView* sv = (NSScrollView*)[[self superview] superview];
 		sv.minMagnification = scmin;
 	}
 }
@@ -402,7 +402,7 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 - (CGFloat)maximumScale
 {
 	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
-		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		NSScrollView* sv = (NSScrollView*)[[self superview] superview];
 		return sv.maxMagnification;
 	} else {
 		return mMaxScale;
@@ -411,9 +411,9 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 
 - (void)setMaximumScale:(CGFloat)scmax
 {
-	mMaxScale=scmax;
+	mMaxScale = scmax;
 	if ([[[self superview] superview] isKindOfClass:[NSScrollView class]]) {
-		NSScrollView *sv = (NSScrollView *)[[self superview] superview];
+		NSScrollView* sv = (NSScrollView*)[[self superview] superview];
 		sv.maxMagnification = scmax;
 	}
 }
@@ -474,8 +474,8 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 		mMaxScale = 250.0;
 
 		mRT = [DKRetriggerableTimer retriggerableTimerWithPeriod:kDKZoomingRetriggerPeriod
-														   target:self
-														 selector:@selector(stopScaleChange)];
+														  target:self
+														selector:@selector(stopScaleChange)];
 	}
 	return self;
 }
@@ -492,19 +492,19 @@ NSString* const kDKDrawingScrollwheelSensePrefsKey = @"kDKDrawingcrollwheelSense
 		mMaxScale = 250.0;
 
 		mRT = [DKRetriggerableTimer retriggerableTimerWithPeriod:kDKZoomingRetriggerPeriod
-														   target:self
-														 selector:@selector(stopScaleChange)];
+														  target:self
+														selector:@selector(stopScaleChange)];
 	}
 	return self;
 }
 
-- (void)viewWillMoveToSuperview:(NSView *)newSuperview
+- (void)viewWillMoveToSuperview:(NSView*)newSuperview
 {
 	[super viewWillMoveToSuperview:newSuperview];
 	if ([newSuperview.superview isKindOfClass:[NSScrollView self]]) {
-		NSScrollView *sv = (NSScrollView*)newSuperview.superview;
-		sv.maxMagnification=mMaxScale;
-		sv.minMagnification=mMinScale;
+		NSScrollView* sv = (NSScrollView*)newSuperview.superview;
+		sv.maxMagnification = mMaxScale;
+		sv.minMagnification = mMinScale;
 	}
 }
 

@@ -36,7 +36,7 @@ typedef NS_OPTIONS(NSUInteger, DKAbbreviationOption) {
 /** @brief Returns a copy of the receiver with just the first character capitalized, ignoring all others. Thus, the rest of the string isn't necessarily forced to
  lowercase.
  */
-@property (readonly, copy) NSString *stringByCapitalizingFirstCharacter;
+@property (readonly, copy) NSString* stringByCapitalizingFirstCharacter;
 
 /** @brief Returns a string consisting of the first letter of each word in the receiver, optionally separated by dots and optionally replacing 'and' with '&'.
  */
@@ -45,7 +45,7 @@ typedef NS_OPTIONS(NSUInteger, DKAbbreviationOption) {
 /** @brief Breaks a string into words. If any words are keys in the dictionary, the word is substituted by its value. Keys are case insensitive (dictionary should have lower case
  keys) and words are substituted with the verbatim value. If \c dictionary is <code>nil</code>, \c self is returned.
  */
-- (NSString*)stringByAbbreviatingWordsWithDictionary:(nullable NSDictionary<NSString*,NSString*>*)abbreviations;
+- (NSString*)stringByAbbreviatingWordsWithDictionary:(nullable NSDictionary<NSString*, NSString*>*)abbreviations;
 
 @end
 

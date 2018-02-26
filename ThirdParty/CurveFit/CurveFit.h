@@ -16,8 +16,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 // curve fit vector paths using bezier curve fitting:
@@ -42,13 +41,11 @@ extern NSBezierPath* DKSmartCurveFitPath(NSBezierPath* inPath, CGFloat epsilon, 
 
 // curve fit vector path using poTrace smoothing algorithm:
 
-
 #ifndef SIGN
-#define SIGN(x)		((x) > 0? 1 : (x) < 0? -1 : 0)
+#define SIGN(x) ((x) > 0 ? 1 : (x) < 0 ? -1 : 0)
 #endif
 
-
-#define kDKDefaultCornerThreshold		(M_PI / 6)
+#define kDKDefaultCornerThreshold (M_PI / 6)
 
 NS_ASSUME_NONNULL_END
 

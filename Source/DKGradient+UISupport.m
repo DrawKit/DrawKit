@@ -261,11 +261,11 @@ typedef struct GlossParameters {
 	CGFunctionCallbacks callbacks = { 0, glossInterpolation, NULL };
 
 	CGFunctionRef gradientFunction = CGFunctionCreate((void*)&params,
-													  1, // number of input values to the callback
-													  input_value_range,
-													  4, // number of components (r, g, b, a)
-													  output_value_ranges,
-													  &callbacks);
+		1, // number of input values to the callback
+		input_value_range,
+		4, // number of components (r, g, b, a)
+		output_value_ranges,
+		&callbacks);
 
 	CGPoint startPoint;
 	CGPoint endPoint;
@@ -280,7 +280,7 @@ typedef struct GlossParameters {
 
 	CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
 	CGShadingRef shading = CGShadingCreateAxial(colorspace, startPoint,
-												endPoint, gradientFunction, FALSE, FALSE);
+		endPoint, gradientFunction, FALSE, FALSE);
 
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 

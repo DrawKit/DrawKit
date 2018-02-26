@@ -7,18 +7,18 @@
 #import "DKObjectDrawingLayer.h"
 #import "DKDrawablePath.h"
 #import "DKDrawing.h"
-#import "DKStyle.h"
-#import "DKUndoManager.h"
+#import "DKGeometryUtilities.h"
+#import "DKImageShape.h"
 #import "DKObjectDrawingLayer+Alignment.h"
+#import "DKPasteboardInfo.h"
+#import "DKRuntimeHelper.h"
 #import "DKSelectionPDFView.h"
 #import "DKShapeCluster.h"
-#import "DKRuntimeHelper.h"
-#import "NSMutableArray+DKAdditions.h"
-#import "DKImageShape.h"
+#import "DKStyle.h"
 #import "DKTextShape.h"
-#import "DKGeometryUtilities.h"
+#import "DKUndoManager.h"
 #import "LogEvent.h"
-#import "DKPasteboardInfo.h"
+#import "NSMutableArray+DKAdditions.h"
 
 #pragma mark Contants(Non - localized)
 
@@ -33,12 +33,12 @@ static BOOL sSelVisWhenInactive = NO;
 static NSMutableDictionary* sSelectionBuffer = nil;
 
 @interface DKSecretSelectorsDrawingLayer : NSObject
--(IBAction)unionSelectedObjects:(id)sender;
--(IBAction)combineSelectedObjects:(id)sender;
--(IBAction)diffSelectedObjects:(id)sender;
--(IBAction)intersectionSelectedObjects:(id)sender;
--(IBAction)xorSelectedObjects:(id)sender;
--(IBAction)divideSelectedObjects:(id)sender;
+- (IBAction)unionSelectedObjects:(id)sender;
+- (IBAction)combineSelectedObjects:(id)sender;
+- (IBAction)diffSelectedObjects:(id)sender;
+- (IBAction)intersectionSelectedObjects:(id)sender;
+- (IBAction)xorSelectedObjects:(id)sender;
+- (IBAction)divideSelectedObjects:(id)sender;
 @end
 
 @interface DKObjectDrawingLayer ()
@@ -1248,7 +1248,7 @@ enum {
 #pragma mark -
 #pragma mark - drag + drop
 
-@synthesize dragExclusionRect=m_dragExcludeRect;
+@synthesize dragExclusionRect = m_dragExcludeRect;
 
 /** @brief Initiates a drag of the selection to another document or app, or back to self.
 
@@ -1497,7 +1497,6 @@ enum {
 
 		NSImage* image = [[NSImage alloc] initWithPasteboard:pb];
 		DKImageShape* imshape = [[DKImageShape alloc] initWithImage:image];
-
 
 		objects = @[imshape];
 
@@ -2174,28 +2173,26 @@ enum {
 				// draw the objects
 
 				if (!drawSelected || [self drawsSelectionHighlightsOnTop]) {
-					
+
 					for (DKDrawableObject* obj in objectsToDraw) {
 						[obj drawContentWithSelectedState:NO];
 					}
-					
+
 				} else {
 
 					for (DKDrawableObject* obj in objectsToDraw) {
 						[obj drawContentWithSelectedState:[self isSelectedObject:obj]];
 					}
-
 				}
 
 				// draw the selection on top if set to do so
 
 				if ([self drawsSelectionHighlightsOnTop] && drawSelected) {
-					
+
 					for (DKDrawableObject* obj in objectsToDraw) {
 						if ([self isSelectedObject:obj])
 							[obj drawSelectedState];
 					}
-					
 				}
 			}
 		}
@@ -2731,12 +2728,16 @@ enum {
 
 	if (action == @selector(ghostObjects:)) {
 		return (([[self selectedObjectsReturning:NO
-									  toSelector:@selector(isGhosted)] count] > 0) && ![self lockedOrHidden]);
+									  toSelector:@selector(isGhosted)] count]
+					> 0)
+			&& ![self lockedOrHidden]);
 	}
 
 	if (action == @selector(unghostObjects:)) {
 		return (([[self selectedObjectsReturning:YES
-									  toSelector:@selector(isGhosted)] count] > 0) && ![self lockedOrHidden]);
+									  toSelector:@selector(isGhosted)] count]
+					> 0)
+			&& ![self lockedOrHidden]);
 	}
 
 	BOOL enable = NO;

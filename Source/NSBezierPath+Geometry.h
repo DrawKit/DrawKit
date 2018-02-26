@@ -44,8 +44,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSBezierPath*)insetPathBy:(CGFloat)amount;
 - (NSBezierPath*)horizontallyFlippedPathAboutPoint:(NSPoint)cp;
 - (NSBezierPath*)verticallyFlippedPathAboutPoint:(NSPoint)cp;
-@property (readonly, copy) NSBezierPath *horizontallyFlippedPath;
-@property (readonly, copy) NSBezierPath *verticallyFlippedPath;
+@property (readonly, copy) NSBezierPath* horizontallyFlippedPath;
+@property (readonly, copy) NSBezierPath* verticallyFlippedPath;
 
 @property (readonly) NSPoint centreOfBounds;
 /** @brief returns the smallest angle subtended by any segment join in the path.
@@ -101,12 +101,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 // getting the outline of a stroked path:
 
-@property (readonly, copy) NSBezierPath *strokedPath;
+@property (readonly, copy) NSBezierPath* strokedPath;
 - (NSBezierPath*)strokedPathWithStrokeWidth:(CGFloat)width;
 
 // breaking a path apart:
 
-@property (readonly, copy) NSArray<NSBezierPath*> *subPaths;
+@property (readonly, copy) NSArray<NSBezierPath*>* subPaths;
 @property (readonly) NSInteger countSubPaths;
 
 // converting to and from Core Graphics paths
@@ -215,10 +215,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)path:(NSBezierPath*)path // the new path that the delegate can build or modify from the information given
 	 elementIndex:(NSInteger)element // the element index
 			 type:(NSBezierPathElement)type // the element type
-	  points:(NSPoint[_Nonnull 4])p // list of associated points 0 = next point, 1 = cp1, 2 = cp2 (for curves), 3 = last point on subpath
+		   points:(NSPoint[_Nonnull 4])p // list of associated points 0 = next point, 1 = cp1, 2 = cp2 (for curves), 3 = last point on subpath
 	 subPathIndex:(NSInteger)spi // which subpath this is
 	subPathClosed:(BOOL)spClosed // is the subpath closed?
- contextInfo:(nullable void*)contextInfo; // the context info
+	  contextInfo:(nullable void*)contextInfo; // the context info
 
 @end
 

@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKRasterizer.h"
 #import "DKCommonTypes.h"
+#import "DKRasterizer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -58,13 +58,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 // class defaults:
 
-@property (class, readonly, strong) NSDictionary<NSAttributedStringKey,id> *defaultTextAttributes;
-@property (class, readonly, copy) NSString *defaultLabel;
+@property (class, readonly, strong) NSDictionary<NSAttributedStringKey, id>* defaultTextAttributes;
+@property (class, readonly, copy) NSString* defaultLabel;
 @property (class) CGFloat defaultMaximumVerticalOffset;
 
 // the text:
 
-@property (readonly, copy) NSString *string;
+@property (readonly, copy) NSString* string;
 - (void)setLabel:(id)anySortOfText;
 - (NSAttributedString*)label;
 - (NSTextStorage*)textToDraw:(id)object;
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief placeholder text - shown if the adornment would otherwise draw nothing
  */
-@property (copy) NSString *placeholderString;
+@property (copy) NSString* placeholderString;
 
 // text conversions:
 
@@ -143,11 +143,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief colour for text knockout, default = white
  */
-@property (strong) NSColor *textKnockoutColour;
+@property (strong) NSColor* textKnockoutColour;
 
 /** @brief colour for stroking the text knockout, default = black
  */
-@property (strong) NSColor *textKnockoutStrokeColour;
+@property (strong) NSColor* textKnockoutStrokeColour;
 
 // modifying text when drawn:
 
@@ -170,19 +170,19 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)changeFont:(nullable id)sender;
 - (void)changeAttributes:(nullable id)sender;
 
-@property (strong) NSFont *font;
+@property (strong) NSFont* font;
 
 @property CGFloat fontSize;
 - (void)scaleTextBy:(CGFloat)factor;
 
-@property (strong) NSColor *colour;
+@property (strong) NSColor* colour;
 
-@property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+@property (copy) NSDictionary<NSAttributedStringKey, id>* textAttributes;
 
 /** @brief returns text attributes to be used when there is no text content at present. These will either be what was previously set or the class
  default.
 */
-@property (readonly, strong) NSDictionary<NSAttributedStringKey,id> *defaultTextAttributes;
+@property (readonly, strong) NSDictionary<NSAttributedStringKey, id>* defaultTextAttributes;
 
 /** @brief asks whether a given attribute applies over the entire length of the string.
 */
@@ -194,10 +194,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 // paragraph styles:
 
-@property (strong) NSParagraphStyle*paragraphStyle;
+@property (strong) NSParagraphStyle* paragraphStyle;
 @property NSTextAlignment alignment;
-@property (strong) NSColor *backgroundColour;
-@property (strong) NSColor *outlineColour;
+@property (strong) NSColor* backgroundColour;
+@property (strong) NSColor* outlineColour;
 @property CGFloat outlineWidth;
 @property NSInteger underlines;
 @property CGFloat kerning;
@@ -216,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief the substitutor object, which supplies the text content:
  */
-@property (nonatomic, strong) DKTextSubstitutor *textSubstitutor;
+@property (nonatomic, strong) DKTextSubstitutor* textSubstitutor;
 
 @property (readonly) BOOL allTextWasFitted;
 

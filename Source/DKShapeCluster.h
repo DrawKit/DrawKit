@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  The master object must already be one of the objects in the group, and it must be a shape
  */
-@property (nonatomic, weak) DKDrawableShape *masterObject;
+@property (nonatomic, weak) DKDrawableShape* masterObject;
 
 @end
 

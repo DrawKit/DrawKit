@@ -5,15 +5,15 @@
 */
 
 #import "DKImageShape.h"
-#import "DKObjectOwnerLayer.h"
-#import "DKDrawableObject+Metadata.h"
-#import "DKStyle.h"
-#import "DKDrawableShape+Hotspots.h"
 #import "DKDrawKitMacros.h"
-#import "LogEvent.h"
+#import "DKDrawableObject+Metadata.h"
+#import "DKDrawableShape+Hotspots.h"
 #import "DKDrawing.h"
 #import "DKImageDataManager.h"
 #import "DKKeyedUnarchiver.h"
+#import "DKObjectOwnerLayer.h"
+#import "DKStyle.h"
+#import "LogEvent.h"
 
 #pragma mark Constants
 
@@ -22,7 +22,7 @@ NSString* const kDKOriginalImageDimensionsMetadataKey = @"dk_image_original_dims
 NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 
 @interface DKSecretSelectorsImageShape : NSObject
--(IBAction)vectorize:(id)sender;
+- (IBAction)vectorize:(id)sender;
 @end
 
 @interface DKImageShape ()
@@ -76,7 +76,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 
 				//	LogEvent_(kReactiveEvent, @"dropped files = %@", files);
 
-				NSURL *url = [files objectAtIndex:0];
+				NSURL* url = [files objectAtIndex:0];
 				NSString* path = [url path];
 
 				// add this info to the metadata for the object
@@ -166,8 +166,8 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 - (instancetype)initWithImageNamed:(NSString*)imageName
 {
 	if (self = [self initWithImage:[NSImage imageNamed:imageName]]) {
-	[self setString:imageName
-			 forKey:kDKOriginalNameMetadataKey];
+		[self setString:imageName
+				 forKey:kDKOriginalNameMetadataKey];
 	}
 
 	return self;
@@ -234,7 +234,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize image=m_image;
+@synthesize image = m_image;
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
 
@@ -247,21 +247,21 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	NSSize niSize = [self logicalBounds].size;
 	NSImage* newImage = [[NSImage alloc] initWithSize:niSize];
 
-		[self setCompositingOperation:NSCompositeCopy];
-		[newImage lockFocus];
+	[self setCompositingOperation:NSCompositeCopy];
+	[newImage lockFocus];
 
-		CGFloat dx, dy;
+	CGFloat dx, dy;
 
-		dx = niSize.width * 0.5;
-		dy = niSize.height * 0.5;
+	dx = niSize.width * 0.5;
+	dy = niSize.height * 0.5;
 
-		NSAffineTransform* tfm = [NSAffineTransform transform];
-		[tfm translateXBy:-([self location].x - dx)
-					  yBy:-([self location].y - dy)];
-		[tfm concat];
+	NSAffineTransform* tfm = [NSAffineTransform transform];
+	[tfm translateXBy:-([self location].x - dx)
+				  yBy:-([self location].y - dy)];
+	[tfm concat];
 
-		[self drawImage];
-		[newImage unlockFocus];
+	[self drawImage];
+	[newImage unlockFocus];
 
 	[self setCompositingOperation:savedOp];
 	return newImage;
@@ -298,7 +298,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize imageKey=mImageKey;
+@synthesize imageKey = mImageKey;
 #if 0
 /** @brief Set the object's image key
 
@@ -514,7 +514,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize imageOpacity=m_opacity;
+@synthesize imageOpacity = m_opacity;
 
 /** @brief Set whether the image draws above or below the rendering done by the style
 
@@ -530,7 +530,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize imageDrawsOnTop=m_drawnOnTop;
+@synthesize imageDrawsOnTop = m_drawnOnTop;
 
 /** @brief Set the Quartz composition mode to use when compositing the image
 
@@ -546,7 +546,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize compositingOperation=m_op;
+@synthesize compositingOperation = m_op;
 
 /** @brief Set the scale factor for the image
 
@@ -564,7 +564,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize imageScale=m_imageScale;
+@synthesize imageScale = m_imageScale;
 
 /** @brief Set the offset position for the image
 
@@ -582,7 +582,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize imageOffset=m_imageOffset;
+@synthesize imageOffset = m_imageOffset;
 
 /** @brief Set the display mode for the object - crop image or scale it
 
@@ -599,7 +599,7 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	}
 }
 
-@synthesize imageCroppingOptions=mImageCropping;
+@synthesize imageCroppingOptions = mImageCropping;
 
 #pragma mark -
 
@@ -609,7 +609,8 @@ NSString* const kDKOriginalNameMetadataKey = @"dk_original_name";
 	// to the current graphics context.
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		NSAffineTransform* xt = [self containerTransform];
+		NSAffineTransform* xt
+		= [self containerTransform];
 
 	[[self transformedPath] addClip];
 

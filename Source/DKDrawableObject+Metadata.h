@@ -14,9 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 /** Metadata has been through a bit of evolution. This constant indicates which schema is in use
  */
 typedef NS_ENUM(NSInteger, DKMetadataSchema) {
-	kDKMetadataOriginalSchema NS_SWIFT_NAME(DKMetadataSchema.original)= 1,
-	kDKMetadataMark2Schema NS_SWIFT_NAME(DKMetadataSchema.mark2)= 2,
-	kDKMetadata107Schema NS_SWIFT_NAME(DKMetadataSchema.metadata107)= 3
+	kDKMetadataOriginalSchema NS_SWIFT_NAME(DKMetadataSchema.original) = 1,
+	kDKMetadataMark2Schema NS_SWIFT_NAME(DKMetadataSchema.mark2) = 2,
+	kDKMetadata107Schema NS_SWIFT_NAME(DKMetadataSchema.metadata107) = 3
 };
 
 /** @brief Stores various drawkit private variables in the metadata.
@@ -31,10 +31,10 @@ typedef NS_ENUM(NSInteger, DKMetadataSchema) {
 
 @property (class) BOOL metadataChangesAreUndoable;
 
-- (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
-- (void)setMetadata:(NSDictionary<NSString*,DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
-- (nullable NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
-@property (readonly, copy, nullable) NSArray<NSString*> *metadataKeys;
+- (void)addMetadata:(NSDictionary<NSString*, id>*)dict;
+- (void)setMetadata:(NSDictionary<NSString*, DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
+- (nullable NSMutableDictionary<NSString*, DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
+@property (readonly, copy, nullable) NSArray<NSString*>* metadataKeys;
 
 - (void)setupMetadata;
 /** Detects the current schema and returns a constant indicating which is in use. When an object is unarchived it is automatically

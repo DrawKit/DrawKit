@@ -12,9 +12,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
-	kDKLayerMetadataOriginalSchema NS_SWIFT_NAME(DKLayerMetadataSchema.original)= 1,
-	kDKLayerMetadataCaseInsensitiveSchema NS_SWIFT_NAME(DKLayerMetadataSchema.caseInsensitive)= 2,
-	kDKLayerMetadata107Schema NS_SWIFT_NAME(DKLayerMetadataSchema.metadata107)= 3
+	kDKLayerMetadataOriginalSchema NS_SWIFT_NAME(DKLayerMetadataSchema.original) = 1,
+	kDKLayerMetadataCaseInsensitiveSchema NS_SWIFT_NAME(DKLayerMetadataSchema.caseInsensitive) = 2,
+	kDKLayerMetadata107Schema NS_SWIFT_NAME(DKLayerMetadataSchema.metadata107) = 3
 };
 
 /** @brief adds some convenience methods for standard meta data attached to a graphic object.
@@ -27,12 +27,12 @@ typedef NS_ENUM(NSInteger, DKLayerMetadataSchema) {
 @property (class) BOOL metadataChangesAreUndoable;
 
 - (void)setupMetadata;
-- (nullable NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
+- (nullable NSMutableDictionary<NSString*, DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
 @property (readonly) DKLayerMetadataSchema schema;
-@property (readonly, copy, nullable) NSArray<NSString*> *metadataKeys;
+@property (readonly, copy, nullable) NSArray<NSString*>* metadataKeys;
 
-- (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
-- (void)setMetadata:(NSDictionary<NSString*,DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
+- (void)addMetadata:(NSDictionary<NSString*, id>*)dict;
+- (void)setMetadata:(NSDictionary<NSString*, DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
 
 - (void)setMetadataItem:(DKMetadataItem*)item forKey:(NSString*)key;
 - (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key;

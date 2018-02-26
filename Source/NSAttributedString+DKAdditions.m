@@ -4,12 +4,12 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "NSAttributedString+DKAdditions.h"
-#import "DKBezierTextContainer.h"
 #import "DKBezierLayoutManager.h"
-#import "NSAffineTransform+DKAdditions.h"
-#import "NSBezierPath+Geometry.h"
+#import "DKBezierTextContainer.h"
 #import "DKDrawKitMacros.h"
+#import "NSAffineTransform+DKAdditions.h"
+#import "NSAttributedString+DKAdditions.h"
+#import "NSBezierPath+Geometry.h"
 
 /** @brief Supply a layout manager common to all DKTextShape instances
  @return the shared layout manager instance */
@@ -88,10 +88,10 @@ DKBezierLayoutManager* sharedCaptureLayoutManager(void)
 }
 
 - (void)drawInRect:(NSRect)destRect
-	withLayoutPath:(NSBezierPath*)layoutPath
-		   atAngle:(CGFloat)radians
-verticalPositioning:(DKVerticalTextAlignment)vAlign
-	verticalOffset:(CGFloat)vPos
+		 withLayoutPath:(NSBezierPath*)layoutPath
+				atAngle:(CGFloat)radians
+	verticalPositioning:(DKVerticalTextAlignment)vAlign
+		 verticalOffset:(CGFloat)vPos
 {
 	NSAssert(destRect.size.width > 0.0 && destRect.size.height >= 0.0, @"invalid destination rect for text layout");
 	NSAssert(layoutPath != nil, @"invalid layout path for text layout");
@@ -230,7 +230,7 @@ verticalPositioning:(DKVerticalTextAlignment)vAlign
 {
 	// returns yes if the attributes listed in <attrs> are homogeneous, otherwise NO.
 
-	for (NSString *key in attrs) {
+	for (NSString* key in attrs) {
 		if (![self attributeIsHomogeneous:key]) {
 			return NO;
 		}

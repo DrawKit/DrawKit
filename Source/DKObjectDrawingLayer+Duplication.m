@@ -85,7 +85,7 @@
 		// copy each object
 
 		for (DKDrawableObject* o in objectsToDuplicate) {
-			DKDrawableObject *copy = [o copy];
+			DKDrawableObject* copy = [o copy];
 			NSPoint location = [copy location];
 
 			location.x += offset.width * (i + 1);

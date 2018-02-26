@@ -5,9 +5,9 @@
 */
 
 #import "DKGeometryUtilities.h"
-#import "NSBezierPath+Geometry.h"
 #import "DKDrawKitMacros.h"
 #import "LogEvent.h"
+#import "NSBezierPath+Geometry.h"
 
 // this point constant is arbitrary but it is intended to be very unlikely to arise by chance. It can be used to signal "not found" when
 // returning a point value from a function.
@@ -553,10 +553,12 @@ static NSPoint* ConvertToBezierForm(const NSPoint inp, const NSPoint bez[4])
 	NSPoint* w; // Ctl pts of 5th-degree curve
 	double cdTable[3][4]; // Dot product of c, d
 
-	static double z[3][4] = { /* Precomputed "z" for cubics	*/
-							  { 1.0, 0.6, 0.3, 0.1 },
-							  { 0.4, 0.6, 0.6, 0.4 },
-							  { 0.1, 0.3, 0.6, 1.0 }, };
+	static double z[3][4] = {
+		/* Precomputed "z" for cubics	*/
+		{ 1.0, 0.6, 0.3, 0.1 },
+		{ 0.4, 0.6, 0.6, 0.4 },
+		{ 0.1, 0.3, 0.6, 1.0 },
+	};
 
 	/*Determine the c's -- these are vectors created by subtracting*/
 	/* point P from each of the control points				*/
@@ -616,7 +618,7 @@ static NSInteger FindRoots(NSPoint* w, NSInteger degree, double* t, NSInteger de
 	NSInteger i;
 	NSPoint Left[6], Right[6]; // control polygons
 	NSInteger left_count, right_count;
-	double left_t[6]={0}, right_t[6]={0};
+	double left_t[6] = { 0 }, right_t[6] = { 0 };
 
 	switch (CrossingCount(w, degree)) {
 	default:
@@ -822,7 +824,7 @@ static double ComputeXIntercept(NSPoint* v, NSInteger degree)
 NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[4], double* tValue)
 {
 	NSPoint* w; // Ctl pts for 5th-degree eqn
-	double t_candidate[5] = {0}; // Possible roots
+	double t_candidate[5] = { 0 }; // Possible roots
 	NSInteger n_solutions; // Number of roots found
 	double t; // Parameter value of closest pt
 

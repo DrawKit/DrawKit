@@ -28,10 +28,10 @@ Some handy methods for implementing various kinds of object duplications.
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (nullable NSArray<DKDrawableObject*>*)polarDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
-									   centre:(NSPoint)centre
-							   numberOfCopies:(NSInteger)nCopies
-							   incrementAngle:(CGFloat)incRadians
-								 rotateCopies:(BOOL)rotCopies;
+												centre:(NSPoint)centre
+										numberOfCopies:(NSInteger)nCopies
+										incrementAngle:(CGFloat)incRadians
+										  rotateCopies:(BOOL)rotCopies;
 
 /** @brief Duplicates one or more objects linearly
 
@@ -43,8 +43,8 @@ Some handy methods for implementing various kinds of object duplications.
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (nullable NSArray<DKDrawableObject*>*)linearDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
-										offset:(NSSize)offset
-								numberOfCopies:(NSInteger)nCopies;
+												 offset:(NSSize)offset
+										 numberOfCopies:(NSInteger)nCopies;
 
 /** @brief Automatically polar duplicates object to fit a circle exactly
 
@@ -56,7 +56,7 @@ Some handy methods for implementing various kinds of object duplications.
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (nullable NSArray<DKDrawableObject*>*)autoPolarDuplicate:(DKDrawableObject*)object
-										   centre:(NSPoint)centre;
+													centre:(NSPoint)centre;
 
 /** @brief Duplicates one or more objects concentrically around a common centre
 
@@ -70,9 +70,9 @@ Some handy methods for implementing various kinds of object duplications.
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (nullable NSArray<DKDrawableObject*>*)concentricDuplicate:(nullable NSArray<DKDrawableObject*>*)objectsToDuplicate
-											centre:(NSPoint)centre
-									numberOfCopies:(NSInteger)nCopies
-										   insetBy:(CGFloat)inset;
+													 centre:(NSPoint)centre
+											 numberOfCopies:(NSInteger)nCopies
+													insetBy:(CGFloat)inset;
 
 @end
 

@@ -5,15 +5,15 @@
 */
 
 #import "DKShapeGroup.h"
-#import "DKGeometryUtilities.h"
+#import "DKDrawableObject+Metadata.h"
 #import "DKDrawablePath.h"
 #import "DKDrawing.h"
-#import "DKStyle.h"
+#import "DKGeometryUtilities.h"
 #import "DKObjectDrawingLayer.h"
-#import "NSBezierPath+Geometry.h"
 #import "DKSelectionPDFView.h"
+#import "DKStyle.h"
 #import "LogEvent.h"
-#import "DKDrawableObject+Metadata.h"
+#import "NSBezierPath+Geometry.h"
 
 @interface DKShapeGroup ()
 - (void)invalidateCache;
@@ -157,13 +157,13 @@
 
 	NSPoint loc;
 
-	for (DKDrawableObject *obj in m_objects) {
+	for (DKDrawableObject* obj in m_objects) {
 		loc = [self convertPointFromContainer:[obj location]];
 		[obj setLocation:loc];
 	}
 }
 
-@synthesize groupObjects=m_objects;
+@synthesize groupObjects = m_objects;
 
 /** @brief Sets the current list of objects to the given objects
 
@@ -234,7 +234,7 @@
 	return ms;
 }
 
-@synthesize groupBoundingRect=mBounds;
+@synthesize groupBoundingRect = mBounds;
 
 /** @brief Returns the scale ratios that the group is currently applying to its contents.
 
@@ -357,7 +357,7 @@
 	}
 }
 
-@synthesize clipContentToPath=mClipContentToPath;
+@synthesize clipContentToPath = mClipContentToPath;
 
 - (void)setTransformsVisually:(BOOL)tv
 {
@@ -367,7 +367,7 @@
 	}
 }
 
-@synthesize transformsVisually=m_transformVisually;
+@synthesize transformsVisually = m_transformVisually;
 
 #pragma mark -
 #pragma mark - content caching
@@ -380,7 +380,7 @@
 	}
 }
 
-@synthesize cacheOptions=mCacheOption;
+@synthesize cacheOptions = mCacheOption;
 
 - (void)updateCache
 {

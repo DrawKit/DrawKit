@@ -76,7 +76,7 @@
 	}
 }
 
-- (instancetype)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder*)decoder
 {
 	return self = [super initWithCoder:decoder];
 }
@@ -97,7 +97,7 @@
 	return self;
 }
 
--(instancetype)initWithFrame:(NSRect)frameRect
+- (instancetype)initWithFrame:(NSRect)frameRect
 {
 	return self = [self initWithFrame:frameRect object:nil];
 }
@@ -118,7 +118,7 @@
 		[mObjectRef drawContentWithSelectedState:NO];
 }
 
-- (instancetype)initWithCoder:(NSCoder *)decoder
+- (instancetype)initWithCoder:(NSCoder*)decoder
 {
 	return self = [super initWithCoder:decoder];
 }

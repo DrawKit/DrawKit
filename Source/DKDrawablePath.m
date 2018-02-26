@@ -5,17 +5,17 @@
 */
 
 #import "DKDrawablePath.h"
-#import "DKShapeGroup.h"
+#import "CurveFit.h"
 #import "DKDrawing.h"
-#import "DKStyle.h"
 #import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
+#import "DKShapeGroup.h"
 #import "DKStroke.h"
+#import "DKStyle.h"
+#import "GCInfoFloater.h"
+#import "LogEvent.h"
 #import "NSBezierPath+Editing.h"
 #import "NSBezierPath+Geometry.h"
-#import "GCInfoFloater.h"
-#import "CurveFit.h"
-#import "LogEvent.h"
 #include <tgmath.h>
 
 #pragma mark Global Vars
@@ -28,7 +28,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15 degrees
 static NSColor* sInfoWindowColour = nil;
 
 @interface DKSecretSelectorsDrawablePath : NSObject
--(IBAction)convertToTrack:(id)sender;
+- (IBAction)convertToTrack:(id)sender;
 @end
 
 @interface DKDrawablePath ()
@@ -1464,7 +1464,7 @@ finish:
 	return NO;
 }
 
-@synthesize shouldExtendExistingPath=m_extending;
+@synthesize shouldExtendExistingPath = m_extending;
 
 /** @brief Conditionally display the length info feedback window
 
@@ -1612,7 +1612,7 @@ finish:
 
 #pragma mark -
 
-@synthesize freehandSmoothing=m_freehandEpsilon;
+@synthesize freehandSmoothing = m_freehandEpsilon;
 
 #pragma mark -
 
@@ -1883,17 +1883,17 @@ finish:
  The path might not change, depending on how it is made up
  @param sender the action's sender
  */
-- (IBAction)curveFit:(id) __unused sender
+- (IBAction)curveFit:(id)__unused sender
 {
 	if (![self locked]) {
-		
+
 		// Extracted from NSBezierPath+GPC in 1.5b of DrawKit
 		NSBezierPath* originalPath = [self path];
 		if ([originalPath isEmpty])
 			return;
 		NSSize ps = [originalPath bounds].size;
-		CGFloat epsilon = MIN( ps.width, ps.height ) / 1000.0;
-		NSBezierPath* newPath = DKSmartCurveFitPath( originalPath, epsilon, kDKDefaultCornerThreshold );
+		CGFloat epsilon = MIN(ps.width, ps.height) / 1000.0;
+		NSBezierPath* newPath = DKSmartCurveFitPath(originalPath, epsilon, kDKDefaultCornerThreshold);
 		if (newPath != nil) {
 			[self setPath:newPath];
 			[[self undoManager] setActionName:NSLocalizedString(@"Curve Fit", @"undo action for Curve Fit")];
@@ -1996,7 +1996,7 @@ finish:
 {
 #pragma unused(op)
 	return @[NSPasteboardTypeColor, NSPasteboardTypeString, NSPasteboardTypePDF, NSPasteboardTypeTIFF,
-									 (NSString*)kUTTypeFileURL, kDKStylePasteboardType, kDKStyleKeyPasteboardType];
+		(NSString*)kUTTypeFileURL, kDKStylePasteboardType, kDKStyleKeyPasteboardType];
 }
 
 /** @brief Initializes the drawable to have the style given
@@ -2109,7 +2109,6 @@ finish:
 			[[self path] drawElementsBoundingBoxes];
 
 #endif
-
 	}
 }
 

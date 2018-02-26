@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (DKDrawing*)drawing;
 - (DKLayer*)layer;
-@property (readonly, copy) NSAffineTransform *renderingTransform;
+@property (readonly, copy) NSAffineTransform* renderingTransform;
 - (DKImageDataManager*)imageManager;
 - (NSUInteger)indexOfObject:(DKDrawableObject*)obj;
 

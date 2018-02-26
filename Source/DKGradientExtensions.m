@@ -236,8 +236,8 @@
 
 - (void)convertOldKeys
 {
-	for (NSString *key in m_extensionData) {
-		NSValue *value = [m_extensionData valueForKey:key];
+	for (NSString* key in m_extensionData) {
+		NSValue* value = [m_extensionData valueForKey:key];
 
 		if ([value isKindOfClass:[NSValue class]]) {
 			const char* ctyp = [value objCType];

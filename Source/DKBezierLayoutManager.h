@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 	NSBezierPath* mPath;
 }
 
-@property (readonly, strong) NSBezierPath *textPath;
+@property (readonly, strong) NSBezierPath* textPath;
 - (NSArray*)glyphPathsForContainer:(NSTextContainer*)container usedSize:(NSSize*)aSize;
 
 @end

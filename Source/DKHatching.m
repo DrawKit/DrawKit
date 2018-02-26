@@ -6,9 +6,9 @@
 
 #import "DKHatching.h"
 #import "DKDrawKitMacros.h"
+#import "DKRandom.h"
 #import "DKStrokeDash.h"
 #import "NSBezierPath+Geometry.h"
-#import "DKRandom.h"
 
 @interface DKHatching ()
 
@@ -223,7 +223,7 @@
 	}
 }
 
-@synthesize angle=m_angle;
+@synthesize angle = m_angle;
 
 /** @brief Set the angle of the hatching in degrees
  @param degs the angle in degrees 
@@ -246,7 +246,7 @@
 	return angle;
 }
 
-@synthesize angleIsRelativeToObject=m_angleRelativeToObject;
+@synthesize angleIsRelativeToObject = m_angleRelativeToObject;
 
 #pragma mark -
 - (void)setSpacing:(CGFloat)spacing
@@ -259,7 +259,7 @@
 	}
 }
 
-@synthesize spacing=m_spacing;
+@synthesize spacing = m_spacing;
 
 - (void)setLeadIn:(CGFloat)amount
 {
@@ -269,7 +269,7 @@
 	}
 }
 
-@synthesize leadIn=m_leadIn;
+@synthesize leadIn = m_leadIn;
 
 #pragma mark -
 - (void)setWidth:(CGFloat)width
@@ -278,7 +278,7 @@
 	[self invalidateRoughnessCache];
 }
 
-@synthesize width=m_lineWidth;
+@synthesize width = m_lineWidth;
 
 - (void)setLineCapStyle:(NSLineCapStyle)lcs
 {
@@ -286,7 +286,7 @@
 	[self invalidateRoughnessCache];
 }
 
-@synthesize lineCapStyle=m_cap;
+@synthesize lineCapStyle = m_cap;
 
 - (void)setLineJoinStyle:(NSLineJoinStyle)ljs
 {
@@ -294,10 +294,10 @@
 	[self invalidateRoughnessCache];
 }
 
-@synthesize lineJoinStyle=m_join;
+@synthesize lineJoinStyle = m_join;
 
 #pragma mark -
-@synthesize colour=m_hatchColour;
+@synthesize colour = m_hatchColour;
 
 #pragma mark -
 - (void)setDash:(DKStrokeDash*)dash
@@ -306,7 +306,7 @@
 	[self invalidateRoughnessCache];
 }
 
-@synthesize dash=m_hatchDash;
+@synthesize dash = m_hatchDash;
 
 - (void)setAutoDash
 {
@@ -329,7 +329,7 @@
 	[self invalidateRoughnessCache];
 }
 
-@synthesize roughness=mRoughness;
+@synthesize roughness = mRoughness;
 
 - (void)setWobblyness:(CGFloat)wobble
 {
@@ -337,7 +337,7 @@
 	[self invalidateCache];
 }
 
-@synthesize wobblyness=mWobblyness;
+@synthesize wobblyness = mWobblyness;
 
 #pragma mark -
 - (void)invalidateCache
@@ -404,8 +404,8 @@
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"colour", @"angle", @"spacing",
-																							   @"width", @"dash", @"leadIn",
-																							   @"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness"]];
+		@"width", @"dash", @"leadIn",
+		@"lineCapStyle", @"lineJoinStyle", @"angleIsRelativeToObject", @"roughness", @"wobblyness"]];
 }
 
 - (void)registerActionNames

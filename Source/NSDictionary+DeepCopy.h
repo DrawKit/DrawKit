@@ -16,13 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
  To retain the semantics of a normal copy, the object returned is not autoreleased.
 */
-@interface NSDictionary<KeyType, ObjectType> (DeepCopy)
+@interface NSDictionary <KeyType, ObjectType> (DeepCopy)
 
 - (NSDictionary<KeyType, ObjectType>*)deepCopy NS_RETURNS_RETAINED;
 
 @end
 
-@interface NSArray<ObjectType> (DeepCopy)
+@interface NSArray <ObjectType> (DeepCopy)
 
 - (NSArray<ObjectType>*)deepCopy NS_RETURNS_RETAINED;
 
@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface NSMutableArray<ObjectType> (DeepCopy)
+@interface NSMutableArray <ObjectType> (DeepCopy)
 
 - (NSMutableArray<ObjectType>*)deepCopy NS_RETURNS_RETAINED;
 

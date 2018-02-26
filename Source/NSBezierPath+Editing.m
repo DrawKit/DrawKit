@@ -6,9 +6,9 @@
 
 #import "NSBezierPath+Editing.h"
 
+#import "DKGeometryUtilities.h"
 #import "LogEvent.h"
 #import "NSBezierPath+Geometry.h"
-#import "DKGeometryUtilities.h"
 
 #define USE_OMNI_METHODS 0
 

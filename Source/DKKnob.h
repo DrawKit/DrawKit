@@ -68,7 +68,7 @@ might include the shape of a knob, its colours, whether stroked or filled or bot
 
 /** colour of control bars
  */
-@property (copy) NSColor *controlBarColour;
+@property (copy) NSColor* controlBarColour;
 /** control bar width
  */
 @property CGFloat controlBarWidth;

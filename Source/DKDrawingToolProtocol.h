@@ -18,7 +18,7 @@ NS_SWIFT_NAME(DKDrawingToolProtocol)
 
  Override to return something useful.
  */
-@property (readonly, copy, nullable) NSString *actionName;
+@property (readonly, copy, nullable) NSString* actionName;
 
 /** @brief Return the tool's cursor.
 
@@ -73,7 +73,6 @@ NS_SWIFT_NAME(DKDrawingToolProtocol)
 - (void)drawRect:(NSRect)rect inView:(NSView*)aView;
 
 @end
-
 
 //==== NOTE ABOUT UNDO ====
 

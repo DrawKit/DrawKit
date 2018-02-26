@@ -294,8 +294,8 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	// this method is here solely to support backward compatibility with b5; storage is no longer archived.
 
 	if (self = [super initWithCoder:aCoder]) {
-	mTreeDepth = [aCoder decodeIntegerForKey:@"DKBSPObjectStorage_treeDepth"];
-	[self setCanvasSize:[aCoder decodeSizeForKey:@"DKBSPObjectStorage_canvasSize"]];
+		mTreeDepth = [aCoder decodeIntegerForKey:@"DKBSPObjectStorage_treeDepth"];
+		[self setCanvasSize:[aCoder decodeSizeForKey:@"DKBSPObjectStorage_canvasSize"]];
 	}
 
 	return self;
@@ -329,7 +329,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 #pragma mark -
 
 @implementation DKBSPNode
-@synthesize type=mType;
+@synthesize type = mType;
 
 - (void)setLeafIndex:(NSUInteger)indx
 {
@@ -392,7 +392,7 @@ static inline NSUInteger childNodeAtIndex(NSUInteger nodeIndex)
 	return self;
 }
 
-@synthesize canvasSize=mCanvasSize;
+@synthesize canvasSize = mCanvasSize;
 
 // a.k.a "initialize"
 
@@ -581,7 +581,7 @@ static NSUInteger sLeafCount = 0;
 	}
 }
 
-// if set to 1, recursive function avoids obj-C message dispatch for slightly more performance
+	// if set to 1, recursive function avoids obj-C message dispatch for slightly more performance
 
 #define qUseImpCaching 1
 
@@ -591,7 +591,7 @@ static NSUInteger sLeafCount = 0;
 	static void (*sfunc)(id, SEL, NSRect, NSUInteger) = nil;
 
 	if (sfunc == nil)
-		sfunc = (void (*)(id, SEL, NSRect, NSUInteger))[[self class] instanceMethodForSelector : _cmd];
+		sfunc = (void (*)(id, SEL, NSRect, NSUInteger))[[self class] instanceMethodForSelector:_cmd];
 #endif
 
 	DKBSPNode* node = [mNodes objectAtIndex:indx];
@@ -739,7 +739,7 @@ static NSUInteger sLeafCount = 0;
 
 - (NSString*)description
 {
-// warning: description string can be very large, as it enumerates the leaves
+	// warning: description string can be very large, as it enumerates the leaves
 	return [NSString stringWithFormat:@"<%@ %p>, %ld leaves = %@", NSStringFromClass([self class]), self, (long)[self countOfLeaves], mLeaves];
 }
 

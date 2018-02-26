@@ -15,14 +15,14 @@ NS_ASSUME_NONNULL_BEGIN
  Uses the RGB colorspace, not the greyscale colorspace you get with NSColor's whiteColor
  method.
  */
-@property (class, readonly, copy) NSColor *rgbWhite;
+@property (class, readonly, copy) NSColor* rgbWhite;
 
 /** @brief Returns the colour black as an RGB Color.
 
  Uses the RGB colorspace, not the greyscale colorspace you get with NSColor's blackColor
  method.
  */
-@property (class, readonly, copy) NSColor *rgbBlack;
+@property (class, readonly, copy) NSColor* rgbBlack;
 
 /** @brief Returns a grey RGB colour.
 
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief A very light grey colour
  */
-@property (class, readonly, copy) NSColor *veryLightGrey;
+@property (class, readonly, copy) NSColor* veryLightGrey;
 
 /** @brief Returns black or white depending on input colour - dark colours give white, else black.
  
@@ -145,17 +145,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief Returns a grey rgb colour having the same luminosity as the receiver.
  */
-@property (readonly, copy) NSColor *colorWithLuminosity;
+@property (readonly, copy) NSColor* colorWithLuminosity;
 
 /** @brief Returns black or white to give best contrast with the receiver's colour.
  */
-@property (readonly, copy) NSColor *contrastingColor;
+@property (readonly, copy) NSColor* contrastingColor;
 
 /** @brief Returns the colour with each colour component subtracted from 1.
 
  The alpha value is not inverted.
  */
-@property (readonly, copy) NSColor *invertedColor;
+@property (readonly, copy) NSColor* invertedColor;
 
 /** @brief Returns a lighter colour based on a blend between the receiver and white.
 
@@ -185,7 +185,7 @@ NS_ASSUME_NONNULL_BEGIN
  Format is '#000000' (black) to '#FFFFFF' (white).
  @return Hexadecimal string.
  */
-@property (readonly, copy) NSString *hexString;
+@property (readonly, copy) NSString* hexString;
 
 /** @brief Returns a quartz CGColorRef corresponding to the receiver's colours.
 

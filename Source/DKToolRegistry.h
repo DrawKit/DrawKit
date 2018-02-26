@@ -5,7 +5,6 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import <Cocoa/Cocoa.h>
 #import "DKCommonTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -18,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
  compatibility but are deprecated.
 */
 @interface DKToolRegistry : NSObject {
-	NSMutableDictionary<DKToolName,__kindof DKDrawingTool*>* mToolsReg;
+	NSMutableDictionary<DKToolName, __kindof DKDrawingTool*>* mToolsReg;
 }
 
 /** @brief Return the shared tool registry
@@ -26,7 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
  Creates the registry if needed and installs the standard tools. For other tool collections
  you can instantiate a \c DKToolRegistry and add tools to it.
  */
-@property (class, readonly, strong) DKToolRegistry *sharedToolRegistry;
+@property (class, readonly, strong) DKToolRegistry* sharedToolRegistry;
 
 /** @brief Return a named tool from the registry
  @param name the name of the tool of interest
@@ -61,11 +60,11 @@ NS_ASSUME_NONNULL_BEGIN
  May be useful for supporting a UI
  @return an array, a list of NSStrings
  */
-@property (readonly, copy) NSArray<DKToolName> *toolNames;
+@property (readonly, copy) NSArray<DKToolName>* toolNames;
 - (NSArray<DKToolName>*)allKeysForTool:(DKDrawingTool*)tool;
 /** @brief Return a list of registered tools.
  */
-@property (readonly, copy) NSArray<DKDrawingTool*> *tools;
+@property (readonly, copy) NSArray<DKDrawingTool*>* tools;
 
 @end
 

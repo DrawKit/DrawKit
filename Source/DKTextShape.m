@@ -5,23 +5,23 @@
 */
 
 #import "DKTextShape.h"
-#import "DKTextAdornment.h"
-#import "DKDrawableObject+Metadata.h"
-#import "DKTextPath.h"
-#import "DKDrawing.h"
 #import "DKDrawKitMacros.h"
-#import "DKStyle+Text.h"
+#import "DKDrawableObject+Metadata.h"
+#import "DKDrawableShape+Utilities.h"
+#import "DKDrawing.h"
 #import "DKDrawingView.h"
 #import "DKFill.h"
+#import "DKGeometryUtilities.h"
+#import "DKKnob.h"
 #import "DKObjectDrawingLayer.h"
 #import "DKShapeGroup.h"
 #import "DKStroke.h"
-#import "DKGeometryUtilities.h"
+#import "DKStyle+Text.h"
+#import "DKTextAdornment.h"
+#import "DKTextPath.h"
 #import "LogEvent.h"
 #import "NSAffineTransform+DKAdditions.h"
 #import "NSAttributedString+DKAdditions.h"
-#import "DKKnob.h"
-#import "DKDrawableShape+Utilities.h"
 
 NSString* const kDKTextOverflowIndicatorDefaultsKey = @"DKTextOverflowIndicator";
 NSString* const kDKTextAllowsInlineImagesDefaultsKey = @"DKTextAllowsInlineImages";
@@ -746,7 +746,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	return (m_editorRef && ([m_editorRef superview] == [[self drawing] currentView]) && [[NSGraphicsContext currentContext] isDrawingToScreen]);
 }
 
-@synthesize textAdornment=mTextAdornment;
+@synthesize textAdornment = mTextAdornment;
 
 #pragma mark -
 #pragma mark - user actions
@@ -1316,7 +1316,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 	[theMenu addItem:[NSMenuItem separatorItem]];
 
-// the font menu may contain all the alignment commands - in which case we can leave these out
+	// the font menu may contain all the alignment commands - in which case we can leave these out
 
 #if INCLUDE_ALIGNMENT_COMMANDS
 	[[theMenu addItemWithTitle:NSLocalizedString(@"Align Left", @"menu item for align left")
@@ -1696,7 +1696,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 	if (wasChanged && !([[self undoManager] isUndoing] || [[self undoManager] isRedoing])) {
 		if ([object respondsToSelector:@selector(actionNameForKeyPath:
-														   changeKind:)])
+												 changeKind:)])
 			[[self undoManager] setActionName:[object actionNameForKeyPath:keypath
 																changeKind:ch]];
 		else

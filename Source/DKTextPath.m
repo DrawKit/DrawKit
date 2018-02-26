@@ -5,18 +5,18 @@
 */
 
 #import "DKTextPath.h"
-#import "DKTextShape.h"
-#import "DKDrawingView.h"
-#import "LogEvent.h"
-#import "DKTextAdornment.h"
-#import "DKFill.h"
-#import "DKStyle.h"
-#import "DKStroke.h"
-#import "DKShapeGroup.h"
-#import "DKObjectDrawingLayer.h"
 #import "DKDrawableObject+Metadata.h"
-#import "NSBezierPath+Geometry.h"
+#import "DKDrawingView.h"
+#import "DKFill.h"
 #import "DKKnob.h"
+#import "DKObjectDrawingLayer.h"
+#import "DKShapeGroup.h"
+#import "DKStroke.h"
+#import "DKStyle.h"
+#import "DKTextAdornment.h"
+#import "DKTextShape.h"
+#import "LogEvent.h"
+#import "NSBezierPath+Geometry.h"
 
 #pragma mark Static Vars
 static NSString* sDefault_string = @"Double-click to edit this text";
@@ -394,7 +394,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	return (mEditorRef != nil);
 }
 
-@synthesize textAdornment=mTextAdornment;
+@synthesize textAdornment = mTextAdornment;
 
 #pragma mark -
 
@@ -889,7 +889,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 	[theMenu addItem:[NSMenuItem separatorItem]];
 
-// the font menu may contain all the alignment commands - in which case we can leave these out
+	// the font menu may contain all the alignment commands - in which case we can leave these out
 
 #if INCLUDE_ALIGNMENT_COMMANDS
 	[[theMenu addItemWithTitle:NSLocalizedString(@"Align Left", @"menu item for align left")
@@ -1061,7 +1061,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 	if (wasChanged && !([[self undoManager] isUndoing] || [[self undoManager] isRedoing])) {
 		if ([object respondsToSelector:@selector(actionNameForKeyPath:
-														   changeKind:)])
+												 changeKind:)])
 			[[self undoManager] setActionName:[object actionNameForKeyPath:keypath
 																changeKind:ch]];
 		else

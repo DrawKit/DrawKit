@@ -14,9 +14,8 @@ NSString* const kDKAuxiliaryMenusNibFile = @"DK_Auxiliary_Menus";
 
 @end
 
-@implementation DKAuxiliaryMenus
-{
-	NSArray *nibs;
+@implementation DKAuxiliaryMenus {
+	NSArray* nibs;
 }
 static DKAuxiliaryMenus* sAuxMenus = nil;
 
@@ -64,7 +63,7 @@ static DKAuxiliaryMenus* sAuxMenus = nil;
 		}
 
 		mNib = tempNib;
-		NSArray *tmpArr;
+		NSArray* tmpArr;
 
 		if (![mNib instantiateWithOwner:self
 						topLevelObjects:&tmpArr]) {

@@ -34,25 +34,25 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (DKStyle*)styleWithDotDensity:(CGFloat)percent foreColour:(NSColor*)fore backColour:(NSColor*)back;
 
-@property (readonly, retain, nullable) DKStroke *stroke;
-@property (readonly, retain, nullable) DKFill *fill;
+@property (readonly, retain, nullable) DKStroke* stroke;
+@property (readonly, retain, nullable) DKFill* fill;
 
-@property (retain, nullable) NSColor *fillColour;
+@property (retain, nullable) NSColor* fillColour;
 
-@property (retain, nullable) NSColor *strokeColour;
+@property (retain, nullable) NSColor* strokeColour;
 
 @property CGFloat strokeWidth;
 
-@property (retain, nullable) DKStrokeDash *strokeDash;
+@property (retain, nullable) DKStrokeDash* strokeDash;
 
 @property NSLineCapStyle strokeLineCapStyle;
 
 @property NSLineJoinStyle strokeLineJoinStyle;
 
-@property (nullable, copy) NSString *string;
+@property (nullable, copy) NSString* string;
 
 @property (readonly) BOOL hasImageComponent;
-@property (retain, nullable) NSImage *imageComponent;
+@property (retain, nullable) NSImage* imageComponent;
 
 @end
 

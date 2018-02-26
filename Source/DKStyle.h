@@ -30,7 +30,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 //! n.b. for style registry API, see DKStyleRegistry.h
 @interface DKStyle : DKRastGroup <NSCoding, NSCopying, NSMutableCopying> {
 @private
-	NSDictionary<NSAttributedStringKey,id>* m_textAttributes; // supports text additions
+	NSDictionary<NSAttributedStringKey, id>* m_textAttributes; // supports text additions
 	NSUndoManager* __weak m_undoManagerRef; // style's undo manager
 	BOOL m_shared; // YES if the style is shared
 	BOOL m_locked; // YES if style can't be edited
@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 /** @brief Return a list of types supported by styles for pasteboard operations.
  @return an array listing the pasteboard types usable by DKStyle.
  */
-@property (class, readonly, copy) NSArray<NSPasteboardType>*stylePasteboardTypes;
+@property (class, readonly, copy) NSArray<NSPasteboardType>* stylePasteboardTypes;
 + (BOOL)canInitWithPasteboard:(NSPasteboard*)pb;
 
 // pasted styles - separate non-persistent registry
@@ -204,7 +204,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  allows text (labels in particular) to have their styling changed for a whole drawing. See also
  DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
  */
-@property (nonatomic, copy, nullable) NSDictionary<NSAttributedStringKey,id> *textAttributes;
+@property (nonatomic, copy, nullable) NSDictionary<NSAttributedStringKey, id>* textAttributes;
 
 /** @brief Return wjether the style has any text attributes set.
  @return \c YES if there are any text attributes.
@@ -255,14 +255,14 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  been registered multiple times with different keys (not recommended). The key is not intended for
  display in a user interface and has no relationship to the style's name.
  */
-@property (readonly, copy) NSArray<NSString*> *registryKeys;
+@property (readonly, copy) NSArray<NSString*>* registryKeys;
 
 /** @brief Returns the unique key of the style.
 
  The unique key is set once and for all time when the style is initialised, and is guaranteed unique
  as it is a UUID. 
  */
-@property (readonly, copy) NSString *uniqueKey;
+@property (readonly, copy) NSString* uniqueKey;
 
 /** @brief Sets the unique key of the style.
 
@@ -297,7 +297,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 
  The undo manager is not retained.
  */
-@property (weak, nullable) NSUndoManager *undoManager;
+@property (weak, nullable) NSUndoManager* undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came.
  @param keypath The keypath of the action, relative to the object.
@@ -409,7 +409,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 /** @brief Queries whether the style has any components at all.
  Is \c YES if there are no components and no text attributes, \c NO if there is at least one or has text
  */
-@property (readonly,getter=isEmpty) BOOL empty;
+@property (readonly, getter=isEmpty) BOOL empty;
 
 // swatch images:
 
@@ -429,8 +429,8 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
 - (nullable NSImage*)image;
 - (nullable NSImage*)imageToFitSize:(NSSize)aSize;
 
-@property (readonly, strong) NSImage *standardStyleSwatch;
-@property (readonly, strong, nullable) NSImage *image;
+@property (readonly, strong) NSImage* standardStyleSwatch;
+@property (readonly, strong, nullable) NSImage* image;
 
 /** @brief Return a key for the swatch cache for the given size and type of swatch.
 

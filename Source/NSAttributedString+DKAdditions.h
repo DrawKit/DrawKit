@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKCommonTypes.h"
 #import "DKBezierLayoutManager.h"
+#import "DKCommonTypes.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief returns \c YES if the attributes listed in \c attrs are homogeneous, \c NO otherwise.
  */
-- (BOOL)attributesAreHomogeneous:(NSDictionary<NSAttributedStringKey,id>*)attrs;
+- (BOOL)attributesAreHomogeneous:(NSDictionary<NSAttributedStringKey, id>*)attrs;
 
 @end
 

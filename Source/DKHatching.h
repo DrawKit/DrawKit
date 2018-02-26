@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKRasterizer.h"
 #import "DKDashable.h"
+#import "DKRasterizer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
  The default hatching object (shared instance). The default is black 45 degree lines spaced 8 points
  apart with a width of 0.25 points.
  */
-@property (class, readonly, retain) DKHatching *defaultHatching;
+@property (class, readonly, retain) DKHatching* defaultHatching;
 
 /** @brief Return a hatching with e basic parameters given.
 
@@ -103,9 +103,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSLineCapStyle lineCapStyle;
 @property (nonatomic) NSLineJoinStyle lineJoinStyle;
 
-@property (strong) NSColor *colour;
+@property (strong) NSColor* colour;
 
-@property (nonatomic, strong, nullable) DKStrokeDash *dash;
+@property (nonatomic, strong, nullable) DKStrokeDash* dash;
 - (void)setAutoDash;
 
 @property (nonatomic) CGFloat roughness;

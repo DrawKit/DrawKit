@@ -42,7 +42,7 @@
 	[m_image setFlipped:YES];
 }
 
-@synthesize image=m_image;
+@synthesize image = m_image;
 
 #pragma mark -
 - (void)setOpacity:(CGFloat)op
@@ -53,7 +53,7 @@
 	}
 }
 
-@synthesize opacity=m_opacity;
+@synthesize opacity = m_opacity;
 
 #pragma mark -
 - (void)setCoverageMethod:(DKImageCoverageFlags)cm
@@ -64,7 +64,7 @@
 	}
 }
 
-@synthesize coverageMethod=m_coverageMethod;
+@synthesize coverageMethod = m_coverageMethod;
 
 #pragma mark -
 - (NSRect)imageDestinationRect

@@ -8,9 +8,8 @@
 
 #import "LogEvent.h"
 
-@interface GCOneShotEffectTimer ()
-{
-	__strong GCOneShotEffectTimer *selfRetained;
+@interface GCOneShotEffectTimer () {
+	__strong GCOneShotEffectTimer* selfRetained;
 }
 - (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del;
 @property (strong) id<GCOneShotDelegate> delegate;
@@ -40,24 +39,24 @@
 - (id)initWithTimeInterval:(NSTimeInterval)t forDelegate:(id<GCOneShotDelegate>)del
 {
 	if (self = [super init]) {
-	[self setDelegate:del];
+		[self setDelegate:del];
 
-	mTotal = t;
+		mTotal = t;
 
-	if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotWillBegin)])
-		[mDelegate oneShotWillBegin];
+		if (mDelegate && [mDelegate respondsToSelector:@selector(oneShotWillBegin)])
+			[mDelegate oneShotWillBegin];
 
-	mTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 48.0
-											  target:self
-											selector:@selector(osfx_callback:)
-											userInfo:nil
-											 repeats:YES];
-	[[NSRunLoop currentRunLoop] addTimer:mTimer
-								 forMode:NSEventTrackingRunLoopMode];
-	mStart = [NSDate timeIntervalSinceReferenceDate];
+		mTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 48.0
+												  target:self
+												selector:@selector(osfx_callback:)
+												userInfo:nil
+												 repeats:YES];
+		[[NSRunLoop currentRunLoop] addTimer:mTimer
+									 forMode:NSEventTrackingRunLoopMode];
+		mStart = [NSDate timeIntervalSinceReferenceDate];
 		selfRetained = self;
 	}
-	
+
 	return self;
 }
 
@@ -66,7 +65,7 @@
 	[mTimer invalidate];
 }
 
-@synthesize delegate=mDelegate;
+@synthesize delegate = mDelegate;
 
 - (void)osfx_callback:(NSTimer*)timer
 {

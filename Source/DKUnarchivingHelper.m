@@ -18,7 +18,7 @@ NSString* const kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgr
 	mCount = 0;
 }
 
-@synthesize numberOfObjectsDecoded=mCount;
+@synthesize numberOfObjectsDecoded = mCount;
 
 - (id)unarchiver:(NSKeyedUnarchiver*)unarchiver didDecodeObject:(id)object
 {
@@ -27,7 +27,8 @@ NSString* const kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgr
 	// this method tracks the number of objects decoded and also sends notifications about the dearchiving progress, allowing a dearchiving
 	// to drive a progress bar, etc. The notification is delivered on the main thread in case this is being invoked by a thread.
 
-	NSDictionary* userInfo = @{@"count": @(mCount), @"decoded_object": object};
+	NSDictionary* userInfo = @{ @"count": @(mCount),
+		@"decoded_object": object };
 	NSNotification* note;
 
 	if (mCount == 0)
@@ -52,7 +53,7 @@ NSString* const kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgr
 {
 #pragma unused(unarchiver)
 
-	NSDictionary* userInfo = @{@"count": @(mCount)};
+	NSDictionary* userInfo = @{ @"count": @(mCount) };
 	NSNotification* note = [NSNotification notificationWithName:kDKUnarchiverProgressFinishedNotification
 														 object:self
 													   userInfo:userInfo];
@@ -134,15 +135,14 @@ NSString* const kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgr
 	return theClass;
 }
 
-@synthesize lastClassnameSubstituted=mLastClassnameSubstituted;
-
+@synthesize lastClassnameSubstituted = mLastClassnameSubstituted;
 
 @end
 
 #pragma mark -
 
 @implementation DKNullObject
-@synthesize substitutionClassname=mSubstitutedForClassname;
+@synthesize substitutionClassname = mSubstitutedForClassname;
 
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
@@ -160,7 +160,6 @@ NSString* const kDKUnarchiverProgressFinishedNotification = @"kDKUnarchiverProgr
 {
 #pragma unused(coder)
 }
-
 
 - (NSString*)description
 {

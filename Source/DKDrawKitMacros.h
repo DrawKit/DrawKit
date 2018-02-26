@@ -13,8 +13,8 @@
 
 // converting from radians to degrees
 
-#define DEGREES_TO_RADIANS(d) ((d) * 0.0174532925199432958)
-#define RADIANS_TO_DEGREES(r) ((r) * 57.29577951308232)
+#define DEGREES_TO_RADIANS(d) ((d)*0.0174532925199432958)
+#define RADIANS_TO_DEGREES(r) ((r)*57.29577951308232)
 
 // some useful angular constants
 
@@ -26,8 +26,7 @@
 // exception safe save/restore of the current graphics context
 
 #define SAVE_GRAPHICS_CONTEXT \
-	@try                      \
-	{                         \
+	@try {                    \
 		[NSGraphicsContext saveGraphicsState];
 #define RESTORE_GRAPHICS_CONTEXT                  \
 	}                                             \

@@ -34,7 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** Returns the transform applied by the object's container, if any (otherwise the identity transform).
  */
-@property (readonly, copy) NSAffineTransform *containerTransform;
+@property (readonly, copy) NSAffineTransform* containerTransform;
 
 /** Any extra space needed outside of the renderingPath to accommodate the stylistic effects.
  */

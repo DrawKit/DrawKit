@@ -11,13 +11,13 @@ static CGImageRef CreateMaskFromImage(NSImage* image);
 @implementation DKQuartzBlendRastGroup
 #pragma mark As a DKQuartzBlendRastGroup
 
-@synthesize blendMode=m_blendMode;
+@synthesize blendMode = m_blendMode;
 
 #pragma mark -
-@synthesize alpha=m_alpha;
+@synthesize alpha = m_alpha;
 
 #pragma mark -
-@synthesize maskImage=m_maskImage;
+@synthesize maskImage = m_maskImage;
 
 #pragma mark -
 #pragma mark As a GCObservableObject
@@ -154,8 +154,9 @@ static CGImageRef CreateMaskFromImage(NSImage* image)
 	// draw the image into the bitmap context
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		NSGraphicsContext* gc = [NSGraphicsContext graphicsContextWithGraphicsPort:bmc
-																		   flipped:YES];
+		NSGraphicsContext* gc
+		= [NSGraphicsContext graphicsContextWithGraphicsPort:bmc
+													 flipped:YES];
 
 	[NSGraphicsContext setCurrentContext:gc];
 

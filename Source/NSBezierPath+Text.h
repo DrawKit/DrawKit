@@ -20,14 +20,14 @@ NS_ASSUME_NONNULL_BEGIN
 
  This shared layout manager is used by text on path drawing unless a specific manager is passed.
  @return a shared layout manager instance */
-@property (class, readonly, retain) NSLayoutManager *textOnPathLayoutManager;
+@property (class, readonly, retain) NSLayoutManager* textOnPathLayoutManager;
 
 /** @brief The attributes used to draw strings on paths.
 
  The default is 12 point Helvetica Roman black text with the default paragraph style.
  Pass \c nil to set the default. The attributes are used by the \c drawStringOnPath: method.
  */
-@property (class, copy, null_resettable) NSDictionary<NSAttributedStringKey,id> *textOnPathDefaultAttributes;
+@property (class, copy, null_resettable) NSDictionary<NSAttributedStringKey, id>* textOnPathDefaultAttributes;
 
 // drawing text along a path - high level methods that use a default layout manager and don't use a cache:
 
@@ -57,7 +57,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param attrs the attributes to use to draw the string - may be nil
  @return \c YES if the text was fully laid out, \c NO if some text could not be drawn (for example because it
  would not all fit on the path). */
-- (BOOL)drawStringOnPath:(NSString*)str attributes:(nullable NSDictionary<NSAttributedStringKey,id>*)attrs;
+- (BOOL)drawStringOnPath:(NSString*)str attributes:(nullable NSDictionary<NSAttributedStringKey, id>*)attrs;
 
 // more advanced method called by the others allows use of different layout managers and cached information for better efficiency. If an object passes back the same
 // cache each time, text-on-path rendering avoids recalculating several things. The caller is responsible for invalidating the cache if the actual string
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param str The string to render.
  @param attrs The drawing attributes for the text.
  @return A list of bezier path objects. */
-- (NSBezierPath*)bezierPathWithStringOnPath:(NSString*)str attributes:(nullable NSDictionary<NSAttributedStringKey,id>*)attrs;
+- (NSBezierPath*)bezierPathWithStringOnPath:(NSString*)str attributes:(nullable NSDictionary<NSAttributedStringKey, id>*)attrs;
 
 // low-level glyph layout method called by all other methods to generate the glyphs. The result depends on the helper object which must conform
 // to the \c DKTextOnPathPlacement protocol (see below).
@@ -425,7 +425,7 @@ NS_ASSUME_NONNULL_BEGIN
 	NSMutableArray* mGlyphs;
 }
 
-@property (readonly, strong) NSArray<NSBezierPath*> *glyphs;
+@property (readonly, strong) NSArray<NSBezierPath*>* glyphs;
 - (void)layoutManager:(NSLayoutManager*)lm willPlaceGlyphAtIndex:(NSUInteger)glyphIndex atLocation:(NSPoint)location pathAngle:(CGFloat)angle yOffset:(CGFloat)dy;
 
 @end

@@ -6,11 +6,11 @@
 
 #import "DKHandle.h"
 #import "DKBoundingRectHandle.h"
+#import "DKGeometryUtilities.h"
 #import "DKPathPointHandle.h"
+#import "DKQuartzCache.h"
 #import "DKRotationHandle.h"
 #import "DKTargetHandle.h"
-#import "DKGeometryUtilities.h"
-#import "DKQuartzCache.h"
 #import "NSColor+DKAdditions.h"
 
 @interface DKHandle ()
@@ -170,8 +170,8 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 	return self;
 }
 
-@synthesize size=mSize;
-@synthesize colour=mColour;
+@synthesize size = mSize;
+@synthesize colour = mColour;
 
 - (void)drawAtPoint:(NSPoint)point
 {

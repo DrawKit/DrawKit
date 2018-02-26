@@ -10,8 +10,8 @@
 
 + (NSString*)uniqueKey
 {
-	NSUUID *uuid = [NSUUID UUID];
-	NSString *str = uuid.UUIDString;
+	NSUUID* uuid = [NSUUID UUID];
+	NSString* str = uuid.UUIDString;
 
 	return str;
 }

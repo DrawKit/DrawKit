@@ -47,7 +47,7 @@
 	}
 }
 
-@synthesize masterObject=m_masterObjRef;
+@synthesize masterObject = m_masterObjRef;
 
 #pragma mark -
 #pragma mark As a DKDrawableShape

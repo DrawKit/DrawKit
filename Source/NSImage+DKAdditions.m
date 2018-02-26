@@ -4,8 +4,8 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "NSImage+DKAdditions.h"
 #import "DKGeometryUtilities.h"
+#import "NSImage+DKAdditions.h"
 
 @implementation NSImage (DKAdditions)
 

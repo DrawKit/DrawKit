@@ -21,13 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (DKStrokeDash*)dashWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_SWIFT_UNAVAILABLE("Use `init(pattern:count:)` instead");
 + (nullable DKStrokeDash*)dashWithName:(NSString*)name;
 + (void)registerDash:(DKStrokeDash*)dash withName:(NSString*)name;
-@property (class, readonly, copy) NSArray<DKStrokeDash*> *registeredDashes;
+@property (class, readonly, copy) NSArray<DKStrokeDash*>* registeredDashes;
 
 + (DKStrokeDash*)equallySpacedDashToFitSize:(NSSize)aSize dashLength:(CGFloat)len;
 
 - (instancetype)initWithPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_DESIGNATED_INITIALIZER;
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
-- (nullable instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
 - (void)setDashPattern:(const CGFloat[_Nonnull])dashes count:(NSInteger)count NS_SWIFT_NAME(setPattern(_:count:));
 - (void)getDashPattern:(CGFloat[_Nonnull])dashes count:(NSInteger*)count;
 

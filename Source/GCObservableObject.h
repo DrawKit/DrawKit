@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
  subclasses to simply append their own keypaths without caring if there are already any paths defined
  by its superclass.
  */
-@property (class, readonly, copy) NSArray<NSString*> *observableKeyPaths;
+@property (class, readonly, copy) NSArray<NSString*>* observableKeyPaths;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
 
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
 	__unsafe_unretained NSUndoManager* m_um;
 }
 
-@property (unsafe_unretained) NSUndoManager *undoManager;
+@property (unsafe_unretained) NSUndoManager* undoManager;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object

@@ -96,14 +96,14 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
  @discussion This is designed as a way to convert existing dictionaries of attributes wholesale. If the dictionary already contains meta items, the
  result is effectively a copy of those items.
  */
-+ (NSDictionary<NSString*,DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*,id>*)aDict;
++ (NSDictionary<NSString*, DKMetadataItem*>*)dictionaryOfMetadataItemsWithDictionary:(NSDictionary<NSString*, id>*)aDict;
 
 /** @brief Returns an array of <code>DKMetadataItem</code>s built by iterating the input array and wrapping each object using metadataItemWithObject:
  
 @discussion This is designed as a way to convert existing arrays of attributes wholesale.
  */
 + (NSArray<DKMetadataItem*>*)arrayOfMetadataItemsWithArray:(NSArray*)array;
-+ (nullable NSDictionary<NSString*,DKMetadataItem*>*)metadataItemsWithPasteboard:(NSPasteboard*)pb;
++ (nullable NSDictionary<NSString*, DKMetadataItem*>*)metadataItemsWithPasteboard:(NSPasteboard*)pb;
 
 /** @brief Convenience method for writing a set of items and keys to the pasteboard.
  */
@@ -163,14 +163,14 @@ DKMetadataItems are used to store metadata (attribute) values in user info dicti
 
 // convenient getters convert to indicated return type as necessary, possibly lossily
 
-@property (readonly, copy) NSString *stringValue;
-@property (readonly, copy) NSAttributedString *attributedStringValue;
+@property (readonly, copy) NSString* stringValue;
+@property (readonly, copy) NSAttributedString* attributedStringValue;
 @property (readonly) int intValue;
 @property (readonly) NSInteger integerValue;
 @property (readonly) float floatValue;
 @property (readonly) double doubleValue;
 @property (readonly) BOOL boolValue;
-@property (readonly, copy) NSColor *colourValue;
+@property (readonly, copy) NSColor* colourValue;
 @property (readonly) NSSize sizeValue;
 @property (readonly) NSPoint pointValue;
 @property (readonly) NSRect rectValue;
@@ -195,9 +195,9 @@ extern NSPasteboardType DKMultipleMetadataItemsPBoardType NS_SWIFT_NAME(dkMultip
 - (NSData*)imageData;
 - (NSPoint)point;
 
-@property (readonly, copy) NSString *hexString;
-@property (readonly, copy) NSColor *colorValue;
-@property (readonly, copy) NSColor *colourValue;
+@property (readonly, copy) NSString* hexString;
+@property (readonly, copy) NSColor* colorValue;
+@property (readonly, copy) NSColor* colourValue;
 @property (readonly) NSPoint point;
 
 @end

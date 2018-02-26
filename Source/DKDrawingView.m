@@ -5,9 +5,9 @@
 */
 
 #import "DKDrawingView.h"
-#import "DKToolController.h"
 #import "DKDrawing.h"
 #import "DKGridLayer.h"
+#import "DKToolController.h"
 #import "GCThreadQueue.h"
 #import "LogEvent.h"
 #import "NSBezierPath+Shapes.h"
@@ -79,7 +79,7 @@ NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping"
  */
 - (NSDictionary*)rulerMarkerInfo;
 
-@property (copy) NSDictionary *rulerMarkerInfo;
+@property (copy) NSDictionary* rulerMarkerInfo;
 @end
 
 #pragma mark -
@@ -199,7 +199,7 @@ static Class s_textEditorClass = Nil;
 #pragma mark -
 #pragma mark - the view's controller
 
-@synthesize controller=mControllerRef;
+@synthesize controller = mControllerRef;
 
 - (void)replaceControllerWithController:(DKViewController*)newController
 {
@@ -379,7 +379,7 @@ static Class s_textEditorClass = Nil;
 	[self setNeedsDisplay:YES];
 }
 
-@synthesize printInfo=mPrintInfo;
+@synthesize printInfo = mPrintInfo;
 
 /** @brief Sets whether the page breaks are shown or not
 
@@ -394,7 +394,7 @@ static Class s_textEditorClass = Nil;
 	}
 }
 
-@synthesize pageBreaksVisible=mPageBreaksVisible;
+@synthesize pageBreaksVisible = mPageBreaksVisible;
 
 - (IBAction)toggleShowPageBreaks:(id)sender
 {
@@ -415,7 +415,7 @@ static Class s_textEditorClass = Nil;
 	}
 }
 
-@synthesize printCropMarkKind=mCropMarkKind;
+@synthesize printCropMarkKind = mCropMarkKind;
 
 /** @brief Draws the crop marks if set to do so and the view is being printed */
 - (void)drawCropMarks
@@ -606,7 +606,7 @@ static Class s_textEditorClass = Nil;
 	return [[m_textEditViewRef layoutManager] textStorage];
 }
 
-@synthesize textEditingView=m_textEditViewRef;
+@synthesize textEditingView = m_textEditViewRef;
 
 /** @brief Respond to frame size changes in the text editor view
 
@@ -621,7 +621,7 @@ static Class s_textEditorClass = Nil;
 	mEditorFrame = [[note object] frame];
 }
 
-@synthesize textBeingEdited=mTextEditViewInUse;
+@synthesize textBeingEdited = mTextEditViewInUse;
 
 #pragma mark -
 #pragma mark - ruler stuff
@@ -829,7 +829,7 @@ static Class s_textEditorClass = Nil;
 														object:self];
 }
 
-@synthesize rulerMarkerInfo=mRulerMarkersDict;
+@synthesize rulerMarkerInfo = mRulerMarkersDict;
 
 #pragma mark -
 #pragma mark - monitoring the mouse location
@@ -1164,7 +1164,7 @@ static Class s_textEditorClass = Nil;
 - (void)changeAttributes:(id)sender
 {
 	// TODO: ensure this method is no longer called, and remove
-	
+
 	// workaround 10.5 and earlier bug where target isn't applied to -changeAttributes: and ends up in the responder chain
 	// instead. This catches it and sends it to the true target before our forwarding mechanism gets to work on it.
 
@@ -1199,8 +1199,6 @@ static Class s_textEditorClass = Nil;
 
 	// if the view automatically created its own "back-end", release all of that now - the drawing owns the controllers so
 	// they are also disposed of.
-
-
 }
 
 /** @brief Forward an invocation to the active layer if it implements it

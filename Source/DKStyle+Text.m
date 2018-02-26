@@ -4,9 +4,9 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "DKStyle+Text.h"
 #import "DKFill.h"
 #import "DKStroke.h"
+#import "DKStyle+Text.h"
 #import "DKStyleRegistry.h"
 
 static NSString* kDKBasicTextStyleDefaultKey = @"326CF635-7863-42C6-900D-CFFC7D57505E";

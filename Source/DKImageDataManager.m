@@ -5,8 +5,8 @@
 */
 
 #import "DKImageDataManager.h"
-#import "DKUniqueID.h"
 #import "DKKeyedUnarchiver.h"
+#import "DKUniqueID.h"
 
 NSString* const kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdatamgrtype";
 
@@ -201,7 +201,7 @@ NSString* const kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdat
 
 	NSArray<NSString*>* keys = [[self allKeys] copy];
 
-	for (NSString *key in keys) {
+	for (NSString* key in keys) {
 		if (![self keyIsInUse:key]) {
 			[self removeKey:key];
 		}
@@ -212,7 +212,7 @@ NSString* const kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdat
 {
 	[mHashList removeAllObjects];
 
-	for (NSString *key in mRepository) {
+	for (NSString* key in mRepository) {
 		NSData* data = [mRepository objectForKey:key];
 		[mHashList setObject:key
 					  forKey:[data checksumString]];
@@ -242,24 +242,24 @@ NSString* const kDKImageDataManagerPasteboardType = @"net.apptree.drawkit.imgdat
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
 	if (self = [super init]) {
-	mRepository = [[coder decodeObjectForKey:@"DKImageDataManager_repo"] mutableCopy];
-	mHashList = [[NSMutableDictionary alloc] init];
+		mRepository = [[coder decodeObjectForKey:@"DKImageDataManager_repo"] mutableCopy];
+		mHashList = [[NSMutableDictionary alloc] init];
 
-	// hash list is built from repository, so there is no need to archive it.
+		// hash list is built from repository, so there is no need to archive it.
 
-	[self buildHashList];
+		[self buildHashList];
 
-	// key usage isn't archived, will manage itself as clients make use of the object
+		// key usage isn't archived, will manage itself as clients make use of the object
 
-	mKeyUsage = [[NSMutableDictionary alloc] init];
+		mKeyUsage = [[NSMutableDictionary alloc] init];
 
-	// if the coder can keep a note of the image manager, set it to self (on the basis that only one image manager should
-	// exist per archive, therefore this must be it)
+		// if the coder can keep a note of the image manager, set it to self (on the basis that only one image manager should
+		// exist per archive, therefore this must be it)
 
-	if ([coder respondsToSelector:@selector(setImageManager:)])
-		[(DKKeyedUnarchiver*)coder setImageManager:self];
+		if ([coder respondsToSelector:@selector(setImageManager:)])
+			[(DKKeyedUnarchiver*)coder setImageManager:self];
 	}
-	
+
 	return self;
 }
 

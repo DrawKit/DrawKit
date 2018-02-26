@@ -5,11 +5,11 @@
 */
 
 #import "DKRastGroup.h"
-#import "NSDictionary+DeepCopy.h"
 #import "DKFill.h"
-#import "DKStroke.h"
 #import "DKGradient.h"
+#import "DKStroke.h"
 #import "LogEvent.h"
+#import "NSDictionary+DeepCopy.h"
 
 @implementation DKRastGroup
 #pragma mark As a DKRenderGroup
@@ -463,7 +463,8 @@
 		return;
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		[[self renderList] makeObjectsPerformSelector : _cmd withObject : object];
+		[[self renderList] makeObjectsPerformSelector:_cmd
+										   withObject:object];
 
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
@@ -480,7 +481,8 @@
 		return;
 
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		[[self renderList] makeObjectsPerformSelector : _cmd withObject : path];
+		[[self renderList] makeObjectsPerformSelector:_cmd
+										   withObject:path];
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 }
 
@@ -592,7 +594,7 @@
 {
 	Class classForKey = [self renderClassForKey:key];
 
-	for (DKRasterizer *rend in self.renderList) {
+	for (DKRasterizer* rend in self.renderList) {
 		if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey])) {
 			return rend;
 		}

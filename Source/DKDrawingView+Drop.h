@@ -26,6 +26,6 @@
 
  DKDrawing maintains the active layer - look there for a method to set it
  */
-@property (readonly, retain, nullable) DKLayer *activeLayer;
+@property (readonly, retain, nullable) DKLayer* activeLayer;
 
 @end

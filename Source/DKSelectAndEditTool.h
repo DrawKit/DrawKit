@@ -110,7 +110,7 @@ typedef NS_ENUM(NSInteger, DKEditToolDragPhase) {
  If you replace the default style, take care that the style is generally fairly transparent,
  otherwise it will be hard to see what you are selecting!
  */
-@property (nonatomic, retain, nonnull) DKStyle *marqueeStyle;
+@property (nonatomic, retain, nonnull) DKStyle* marqueeStyle;
 
 // setting up optional behaviours:
 

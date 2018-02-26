@@ -4,9 +4,9 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "NSShadow+Scaling.h"
-#import "NSColor+DKAdditions.h"
 #import "DKDrawKitMacros.h"
+#import "NSColor+DKAdditions.h"
+#import "NSShadow+Scaling.h"
 #include <tgmath.h>
 
 @implementation NSShadow (DKAdditions)

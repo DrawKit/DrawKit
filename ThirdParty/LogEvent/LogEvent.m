@@ -25,7 +25,7 @@
 //             DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 //             SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 //             CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-//             LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+//             LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 //             OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 //             SUCH DAMAGE.
 // =======================================================================================
@@ -41,65 +41,60 @@
 #import <AppKit/AppKit.h>
 
 #pragma mark Constants (Not Localized)
-NSString*const kWheneverEvent		= @"LogWhenever";
+NSString* const kWheneverEvent = @"LogWhenever";
 
-NSString*const kUserEvent			= @"LogUserEvents";
-NSString*const kScriptEvent			= @"LogScriptingEvents";
-NSString*const kReactiveEvent		= @"LogReactiveEvents";
-NSString*const kUIEvent				= @"LogInterfaceEvents";
-NSString*const kFileEvent			= @"LogFileInteractionEvents";
-NSString*const kLifeEvent			= @"LogObjectLifetimeEvents";
-NSString*const kStateEvent			= @"LogObjectChangeEvents";
-NSString*const kInfoEvent			= @"LogInfoEvents";
-NSString*const kKVOEvent			= @"LogInfoKVOEvents";
-NSString*const kUndoEvent			= @"LogInfoUndoEvents";
+NSString* const kUserEvent = @"LogUserEvents";
+NSString* const kScriptEvent = @"LogScriptingEvents";
+NSString* const kReactiveEvent = @"LogReactiveEvents";
+NSString* const kUIEvent = @"LogInterfaceEvents";
+NSString* const kFileEvent = @"LogFileInteractionEvents";
+NSString* const kLifeEvent = @"LogObjectLifetimeEvents";
+NSString* const kStateEvent = @"LogObjectChangeEvents";
+NSString* const kInfoEvent = @"LogInfoEvents";
+NSString* const kKVOEvent = @"LogInfoKVOEvents";
+NSString* const kUndoEvent = @"LogInfoUndoEvents";
 
 static const NSUInteger kNumStandardEventTypes = 10;
-	// When adding new event types, don't forget to modify or override the -newEventTypes method.
-
+// When adding new event types, don't forget to modify or override the -newEventTypes method.
 
 #pragma mark Static Variables
 static LoggingController* sSharedLoggingController = nil;
 
 static BOOL sHaveLoggingEventPrefsBeenInitialized = NO;
 
-
 #pragma mark Private Function Declarations
 void InitializePrefsForEventTypeNames(void);
 BOOL IsValidEventType(NSString* eventType);
-
 
 #pragma mark -
 #pragma mark Functions
 void InitializePrefsForEventTypeNames(void)
 {
-	if (!sHaveLoggingEventPrefsBeenInitialized)
-	{
+	if (!sHaveLoggingEventPrefsBeenInitialized) {
 		// Register default preferences with the standard NSUserDefaults.
 		LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
-		
+
 		assert(sharedLoggingController != nil);
 		NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
-		
+
 		assert(eventTypeNames != nil);
 		NSUInteger count = [eventTypeNames count];
 		NSMutableDictionary* defaultPrefs = [NSMutableDictionary dictionaryWithCapacity:count];
 		NSNumber* defaultLoggingState = @NO;
-		for (NSString *typeName in eventTypeNames)
-		{
+		for (NSString* typeName in eventTypeNames) {
 			assert(defaultPrefs != nil);
 			assert(defaultLoggingState != nil);
 			assert(typeName != nil);
 			[defaultPrefs setObject:defaultLoggingState forKey:typeName];
 		}
-		
+
 		NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
-		
+
 		assert(userPrefs != nil);
 		assert(defaultPrefs != nil);
 		[userPrefs registerDefaults:defaultPrefs];
 		sHaveLoggingEventPrefsBeenInitialized = YES;
-		
+
 		LogLoggingState(eventTypeNames);
 	}
 }
@@ -108,35 +103,30 @@ void InitializePrefsForEventTypeNames(void)
 BOOL IsValidEventType(NSString* eventType)
 {
 	BOOL isValidType = NO;
-	
-	if ([eventType isEqualToString:kWheneverEvent])
-	{
+
+	if ([eventType isEqualToString:kWheneverEvent]) {
 		isValidType = YES;
-	}else
-	{
+	} else {
 		LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
-		
+
 		assert(sharedLoggingController != nil);
 		NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
-		
+
 		assert(eventTypeNames != nil);
-		
-		for (NSString* typeName in eventTypeNames)
-		{
+
+		for (NSString* typeName in eventTypeNames) {
 			assert(eventType != nil);
 			assert(typeName != nil);
-			if ([eventType isEqualToString:typeName])
-			{
+			if ([eventType isEqualToString:typeName]) {
 				isValidType = YES;
 				break;
 			}
 		}
 	}
-	
+
 	return isValidType;
 }
 #endif
-
 
 #pragma mark -
 BOOL LogEvent(NSString* eventType, NSString* format, ...)
@@ -144,55 +134,50 @@ BOOL LogEvent(NSString* eventType, NSString* format, ...)
 	assert(eventType != nil);
 	assert(IsValidEventType(eventType));
 	assert(format != nil);
-	
+
 	BOOL didLog = NO;
-	
+
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
-	
+
 	assert(userPrefs != nil);
-	if ( [userPrefs boolForKey:eventType] || ([eventType isEqualToString:kWheneverEvent] && IsAnyEventTypeBeingLogged()) )
-	{
+	if ([userPrefs boolForKey:eventType] || ([eventType isEqualToString:kWheneverEvent] && IsAnyEventTypeBeingLogged())) {
 		// If no message has been logged yet...
-		if (!sHaveLoggingEventPrefsBeenInitialized)
-		{
+		if (!sHaveLoggingEventPrefsBeenInitialized) {
 			// Forces prefs initialization, which forces logging the log state.
 			LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
-			
+
 			assert(sharedLoggingController != nil);
 			[sharedLoggingController eventTypeNames]; // We can safely ignore the returned value.
 		}
-		
+
 		va_list argsP;
 		va_start(argsP, format);
-		
+
 		NSLogv(format, argsP);
 		didLog = YES;
-		
+
 		va_end(argsP);
 	}
 	return didLog;
 }
 
-
 #pragma mark -
 BOOL IsAnyEventTypeBeingLogged(void)
 {
 	BOOL isTypeBeingLogged = NO;
-	
+
 	LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
-	
+
 	assert(sharedLoggingController != nil);
 	NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
-	
+
 	assert(eventTypeNames != nil);
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
-	
-	for (NSString *typeName in eventTypeNames)
-	{
+
+	for (NSString* typeName in eventTypeNames) {
 		assert(userPrefs != nil);
 		assert(typeName != nil);
-		if ([userPrefs boolForKey:typeName])
-		{
+		if ([userPrefs boolForKey:typeName]) {
 			isTypeBeingLogged = YES;
 			break;
 		}
@@ -203,43 +188,37 @@ BOOL IsAnyEventTypeBeingLogged(void)
 void LogAppNameAndVersion(void)
 {
 	NSBundle* mainBundle = [NSBundle mainBundle];
-	
+
 	assert(mainBundle != nil);
 	NSDictionary* localInfoDict = [mainBundle localizedInfoDictionary];
 	NSDictionary* infoDictionary = [mainBundle infoDictionary];
-	
+
 	NSString* appName = [localInfoDict objectForKey:@"CFBundleName"];
-	if (appName == nil)
-	{
+	if (appName == nil) {
 		appName = [localInfoDict objectForKey:@"CFBundleExecutable"];
-		if (appName == nil)
-		{
+		if (appName == nil) {
 			assert(infoDictionary != nil);
 			appName = [infoDictionary objectForKey:@"CFBundleName"];
-			if (appName == nil)
-			{
+			if (appName == nil) {
 				appName = [infoDictionary objectForKey:@"CFBundleExecutable"];
-				if (appName == nil)
-				{
+				if (appName == nil) {
 					appName = @"<Unknown>";
 				}
 			}
 		}
 	}
 	assert(appName != nil);
-	
+
 	NSString* versionString = [localInfoDict objectForKey:@"CFBundleVersion"];
-	if (versionString == nil)
-	{
+	if (versionString == nil) {
 		assert(infoDictionary != nil);
 		versionString = [infoDictionary objectForKey:@"CFBundleVersion"];
-		if (versionString == nil)
-		{
+		if (versionString == nil) {
 			versionString = @"<unknown>";
 		}
 	}
 	assert(versionString != nil);
-	
+
 	LogEvent(kWheneverEvent, @"Logging state for %@ application, version %@, is:", appName, versionString);
 }
 
@@ -247,56 +226,51 @@ void LogLoggingState(NSArray* eventTypeNames)
 {
 	// First, log the app name and version
 	LogAppNameAndVersion();
-	
+
 	// Second, log the current state of logging.
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
-	
+
 	assert(eventTypeNames != nil);
-	for (NSString* typeName in eventTypeNames)
-	{
+	for (NSString* typeName in eventTypeNames) {
 		assert(typeName != nil);
 		assert(userPrefs != nil);
 		LogEvent(kWheneverEvent, @"%@ is turned %@.", typeName, ([userPrefs boolForKey:typeName]) ? @"on" : @"off");
 	}
 }
 
-
 #pragma mark -
-@implementation LoggingController
-{
-	NSArray *nibs;
+@implementation LoggingController {
+	NSArray* nibs;
 }
 #pragma mark As a LoggingController
-@synthesize userActions=mUserActions;
-@synthesize scriptingActions=mScriptingActions;
-@synthesize reactiveEvents=mReactiveEvents;
-@synthesize interfaceEvents=mInterfaceEvents;
-@synthesize fileInteraction=mFileInteraction;
-@synthesize objectLifetime=mObjectLifetime;
-@synthesize objectChanges=mObjectChanges;
-@synthesize miscInfo=mMiscInfo;
-@synthesize KVOInfo=mKVOInfo;
-@synthesize undoInfo=mUndoInfo;
-@synthesize zombiesCheckbox=mZombiesCheckbox;
+@synthesize userActions = mUserActions;
+@synthesize scriptingActions = mScriptingActions;
+@synthesize reactiveEvents = mReactiveEvents;
+@synthesize interfaceEvents = mInterfaceEvents;
+@synthesize fileInteraction = mFileInteraction;
+@synthesize objectLifetime = mObjectLifetime;
+@synthesize objectChanges = mObjectChanges;
+@synthesize miscInfo = mMiscInfo;
+@synthesize KVOInfo = mKVOInfo;
+@synthesize undoInfo = mUndoInfo;
+@synthesize zombiesCheckbox = mZombiesCheckbox;
 
 - (void)loadNib
 {
 	// If the nib hasn't been loaded yet...
-	if (!mIsNibLoaded)
-	{
+	if (!mIsNibLoaded) {
 		NSString* nibName = [self windowNibName];
-		NSArray *tmpArr = nil;
-		
+		NSArray* tmpArr = nil;
+
 		NSAssert(nibName != nil, @"Expected valid nibName");
-		if (![[NSBundle bundleForClass:[self class]] loadNibNamed:nibName owner:self topLevelObjects:&tmpArr])
-		{
+		if (![[NSBundle bundleForClass:[self class]] loadNibNamed:nibName owner:self topLevelObjects:&tmpArr]) {
 			NSLog(@"***Failed to load %@.nib", nibName);
 			NSBeep();
 		} else {
 			nibs = [tmpArr retain];
 			// Setup the window
 			NSWindow* window = [self window];
-			
+
 			NSAssert(window != nil, @"Expected valid window");
 			[window setExcludedFromWindowsMenu:YES];
 			[window setMenu:nil];
@@ -309,8 +283,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 #pragma mark -
 - (void)setEventTypes:(NSDictionary*)eventTypes
 {
-	if (eventTypes != mEventTypes)
-	{
+	if (eventTypes != mEventTypes) {
 		[mEventTypes release];
 		mEventTypes = [eventTypes copy];
 	}
@@ -319,158 +292,149 @@ void LogLoggingState(NSArray* eventTypeNames)
 
 - (NSDictionary*)eventTypes
 {
-	if (mEventTypes == nil)
-	{
+	if (mEventTypes == nil) {
 		[self loadNib];
-		
+
 		NSDictionary* eventTypes = [self newEventTypes];
-		
+
 		NSAssert(eventTypes != nil, @"Expected valid eventTypes");
 		[self setEventTypes:eventTypes];
 	}
 	NSAssert(mEventTypes != nil, @"Expected valid mEventTypes");
-	
+
 	return [[mEventTypes retain] autorelease];
 }
-
 
 #pragma mark -
 + (LoggingController*)sharedLoggingController
 {
 	@synchronized(self)
 	{
-		if (sSharedLoggingController == nil)
-		{
+		if (sSharedLoggingController == nil) {
 			sSharedLoggingController = [[self alloc] init]; // Assignment done in allocWithZone:
 		}
 	}
 	NSAssert(sSharedLoggingController != nil, @"Expected valid sSharedLoggingController");
-	
+
 	return sSharedLoggingController;
 }
-
 
 #pragma mark -
 - (void)showLoggingWindow
 {
 	[self loadNib];
-	
+
 	NSWindow* window = [self window];
-		
+
 	NSAssert(window != nil, @"Expected valid window");
-	if (![window isVisible])
-	{
+	if (![window isVisible]) {
 		NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 		NSDictionary* eventTypes = [self eventTypes];
-		
+
 		NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-		for (NSString* eventKey in eventTypes)
-		{
+		for (NSString* eventKey in eventTypes) {
 			NSAssert(eventKey != nil, @"Expected valid eventKey");
 			NSButton* eventButton = [eventTypes objectForKey:eventKey];
-			
+
 			NSAssert(userPrefs != nil, @"Expected valid userPrefs");
 			BOOL prefState = [userPrefs boolForKey:eventKey];
-			
+
 			NSAssert(eventButton != nil, @"Expected valid eventButton");
 			[eventButton setState:(prefState) ? NSOnState : NSOffState];
 		}
 	}
-	
+
 	// Show the window
 	[window makeKeyAndOrderFront:nil];
 }
-
 
 #pragma mark -
 - (NSDictionary*)newEventTypes
 {
 	NSMutableDictionary* eventTypes = [[NSMutableDictionary alloc] initWithCapacity:kNumStandardEventTypes];
-	
+
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-	for (NSUInteger i = 0 ; i < kNumStandardEventTypes; ++i)
-	{
+	for (NSUInteger i = 0; i < kNumStandardEventTypes; ++i) {
 		NSString* eventKey = nil;
 		NSButton* eventButton = nil;
-		switch (i)
-		{
-			case 0:
-				eventKey = kUserEvent;
-				eventButton = mUserActions;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		switch (i) {
+		case 0:
+			eventKey = kUserEvent;
+			eventButton = mUserActions;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 1:
-				eventKey = kScriptEvent;
-				eventButton = mScriptingActions;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 1:
+			eventKey = kScriptEvent;
+			eventButton = mScriptingActions;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 2:
-				eventKey = kReactiveEvent;
-				eventButton = mReactiveEvents;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 2:
+			eventKey = kReactiveEvent;
+			eventButton = mReactiveEvents;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 3:
-				eventKey = kUIEvent;
-				eventButton = mInterfaceEvents;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 3:
+			eventKey = kUIEvent;
+			eventButton = mInterfaceEvents;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 4:
-				eventKey = kFileEvent;
-				eventButton = mFileInteraction;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 4:
+			eventKey = kFileEvent;
+			eventButton = mFileInteraction;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 5:
-				eventKey = kLifeEvent;
-				eventButton = mObjectLifetime;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 5:
+			eventKey = kLifeEvent;
+			eventButton = mObjectLifetime;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 6:
-				eventKey = kStateEvent;
-				eventButton = mObjectChanges;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 6:
+			eventKey = kStateEvent;
+			eventButton = mObjectChanges;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 7:
-				eventKey = kInfoEvent;
-				eventButton = mMiscInfo;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 7:
+			eventKey = kInfoEvent;
+			eventButton = mMiscInfo;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 8:
-				eventKey = kKVOEvent;
-				eventButton = mKVOInfo;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+		case 8:
+			eventKey = kKVOEvent;
+			eventButton = mKVOInfo;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
 			break;
-			case 9:
-				eventKey = kUndoEvent;
-				eventButton = mUndoInfo;
-				NSAssert(eventKey != nil, @"Expected valid eventKey");
-				NSAssert(eventButton != nil, @"Expected valid eventButton");
-				NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
-				break;
-			default:
-				NSAssert(NO, @"Encountered invalid switch case (%lu)", (unsigned long)i);
+		case 9:
+			eventKey = kUndoEvent;
+			eventButton = mUndoInfo;
+			NSAssert(eventKey != nil, @"Expected valid eventKey");
+			NSAssert(eventButton != nil, @"Expected valid eventButton");
+			NSAssert([eventButton action] == @selector(logStateChanged:), @"Expected every logging IBOutlet to have logStateChanged: as its action");
+			break;
+		default:
+			NSAssert(NO, @"Encountered invalid switch case (%lu)", (unsigned long)i);
 			break;
 		}
 		NSAssert(eventKey != nil, @"Expected valid eventKey");
 		NSAssert(eventButton != nil, @"Expected valid eventButton");
-		
+
 		[eventTypes setObject:eventButton forKey:eventKey];
 	}
 
@@ -480,39 +444,35 @@ void LogLoggingState(NSArray* eventTypeNames)
 - (NSArray*)eventTypeNames
 {
 	NSDictionary* eventTypes = [self eventTypes];
-	
+
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
 	NSArray* typeNames = [eventTypes allKeys];
-	
+
 	NSAssert(typeNames != nil, @"Expected valid typeNames");
 	return [typeNames sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
-
 #pragma mark -
 - (IBAction)logStateChanged:(id)sender
 {
-#pragma unused (sender)
+#pragma unused(sender)
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 	NSAssert(userPrefs != nil, @"Expected valid userPrefs");
-	
+
 	NSDictionary* eventTypes = [self eventTypes];
-	
+
 	NSAssert(eventTypes != nil, @"Expected valid eventTypes");
-	for (NSString* eventKey in eventTypes)
-	{
+	for (NSString* eventKey in eventTypes) {
 		NSAssert(eventKey != nil, @"Expected valid eventKey");
 		NSButton* eventButton = [eventTypes objectForKey:eventKey];
-		
+
 		NSAssert(eventButton != nil, @"Expected valid eventButton");
 		NSControlStateValue buttonState = [eventButton state];
-		
-		if (buttonState == NSOnState)
-		{
+
+		if (buttonState == NSOnState) {
 			[userPrefs setBool:YES forKey:eventKey];
 			LogEvent(eventKey, @"%@ has been turned on", eventKey);
-		}else
-		{
+		} else {
 			LogEvent(eventKey, @"%@ has been turned off", eventKey);
 			[userPrefs setBool:NO forKey:eventKey];
 			[userPrefs removeObjectForKey:eventKey];
@@ -522,30 +482,28 @@ void LogLoggingState(NSArray* eventTypeNames)
 	[userPrefs synchronize];
 }
 
-
-- (IBAction)	setZombiesAction:(id) sender
+- (IBAction)setZombiesAction:(id)sender
 {
 #pragma unused(sender)
-	
+
 	NSAlert* relaunchAlert = [[NSAlert alloc] init];
 	relaunchAlert.messageText = @"Relaunch Ortelius?";
 	relaunchAlert.informativeText = @"Click to relaunch Ortelius with Zombies ON. Launching again from the Finder will disable zombies.";
 	[relaunchAlert addButtonWithTitle:@"Launch With Zombies"];
 	[relaunchAlert addButtonWithTitle:@"Cancel"];
-	
+
 	NSInteger result = [relaunchAlert runModal];
-	
+
 	if (result == NSAlertFirstButtonReturn) {
-		NSDictionary *environment = @{@"NSZombieEnabled": @"YES"};
-		
-		[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[[NSBundle mainBundle] bundleURL] options:(NSWorkspaceLaunchDefault | NSWorkspaceLaunchNewInstance) configuration:@{NSWorkspaceLaunchConfigurationArguments: environment} error:NULL];
-		
+		NSDictionary* environment = @{ @"NSZombieEnabled" : @"YES" };
+
+		[[NSWorkspace sharedWorkspace] launchApplicationAtURL:[[NSBundle mainBundle] bundleURL] options:(NSWorkspaceLaunchDefault | NSWorkspaceLaunchNewInstance) configuration:@{ NSWorkspaceLaunchConfigurationArguments : environment } error:NULL];
+
 		// Don't worry about releasing relaunchAlert: the kernel will clean up when we exit.
-		[NSApp terminate: nil];
+		[NSApp terminate:nil];
 	}
 	[relaunchAlert release];
 }
-
 
 #pragma mark -
 #pragma mark As an NSWindowController
@@ -554,15 +512,13 @@ void LogLoggingState(NSArray* eventTypeNames)
 	return @"Logging";
 }
 
-
 #pragma mark -
 #pragma mark As an NSObject
 + (id)allocWithZone:(NSZone*)zone
 {
 	@synchronized(self)
 	{
-		if (sSharedLoggingController == nil)
-		{
+		if (sSharedLoggingController == nil) {
 			// Assignment & return on first allocation.
 			sSharedLoggingController = [super allocWithZone:zone];
 			return sSharedLoggingController;
@@ -578,7 +534,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 
 - (id)copyWithZone:(NSZone*)zone
 {
-#pragma unused (zone)
+#pragma unused(zone)
 	return self; // Singleton's do not actually copy.
 }
 
@@ -586,7 +542,7 @@ void LogLoggingState(NSArray* eventTypeNames)
 {
 	[mEventTypes release];
 	[nibs release];
-	
+
 	[super dealloc];
 	sSharedLoggingController = nil;
 }
@@ -608,7 +564,6 @@ void LogLoggingState(NSArray* eventTypeNames)
 
 @end
 #endif /* defined(qUseLogEvent) */
-
 
 /* $HeadURL: http://graham@jasonjobe.com/drawkit/DrawKit/Trunk/Source/ThirdParty/LogEvent/LogEvent.m $
 ** $LastChangedRevision: 1039 $

@@ -25,7 +25,7 @@
 //             DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
 //             SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
 //             CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-//             LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY 
+//             LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 //             OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 //             SUCH DAMAGE.
 // =======================================================================================
@@ -40,12 +40,12 @@
 // configurations (or you do not agree to the licensing terms), don't define qUseLogEvent.
 // (For more about dropping event logging out of one of your configurations, see the
 // Macros section below.)
-// 
+//
 //    The LoggingController class encapsulates an NSWindowController for modifying the
 // user selectable logging options. It follows the singleton design pattern and therefore
 // follows Apple's guidelines for a singleton (cf. "Creating a Singleton Instance" chapter
 // in the Cocoa Fundamentals Guide).
-// 
+//
 //    Although frameworks may use LogEvent() and the various event types defined below,
 // they generally do not actually make use of the LoggingController class (and its nib
 // file). The LoggingController class is a UI level object that simplifies turning logging
@@ -67,14 +67,12 @@
 	}
 }*/
 
-
 #pragma mark Macro (when qUseLogEvent undefined)
 #ifndef qUseLogEvent
 
 	#define LogEvent_(...)
 
 #else /* defined(qUseLogEvent) */
-
 
 #import <AppKit/NSWindowController.h>
 @class NSButton;
@@ -85,30 +83,29 @@ NS_ASSUME_NONNULL_BEGIN
 #pragma mark Constants (Not Localized)
 /** @brief event types for conditional logging
  */
-typedef NSString *LCEventType NS_EXTENSIBLE_STRING_ENUM;
+typedef NSString* LCEventType NS_EXTENSIBLE_STRING_ENUM;
 	// Standard event types for conditional logging
 /** I.e., Whenever we are logging anything
  Useful for logging an event that is always of interest when debugging, but not of interest when not debugging. For example, a caught exception or other failure of some kind.
  You will still use \c NSLog() to *always* log an event, regardless of whether you are debugging or not.*/
 extern LCEventType const kWheneverEvent;
 
-extern LCEventType const kUserEvent;     //!< E.g., IBActions and other user input
-extern LCEventType const kScriptEvent;   //!< E.g., Any reaction to an AppleScript event
+extern LCEventType const kUserEvent; //!< E.g., IBActions and other user input
+extern LCEventType const kScriptEvent; //!< E.g., Any reaction to an AppleScript event
 extern LCEventType const kReactiveEvent; //!< E.g., Significant reactions, such as a critical method call
-extern LCEventType const kUIEvent;       //!< E.g., Displaying a dialog or changing a tab of a NSTabView
-extern LCEventType const kFileEvent;     //!< E.g., Any intermediate steps taken during file saving or reading.
-extern LCEventType const kLifeEvent;     //!< I.e., Object lifetime (allocation, initialization or deallocation)
-extern LCEventType const kStateEvent;    //!< E.g., Significant changes to object state
-extern LCEventType const kInfoEvent;     //!< E.g., Informational logging such as an object's current state. Use sparingly.
+extern LCEventType const kUIEvent; //!< E.g., Displaying a dialog or changing a tab of a NSTabView
+extern LCEventType const kFileEvent; //!< E.g., Any intermediate steps taken during file saving or reading.
+extern LCEventType const kLifeEvent; //!< I.e., Object lifetime (allocation, initialization or deallocation)
+extern LCEventType const kStateEvent; //!< E.g., Significant changes to object state
+extern LCEventType const kInfoEvent; //!< E.g., Informational logging such as an object's current state. Use sparingly.
 
-// new event types added by Graham Cox 
+// new event types added by Graham Cox
 
-extern LCEventType const kKVOEvent;		//!< pertains to KVO adding or removing observers, which events lead to a very verbose log if enabled, therefore separate.
-extern LCEventType const kUndoEvent;		//!< pertains to undo operations
+extern LCEventType const kKVOEvent; //!< pertains to KVO adding or removing observers, which events lead to a very verbose log if enabled, therefore separate.
+extern LCEventType const kUndoEvent; //!< pertains to undo operations
 
 //    Remember, you are not required to use all of the event types. They are intended
 // solely to make it easier to reduce the noise level in any given set of logged output.
-
 
 #pragma mark Macros (when qUseLogEvent defined)
 //    When qUseLogEvent is defined, you can use all of the LogEvent features. However,
@@ -119,63 +116,60 @@ extern LCEventType const kUndoEvent;		//!< pertains to undo operations
 
 #define LogEvent_ LogEvent
 
-
 #pragma mark -
 #pragma mark Free Functions
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-	/** Returns \c YES when the message was actually logged out; \c NO otherwise. Useful for attempting to log for more than one type, but not <code>kWheneverEvent</code>.
+/** Returns \c YES when the message was actually logged out; \c NO otherwise. Useful for attempting to log for more than one type, but not <code>kWheneverEvent</code>.
 	 */
-	BOOL LogEvent(LCEventType eventType, NSString* format, ...) NS_FORMAT_FUNCTION(2,3);
+BOOL LogEvent(LCEventType eventType, NSString* format, ...) NS_FORMAT_FUNCTION(2, 3);
 
-	BOOL IsAnyEventTypeBeingLogged(void);
-	void LogAppNameAndVersion(void);
-	/** @brief Which also logs app name & version.
+BOOL IsAnyEventTypeBeingLogged(void);
+void LogAppNameAndVersion(void);
+/** @brief Which also logs app name & version.
 	 */
-	void LogLoggingState(NSArray<LCEventType>* eventTypeNames);
+void LogLoggingState(NSArray<LCEventType>* eventTypeNames);
 
 #ifdef __cplusplus
 }
 #endif
 
-
 #pragma mark -
-@interface LoggingController : NSWindowController
-{
+@interface LoggingController : NSWindowController {
 @private
-	NSDictionary<LCEventType,NSButton*>*mEventTypes;
-	BOOL				mIsNibLoaded;
-	
-	NSButton*	mUserActions;
-	NSButton*	mScriptingActions;
-	NSButton*	mReactiveEvents;
-	NSButton*	mInterfaceEvents;
-	NSButton*	mFileInteraction;
-	NSButton*	mObjectLifetime;
-	NSButton*	mObjectChanges;
-	NSButton*	mMiscInfo;
-	NSButton*	mKVOInfo;
-	NSButton*	mUndoInfo;
-	
-	NSButton*	mZombiesCheckbox;
+	NSDictionary<LCEventType, NSButton*>* mEventTypes;
+	BOOL mIsNibLoaded;
+
+	NSButton* mUserActions;
+	NSButton* mScriptingActions;
+	NSButton* mReactiveEvents;
+	NSButton* mInterfaceEvents;
+	NSButton* mFileInteraction;
+	NSButton* mObjectLifetime;
+	NSButton* mObjectChanges;
+	NSButton* mMiscInfo;
+	NSButton* mKVOInfo;
+	NSButton* mUndoInfo;
+
+	NSButton* mZombiesCheckbox;
 }
 
-@property (class, readonly, retain) LoggingController *sharedLoggingController;
+@property (class, readonly, retain) LoggingController* sharedLoggingController;
 
-@property (assign) IBOutlet NSButton*	userActions;
-@property (assign) IBOutlet NSButton*	scriptingActions;
-@property (assign) IBOutlet NSButton*	reactiveEvents;
-@property (assign) IBOutlet NSButton*	interfaceEvents;
-@property (assign) IBOutlet NSButton*	fileInteraction;
-@property (assign) IBOutlet NSButton*	objectLifetime;
-@property (assign) IBOutlet NSButton*	objectChanges;
-@property (assign) IBOutlet NSButton*	miscInfo;
-@property (assign) IBOutlet NSButton*	KVOInfo;
-@property (assign) IBOutlet NSButton*	undoInfo;
+@property (assign) IBOutlet NSButton* userActions;
+@property (assign) IBOutlet NSButton* scriptingActions;
+@property (assign) IBOutlet NSButton* reactiveEvents;
+@property (assign) IBOutlet NSButton* interfaceEvents;
+@property (assign) IBOutlet NSButton* fileInteraction;
+@property (assign) IBOutlet NSButton* objectLifetime;
+@property (assign) IBOutlet NSButton* objectChanges;
+@property (assign) IBOutlet NSButton* miscInfo;
+@property (assign) IBOutlet NSButton* KVOInfo;
+@property (assign) IBOutlet NSButton* undoInfo;
 
-@property (assign) IBOutlet NSButton*	zombiesCheckbox;
+@property (assign) IBOutlet NSButton* zombiesCheckbox;
 
 - (void)showLoggingWindow;
 
@@ -183,10 +177,10 @@ extern "C" {
  
  Marked with \c NS_RETURNS_NOT_RETAINED so you don't have to release the returned value.
  */
-- (NSDictionary<LCEventType,NSButton*>*)newEventTypes NS_REQUIRES_SUPER NS_RETURNS_NOT_RETAINED;
+- (NSDictionary<LCEventType, NSButton*>*)newEventTypes NS_REQUIRES_SUPER NS_RETURNS_NOT_RETAINED;
 /** @brief An array of the event type names (NSStrings).
  */
-@property (readonly, copy) NSArray<LCEventType> *eventTypeNames;
+@property (readonly, copy) NSArray<LCEventType>* eventTypeNames;
 
 /** All logging IBOutlets (NSButtons) have this as their action.
  */
@@ -194,16 +188,15 @@ extern "C" {
 
 /** @brief Override to use a nib name other than "Logging".
  */
-@property(nullable, copy, readonly) NSNibName windowNibName;
+@property (nullable, copy, readonly) NSNibName windowNibName;
 
-- (IBAction)setZombiesAction:(nullable id) sender;
+- (IBAction)setZombiesAction:(nullable id)sender;
 
 @end
 
 NS_ASSUME_NONNULL_END
 
 #endif /* defined(qUseLogEvent) */
-
 
 /* $HeadURL: http://graham@jasonjobe.com/drawkit/DrawKit/Trunk/Source/ThirdParty/LogEvent/LogEvent.h $
 ** $LastChangedRevision: 1039 $

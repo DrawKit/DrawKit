@@ -5,10 +5,10 @@
 */
 
 #import "DKImageAdornment.h"
-#import "DKGeometryUtilities.h"
+#import "DKDrawKitMacros.h"
 #import "DKDrawableObject+Metadata.h"
 #import "DKDrawableShape.h"
-#import "DKDrawKitMacros.h"
+#import "DKGeometryUtilities.h"
 
 #import "DKDrawing.h"
 #import "DKImageDataManager.h"
@@ -38,7 +38,7 @@
 	[m_image setCacheMode:NSImageCacheNever];
 }
 
-@synthesize image=m_image;
+@synthesize image = m_image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing
 {
@@ -49,8 +49,8 @@
 	[self setImageKey:key];
 }
 
-@synthesize imageKey=mImageKey;
-@synthesize imageIdentifier=m_imageIdentifier;
+@synthesize imageKey = mImageKey;
+@synthesize imageIdentifier = m_imageIdentifier;
 
 #pragma mark -
 - (void)setScale:(CGFloat)scale
@@ -58,7 +58,7 @@
 	m_scale = LIMIT(scale, 0.2, 8.0);
 }
 
-@synthesize scale=m_scale;
+@synthesize scale = m_scale;
 
 #pragma mark -
 - (void)setOpacity:(CGFloat)opacity
@@ -66,13 +66,13 @@
 	m_opacity = LIMIT(opacity, 0.0, 1.0);
 }
 
-@synthesize opacity=m_opacity;
+@synthesize opacity = m_opacity;
 
 #pragma mark -
-@synthesize origin=m_origin;
+@synthesize origin = m_origin;
 
 #pragma mark -
-@synthesize angle=m_angle;
+@synthesize angle = m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -90,10 +90,10 @@
 }
 
 #pragma mark -
-@synthesize operation=m_op;
+@synthesize operation = m_op;
 
 #pragma mark -
-@synthesize fittingOption=m_fittingOption;
+@synthesize fittingOption = m_fittingOption;
 
 #pragma mark -
 - (NSAffineTransform*)imageTransformForObject:(id<DKRenderable>)renderableObject
@@ -247,11 +247,11 @@
 		// draw the image
 		[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
 		[image drawInRect:destRect
-				 fromRect:NSZeroRect
-				operation:[self operation]
-				 fraction:[self opacity]
-		   respectFlipped:YES
-					hints:nil];
+				  fromRect:NSZeroRect
+				 operation:[self operation]
+				  fraction:[self opacity]
+			respectFlipped:YES
+					 hints:nil];
 
 		// clean up
 

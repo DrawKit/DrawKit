@@ -5,12 +5,12 @@
 */
 
 #import "DKFill.h"
-#import "DKStyle.h"
-#import "NSShadow+Scaling.h"
-#import "DKGradient.h"
-#import "NSObject+GraphicsAttributes.h"
 #import "DKDrawableObject.h"
 #import "DKDrawing.h"
+#import "DKGradient.h"
+#import "DKStyle.h"
+#import "NSObject+GraphicsAttributes.h"
+#import "NSShadow+Scaling.h"
 
 @implementation DKFill
 #pragma mark As a DKFill
@@ -46,10 +46,10 @@
 }
 
 #pragma mark -
-@synthesize colour=m_fillColour;
+@synthesize colour = m_fillColour;
 
 #pragma mark -
-@synthesize shadow=m_shadow;
+@synthesize shadow = m_shadow;
 
 #pragma mark -
 - (void)setGradient:(DKGradient*)grad
@@ -60,10 +60,10 @@
 	}
 }
 
-@synthesize gradient=m_gradient;
+@synthesize gradient = m_gradient;
 
 #pragma mark -
-@synthesize tracksObjectAngle=m_angleTracksObject;
+@synthesize tracksObjectAngle = m_angleTracksObject;
 
 #pragma mark -
 #pragma mark As a DKRasterizer
@@ -72,7 +72,7 @@
 	return (m_fillColour != nil || m_gradient != nil);
 }
 
-+ (NSSet<NSString *> *)keyPathsForValuesAffectingIsValid
++ (NSSet<NSString*>*)keyPathsForValuesAffectingIsValid
 {
 	return [NSSet setWithObjects:@"colour", @"gradient", nil];
 }

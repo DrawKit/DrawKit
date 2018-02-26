@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKDrawablePath.h"
 #import "DKCommonTypes.h"
+#import "DKDrawablePath.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,7 +29,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 // class defaults:
 
-@property (class, copy) NSString *defaultTextString;
+@property (class, copy) NSString* defaultTextString;
 @property (class, readonly) Class textAdornmentClass;
 
 /** @brief Return a list of types we can paste in priority order.
@@ -37,7 +37,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
  @return a list of types
  */
-@property (class, readonly, retain) NSArray<NSPasteboardType> *pastableTextTypes;
+@property (class, readonly, retain) NSArray<NSPasteboardType>* pastableTextTypes;
 + (DKStyle*)textPathDefaultStyle;
 
 // the text:
@@ -51,13 +51,13 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 // conversion to path/shape with text path:
 
-@property (readonly, copy) NSBezierPath *textPath;
-@property (readonly, copy) NSArray<NSBezierPath*> *textPathGlyphs;
+@property (readonly, copy) NSBezierPath* textPath;
+@property (readonly, copy) NSArray<NSBezierPath*>* textPathGlyphs;
 - (NSArray<NSBezierPath*>*)textPathGlyphsUsedSize:(nullable NSSize*)textSize;
 - (DKDrawablePath*)makePathWithText;
 - (DKDrawableShape*)makeShapeWithText;
 - (DKShapeGroup*)makeShapeGroupWithText;
-@property (readonly, retain) DKStyle *styleWithTextAttributes;
+@property (readonly, retain) DKStyle* styleWithTextAttributes;
 
 /** @brief Creates a style that is the current style + any text attributes
 
@@ -65,14 +65,14 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
  attributes. When cutting or copying the object's style, this is what should be used.
  @return a new style object
  */
-@property (readonly, retain) DKStyle *syntheticStyle;
+@property (readonly, retain) DKStyle* syntheticStyle;
 
 // text attributes - accesses the internal adornment object
 
-@property (readonly, copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
-@property (retain) NSFont *font;
+@property (readonly, copy) NSDictionary<NSAttributedStringKey, id>* textAttributes;
+@property (retain) NSFont* font;
 @property CGFloat fontSize;
-@property (retain) NSColor *textColour;
+@property (retain) NSColor* textColour;
 
 - (void)scaleTextBy:(CGFloat)factor;
 
@@ -80,7 +80,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 @property DKVerticalTextAlignment verticalAlignment;
 @property CGFloat verticalAlignmentProportion;
-@property (strong) NSParagraphStyle *paragraphStyle;
+@property (strong) NSParagraphStyle* paragraphStyle;
 @property (readonly) NSTextAlignment alignment;
 
 @property DKTextLayoutMode layoutMode;
@@ -89,11 +89,11 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 - (void)startEditingInView:(DKDrawingView*)view;
 - (void)endEditing;
-@property (readonly,getter=isEditing) BOOL editing;
+@property (readonly, getter=isEditing) BOOL editing;
 
 // the internal adornment object:
 
-@property (nonatomic, strong, nullable) DKTextAdornment *textAdornment;
+@property (nonatomic, strong, nullable) DKTextAdornment* textAdornment;
 
 // user actions:
 

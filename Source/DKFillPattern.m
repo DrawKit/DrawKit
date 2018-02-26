@@ -6,11 +6,11 @@
 
 #import "DKFillPattern.h"
 #import "DKDrawKitMacros.h"
+#import "DKGeometryUtilities.h"
+#import "DKRandom.h"
+#import "LogEvent.h"
 #import "NSBezierPath+Text.h"
 #import "NSBezierPath-OAExtensions.h"
-#import "DKGeometryUtilities.h"
-#import "LogEvent.h"
-#import "DKRandom.h"
 
 @implementation DKFillPattern
 #pragma mark As a DKFillPattern
@@ -205,12 +205,11 @@
 								userInfo:NULL];
 			}
 		}
-
 	}
 }
 
 #pragma mark -
-@synthesize angle=m_angle;
+@synthesize angle = m_angle;
 
 - (void)setAngleInDegrees:(CGFloat)degrees
 {
@@ -227,8 +226,8 @@
 	return angle;
 }
 
-@synthesize angleIsRelativeToObject=m_angleRelativeToObject;
-@synthesize motifAngle=m_motifAngle;
+@synthesize angleIsRelativeToObject = m_angleRelativeToObject;
+@synthesize motifAngle = m_motifAngle;
 
 - (void)setMotifAngleInDegrees:(CGFloat)degrees
 {
@@ -245,7 +244,7 @@
 	return angle;
 }
 
-@synthesize motifAngleIsRelativeToPattern=m_motifAngleRelativeToPattern;
+@synthesize motifAngleIsRelativeToPattern = m_motifAngleRelativeToPattern;
 
 - (void)setMotifAngleRandomness:(CGFloat)maRand
 {
@@ -261,8 +260,8 @@
 	}
 }
 
-@synthesize motifAngleRandomness=mMotifAngleRandomness;
-@synthesize drawingOfClippedElementsSupressed=m_noClippedElements;
+@synthesize motifAngleRandomness = mMotifAngleRandomness;
+@synthesize drawingOfClippedElementsSupressed = m_noClippedElements;
 
 #pragma mark -
 #pragma mark As a DKPathDecorator
@@ -285,9 +284,9 @@
 + (NSArray*)observableKeyPaths
 {
 	return [[super observableKeyPaths] arrayByAddingObjectsFromArray:@[@"angle",
-																							   @"patternAlternateOffset", @"angleIsRelativeToObject",
-																							   @"motifAngle", @"motifAngleIsRelativeToPattern", @"drawingOfClippedElementsSupressed",
-																							   @"motifAngleRandomness"]];
+		@"patternAlternateOffset", @"angleIsRelativeToObject",
+		@"motifAngle", @"motifAngleIsRelativeToPattern", @"drawingOfClippedElementsSupressed",
+		@"motifAngleRandomness"]];
 }
 
 - (void)registerActionNames

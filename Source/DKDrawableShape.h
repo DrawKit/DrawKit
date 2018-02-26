@@ -76,9 +76,8 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
  @return the unit rect, centred at the origin.
  */
 @property (class, readonly) NSRect unitRectAtOrigin;
-@property (class, strong) NSColor *infoWindowBackgroundColour;
+@property (class, strong) NSColor* infoWindowBackgroundColour;
 + (nullable NSCursor*)cursorForShapePartcode:(NSInteger)pc;
-
 
 // convenient ways to create shapes for a path you have:
 
@@ -108,17 +107,17 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
 
 // path operations:
 
-@property (strong) NSBezierPath *path;
+@property (strong) NSBezierPath* path;
 - (void)reshapePath;
 - (void)adoptPath:(NSBezierPath*)path;
-@property (readonly, copy, nullable) NSBezierPath *transformedPath;
+@property (readonly, copy, nullable) NSBezierPath* transformedPath;
 - (BOOL)canPastePathWithPasteboard:(NSPasteboard*)pb;
 
 // geometry:
 
-@property (readonly, copy) NSAffineTransform *transform;
-@property (readonly, copy) NSAffineTransform *transformIncludingParent;
-@property (readonly, copy) NSAffineTransform *inverseTransform;
+@property (readonly, copy) NSAffineTransform* transform;
+@property (readonly, copy) NSAffineTransform* transformIncludingParent;
+@property (readonly, copy) NSAffineTransform* inverseTransform;
 @property (readonly) NSPoint locationIgnoringOffset;
 
 - (void)rotateUsingReferencePoint:(NSPoint)rp constrain:(BOOL)constrain;
@@ -153,7 +152,7 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
  @return the distortion transform if there is one, or nil otherwise
  */
 - (nullable DKDistortionTransform*)distortionTransform;
-@property (nonatomic, strong, nullable) DKDistortionTransform*distortionTransform;
+@property (nonatomic, strong, nullable) DKDistortionTransform* distortionTransform;
 
 // convert to editable path:
 

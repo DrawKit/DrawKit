@@ -5,21 +5,21 @@
 */
 
 #import "DKObjectOwnerLayer.h"
-#import "DKLayer+Metadata.h"
-#import "DKDrawing.h"
-#import "DKStyle.h"
-#import "DKDrawingView.h"
+#import "DKBSPObjectStorage.h"
 #import "DKDrawKitMacros.h"
+#import "DKDrawing.h"
+#import "DKDrawingView.h"
 #import "DKGeometryUtilities.h"
 #import "DKGridLayer.h"
+#import "DKImageDataManager.h"
 #import "DKImageShape.h"
-#import "DKTextShape.h"
+#import "DKLayer+Metadata.h"
+#import "DKPasteboardInfo.h"
 #import "DKSelectionPDFView.h"
+#import "DKStyle.h"
+#import "DKTextShape.h"
 #import "DKUndoManager.h"
 #import "LogEvent.h"
-#import "DKImageDataManager.h"
-#import "DKBSPObjectStorage.h"
-#import "DKPasteboardInfo.h"
 
 // constants
 
@@ -72,7 +72,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-@synthesize storage=mStorage;
+@synthesize storage = mStorage;
 
 #pragma mark - the list of objects
 
@@ -670,7 +670,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-@synthesize pendingObject=mNewObjectPending;
+@synthesize pendingObject = mNewObjectPending;
 
 #pragma mark -
 #pragma mark - geometry
@@ -900,10 +900,10 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-@synthesize pasteCount=mPasteCount;
-@synthesize pasteOrigin=m_pasteAnchor;
-@synthesize recordingPasteOffset=m_recordPasteOffset;
-@synthesize pasteOffset=m_pasteOffset;
+@synthesize pasteCount = mPasteCount;
+@synthesize pasteOrigin = m_pasteAnchor;
+@synthesize recordingPasteOffset = m_recordPasteOffset;
+@synthesize pasteOffset = m_pasteOffset;
 
 - (void)objects:(NSArray*)objects wereDraggedFromPoint:(NSPoint)startPt toPoint:(NSPoint)endPt
 {
@@ -1069,9 +1069,9 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	return m_allowEditing && ![self lockedOrHidden];
 }
 
-@synthesize allowsEditing=m_allowEditing;
-@synthesize allowsSnapToObjects=m_allowSnapToObjects;
-@synthesize layerCacheOption=mLayerCachingOption;
+@synthesize allowsEditing = m_allowEditing;
+@synthesize allowsSnapToObjects = m_allowSnapToObjects;
+@synthesize layerCacheOption = mLayerCachingOption;
 
 - (void)setHighlightedForDrag:(BOOL)highlight
 {
@@ -1081,7 +1081,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	}
 }
 
-@synthesize highlightedForDrag=m_inDragOp;
+@synthesize highlightedForDrag = m_inDragOp;
 
 - (void)drawHighlightingForDrag
 {
@@ -1231,7 +1231,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 	NSMutableSet<DKStyle*>* unionOfAllStyles = nil;
 
 	for (DKDrawableObject* dko in iter) {
-		NSSet<DKStyle*> *styles = [dko allStyles];
+		NSSet<DKStyle*>* styles = [dko allStyles];
 
 		if (styles != nil) {
 			// we got one - make a set to union them with if necessary

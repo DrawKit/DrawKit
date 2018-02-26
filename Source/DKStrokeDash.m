@@ -31,7 +31,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 + (DKStrokeDash*)dashWithPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
 	return [[DKStrokeDash alloc] initWithPattern:dashes
-											count:count];
+										   count:count];
 }
 
 + (DKStrokeDash*)dashWithName:(NSString*)name
@@ -53,7 +53,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	NSMutableArray* list = [NSMutableArray array];
 	NSArray* keys = [[sDashDict allKeys] sortedArrayUsingSelector:@selector(compare:)];
 
-	for (NSString *key in keys) {
+	for (NSString* key in keys) {
 		[list addObject:[sDashDict valueForKey:key]];
 	}
 
@@ -149,7 +149,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 		dashes[i] = m_pattern[i];
 }
 
-@synthesize count=m_count;
+@synthesize count = m_count;
 
 - (void)setPhase:(CGFloat)ph
 {
@@ -166,7 +166,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	m_phase = LIMIT(ph, 0, [self length]);
 }
 
-@synthesize phase=m_phase;
+@synthesize phase = m_phase;
 
 - (CGFloat)length
 {
@@ -191,8 +191,8 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 #pragma mark -
-@synthesize scalesToLineWidth=m_scaleToLineWidth;
-@synthesize isBeingEdited=mEditing;
+@synthesize scalesToLineWidth = m_scaleToLineWidth;
+@synthesize isBeingEdited = mEditing;
 
 #pragma mark -
 - (void)applyToPath:(NSBezierPath*)path
@@ -328,7 +328,7 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 	if (self != nil) {
 		m_pattern[0] = 5.0;
 		m_pattern[1] = 5.0;
-// Catch if someone changes the array size without considering the init method.
+		// Catch if someone changes the array size without considering the init method.
 		NSAssert((NSUInteger)(sizeof(m_pattern)) == (NSUInteger)(8 * sizeof(CGFloat)), @"init expects the m_pattern array to only be 8 floats");
 		m_count = 2;
 		m_scaleToLineWidth = YES;

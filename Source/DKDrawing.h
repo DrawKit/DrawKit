@@ -9,8 +9,8 @@
 @class DKGridLayer, DKGuideLayer, DKKnob, DKViewController, DKImageDataManager, DKUndoManager;
 @protocol DKDrawingDelegate;
 
-typedef NSString *DKDrawingUnits NS_TYPED_EXTENSIBLE_ENUM;
-typedef NSString *DKDrawingInfoKey NS_TYPED_EXTENSIBLE_ENUM;
+typedef NSString* DKDrawingUnits NS_TYPED_EXTENSIBLE_ENUM;
+typedef NSString* DKDrawingInfoKey NS_TYPED_EXTENSIBLE_ENUM;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -73,12 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
  This is intended for occasional display, rather than testing for the framework version.
  @return A string, e.g. "1.0.b6"
  */
-@property (class, readonly, copy) NSString *drawkitVersionString;
+@property (class, readonly, copy) NSString* drawkitVersionString;
 
 /** @brief Return the current release status of the framework
  @return A string, either "alpha", "beta", "release candidate" or nil (final).
  */
-@property (class, readonly, copy, nullable) NSString *drawkitReleaseStatus;
+@property (class, readonly, copy, nullable) NSString* drawkitReleaseStatus;
 
 /** @brief Constructs the default drawing system when the system isn't prebuilt "by hand"
 
@@ -119,7 +119,7 @@ NS_ASSUME_NONNULL_BEGIN
  display them in its info box.
  @return a mutable dictionary of standard drawing info
  */
-@property (class, readonly, copy) NSMutableDictionary<DKDrawingInfoKey,id> *defaultDrawingInfo NS_REFINED_FOR_SWIFT;
+@property (class, readonly, copy) NSMutableDictionary<DKDrawingInfoKey, id>* defaultDrawingInfo NS_REFINED_FOR_SWIFT;
 
 /** @brief Sets the abbreviation for the given drawing units string
 
@@ -222,7 +222,7 @@ NS_ASSUME_NONNULL_BEGIN
  Colours set by styles and so forth are converted to this colourspace when rendering. A value of
  \c nil will use whatever is set in the colours used by the styles.
  */
-@property (strong, nullable) NSColorSpace *colourSpace;
+@property (strong, nullable) NSColorSpace* colourSpace;
 
 /**
  @}
@@ -245,7 +245,7 @@ NS_ASSUME_NONNULL_BEGIN
  For those it knows about, it does a lookup. For unknown units, it uses the first two characters
  and makes them lower case. The delegate can also elect to supply this string if it prefers.
  */
-@property (readonly, copy) NSString *abbreviatedDrawingUnits;
+@property (readonly, copy) NSString* abbreviatedDrawingUnits;
 
 /** @brief Returns the number of Quartz units per basic drawing unit
  @return the conversion value
@@ -287,7 +287,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Controllers are in no particular order. The drawing object owns its controllers.
  */
-@property (readonly, copy) NSSet<DKViewController*> *controllers;
+@property (readonly, copy) NSSet<DKViewController*>* controllers;
 
 /** @brief Add a controller to the drawing
  
@@ -402,7 +402,7 @@ NS_ASSUME_NONNULL_BEGIN
  interpreted by a DKDrawingInfoLayer, if there is one. Note this inherits the storage from
  DKLayer.
  */
-@property (copy, nullable) NSMutableDictionary<DKDrawingInfoKey,id> *drawingInfo NS_REFINED_FOR_SWIFT;
+@property (copy, nullable) NSMutableDictionary<DKDrawingInfoKey, id>* drawingInfo NS_REFINED_FOR_SWIFT;
 
 /** @name rendering the drawing:
  @{ */
@@ -412,7 +412,7 @@ NS_ASSUME_NONNULL_BEGIN
  Default is white
  @return the current colour of the background (paper)
  */
-@property (nonatomic, strong, nullable) NSColor *paperColour;
+@property (nonatomic, strong, nullable) NSColor* paperColour;
 
 /** @brief Whether the paper colour is printed or not
  
@@ -444,7 +444,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Returns the current active layer
  @return a DKLayer object, or subclass, which is the current active layer
  */
-@property (nonatomic, weak, readonly, nullable) DKLayer *activeLayer;
+@property (nonatomic, weak, readonly, nullable) DKLayer* activeLayer;
 /** @brief Returns the active layer if it matches the requested class
  @param aClass the class of layer sought
  @return the active layer if it matches the requested class, otherwise nil
@@ -567,14 +567,14 @@ NS_ASSUME_NONNULL_BEGIN
  prevent themselves being considered for this role.
  @return the grid layer, or nil
  */
-@property (readonly, strong, nullable) DKGridLayer *gridLayer;
+@property (readonly, strong, nullable) DKGridLayer* gridLayer;
 
 /** @brief Returns the guide layer, if there is one
  
  Usually there will only be one guide layer, but if there is more than one this only finds the uppermost.
  @return the guide layer, or nil
  */
-@property (readonly, strong, nullable) DKGuideLayer *guideLayer;
+@property (readonly, strong, nullable) DKGuideLayer* guideLayer;
 - (CGFloat)convertLength:(CGFloat)len;
 - (NSPoint)convertPoint:(NSPoint)pt;
 - (NSPoint)convertPointFromDrawingToBase:(NSPoint)pt;
@@ -626,7 +626,7 @@ NS_ASSUME_NONNULL_BEGIN
  object that describes the problem.
  @return \c YES if succesfully written, \c NO otherwise.
  */
-- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable __autoreleasing*_Nullable)errorPtr;
+- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError* _Nullable __autoreleasing* _Nullable)errorPtr;
 - (NSData*)drawingAsXMLDataAtRoot;
 - (NSData*)drawingAsXMLDataForKey:(NSString*)key;
 - (NSData*)drawingData;
@@ -642,7 +642,7 @@ NS_ASSUME_NONNULL_BEGIN
  that have images, such as DKImageShape, use this to cache image data.
  @return the drawing's image manager
  */
-@property (readonly, strong) DKImageDataManager *imageManager;
+@property (readonly, strong) DKImageDataManager* imageManager;
 
 /** @} */
 @end

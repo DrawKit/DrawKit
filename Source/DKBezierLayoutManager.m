@@ -7,7 +7,7 @@
 #import "DKBezierLayoutManager.h"
 
 @implementation DKBezierLayoutManager
-@synthesize textPath=mPath;
+@synthesize textPath = mPath;
 
 - (NSArray*)glyphPathsForContainer:(NSTextContainer*)container usedSize:(NSSize*)aSize
 {

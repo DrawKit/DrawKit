@@ -294,7 +294,7 @@ static NSComparisonResult zComparisonFunc(id<DKStorableObject> a, id<DKStorableO
 	[objects sortUsingComparator:^NSComparisonResult(id<DKStorableObject> a, id<DKStorableObject> b) {
 		NSUInteger ia = [a index];
 		NSUInteger ib = [b index];
-		
+
 		if (ia < ib)
 			return NSOrderedAscending;
 		else if (ia > ib)
@@ -424,9 +424,9 @@ static void unmarkFunc(const void* value, void* context)
 {
 	// this method is here solely to support backward compatibility with b5; storage is no longer archived.
 	if (self = [super initWithCoder:coder]) {
-	mTreeDepth = [coder decodeIntegerForKey:@"DKBSPDirectStorage_treeDepth"];
-	[self setCanvasSize:[coder decodeSizeForKey:@"DKBSPDirectStorage_canvasSize"]];
-	mAutoRebuild = YES;
+		mTreeDepth = [coder decodeIntegerForKey:@"DKBSPDirectStorage_treeDepth"];
+		[self setCanvasSize:[coder decodeSizeForKey:@"DKBSPDirectStorage_canvasSize"]];
+		mAutoRebuild = YES;
 	}
 
 	return self;
@@ -610,7 +610,7 @@ static void addValueToFoundObjects(const void* value, void* context)
 
 	case kDKOperationAccumulate: {
 #if USE_CF_APPLIER
-		CFArrayApplyFunction((CFArrayRef)leaf, CFRangeMake(0, [leaf count]), addValueToFoundObjects, (__bridge void *)(self));
+		CFArrayApplyFunction((CFArrayRef)leaf, CFRangeMake(0, [leaf count]), addValueToFoundObjects, (__bridge void*)(self));
 #else
 		for (id<DKStorableObject> anObject in leaf) {
 			if (![anObject isMarked] && [anObject visible]) {

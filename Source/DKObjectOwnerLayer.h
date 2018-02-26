@@ -5,9 +5,9 @@
 */
 
 #import <Cocoa/Cocoa.h>
+#import "DKDrawableContainerProtocol.h"
 #import "DKLayer.h"
 #import "DKObjectStorageProtocol.h"
-#import "DKDrawableContainerProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -96,7 +96,7 @@ application needs.
  See \c DKDrawableObject which also implements this protocol.
  @return \c self
  */
-@property (readonly, strong) DKObjectOwnerLayer *layer;
+@property (readonly, strong) DKObjectOwnerLayer* layer;
 
 /** @}
  @name Objects
@@ -106,15 +106,14 @@ application needs.
 /** @brief The objects that this layer owns.
  Is an array of <code>DKDrawableObject</code>s, or subclasses thereof.
  */
-@property (nonatomic, copy) NSArray<DKDrawableObject*> *objects; // KVC/KVO compliant
+@property (nonatomic, copy) NSArray<DKDrawableObject*>* objects; // KVC/KVO compliant
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible
 
  If the layer itself is locked, returns an empty list.
  @return An array of available objects.
  */
-@property (readonly, copy) NSArray<DKDrawableObject*> *availableObjects;
-
+@property (readonly, copy) NSArray<DKDrawableObject*>* availableObjects;
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible and that
  intersect the rect.
@@ -137,7 +136,7 @@ application needs.
 
  If the layer itself is not visible, returns <code>nil</code>.
  */
-@property (readonly, copy, nullable) NSArray<DKDrawableObject*> *visibleObjects;
+@property (readonly, copy, nullable) NSArray<DKDrawableObject*>* visibleObjects;
 
 /** @brief Returns objects that are visible to the user, intersect the rect, but may be locked
 
@@ -458,7 +457,7 @@ application needs.
 /** @brief Returns the pending object, if any, in the layer.
  @return the pending object, or nil
  */
-@property (readonly, strong, nullable) DKDrawableObject *pendingObject;
+@property (readonly, strong, nullable) DKDrawableObject* pendingObject;
 
 /** @}
  @name Geometry
@@ -485,7 +484,7 @@ application needs.
 
  Returns the identity transform.
  */
-@property (readonly, copy) NSAffineTransform *renderingTransform;
+@property (readonly, copy) NSAffineTransform* renderingTransform;
 
 /** @brief Modifies the objects by applying the given transform to each of them.
 

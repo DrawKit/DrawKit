@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKDrawableShape.h"
 #import "DKCommonTypes.h"
+#import "DKDrawableShape.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -75,7 +75,7 @@ Text shapes are shapes that draw text.
 
  The default is usually "Double-click to edit this text"
  */
-@property (class, copy) NSString *defaultTextString;
+@property (class, copy) NSString* defaultTextString;
 
 /** @brief Return the class of object to create as the shape's text adornment.
 
@@ -90,7 +90,7 @@ Text shapes are shapes that draw text.
  Cocoa's -textPasteboardTypes isn't in an order that is useful to us
  @return a list of types
  */
-@property (class, readonly, copy) NSArray<NSPasteboardType> *pastableTextTypes;
+@property (class, readonly, copy) NSArray<NSPasteboardType>* pastableTextTypes;
 
 /** @brief Return a path used for indicating unlaid text in object
 
@@ -127,7 +127,7 @@ Text shapes are shapes that draw text.
  This returns just the characters - no attributes
  @return the object's text string
  */
-@property (readonly, copy) NSString *string;
+@property (readonly, copy) NSString* string;
 
 /** @brief Adjust the object's height to match the height of the current text
 
@@ -181,11 +181,11 @@ Text shapes are shapes that draw text.
  @return the path contains the glyphs laid out exactly as the object displays them, with the same line
  breaks, etc. The path is transformed to the object's current location and angle.
  */
-@property (readonly, copy) NSBezierPath *textPath;
+@property (readonly, copy) NSBezierPath* textPath;
 
 /** @brief Return the individual glyph paths in an array
  @return an array containing all of the individual glyph paths (i.e. each item in the array is one letter). */
-@property (readonly, copy) NSArray<NSBezierPath*> *textPathGlyphs;
+@property (readonly, copy) NSArray<NSBezierPath*>* textPathGlyphs;
 
 /** @brief Return the individual glyph paths in an array and the size used.
  @param textSize Receives the resulting size occupied by the text.
@@ -214,7 +214,7 @@ Text shapes are shapes that draw text.
 
 /** @brief Creates a style that attempts to maintain fidelity of appearance based on the text's attributes
  @return a new style object. */
-@property (readonly, retain) DKStyle *styleWithTextAttributes;
+@property (readonly, retain) DKStyle* styleWithTextAttributes;
 
 /** @brief Creates a style that is the current style + any text attributes
 
@@ -226,7 +226,7 @@ Text shapes are shapes that draw text.
 
 // text attributes - accesses the internal adornment object
 
-- (NSDictionary<NSAttributedStringKey,id>*)textAttributes;
+- (NSDictionary<NSAttributedStringKey, id>*)textAttributes;
 - (void)updateFontPanel;
 
 // setting text attributes for the entire text:
@@ -235,7 +235,7 @@ Text shapes are shapes that draw text.
 
  Updates the style if using it and it's not locked
  */
-@property (strong) NSFont *font;
+@property (strong) NSFont* font;
 
 /** @brief Sets the text's font size, if permitted
 
@@ -243,7 +243,7 @@ Text shapes are shapes that draw text.
  use \c setFont: instead.
  */
 @property CGFloat fontSize;
-@property (strong) NSColor *textColour;
+@property (strong) NSColor* textColour;
 
 - (void)scaleTextBy:(CGFloat)factor;
 
@@ -251,7 +251,7 @@ Text shapes are shapes that draw text.
 
 @property DKVerticalTextAlignment verticalAlignment;
 @property CGFloat verticalAlignmentProportion;
-@property (copy) NSParagraphStyle *paragraphStyle;
+@property (copy) NSParagraphStyle* paragraphStyle;
 @property NSTextAlignment alignment;
 
 // layout within the text object:
@@ -264,7 +264,7 @@ Text shapes are shapes that draw text.
 - (void)startEditingInView:(DKDrawingView*)view;
 - (void)endEditing;
 @property (readonly, getter=isEditing) BOOL editing;
-@property (nonatomic, strong, nullable) DKTextAdornment *textAdornment;
+@property (nonatomic, strong, nullable) DKTextAdornment* textAdornment;
 
 // user actions:
 

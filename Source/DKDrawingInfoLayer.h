@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKLayer.h"
 #import "DKDrawing.h"
+#import "DKLayer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -48,7 +48,7 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 
 @property (nonatomic) DKInfoBoxPlacement placement;
 
-@property (strong) NSColor *backgroundColour;
+@property (strong) NSColor* backgroundColour;
 
 @property (nonatomic) BOOL drawsBorder;
 
@@ -89,6 +89,6 @@ typedef NS_ENUM(NSInteger, DKInfoBoxPlacement) {
 
 @end
 
-extern NSString *const kDKDrawingInfoTextLabelAttributes;
+extern NSString* const kDKDrawingInfoTextLabelAttributes;
 
 NS_ASSUME_NONNULL_END

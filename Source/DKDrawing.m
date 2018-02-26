@@ -5,25 +5,25 @@
 */
 
 #import "DKDrawing.h"
-#import "DKDrawing+Paper.h"
 #import "DKCategoryManager.h"
-#import "DKStyle.h"
-#import "DKStyleRegistry.h"
+#import "DKDrawKitMacros.h"
+#import "DKDrawing+Paper.h"
 #import "DKDrawingTool.h"
 #import "DKDrawingView.h"
-#import "DKDrawKitMacros.h"
 #import "DKGridLayer.h"
 #import "DKGuideLayer.h"
-#import "DKKnob.h"
-#import "DKObjectDrawingLayer.h"
-#import "DKViewController.h"
-#import "DKUniqueID.h"
-#import "LogEvent.h"
-#import "DKLayer+Metadata.h"
 #import "DKImageDataManager.h"
 #import "DKKeyedUnarchiver.h"
+#import "DKKnob.h"
+#import "DKLayer+Metadata.h"
+#import "DKObjectDrawingLayer.h"
+#import "DKStyle.h"
+#import "DKStyleRegistry.h"
 #import "DKUnarchivingHelper.h"
 #import "DKUndoManager.h"
+#import "DKUniqueID.h"
+#import "DKViewController.h"
+#import "LogEvent.h"
 
 #pragma mark Contants(Non - localized)
 
@@ -66,17 +66,17 @@ NSString* const kDKDrawingUnitAbbreviationsUserDefault = @"kDKDrawingUnitAbbrevi
 
 // drawing units:
 
-NSString *const DKDrawingUnitsInches = @"inches";
-NSString *const DKDrawingUnitsMillimetres = @"millimetres";
-NSString *const DKDrawingUnitsCentimetres = @"centimetres";
-NSString *const DKDrawingUnitsMetres = @"metres";
-NSString *const DKDrawingUnitsKilometres = @"kilometres";
-NSString *const DKDrawingUnitsPicas = @"picas";
-NSString *const DKDrawingUnitsPixels = @"pixels";
-NSString *const DKDrawingUnitsFeet = @"feet";
-NSString *const DKDrawingUnitsYards = @"yards";
-NSString *const DKDrawingUnitsPoints = @"points";
-NSString *const DKDrawingUnitsMiles = @"miles";
+NSString* const DKDrawingUnitsInches = @"inches";
+NSString* const DKDrawingUnitsMillimetres = @"millimetres";
+NSString* const DKDrawingUnitsCentimetres = @"centimetres";
+NSString* const DKDrawingUnitsMetres = @"metres";
+NSString* const DKDrawingUnitsKilometres = @"kilometres";
+NSString* const DKDrawingUnitsPicas = @"picas";
+NSString* const DKDrawingUnitsPixels = @"pixels";
+NSString* const DKDrawingUnitsFeet = @"feet";
+NSString* const DKDrawingUnitsYards = @"yards";
+NSString* const DKDrawingUnitsPoints = @"points";
+NSString* const DKDrawingUnitsMiles = @"miles";
 
 #pragma mark Static vars
 
@@ -90,9 +90,9 @@ static id sDearchivingHelper = nil;
 {
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
-		NSDictionary *newDefs = @{kDKDrawingSnapToGridUserDefault: @NO,
-								  kDKDrawingSnapToGuidesUserDefault: @NO,
-								  kDKDrawingUnitAbbreviationsUserDefault: @NO};
+		NSDictionary* newDefs = @{ kDKDrawingSnapToGridUserDefault: @NO,
+			kDKDrawingSnapToGuidesUserDefault: @NO,
+			kDKDrawingUnitAbbreviationsUserDefault: @NO };
 
 		[[NSUserDefaults standardUserDefaults] registerDefaults:newDefs];
 	});
@@ -216,7 +216,7 @@ static id sDearchivingHelper = nil;
 	// in order to translate older files with classes named 'GC' instead of 'DK', need a delegate that can handle the
 	// translation. DKUnarchivingHelper can also be used to report loading progress.
 
-	DKUnarchivingHelper *dearchivingHelper = [self dearchivingHelper];
+	DKUnarchivingHelper* dearchivingHelper = [self dearchivingHelper];
 	if ([dearchivingHelper respondsToSelector:@selector(reset)])
 		[dearchivingHelper reset];
 
@@ -337,17 +337,17 @@ static id sDearchivingHelper = nil;
 	NSDictionary* abbrevs = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingUnitAbbreviationsUserDefault];
 
 	if (abbrevs == nil || ![abbrevs isKindOfClass:[NSDictionary class]]) {
-		abbrevs = @{DKDrawingUnitsInches: @"in.",
-					DKDrawingUnitsMillimetres: @"mm",
-					DKDrawingUnitsCentimetres: @"cm",
-					DKDrawingUnitsMetres: @"m",
-					DKDrawingUnitsKilometres: @"km",
-					DKDrawingUnitsPicas: @"pc",
-					DKDrawingUnitsPixels: @"px",
-					DKDrawingUnitsFeet: @"ft.",
-					DKDrawingUnitsYards: @"yd.",
-					DKDrawingUnitsPoints: @"pt",
-					DKDrawingUnitsMiles: @"mi"};
+		abbrevs = @{ DKDrawingUnitsInches: @"in.",
+			DKDrawingUnitsMillimetres: @"mm",
+			DKDrawingUnitsCentimetres: @"cm",
+			DKDrawingUnitsMetres: @"m",
+			DKDrawingUnitsKilometres: @"km",
+			DKDrawingUnitsPicas: @"pc",
+			DKDrawingUnitsPixels: @"px",
+			DKDrawingUnitsFeet: @"ft.",
+			DKDrawingUnitsYards: @"yd.",
+			DKDrawingUnitsPoints: @"pt",
+			DKDrawingUnitsMiles: @"mi" };
 
 		[[NSUserDefaults standardUserDefaults] setObject:abbrevs
 												  forKey:kDKDrawingUnitAbbreviationsUserDefault];
@@ -468,7 +468,7 @@ static id sDearchivingHelper = nil;
 	return self;
 }
 
-@synthesize owner=mOwnerRef;
+@synthesize owner = mOwnerRef;
 
 #pragma mark -
 #pragma mark - basic drawing parameters
@@ -506,7 +506,7 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-@synthesize drawingSize=m_size;
+@synthesize drawingSize = m_size;
 
 - (void)setDrawingSizeWithPrintInfo:(NSPrintInfo*)printInfo
 {
@@ -556,10 +556,10 @@ static id sDearchivingHelper = nil;
 				  bottom:[printInfo bottomMargin]];
 }
 
-@synthesize leftMargin=m_leftMargin;
-@synthesize rightMargin=m_rightMargin;
-@synthesize topMargin=m_topMargin;
-@synthesize bottomMargin=m_bottomMargin;
+@synthesize leftMargin = m_leftMargin;
+@synthesize rightMargin = m_rightMargin;
+@synthesize topMargin = m_topMargin;
+@synthesize bottomMargin = m_bottomMargin;
 
 - (NSRect)interior
 {
@@ -593,8 +593,8 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-@synthesize flipped=mFlipped;
-@synthesize colourSpace=mColourSpace;
+@synthesize flipped = mFlipped;
+@synthesize colourSpace = mColourSpace;
 
 #pragma mark -
 #pragma mark - setting the rulers to the grid
@@ -619,14 +619,14 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-@synthesize drawingUnits=m_units;
+@synthesize drawingUnits = m_units;
 
 - (NSString*)abbreviatedDrawingUnits
 {
 	NSString* abbrev = nil;
 
 	if ([[self delegate] respondsToSelector:@selector(drawing:
-												willReturnAbbreviationForUnit:)])
+													  willReturnAbbreviationForUnit:)])
 		abbrev = [[self delegate] drawing:self
 			willReturnAbbreviationForUnit:[self drawingUnits]];
 
@@ -636,7 +636,7 @@ static id sDearchivingHelper = nil;
 		return [[self class] abbreviationForDrawingUnits:[self drawingUnits]];
 }
 
-@synthesize unitToPointsConversionFactor=m_unitConversionFactor;
+@synthesize unitToPointsConversionFactor = m_unitConversionFactor;
 
 - (CGFloat)effectiveUnitToPointsConversionFactor
 {
@@ -652,7 +652,7 @@ static id sDearchivingHelper = nil;
 										withObject:unitString];
 }
 
-@synthesize delegate=mDelegateRef;
+@synthesize delegate = mDelegateRef;
 
 #pragma mark -
 #pragma mark - controllers attachment
@@ -718,8 +718,8 @@ static id sDearchivingHelper = nil;
 #pragma mark -
 #pragma mark - dynamically adjusting the rendering quality
 
-@synthesize dynamicQualityModulationEnabled=m_qualityModEnabled;
-@synthesize lowRenderingQuality=m_useQandDRendering;
+@synthesize dynamicQualityModulationEnabled = m_qualityModEnabled;
+@synthesize lowRenderingQuality = m_useQandDRendering;
 
 - (void)checkIfLowQualityRequired
 {
@@ -741,10 +741,10 @@ static id sDearchivingHelper = nil;
 			// start the timer:
 
 			m_renderQualityTimer = [NSTimer scheduledTimerWithTimeInterval:mTriggerPeriod
-																	 target:self
-																   selector:@selector(qualityTimerCallback:)
-																   userInfo:nil
-																	repeats:YES];
+																	target:self
+																  selector:@selector(qualityTimerCallback:)
+																  userInfo:nil
+																   repeats:YES];
 			[[NSRunLoop currentRunLoop] addTimer:m_renderQualityTimer
 										 forMode:NSEventTrackingRunLoopMode];
 		} else {
@@ -770,7 +770,7 @@ static id sDearchivingHelper = nil;
 	m_lastRectUpdated = NSZeroRect;
 }
 
-@synthesize lowQualityTriggerInterval=mTriggerPeriod;
+@synthesize lowQualityTriggerInterval = mTriggerPeriod;
 
 #pragma mark -
 #pragma mark - setting the undo manager
@@ -789,7 +789,7 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-@synthesize undoManager=m_undoManager;
+@synthesize undoManager = m_undoManager;
 
 #pragma mark -
 #pragma mark - drawing meta - data
@@ -830,9 +830,9 @@ static id sDearchivingHelper = nil;
 	}
 }
 
-@synthesize paperColour=m_paperColour;
+@synthesize paperColour = m_paperColour;
 
-@synthesize paperColourIsPrinted=mPaperColourIsPrinted;
+@synthesize paperColourIsPrinted = mPaperColourIsPrinted;
 #pragma mark -
 
 - (void)exitTemporaryTextEditingMode
@@ -881,7 +881,7 @@ static id sDearchivingHelper = nil;
 	return NO;
 }
 
-@synthesize activeLayer=m_activeLayerRef;
+@synthesize activeLayer = m_activeLayerRef;
 
 - (id)activeLayerOfClass:(Class)aClass
 {
@@ -936,7 +936,6 @@ static id sDearchivingHelper = nil;
 	if (anotherLayer)
 		[self setActiveLayer:anotherLayer
 					withUndo:YES];
-
 }
 
 - (DKLayer*)firstActivateableLayerOfClass:(Class)cl
@@ -944,7 +943,7 @@ static id sDearchivingHelper = nil;
 	NSArray* layers = [self layersOfClass:cl
 						performDeepSearch:YES];
 
-	for (DKLayer *layer in layers) {
+	for (DKLayer* layer in layers) {
 		if ([layer layerMayBecomeActive]) {
 			return layer;
 		}
@@ -963,7 +962,7 @@ static id sDearchivingHelper = nil;
 											forKey:kDKDrawingSnapToGridUserDefault];
 }
 
-@synthesize snapsToGrid=m_snapsToGrid;
+@synthesize snapsToGrid = m_snapsToGrid;
 
 - (void)setSnapsToGuides:(BOOL)snaps
 {
@@ -972,7 +971,7 @@ static id sDearchivingHelper = nil;
 											forKey:kDKDrawingSnapToGuidesUserDefault];
 }
 
-@synthesize snapsToGuides=m_snapsToGuides;
+@synthesize snapsToGuides = m_snapsToGuides;
 
 #pragma mark -
 
@@ -1096,7 +1095,7 @@ static id sDearchivingHelper = nil;
 	CGFloat length = [[self gridLayer] gridDistanceForQuartzDistance:len];
 
 	if ([[self delegate] respondsToSelector:@selector(drawing:
-												convertDistanceToExternalCoordinates:)])
+													  convertDistanceToExternalCoordinates:)])
 		length = [[self delegate] drawing:self
 			convertDistanceToExternalCoordinates:length];
 
@@ -1115,7 +1114,7 @@ static id sDearchivingHelper = nil;
 	NSPoint cpt = [[self gridLayer] gridLocationForPoint:pt];
 
 	if ([[self delegate] respondsToSelector:@selector(drawing:
-												convertLocationToExternalCoordinates:)])
+													  convertLocationToExternalCoordinates:)])
 		cpt = [[self delegate] drawing:self
 			convertLocationToExternalCoordinates:cpt];
 
@@ -1134,7 +1133,7 @@ static id sDearchivingHelper = nil;
 	CGFloat length = [[self gridLayer] gridDistanceForQuartzDistance:len];
 
 	if ([[self delegate] respondsToSelector:@selector(drawing:
-												willReturnFormattedCoordinateForDistance:)])
+													  willReturnFormattedCoordinateForDistance:)])
 		return [[self delegate] drawing:self
 			willReturnFormattedCoordinateForDistance:length];
 	else
@@ -1156,7 +1155,7 @@ static id sDearchivingHelper = nil;
 	NSString* fmt;
 
 	if ([[self delegate] respondsToSelector:@selector(drawing:
-												willReturnFormattedCoordinateForDistance:)]) {
+													  willReturnFormattedCoordinateForDistance:)]) {
 		fmt = [[self delegate] drawing:self
 			willReturnFormattedCoordinateForDistance:cpt.x];
 		[array addObject:fmt];
@@ -1254,16 +1253,15 @@ static id sDearchivingHelper = nil;
 	return [self writeToURL:[NSURL fileURLWithPath:filename] options:atomically error:NULL];
 }
 
-- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError * _Nullable * _Nullable)errorPtr
+- (BOOL)writeToURL:(NSURL*)url options:(NSDataWritingOptions)writeOptionsMask error:(NSError* _Nullable* _Nullable)errorPtr
 {
 	NSAssert(url != nil, @"URL was nil");
 	NSAssert([[url path] length] > 0, @"filename was empty");
-	
+
 	[[self drawingInfo] setObject:url.path
 						   forKey:kDKDrawingInfoOriginalFilename];
 	return [[self drawingData] writeToURL:url options:writeOptionsMask error:errorPtr];
 }
-
 
 /** @brief Returns the entire drawing's data in XML format, having the key "root"
 
@@ -1326,7 +1324,7 @@ static id sDearchivingHelper = nil;
 	return [super pdf];
 }
 
-@synthesize imageManager=mImageManager;
+@synthesize imageManager = mImageManager;
 
 #pragma mark -
 #pragma mark As a DKLayerGroup
@@ -1417,8 +1415,7 @@ static id sDearchivingHelper = nil;
 
 	NSGraphicsContext* topContext = [NSGraphicsContext currentContext];
 
-	@try
-	{
+	@try {
 		// paint the paper colour over the view area. Not printed unless explictly set to do so.
 
 		if ([NSGraphicsContext currentContextDrawingToScreen] || [self paperColourIsPrinted]) {
@@ -1442,8 +1439,8 @@ static id sDearchivingHelper = nil;
 			// draw all the layer content
 
 			if ([[self delegate] respondsToSelector:@selector(drawing:
-														 willDrawRect:
-															   inView:)])
+															  willDrawRect:
+															  inView:)])
 				[[self delegate] drawing:self
 							willDrawRect:rect
 								  inView:aView];
@@ -1454,19 +1451,17 @@ static id sDearchivingHelper = nil;
 			[self endDrawing];
 
 			if ([[self delegate] respondsToSelector:@selector(drawing:
-														  didDrawRect:
-															   inView:)])
+															  didDrawRect:
+															  inView:)])
 				[[self delegate] drawing:self
 							 didDrawRect:rect
 								  inView:aView];
 		}
 	}
-	@catch (id exc)
-	{
+	@catch (id exc) {
 		NSLog(@"### DK: An exception occurred while drawing - (%@) - will be ignored ###", exc);
 	}
-	@finally
-	{
+	@finally {
 		m_isForcedHQUpdate = NO;
 	}
 
@@ -1690,7 +1685,7 @@ static id sDearchivingHelper = nil;
 
 	if (self != nil) {
 		[self setDrawingUnits:[coder decodeObjectForKey:@"drawing_units"]
- unitToPointsConversionFactor:[coder decodeDoubleForKey:@"utp_conv"]];
+			unitToPointsConversionFactor:[coder decodeDoubleForKey:@"utp_conv"]];
 		mImageManager = imageManager;
 
 		if ([coder containsValueForKey:@"DKDrawing_isFlipped"])

@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKDrawableShape.h"
 #import "DKDrawableShape+Hotspots.h"
+#import "DKDrawableShape.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -88,7 +88,7 @@ typedef NS_OPTIONS(NSInteger, DKImageCroppingOptions) {
 
  The shape's path, size, angle, etc. are not changed by this method
  */
-@property (nonatomic, retain) NSImage *image;
+@property (nonatomic, retain) NSImage* image;
 
 /** @brief Get a copy of the object's image scaled to the same size, angle and aspect ratio as the image drawn
 
@@ -136,7 +136,7 @@ typedef NS_OPTIONS(NSInteger, DKImageCroppingOptions) {
 
  This is called by other methods as necessary. It currently simply retains the key.
  */
-@property (copy) NSString *imageKey;
+@property (copy) NSString* imageKey;
 
 /** @brief Returns the image original data
 
@@ -147,7 +147,7 @@ typedef NS_OPTIONS(NSInteger, DKImageCroppingOptions) {
  was set directly and not from data, and the key is unknown to the image manager, returns nil.
  @return data containing image data
  */
-@property (copy, nullable) NSData*imageData;
+@property (copy, nullable) NSData* imageData;
 
 /** @brief Set the image's opacity
 
@@ -228,7 +228,6 @@ typedef NS_OPTIONS(NSInteger, DKImageCroppingOptions) {
 - (IBAction)fitToImage:(nullable id)sender;
 
 @end
-
 
 #ifdef DRAWKIT_DEPRECATED
 

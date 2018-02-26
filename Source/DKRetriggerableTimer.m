@@ -35,7 +35,7 @@
 	return self;
 }
 
-@synthesize period=mPeriod;
+@synthesize period = mPeriod;
 
 - (void)retrigger
 {
@@ -51,8 +51,8 @@
 												 repeats:NO];
 }
 
-@synthesize action=mAction;
-@synthesize target=mTarget;
+@synthesize action = mAction;
+@synthesize target = mTarget;
 
 #pragma mark -
 

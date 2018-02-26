@@ -177,13 +177,13 @@ NSAffineTransform* RotationTransform(const CGFloat radians, const NSPoint aboutP
  curve segment closest to some arbtitrary, user-input point.
  Return the point on the curve at that parameter value.
  */
-NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[_Nonnull 4], double*__nullable tValue);
+NSPoint NearestPointOnCurve(const NSPoint inp, const NSPoint bez[_Nonnull 4], double* __nullable tValue);
 /** @brief Evaluate a Bezier curve at a particular parameter value
  
  Fill in control points for resulting sub-curves if \c Left and
  \c Right are non-null.
  */
-NSPoint Bezier(const NSPoint* v, const NSInteger degree, const double t, NSPoint*__nullable Left, NSPoint*__nullable Right);
+NSPoint Bezier(const NSPoint* v, const NSInteger degree, const double t, NSPoint* __nullable Left, NSPoint* __nullable Right);
 
 /** @brief Returns the slope of the curve defined by the bezier control points \c bez at the \c t value given.
  

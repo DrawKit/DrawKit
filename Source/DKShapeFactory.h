@@ -23,7 +23,6 @@ typedef NS_OPTIONS(NSUInteger, DKSpeechBalloonOption) {
 	kDKSpeechBalloonEdgeMask = 0x0E
 };
 
-
 /** @brief This class provides a number of standard shareable paths that can be utilsed by DKDrawableShape.
 
  This class provides a number of standard shareable paths that can be utilsed by DKDrawableShape. These are all

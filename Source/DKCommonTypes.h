@@ -83,4 +83,4 @@ typedef NS_ENUM(NSInteger, DKGreeking) {
 	kDKGreekingByGlyphRectangle = 2 //!< greek by filling glyph rects
 };
 
-typedef NSString *DKToolName NS_EXTENSIBLE_STRING_ENUM;
+typedef NSString* DKToolName NS_EXTENSIBLE_STRING_ENUM;

@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 //! the shape provider must have a method that conforms to the following prototype:
 //! - (NSBezierPath*)	someShapeInRect:(NSRect) r otherParameters:(id) object;
 //! this is actually called by a C function call internally, so the following is the real prototype:
-typedef NSBezierPath*__nullable (*shapeProviderFunction)(id, SEL, NSRect, id __nullable);
+typedef NSBezierPath* __nullable (*shapeProviderFunction)(id, SEL, NSRect, id __nullable);
 
 // the <otherParameters> part is optional but must be an object - for example an NSValue, NSNumber or NSDictionary are all valid, but
 // the provider and the providee need to informally agree on what to expect here.

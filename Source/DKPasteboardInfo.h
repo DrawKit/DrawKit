@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 */
 @interface DKPasteboardInfo : NSObject <NSCoding> {
 	NSUInteger mCount;
-	NSDictionary<NSString*,NSNumber*>* mClassInfo;
+	NSDictionary<NSString*, NSNumber*>* mClassInfo;
 	NSRect mBoundingRect;
 	NSString* mOriginatingLayerKey;
 }
@@ -33,10 +33,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSUInteger count;
 @property (readonly) NSRect bounds;
 
-@property (readonly, copy) NSDictionary<NSString*,NSNumber*> *classInfo;
+@property (readonly, copy) NSDictionary<NSString*, NSNumber*>* classInfo;
 - (NSUInteger)countOfClass:(Class)aClass;
 
-@property (readonly, copy) NSString *keyOfOriginatingLayer;
+@property (readonly, copy) NSString* keyOfOriginatingLayer;
 
 - (NSData*)data;
 - (BOOL)writeToPasteboard:(NSPasteboard*)pb;

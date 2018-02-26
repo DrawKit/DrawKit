@@ -20,13 +20,13 @@
 	mWavelength = w;
 }
 
-@synthesize wavelength=mWavelength;
+@synthesize wavelength = mWavelength;
 
 #pragma mark -
-@synthesize amplitude=mAmplitude;
+@synthesize amplitude = mAmplitude;
 
 #pragma mark -
-@synthesize spread=mSpread;
+@synthesize spread = mSpread;
 
 #pragma mark -
 #pragma mark As a GCObservableObject

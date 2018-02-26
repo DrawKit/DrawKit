@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKRasterizer.h"
 #import "DKDashable.h"
+#import "DKRasterizer.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -39,20 +39,20 @@ DKStyle can contains a list of strokes without limit.
 
 - (instancetype)init;
 - (instancetype)initWithWidth:(CGFloat)width colour:(NSColor*)colour NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
 
-@property (strong) NSColor *colour;
+@property (strong) NSColor* colour;
 
 @property (nonatomic) CGFloat width;
 - (void)scaleWidthBy:(CGFloat)scale;
 @property (readonly) CGFloat allowance;
 
-@property (strong, nullable, nonatomic) DKStrokeDash *dash;
+@property (strong, nullable, nonatomic) DKStrokeDash* dash;
 - (void)setAutoDash;
 
 @property CGFloat lateralOffset;
 
-@property (copy, nullable) NSShadow *shadow;
+@property (copy, nullable) NSShadow* shadow;
 
 - (void)strokeRect:(NSRect)rect;
 - (void)applyAttributesToPath:(NSBezierPath*)path;

@@ -4,24 +4,23 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "DKObjectCreationTool.h"
-#import "DKLayer.h"
-#import "DKDrawablePath.h"
-#import "DKReshapableShape.h"
-#import "DKPathInsertDeleteTool.h"
-#import "DKShapeFactory.h"
-#import "DKTextShape.h"
-#import "DKZoomTool.h"
-#import "DKSelectAndEditTool.h"
-#import "DKToolController.h"
-#import "LogEvent.h"
-#import "DKCropTool.h"
 #import "DKArcPath.h"
-#import "DKStyle.h"
+#import "DKCropTool.h"
+#import "DKDrawablePath.h"
+#import "DKLayer.h"
+#import "DKObjectCreationTool.h"
+#import "DKPathInsertDeleteTool.h"
 #import "DKRegularPolygonPath.h"
+#import "DKReshapableShape.h"
+#import "DKSelectAndEditTool.h"
+#import "DKShapeFactory.h"
+#import "DKStyle.h"
 #import "DKTextPath.h"
-#import "LogEvent.h"
+#import "DKTextShape.h"
+#import "DKToolController.h"
 #import "DKToolRegistry.h"
+#import "DKZoomTool.h"
+#import "LogEvent.h"
 
 #pragma mark constants
 
@@ -114,7 +113,7 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	NSDictionary* toolInfo = [[NSUserDefaults standardUserDefaults] objectForKey:kDKDrawingToolUserDefaultsKey];
 
 	if (toolInfo) {
-		for (NSString *key in toolInfo) {
+		for (NSString* key in toolInfo) {
 			NSData* data = [toolInfo objectForKey:key];
 
 			if (data) {
@@ -413,7 +412,7 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 		return nil;
 }
 
-@synthesize keyboardModifierFlags=mKeyboardModifiers;
+@synthesize keyboardModifierFlags = mKeyboardModifiers;
 
 #pragma mark -
 

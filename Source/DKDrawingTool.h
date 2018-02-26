@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKDrawingToolProtocol.h"
 #import "DKCommonTypes.h"
+#import "DKDrawingToolProtocol.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -160,7 +160,7 @@ NS_ASSUME_NONNULL_BEGIN
  in conjunction with this class. Returns \c nil if no equivalent has been set.
  @return the key character (only the first character in the string is used)
  */
-@property (readonly, copy, nullable) NSString *keyboardEquivalent;
+@property (readonly, copy, nullable) NSString* keyboardEquivalent;
 
 /** @brief Return the keyboard modifier flags that need to be down to select this tool using the keyboard modifier
  

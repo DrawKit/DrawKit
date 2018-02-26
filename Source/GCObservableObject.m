@@ -103,7 +103,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 	LogEvent_(kKVOEvent, @"%@ is adding the observer %@ for keypaths %@", [self description], [object description], keypaths);
 
-	for (NSString *kp in keypaths)
+	for (NSString* kp in keypaths)
 		[self addObserver:object
 			   forKeyPath:kp
 				  options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew
@@ -205,7 +205,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 	if (observables && [observables count] > 0) {
 		NSMutableDictionary* changeDict = [NSMutableDictionary dictionary];
 
-		for (NSString *keyPath in observables) {
+		for (NSString* keyPath in observables) {
 			id value = [self valueForKeyPath:keyPath];
 
 			// allow nil to be sent as a legitimate value by passing it as NSNull
@@ -268,7 +268,7 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 #pragma mark -
 @implementation GCObserverUndoRelay
 #pragma mark As a GCObserverUndoRelay
-@synthesize undoManager=m_um;
+@synthesize undoManager = m_um;
 
 /** @brief Vectors undo invocations back to the object from whence they came
  @param keypath the keypath of the action, relative to the object

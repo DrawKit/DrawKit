@@ -75,8 +75,8 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 	DKDimensionToleranceOption mDimToleranceOptions;
 }
 
-@property (class, retain, null_resettable) NSDictionary<NSAttributedStringKey,id> *dimensioningLineTextAttributes;
-@property (class, readonly, retain) DKArrowStroke *standardDimensioningLine;
+@property (class, retain, null_resettable) NSDictionary<NSAttributedStringKey, id>* dimensioningLineTextAttributes;
+@property (class, readonly, retain) DKArrowStroke* standardDimensioningLine;
 + (NSNumberFormatter*)defaultDimensionLineFormatter;
 
 // head kind at each end
@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 - (void)setOutlineColour:(NSColor*)colour width:(CGFloat)width;
 #endif
 
-@property (copy) NSColor *outlineColour;
+@property (copy) NSColor* outlineColour;
 @property CGFloat outlineWidth;
 
 - (NSImage*)arrowSwatchImageWithSize:(NSSize)size strokeWidth:(CGFloat)width;
@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 // dimensioning lines:
 
-@property (strong) NSNumberFormatter *formatter;
+@property (strong) NSNumberFormatter* formatter;
 - (void)setFormat:(NSString*)format;
 
 @property (nonatomic) DKDimensioningLineOptions dimensioningLineOptions;
@@ -118,8 +118,8 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 @property DKDimensionToleranceOption dimensionToleranceOption;
 
-@property (copy) NSDictionary<NSAttributedStringKey,id> *textAttributes;
-@property (strong) NSFont *font;
+@property (copy) NSDictionary<NSAttributedStringKey, id>* textAttributes;
+@property (strong) NSFont* font;
 
 @end
 

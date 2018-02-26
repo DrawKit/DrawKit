@@ -25,17 +25,17 @@ the text it displays. Other objects that use text can make use of this as they w
  */
 + (NSString*)styleNameForFont:(NSFont*)font;
 
-@property (strong) NSParagraphStyle *paragraphStyle;
+@property (strong) NSParagraphStyle* paragraphStyle;
 
 @property NSTextAlignment alignment;
 
 - (void)changeTextAttribute:(NSAttributedStringKey)attribute toValue:(id)val;
 - (NSString*)actionNameForTextAttribute:(NSAttributedStringKey)attribute;
 
-@property (strong) NSFont *font;
+@property (strong) NSFont* font;
 @property CGFloat fontSize;
 
-@property (strong) NSColor *textColour;
+@property (strong) NSColor* textColour;
 
 @property NSUnderlineStyle underlined;
 - (void)toggleUnderlined;

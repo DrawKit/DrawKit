@@ -41,7 +41,7 @@
 	int numClasses = objc_getClassList(NULL, 0);
 
 	if (numClasses > 0) {
-		Class *buffer = malloc(sizeof(Class) * numClasses);
+		Class* buffer = malloc(sizeof(Class) * numClasses);
 
 		NSAssert(buffer != nil, @"couldn't allocate the buffer");
 
@@ -148,10 +148,10 @@ BOOL classIsSubclassOfClass(const Class aClass, const Class subclass)
 
 BOOL classIsImmediateSubclassOfClass(const Class aClass, const Class subclass)
 {
-	
-	Class	superClass = class_getSuperclass(subclass);
-	
-	if( superClass != Nil )
+
+	Class superClass = class_getSuperclass(subclass);
+
+	if (superClass != Nil)
 		return [NSStringFromClass(aClass) isEqualToString:NSStringFromClass(superClass)];
 	else
 		return NO;

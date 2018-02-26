@@ -102,7 +102,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSArray<__kindof DKLayer*>*)flattenedLayersOfClass:(Class)layerClass includeGroups:(BOOL)includeGroups;
 
-
 /** @brief Returns the hierarchical level of this group, i.e. how deeply nested it is.
 
  @discussion The root group returns 0, next level is 1 and so on.
@@ -152,7 +151,7 @@ NS_ASSUME_NONNULL_BEGIN
  Layer indexes run from 0 being the top layer to (count -1), being the bottom layer.
  @param layerIndex The index number of the layer to remove.
  */
-- (void)removeObjectFromLayersAtIndex:(NSUInteger) layerIndex; // KVC/KVO compliant
+- (void)removeObjectFromLayersAtIndex:(NSUInteger)layerIndex; // KVC/KVO compliant
 
 /** @brief Removes the layer from the drawing.
  
@@ -167,7 +166,6 @@ NS_ASSUME_NONNULL_BEGIN
  will not be notified by this method.
  */
 - (void)removeAllLayers;
-
 
 /** @brief Disambiguates a layer's name by appending digits until there is no conflict.
  
@@ -194,7 +192,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Ignores opacity of layers in the stack - this is the one on the top, regardless.
  */
-@property (readonly, strong, nullable) __kindof DKLayer *topLayer;
+@property (readonly, strong, nullable) __kindof DKLayer* topLayer;
 
 /** @brief The bottom layer.
 
@@ -202,7 +200,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  Ignores opacity of layers in the stack - this is the one on the bottom, regardless.
  */
-@property (readonly, strong, nullable) __kindof DKLayer *bottomLayer;
+@property (readonly, strong, nullable) __kindof DKLayer* bottomLayer;
 
 /** @brief Returns the stack position of a given layer.
  
@@ -261,7 +259,6 @@ NS_ASSUME_NONNULL_BEGIN
  @return An \c NSEnumerator object.
  */
 - (NSEnumerator<DKLayer*>*)layerBottomToTopEnumerator;
-
 
 /** @brief find the topmost layer in this group that is 'hit' by the given point
  

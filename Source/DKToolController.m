@@ -5,12 +5,12 @@
 */
 
 #import "DKToolController.h"
-#import "DKToolRegistry.h"
-#import "DKSelectAndEditTool.h"
-#import "DKObjectDrawingLayer.h"
 #import "DKDrawableObject.h"
 #import "DKDrawing.h"
 #import "DKDrawingView.h"
+#import "DKObjectDrawingLayer.h"
+#import "DKSelectAndEditTool.h"
+#import "DKToolRegistry.h"
 #import "DKUndoManager.h"
 #import "LogEvent.h"
 
@@ -56,7 +56,7 @@ NSString* const kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAut
  */
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool;
 
-@property (class, retain) DKDrawingTool *globalDrawingTool;
+@property (class, retain) DKDrawingTool* globalDrawingTool;
 
 /** @brief Search for a layer usable with a given tool.
 
@@ -258,7 +258,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	}
 }
 
-@synthesize drawingTool=mTool;
+@synthesize drawingTool = mTool;
 
 - (BOOL)canSetDrawingTool:(DKDrawingTool*)aTool
 {
@@ -283,7 +283,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	}
 }
 
-@synthesize automaticallyRevertsToSelectionTool=mAutoRevert;
+@synthesize automaticallyRevertsToSelectionTool = mAutoRevert;
 
 /** @brief Draw any tool graphic content into the view
  @param rect the update rect in the view
@@ -294,7 +294,7 @@ static DKDrawingTool* sGlobalTool = nil;
 	NSAssert(ct != nil, @"nil drawing tool for drawRect:");
 
 	if ([ct respondsToSelector:@selector(drawRect:
-										   inView:)])
+										 inView:)])
 		[ct drawRect:rect
 			  inView:[self view]];
 }
@@ -486,8 +486,7 @@ static DKDrawingTool* sGlobalTool = nil;
 
 		// start the tool:
 
-		@try
-		{
+		@try {
 #if DK_ALWAYS_OPEN_UNDO_GROUP
 			[[self undoManager] setGroupsByEvent:NO];
 			[self openUndoGroup];
@@ -498,8 +497,7 @@ static DKDrawingTool* sGlobalTool = nil;
 									   event:event
 									delegate:self];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			NSLog(@"caught exception on mouse down with tool - ignored (tool = %@, exception = %@)", ct, excp);
 
 			[self closeUndoGroup];
@@ -541,8 +539,7 @@ static DKDrawingTool* sGlobalTool = nil;
 		NSPoint p = [[self view] convertPoint:[event locationInWindow]
 									 fromView:nil];
 
-		@try
-		{
+		@try {
 			if ([ct isValidTargetLayer:[self activeLayer]])
 				[ct mouseDraggedToPoint:p
 							   partCode:mPartcode
@@ -552,8 +549,7 @@ static DKDrawingTool* sGlobalTool = nil;
 			else
 				[super mouseDragged:event];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			NSLog(@"caught exception when dragging with tool - ignored (tool = %@, exception = %@)", ct, excp);
 
 			[self closeUndoGroup];
@@ -584,16 +580,14 @@ static DKDrawingTool* sGlobalTool = nil;
 	if ([ct isValidTargetLayer:[self activeLayer]]) {
 		BOOL undo = NO;
 
-		@try
-		{
+		@try {
 			undo = [ct mouseUpAtPoint:p
 							 partCode:mPartcode
 								layer:[self activeLayer]
 								event:event
 							 delegate:self];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			NSLog(@"caught exception on mouse up with tool - ignored (tool = %@, exception = %@)", ct, excp);
 			undo = NO;
 		}
@@ -654,12 +648,12 @@ static DKDrawingTool* sGlobalTool = nil;
 - (void)mouseMoved:(NSEvent*)event
 {
 	if ([[self drawingTool] respondsToSelector:@selector(mouseMoved:
-															 inView:)])
+														 inView:)])
 		[(id)[self drawingTool] mouseMoved:event
 									inView:[self view]];
 	else {
 		if ([[self activeLayer] respondsToSelector:@selector(mouseMoved:
-																 inView:)])
+															 inView:)])
 			[[self activeLayer] mouseMoved:event
 									inView:[self view]];
 	}
@@ -693,12 +687,10 @@ static DKDrawingTool* sGlobalTool = nil;
 		[self setAutomaticallyRevertsToSelectionTool:NO];
 		[self setDrawingTool:tool];
 	} else {
-		@try
-		{
+		@try {
 			[[self view] interpretKeyEvents:@[event]];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			NSLog(@"caught exception from keyDown handler (ignored), event = %@, exception = %@", event, excp);
 
 			[self closeUndoGroup];
@@ -721,12 +713,10 @@ static DKDrawingTool* sGlobalTool = nil;
 	SEL aSelector = [invocation selector];
 
 	if ([[self activeLayer] respondsToSelector:aSelector]) {
-		@try
-		{
+		@try {
 			[invocation invokeWithTarget:[self activeLayer]];
 		}
-		@catch (NSException* excp)
-		{
+		@catch (NSException* excp) {
 			NSLog(@"caught exception from forwarded invocation (ignored), inv = %@, exception = %@", invocation, excp);
 			[self closeUndoGroup];
 		}

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property CGBlendMode blendMode;
 @property CGFloat alpha;
-@property (strong) NSImage *maskImage;
+@property (strong) NSImage* maskImage;
 
 @end
 

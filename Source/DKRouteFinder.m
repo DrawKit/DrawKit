@@ -146,9 +146,9 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 	return mPathLength;
 }
 
-@synthesize algorithm=mAlgorithm;
+@synthesize algorithm = mAlgorithm;
 
-@synthesize progressDelegate=mProgressDelegate;
+@synthesize progressDelegate = mProgressDelegate;
 #if 0
 - (void)setProgressDelegate:(id)aDelegate
 {
@@ -206,7 +206,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 			NSInteger k = 0;
 
-			for (NSValue *val in array) {
+			for (NSValue* val in array) {
 				++k; // preincrement, start loading arrays from 1
 
 				if (strcmp([val objCType], @encode(NSPoint)) == 0) {
@@ -240,8 +240,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 
 - (void)notifyProgress:(CGFloat)value
 {
-	if (mProgressDelegate && [mProgressDelegate respondsToSelector:@selector(routeFinder:
-																	   progressHasReached:)])
+	if (mProgressDelegate && [mProgressDelegate respondsToSelector:@selector(routeFinder:progressHasReached:)])
 		[mProgressDelegate routeFinder:self
 					progressHasReached:value];
 
@@ -403,7 +402,7 @@ static DKRouteAlgorithmType s_Algorithm = kDKUseNearestNeighbour; //kDKUseSimula
 		mCalculationDone = YES;
 
 		if ((mAlgorithm & kDKUseSimulatedAnnealing) != 0) {
-			anneal(mX, mY, mOrder, [mInput count], mAnnealingSteps, (__bridge const void *)(self));
+			anneal(mX, mY, mOrder, [mInput count], mAnnealingSteps, (__bridge const void*)(self));
 			mPathLength = [self pathLengthOfArray:[self shortestRoute]];
 		}
 
@@ -457,16 +456,16 @@ static void trnspt(NSInteger iorder[], NSInteger ncity, NSInteger n[]);
 
 #pragma mark -
 #define NR_END 1
-#define FREE_ARG char *
+#define FREE_ARG char*
 
 /* allocate an int vector with subscript range v[nl..nh] */
 
 NSInteger* ivector(long nl, long nh)
 {
-	NSInteger *v;
+	NSInteger* v;
 	size_t vSize = ((nh - nl + 1 + NR_END) * sizeof(NSInteger));
-	
-	v = (NSInteger *)malloc(vSize);
+
+	v = (NSInteger*)malloc(vSize);
 	if (v != NULL) {
 		memset(v, 0, vSize);
 		return v - nl + NR_END;
@@ -551,9 +550,9 @@ NSInteger irbit1(unsigned long* iseed)
 	unsigned long newbit;
 
 	newbit = (*iseed & IB18) >> 17
-			 ^ (*iseed & IB5) >> 4
-			 ^ (*iseed & IB2) >> 1
-			 ^ (*iseed & IB1);
+		^ (*iseed & IB5) >> 4
+		^ (*iseed & IB2) >> 1
+		^ (*iseed & IB1);
 	*iseed = (*iseed << 1) | newbit;
 	return (NSInteger)newbit;
 }

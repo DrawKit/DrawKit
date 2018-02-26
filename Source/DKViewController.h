@@ -71,14 +71,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  You should not set this directly, it is set by the designated initializer.
  */
-@property (nonatomic, weak, nullable) NSView *view;
+@property (nonatomic, weak, nullable) NSView* view;
 
 /** @brief Set the drawing that the controller is attached to
  
  \c DKDrawing objects own the controllers added to them. You should not set this directly - \c DKDrawing
  sets this at the appropriate time when the controller is added.
  */
-@property (nonatomic, weak, nullable) DKDrawing *drawing;
+@property (nonatomic, weak, nullable) DKDrawing* drawing;
 
 /** @name Updating The View
  @brief Updating the view from the drawing (refresh).
@@ -221,7 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief Return the cursor to display when the mouse is in the view
  */
-@property (readonly, retain) NSCursor *cursor;
+@property (readonly, retain) NSCursor* cursor;
 
 /** @brief Return the active cursor rect
 
@@ -270,7 +270,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief The drawing's current active layer.
  */
-@property (readonly, weak) DKLayer *activeLayer;
+@property (readonly, weak) DKLayer* activeLayer;
 
 /** @brief Return the drawing's current active layer if it matches the given class, else nil
  @param aClass a layer class

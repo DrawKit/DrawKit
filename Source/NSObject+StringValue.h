@@ -16,50 +16,50 @@ NS_ASSUME_NONNULL_BEGIN
 */
 @interface NSObject (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
-@property (readonly, copy) NSString *address;
+@property (readonly, copy) NSString* stringValue;
+@property (readonly, copy) NSString* address;
 
 @end
 
 @interface NSValue (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString* stringValue;
 
 @end
 
 @interface NSColor (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString* stringValue;
 
 @end
 
 @interface NSArray (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString* stringValue;
 
 @end
 
 @interface NSDictionary (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString* stringValue;
 
 @end
 
 @interface NSSet (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString* stringValue;
 
 @end
 
 @interface NSString (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString* stringValue;
 
 @end
 
 @interface NSDate (StringValue)
 
-@property (readonly, copy) NSString *stringValue;
+@property (readonly, copy) NSString* stringValue;
 
 @end
 

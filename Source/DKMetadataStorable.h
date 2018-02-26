@@ -16,11 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, readwrite) BOOL metadataChangesAreUndoable;
 
 - (void)setupMetadata;
-- (nullable NSMutableDictionary<NSString*,DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
-@property (readonly, copy, nullable) NSArray<NSString*> *metadataKeys;
+- (nullable NSMutableDictionary<NSString*, DKMetadataItem*>*)metadata NS_REFINED_FOR_SWIFT;
+@property (readonly, copy, nullable) NSArray<NSString*>* metadataKeys;
 
-- (void)addMetadata:(NSDictionary<NSString*,id>*)dict;
-- (void)setMetadata:(NSDictionary<NSString*,DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
+- (void)addMetadata:(NSDictionary<NSString*, id>*)dict;
+- (void)setMetadata:(NSDictionary<NSString*, DKMetadataItem*>*)dict NS_REFINED_FOR_SWIFT;
 
 - (void)setMetadataItem:(DKMetadataItem*)item forKey:(NSString*)key;
 - (nullable DKMetadataItem*)metadataItemForKey:(NSString*)key;

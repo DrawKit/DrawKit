@@ -4,8 +4,8 @@
  @copyright MPL2; see LICENSE.txt
 */
 
-#import "NSObject+StringValue.h"
 #import "NSColor+DKAdditions.h"
+#import "NSObject+StringValue.h"
 
 @implementation NSObject (StringValue)
 

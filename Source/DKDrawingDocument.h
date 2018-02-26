@@ -42,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
  Some applications might be set up to use a global undo stack instead of having gone per-document.
  @return The shared instance of the undo manager.
  */
-@property (class, readonly, retain) NSUndoManager *sharedDrawkitUndoManager;
+@property (class, readonly, retain) NSUndoManager* sharedDrawkitUndoManager;
 
 /** @brief Establishes a mapping between a file type and a method that can import that file type.
 
@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  The document owns the drawing.
  */
-@property (nonatomic, strong) DKDrawing *drawing;
+@property (nonatomic, strong) DKDrawing* drawing;
 
 /** @brief Return the document's main view.
 
@@ -85,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
  isn't required to have an outlet to the main view but it makes setting everything up easier.
  @return The document's main view.
  */
-@property (readonly, weak) DKDrawingView *mainView;
+@property (readonly, weak) DKDrawingView* mainView;
 
 /** @brief Create a controller object to connect the given view to the document's drawing.
 
@@ -125,7 +125,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Returns all styles used by the document's drawing.
  @return A set of all styles in the drawing.
  */
-@property (readonly, copy) NSSet<DKStyle*> *allStyles;
+@property (readonly, copy) NSSet<DKStyle*>* allStyles;
 
 /** @brief Returns all registered styles used by the document's drawing.
 
@@ -134,7 +134,7 @@ NS_ASSUME_NONNULL_BEGIN
  care that this is only called once after loading a document if it's the flagged styles you require.
  @return A set of all registered styles in the drawing.
  */
-@property (readonly, copy) NSSet<DKStyle*> *allRegisteredStyles;
+@property (readonly, copy) NSSet<DKStyle*>* allRegisteredStyles;
 
 /** @brief The first step in reconsolidating a newly opened document's registered styles with the current
  style registry.
@@ -158,7 +158,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Returns a name that can be used for a style registry category for this document.
  @return A string - just the document's filename without the extension or other path components.
  */
-@property (readonly, copy) NSString *documentStyleCategoryName;
+@property (readonly, copy) NSString* documentStyleCategoryName;
 
 /** @brief Sets the main view's drawing tool to the given tool.
 
@@ -169,7 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
  further up the chain. If that fails to find a responder, it then looks for an active document that
  responds to this method.
  */
-@property (strong) DKDrawingTool *drawingTool;
+@property (strong) DKDrawingTool* drawingTool;
 
 /** @brief High-level method to add a new drawing layer to the document.
 

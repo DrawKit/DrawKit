@@ -34,7 +34,7 @@ typedef NS_OPTIONS(NSUInteger, DKImageCoverageFlags) {
 - (instancetype)initWithImage:(NSImage*)image;
 - (instancetype)initWithContentsOfFile:(NSString*)imagefile;
 
-@property (nonatomic, strong) NSImage *image;
+@property (nonatomic, strong) NSImage* image;
 
 @property (nonatomic) CGFloat opacity;
 

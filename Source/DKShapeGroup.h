@@ -5,8 +5,8 @@
 */
 
 #import <Cocoa/Cocoa.h>
-#import "DKDrawableShape.h"
 #import "DKDrawableContainerProtocol.h"
+#import "DKDrawableShape.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -105,7 +105,7 @@ typedef NS_ENUM(NSInteger, DKCreateGroupObjectType) {
 - (instancetype)initWithObjectsInArray:(NSArray<DKDrawableObject*>*)objects NS_DESIGNATED_INITIALIZER;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
-- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder*)aDecoder NS_DESIGNATED_INITIALIZER;
 
 /** @brief Sets up the group state from the original set of objects
 
@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, DKCreateGroupObjectType) {
  it is relative to the group, not the original drawing. It also sets the parent member of each object
  to the group so that the group's transform is applied when the objects are drawn.
  */
-@property (nonatomic, copy) NSArray<DKDrawableObject*> *groupObjects;
+@property (nonatomic, copy) NSArray<DKDrawableObject*>* groupObjects;
 
 /** @brief Computes the initial overall bounding rect of the constituent objects
 
@@ -162,7 +162,7 @@ typedef NS_ENUM(NSInteger, DKCreateGroupObjectType) {
 
  This transform is used when drawing the group's contents
  @return a transform object */
-@property (readonly, copy) NSAffineTransform *contentTransform;
+@property (readonly, copy) NSAffineTransform* contentTransform;
 
 /** @brief Returns a transform which is the accumulation of all the parent objects above this one.
 
@@ -170,7 +170,7 @@ typedef NS_ENUM(NSInteger, DKCreateGroupObjectType) {
  returned if the group is visually transforming the result, or a combination of the parents above
  and the content transform. Either way contained objects are oblivious and do the right thing.
  @return a transform object */
-@property (readonly, copy) NSAffineTransform *renderingTransform;
+@property (readonly, copy) NSAffineTransform* renderingTransform;
 
 /** @brief Maps a point from the original container's coordinates to the equivalent group point
 
