@@ -19,7 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSBezierPath*)scaledPath:(CGFloat)scale;
 /** @brief Returns a copy of the receiver scaled by <code>scale</code>, with the path's origin at <code>cp</code>
  
- This is like an inset or an outset operation. If scale is 1.0, self is returned.
+ This is like an inset or an outset operation. If scale is <code>1.0</code>, \c self is returned.
  */
 - (NSBezierPath*)scaledPath:(CGFloat)scale aboutPoint:(NSPoint)cp;
 /** Return a rotated copy of the receiver. The origin is taken as the centre of the path bounds.
@@ -50,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSPoint centreOfBounds;
 /** @brief returns the smallest angle subtended by any segment join in the path.
  
- @discussion The largest value this can be is \a pi (180 degrees), the smallest is 0. The
+ @discussion The largest value this can be is \a pi (180 degrees), the smallest is <code>0</code>. The
  result is in radians. Can be used to determine the necessary bounding rect of the path for a given stroke width and miter limit. For curve
  elements, the curvature is ignored and the element treated as a line segment.
  */
@@ -86,7 +86,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // calculating a fillet
 
-- (NSBezierPath*)filletPathForVertex:(NSPoint[_Nonnull 3])vp filletSize:(CGFloat)fs;
+- (NSBezierPath*)filletPathForVertex:(const NSPoint[_Nonnull 3])vp filletSize:(CGFloat)fs;
 
 // roughening and randomising paths
 
@@ -133,8 +133,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 // path trimming
 
+/** @brief Estimate the total length of a bezier path.
+ */
 @property (readonly) CGFloat length;
-/** @brief Estimate the total length of a bezier path
+
+/** @brief Estimate the total length of a bezier path.
  */
 - (CGFloat)lengthWithMaximumError:(CGFloat)maxError;
 - (CGFloat)lengthOfElement:(NSInteger)i;

@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
  This is used to permit setting up KVO in a simpler manner than comes as standard.
 
  The idea is that each class simply publishes a list of the observable properties that an observer can observe. When the observer wants to
- start observing all of these published properties, it calls setUpKVOForObserver: conversely, tearDownKVOForObserver: will stop the
+ start observing all of these published properties, it calls \c setUpKVOForObserver: conversely, \c tearDownKVOForObserver: will stop the
  observer watching all the published properties.
 
  Subclasses can also override these methods to be more selective about which properties are observed, or to propagate the message to
@@ -64,9 +64,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #define kDKChangeKindStringMarkerTag #kind #
 
-// the observer relay is a simple object that can liaise between any undo manager instance and any class
-// set up as an observer. It also implements the above protocol so that observees are easily able to hook up to it.
-
+/** @brief The observer relay is a simple object that can liaise between any undo manager instance and any class
+ set up as an observer. It also implements the above protocol so that observees are easily able to hook up to it.
+ */
 @interface GCObserverUndoRelay : NSObject {
 	__unsafe_unretained NSUndoManager* m_um;
 }

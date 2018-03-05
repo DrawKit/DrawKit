@@ -96,7 +96,7 @@ static inline NSInteger elementIndexForPartcode(const NSInteger pc);
 	return NSNotFound;
 }
 
-+ (void)colineariseVertex:(NSPoint[3])inPoints cpA:(NSPoint*)outCPA cpB:(NSPoint*)outCPB
++ (void)colineariseVertex:(const NSPoint[3])inPoints cpA:(NSPoint*)outCPA cpB:(NSPoint*)outCPB
 {
 	// given three points passed in as an array, this modifies the two outer points to lie in a straight line through the middle
 	// point. The resulting slope of this line is normal to the bisection of the angle formed by the original points. The radius

@@ -25,7 +25,7 @@ can be used in a similar way.
 + (DKDistortionTransform*)transformWithInitialRect:(NSRect)rect;
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
-- (instancetype)initWithRect:(NSRect)rect NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRect:(NSRect)rect;
 - (instancetype)initWithEnvelope:(const NSPoint[_Nonnull 4])points NS_DESIGNATED_INITIALIZER;
 - (nullable instancetype)initWithCoder:(NSCoder*)coder NS_DESIGNATED_INITIALIZER;
 

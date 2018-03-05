@@ -83,8 +83,8 @@ resolves to an \c NSPoint return value, and is given by <code>key</code>. The re
 
 #define kDKDefaultAnnealingSteps 100
 
-/** Protocol that an object can implement to be called back as the route finding progresses.
- <value> is in the range 0..1
+/** @brief Protocol that an object can implement to be called back as the route finding progresses.
+ \c value is in the range 0..1
  */
 @protocol DKRouteFinderProgressDelegate <NSObject>
 

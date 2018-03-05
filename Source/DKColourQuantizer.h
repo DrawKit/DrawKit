@@ -23,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (instancetype)initWithBitmapImageRep:(NSBitmapImageRep*)rep maxColours:(NSUInteger)maxColours colourBits:(NSUInteger)nBits;
-- (NSUInteger)indexForRGB:(NSUInteger[_Nonnull 3])rgb;
+- (NSUInteger)indexForRGB:(const NSUInteger[_Nonnull 3])rgb;
 - (NSColor*)colourForIndex:(NSUInteger)index;
 @property (readonly, strong) NSArray<NSColor*>* colourTable;
 @property (readonly) NSUInteger numberOfColours;
@@ -71,7 +71,7 @@ typedef struct _rgb_triple {
 - (void)reduceTreeLeafCount:(NSUInteger*)leafCount reducibleNodes:(NODE* _Nonnull* _Nonnull)redNodes;
 - (void)deleteTree:(NODE* _Nonnull* _Nullable)ppNode;
 - (void)paletteColour:(nullable NODE*)pTree index:(NSUInteger*)pIndex colour:(rgb_triple[_Nonnull])rgb;
-- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[_Nonnull 3])rgb index:(NSInteger*)index;
+- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(const NSUInteger[_Nonnull 3])rgb index:(NSInteger*)index;
 
 @end
 

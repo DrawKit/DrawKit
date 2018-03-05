@@ -47,7 +47,7 @@ The point of this is to provide an undo manager whose source is openly readable,
  actually does, and so \c NSDocument change counts work as they should. Also, the purpose and exact usage of \c NSCheckPointNotification is
  unclear so while this follows the documentation, any code relying on this vague notification might not work correctly.
  
- \c -undoNestedGroup only operates on top level groups in this implementation, and is thus functionally equivalent to -undo. In fact \c -undo simply
+ \c -undoNestedGroup only operates on top level groups in this implementation, and is thus functionally equivalent to <code>-undo</code>. In fact \c -undo simply
  calls \c -undoNestedGroup here.
 */
 @interface GCUndoManager : NSObject {

@@ -409,14 +409,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /** @brief The current paper colour of the drawing.
  
- Default is white
- @return the current colour of the background (paper)
+ Default is white.
+ @return the current colour of the background (paper).
  */
 @property (nonatomic, strong, nullable) NSColor* paperColour;
 
-/** @brief Whether the paper colour is printed or not
+/** @brief Whether the paper colour is printed or not.
  
- Default is NO
+ Default is \c NO
  */
 @property BOOL paperColourIsPrinted;
 
@@ -442,12 +442,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (BOOL)setActiveLayer:(nullable DKLayer*)aLayer withUndo:(BOOL)undo;
 /** @brief Returns the current active layer
- @return a DKLayer object, or subclass, which is the current active layer
+ @return a DKLayer object, or subclass, which is the current active layer.
  */
 @property (nonatomic, weak, readonly, nullable) DKLayer* activeLayer;
-/** @brief Returns the active layer if it matches the requested class
- @param aClass the class of layer sought
- @return the active layer if it matches the requested class, otherwise nil
+/** @brief Returns the active layer if it matches the requested class.
+ @param aClass The class of layer sought.
+ @return The active layer if it matches the requested class, otherwise \c nil
  */
 - (nullable __kindof DKLayer*)activeLayerOfClass:(Class)aClass NS_REFINED_FOR_SWIFT;
 
@@ -462,7 +462,7 @@ NS_ASSUME_NONNULL_BEGIN
  undo of the action will restore the UI to its previous state with respect to the active layer.
  Normally changes to the active layer are not undoable.
  @param aLayer a layer object to be added
- @param activateIt if YES, the added layer will be made the active layer, NO will not change it
+ @param activateIt if <code>YES</code>, the added layer will be made the active layer, \c NO will not change it.
  */
 - (void)addLayer:(DKLayer*)aLayer andActivateIt:(BOOL)activateIt;
 
@@ -473,7 +473,7 @@ NS_ASSUME_NONNULL_BEGIN
  further UI convenience, if \c aLayer is the current active layer, and \c anotherLayer is <code>nil</code>, this
  finds the topmost layer of the same class as \c aLayer and makes that active.
  @param aLayer A layer object to be removed.
- @param anotherLayer If not nil, this layer will be activated after removing the first one.
+ @param anotherLayer If not <code>nil</code>, this layer will be activated after removing the first one.
  */
 - (void)removeLayer:(DKLayer*)aLayer andActivateLayer:(nullable DKLayer*)anotherLayer;
 
@@ -481,7 +481,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  Looks through all subgroups.
  @param cl The class of layer to look for.
- @return the first such layer that returns \c YES to <code>-layerMayBecomeActive</code>.
+ @return The first such layer that returns \c YES to <code>-layerMayBecomeActive</code>.
  */
 - (nullable __kindof DKLayer*)firstActivateableLayerOfClass:(Class)cl NS_REFINED_FOR_SWIFT;
 
@@ -506,7 +506,7 @@ NS_ASSUME_NONNULL_BEGIN
 /** @brief Moves a point to the nearest grid position if snapControl is different from current user setting,
  otherwise returns it unchanged.
  
- The grid layer actually performs the computation, if one exists. The <snapControl> parameter
+ The grid layer actually performs the computation, if one exists. The \c snapControl parameter
  usually comes from a modifer key such as control - if snapping is on it disables it, if off it
  enables it. This flag is passed up from whatever mouse event is actually being handled.
  @param p A point value within the drawing.
@@ -534,23 +534,23 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSPoint)snapToGuides:(NSPoint)p;
 
-/** @brief Snaps any edge (and optionally the centre) of a rect to any nearby guide
+/** @brief Snaps any edge (and optionally the centre) of a rect to any nearby guide.
  
  The guide layer itself implements the snapping calculations, if it exists.
  @param r A proposed rectangle which might be the bounds of some object for example.
  @param cent If YES, the centre point of the rect is also considered a candidadte for snapping, \c NO for
  just the edges.
- @return a rectangle, either the input rectangle or a rectangle of identical size offset to align with
- one of the guides
+ @return A rectangle, either the input rectangle or a rectangle of identical size offset to align with
+ one of the guides.
  */
 - (NSRect)snapRectToGuides:(NSRect)r includingCentres:(BOOL)cent;
 
-/** @brief Determines the snap offset for any of a list of points
+/** @brief Determines the snap offset for any of a list of points.
  
  The guide layer itself implements the snapping calculations, if it exists.
  @param points an array containing NSValue objects with NSPoint values
- @return An offset amount which is the distance to move one ofthe points to make it snap. This value can
- usually be simply added to the current mouse point that is dragging the object
+ @return An offset amount which is the distance to move one of the points to make it snap. This value can
+ usually be simply added to the current mouse point that is dragging the object.
  */
 - (NSSize)snapPointsToGuide:(NSArray<NSValue*>*)points;
 

@@ -84,7 +84,7 @@ static inline void indexToRGB_332(NSUInteger i, NSUInteger rgb[3])
 	return self;
 }
 
-- (NSUInteger)indexForRGB:(NSUInteger[3])rgb
+- (NSUInteger)indexForRGB:(const NSUInteger[3])rgb
 {
 	switch (m_nBits) {
 	case 3:
@@ -322,7 +322,7 @@ static const NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x
 	}
 }
 
-- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(NSUInteger[3])rgb index:(NSInteger*)indx
+- (void)lookUpNode:(NODE*)pTree level:(NSUInteger)level colour:(const NSUInteger[3])rgb index:(NSInteger*)indx
 {
 	if (pTree->bIsLeaf) {
 		*indx = pTree->indexValue;
@@ -397,7 +397,7 @@ static const NSUInteger mask[8] = { 0x80, 0x40, 0x20, 0x10, 0x08, 0x04, 0x02, 0x
 	return m_cTable;
 }
 
-- (NSUInteger)indexForRGB:(NSUInteger[])rgb
+- (NSUInteger)indexForRGB:(const NSUInteger[])rgb
 {
 	NSInteger indx = 0;
 

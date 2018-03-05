@@ -62,20 +62,14 @@ static NSPoint Map(NSPoint inPoint, NSSize sourceSize, NSPoint quad[4])
 #pragma mark -
 - (instancetype)initWithRect:(NSRect)rect
 {
-	self = [super init];
-	if (self != nil) {
-		NSPoint rp[4];
+	NSPoint rp[4];
 
-		rp[0] = NSMakePoint(NSMinX(rect), NSMinY(rect));
-		rp[1] = NSMakePoint(NSMaxX(rect), NSMinY(rect));
-		rp[2] = NSMakePoint(NSMaxX(rect), NSMaxY(rect));
-		rp[3] = NSMakePoint(NSMinX(rect), NSMaxY(rect));
+	rp[0] = NSMakePoint(NSMinX(rect), NSMinY(rect));
+	rp[1] = NSMakePoint(NSMaxX(rect), NSMinY(rect));
+	rp[2] = NSMakePoint(NSMaxX(rect), NSMaxY(rect));
+	rp[3] = NSMakePoint(NSMinX(rect), NSMaxY(rect));
 
-		[self setEnvelopePoints:rp];
-		NSAssert(!m_inverted, @"Expected init to NO");
-	}
-
-	return self;
+	return self = [self initWithEnvelope:rp];
 }
 
 - (instancetype)initWithEnvelope:(const NSPoint[4])points

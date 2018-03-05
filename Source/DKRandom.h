@@ -6,12 +6,16 @@
 
 #import <Foundation/Foundation.h>
 
-/** @brief returns a random number between 0 and 1 */
+/** @brief Random number generation. */
 @interface DKRandom : NSObject
 
 - (instancetype)init UNAVAILABLE_ATTRIBUTE;
 
+/** @brief Returns a random value between \c 0 and <code>1</code>.
+ */
 + (CGFloat)randomNumber;
+/** @brief Returns a random value between \c -0.5 and <code>0.5</code>.
+ */
 + (CGFloat)randomPositiveOrNegativeNumber;
 
 @end

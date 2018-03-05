@@ -38,6 +38,14 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  When the CM is asked for a menu, this helper object is used to create and manage it. As the CM is used (items and categories added/removed) the menu helpers are
  informed of the changes and in turn update the menus to match by adding or deleting menu items. This is necessary because when the CM grows to a significant number
  of items, rebuilding the menus is very time-consuming. This way performance is much better.
+
+ This is a useful container class that is like a "super dictionary" or maybe a "micro-database". As well as storing an object using a key,
+ it allows the object to be associated with none, one or more categories. An object can be a member of any number of categories.
+
+ As objects are added and used, they are automatically tracked in a "recently added" and "recently used" list, which can be retreived at any time.
+
+ As with a dictionary, an object is associated with a key. In addition to storing the object against that key, the key is added to the categories
+ that the object is a member of. This facilitates category-oriented lookups of objects.
 */
 @interface DKCategoryManager <__covariant ObjectType> : NSObject <NSCoding, NSCopying>
 {
@@ -604,7 +612,7 @@ typedef NS_OPTIONS(NSUInteger, DKCatManagerMergeOptions) {
  */
 - (void)updateMenusForKey:(NSString*)key;
 
-/** }@
+/** @}
  @} */
 @end
 
@@ -636,18 +644,6 @@ extern NSNotificationName const kDKCategoryManagerWillCreateNewCategory;
 extern NSNotificationName const kDKCategoryManagerDidCreateNewCategory;
 extern NSNotificationName const kDKCategoryManagerWillDeleteCategory;
 extern NSNotificationName const kDKCategoryManagerDidDeleteCategory;
-
-/*
-
-This is a useful container class that is like a "super dictionary" or maybe a "micro-database". As well as storing an object using a key,
-it allows the object to be associated with none, one or more categories. An object can be a member of any number of categories.
-
-As objects are added and used, they are automatically tracked in a "recently added" and "recently used" list, which can be retreived at any time.
-
-As with a dictionary, an object is associated with a key. In addition to storing the object against that key, the key is added to the categories
-that the object is a member of. This facilitates category-oriented lookups of objects.
-
-*/
 
 /** Protocol used by the createMenuWithItemDelegate method. */
 @protocol DKCategoryManagerMenuItemDelegate <NSObject>

@@ -30,7 +30,7 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
  the point in the array "hit" by <code>p</code>, or \c NSNotFound if not hit.
  */
 + (NSInteger)point:(NSPoint)p inNSPointArray:(NSPoint*)array count:(NSInteger)count tolerance:(CGFloat)t reverse:(BOOL)reverse;
-+ (void)colineariseVertex:(NSPoint[_Nonnull 3])inPoints cpA:(nullable NSPoint*)outCPA cpB:(nullable NSPoint*)outCPB;
++ (void)colineariseVertex:(const NSPoint[_Nonnull 3])inPoints cpA:(nullable NSPoint*)outCPA cpB:(nullable NSPoint*)outCPB;
 
 - (NSBezierPath*)bezierPathByRemovingTrailingElements:(NSInteger)numToRemove;
 - (NSBezierPath*)bezierPathByStrippingRedundantElements;
@@ -39,10 +39,10 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 /** @brief Counts the number of elements of each type in the path
 
  Pass \c NULL for any values you are not interested in
- @param mtc pointer to integer that receive the move to count
- @param ltc pointer to integer that receive the line count
- @param ctc pointer to integer that receive the curve to count
- @param cpc pointer to integer that receive the close path count*/
+ @param mtc Pointer to integer that receive the move to count.
+ @param ltc Pointer to integer that receive the line count.
+ @param ctc Pointer to integer that receive the curve to count.
+ @param cpc Pointer to integer that receive the close path count.*/
 - (void)getPathMoveToCount:(nullable NSInteger*)mtc lineToCount:(nullable NSInteger*)ltc curveToCount:(nullable NSInteger*)ctc closePathCount:(nullable NSInteger*)cpc;
 
 @property (readonly, getter=isPathClosed) BOOL pathClosed;
@@ -53,7 +53,7 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 - (NSInteger)subpathEndingElementForElement:(NSInteger)element;
 
 - (NSBezierPathElement)elementTypeForPartcode:(NSInteger)pc;
-- (BOOL)isOnPathPartcode:(NSInteger)pc;
+- (BOOL)isOnPathPartcode:(NSInteger)pc NS_SWIFT_NAME(isOnPathPartcode(_:));
 
 - (void)setControlPoint:(NSPoint)p forPartcode:(NSInteger)pc;
 - (NSPoint)controlPointForPartcode:(NSInteger)pc;
