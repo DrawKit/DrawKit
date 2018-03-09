@@ -221,7 +221,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param offset The distance between the text baseline and the underline.
  @return A list of descender break positions (<code>NSValue</code>s with \c NSPoint values).
  */
-- (NSArray<NSValue*>*)descenderBreaksForString:(NSAttributedString*)str range:(NSRange)range underlineOffset:(CGFloat)offset;
+- (NSArray<NSValue*>*)descenderBreaksForString:(NSAttributedString*)str range:(NSRange)range underlineOffset:(CGFloat)offset NS_REFINED_FOR_SWIFT;
 
 /** @brief Converts all the information about an underline into a path that can be drawn.
 
@@ -244,7 +244,7 @@ NS_ASSUME_NONNULL_BEGIN
 										offset:(CGFloat)offset
 								 lineThickness:(CGFloat)lineThickness
 							   descenderBreaks:(nullable NSArray<NSValue*>*)breaks
-								 grotThreshold:(CGFloat)gt;
+								 grotThreshold:(CGFloat)gt NS_REFINED_FOR_SWIFT;
 
 // getting text layout rects for running text within a shape
 
@@ -258,7 +258,7 @@ NS_ASSUME_NONNULL_BEGIN
  guaranteed to return an even number of (or none) results.
  @param yPosition The distance between the top edge of the bounds and the line to test.
  @return A list of <code>NSValue</code>s containing <code>NSPoint</code>s. */
-- (nullable NSArray<NSValue*>*)intersectingPointsWithHorizontalLineAtY:(CGFloat)yPosition;
+- (nullable NSArray<NSValue*>*)intersectingPointsWithHorizontalLineAtY:(CGFloat)yPosition NS_REFINED_FOR_SWIFT;
 
 /** @brief Find rectangles within which text can be laid out to place the text within the path.
 
@@ -271,7 +271,7 @@ NS_ASSUME_NONNULL_BEGIN
  method below.
  @param lineHeight the lineheight for the lines of text
  @return A list of <code>NSValue</code>s containing <code>NSPoint</code>s. */
-- (NSArray<NSValue*>*)lineFragmentRectsForFixedLineheight:(CGFloat)lineHeight;
+- (NSArray<NSValue*>*)lineFragmentRectsForFixedLineheight:(CGFloat)lineHeight NS_REFINED_FOR_SWIFT;
 
 /** @brief Find a line fragement rectange for laying out text in this shape.
 

@@ -179,7 +179,7 @@ NS_ASSUME_NONNULL_BEGIN
  directly.
  @param setOfRects a set containing NSValues with rect values
  */
-- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects;
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects NS_REFINED_FOR_SWIFT;
 
 /** @brief Marks several areas for update at once
 
@@ -188,7 +188,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param setOfRects a set containing NSValues with rect values
  @param padding the width and height will be added to EACH rect before invalidating
  */
-- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects withExtraPadding:(NSSize)padding;
+- (void)setNeedsDisplayInRects:(NSSet<NSValue*>*)setOfRects withExtraPadding:(NSSize)padding NS_REFINED_FOR_SWIFT;
 
 /** @brief Called before the layer starts drawing its content
 

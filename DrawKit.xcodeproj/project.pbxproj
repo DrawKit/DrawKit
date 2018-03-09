@@ -23,6 +23,9 @@
 		553CF0431FDDE2A8003E9342 /* DKObjectOwnerLayerAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553CF0421FDDE2A8003E9342 /* DKObjectOwnerLayerAdditions.swift */; };
 		553CF0451FDE14DB003E9342 /* DKStyleAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 553CF0441FDE14DB003E9342 /* DKStyleAdditions.swift */; };
 		5569BBB4200E9D3400DA0804 /* DKRouteFinderAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5569BBB3200E9D3400DA0804 /* DKRouteFinderAdditions.swift */; };
+		5599A2792051C39D008075D8 /* NSBezierPathAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5599A2782051C39D008075D8 /* NSBezierPathAdditions.swift */; };
+		5599A27B2051CB42008075D8 /* DKGeometryUtilitiesAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5599A27A2051CB42008075D8 /* DKGeometryUtilitiesAdditions.swift */; };
+		5599A27D2051D035008075D8 /* DKLayerAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5599A27C2051D035008075D8 /* DKLayerAdditions.swift */; };
 		559B4F741FFC994C0000156A /* DKTools.strings in Resources */ = {isa = PBXBuildFile; fileRef = 559B4F761FFC994C0000156A /* DKTools.strings */; };
 		55D8DB621FFEE79E00ECB542 /* DKDashable.h in Headers */ = {isa = PBXBuildFile; fileRef = 55D8DB611FFEE79D00ECB542 /* DKDashable.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		55E38A5C202530A80050F120 /* DKStrokeDashAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55E38A5B202530A80050F120 /* DKStrokeDashAdditions.swift */; };
@@ -339,6 +342,9 @@
 		553CF0421FDDE2A8003E9342 /* DKObjectOwnerLayerAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKObjectOwnerLayerAdditions.swift; sourceTree = "<group>"; };
 		553CF0441FDE14DB003E9342 /* DKStyleAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKStyleAdditions.swift; sourceTree = "<group>"; };
 		5569BBB3200E9D3400DA0804 /* DKRouteFinderAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKRouteFinderAdditions.swift; sourceTree = "<group>"; };
+		5599A2782051C39D008075D8 /* NSBezierPathAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSBezierPathAdditions.swift; sourceTree = "<group>"; };
+		5599A27A2051CB42008075D8 /* DKGeometryUtilitiesAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKGeometryUtilitiesAdditions.swift; sourceTree = "<group>"; };
+		5599A27C2051D035008075D8 /* DKLayerAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKLayerAdditions.swift; sourceTree = "<group>"; };
 		559B4F751FFC994C0000156A /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/DKTools.strings; sourceTree = "<group>"; };
 		55D8DB611FFEE79D00ECB542 /* DKDashable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDashable.h; sourceTree = "<group>"; };
 		55E38A5B202530A80050F120 /* DKStrokeDashAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKStrokeDashAdditions.swift; sourceTree = "<group>"; };
@@ -753,6 +759,9 @@
 				55EAFE5D200571FB00761661 /* DKCategoryManagerAdditions.swift */,
 				5569BBB3200E9D3400DA0804 /* DKRouteFinderAdditions.swift */,
 				55E38A5B202530A80050F120 /* DKStrokeDashAdditions.swift */,
+				5599A2782051C39D008075D8 /* NSBezierPathAdditions.swift */,
+				5599A27A2051CB42008075D8 /* DKGeometryUtilitiesAdditions.swift */,
+				5599A27C2051D035008075D8 /* DKLayerAdditions.swift */,
 			);
 			path = DrawKitSwift;
 			sourceTree = "<group>";
@@ -1538,8 +1547,11 @@
 				553CF0431FDDE2A8003E9342 /* DKObjectOwnerLayerAdditions.swift in Sources */,
 				551B08611FE0643C008AE439 /* DKDrawingToolAdditions.swift in Sources */,
 				553CF0451FDE14DB003E9342 /* DKStyleAdditions.swift in Sources */,
+				5599A2792051C39D008075D8 /* NSBezierPathAdditions.swift in Sources */,
 				55EAFE5E200571FB00761661 /* DKCategoryManagerAdditions.swift in Sources */,
 				551B085F1FDF63D2008AE439 /* DKViewControllerAdditions.swift in Sources */,
+				5599A27D2051D035008075D8 /* DKLayerAdditions.swift in Sources */,
+				5599A27B2051CB42008075D8 /* DKGeometryUtilitiesAdditions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

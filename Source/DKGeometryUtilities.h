@@ -12,19 +12,19 @@ NS_ASSUME_NONNULL_BEGIN
 extern "C" {
 #endif
 
-/** @brief Forms a rectangle from any two corner points
+/** @brief Forms a rectangle from any two corner points.
  
- The rect is normalised, in that the relative positions of a and b do not affect the result - the
+ The rect is normalised, in that the relative positions of \c a and \c b do not affect the result - the
  rect always extends in the positive x and y directions.
- @param a a rect
- @paran b a rect
- @return the rectangle formed by a and b at the opposite corners */
+ @param a A rect.
+ @paran b A rect.
+ @return The rectangle formed by \c a and \c b at the opposite corners. */
 NSRect NSRectFromTwoPoints(const NSPoint a, const NSPoint b);
 
-/** @brief Forms a rectangle of the given size centred on p
- @param p a point
- @param size the rect size
- @return the rectangle */
+/** @brief Forms a rectangle of the given size centred on <code>p</code>.
+ @param p A point.
+ @param size The rect size.
+ @return The rectangle. */
 NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size);
 
 /** @brief Returns the smallest rect that encloses both a and b
@@ -37,13 +37,13 @@ NSRect NSRectCentredOnPoint(const NSPoint p, const NSSize size);
  lines and points to push out the "envelope" of the rectangular space they define. That's what this does.
  @param a the first rect
  @param b the second rect
- @return the rectangle that encloses a and b */
+ @return the rectangle that encloses \c a and \c b */
 NSRect UnionOfTwoRects(const NSRect a, const NSRect b);
 
-/** @brief Returns the smallest rect that encloses all rects in the set
- @param aSet a set of NSValues containing rect values
- @return the rectangle that encloses all rects */
-NSRect UnionOfRectsInSet(const NSSet<NSValue*>* aSet);
+/** @brief Returns the smallest rect that encloses all rects in the set.
+ @param aSet A set of <code>NSValue</code>s containing rect values.
+ @return The rectangle that encloses all rects. */
+NSRect UnionOfRectsInSet(const NSSet<NSValue*>* aSet) NS_REFINED_FOR_SWIFT;
 
 /** @brief Returns the area that is different between two input rects, as a list of rects
  
@@ -51,17 +51,17 @@ NSRect UnionOfRectsInSet(const NSSet<NSValue*>* aSet);
  the resulting list is the area to update assuming that nothing changed in the common area,
  which is frequently so. If a and b are equal, the result is empty. If a and b do not intersect,
  the result contains \c a and <code>b</code>.
- @param a the first rect
- @param b the second rect
- @return a set of rect NSValues */
-NSSet<NSValue*>* DifferenceOfTwoRects(const NSRect a, const NSRect b);
+ @param a The first rect.
+ @param b The second rect.
+ @return A set of rect NSValues. */
+NSSet<NSValue*>* DifferenceOfTwoRects(const NSRect a, const NSRect b) NS_REFINED_FOR_SWIFT;
 
 /** @brief Subtracts \c b from <code>a</code>, returning the pieces left over.
  
  Subtracts \c b from <code>a</code>, returning the pieces left over. If \c a and \c b don't intersect the result is correct
  but unnecessary, so the caller should test for intersection first.
  */
-NSSet<NSValue*>* SubtractTwoRects(const NSRect a, const NSRect b);
+NSSet<NSValue*>* SubtractTwoRects(const NSRect a, const NSRect b) NS_REFINED_FOR_SWIFT;
 
 /** @brief Returns \c YES if the rects \c a and \c b are within \c epsilon of each other.
  */

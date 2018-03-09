@@ -447,7 +447,7 @@ NS_ASSUME_NONNULL_BEGIN
  that a change has taken place since an earlier time.
 
  Do not rely on what the number is, only whether it has changed. Also, do not persist it in any way.
- @return a number
+ @return A number.
  */
 @property (readonly) NSUInteger geometryChecksum;
 

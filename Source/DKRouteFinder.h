@@ -55,7 +55,7 @@ resolves to an \c NSPoint return value, and is given by <code>key</code>. The re
 	DKDirection mDirection; // limit search for NN to this direction
 }
 
-+ (nullable DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray<NSValue*>*)arrayOfPoints;
++ (nullable DKRouteFinder*)routeFinderWithArrayOfPoints:(NSArray<NSValue*>*)arrayOfPoints NS_REFINED_FOR_SWIFT;
 + (nullable DKRouteFinder*)routeFinderWithObjects:(NSArray*)objects withValueForKey:(NSString*)key;
 + (NSArray*)sortedArrayOfObjects:(NSArray*)objects byShortestRouteForKey:(NSString*)key;
 @property (class) DKRouteAlgorithmType algorithm;

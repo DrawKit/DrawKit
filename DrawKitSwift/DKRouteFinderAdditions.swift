@@ -10,6 +10,12 @@ import DKDrawKit.DKRouteFinder
 
 
 extension DKRouteFinder {
+	
+	public convenience init?(arrayOfPoints: [NSPoint]) {
+		let arrayOFObjects = arrayOfPoints.map({NSValue(point: $0)})
+		self.init(__arrayOfPoints: arrayOFObjects)
+	}
+	
 	/// Returns the original points reordered into the shortest route.
 	public func shortestRoute() -> [NSPoint] {
 		return __shortestRoute().map({$0.pointValue})

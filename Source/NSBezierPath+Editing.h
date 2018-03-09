@@ -88,8 +88,8 @@ optionally maintains colinearity across curve joins, and knows how to maintain c
 
 - (NSRect)boundingBoxForElement:(NSInteger)elementIndex;
 - (void)drawElementsBoundingBoxes;
-- (NSSet<NSValue*>*)boundingBoxesForPartcode:(NSInteger)pc;
-- (NSSet<NSValue*>*)allBoundingBoxes;
+- (NSSet<NSValue*>*)boundingBoxesForPartcode:(NSInteger)pc NS_REFINED_FOR_SWIFT;
+- (NSSet<NSValue*>*)allBoundingBoxes NS_REFINED_FOR_SWIFT;
 
 @end
 
