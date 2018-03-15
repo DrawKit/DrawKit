@@ -77,7 +77,7 @@ extension NSBezierPath {
 	/// `NSLayoutManager`, use `DKBezierTextContainer` which calls the `lineFragmentRect(forProposedRect:remaining:)`
 	/// method.
 	/// - parameter lineHeight: the lineheight for the lines of text.
-	/// - returns: A list of `NSRect`s. */
+	/// - returns: A list of `NSRect`s.
 	public func lineFragmentRects(forFixedLineheight lineHeight: CGFloat) -> [NSRect] {
 		let preToRet = __lineFragmentRects(forFixedLineheight: lineHeight)
 		return preToRet.map({$0.rectValue})
