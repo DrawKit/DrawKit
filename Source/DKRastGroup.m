@@ -200,7 +200,7 @@
 			if ([rend isKindOfClass:cl])
 				[rl addObject:rend];
 
-            if ([rend isKindOfClass:[self class]]) {
+			if ([rend isKindOfClass:[DKRastGroup class]]) {
 				NSArray* temp = [rend renderersOfClass:cl];
 				[rl addObjectsFromArray:temp];
 			}
@@ -215,7 +215,7 @@
 - (void)removeAllRenderers
 {
 	for (DKRasterizer* rast in [self.renderList copy]) {
-        if (![rast isKindOfClass:[self class]]) {
+		if (![rast isKindOfClass:[DKRastGroup class]]) {
 			[self removeRenderer:rast];
 		}
 	}
@@ -228,7 +228,7 @@
 	for (DKRasterizer* rast in [self.renderList copy]) {
 		if ([rast isMemberOfClass:cl]) {
 			[self removeRenderer:rast];
-        } else if (subs && [rast isKindOfClass:[self class]]) {
+		} else if (subs && [rast isKindOfClass:[DKRastGroup class]]) {
 			[(DKRastGroup*)rast removeRenderersOfClass:cl
 										   inSubgroups:subs];
 		}

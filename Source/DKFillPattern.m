@@ -17,7 +17,11 @@
 
 + (DKFillPattern*)defaultPattern
 {
-	return [[[self alloc] initWithImage:[NSImage imageNamed:@"Rect"]] autorelease];
+	NSImage *rectImage = [NSImage imageNamed:@"Rect"];
+	if (!rectImage) {
+		rectImage = [[NSBundle bundleForClass:[DKFillPattern class]] imageForResource:@"Rect"];
+	}
+	return [[[self alloc] initWithImage:rectImage] autorelease];
 }
 
 + (DKFillPattern*)fillPatternWithImage:(NSImage*)image
