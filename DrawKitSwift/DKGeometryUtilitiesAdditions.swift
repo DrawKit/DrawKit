@@ -9,7 +9,7 @@
 import DKDrawKit.DKGeometryUtilities
 
 @available(*, unavailable, renamed: "UnionOfRects(in:)")
-public func UnionOfRectsInSet(in aSet: [NSRect]) -> NSRect {
+public func UnionOfRectsInSet(_ aSet: [NSRect]) -> NSRect {
 	fatalError("Unavailable function \(#function) called!")
 }
 
