@@ -17,9 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
  This class provides a simple hatching fill for a path. It draws equally-spaced solid lines of a given thickness at a
  particular angle. Subclass for more sophisticated hatches.
 
- Can be set as a fill style in a DKStyle object.
+ Can be set as a fill style in a \c DKStyle object.
 
- The hatch is cached in an NSBezierPath object based on the bounds of the path. If another path is hatched that is smaller
+ The hatch is cached in an \c NSBezierPath object based on the bounds of the path. If another path is hatched that is smaller
  than the cached size, it is not rebuilt. It is rebuilt if the angle or spacing changes or a bigger path is hatched. Linewidth also
  doesn't change the cache.
 */

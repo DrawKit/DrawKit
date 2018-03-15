@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-/** @brief DKRoughStroke is a stroke rasterizer that randomly varies the stroke width about its nominal set width by some factor.
+/** @brief \c DKRoughStroke is a stroke rasterizer that randomly varies the stroke width about its nominal set width by some factor.
 
  \c DKRoughStroke is a stroke rasterizer that randomly varies the stroke width about its nominal set width by some factor. The result is a rough stroke
  that looks much more naturalistic than a standard one, which is very useful for illustration work.
@@ -23,8 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DKRoughStroke : DKStroke <NSCoding, NSCopying> {
 @private
 	CGFloat mRoughness;
-	NSMutableDictionary* mPathCache;
-	NSMutableArray* mCacheList;
+	NSMutableDictionary<NSString*, NSBezierPath*>* mPathCache;
+	NSMutableArray<NSBezierPath*>* mCacheList;
 }
 
 @property (nonatomic) CGFloat roughness;

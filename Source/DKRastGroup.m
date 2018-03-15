@@ -49,21 +49,11 @@
 
 #pragma mark -
 
-/** @brief Returns the top-level group in any hierarchy, which in DrawKit is a style object
-
- Will return nil if the group isn't part of a complete tree
- @return the top level group
- */
 - (DKRastGroup*)root
 {
 	return [[self container] root];
 }
 
-/** @brief Notifies that an observable object was added to the group
-
- Overridden by the root object (style)
- @param observable the object to start observing
- */
 - (void)observableWasAdded:(GCObservableObject*)observable
 {
 #pragma unused(observable)
@@ -71,11 +61,6 @@
 	// placeholder
 }
 
-/** @brief Notifies that an observable object is about to be removed from the group
-
- Overridden by the root object (style)
- @param observable the object to stop observing
- */
 - (void)observableWillBeRemoved:(GCObservableObject*)observable
 {
 #pragma unused(observable)
@@ -85,9 +70,6 @@
 
 #pragma mark -
 
-/** @brief Adds a renderer to the group
- @param renderer a renderer object
- */
 - (void)addRenderer:(DKRasterizer*)renderer
 {
 	if (![m_renderList containsObject:renderer]) {
@@ -101,9 +83,6 @@
 	}
 }
 
-/** @brief Removes a renderer from the group
- @param renderer the renderer object to remove
- */
 - (void)removeRenderer:(DKRasterizer*)renderer
 {
 	if ([m_renderList containsObject:renderer]) {
@@ -115,10 +94,6 @@
 	}
 }
 
-/** @brief Relocates a renderer within the group (which affects drawing order)
- @param src the index position of the renderer to move
- @param dest the index where to move it
- */
 - (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
 	if (src == dest)
@@ -138,10 +113,6 @@
 		inRenderListAtIndex:dest];
 }
 
-/** @brief Inserts a renderer into the group at the given index
- @param renderer the renderer to insert
- @param indx the index where to insert it
- */
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
 	if (![m_renderList containsObject:renderer]) {
@@ -155,9 +126,6 @@
 	}
 }
 
-/** @brief Removes the renderer at the given index
- @param indx the index to remove
- */
 - (void)removeRendererAtIndex:(NSUInteger)indx
 {
 	DKRasterizer* renderer = [self rendererAtIndex:indx];
@@ -171,10 +139,6 @@
 	}
 }
 
-/** @brief Returns the index of the given renderer
- @param renderer the renderer in question
- @return the index position of the renderer, or NSNotFound
- */
 - (NSUInteger)indexOfRenderer:(DKRasterizer*)renderer
 {
 	return [[self renderList] indexOfObject:renderer];
@@ -182,19 +146,11 @@
 
 #pragma mark -
 
-/** @brief Returns the rendere at the given index position
- @param indx the index position of the renderer
- @return the renderer at that position
- */
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)indx
 {
 	return (DKRasterizer*)[self objectInRenderListAtIndex:indx]; //[[self renderList] objectAtIndex:indx];
 }
 
-/** @brief Returns the renderer matching the given name
- @param name the name of the renderer
- @return the renderer with that name, if any
- */
 - (DKRasterizer*)rendererWithName:(NSString*)name
 {
 	for (DKRasterizer* rend in self.renderList) {
@@ -218,13 +174,6 @@
 	return [[self renderList] count];
 }
 
-/** @brief Queries whether a renderer of a given class exists somewhere in the render tree
-
- Usually called from the top level to get a broad idea of what the group will draw. A style
- has some higher level methods that call this.
- @param cl the class to look for
- @return YES if there is at least one [enabled] renderer with the given class, NO otherwise
- */
 - (BOOL)containsRendererOfClass:(Class)cl
 {
 	if ([self countOfRenderList] > 0) {
@@ -242,10 +191,6 @@
 	return NO;
 }
 
-/** @brief Returns a flattened list of renderers of a given class
- @param cl the class to look for
- @return an array containing the renderers matching <cl>, or nil.
- */
 - (NSArray*)renderersOfClass:(Class)cl
 {
 	if ([self containsRendererOfClass:cl]) {
@@ -255,7 +200,7 @@
 			if ([rend isKindOfClass:cl])
 				[rl addObject:rend];
 
-			if ([rend isKindOfClass:[self class]]) {
+            if ([rend isKindOfClass:[self class]]) {
 				NSArray* temp = [rend renderersOfClass:cl];
 				[rl addObjectsFromArray:temp];
 			}
@@ -270,7 +215,7 @@
 - (void)removeAllRenderers
 {
 	for (DKRasterizer* rast in [self.renderList copy]) {
-		if (![rast isKindOfClass:[self class]]) {
+        if (![rast isKindOfClass:[self class]]) {
 			[self removeRenderer:rast];
 		}
 	}
@@ -283,7 +228,7 @@
 	for (DKRasterizer* rast in [self.renderList copy]) {
 		if ([rast isMemberOfClass:cl]) {
 			[self removeRenderer:rast];
-		} else if (subs && [rast isKindOfClass:[self class]]) {
+        } else if (subs && [rast isKindOfClass:[self class]]) {
 			[(DKRastGroup*)rast removeRenderersOfClass:cl
 										   inSubgroups:subs];
 		}

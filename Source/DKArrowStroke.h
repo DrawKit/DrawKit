@@ -123,7 +123,7 @@ typedef NS_ENUM(NSInteger, DKDimensionToleranceOption) {
 
 @end
 
-/** @brief informal protocol for requesting dimension information from an object.
+/** @brief Protocol for requesting dimension information from an object.
 
  If it does not respond, the rasterizer infers the values from the path length and its internal values.
  */

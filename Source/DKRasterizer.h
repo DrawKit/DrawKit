@@ -20,10 +20,18 @@ typedef NS_ENUM(NSInteger, DKClippingOption) {
 	kDKClippingInsidePath = 2
 };
 
-/** @brief Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
+/** @brief DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
+ include DKStroke, DKFill, DKHatching, DKFillPattern, DKGradient, etc.
 
- Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
-*/
+ A renderer is given an object and renders it according to its behaviour to the current context. It can
+ do whatever it wants. Normally it will act upon the object's path so as a convenience the renderPath method
+ is called by default. Subclasses can override at the object or the path level, as they wish.
+
+ Renderers are obliged to accurately return the extra space they need to perform their rendering, over and
+ above the bounds of the path. For example a standard stroke is aligned on the path, so the extra space should
+ be half of the stroke width in both width and height. This additional space is used to compute the correct bounds
+ of a shape when a set of rendering operations is applied to it.
+ */
 @interface DKRasterizer : GCObservableObject <DKRasterizer, NSCoding, NSCopying> {
 @private
 	DKRastGroup* __weak mContainerRef; // group that contains this
@@ -32,6 +40,10 @@ typedef NS_ENUM(NSInteger, DKClippingOption) {
 	DKClippingOption mClipping; // set path clipping to this
 }
 
+/** @brief creates a renderer from the pasteboard if possible.
+ 
+ Returns the renderer, or <code>nil</code>.
+*/
 + (nullable DKRasterizer*)rasterizerFromPasteboard:(NSPasteboard*)pb;
 
 - (instancetype)init NS_DESIGNATED_INITIALIZER;
@@ -78,10 +90,6 @@ typedef NS_ENUM(NSInteger, DKClippingOption) {
  */
 @property BOOL enabled;
 
-/** @brief Set whether the rasterizer's effect is clipped to the path or not, and if so, which side
- @param clipping a DKClippingOption value
- */
-- (void)setClipping:(DKClippingOption)clipping;
 - (void)setClippingWithoutNotifying:(DKClippingOption)clipping;
 
 /** @brief Whether the rasterizer's effect is clipped to the path or not, and if so, which side.
@@ -108,19 +116,10 @@ extern NSNotificationName const kDKRasterizerPropertyWillChange;
 extern NSNotificationName const kDKRasterizerPropertyDidChange;
 extern NSString* const kDKRasterizerChangedPropertyKey;
 
-/*! @brief DKRasterizer is an abstract base class that implements the DKRasterizer protocol. Concrete subclasses
- include DKStroke, DKFill, DKHatching, DKFillPattern, DKGradient, etc.
+/** @brief Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
  
- A renderer is given an object and renders it according to its behaviour to the current context. It can
- do whatever it wants. Normally it will act upon the object's path so as a convenience the renderPath method
- is called by default. Subclasses can override at the object or the path level, as they wish.
- 
- Renderers are obliged to accurately return the extra space they need to perform their rendering, over and
- above the bounds of the path. For example a standard stroke is aligned on the path, so the extra space should
- be half of the stroke width in both width and height. This additional space is used to compute the correct bounds
- of a shape when a set of rendering operations is applied to it.
-
-*/
+ Renderers can now have a delegate attached which is able to modify behaviours such as changing the path rendered, etc.
+ */
 @protocol DKRendererDelegate <NSObject>
 
 - (NSBezierPath*)renderer:(DKRasterizer*)aRenderer willRenderPath:(NSBezierPath*)aPath;
