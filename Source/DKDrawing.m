@@ -366,61 +366,6 @@ static id sDearchivingHelper = nil;
 }
 
 #pragma mark -
-#pragma mark - deprecated
-
-//! Creates a drawing from the named file.
-
-//! Unarchives the file at <filename>, and returns the unarchived drawing object
-//! \param filename a full path to the file
-
-/** @brief Creates a drawing from the named file
-
- Deprecated
- @param filename full path to the file in question
- @return the unarchived drawing
- */
-+ (DKDrawing*)drawingWithContentsOfFile:(NSString*)filename
-{
-	return [self drawingWithData:[NSData dataWithContentsOfMappedFile:filename]
-				  fromFileAtPath:filename];
-}
-
-/** @brief Creates a drawing from a lump of data, and also sets the drawing metadata to contain the original filename
-
- Deprecated - rarely of practical use
- @param drawingData data representing an archived drawing
- @param filepath the full path of the original file
- @return the unarchived drawing
- */
-+ (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath
-{
-	DKDrawing* dwg = [self drawingWithData:drawingData];
-
-	// insert the filename into the drawing metadata
-
-	[[dwg drawingInfo] setObject:[filepath lastPathComponent]
-						  forKey:kDKDrawingInfoOriginalFilename];
-
-	return dwg;
-}
-
-/** @brief Saves the static class defaults for ALL classes in the drawing system
-
- Deprecated - no longer does anything
- */
-+ (void)saveDefaults
-{
-}
-
-/** @brief Loads the static user defaults for all classes in the drawing system
-
- Deprecated - no longer does anything
- */
-+ (void)loadDefaults
-{
-}
-
-#pragma mark -
 #pragma mark - designated initializer
 
 /** @brief Initialises a newly allocated drawing model object
@@ -1746,6 +1691,65 @@ static id sDearchivingHelper = nil;
 	}
 
 	return self;
+}
+
+@end
+
+@implementation DKDrawing (Deprecated)
+
+#pragma mark -
+#pragma mark - deprecated
+
+//! Creates a drawing from the named file.
+
+//! Unarchives the file at <filename>, and returns the unarchived drawing object
+//! \param filename a full path to the file
+
+/** @brief Creates a drawing from the named file
+ 
+ Deprecated
+ @param filename full path to the file in question
+ @return the unarchived drawing
+ */
++ (DKDrawing*)drawingWithContentsOfFile:(NSString*)filename
+{
+	return [self drawingWithData:[NSData dataWithContentsOfMappedFile:filename]
+				  fromFileAtPath:filename];
+}
+
+/** @brief Creates a drawing from a lump of data, and also sets the drawing metadata to contain the original filename
+ 
+ Deprecated - rarely of practical use
+ @param drawingData data representing an archived drawing
+ @param filepath the full path of the original file
+ @return the unarchived drawing
+ */
++ (DKDrawing*)drawingWithData:(NSData*)drawingData fromFileAtPath:(NSString*)filepath
+{
+	DKDrawing* dwg = [self drawingWithData:drawingData];
+	
+	// insert the filename into the drawing metadata
+	
+	[[dwg drawingInfo] setObject:[filepath lastPathComponent]
+						  forKey:kDKDrawingInfoOriginalFilename];
+	
+	return dwg;
+}
+
+/** @brief Saves the static class defaults for ALL classes in the drawing system
+ 
+ Deprecated - no longer does anything
+ */
++ (void)saveDefaults
+{
+}
+
+/** @brief Loads the static user defaults for all classes in the drawing system
+ 
+ Deprecated - no longer does anything
+ */
++ (void)loadDefaults
+{
 }
 
 @end

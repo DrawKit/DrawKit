@@ -96,15 +96,6 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 #pragma mark -
-+ (void)saveDefaults
-{
-}
-
-+ (void)loadDefaults
-{
-}
-
-#pragma mark -
 - (instancetype)initWithPattern:(const CGFloat[])dashes count:(NSInteger)count
 {
 	NSAssert(count < 8, @"Expected dashes to be no more than 8 floats");
@@ -396,3 +387,17 @@ static NSUInteger euclid_hcf(NSUInteger a, NSUInteger b)
 }
 
 @end
+
+@implementation DKStrokeDash (Deprecated)
+
+#pragma mark -
++ (void)saveDefaults
+{
+}
+
++ (void)loadDefaults
+{
+}
+
+@end
+

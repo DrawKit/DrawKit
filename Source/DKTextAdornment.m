@@ -1702,6 +1702,9 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	return copy;
 }
 
+@end
+
+@implementation DKTextAdornment (Deprecated)
 #pragma mark -
 #pragma mark - deprecated
 

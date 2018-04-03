@@ -181,24 +181,6 @@ NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetad
 }
 
 #pragma mark -
-- (void)setMetadataObject:(id)obj forKey:(id)key
-{
-	NSAssert(obj != nil, @"cannot set a nil metadata object");
-	NSAssert(key != nil, @"cannot use a nil metadata key");
-
-#if USE_107_OR_LATER_SCHEMA
-	NSLog(@"[DKLayer setMetadataObject:forKey:] is deprecated - please migrate code to -setMetadataItem:forKey: instead");
-#endif
-
-	if (![self locked]) {
-		[self setupMetadata];
-		[self metadataWillChangeKey:key];
-		[[self metadata] setObject:obj
-							forKey:[key lowercaseString]];
-		[self metadataDidChangeKey:key];
-	}
-}
-
 - (id)metadataObjectForKey:(NSString*)key
 {
 	// retrieve the metadata object for the given key. As an extra bonus, if the
@@ -470,6 +452,27 @@ NSString* const kDKLayerMetadataUndoableChangesUserDefaultsKey = @"kDKLayerMetad
 	// UI to metadata need to check this - it is not honoured at this level.
 
 	return YES;
+}
+
+@end
+
+@implementation DKLayer (MetadataDeprecated)
+- (void)setMetadataObject:(id)obj forKey:(id)key
+{
+	NSAssert(obj != nil, @"cannot set a nil metadata object");
+	NSAssert(key != nil, @"cannot use a nil metadata key");
+	
+#if USE_107_OR_LATER_SCHEMA
+	NSLog(@"[DKLayer setMetadataObject:forKey:] is deprecated - please migrate code to -setMetadataItem:forKey: instead");
+#endif
+	
+	if (![self locked]) {
+		[self setupMetadata];
+		[self metadataWillChangeKey:key];
+		[[self metadata] setObject:obj
+							forKey:[key lowercaseString]];
+		[self metadataDidChangeKey:key];
+	}
 }
 
 @end

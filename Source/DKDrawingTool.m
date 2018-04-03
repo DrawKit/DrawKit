@@ -27,14 +27,8 @@
 NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 
 #pragma mark -
-@implementation DKDrawingTool
-#pragma mark As a DKDrawingTool
+@implementation DKDrawingTool (Deprecated)
 
-/** @brief Return the shared instance of the tool registry
-
- Creates a new empty registry if it doesn't yet exist
- @return a dictionary - contains drawing tool objects keyed by name
- */
 + (NSDictionary*)sharedToolRegistry
 {
 	NSLog(@"+[DKDrawingTool sharedToolRegistry] is deprecated and is a no-op");
@@ -42,63 +36,37 @@ NSString* const kDKDrawingToolUserDefaultsKey = @"DK_DrawingTool_Defaults";
 	return nil;
 }
 
-/** @brief Retrieve a tool from the registry with the given name
-
- Registered tools may be conveniently set by name - see DKToolController
- @param name the registry name of the tool required.
- @return the tool if it exists, or nil
- */
 + (DKDrawingTool*)drawingToolWithName:(NSString*)name
 {
 	return [[DKToolRegistry sharedToolRegistry] drawingToolWithName:name];
 }
 
-/** @brief Retrieve a tool from the registry matching the key equivalent indicated by the key event passed
-
- See DKToolController
- @param keyEvent a keyDown event.
- @return the tool if it can be matched, or nil
- */
 + (DKDrawingTool*)drawingToolWithKeyboardEquivalent:(NSEvent*)keyEvent
 {
 	return [[DKToolRegistry sharedToolRegistry] drawingToolWithKeyboardEquivalent:keyEvent];
 }
 
-/** @brief Register a tool in th eregistry with the given name
-
- Registered tools may be conveniently set by name - see DKToolController
- @param tool a tool object to register
- @param name a name to register it against.
- */
 + (void)registerDrawingTool:(DKDrawingTool*)tool withName:(NSString*)name
 {
 	[[DKToolRegistry sharedToolRegistry] registerDrawingTool:tool
 													withName:name];
 }
 
-/** @brief Set a "standard" set of tools in the registry
-
- "Standard" tools are creation tools for various basic shapes, the selection tool, zoom tool and
- launch time, may be safely called more than once - subsequent calls are no-ops.
- If the conversion table has been set up prior to this, the tools will automatically pick up
- the class from the table, so that apps don't need to swap out all the tools for subclasses, but
- can simply set up the table.
- */
 + (void)registerStandardTools
 {
 	// no longer needs to do anything - the shared tool registry registers standard tools by default the first time it is
 	// referenced.
 }
 
-/** @brief Return a list of registered tools' names, sorted alphabetically
-
- May be useful for supporting a UI
- @return an array, a list of NSStrings
- */
 + (NSArray*)toolNames
 {
 	return [[DKToolRegistry sharedToolRegistry] toolNames];
 }
+
+@end
+
+@implementation DKDrawingTool
+#pragma mark As a DKDrawingTool
 
 /** @brief Load tool defaults from the user defaults
 

@@ -471,10 +471,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	return self;
 }
 
-/** @brief Implements the print command.
- @param flag YES to show the print panel
- */
-- (void)printShowingPrintPanel:(BOOL)flag
+- (void)printDocumentWithSettings:(NSDictionary<NSPrintInfoAttributeKey, id> *)printSettings showPrintPanel:(BOOL)flag delegate:(nullable id)delegate didPrintSelector:(nullable SEL)didPrintSelector contextInfo:(nullable void *)contextInfo;
 {
 	DKDrawingView* pdv = [self makePrintDrawingView];
 	DKViewController* vc = [pdv makeViewController];
@@ -489,11 +486,11 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	NSPrintOperation* printOp = [NSPrintOperation printOperationWithView:pdv
 															   printInfo:[self printInfo]];
 
-	[printOp setShowPanels:flag];
+	[printOp setShowsPrintPanel:flag];
 	[self runModalPrintOperation:printOp
-						delegate:nil
-				  didRunSelector:nil
-					 contextInfo:nil];
+						delegate:delegate
+				  didRunSelector:didPrintSelector
+					 contextInfo:contextInfo];
 }
 
 /** @brief Initialises the document from a file on disk when opened from the "Open" command.

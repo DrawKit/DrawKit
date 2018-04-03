@@ -193,87 +193,6 @@ NSString* const kDKUndoableChangesUserDefaultsKey = @"DKMetadataChangesAreNotUnd
 
 #pragma mark -
 
-- (void)setMetadataObject:(id)obj forKey:(NSString*)key
-{
-	NSAssert(obj != nil, @"cannot set a nil metadata object");
-	NSAssert(key != nil, @"cannot use a nil metadata key");
-
-	if (![self locked]) {
-#if USE_107_OR_LATER_SCHEMA
-		NSLog(@"-setMetadataObject:forkey: is deprecated - migrate code to use -setMetadataItem:forKey: instead");
-#endif
-
-		[self setupMetadata];
-
-		// if the key already exists, enforce the data type of the value. This allows this method to
-		// be connected to a table view for editing without changing any edited value into a string.
-
-		id oldValue = [[self metadata] objectForKey:[key lowercaseString]];
-
-		// optionally make the change undoable
-
-		if ([[self class] metadataChangesAreUndoable]) {
-			if (oldValue)
-				[[[self undoManager] prepareWithInvocationTarget:self] setMetadataObject:oldValue
-																				  forKey:key];
-			else
-				[[[self undoManager] prepareWithInvocationTarget:self] removeMetadataForKey:key];
-		}
-
-		if (oldValue) {
-			if ([oldValue class] != [obj class]) {
-				// the classes differ, so check if a data type conversion is required. Specifically, if <obj> is a string and
-				// <oldValue> is a number, we need to find out what sort of number and extract it from the string
-
-				if ([obj isKindOfClass:[NSString class]] && [oldValue isKindOfClass:[NSNumber class]]) {
-					const char* dataType = [oldValue objCType];
-					NSNumber* newValue;
-
-					if (strcmp(dataType, @encode(CGFloat)) == 0) {
-						newValue = @([obj doubleValue]);
-					} else if (strcmp(dataType, @encode(double)) == 0) {
-						newValue = @([obj doubleValue]);
-					} else if (strcmp(dataType, @encode(float)) == 0) {
-						newValue = @([obj floatValue]);
-					} else if (strcmp(dataType, @encode(long)) == 0) {
-						newValue = @([obj longValue]);
-					} else if (strcmp(dataType, @encode(unsigned long)) == 0) {
-						newValue = @([obj unsignedLongValue]);
-					} else if (strcmp(dataType, @encode(NSInteger)) == 0) {
-						newValue = @([obj integerValue]);
-					} else if (strcmp(dataType, @encode(NSUInteger)) == 0) {
-						newValue = @([obj unsignedIntegerValue]);
-					} else if (strcmp(dataType, @encode(long long)) == 0) {
-						newValue = @([obj longLongValue]);
-					} else if (strcmp(dataType, @encode(unsigned long long)) == 0) {
-						newValue = @([obj unsignedLongLongValue]);
-					} else if (strcmp(dataType, @encode(int)) == 0) {
-						newValue = @([obj intValue]);
-					} else if (strcmp(dataType, @encode(short)) == 0) {
-						newValue = @([obj intValue]);
-					} else if (strcmp(dataType, @encode(unsigned int)) == 0) {
-						newValue = @([obj unsignedIntValue]);
-					} else if (strcmp(dataType, @encode(unsigned short)) == 0) {
-						newValue = @([obj unsignedIntValue]);
-					} else if (strcmp(dataType, @encode(BOOL)) == 0) {
-						newValue = @((BOOL)([obj integerValue] != 0));
-					} else {
-						newValue = obj;
-					}
-
-					obj = newValue;
-				}
-			}
-		}
-
-		[self metadataWillChangeKey:key];
-		[[self metadata] setObject:obj
-							forKey:[key lowercaseString]];
-		[self notifyVisualChange];
-		[self metadataDidChangeKey:key];
-	}
-}
-
 - (id)metadataObjectForKey:(NSString*)key
 {
 	// retrieve the metadata object for the given key. As an extra bonus, if the
@@ -646,6 +565,90 @@ NSString* const kDKPrivateShapeOriginalText = @"Original Text";
 #else
 	return [self metadataObjectForKey:kDKPrivateShapeOriginalText];
 #endif
+}
+
+@end
+
+@implementation DKDrawableObject (MetadataDeprecated)
+- (void)setMetadataObject:(id)obj forKey:(NSString*)key
+{
+	NSAssert(obj != nil, @"cannot set a nil metadata object");
+	NSAssert(key != nil, @"cannot use a nil metadata key");
+	
+	if (![self locked]) {
+#if USE_107_OR_LATER_SCHEMA
+		NSLog(@"-setMetadataObject:forkey: is deprecated - migrate code to use -setMetadataItem:forKey: instead");
+#endif
+		
+		[self setupMetadata];
+		
+		// if the key already exists, enforce the data type of the value. This allows this method to
+		// be connected to a table view for editing without changing any edited value into a string.
+		
+		id oldValue = [[self metadata] objectForKey:[key lowercaseString]];
+		
+		// optionally make the change undoable
+		
+		if ([[self class] metadataChangesAreUndoable]) {
+			if (oldValue)
+				[[[self undoManager] prepareWithInvocationTarget:self] setMetadataObject:oldValue
+																				  forKey:key];
+			else
+				[[[self undoManager] prepareWithInvocationTarget:self] removeMetadataForKey:key];
+		}
+		
+		if (oldValue) {
+			if ([oldValue class] != [obj class]) {
+				// the classes differ, so check if a data type conversion is required. Specifically, if <obj> is a string and
+				// <oldValue> is a number, we need to find out what sort of number and extract it from the string
+				
+				if ([obj isKindOfClass:[NSString class]] && [oldValue isKindOfClass:[NSNumber class]]) {
+					const char* dataType = [oldValue objCType];
+					NSNumber* newValue;
+					
+					if (strcmp(dataType, @encode(CGFloat)) == 0) {
+						newValue = @([obj doubleValue]);
+					} else if (strcmp(dataType, @encode(double)) == 0) {
+						newValue = @([obj doubleValue]);
+					} else if (strcmp(dataType, @encode(float)) == 0) {
+						newValue = @([obj floatValue]);
+					} else if (strcmp(dataType, @encode(long)) == 0) {
+						newValue = @([obj longValue]);
+					} else if (strcmp(dataType, @encode(unsigned long)) == 0) {
+						newValue = @([obj unsignedLongValue]);
+					} else if (strcmp(dataType, @encode(NSInteger)) == 0) {
+						newValue = @([obj integerValue]);
+					} else if (strcmp(dataType, @encode(NSUInteger)) == 0) {
+						newValue = @([obj unsignedIntegerValue]);
+					} else if (strcmp(dataType, @encode(long long)) == 0) {
+						newValue = @([obj longLongValue]);
+					} else if (strcmp(dataType, @encode(unsigned long long)) == 0) {
+						newValue = @([obj unsignedLongLongValue]);
+					} else if (strcmp(dataType, @encode(int)) == 0) {
+						newValue = @([obj intValue]);
+					} else if (strcmp(dataType, @encode(short)) == 0) {
+						newValue = @([obj intValue]);
+					} else if (strcmp(dataType, @encode(unsigned int)) == 0) {
+						newValue = @([obj unsignedIntValue]);
+					} else if (strcmp(dataType, @encode(unsigned short)) == 0) {
+						newValue = @([obj unsignedIntValue]);
+					} else if (strcmp(dataType, @encode(BOOL)) == 0) {
+						newValue = @((BOOL)([obj integerValue] != 0));
+					} else {
+						newValue = obj;
+					}
+					
+					obj = newValue;
+				}
+			}
+		}
+		
+		[self metadataWillChangeKey:key];
+		[[self metadata] setObject:obj
+							forKey:[key lowercaseString]];
+		[self notifyVisualChange];
+		[self metadataDidChangeKey:key];
+	}
 }
 
 @end

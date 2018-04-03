@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  the layer's selectionColour). Also, the layer's (or more typically the drawing's) DKKnob class is generally used by objects to display their
  selected state.
  */
-@interface DKObjectDrawingLayer : DKObjectOwnerLayer <NSCoding> {
+@interface DKObjectDrawingLayer : DKObjectOwnerLayer <NSCoding, NSDraggingSource> {
 @private
 	NSMutableSet<DKDrawableObject*>* m_selection; // list of selected objects
 	NSSet<DKDrawableObject*>* m_selectionUndo; // old selection when setting up undo

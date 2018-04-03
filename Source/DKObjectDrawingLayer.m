@@ -2477,10 +2477,10 @@ enum {
 #pragma mark -
 #pragma mark As part of the NSDraggingSource protocol
 
-- (void)draggedImage:(NSImage*)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation
+- (void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
 {
-#pragma unused(anImage)
-#pragma unused(aPoint)
+#pragma unused(session)
+#pragma unused(screenPoint)
 #pragma unused(operation)
 
 	//	LogEvent_(kReactiveEvent, @"drag ended - cleaning up pending list");
@@ -2495,6 +2495,14 @@ enum {
 		m_objectsPendingDrag = nil;
 	}
 }
+
+- (NSDragOperation)draggingSession:(nonnull NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context {
+#pragma unused(session)
+#pragma unused(context)
+	
+	return NSDragOperationMove;
+}
+
 
 #pragma mark -
 #pragma mark As an NSObject
