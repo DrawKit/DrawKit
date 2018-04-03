@@ -729,13 +729,13 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 	return [[[self textAttributes] objectForKey:NSStrokeWidthAttributeName] doubleValue];
 }
 
-- (void)setUnderlines:(NSInteger)under
+- (void)setUnderlines:(NSUnderlineStyle)under
 {
 	[self changeTextAttribute:NSUnderlineStyleAttributeName
 					  toValue:@(under)];
 }
 
-- (NSInteger)underlines
+- (NSUnderlineStyle)underlines
 {
 	return [[[self textAttributes] objectForKey:NSUnderlineStyleAttributeName] integerValue];
 }

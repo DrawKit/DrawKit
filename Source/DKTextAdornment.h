@@ -199,7 +199,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong) NSColor* backgroundColour;
 @property (strong) NSColor* outlineColour;
 @property CGFloat outlineWidth;
-@property NSInteger underlines;
+@property NSUnderlineStyle underlines;
 @property CGFloat kerning;
 @property CGFloat baseline;
 @property NSInteger superscriptAttribute;
