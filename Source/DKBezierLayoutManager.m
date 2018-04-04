@@ -104,6 +104,42 @@
 */
 }
 
+#if 0
+//TODO: implement this properly!
+- (void)showCGGlyphs:(const CGGlyph *)glyphs
+		   positions:(const NSPoint *)positions
+			   count:(NSUInteger)glyphCount
+				font:(NSFont *)font
+			  matrix:(NSAffineTransform *)textMatrix
+		  attributes:(NSDictionary<NSAttributedStringKey,id> *)attributes
+		   inContext:(NSGraphicsContext *)graphicsContext
+{
+	[mPath moveToPoint:positions[1]];
+	if (@available(macOS 10.13, *)) {
+		[mPath appendBezierPathWithCGGlyphs:glyphs count:glyphCount inFont:font];
+	} else {
+		NSPoint pos = NSZeroPoint;
+		for (NSUInteger i = 0; i < glyphCount; i++) {
+			CGGlyph currentGlyph = glyphs[i];
+			NSGlyph theGlyph = currentGlyph;
+			NSSize offset = [font advancementForGlyph:theGlyph];
+			[mPath appendBezierPathWithGlyph:theGlyph inFont:font];
+			pos.x += offset.width;
+			pos.y += offset.height;
+			[mPath moveToPoint:pos];
+		}
+	}
+	[mPath transformUsingAffineTransform:textMatrix];
+	
+	// debug:
+	/*
+	 [mPath setLineWidth:1.0];
+	 [[NSColor blackColor] set];
+	 [mPath stroke];
+	 */
+}
+#endif
+
 - (void)drawUnderlineForGlyphRange:(NSRange)glyphRange
 					 underlineType:(NSUnderlineStyle)underlineVal
 					baselineOffset:(CGFloat)baselineOffset

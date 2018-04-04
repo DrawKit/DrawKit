@@ -473,6 +473,7 @@ static NSMutableDictionary* sFileExportBindings = nil;
 
 - (void)printDocumentWithSettings:(NSDictionary<NSPrintInfoAttributeKey, id> *)printSettings showPrintPanel:(BOOL)flag delegate:(nullable id)delegate didPrintSelector:(nullable SEL)didPrintSelector contextInfo:(nullable void *)contextInfo;
 {
+#pragma unused(printSettings)
 	DKDrawingView* pdv = [self makePrintDrawingView];
 	DKViewController* vc = [pdv makeViewController];
 
