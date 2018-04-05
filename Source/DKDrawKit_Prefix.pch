@@ -24,14 +24,14 @@
 // the following includes code (in DKDrawableObject mostly) for assisting in visualizing and debugging graphical issues directly on screen. It can be included
 // in release builds if you wish as each item controlled is still turned on/off at runtime.
 
-#define qIncludeGraphicDebugging
+#define qIncludeGraphicDebugging 1
 
 // The following compile-time constants allow you to turn on the use of the various features that rely on independent licensing agreements. Comment out the definitions to refrain from using a given feature.
 
-#define qUseCurveFit
+#define qUseCurveFit 1
 // To use the Algorithm for Automatically Fitting Digitized Curves code, consult bezier-utils.h to ensure licensing compliance and uncomment the above definition. If you do not define the above constant, some methods will not be available.
 
-#define qUseLogEvent
+#define qUseLogEvent 1
 // To use the LogEvent conditional logging, consult LogEvent.h to ensure licensing compliance and uncomment the above definition. If you do not define the above constant, the event logging will be dropped out of DrawKit.
 
 #ifdef __cplusplus

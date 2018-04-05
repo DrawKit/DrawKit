@@ -68,7 +68,7 @@
 }*/
 
 #pragma mark Macro (when qUseLogEvent undefined)
-#ifndef qUseLogEvent
+#if !(defined(qUseLogEvent) && qUseLogEvent)
 
 	#define LogEvent_(...)
 
