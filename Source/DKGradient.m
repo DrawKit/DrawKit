@@ -308,10 +308,10 @@ static inline void resolveHSV(CGFloat* color1, CGFloat* color2);
 	}
 
 	[self fillPath:path
-		startingAtPoint:sp
-			startRadius:sr
-		  endingAtPoint:ep
-			  endRadius:er];
+   startingAtPoint:sp
+	   startRadius:sr
+	 endingAtPoint:ep
+		 endRadius:er];
 }
 
 /** if \c ra is <code>NO</code>, this is optimised on the basis that it will be called from a loop with \c val going from 0 -> 1. In

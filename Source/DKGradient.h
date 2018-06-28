@@ -85,7 +85,13 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 // setting up the Color stops
 
+/** @brief Add a color stop to the list of gradient colors.
+ @param color The color of the stop to add.
+ @param pos The position of the stop to add.
+ @return the newly-created color stop.
+ */
 - (DKColorStop*)addColor:(NSColor*)color at:(CGFloat)pos;
+
 /** @brief Add a color stop to the list of gradient colors.
  @param stop The Colorstop to add.
  */
@@ -175,9 +181,9 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
  @param er For radial fills, the radius of the end of the gradient.
  */
 - (void)fillPath:(NSBezierPath*)path startingAtPoint:(NSPoint)sp
-		startRadius:(CGFloat)sr
-	  endingAtPoint:(NSPoint)ep
-		  endRadius:(CGFloat)er;
+	 startRadius:(CGFloat)sr
+   endingAtPoint:(NSPoint)ep
+	   endRadius:(CGFloat)er;
 
 - (void)fillContext:(CGContextRef)context startingAtPoint:(NSPoint)sp
 		startRadius:(CGFloat)sr

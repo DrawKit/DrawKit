@@ -71,6 +71,7 @@
 #if !(defined(qUseLogEvent) && qUseLogEvent)
 
 	#define LogEvent_(...)
+	typedef NSString* LCEventType;
 
 #else /* defined(qUseLogEvent) */
 
