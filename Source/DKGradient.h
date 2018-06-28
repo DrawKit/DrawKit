@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 
 // setting up the Color stops
 
-- (DKColorStop*)addColor:(NSColor*)Color at:(CGFloat)pos;
+- (DKColorStop*)addColor:(NSColor*)color at:(CGFloat)pos;
 /** @brief Add a color stop to the list of gradient colors.
  @param stop The Colorstop to add.
  */
