@@ -67,7 +67,7 @@
 										   withBorder:YES];
 
 	NSPasteboard* pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-	[pboard declareTypes:@[NSColorPboardType]
+	[pboard declareTypes:@[NSPasteboardTypeColor]
 				   owner:self];
 	[color writeToPasteboard:pboard];
 
