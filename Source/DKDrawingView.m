@@ -1031,6 +1031,16 @@ static Class s_textEditorClass = Nil;
 	return [super lockFocusIfCanDraw];
 }
 
+- (void)viewWillDraw
+{
+	// if at the point where the view is asked to draw something, if there is no "back end", it creates one
+	// automatically on the basis of its current bounds. In this case, the view owns the drawing. This is done here rather than in -drawRect:
+	if ([self drawing] == nil)
+		[self createAutomaticDrawing];
+	
+	[super viewWillDraw];
+}
+
 #pragma mark -
 #pragma mark As an NSResponder
 
