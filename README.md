@@ -19,6 +19,16 @@ For a full demonstration of DrawKit, try the [DrawDemo](https://github.com/DrawK
 
 [DKMiniDemo](https://github.com/DrawKit/legacy-DrawKit-mini-demo/releases/download/v1.5/DKMiniDemo-1.5.zip) and [source code](https://github.com/DrawKit/legacy-DrawKit-mini-demo)  are great for learning about DrawKit.
 
+## How We Work Together / Contributing
+
+This project is maintained thanks to the contributors who send pull requests. [@grahammiln](https://miln.eu) typically deals with administrative tasks and contributors do the rest.
+
+We will merge any pull request that adds something useful and does not break existing code, and will often grant commit access to the repository.
+
+If you're an active user and want to be a maintainer, please get in touch.
+
+DrawKit needs your help! There are numerous warnings to address and minor updates needed. Pick something easy and make a difference. Please help maintain and support this incredible framework.
+
 ## Package Managers
 
 Carthage and CocoaPods are dependency managers. They aim to help automate and simplify the use of 3rd-party libraries like [DrawKit](https://drawkit.github.io/) in your Xcode projects.
@@ -39,12 +49,6 @@ For [CocoaPods](https://github.com/CocoaPods/CocoaPods), append the following to
 platform :osx, '10.7'
 pod "DrawKit"
 ```
-
-## How We Work Together / Contributing
-
-DrawKit needs your help! There are numerous warnings to address and minor updates needed. Pick something easy and make a difference. Please help maintain and support this incredible framework.
-
-**We welcome GitHub pull requests.** If your patch is accepted you will get credit in the contributors file.
 
 # Overview
 
