@@ -939,7 +939,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 	LogEvent_(kUserEvent, @"hit-testing %lu objects; layer = %@; objects = %@", (unsigned long)[objects count], self, objects);
 
-	for (DKDrawableObject* o in objects) {
+	for (DKDrawableObject* o in [objects reverseObjectEnumerator]) {
 		partcode = [o hitPart:point];
 
 		if (partcode != kDKDrawingNoPart) {
