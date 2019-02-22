@@ -6,6 +6,7 @@
 - [C.W. Betts](https://github.com/MaddTheSane)
 - [Mediajon](https://github.com/Mediajon)
 - [Stephan Zehrer](http://www.stephan-zehrer.de)
+- [Christian Fowler](http://bitweaver.org/)
 
 ## Third Party Code
 
