@@ -497,7 +497,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 - (void)removeAllObjects
 {
 	if (![self lockedOrHidden] && [self countOfObjects] > 0) {
-		NSIndexSet* allIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfObjects] - 1)];
+		NSIndexSet* allIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfObjects])];
 		[self removeObjectsAtIndexes:allIndexes];
 	}
 }

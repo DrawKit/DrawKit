@@ -1777,6 +1777,7 @@
 				NSZombieEnabled = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.drawkit;
 				PRODUCT_NAME = DKDrawKit;
+				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = framework;
 			};
@@ -1819,6 +1820,7 @@
 				MODULEMAP_FILE = Resources/DKDrawKit.modulemap;
 				PRODUCT_BUNDLE_IDENTIFIER = io.github.drawkit;
 				PRODUCT_NAME = DKDrawKit;
+				SKIP_INSTALL = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				WRAPPER_EXTENSION = framework;
 			};
