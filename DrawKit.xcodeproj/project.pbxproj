@@ -349,6 +349,7 @@
 		55D8DB611FFEE79D00ECB542 /* DKDashable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDashable.h; sourceTree = "<group>"; };
 		55E38A5B202530A80050F120 /* DKStrokeDashAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKStrokeDashAdditions.swift; sourceTree = "<group>"; };
 		55EAFE5D200571FB00761661 /* DKCategoryManagerAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKCategoryManagerAdditions.swift; sourceTree = "<group>"; };
+		6DF63BDB225FCDA7001B5621 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Logging.xib; sourceTree = "<group>"; };
 		7633D31E1B7743570093DB40 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		8DC2EF5A0486A6940098B216 /* DrawKitInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DrawKitInfo.plist; path = Source/DrawKitInfo.plist; sourceTree = SOURCE_ROOT; };
 		9660E6100BEF442B00B6A38C /* DKDrawKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DKDrawKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -432,7 +433,6 @@
 		96F5165C0B89DBBE0047BA96 /* DKDrawingTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDrawingTool.m; sourceTree = "<group>"; };
 		96F516B90B89DBE60047BA96 /* CurveFit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurveFit.h; sourceTree = "<group>"; };
 		96F517DB0B8A8A300047BA96 /* DKDrawKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DKDrawKit.h; path = Source/DKDrawKit.h; sourceTree = "<group>"; };
-		AA9159790D9DFECA00905699 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/Logging.xib; sourceTree = "<group>"; };
 		AA91597A0D9DFECA00905699 /* LogEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogEvent.h; sourceTree = "<group>"; };
 		AA91597B0D9DFECA00905699 /* LogEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogEvent.m; sourceTree = "<group>"; };
 		BF0350310F3A93A20042C98B /* NSBezierPath+Text.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSBezierPath+Text.h"; sourceTree = "<group>"; };
@@ -1473,7 +1473,7 @@
 			isa = PBXProject;
 			attributes = {
 				CLASSPREFIX = DK;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = DrawKit;
 				TargetAttributes = {
 					553CF0291FDDC2EF003E9342 = {
@@ -1485,10 +1485,11 @@
 			};
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "DrawKit" */;
 			compatibilityVersion = "Xcode 6.3";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* DKDrawKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -1730,7 +1731,7 @@
 		AA9159780D9DFECA00905699 /* Logging.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				AA9159790D9DFECA00905699 /* en */,
+				6DF63BDB225FCDA7001B5621 /* Base */,
 			);
 			name = Logging.xib;
 			sourceTree = "<group>";
@@ -1830,6 +1831,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1891,6 +1893,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
