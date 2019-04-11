@@ -308,7 +308,7 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 		[tiffInfo setObject:value
 					 forKey:(NSString*)kCGImagePropertyTIFFCompression];
 
-	[tiffInfo setObject:[NSString stringWithFormat:@"DrawKit", [[self class] drawkitVersionString]]
+	[tiffInfo setObject:[NSString stringWithFormat:@"DrawKit %@", [[self class] drawkitVersionString]]
 				 forKey:(NSString*)kCGImagePropertyTIFFSoftware];
 
 	NSString* metaStr;
