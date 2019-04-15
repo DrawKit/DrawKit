@@ -395,6 +395,14 @@ typedef NS_ENUM(NSInteger, DKShapeTransformOperation) {
  */
 - (void)drawKnob:(NSInteger)knobPartCode;
 
+/** @brief Decides whether the knobs should be drawn on the shape
+  
+ Sometimes we may want to hide the knobs without locking the shape.
+ Default implementation returns true, override to return false.
+ @return true if knobs should be drawn
+ */
+-(BOOL)shouldDrawKnobs;
+
 /** @brief Given a point in canonical coordinates (i.e. in the space {0.5,0.5,1,1}) this returns the real
  location of the point in the drawing, so applies the transforms to it, etc.
  

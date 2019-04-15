@@ -1650,6 +1650,13 @@ static NSSize sTempSavedOffset;
 }
 
 /**
+ Return if knobs should be drawn. Default is true, override to change
+ */
+-(BOOL) shouldDrawKnobs {
+       return YES;
+}
+
+/**
  Takes account of its internal state to draw the appropriate control knobs, etc
  */
 - (void)drawSelectedState
@@ -1677,14 +1684,16 @@ static NSSize sTempSavedOffset;
 				// draw the knobs:
 				// n.b. drawKnob is a no-op for knobs not included by +knobMask
 
-				[self drawKnob:kDKDrawableShapeLeftHandle];
-				[self drawKnob:kDKDrawableShapeTopHandle];
-				[self drawKnob:kDKDrawableShapeRightHandle];
-				[self drawKnob:kDKDrawableShapeBottomHandle];
-				[self drawKnob:kDKDrawableShapeTopLeftHandle];
-				[self drawKnob:kDKDrawableShapeTopRightHandle];
-				[self drawKnob:kDKDrawableShapeBottomLeftHandle];
-				[self drawKnob:kDKDrawableShapeBottomRightHandle];
+				if ([self shouldDrawKnobs]) {
+					[self drawKnob:kDKDrawableShapeLeftHandle];
+					[self drawKnob:kDKDrawableShapeTopHandle];
+					[self drawKnob:kDKDrawableShapeRightHandle];
+					[self drawKnob:kDKDrawableShapeBottomHandle];
+					[self drawKnob:kDKDrawableShapeTopLeftHandle];
+					[self drawKnob:kDKDrawableShapeTopRightHandle];
+					[self drawKnob:kDKDrawableShapeBottomLeftHandle];
+					[self drawKnob:kDKDrawableShapeBottomRightHandle];
+				}
 
 				// the other knobs and any hotspots are not drawn when in a locked state
 
