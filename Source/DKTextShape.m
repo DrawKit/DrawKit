@@ -720,6 +720,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		[m_editorRef setMinSize:minsize];
 		[m_editorRef setMaxSize:maxsize];
 		[[m_editorRef textContainer] setHeightTracksTextView:NO];
+		[[m_editorRef textContainer] setLineFragmentPadding:0.0];
 		[m_editorRef setVerticallyResizable:YES];
 		[m_editorRef setTypingAttributes:[self textAttributes]];
 	}
