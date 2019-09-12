@@ -70,7 +70,8 @@ BOOL IsValidEventType(NSString* eventType);
 #pragma mark Functions
 void InitializePrefsForEventTypeNames(void)
 {
-	if (!sHaveLoggingEventPrefsBeenInitialized) {
+	// macOS 10.14+ will crash if you try to initiate a Window controller on a background thread
+	if ([NSThread isMainThread] && !sHaveLoggingEventPrefsBeenInitialized) {
 		// Register default preferences with the standard NSUserDefaults.
 		LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
 
@@ -166,20 +167,23 @@ BOOL IsAnyEventTypeBeingLogged(void)
 {
 	BOOL isTypeBeingLogged = NO;
 
-	LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
+	// macOS 10.14+ will crash if you try to initiate a Window controller on a background thread
+	if ([NSThread isMainThread]) {
+		LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
 
-	assert(sharedLoggingController != nil);
-	NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
+		assert(sharedLoggingController != nil);
+		NSArray* eventTypeNames = [sharedLoggingController eventTypeNames];
 
-	assert(eventTypeNames != nil);
-	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
+		assert(eventTypeNames != nil);
+		NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 
-	for (NSString* typeName in eventTypeNames) {
-		assert(userPrefs != nil);
-		assert(typeName != nil);
-		if ([userPrefs boolForKey:typeName]) {
-			isTypeBeingLogged = YES;
-			break;
+		for (NSString* typeName in eventTypeNames) {
+			assert(userPrefs != nil);
+			assert(typeName != nil);
+			if ([userPrefs boolForKey:typeName]) {
+				isTypeBeingLogged = YES;
+				break;
+			}
 		}
 	}
 	return isTypeBeingLogged;
