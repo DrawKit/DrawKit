@@ -107,7 +107,7 @@ BOOL IsValidEventType(NSString* eventType)
 
 	if ([eventType isEqualToString:kWheneverEvent]) {
 		isValidType = YES;
-	} else {
+	} else if( [NSThread isMainThread] ) {
 		LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
 
 		assert(sharedLoggingController != nil);
@@ -141,7 +141,7 @@ BOOL LogEvent(NSString* eventType, NSString* format, ...)
 	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 
 	assert(userPrefs != nil);
-	if ([userPrefs boolForKey:eventType] || ([eventType isEqualToString:kWheneverEvent] && IsAnyEventTypeBeingLogged())) {
+	if ([NSThread isMainThread] && [userPrefs boolForKey:eventType] || ([eventType isEqualToString:kWheneverEvent] && IsAnyEventTypeBeingLogged())) {
 		// If no message has been logged yet...
 		if (!sHaveLoggingEventPrefsBeenInitialized) {
 			// Forces prefs initialization, which forces logging the log state.
