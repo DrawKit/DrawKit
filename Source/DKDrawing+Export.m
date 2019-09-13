@@ -242,27 +242,29 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 					forKey:(NSString*)kCGImagePropertyJFIFDictionary];
 
 	// generate the bitmap image at the required size
-
-	CGImageRef image = [self CGImageWithResolution:dpi
-										  hasAlpha:NO
-									 relativeScale:scale];
-
-	NSAssert(image != nil, @"could not create image for JPEG export");
-
-	if (image == nil)
-		return nil;
-
-	// encode it to data using Image I/O
-
 	NSMutableData* data = [[NSMutableData alloc] init];
-	CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypeJPEG, 1, NULL);
+	BOOL result;
+	@autoreleasepool {
+		CGImageRef image;
+		image = [self CGImageWithResolution:dpi
+											  hasAlpha:NO
+										 relativeScale:scale];
 
-	CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
+		NSAssert(image != nil, @"could not create image for JPEG export");
 
-	BOOL result = CGImageDestinationFinalize(destRef);
+		if (image == nil)
+			return nil;
 
-	CFRelease(destRef);
+		// encode it to data using Image I/O
+		CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypeJPEG, 1, NULL);
 
+		CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
+
+		result = CGImageDestinationFinalize(destRef);
+
+		CFRelease(destRef);
+	}
+	
 	if (result) {
 		return [data copy];
 	} else {
@@ -334,31 +336,33 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	value = [props objectForKey:kDKExportedImageHasAlpha];
 
 	BOOL hasAlpha = NO;
-
+	
 	if (value != nil)
 		hasAlpha = [value boolValue];
-
+	
 	// generate the bitmap image at the required size
-
-	CGImageRef image = [self CGImageWithResolution:dpi
-										  hasAlpha:hasAlpha
-									 relativeScale:scale];
-
-	NSAssert(image != nil, @"could not create image for TIFF export");
-
-	if (image == nil)
-		return nil;
-
-	// encode it to data using Image I/O
-
+	BOOL result = NO;
 	NSMutableData* data = [[NSMutableData alloc] init];
-	CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypeTIFF, 1, NULL);
+	@autoreleasepool {
+		CGImageRef image = [self CGImageWithResolution:dpi
+											  hasAlpha:hasAlpha
+										 relativeScale:scale];
 
-	CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
+		NSAssert(image != nil, @"could not create image for TIFF export");
 
-	BOOL result = CGImageDestinationFinalize(destRef);
+		if (image == nil)
+			return nil;
 
-	CFRelease(destRef);
+		// encode it to data using Image I/O
+
+		CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypeTIFF, 1, NULL);
+
+		CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
+
+		result = CGImageDestinationFinalize(destRef);
+
+		CFRelease(destRef);
+	}
 
 	if (result) {
 		return [data copy];
@@ -408,26 +412,30 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 		hasAlpha = [value boolValue];
 
 	// generate the bitmap image at the required size
-
-	CGImageRef image = [self CGImageWithResolution:dpi
-										  hasAlpha:hasAlpha
-									 relativeScale:scale];
-
-	NSAssert(image != nil, @"could not create image for PNG export");
-
-	if (image == nil)
-		return nil;
-
-	// encode it to data using Image I/O
-
+	BOOL result = NO;
 	NSMutableData* data = [[NSMutableData alloc] init];
-	CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypePNG, 1, NULL);
+	@autoreleasepool {
 
-	CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
+		CGImageRef image = [self CGImageWithResolution:dpi
+											  hasAlpha:hasAlpha
+										 relativeScale:scale];
 
-	BOOL result = CGImageDestinationFinalize(destRef);
+		NSAssert(image != nil, @"could not create image for PNG export");
 
-	CFRelease(destRef);
+		if (image == nil)
+			return nil;
+
+		// encode it to data using Image I/O
+
+		data = [[NSMutableData alloc] init];
+		CGImageDestinationRef destRef = CGImageDestinationCreateWithData((CFMutableDataRef)data, kUTTypePNG, 1, NULL);
+
+		CGImageDestinationAddImage(destRef, image, (CFDictionaryRef)options);
+
+		result = CGImageDestinationFinalize(destRef);
+
+		CFRelease(destRef);
+	}
 
 	if (result) {
 		return [data copy];
