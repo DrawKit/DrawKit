@@ -38,6 +38,8 @@ NSLayoutManager* sharedDrawingLayoutManager(void)
 	} else
 		tc = [[sharedLM textContainers] lastObject];
 
+	// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+	[sharedLM setBackgroundLayoutEnabled:[NSThread isMainThread]];
 	[tc setLineFragmentPadding:0];
 	return sharedLM;
 }

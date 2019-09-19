@@ -1037,6 +1037,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 		// Force layout of the text and find out how much of it fits in the container.
 
+		[lm setBackgroundLayoutEnabled:[NSThread isMainThread]];
+
 		glyphRange = [lm glyphRangeForTextContainer:bc];
 
 		// flag whether all the text was laid out. This can be queried to see if a "more text" marker should be shown
@@ -1066,6 +1068,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			if ([self layoutMode] == kDKTextLayoutFlowedInPath && [self flowedTextPathInset] != 0.0)
 				textOrigin.y += [self flowedTextPathInset] * 0.5;
 
+			// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+			[lm setBackgroundLayoutEnabled:[NSThread isMainThread]];
 			[lm drawBackgroundForGlyphRange:grange
 									atPoint:textOrigin];
 			[lm drawGlyphsForGlyphRange:grange
@@ -1314,6 +1318,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 		[glm addTextContainer:tc];
 
 		[glm setUsesScreenFonts:NO];
+		// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+		[glm setBackgroundLayoutEnabled:[NSThread isMainThread]];
 
 		return glm;
 	}
