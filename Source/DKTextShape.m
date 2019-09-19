@@ -528,10 +528,12 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 - (void)updateFontPanel
 {
-	[[NSFontManager sharedFontManager] setSelectedFont:[self font]
-											isMultiple:![[self textAdornment] attributeIsHomogeneous:NSFontAttributeName]];
-	[[NSFontManager sharedFontManager] setSelectedAttributes:[self textAttributes]
-												  isMultiple:![[self textAdornment] isHomogeneous]];
+	if ([NSThread isMainThread]) {
+		[[NSFontManager sharedFontManager] setSelectedFont:[self font]
+												isMultiple:![[self textAdornment] attributeIsHomogeneous:NSFontAttributeName]];
+		[[NSFontManager sharedFontManager] setSelectedAttributes:[self textAttributes]
+													  isMultiple:![[self textAdornment] isHomogeneous]];
+	}
 }
 
 /** @brief Sets the text's font, if permitted
