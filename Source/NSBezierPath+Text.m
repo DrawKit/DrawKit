@@ -788,6 +788,8 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	NSTextStorage* subString = [[NSTextStorage alloc] initWithAttributedString:[str attributedSubstringFromRange:range]];
 
 	DKBezierLayoutManager* lm = [[DKBezierLayoutManager alloc] init];
+	// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+	[lm setBackgroundLayoutEnabled:[NSThread isMainThread]];
 	NSTextContainer* btc = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(1.0e6, 1.0e6)];
 	[lm addTextContainer:btc];
 	[subString setAlignment:NSLeftTextAlignment

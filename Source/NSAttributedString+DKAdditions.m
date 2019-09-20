@@ -19,29 +19,44 @@ NSLayoutManager* sharedDrawingLayoutManager(void)
 	// The same layout manager is used for all instances of the class
 
 	static NSLayoutManager* sharedLM = nil;
+	
 	NSTextContainer* tc = nil;
 
-	if (sharedLM == nil) {
+	if ([NSThread isMainThread]) {
+		if (sharedLM == nil) {
+			tc = [[DKBezierTextContainer alloc] initWithContainerSize:NSMakeSize(1.0e6, 1.0e6)];
+			//NSTextView*	tv = [[NSTextView alloc] initWithFrame:NSZeroRect];
+
+			sharedLM = [[NSLayoutManager alloc] init];
+
+			//[tc setTextView:tv];
+			//[tv release];
+
+			[tc setWidthTracksTextView:NO];
+			[tc setHeightTracksTextView:NO];
+			[sharedLM addTextContainer:tc];
+
+			[sharedLM setUsesScreenFonts:NO];
+		} else
+			tc = [[sharedLM textContainers] lastObject];
+
+		[tc setLineFragmentPadding:0];
+		return sharedLM;
+	} else {
 		tc = [[DKBezierTextContainer alloc] initWithContainerSize:NSMakeSize(1.0e6, 1.0e6)];
-		//NSTextView*	tv = [[NSTextView alloc] initWithFrame:NSZeroRect];
-
-		sharedLM = [[NSLayoutManager alloc] init];
-
-		//[tc setTextView:tv];
-		//[tv release];
+		
+		NSLayoutManager* backgroundLM = [[NSLayoutManager alloc] init];
+		
+		// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+		[backgroundLM setBackgroundLayoutEnabled:NO];
 
 		[tc setWidthTracksTextView:NO];
 		[tc setHeightTracksTextView:NO];
-		[sharedLM addTextContainer:tc];
-
-		[sharedLM setUsesScreenFonts:NO];
-	} else
-		tc = [[sharedLM textContainers] lastObject];
-
-	// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
-	[sharedLM setBackgroundLayoutEnabled:[NSThread isMainThread]];
-	[tc setLineFragmentPadding:0];
-	return sharedLM;
+		[backgroundLM addTextContainer:tc];
+		
+		[backgroundLM setUsesScreenFonts:NO];
+		return backgroundLM;
+	}
 }
 
 /** @brief Supply a layout manager that can be used to capture text layout into a bezier path
@@ -51,24 +66,45 @@ DKBezierLayoutManager* sharedCaptureLayoutManager(void)
 	static DKBezierLayoutManager* sharedLM = nil;
 	NSTextContainer* tc = nil;
 
-	if (sharedLM == nil) {
+	if ([NSThread isMainThread]) {
+		if (sharedLM == nil) {
+			tc = [[DKBezierTextContainer alloc] initWithContainerSize:NSMakeSize(1.0e6, 1.0e6)];
+			NSTextView* tv = [[NSTextView alloc] initWithFrame:NSZeroRect];
+
+			sharedLM = [[DKBezierLayoutManager alloc] init];
+
+			[tc setTextView:tv];
+
+			[tc setWidthTracksTextView:NO];
+			[tc setHeightTracksTextView:NO];
+			[sharedLM addTextContainer:tc];
+
+			[sharedLM setUsesScreenFonts:NO];
+		} else
+			tc = [[sharedLM textContainers] lastObject];
+
+		[tc setLineFragmentPadding:0];
+		return sharedLM;
+	} else {
 		tc = [[DKBezierTextContainer alloc] initWithContainerSize:NSMakeSize(1.0e6, 1.0e6)];
 		NSTextView* tv = [[NSTextView alloc] initWithFrame:NSZeroRect];
-
-		sharedLM = [[DKBezierLayoutManager alloc] init];
-
+		
+		NSLayoutManager* backgroundLM = [[DKBezierLayoutManager alloc] init];
+		
 		[tc setTextView:tv];
-
+		
 		[tc setWidthTracksTextView:NO];
 		[tc setHeightTracksTextView:NO];
-		[sharedLM addTextContainer:tc];
-
-		[sharedLM setUsesScreenFonts:NO];
-	} else
-		tc = [[sharedLM textContainers] lastObject];
-
-	[tc setLineFragmentPadding:0];
-	return sharedLM;
+		[backgroundLM addTextContainer:tc];
+		
+		[backgroundLM setUsesScreenFonts:NO];
+	
+		[tc setLineFragmentPadding:0];
+		
+		// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+		[backgroundLM setBackgroundLayoutEnabled:NO];
+		return backgroundLM;
+	}
 }
 
 @implementation NSAttributedString (DKAdditions)
