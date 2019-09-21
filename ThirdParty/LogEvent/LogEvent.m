@@ -137,26 +137,28 @@ BOOL LogEvent(NSString* eventType, NSString* format, ...)
 
 	BOOL didLog = NO;
 
-	NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
+	if ([NSThread isMainThread]) {
+		NSUserDefaults* userPrefs = [NSUserDefaults standardUserDefaults];
 
-	assert(userPrefs != nil);
-	if ([NSThread isMainThread] && IsValidEventType(eventType) && [userPrefs boolForKey:eventType] || ([eventType isEqualToString:kWheneverEvent] && IsAnyEventTypeBeingLogged())) {
-		// If no message has been logged yet...
-		if (!sHaveLoggingEventPrefsBeenInitialized) {
-			// Forces prefs initialization, which forces logging the log state.
-			LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
+		assert(userPrefs != nil);
+		if (IsValidEventType(eventType) && ([userPrefs boolForKey:eventType] || ([eventType isEqualToString:kWheneverEvent] && IsAnyEventTypeBeingLogged()))) {
+			// If no message has been logged yet...
+			if (!sHaveLoggingEventPrefsBeenInitialized) {
+				// Forces prefs initialization, which forces logging the log state.
+				LoggingController* sharedLoggingController = [LoggingController sharedLoggingController];
 
-			assert(sharedLoggingController != nil);
-			[sharedLoggingController eventTypeNames]; // We can safely ignore the returned value.
+				assert(sharedLoggingController != nil);
+				[sharedLoggingController eventTypeNames]; // We can safely ignore the returned value.
+			}
+
+			va_list argsP;
+			va_start(argsP, format);
+
+			NSLogv(format, argsP);
+			didLog = YES;
+
+			va_end(argsP);
 		}
-
-		va_list argsP;
-		va_start(argsP, format);
-
-		NSLogv(format, argsP);
-		didLog = YES;
-
-		va_end(argsP);
 	}
 	return didLog;
 }
