@@ -89,7 +89,7 @@ DKBezierLayoutManager* sharedCaptureLayoutManager(void)
 		tc = [[DKBezierTextContainer alloc] initWithContainerSize:NSMakeSize(1.0e6, 1.0e6)];
 		NSTextView* tv = [[NSTextView alloc] initWithFrame:NSZeroRect];
 		
-		NSLayoutManager* backgroundLM = [[DKBezierLayoutManager alloc] init];
+		DKBezierLayoutManager* backgroundLM = [[DKBezierLayoutManager alloc] init];
 		
 		[tc setTextView:tv];
 		
