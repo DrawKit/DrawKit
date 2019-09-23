@@ -739,7 +739,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	if ([inValue isKindOfClass:[self class]]) {
 		DKMetadataType inType = [(DKMetadataItem*)inValue type];
 		if (inType == [self type])
-			return [[inValue value] copy];
+			return [[(DKMetadataItem*)inValue value] copy];
 	}
 
 	// conversion is necessary, but may not succeed:
@@ -1003,7 +1003,7 @@ NSString* DKMultipleMetadataItemsPBoardType = @"com.apptree.dk.multimeta";
 	else {
 		if ([obj isKindOfClass:[DKMetadataItem class]]) {
 			if ([(DKMetadataItem*)obj type] == [self type])
-				return [[obj value] isEqual:[self value]];
+				return [[(DKMetadataItem*)obj value] isEqual:[self value]];
 		}
 	}
 
