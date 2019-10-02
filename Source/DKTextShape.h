@@ -32,7 +32,7 @@ Text shapes are shapes that draw text.
 @interface DKTextShape : DKDrawableShape <NSCoding, NSCopying, NSTextViewDelegate> {
 @private
 	DKTextAdornment* mTextAdornment; // handles the text storage, layout and rendering of the text
-	__unsafe_unretained NSTextView* m_editorRef; // when editing, a reference to the editor view
+	__strong NSTextView* m_editorRef; // when editing, a reference to the editor view; __strong so it survives autoreleasepool
 	BOOL mIsSettingStyle; // flags text being set by style
 
 #ifdef DRAWKIT_DEPRECATED
