@@ -109,10 +109,8 @@ NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping"
 
 + (void)pop
 {
-	NSUInteger stackSize = [sDrawingViewStack count];
-
-	if (stackSize > 0)
-		[sDrawingViewStack removeObjectAtIndex:stackSize - 1];
+	if ([sDrawingViewStack count] > 0)
+		[sDrawingViewStack removeObjectAtIndex:[sDrawingViewStack count] - 1];
 
 	//NSLog(@"popping %@", [self currentlyDrawingView]);
 }
