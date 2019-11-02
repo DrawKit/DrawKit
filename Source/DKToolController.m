@@ -89,21 +89,34 @@ static DKDrawingTool* sGlobalTool = nil;
 {
 	NSAssert(drawingKey != nil, @"drawing was nil trying to get per-document tool");
 
-	if (sDrawingToolDict == nil)
-		return nil;
-	else
-		return [sDrawingToolDict objectForKey:drawingKey];
+	DKDrawingTool* tool = nil;
+	
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
+	if (sDrawingToolDict != nil)
+		tool = [sDrawingToolDict objectForKey:drawingKey];
+	
+	[lock unlock];
+	
+	return tool;
 }
 
 + (void)setDrawingTool:(DKDrawingTool*)tool forDrawing:(NSString*)drawingKey
 {
 	NSAssert(drawingKey != nil, @"attempt to set tool per drawing, but drawing key is nil");
 
+	// Thread safety for gloabl static var
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
 	if (sDrawingToolDict == nil)
 		sDrawingToolDict = [[NSMutableDictionary alloc] init];
 
 	[sDrawingToolDict setObject:tool
 						 forKey:drawingKey];
+	
+	[lock unlock];
 }
 
 + (DKDrawingTool*)globalDrawingTool
@@ -113,7 +126,13 @@ static DKDrawingTool* sGlobalTool = nil;
 
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool
 {
+	// Thread safety for gloabl static var
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
 	sGlobalTool = tool;
+	
+	[lock unlock];
 }
 
 #pragma mark -
