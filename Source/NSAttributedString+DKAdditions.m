@@ -55,6 +55,9 @@ NSLayoutManager* sharedDrawingLayoutManager(void)
 		[backgroundLM addTextContainer:tc];
 		
 		[backgroundLM setUsesScreenFonts:NO];
+		
+		[tc setLineFragmentPadding:0];
+		
 		return backgroundLM;
 	}
 }
