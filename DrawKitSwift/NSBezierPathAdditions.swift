@@ -59,13 +59,17 @@ extension NSBezierPath {
 	/// guaranteed to return an even number of (or none) results.
 	/// - parameter yPosition: The distance between the top edge of the bounds and the line to test.
 	/// - returns: A list of `NSPoint`s.
-	public func intersectingPointsWithHorizontalLineAt(y yPosition: CGFloat) -> [NSPoint]? {
+	public func intersectingPointsWithHorizontalLine(atY yPosition: CGFloat) -> [NSPoint]? {
 		guard let preToRet = __intersectingPointsWithHorizontalLineAt(y: yPosition) else {
 			return nil
 		}
 		return preToRet.map({$0.pointValue})
 	}
 	
+	@available(*, unavailable, renamed: "intersectingPointsWithHorizontalLine(atY:)")
+	public func intersectingPointsWithHorizontalLineAt(y yPosition: CGFloat) -> [NSPoint]? {
+		return intersectingPointsWithHorizontalLine(atY: yPosition)
+	}
 	
 	/// Find rectangles within which text can be laid out to place the text within the path.
 	///

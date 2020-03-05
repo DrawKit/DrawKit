@@ -12,6 +12,7 @@ public extension DKStrokeDash {
 	var pattern: [CGFloat] {
 		get {
 			var c = 0
+			// The maximum amount that DKStrokeDash internally stores is 8.
 			var d = [CGFloat](repeating: 1, count: 8)
 			getPattern(&d, count: &c)
 			if c == 0 {
