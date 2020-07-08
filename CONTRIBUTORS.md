@@ -7,6 +7,7 @@
 - [Mediajon](https://github.com/Mediajon)
 - [Stephan Zehrer](http://www.stephan-zehrer.de)
 - [Christian Fowler](http://bitweaver.org/)
+- [Caleb Mitcler](https://github.com/calebmitcler)
 
 ## Third Party Code
 

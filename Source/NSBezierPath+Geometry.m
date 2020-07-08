@@ -651,6 +651,7 @@ static BOOL CornerBevel(const NSPoint pointsIn[3], CGFloat offset, NSBezierPath*
 			v[2] = sop;
 
 			op = CornerPoint(v, delta, [self miterLimit]);
+			op.y = newPath.bounds.origin.y;
 			if (js == NSMiterLineJoinStyle) {
 				[newPath lineToPoint:op];
 				[newPath setAssociatedPoints:&op
