@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 	BOOL m_clipToBBox : 1; // debugging - force clip region to the bbox
 	BOOL m_showPartcodes : 1; // debugging - display the partcodes for each control/knob/handle
 	BOOL m_showTargets : 1; // debugging - show the bbox for each control/knob/handle
-	BOOL m_unused_padding : 4; // not used - reserved
+	BOOL m_unused_padding : 1; // not used - reserved
 }
 
 /** @brief Whether an info floater is displayed when resizing an object.
