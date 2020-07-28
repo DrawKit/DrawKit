@@ -699,7 +699,10 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		NSSize maxsize = [self maxSize];
 		NSSize minsize = [self minSize];
 
-		NSRect br = NSMakeRect(self.logicalBounds.origin.x, self.logicalBounds.origin.y, self.size.width, self.size.height);
+		CGFloat wScale = mTextAdornment.textRect.size.width;
+		CGFloat hScale = mTextAdornment.textRect.size.height;
+		DKStroke* bgStroke = [[self style] rendererWithName: @"backgroundStroke"];
+		NSRect br = NSMakeRect(self.logicalBounds.origin.x + bgStroke.width, self.logicalBounds.origin.y + bgStroke.width, self.size.width * wScale, self.size.height * hScale);
 		CGFloat offset = [[self textAdornment] verticalTextOffsetForObject:self];
 
 		br.origin.y += offset;
