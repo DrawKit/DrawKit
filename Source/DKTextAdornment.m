@@ -1002,6 +1002,12 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 
 		DKBezierTextContainer* bc = (id)[[lm textContainers] lastObject];
 
+		//setting the container size below should consider the m_textRect scale
+		//see textRect in DKImageAdornment
+		NSSize s = osize;
+		if (m_textRect.size.width != 0.0 || m_textRect.size.height != 0.0) {
+			s = NSMakeSize(s.width * m_textRect.size.width, s.height * m_textRect.size.height);
+		}
 		if ([self layoutMode] == kDKTextLayoutFlowedInPath) {
 			// if the text angle is rel to the object, the layout path should be the unrotated path
 			// so the the text is laid out unrotated, then transformed into place. So detect that case here
@@ -1019,14 +1025,14 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 			textLayoutPath = [tfm transformBezierPath:textLayoutPath];
 
 			osize = [textLayoutPath bounds].size;
-			[bc setContainerSize:osize];
+			[bc setContainerSize:s];
 			[bc setBezierPath:textLayoutPath];
 		} else {
 			if ([self allowsTextToExtendHorizontally])
 				osize.width = 50000;
 
 			[bc setBezierPath:nil];
-			[bc setContainerSize:osize];
+			[bc setContainerSize:s];
 		}
 
 		NSRange glyphRange;

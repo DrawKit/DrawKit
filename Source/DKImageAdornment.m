@@ -55,7 +55,7 @@
 #pragma mark -
 - (void)setScale:(CGFloat)scale
 {
-	m_scale = LIMIT(scale, 0.2, 8.0);
+	m_scale = scale;//LIMIT(scale, 0.2, 8.0);
 }
 
 @synthesize scale = m_scale;
