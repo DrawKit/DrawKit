@@ -224,6 +224,16 @@ Text shapes are shapes that draw text.
  */
 - (DKStyle*)syntheticStyle;
 
+//returns text padding so the textEdit view aligns with the textAdornment padding
+/** @brief Returns padding
+
+Sub classes may define a custom padding by setting the textAdornments textRect.
+We can use getPadding which has been overriden in sub class to make sure our
+textEdit view aligns with textAdornments textRect. Default returns 0.0
+@return a new style object
+*/
+-(CGFloat) getPadding;
+
 // text attributes - accesses the internal adornment object
 
 - (NSDictionary<NSAttributedStringKey, id>*)textAttributes;
