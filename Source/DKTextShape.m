@@ -701,7 +701,7 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 
 		CGFloat wScale = mTextAdornment.textRect.size.width;
 		CGFloat hScale = mTextAdornment.textRect.size.height;
-		DKStroke* bgStroke = [[self style] rendererWithName: @"backgroundStroke"];
+		DKStroke* bgStroke = [[self style] rendererWithName: @"background_stroke"];
 		NSRect br = NSMakeRect(self.logicalBounds.origin.x + bgStroke.width, self.logicalBounds.origin.y + bgStroke.width, self.size.width * wScale, self.size.height * hScale);
 		CGFloat offset = [[self textAdornment] verticalTextOffsetForObject:self];
 
