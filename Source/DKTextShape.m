@@ -495,6 +495,11 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	}
 }
 
+-(CGFloat)getPadding
+{
+	return 0.0;
+}
+
 /** @brief Creates a style that is the current style + any text attributes
 
  A style which is the current style if it has text attributes, otherwise the current style with added text
@@ -699,7 +704,10 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 		NSSize maxsize = [self maxSize];
 		NSSize minsize = [self minSize];
 
-		NSRect br = NSMakeRect(self.logicalBounds.origin.x, self.logicalBounds.origin.y, self.size.width, self.size.height);
+		CGFloat wScale = mTextAdornment.textRect.size.width;
+		CGFloat hScale = mTextAdornment.textRect.size.height;
+		CGFloat padding = [self getPadding];
+		NSRect br = NSMakeRect(self.logicalBounds.origin.x + padding, self.logicalBounds.origin.y + padding, self.size.width * wScale, self.size.height * hScale);
 		CGFloat offset = [[self textAdornment] verticalTextOffsetForObject:self];
 
 		br.origin.y += offset;
