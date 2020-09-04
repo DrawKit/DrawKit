@@ -9,6 +9,7 @@
 import DKDrawKit.DKMetadataItem
 import DKDrawKit.DKMetadataStorable
 
+// swiftlint:disable force_cast
 extension DKMetadataStorable {
 	public var metadata: [String: DKMetadataItem] {
 		get {

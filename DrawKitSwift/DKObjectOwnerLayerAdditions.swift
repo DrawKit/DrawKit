@@ -15,6 +15,7 @@ extension DKObjectOwnerLayer {
 	/// If the layer itself is locked, returns an empty list.
 	/// - parameter aClass: Class of the desired objects.
 	/// - returns: An array of available objects.
+    // swiftlint:disable force_cast
 	public func availableObjects<A: DKDrawableObject>(of aClass: A.Type) -> [A] {
 		return __availableObjects(of: aClass) as! [A]
 	}
