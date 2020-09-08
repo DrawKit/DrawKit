@@ -12,6 +12,7 @@ extension DKLayerGroup {
 	/// Returns all of the layers in this group and all groups below it having the given class.
 	/// - parameter layerClass: A class indicating the kind of layer of interest.
 	/// - returns: A list of matching layers. May be empty.
+    // swiftlint:disable force_cast
 	public func flattenedLayers<A: DKLayer>(of layerClass: A.Type) -> [A] {
 		return __flattenedLayers(of: layerClass) as! [A]
 	}
@@ -32,6 +33,7 @@ extension DKLayerGroup {
 	/// - parameter deep: If `true`, will search all subgroups below this one. If `false`, only this level is searched.<br>
 	/// Default is `false`.
 	/// - returns: A list of layers. May be empty.
+    // swiftlint:disable force_cast
 	public func layers<A: DKLayer>(of cl: A.Type, performDeepSearch deep: Bool = false) -> [A] {
 		return __layers(of: cl, performDeepSearch: deep) as! [A]
 	}

@@ -14,6 +14,7 @@ extension DKObjectDrawingLayer {
 	/// See comments for `selectedAvailableObjects`.
 	/// - parameter aClass: Class of the desired objects.
 	/// - returns: An array, objects of the given class that can be acted upon by a command as a set. May be empty.
+    // swiftlint:disable force_cast
 	public func selectedAvailableObjects<A: DKDrawableObject>(of aClass: A.Type) -> [A] {
 		return __selectedAvailableObjects(of: aClass) as! [A]
 	}

@@ -28,6 +28,7 @@ extension DKDrawing {
 	/// Margins
 	///
 	/// Margins inset the drawing area within the `papersize` set.
+    // swiftlint:disable large_tuple
 	public var margins: (left: CGFloat, top: CGFloat, right: CGFloat, bottom: CGFloat) {
 		get {
 			return (leftMargin, topMargin, rightMargin, bottomMargin)
@@ -60,6 +61,7 @@ extension DKDrawing {
 	/// This is usually called by the drawing object itself when built new. Usually you'll want to replace
 	/// its contents with your own info. A `DKDrawingInfoLayer` can interpret some of the standard values and
 	/// display them in its info box.
+    // swiftlint:disable force_cast
 	open class var defaultDrawingInfo: [DKDrawingInfoKey: Any] {
 		return __defaultDrawingInfo as NSDictionary as! [DKDrawingInfoKey: Any]
 	}
