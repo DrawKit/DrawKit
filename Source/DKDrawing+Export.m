@@ -147,10 +147,12 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 
 	DKLayerPDFView* pdfView = [[DKLayerPDFView alloc] initWithFrame:frame
 														  withLayer:self];
+	/* spiderr - this was removed as it precludes rasterizing on a background thread (which is essential for hi-dpi images).
+	             It's possible this will need to be re-added, though for now it appears the DKViewController is not needed when dumping the canvas to a CGImage
 	DKViewController* vc = [pdfView makeViewController];
 
 	[[self drawing] addController:vc];
-
+    */
 	NSAssert(relScale > 0, @"scale factor must be greater than zero");
 
 	// create a bitmap rep of the requisite size.
