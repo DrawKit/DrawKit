@@ -427,7 +427,7 @@ static BOOL sSubstitute = NO;
  The notification's object is the drawable, not the style - the style is passed in the user info
  dictionary with the key 'style'. This permits this to be called by the dealloc method of the
  drawable, which would not be the case if the drawable was retained by the dictionary.
- @param toObject the object the style was attached to
+ @param fromObject the object the style was attached to
  */
 - (void)styleWillBeRemoved:(DKDrawableObject*)fromObject
 {

@@ -136,8 +136,8 @@ typedef NS_ENUM(NSInteger, DKEditToolDragPhase) {
 
 /** @brief Whether a hit on a knob in a multiple selection drags the objects or drags the knob.
 
- The default is \c <code>NO</code>
- Is \c YES to drag the selection, \c NO to change the selection and drag the knob.
+ The default is <code>NO</code>
+ Is YES to drag the selection,  NO to change the selection and drag the knob.
  */
 @property BOOL dragsAllObjectsInSelectionWhenDraggingKnob;
 

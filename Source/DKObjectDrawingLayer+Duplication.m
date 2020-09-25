@@ -20,7 +20,7 @@
  @param centre the location of the centre around which the copies are arranged
  @param numberOfCopies how many copies to make
  @param incrementAngle the angle in radians between each copy
- @param rotateCopies YES to rotate the copies so that they lie on the radial, NO to keep them at their original rotation
+ @param rotCopies YES to rotate the copies so that they lie on the radial, NO to keep them at their original rotation
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)polarDuplicate:(NSArray*)objectsToDuplicate
