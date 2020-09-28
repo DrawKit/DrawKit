@@ -52,70 +52,106 @@
 
 - (void)setObjects:(NSArray<id<DKStorableObject>>*)objects
 {
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
 	LogEvent_(kReactiveEvent, @"storage setting %lu objects %@", (unsigned long)[objects count], self);
 
 	mObjects = [objects mutableCopy];
 
 	[mObjects makeObjectsPerformSelector:@selector(setStorage:)
 							  withObject:self];
+	
+	dispatch_semaphore_signal(mObjectLock);
 }
 
 - (NSArray<id<DKStorableObject>>*)objects
 {
-	return [mObjects copy];
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+
+	NSArray<id<DKStorableObject>>* ret = [mObjects copy];
+	
+	dispatch_semaphore_signal(mObjectLock);
+	
+	return ret;
 }
 
 - (NSUInteger)countOfObjects
 {
-	return [[self objects] count];
+	return [mObjects count];
 }
 
 - (id<DKStorableObject>)objectInObjectsAtIndex:(NSUInteger)indx
 {
 	NSAssert(indx < [self countOfObjects], @"error - index is beyond bounds");
 
-	return [[self objects] objectAtIndex:indx];
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
+	id<DKStorableObject> ret = [mObjects objectAtIndex:indx];
+	
+	dispatch_semaphore_signal(mObjectLock);
+	
+	return ret;
 }
 
 - (NSArray*)objectsAtIndexes:(NSIndexSet*)set
 {
-	return [[self objects] objectsAtIndexes:set];
+    dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+
+    NSArray* ret = [mObjects objectsAtIndexes:set];
+    
+    dispatch_semaphore_signal(mObjectLock);
+    
+    return ret;
 }
 
 - (void)insertObject:(id<DKStorableObject>)obj inObjectsAtIndex:(NSUInteger)indx
 {
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
 	NSAssert(obj != nil, @"attempt to add a nil object to the storage");
 
-	if (![[self objects] containsObject:obj]) {
+	if (![mObjects containsObject:obj]) {
 		[mObjects insertObject:obj
 					   atIndex:indx];
 		[obj setStorage:self];
 	}
+	
+	dispatch_semaphore_signal(mObjectLock);
 }
 
 - (void)removeObjectFromObjectsAtIndex:(NSUInteger)indx
 {
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
 	NSAssert(indx < [self countOfObjects], @"error - index is beyond bounds");
 
 	id<DKStorableObject> obj = [mObjects objectAtIndex:indx];
 	[obj setStorage:nil];
 	[mObjects removeObjectAtIndex:indx];
+	
+	dispatch_semaphore_signal(mObjectLock);
 }
 
 - (void)replaceObjectInObjectsAtIndex:(NSUInteger)indx withObject:(id<DKStorableObject>)obj
 {
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
 	NSAssert(obj != nil, @"attempt to add a nil object to the storage (replace)");
 	NSAssert(indx < [self countOfObjects], @"error - index is beyond bounds");
-
+	
 	id<DKStorableObject> oldObj = [mObjects objectAtIndex:indx];
 	[oldObj setStorage:nil];
 	[mObjects replaceObjectAtIndex:indx
 						withObject:obj];
 	[obj setStorage:self];
+	
+	dispatch_semaphore_signal(mObjectLock);
 }
 
 - (void)insertObjects:(NSArray*)objs atIndexes:(NSIndexSet*)set
 {
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
 	NSAssert(objs != nil, @"can't insert a nil array");
 	NSAssert(set != nil, @"can't insert - index set was nil");
 	NSAssert([objs count] == [set count], @"number of objects does not match number of indexes");
@@ -126,10 +162,14 @@
 		[mObjects insertObjects:objs
 					  atIndexes:set];
 	}
+	
+	dispatch_semaphore_signal(mObjectLock);
 }
 
 - (void)removeObjectsAtIndexes:(NSIndexSet*)set
 {
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
 	NSAssert(set != nil, @"can't remove objects - index set is nil");
 
 	// sanity check that the count of indexes is less than the list length but not zero
@@ -140,32 +180,50 @@
 							  withObject:nil];
 		[mObjects removeObjectsAtIndexes:set];
 	}
+	
+	dispatch_semaphore_signal(mObjectLock);
 }
 
 - (BOOL)containsObject:(id<DKStorableObject>)object
 {
-	return [mObjects containsObject:object];
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
+	BOOL ret = [mObjects containsObject:object];
+	
+	dispatch_semaphore_signal(mObjectLock);
+	
+	return ret;
 }
 
 - (NSUInteger)indexOfObject:(id<DKStorableObject>)object
 {
-	return [[self objects] indexOfObjectIdenticalTo:object];
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
+	NSUInteger ret = [mObjects indexOfObjectIdenticalTo:object];
+	
+	dispatch_semaphore_signal(mObjectLock);
+	
+	return ret;
 }
 
 - (void)moveObject:(id<DKStorableObject>)obj toIndex:(NSUInteger)indx
 {
+	dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+	
 	NSAssert(obj != nil, @"cannot move nil object");
 	NSAssert([obj storage] == self, @"error - storage doesn't own the object being moved");
 
 	indx = MIN(indx, [self countOfObjects] - 1);
 
-	NSUInteger old = [self indexOfObject:obj];
+	NSUInteger old = [mObjects indexOfObjectIdenticalTo:obj];
 
 	if (old != indx) {
 		[mObjects removeObject:obj];
 		[mObjects insertObject:obj
 					   atIndex:indx];
 	}
+	
+	dispatch_semaphore_signal(mObjectLock);
 }
 
 - (void)object:(id<DKStorableObject>)obj didChangeBoundsFrom:(NSRect)oldBounds
@@ -219,6 +277,7 @@
 	self = [super init];
 	if (self) {
 		mObjects = [[NSMutableArray alloc] init];
+		mObjectLock = dispatch_semaphore_create(1);
 	}
 
 	return self;
@@ -226,8 +285,12 @@
 
 - (void)dealloc
 {
-	[[self objects] makeObjectsPerformSelector:@selector(setStorage:)
-									withObject:nil];
+    dispatch_semaphore_wait(mObjectLock, DISPATCH_TIME_FOREVER);
+    
+    [mObjects makeObjectsPerformSelector:@selector(setStorage:)
+							  withObject:nil];
+
+    dispatch_semaphore_signal(mObjectLock);
 }
 
 @end
