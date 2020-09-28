@@ -43,7 +43,7 @@ NSString* const kDKDrawingViewVerticalBottomMarkerName = @"marker_v_bottom";
 #pragma mark Static Vars
 
 static NSMutableArray* sDrawingViewStack = nil; // stack of view refs
-static dispatch_semaphore_t sDrawingViewStackLock; // To ensure thread safety for sDrawingViewStack
+static dispatch_semaphore_t sDrawingViewStackLock; // To ensure thread safety
 static NSColor* sPageBreakColour = nil;
 static NSPoint sLastContextMenuClick = { 0, 0 };
 
@@ -95,8 +95,11 @@ NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping"
  */
 + (DKDrawingView*)currentlyDrawingView
 {
+	if (sDrawingViewStackLock == nil)
+		sDrawingViewStackLock = dispatch_semaphore_create(1);
+		
 	dispatch_semaphore_wait(sDrawingViewStackLock, DISPATCH_TIME_FOREVER);
-	
+
 	DKDrawingView* ret = [sDrawingViewStack lastObject];
 
 	dispatch_semaphore_signal(sDrawingViewStackLock);
@@ -106,6 +109,9 @@ NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping"
 
 + (void)pushCurrentViewAndSet:(DKDrawingView*)aView
 {
+	if (sDrawingViewStackLock == nil)
+		sDrawingViewStackLock = dispatch_semaphore_create(1);
+		
 	dispatch_semaphore_wait(sDrawingViewStackLock, DISPATCH_TIME_FOREVER);
 	
 	if (sDrawingViewStack == nil)
@@ -120,6 +126,9 @@ NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping"
 
 + (void)pop
 {
+	if (sDrawingViewStackLock == nil)
+		sDrawingViewStackLock = dispatch_semaphore_create(1);
+	
 	dispatch_semaphore_wait(sDrawingViewStackLock, DISPATCH_TIME_FOREVER);
 
 	if ([sDrawingViewStack count] > 0)
@@ -1053,9 +1062,12 @@ static Class s_textEditorClass = Nil;
 	if ([self drawing] == nil)
 		[self createAutomaticDrawing];
 	
-	NSAssert([NSThread isMainThread], @"viewWillDraw on non-main thread");
-	
-	[super viewWillDraw];
+	if (![NSThread isMainThread])
+		dispatch_async(dispatch_get_main_queue(), ^{
+			[super viewWillDraw];
+		});
+	else
+		[super viewWillDraw];
 }
 
 #pragma mark -
