@@ -13,12 +13,18 @@ NSString* const kDKObservableKeyPath = @"kDKObservableKeyPath";
 
 #pragma mark Static Vars
 static NSMutableDictionary* sActionNameRegistry = nil;
+static dispatch_semaphore_t sActionNameRegistryLock; // To ensure thread safety
 
 #pragma mark -
 @implementation GCObservableObject
 #pragma mark As a GCObservableObject
 + (void)registerActionName:(NSString*)na forKeyPath:(NSString*)kp objClass:(Class)cl
 {
+	if (sActionNameRegistryLock == nil)
+		sActionNameRegistryLock = dispatch_semaphore_create(1);
+	
+	dispatch_semaphore_wait(sActionNameRegistryLock, DISPATCH_TIME_FOREVER);
+
 	if (sActionNameRegistry == nil)
 		sActionNameRegistry = [[NSMutableDictionary alloc] init];
 
@@ -33,12 +39,18 @@ static NSMutableDictionary* sActionNameRegistry = nil;
 
 	[sd setObject:na
 		   forKey:kp];
+	
+	dispatch_semaphore_signal(sActionNameRegistryLock);
 }
 
 + (NSString*)actionNameForKeyPath:(NSString*)kp objClass:(Class)cl
 {
+	dispatch_semaphore_wait(sActionNameRegistryLock, DISPATCH_TIME_FOREVER);
+
 	NSDictionary* sd = [sActionNameRegistry objectForKey:NSStringFromClass(cl)];
 	NSString* an = [sd objectForKey:kp];
+
+	dispatch_semaphore_signal(sActionNameRegistryLock);
 
 	if (an)
 		return NSLocalizedString(an, @"");
