@@ -311,7 +311,9 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 - (void)drawPartcode:(NSInteger)code atPoint:(NSPoint)p fontSize:(CGFloat)fontSize
 {
 	// this is generally only used for debugging. It draws the number <code> inside a box at the location given, using the fontSize.
-
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
 	static NSMutableDictionary* attrs = nil;
 
 	if (attrs == nil)
@@ -349,6 +351,8 @@ static NSSize sKnobSize = { 6.0, 6.0 };
 	//NSFrameRectWithWidth( b, 0.0 );
 	[NSBezierPath setDefaultLineWidth:0.0];
 	[NSBezierPath strokeRect:b];
+
+	[lock unlock];
 }
 
 #pragma mark -

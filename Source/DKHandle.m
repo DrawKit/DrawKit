@@ -81,6 +81,9 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 
 	DKHandle* inst = nil;
 
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
 	if (s_handleInstancesTable == nil)
 		s_handleInstancesTable = [[NSMutableDictionary alloc] init];
 
@@ -100,6 +103,8 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 			//NSLog(@"added handle instance %@, key = %@, total instances = %d", inst, key, [s_handleInstancesTable count]);
 		}
 	}
+	
+	[lock unlock];
 
 	return inst;
 }
@@ -109,12 +114,17 @@ static NSMutableDictionary* s_handleInstancesTable = nil;
 	if ([hClass superclass] != [self class])
 		return;
 
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
 	if (s_handleClassTable == nil)
 		s_handleClassTable = [[NSMutableDictionary alloc] init];
 
 	NSString* key = [self keyForKnobType:type];
 	[s_handleClassTable setObject:hClass
 						   forKey:key];
+	
+	[lock unlock];
 }
 
 + (NSColor*)fillColour

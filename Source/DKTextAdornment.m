@@ -77,6 +77,9 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 {
 	static NSMutableDictionary* dta = nil;
 
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
 	if (dta == nil) {
 		dta = [[NSMutableDictionary alloc] init];
 
@@ -95,6 +98,8 @@ static CGFloat s_maximumVerticalOffset = DEFAULT_BASELINE_OFFSET_MAX;
 				forKey:NSForegroundColorAttributeName];
 	}
 
+	[lock unlock];
+	
 	return dta;
 }
 

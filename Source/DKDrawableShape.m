@@ -147,6 +147,9 @@ static NSSize sTempSavedOffset;
 
 	NSString* key = [NSString stringWithFormat:@"shape_cursor_%@", pairKey];
 
+	NSLock* lock = [[NSLock alloc] init];
+	[lock lock];
+	
 	if (cursorCache == nil)
 		cursorCache = [[NSMutableDictionary alloc] init];
 
@@ -176,6 +179,8 @@ static NSSize sTempSavedOffset;
 							forKey:key];
 		}
 	}
+	
+	[lock unlock];
 
 	return curs;
 }
