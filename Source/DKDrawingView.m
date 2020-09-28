@@ -43,6 +43,7 @@ NSString* const kDKDrawingViewVerticalBottomMarkerName = @"marker_v_bottom";
 #pragma mark Static Vars
 
 static NSMutableArray* sDrawingViewStack = nil; // stack of view refs
+static dispatch_semaphore_t sDrawingViewStackLock; // To ensure thread safety for sDrawingViewStack
 static NSColor* sPageBreakColour = nil;
 static NSPoint sLastContextMenuClick = { 0, 0 };
 
@@ -94,25 +95,39 @@ NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping"
  */
 + (DKDrawingView*)currentlyDrawingView
 {
-	return [sDrawingViewStack lastObject];
+	dispatch_semaphore_wait(sDrawingViewStackLock, DISPATCH_TIME_FOREVER);
+	
+	DKDrawingView* ret = [sDrawingViewStack lastObject];
+
+	dispatch_semaphore_signal(sDrawingViewStackLock);
+
+	return ret;
 }
 
 + (void)pushCurrentViewAndSet:(DKDrawingView*)aView
 {
+	dispatch_semaphore_wait(sDrawingViewStackLock, DISPATCH_TIME_FOREVER);
+	
 	if (sDrawingViewStack == nil)
 		sDrawingViewStack = [[NSMutableArray alloc] init];
 
 	//NSLog(@"pushing %@; setting %@", [self currentlyDrawingView], aView);
 
 	[sDrawingViewStack addObject:aView];
+	
+	dispatch_semaphore_signal(sDrawingViewStackLock);
 }
 
 + (void)pop
 {
+	dispatch_semaphore_wait(sDrawingViewStackLock, DISPATCH_TIME_FOREVER);
+
 	if ([sDrawingViewStack count] > 0)
 		[sDrawingViewStack removeObjectAtIndex:[sDrawingViewStack count] - 1];
 
 	//NSLog(@"popping %@", [self currentlyDrawingView]);
+	
+	dispatch_semaphore_signal(sDrawingViewStackLock);
 }
 
 /** @brief Set the colour used to draw the page breaks
@@ -1037,6 +1052,8 @@ static Class s_textEditorClass = Nil;
 	// automatically on the basis of its current bounds. In this case, the view owns the drawing. This is done here rather than in -drawRect:
 	if ([self drawing] == nil)
 		[self createAutomaticDrawing];
+	
+	NSAssert([NSThread isMainThread], @"viewWillDraw on non-main thread");
 	
 	[super viewWillDraw];
 }
