@@ -474,8 +474,9 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (NSSize)extraSpaceNeeded
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	NSSize rs, accSize = NSZeroSize;
-
 	if ([self enabled]) {
 		for (DKRasterizer* rend in m_renderList) {
 			rs = [rend extraSpaceNeeded];
@@ -488,6 +489,8 @@ dispatch_semaphore_t m_renderListLock;
 		}
 	}
 
+	dispatch_semaphore_signal(m_renderListLock);
+	
 	return accSize;
 }
 
