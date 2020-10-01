@@ -35,6 +35,7 @@ as well.
 @interface DKRastGroup : DKRasterizer <NSCoding, NSCopying> {
 @private
 	NSMutableArray<DKRasterizer*>* m_renderList;
+	dispatch_semaphore_t m_renderListLock;
 }
 
 /** @brief The list of contained renderers.
