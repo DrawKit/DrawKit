@@ -13,7 +13,7 @@
 
 @implementation DKRastGroup
 #pragma mark As a DKRenderGroup
-
+dispatch_semaphore_t m_renderListLock;
 /** @brief Set the contained objects to those in array
 
  This method no longer attempts to try and manage observing of the objects. The observer must
@@ -23,7 +23,9 @@
  */
 - (void)setRenderList:(NSArray*)list
 {
-	if (list != [self renderList]) {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	if (list != m_renderList) {
 		NSMutableArray* rl = [list mutableCopy];
 		m_renderList = rl;
 
@@ -34,9 +36,11 @@
 		// removed their observation is managed individually (inclusing the adding/removal of groups, which deals with
 		// all the subordinate objects).
 
-		[[self renderList] makeObjectsPerformSelector:@selector(setContainer:)
+		[m_renderList makeObjectsPerformSelector:@selector(setContainer:)
 										   withObject:self];
 	}
+	
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 /** @brief Get the list of contained renderers
@@ -44,7 +48,13 @@
  */
 - (NSArray*)renderList
 {
-	return m_renderList; //[[m_renderList copy] autorelease];
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	NSArray* ret = [m_renderList copy];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+	
+	return ret;
 }
 
 #pragma mark -
@@ -72,30 +82,46 @@
 
 - (void)addRenderer:(DKRasterizer*)renderer
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	if (![m_renderList containsObject:renderer]) {
 		[renderer setContainer:self];
-		[self insertObject:renderer
-			inRenderListAtIndex:[self countOfRenderList]];
-
+		[m_renderList insertObject:renderer atIndex:[m_renderList count]];
 		// let the root object know so it can start observing the added renderer
 
 		[[self root] observableWasAdded:renderer];
 	}
+	
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 - (void)removeRenderer:(DKRasterizer*)renderer
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	[self removeRendererUnsafe:renderer];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+}
+
+- (void)removeRendererUnsafe:(DKRasterizer*)renderer
+{
+	
 	if ([m_renderList containsObject:renderer]) {
 		// let the root object know so it can stop observing the renderer that is about to vanish
 
 		[[self root] observableWillBeRemoved:renderer];
 		[renderer setContainer:nil];
-		[self removeObjectFromRenderListAtIndex:[self indexOfRenderer:renderer]];
+		NSUInteger indexOfRenderer = [m_renderList indexOfObject:renderer];
+		[m_renderList removeObjectAtIndex:indexOfRenderer];
 	}
+	
 }
 
 - (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	if (src == dest)
 		return;
 
@@ -104,44 +130,58 @@
 
 	DKRasterizer* moving = [m_renderList objectAtIndex:src];
 
-	[self removeObjectFromRenderListAtIndex:src];
+	[m_renderList removeObjectAtIndex:src];
 
 	if (src < dest)
 		--dest;
 
-	[self insertObject:moving
-		inRenderListAtIndex:dest];
+	[m_renderList insertObject:moving
+					   atIndex:dest];
+	
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	if (![m_renderList containsObject:renderer]) {
 		[renderer setContainer:self];
-		[self insertObject:renderer
-			inRenderListAtIndex:indx];
+		[m_renderList insertObject:renderer
+						   atIndex:indx];
 
 		// let the root object know so it can start observing
 
 		[[self root] observableWasAdded:renderer];
 	}
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 - (void)removeRendererAtIndex:(NSUInteger)indx
 {
-	DKRasterizer* renderer = [self rendererAtIndex:indx];
-
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	DKRasterizer* renderer = [m_renderList objectAtIndex:indx];
+	
 	if ([m_renderList containsObject:renderer]) {
 		// let the root object know so it can stop observing:
 
 		[[self root] observableWillBeRemoved:renderer];
 		[renderer setContainer:nil];
-		[self removeObjectFromRenderListAtIndex:indx];
+		[m_renderList removeObjectAtIndex:indx];
 	}
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 - (NSUInteger)indexOfRenderer:(DKRasterizer*)renderer
 {
-	return [[self renderList] indexOfObject:renderer];
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	NSUInteger ret = [m_renderList indexOfObject:renderer];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+	
+	return ret;
 }
 
 #pragma mark -
@@ -153,13 +193,15 @@
 
 - (DKRasterizer*)rendererWithName:(NSString*)name
 {
-	for (DKRasterizer* rend in self.renderList) {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	DKRasterizer* ret = nil;
+	for (DKRasterizer* rend in m_renderList) {
 		if ([[rend name] isEqualToString:name]) {
-			return rend;
+			ret = rend;
 		}
 	}
-
-	return nil;
+	dispatch_semaphore_signal(m_renderListLock);
+	return ret;
 }
 
 #pragma mark -
@@ -171,54 +213,87 @@
  */
 - (NSUInteger)countOfRenderList
 {
-	return [[self renderList] count];
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	NSUInteger count = [m_renderList count];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+	
+	return count;
 }
 
 - (BOOL)containsRendererOfClass:(Class)cl
 {
-	if ([self countOfRenderList] > 0) {
-		for (id rend in [self renderList]) {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	BOOL ret = [self containsRendererOfClassUnsafe:cl];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+
+	return ret;
+}
+
+- (BOOL)containsRendererOfClassUnsafe:(Class)cl
+{
+	if ([m_renderList count] > 0) {
+		for (id rend in m_renderList) {
 			if ([rend isKindOfClass:cl]) // && [rend enabled]  // (should we skip disabled ones? causes some problems with KVO)
 				return YES;
 
 			if ([rend isKindOfClass:[DKRastGroup class]]) {
-				if ([rend containsRendererOfClass:cl])
+				if ([rend containsRendererOfClassUnsafe:cl])
 					return YES;
 			}
 		}
 	}
-
+	
 	return NO;
 }
 
-- (NSArray*)renderersOfClass:(Class)cl
-{
-	if ([self containsRendererOfClass:cl]) {
-		NSMutableArray* rl = [[NSMutableArray alloc] init];
+- (NSArray*)renderersOfClass:(Class)cl {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	NSArray* ret = [self renderersOfClassUnsafe:cl];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+	
+	return ret;
+}
 
-		for (id rend in [self renderList]) {
+- (NSArray*)renderersOfClassUnsafe:(Class)cl
+{
+	NSArray* ret = nil;
+
+	if ([self containsRendererOfClassUnsafe:cl]) {
+
+		NSMutableArray* rl = [[NSMutableArray alloc] init];
+		
+		for (id rend in m_renderList) {
 			if ([rend isKindOfClass:cl])
 				[rl addObject:rend];
 
 			if ([rend isKindOfClass:[DKRastGroup class]]) {
-				NSArray* temp = [rend renderersOfClass:cl];
+				NSArray* temp = [rend renderersOfClassUnsafe:cl];
 				[rl addObjectsFromArray:temp];
 			}
 		}
-
-		return rl;
+		ret = rl;
 	}
 
-	return nil;
+	return ret;
 }
 
 - (void)removeAllRenderers
 {
-	for (DKRasterizer* rast in [self.renderList copy]) {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	for (DKRasterizer* rast in m_renderList) {
 		if (![rast isKindOfClass:[DKRastGroup class]]) {
-			[self removeRenderer:rast];
+			[self removeRendererUnsafe:rast];
 		}
 	}
+	
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 - (void)removeRenderersOfClass:(Class)cl inSubgroups:(BOOL)subs
@@ -240,13 +315,23 @@
 
 - (id)objectInRenderListAtIndex:(NSUInteger)indx
 {
-	return [[self renderList] objectAtIndex:indx];
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	id ret = [m_renderList objectAtIndex:indx];
+	
+	dispatch_semaphore_signal(m_renderList);
+	
+	return ret;
 }
 
 - (void)insertObject:(id)obj inRenderListAtIndex:(NSUInteger)indx
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	[m_renderList insertObject:obj
 					   atIndex:indx];
+	
+	dispatch_semaphore_signal(m_renderList);
 }
 
 - (void)removeObjectFromRenderListAtIndex:(NSUInteger)indx
@@ -336,8 +421,13 @@
  */
 - (BOOL)setUpKVOForObserver:(id)object
 {
-	[[self renderList] makeObjectsPerformSelector:@selector(setUpKVOForObserver:)
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	[m_renderList makeObjectsPerformSelector:@selector(setUpKVOForObserver:)
 									   withObject:object];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+	
 	return [super setUpKVOForObserver:object];
 }
 
@@ -349,8 +439,13 @@
  */
 - (BOOL)tearDownKVOForObserver:(id)object
 {
-	[[self renderList] makeObjectsPerformSelector:@selector(tearDownKVOForObserver:)
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	[m_renderList makeObjectsPerformSelector:@selector(tearDownKVOForObserver:)
 									   withObject:object];
+	
+	dispatch_semaphore_signal(m_renderListLock);
+
 	return [super tearDownKVOForObserver:object];
 }
 
@@ -360,14 +455,14 @@
 - (instancetype)init
 {
 	self = [super init];
+	
 	if (self != nil) {
 		m_renderList = [[NSMutableArray alloc] init];
-
+		m_renderListLock = dispatch_semaphore_create(1);
 		if (m_renderList == nil) {
 			return nil;
 		}
 	}
-
 	return self;
 }
 
@@ -379,10 +474,11 @@
  */
 - (NSSize)extraSpaceNeeded
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	NSSize rs, accSize = NSZeroSize;
-
 	if ([self enabled]) {
-		for (DKRasterizer* rend in self.renderList) {
+		for (DKRasterizer* rend in m_renderList) {
 			rs = [rend extraSpaceNeeded];
 
 			if (rs.width > accSize.width)
@@ -393,6 +489,8 @@
 		}
 	}
 
+	dispatch_semaphore_signal(m_renderListLock);
+	
 	return accSize;
 }
 
@@ -539,7 +637,7 @@
 {
 	Class classForKey = [self renderClassForKey:key];
 
-	for (DKRasterizer* rend in self.renderList) {
+	for (DKRasterizer* rend in m_renderList) {
 		if ([[rend name] isEqualToString:key] || (classForKey && [rend isKindOfClass:classForKey])) {
 			return rend;
 		}
