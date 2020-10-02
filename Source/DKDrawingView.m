@@ -1062,12 +1062,7 @@ static Class s_textEditorClass = Nil;
 	if ([self drawing] == nil)
 		[self createAutomaticDrawing];
 	
-	if (![NSThread isMainThread])
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[super viewWillDraw];
-		});
-	else
-		[super viewWillDraw];
+	[super viewWillDraw];
 }
 
 #pragma mark -
