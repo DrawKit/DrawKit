@@ -111,8 +111,8 @@ NSString* const kDKSelectionToolTargetObject = @"kDKSelectionToolTargetObject";
  This updates the area that is different between the current marquee and the new one being set,
  which results in much faster interactive selection of objects because far less drawing is going on.
  @param marqueeRect a rect
- @param inLayer the current layer (used to mark the update for the marquee rect)
- @return a rect */
+ @param aLayer the current layer (used to mark the update for the marquee rect)
+ */
 - (void)setMarqueeRect:(NSRect)marqueeRect inLayer:(DKLayer*)aLayer
 {
 	NSRect omr = [self marqueeRect];

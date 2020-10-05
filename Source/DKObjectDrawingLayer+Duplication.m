@@ -18,8 +18,8 @@
  same types, styles, etc.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
  @param centre the location of the centre around which the copies are arranged
- @param numberOfCopies how many copies to make
- @param incrementAngle the angle in radians between each copy
+ @param nCopies how many copies to make
+ @param incRadians the angle in radians between each copy
  @param rotCopies YES to rotate the copies so that they lie on the radial, NO to keep them at their original rotation
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
@@ -68,7 +68,7 @@
  same types, styles, etc.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
  @param offset each copy is offset this much from the last
- @param numberOfCopies how many copies to make
+ @param nCopies how many copies to make
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)linearDuplicate:(NSArray*)objectsToDuplicate
@@ -155,8 +155,8 @@
  paths don't implement setSize: and their location is at their top, left.
  @param objectsToDuplicate a list of DKDrawableObjects which will be copied
  @param centre the location of the centre around which the copies are arranged
- @param numberOfCopies how many copies to make
- @param insetBy the amount each copy is inset or outset (-ve) by
+ @param nCopies how many copies to make
+ @param inset the amount each copy is inset or outset (-ve) by
  @return A list of DKDrawableObjects representing the copies. The originals are not copied to this array.
  */
 - (NSArray*)concentricDuplicate:(NSArray*)objectsToDuplicate
