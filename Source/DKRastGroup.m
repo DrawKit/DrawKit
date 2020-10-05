@@ -557,7 +557,7 @@ dispatch_semaphore_t m_renderListLock;
 
 	dispatch_semaphore_signal(m_renderListLock);
 	
-	return NO;
+	return ret;
 }
 
 #pragma mark -
