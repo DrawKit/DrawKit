@@ -188,7 +188,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (DKRasterizer*)rendererAtIndex:(NSUInteger)indx
 {
-	return (DKRasterizer*)[self objectInRenderListAtIndex:indx]; //[[self renderList] objectAtIndex:indx];
+	return (DKRasterizer*)[self objectInRenderListAtIndex:indx];
 }
 
 - (DKRasterizer*)rendererWithName:(NSString*)name
@@ -319,7 +319,7 @@ dispatch_semaphore_t m_renderListLock;
 	
 	id ret = [m_renderList objectAtIndex:indx];
 	
-	dispatch_semaphore_signal(m_renderList);
+	dispatch_semaphore_signal(m_renderListLock);
 	
 	return ret;
 }
@@ -331,7 +331,7 @@ dispatch_semaphore_t m_renderListLock;
 	[m_renderList insertObject:obj
 					   atIndex:indx];
 	
-	dispatch_semaphore_signal(m_renderList);
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 - (void)removeObjectFromRenderListAtIndex:(NSUInteger)indx
@@ -505,11 +505,15 @@ dispatch_semaphore_t m_renderListLock;
 	if (![object conformsToProtocol:@protocol(DKRenderable)])
 		return;
 
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		[[self renderList] makeObjectsPerformSelector:_cmd
+		[m_renderList makeObjectsPerformSelector:_cmd
 										   withObject:object];
 
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 /** @brief Renders the object's path by iterating over the contained renderers
@@ -523,10 +527,14 @@ dispatch_semaphore_t m_renderListLock;
 	if (![self enabled])
 		return;
 
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
-		[[self renderList] makeObjectsPerformSelector:_cmd
+		[m_renderList makeObjectsPerformSelector:_cmd
 										   withObject:path];
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
+	
+	dispatch_semaphore_signal(m_renderListLock);
 }
 
 /** @brief Queries whther the rasterizer implements a fill or not
@@ -536,12 +544,19 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (BOOL)isFill
 {
-	for (DKRasterizer* rast in [self renderList]) {
+	BOOL ret = NO;
+	
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
+	for (DKRasterizer* rast in m_renderList) {
 		if ([rast isFill]) {
-			return YES;
+			ret = YES;
+			break;
 		}
 	}
 
+	dispatch_semaphore_signal(m_renderListLock);
+	
 	return NO;
 }
 
@@ -567,12 +582,17 @@ dispatch_semaphore_t m_renderListLock;
 - (void)encodeWithCoder:(NSCoder*)coder
 {
 	NSAssert(coder != nil, @"Expected valid coder");
+	
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+
 	[super encodeWithCoder:coder];
 
 	[coder encodeConditionalObject:[self container]
 							forKey:@"DKRastGroup_container"];
-	[coder encodeObject:[self renderList]
+	[coder encodeObject:m_renderList
 				 forKey:@"renderlist"];
+	
+	dispatch_semaphore_signal(m_renderListLock);	
 }
 
 - (instancetype)initWithCoder:(NSCoder*)coder
@@ -590,11 +610,16 @@ dispatch_semaphore_t m_renderListLock;
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
+	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	
 	DKRastGroup* copy = [super copyWithZone:zone];
 
-	NSArray* rl = [[self renderList] deepCopy];
+	NSArray* rl = [m_renderList deepCopy];
+
 	[copy setRenderList:rl];
 
+	dispatch_semaphore_signal(m_renderListLock);
+	
 	return copy;
 }
 
