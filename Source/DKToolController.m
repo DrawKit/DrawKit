@@ -76,7 +76,14 @@ NSString* const kDKDrawingToolAutoActivatesLayerDefaultsKey = @"DKDrawingToolAut
 
 static DKDrawingToolScope sDrawingToolScope = kDKToolScopeLocalToDocument;
 static NSMutableDictionary* sDrawingToolDict = nil;
+static dispatch_semaphore_t sDrawingToolDictLock; // To ensure thread safety
 static DKDrawingTool* sGlobalTool = nil;
+
+__attribute__((constructor))
+static void initialize_sDrawingToolDict() {
+	sDrawingToolDict = [[NSMutableDictionary alloc] init];
+	sDrawingToolDictLock = dispatch_semaphore_create(1);
+}
 
 #define DK_ENABLE_UNDO_GROUPING 1
 #define DK_ALWAYS_OPEN_UNDO_GROUP 1
@@ -91,14 +98,13 @@ static DKDrawingTool* sGlobalTool = nil;
 
 	DKDrawingTool* tool = nil;
 	
-	NSLock* lock = [[NSLock alloc] init];
-	[lock lock];
-	
+	dispatch_semaphore_wait(sDrawingToolDictLock, DISPATCH_TIME_FOREVER);
+
 	if (sDrawingToolDict != nil)
 		tool = [sDrawingToolDict objectForKey:drawingKey];
 	
-	[lock unlock];
-	
+	dispatch_semaphore_signal(sDrawingToolDictLock);
+
 	return tool;
 }
 
@@ -106,17 +112,12 @@ static DKDrawingTool* sGlobalTool = nil;
 {
 	NSAssert(drawingKey != nil, @"attempt to set tool per drawing, but drawing key is nil");
 
-	// Thread safety for gloabl static var
-	NSLock* lock = [[NSLock alloc] init];
-	[lock lock];
+	dispatch_semaphore_wait(sDrawingToolDictLock, DISPATCH_TIME_FOREVER);
 	
-	if (sDrawingToolDict == nil)
-		sDrawingToolDict = [[NSMutableDictionary alloc] init];
-
 	[sDrawingToolDict setObject:tool
 						 forKey:drawingKey];
 	
-	[lock unlock];
+	dispatch_semaphore_signal(sDrawingToolDictLock);
 }
 
 + (DKDrawingTool*)globalDrawingTool
@@ -126,13 +127,11 @@ static DKDrawingTool* sGlobalTool = nil;
 
 + (void)setGlobalDrawingTool:(DKDrawingTool*)tool
 {
-	// Thread safety for gloabl static var
-	NSLock* lock = [[NSLock alloc] init];
-	[lock lock];
-	
+	dispatch_semaphore_wait(sDrawingToolDictLock, DISPATCH_TIME_FOREVER);
+
 	sGlobalTool = tool;
 	
-	[lock unlock];
+	dispatch_semaphore_signal(sDrawingToolDictLock);
 }
 
 #pragma mark -
