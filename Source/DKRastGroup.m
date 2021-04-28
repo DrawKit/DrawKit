@@ -476,7 +476,7 @@ dispatch_semaphore_t m_renderListLock;
 {
 	NSSize rs, accSize = NSZeroSize;
 	if ([self enabled]) {
-		dispatch_semaphore_wait(m_renderListLock, (int64_t)(40.0 * NSEC_PER_SEC)); // CF this is hack, but prevents deadlock and crashing... for now. muahaah // originally: DISPATCH_TIME_FOREVER); //
+		dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
 		
 		for (DKRasterizer* rend in m_renderList) {
 			rs = [rend extraSpaceNeeded];
