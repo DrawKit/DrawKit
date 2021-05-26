@@ -474,21 +474,24 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (NSSize)extraSpaceNeeded
 {
-	NSSize rs, accSize = NSZeroSize;
-	if ([self enabled]) {
-		dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
-		
-		for (DKRasterizer* rend in m_renderList) {
-			rs = [rend extraSpaceNeeded];
+	NSSize accSize = NSZeroSize;
+	
+	void (^calcSpaceBlock)(NSSize* size) = ^(NSSize *size) {
+		// This has to run on the main thread because of concurrency issues:
+		// m_renderList needs to be immutable here, and render() already has a semaphore open on m_renderListLock
+		for (DKRasterizer* rend in self->m_renderList) {
+			NSSize rs = [rend extraSpaceNeeded];
 
-			if (rs.width > accSize.width)
-				accSize.width = rs.width;
+			if (rs.width > size->width)
+				size->width = rs.width;
 
-			if (rs.height > accSize.height)
-				accSize.height = rs.height;
+			if (rs.height > size->height)
+				size->height = rs.height;
 		}
-
-		dispatch_semaphore_signal(m_renderListLock);
+	};
+	
+	if ([self enabled]) {
+		dispatch_async(dispatch_get_main_queue(), ^{calcSpaceBlock(&accSize);} );
 	}
 	
 	return accSize;
