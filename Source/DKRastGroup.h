@@ -36,6 +36,7 @@ as well.
 @private
 	NSMutableArray<DKRasterizer*>* m_renderList;
 	dispatch_semaphore_t m_renderListLock;
+	dispatch_time_t m_renderListLockTimeOutSeconds;
 }
 
 /** @brief The list of contained renderers.

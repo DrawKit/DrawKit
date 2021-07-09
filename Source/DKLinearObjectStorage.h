@@ -20,7 +20,8 @@ Basic storage class stores objects in a standard array. For many uses this will 
 @interface DKLinearObjectStorage : NSObject <DKObjectStorage, NSCoding> {
 @private
 	NSMutableArray<id<DKStorableObject>>* mObjects;
-	dispatch_semaphore_t mObjectLock;
+	dispatch_semaphore_t m_ObjectLock;
+	dispatch_time_t m_ObjectLockTimeOutSeconds;
 }
 
 

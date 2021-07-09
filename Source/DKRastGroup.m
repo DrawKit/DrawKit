@@ -14,6 +14,7 @@
 @implementation DKRastGroup
 #pragma mark As a DKRenderGroup
 dispatch_semaphore_t m_renderListLock;
+dispatch_time_t m_renderListLockTimeOutSeconds = 2.0; // infinite is DISPATCH_TIME_FOREVER
 /** @brief Set the contained objects to those in array
 
  This method no longer attempts to try and manage observing of the objects. The observer must
@@ -23,7 +24,7 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (void)setRenderList:(NSArray*)list
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	if (list != m_renderList) {
 		NSMutableArray* rl = [list mutableCopy];
@@ -48,7 +49,7 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (NSArray*)renderList
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	NSArray* ret = [m_renderList copy];
 	
@@ -82,7 +83,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (void)addRenderer:(DKRasterizer*)renderer
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	if (![m_renderList containsObject:renderer]) {
 		[renderer setContainer:self];
@@ -97,7 +98,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (void)removeRenderer:(DKRasterizer*)renderer
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	[self removeRendererUnsafe:renderer];
 	
@@ -120,7 +121,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (void)moveRendererAtIndex:(NSUInteger)src toIndex:(NSUInteger)dest
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	if (src == dest)
 		return;
@@ -143,7 +144,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (void)insertRenderer:(DKRasterizer*)renderer atIndex:(NSUInteger)indx
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	if (![m_renderList containsObject:renderer]) {
 		[renderer setContainer:self];
@@ -159,7 +160,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (void)removeRendererAtIndex:(NSUInteger)indx
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	DKRasterizer* renderer = [m_renderList objectAtIndex:indx];
 	
@@ -175,7 +176,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (NSUInteger)indexOfRenderer:(DKRasterizer*)renderer
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	NSUInteger ret = [m_renderList indexOfObject:renderer];
 	
@@ -193,7 +194,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (DKRasterizer*)rendererWithName:(NSString*)name
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	DKRasterizer* ret = nil;
 	for (DKRasterizer* rend in m_renderList) {
 		if ([[rend name] isEqualToString:name]) {
@@ -213,7 +214,7 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (NSUInteger)countOfRenderList
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	NSUInteger count = [m_renderList count];
 	
@@ -224,7 +225,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (BOOL)containsRendererOfClass:(Class)cl
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	BOOL ret = [self containsRendererOfClassUnsafe:cl];
 	
@@ -251,7 +252,11 @@ dispatch_semaphore_t m_renderListLock;
 }
 
 - (NSArray*)renderersOfClass:(Class)cl {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	int numberOfSecondsForTimeout = 10;
+	dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, numberOfSecondsForTimeout * NSEC_PER_SEC);
+	// timeout = m_renderListLockTimeOutSecondsload
+	
+	dispatch_semaphore_wait(m_renderListLock, timeout);
 	
 	NSArray* ret = [self renderersOfClassUnsafe:cl];
 	
@@ -285,7 +290,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (void)removeAllRenderers
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	for (DKRasterizer* rast in m_renderList) {
 		if (![rast isKindOfClass:[DKRastGroup class]]) {
@@ -315,7 +320,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (id)objectInRenderListAtIndex:(NSUInteger)indx
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	id ret = [m_renderList objectAtIndex:indx];
 	
@@ -326,7 +331,7 @@ dispatch_semaphore_t m_renderListLock;
 
 - (void)insertObject:(id)obj inRenderListAtIndex:(NSUInteger)indx
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	[m_renderList insertObject:obj
 					   atIndex:indx];
@@ -421,7 +426,7 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (BOOL)setUpKVOForObserver:(id)object
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	[m_renderList makeObjectsPerformSelector:@selector(setUpKVOForObserver:)
 									   withObject:object];
@@ -439,7 +444,7 @@ dispatch_semaphore_t m_renderListLock;
  */
 - (BOOL)tearDownKVOForObserver:(id)object
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	[m_renderList makeObjectsPerformSelector:@selector(tearDownKVOForObserver:)
 									   withObject:object];
@@ -475,7 +480,8 @@ dispatch_semaphore_t m_renderListLock;
 - (NSSize)extraSpaceNeeded
 {
 	NSSize accSize = NSZeroSize;
-	
+	return accSize;
+
 	void (^calcSpaceBlock)(NSSize* size) = ^(NSSize *size) {
 		// This has to run on the main thread because of concurrency issues:
 		// m_renderList needs to be immutable here, and render() already has a semaphore open on m_renderListLock
@@ -508,7 +514,7 @@ dispatch_semaphore_t m_renderListLock;
 	if (![object conformsToProtocol:@protocol(DKRenderable)])
 		return;
 
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 		[m_renderList makeObjectsPerformSelector:_cmd
@@ -530,7 +536,7 @@ dispatch_semaphore_t m_renderListLock;
 	if (![self enabled])
 		return;
 
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	SAVE_GRAPHICS_CONTEXT //[NSGraphicsContext saveGraphicsState];
 		[m_renderList makeObjectsPerformSelector:_cmd
@@ -549,7 +555,7 @@ dispatch_semaphore_t m_renderListLock;
 {
 	BOOL ret = NO;
 	
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	for (DKRasterizer* rast in m_renderList) {
 		if ([rast isFill]) {
@@ -586,7 +592,7 @@ dispatch_semaphore_t m_renderListLock;
 {
 	NSAssert(coder != nil, @"Expected valid coder");
 	
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 
 	[super encodeWithCoder:coder];
 
@@ -613,7 +619,7 @@ dispatch_semaphore_t m_renderListLock;
 #pragma mark As part of NSCopying Protocol
 - (id)copyWithZone:(NSZone*)zone
 {
-	dispatch_semaphore_wait(m_renderListLock, DISPATCH_TIME_FOREVER);
+	dispatch_semaphore_wait(m_renderListLock, m_renderListLockTimeOutSeconds);
 	
 	DKRastGroup* copy = [super copyWithZone:zone];
 
