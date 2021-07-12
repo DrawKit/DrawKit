@@ -479,25 +479,20 @@ dispatch_time_t m_renderListLockTimeOutSeconds = 2.0; // infinite is DISPATCH_TI
  */
 - (NSSize)extraSpaceNeeded
 {
-	NSSize accSize = NSZeroSize;
-	return accSize;
+	CGSize accSize = NSZeroSize;
 
-	void (^calcSpaceBlock)(NSSize* size) = ^(NSSize *size) {
-		// This has to run on the main thread because of concurrency issues:
-		// m_renderList needs to be immutable here, and render() already has a semaphore open on m_renderListLock
-		for (DKRasterizer* rend in self->m_renderList) {
+	if ([self enabled]) {
+		// m_renderList needs to be immutable here, however render() already has a semaphore open on m_renderListLock
+		// so run this on a copy
+		for (DKRasterizer* rend in [self->m_renderList copy]) {
 			NSSize rs = [rend extraSpaceNeeded];
 
-			if (rs.width > size->width)
-				size->width = rs.width;
+			if (rs.width > accSize.width)
+				accSize.width = rs.width;
 
-			if (rs.height > size->height)
-				size->height = rs.height;
+			if (rs.height > accSize.height)
+				accSize.height = rs.height;
 		}
-	};
-	
-	if ([self enabled]) {
-		dispatch_async(dispatch_get_main_queue(), ^{calcSpaceBlock(&accSize);} );
 	}
 	
 	return accSize;
