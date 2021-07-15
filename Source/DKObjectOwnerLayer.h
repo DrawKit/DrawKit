@@ -106,7 +106,7 @@ application needs.
 /** @brief The objects that this layer owns.
  Is an array of <code>DKDrawableObject</code>s, or subclasses thereof.
  */
-@property (nonatomic, copy) NSArray<DKDrawableObject*>* objects; // KVC/KVO compliant
+@property (atomic, copy) NSArray<DKDrawableObject*>* objects; // KVC/KVO compliant
 
 /** @brief Returns objects that are available to the user, that is, not locked or invisible
 

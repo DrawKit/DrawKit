@@ -204,7 +204,7 @@ typedef NS_ENUM(NSInteger, DKDerivedStyleOptions) {
  allows text (labels in particular) to have their styling changed for a whole drawing. See also
  DKStyle+Text which gives more text-oriented methods that manipulate theses attributes.
  */
-@property (nonatomic, copy, nullable) NSDictionary<NSAttributedStringKey, id>* textAttributes;
+@property (atomic, copy, nullable) NSDictionary<NSAttributedStringKey, id>* textAttributes;
 
 /** @brief Return wjether the style has any text attributes set.
  @return \c YES if there are any text attributes.

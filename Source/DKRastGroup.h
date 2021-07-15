@@ -45,7 +45,7 @@ as well.
  properly stop observing before this is called, or start observing after it is called when
  initialising from an archive.
 */
-@property (nonatomic, copy, nullable) NSArray<DKRasterizer*>* renderList;
+@property (atomic, copy, nullable) NSArray<DKRasterizer*>* renderList;
 
 /** @brief Returns the top-level group in any hierarchy, which in DrawKit is a style object.
  

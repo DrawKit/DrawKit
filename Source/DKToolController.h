@@ -86,7 +86,7 @@ typedef NS_ENUM(NSInteger, DKDrawingToolScope) {
 
  The tool is set locally for the drawing, or globally according to the current scope.
  */
-@property (nonatomic, strong) DKDrawingTool* drawingTool;
+@property (atomic, strong) DKDrawingTool* drawingTool;
 
 /** @brief Select the tool using its registered name
 

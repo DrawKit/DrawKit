@@ -113,7 +113,7 @@ typedef NS_ENUM(NSInteger, DKCreateGroupObjectType) {
  it is relative to the group, not the original drawing. It also sets the parent member of each object
  to the group so that the group's transform is applied when the objects are drawn.
  */
-@property (nonatomic, copy) NSArray<DKDrawableObject*>* groupObjects;
+@property (atomic, copy) NSArray<DKDrawableObject*>* groupObjects;
 
 /** @brief Computes the initial overall bounding rect of the constituent objects
 

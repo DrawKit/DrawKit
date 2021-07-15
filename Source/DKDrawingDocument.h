@@ -77,7 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
  The document owns the drawing.
  */
-@property (nonatomic, strong) DKDrawing* drawing;
+@property (atomic, strong) DKDrawing* drawing;
 
 /** @brief Return the document's main view.
 

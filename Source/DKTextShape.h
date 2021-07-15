@@ -274,7 +274,7 @@ textEdit view aligns with textAdornments textRect. Default returns 0.0
 - (void)startEditingInView:(DKDrawingView*)view;
 - (void)endEditing;
 @property (readonly, getter=isEditing) BOOL editing;
-@property (nonatomic, strong, nullable) DKTextAdornment* textAdornment;
+@property (atomic, strong, nullable) DKTextAdornment* textAdornment;
 
 // user actions:
 

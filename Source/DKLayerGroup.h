@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Layers are usually added one at a time through some user interface, but this setter allows them to
  be set all at once, as when unarchiving. Not recorded for undo.
 */
-@property (nonatomic, copy) NSArray<DKLayer*>* layers; // KVC/KVO compliant
+@property (atomic, copy) NSArray<DKLayer*>* layers; // KVC/KVO compliant
 //! The number of layers.
 @property (readonly) NSUInteger countOfLayers; // KVC/KVO compliant
 

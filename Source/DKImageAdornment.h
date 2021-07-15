@@ -38,16 +38,16 @@ This class allows any image to be part of the rendering tree.
 + (instancetype)imageAdornmentWithImage:(NSImage*)image;
 + (instancetype)imageAdornmentWithImageFromFile:(NSString*)path;
 
-@property (nonatomic, strong, nullable) NSImage* image;
+@property (atomic, strong, nullable) NSImage* image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing;
 @property (copy) NSString* imageKey;
 
 @property (copy) NSString* imageIdentifier;
 
-@property (nonatomic) CGFloat scale;
+@property (atomic) CGFloat scale;
 
-@property (nonatomic) CGFloat opacity;
+@property (atomic) CGFloat opacity;
 
 @property NSPoint origin;
 
