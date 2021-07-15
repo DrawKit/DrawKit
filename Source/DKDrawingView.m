@@ -1059,10 +1059,14 @@ static Class s_textEditorClass = Nil;
 {
 	// if at the point where the view is asked to draw something, if there is no "back end", it creates one
 	// automatically on the basis of its current bounds. In this case, the view owns the drawing. This is done here rather than in -drawRect:
-	if ([self drawing] == nil)
-		[self createAutomaticDrawing];
+//	if ([self drawing] == nil)
+//		[self createAutomaticDrawing];
 	
-	[super viewWillDraw];
+	if ((BOOL)[NSThread isMainThread]) {
+		[super viewWillDraw];
+	} else {
+		
+	}
 }
 
 #pragma mark -
@@ -1229,6 +1233,11 @@ static Class s_textEditorClass = Nil;
 		[self setController:nil];
 	}
 
+	if (sDrawingViewStackLock != nil) {
+		dispatch_semaphore_signal(sDrawingViewStackLock);
+	}
+
+	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
 	// if the view automatically created its own "back-end", release all of that now - the drawing owns the controllers so
