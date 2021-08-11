@@ -38,6 +38,11 @@
 	[m_image setCacheMode:NSImageCacheNever];
 }
 
+- (NSImage*) image
+{
+	return m_image;
+}
+
 @synthesize image = m_image;
 
 - (void)setImageWithKey:(NSString*)key forDrawing:(DKDrawing*)drawing
@@ -58,12 +63,22 @@
 	m_scale = scale;//LIMIT(scale, 0.2, 8.0);
 }
 
+- (CGFloat) scale
+{
+	return m_scale;
+}
+
 @synthesize scale = m_scale;
 
 #pragma mark -
 - (void)setOpacity:(CGFloat)opacity
 {
 	m_opacity = LIMIT(opacity, 0.0, 1.0);
+}
+
+- (CGFloat) opacity
+{
+	return m_opacity;
 }
 
 @synthesize opacity = m_opacity;

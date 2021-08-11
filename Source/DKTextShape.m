@@ -757,8 +757,6 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 	return (m_editorRef && ([m_editorRef superview] == [[self drawing] currentView]) && [[NSGraphicsContext currentContext] isDrawingToScreen]);
 }
 
-@synthesize textAdornment = mTextAdornment;
-
 #pragma mark -
 #pragma mark - user actions
 - (IBAction)changeFont:(id)sender
@@ -1105,6 +1103,13 @@ static NSString* sDefault_string = @"Double-click to edit this text";
 													   object:mTextAdornment];
 	}
 }
+
+- (DKTextAdornment*) textAdornment
+{
+		return mTextAdornment;
+}
+
+@synthesize textAdornment = mTextAdornment;
 
 - (DKTextPath*)makeTextPathObject
 {

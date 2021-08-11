@@ -479,6 +479,11 @@ static BOOL sSubstitute = NO;
 	}
 }
 
+- (NSDictionary*) textAttributes
+{
+	return m_textAttributes;
+}
+
 @synthesize textAttributes = m_textAttributes;
 
 /** @brief Return wjether the style has any text attributes set

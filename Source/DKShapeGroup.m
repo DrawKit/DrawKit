@@ -163,6 +163,11 @@
 	}
 }
 
+- (NSArray*) groupObjects
+{
+	return m_objects;
+}
+
 @synthesize groupObjects = m_objects;
 
 /** @brief Sets the current list of objects to the given objects

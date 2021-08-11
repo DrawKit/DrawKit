@@ -141,6 +141,11 @@ static NSMutableDictionary* sFileExportBindings = nil;
 	LogEvent_(kReactiveEvent, @"undo mgr = %@", [self undoManager]);
 }
 
+- (DKDrawing*) drawing
+{
+	return m_drawing;
+}
+
 @synthesize drawing = m_drawing;
 
 #pragma mark -
@@ -428,7 +433,9 @@ static NSMutableDictionary* sFileExportBindings = nil;
 			SEL selector = [wrapper selector];
 
 			if ([[self drawing] respondsToSelector:selector])
-				theData = [[self drawing] performSelector:selector];
+				((void (*)(id, SEL))[[self drawing] methodForSelector:selector])([self drawing], selector);
+				// This gives warning "PerformSelector may cause a leak because its selector is unknown
+				//theData = [[self drawing] performSelector:selector];
 		}
 	}
 
