@@ -203,9 +203,9 @@ NSString* const kDKExportedImageRelativeScale = @"kDKExportedImageRelativeScale"
 	RESTORE_GRAPHICS_CONTEXT //[NSGraphicsContext restoreGraphicsState];
 		CGImageRef image
 		= CGBitmapContextCreateImage(bmCtx);
-	pdfView = nil; // removes the controller
-
 	CGContextRelease(bmCtx);
+
+	pdfView = nil; // removes the controller
 
 	return (CGImageRef)CFAutorelease(image);
 }
