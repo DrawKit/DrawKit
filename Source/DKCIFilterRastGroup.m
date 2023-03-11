@@ -11,6 +11,8 @@
 #import "NSBezierPath+Geometry.h"
 #import "NSDictionary+DeepCopy.h"
 #import <QuartzCore/QuartzCore.h>
+#import <CoreImage/CIFilter.h>
+#import <CoreImage/CIContext.h>
 
 @implementation DKCIFilterRastGroup
 #pragma mark As a DKCIFilterRastGroup
